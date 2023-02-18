@@ -1,0 +1,2053 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"  width="1972" height="1717">
+<defs id="dmw_defs" >
+<svg id="fk_sym" viewBox="0 0 48.665 48.665" style="enable-background:new 0 0 48.665 48.665;" >
+<g>
+<path d="M40.332,31.592c-2.377,0-4.515,1-6.033,2.598l-17.737-8.686c0.061-0.406,0.103-0.82,0.103-1.246    c0-0.414-0.04-0.818-0.098-1.215l17.711-8.589c1.519,1.609,3.666,2.619,6.054,2.619c4.603,0,8.333-3.731,8.333-8.333    c0-4.603-3.73-8.333-8.333-8.333s-8.333,3.73-8.333,8.333c0,0.414,0.04,0.817,0.098,1.215l-17.709,8.589    c-1.519-1.609-3.666-2.619-6.054-2.619C3.73,15.925,0,19.656,0,24.258c0,4.603,3.73,8.333,8.333,8.333    c2.377,0,4.515-1,6.033-2.596l17.736,8.685c-0.062,0.406-0.104,0.82-0.104,1.245c0,4.604,3.73,8.333,8.333,8.333    s8.333-3.729,8.333-8.333C48.665,35.322,44.935,31.592,40.332,31.592z" fill="#13bf3b"/>
+</g>
+</svg>
+<svg id="pk_sym" viewBox="0 0 480.509 480.509" style="enable-background:new 0 0 480.509 480.509;" >
+<g>
+<path d="M418.119,331.046c4.094,4.374,7.766,8.186,10.996,11.416c3.237,3.238,6.714,6.376,10.427,9.422   c3.71,3.042,6.427,4.568,8.135,4.568c3.241,0,9.517-4.661,18.843-13.99c9.328-9.321,13.989-15.604,13.989-18.842   c0-1.523-2.714-5.421-8.138-11.704c-5.421-6.276-12.364-13.702-20.838-22.271c-8.473-8.565-16.703-16.744-24.694-24.55   c-8.001-7.81-15.8-15.373-23.417-22.703c-7.611-7.327-11.992-11.56-13.135-12.703c-1.902-1.902-4.093-2.853-6.563-2.853   c-3.237,0-9.521,4.661-18.843,13.988c-9.328,9.322-13.989,15.605-13.989,18.843c0,1.711,1.522,4.421,4.568,8.138   c3.046,3.71,6.188,7.187,9.421,10.424c3.23,3.23,7.047,6.899,11.42,10.992c4.377,4.093,6.848,6.423,7.423,6.995l-27.408,27.404   L254.954,222.268c24.94-33.498,37.408-68.236,37.408-104.211c0-31.024-9.761-56.293-29.263-75.801   c-19.512-19.511-44.778-29.265-75.805-29.265c-30.454,0-60.244,9.042-89.363,27.119c-29.121,18.083-52.727,41.686-70.808,70.808   C9.042,140.038,0,169.828,0,200.28c0,31.029,9.753,56.286,29.265,75.803c19.511,19.517,44.777,29.27,75.801,29.27   c35.976,0,70.71-12.467,104.212-37.407l191.574,191.579c5.332,5.328,11.796,7.994,19.417,7.994c7.991,0,15.704-3.72,23.12-11.14   c7.426-7.426,11.143-15.129,11.143-23.127c0-7.617-2.666-14.092-7.994-19.417l-62.811-62.811l27.405-27.404   C411.699,324.195,414.033,326.666,418.119,331.046z M221.556,161.458c-10.656,10.657-23.601,15.987-38.828,15.987   c-7.996,0-15.896-1.812-23.7-5.43c3.617,7.808,5.426,15.706,5.426,23.7c0,15.229-5.327,28.171-15.987,38.828   c-10.66,10.655-23.606,15.986-38.831,15.986c-15.227,0-28.168-5.325-38.828-15.986c-10.657-10.657-15.987-23.599-15.987-38.828   c0-15.227,5.327-28.171,15.987-38.828C81.464,146.23,94.409,140.9,109.636,140.9c7.992,0,15.893,1.809,23.695,5.424   c-3.616-7.804-5.424-15.706-5.424-23.699c0-15.227,5.327-28.171,15.987-38.828c10.66-10.657,23.604-15.987,38.831-15.987   c15.227,0,28.171,5.327,38.828,15.987c10.657,10.66,15.987,23.601,15.987,38.828C237.539,137.852,232.209,150.797,221.556,161.458z   " fill="#ff8345"/>
+</g>
+</svg>
+<svg id="uk_sym" viewBox="0 0 490 490" style="enable-background:new 0 0 490 490;" >
+<g>
+	<polygon points="236.99,11.41 0,246.348 236.99,478.678 236.99,350.609 129.864,245 236.99,139.391  " fill="#0064fb"/>
+<polygon points="253.01,478.59 490,243.651 253.01,11.322 253.01,139.391 360.136,245 253.01,350.609  " fill="#0064fb"/>
+</g>
+</svg>
+<svg id="link_sym" viewBox="0 0 1000 900" style="enable-background:new 0 0 1000 900;" >
+<g>
+<path fill="black" d="M660.224 422.656c6.976 16.192-0.512 35.008-16.768 42.048-16.128 6.976-34.944-0.448-41.984-16.768-8.448-19.776-20.736-37.696-36.224-53.248-64.64-64.64-177.344-64.64-241.92 0l-145.216 145.28c-66.688 66.688-66.688 175.232 0 241.984 66.688 66.688 175.104 66.752 241.92 0l92.8-92.864c12.48-12.48 32.768-12.48 45.248 0s12.48 32.768 0 45.248l-92.8 92.864c-91.648 91.648-240.832 91.52-332.416 0-91.712-91.648-91.712-240.832 0-332.48l145.216-145.28c44.352-44.416 103.424-68.864 166.272-68.864s121.792 24.448 166.208 68.864c21.248 21.312 38.016 45.952 49.664 73.216zM891.136 401.344l-145.216 145.216c-88.768 88.832-243.712 88.832-332.416 0-21.312-21.312-38.080-45.952-49.728-73.216-7.040-16.256 0.448-35.072 16.704-42.048 16.064-6.784 35.008 0.512 41.984 16.768 8.512 19.776 20.8 37.696 36.288 53.248 64.64 64.64 177.344 64.64 241.92 0l145.216-145.216c66.688-66.688 66.688-175.232 0-241.984-66.752-66.624-175.168-66.688-241.92 0l-92.8 92.864c-12.48 12.48-32.768 12.48-45.248 0s-12.48-32.768 0-45.248l92.8-92.864c45.824-45.824 105.984-68.736 166.208-68.736s120.448 22.912 166.272 68.736c91.584 91.648 91.584 240.768-0.064 332.48z" />
+</g>
+</svg>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath741_0_">
+<rect x="0" y="0" width="157" height="64" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath323_0_">
+<rect x="0" y="0" width="307" height="51" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath240_0_">
+<rect x="0" y="0" width="489" height="104" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath231_0_">
+<rect x="0" y="0" width="192" height="38" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath170_0_">
+<rect x="0" y="0" width="185" height="51" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath223_0_">
+<rect x="0" y="0" width="221" height="38" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath350_0_">
+<rect x="0" y="0" width="699" height="142" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath226_0_">
+<rect x="0" y="0" width="259" height="38" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath162_0_">
+<rect x="0" y="0" width="874" height="107" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath365_0_">
+<rect x="0" y="0" width="786" height="558" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath163_0_">
+<rect x="0" y="0" width="580" height="77" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath257_0_">
+<rect x="0" y="0" width="312" height="38" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath349_0_">
+<rect x="0" y="0" width="394" height="103" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath740_0_">
+<rect x="0" y="0" width="161" height="28" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath298_0_">
+<rect x="0" y="0" width="281" height="53" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath348_0_">
+<rect x="0" y="0" width="625" height="291" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath214_0_">
+<rect x="0" y="0" width="326" height="54" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath375_0_">
+<rect x="0" y="0" width="545" height="338" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath258_0_">
+<rect x="0" y="0" width="322" height="38" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath279_0_">
+<rect x="0" y="0" width="195" height="47" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath169_0_">
+<rect x="0" y="0" width="631" height="430" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath448_0_">
+<rect x="0" y="0" width="229" height="86" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath213_0_">
+<rect x="0" y="0" width="290" height="39" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath259_0_">
+<rect x="0" y="0" width="308" height="38" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath29_0_">
+<rect x="0" y="0" width="342" height="62" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath8_0_">
+<rect x="0" y="0" width="225" height="50" />
+</clipPath>
+</defs>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1425 1360 L1425 1504" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1425 1360 1428 1366 1422 1366" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1419.0 1504.0 L1425.0 1492.0 L1431.0 1504.0 M1419.0 1491.4000005722046 L1431.0 1491.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M297 905 L297 716" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="297 905 294 899 300 899" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M303.0 716.0 L297.0 728.0 L291.0 716.0 M303.0 728.5999994277954 L291.0 728.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1470 850 L1398 850" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1470 850 1464 853 1464 847" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1398.0 844.0 L1410.0 850.0 L1398.0 856.0 M1410.5999994277954 844.0 L1410.5999994277954 856.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M284 716 L284 1122" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="284 716 287 722 281 722" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M278.0 1122.0 L284.0 1110.0 L290.0 1122.0 M278.0 1109.4000005722046 L290.0 1109.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1745 198 L1813 212 L1813 319 L1608 319 L1608 198" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1745 198 1750 197 1750 201" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1614.0 198.0 L1608.0 210.0 L1602.0 198.0 M1614.0 210.5999994277954 L1602.0 210.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M550 610 L612 610" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="550 610 556 607 556 613" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M612.0 616.0 L600.0 610.0 L612.0 604.0 M599.4000005722046 616.0 L599.4000005722046 604.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1429 1129 L1429 411" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1429 1129 1426 1123 1432 1123" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1435.0 411.0 L1429.0 423.0 L1423.0 411.0 M1435.0 423.5999994277954 L1423.0 423.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1368 1129 L1368 1063" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1368 1129 1365 1123 1371 1123" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1374.0 1063.0 L1368.0 1075.0 L1362.0 1063.0 M1374.0 1075.5999994277954 L1362.0 1075.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1436 198 L1436 269" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1436 198 1439 204 1433 204" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1430.0 269.0 L1436.0 257.0 L1442.0 269.0 M1430.0 256.4000005722046 L1442.0 256.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M277 298 L277 378" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="277 298 280 304 274 304" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M271.0 378.0 L277.0 366.0 L283.0 378.0 M271.0 365.4000005722046 L283.0 365.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M212 1552 L212 1655" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="212 1552 215 1558 209 1558" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M206.0 1655.0 L212.0 1643.0 L218.0 1655.0 M206.0 1642.4000005722046 L218.0 1642.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1338 1154 L649 1154" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1338 1154 1332 1157 1332 1151" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M649.0 1148.0 L661.0 1154.0 L649.0 1160.0 M661.5999994277954 1148.0 L661.5999994277954 1160.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M550 394 L822 394" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="550 394 556 391 556 397" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M822.0 400.0 L810.0 394.0 L822.0 388.0 M809.4000005722046 400.0 L809.4000005722046 388.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M711 1332 L649 1332" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="711 1332 705 1335 705 1329" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M649.0 1326.0 L661.0 1332.0 L649.0 1338.0 M661.5999994277954 1326.0 L661.5999994277954 1338.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1478 710 L1398 710" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1478 710 1472 713 1472 707" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1398.0 704.0 L1410.0 710.0 L1398.0 716.0 M1410.5999994277954 704.0 L1410.5999994277954 716.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1450 1179 L1450 1253" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1450 1179 1453 1185 1447 1185" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1444.0 1253.0 L1450.0 1241.0 L1456.0 1253.0 M1444.0 1240.4000005722046 L1456.0 1240.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M649 1528 L1135 1528" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="649 1528 655 1525 655 1531" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d=" M1135.0 1534.0 L1123.0 1528.0 L1135.0 1522.0 M1120.0 1532.0 L1114.0 1524.0 M1114.0 1532.0 L1120.0 1524.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1040 193 L1040 269" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1040 193 1043 199 1037 199" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1034.0 269.0 L1040.0 257.0 L1046.0 269.0 M1034.0 256.4000005722046 L1046.0 256.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1383 1129 L1383 1063" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1383 1129 1380 1123 1386 1123" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1389.0 1063.0 L1383.0 1075.0 L1377.0 1063.0 M1389.0 1075.5999994277954 L1377.0 1075.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M495 1679 L383 1679" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="495 1679 489 1682 489 1676" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M383.0 1673.0 L395.0 1679.0 L383.0 1685.0 M395.5999994277954 1673.0 L395.5999994277954 1685.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g  fill="rgb(204,255,255)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath8_0_)" transform="translate(1338,1129)" >
+<rect x="0" y="0" width="224" height="49" />
+<text id="FF69C42F-B6612910D935" x="93" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+AGENT
+</text>
+<polygon points="217,2 213,10 221,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
+<line x1="0" y1="17" x2="223" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+</g>
+<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath29_0_)" transform="translate(41,1655)" >
+<rect x="0" y="0" width="341" height="61" />
+<text id="F66B8097-064CF835A3F5" x="122" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CATALOGED_ITEM
+</text>
+<polygon points="334,2 330,10 338,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
+<line x1="0" y1="17" x2="340" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+</g>
+<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath162_0_)" transform="translate(1098,1253)" >
+<rect x="0" y="0" width="873" height="106" />
+<text id="71CA913B-C6C072D0FFA7" x="367" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+COLL_EVENT_NUM_SERIES
+</text>
+<line x1="0" y1="17" x2="872" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLL_EVENT_NUM_SERIES_ID
+</text>
+<text x="203" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="338" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+surrogate numeric primary key
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER_SERIES
+</text>
+<text x="203" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 BYTE)
+</text>
+<text x="338" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+name of the number series
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+PATTERN
+</text>
+<text x="203" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (100 BYTE)
+</text>
+<text x="338" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+brief human readable expected pattern for numbers in the series.
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+REMARKS
+</text>
+<text x="203" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (900 BYTE)
+</text>
+<text x="338" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+description of the number series, when used, and other human readable notes concerning the number series.
+</text>
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="2" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTOR_AGENT_ID
+</text>
+<text x="203" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (15)
+</text>
+<text x="338" y="82" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+agent id of the agent for which this is a number series.
+</text>
+<line x1="0" y1="88" x2="872" y2="88" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="101" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Number Series for collector field numbers and other local identifiers of collecting events.
+</text>
+</g>
+<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath163_0_)" transform="translate(1135,1504)" >
+<rect x="0" y="0" width="579" height="76" />
+<text id="7DBAA678-060474DDBBE2" x="230" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+COLL_EVENT_NUMBER
+</text>
+<line x1="0" y1="17" x2="578" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLL_EVENT_NUMBER_ID
+</text>
+<text x="203" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="338" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+surrogate numeric primary key
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLL_EVENT_NUMBER
+</text>
+<text x="203" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 BYTE)
+</text>
+<text x="338" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+the value of the collecting event number
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTING_EVENT_ID
+</text>
+<text x="203" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="338" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+the collecting event to which this number applies
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="2" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLL_EVENT_NUM_SERIES_ID
+</text>
+<text x="203" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="338" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+number series from which this number comes
+</text>
+</g>
+<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath169_0_)" transform="translate(18,1122)" >
+<rect x="0" y="0" width="630" height="429" />
+<text id="E8574606-FC610905DD19" x="262" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTING_EVENT
+</text>
+<line x1="0" y1="17" x2="629" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTING_EVENT_ID
+</text>
+<text x="223" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="368" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Surrogate numeric primary key.
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LOCALITY_ID
+</text>
+<text x="223" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="368" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Foreign key for the locality at which the collecting event occurred.
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DATE_BEGAN_DATE
+</text>
+<text x="223" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DATE
+</text>
+<text x="368" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+deprecated field, legacy values retained.
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DATE_ENDED_DATE
+</text>
+<text x="223" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DATE
+</text>
+<text x="368" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+deprecated field, legacy values retained.
+</text>
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VERBATIM_DATE
+</text>
+<text x="223" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (60 CHAR)
+</text>
+<text x="368" y="82" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Verbatim text information about the collecting event date.
+</text>
+<text x="16" y="95" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VERBATIM_LOCALITY
+</text>
+<text x="223" y="95" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (2000 CHAR)
+</text>
+<text x="16" y="108" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="108" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLL_EVENT_REMARKS
+</text>
+<text x="223" y="108" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (500 CHAR)
+</text>
+<text x="16" y="121" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="121" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VALID_DISTRIBUTION_FG
+</text>
+<text x="223" y="121" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="134" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="134" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="134" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTING_SOURCE
+</text>
+<text x="223" y="134" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (30 CHAR)
+</text>
+<text x="16" y="147" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="147" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTING_METHOD
+</text>
+<text x="223" y="147" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 BYTE)
+</text>
+<text x="16" y="160" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="160" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+HABITAT_DESC
+</text>
+<text x="223" y="160" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (500 CHAR)
+</text>
+<text x="368" y="160" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Information about the habitat present at the locality at the time of the collecting event.  See also coll_object_remarks.habitat for microhabitat.
+</text>
+<text x="16" y="173" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="2" y="173" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="173" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DATE_DETERMINED_BY_AGENT_ID
+</text>
+<text x="223" y="173" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (15)
+</text>
+<text x="16" y="186" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="186" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+FISH_FIELD_NUMBER
+</text>
+<text x="223" y="186" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 CHAR)
+</text>
+<text x="368" y="186" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Field number assigned to the collecting event by the Ichtyology department.
+</text>
+<text x="16" y="199" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="199" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+BEGAN_DATE
+</text>
+<text x="223" y="199" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (22 CHAR)
+</text>
+<text x="16" y="212" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="212" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ENDED_DATE
+</text>
+<text x="223" y="212" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (22 CHAR)
+</text>
+<text x="16" y="225" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="225" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTING_TIME
+</text>
+<text x="223" y="225" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 BYTE)
+</text>
+<text x="16" y="238" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="238" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VERBATIMCOORDINATES
+</text>
+<text x="223" y="238" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (100 CHAR)
+</text>
+<text x="16" y="251" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="251" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VERBATIMLATITUDE
+</text>
+<text x="223" y="251" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 CHAR)
+</text>
+<text x="16" y="264" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="264" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VERBATIMLONGITUDE
+</text>
+<text x="223" y="264" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 CHAR)
+</text>
+<text x="16" y="277" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="277" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VERBATIMCOORDINATESYSTEM
+</text>
+<text x="223" y="277" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 CHAR)
+</text>
+<text x="16" y="290" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="290" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VERBATIMSRS
+</text>
+<text x="223" y="290" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 CHAR)
+</text>
+<text x="16" y="303" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="303" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+STARTDAYOFYEAR
+</text>
+<text x="223" y="303" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (3)
+</text>
+<text x="16" y="316" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="316" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ENDDAYOFYEAR
+</text>
+<text x="223" y="316" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (3)
+</text>
+<text x="16" y="329" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="329" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VERBATIMELEVATION
+</text>
+<text x="223" y="329" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (500 BYTE)
+</text>
+<text x="16" y="342" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="342" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VERBATIMDEPTH
+</text>
+<text x="223" y="342" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (500 BYTE)
+</text>
+<line x1="0" y1="348" x2="629" y2="348" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="361" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Event at which material was collected or observed at some locality.  Similar concept to Gathering in ABCD.
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath213_0_)" transform="translate(713,1244)" >
+<rect x="0" y="0" width="289" height="38" />
+<text id="EEF2FAFD-AB1196084BDC" x="79" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTCOLLECTING_METHOD
+</text>
+<line x1="0" y1="17" x2="288" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTING_METHOD
+</text>
+<text x="164" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (20 CHAR)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath214_0_)" transform="translate(711,1305)" >
+<rect x="0" y="0" width="325" height="53" />
+<text id="C995D17B-9564A7FD67AD" x="98" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTCOLLECTING_SOURCE
+</text>
+<line x1="0" y1="17" x2="324" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTING_SOURCE
+</text>
+<text x="164" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (30 CHAR)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath223_0_)" transform="translate(1487,502)" >
+<rect x="0" y="0" width="220" height="37" />
+<text id="4018E83C-0FD8BC019CF9" x="83" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTDATUM
+</text>
+<line x1="0" y1="17" x2="219" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DATUM
+</text>
+<text x="84" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (55 BYTE)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath240_0_)" transform="translate(769,89)" >
+<rect x="0" y="0" width="488" height="103" />
+<text id="10779498-F03EA0886A5E" x="175" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTGEOLOGY_ATTRIBUTES
+</text>
+<line x1="0" y1="17" x2="487" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEOLOGY_ATTRIBUTE
+</text>
+<text x="158" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="299" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The geological attribute
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+TYPE
+</text>
+<text x="158" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 BYTE)
+</text>
+<text x="299" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The type of the geological attribute (chronostratigraphic, lithostratigraphic, lithologic)
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ORDINAL
+</text>
+<text x="158" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="299" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Order in which to list these terms in picklists and other controls.
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DESCRIPTION
+</text>
+<text x="158" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 BYTE)
+</text>
+<text x="299" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+A description or definition of the geology attribute.
+</text>
+<line x1="0" y1="75" x2="487" y2="75" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="88" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+See ctgeology_attribute for a view sorted by ordinal.
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath298_0_)" transform="translate(157,905)" >
+<rect x="0" y="0" width="280" height="52" />
+<text id="BADE4218-EDD0A39B4F0C" x="78" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTSOVEREIGN_NATION
+</text>
+<line x1="0" y1="17" x2="279" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+SOVEREIGN_NATION
+</text>
+<text x="153" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 BYTE)
+</text>
+</g>
+<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath348_0_)" transform="translate(0,7)" >
+<rect x="0" y="0" width="624" height="290" />
+<text id="C1A0AAE3-CF4B17E47083" x="266" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+GEOG_AUTH_REC
+</text>
+<line x1="0" y1="17" x2="623" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEOG_AUTH_REC_ID
+</text>
+<text x="229" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CONTINENT_OCEAN
+</text>
+<text x="229" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (70 CHAR)
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COUNTRY
+</text>
+<text x="229" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (70 CHAR)
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+STATE_PROV
+</text>
+<text x="229" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (75 CHAR)
+</text>
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COUNTY
+</text>
+<text x="229" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 CHAR)
+</text>
+<text x="16" y="95" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+QUAD
+</text>
+<text x="229" y="95" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (30 CHAR)
+</text>
+<text x="16" y="108" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="108" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+FEATURE
+</text>
+<text x="229" y="108" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 CHAR)
+</text>
+<text x="16" y="121" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="121" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ISLAND
+</text>
+<text x="229" y="121" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 CHAR)
+</text>
+<text x="16" y="134" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="134" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ISLAND_GROUP
+</text>
+<text x="229" y="134" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 CHAR)
+</text>
+<text x="16" y="147" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="147" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+SEA
+</text>
+<text x="229" y="147" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 CHAR)
+</text>
+<text x="16" y="160" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="160" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VALID_CATALOG_TERM_FG
+</text>
+<text x="229" y="160" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (3)
+</text>
+<text x="16" y="173" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="173" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+SOURCE_AUTHORITY
+</text>
+<text x="229" y="173" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (45 CHAR)
+</text>
+<text x="16" y="186" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="186" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+HIGHER_GEOG
+</text>
+<text x="229" y="186" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="16" y="199" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="199" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+OCEAN_REGION
+</text>
+<text x="229" y="199" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 CHAR)
+</text>
+<text x="16" y="212" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="212" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+OCEAN_SUBREGION
+</text>
+<text x="229" y="212" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 CHAR)
+</text>
+<text x="16" y="225" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="225" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+WATER_FEATURE
+</text>
+<text x="229" y="225" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 BYTE)
+</text>
+<text x="16" y="238" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="238" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+WKT_POLYGON
+</text>
+<text x="229" y="238" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CLOB
+</text>
+<text x="16" y="251" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="251" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+HIGHERGEOGRAPHYID_GUID_TYPE
+</text>
+<text x="229" y="251" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 BYTE)
+</text>
+<text x="368" y="251" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+type of identifier used in HIGHERGEOGRAPHYID
+</text>
+<text x="16" y="264" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="264" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+HIGHERGEOGRAPHYID
+</text>
+<text x="229" y="264" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (900 BYTE)
+</text>
+<text x="368" y="264" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+dwc:higherGeographyID, a guid for the geographic region represented by the geog_auth_rec record.
+</text>
+</g>
+<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath349_0_)" transform="translate(1351,95)" >
+<rect x="0" y="0" width="393" height="102" />
+<text id="9E7186F4-22C7E941635A" x="103" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+GEOLOGY_ATTRIBUTE_HIERARCHY
+</text>
+<line x1="0" y1="17" x2="392" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEOLOGY_ATTRIBUTE_HIERARCHY_ID
+</text>
+<text x="241" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+PARENT_ID
+</text>
+<text x="241" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="56" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+U
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ATTRIBUTE
+</text>
+<text x="241" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="69" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+U
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ATTRIBUTE_VALUE
+</text>
+<text x="241" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+USABLE_VALUE_FG
+</text>
+<text x="241" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="95" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DESCRIPTION
+</text>
+<text x="241" y="95" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 CHAR)
+</text>
+</g>
+<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath350_0_)" transform="translate(822,269)" >
+<rect x="0" y="0" width="698" height="141" />
+<text id="589D2A40-63067DB10E8D" x="287" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+GEOLOGY_ATTRIBUTES
+</text>
+<line x1="0" y1="17" x2="697" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEOLOGY_ATTRIBUTE_ID
+</text>
+<text x="216" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="361" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+surrogage numeric primary key
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LOCALITY_ID
+</text>
+<text x="216" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="361" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+locality to which this attribute applies
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEOLOGY_ATTRIBUTE
+</text>
+<text x="216" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="361" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+type of attribute
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEO_ATT_VALUE
+</text>
+<text x="216" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="361" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+value of attribute
+</text>
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="2" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEO_ATT_DETERMINER_ID
+</text>
+<text x="216" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (15)
+</text>
+<text x="361" y="82" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+agent id for the person who applied this attribute to this locality
+</text>
+<text x="16" y="95" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEO_ATT_DETERMINED_DATE
+</text>
+<text x="216" y="95" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DATE
+</text>
+<text x="361" y="95" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+date on which the attribute value was determined for this locality
+</text>
+<text x="16" y="108" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="108" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEO_ATT_DETERMINED_METHOD
+</text>
+<text x="216" y="108" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="361" y="108" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+method by which the attribute value was determined for this locality
+</text>
+<text x="16" y="121" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="121" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEO_ATT_REMARK
+</text>
+<text x="216" y="121" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 CHAR)
+</text>
+<text x="361" y="121" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+remarks concerning this geological attribute.
+</text>
+<text x="16" y="134" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="134" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+PREVIOUS_VALUES
+</text>
+<text x="216" y="134" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 BYTE)
+</text>
+<text x="361" y="134" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+previous values for geo_attr_value pipe separated list
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath170_0_)" transform="translate(495,1653)" >
+<rect x="0" y="0" width="184" height="50" />
+<text id="376D34F3-806C7907708E" x="59" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTION
+</text>
+<polygon points="177,2 173,10 181,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
+<line x1="0" y1="17" x2="183" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+</g>
+<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath375_0_)" transform="translate(5,378)" >
+<rect x="0" y="0" width="544" height="337" />
+<text id="CB41BD3D-F339602D2C7F" x="246" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+LOCALITY
+</text>
+<line x1="0" y1="17" x2="543" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LOCALITY_ID
+</text>
+<text x="198" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="343" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Surrogate numeric primary key.
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEOG_AUTH_REC_ID
+</text>
+<text x="198" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="343" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The higher geography in which this locality is placed.
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MAXIMUM_ELEVATION
+</text>
+<text x="198" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="343" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Mimimum elevation in original elevation units.
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MINIMUM_ELEVATION
+</text>
+<text x="198" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="343" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Maximum elevation in orginal elevation units.
+</text>
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="2" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ORIG_ELEV_UNITS
+</text>
+<text x="198" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (2 CHAR)
+</text>
+<text x="343" y="82" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The units for minimum and maximum elevation.
+</text>
+<text x="16" y="95" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+TOWNSHIP
+</text>
+<text x="198" y="95" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="343" y="95" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+PLSS township, distance north or south from baseline in units of 6 miles
+</text>
+<text x="16" y="108" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="108" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+TOWNSHIP_DIRECTION
+</text>
+<text x="198" y="108" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CHAR (1 CHAR)
+</text>
+<text x="343" y="108" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+PLSS township direction (N or S) off base line.
+</text>
+<text x="16" y="121" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="121" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+RANGE
+</text>
+<text x="198" y="121" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="343" y="121" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+PLSS range, direction east or west from baseline in units of 6 miles.
+</text>
+<text x="16" y="134" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="134" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+RANGE_DIRECTION
+</text>
+<text x="198" y="134" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CHAR (1 CHAR)
+</text>
+<text x="343" y="134" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+PLSS range direction (E or W) from base line.
+</text>
+<text x="16" y="147" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="147" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+SECTION
+</text>
+<text x="198" y="147" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="343" y="147" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+PLSS section, number in range 1 to 36.
+</text>
+<text x="16" y="160" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="160" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+SECTION_PART
+</text>
+<text x="198" y="160" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (30 CHAR)
+</text>
+<text x="343" y="160" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+PLSS aliquot part, heirarchical reference to quarter or half section subdivisions.
+</text>
+<text x="16" y="173" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="173" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+SPEC_LOCALITY
+</text>
+<text x="198" y="173" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (400 CHAR)
+</text>
+<text x="343" y="173" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Free text description of the locality within the specified higher geography.
+</text>
+<text x="16" y="186" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="186" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LOCALITY_REMARKS
+</text>
+<text x="198" y="186" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 CHAR)
+</text>
+<text x="343" y="186" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Free text comments on the locality record.
+</text>
+<text x="16" y="199" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="199" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LEGACY_SPEC_LOCALITY_FG
+</text>
+<text x="198" y="199" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="343" y="199" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Unused, all 0 or null
+</text>
+<text x="16" y="212" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="212" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DEPTH_UNITS
+</text>
+<text x="198" y="212" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (20 CHAR)
+</text>
+<text x="343" y="212" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Units for min and max depth.
+</text>
+<text x="16" y="225" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="225" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MIN_DEPTH
+</text>
+<text x="198" y="225" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="343" y="225" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The lesser depth of a range of depth below a local surface in depth units.
+</text>
+<text x="16" y="238" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="238" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MAX_DEPTH
+</text>
+<text x="198" y="238" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="343" y="238" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The greater depth of a range of depth below the local surface in depth units.
+</text>
+<text x="16" y="251" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="251" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NOGEOREFBECAUSE
+</text>
+<text x="198" y="251" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (500 BYTE)
+</text>
+<text x="343" y="251" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Reason why the locality is not georeferenced.
+</text>
+<text x="16" y="264" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="264" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEOREF_UPDATED_DATE
+</text>
+<text x="198" y="264" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DATE
+</text>
+<text x="16" y="277" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="277" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEOREF_BY
+</text>
+<text x="198" y="277" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (50 CHAR)
+</text>
+<text x="16" y="290" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="290" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="290" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+SOVEREIGN_NATION
+</text>
+<text x="198" y="290" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 BYTE)
+</text>
+<text x="343" y="290" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The nation with sovereignty over the place described by this locality.
+</text>
+<text x="16" y="303" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="303" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CURATED_FG
+</text>
+<text x="198" y="303" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (1)
+</text>
+<text x="343" y="303" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Marker that this locality record has been edited and curated to a target state and shouldn&apos;t normally be edited.
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath448_0_)" transform="translate(722,1370)" >
+<rect x="0" y="0" width="228" height="85" />
+<text id="EADABC63-40272EAA105A" x="38" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+VPD_COLLECTION_LOCALITY
+</text>
+<line x1="0" y1="17" x2="227" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTION_ID
+</text>
+<text x="130" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LOCALITY_ID
+</text>
+<text x="130" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+STALE_FG
+</text>
+<text x="130" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (1)
+</text>
+</g>
+<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath365_0_)" transform="translate(612,505)" >
+<rect x="0" y="0" width="785" height="557" />
+<text id="769F7158-A7C43FFACEE6" x="364" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+LAT_LONG
+</text>
+<line x1="0" y1="17" x2="784" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LAT_LONG_ID
+</text>
+<text x="241" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="386" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Surrogate numeric primary key
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LOCALITY_ID
+</text>
+<text x="241" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="386" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The locality for which this is a georeference.
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LAT_DEG
+</text>
+<text x="241" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DEC_LAT_MIN
+</text>
+<text x="241" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (8,6)
+</text>
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LAT_MIN
+</text>
+<text x="241" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="95" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LAT_SEC
+</text>
+<text x="241" y="95" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (8,6)
+</text>
+<text x="16" y="108" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="108" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LAT_DIR
+</text>
+<text x="241" y="108" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (1 CHAR)
+</text>
+<text x="16" y="121" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="121" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LONG_DEG
+</text>
+<text x="241" y="121" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="134" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="134" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DEC_LONG_MIN
+</text>
+<text x="241" y="134" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (10,8)
+</text>
+<text x="16" y="147" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="147" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LONG_MIN
+</text>
+<text x="241" y="147" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="160" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="160" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LONG_SEC
+</text>
+<text x="241" y="160" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (8,6)
+</text>
+<text x="16" y="173" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="173" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LONG_DIR
+</text>
+<text x="241" y="173" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (1 CHAR)
+</text>
+<text x="16" y="186" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="186" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DEC_LAT
+</text>
+<text x="241" y="186" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (12,10)
+</text>
+<text x="16" y="199" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="199" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DEC_LONG
+</text>
+<text x="241" y="199" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (13,10)
+</text>
+<text x="16" y="212" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="212" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DATUM
+</text>
+<text x="241" y="212" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (55 CHAR)
+</text>
+<text x="16" y="225" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="225" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+UTM_ZONE
+</text>
+<text x="241" y="225" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (3 CHAR)
+</text>
+<text x="386" y="225" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Universal Transverse Mercator zone designator,  May include latitude band letter.
+</text>
+<text x="16" y="238" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="238" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+UTM_EW
+</text>
+<text x="241" y="238" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="386" y="238" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+UTM Easting
+</text>
+<text x="16" y="251" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="251" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+UTM_NS
+</text>
+<text x="241" y="251" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="386" y="251" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+UTM Northing
+</text>
+<text x="16" y="264" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="264" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="264" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ORIG_LAT_LONG_UNITS
+</text>
+<text x="241" y="264" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (20 CHAR)
+</text>
+<text x="16" y="277" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="277" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="277" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DETERMINED_BY_AGENT_ID
+</text>
+<text x="241" y="277" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (15)
+</text>
+<text x="386" y="277" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Agent who made this georefernce.
+</text>
+<text x="16" y="290" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="290" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DETERMINED_DATE
+</text>
+<text x="241" y="290" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DATE
+</text>
+<text x="386" y="290" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Date on which this georeference was made.
+</text>
+<text x="16" y="303" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="303" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LAT_LONG_REF_SOURCE
+</text>
+<text x="241" y="303" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (500 CHAR)
+</text>
+<text x="16" y="316" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="316" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LAT_LONG_REMARKS
+</text>
+<text x="241" y="316" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 CHAR)
+</text>
+<text x="386" y="316" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Free text comments regarding this georeference.
+</text>
+<text x="16" y="329" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="329" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MAX_ERROR_DISTANCE
+</text>
+<text x="241" y="329" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="342" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="2" y="342" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="342" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MAX_ERROR_UNITS
+</text>
+<text x="241" y="342" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (2 BYTE)
+</text>
+<text x="16" y="355" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="355" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NEAREST_NAMED_PLACE
+</text>
+<text x="241" y="355" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="16" y="368" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="368" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LAT_LONG_FOR_NNP_FG
+</text>
+<text x="241" y="368" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="381" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="381" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+FIELD_VERIFIED_FG
+</text>
+<text x="241" y="381" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="394" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="394" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ACCEPTED_LAT_LONG_FG
+</text>
+<text x="241" y="394" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="16" y="407" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="407" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+EXTENT
+</text>
+<text x="241" y="407" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (12,5)
+</text>
+<text x="16" y="420" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="420" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GPSACCURACY
+</text>
+<text x="241" y="420" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (8,3)
+</text>
+<text x="16" y="433" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="433" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEOREFMETHOD
+</text>
+<text x="241" y="433" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="16" y="446" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="446" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VERIFICATIONSTATUS
+</text>
+<text x="241" y="446" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (40 CHAR)
+</text>
+<text x="16" y="459" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="459" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+SPATIALFIT
+</text>
+<text x="241" y="459" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (4,3)
+</text>
+<text x="16" y="472" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="472" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEOLOCATE_UNCERTAINTYPOLYGON
+</text>
+<text x="241" y="472" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 BYTE)
+</text>
+<text x="16" y="485" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="485" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEOLOCATE_SCORE
+</text>
+<text x="241" y="485" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (3)
+</text>
+<text x="16" y="498" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="498" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEOLOCATE_PRECISION
+</text>
+<text x="241" y="498" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (25 BYTE)
+</text>
+<text x="16" y="511" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="511" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEOLOCATE_NUMRESULTS
+</text>
+<text x="241" y="511" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (3)
+</text>
+<text x="16" y="524" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="524" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+GEOLOCATE_PARSEPATTERN
+</text>
+<text x="241" y="524" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (256 BYTE)
+</text>
+<text x="16" y="537" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="2" y="537" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="537" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VERIFIED_BY_AGENT_ID
+</text>
+<text x="241" y="537" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (15)
+</text>
+<text x="16" y="550" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="550" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ERROR_POLYGON
+</text>
+<text x="241" y="550" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CLOB
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath226_0_)" transform="translate(710,1187)" >
+<rect x="0" y="0" width="258" height="37" />
+<text id="6ECE33D3-E7873896A73F" x="85" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTDEPTH_UNITS
+</text>
+<line x1="0" y1="17" x2="257" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DEPTH_UNITS
+</text>
+<text x="118" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (20 CHAR)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath231_0_)" transform="translate(1466,896)" >
+<rect x="0" y="0" width="191" height="37" />
+<text id="255E7973-B6F851F65745" x="80" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTEW
+</text>
+<line x1="0" y1="17" x2="190" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+E_OR_W
+</text>
+<text x="88" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CHAR (1 BYTE)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath257_0_)" transform="translate(1470,831)" >
+<rect x="0" y="0" width="311" height="37" />
+<text id="823D9EF2-405555DB1B17" x="80" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTLAT_LONG_ERROR_UNITS
+</text>
+<line x1="0" y1="17" x2="310" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LAT_LONG_ERROR_UNITS
+</text>
+<text x="177" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (2 CHAR)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath258_0_)" transform="translate(1481,625)" >
+<rect x="0" y="0" width="321" height="37" />
+<text id="CE94CEE5-96F97FF77525" x="88" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTLAT_LONG_REF_SOURCE
+</text>
+<line x1="0" y1="17" x2="320" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LAT_LONG_REF_SOURCE
+</text>
+<text x="175" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath259_0_)" transform="translate(1478,691)" >
+<rect x="0" y="0" width="307" height="37" />
+<text id="EF1957EC-B791EB60CD31" x="99" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTLAT_LONG_UNITS
+</text>
+<line x1="0" y1="17" x2="306" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ORIG_LAT_LONG_UNITS
+</text>
+<text x="167" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (20 CHAR)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath279_0_)" transform="translate(1465,948)" >
+<rect x="0" y="0" width="194" height="46" />
+<text id="DCB98ADF-795E45166343" x="83" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTNS
+</text>
+<line x1="0" y1="17" x2="193" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+N_OR_S
+</text>
+<text x="87" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CHAR (1 CHAR)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath323_0_)" transform="translate(1481,560)" >
+<rect x="0" y="0" width="306" height="50" />
+<text id="066F1F9C-86E135D1E4F4" x="85" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTVERIFICATIONSTATUS
+</text>
+<line x1="0" y1="17" x2="305" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VERIFICATIONSTATUS
+</text>
+<text x="158" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (40 CHAR)
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DESCRIPTION
+</text>
+<text x="158" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 BYTE)
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath740_0_)" transform="translate(1748,856)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M141 0 L161 4 L161 28 L0 28 L0 0 L141 0 L141 4 L161 4" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ft, km, m. mi, yd
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath741_0_)" transform="translate(1730,718)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M138 0 L157 10 L157 64 L0 64 L0 0 L138 0 L138 10 L157 10" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+decimal degrees
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+deg. min. sec.
+</text>
+<text x="2" y="39" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+degrees dec. minutes
+</text>
+<text x="2" y="52" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+unknown
+</text>
+</g>
+
+</svg>
