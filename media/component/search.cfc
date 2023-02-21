@@ -1751,7 +1751,7 @@ imgStyleClass=value
 									<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'media'>:<cfloop query="media1">select media.media_id from media, media_relations mr where mr.media_id = media.media_id and mr.media_relationship = 'related to media'
-									<a class="font-weight-lessbold" href="/media/#media_id#">#media1.media_id#</a><span>, </span></cfloop>
+									<a class="font-weight-lessbold" href="/media/#media_id#">with ID: #media1.media_id#</a><span>, </span></cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows locality'>: <cfloop query="locali"><a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: <cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#</a><span>, </span></cfloop>
 									</cfif>
