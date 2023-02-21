@@ -195,6 +195,7 @@
 											<div class="col-12 p-1">
 												<cfif spec.recordcount gt 0>
 												<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession, etc.--->
+													<cfloop query="pubs">
 													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct mr.media_id,ct.media_relationship,ct.label
@@ -244,6 +245,7 @@
 														<cfelse>
 															<h3 class="h4 px-2 ml-1 pt-2 onlyfirst">None</h3>
 														</cfif>
+													</cfloop>
 													</cfloop>
 												<cfelse>
 													<h3 class="h4 px-2 ml-1 pt-2 onlyfirst">None</h3>
