@@ -205,8 +205,8 @@
 															and mr.media_relationship <> 'created by agent'
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															and MCZBASE.is_media_encumbered(media.media_id)  < 1 
-															</cfloop>
 															</cfquery>
+															</cfloop>
 														<cfelse>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct mr.media_id, ct.label
