@@ -179,7 +179,11 @@ Function getPublications.  Search for publications by fields
 					left join taxonomy pub_taxon on taxonomy_publication.taxon_name_id = pub_taxon.taxon_name_id
 				</cfif>
 			WHERE
-				publication.publication_id is not null
+				<cfif isDefined("publication_id") AND len(publication_id) GT 0>
+					publication_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">
+				<cfelse>
+					publication.publication_id is not null
+				</cfif>
 				<cfif isDefined("text") AND len(text) GT 0>
 					and upper(formatted_publication) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(text)#%">
 				</cfif>
