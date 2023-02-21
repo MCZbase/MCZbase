@@ -241,7 +241,7 @@
 																					<cfelse>
 																						#spec.pk#
 																					</cfif>--->
-																						#spec.pk#
+																				
 																					<br>(media/#relm.media_id#)
 																					</span> 
 																					#mediablock#
