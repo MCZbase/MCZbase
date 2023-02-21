@@ -233,15 +233,15 @@
 																			<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:230px;">
 																				<div class="px-0">
 																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">
-																						#spec.label# 
-																	<!---				<cfif spec.label eq 'Shows Cataloged Item'>
+																						
+																					<cfif spec.label eq 'Shows Cataloged Item'>
 																						<cfquery name="guidi" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																						select guid from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat, media_relations mr where mr.related_primary_key = flat.collection_object_id and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 																						</cfquery>
 																						#guidi.guid#
 																					<cfelse>
-																						#spec.pk#
-																					</cfif>--->
+																					#spec.label#: #spec.pk#
+																					</cfif>
 																				
 																					<br>(media/#relm.media_id#)
 																					</span> 
