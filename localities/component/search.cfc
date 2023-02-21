@@ -712,10 +712,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="dec_long" type="string" required="no">
 	<cfargument name="datum" type="string" required="no">
 	<cfargument name="max_error_distance" type="string" required="no">
-	<!--- 
-	"GEOREF_UPDATED_DATE" DATE, 
-	"GEOREF_BY" VARCHAR2(50 CHAR), 
-	--->
+	<cfargument name="georef_updated_date" type="string" required="no">
+	<cfargument name="georef_by" type="string" required="no">
 	<!--- 
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
 	--->
@@ -898,6 +896,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.depth_units,
 				locality.curated_fg,
 				locality.sovereign_nation,
+				locality.georef_updated_date,
+				locality.georef_by,
 				locality.nogeorefbecause,
 				trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
 				concatGeologyAttributeDetail(locality.locality_id) geolAtts,
@@ -1309,6 +1309,45 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND upper(geology_attributes.geo_att_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(geo_att_value)#%">
 					</cfif>
 				</cfif>
+				<cfif isdefined("georef_updated_date") and len(georef_updated_date) gt 0>
+					<cfif georef_updated_date is "NULL">
+						AND georef_updated_date IS NULL
+					<cfelseif georef_updated_date is "NOT NULL">
+						AND georef_updated_date IS NOT NULL
+					<cfelseif refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",georef_update_date) EQ 1>
+						AND georef_updated_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#date_format(georef_updated_date,'yyyy-mm-dd')#">
+					<cfelseif refind("^[0-9]{4}$",georef_update_date) EQ 1>
+						<cfset startDate = "#georef_update_date#-01-01">
+						<cfset endDate = "#georef_update_date#-12-31">
+						AND georef_updated_date 
+							between <cfqueryparam cfsqltype="CF_SQL_DATE" value="#date_format(startDate,'yyyy-mm-dd')#">
+							and<cfqueryparam cfsqltype="CF_SQL_DATE" value="#date_format(endDate,'yyyy-mm-dd')#">
+					<cfelseif refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}/[0-9]{4}-[0-9]{2}-[0-9]{2}$",georef_update_date) EQ 1>
+						<cfset bits = listToArray(georef_update_date,'/')>
+						<cfset startDate = bits[1]>
+						<cfset endDate = bits[2]>
+						AND georef_updated_date 
+							between <cfqueryparam cfsqltype="CF_SQL_DATE" value="#date_format(startDate,'yyyy-mm-dd')#">
+							and<cfqueryparam cfsqltype="CF_SQL_DATE" value="#date_format(endDate,'yyyy-mm-dd')#">
+					<cfelseif refind("^[0-9]{4}}/[0-9]{4}$",georef_update_date) EQ 1>
+						<cfset bits = listToArray(georef_update_date,'/')>
+						<cfset startDate = "#bits[1]#-01-01">
+						<cfset endDate = "#bits[2]#-12-31">
+						AND georef_updated_date 
+							between <cfqueryparam cfsqltype="CF_SQL_DATE" value="#date_format(startDate,'yyyy-mm-dd')#">
+							and<cfqueryparam cfsqltype="CF_SQL_DATE" value="#date_format(endDate,'yyyy-mm-dd')#">
+					<cfelse>
+						<cfthrow message = "unsupported date search format for georef_updated_date.  Use: yyyy-mm-dd, yyyy, yyyy/yyyy, yyyy-mm-dd/yyyy-mm-dd, NULL or NOT NULL.">
+					</cfif>
+				</cfif>
+				<cfif isdefined("georef_by") AND len(georef_by) gt 0>
+					<cfset setup = setupClause(field="locality.georef_by",value="#georef_by#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
 				<cfif isdefined("NoGeorefBecause") AND len(#NoGeorefBecause#) gt 0>
 					AND upper(NoGeorefBecause) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(NoGeorefBecause)#%">
 				</cfif>
@@ -1417,6 +1456,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.curated_fg,
 				locality.sovereign_nation,
 				locality.nogeorefbecause,
+				locality.georef_updated_date,
+				locality.georef_by,
 				locality.township, locality.township_direction, locality.range, locality.range_direction,
 				locality.section, locality.section_part,
   				accepted_lat_long.LAT_LONG_ID,

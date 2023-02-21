@@ -1241,13 +1241,15 @@ imgStyleClass=value
 						<cfif media_type EQ 'image' AND left(media.mime_type,6) EQ 'image/'>
 							<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
 							<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
-							<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
+							<!---cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg"--->
+							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server--->
+							<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/!2000,2000/0/default.jpg">
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
 						</cfif>
 					</cfif>
 					<cfset isDisplayable = false>
-					<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
+					<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png' OR (media.mime_type EQ 'image/tiff' AND enableIIIF))>
 						<cfset isDisplayable = true>
 					</cfif>
 					<cfif media_type EQ '3D model'>
@@ -2411,6 +2413,51 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 </cffunction>
 				
 				
+<!---
+Function getLicenseAutocompleteMeta.  Search for media licenses by name with a substring match on display, returning json suitable for jquery-ui autocomplete
+ with a _renderItem overriden to display more detail on the picklist, and just the license display as the selected value.
+
+@param term media_license.display value to search for.
+@return a json structure containing id and value, with matching license with matched display in value and media_license_id in id, and 
+   description for matched display in meta.
+--->
+<cffunction name="getLicenseAutocompleteMeta" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<!--- perform wildcard search anywhere in publication_name.publication_name --->
+	<cfset name = "%#term#%"> 
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+      <cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT 
+				media_license_id, display, description 
+			FROM 
+				ctmedia_license
+			WHERE
+				upper(display) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.media_license_id#">
+			<cfset row["value"] = "#search.display#" >
+			<cfset row["meta"] = "#search.display# (#search.description#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 
 <!--- function getRichMediaAutocomplete backing for a media lookup autocomplete returns metadata 
