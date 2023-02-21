@@ -180,7 +180,7 @@ Function getPublications.  Search for publications by fields
 				</cfif>
 			WHERE
 				<cfif isDefined("publication_id") AND len(publication_id) GT 0>
-					publication_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">
+					publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">
 				<cfelse>
 					publication.publication_id is not null
 				</cfif>
