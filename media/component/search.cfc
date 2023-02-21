@@ -1676,6 +1676,13 @@ imgStyleClass=value
 			where m.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and ct.media_relationship = 'transcript for audio media'
 		</cfquery>
+		<cfquery name="namedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select underscore_collection.collection_name, underscore_relation.collection_object_id from underscore_collection
+			left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+			left join cataloged_item on underscore_relation.COLLECTION_OBJECT_ID = cataloged_item.collection_object_id
+			left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
+			where media_relations.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+		</cfquery>
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
@@ -1770,6 +1777,8 @@ imgStyleClass=value
 									<cfif media_rel.media_relationship contains 'collecting_event' and oneofus eq 1>:<cfloop query="collecting_eventRel">
 									<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
 									</cfif>
+					<!---				<cfif media_rel.media_relationship contains 'underscore_collection'>: <cfloop query="namedGroup"><cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select mr.related_primary_key, m.media_id from media m, media_relations mr where mr.media_id = m.media_id and mr.media_relationship = 'shows underscore collection' and m.media_id = #namedGroup.media_id#</cfquery><a class="font-weight-lessbold" href="/media/#relm11.related_primary_key#"> #relm11.related_primary_key#</a><span>, </span></cfloop>
+									</cfif>--->
 									<cfif media_rel.media_relationship eq 'related to media'>: <cfloop query="media1"><cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select mr.related_primary_key, m.media_id from media m, media_relations mr where mr.media_id = m.media_id and mr.media_relationship = 'related to media' and m.media_id = #media1.media_id#</cfquery><a class="font-weight-lessbold" href="/media/#relm8.related_primary_key#"> #relm8.related_primary_key#</a><span>, </span></cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'transcript for audio media'>: <cfloop query="media2"><cfquery name="relm9" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select m.media_id from media m, media_relations mr where mr.media_id = m.media_id and m.media_id = #media2.related_primary_key#</cfquery><a class="font-weight-lessbold" href="/media/#relm9.media_id#"> #relm9.media_id#</a><span>, </span></cfloop>
