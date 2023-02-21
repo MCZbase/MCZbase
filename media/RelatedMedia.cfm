@@ -217,6 +217,7 @@
 															and mr.media_relationship <> 'created by agent'
 															and MCZBASE.is_media_encumbered(media.media_id)  < 1 
 															</cfquery>
+														</cfloop>
 													<!---	</cfif>--->
 													<cfif relm.recordcount gt 0>
 														<cfset i = 1>
