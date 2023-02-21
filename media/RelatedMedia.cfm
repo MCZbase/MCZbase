@@ -207,7 +207,7 @@
 															</cfquery>
 														<cfelse>--->
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct mr.media_id, ct.label
+															select distinct mr.media_id
 															from media_relations mr 
 															left join media on mr.media_id = media.media_id
 															left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
