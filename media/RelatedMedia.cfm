@@ -197,7 +197,7 @@
 													<cfloop query="spec">
 														<cfif pubs.recordcount gt 0>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media.media_id
+															select media.media_id
 															from media_relations mr
 															left join media on mr.media_id = media.media_id
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
