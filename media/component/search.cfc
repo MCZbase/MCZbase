@@ -1656,7 +1656,7 @@ imgStyleClass=value
 				left join media_relations mr on mr.RELATED_PRIMARY_KEY = m.media_id 
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 			where m.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				and ct.media_relationship like '%media'
+				and ct.media_relationship = 'related to media'
 		</cfquery>
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
