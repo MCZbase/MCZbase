@@ -1594,6 +1594,18 @@ imgStyleClass=value
 				and agent_name_type = 'preferred'
 			order by agent_name.agent_name
 		</cfquery>
+		<cfquery name="agents6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct agent_name.agent_name, agent.agent_id
+			from media_relations
+				left join agent on media_relations.related_primary_key = agent.agent_id
+				left join agent_name on agent_name.agent_id = agent.agent_id
+				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				and mczbase.ctmedia_relationship.media_relationship= 'physical object created by agent'
+			and media_relations.media_relationship <> 'created by agent'
+				and agent_name_type = 'preferred'
+			order by agent_name.agent_name
+		</cfquery>
 		<cfquery name="collecting_eventRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct collecting_event.verbatim_locality,collecting_event.COLLECTING_EVENT_ID, collecting_event.VERBATIM_DATE, collecting_event.ended_date, collecting_event.collecting_source
 			from media_relations
@@ -1733,6 +1745,8 @@ imgStyleClass=value
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows handwriting of agent'>:<cfloop query="agents4"><cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents4.agent_name#" /> and m.media_relationship = 'shows handwriting of agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm4.agent_id#"> #agents4.agent_name#</a><span>, </span></cfloop>
 									</cfif>
+									<cfif media_rel.media_relationship eq 'physical object created by agent'>:<cfloop query="agents5"><cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents5.agent_name#" /> and m.media_relationship = 'physical object created by agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm6.agent_id#"> #agents5.agent_name#</a><span>, </span></cfloop>
+									</cfif>
 									<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: <cfloop query="accns"><cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,ac.accn_number from accn ac left join media_relations m on ac.transaction_id=m.related_primary_key left join flat on ac.transaction_id = flat.accn_id where m.media_relationship = 'documents accn' and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#accns.transaction_id#" /> </cfquery> <a href="/transactions/Accession.cfm?action=edit&transaction_id=#relm5.accn_number#" class="font-weight-lessbold">#relm5.accn_number#</a> <span>, </span></cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'collecting_event'>:<cfloop query="collecting_eventRel">
@@ -1740,11 +1754,13 @@ imgStyleClass=value
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows locality'>: <cfloop query="locali"><a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: <cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#</a><span>, </span></cfloop>
 									</cfif>
-									<cfif media_rel.media_relationship contains 'publication'>: 
+									<cfif media_rel.media_relationship eq 'shows publication'>: 
 									<cfloop query="publication"><cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct fp.formatted_publication as pub_short, p.publication_title, m.media_uri from publication p, formatted_publication fp, media_relations mr,media m where mr.related_primary_key = p.publication_id and mr.media_id = m.media_id and p.publication_id = fp.publication_id and p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> and fp.format_style = 'short' and m.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal"></cfquery><a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#relm7.pub_short#, #relm7.publication_title# </a><span> &##8226;&##8226; </span> </cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'> 
-										<cfloop query="spec"><a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span></cfloop>
+										<cfloop query="spec">
+											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span>
+										</cfloop>
 										<!---Removed --->
 									</cfif>
 								</div>
