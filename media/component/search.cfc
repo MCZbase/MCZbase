@@ -2087,7 +2087,7 @@ Function getLicenseAutocompleteMeta.  Search for media licenses by name with a s
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.media_license_id#">
 			<cfset row["value"] = "#search.display#" >
-			<cfset row["meta"] = "#search.description#" >
+			<cfset row["meta"] = "#search.display# (#search.description#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
