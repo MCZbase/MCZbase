@@ -1648,7 +1648,7 @@ imgStyleClass=value
 				left join formatted_publication fp on fp.publication_id = p.publication_id
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 			where m.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				and ct.media_relationship like '%publication'
+				and ct.media_relationship = 'shows publication'
 		</cfquery>
 
 		<cfloop query="media">
