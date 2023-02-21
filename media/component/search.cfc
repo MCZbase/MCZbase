@@ -1650,7 +1650,14 @@ imgStyleClass=value
 			where m.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and ct.media_relationship = 'shows publication'
 		</cfquery>
-
+		<cfquery name="media1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct media_id as pk, mr.media_id
+			from media m
+				left join media_relations mr on mr.RELATED_PRIMARY_KEY = m.media_id 
+				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+			where m.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				and ct.media_relationship like '%media'
+		</cfquery>
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
@@ -1679,7 +1686,6 @@ imgStyleClass=value
 				from media_relations mr
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 				where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-
 			</cfquery>
 				<h3 class="mx-2 h4 float-left">
 					Metadata 
@@ -1743,6 +1749,9 @@ imgStyleClass=value
 									</cfif>
 									<cfif media_rel.media_relationship contains 'collecting_event'>:<cfloop query="collecting_eventRel">
 									<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
+									</cfif>
+									<cfif media_rel.media_relationship contains 'media'>:<cfloop query="media1">
+									<a class="font-weight-lessbold" href="/media/#media_id#">#media1.media_relationship#</a><span>, </span></cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows locality'>: <cfloop query="locali"><a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: <cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#</a><span>, </span></cfloop>
 									</cfif>
