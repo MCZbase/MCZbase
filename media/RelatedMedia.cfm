@@ -195,31 +195,17 @@
 											<div class="col-12 p-1">
 												<cfif spec.recordcount gt 0>
 												<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession, etc.--->
-											
-														 <cfloop query="pubs">
-									<!---					<cfif pubs.recordcount gt 0>
-															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media.media_id
-															from media_relations mr
-															left join media on mr.media_id = media.media_id
-															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#" >
-															and mr.media_relationship <> 'created by agent'
-															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-															and MCZBASE.is_media_encumbered(media.media_id)  < 1 
-															</cfquery>
-														<cfelse>--->
-															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct mr.media_id
-															from media_relations mr 
-															left join media on mr.media_id = media.media_id
-															left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-															where <cfif pubs.recordcount gt 0> mr.related_primary_key = <cfqueryparam  value="#pubs.publication_id#"><cfelse> mr.related_primary_key = <cfqueryparam  value="#spec.pk#"></cfif>
-															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-															and mr.media_relationship <> 'created by agent'
-															and MCZBASE.is_media_encumbered(media.media_id)  < 1 
-															</cfquery>
-														</cfloop>
-													<!---	</cfif>--->
+													<cfloop query="pubs">
+														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select distinct mr.media_id
+														from media_relations mr 
+														left join media on mr.media_id = media.media_id
+														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+														where <cfif pubs.recordcount gt 0> mr.related_primary_key = <cfqueryparam  value="#pubs.publication_id#"><cfelse> mr.related_primary_key = <cfqueryparam  value="#spec.pk#"></cfif>
+														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														and mr.media_relationship <> 'created by agent'
+														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
+														</cfquery>
 													<cfif relm.recordcount gt 0>
 														<cfset i = 1>
 															<cfloop query="relm">
@@ -235,15 +221,15 @@
 																			<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:230px;">
 																				<div class="px-0">
 																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">
-																						
-																					<cfif spec.label eq 'Shows Cataloged Item'>
+																						#spec.label# 
+																	<!---				<cfif spec.label eq 'Shows Cataloged Item'>
 																						<cfquery name="guidi" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																						select guid from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat, media_relations mr where mr.related_primary_key = flat.collection_object_id and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 																						</cfquery>
 																						#guidi.guid#
 																					<cfelse>
-																					#spec.label#: #spec.pk#
-																					</cfif>
+																						#spec.pk#
+																					</cfif>--->
 																				
 																					<br>(media/#relm.media_id#)
 																					</span> 
