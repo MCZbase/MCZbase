@@ -44,7 +44,6 @@
 		left join media on mr.media_id = media.media_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.related_primary_key = <cfqueryparam  value="#pubs.publication_id#">
-		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		UNION
 		select distinct  ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from cataloged_item ci
@@ -195,7 +194,6 @@
 											<div class="col-12 p-1">
 												<cfif spec.recordcount gt 0>
 												<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession, etc.--->
-													<cfloop query="pubs">
 													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct mr.media_id,ct.media_relationship,ct.label
@@ -245,7 +243,6 @@
 														<cfelse>
 															<h3 class="h4 px-2 ml-1 pt-2 onlyfirst">None</h3>
 														</cfif>
-													</cfloop>
 													</cfloop>
 												<cfelse>
 													<h3 class="h4 px-2 ml-1 pt-2 onlyfirst">None</h3>
