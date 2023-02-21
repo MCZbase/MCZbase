@@ -193,14 +193,14 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<cfif spec.recordcount gt 0>
-												<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession, etc.--->
+											<!---If media relations are show or document cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct mr.media_id,ct.media_relationship,ct.label
 														from media_relations mr 
 														left join media on mr.media_id = media.media_id
 														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-														where <cfif pubs.recordcount gt 0> mr.related_primary_key = <cfqueryparam  value="#pubs.publication_id#"><cfelse> mr.related_primary_key = <cfqueryparam  value="#spec.pk#"></cfif>
+														where mr.related_primary_key = <cfqueryparam  value="#spec.pk#">
 														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														and mr.media_relationship <> 'created by agent'
 														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
