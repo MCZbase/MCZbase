@@ -1651,7 +1651,7 @@ imgStyleClass=value
 				and ct.media_relationship = 'shows publication'
 		</cfquery>
 		<cfquery name="media1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct media_id as pk, mr.media_id
+			select distinct m.media_id as pk, mr.media_id
 			from media m
 				left join media_relations mr on mr.RELATED_PRIMARY_KEY = m.media_id 
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
