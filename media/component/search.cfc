@@ -1641,6 +1641,14 @@ imgStyleClass=value
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and mczbase.ctmedia_relationship.auto_table = 'accn'
 		</cfquery>
+		<cfquery name="daccns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct transaction_id
+			from media_relations
+				left join deaccession on media_relations.related_primary_key = deaccession.transaction_id
+				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				and mczbase.ctmedia_relationship.auto_table = 'deaccession'
+		</cfquery>
 		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct p.publication_id as pk, mr.media_id
 			from publication p
@@ -1756,6 +1764,8 @@ imgStyleClass=value
 									<cfif media_rel.media_relationship eq 'physical object created by agent'>:<cfloop query="agents5"><cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents5.agent_name#" /> and m.media_relationship = 'physical object created by agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm6.agent_id#"> #agents5.agent_name#</a><span>, </span></cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: <cfloop query="accns"><cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,ac.accn_number from accn ac left join media_relations m on ac.transaction_id=m.related_primary_key left join flat on ac.transaction_id = flat.accn_id where m.media_relationship = 'documents accn' and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#accns.transaction_id#" /> </cfquery> <a href="/transactions/Accession.cfm?action=edit&transaction_id=#relm5.accn_number#" class="font-weight-lessbold">#relm5.accn_number#</a> <span>, </span></cfloop>
+									</cfif>
+									<cfif media_rel.media_relationship eq 'documents deaccession' and oneofus eq 1>: <cfloop query="daccns"><cfquery name="relm10" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,ac.deacc_number from deaccession dac left join media_relations m on dac.transaction_id=m.related_primary_key left join flat on dac.transaction_id = flat.accn_id where m.media_relationship = 'documents deaccession' and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#daccns.transaction_id#" /> </cfquery> <a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#relm10.accn_number#" class="font-weight-lessbold">#relm10.accn_number#</a> <span>, </span></cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'collecting_event'>:<cfloop query="collecting_eventRel">
 									<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
