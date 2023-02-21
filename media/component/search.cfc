@@ -1660,6 +1660,14 @@ imgStyleClass=value
 			where m.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and ct.media_relationship = 'related to media'
 		</cfquery>
+		<cfquery name="media2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct m.media_id
+			from media m
+				left join media_relations mr on mr.media_id = m.media_id 
+				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+			where m.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				and ct.media_relationship = 'transcript for audio media'
+		</cfquery>
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
