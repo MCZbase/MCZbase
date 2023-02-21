@@ -197,7 +197,7 @@
 												<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct mr.media_id
+														select distinct mr.media_id,ct.label
 														from media_relations mr 
 														left join media on mr.media_id = media.media_id
 														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
@@ -221,7 +221,7 @@
 																			<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:230px;">
 																				<div class="px-0">
 																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">
-																						#spec.label# 
+																						#relm.label# 
 																					<cfif spec.label eq 'Shows Cataloged Item'>
 																						<cfquery name="guidi" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																						select guid from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat, media_relations mr where mr.related_primary_key = flat.collection_object_id and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
