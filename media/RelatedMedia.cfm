@@ -196,7 +196,7 @@
 												<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfloop query="spec">
 														<cfif pubs.recordcount gt 0>
-															<cfloop query="pubs">
+															
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
 															from media_relations mr
@@ -206,7 +206,7 @@
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															and MCZBASE.is_media_encumbered(media.media_id)  < 1 
 															</cfquery>
-															</cfloop>
+														
 														<cfelse>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct mr.media_id, ct.label
