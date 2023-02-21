@@ -37,6 +37,14 @@
 		and ct.auto_table = 'publication'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct p.publication_id, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
+		from publication p
+		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
+		left join citation c on c.publication_id = p.publication_id
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and ct.auto_table = 'publication'
+		UNION
 		select distinct c.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
