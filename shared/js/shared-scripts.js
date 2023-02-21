@@ -957,6 +957,33 @@ function makeRichMediaPickerControlMeta(valueControl,idControl,typeLimit) {
 	};
 };
 
+/** Make a paired hidden id and text name control into an autocomplete media license picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected license_id (without a leading # selector).
+ */
+function makeLicenseAutocompleteMeta(valueControl, idControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/media/component/search.cfc",
+				data: { term: request.term, method: 'getLicenseAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up licenses for a license picker");
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
 
 /** Make a paired hidden id and text name control into an autocomplete publication picker.
  *

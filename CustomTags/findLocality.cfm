@@ -466,7 +466,7 @@
 				AND NoGeorefBecause IS NULL
 			</cfif>
 			<cfif isdefined("isIncomplete") AND len(#isIncomplete#) gt 0>
-				AND ( GPSACCURACY IS NULL OR EXTENT IS NULL OR MAX_ERROR_DISTANCE = 0 or MAX_ERROR_DISTANCE IS NULL
+				AND ( GPSACCURACY IS NULL OR EXTENT IS NULL OR MAX_ERROR_DISTANCE = 0 OR MAX_ERROR_DISTANCE IS NULL )
 			</cfif>
 			<cfif isdefined("findNoAccGeoRef") and len(#findNoAccGeoRef#) gt 0>
 				AND locality.locality_id IN (select locality_id from lat_long)
