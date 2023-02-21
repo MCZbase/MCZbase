@@ -1594,7 +1594,7 @@ imgStyleClass=value
 				and agent_name_type = 'preferred'
 			order by agent_name.agent_name
 		</cfquery>
-		<cfquery name="agents6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="agents5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct agent_name.agent_name, agent.agent_id
 			from media_relations
 				left join agent on media_relations.related_primary_key = agent.agent_id
