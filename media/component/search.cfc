@@ -1241,13 +1241,15 @@ imgStyleClass=value
 						<cfif media_type EQ 'image' AND left(media.mime_type,6) EQ 'image/'>
 							<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
 							<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
-							<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
+							<!---cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg"--->
+							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server--->
+							<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/!2000,2000/0/default.jpg">
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
 						</cfif>
 					</cfif>
 					<cfset isDisplayable = false>
-					<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
+					<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png' OR (media.mime_type EQ 'image/tiff' AND enableIIIF))>
 						<cfset isDisplayable = true>
 					</cfif>
 					<cfif media_type EQ '3D model'>
