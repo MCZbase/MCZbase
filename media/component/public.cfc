@@ -908,7 +908,7 @@ imgStyleClass=value
 										where mr.media_relationship like '%cataloged_item'
 										and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 										</cfquery>
-										 <a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel like '%cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a><span>, </span>
+										 <a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a><span>, </span>
 									</div>
 								</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
