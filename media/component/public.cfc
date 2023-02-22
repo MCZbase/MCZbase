@@ -771,17 +771,15 @@ imgStyleClass=value
 									and mr.media_relations like '%publication'
 									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 									UNION
-									select m.media_id as mid, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, uc.underscore_collection_id as pk, uc.collection_name as display
-									from media m
-									left join media_relations mr on mr.media_id = m.media_id
+									select distinct '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, uc.underscore_collection_id as pk, uc.collection_name as display
+									from media_relations mr 
 									left join underscore_relation ur on ur.underscore_collection_id = mr.related_primary_key
 									left join underscore_collection uc on uc.underscore_collection_id = ur.underscore_collection_id
 									where mr.media_relationship like '%underscore_collection'
 									and ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#underscore.collection_object_id#" />
 									UNION
-									select m.media_id as mid, '/showLocality.cfm?action=srch&collecting_event_id=' as href, collecting_eventRel.collecting_event_id as pk, ce.verbatim_locality as display
-									from media m
-									left join media_relations mr on mr.media_id = m.media_id
+									select distinct '/showLocality.cfm?action=srch&collecting_event_id=' as href, collecting_eventRel.collecting_event_id as pk, ce.verbatim_locality as display
+									from media_relations mr
 									left join collecting_event ce on ce.collecting_event_id = mr.related_primary_key
 									where mr.media_relationship like '%collecting_event'
 									and ct.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#collecting_eventRel.collecting_event_id#" />
