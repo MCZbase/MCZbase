@@ -13,10 +13,9 @@
 		See the Redmine wiki for instructions on adding a new page to MCZbase.
 	--->
 	<cfquery name="isValid" datasource="uam_god" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
-		select distinct ROLE_NAME from (
-		 	select ROLE_NAME from cf_form_permissions
-			where form_path = <cfqueryparam value="#filePath#" cfsqltype="CF_SQL_VARCHAR">
-      )
+		 	SELECT DISTINCT ROLE_NAME 
+			FROM cf_form_permissions
+			WHERE form_path = <cfqueryparam value="#filePath#" cfsqltype="CF_SQL_VARCHAR">
 	</cfquery>
 	<cfif isValid.recordcount is 0>
 		<!--- no permissions specified, a new page or an invalid request, assume bad and deny access --->
