@@ -835,7 +835,7 @@ imgStyleClass=value
 							</cfif>
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
-							<td><cfloop query="spec">
+							<td>
 								<cfloop query = 'media_rel'>
 									<span class="text-capitalize">#media_rel.label#:</span>
 								</cfloop>
@@ -913,7 +913,7 @@ imgStyleClass=value
 									</div>
 								</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-								</cfloop> 
+								
 							</td>
 						</tr>
 					<cfelse>
