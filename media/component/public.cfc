@@ -903,7 +903,7 @@ imgStyleClass=value
 									from media_relations mr
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id 
 									where mr.media_relationship like '%cataloged_item'
-									and ci.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+									and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 									</cfquery>
 									: 
 									<cfif spec.rel eq 'cataloged_item'>
