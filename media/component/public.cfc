@@ -837,7 +837,7 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td>
-							<cfloop query = 'media_rel'><span class="text-capitalize">#media_rel.label#</span></cfloop>
+							<cfloop query = 'media_rel'><span class="text-capitalize">#media_rel.label#:</span></cfloop>
 							<cfloop query="spec">
 								<div class="comma2 d-inline">
 									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
@@ -906,7 +906,7 @@ imgStyleClass=value
 									where mr.media_relationship like '%cataloged_item'
 									and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 									</cfquery>
-									: <a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel eq 'cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a><span>, </span>
+									, <a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel eq 'cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a><span>, </span>
 								</div>
 <!---								<cfloop query="loan"><a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><span>, </span></cfloop>
 								<cfloop query="collecting_eventRel">
