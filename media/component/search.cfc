@@ -1549,6 +1549,15 @@ imgStyleClass=value
 				and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 			order by guid
 		</cfquery>
+		<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select cataloged_item.collection_object_id
+			from underscore_collection
+			left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+			left join cataloged_item on underscore_relation.COLLECTION_OBJECT_ID = cataloged_item.collection_object_id
+			left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
+			and media_relations.media_relationship = 'shows underscore_collection'
+			and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+		</cfquery>
 		<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct agent_name.agent_name, agent.agent_id
 			from media_relations
@@ -1787,6 +1796,8 @@ imgStyleClass=value
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows publication'>: 
 									<cfloop query="publication"><cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct fp.formatted_publication as pub_short, p.publication_title, m.media_uri from publication p, formatted_publication fp, media_relations mr,media m where mr.related_primary_key = p.publication_id and mr.media_id = m.media_id and p.publication_id = fp.publication_id and p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> and fp.format_style = 'short' and m.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal"></cfquery><a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#relm7.pub_short#, #relm7.publication_title# </a><span> &##8226;&##8226; </span> </cfloop>
+									</cfif>
+									<cfif media_rel.media_relationship eq 'shows underscore_collection'>:<cfloop query="underscore"><cfquery name="relm12" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select mr.media_id,uc.underscore_collection_id from cataloged_item ci left join underscore_relations ur on ur.collection_object_id = ci.collection_object_id left join underscore_collection uc on uc.underscore_collection_id = ur.underscore_collection_id left join media_relations mr on mr.related_primary_key = ci.collection_object_id where ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#underscore.collection_object_id#" /> and m.media_relationship = 'shows underscore_collection'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm12.agent_id#"> #underscore.collection_name#</a><span>, </span></cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'> 
 										<cfloop query="spec">
