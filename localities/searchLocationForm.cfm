@@ -623,9 +623,9 @@
 						<cfif isDefined("geology_attribute_hier") and len(geology_attribute_hier) GT 0 ><cfset geology_attribute_hierValue="#geology_attribute_hier#"><cfelse><cfset geology_attribute_hierValue=""></cfif>
 						<label for="geology_attribute_hier" class="data-entry-label">Traverse Hierarchies?</label>
 						<select name="geology_attribute_hier" id="geology_attribute_hier" class="data-entry-select">
-							<cfif len(geology_attribute_hierValue) EQ 0 or geology_attribtue_hierValue EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<cfif len(geology_attribute_hierValue) EQ 0 or geology_attribute_hierValue EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option value="0" #selected#>No</option>
-							<cfif geology_attribtue_hierValue EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<cfif geology_attribute_hierValue EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option value="1" #selected#>Yes</option>
 						</select>
 					</div>
