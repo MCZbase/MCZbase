@@ -905,7 +905,7 @@ imgStyleClass=value
 									where mr.media_relationship like '%cataloged_item'
 									and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 									</cfquery>
-									: <a class="font-weight-lessbold" href="#relm.href##pk#">#relm.display#</a><span>, </span>
+									: <a class="font-weight-lessbold" href="#relm.href##display#">#relm.display#</a><span>, </span>
 								</div>
 <!---								<cfloop query="loan"><a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><span>, </span></cfloop>
 								<cfloop query="collecting_eventRel">
