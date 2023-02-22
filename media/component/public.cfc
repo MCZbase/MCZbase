@@ -744,16 +744,16 @@ imgStyleClass=value
 									select distinct m.media_id as mid, '/transactions/Deaccession.cfm?action=edit&transaction_id=' as href, dac.transaction_id as pk, dac.accn_number as display 
 									from media m
 									left join media_relations mr on mr.media_id = m.media_id 
-									left join loan l on l.transaction_id = mr.related_primary_key 
-									where mr.media_relationship like '%loan' 
+									left join deaccession dac on dac.transaction_id = mr.related_primary_key 
+									where mr.media_relationship like '%deaccession' 
 									and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#daccns.transaction_id#" /> 
 									UNION
 									select distinct m.media_id as mid, '/transactions/Loan.cfm?action=editLoan&transaction_id=' as href, loan.transaction_id as pk, loan.loan_number as display 
 									from media m
 									left join media_relations mr on mr.media_id = m.media_id 
-									left join deaccession dac on dac.transaction_id = mr.related_primary_key 
-									where mr.media_relationship like 'deaccession' 
-									and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#daccns.transaction_id#" /> 
+									left join loan l on l.transaction_id = mr.related_primary_key 
+									where mr.media_relationship like '%loan' 
+									and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#loan.transaction_id#" /> 
 									UNION
 									select distinct m.media_id as mid, '/media/' as href, mr.related_primary_key as pk, m.media_id as display
 									from media m
