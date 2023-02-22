@@ -623,9 +623,9 @@
 						<cfif isDefined("geology_attribute_hier") and len(geology_attribute_hier) GT 0 ><cfset geology_attribute_hierValue="#geology_attribute_hier#"><cfelse><cfset geology_attribute_hierValue=""></cfif>
 						<label for="geology_attribute_hier" class="data-entry-label">Traverse Hierarchies?</label>
 						<select name="geology_attribute_hier" id="geology_attribute_hier" class="data-entry-select">
-							<cfif len(geology_attribute_hierValue) EQ 0 or geology_attribtue_hierValue EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<cfif len(geology_attribute_hierValue) EQ 0 or geology_attribute_hierValue EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option value="0" #selected#>No</option>
-							<cfif geology_attribtue_hierValue EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<cfif geology_attribute_hierValue EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option value="1" #selected#>Yes</option>
 						</select>
 					</div>
@@ -746,13 +746,13 @@
 							<label class="data-entry-label">Geolocate Precision</label>
 							<cfif isDefined("geolocate_precision") and len(geolocate_precision) GT 0 ><cfset geolocate_precisionValue="#geolocate_precision#"><cfelse><cfset geolocate_precisionValue=""></cfif>
 							<select name="geolocate_precision" id="geolocate_precision" size="1" class="data-entry-select">
-								<cfif geolocate_precisionValue EQ ""><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif geolocate_precisionValue EQ ""><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="" #selected#></option>
-								<cfif geolocate_precisionValue EQ "high"><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif geolocate_precisionValue EQ "high"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="high" #selected#>high</option>
-								<cfif geolocate_precisionValue EQ "medium"><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif geolocate_precisionValue EQ "medium"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="medium" #selected#>medium</option>
-								<cfif geolocate_precisionValue EQ "low"><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif geolocate_precisionValue EQ "low"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="low" #selected#>low</option>
 							</select>
 						</div>
@@ -767,13 +767,13 @@
 							<cfif isDefined("gs_comparator") and len(gs_comparator) GT 0 ><cfset gs_comparatorValue="#gs_comparator#"><cfelse><cfset gs_comparatorValue=""></cfif>
 							<label class="data-entry-label">Geolocate Score</label>
 							<select name="gs_comparator" id="gs_comparator" size="1" class="data-entry-select">
-								<cfif gs_comparatorValue EQ "=" or len(gs_comparatorValue) EQ 0><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif gs_comparatorValue EQ "=" or len(gs_comparatorValue) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>=</option>
-								<cfif gs_comparatorValue EQ "<"><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif gs_comparatorValue EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="<" #selected#><</option>
-								<cfif gs_comparatorValue EQ ">"><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif gs_comparatorValue EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value=">" #selected#>></option>
-								<cfif gs_comparatorValue EQ "between"><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif gs_comparatorValue EQ "between"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="between" #selected#>between</option><!--- " --->
 							</select>
 						</div>
