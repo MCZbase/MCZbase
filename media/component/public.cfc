@@ -891,13 +891,13 @@ imgStyleClass=value
 									left join underscore_relation ur on ur.underscore_collection_id = mr.related_primary_key
 									left join underscore_collection uc on uc.underscore_collection_id = ur.underscore_collection_id
 									where mr.media_relationship like '%underscore_collection'
-									and ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#underscore.collection_object_id#" />
+									and ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 									UNION
-									select distinct collecting_eventRel.collecting_event_id as pk, '/showLocality.cfm?action=srch&collecting_event_id=' as href,  ce.verbatim_locality as display
+									select distinct ce.collecting_event_id as pk, '/showLocality.cfm?action=srch&collecting_event_id=' as href,  ce.verbatim_locality as display
 									from media_relations mr
 									left join collecting_event ce on ce.collecting_event_id = mr.related_primary_key
 									where mr.media_relationship like '%collecting_event'
-									and ct.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#collecting_eventRel.collecting_event_id#" />
+									and ct.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 									</cfquery>
 									: <cfloop query="relm">
 										<a class="font-weight-lessbold" href="#relm.href#">#relm.display#</a><span>, </span>
