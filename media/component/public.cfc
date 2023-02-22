@@ -783,10 +783,11 @@ imgStyleClass=value
 									left join media_relations mr on mr.media_id = m.media_id
 									left join collecting_event ce on ce.collecting_event_id = mr.related_primary_key
 									where mr.media_relationship like '%collecting_event'
-									and ct.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#collecting_event.collection_object_id#" />
+									and ct.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#collecting_event.collecting_event_id#" />
 									</cfquery>
 									: <cfloop query="relm">
-										<a class="font-weight-lessbold" href="#relm.href#">#relm.display#</a><span>, </span></cfloop>
+										<a class="font-weight-lessbold" href="#relm.href#">#relm.display#</a><span>, </span>
+									</cfloop>
 								
 <!---								<cfloop query="loan"><a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><span>, </span></cfloop>
 								<cfloop query="collecting_eventRel">
