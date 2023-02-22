@@ -863,7 +863,7 @@ imgStyleClass=value
 									and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
 									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 									UNION
-									select distinct loan.transaction_id as pk, '/transactions/Loan.cfm?action=editLoan&transaction_id=' as href,  loan.loan_number as display 
+									select distinct l.transaction_id as pk, '/transactions/Loan.cfm?action=editLoan&transaction_id=' as href, l.loan_number as display 
 									from media_relations mr 
 									left join loan l on l.transaction_id = mr.related_primary_key 
 									where mr.media_relationship like '%loan' 
