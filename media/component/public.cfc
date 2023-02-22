@@ -778,7 +778,7 @@ imgStyleClass=value
 									where mr.media_relationship = 'shows underscore_collection'
 									and ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#underscore.collection_object_id#" />
 									UNION
-									select m.media_id as mid, '/showLocality.cfm?action=srch&collecting_event_id=' as href, collecting_eventRel.collecting_event_id as pk, '#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date#' as display
+									select m.media_id as mid, '/showLocality.cfm?action=srch&collecting_event_id=' as href, collecting_eventRel.collecting_event_id as pk, ce.verbatim_locality as display
 									from media m
 									left join media_relations mr on mr.media_id = m.media_id
 									left join collecting_event ce on ce.collecting_event_id = mr.related_primary_key
