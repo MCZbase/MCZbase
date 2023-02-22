@@ -897,7 +897,7 @@ imgStyleClass=value
 									from media_relations mr
 									left join collecting_event ce on ce.collecting_event_id = mr.related_primary_key
 									where mr.media_relationship like '%collecting_event'
-									and ct.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+									and ce.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 									</cfquery>
 									: <cfloop query="relm">
 										<a class="font-weight-lessbold" href="#relm.href#">#relm.display#</a><span>, </span>
