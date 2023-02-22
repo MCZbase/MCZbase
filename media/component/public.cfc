@@ -725,7 +725,7 @@ imgStyleClass=value
 							<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label#</span>
 								<div class="comma2 d-inline">
 									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
-									select distinct m.media_id as mid, '/agents/Agent.cfm?agent_id=' as href, an.agent_id as pk, agent_name as display
+									select distinct m.media_id as mid, '/agents/Agent.cfm?agent_id=' as href, an.agent_id as pk, an.agent_name as display
 									from media m
 									left join media_relations mr on mr.media_id = m.media_id
 									left join agent_name an on an.agent_id=mr.related_primary_key
