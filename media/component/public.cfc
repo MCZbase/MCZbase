@@ -883,7 +883,7 @@ imgStyleClass=value
 									left join formatted_publication fp on fp.publication_id = p.publication_id
 									where p.publication_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
 									and fp.format_style = 'short' 
-									and mr.media_relations like '%publication'
+									and mr.media_relationship like '%publication'
 									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 									UNION
 									select distinct  uc.underscore_collection_id as pk, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, uc.collection_name as display
