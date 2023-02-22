@@ -691,7 +691,7 @@ limitations under the License.
 												<span class="small">
 													(
 													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</a><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT_NULL';">NOT_NULL</a><span class="sr-only">use NOT_NULL to find media records with the selected relationship to any record</span>
+													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT NULL';">NOT NULL</a><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>
 													)
 												</span>
 											</label>
@@ -724,7 +724,7 @@ limitations under the License.
 												<span class="small">
 													(
 													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</a><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT_NULL';">NOT_NULL</a><span class="sr-only">use NOT_NULL to find media records with the selected relationship to any record</span>
+													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT NULL';">NOT NULL</a><span class="sr-only">use NOT NULL to find media records with the selected relationship to any record</span>
 													)
 												</span>
 											</label>
