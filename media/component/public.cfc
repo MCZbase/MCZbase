@@ -848,7 +848,7 @@ imgStyleClass=value
 									and an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.at#" />
 									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 									UNION
-									select distinct ac.transaction_id as pk, '/transactions/Accession.cfm?action=edit&transaction_id=' as href,  ac.accn_number as display
+									select distinct ac.transaction_id as pk, '/transactions/Accession.cfm?action=edit&transaction_id=' as href, ac.accn_number as display
 									from media_relations mr
 									left join accn ac on ac.transaction_id = mr.related_primary_key
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on ac.transaction_id = flat.accn_id 
@@ -870,7 +870,7 @@ imgStyleClass=value
 									and l.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
 									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 									UNION
-									select distinct '/media/' as href, mr.related_primary_key as pk, m.media_id as display
+									select distinct mr.related_primary_key as pk, '/media/' as href, m.media_type as display
 									from media m
 									left join media_relations mr on mr.media_id = m.media_id 
 									where mr.media_relationship like '%media' 
