@@ -739,27 +739,27 @@ imgStyleClass=value
 									left join accn ac on ac.transaction_id = mr.related_primary_key
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on ac.transaction_id = flat.accn_id 
 									where mr.media_relationship like '%accn' 
-									and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#accns.transaction_id#" />
+									and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#accns.transaction_id#" />
 									UNION
 									select distinct m.media_id as mid, '/transactions/Deaccession.cfm?action=edit&transaction_id=' as href, dac.transaction_id as pk, dac.deacc_number as display 
 									from media m
 									left join media_relations mr on mr.media_id = m.media_id 
 									left join deaccession dac on dac.transaction_id = mr.related_primary_key 
 									where mr.media_relationship like '%deaccession' 
-									and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#daccns.transaction_id#" /> 
+									and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#daccns.transaction_id#" /> 
 									UNION
 									select distinct m.media_id as mid, '/transactions/Loan.cfm?action=editLoan&transaction_id=' as href, loan.transaction_id as pk, loan.loan_number as display 
 									from media m
 									left join media_relations mr on mr.media_id = m.media_id 
 									left join loan l on l.transaction_id = mr.related_primary_key 
 									where mr.media_relationship like '%loan' 
-									and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#loan.transaction_id#" /> 
+									and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#loan.transaction_id#" /> 
 									UNION
 									select distinct m.media_id as mid, '/media/' as href, mr.related_primary_key as pk, m.media_id as display
 									from media m
 									left join media_relations mr on mr.media_id = m.media_id 
 									where mr.media_relationship like '%media' 
-									and m.media_id = <cfqueryparam cfsqltype="cf_sql_varchar" value="#media1.media_id#" />
+									and m.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media1.media_id#" />
 									UNION
 									select distinct m.media_id as mid, '/publications/showPublication.cfm?publication_id=' as href, p.publication_id as pk, fp.formatted_publication as display
 									from media m 
