@@ -867,7 +867,7 @@ imgStyleClass=value
 									from media_relations mr 
 									left join loan l on l.transaction_id = mr.related_primary_key 
 									where mr.media_relationship like '%loan' 
-									and loan.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
+									and l.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
 									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 									UNION
 									select distinct '/media/' as href, mr.related_primary_key as pk, m.media_id as display
@@ -881,7 +881,7 @@ imgStyleClass=value
 									from media_relations mr
 									left join publication p on mr.related_primary_key = p.publication_id
 									left join formatted_publication fp on fp.publication_id = p.publication_id
-									where p.publication_id = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_VARCHAR"> 
+									where p.publication_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
 									and fp.format_style = 'short' 
 									and mr.media_relations like '%publication'
 									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
