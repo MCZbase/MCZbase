@@ -509,6 +509,33 @@ sho err
 					<cfelse>
 						<cfset rec_stat=listappend(rec_stat,'permit number #lv# matched #c.recordcount# records.',";")>
 					</cfif>
+				<cfelseif table_name is "specimen_part">
+                                        <cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                                                select sp.collection_object_id
+                                                from specimen_part sp
+						join (select * from coll_obj_cont_hist where current_container_fg = 1)  ch on (sp.collection_object_id = ch.collection_object_id)
+						join  container c on (ch.container_id = c.container_id)
+						join  container pc on (c.parent_container_id = pc.container_id)
+                                                where pc.barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lv#">
+                                        </cfquery>
+                                        <cfif c.recordcount is 1 and len(c.collection_object_id) gt 0>
+                                                <cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                                                        insert into cf_temp_media_relations (
+                                                                key,
+                                                                MEDIA_RELATIONSHIP,
+                                                                CREATED_BY_AGENT_ID,
+                                                                RELATED_PRIMARY_KEY
+                                                        ) values (
+                                                                #key#,
+                                                                '#ln#',
+                                                                #session.myAgentId#,
+                                                                #c.collection_object_id#
+                                                        )
+                                                </cfquery>
+                                        <cfelse>
+                                                <cfset rec_stat=listappend(rec_stat,'barcode #lv# matched #c.recordcount# records.',";")>
+                                        </cfif>
+
 
 				<cfelse>
 					<cfset rec_stat=listappend(rec_stat,'Media relationship #ln# is not handled',";")>
