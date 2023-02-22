@@ -3,7 +3,7 @@
 <cfinclude template="/shared/_header.cfm">
 <script type='text/javascript' src='/media/js/media.js'></script>
 
-<cfinclude template="/media/component/search.cfc" runOnce="true">
+<cfinclude template="/media/component/public.cfc" runOnce="true">
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
 <cfelse>
