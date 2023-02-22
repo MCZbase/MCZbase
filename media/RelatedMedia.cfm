@@ -28,7 +28,7 @@
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct p.publication_id, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
+		select distinct p.publication_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
