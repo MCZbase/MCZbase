@@ -637,7 +637,7 @@
 				insert into temp_allow_cf_user (user_id,allow,invited_by_email) 
 				values (#user_id#,1,'#getMyEmail.EMAIL#')
 			</cfquery>
-			<cfmail to="#getTheirEmail.EMAIL#" from="welcome@#Application.fromEmail#" subject="operator invitation" cc="#getMyEmail.EMAIL#,#Application.PageProblemEmail#" type="html">
+			<!---cfmail to="#getTheirEmail.EMAIL#" from="welcome@#Application.fromEmail#" subject="operator invitation" cc="#getMyEmail.EMAIL#,#Application.PageProblemEmail#" type="html">
 				Hello, #getTheirEmail.username#.
 				<br>
 				You have been invited to become an MCZbase Operator by #session.username#.
@@ -650,7 +650,7 @@
 				<br>
 				Please email #getMyEmail.EMAIL# if you have any questions, or 
 				#Application.PageProblemEmail# if you believe you have received this message in error.
-			</cfmail>
+			</cfmail0--->
 			An invitation has been sent. <a href="/AdminUsers.cfm?Action=edit&username=#username#">continue</a>			
 		<cfelse>
 			<div>User not invited. <a href="/AdminUsers.cfm?Action=edit&username=#username#">Return to edit user</a>.</div>	
