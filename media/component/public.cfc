@@ -738,7 +738,7 @@ imgStyleClass=value
 									left join media_relations mr on m.media_id=mr.media_id
 									left join accn ac on ac.transaction_id = mr.related_primary_key
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on ac.transaction_id = flat.accn_id 
-									where m.media_relationship like '%accn' 
+									where mr.media_relationship like '%accn' 
 									and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#accns.transaction_id#" />
 									UNION
 									select distinct m.media_id as mid, '/transactions/Deaccession.cfm?action=edit&transaction_id=' as href, dac.transaction_id as pk, dac.accn_number as display 
