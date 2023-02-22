@@ -787,7 +787,7 @@ imgStyleClass=value
 									</cfquery>
 									: <cfloop query="relm">
 										<a class="font-weight-lessbold" href="#relm.href#">#relm.display#</a><span>, </span></cfloop>
-									</cfif>
+								
 <!---								<cfloop query="loan"><a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><span>, </span></cfloop>
 								<cfloop query="collecting_eventRel">
 									<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
