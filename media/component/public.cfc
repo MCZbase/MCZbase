@@ -898,9 +898,15 @@ imgStyleClass=value
 									left join collecting_event ce on ce.collecting_event_id = mr.related_primary_key
 									where mr.media_relationship like '%collecting_event'
 									and ce.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+									UNION
+									select distinct ci.collection_object_id as pk, '/guid/' as href,  ci.cat_num as display
+									from media_relations mr
+									left join cataloged_item ci on ci.collection_object_id = mr.related_primary_key
+									where mr.media_relationship like '%cataloged_item'
+									and ci.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 									</cfquery>
 									: <cfloop query="relm">
-										<a class="font-weight-lessbold" href="#relm.href#">#relm.display#</a><span>, </span>
+										<a class="font-weight-lessbold" href="#relm.href##pk#">#relm.display#</a><span>, </span>
 									</cfloop>
 								</div>
 <!---								<cfloop query="loan"><a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><span>, </span></cfloop>
