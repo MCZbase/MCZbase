@@ -837,100 +837,82 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td>
-							<cfloop query = 'media_rel'><span class="text-capitalize">#media_rel.label#:</span></cfloop>
-							<cfloop query="spec">
-								<div class="comma2 d-inline">
-									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
-									select distinct an.agent_id as pk, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, mr.media_relationship as rel
-									from media_relations mr
-									left join agent_name an on an.agent_id=mr.related_primary_key
-									left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
-									where mr.media_relationship like '%agent'
-									and an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.at#" />
-									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
-									UNION
-									select distinct ac.transaction_id as pk, '/transactions/Accession.cfm?action=edit&transaction_id=' as href, ac.accn_number as display, mr.media_relationship as rel
-									from media_relations mr
-									left join accn ac on ac.transaction_id = mr.related_primary_key
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on ac.transaction_id = flat.accn_id 
-									where mr.media_relationship like '%accn' 
-									and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
-									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
-									UNION
-									select distinct dac.transaction_id as pk, '/transactions/Deaccession.cfm?action=edit&transaction_id=' as href,  dac.deacc_number as display, mr.media_relationship as rel 
-									from media_relations mr
-									left join deaccession dac on dac.transaction_id = mr.related_primary_key 
-									where mr.media_relationship like '%deaccession' 
-									and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
-									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
-									UNION
-									select distinct l.transaction_id as pk, '/transactions/Loan.cfm?action=editLoan&transaction_id=' as href, l.loan_number as display, mr.media_relationship as rel 
-									from media_relations mr 
-									left join loan l on l.transaction_id = mr.related_primary_key 
-									where mr.media_relationship like '%loan' 
-									and l.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
-									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
-									UNION
-									select distinct mr.related_primary_key as pk, '/media/' as href, m.media_type as display, mr.media_relationship as rel
-									from media m
-									left join media_relations mr on mr.media_id = m.media_id 
-									where mr.media_relationship like '%media' 
-									and m.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
-									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
-									UNION
-									select distinct p.publication_id as pk,'/publications/showPublication.cfm?publication_id=' as href,  fp.formatted_publication as display, mr.media_relationship as rel
-									from media_relations mr
-									left join publication p on mr.related_primary_key = p.publication_id
-									left join formatted_publication fp on fp.publication_id = p.publication_id
-									where p.publication_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
-									and fp.format_style = 'short' 
-									and mr.media_relationship like '%publication'
-									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
-									UNION
-									select distinct  uc.underscore_collection_id as pk, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, uc.collection_name as display, mr.media_relationship as rel
-									from media_relations mr 
-									left join underscore_relation ur on ur.underscore_collection_id = mr.related_primary_key
-									left join underscore_collection uc on uc.underscore_collection_id = ur.underscore_collection_id
-									where mr.media_relationship like '%underscore_collection'
-									and ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
-									UNION
-									select distinct ce.collecting_event_id as pk, '/showLocality.cfm?action=srch&collecting_event_id=' as href,  ce.verbatim_locality as display, mr.media_relationship as rel
-									from media_relations mr
-									left join collecting_event ce on ce.collecting_event_id = mr.related_primary_key
-									where mr.media_relationship like '%collecting_event'
-									and ce.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
-									UNION
-									select distinct flat.collection_object_id as pk, '/guid/' as href, flat.guid as display, mr.media_relationship as rel
-									from media_relations mr
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id 
-									where mr.media_relationship like '%cataloged_item'
-									and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
-									</cfquery>
-									 <a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel eq 'cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a><span>, </span>
-								</div>
-<!---								<cfloop query="loan"><a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><span>, </span></cfloop>
-								<cfloop query="collecting_eventRel">
-									<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
-									</cfif>
-									<cfif media_rel.media_relationship eq 'related to media'>: <cfloop query="media1"><cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select mr.related_primary_key, m.media_id from media m, media_relations mr where mr.media_id = m.media_id and mr.media_relationship = 'related to media' and m.media_id = #media1.media_id#</cfquery><a class="font-weight-lessbold" href="/media/#relm8.related_primary_key#"> #relm8.related_primary_key#</a><span>, </span></cfloop>
-									</cfif>
-									<cfif media_rel.media_relationship eq 'transcript for audio media'>: <cfloop query="media2"><cfquery name="relm9" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select m.media_id from media m, media_relations mr where mr.media_id = m.media_id and m.media_id = #media2.related_primary_key#</cfquery><a class="font-weight-lessbold" href="/media/#relm9.media_id#"> #relm9.media_id#</a><span>, </span></cfloop>
-									</cfif>
-									<cfif media_rel.media_relationship eq 'shows locality'>: <cfloop query="locali"><a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: <cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#</a><span>, </span></cfloop>
-									</cfif>
-									<cfif media_rel.media_relationship eq 'shows publication'>: 
-									<cfloop query="publication"><cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"></cfquery><a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#relm7.pub_short#, #relm7.publication_title# </a><span> &##8226;&##8226; </span> </cfloop>
-									</cfif>
-									<cfif media_rel.media_relationship eq 'shows underscore_collection'>:<cfloop query="underscore"><cfquery name="relm12" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> </cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm12.agent_id#"> #underscore.collection_name#</a><span>, </span></cfloop>
-									</cfif>--->
-	<!---								<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'> 
-										<cfloop query="spec">
-											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span>
-										</cfloop>
-									</cfif>--->
+								<cfloop query = 'media_rel'>
+									<span class="text-capitalize">#media_rel.label#:</span>
+								</cfloop>
+								<cfloop query="spec">
+									<div class="comma2 d-inline">
+										<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
+										select distinct an.agent_id as pk, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, mr.media_relationship as rel
+										from media_relations mr
+										left join agent_name an on an.agent_id=mr.related_primary_key
+										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
+										where mr.media_relationship like '%agent'
+										and an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.at#" />
+										and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
+										UNION
+										select distinct ac.transaction_id as pk, '/transactions/Accession.cfm?action=edit&transaction_id=' as href, ac.accn_number as display, mr.media_relationship as rel
+										from media_relations mr
+										left join accn ac on ac.transaction_id = mr.related_primary_key
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on ac.transaction_id = flat.accn_id 
+										where mr.media_relationship like '%accn' 
+										and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
+										and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
+										UNION
+										select distinct dac.transaction_id as pk, '/transactions/Deaccession.cfm?action=edit&transaction_id=' as href,  dac.deacc_number as display, mr.media_relationship as rel 
+										from media_relations mr
+										left join deaccession dac on dac.transaction_id = mr.related_primary_key 
+										where mr.media_relationship like '%deaccession' 
+										and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
+										and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
+										UNION
+										select distinct l.transaction_id as pk, '/transactions/Loan.cfm?action=editLoan&transaction_id=' as href, l.loan_number as display, mr.media_relationship as rel 
+										from media_relations mr 
+										left join loan l on l.transaction_id = mr.related_primary_key 
+										where mr.media_relationship like '%loan' 
+										and l.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
+										and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
+										UNION
+										select distinct mr.related_primary_key as pk, '/media/' as href, m.media_type as display, mr.media_relationship as rel
+										from media m
+										left join media_relations mr on mr.media_id = m.media_id 
+										where mr.media_relationship like '%media' 
+										and m.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
+										and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
+										UNION
+										select distinct p.publication_id as pk,'/publications/showPublication.cfm?publication_id=' as href,  fp.formatted_publication as display, mr.media_relationship as rel
+										from media_relations mr
+										left join publication p on mr.related_primary_key = p.publication_id
+										left join formatted_publication fp on fp.publication_id = p.publication_id
+										where p.publication_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
+										and fp.format_style = 'short' 
+										and mr.media_relationship like '%publication'
+										and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
+										UNION
+										select distinct  uc.underscore_collection_id as pk, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, uc.collection_name as display, mr.media_relationship as rel
+										from media_relations mr 
+										left join underscore_relation ur on ur.underscore_collection_id = mr.related_primary_key
+										left join underscore_collection uc on uc.underscore_collection_id = ur.underscore_collection_id
+										where mr.media_relationship like '%underscore_collection'
+										and ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+										UNION
+										select distinct ce.collecting_event_id as pk, '/showLocality.cfm?action=srch&collecting_event_id=' as href,  ce.verbatim_locality as display, mr.media_relationship as rel
+										from media_relations mr
+										left join collecting_event ce on ce.collecting_event_id = mr.related_primary_key
+										where mr.media_relationship like '%collecting_event'
+										and ce.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+										UNION
+										select distinct flat.collection_object_id as pk, '/guid/' as href, flat.guid as display, mr.media_relationship as rel
+										from media_relations mr
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id 
+										where mr.media_relationship like '%cataloged_item'
+										and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+										</cfquery>
+										 <a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel like '%cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a><span>, </span>
+									</div>
 								</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-							</cfloop> 
+								</cfloop> 
 							</td>
 						</tr>
 					<cfelse>
