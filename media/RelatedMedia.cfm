@@ -44,6 +44,7 @@
 		left join media on mr.media_id = media.media_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.related_primary_key = <cfqueryparam  value="#pubs.publication_id#">
+		and ct.auto_table = 'publication'
 		UNION
 		select distinct  ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from cataloged_item ci
