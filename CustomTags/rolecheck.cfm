@@ -16,9 +16,6 @@
 		select distinct ROLE_NAME from (
 		 	select ROLE_NAME from cf_form_permissions
 			where form_path = <cfqueryparam value="#filePath#" cfsqltype="CF_SQL_VARCHAR">
-			union
-			select ROLE_NAME from cf_form_permissions_r
-			where form_path = <cfqueryparam value="#filePath#" cfsqltype="CF_SQL_VARCHAR">
       )
 	</cfquery>
 	<cfif isValid.recordcount is 0>
