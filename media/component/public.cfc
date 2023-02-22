@@ -729,9 +729,9 @@ imgStyleClass=value
 									from media m
 									left join media_relations mr on mr.media_id = m.media_id
 									left join agent_name an on an.agent_id=mr.related_primary_key
-									left join mczbase.ctmedia_relationship.media_relationship = m.media_relationship
-									where m.media_relationship like '%agent'
-									and agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents1.agent_name#" /> 
+									left join mczbase.ctmedia_relationship.media_relationship on ct.media_relationship = mr.media_relationship
+									where mr.media_relationship like '%agent'
+									and an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents1.agent_name#" /> 
 									UNION
 									select distinct m.media_id as mid, '/transactions/Accession.cfm?action=edit&transaction_id=' as href, ac.transaction_id as pk, ac.accn_number as display
 									from media m
