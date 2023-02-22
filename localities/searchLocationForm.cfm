@@ -746,13 +746,13 @@
 							<label class="data-entry-label">Geolocate Precision</label>
 							<cfif isDefined("geolocate_precision") and len(geolocate_precision) GT 0 ><cfset geolocate_precisionValue="#geolocate_precision#"><cfelse><cfset geolocate_precisionValue=""></cfif>
 							<select name="geolocate_precision" id="geolocate_precision" size="1" class="data-entry-select">
-								<cfif geolocate_precisionValue EQ ""><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif geolocate_precisionValue EQ ""><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="" #selected#></option>
-								<cfif geolocate_precisionValue EQ "high"><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif geolocate_precisionValue EQ "high"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="high" #selected#>high</option>
-								<cfif geolocate_precisionValue EQ "medium"><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif geolocate_precisionValue EQ "medium"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="medium" #selected#>medium</option>
-								<cfif geolocate_precisionValue EQ "low"><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif geolocate_precisionValue EQ "low"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="low" #selected#>low</option>
 							</select>
 						</div>
@@ -767,13 +767,13 @@
 							<cfif isDefined("gs_comparator") and len(gs_comparator) GT 0 ><cfset gs_comparatorValue="#gs_comparator#"><cfelse><cfset gs_comparatorValue=""></cfif>
 							<label class="data-entry-label">Geolocate Score</label>
 							<select name="gs_comparator" id="gs_comparator" size="1" class="data-entry-select">
-								<cfif gs_comparatorValue EQ "=" or len(gs_comparatorValue) EQ 0><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif gs_comparatorValue EQ "=" or len(gs_comparatorValue) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>=</option>
-								<cfif gs_comparatorValue EQ "<"><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif gs_comparatorValue EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="<" #selected#><</option>
-								<cfif gs_comparatorValue EQ ">"><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif gs_comparatorValue EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value=">" #selected#>></option>
-								<cfif gs_comparatorValue EQ "between"><cfset selected="selected"><cfelse><cfif selected=""></cfif>
+								<cfif gs_comparatorValue EQ "between"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="between" #selected#>between</option><!--- " --->
 							</select>
 						</div>
