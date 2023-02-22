@@ -845,7 +845,7 @@ imgStyleClass=value
 									left join agent_name an on an.agent_id=mr.related_primary_key
 									left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
 									where mr.media_relationship like '%agent'
-									and an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents1.agent_name#" />
+									and an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.at#" />
 									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 									UNION
 									select distinct ac.transaction_id as pk, '/transactions/Accession.cfm?action=edit&transaction_id=' as href,  ac.accn_number as display
@@ -853,35 +853,35 @@ imgStyleClass=value
 									left join accn ac on ac.transaction_id = mr.related_primary_key
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on ac.transaction_id = flat.accn_id 
 									where mr.media_relationship like '%accn' 
-									and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#accns.transaction_id#" />
+									and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
 									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 									UNION
 									select distinct dac.transaction_id as pk, '/transactions/Deaccession.cfm?action=edit&transaction_id=' as href,  dac.deacc_number as display 
 									from media_relations mr
 									left join deaccession dac on dac.transaction_id = mr.related_primary_key 
 									where mr.media_relationship like '%deaccession' 
-									and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#daccns.transaction_id#" /> 
+									and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
 									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 									UNION
 									select distinct loan.transaction_id as pk, '/transactions/Loan.cfm?action=editLoan&transaction_id=' as href,  loan.loan_number as display 
 									from media_relations mr 
 									left join loan l on l.transaction_id = mr.related_primary_key 
 									where mr.media_relationship like '%loan' 
-									and loan.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#loan.transaction_id#" /> 
+									and loan.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
 									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 									UNION
 									select distinct '/media/' as href, mr.related_primary_key as pk, m.media_id as display
 									from media m
 									left join media_relations mr on mr.media_id = m.media_id 
 									where mr.media_relationship like '%media' 
-									and m.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media1.media_id#" />
+									and m.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
 									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 									UNION
 									select distinct p.publication_id as pk,'/publications/showPublication.cfm?publication_id=' as href,  fp.formatted_publication as display
 									from media_relations mr
 									left join publication p on mr.related_primary_key = p.publication_id
 									left join formatted_publication fp on fp.publication_id = p.publication_id
-									where p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> 
+									where p.publication_id = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_VARCHAR"> 
 									and fp.format_style = 'short' 
 									and mr.media_relations like '%publication'
 									and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
