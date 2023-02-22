@@ -620,10 +620,13 @@
 						<input type="text" name="geo_att_value" class="data-entry-input" value="#encodeForHtml(geo_att_value)#">
 					</div>
 					<div class="col-12 col-md-3">
+						<cfif isDefined("geology_attribute_hier") and len(geology_attribute_hier) GT 0 ><cfset geology_attribute_hierValue="#geology_attribute_hier#"><cfelse><cfset geology_attribute_hierValue=""></cfif>
 						<label for="geology_attribute_hier" class="data-entry-label">Traverse Hierarchies?</label>
 						<select name="geology_attribute_hier" id="geology_attribute_hier" class="data-entry-select">
-							<option selected="selected" value="0">No</option>
-							<option value="1">Yes</option>
+							<cfif len(geology_attribute_hierValue) EQ 0 or geology_attribute_hierValue EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="0" #selected#>No</option>
+							<cfif geology_attribute_hierValue EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="1" #selected#>Yes</option>
 						</select>
 					</div>
 					<cfif listFind(searchPrefList,"GeorefDetail") EQ 0>
@@ -714,11 +717,13 @@
 					</div>
 					<div class="form-row mx-0 px-3 my-2">
 						<div class="col-12 col-md-3 px-0 mb-2">
+							<cfif isDefined("VerificationStatus") and len(VerificationStatus) GT 0 ><cfset VerificationStatusValue="#VerificationStatus#"><cfelse><cfset VerificationStatusValue=""></cfif>
 							<label for="VerificationStatus" class="data-entry-label">VerificationStatus</label>
 							<select name="VerificationStatus" id="VerificationStatus" size="1" class="data-entry-select">
 								<option value=""></option>
 								<cfloop query="ctVerificationStatus">
-									<option value="#VerificationStatus#">#VerificationStatus#</option>
+									<cfif verificationStatusValue EQ VerificationStatus><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="#VerificationStatus#" #selected#>#VerificationStatus#</option>
 								</cfloop>
 							</select>
 						</div>
@@ -727,36 +732,49 @@
 							<label for="onlyShared" class="form-check-label mt3px small95">Shared Localities Only</label>
 						</div>
 						<div class="col-12 col-md-3 my-1">
+							<cfif isDefined("GeorefMethod") and len(GeorefMethod) GT 0 ><cfset GeorefMethodValue="#GeorefMethod#"><cfelse><cfset GeorefMethodValue=""></cfif>
 							<label for="GeorefMethod" class="data-entry-label">GeorefMethod</label>
 							<select name="GeorefMethod" id="GeorefMethod" size="1" class="data-entry-select">
 								<option value=""></option>
 								<cfloop query="ctGeorefMethod">
-									<option value="#GeorefMethod#">#GeorefMethod#</option>
+									<cfif verificationStatusValue EQ GeorefMethod><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="#GeorefMethod#" #selected#>#GeorefMethod#</option>
 								</cfloop>
 							</select>
 						</div>
 						<div class="col-12 col-md-3 my-1">
 							<label class="data-entry-label">Geolocate Precision</label>
+							<cfif isDefined("geolocate_precision") and len(geolocate_precision) GT 0 ><cfset geolocate_precisionValue="#geolocate_precision#"><cfelse><cfset geolocate_precisionValue=""></cfif>
 							<select name="geolocate_precision" id="geolocate_precision" size="1" class="data-entry-select">
-								<option value="" SELECTED></option>
-								<option value="high" >high</option>
-								<option value="medium" >medium</option>
-								<option value="low" >low</option>
+								<cfif geolocate_precisionValue EQ ""><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="" #selected#></option>
+								<cfif geolocate_precisionValue EQ "high"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="high" #selected#>high</option>
+								<cfif geolocate_precisionValue EQ "medium"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="medium" #selected#>medium</option>
+								<cfif geolocate_precisionValue EQ "low"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="low" #selected#>low</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-row mx-0 px-3 my-2">
 						<div class="col-12 col-md-4 pl-0 my-1">
+							<cfif NOT isDefined("coordinateDeterminer") ><cfset coordinateDeterminer=""></cfif>
 							<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
-							<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-input">
+							<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-input" value="#encodeForHtml(coordinateDeterminer)#">
 						</div>
 						<div class="col-12 col-md-4 my-1">
+							<cfif isDefined("gs_comparator") and len(gs_comparator) GT 0 ><cfset gs_comparatorValue="#gs_comparator#"><cfelse><cfset gs_comparatorValue=""></cfif>
 							<label class="data-entry-label">Geolocate Score</label>
 							<select name="gs_comparator" id="gs_comparator" size="1" class="data-entry-select">
-								<option value="=" SELECTED>=</option>
-								<option value="<" ><</option>
-								<option value=">" >></option>
-								<option value="between" >between</option><!--- " --->
+								<cfif gs_comparatorValue EQ "=" or len(gs_comparatorValue) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="=" #selected#>=</option>
+								<cfif gs_comparatorValue EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="<" #selected#><</option>
+								<cfif gs_comparatorValue EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value=">" #selected#>></option>
+								<cfif gs_comparatorValue EQ "between"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="between" #selected#>between</option><!--- " --->
 							</select>
 						</div>
 						<div class="col-12 col-md-2 my-1">

@@ -55,8 +55,21 @@
 		<cfset field="">
 	</cfif>
 	
+	<cfquery name="confirm" datasource="uam_god">
+		SELECT
+			table_name found_table
+		FROM
+			sys.user_tables
+		WHERE
+			table_name like 'CT%'
+			and table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#table#">
+			and  owner = 'MCZBASE'
+	</cfquery>
+	<cfif confirm.recordcount NEQ 1>
+		<cfthrow message="Unknown controlled vocabulary table">
+	</cfif>
 	<cfquery name="docs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from #table#
+		select * from #confirm.found_table#
 	</cfquery>
 	
 	<div class="container my-3">
@@ -67,6 +80,9 @@
 			<table class="table table-responsive table-striped d-lg-table">
 				<thead class="thead-light">
 				<tr>
+					<th>
+						media_license_id
+					</th>
 					<th>
 						License
 					</th>
@@ -79,6 +95,7 @@
 				<tbody>
 				<cfloop query="docs">
 					<tr>
+						<td>#media_license_id#</td>
 						<td>#display#</td>
 						<td>#description#</td>
 						<td><a href="#uri#" target="_blank" class="external">#uri#</a></td>
