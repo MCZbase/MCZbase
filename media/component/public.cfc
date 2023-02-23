@@ -919,7 +919,7 @@ imgStyleClass=value
 										where mr.media_relationship like '%cataloged_item'
 										and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 										and mr.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media.media_id#" />
-										order by display asc
+										order by mid asc
 										</cfquery>
 											<span class="one">#relm.rel#: </span>
 											<cfloop query="relm">
