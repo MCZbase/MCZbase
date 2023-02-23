@@ -612,6 +612,7 @@ imgStyleClass=value
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and an.agent_name_type = 'preferred'
 		and ct.auto_table = 'agent' 
+		order by pk
 	</cfquery>
 
 		<!---<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
