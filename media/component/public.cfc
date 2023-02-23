@@ -838,7 +838,7 @@ imgStyleClass=value
 							<td class="w-80">
 								<div class="comma2 d-inline onlyfirst">
 									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select distinct mr.related_primary_key from media_relations mr where mr.related_primary_key = #spec.pk#
+										select distinct mr.media_relationship,mr.related_primary_key from media_relations mr where mr.related_primary_key = #spec.pk#
 									</cfquery>
 									<cfloop query="relm">#relm.media_relationship: relm.related_primary_key#, </cfloop>
 								</div>
