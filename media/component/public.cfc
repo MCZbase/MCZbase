@@ -883,7 +883,7 @@ imgStyleClass=value
 										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
 										UNION
 										<!---Media--->
-										select distinct mr.media_id as mid,'/media/' as href, m.media_type as display, mr.media_relationship as rel, m.media_id as pk, ct.label as label
+										select distinct mr.media_id as mid,'/media/' as href, m.media_type as display, mr.media_relationship as rel, mr.media_id as pk, ct.label as label
 										from media m
 										left join media_relations mr on mr.media_id = m.media_id
 										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
