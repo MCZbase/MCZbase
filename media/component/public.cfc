@@ -516,6 +516,7 @@ imgStyleClass=value
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'publication'
 		UNION
+		<!---Cataloged Item--->
 		select distinct  ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
@@ -523,6 +524,7 @@ imgStyleClass=value
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'cataloged_item'
 		UNION
+		<!---Collecting Event--->
 		select distinct ce.collecting_event_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from media_relations mr
 		left join collecting_event ce on mr.related_primary_key = ce.collecting_event_id
@@ -530,6 +532,7 @@ imgStyleClass=value
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'collecting_event'
 		UNION
+		<!---Loan--->
 		select distinct loan.transaction_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from loan
 		left join trans on trans.transaction_id = loan.transaction_id
@@ -538,6 +541,7 @@ imgStyleClass=value
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'loan'
 		UNION
+		<!---Accession--->
 		select distinct accn.transaction_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from accn
 		left join trans on trans.transaction_id = accn.transaction_id
@@ -546,6 +550,7 @@ imgStyleClass=value
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'accn'
 		UNION
+		<!---Deaccession--->
 		select distinct deaccession.transaction_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from deaccession
 		left join trans on trans.transaction_id = deaccession.transaction_id
@@ -554,6 +559,7 @@ imgStyleClass=value
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'deaccession'
 		UNION
+		<!---Borrow--->
 		select distinct borrow.transaction_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from borrow
 		left join trans on trans.transaction_id = borrow.transaction_id
@@ -562,6 +568,7 @@ imgStyleClass=value
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'borrow'
 		UNION
+		<!---Media--->
 		select distinct media.media_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from media
 		left join media_relations mr on media.media_id = mr.related_primary_key
@@ -569,6 +576,7 @@ imgStyleClass=value
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'media'
 		UNION
+		<!---Permit--->
 		select distinct permit.permit_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from permit
 		left join media_relations mr on permit.permit_id = mr.related_primary_key
@@ -576,6 +584,7 @@ imgStyleClass=value
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'permit'
 		UNION
+		<!---Project--->
 		select distinct project.project_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from project
 		left join media_relations mr on project.project_id = mr.related_primary_key
@@ -583,6 +592,7 @@ imgStyleClass=value
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'project'
 		UNION
+		<!---Specimen Part--->
 		select distinct specimen_part.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from specimen_part
 		left join media_relations mr on specimen_part.collection_object_id = mr.related_primary_key
@@ -590,13 +600,7 @@ imgStyleClass=value
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'specimen_part'
 		UNION
-		select distinct m.media_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
-		from media m
-		left join media_relations mr on m.media_id = mr.related_primary_key
-		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and ct.auto_table = 'media' 
-		UNION
+		<!---Locality--->
 		select distinct locality.locality_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from locality
 		left join media_relations mr on locality.locality_id = mr.related_primary_key
@@ -604,6 +608,7 @@ imgStyleClass=value
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'locality' 
 		UNION
+		<!---Agent--->
 		select distinct agent.agent_id as pk, ct.media_relationship as rel, ct.label as label, an.agent_name as at
 		from agent_name an
 		left join agent on an.AGENT_name_ID = agent.preferred_agent_name_id
@@ -915,7 +920,7 @@ imgStyleClass=value
 										where mr.media_relationship like '%cataloged_item'
 										and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 										and mr.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media.media_id#" />
-										order by display asc
+										order by pk asc
 										</cfquery>
 											<span class="one">#relm.rel#: </span>
 											<cfloop query="relm">
