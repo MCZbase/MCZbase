@@ -835,11 +835,11 @@ imgStyleClass=value
 							</cfif>
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
-							<td><cfloop query="spec">
-								<cfloop query = 'media_rel'>
+							<td>
+								
+								<cfloop query="spec"><cfloop query = 'media_rel'>
 									<span class="text-capitalize">#media_rel.label#:</span>
 								</cfloop>
-							
 									<div class="comma2 d-inline">
 										<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										select distinct an.agent_id as pk, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, mr.media_relationship as rel
