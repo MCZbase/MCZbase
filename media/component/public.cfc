@@ -907,7 +907,7 @@ imgStyleClass=value
 										</cfquery>
 									<cfloop query="relm">
 									<div class="comma2 d-inline">
-										 <a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a><span>, </span>
+										 <a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.mid#</cfif>">#relm.display#</a><span>, </span>
 									</div>
 									<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 									</cfloop> 
