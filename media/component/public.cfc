@@ -895,7 +895,7 @@ imgStyleClass=value
 									</cfquery>
 									<span class="text-capitalize one">#relm1.label#: </span>
 									<cfloop query="relm1">
-										<a class="font-weight-lessbold" href="#relm1.href##relm.pk#">#relm1.display#</a><span class="two">, </span>
+										<a class="font-weight-lessbold" href="#relm1.href##relm1.pk#">#relm1.display#</a><span class="two">, </span>
 									</cfloop>
 									<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 									<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
