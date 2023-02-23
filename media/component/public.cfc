@@ -801,7 +801,7 @@ imgStyleClass=value
 			<table class="table table-responsive-sm mb-3 border-none small90">
 					<thead class="thead-dark">
 						<tr>
-							<th scope="col" style = "width: 150px;">Label</th>
+							<th scope="col">Label</th>
 							<th scope="col">Value</th>
 						</tr>
 					</thead>
@@ -835,13 +835,12 @@ imgStyleClass=value
 							</cfif>
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
-							<td class="w-75">
+							<td class="w-80">
 								<div class="comma2 d-inline onlyfirst">
 									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct mr.media_id from media_relations mr where mr.media_id = #spec.pk#
 									</cfquery>
 									<cfloop query="relm">#relm.media_id#</cfloop>
-			
 								</div>
 							</td>
 						</tr>
