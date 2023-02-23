@@ -893,7 +893,7 @@ imgStyleClass=value
 										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
 									</cfquery>
 									
-									<cfloop query="relm1"><span class="text-capitalize one">#relm1.label# </span>
+									<cfloop query="relm1"><span class="text-capitalize one">#relm1.label#: </span>
 										<a class="font-weight-lessbold" href="#relm1.href##relm1.pk#">#relm1.display#</a><cfif relm1.recordcount gt 1><span class="two">, </span></cfif>
 										<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 									</cfloop>
