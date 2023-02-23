@@ -900,7 +900,7 @@ imgStyleClass=value
 									<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 									<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Cataloged Item--->
-										select distinct mr.media_id as mid, '/guid/' as href, flat.guid as display, mr.media_relationship as rel, flat.collection_object_id as pk, ct.label as label
+										select distinct flat.collection_object_id as pk, '/guid/' as href, flat.guid as display, ct.label as label
 										from media_relations mr
 										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id
 										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
@@ -909,7 +909,7 @@ imgStyleClass=value
 										and mr.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media.media_id#" />
 										UNION
 										<!---Underscore Collection--->
-										select distinct  mr.media_id as mid, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, uc.collection_name as display, mr.media_relationship as rel, ur.underscore_collection_id as pk, ct.label as label
+										select distinct ur.underscore_collection_id as pk, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, uc.collection_name as display, ct.label as label
 										from media_relations mr 
 										left join underscore_relation ur on ur.underscore_collection_id = mr.related_primary_key
 										left join underscore_collection uc on uc.underscore_collection_id = ur.underscore_collection_id
