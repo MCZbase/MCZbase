@@ -772,10 +772,8 @@ imgStyleClass=value
 		</cfquery>--->
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT
-				media_label, label_value, agent_name, media_label_id
-			FROM
-				media_labels
+			SELECT media_label, label_value, agent_name, media_label_id
+			FROM media_labels
 				left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
 			WHERE
 				media_labels.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -786,12 +784,9 @@ imgStyleClass=value
 				</cfif>
 			</cfquery>
 			<cfquery name="keywords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					media_keywords.media_id, keywords
-				FROM
-					media_keywords
-				WHERE
-					media_keywords.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+				SELECT media_keywords.media_id, keywords
+				FROM media_keywords
+				WHERE media_keywords.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
 			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct mr.media_relationship,ct.Label as label, ct.auto_table
@@ -799,11 +794,11 @@ imgStyleClass=value
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 				where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
-				<h3 class="mx-2 h4 float-left">
-					Metadata 
-					<span class="mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span>
-				</h3>
-				<table class="table table-responsive-sm mb-3 border-none small90">
+			<h3 class="mx-2 h4 float-left">
+				Metadata 
+				<span class="mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span>
+			</h3>
+			<table class="table table-responsive-sm mb-3 border-none small90">
 					<thead class="thead-dark">
 						<tr>
 							<th scope="col">Label</th>
@@ -842,7 +837,11 @@ imgStyleClass=value
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td class="w-75">
 								<div class="comma2 d-inline onlyfirst">
-									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
+									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select media_id from media_relations where mr.media_id = #spec.pk#
+									</cfquery>
+									<cfloop query="relm.media_id">#relm.media_id#</cfloop>
+									<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 									<!---Agent--->
 									select an.agent_id as pk, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, ct.label as label
 									from media_relations mr
@@ -932,8 +931,8 @@ imgStyleClass=value
 									left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
 									where ct.auto_table = 'collecting_event'
 									and ce.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
-									</cfquery>
-									<cfif relm.label eq 'Ledger Entry for Cataloged Item'>
+									</cfquery>--->
+			<!---						<cfif relm.label eq 'Ledger Entry for Cataloged Item'>
 										<span class="text-capitalize one">#relm.label#: </span>
 										<cfloop query="relm">
 											<a class="font-weight-lessbold" href="#relm.href#<cfif relm.label contains 'cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a><span class="two">, </span>
@@ -943,7 +942,7 @@ imgStyleClass=value
 											<a class="font-weight-lessbold" href="#relm.href#<cfif relm.label contains 'cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a>
 											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 										</cfloop>
-									</cfif>
+									</cfif>--->
 								</div>
 							</td>
 						</tr>
