@@ -906,14 +906,14 @@ imgStyleClass=value
 										and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 										and mr.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media.media_id#" />
 										</cfquery>
-									<cfloop query="relm">
-									<div class="comma2 d-inline onlyfirst">
-										<span class="one">#relm.rel#: </span>
-										 <a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.mid#</cfif>">#relm.display#</a>
-										<span class="two">, </span>
-									</div>
-									<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-								</cfloop>	
+										<div class="comma2 d-inline onlyfirst">
+											<cfloop query="relm">
+												<span class="one">#relm.rel#: </span>
+										 		<a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.mid#</cfif>">#relm.display#</a>
+												<span class="two">, </span>
+											</cfloop>
+										<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
+										</div>
 							</cfloop>
 							</td>
 						</tr>
