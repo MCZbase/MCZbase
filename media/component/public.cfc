@@ -837,8 +837,8 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td>
-							<!---<cfloop query = 'media_rel'><span class="text-capitalize">#media_rel.label#:</span>--->
-								<cfloop query="spec">
+								<div class="comma2 d-inline onlyfirst">
+									<cfloop query="spec">
 									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										select distinct mr.media_id as mid, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, mr.media_relationship as rel
 										from media_relations mr
@@ -906,16 +906,14 @@ imgStyleClass=value
 										and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 										and mr.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media.media_id#" />
 										</cfquery>
-										<div class="comma2 d-inline onlyfirst">
-											<span>#relm.rel#: </span>
+											<span class="one">#relm.rel#: </span>
 											<cfloop query="relm">
-												
-										 		<a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.mid#</cfif>">#relm.display#</a>
+												<a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.mid#</cfif>">#relm.display#</a>
 												<span class="two">, </span>
 											</cfloop>
 										<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-										</div>
-							</cfloop>
+									</cfloop>
+								</div>
 							</td>
 						</tr>
 					<cfelse>
