@@ -932,7 +932,7 @@ imgStyleClass=value
 										order by mid asc
 										</cfquery>
 										<cfif relm.rel eq 'ledger entry for cataloged_item'>
-											<span class="one">#relm.rel#: </span>
+											<span class="text-capitalize one">#relm.rel#: </span>
 											<cfloop query="relm">
 												<a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.mid#</cfif>">#relm.display#</a><span class="two">, </span>
 											</cfloop>
