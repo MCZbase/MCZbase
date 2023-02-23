@@ -906,13 +906,20 @@ imgStyleClass=value
 											where mr.media_relationship like '%cataloged_item'
 											and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 											</cfquery>
-											<cfif media_rel.media_relationship contains 'catlaloged_item'>
+											<cfif media_rel.media_relationship eq 'shows catlaloged_item'>
 												<a class="font-weight-lessbold" href="#relm.href##relm.display#">#relm.display#</a><span>, </span>
 											</cfif>
-											<cfif media_rel.media_relationship contains 'agent'>
+											<cfif media_rel.media_relationship eq 'ledger entry for catlaloged_item'>
+												<a class="font-weight-lessbold" href="#relm.href##relm.display#">#relm.display#</a><span>, </span>
+											</cfif>
+											<cfif media_rel.media_relationship eq 'shows publication'>
 												<a class="font-weight-lessbold" href="#relm.href##relm.pk#">#relm.display#</a><span>, </span>
-											<cfelse>
-												<a class="font-weight-lessbold" href="#relm.href##relm.pk#">#relm.pk#</a><span>, </span>
+											</cfif>
+											<cfif media_rel.media_relationship eq 'shows locality'> 
+												<a class="font-weight-lessbold" href="#relm.href##relm.pk#">#relm.display#</a><span>, </span></cfloop>
+											</cfif>
+											<cfif media_rel.media_relationship contains 'agent'>
+												<a class="font-weight-lessbold" href="#relm.href##relm.pk#">#relm.pk#</a><span> </span>
 											</cfif>
 										</div>
 											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
