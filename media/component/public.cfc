@@ -841,8 +841,8 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td class="w-75">
-								<div class="comma2 d-inline onlyfirst">
-									<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
+							<!---	<div class="comma2 d-inline onlyfirst">--->
+									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Agent--->
 										select an.agent_id as pk, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, ct.label as label
 										from media_relations mr
@@ -890,13 +890,6 @@ imgStyleClass=value
 										and fp.format_style = 'short' 
 										and ct.auto_table = 'publication' 
 										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
-									</cfquery>
-									
-									<cfloop query="relm1"><span class="text-capitalize one">#relm1.label#: </span>
-										<a class="font-weight-lessbold" href="#relm1.href##relm1.pk#">#relm1.display#</a><cfif relm1.recordcount gt 1><span class="two">, </span></cfif>
-										<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-									</cfloop>
-									<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Cataloged Item--->
 										select distinct flat.collection_object_id as pk, '/guid/' as href, flat.guid as display, ct.label as label
 										from media_relations mr
@@ -915,20 +908,7 @@ imgStyleClass=value
 										where ct.auto_table = 'underscore_collection'
 										and ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
-									</cfquery>
-									<cfif relm2.label eq 'Ledger Entry for Cataloged Item'>
-										<span class="text-capitalize one">#relm2.label#: </span>
-										<cfloop query="relm2">
-											<a class="font-weight-lessbold" href="#relm2.href#<cfif relm2.label contains 'cataloged_item'>#relm2.display#<cfelse>#relm2.pk#</cfif>">#relm2.display#</a><span class="two">, </span>
-										</cfloop>
-									<cfelse>
-										<cfloop query="relm2"><span class="two">#relm2.label#: </span>
-											<a class="font-weight-lessbold" href="#relm2.href#<cfif relm2.label contains 'cataloged_item'>#relm2.display#<cfelse>#relm2.pk#</cfif>">#relm2.display#</a>
-											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-										</cfloop>
-										
-									</cfif>
-									<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
+										UNION
 										<!---Media--->
 										select distinct mr.related_primary_key as pk, '/media/' as href, m.media_type as display, ct.label as label
 										from media m
@@ -937,17 +917,6 @@ imgStyleClass=value
 										where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
 										and ct.auto_table = 'media'
 										UNION
-										<!---Publication--->
-										select distinct p.publication_id as pk, '/publications/showPublication.cfm?publication_id=' as href, fp.formatted_publication as display, ct.label as label
-										from media_relations mr
-										left join publication p on mr.related_primary_key = p.publication_id
-										left join formatted_publication fp on fp.publication_id = p.publication_id
-										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
-										where p.publication_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
-										and fp.format_style = 'short' 
-										and ct.auto_table = 'publication' 
-								
-										UNION
 										<!---Locality--->
 										select distinct l.locality_id as pk, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, l.spec_locality as display, ct.label as label
 										from media_relations mr 
@@ -955,7 +924,6 @@ imgStyleClass=value
 										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
 										where mr.media_relationship like '%locality'
 										and l.locality_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
-									
 										UNION
 										<!---Collecting Event--->
 										select distinct ce.collecting_event_id as pk, '/showLocality.cfm?action=srch&collecting_event_id=' as href,  ce.verbatim_locality as display, ct.label as label
@@ -964,15 +932,18 @@ imgStyleClass=value
 										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
 										where ct.auto_table = 'collecting_event'
 										and ce.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
-									
 									</cfquery>
-									<cfloop query="spec"><span class="two">#relm3.label#: </span>
-										<cfloop query="relm3">
-											<a class="font-weight-lessbold" href="#relm3.href##relm3.pk#">#relm3.display#</a><span class="two"> </span>
+									<cfif relm.label eq 'Ledger Entry for Cataloged Item'>
+										<span class="text-capitalize one">#relm.label#: </span>
+										<cfloop query="relm">
+											<a class="font-weight-lessbold" href="#relm.href#<cfif relm.label contains 'cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a><span class="two">, </span>
+										</cfloop>
+									<cfelse>
+										<cfloop query="relm"><span class="two">#relm.label#: </span>
+											<a class="font-weight-lessbold" href="#relm.href#<cfif relm.label contains 'cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a>
 											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 										</cfloop>
-									</cfloop>
-									
+									</cfif>
 								</div>
 							</td>
 						</tr>
