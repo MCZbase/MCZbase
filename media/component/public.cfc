@@ -918,6 +918,19 @@ imgStyleClass=value
 										and ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
 									</cfquery>
+									<cfif relm2.label eq 'Ledger Entry for Cataloged Item'>
+										<span class="text-capitalize one">#relm.label#: </span>
+										<cfloop query="relm2">
+											<a class="font-weight-lessbold" href="#relm2.href#<cfif relm2.rel contains 'cataloged_item'>#relm2.display#<cfelse>#relm2.pk#</cfif>">#relm2.display#</a><span class="two">, </span>
+										</cfloop>
+										<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
+									<cfelse>
+										<span class="two">#relm2.label#: </span>
+										<cfloop query="relm2">
+											<a class="font-weight-lessbold" href="#relm2.href#<cfif relm.rel contains 'cataloged_item'>#relm2.display#<cfelse>#relm2.pk#</cfif>">#relm2.display#</a><span class="two"> </span>
+										</cfloop>
+										<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
+									</cfif>
 									<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Media--->
 										select distinct mr.media_id as mid,'/media/' as href, m.media_type as display, mr.media_relationship as rel, mr.media_id as pk, ct.label as label
