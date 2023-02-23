@@ -507,6 +507,7 @@ imgStyleClass=value
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'publication'
 		UNION
+		<!---Publication--->
 		select distinct c.collection_object_id as pk, cmr.media_relationship as rel, 'Cited Specimen' as label, ct.auto_table as at
 		from media_relations cmr 
 		join citation c on cmr.related_primary_key = c.publication_id and cmr.media_relationship = 'shows cataloged_item'
@@ -610,12 +611,10 @@ imgStyleClass=value
 		UNION
 		<!---Agent--->
 		select distinct agent.agent_id as pk, ct.media_relationship as rel, ct.label as label, an.agent_name as at
-		from agent_name an
-		left join agent on an.AGENT_name_ID = agent.preferred_agent_name_id
-		left join media_relations mr on agent.agent_id = mr.related_primary_key
+		from preferred_agent_name an
+		left join media_relations mr on an.agent_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and an.agent_name_type = 'preferred'
 		and ct.auto_table = 'agent' 
 	</cfquery>
 
@@ -847,10 +846,10 @@ imgStyleClass=value
 										<!---Agent--->
 										select an.agent_id as pk, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, ct.label as label
 										from media_relations mr
-										left join agent_name an on an.agent_id=mr.related_primary_key
+										left join preferred_agent_name an on an.agent_id=mr.related_primary_key
 										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
 										where ct.auto_table = 'agent'
-										and an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.at#" />
+										and an.agent_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 										and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 										UNION
 										<!---Accession--->
