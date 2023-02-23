@@ -897,7 +897,6 @@ imgStyleClass=value
 									<cfloop query="relm1">
 										<a class="font-weight-lessbold" href="#relm1.href##relm1.pk#">#relm1.display#</a><span class="two">, </span>
 									</cfloop>
-									<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 									<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Cataloged Item--->
 										select distinct flat.collection_object_id as pk, '/guid/' as href, flat.guid as display, ct.label as label
@@ -967,13 +966,12 @@ imgStyleClass=value
 										where ct.auto_table = 'collecting_event'
 										and ce.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
-										</cfquery>
-											<span class="two">#relm3.label#: </span>
-											<cfloop query="relm3">
-												<a class="font-weight-lessbold" href="#relm3.href##relm3.pk#">#relm3.display#</a><span class="two"> </span>
-											</cfloop>
-											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
+									</cfquery>
 									
+									<cfloop query="relm3"><span class="two">#relm3.label#: </span>
+										<a class="font-weight-lessbold" href="#relm3.href##relm3.pk#">#relm3.display#</a><span class="two"> </span>
+									</cfloop>
+									<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 								</div>
 							</td>
 						</tr>
