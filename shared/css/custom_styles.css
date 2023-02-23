@@ -37,8 +37,8 @@ input.goodPick, select.goodPick, textarea.goodPick {
 .line90 {
 	line-height: .90rem;
 }
-.onlyfirst{display:none;}
-.onlyfirst:first-child { display:inline-block}
+.onlyfirst span.one{display:none;}
+.onlyfirst span.one:first-child { display:inline-block}
 .text-muted {
 	color: #6a737b!important;
 }
@@ -1873,8 +1873,8 @@ tr.line-top:first-child {
 input#readMore_check_id {
 	display: none!important;
 }
-.comma2 span{display:inline;}
-.comma2 span:last-child {display:none;}
+.comma2 span.two{display:inline;}
+.comma2 span.two:last-child {display:none;}
 .jqx-grid-load {
 	background-image: url("../../images/spinner_712_sm.gif");
 	background-position: 50% 50%;
