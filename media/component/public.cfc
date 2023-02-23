@@ -846,7 +846,7 @@ imgStyleClass=value
 											where mr.related_primary_key = #spec.pk#
 											order by display
 										</cfquery>
-										 #relm1.display#,
+										 #relm1.display#<span class="two">, </span>
 										</cfloop>
 									</cfif>
 									
