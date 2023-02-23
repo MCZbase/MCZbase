@@ -617,7 +617,6 @@ imgStyleClass=value
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and an.agent_name_type = 'preferred'
 		and ct.auto_table = 'agent' 
-		order by pk
 	</cfquery>
 
 		<!---<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -920,7 +919,7 @@ imgStyleClass=value
 										where mr.media_relationship like '%cataloged_item'
 										and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 										and mr.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media.media_id#" />
-										order by pk asc
+										order by display asc
 										</cfquery>
 											<span class="one">#relm.rel#: </span>
 											<cfloop query="relm">
