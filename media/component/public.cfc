@@ -921,9 +921,9 @@ imgStyleClass=value
 										and mr.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media.media_id#" />
 										order by mid asc
 										</cfquery>
-											<span class="one">#relm.rel#: </span>
+											<span class="two">#relm.rel#: </span>
 											<cfloop query="relm">
-												<a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.mid#</cfif>">#relm.display#</a><span class="two">, </span>
+												<a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.mid#</cfif>">#relm.display#</a><span class="one">, </span>
 											</cfloop>
 										<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 									</cfloop>
