@@ -852,7 +852,6 @@ imgStyleClass=value
 										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
 										where ct.auto_table = 'agent'
 										and an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.at#" />
-										and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 										UNION
 										<!---Accession--->
 										select distinct mr.media_id as mid, '/transactions/Accession.cfm?action=edit&transaction_id=' as href, ac.accn_number as display, mr.media_relationship as rel, ac.transaction_id as pk, ct.label as label
