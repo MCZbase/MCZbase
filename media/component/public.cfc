@@ -837,7 +837,7 @@ imgStyleClass=value
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td class="w-80">
 								<div class="comma2 d-inline onlyfirst">
-									<cfif media_rel.label eq 'cataloged_item'>
+									<cfif media_rel.auto_table eq 'cataloged_item'>
 										<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct mr.related_primary_key as pk, mr.media_relationship as rel, flat.guid as display 
 											from media_relations mr
