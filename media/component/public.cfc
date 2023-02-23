@@ -837,7 +837,7 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td>
-							<cfloop query = 'media_rel'><span class="text-capitalize">#media_rel.label#:</span>
+							<!---<cfloop query = 'media_rel'><span class="text-capitalize">#media_rel.label#:</span>--->
 								<cfloop query="spec">
 									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										select distinct mr.media_id as mid, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, mr.media_relationship as rel
@@ -906,11 +906,11 @@ imgStyleClass=value
 										and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 										</cfquery>
 									<cfloop query="relm">
-									<div class="comma2 d-inline">
+									<div class="comma2 d-inline">#relm.rel#: 
 										 <a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.mid#</cfif>">#relm.display#</a><span>, </span>
 									</div>
 									<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-									</cfloop> 
+								<!---	</cfloop> --->
 								</cfloop>	
 							</cfloop>
 							</td>
