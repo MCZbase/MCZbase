@@ -239,8 +239,6 @@
 																</div>
 																<cfset i=i+1>
 															</cfloop>
-														<cfelse>
-															<h3 class="h4 px-2 ml-1 pt-2 onlyfirst">None</h3>
 														</cfif>
 													</cfloop>
 												<cfelse>
