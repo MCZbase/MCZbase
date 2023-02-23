@@ -844,7 +844,7 @@ imgStyleClass=value
 							<td class="w-75">
 								<div class="comma2 d-inline onlyfirst">
 									<cfloop query="spec">
-									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
+									<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Agent--->
 										select mr.media_id as mid, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, mr.media_relationship as rel, an.agent_id as pk, ct.label as label
 										from media_relations mr
@@ -882,6 +882,44 @@ imgStyleClass=value
 										and l.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
 										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
 										UNION
+										<!---Publication--->
+										select distinct mr.media_id as mid,'/publications/showPublication.cfm?publication_id=' as href,  fp.formatted_publication as display, mr.media_relationship as rel, p.publication_id as pk, ct.label as label
+										from media_relations mr
+										left join publication p on mr.related_primary_key = p.publication_id
+										left join formatted_publication fp on fp.publication_id = p.publication_id
+										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
+										where p.publication_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
+										and fp.format_style = 'short' 
+										and ct.auto_table = 'publication' 
+										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
+									</cfquery>
+									<span class="text-capitalize one">#relm1.label#: </span>
+									<cfloop query="relm1">
+										<a class="font-weight-lessbold" href="#relm1.href##relm.pk#">#relm1.display#</a><span class="two">, </span>
+									</cfloop>
+									<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
+									<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
+										<!---Cataloged Item--->
+										select distinct mr.media_id as mid, '/guid/' as href, flat.guid as display, mr.media_relationship as rel, flat.collection_object_id as pk, ct.label as label
+										from media_relations mr
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id
+										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
+										where ct.auto_table = 'cataloged_item'
+										and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+										and mr.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media.media_id#" />
+										order by mid asc
+										UNION
+										<!---Underscore Collection--->
+										select distinct  mr.media_id as mid, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, uc.collection_name as display, mr.media_relationship as rel, ur.underscore_collection_id as pk, ct.label as label
+										from media_relations mr 
+										left join underscore_relation ur on ur.underscore_collection_id = mr.related_primary_key
+										left join underscore_collection uc on uc.underscore_collection_id = ur.underscore_collection_id
+										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
+										where ct.auto_table = 'underscore_collection'
+										and ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
+									</cfquery>
+									<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Media--->
 										select distinct mr.media_id as mid,'/media/' as href, m.media_type as display, mr.media_relationship as rel, mr.media_id as pk, ct.label as label
 										from media m
@@ -901,16 +939,6 @@ imgStyleClass=value
 										and ct.auto_table = 'publication' 
 										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
 										UNION
-										<!---Underscore Collection--->
-										select distinct  mr.media_id as mid, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, uc.collection_name as display, mr.media_relationship as rel, ur.underscore_collection_id as pk, ct.label as label
-										from media_relations mr 
-										left join underscore_relation ur on ur.underscore_collection_id = mr.related_primary_key
-										left join underscore_collection uc on uc.underscore_collection_id = ur.underscore_collection_id
-										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
-										where ct.auto_table = 'underscore_collection'
-										and ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
-										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
-										UNION
 										<!---Locality--->
 										select distinct  mr.media_id as mid, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, l.spec_locality as display, mr.media_relationship as rel, l.locality_id as pk, ct.label as label
 										from media_relations mr 
@@ -928,16 +956,6 @@ imgStyleClass=value
 										where ct.auto_table = 'collecting_event'
 										and ce.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
-										UNION
-										<!---Cataloged Item--->
-										select distinct mr.media_id as mid, '/guid/' as href, flat.guid as display, mr.media_relationship as rel, flat.collection_object_id as pk, ct.label as label
-										from media_relations mr
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id
-										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
-										where ct.auto_table = 'cataloged_item'
-										and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
-										and mr.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media.media_id#" />
-										order by mid asc
 										</cfquery>
 										<cfif relm.label eq 'Ledger Entry for Cataloged Item'>
 											<span class="text-capitalize one">#relm.label#: </span>
@@ -948,7 +966,7 @@ imgStyleClass=value
 										<cfelse>
 											<span class="two">#relm.label#: </span>
 											<cfloop query="relm">
-												<a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.pk#</a><span class="two"> </span>
+												<a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a><span class="two"> </span>
 											</cfloop>
 											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 										</cfif>
