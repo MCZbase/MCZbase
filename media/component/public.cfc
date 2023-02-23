@@ -904,6 +904,7 @@ imgStyleClass=value
 										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id 
 										where mr.media_relationship like '%cataloged_item'
 										and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+										and mr.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media.media_id#" />
 										</cfquery>
 									<cfloop query="relm">
 									<div class="comma2 d-inline">#relm.rel#: 
