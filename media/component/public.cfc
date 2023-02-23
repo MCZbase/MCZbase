@@ -838,7 +838,7 @@ imgStyleClass=value
 							<td class="w-75">
 								<div class="comma2 d-inline onlyfirst">
 									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select media_id from media_relations where mr.media_id = #spec.pk#
+										select mr.media_id from media_relations mr where mr.media_id = #spec.pk#
 									</cfquery>
 									<cfloop query="relm">#relm.media_id#</cfloop>
 			
