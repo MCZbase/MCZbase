@@ -907,7 +907,7 @@ imgStyleClass=value
 										and mr.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media.media_id#" />
 										</cfquery>
 									<cfloop query="relm">
-									<div class=" d-inline"><span class="onlyfirst">#relm.rel#: </span>
+									<div class="comma2 d-inline"><span class="onlyfirst">#relm.rel#: </span>
 										 <a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.mid#</cfif>">#relm.display#</a><span>, </span>
 									</div>
 									<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
