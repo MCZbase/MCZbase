@@ -883,7 +883,7 @@ imgStyleClass=value
 										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
 										UNION
 										<!---Publication--->
-										select distinct mr.media_id as mid,'/publications/showPublication.cfm?publication_id=' as href,  fp.formatted_publication as display, mr.media_relationship as rel, p.publication_id as pk, ct.label as label
+										select distinct p.publication_id as pk,'/publications/showPublication.cfm?publication_id=' as href, fp.formatted_publication as display, ct.label as label
 										from media_relations mr
 										left join publication p on mr.related_primary_key = p.publication_id
 										left join formatted_publication fp on fp.publication_id = p.publication_id
