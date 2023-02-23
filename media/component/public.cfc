@@ -837,10 +837,16 @@ imgStyleClass=value
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td class="w-80">
 								<div class="comma2 d-inline onlyfirst">
-									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select distinct mr.related_primary_key,mr.media_relationship from media_relations mr where mr.related_primary_key = #spec.pk#
-									</cfquery>
-									<cfloop query="relm">#relm.media_relationship#: #relm.related_primary_key#, </cfloop>
+									<cfif media_rel.label eq 'cataloged_item'>
+										<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select distinct mr.related_primary_key as pk, mr.media_relationship as rel, flat.guid as display 
+											from media_relations mr
+											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id 
+											where mr.related_primary_key = #spec.pk#
+										</cfquery>
+										<cfloop query="relm1">#relm1.media_relationship#: #relm1.related_primary_key#, </cfloop>
+									</cfif>
+									
 								</div>
 							</td>
 						</tr>
