@@ -908,7 +908,8 @@ imgStyleClass=value
 											</cfquery>
 											<cfif media_rel.media_relationship contains 'catlaloged_item'>
 												<a class="font-weight-lessbold" href="#relm.href##relm.display#">#relm.display#</a><span>, </span>
-											<cfelseif  media_rel.media_relationship contains 'agent'>
+											</cfif>
+											<cfif media_rel.media_relationship contains 'agent'>
 												<a class="font-weight-lessbold" href="#relm.href##relm.pk#">#relm.display#</a><span>, </span>
 											<cfelse>
 												<a class="font-weight-lessbold" href="#relm.href##relm.pk#">#relm.pk#</a><span>, </span>
