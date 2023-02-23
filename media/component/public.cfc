@@ -840,6 +840,19 @@ imgStyleClass=value
 									<div class="comma2 d-inline onlyfirst">
 										<cfloop query="spec">
 											<div class="comma2 d-inline">
+											<cfif media_rel.auto_table eq 'media'>: 
+												<cfloop query="spec">
+													<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select mr.related_primary_key, m.media_id 
+														from media m, media_relations mr 
+														where mr.media_id = m.media_id and mr.media_relationship = 'related to media' 
+														and m.media_id = #media1.media_id#
+													</cfquery>
+													<a class="font-weight-lessbold" href="/media/#relm8.related_primary_key#"> #relm8.related_primary_key#</a>
+													<span>, </span>
+												</cfloop>
+											</cfif>
+
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 											select distinct an.agent_id as pk, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, mr.media_relationship as rel
 											from media_relations mr
