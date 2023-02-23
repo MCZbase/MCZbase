@@ -907,7 +907,6 @@ imgStyleClass=value
 										where ct.auto_table = 'cataloged_item'
 										and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 										and mr.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media.media_id#" />
-										order by mid asc
 										UNION
 										<!---Underscore Collection--->
 										select distinct  mr.media_id as mid, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, uc.collection_name as display, mr.media_relationship as rel, ur.underscore_collection_id as pk, ct.label as label
