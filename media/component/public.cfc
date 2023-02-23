@@ -939,7 +939,7 @@ imgStyleClass=value
 										and mr.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media.media_id#" />
 										order by mid asc
 										</cfquery>
-										<cfif relm.rel gt 1>
+										<cfif relm.label eq 'Ledger Entry for Cataloged Item'>
 											<span class="text-capitalize one">#relm.label#: </span>
 											<cfloop query="relm">
 												<a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.mid#</cfif>">#relm.display#</a><span class="two">, </span>
