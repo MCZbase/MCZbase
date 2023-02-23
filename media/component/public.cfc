@@ -968,19 +968,11 @@ imgStyleClass=value
 										and ce.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
 										</cfquery>
-<!---										<cfif relm.label eq 'Ledger Entry for Cataloged Item'>
-											<span class="text-capitalize one">#relm.label#: </span>
-											<cfloop query="relm">
-												<a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a><span class="two">, </span>
+											<span class="two">#relm3.label#: </span>
+											<cfloop query="relm3">
+												<a class="font-weight-lessbold" href="#relm3.href##relm3.pk#">#relm3.display#</a><span class="two"> </span>
 											</cfloop>
 											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-										<cfelse>
-											<span class="two">#relm.label#: </span>
-											<cfloop query="relm">
-												<a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a><span class="two"> </span>
-											</cfloop>
-											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-										</cfif>--->
 									</cfloop>
 								</div>
 							</td>
