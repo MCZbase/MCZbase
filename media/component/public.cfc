@@ -836,7 +836,7 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td class="w-80">
-								<cfloop query="#media_rel.label#">
+								<cfloop query="media_rel">#media_rel.label#
 									<div class="comma2 d-inline onlyfirst">
 										<cfloop query="spec">
 											<div class="comma2 d-inline">
