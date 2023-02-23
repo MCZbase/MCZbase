@@ -841,7 +841,7 @@ imgStyleClass=value
 							</cfif>
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
-							<td class="w-25">
+							<td class="w-75">
 								<div class="comma2 d-inline onlyfirst">
 									<cfloop query="spec">
 									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
