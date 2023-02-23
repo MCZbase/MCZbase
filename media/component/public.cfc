@@ -843,95 +843,95 @@ imgStyleClass=value
 							<td class="w-75">
 								<div class="comma2 d-inline onlyfirst">
 									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
-										<!---Agent--->
-										select an.agent_id as pk, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, ct.label as label
-										from media_relations mr
-										left join preferred_agent_name an on an.agent_id=mr.related_primary_key
-										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
-										where ct.auto_table = 'agent'
-										and an.agent_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
-										and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
-										UNION
-										<!---Accession--->
-										select distinct ac.transaction_id as pk, '/transactions/Accession.cfm?action=edit&transaction_id=' as href, ac.accn_number as display, ct.label as label
-										from media_relations mr
-										left join accn ac on ac.transaction_id = mr.related_primary_key
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on ac.transaction_id = flat.accn_id 
-										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
-										where ct.auto_table = 'accn'  
-										and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
-										and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
-										UNION
-										<!---Deaccession--->
-										select distinct dac.transaction_id as pk, '/transactions/Deaccession.cfm?action=edit&transaction_id=' as href,  dac.deacc_number as display, ct.label as label
-										from media_relations mr
-										left join deaccession dac on dac.transaction_id = mr.related_primary_key
-										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
-										where ct.auto_table = 'deaccession' 
-										and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
-										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id# >
-										UNION
-										<!---Loan--->
-										select distinct l.transaction_id as pk,'/transactions/Loan.cfm?action=editLoan&transaction_id=' as href, l.loan_number as display, ct.label as label
-										from media_relations mr 
-										left join loan l on l.transaction_id = mr.related_primary_key
-										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
-										where ct.auto_table = 'loan' 
-										and l.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
-										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
-										UNION
-										<!---Publication--->
-										select distinct p.publication_id as pk,'/publications/showPublication.cfm?publication_id=' as href, fp.formatted_publication as display, ct.label as label
-										from media_relations mr
-										left join publication p on mr.related_primary_key = p.publication_id
-										left join formatted_publication fp on fp.publication_id = p.publication_id
-										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
-										where p.publication_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
-										and fp.format_style = 'short' 
-										and ct.auto_table = 'publication' 
-										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
-										<!---Cataloged Item--->
-										select distinct flat.collection_object_id as pk, '/guid/' as href, flat.guid as display, ct.label as label
-										from media_relations mr
-										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id
-										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
-										where ct.auto_table = 'cataloged_item'
-										and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
-										and mr.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media.media_id#" />
-										UNION
-										<!---Underscore Collection--->
-										select distinct ur.underscore_collection_id as pk, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, uc.collection_name as display, ct.label as label
-										from media_relations mr 
-										left join underscore_relation ur on ur.underscore_collection_id = mr.related_primary_key
-										left join underscore_collection uc on uc.underscore_collection_id = ur.underscore_collection_id
-										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
-										where ct.auto_table = 'underscore_collection'
-										and ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
-										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
-										UNION
-										<!---Media--->
-										select distinct mr.related_primary_key as pk, '/media/' as href, m.media_type as display, ct.label as label
-										from media m
-										left join media_relations mr on m.media_id = mr.media_id
-										left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-										where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
-										and ct.auto_table = 'media'
-										UNION
-										<!---Locality--->
-										select distinct l.locality_id as pk, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, l.spec_locality as display, ct.label as label
-										from media_relations mr 
-										left join locality l on l.locality_id = mr.related_primary_key
-										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
-										where mr.media_relationship like '%locality'
-										and l.locality_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
-										UNION
-										<!---Collecting Event--->
-										select distinct ce.collecting_event_id as pk, '/showLocality.cfm?action=srch&collecting_event_id=' as href,  ce.verbatim_locality as display, ct.label as label
-										from media_relations mr
-										left join collecting_event ce on ce.collecting_event_id = mr.related_primary_key
-										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
-										where ct.auto_table = 'collecting_event'
-										and ce.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+									<!---Agent--->
+									select an.agent_id as pk, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, ct.label as label
+									from media_relations mr
+									left join preferred_agent_name an on an.agent_id=mr.related_primary_key
+									left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
+									where ct.auto_table = 'agent'
+									and an.agent_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+									and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id# >
+									UNION
+									<!---Accession--->
+									select distinct ac.transaction_id as pk, '/transactions/Accession.cfm?action=edit&transaction_id=' as href, ac.accn_number as display, ct.label as label
+									from media_relations mr
+									left join accn ac on ac.transaction_id = mr.related_primary_key
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on ac.transaction_id = flat.accn_id 
+									left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
+									where ct.auto_table = 'accn'  
+									and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
+									and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id# >
+									UNION
+									<!---Deaccession--->
+									select distinct dac.transaction_id as pk, '/transactions/Deaccession.cfm?action=edit&transaction_id=' as href, dac.deacc_number as display, ct.label as label
+									from media_relations mr
+									left join deaccession dac on dac.transaction_id = mr.related_primary_key
+									left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
+									where ct.auto_table = 'deaccession' 
+									and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
+									and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id# >
+									UNION
+									<!---Loan--->
+									select distinct l.transaction_id as pk,'/transactions/Loan.cfm?action=editLoan&transaction_id=' as href, l.loan_number as display, ct.label as label
+									from media_relations mr 
+									left join loan l on l.transaction_id = mr.related_primary_key
+									left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
+									where ct.auto_table = 'loan' 
+									and l.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
+									and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
+									UNION
+									<!---Publication--->
+									select distinct p.publication_id as pk,'/publications/showPublication.cfm?publication_id=' as href, fp.formatted_publication as display, ct.label as label
+									from media_relations mr
+									left join publication p on mr.related_primary_key = p.publication_id
+									left join formatted_publication fp on fp.publication_id = p.publication_id
+									left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
+									where p.publication_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
+									and fp.format_style = 'short' 
+									and ct.auto_table = 'publication' 
+									and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
+									<!---Cataloged Item--->
+									select distinct flat.collection_object_id as pk, '/guid/' as href, flat.guid as display, ct.label as label
+									from media_relations mr
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id
+									left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
+									where ct.auto_table = 'cataloged_item'
+									and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+									and mr.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#media.media_id#" />
+									UNION
+									<!---Underscore Collection--->
+									select distinct ur.underscore_collection_id as pk, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, uc.collection_name as display, ct.label as label
+									from media_relations mr 
+									left join underscore_relation ur on ur.underscore_collection_id = mr.related_primary_key
+									left join underscore_collection uc on uc.underscore_collection_id = ur.underscore_collection_id
+									left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
+									where ct.auto_table = 'underscore_collection'
+									and ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+									and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
+									UNION
+									<!---Media--->
+									select distinct mr.related_primary_key as pk, '/media/' as href, m.media_type as display, ct.label as label
+									from media m
+									left join media_relations mr on m.media_id = mr.media_id
+									left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+									where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
+									and ct.auto_table = 'media'
+									UNION
+									<!---Locality--->
+									select distinct l.locality_id as pk, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, l.spec_locality as display, ct.label as label
+									from media_relations mr 
+									left join locality l on l.locality_id = mr.related_primary_key
+									left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
+									where mr.media_relationship like '%locality'
+									and l.locality_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+									UNION
+									<!---Collecting Event--->
+									select distinct ce.collecting_event_id as pk, '/showLocality.cfm?action=srch&collecting_event_id=' as href, ce.verbatim_locality as display, ct.label as label
+									from media_relations mr
+									left join collecting_event ce on ce.collecting_event_id = mr.related_primary_key
+									left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
+									where ct.auto_table = 'collecting_event'
+									and ce.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 									</cfquery>
 									<cfif relm.label eq 'Ledger Entry for Cataloged Item'>
 										<span class="text-capitalize one">#relm.label#: </span>
