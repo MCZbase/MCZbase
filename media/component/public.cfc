@@ -931,11 +931,11 @@ imgStyleClass=value
 									<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Media--->
 										select distinct mr.media_id as mid,'/media/' as href, m.media_type as display, mr.media_relationship as rel, mr.media_id as pk, ct.label as label
-										from media m
-										left join media_relations mr on mr.media_id = m.media_id
-										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
-										where ct.auto_table = 'media' 
-										and m.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
+										from media
+										left join media_relations mr on media.media_id = mr.related_primary_key
+										left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+										where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+										and ct.auto_table = 'media'
 										UNION
 										<!---Publication--->
 										select distinct mr.media_id as mid,'/publications/showPublication.cfm?publication_id=' as href,  fp.formatted_publication as display, mr.media_relationship as rel, p.publication_id as pk, ct.label as label
