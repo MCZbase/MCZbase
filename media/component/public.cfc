@@ -843,7 +843,6 @@ imgStyleClass=value
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td class="w-75">
 								<div class="comma2 d-inline onlyfirst">
-								
 									<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Agent--->
 										select an.agent_id as pk, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, ct.label as label
@@ -893,9 +892,9 @@ imgStyleClass=value
 										and ct.auto_table = 'publication' 
 										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
 									</cfquery>
-									<span class="text-capitalize one">#relm1.label#: </span>
-									<cfloop query="relm1">
-										<a class="font-weight-lessbold" href="#relm1.href##relm1.pk#">#relm1.display#</a><span class="two">, </span>
+									
+									<cfloop query="relm1"><span class="text-capitalize one">#relm1.label# </span>
+										<a class="font-weight-lessbold" href="#relm1.href##relm1.pk#">#relm1.display#</a><cfif relm1.recordcount gt 1><span class="two">, </span></cfif>
 									</cfloop>
 									<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Cataloged Item--->
@@ -923,11 +922,11 @@ imgStyleClass=value
 											<a class="font-weight-lessbold" href="#relm2.href#<cfif relm2.label contains 'cataloged_item'>#relm2.display#<cfelse>#relm2.pk#</cfif>">#relm2.display#</a><span class="two">, </span>
 										</cfloop>
 									<cfelse>
-										<span class="two">#relm2.label#: </span>
-										<cfloop query="relm2">
-											<a class="font-weight-lessbold" href="#relm2.href#<cfif relm2.label contains 'cataloged_item'>#relm2.display#<cfelse>#relm2.pk#</cfif>">#relm2.display#</a><span class="two"> </span>
+										<cfloop query="relm2"><span class="two">#relm2.label#: </span>
+											<a class="font-weight-lessbold" href="#relm2.href#<cfif relm2.label contains 'cataloged_item'>#relm2.display#<cfelse>#relm2.pk#</cfif>">#relm2.display#</a>
+											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 										</cfloop>
-										<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
+										
 									</cfif>
 									<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Media--->
