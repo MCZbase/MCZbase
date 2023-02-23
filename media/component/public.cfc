@@ -841,7 +841,7 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td class="w-75">
-							<!---	<div class="comma2 d-inline onlyfirst">--->
+								<div class="comma2 d-inline onlyfirst">
 									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Agent--->
 										select an.agent_id as pk, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, ct.label as label
