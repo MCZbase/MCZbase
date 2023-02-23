@@ -843,7 +843,7 @@ imgStyleClass=value
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td class="w-75">
 								<div class="comma2 d-inline onlyfirst">
-									<cfloop query="spec">
+								
 									<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Agent--->
 										select an.agent_id as pk, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, ct.label as label
@@ -973,7 +973,7 @@ imgStyleClass=value
 												<a class="font-weight-lessbold" href="#relm3.href##relm3.pk#">#relm3.display#</a><span class="two"> </span>
 											</cfloop>
 											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-									</cfloop>
+									
 								</div>
 							</td>
 						</tr>
