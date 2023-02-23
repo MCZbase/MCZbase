@@ -916,7 +916,7 @@ imgStyleClass=value
 												<a class="font-weight-lessbold" href="#relm.href##relm.pk#">#relm.display#</a><span>, </span>
 											</cfif>
 											<cfif media_rel.media_relationship eq 'shows locality'> 
-												<a class="font-weight-lessbold" href="#relm.href##relm.pk#">#relm.display#</a><span>, </span></cfloop>
+												<a class="font-weight-lessbold" href="#relm.href##relm.pk#">#relm.display#</a><span>, </span>
 											</cfif>
 											<cfif media_rel.media_relationship contains 'agent'>
 												<a class="font-weight-lessbold" href="#relm.href##relm.pk#">#relm.pk#</a><span> </span>
