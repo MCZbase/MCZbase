@@ -966,10 +966,11 @@ imgStyleClass=value
 										and ce.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 									
 									</cfquery>
-									
-									<cfloop query="relm3"><span class="two">#relm3.label#: </span>
-										<a class="font-weight-lessbold" href="#relm3.href##relm3.pk#">#relm3.display#</a><span class="two"> </span>
-										<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
+									<cfloop query="spec"><span class="two">#relm3.label#: </span>
+										<cfloop query="relm3">
+											<a class="font-weight-lessbold" href="#relm3.href##relm3.pk#">#relm3.display#</a><span class="two"> </span>
+											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
+										</cfloop>
 									</cfloop>
 									
 								</div>
