@@ -869,7 +869,7 @@ imgStyleClass=value
 										left join deaccession dac on dac.transaction_id = mr.related_primary_key 
 										where mr.media_relationship like '%deaccession' 
 										and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
-										and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
+										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id# >
 										UNION
 										<!---Loan--->
 										select distinct mr.media_id as mid,'/transactions/Loan.cfm?action=editLoan&transaction_id=' as href, l.loan_number as display, mr.media_relationship as rel, l.transaction_id as pk
@@ -877,7 +877,7 @@ imgStyleClass=value
 										left join loan l on l.transaction_id = mr.related_primary_key 
 										where mr.media_relationship like '%loan' 
 										and l.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" /> 
-										and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
+										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
 										UNION
 										<!---Media--->
 										select distinct mr.media_id as mid,'/media/' as href, m.media_type as display, mr.media_relationship as rel, m.media_id as pk
@@ -885,7 +885,7 @@ imgStyleClass=value
 										left join media_relations mr on mr.media_id = m.media_id 
 										where mr.media_relationship like '%media' 
 										and m.media_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
-										and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
+										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
 										UNION
 										<!---Publication--->
 										select distinct mr.media_id as mid,'/publications/showPublication.cfm?publication_id=' as href,  fp.formatted_publication as display, mr.media_relationship as rel, p.publication_id as pk
@@ -895,7 +895,7 @@ imgStyleClass=value
 										where p.publication_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
 										and fp.format_style = 'short' 
 										and mr.media_relationship like '%publication'
-										and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
+										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
 										UNION
 										<!---Underscore Collection--->
 										select distinct  mr.media_id as mid, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, uc.collection_name as display, mr.media_relationship as rel, ur.underscore_collection_id as pk
@@ -904,6 +904,15 @@ imgStyleClass=value
 										left join underscore_collection uc on uc.underscore_collection_id = ur.underscore_collection_id
 										where mr.media_relationship like '%underscore_collection'
 										and ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
+										UNION
+										<!---Locality--->
+										select distinct  mr.media_id as mid, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, l.spec_locality as display, mr.media_relationship as rel, l.locality_id as pk
+										from media_relations mr 
+										left join locality l on l.locality_id = mr.related_primary_key
+										where mr.media_relationship like '%locality'
+										and l.locality_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
 										UNION
 										<!---Collecting Event--->
 										select distinct mr.media_id as mid, '/showLocality.cfm?action=srch&collecting_event_id=' as href,  ce.verbatim_locality as display, mr.media_relationship as rel, ce.collecting_event_id as pk
@@ -911,6 +920,7 @@ imgStyleClass=value
 										left join collecting_event ce on ce.collecting_event_id = mr.related_primary_key
 										where mr.media_relationship like '%collecting_event'
 										and ce.collecting_event_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
+										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
 										UNION
 										<!---Cataloged Item--->
 										select distinct mr.media_id as mid, '/guid/' as href, flat.guid as display, mr.media_relationship as rel, flat.collection_object_id as pk
