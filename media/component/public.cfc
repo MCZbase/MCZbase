@@ -838,14 +838,14 @@ imgStyleClass=value
 							<td class="w-80">
 								<div class="comma2 d-inline onlyfirst">
 									<cfif media_rel.auto_table contains 'cataloged_item'>
-										<cfloop query = 'spec'>
+										<cfloop query = 'spec'>#relm1.rel#:
 										<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct mr.related_primary_key as pk, mr.media_relationship as rel, flat.guid as display 
 											from media_relations mr
 											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id 
 											where mr.related_primary_key = #spec.pk#
 										</cfquery>
-										<cfloop query="relm1">#relm1.rel#: #relm1.display#, </cfloop>
+										<cfloop query="relm1"> #relm1.display#, </cfloop>
 										</cfloop>
 									</cfif>
 									
