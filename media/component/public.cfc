@@ -930,7 +930,7 @@ imgStyleClass=value
 									</cfif>
 									<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Media--->
-										select distinct mr.media_id as mid,'/media/' as href, m.media_type as display, mr.media_relationship as rel, mr.media_id as pk, ct.label as label
+										select distinct mr.media_id as mid,'/media/' as href, 'media' as display, mr.media_relationship as rel, mr.media_id as pk, ct.label as label
 										from media
 										left join media_relations mr on media.media_id = mr.related_primary_key
 										left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
