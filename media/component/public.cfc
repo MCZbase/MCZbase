@@ -840,7 +840,7 @@ imgStyleClass=value
 									<cfif media_rel.auto_table contains 'cataloged_item'>#media_rel.label#:
 										<cfloop query = 'spec'>
 										<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select distinct mr.related_primary_key as pk, "/guid/" as link, flat.guid as display 
+											select distinct mr.related_primary_key as pk, '/guid/' as link, flat.guid as display 
 											from media_relations mr
 											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id 
 											where mr.related_primary_key = #spec.pk#
