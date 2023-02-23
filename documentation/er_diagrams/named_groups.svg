@@ -28,8 +28,11 @@
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath322_0_">
 <rect x="0" y="0" width="701" height="68" />
 </clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath746_0_">
+<rect x="0" y="0" width="134" height="34" />
+</clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath402_0_">
-<rect x="0" y="0" width="311" height="49" />
+<rect x="0" y="0" width="311" height="60" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath437_0_">
 <rect x="0" y="0" width="587" height="154" />
@@ -37,14 +40,23 @@
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath436_0_">
 <rect x="0" y="0" width="956" height="200" />
 </clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath748_0_">
+<rect x="0" y="0" width="129" height="82" />
+</clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath321_0_">
 <rect x="0" y="0" width="547" height="69" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath747_0_">
+<rect x="0" y="0" width="130" height="119" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath320_0_">
 <rect x="0" y="0" width="509" height="100" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath167_0_">
 <rect x="0" y="0" width="474" height="73" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath745_0_">
+<rect x="0" y="0" width="344" height="90" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath438_0_">
 <rect x="0" y="0" width="825" height="217" />
@@ -67,9 +79,9 @@
 <path stroke-dasharray="none" d="M1426.0 563.0 L1432.0 551.0 L1438.0 563.0 M1426.0 550.4000005722046 L1438.0 550.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M646 802 L646 754" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="646 802 643 796 649 796" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M652.0 754.0 L646.0 766.0 L640.0 754.0 M652.0 766.5999994277954 L640.0 766.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M639 802 L639 754" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="639 802 636 796 642 796" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M645.0 754.0 L639.0 766.0 L633.0 754.0 M645.0 766.5999994277954 L633.0 766.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
 <path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1253 276 L969 276" />
@@ -92,14 +104,14 @@
 <path stroke-dasharray="none" d="M1411.0 563.0 L1417.0 551.0 L1423.0 563.0 M1411.0 550.4000005722046 L1423.0 550.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1211 563 L1211 511" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1211 563 1208 557 1214 557" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M1217.0 511.0 L1211.0 523.0 L1205.0 511.0 M1217.0 523.5999994277954 L1205.0 523.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1240 563 L1240 512" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1240 563 1237 557 1243 557" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1246.0 512.0 L1240.0 524.0 L1234.0 512.0 M1246.0 524.5999994277954 L1234.0 524.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M224 798 L224 754" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="224 798 221 792 227 792" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M230.0 754.0 L224.0 766.0 L218.0 754.0 M230.0 766.5999994277954 L218.0 766.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M168 804 L168 754" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="168 804 165 798 171 798" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M174.0 754.0 L168.0 766.0 L162.0 754.0 M174.0 766.5999994277954 L162.0 766.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
 <path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1433 232 L1433 166" />
@@ -112,14 +124,14 @@
 <path stroke-dasharray="none" d="M1123.0 149.0 L1111.0 143.0 L1123.0 137.0 M1110.4000005722046 149.0 L1110.4000005722046 137.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M672 320 L672 360" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="672 320 675 326 669 326" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M666.0 360.0 L672.0 348.0 L678.0 360.0 M666.0 347.4000005722046 L678.0 347.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M702 320 L702 361" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="702 320 705 326 699 326" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M696.0 361.0 L702.0 349.0 L708.0 361.0 M696.0 348.4000005722046 L708.0 348.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M425 320 L425 537" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="425 320 428 326 422 326" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M419.0 537.0 L425.0 525.0 L431.0 537.0 M419.0 524.4000005722046 L431.0 524.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M419 320 L419 537" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="419 320 422 326 416 326" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M413.0 537.0 L419.0 525.0 L425.0 537.0 M413.0 524.4000005722046 L425.0 524.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g  fill="rgb(204,255,255)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath9_0_)" transform="translate(1253,232)" >
 <rect x="0" y="0" width="360" height="97" />
@@ -306,8 +318,8 @@ VARCHAR2 (4000 BYTE)
 Agent roles that can be used with this type of underscore collection, e.g. PI For for grants.
 </text>
 </g>
-<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath402_0_)" transform="translate(69,798)" >
-<rect x="0" y="0" width="310" height="48" />
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath402_0_)" transform="translate(13,804)" >
+<rect x="0" y="0" width="310" height="59" />
 <text id="68E1FFB9-FFB213F3E026" x="119" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 PUBLICATION
 </text>
@@ -549,7 +561,7 @@ Associative entity linking agents to named groups.  Allows agents to be related 
 specified roles.
 </text>
 </g>
-<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath438_0_)" transform="translate(13,537)" >
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath438_0_)" transform="translate(0,537)" >
 <rect x="0" y="0" width="824" height="216" />
 <text id="F492501E-FB4C28DCA70F" x="311" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 UNDERSCORE_COLLECTION_CITATION
@@ -707,7 +719,7 @@ Citations of works that have information directly related to a named group, such
 funded project, etc.
 </text>
 </g>
-<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath439_0_)" transform="translate(376,360)" >
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath439_0_)" transform="translate(435,361)" >
 <rect x="0" y="0" width="938" height="150" />
 <text id="40BF1256-BD3D7C888416" x="402" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 UNDERSCORE_RELATION
@@ -785,6 +797,84 @@ user who created the record
 <line x1="0" y1="88" x2="937" y2="88" fill="none" stroke="rgb(64,64,64)"/>
 <text x="5" y="101" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
 Relationships between named groups (arbitrary collections of cataloged items (underscore_collection)) and collection objects.
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath745_0_)" transform="translate(11,11)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M301 0 L344 15 L344 90 L0 90 L0 0 L301 0 L301 15 L344 15" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+Named Groups are represented in MCZbase in a table called 
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+Underscore_Collection.   This reflects their design history 
+</text>
+<text x="2" y="39" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+having started with the book &quot;Where&apos;s the _________ collection&quot; (
+</text>
+<text x="2" y="52" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+Sherborn, 1940), and subsequent struggles to name a 
+</text>
+<text x="2" y="65" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+generalization of that concept that effectively handles both 
+</text>
+<text x="2" y="78" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+related and value added information about arbitrary sets of 
+</text>
+<text x="2" y="91" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+cataloged items.
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath746_0_)" transform="translate(907,70)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M118 0 L134 5 L134 34 L0 34 L0 0 L118 0 L118 5 L134 5" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+collection, expedition, 
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+grant, workflow
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath747_0_)" transform="translate(2024,322)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M114 0 L130 19 L130 119 L0 119 L0 0 L114 0 L114 19 L130 19" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+collection of
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+creator
+</text>
+<text x="2" y="39" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+expedition member
+</text>
+<text x="2" y="52" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+metadata compiler
+</text>
+<text x="2" y="65" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+principal investigator
+</text>
+<text x="2" y="78" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+project participant
+</text>
+<text x="2" y="91" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+sponsor of
+</text>
+<text x="2" y="104" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+workflow of
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath748_0_)" transform="translate(850,732)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M113 0 L129 13 L129 82 L0 82 L0 0 L113 0 L113 13 L129 13" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+biography
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+describes collection
+</text>
+<text x="2" y="39" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+describes expedition
+</text>
+<text x="2" y="52" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+describes project
+</text>
+<text x="2" y="65" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+work product
 </text>
 </g>
 
