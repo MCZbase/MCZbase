@@ -934,7 +934,7 @@ imgStyleClass=value
 										from media m
 										left join media_relations mr on m.media_id = mr.media_id
 										left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-										where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
+										where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
 										and ct.auto_table = 'media'
 										UNION
 										<!---Publication--->
