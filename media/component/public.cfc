@@ -904,13 +904,13 @@ imgStyleClass=value
 							<td>
 							<cfloop query = 'media_rel'><span class="text-capitalize">#media_rel.label#:</span>
 								<cfloop query="spec">
-									<cfloop query="relm">
+									<!---<cfloop query="relm">--->
 									<div class="comma2 d-inline">
 										 <a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a><span>, </span>
 									</div>
 									<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 									</cfloop> 
-								</cfloop>	
+									<!---</cfloop>--->	
 							</cfloop>
 							</td>
 						</tr>
