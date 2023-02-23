@@ -841,7 +841,7 @@ imgStyleClass=value
 									<cfloop query="spec">
 									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Agent--->
-										select distinct mr.media_id as mid, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, mr.media_relationship as rel
+										select distinct mr.media_id as mid, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, mr.media_relationship as rel, an.agent_id as pk
 										from media_relations mr
 										left join agent_name an on an.agent_id=mr.related_primary_key
 										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
