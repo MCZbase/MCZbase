@@ -844,6 +844,7 @@ imgStyleClass=value
 											from media_relations mr
 											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id 
 											where mr.related_primary_key = #spec.pk#
+											order by display
 										</cfquery>
 										<cfloop query="relm1"> #relm1.display#, </cfloop>
 										</cfloop>
