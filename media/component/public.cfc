@@ -970,8 +970,9 @@ imgStyleClass=value
 									
 									<cfloop query="relm3"><span class="two">#relm3.label#: </span>
 										<a class="font-weight-lessbold" href="#relm3.href##relm3.pk#">#relm3.display#</a><span class="two"> </span>
+										<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 									</cfloop>
-									<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
+									
 								</div>
 							</td>
 						</tr>
