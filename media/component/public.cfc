@@ -838,6 +838,7 @@ imgStyleClass=value
 							<td class="w-80">
 								<div class="comma2 d-inline onlyfirst">
 									<cfif media_rel.auto_table contains 'cataloged_item'>
+										<cfloop query = 'spec'>
 										<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct mr.related_primary_key as pk, mr.media_relationship as rel, flat.guid as display 
 											from media_relations mr
@@ -845,6 +846,7 @@ imgStyleClass=value
 											where mr.related_primary_key = #spec.pk#
 										</cfquery>
 										<cfloop query="relm1">#relm1.rel#: #relm1.display#, </cfloop>
+										</cfloop>
 									</cfif>
 									
 								</div>
