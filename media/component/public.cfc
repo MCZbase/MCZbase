@@ -930,7 +930,7 @@ imgStyleClass=value
 									</cfif>
 									<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										<!---Media--->
-										select distinct mr.media_id as mid,'/media/' as href, m.media_type as display, mr.media_relationship as rel, mr.related_primary_key as pk, ct.label as label
+										select distinct mr.related_primary_key as pk, '/media/' as href, m.media_type as display, ct.label as label
 										from media m
 										left join media_relations mr on m.media_id = mr.media_id
 										left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
@@ -938,7 +938,7 @@ imgStyleClass=value
 										and ct.auto_table = 'media'
 										UNION
 										<!---Publication--->
-										select distinct mr.media_id as mid,'/publications/showPublication.cfm?publication_id=' as href,  fp.formatted_publication as display, mr.media_relationship as rel, p.publication_id as pk, ct.label as label
+										select distinct p.publication_id as pk, '/publications/showPublication.cfm?publication_id=' as href, fp.formatted_publication as display, ct.label as label
 										from media_relations mr
 										left join publication p on mr.related_primary_key = p.publication_id
 										left join formatted_publication fp on fp.publication_id = p.publication_id
@@ -949,7 +949,7 @@ imgStyleClass=value
 										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
 										UNION
 										<!---Locality--->
-										select distinct  mr.media_id as mid, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, l.spec_locality as display, mr.media_relationship as rel, l.locality_id as pk, ct.label as label
+										select distinct l.locality_id as pk, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href, l.spec_locality as display, ct.label as label
 										from media_relations mr 
 										left join locality l on l.locality_id = mr.related_primary_key
 										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
@@ -958,7 +958,7 @@ imgStyleClass=value
 										and mr.media_id = <cfqueryparam CFSQLType="CF_SQL_decimal" value=#media.media_id#>
 										UNION
 										<!---Collecting Event--->
-										select distinct mr.media_id as mid, '/showLocality.cfm?action=srch&collecting_event_id=' as href,  ce.verbatim_locality as display, mr.media_relationship as rel, ce.collecting_event_id as pk, ct.label as label
+										select distinct ce.collecting_event_id as pk, '/showLocality.cfm?action=srch&collecting_event_id=' as href,  ce.verbatim_locality as display, ct.label as label
 										from media_relations mr
 										left join collecting_event ce on ce.collecting_event_id = mr.related_primary_key
 										left join mczbase.ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
