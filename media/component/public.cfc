@@ -838,11 +838,7 @@ imgStyleClass=value
 							<td class="w-80">
 								<div class="comma2 d-inline onlyfirst">
 									<cfloop query="spec">
-								<cfloop query = 'media_rel'>
-									<span class="text-capitalize">#media_rel.label#:</span>
-								</cfloop>
-							
-									<div class="comma2 d-inline">
+										<div class="comma2 d-inline">
 										<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 										select distinct an.agent_id as pk, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, mr.media_relationship as rel
 										from media_relations mr
@@ -909,12 +905,16 @@ imgStyleClass=value
 										where mr.media_relationship like '%cataloged_item'
 										and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 										</cfquery>
-										
-										 <a class="font-weight-lessbold" href="#relm.href#<cfif relm.rel contains 'cataloged_item'>#relm.display#<cfelse>#relm.pk#</cfif>">#relm.display#</a><span>, </span>
+										<cfif media_rel.media_relationship contains 'catlaloged_item'>
+											<a class="font-weight-lessbold" href="#relm.href##relm.display#">#relm.display#</a><span>, </span>
+										<cfelseif  media_rel.media_relationship contains 'agent'>
+											<a class="font-weight-lessbold" href="#relm.href##relm.pk#">#relm.display#</a><span>, </span>
+										<cfelse>
+											<a class="font-weight-lessbold" href="#relm.href##relm.pk#">#relm.pk#</a><span>, </span>
+										</cfif>
 									</div>
-								</div>
-								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-								</cfloop> 
+										<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
+									</cfloop> 
 								</div>
 							</td>
 						</tr>
