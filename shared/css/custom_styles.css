@@ -38,7 +38,7 @@ input.goodPick, select.goodPick, textarea.goodPick {
 	line-height: .90rem;
 }
 .onlyfirst{display:none;}
-.onlyfirst:first-child { display:block}
+.onlyfirst:first-child { display:inline-block}
 .text-muted {
 	color: #6a737b!important;
 }
