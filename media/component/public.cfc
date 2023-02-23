@@ -610,7 +610,7 @@ imgStyleClass=value
 		and ct.auto_table = 'locality' 
 		UNION
 		<!---Agent--->
-		select distinct agent.agent_id as pk, ct.media_relationship as rel, ct.label as label, an.agent_name as at
+		select distinct an.agent_id as pk, ct.media_relationship as rel, ct.label as label, an.agent_name as at
 		from preferred_agent_name an
 		left join media_relations mr on an.agent_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
