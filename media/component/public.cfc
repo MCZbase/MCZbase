@@ -837,32 +837,29 @@ imgStyleClass=value
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td class="w-80">
 								<div class="comma2 d-inline onlyfirst">
-									<cfif media_rel.auto_table contains 'cataloged_item'>#media_rel.label#:
-										<cfloop query = 'spec'>
-										<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select distinct mr.media_id as mid, '/guid/' as href, flat.guid as display, mr.media_relationship as rel, flat.collection_object_id as pk
-											from media_relations mr
-											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id 
-											where mr.media_relationship like '%cataloged_item'
-											and flat.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
-										</cfquery>
-										 <a href="#relm1.href##relm1.display#" class="font-weight-lessbold">#relm1.display#<span class="two">, </span>
-										</cfloop>
-									</cfif>
-									<cfif media_rel.auto_table contains 'agent'>#media_rel.label#:
-										<cfloop query = 'spec'>
-										<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select distinct mr.related_primary_key as pk, '/agents/Agent.cfm?agent_id=' as href, pan.agent_name as display 
-											from media_relations mr
-											left join preferred_agent_name pan on mr.related_primary_key = pan.agent_id 
-											where mr.related_primary_key = #spec.pk#
-											and mr.media_relationship like '%agent'
-											order by display
-										</cfquery>
-										 <a href="#relm2.href##relm2.pk#" class="font-weight-lessbold">#relm2.display#<span class="two">, </span>
-										</cfloop>
-									</cfif>
-									
+									<cfloop query = 'spec'>
+										<cfif media_rel.auto_table contains 'cataloged_item'>#media_rel.label#:
+											<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select distinct mr.media_id as mid, '/guid/' as href, flat.guid as display, mr.media_relationship as rel, flat.collection_object_id as pk
+												from media_relations mr
+												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id 
+												where mr.media_relationship like '%cataloged_item'
+												and flat.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
+											</cfquery>
+											 <a href="#relm1.href##relm1.display#" class="font-weight-lessbold">#relm1.display#<span class="two">, </span>
+										</cfif>
+										<cfif media_rel.auto_table contains 'agent'>#media_rel.label#:
+											<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select distinct mr.related_primary_key as pk, '/agents/Agent.cfm?agent_id=' as href, pan.agent_name as display 
+												from media_relations mr
+												left join preferred_agent_name pan on mr.related_primary_key = pan.agent_id 
+												where mr.related_primary_key = #spec.pk#
+												and mr.media_relationship like '%agent'
+												order by display
+											</cfquery>
+											 <a href="#relm2.href##relm2.pk#" class="font-weight-lessbold">#relm2.display#<span class="two">, </span>
+										</cfif>
+									</cfloop>
 								</div>
 							</td>
 						</tr>
