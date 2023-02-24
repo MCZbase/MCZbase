@@ -729,7 +729,7 @@ imgStyleClass=value
 									<cfif media_rel.media_relationship eq 'created by agent'>:
 										<cfloop query="agents1">
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a>
-											<cfif agents1.recordcount gt 1><span class="two">, </span></cfif>
+											<cfif agents1.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
 									<!---Display Agent: shows agent query--->
@@ -779,7 +779,7 @@ imgStyleClass=value
 									<!---Display loan: relationship = documents loan--->
 									<cfif media_rel.media_relationship eq 'documents loan' and oneofus eq 1>:
 										<cfloop query="loan">
-											<a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><cfif loan.recordcount gt 1><span class="two">, </span></cfif>
+											<a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><cfif loan.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
 									<!---Display Locality: relationship = shows locality--->
@@ -816,7 +816,7 @@ imgStyleClass=value
 										<cfif media_rel.auto_table eq 'cataloged_item'>: 
 											<cfloop query="spec">
 												<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
-												<cfif spec.recordcount gt 1><span class="two">, </span></cfif>
+												<cfif spec.recordcount gt 1><span>, </span></cfif>
 											</cfloop>
 										</cfif>
 									<!---Display underscore_collection--->
