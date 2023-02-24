@@ -850,7 +850,7 @@ imgStyleClass=value
 														and m.media_id = #spec.pk#
 													</cfquery>
 													<a class="font-weight-lessbold" href="/media/#relm1.pk#"> #relm1.pk#</a>
-													<span>, </span>
+													<span> </span>
 												</cfloop>
 											</cfif>
 											<cfif media_rel.auto_table eq 'agent'>: 
@@ -863,7 +863,7 @@ imgStyleClass=value
 														and mr.media_id = #spec.pk#
 													</cfquery>
 													<a class="font-weight-lessbold" href="#relm2.href##relm2.pk#"> #relm2.display#</a>
-													<span>, </span>
+													<span></span>
 												</cfloop>
 											</cfif>
 											<cfif media_rel.auto_table eq 'accn'>: 
