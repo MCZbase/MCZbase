@@ -877,7 +877,7 @@ imgStyleClass=value
 														and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
 													</cfquery>
 													<a class="font-weight-lessbold" href="#relm3.href##relm3.pk#"> #relm3.display#</a>
-													<span>, </span>
+													<span> </span>
 												</cfloop>
 											</cfif>
 											<cfif media_rel.auto_table eq 'loan'>: 
@@ -891,7 +891,7 @@ imgStyleClass=value
 														and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 													</cfquery>
 													<a class="font-weight-lessbold" href="#relm4.href##relm4.pk#"> #relm4.display#</a>
-													<span>, </span>
+													<span> </span>
 												</cfloop>
 											</cfif>
 											<cfif media_rel.auto_table eq 'deaccession'>: 
@@ -905,7 +905,7 @@ imgStyleClass=value
 													and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 													</cfquery>
 													<a class="font-weight-lessbold" href="#relm5.href##relm5.pk#"> #relm5.display#</a>
-													<span>, </span>
+													<span> </span>
 												</cfloop>
 											</cfif>
 
@@ -975,10 +975,8 @@ imgStyleClass=value
 											where mr.media_relationship like '%cataloged_item'
 											and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 											</cfquery>
-							
 										</div>
 											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-								
 									</div>
 								</cfloop>
 							</td>
