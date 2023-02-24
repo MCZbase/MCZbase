@@ -2870,9 +2870,7 @@ and also iPads specifically.
 	.w-350 {
 		width: 100%;
 	}
-	.variedHeight {
-		height: 250px;
-	}
+
 ol.flowXXS, ul.flowXXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
@@ -2979,7 +2977,9 @@ ol.flowNone li a,ul.flowNone li a {
 }
 }
 @media only screen and (max-width: 1379px) {
-
+	.variedHeight {
+		height: 250px;
+	}
 ol.flowXXS, ul.flowXXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
