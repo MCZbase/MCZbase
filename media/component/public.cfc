@@ -618,7 +618,7 @@ imgStyleClass=value
 		and ct.auto_table = 'agent' 
 	</cfquery>
 
-		<!---<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct collection_object_id as pk, guid
 			from media_relations
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
@@ -769,7 +769,7 @@ imgStyleClass=value
 			left join cataloged_item on underscore_relation.COLLECTION_OBJECT_ID = cataloged_item.collection_object_id
 			left join media_relations on underscore_relation.collection_object_id = media_relations.related_primary_key
 			where media_relations.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-		</cfquery>--->
+		</cfquery>
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT media_label, label_value, agent_name, media_label_id
@@ -836,7 +836,7 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td class="w-80">
-							<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label#</span>
+						<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label#</span>
 								<div class="comma2 d-inline">
 									<cfif media_rel.auto_table eq 'cataloged_item'>: <cfloop query="spec"><a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span></cfloop>
 									</cfif>
@@ -844,7 +844,7 @@ imgStyleClass=value
 									</cfif>
 									<cfif media_rel.media_relationship eq 'created by agent'>:<cfloop query="agents1"><cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents1.agent_name#" /> and m.media_relationship = 'created by agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm1.agent_id#"> #agents1.agent_name#</a><span>, </span></cfloop>
 									</cfif>
-									<cfif media_rel.media_relationship eq 'shows agent'>:<cfloop query="spec"><cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.agent_name#" /> and m.media_relationship = 'shows agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #spec.agent_name#</a><span>, </span></cfloop>
+									<cfif media_rel.media_relationship eq 'shows agent'>:<cfloop query="agents2"><cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents2.agent_name#" /> and m.media_relationship = 'shows agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents2.agent_name#</a><span>, </span></cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents agent'>:<cfloop query="agents3"><cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select distinct m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents3.agent_name#" /> and m.media_relationship = 'documents agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm3.agent_id#"> #agents3.agent_name#</a><span>, </span></cfloop>
 									</cfif>
