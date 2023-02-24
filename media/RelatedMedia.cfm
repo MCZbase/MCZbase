@@ -214,31 +214,17 @@
 												<cfif media_rel.recordcount gt 0>
 													<!---If media relations are show or document cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfloop query="spec">
-														<cfif spec.pk eq '#media.media_id#' and spec.at eq 'media'>
-														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct mr.related_primary_key as mk,ct.media_relationship,ct.label
-														from media_relations mr 
-														left join media m on mr.media_id = m.media_id
-														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-														where m.media_id = <cfqueryparam  value="#spec.pk#">
-														and mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-														and mr.media_relationship <> 'created by agent'
-														and MCZBASE.is_media_encumbered(m.media_id)  < 1 
-														<cfif spec.pk gt 1 and spec.at eq 'Shows Cataloged Item'>and ct.media_relationship <> 'ledger entry for cataloged_item'</cfif>
-														</cfquery>
-														<cfelse>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct m.media_id as mk,ct.media_relationship,ct.label
 														from media_relations mr 
 														left join media m on mr.media_id = m.media_id
 														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 														where mr.related_primary_key = <cfqueryparam  value="#spec.pk#">
-														and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														<cfif spec.pk eq '#media.media_id#' and spec.at eq 'media'><cfelse>and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"></cfif>
 														and mr.media_relationship <> 'created by agent'
 														and MCZBASE.is_media_encumbered(m.media_id)  < 1 
 														<cfif spec.pk gt 1 and spec.label neq 'Shows Cataloged Item'>and ct.media_relationship <> 'ledger entry for cataloged_item'</cfif>
 														</cfquery>
-														</cfif>
 														<!---Some of the ledgers have the same primary key as the agent_ids. I haven't found it on other types of relationships. We may need a different fix if it is more widespread.--->
 														<cfif relm.recordcount gt 0>
 															<cfset i = 1>
