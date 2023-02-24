@@ -133,7 +133,7 @@
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'specimen_part'
 		UNION
-		select distinct mr.related_primary_key as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
+		select distinct mr.media_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from mczbase.ctmedia_relationship ct
 		left join media_relations mr on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
