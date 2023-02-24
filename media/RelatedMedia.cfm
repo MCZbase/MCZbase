@@ -212,9 +212,9 @@
 										
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-												<cfif media_rel.recordcount gt 0>
+												<cfif media_rel.recordcount gt 0>media_rel #media_rel.recordcount#
 													<!---If media relations are show or document cataloged_item, accn, ledger, deaccession, etc.--->
-													<cfloop query="spec">
+													<cfloop query="spec">spec #spec.recordcount#
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct m.media_id,ct.media_relationship,ct.label
 														from media_relations mr 
@@ -227,9 +227,9 @@
 														<cfif spec.pk gt 1 and spec.label neq 'Shows Cataloged Item'>and ct.media_relationship <> 'ledger entry for cataloged_item'</cfif>
 														</cfquery>
 														<!---Some of the ledgers have the same primary key as the agent_ids. I haven't found it on other types of relationships. We may need a different fix if it is more widespread.--->
-														<!---<cfif relm.recordcount gt 0>--->
+														<cfif relm.recordcount gt 0>relm #relm.recordcount#
 															<cfset i = 1>
-															<cfloop query="relm">#relm.media_id#
+															<cfloop query="relm">
 																<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 																	<ul class="list-group px-0">
 																		<li class="list-group-item px-0 mx-1">
@@ -237,7 +237,7 @@
 																			<div class="border-wide-ltgrey rounded bg-white px-1 py-1 image#i#" id="mediaBlock#relm.media_id#" style="height:250px;">
 																				<div class="px-0">
 																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">
-																						<h1>#relm.label# </h1>
+																						#relm.label# 
 																					<cfif spec.at eq 'cataloged_item' and relm.recordcount gt 0>
 																						<cfquery name="guidi" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																						select guid from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat, media_relations mr where mr.related_primary_key = flat.collection_object_id and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
@@ -256,9 +256,9 @@
 																</div>
 																<cfset i=i+1>
 															</cfloop>
-											<!---			<cfelse>
+														<cfelse>
 															<h3 class="h4 px-2 ml-1 pt-2">#relm.media_id#</h3>
-														</cfif>--->
+														</cfif>
 													</cfloop>
 												<cfelse>
 													<h3 class="h4 px-2 ml-1 pt-2 onlyfirst"><span class="one">No Relationships to Other Records</span></h3>
