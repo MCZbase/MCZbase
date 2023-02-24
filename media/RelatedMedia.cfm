@@ -246,7 +246,7 @@
 																<cfset i=i+1>
 															</cfloop>
 														<cfelse>
-															No Related Media Records
+															<h3 class="h4 px-2 ml-1 pt-2 onlyfirst">No Related Media Records</h3>
 														</cfif>
 													</cfloop>
 												<cfelse>
