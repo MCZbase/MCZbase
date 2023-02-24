@@ -838,7 +838,7 @@ imgStyleClass=value
 							<td class="w-80">
 								<cfloop query="media_rel">#media_rel.label#
 									<div class="comma2 d-inline onlyfirst">
-										<cfloop query="spec">
+									
 											<div class="comma2 d-inline">
 											<cfif media_rel.auto_table eq 'media'>: 
 												<cfloop query="spec">
@@ -978,7 +978,7 @@ imgStyleClass=value
 							
 										</div>
 											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-										</cfloop> 
+								
 									</div>
 								</cfloop>
 							</td>
