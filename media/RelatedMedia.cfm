@@ -202,22 +202,22 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<cfif spec.recordcount gt 0>
-											<!---If media relations are show or document cataloged_item, accn, ledger, deaccession, etc.--->
-												<cfloop query="spec">
+													<!---If media relations are show or document cataloged_item, accn, ledger, deaccession, etc.--->
+													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct m.media_id,ct.media_relationship,ct.label
 														from media_relations mr 
 														left join media m on mr.media_id = m.media_id
 														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 														where mr.related_primary_key = <cfqueryparam  value="#spec.pk#">
-														and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+										<!---				and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														and mr.media_relationship <> 'created by agent'
-														and MCZBASE.is_media_encumbered(m.media_id)  < 1 
+														and MCZBASE.is_media_encumbered(m.media_id)  < 1 --->
 														<cfif spec.pk gt 1>and ct.media_relationship <> 'ledger entry for cataloged_item'</cfif>
 														</cfquery>
 														<!---Some of the ledgers have the same primary key as the agent_ids. I haven't found it on other types of relationships. We may need a different fix if it is more widespread.--->
-													<cfif relm.recordcount gt 0>
-														<cfset i = 1>
+														<cfif relm.recordcount gt 0>
+															<cfset i = 1>
 															<cfloop query="relm">
 																<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 																	<ul class="list-group px-0">
