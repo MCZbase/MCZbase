@@ -51,6 +51,7 @@
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pub.pk#">
 		and ct.auto_table = 'publication'--->
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfif pub.recordcount gt 0>
 		select distinct c.collection_object_id as pk, cmr.media_relationship as rel, 'Cited Specimen' as label, ct.auto_table as at
 		from media_relations cmr 
 		join cataloged_item ci on cmr.related_primary_key = ci.collection_object_id 
@@ -62,6 +63,7 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where ct.auto_table = 'publication'
 		UNION
+		</cfif>
 		select distinct  ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
