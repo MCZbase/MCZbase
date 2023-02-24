@@ -223,7 +223,7 @@
 																			<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
 																			<div class="border-wide-ltgrey rounded bg-white px-1 py-1 image#i#" id="mediaBlock#relm.media_id#" style="height:250px;">
 																				<div class="px-0">
-																					<cfif spec.pk gt 1><cfset spec.rel eq 'shows agent'></cfset></cfif>
+																					<cfif spec.pk gt 1><cfset spec.rel eq 'shows agent'></cfif>
 																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">
 																						#relm.label# 
 																					<cfif relm.media_relationship contains 'cataloged_item'>
