@@ -237,7 +237,7 @@
 										
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-												<cfif len(media_rel.media_relationship) gt 1>
+												<cfif media_rel.recordcount gt 0>
 													<!---If media relations are show or document cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
