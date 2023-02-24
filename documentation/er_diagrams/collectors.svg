@@ -1,5 +1,5 @@
 
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"  width="1983" height="973">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"  width="2063" height="973">
 <defs id="dmw_defs" >
 <svg id="fk_sym" viewBox="0 0 48.665 48.665" style="enable-background:new 0 0 48.665 48.665;" >
 <g>
@@ -22,17 +22,20 @@
 <path fill="black" d="M660.224 422.656c6.976 16.192-0.512 35.008-16.768 42.048-16.128 6.976-34.944-0.448-41.984-16.768-8.448-19.776-20.736-37.696-36.224-53.248-64.64-64.64-177.344-64.64-241.92 0l-145.216 145.28c-66.688 66.688-66.688 175.232 0 241.984 66.688 66.688 175.104 66.752 241.92 0l92.8-92.864c12.48-12.48 32.768-12.48 45.248 0s12.48 32.768 0 45.248l-92.8 92.864c-91.648 91.648-240.832 91.52-332.416 0-91.712-91.648-91.712-240.832 0-332.48l145.216-145.28c44.352-44.416 103.424-68.864 166.272-68.864s121.792 24.448 166.208 68.864c21.248 21.312 38.016 45.952 49.664 73.216zM891.136 401.344l-145.216 145.216c-88.768 88.832-243.712 88.832-332.416 0-21.312-21.312-38.080-45.952-49.728-73.216-7.040-16.256 0.448-35.072 16.704-42.048 16.064-6.784 35.008 0.512 41.984 16.768 8.512 19.776 20.8 37.696 36.288 53.248 64.64 64.64 177.344 64.64 241.92 0l145.216-145.216c66.688-66.688 66.688-175.232 0-241.984-66.752-66.624-175.168-66.688-241.92 0l-92.8 92.864c-12.48 12.48-32.768 12.48-45.248 0s-12.48-32.768 0-45.248l92.8-92.864c45.824-45.824 105.984-68.736 166.208-68.736s120.448 22.912 166.272 68.736c91.584 91.648 91.584 240.768-0.064 332.48z" />
 </g>
 </svg>
-<clipPath clipPathUnits="userSpaceOnUse" id="clipPath752_0_">
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath753_0_">
 <rect x="0" y="0" width="95" height="93" />
 </clipPath>
-<clipPath clipPathUnits="userSpaceOnUse" id="clipPath750_0_">
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath751_0_">
 <rect x="0" y="0" width="104" height="36" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath759_0_">
+<rect x="0" y="0" width="159" height="43" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath188_0_">
 <rect x="0" y="0" width="170" height="38" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath163_0_">
-<rect x="0" y="0" width="451" height="124" />
+<rect x="0" y="0" width="491" height="124" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath10_0_">
 <rect x="0" y="0" width="576" height="112" />
@@ -46,6 +49,9 @@
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath173_0_">
 <rect x="0" y="0" width="547" height="216" />
 </clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath758_0_">
+<rect x="0" y="0" width="160" height="50" />
+</clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath218_0_">
 <rect x="0" y="0" width="284" height="48" />
 </clipPath>
@@ -53,12 +59,12 @@
 <rect x="0" y="0" width="515" height="198" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath167_0_">
-<rect x="0" y="0" width="537" height="205" />
+<rect x="0" y="0" width="555" height="205" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath170_0_">
-<rect x="0" y="0" width="483" height="401" />
+<rect x="0" y="0" width="574" height="401" />
 </clipPath>
-<clipPath clipPathUnits="userSpaceOnUse" id="clipPath751_0_">
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath752_0_">
 <rect x="0" y="0" width="95" height="200" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath192_0_">
@@ -72,14 +78,14 @@
 </clipPath>
 </defs>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1548 511 L1548 584" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1548 511 1551 517 1545 517" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M1542.0 584.0 L1548.0 572.0 L1554.0 584.0 M1542.0 571.4000005722046 L1554.0 571.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1572 499 L1604 499" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1572 499 1578 496 1578 502" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1604.0 505.0 L1592.0 499.0 L1604.0 493.0 M1591.4000005722046 505.0 L1591.4000005722046 493.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M537 786 L597 786" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="537 786 543 783 543 789" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M591.0 792.0 L591.0 780.0 M585.6000003814697 792.0 L585.6000003814697 780.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M555 732 L590 732" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="555 732 561 729 561 735" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M584.0 738.0 L584.0 726.0 M578.6000003814697 738.0 L578.6000003814697 726.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
 <path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1802 47 L1720 47" />
@@ -87,8 +93,8 @@
 <path stroke-dasharray="none" d="M1720.0 41.0 L1732.0 47.0 L1720.0 53.0 M1732.5999994277954 41.0 L1732.5999994277954 53.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M272 666 L272 475" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="272 666 269 660 275 660" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M272 668 L272 475" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="272 668 269 662 275 662" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
 <path stroke-dasharray="none" d="M278.0 481.0 L266.0 481.0 M278.0 486.3999996185303 L266.0 486.3999996185303" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
@@ -97,24 +103,24 @@
 <path stroke-dasharray="none" d="M562.0 38.0 L574.0 44.0 L562.0 50.0 M574.5999994277954 38.0 L574.5999994277954 50.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M765 297 L376 666" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="765 297 763 303 759 299" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M372.0 662.0 L384.0 658.0 L380.0 670.0 M380.3999996185303 653.6000003814697 L388.3999996185303 661.6000003814697" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M766 297 L383 668" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="766 297 764 303 760 299" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M379.0 664.0 L391.0 660.0 L387.0 672.0 M387.3999996185303 655.6000003814697 L395.3999996185303 663.6000003814697" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M765 297 L361 666" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="765 297 763 303 759 299" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M357.0 662.0 L369.0 658.0 L365.0 670.0 M365.3999996185303 653.6000003814697 L373.3999996185303 661.6000003814697" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M766 297 L368 668" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="766 297 764 303 760 299" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M364.0 664.0 L376.0 660.0 L372.0 672.0 M372.3999996185303 655.6000003814697 L380.3999996185303 663.6000003814697" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M982 673 L498 475" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="982 673 976 673 978 669" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M500.0 470.0 L508.0 479.0 L496.0 480.0 M510.5 474.19999980926514 L506.5 484.19999980926514" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M982 660 L508 475" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="982 660 976 660 978 656" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M510.0 470.0 L518.0 479.0 L506.0 480.0 M520.5 474.19999980926514 L516.5 484.19999980926514" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1063 297 L1063 572" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1063 297 1066 303 1060 303" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M1057.0 572.0 L1063.0 560.0 L1069.0 572.0 M1057.0 559.4000005722046 L1069.0 559.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1048 297 L1048 572" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1048 297 1051 303 1045 303" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1042.0 572.0 L1048.0 560.0 L1054.0 572.0 M1042.0 559.4000005722046 L1054.0 559.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
 <path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M594 181 L562 181" />
@@ -132,19 +138,19 @@
 <path stroke-dasharray="none" d="M1144.0 139.0 L1132.0 133.0 L1144.0 127.0 M1131.4000005722046 139.0 L1131.4000005722046 127.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1029 297 L1217 387" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1029 297 1035 297 1033 301" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M1215.0 392.0 L1207.0 383.0 L1219.0 382.0 M1204.5 387.80000019073486 L1208.5 377.80000019073486" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1097 297 L1097 387" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1097 297 1100 303 1094 303" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1091.0 387.0 L1097.0 375.0 L1103.0 387.0 M1091.0 374.4000005722046 L1103.0 374.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1465 632 L1524 632" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1465 632 1471 629 1471 635" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d=" M1524.0 638.0 L1512.0 632.0 L1524.0 626.0 M1509.0 636.0 L1503.0 628.0 M1503.0 636.0 L1509.0 628.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1556 578 L1604 578" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1556 578 1562 575 1562 581" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d=" M1604.0 584.0 L1592.0 578.0 L1604.0 572.0 M1589.0 582.0 L1583.0 574.0 M1583.0 582.0 L1589.0 574.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M386 475 L692 725" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="386 475 391 476 389 480" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M689.0 729.0 L684.0 719.0 L695.0 721.0 M680.6000003814697 722.7000002861023 L686.6000003814697 714.7000002861023" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M401 475 L675 671" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="401 475 406 476 404 480" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M672.0 675.0 L667.0 665.0 L678.0 667.0 M663.6000003814697 668.7000002861023 L669.6000003814697 660.7000002861023" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
 <path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M921 334 L921 297" />
@@ -502,12 +508,12 @@ The suffix portion of the catalog number, if any. Including any separator.  Exam
 Something to which a catalog number is assigned in a collection.
 </text>
 </g>
-<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath167_0_)" transform="translate(0,666)" >
-<rect x="0" y="0" width="536" height="204" />
-<text id="E2697263-C0965973A0A7" x="233" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath167_0_)" transform="translate(0,668)" >
+<rect x="0" y="0" width="554" height="204" />
+<text id="E2697263-C0965973A0A7" x="242" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 COLL_OBJECT
 </text>
-<line x1="0" y1="17" x2="535" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<line x1="0" y1="17" x2="553" y2="17" fill="none" stroke="rgb(0,0,255)"/>
 <text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
@@ -675,11 +681,11 @@ Remarks concerning the current condition of the collection object.
 </text>
 </g>
 <g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath170_0_)" transform="translate(982,572)" >
-<rect x="0" y="0" width="482" height="400" />
-<text id="E8574606-FC610905DD19" x="188" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+<rect x="0" y="0" width="573" height="400" />
+<text id="E8574606-FC610905DD19" x="233" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 COLLECTING_EVENT
 </text>
-<line x1="0" y1="17" x2="481" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<line x1="0" y1="17" x2="572" y2="17" fill="none" stroke="rgb(0,0,255)"/>
 <text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
@@ -938,12 +944,9 @@ VERBATIMDEPTH
 <text x="223" y="342" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 VARCHAR2 (500 BYTE)
 </text>
-<line x1="0" y1="348" x2="481" y2="348" fill="none" stroke="rgb(64,64,64)"/>
+<line x1="0" y1="348" x2="572" y2="348" fill="none" stroke="rgb(64,64,64)"/>
 <text x="5" y="361" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-Event at which material was collected or observed at some locality.  Similar concept to 
-</text>
-<text x="5" y="374" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-Gathering in ABCD.
+Event at which material was collected or observed at some locality.  Similar concept to Gathering in ABCD.
 </text>
 </g>
 <g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath173_0_)" transform="translate(15,18)" >
@@ -1099,7 +1102,7 @@ COLLECTOR_ROLE
 CHAR (1 CHAR)
 </text>
 </g>
-<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath410_0_)" transform="translate(597,725)" >
+<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath410_0_)" transform="translate(590,671)" >
 <rect x="0" y="0" width="342" height="122" />
 <text id="A5F85700-8357FA2C9CB1" x="127" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 SPECIMEN_PART
@@ -1175,12 +1178,12 @@ IS_TISSUE
 NUMBER
 </text>
 </g>
-<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath163_0_)" transform="translate(1121,387)" >
-<rect x="0" y="0" width="450" height="123" />
-<text id="71CA913B-C6C072D0FFA7" x="155" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath163_0_)" transform="translate(1081,387)" >
+<rect x="0" y="0" width="490" height="123" />
+<text id="71CA913B-C6C072D0FFA7" x="175" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 COLL_EVENT_NUM_SERIES
 </text>
-<line x1="0" y1="17" x2="449" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<line x1="0" y1="17" x2="489" y2="17" fill="none" stroke="rgb(0,0,255)"/>
 <text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
@@ -1247,12 +1250,12 @@ NUMBER (15)
 <text x="338" y="82" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
 agent id of the agent for which this is a number series.
 </text>
-<line x1="0" y1="88" x2="449" y2="88" fill="none" stroke="rgb(64,64,64)"/>
+<line x1="0" y1="88" x2="489" y2="88" fill="none" stroke="rgb(64,64,64)"/>
 <text x="5" y="101" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
 Number Series for collector field numbers and other local identifiers of collecting events.
 </text>
 </g>
-<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath164_0_)" transform="translate(1524,584)" >
+<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath164_0_)" transform="translate(1604,487)" >
 <rect x="0" y="0" width="458" height="96" />
 <text id="7DBAA678-060474DDBBE2" x="170" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 COLL_EVENT_NUMBER
@@ -1500,7 +1503,7 @@ AGENT_TYPE
 VARCHAR2 (30 BYTE)
 </text>
 </g>
-<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath750_0_)" transform="translate(895,24)" >
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath751_0_)" transform="translate(895,24)" >
 <path stroke="rgb(0,0,0)" stroke-width="1" d="M91 0 L104 6 L104 36 L0 36 L0 0 L91 0 L91 6 L104 6" />
 <text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 p=preparator
@@ -1509,7 +1512,7 @@ p=preparator
 c=collector
 </text>
 </g>
-<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath751_0_)" transform="translate(1862,73)" >
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath752_0_)" transform="translate(1862,73)" >
 <path stroke="rgb(0,0,0)" stroke-width="1" d="M84 0 L95 33 L95 200 L0 200 L0 0 L84 0 L84 33 L95 33" />
 <text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 abbreviation
@@ -1554,7 +1557,7 @@ preferred
 second author
 </text>
 </g>
-<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath752_0_)" transform="translate(928,382)" >
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath753_0_)" transform="translate(928,382)" >
 <path stroke="rgb(0,0,0)" stroke-width="1" d="M84 0 L95 15 L95 93 L0 93 L0 0 L84 0 L84 15 L95 15" />
 <text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 expedition
@@ -1573,6 +1576,30 @@ person
 </text>
 <text x="2" y="78" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 vessel
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath758_0_)" transform="translate(605,346)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M140 0 L160 8 L160 50 L0 50 L0 0 L140 0 L140 8 L160 8" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+last edited person: agent who 
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+most recently edited the 
+</text>
+<text x="2" y="39" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+collection object record.
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath759_0_)" transform="translate(585,408)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M140 0 L159 7 L159 43 L0 43 L0 0 L140 0 L140 7 L159 7" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+entered person: the agent who 
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+created the collection object 
+</text>
+<text x="2" y="39" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+record.
 </text>
 </g>
 

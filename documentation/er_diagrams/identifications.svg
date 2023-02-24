@@ -1,5 +1,5 @@
 
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"  width="2024" height="1824">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"  width="2171" height="920">
 <defs id="dmw_defs" >
 <svg id="fk_sym" viewBox="0 0 48.665 48.665" style="enable-background:new 0 0 48.665 48.665;" >
 <g>
@@ -23,254 +23,236 @@
 </g>
 </svg>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath159_0_">
-<rect x="0" y="0" width="940" height="182" />
+<rect x="0" y="0" width="939" height="181" />
 </clipPath>
-<clipPath clipPathUnits="userSpaceOnUse" id="clipPath291_0_">
-<rect x="0" y="0" width="294" height="76" />
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath761_0_">
+<rect x="0" y="0" width="27" height="40" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath364_0_">
-<rect x="0" y="0" width="260" height="51" />
+<rect x="0" y="0" width="605" height="140" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath760_0_">
+<rect x="0" y="0" width="51" height="55" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath308_0_">
+<rect x="0" y="0" width="544" height="59" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath10_0_">
+<rect x="0" y="0" width="484" height="105" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath362_0_">
-<rect x="0" y="0" width="314" height="41" />
+<rect x="0" y="0" width="685" height="199" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath363_0_">
-<rect x="0" y="0" width="325" height="37" />
+<rect x="0" y="0" width="567" height="110" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath424_0_">
-<rect x="0" y="0" width="947" height="638" />
-</clipPath>
-<clipPath clipPathUnits="userSpaceOnUse" id="clipPath410_0_">
-<rect x="0" y="0" width="237" height="58" />
-</clipPath>
-<clipPath clipPathUnits="userSpaceOnUse" id="clipPath290_0_">
-<rect x="0" y="0" width="323" height="115" />
+<rect x="0" y="0" width="798" height="478" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath167_0_">
-<rect x="0" y="0" width="335" height="55" />
+<rect x="0" y="0" width="267" height="53" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath30_0_">
-<rect x="0" y="0" width="947" height="174" />
+<rect x="0" y="0" width="337" height="69" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath313_0_">
+<rect x="0" y="0" width="160" height="53" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath9_0_">
-<rect x="0" y="0" width="170" height="110" />
+<rect x="0" y="0" width="705" height="160" />
 </clipPath>
 </defs>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M389 501 L289 501" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="389 501 383 504 383 498" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M295.0 495.0 L295.0 507.0 M300.3999996185303 495.0 L300.3999996185303 507.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M602 673 L602 612" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="602 673 599 667 605 667" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M608.0 618.0 L596.0 618.0 M608.0 623.3999996185303 L596.0 623.3999996185303" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M556 474 L556 425" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="556 474 553 468 559 468" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M562.0 431.0 L550.0 431.0 M562.0 436.3999996185303 L550.0 436.3999996185303" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M506 411 L506 673" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="506 411 509 417 503 417" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M500.0 673.0 L506.0 661.0 L512.0 673.0 M500.0 660.4000005722046 L512.0 660.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M541 733 L541 529" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="541 733 538 727 544 727" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M547.0 529.0 L541.0 541.0 L535.0 529.0 M547.0 541.5999994277954 L535.0 541.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1586 687 L1586 739" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1586 687 1589 693 1583 693" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1580.0 739.0 L1586.0 727.0 L1592.0 739.0 M1580.0 726.4000005722046 L1592.0 726.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1077 109 L977 109" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1077 109 1071 112 1071 106" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M977.0 103.0 L989.0 109.0 L977.0 115.0 M989.5999994277954 103.0 L989.5999994277954 115.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1070 241 L1070 210" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1070 241 1067 235 1073 235" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1076.0 210.0 L1070.0 222.0 L1064.0 210.0 M1076.0 222.5999994277954 L1064.0 222.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1138 722 L1326 722" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1138 722 1144 719 1144 725" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M1326.0 728.0 L1314.0 722.0 L1326.0 716.0 M1313.4000005722046 728.0 L1313.4000005722046 716.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1340 89 L1385 89" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1340 89 1346 86 1346 92" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1385.0 95.0 L1373.0 89.0 L1385.0 83.0 M1372.4000005722046 95.0 L1372.4000005722046 83.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M556 733 L556 529" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="556 733 553 727 559 727" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M562.0 529.0 L556.0 541.0 L550.0 529.0 M562.0 541.5999994277954 L550.0 541.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M521 411 L521 673" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="521 411 524 417 518 417" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M515.0 673.0 L521.0 661.0 L527.0 673.0 M515.0 660.4000005722046 L527.0 660.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M905 425 L905 706" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="905 425 908 431 902 431" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M899.0 706.0 L905.0 694.0 L911.0 706.0 M899.0 693.4000005722046 L911.0 693.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M778 543 L778 210" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="778 543 775 537 781 537" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M784.0 210.0 L778.0 222.0 L772.0 210.0 M784.0 222.5999994277954 L772.0 222.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M641 813 L821 813" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="641 813 647 810 647 816" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M821.0 819.0 L809.0 813.0 L821.0 807.0 M808.4000005722046 819.0 L808.4000005722046 807.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M308 251 L308 126" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="308 251 305 245 311 245" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M314.0 126.0 L308.0 138.0 L302.0 126.0 M314.0 138.5999994277954 L302.0 138.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1456 647 L1456 688" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1456 647 1459 653 1453 653" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M1450.0 688.0 L1456.0 676.0 L1462.0 688.0 M1450.0 675.4000005722046 L1462.0 675.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1687 209 L1687 159" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1687 209 1684 203 1690 203" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1693.0 159.0 L1687.0 171.0 L1681.0 159.0 M1693.0 171.5999994277954 L1681.0 171.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M981 747 L981 795" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="981 747 984 753 978 753" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M975.0 795.0 L981.0 783.0 L987.0 795.0 M975.0 782.4000005722046 L987.0 782.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M245 411 L245 462" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="245 411 248 417 242 417" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M239.0 462.0 L245.0 450.0 L251.0 462.0 M239.0 449.4000005722046 L251.0 449.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M170 425 L170 471" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="170 425 173 431 167 431" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M164.0 471.0 L170.0 459.0 L176.0 471.0 M164.0 458.4000005722046 L176.0 458.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M655 71 L592 71" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="655 71 649 74 649 68" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M592.0 65.0 L604.0 71.0 L592.0 77.0 M604.5999994277954 65.0 L604.5999994277954 77.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M508 251 L508 200" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="508 251 505 245 511 245" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M514.0 200.0 L508.0 212.0 L502.0 200.0 M514.0 212.5999994277954 L502.0 212.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M881 612 L881 739" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="881 612 884 618 878 618" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M875.0 739.0 L881.0 727.0 L887.0 739.0 M875.0 726.4000005722046 L887.0 726.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
-<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath30_0_)" transform="translate(39,251)" >
-<rect x="0" y="0" width="946" height="173" />
-<text id="F66B8097-064CF835A3F5" x="424" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
-CATALOGED_ITEM
+<g  fill="rgb(204,255,255)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath9_0_)" transform="translate(4,251)" >
+<rect x="0" y="0" width="704" height="159" />
+<text id="FF69C42F-B6612910D935" x="333" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+AGENT
 </text>
-<line x1="0" y1="17" x2="945" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<line x1="0" y1="17" x2="703" y2="17" fill="none" stroke="rgb(0,0,255)"/>
 <text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
 <text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
-PF
+P
 </text>
 <text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-COLLECTION_OBJECT_ID
+AGENT_ID
 </text>
-<text x="173" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-NUMBER
+<text x="202" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (15)
 </text>
-<text x="312" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-cataloged items are a subtype of collection objects.
+<text x="343" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+surrogate numeric primary key
 </text>
 <text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
-<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-CAT_NUM
-</text>
-<text x="173" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-VARCHAR2 (255 CHAR)
-</text>
-<text x="312" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-The catalog number of the cataloged item, including any prefix or suffix.  Automatically assembled from cat_num_prefix, cat_num_integer, and cat_num_suffix.
-</text>
-<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-*
-</text>
-<text x="2" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 F
 </text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_TYPE
+</text>
+<text x="202" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (30 BYTE)
+</text>
+<text x="343" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+person, or other type of agent.  Agents of type person have corresponding record in the person table.
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
 <text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-ACCN_ID
+AGENT_REMARKS
 </text>
-<text x="173" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-NUMBER
+<text x="202" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 BYTE)
 </text>
-<text x="312" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-The accession under which this cataloged item was brought into the museum.
+<text x="343" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Internal biographical information and other internal remarks.
 </text>
 <text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
-<text x="2" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-F
-</text>
 <text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-COLLECTING_EVENT_ID
+PREFERRED_AGENT_NAME_ID
 </text>
-<text x="173" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+<text x="202" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER
 </text>
-<text x="312" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-The collecting event in which this cataloged item was collected.
+<text x="343" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The prefered form of the name of the agent.
 </text>
 <text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-*
+
 </text>
 <text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-COLLECTION_CDE
+EDITED
 </text>
-<text x="173" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-VARCHAR2 (10 BYTE)
+<text x="202" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CHAR (1 CHAR)
 </text>
-<text x="312" y="82" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-The collection code for the collection within which this cataloged item is held.  Autopopulated convenience field with value obtained from collection.
+<text x="343" y="82" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+agent record has been vetted (if value is 1)
 </text>
 <text x="16" y="95" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-*
-</text>
-<text x="2" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-F
+
 </text>
 <text x="27" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-CATALOGED_ITEM_TYPE
+AGENTGUID_GUID_TYPE
 </text>
-<text x="173" y="95" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-CHAR (2 BYTE)
+<text x="202" y="95" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 BYTE)
 </text>
-<text x="312" y="95" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-The type of the cataloged item, FS=fossil voucher, BI=biological preserved specimen, HO=human observation.    Broadly corresponds to dwc:basisOfRecord and the Darwin Core classes. 
+<text x="343" y="95" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The type of GUID (e.g. ORCID or VIAF) found in AGENTGUID.
 </text>
 <text x="16" y="108" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-*
-</text>
-<text x="2" y="108" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-F
+
 </text>
 <text x="27" y="108" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-COLLECTION_ID
+AGENTGUID
 </text>
-<text x="173" y="108" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-NUMBER
+<text x="202" y="108" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (900 BYTE)
 </text>
-<text x="312" y="108" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-Foreign key to the collection within which this cataloged item is held.  Enforces virtual private database limitiations on collection.
+<text x="343" y="108" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+A globaly unique indetifier for this agent, suitable for serving in Darwin Core as dwciri:identifiedBy, dwciri:recordedBy, dwciri:georeferencedBy etc.
 </text>
 <text x="16" y="121" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
-<text x="2" y="121" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-F
-</text>
 <text x="27" y="121" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-CAT_NUM_PREFIX
+BIOGRAPHY
 </text>
-<text x="173" y="121" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-VARCHAR2 (60 CHAR)
+<text x="202" y="121" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 BYTE)
 </text>
-<text x="312" y="121" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-The prefix portion of the catalog number, if any.  Including any separator.  Example &quot;R-&quot;
+<text x="343" y="121" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Biographical information to be provided to the public.
 </text>
-<text x="16" y="134" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-*
+<line x1="0" y1="127" x2="703" y2="127" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="140" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+A person, group of people, organization, or other entity having some role with regards to natural science collections.
 </text>
-<text x="27" y="134" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-CAT_NUM_INTEGER
+</g>
+<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath30_0_)" transform="translate(564,543)" >
+<rect x="0" y="0" width="336" height="68" />
+<text id="F66B8097-064CF835A3F5" x="119" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CATALOGED_ITEM
 </text>
-<text x="173" y="134" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-NUMBER
-</text>
-<text x="312" y="134" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-The numeric portion of the catalog number.
-</text>
-<text x="16" y="147" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-
-</text>
-<text x="27" y="147" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-CAT_NUM_SUFFIX
-</text>
-<text x="173" y="147" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-VARCHAR2 (60 CHAR)
-</text>
-<text x="312" y="147" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-The suffix portion of the catalog number, if any. Including any separator.  Example &quot;-a&quot;
-</text>
-<line x1="0" y1="153" x2="945" y2="153" fill="none" stroke="rgb(64,64,64)"/>
-<text x="5" y="166" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+<polygon points="329,2 325,10 333,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
+<line x1="0" y1="17" x2="335" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<line x1="0" y1="23" x2="335" y2="23" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="36" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
 Something to which a catalog number is assigned in a collection.
 </text>
 </g>
-<g  fill="rgb(255,204,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath159_0_)" transform="translate(37,18)" >
-<rect x="0" y="0" width="939" height="181" />
-<text id="185E6197-572B977478C8" x="444" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+<g  fill="rgb(255,204,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath159_0_)" transform="translate(861,739)" >
+<rect x="0" y="0" width="938" height="180" />
+<text id="185E6197-572B977478C8" x="443" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 CITATION
 </text>
-<line x1="0" y1="17" x2="938" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<line x1="0" y1="17" x2="937" y2="17" fill="none" stroke="rgb(0,0,255)"/>
 <text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
@@ -403,25 +385,25 @@ VARCHAR2 (255 CHAR)
 <text x="314" y="147" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
 A URI at which a resource representing the page in the publication on which the collection object is cited occurs.
 </text>
-<line x1="0" y1="153" x2="938" y2="153" fill="none" stroke="rgb(64,64,64)"/>
+<line x1="0" y1="153" x2="937" y2="153" fill="none" stroke="rgb(64,64,64)"/>
 <text x="5" y="166" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
 Citations record the association of a taxon name with a cataloged item in a publication.
 </text>
 </g>
-<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath167_0_)" transform="translate(389,474)" >
-<rect x="0" y="0" width="334" height="54" />
-<text id="E2697263-C0965973A0A7" x="132" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath167_0_)" transform="translate(373,673)" >
+<rect x="0" y="0" width="266" height="52" />
+<text id="E2697263-C0965973A0A7" x="98" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 COLL_OBJECT
 </text>
-<polygon points="327,2 323,10 331,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
-<line x1="0" y1="17" x2="333" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<polygon points="259,2 255,10 263,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
+<line x1="0" y1="17" x2="265" y2="17" fill="none" stroke="rgb(0,0,255)"/>
 </g>
-<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath290_0_)" transform="translate(20,1709)" >
-<rect x="0" y="0" width="322" height="114" />
-<text id="DCD5FFA9-D0ACE2240291" x="84" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
-CTPUBLICATION_ATTRIBUTE
+<g  fill="rgb(255,204,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath362_0_)" transform="translate(655,11)" >
+<rect x="0" y="0" width="684" height="198" />
+<text id="96B7B246-32EE7E408B15" x="299" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+IDENTIFICATION
 </text>
-<line x1="0" y1="17" x2="321" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<line x1="0" y1="17" x2="683" y2="17" fill="none" stroke="rgb(0,0,255)"/>
 <text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
@@ -429,77 +411,162 @@ CTPUBLICATION_ATTRIBUTE
 P
 </text>
 <text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-PUBLICATION_ATTRIBUTE
+IDENTIFICATION_ID
 </text>
-<text x="176" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-VARCHAR2 (60 CHAR)
+<text x="185" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
 </text>
-<text x="321" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-Controlled vocabulary term for publication attributes
+<text x="330" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Surrogate numeric primary key
 </text>
 <text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
 </text>
 <text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-DESCRIPTION
+COLLECTION_OBJECT_ID
 </text>
-<text x="176" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-VARCHAR2 (4000 CHAR)
+<text x="185" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
 </text>
-<text x="321" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-Text guidance on use of the publication attribute
+<text x="330" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Collection object to which this identification applies
 </text>
 <text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
 <text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-CONTROL
+DATE_MADE_DATE
 </text>
-<text x="176" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-VARCHAR2 (40 CHAR)
+<text x="185" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DATE
 </text>
-<text x="321" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-TABLE or TABLE.FIELD that provides a controlled vocabulary for this publication attribute, references a code table.
+<text x="330" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Deprecated
 </text>
 <text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
+<text x="2" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
 <text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-MCZ_PUBLICATION_FG
+NATURE_OF_ID
 </text>
-<text x="176" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-NUMBER
+<text x="185" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (30 CHAR)
 </text>
-<text x="321" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-Flag indicating that the attribute applies to MCZ publications and is used in the publications.mcz.harvard.edu web presentation of publication data.
+<text x="330" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Provenance of the identification.
 </text>
-</g>
-<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath291_0_)" transform="translate(393,1709)" >
-<rect x="0" y="0" width="293" height="75" />
-<text id="1CD046D4-B28D1FEAF752" x="87" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
-CTPUBLICATION_TYPE
-</text>
-<line x1="0" y1="17" x2="292" y2="17" fill="none" stroke="rgb(0,0,255)"/>
-<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
-<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
-P
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ACCEPTED_ID_FG
 </text>
-<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-PUBLICATION_TYPE
+<text x="185" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
 </text>
-<text x="148" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-VARCHAR2 (21 CHAR)
+<text x="330" y="82" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Flag indicating if the identification is the accepted identification for a collection object.
+</text>
+<text x="16" y="95" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+IDENTIFICATION_REMARKS
+</text>
+<text x="185" y="95" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 CHAR)
+</text>
+<text x="330" y="95" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Free text assertions concerning the identification.
+</text>
+<text x="16" y="108" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="108" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="108" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+TAXA_FORMULA
+</text>
+<text x="185" y="108" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (25 CHAR)
+</text>
+<text x="330" y="108" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Formula by which one or more taxon names are composed with each other and with optional additional text as part of the identification that is not part of the taxon name(s).   Allows expressions of uncertanty in identification and hybrids.  For each capital letter, A, B, etc. in the formula, there is expected to be a taxon_identification record linking this part of the formula to a taxon record.
+</text>
+<text x="16" y="121" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="121" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+SCIENTIFIC_NAME
+</text>
+<text x="185" y="121" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="330" y="121" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The text of the scientific name as used in the identification, Semiautomatic, composed from taxa_formula and the scientific names of any referenced taxa from the formula.
+</text>
+<text x="16" y="134" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="134" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+PUBLICATION_ID
+</text>
+<text x="185" y="134" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="330" y="134" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Sensu.  The publication that this use of the taxon name is in the sense of.    Links an identification to a taxon concept..
+</text>
+<text x="16" y="147" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="147" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+SORT_ORDER
+</text>
+<text x="185" y="147" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (2)
+</text>
+<text x="330" y="147" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Sort order for identifications in addition to date of identification.
+</text>
+<text x="16" y="160" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="160" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+STORED_AS_FG
+</text>
+<text x="185" y="160" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (1)
+</text>
+<text x="330" y="160" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Flag indicating that the collection object is stored under this name.
+</text>
+<text x="16" y="173" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="173" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+MADE_DATE
+</text>
+<text x="185" y="173" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (22 CHAR)
+</text>
+<text x="330" y="173" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Date the identification was made in ISO format.
 </text>
 </g>
-<g  fill="rgb(255,204,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath362_0_)" transform="translate(824,706)" >
-<rect x="0" y="0" width="313" height="40" />
-<text id="96B7B246-32EE7E408B15" x="114" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
-IDENTIFICATION
+<g  fill="rgb(255,204,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath363_0_)" transform="translate(25,16)" >
+<rect x="0" y="0" width="566" height="109" />
+<text id="A30F9FD0-12840D094ACA" x="219" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+IDENTIFICATION_AGENT
 </text>
-<polygon points="306,2 302,10 310,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
-<line x1="0" y1="17" x2="312" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<line x1="0" y1="17" x2="565" y2="17" fill="none" stroke="rgb(0,0,255)"/>
 <text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
@@ -507,89 +574,132 @@ IDENTIFICATION
 F
 </text>
 <text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-TAXA_FORMULA
+IDENTIFICATION_ID
 </text>
 <text x="185" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-VARCHAR2 (25 CHAR)
+NUMBER
 </text>
-<text x="330" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-Formula by which one or more taxon names are composed with each other and with optional additional text as part of the identification that is not part of the taxon name(s).   Allows expressions of uncertanty in identification and hybrids.  For each capital letter, A, B, etc. in the formula, there is expected to be a taxon_identification record linking this part of the formula to a taxon record.
+<text x="274" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Identification made by the agent.
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_ID
+</text>
+<text x="185" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (15)
+</text>
+<text x="274" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Agent who made the identification.
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+IDENTIFIER_ORDER
+</text>
+<text x="185" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="274" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Order of the agent in a list of identifiers for a particular identification.
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="69" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+IDENTIFICATION_AGENT_ID
+</text>
+<text x="185" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="274" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Surrogate numeric primary key.
+</text>
+<line x1="0" y1="75" x2="565" y2="75" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="88" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+An agent who made an identification.  Assocaitive entiy relating agents to identifications.
 </text>
 </g>
-<g  fill="rgb(255,204,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath363_0_)" transform="translate(821,795)" >
-<rect x="0" y="0" width="324" height="36" />
-<text id="A30F9FD0-12840D094ACA" x="98" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
-IDENTIFICATION_AGENT
-</text>
-<polygon points="317,2 313,10 321,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
-<line x1="0" y1="17" x2="323" y2="17" fill="none" stroke="rgb(0,0,255)"/>
-<line x1="0" y1="23" x2="323" y2="23" fill="none" stroke="rgb(64,64,64)"/>
-<text x="5" y="36" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-An agent who made an identification.  Assocaitive entiy 
-</text>
-<text x="5" y="49" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-relating agents to identifications.
-</text>
-</g>
-<g  fill="rgb(255,204,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath364_0_)" transform="translate(1326,688)" >
-<rect x="0" y="0" width="259" height="50" />
-<text id="3FD8E386-B985D8C0F9C4" x="52" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+<g  fill="rgb(255,204,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath364_0_)" transform="translate(1385,19)" >
+<rect x="0" y="0" width="604" height="139" />
+<text id="3FD8E386-B985D8C0F9C4" x="225" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 IDENTIFICATION_TAXONOMY
 </text>
-<polygon points="252,2 248,10 256,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
-<line x1="0" y1="17" x2="258" y2="17" fill="none" stroke="rgb(0,0,255)"/>
-<line x1="0" y1="23" x2="258" y2="23" fill="none" stroke="rgb(64,64,64)"/>
-<text x="5" y="36" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-Associative entity linking taxonomy records to 
+<line x1="0" y1="17" x2="603" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
 </text>
-<text x="5" y="49" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-identifications.   Weakly keyed on identification_
+<text x="2" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
 </text>
-<text x="5" y="62" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-id, taxon_name_id and variable.  Variable matches 
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+IDENTIFICATION_ID
 </text>
+<text x="145" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="245" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Identification in which the taxon name is used in the taxa_formula in the location identified by variable.
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+TAXON_NAME_ID
+</text>
+<text x="145" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="245" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Taxon the name of which is used in the identification in the location specified by the position of variable in taxa_formula.
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARIABLE
+</text>
+<text x="145" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CHAR (1 CHAR)
+</text>
+<text x="245" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Position (specified by a captial letter) in taxa_formula where the scientific name of the taxon in taxon_name_id is used in the identification specific by identification_id.
+</text>
+<line x1="0" y1="62" x2="603" y2="62" fill="none" stroke="rgb(64,64,64)"/>
 <text x="5" y="75" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-a capital letter in the taxa_formula of an 
+Associative entity linking taxonomy records to identifications.   Weakly keyed on identification_id, taxon_name_id and 
 </text>
 <text x="5" y="88" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-identification.   One identification can be 
+variable.  Variable matches a capital letter in the taxa_formula of an identification.   One identification can be related 
 </text>
 <text x="5" y="101" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-related to one to many taxonomy records, where 
+to one to many taxonomy records, where each element (captial letter) of the taxon formula (identification.taxa_formula) is 
 </text>
 <text x="5" y="114" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-each element (captial letter) of the taxon formula 
+matched to a taxon (taxonomy.taxon_name_id) through the variable (identification_taxonomy.variable) and the taxon_name_id (
 </text>
 <text x="5" y="127" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-(identification.taxa_formula) is matched to a 
-</text>
-<text x="5" y="140" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-taxon (taxonomy.taxon_name_id) through the 
-</text>
-<text x="5" y="153" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-variable (identification_taxonomy.variable) and 
-</text>
-<text x="5" y="166" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-the taxon_name_id (identification_taxonomy.taxon_
-</text>
-<text x="5" y="179" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-name_id).
+identification_taxonomy.taxon_name_id).
 </text>
 </g>
-<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath410_0_)" transform="translate(52,471)" >
-<rect x="0" y="0" width="236" height="57" />
-<text id="A5F85700-8357FA2C9CB1" x="74" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
-SPECIMEN_PART
-</text>
-<polygon points="229,2 225,10 233,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
-<line x1="0" y1="17" x2="235" y2="17" fill="none" stroke="rgb(0,0,255)"/>
-</g>
-<g  fill="rgb(255,204,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath424_0_)" transform="translate(1077,9)" >
-<rect x="0" y="0" width="946" height="637" />
-<text id="A4543078-B10F76E355DF" x="441" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+<g  fill="rgb(255,204,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath424_0_)" transform="translate(1373,209)" >
+<rect x="0" y="0" width="797" height="477" />
+<text id="A4543078-B10F76E355DF" x="367" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 TAXONOMY
 </text>
-<line x1="0" y1="17" x2="945" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<line x1="0" y1="17" x2="796" y2="17" fill="none" stroke="rgb(0,0,255)"/>
 <text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
@@ -1028,78 +1138,180 @@ VARCHAR2 (255 BYTE)
 <text x="355" y="485" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
 type of identifier used in taxonid
 </text>
-<text x="16" y="498" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-
+<polygon points="790,474 786,466 794,466" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
+<line x1="0" y1="491" x2="796" y2="491" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="504" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+A record concerning a taxon including the name for the taxon, its authorship, its classification, and authoritative sources of information about the taxon.   Higher 
 </text>
-<text x="27" y="498" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-TAXONID
+<text x="5" y="517" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+classifications may be incomplete, and by design, may be inconsistent.   The design intent of the flat taxonomy table is to allow different collections to support 
 </text>
-<text x="210" y="498" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-VARCHAR2 (900 BYTE)
+<text x="5" y="530" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+different higher classifications, e.g.  a malacology department and an invertebrate paleontology department might choose to use different higher classification 
 </text>
-<text x="355" y="498" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-dwc:taxonID, a guid for the taxon record.
-</text>
-<text x="16" y="511" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-
-</text>
-<text x="27" y="511" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-SCIENTIFICNAMEID_GUID_TYPE
-</text>
-<text x="210" y="511" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-VARCHAR2 (255 BYTE)
-</text>
-<text x="355" y="511" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-type of identifier in scientificnameid
-</text>
-<text x="16" y="524" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-
-</text>
-<text x="27" y="524" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
-SCIENTIFICNAMEID
-</text>
-<text x="210" y="524" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
-VARCHAR2 (900 BYTE)
-</text>
-<text x="355" y="524" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-dwc:scientificNameID, guid for the nomenclatural act on which the taxon found in scientific_name is based.
-</text>
-<line x1="0" y1="530" x2="945" y2="530" fill="none" stroke="rgb(64,64,64)"/>
 <text x="5" y="543" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-A record concerning a taxon including the name for the taxon, its authorship, its classification, and authoritative sources of information about the taxon.   Higher classifications may be 
+schemes for molluscs.   In this model, consistency in higher classification as a finding aid is achieved through consensus and data cleanup, but not enforced by the 
 </text>
 <text x="5" y="556" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-incomplete, and by design, may be inconsistent.   The design intent of the flat taxonomy table is to allow different collections to support different higher classifications, e.g.  a malacology 
+data structure.   In MCZbase, GUIDs are all external, as the MCZ does not consider itself as maintaining a nomenclatural or taxonomic authority, just local database 
 </text>
 <text x="5" y="569" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-department and an invertebrate paleontology department might choose to use different higher classification schemes for molluscs.   In this model, consistency in higher classification as a finding 
-</text>
-<text x="5" y="582" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-aid is achieved through consensus and data cleanup, but not enforced by the data structure.   In MCZbase, GUIDs are all external, as the MCZ does not consider itself as maintaining a 
-</text>
-<text x="5" y="595" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-nomenclatural or taxonomic authority, just local database records that may be linked to other taxonomic or nomenclatural authorities by their guids.
+records that may be linked to other taxonomic or nomenclatural authorities by their guids.
 </text>
 </g>
-<g  fill="rgb(204,255,255)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath9_0_)" transform="translate(471,733)" >
-<rect x="0" y="0" width="169" height="109" />
-<text id="FF69C42F-B6612910D935" x="66" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
-AGENT
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath308_0_)" transform="translate(801,241)" >
+<rect x="0" y="0" width="543" height="58" />
+<text id="6D1357A6-AC3E15E05276" x="219" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTTAXA_FORMULA
 </text>
-<polygon points="162,2 158,10 166,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
-<line x1="0" y1="17" x2="168" y2="17" fill="none" stroke="rgb(0,0,255)"/>
-<line x1="0" y1="23" x2="168" y2="23" fill="none" stroke="rgb(64,64,64)"/>
-<text x="5" y="36" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-A person, group of people, 
+<line x1="0" y1="17" x2="542" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
 </text>
-<text x="5" y="49" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-organization, or other entity 
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
 </text>
-<text x="5" y="62" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-having some role with regards 
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+TAXA_FORMULA
 </text>
-<text x="5" y="75" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-to natural science collections.
+<text x="128" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (25 CHAR)
+</text>
+<text x="269" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The formula with which one or more taxon names are composed with each other and with additional text in an identification.
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DESCRIPTION
+</text>
+<text x="128" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 BYTE)
+</text>
+<text x="269" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Free text concerning the forumula.
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath313_0_)" transform="translate(1998,23)" >
+<rect x="0" y="0" width="159" height="52" />
+<text id="F72A5D70-3AACD3BC2275" x="22" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTTAXON_VARIABLE
+</text>
+<line x1="0" y1="17" x2="158" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+TAXON_VARIABLE
+</text>
+<text x="137" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CHAR (1 CHAR)
+</text>
+</g>
+<g  fill="rgb(204,255,255)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath10_0_)" transform="translate(2,462)" >
+<rect x="0" y="0" width="483" height="104" />
+<text id="7606D3FF-86DFCD7E1FF1" x="204" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_NAME
+</text>
+<line x1="0" y1="17" x2="482" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_NAME_ID
+</text>
+<text x="193" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="332" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Surrogate numeric primary key
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_ID
+</text>
+<text x="193" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (15)
+</text>
+<text x="332" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+FK for agent to which this name belongs.
+
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_NAME_TYPE
+</text>
+<text x="193" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (18 CHAR)
+</text>
+<text x="332" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The type of name
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DONOR_CARD_PRESENT_FG
+</text>
+<text x="193" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="332" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Deprecated.  If 0, likely indicates creation of agent name through coldfusion code.
+</text>
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_NAME
+</text>
+<text x="193" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (184 CHAR)
+</text>
+<text x="332" y="82" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The value of the name
+</text>
+<line x1="0" y1="88" x2="482" y2="88" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="101" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+A name, in a specified form, of an agent.
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath760_0_)" transform="translate(1252,285)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M45 0 L51 9 L51 55 L0 55 L0 0 L45 0 L45 9 L51 9" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+A sp.
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+A ?
+</text>
+<text x="2" y="39" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+A x B
+</text>
+<text x="2" y="52" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+...
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath761_0_)" transform="translate(2069,65)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M24 0 L27 6 L27 40 L0 40 L0 0 L24 0 L24 6 L27 6" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+A
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+B
 </text>
 </g>
 

@@ -1,5 +1,5 @@
 
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"  width="2057" height="1096">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"  width="2295" height="1096">
 <defs id="dmw_defs" >
 <svg id="fk_sym" viewBox="0 0 48.665 48.665" style="enable-background:new 0 0 48.665 48.665;" >
 <g>
@@ -22,17 +22,32 @@
 <path fill="black" d="M660.224 422.656c6.976 16.192-0.512 35.008-16.768 42.048-16.128 6.976-34.944-0.448-41.984-16.768-8.448-19.776-20.736-37.696-36.224-53.248-64.64-64.64-177.344-64.64-241.92 0l-145.216 145.28c-66.688 66.688-66.688 175.232 0 241.984 66.688 66.688 175.104 66.752 241.92 0l92.8-92.864c12.48-12.48 32.768-12.48 45.248 0s12.48 32.768 0 45.248l-92.8 92.864c-91.648 91.648-240.832 91.52-332.416 0-91.712-91.648-91.712-240.832 0-332.48l145.216-145.28c44.352-44.416 103.424-68.864 166.272-68.864s121.792 24.448 166.208 68.864c21.248 21.312 38.016 45.952 49.664 73.216zM891.136 401.344l-145.216 145.216c-88.768 88.832-243.712 88.832-332.416 0-21.312-21.312-38.080-45.952-49.728-73.216-7.040-16.256 0.448-35.072 16.704-42.048 16.064-6.784 35.008 0.512 41.984 16.768 8.512 19.776 20.8 37.696 36.288 53.248 64.64 64.64 177.344 64.64 241.92 0l145.216-145.216c66.688-66.688 66.688-175.232 0-241.984-66.752-66.624-175.168-66.688-241.92 0l-92.8 92.864c-12.48 12.48-32.768 12.48-45.248 0s-12.48-32.768 0-45.248l92.8-92.864c45.824-45.824 105.984-68.736 166.208-68.736s120.448 22.912 166.272 68.736c91.584 91.648 91.584 240.768-0.064 332.48z" />
 </g>
 </svg>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath762_0_">
+<rect x="0" y="0" width="97" height="22" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath757_0_">
+<rect x="0" y="0" width="152" height="38" />
+</clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath224_0_">
 <rect x="0" y="0" width="206" height="41" />
 </clipPath>
-<clipPath clipPathUnits="userSpaceOnUse" id="clipPath741_0_">
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath754_0_">
+<rect x="0" y="0" width="233" height="79" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath743_0_">
 <rect x="0" y="0" width="157" height="29" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath351_0_">
-<rect x="0" y="0" width="748" height="182" />
+<rect x="0" y="0" width="748" height="161" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath755_0_">
+<rect x="0" y="0" width="167" height="23" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath756_0_">
+<rect x="0" y="0" width="227" height="25" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath366_0_">
-<rect x="0" y="0" width="657" height="586" />
+<rect x="0" y="0" width="983" height="586" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath258_0_">
 <rect x="0" y="0" width="352" height="79" />
@@ -43,20 +58,23 @@
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath350_0_">
 <rect x="0" y="0" width="600" height="123" />
 </clipPath>
-<clipPath clipPathUnits="userSpaceOnUse" id="clipPath742_0_">
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath173_0_">
+<rect x="0" y="0" width="409" height="144" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath744_0_">
 <rect x="0" y="0" width="149" height="61" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath299_0_">
 <rect x="0" y="0" width="281" height="49" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath349_0_">
-<rect x="0" y="0" width="483" height="292" />
+<rect x="0" y="0" width="712" height="339" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath376_0_">
-<rect x="0" y="0" width="612" height="339" />
+<rect x="0" y="0" width="670" height="339" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath259_0_">
-<rect x="0" y="0" width="348" height="79" />
+<rect x="0" y="0" width="348" height="51" />
 </clipPath>
 <clipPath clipPathUnits="userSpaceOnUse" id="clipPath170_0_">
 <rect x="0" y="0" width="425" height="63" />
@@ -72,19 +90,19 @@
 </clipPath>
 </defs>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1675 452 L1513 379" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1675 452 1669 452 1671 448" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M1515.0 374.0 L1523.0 383.0 L1511.0 384.0 M1525.5 378.19999980926514 L1521.5 388.19999980926514" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1671 430 L1530 361" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1671 430 1665 430 1667 426" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1532.0 356.0 L1540.0 365.0 L1528.0 366.0 M1542.5 360.19999980926514 L1538.5 370.19999980926514" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1584 749 L1490 749" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1584 749 1578 752 1578 746" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M1490.0 743.0 L1502.0 749.0 L1490.0 755.0 M1502.5999994277954 743.0 L1502.5999994277954 755.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M1821 739 L1778 739" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1821 739 1815 742 1815 736" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1778.0 733.0 L1790.0 739.0 L1778.0 745.0 M1790.5999994277954 733.0 L1790.5999994277954 745.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M901 117 L739 117" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="901 117 895 120 895 114" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M739.0 111.0 L751.0 117.0 L739.0 123.0 M751.5999994277954 111.0 L751.5999994277954 123.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M860 69 L741 69" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="860 69 854 72 854 66" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M741.0 63.0 L753.0 69.0 L741.0 75.0 M753.5999994277954 63.0 L753.5999994277954 75.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
 <path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M723 713 L748 713 L748 820 L543 820 L543 719" />
@@ -92,8 +110,8 @@
 <path stroke-dasharray="none" d="M549.0 719.0 L543.0 731.0 L537.0 719.0 M549.0 731.5999994277954 L537.0 731.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1195 412 L1195 510" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1195 412 1198 418 1192 418" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1195 370 L1195 510" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1195 370 1198 376 1192 376" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
 <path stroke-dasharray="none" d="M1189.0 510.0 L1195.0 498.0 L1201.0 510.0 M1189.0 497.4000005722046 L1201.0 497.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
@@ -102,46 +120,56 @@
 <path stroke-dasharray="none" d="M701.0 332.0 L707.0 320.0 L713.0 332.0 M701.0 319.4000005722046 L713.0 319.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M767 276 L942 510" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="767 276 772 279 768 281" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M938.0 513.0 L936.0 502.0 L946.0 507.0 M931.7000002861023 504.6000003814697 L939.7000002861023 498.6000003814697" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M808 276 L808 510" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="808 276 811 282 805 282" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M802.0 510.0 L808.0 498.0 L814.0 510.0 M802.0 497.4000005722046 L814.0 497.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M423 596 L423 514" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M423 596 L423 493" />
 <polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="423 596 420 590 426 590" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M429.0 514.0 L423.0 526.0 L417.0 514.0 M429.0 526.5999994277954 L417.0 526.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke-dasharray="none" d="M429.0 493.0 L423.0 505.0 L417.0 493.0 M429.0 505.5999994277954 L417.0 505.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1574 217 L1513 217" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1574 217 1568 220 1568 214" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M1513.0 211.0 L1525.0 217.0 L1513.0 223.0 M1525.5999994277954 211.0 L1525.5999994277954 223.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1583 189 L1530 189" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1583 189 1577 192 1577 186" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1530.0 183.0 L1542.0 189.0 L1530.0 195.0 M1542.5999994277954 183.0 L1542.5999994277954 195.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M314 118 L244 118" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="314 118 308 121 308 115" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M244.0 112.0 L256.0 118.0 L244.0 124.0 M256.5999994277954 112.0 L256.5999994277954 124.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M316 71 L250 71" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="316 71 310 74 310 68" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M250.0 65.0 L262.0 71.0 L250.0 77.0 M262.5999994277954 65.0 L262.5999994277954 77.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M695 194 L695 149" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="695 194 692 188 698 188" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M701.0 149.0 L695.0 161.0 L689.0 149.0 M701.0 161.5999994277954 L689.0 161.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-dasharray="8,8" stroke-width="1" d="M696 194 L696 101" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="696 194 693 188 699 188" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M702.0 101.0 L696.0 113.0 L690.0 101.0 M702.0 113.59999942779541 L690.0 113.59999942779541" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M901 372 L762 372" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="901 372 895 375 895 369" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M762.0 366.0 L774.0 372.0 L762.0 378.0 M774.5999994277954 366.0 L774.5999994277954 378.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M652 235 L444 235" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="652 235 646 238 646 232" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M444.0 229.0 L456.0 235.0 L444.0 241.0 M456.5999994277954 229.0 L456.5999994277954 241.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1589 621 L1490 621" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1589 621 1583 624 1583 618" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M1490.0 615.0 L1502.0 621.0 L1490.0 627.0 M1502.5999994277954 615.0 L1502.5999994277954 627.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M860 351 L762 351" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="860 351 854 354 854 348" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M762.0 345.0 L774.0 351.0 L762.0 357.0 M774.5999994277954 345.0 L774.5999994277954 357.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
 <g stroke-linecap="butt" >
-<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M767 276 L957 510" />
-<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="767 276 772 279 768 281" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
-<path stroke-dasharray="none" d="M953.0 513.0 L951.0 502.0 L961.0 507.0 M946.7000002861023 504.6000003814697 L954.7000002861023 498.6000003814697" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M1826 611 L1778 611" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="1826 611 1820 614 1820 608" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M1778.0 605.0 L1790.0 611.0 L1778.0 617.0 M1790.5999994277954 605.0 L1790.5999994277954 617.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
 </g>
-<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath224_0_)" transform="translate(1585,811)" >
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M808 276 L808 510" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="808 276 811 282 805 282" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M802.0 510.0 L808.0 498.0 L814.0 510.0 M802.0 497.4000005722046 L814.0 497.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M142 100 L142 137" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="142 100 145 106 139 106" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M136.0 137.0 L142.0 125.0 L148.0 137.0 M136.0 124.40000057220459 L148.0 124.40000057220459" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath224_0_)" transform="translate(1822,801)" >
 <rect x="0" y="0" width="205" height="40" />
 <text id="4018E83C-0FD8BC019CF9" x="47" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 MCZBASE.CTDATUM
@@ -158,7 +186,7 @@ VARCHAR2 (55 BYTE)
 </text>
 </g>
 <g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath351_0_)" transform="translate(14,332)" >
-<rect x="0" y="0" width="747" height="181" />
+<rect x="0" y="0" width="747" height="160" />
 <text id="589D2A40-63067DB10E8D" x="283" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 MCZBASE.GEOLOGY_ATTRIBUTES
 </text>
@@ -287,12 +315,12 @@ VARCHAR2 (4000 BYTE)
 previous values for geo_attr_value pipe separated list
 </text>
 </g>
-<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath366_0_)" transform="translate(833,510)" >
-<rect x="0" y="0" width="656" height="585" />
-<text id="769F7158-A7C43FFACEE6" x="272" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath366_0_)" transform="translate(795,510)" >
+<rect x="0" y="0" width="982" height="585" />
+<text id="769F7158-A7C43FFACEE6" x="435" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 MCZBASE.LAT_LONG
 </text>
-<line x1="0" y1="17" x2="655" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<line x1="0" y1="17" x2="981" y2="17" fill="none" stroke="rgb(0,0,255)"/>
 <text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
@@ -332,6 +360,9 @@ LAT_DEG
 <text x="241" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER
 </text>
+<text x="386" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The degree portion of the latitude, expected to be a positive number in the range 0 to 90.
+</text>
 <text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -340,6 +371,9 @@ DEC_LAT_MIN
 </text>
 <text x="241" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER (8,6)
+</text>
+<text x="386" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+For coordinates with an orig_lat_long_units of decimal minutes, the decimal minutes portion of the latitude.
 </text>
 <text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
@@ -350,6 +384,9 @@ LAT_MIN
 <text x="241" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER
 </text>
+<text x="386" y="82" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+For coordinates with an orig_lat_long_units of degrees minutes seconds, the minutes portion of the latitude.
+</text>
 <text x="16" y="95" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -358,6 +395,9 @@ LAT_SEC
 </text>
 <text x="241" y="95" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER (8,6)
+</text>
+<text x="386" y="95" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+For coordinates with an orig_lat_long_units of degrees minutes seconds, the seconds portion of the latitude.
 </text>
 <text x="16" y="108" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
@@ -368,6 +408,9 @@ LAT_DIR
 <text x="241" y="108" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 VARCHAR2 (1 CHAR)
 </text>
+<text x="386" y="108" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Direction for the latitude (lat_deg) N or S.   When N, dec_lat should be a positive number.
+</text>
 <text x="16" y="121" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -376,6 +419,9 @@ LONG_DEG
 </text>
 <text x="241" y="121" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER
+</text>
+<text x="386" y="121" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The degree portion of the longitude, expected to be a positive number in the range 0 to 180.
 </text>
 <text x="16" y="134" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
@@ -386,6 +432,9 @@ DEC_LONG_MIN
 <text x="241" y="134" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER (10,8)
 </text>
+<text x="386" y="134" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+For coordinates with an orig_lat_long_units of decimal minutes, the decimal minutes portion of the longitude.
+</text>
 <text x="16" y="147" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -394,6 +443,9 @@ LONG_MIN
 </text>
 <text x="241" y="147" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER
+</text>
+<text x="386" y="147" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+For coordinates with an orig_lat_long_units of degrees minutes seconds, the minutes portion of the longitude.
 </text>
 <text x="16" y="160" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
@@ -404,6 +456,9 @@ LONG_SEC
 <text x="241" y="160" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER (8,6)
 </text>
+<text x="386" y="160" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+For coordinates with an orig_lat_long_units of degrees minutes seconds, the seconds portion of the longitude.
+</text>
 <text x="16" y="173" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -412,6 +467,9 @@ LONG_DIR
 </text>
 <text x="241" y="173" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 VARCHAR2 (1 CHAR)
+</text>
+<text x="386" y="173" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Direction for the longitude (long_deg) E or W.   When E, dec_long should be a positive number.
 </text>
 <text x="16" y="186" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
@@ -422,6 +480,9 @@ DEC_LAT
 <text x="241" y="186" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER (12,10)
 </text>
+<text x="386" y="186" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Semiautomatic, the latitude portion of the georeference represented as decimal degrees in the range -90 to 90. Expected to be populated for all georeferences, but this is not enforced.
+</text>
 <text x="16" y="199" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -431,6 +492,9 @@ DEC_LONG
 <text x="241" y="199" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER (13,10)
 </text>
+<text x="386" y="199" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Semiautomatic, the longitude portion of the georeference represented as decimal degrees in the range -180 to 180.  Expected to be populated for all georeferences, but this is not enforced.
+</text>
 <text x="16" y="212" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
@@ -439,6 +503,9 @@ DATUM
 </text>
 <text x="241" y="212" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 VARCHAR2 (55 CHAR)
+</text>
+<text x="386" y="212" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The horizontal geodedic datum or spatial reference system including geodetic datum for the georeference.
 </text>
 <text x="16" y="225" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
@@ -488,6 +555,9 @@ ORIG_LAT_LONG_UNITS
 <text x="241" y="264" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 VARCHAR2 (20 CHAR)
 </text>
+<text x="386" y="264" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Form in which the latitude and longitude are stored in the georeference, degrees minutes seconds, degrees decimal minutes, or decimal degrees.  Determines which fields are combined to present the georeference in original form.
+</text>
 <text x="16" y="277" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
@@ -524,6 +594,9 @@ LAT_LONG_REF_SOURCE
 <text x="241" y="303" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 VARCHAR2 (500 CHAR)
 </text>
+<text x="386" y="303" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Reference consulted as a source for the georeference.
+</text>
 <text x="16" y="316" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -545,6 +618,9 @@ MAX_ERROR_DISTANCE
 <text x="241" y="329" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER
 </text>
+<text x="386" y="329" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Error radius for the georeference around the single specified coordinate.
+</text>
 <text x="16" y="342" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -557,6 +633,9 @@ MAX_ERROR_UNITS
 <text x="241" y="342" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 VARCHAR2 (2 BYTE)
 </text>
+<text x="386" y="342" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Units for max_error_distance.
+</text>
 <text x="16" y="355" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -565,6 +644,9 @@ NEAREST_NAMED_PLACE
 </text>
 <text x="241" y="355" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 VARCHAR2 (255 CHAR)
+</text>
+<text x="386" y="355" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Nearest named place to the georefernce.
 </text>
 <text x="16" y="368" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
@@ -575,6 +657,9 @@ LAT_LONG_FOR_NNP_FG
 <text x="241" y="368" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER
 </text>
+<text x="386" y="368" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Flag indicating if the georeference is for the nearest named place.
+</text>
 <text x="16" y="381" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -583,6 +668,9 @@ FIELD_VERIFIED_FG
 </text>
 <text x="241" y="381" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER
+</text>
+<text x="386" y="381" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Flag indicating verification status of this georeference.
 </text>
 <text x="16" y="394" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
@@ -593,6 +681,9 @@ ACCEPTED_LAT_LONG_FG
 <text x="241" y="394" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER
 </text>
+<text x="386" y="394" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Flag indicating if this is the accepted georeference for a locality.  1 is accepted, 2 is not accepted.
+</text>
 <text x="16" y="407" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -601,6 +692,9 @@ EXTENT
 </text>
 <text x="241" y="407" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER (12,5)
+</text>
+<text x="386" y="407" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Description of how the actual extent of the locality relates to the georeference.
 </text>
 <text x="16" y="420" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
@@ -611,6 +705,9 @@ GPSACCURACY
 <text x="241" y="420" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER (8,3)
 </text>
+<text x="386" y="420" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+If georefernece was obtained from a GNSS/GPS reciever, the accuracy for the coordinate asserted by that recever at the time the location was recorded.
+</text>
 <text x="16" y="433" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
@@ -619,6 +716,9 @@ GEOREFMETHOD
 </text>
 <text x="241" y="433" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 VARCHAR2 (255 CHAR)
+</text>
+<text x="386" y="433" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Method by which the georeference was made.
 </text>
 <text x="16" y="446" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
@@ -629,6 +729,9 @@ VERIFICATIONSTATUS
 <text x="241" y="446" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 VARCHAR2 (40 CHAR)
 </text>
+<text x="386" y="446" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Verification of the validity and accuracy of this georeference.
+</text>
 <text x="16" y="459" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -637,6 +740,9 @@ SPATIALFIT
 </text>
 <text x="241" y="459" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER (4,3)
+</text>
+<text x="386" y="459" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Portion of the extent as represented by the point-radius uncertanty repressented by the actual extent of the locality.
 </text>
 <text x="16" y="472" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
@@ -647,6 +753,9 @@ GEOLOCATE_UNCERTAINTYPOLYGON
 <text x="241" y="472" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 VARCHAR2 (4000 BYTE)
 </text>
+<text x="386" y="472" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+For georeferences returned from geolocate, either automated or manual, the uncertanty asserted by geolocate.
+</text>
 <text x="16" y="485" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -655,6 +764,9 @@ GEOLOCATE_SCORE
 </text>
 <text x="241" y="485" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER (3)
+</text>
+<text x="386" y="485" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+For georeferences returned from geolocate, either automated or manual, the score for the selected georeference asserted by geolocate.
 </text>
 <text x="16" y="498" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
@@ -665,6 +777,9 @@ GEOLOCATE_PRECISION
 <text x="241" y="498" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 VARCHAR2 (25 BYTE)
 </text>
+<text x="386" y="498" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+For georeferences returned from geolocate, either automated or manual, the precision asserted by geolocate.
+</text>
 <text x="16" y="511" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -674,6 +789,9 @@ GEOLOCATE_NUMRESULTS
 <text x="241" y="511" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER (3)
 </text>
+<text x="386" y="511" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+For georeferences returned from geolocate, either automated or manual, the number of results found by geolocate out of which the georeference was selected.
+</text>
 <text x="16" y="524" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -682,6 +800,9 @@ GEOLOCATE_PARSEPATTERN
 </text>
 <text x="241" y="524" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 VARCHAR2 (256 BYTE)
+</text>
+<text x="386" y="524" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+For georeferences returned from geolocate, either automated or manual, the pattern geolocate matched in the specific locality text that geolocate used to assert the georeference.
 </text>
 <text x="16" y="537" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
@@ -695,6 +816,9 @@ VERIFIED_BY_AGENT_ID
 <text x="241" y="537" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 NUMBER (15)
 </text>
+<text x="386" y="537" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Agent who verified the georeference.
+</text>
 <text x="16" y="550" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 
 </text>
@@ -704,8 +828,15 @@ ERROR_POLYGON
 <text x="241" y="550" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
 CLOB
 </text>
+<text x="386" y="550" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Spatial shape, serialized as Well Known Text (WKT) that represents an error region within which the locality occurs.
+</text>
+<line x1="0" y1="556" x2="981" y2="556" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="569" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+A georeference.
+</text>
 </g>
-<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath258_0_)" transform="translate(1584,710)" >
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath258_0_)" transform="translate(1821,700)" >
 <rect x="0" y="0" width="351" height="78" />
 <text id="823D9EF2-405555DB1B17" x="72" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 MCZBASE.CTLAT_LONG_ERROR_UNITS
@@ -724,7 +855,7 @@ LAT_LONG_ERROR_UNITS
 VARCHAR2 (2 CHAR)
 </text>
 </g>
-<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath242_0_)" transform="translate(1587,958)" >
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath242_0_)" transform="translate(1824,948)" >
 <rect x="0" y="0" width="266" height="40" />
 <text id="826D3140-152DD583717A" x="54" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 MCZBASE.CTGEOREFMETHOD
@@ -835,7 +966,7 @@ Free text assertion about this node.
 Heirarchical relationships of geologic attribute terms.   Contains edge representations of trees.
 </text>
 </g>
-<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath299_0_)" transform="translate(1590,452)" >
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath299_0_)" transform="translate(1582,430)" >
 <rect x="0" y="0" width="280" height="48" />
 <text id="BADE4218-EDD0A39B4F0C" x="50" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 MCZBASE.CTSOVEREIGN_NATION
@@ -854,12 +985,12 @@ SOVEREIGN_NATION
 VARCHAR2 (255 BYTE)
 </text>
 </g>
-<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath349_0_)" transform="translate(1574,70)" >
-<rect x="0" y="0" width="482" height="291" />
-<text id="C1A0AAE3-CF4B17E47083" x="167" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath349_0_)" transform="translate(1583,8)" >
+<rect x="0" y="0" width="711" height="338" />
+<text id="C1A0AAE3-CF4B17E47083" x="281" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 MCZBASE.GEOG_AUTH_REC
 </text>
-<line x1="0" y1="17" x2="481" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<line x1="0" y1="17" x2="710" y2="17" fill="none" stroke="rgb(0,0,255)"/>
 <text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
@@ -1091,32 +1222,26 @@ VARCHAR2 (900 BYTE)
 <text x="368" y="264" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
 dwc:higherGeographyID, a guid for the geographic region represented by the geog_auth_rec record.
 </text>
-<line x1="0" y1="270" x2="481" y2="270" fill="none" stroke="rgb(64,64,64)"/>
+<line x1="0" y1="270" x2="710" y2="270" fill="none" stroke="rgb(64,64,64)"/>
 <text x="5" y="283" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-Authority table for higher geographies into which localities are placed.  By design, inconsistent 
+Authority table for higher geographies into which localities are placed.  By design, inconsistent heiriarchies can be stored in this structure, 
 </text>
 <text x="5" y="296" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-heiriarchies can be stored in this structure, allowing different collections to manage higher 
+allowing different collections to manage higher geographies independently.  Consistency is maintained by central management of the higher geography 
 </text>
 <text x="5" y="309" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-geographies independently.  Consistency is maintained by central management of the higher geography 
+authority and data cleanup.   Concepts in the higher geography are filled in heirarchically to the appropriate level for land or water geographies, e.
 </text>
 <text x="5" y="322" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-authority and data cleanup.   Concepts in the higher geography are filled in heirarchically to the 
-</text>
-<text x="5" y="335" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-appropriate level for land or water geographies, e.g. continent/country/state_prov/county/feature, 
-</text>
-<text x="5" y="348" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
-or ocean/ocean region/ocean subregion/sea/water feature.
+g. continent/country/state_prov/county/feature, or ocean/ocean region/ocean subregion/sea/water feature.
 </text>
 </g>
-<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath376_0_)" transform="translate(901,73)" >
-<rect x="0" y="0" width="611" height="338" />
-<text id="CB41BD3D-F339602D2C7F" x="251" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath376_0_)" transform="translate(860,31)" >
+<rect x="0" y="0" width="669" height="338" />
+<text id="CB41BD3D-F339602D2C7F" x="280" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 MCZBASE.LOCALITY
 </text>
-<line x1="0" y1="17" x2="610" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<line x1="0" y1="17" x2="668" y2="17" fill="none" stroke="rgb(0,0,255)"/>
 <text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 *
 </text>
@@ -1388,8 +1513,8 @@ NUMBER (1)
 Marker that this locality record has been edited and curated to a target state and shouldn&apos;t normally be edited.
 </text>
 </g>
-<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath259_0_)" transform="translate(1586,866)" >
-<rect x="0" y="0" width="347" height="78" />
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath259_0_)" transform="translate(1823,856)" >
+<rect x="0" y="0" width="347" height="50" />
 <text id="CE94CEE5-96F97FF77525" x="73" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 MCZBASE.CTLAT_LONG_REF_SOURCE
 </text>
@@ -1407,7 +1532,7 @@ LAT_LONG_REF_SOURCE
 VARCHAR2 (255 CHAR)
 </text>
 </g>
-<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath170_0_)" transform="translate(314,86)" >
+<g  fill="rgb(204,255,102)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath170_0_)" transform="translate(316,38)" >
 <rect x="0" y="0" width="424" height="62" />
 <text id="E8574606-FC610905DD19" x="131" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 MCZBASE.COLLECTING_EVENT
@@ -1422,7 +1547,7 @@ Event at which material was collected or observed at some locality.  Similar
 concept to Gathering in ABCD.
 </text>
 </g>
-<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath260_0_)" transform="translate(1589,582)" >
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath260_0_)" transform="translate(1826,572)" >
 <rect x="0" y="0" width="300" height="78" />
 <text id="EF1957EC-B791EB60CD31" x="68" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 MCZBASE.CTLAT_LONG_UNITS
@@ -1441,7 +1566,7 @@ ORIG_LAT_LONG_UNITS
 VARCHAR2 (20 CHAR)
 </text>
 </g>
-<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath30_0_)" transform="translate(21,89)" >
+<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath30_0_)" transform="translate(27,42)" >
 <rect x="0" y="0" width="222" height="57" />
 <text id="F66B8097-064CF835A3F5" x="34" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
 MCZBASE.CATALOGED_ITEM
@@ -1477,13 +1602,46 @@ having some role with regards
 to natural science collections.
 </text>
 </g>
-<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath741_0_)" transform="translate(1790,752)" >
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath173_0_)" transform="translate(35,137)" >
+<rect x="0" y="0" width="408" height="143" />
+<text id="AA793ADC-02D9D5A58931" x="145" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+MCZBASE.COLLECTOR
+</text>
+<polygon points="401,2 397,10 405,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
+<line x1="0" y1="17" x2="407" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<line x1="0" y1="23" x2="407" y2="23" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="36" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Agents who act upon collection objects (collectors, preparators).    Collectors are 
+</text>
+<text x="5" y="49" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+treated as attributes of collection objects rather than collecting events to (1) 
+</text>
+<text x="5" y="62" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+support vauge collecting events to which multiple specimens can be attached from 
+</text>
+<text x="5" y="75" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+different collectors on different unknown event dates, and more importantly (2) to 
+</text>
+<text x="5" y="88" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+support different disciplines understanding of what comprises a collecting event, 
+</text>
+<text x="5" y="101" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+where some disciplines associate a collector with a collecting event, but others 
+</text>
+<text x="5" y="114" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+bin multiple collectors of different material from the same place and time into one 
+</text>
+<text x="5" y="127" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+collecting event.
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath743_0_)" transform="translate(2027,742)" >
 <path stroke="rgb(0,0,0)" stroke-width="1" d="M138 0 L157 4 L157 29 L0 29 L0 0 L138 0 L138 4 L157 4" />
 <text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 ft, km, m. mi, yd
 </text>
 </g>
-<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath742_0_)" transform="translate(1771,622)" >
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath744_0_)" transform="translate(2008,612)" >
 <path stroke="rgb(0,0,0)" stroke-width="1" d="M131 0 L149 10 L149 61 L0 61 L0 0 L131 0 L131 10 L149 10" />
 <text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 decimal degrees
@@ -1496,6 +1654,51 @@ degrees dec. minutes
 </text>
 <text x="2" y="52" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
 unknown
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath754_0_)" transform="translate(1868,425)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M204 0 L233 13 L233 79 L0 79 L0 0 L204 0 L204 13 L233 13" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+The sovereign nation within whos jurisdiction 
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+the locality falls.  Includes High Seas.  To 
+</text>
+<text x="2" y="39" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+support clearer search by country with expected 
+</text>
+<text x="2" y="52" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+results, is distinct from the higher geography 
+</text>
+<text x="2" y="65" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+heirarchy in geog_auth_rec.  
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath755_0_)" transform="translate(790,442)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M147 0 L167 3 L167 23 L0 23 L0 0 L147 0 L147 3 L167 3" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+lat_long verified by agent
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath756_0_)" transform="translate(478,288)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M199 0 L227 4 L227 25 L0 25 L0 0 L199 0 L199 4 L227 4" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+geology attribute determined by agent
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath757_0_)" transform="translate(616,129)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M133 0 L152 6 L152 38 L0 38 L0 0 L133 0 L133 6 L152 6" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+collecting event date 
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+determined by agent.
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath762_0_)" transform="translate(486,222)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M85 0 L97 3 L97 22 L0 22 L0 0 L85 0 L85 3 L97 3" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+collector agent
 </text>
 </g>
 
