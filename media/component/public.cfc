@@ -609,11 +609,11 @@ imgStyleClass=value
 				and ct.media_relationship = 'related to media'
 		</cfquery>
 		<cfquery name="media2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct mr.related_primary_key
+			select distinct mr.media_id, m.media_uri
 			from media m
 				left join media_relations mr on mr.media_id = m.media_id 
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-			where m.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+			where mr.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and ct.media_relationship = 'transcript for audio media'
 		</cfquery>
 		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -796,14 +796,14 @@ imgStyleClass=value
 									<!---Display Media: relationship = related to media--->
 									<cfif media_rel.media_relationship eq 'related to media'>: 
 										<cfloop query="media1">
-											<a class="font-weight-lessbold" href="#media1.media_uri#"> #media1.media_uri#</a>
+											<a class="font-weight-lessbold" href="#media1.media_id#"> #media1.media_uri#</a>
 											<cfif media1.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
 									<!---Display Media: relationship = transcript for audio media--->
 									<cfif media_rel.media_relationship eq 'transcript for audio media'>:
 										<cfloop query="media2">
-											<a class="font-weight-lessbold" href="#media2.media_uri#"> #media2.rel#</a>
+											<a class="font-weight-lessbold" href="#media2.media_id#"> #media2.media_uri#</a>
 											<cfif media2.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
