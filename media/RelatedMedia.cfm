@@ -212,7 +212,6 @@
 														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														and mr.media_relationship <> 'created by agent'
 														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
-														and ct.media_relationship = 
 														</cfquery>
 													<cfif relm.recordcount gt 0>
 														<cfset i = 1>
