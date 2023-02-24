@@ -3457,9 +3457,7 @@ text-truncate1 {
 	.container-xl {
 		max-width: 1600px;
 	}
-	.variedHeight {
-	height: 250px;
-	}
+	
 }
 @media(min-width: 1600px) {
 	.container  {
@@ -3529,6 +3527,9 @@ text-truncate1 {
 		height: 6.75rem;
 		padding-left: 3px;
 		padding-right: 8px;
+	}
+	.variedHeight {
+	height: 250px;
 	}
 }
 @media screen and (max-width: 1199px) {
