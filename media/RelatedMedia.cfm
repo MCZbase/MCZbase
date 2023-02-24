@@ -221,8 +221,8 @@
 									<div class="search-box mt-3 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
-												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
-													Related Media Records <cfloop query="media_rel">#media_rel.media_relationship#<span class="two">, </span></cfloop>
+												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold comma2">
+													Related Media Records <cfloop query="media_rel">#media_rel.media_relationship#<span>, </span></cfloop>
 												</li>
 											</ul>
 										</div>
