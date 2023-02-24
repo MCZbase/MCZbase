@@ -282,7 +282,7 @@
 																<cfset i=i+1>
 															</cfloop>
 														<cfelse>
-															<h3 class="h4 px-2 ml-1 pt-2 onlyfirst"><span class="one">#relm.media_id#</span></h3>
+															<h3 class="h4 px-2 ml-1 pt-2">#relm.media_id#</h3>
 														</cfif>
 													</cfloop>
 												<cfelse>
