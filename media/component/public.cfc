@@ -969,7 +969,7 @@ imgStyleClass=value
 											<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: 
 											<cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#
 											</a>
-											<span class="two">, </span>
+											<cfif locali.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows publication'>: 
@@ -982,7 +982,7 @@ imgStyleClass=value
 											and p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> and fp.format_style = 'short' and m.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 										</cfquery>
 										<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#relm7.pub_short#, #relm7.publication_title# </a>
-										<span class="two"> &##8226;&##8226; </span> 
+										<cfif publication.recordcount gt 1><span class="two"> &##8226;&##8226; </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
@@ -997,13 +997,13 @@ imgStyleClass=value
 												and mr.media_relationship = 'shows underscore_collection'
 											</cfquery>
 											<a class="font-weight-lessbold" href="#relm12.href##relm12.agent_id#"> #relm12.collection_name#</a>
-											<span class="two">, </span>
+											<cfif underscore.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'> 
 										<cfloop query="spec">
 											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
-											<span class="two">, </span>
+											<cfif spec.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 								</div>
