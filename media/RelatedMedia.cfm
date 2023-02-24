@@ -214,8 +214,6 @@
 														and mr.media_relationship <> 'created by agent'
 														and MCZBASE.is_media_encumbered(m.media_id)  < 1 
 														<cfif spec.pk gt 1>and ct.media_relationship <> 'ledger entry for cataloged_item'</cfif>
-														group by count(*) as ct, m.media_id,ct.media_relationship,ct.label
-														
 														</cfquery>
 														<!---Some of the ledgers have the same primary key as the agent_ids. I haven't found it on other types of relationships. We may need a different fix if it is more widespread.--->
 														<cfif relm.recordcount gt 0>
