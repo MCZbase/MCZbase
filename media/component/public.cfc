@@ -696,7 +696,7 @@ imgStyleClass=value
 				and agent_name_type = 'preferred'
 			order by agent_name.agent_name
 		</cfquery>
-		<cfquery name="collecting_eventRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="collecting_events" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct collecting_event.verbatim_locality,collecting_event.COLLECTING_EVENT_ID, collecting_event.VERBATIM_DATE, collecting_event.ended_date, collecting_event.collecting_source
 			from media_relations
 				left join collecting_event on media_relations.related_primary_key = collecting_event.collecting_event_id
@@ -894,11 +894,11 @@ imgStyleClass=value
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'collecting_event' and oneofus eq 1>:
-										<cfloop query="collecting_eventRel">
-											<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# 
-											<cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  
+										<cfloop query="collecting_events">
+											<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_events.collecting_event_id#">#collecting_events.verbatim_locality#  #collecting_events.collecting_source# #collecting_events.verbatim_date# 
+											<cfif collecting_events.ended_date gt 0>(#collecting_events.ended_date#)</cfif>  
 											</a>
-											<cfif collecting_eventRel.recordcount gt 1><span>, </span></cfif>
+											<cfif collecting_events.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'related to media'>: 
@@ -923,8 +923,9 @@ imgStyleClass=value
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows publication'>: 
 										<cfloop query="publication">
-										<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_short#, #publication.publication_title# </a>
-										</cfloop><cfif publication.recordcount gt 1><span> &##8226;&##8226; </span></cfif>
+											<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_short#, #publication.publication_title# </a>
+											<cfif publication.recordcount gt 1><span> &##8226;&##8226; </span></cfif>
+										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
 										<cfloop query="underscore">
