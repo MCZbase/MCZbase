@@ -246,7 +246,7 @@
 																<cfset i=i+1>
 															</cfloop>
 														<cfelse>
-															<h3 class="h4 px-2 ml-1 pt-2 onlyfirst">No Related Media Records</h3>
+															<h3 class="h4 px-2 ml-1 pt-2 onlyfirst"><cfif spec.label = 'Cited Specimen'>Cited<cfelse>No Related Media Records</cfif></h3>
 														</cfif>
 													</cfloop>
 												<cfelse>
