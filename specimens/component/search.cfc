@@ -700,9 +700,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif left(value,2) is "=<">
 			<cfset value="#ucase(right(value,len(value)-2))#">
 			<cfset comparator = '"comparator": "<="'>
-		<cfelseif left(value,2) is "=>">
+		<cfelseif left(value,2) is "=>"><!--- " --->
 			<cfset value="#ucase(right(value,len(value)-2))#">
-			<cfset comparator = '"comparator": ">="'>
+			<cfset comparator = '"comparator": ">="'><!--- " --->
 		<cfelseif left(value,1) is "=">
 			<cfset value="#ucase(right(value,len(value)-1))#">
 			<cfset comparator = '"comparator": "="'>
@@ -711,7 +711,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset comparator = '"comparator": "JARO_WINKLER"'>
 		<cfelseif left(value,2) is ">=">
 			<cfset value="#ucase(right(value,len(value)-2))#">
-			<cfset comparator = '"comparator": ">="'>
+			<cfset comparator = '"comparator": ">="'><!--- " --->
 		<cfelseif left(value,2) is "<=">
 			<cfset value="#ucase(right(value,len(value)-2))#">
 			<cfset comparator = '"comparator": "<="'>
@@ -729,6 +729,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset comparator = '"comparator": "not like"'>
 		<cfelse>
 			<cfif REFind("([A-Za-z]+,[A-Za-z]+)+",value) GT 0>
+				<cfset comparator = '"comparator": "IN"'>
+			<cfelseif REFind("([0-9]+,[0-9]+)+",value) GT 0>
 				<cfset comparator = '"comparator": "IN"'>
 			<cfelse>
 				<cfset comparator = '"comparator": "like"'>
