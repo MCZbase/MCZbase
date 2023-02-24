@@ -222,7 +222,7 @@
 														left join media m on mr.media_id = m.media_id
 														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 														where mr.related_primary_key = <cfqueryparam  value="#spec.pk#">
-														<cfif spec.auto_table neq 'media'>and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"></cfif>
+														<cfif spec.at neq 'media'>and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"></cfif>
 														and mr.media_relationship <> 'created by agent'
 														and MCZBASE.is_media_encumbered(m.media_id)  < 1 
 														<cfif spec.pk gt 1 and spec.label neq 'Shows Cataloged Item'>and ct.media_relationship <> 'ledger entry for cataloged_item'</cfif>
