@@ -849,7 +849,7 @@ imgStyleClass=value
 													and m.media_id = #spec.pk#
 												</cfquery>
 												<a class="font-weight-lessbold" href="/media/#relm1.pk#"> #relm1.pk#</a>
-												<span>, </span>
+												<span class="two">, </span>
 											</cfif>
 											<cfif media_rel.auto_table eq 'agent'>: 
 												<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -860,7 +860,7 @@ imgStyleClass=value
 													and mr.media_id = #spec.pk#
 												</cfquery>
 												<a class="font-weight-lessbold" href="#relm2.href##relm2.pk#"> #relm2.display#</a>
-												<span>, </span>
+												<span class="two">, </span>
 											</cfif>
 											<cfif media_rel.auto_table eq 'accn'>: 
 												<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -872,7 +872,7 @@ imgStyleClass=value
 													and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
 												</cfquery>
 												<a class="font-weight-lessbold" href="#relm3.href##relm3.pk#"> #relm3.display#</a>
-												<span>, </span>
+												<span class="two">, </span>
 											</cfif>
 											<cfif media_rel.auto_table eq 'loan'>: 
 												<cfloop query="spec">
