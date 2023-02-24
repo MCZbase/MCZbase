@@ -27,12 +27,7 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
-	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct mr.media_relationship,ct.Label as label, ct.auto_table
-		from media_relations mr
-		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-	</cfquery>
+
 	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct p.publication_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from publication p
@@ -214,7 +209,13 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>	
-							<cfif  media_rel gt 1> 
+							<cfif spec.recordcount gt 1> 
+								<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select distinct mr.media_relationship,ct.Label as label, ct.auto_table
+									from media_relations mr
+									left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+									where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+								</cfquery>
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
@@ -225,9 +226,10 @@
 												</li>
 											</ul>
 										</div>
+										#media_rel.media_relationship#
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-												<cfif len(spec.pk)gt 0>
+												<cfif len(media_rel.media_relationship) gt 0>
 													<!---If media relations are show or document cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
