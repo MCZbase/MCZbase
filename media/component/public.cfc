@@ -616,7 +616,7 @@ imgStyleClass=value
 				and ct.media_relationship = 'transcript for audio media'
 		</cfquery>
 		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct p.publication_id as pk, fp.format_style as pub_short
+			select distinct p.publication_id as pk, fp.format_style as pub_long
 			from publication p
 				left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 				left join media m on m.media_id = mr.media_id
@@ -625,7 +625,7 @@ imgStyleClass=value
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 			where m.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and ct.media_relationship = 'shows publication'
-				and fp.format_style = 'short'
+				and fp.format_style = 'long'
 		</cfquery>
 		<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct collection_object_id as pk, guid
@@ -809,7 +809,7 @@ imgStyleClass=value
 									<!---Display shows publication--->
 									<cfif media_rel.media_relationship eq 'shows publication'>: 
 										<cfloop query="publication">
-											<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_short# </a>
+											<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_long# </a>
 											<cfif publication.recordcount gt 1><span> &##8226;&##8226; </span></cfif>
 										</cfloop>
 									</cfif>
