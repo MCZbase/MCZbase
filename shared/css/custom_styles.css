@@ -2707,7 +2707,7 @@ input[disabled] {
 		width: 21.5rem!important;
 	}
 .variedHeight {
-	height: 200px;
+	height: 210px;
 }
 @keyframes slideup {
 	from {top: 700px;}
