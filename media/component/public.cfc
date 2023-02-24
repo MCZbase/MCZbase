@@ -838,47 +838,41 @@ imgStyleClass=value
 							<td class="w-80">
 								<cfloop query="media_rel">#media_rel.label#
 									<div class="comma2 d-inline onlyfirst">
-									
+										<cfloop query="spec">
 											<div class="comma2 d-inline">
 											<cfif media_rel.auto_table eq 'media'>: 
-												<cfloop query="media_rel">
-													<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select mr.related_primary_key as pk, m.media_id 
-														from media m
-														left join media_relations mr on mr.media_id = m.media_id 
-														where mr.media_relationship like 'media' 
-														and m.media_id = #spec.pk#
-													</cfquery>
-													<a class="font-weight-lessbold" href="/media/#relm1.pk#"> #relm1.pk#</a>
-													<span> </span>
-												</cfloop>
+												<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select mr.related_primary_key as pk, m.media_id 
+													from media m
+													left join media_relations mr on mr.media_id = m.media_id 
+													where mr.media_relationship like 'media' 
+													and m.media_id = #spec.pk#
+												</cfquery>
+												<a class="font-weight-lessbold" href="/media/#relm1.pk#"> #relm1.pk#</a>
+												<span>, </span>
 											</cfif>
 											<cfif media_rel.auto_table eq 'agent'>: 
-												<cfloop query="spec">
-													<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select mr.related_primary_key as pk, '/agent/Agent.cfm?agent_id=' as href,  pan.agent_name as display
-														from media_relations mr 
-														left join preferred_agent_name pan on pan.agent_id = mr.related_primary_key
-														where mr.media_relationship like 'agent' 
-														and mr.media_id = #spec.pk#
-													</cfquery>
-													<a class="font-weight-lessbold" href="#relm2.href##relm2.pk#"> #relm2.display#</a>
-													<span></span>
-												</cfloop>
+												<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select mr.related_primary_key as pk, '/agent/Agent.cfm?agent_id=' as href,  pan.agent_name as display
+													from media_relations mr 
+													left join preferred_agent_name pan on pan.agent_id = mr.related_primary_key
+													where mr.media_relationship like 'agent' 
+													and mr.media_id = #spec.pk#
+												</cfquery>
+												<a class="font-weight-lessbold" href="#relm2.href##relm2.pk#"> #relm2.display#</a>
+												<span>, </span>
 											</cfif>
 											<cfif media_rel.auto_table eq 'accn'>: 
-												<cfloop query="spec">
-													<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct ac.transaction_id as pk, '/transactions/Accession.cfm?action=edit&transaction_id=' as href, ac.accn_number as display, mr.media_relationship as rel
-														from media_relations mr
-														left join accn ac on ac.transaction_id = mr.related_primary_key
-														left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on ac.transaction_id = flat.accn_id 
-														where mr.media_relationship like '%accn' 
-														and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
-													</cfquery>
-													<a class="font-weight-lessbold" href="#relm3.href##relm3.pk#"> #relm3.display#</a>
-													<span> </span>
-												</cfloop>
+												<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select distinct ac.transaction_id as pk, '/transactions/Accession.cfm?action=edit&transaction_id=' as href, ac.accn_number as display, mr.media_relationship as rel
+													from media_relations mr
+													left join accn ac on ac.transaction_id = mr.related_primary_key
+													left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on ac.transaction_id = flat.accn_id 
+													where mr.media_relationship like '%accn' 
+													and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
+												</cfquery>
+												<a class="font-weight-lessbold" href="#relm3.href##relm3.pk#"> #relm3.display#</a>
+												<span>, </span>
 											</cfif>
 											<cfif media_rel.auto_table eq 'loan'>: 
 												<cfloop query="spec">
@@ -891,7 +885,7 @@ imgStyleClass=value
 														and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 													</cfquery>
 													<a class="font-weight-lessbold" href="#relm4.href##relm4.pk#"> #relm4.display#</a>
-													<span> </span>
+													<span>, </span>
 												</cfloop>
 											</cfif>
 											<cfif media_rel.auto_table eq 'deaccession'>: 
@@ -905,11 +899,11 @@ imgStyleClass=value
 													and mr.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 													</cfquery>
 													<a class="font-weight-lessbold" href="#relm5.href##relm5.pk#"> #relm5.display#</a>
-													<span> </span>
+													<span>, </span>
 												</cfloop>
 											</cfif>
 
-<!---											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
+								<!---			<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 											select distinct an.agent_id as pk, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, mr.media_relationship as rel
 											from media_relations mr
 											left join agent_name an on an.agent_id=mr.related_primary_key
@@ -975,8 +969,10 @@ imgStyleClass=value
 											where mr.media_relationship like '%cataloged_item'
 											and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
 											</cfquery>--->
+							
 										</div>
 											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
+										</cfloop> 
 									</div>
 								</cfloop>
 							</td>
