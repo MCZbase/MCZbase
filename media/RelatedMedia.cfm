@@ -205,7 +205,7 @@
 													<!---If media relations are show or document cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct count(m.media_id) as ct, m.media_id,ct.media_relationship,ct.label
+														select count(m.media_id) as ct, m.media_id,ct.media_relationship,ct.label
 														from media_relations mr 
 														left join media m on mr.media_id = m.media_id
 														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
