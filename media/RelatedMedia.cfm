@@ -174,31 +174,8 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mr.media_relationship <> 'created by agent'
-		and ct.media_relationship like '%agent'  
-<!---		UNION
-		select distinct pan.agent_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
-		from preferred_agent_name pan
-		left join media_relations mr on pan.agent_id = mr.related_primary_key
-		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mr.media_relationship <> 'created by agent'
-		and ct.media_relationship = 'shows handwriting of agent'  
-		UNION
-		select distinct pan.agent_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
-		from preferred_agent_name pan
-		left join media_relations mr on pan.agent_id = mr.related_primary_key
-		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mr.media_relationship <> 'created by agent'
-		and ct.media_relationship = 'shows agent' 
-		UNION
-		select distinct pan.agent_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
-		from preferred_agent_name pan
-		left join media_relations mr on pan.agent_id = mr.related_primary_key
-		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mr.media_relationship <> 'created by agent'--->
-		and ct.media_relationship = 'physical object created by agent' 
+		and ct.media_relationship like '% agent'  
+
 	</cfquery>
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
