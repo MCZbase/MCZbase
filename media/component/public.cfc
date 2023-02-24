@@ -852,15 +852,16 @@ imgStyleClass=value
 									</cfif>
 									<cfif media_rel.media_relationship eq 'created by agent'>:
 										<cfloop query="agents1">
-											<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
+<!---											<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 											select m.media_id,an.agent_id 
 											from agent_name an 
 											left join media_relations m on an.agent_id=m.related_primary_key
 											where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents1.agent_name#" /> 
 											and m.media_relationship = 'created by agent'
-											</cfquery>
-											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm1.agent_id#"> #agents1.agent_name#</a>
-										</cfloop><cfif relm1.recordcount gt 1><span class="two">, </span></cfif>
+											</cfquery>--->
+											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agent1.agent_id#"> #agents1.agent_name#</a>
+											<cfif agent1.recordcount gt 1><span class="two">, </span></cfif>
+										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows agent'>:
 										<cfloop query="agents2">
