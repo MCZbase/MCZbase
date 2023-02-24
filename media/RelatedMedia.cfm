@@ -27,7 +27,7 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
-	<cfif spec.pk gt 1><cfset spec.rel eq 'shows agent'></cfif>
+	
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct p.publication_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from publication p
@@ -152,6 +152,7 @@
 		and mr.media_relationship <> 'created by agent'
 		and ct.auto_table = 'agent' 
 	</cfquery>
+	<cfif spec.pk gt 1><cfset spec.rel eq 'shows agent'><cfset spec.at neq 'cataloged_item'></cfif>
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
