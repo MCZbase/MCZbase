@@ -990,15 +990,16 @@ imgStyleClass=value
 									<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
 										<cfloop query="underscore">
 											<cfquery name="relm12" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
-												select mr.media_id,uc.underscore_collection_id 
-												from cataloged_item ci 
+												select mr.media_id,uc.underscore_collection_id, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href
+												from cataloged_item ci, uc.collection_name 
 												left join underscore_relations ur on ur.collection_object_id = ci.collection_object_id 
 												left join underscore_collection uc on uc.underscore_collection_id = ur.underscore_collection_id 
 												left join media_relations mr on mr.related_primary_key = ci.collection_object_id 
 												where ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#underscore.collection_object_id#" /> 
 												and m.media_relationship = 'shows underscore_collection'
 											</cfquery>
-											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm12.agent_id#"> #underscore.collection_name#</a><span class="two">, </span>
+											<a class="font-weight-lessbold" href="#relm12.href##relm12.agent_id#"> #relm12.collection_name#</a>
+											<span class="two">, </span>
 										</cfloop>
 									</cfif>
 									<!---<cfif media_rel.media_relationship contains 'underscore_collection'>: <cfloop query="namedGroup"><cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select mr.related_primary_key, m.media_id from media m, media_relations mr where mr.media_id = m.media_id and mr.media_relationship = 'shows underscore collection' and m.media_id = #namedGroup.media_id#</cfquery><a class="font-weight-lessbold" href="/media/#relm11.related_primary_key#"> #relm11.related_primary_key#</a><span>, </span></cfloop>
