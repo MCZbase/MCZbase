@@ -856,7 +856,7 @@ imgStyleClass=value
 													select mr.related_primary_key as pk, '/agent/Agent.cfm?agent_id=' as href,  pan.agent_name as display
 													from media_relations mr 
 													left join preferred_agent_name pan on pan.agent_id = mr.related_primary_key
-													where mr.media_relationship eq 'shows agent' 
+													where mr.media_relationship = 'shows agent' 
 													and mr.media_id = #spec.pk#
 												</cfquery>
 												<a class="font-weight-lessbold" href="#relm2.href##relm2.pk#"> #relm2.display#</a>
