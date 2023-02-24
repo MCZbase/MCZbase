@@ -232,7 +232,7 @@
 																						</cfquery>
 																						#guidi.guid#
 																					<cfelseif spec.pk gt 1>
-																						same primary key for two relationships
+																						(same pk for 2 rel)
 																					<cfelse>
 																					#spec.pk#
 																					</cfif>
