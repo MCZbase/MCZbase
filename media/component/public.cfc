@@ -908,8 +908,7 @@ imgStyleClass=value
 												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
 												and m.media_relationship = 'physical object created by agent'</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm6.agent_id#"> #agents.agent_name#</a>
-											<cfif relm6.recordcount gt 1><span class="two">, </span></cfif>
-										</cfloop>
+										</cfloop><cfif relm6.recordcount gt 1><span class="two">, </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: 
 										<cfloop query="accns">
