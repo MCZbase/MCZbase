@@ -30,7 +30,7 @@
 	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct p.publication_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from publication p
-		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
+		left join media_relations mr on mr.related_primary_key = p.publication_id 
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'publication'
@@ -45,12 +45,23 @@
 		UNION--->
 		select distinct c.collection_object_id as pk, cmr.media_relationship as rel, 'Cited Specimen' as label, ct.auto_table as at
 		from media_relations cmr 
+		join cataloged_item ci on cmr.related_primary_key = ci.collection_object_id 
+		and cmr.media_relationship = 'shows cataloged_item'
+		join citation c on c.collection_object_id = ci.collection_object_id
+		join publication p on p.publication_id = c.publication_id
+		and p.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pub.pk#">
+		left join media_relations mr on mr.related_primary_key = p.publication_id 
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where ct.auto_table = 'publication'
+		
+		<!---select distinct c.collection_object_id as pk, cmr.media_relationship as rel, 'Cited Specimen' as label, ct.auto_table as at
+		from media_relations cmr 
 		join citation c on cmr.related_primary_key = c.publication_id and cmr.media_relationship = 'shows cataloged_item'
 		join publication p on c.publication_id = p.publication_id
-		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
+		left join media_relations mr on mr.related_primary_key = p.publication_id 
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pub.pk#">
-		and ct.auto_table = 'publication'
+		and ct.auto_table = 'publication'--->
 		UNION
 		select distinct  ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from cataloged_item ci
