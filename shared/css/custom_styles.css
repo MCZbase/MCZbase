@@ -2978,7 +2978,7 @@ ol.flowNone li a,ul.flowNone li a {
 }
 @media only screen and (max-width: 1379px) {
 	.variedHeight {
-		height: 250px;
+		height: 300px;
 	}
 ol.flowXXS, ul.flowXXS {
 	display:flex;
