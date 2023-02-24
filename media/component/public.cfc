@@ -1005,7 +1005,7 @@ imgStyleClass=value
 									</cfif>--->
 									<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'> 
 										<cfloop query="spec">
-											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span>
+											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span class="two">, </span>
 										</cfloop>
 										<!---Removed --->
 									</cfif>
