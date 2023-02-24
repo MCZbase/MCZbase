@@ -990,11 +990,11 @@ imgStyleClass=value
 											<a class="font-weight-lessbold" href="#relm12.href##relm12.agent_id#"> #relm12.collection_name#</a>
 										</cfloop><cfif relm12.recordcount gt 1><span class="two">, </span></cfif>
 									</cfif>
-									<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'>
+					<!---				<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'>
 										<cfloop query="spec">
-											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><cfif spec.recordcount gt 1><span class="two">, </span></cfif>
-										</cfloop>
-									</cfif>
+											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
+										</cfloop><cfif spec.recordcount gt 1><span class="two">, </span></cfif>
+									</cfif>--->
 								</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 							</cfloop> 
