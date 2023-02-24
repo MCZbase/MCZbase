@@ -859,7 +859,7 @@ imgStyleClass=value
 											where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents1.agent_name#" /> 
 											and m.media_relationship = 'created by agent'
 											</cfquery>--->
-											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agent1.agent_id#"> #agents1.agent_name#</a>
+											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a>
 											
 										</cfloop>
 									</cfif><cfif agents1.recordcount gt 1><span class="two">, </span></cfif>
