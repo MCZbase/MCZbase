@@ -721,7 +721,7 @@ imgStyleClass=value
 				and mczbase.ctmedia_relationship.auto_table = 'loan'
 		</cfquery>
 		<cfquery name="accns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct transaction_id
+			select distinct transaction_id, accn.accn_number
 			from media_relations
 				left join accn on media_relations.related_primary_key = accn.transaction_id
 				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
@@ -883,15 +883,15 @@ imgStyleClass=value
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: 
 										<cfloop query="accns">
-											<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
+<!---											<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 												select m.media_id,ac.accn_number,ac.transaction_id 
 												from accn ac 
 												left join media_relations m on ac.transaction_id=m.related_primary_key 
 												left join flat on ac.transaction_id = flat.accn_id 
 												where m.media_relationship = 'documents accn' 
 												and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#accns.transaction_id#" /> 
-											</cfquery> 
-											<a href="/transactions/Accession.cfm?action=edit&transaction_id=#relm5.transaction_id#" class="font-weight-lessbold">#relm5.accn_number#</a> 
+											</cfquery> --->
+											<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accns.transaction_id#" class="font-weight-lessbold">#accns.accn_number#</a> 
 											<cfif accns.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
