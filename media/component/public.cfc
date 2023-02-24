@@ -707,7 +707,7 @@ imgStyleClass=value
 						<tr class="border mt-2 p-2"><th scope="row">Alt Text: </th><td>#media.alttag#</td></tr>
 					</cfif>
 					<cfif len(media_rel.media_relationship) gt 0>
-						<cfif media_rel.recordcount GT 1>
+						<cfif media_rel.recordcount GT 0>
 							<cfset plural = "s">
 						<cfelse>
 							<cfset plural = "">
