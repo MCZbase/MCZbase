@@ -1002,9 +1002,10 @@ imgStyleClass=value
 											<cfif underscore.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
-									<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'> 
+									<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'>
 										<cfloop query="spec">
-											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><cfif spec.recordcount gt 1><span class="two">, </span></cfif>
+											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
+											<cfif spec.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 								</div>
