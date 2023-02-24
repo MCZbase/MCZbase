@@ -883,29 +883,21 @@ imgStyleClass=value
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: 
 										<cfloop query="accns">
-<!---											<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
-												select m.media_id,ac.accn_number,ac.transaction_id 
-												from accn ac 
-												left join media_relations m on ac.transaction_id=m.related_primary_key 
-												left join flat on ac.transaction_id = flat.accn_id 
-												where m.media_relationship = 'documents accn' 
-												and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#accns.transaction_id#" /> 
-											</cfquery> --->
 											<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accns.transaction_id#" class="font-weight-lessbold">#accns.accn_number#</a> 
-											<cfif accns.recordcount gt 1><span class="two">, </span></cfif>
+											<cfif accns.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents deaccession' and oneofus eq 1>: 
 										<cfloop query="daccns">
-											<cfquery name="relm10" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
+<!---											<cfquery name="relm10" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 												select m.media_id,dac.deacc_number,dac.transaction_id 
 												from deaccession dac 
 												left join media_relations m on dac.transaction_id=m.related_primary_key 
 												where m.media_relationship = 'documents deaccession' 
 												and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#daccns.transaction_id#" /> 
-											</cfquery> 
-											<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#relm10.transaction_id#" class="font-weight-lessbold">#relm10.deacc_number#</a> 
-											<cfif daccns.recordcount gt 1><span class="two">, </span></cfif>
+											</cfquery> --->
+											<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#daccns.transaction_id#" class="font-weight-lessbold">#daccns.deacc_number#</a> 
+											<cfif daccns.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'collecting_event' and oneofus eq 1>:
