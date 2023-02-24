@@ -867,7 +867,7 @@ imgStyleClass=value
 											</cfif>
 											<cfif media_rel.auto_table eq 'accn'>: 
 												<cfloop query="spec">
-													<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct ac.transaction_id as pk, '/transactions/Accession.cfm?action=edit&transaction_id=' as href, ac.accn_number as display, mr.media_relationship as rel
 														from media_relations mr
 														left join accn ac on ac.transaction_id = mr.related_primary_key
@@ -875,7 +875,7 @@ imgStyleClass=value
 														where mr.media_relationship like '%accn' 
 														and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#spec.pk#" />
 													</cfquery>
-													<a class="font-weight-lessbold" href="#relm2.href##relm2.pk#"> #relm2.display#</a>
+													<a class="font-weight-lessbold" href="#relm3.href##relm3.pk#"> #relm3.display#</a>
 													<span>, </span>
 												</cfloop>
 											</cfif>
