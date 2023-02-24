@@ -730,6 +730,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfelse>
 			<cfif REFind("([A-Za-z]+,[A-Za-z]+)+",value) GT 0>
 				<cfset comparator = '"comparator": "IN"'>
+			<cfif REFind("([0-9]+,[0-9]+)+",value) GT 0>
+				<cfset comparator = '"comparator": "IN"'>
 			<cfelse>
 				<cfset comparator = '"comparator": "like"'>
 			</cfif>
