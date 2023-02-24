@@ -841,7 +841,7 @@ imgStyleClass=value
 									
 											<div class="comma2 d-inline">
 											<cfif media_rel.auto_table eq 'media'>: 
-												<cfloop query="spec">
+												<cfloop query="media_rel">
 													<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select mr.related_primary_key as pk, m.media_id 
 														from media m
