@@ -749,7 +749,7 @@ imgStyleClass=value
 				and ct.media_relationship = 'shows publication'
 		</cfquery>
 		<cfquery name="media1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct m.media_id
+			select distinct mr.related_primary_key
 			from media m
 				left join media_relations mr on mr.media_id = m.media_id 
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
@@ -889,13 +889,6 @@ imgStyleClass=value
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents deaccession' and oneofus eq 1>: 
 										<cfloop query="daccns">
-<!---											<cfquery name="relm10" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
-												select m.media_id,dac.deacc_number,dac.transaction_id 
-												from deaccession dac 
-												left join media_relations m on dac.transaction_id=m.related_primary_key 
-												where m.media_relationship = 'documents deaccession' 
-												and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#daccns.transaction_id#" /> 
-											</cfquery> --->
 											<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#daccns.transaction_id#" class="font-weight-lessbold">#daccns.deacc_number#</a> 
 											<cfif daccns.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
@@ -905,18 +898,13 @@ imgStyleClass=value
 											<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# 
 											<cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  
 											</a>
-											<cfif collecting_eventRel.recordcount gt 1><span class="two">, </span></cfif>
+											<cfif collecting_eventRel.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'related to media'>: 
-										<cfloop query="media1"><cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select mr.related_primary_key, m.media_id from media m, media_relations mr 
-											where mr.media_id = m.media_id 
-											and mr.media_relationship = 'related to media' 
-											and m.media_id = #media1.media_id#
-											</cfquery>
-											<a class="font-weight-lessbold" href="/media/#relm8.related_primary_key#"> #relm8.related_primary_key#</a>
-											<cfif media1.recordcount gt 1><span class="two">, </span></cfif>
+										<cfloop query="media1">
+											<a class="font-weight-lessbold" href="/media/#media1.related_primary_key#"> #media1.related_primary_key#</a>
+											<cfif media1.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'transcript for audio media'>:
