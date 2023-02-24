@@ -860,7 +860,7 @@ imgStyleClass=value
 											and m.media_relationship = 'created by agent'
 											</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm1.agent_id#"> #agents.agent_name#</a>
-											<cfif agents.recordcount gt 1><span class="two">, </span></cfif>
+											<cfif relm1.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows agent'>:
@@ -873,7 +873,7 @@ imgStyleClass=value
 												and m.media_relationship = 'shows agent'
 											</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents.agent_name#</a>
-											<cfif agents.recordcount gt 1><span class="two">, </span></cfif>
+											<cfif relm2.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents agent'>:
@@ -885,7 +885,7 @@ imgStyleClass=value
 												and m.media_relationship = 'documents agent'
 											</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm3.agent_id#"> #agents.agent_name#</a>
-											<cfif agents.recordcount gt 1><span class="two">, </span></cfif>
+											<cfif relm3.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows handwriting of agent'>:
@@ -896,7 +896,7 @@ imgStyleClass=value
 												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
 												and m.media_relationship = 'shows handwriting of agent'</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm4.agent_id#"> #agents.agent_name#</a>
-											<cfif agents.recordcount gt 1><span class="two">, </span></cfif>
+											<cfif relm4.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'physical object created by agent'>:
@@ -908,7 +908,7 @@ imgStyleClass=value
 												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
 												and m.media_relationship = 'physical object created by agent'</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm6.agent_id#"> #agents.agent_name#</a>
-											<cfif agents.recordcount gt 1><span class="two">, </span></cfif>
+											<cfif relm6.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: 
