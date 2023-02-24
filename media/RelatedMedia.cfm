@@ -136,7 +136,7 @@
 		select distinct mr.related_primary_key as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from mczbase.ctmedia_relationship ct
 		left join media_relations mr on mr.media_relationship = ct.media_relationship
-		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.media_relationship like '%media' 
 		UNION
 		select distinct locality.locality_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
