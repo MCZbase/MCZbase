@@ -928,7 +928,8 @@ imgStyleClass=value
 									<cfif media_rel.media_relationship eq 'documents deaccession' and oneofus eq 1>: 
 										<cfloop query="daccns">
 											<cfquery name="relm10" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
-												select m.media_id,dac.deacc_number,dac.transaction_id from deaccession dac 
+												select m.media_id,dac.deacc_number,dac.transaction_id 
+												from deaccession dac 
 												left join media_relations m on dac.transaction_id=m.related_primary_key 
 												where m.media_relationship = 'documents deaccession' 
 												and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#daccns.transaction_id#" /> 
@@ -1003,8 +1004,7 @@ imgStyleClass=value
 									</cfif>
 									<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'> 
 										<cfloop query="spec">
-											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
-											<cfif spec.recordcount gt 1><span class="two">, </span></cfif>
+											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><cfif spec.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 								</div>
