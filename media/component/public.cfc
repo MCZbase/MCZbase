@@ -499,6 +499,7 @@ imgStyleClass=value
 		<cfif media.recordcount EQ 0>
 			<cfthrow message="No media records matching media_id [#encodeForHtml(media_id)#]">
 		</cfif>
+		<!---The queries to specific relationships below provide the variables for displaying the links within the id=relatedLinks div--->
 		<cfquery name="accns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct transaction_id, accn.accn_number
 			from media_relations
@@ -647,8 +648,7 @@ imgStyleClass=value
 			and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 		</cfquery>
 
-		
-			
+
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT media_label, label_value, agent_name, media_label_id
