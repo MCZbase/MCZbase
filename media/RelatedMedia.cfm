@@ -36,7 +36,7 @@
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'publication'
 		UNION
-		select distinct c.collection_object_id as pk, cmr.media_relationship as rel, ct.label as label, ct.auto_table as at
+		select distinct c.collection_object_id as pk, cmr.media_relationship as rel, 'Cited Specimen' as label, ct.auto_table as at
 		from media_relations cmr 
 		join citation c on cmr.related_primary_key = c.publication_id and cmr.media_relationship = 'shows cataloged_item'
 		join publication p on c.publication_id = p.publication_id
