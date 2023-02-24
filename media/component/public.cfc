@@ -847,8 +847,8 @@ imgStyleClass=value
 									</cfif>
 									<cfif media_rel.media_relationship contains 'loan' and oneofus eq 1>:
 										<cfloop query="loan">
-											<a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a>
-										</cfloop><cfif loan.recordcount gt 1><span class="two">, </span></cfif>
+											<a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><cfif loan.recordcount gt 1><span class="two">, </span></cfif>
+										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'created by agent'>:
 										<cfloop query="agents1">
