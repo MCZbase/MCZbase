@@ -648,7 +648,7 @@ imgStyleClass=value
 			and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 		</cfquery>
 
-
+<!---Loop through the media to see what the metadata is for the featured image on the page--->
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT media_label, label_value, agent_name, media_label_id
@@ -715,8 +715,9 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td class="w-80">
-							<!---Displays Media Relationship even if the links are now provided due to permissions or not being set up yet. So somewhat scalable with new relationship type entries on the code table--->
-							<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label#</span>
+							<!---Loops through the media relationships (query = media_rel) and specific relationship queries above (queries=accn, agents1-5,collecting_events, daccns,loan, locali, media1-2,publication, spec, underscore) to find related media to the featured image on the page. Displays Media Relationship even if the links are not provided within the relatedLinks div (due to permissions or not being set up yet). It is somewhat scalable with regards to new relationship type entries on the code table--->
+							<cfloop query="media_rel">
+								<span class="text-capitalize">#media_rel.label#</span>
 								<!---The links within the div with id = "relatedLinks" provides access to the pages linked to the featured media (media_id of the page)--->
 								<div id = "relatedLinks" class="comma2 d-inline onlyfirst">
 									<!---Display Accn: documents accn--->
