@@ -2722,7 +2722,7 @@ tr.line-top-sd {
 /*********************************/
 /* Device styles below ***********/
 /*********************************/
-@media only screen and (min-width: 2000px) {
+@media only screen and (max-width: 1365px) and (min-width: 2000px) {
 
 	.variedHeight {
 	height: 180px;
@@ -2733,11 +2733,7 @@ tr.line-top-sd {
 	.container-wide {
 		padding-right: 9%;
 		padding-left: 9%;
-	}
-	.variedHeight {
-	height: 200px;
-}
-	
+	}	
 }
 @media only screen and (min-width: 1499px) {
 	.w-350 {
@@ -3520,7 +3516,6 @@ text-truncate1 {
 		overflow-y: auto;
 		height: 6.5rem;
 	}
-
 }
 @media screen and (max-width: 1324px) {
 	#map {
@@ -3536,9 +3531,7 @@ text-truncate1 {
 		padding-left: 3px;
 		padding-right: 8px;
 	}
-	.variedHeight {
-	height: 280px;
-	}
+	
 }
 @media screen and (max-width: 1199px) {
 	#map {
