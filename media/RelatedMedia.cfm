@@ -36,7 +36,7 @@
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'publication'
 		UNION
-		select distinct c.collection_object_id as pk, cmr.media_relationship as rel, 'Cited Specimen' as label, ct.auto_table as at
+		select distinct c.collection_object_id as pk, cmr.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from media_relations cmr 
 		join citation c on cmr.related_primary_key = c.publication_id and cmr.media_relationship = 'shows cataloged_item'
 		join publication p on c.publication_id = p.publication_id
@@ -232,8 +232,6 @@
 																						select guid from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat, media_relations mr where mr.related_primary_key = flat.collection_object_id and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 																						</cfquery>
 																						#guidi.guid#
-																					<cfelseif spec.pk gt 1>
-																						(same pk for 2 rel)
 																					<cfelse>
 																					#spec.pk#
 																					</cfif>
