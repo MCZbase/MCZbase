@@ -794,7 +794,7 @@ imgStyleClass=value
 										</cfloop>
 									</cfif>
 									<!---Display Media: relationship = related to media--->
-									<cfif media_rel.media_relationship eq 'related to media'>: 
+									<cfif spec.rel eq 'related to media'>: 
 										<cfloop query="media1">
 											<a class="font-weight-lessbold" href="/media.#media1.media_id#"> /media/#media1.media_id#</a>
 											<cfif media1.recordcount gt 1><span>, </span></cfif>
