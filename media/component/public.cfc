@@ -625,6 +625,7 @@ imgStyleClass=value
 				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
+				and mczbase.ctmedia_relationship.auto_table <> 'agent'
 			order by guid
 		</cfquery>
 		<cfquery name="underscore" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -799,40 +800,40 @@ imgStyleClass=value
 				<span class="mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span>
 			</h3>
 			<table class="table table-responsive-sm mb-3 border-none small90">
-					<thead class="thead-dark">
-						<tr>
-							<th scope="col">Label</th>
-							<th scope="col">Value</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr><th scope="row">Media Type:</th><td>#media.media_type#</td></tr>
-						<tr><th scope="row">MIME Type:</th><td>#media.mime_type#</td></tr>
-						<cfloop query="labels">
-							<tr><th scope="row"><span class="text-capitalize">#labels.media_label#</span>:</th><td>#labels.label_value#</td></tr>
-						</cfloop>
-						<cfif len(credit) gt 0>
-							<tr><th scope="row">Credit:</th><td>#credit#</td></tr>
-						</cfif>
-						<cfif len(owner) gt 0>
-							<tr><th scope="row">Copyright:</th><td>#owner#</td></tr>
-						</cfif>
-						<cfif len(display) gt 0>
-							<tr><th scope="row">License:</th><td> <a href="#uri#" target="_blank" class="external"> #display#</a></td></tr>
-						</cfif>
-						<cfif len(keywords.keywords) gt 0>
-							<tr><th scope="row">Keywords: </span></th><td> #keywords.keywords#</td></tr>
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Label</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><th scope="row">Media Type:</th><td>#media.media_type#</td></tr>
+					<tr><th scope="row">MIME Type:</th><td>#media.mime_type#</td></tr>
+					<cfloop query="labels">
+						<tr><th scope="row"><span class="text-capitalize">#labels.media_label#</span>:</th><td>#labels.label_value#</td></tr>
+					</cfloop>
+					<cfif len(credit) gt 0>
+						<tr><th scope="row">Credit:</th><td>#credit#</td></tr>
+					</cfif>
+					<cfif len(owner) gt 0>
+						<tr><th scope="row">Copyright:</th><td>#owner#</td></tr>
+					</cfif>
+					<cfif len(display) gt 0>
+						<tr><th scope="row">License:</th><td> <a href="#uri#" target="_blank" class="external"> #display#</a></td></tr>
+					</cfif>
+					<cfif len(keywords.keywords) gt 0>
+						<tr><th scope="row">Keywords: </span></th><td> #keywords.keywords#</td></tr>
+					<cfelse>
+					</cfif>
+					<cfif listcontainsnocase(session.roles,"manage_media")>
+						<tr class="border mt-2 p-2"><th scope="row">Alt Text: </th><td>#media.alttag#</td></tr>
+					</cfif>
+					<cfif len(media_rel.media_relationship) gt 0>
+						<cfif media_rel.recordcount GT 1>
+							<cfset plural = "s">
 						<cfelse>
+							<cfset plural = "">
 						</cfif>
-						<cfif listcontainsnocase(session.roles,"manage_media")>
-							<tr class="border mt-2 p-2"><th scope="row">Alt Text: </th><td>#media.alttag#</td></tr>
-						</cfif>
-						<cfif len(media_rel.media_relationship) gt 0>
-							<cfif media_rel.recordcount GT 1>
-								<cfset plural = "s">
-							<cfelse>
-								<cfset plural = "">
-							</cfif>
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td class="w-80">
@@ -975,7 +976,7 @@ imgStyleClass=value
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows publication'>: 
-									<cfloop query="publication">
+										<cfloop query="publication">
 										<cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct fp.formatted_publication as pub_short, p.publication_title, m.media_uri 
 											from publication p, formatted_publication fp, media_relations mr,media m 
@@ -1009,7 +1010,7 @@ imgStyleClass=value
 									</cfif>
 								</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-								</cfloop> 
+							</cfloop> 
 							</td>
 						</tr>
 					<cfelse>
