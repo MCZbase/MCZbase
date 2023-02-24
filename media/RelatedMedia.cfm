@@ -245,7 +245,7 @@
 														<cfif spec.pk gt 1>and ct.media_relationship <> 'ledger entry for cataloged_item'</cfif>
 														</cfquery>
 														<!---Some of the ledgers have the same primary key as the agent_ids. I haven't found it on other types of relationships. We may need a different fix if it is more widespread.--->
-														<cfif relm.recordcount gt len(relm.media_id)>
+														<cfif relm.recordcount gt 0>
 															<cfset i = 1>
 															<cfloop query="relm">
 																<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
@@ -275,7 +275,7 @@
 																<cfset i=i+1>
 															</cfloop>
 														<cfelse>
-															<h3 class="h4 px-2 ml-1 pt-2 onlyfirst"><span class="one"><cfif len(relm.media_id) gt 0>No Related Media Records</cfif></span></h3>
+															<h3 class="h4 px-2 ml-1 pt-2 onlyfirst"><span class="one">No Related Media Records</span></h3>
 														</cfif>
 													</cfloop>
 												<cfelse>
