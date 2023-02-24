@@ -909,7 +909,7 @@ imgStyleClass=value
 												</cfloop>
 											</cfif>
 
-											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
+<!---											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 											select distinct an.agent_id as pk, '/agents/Agent.cfm?agent_id=' as href, an.agent_name as display, mr.media_relationship as rel
 											from media_relations mr
 											left join agent_name an on an.agent_id=mr.related_primary_key
@@ -974,7 +974,7 @@ imgStyleClass=value
 											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id 
 											where mr.media_relationship like '%cataloged_item'
 											and flat.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#spec.pk#" />
-											</cfquery>
+											</cfquery>--->
 										</div>
 											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 									</div>
