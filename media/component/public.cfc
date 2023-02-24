@@ -861,6 +861,7 @@ imgStyleClass=value
 												</cfquery>
 												<a class="font-weight-lessbold" href="#relm2.href##relm2.pk#"> #relm2.display#</a>
 												<span class="two">, </span>
+												<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 											</cfif>
 											<cfif media_rel.auto_table eq 'accn'>: 
 												<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -971,7 +972,7 @@ imgStyleClass=value
 											</cfquery>--->
 							
 										</div>
-											<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
+											
 										</cfloop> 
 									</div>
 								</cfloop>
