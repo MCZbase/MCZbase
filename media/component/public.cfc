@@ -616,7 +616,7 @@ imgStyleClass=value
 				and ct.media_relationship = 'transcript for audio media'
 		</cfquery>
 		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct p.publication_id as pk, fp.format_style as pub_long
+			select distinct p.publication_id as pk, fp.formatted_publication as pub_long
 			from publication p
 				left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 				left join media m on m.media_id = mr.media_id
