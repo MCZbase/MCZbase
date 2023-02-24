@@ -193,7 +193,7 @@
 							</div>
 							<cfif spec.recordcount gt 0> 
 								<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct mr.media_relationship
+									select distinct mr.media_id,mr.media_relationship
 									from media_relations mr
 									left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 									where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
