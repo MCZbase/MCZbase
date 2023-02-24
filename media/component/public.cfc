@@ -805,7 +805,7 @@ imgStyleClass=value
 											<cfif media2.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
-									<!---Display shows publication-->
+									<!---Display shows publication--->
 									<cfif media_rel.media_relationship eq 'shows publication'>: 
 										<cfloop query="publication">
 											<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_short#, #publication.publication_title# </a>
