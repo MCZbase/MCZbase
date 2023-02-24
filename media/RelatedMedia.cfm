@@ -197,7 +197,6 @@
 									from media_relations mr
 									left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 									where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-									
 								</cfquery>
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
@@ -214,7 +213,7 @@
 											<div class="col-12 p-1">
 												<cfif media_rel.recordcount gt 0>media_rel #media_rel.recordcount#
 													<!---If media relations are show or document cataloged_item, accn, ledger, deaccession, etc.--->
-													<cfloop query="spec">spec #spec.recordcount#
+													<cfloop query="spec">spec #spec.pk#
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct m.media_id,ct.media_relationship,ct.label
 														from media_relations mr 
