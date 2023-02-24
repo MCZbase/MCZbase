@@ -738,7 +738,7 @@ imgStyleClass=value
 				and mczbase.ctmedia_relationship.auto_table = 'deaccession'
 		</cfquery>
 		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct p.publication_id as pk, mr.media_id
+			select distinct p.publication_id as pk,fp.formatted_publication as pub_short, p.publication_title
 			from publication p
 				left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 				left join media m on m.media_id = mr.media_id
@@ -918,19 +918,13 @@ imgStyleClass=value
 											<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: 
 											<cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#
 											</a>
-										</cfloop><cfif locali.recordcount gt 1><span class="two">, </span></cfif>
+											<cfif locali.recordcount gt 1><span>, </span></cfif>
+										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows publication'>: 
 										<cfloop query="publication">
-										<cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select distinct fp.formatted_publication as pub_short, p.publication_title, m.media_uri 
-											from publication p, formatted_publication fp, media_relations mr,media m 
-											where mr.related_primary_key = p.publication_id 
-											and mr.media_id = m.media_id and p.publication_id = fp.publication_id 
-											and p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> and fp.format_style = 'short' and m.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
-										</cfquery>
-										<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#relm7.pub_short#, #relm7.publication_title# </a>
-										</cfloop><cfif relm7.recordcount gt 1><span class="two"> &##8226;&##8226; </span></cfif>
+										<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_short#, #publication.publication_title# </a>
+										</cfloop><cfif publication.recordcount gt 1><span> &##8226;&##8226; </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
 										<cfloop query="underscore">
