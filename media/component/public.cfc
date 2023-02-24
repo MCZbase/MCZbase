@@ -796,14 +796,14 @@ imgStyleClass=value
 									<!---Display Media: relationship = related to media--->
 									<cfif media_rel.media_relationship eq 'related to media'>: 
 										<cfloop query="media1">
-											<a class="font-weight-lessbold" href="/media.#media1.media_id#"> /media/#media1.pk#</a>
+											<a class="font-weight-lessbold" href="/media.#media1.pk#"> /media/#media1.pk#</a>
 											<cfif media1.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
 									<!---Display Media: relationship = transcript for audio media--->
 									<cfif media_rel.media_relationship eq 'transcript for audio media'>:
 										<cfloop query="media2">
-											<a class="font-weight-lessbold" href="/media/#media2.media_id#"> /media/#media2.pk#</a>
+											<a class="font-weight-lessbold" href="/media/#media2.pk#"> /media/#media2.pk#</a>
 											<cfif media2.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
