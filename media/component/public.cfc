@@ -908,7 +908,7 @@ imgStyleClass=value
 												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents5.agent_name#" /> 
 												and m.media_relationship = 'physical object created by agent'</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm6.agent_id#"> #agents5.agent_name#</a>
-											<span class="two">, </span>
+											<cfif agents5.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: 
@@ -922,7 +922,7 @@ imgStyleClass=value
 												and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#accns.transaction_id#" /> 
 											</cfquery> 
 											<a href="/transactions/Accession.cfm?action=edit&transaction_id=#relm5.transaction_id#" class="font-weight-lessbold">#relm5.accn_number#</a> 
-											<span class="two">, </span></cfloop>
+											<cfif accns.recordcount gt 1><span class="two">, </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents deaccession' and oneofus eq 1>: 
 										<cfloop query="daccns">
@@ -933,7 +933,7 @@ imgStyleClass=value
 												and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#daccns.transaction_id#" /> 
 											</cfquery> 
 											<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#relm10.transaction_id#" class="font-weight-lessbold">#relm10.deacc_number#</a> 
-											<span class="two">, </span>
+											<cfif daccns.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'collecting_event' and oneofus eq 1>:
@@ -941,7 +941,7 @@ imgStyleClass=value
 											<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# 
 											<cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  
 											</a>
-											<span class="two">, </span>
+											<cfif collecting_eventRel.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'related to media'>: 
