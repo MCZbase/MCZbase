@@ -216,12 +216,12 @@
 													<!---If media relations are show or document cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct m.media_id,ct.media_relationship,ct.label
+															select distinct <cfif spec.at neq 'media'>m.media_id<cfelse>mr.related_primary_key</cfelse></cfif>,ct.media_relationship,ct.label
 														from media_relations mr 
 														left join media m on mr.media_id = m.media_id
 														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 														where mr.related_primary_key = <cfqueryparam  value="#spec.pk#">
-												
+														<cfif spec.at neq 'media'>and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"></cfif>
 														and mr.media_relationship <> 'created by agent'
 														and MCZBASE.is_media_encumbered(m.media_id)  < 1 
 														<cfif spec.pk gt 1 and spec.label neq 'Shows Cataloged Item'>and ct.media_relationship <> 'ledger entry for cataloged_item'</cfif>
