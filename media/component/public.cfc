@@ -872,8 +872,7 @@ imgStyleClass=value
 												and m.media_relationship = 'shows agent'
 											</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents2.agent_name#</a>
-											<cfif agents2.recordcount gt 1><span class="two">, </span></cfif>
-										</cfloop>
+										</cfloop><cfif relm2.recordcount gt 1><span class="two">, </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents agent'>:
 										<cfloop query="agents3">
@@ -884,8 +883,7 @@ imgStyleClass=value
 												and m.media_relationship = 'documents agent'
 											</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm3.agent_id#"> #agents3.agent_name#</a>
-											<cfif agents3.recordcount gt 1><span class="two">, </span></cfif>
-										</cfloop>
+										</cfloop><cfif relm3.recordcount gt 1><span class="two">, </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows handwriting of agent'>:
 										<cfloop query="agents4">
@@ -895,8 +893,7 @@ imgStyleClass=value
 												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents4.agent_name#" /> 
 												and m.media_relationship = 'shows handwriting of agent'</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm4.agent_id#"> #agents4.agent_name#</a>
-											<cfif agents4.recordcount gt 1><span class="two">, </span></cfif>
-										</cfloop>
+										</cfloop><cfif relm4.recordcount gt 1><span class="two">, </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'physical object created by agent'>:
 										<cfloop query="agents5">
@@ -907,8 +904,7 @@ imgStyleClass=value
 												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents5.agent_name#" /> 
 												and m.media_relationship = 'physical object created by agent'</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm6.agent_id#"> #agents5.agent_name#</a>
-											<cfif agents5.recordcount gt 1><span class="two">, </span></cfif>
-										</cfloop>
+										</cfloop><cfif relm6.recordcount gt 1><span class="two">, </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: 
 										<cfloop query="accns">
@@ -921,8 +917,7 @@ imgStyleClass=value
 												and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#accns.transaction_id#" /> 
 											</cfquery> 
 											<a href="/transactions/Accession.cfm?action=edit&transaction_id=#relm5.transaction_id#" class="font-weight-lessbold">#relm5.accn_number#</a> 
-											<cfif accns.recordcount gt 1><span class="two">, </span></cfif>
-										</cfloop>
+										</cfloop><cfif relm5.recordcount gt 1><span class="two">, </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents deaccession' and oneofus eq 1>: 
 										<cfloop query="daccns">
@@ -934,16 +929,14 @@ imgStyleClass=value
 												and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#daccns.transaction_id#" /> 
 											</cfquery> 
 											<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#relm10.transaction_id#" class="font-weight-lessbold">#relm10.deacc_number#</a> 
-											<cfif daccns.recordcount gt 1><span class="two">, </span></cfif>
-										</cfloop>
+										</cfloop><cfif relm10.recordcount gt 1><span class="two">, </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'collecting_event' and oneofus eq 1>:
 										<cfloop query="collecting_eventRel">
 											<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# 
 											<cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  
 											</a>
-											<cfif collecting_eventRel.recordcount gt 1><span class="two">, </span></cfif>
-										</cfloop>
+										</cfloop><cfif collecting_eventRel.recordcount gt 1><span class="two">, </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'related to media'>: 
 										<cfloop query="media1"><cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -953,8 +946,7 @@ imgStyleClass=value
 											and m.media_id = #media1.media_id#
 											</cfquery>
 											<a class="font-weight-lessbold" href="/media/#relm8.related_primary_key#"> #relm8.related_primary_key#</a>
-											<cfif media1.recordcount gt 1><span class="two">, </span></cfif>
-										</cfloop>
+										</cfloop><cfif relm8.recordcount gt 1><span class="two">, </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'transcript for audio media'>:
 										<cfloop query="media2">
@@ -962,16 +954,15 @@ imgStyleClass=value
 												select m.media_id from media m, media_relations mr 
 												where mr.media_id = m.media_id and m.media_id = #media2.related_primary_key#</cfquery>
 											<a class="font-weight-lessbold" href="/media/#relm9.media_id#"> #relm9.media_id#</a>
-											<cfif media2.recordcount gt 1><span class="two">, </span></cfif>
-										</cfloop>
+											
+										</cfloop><cfif relm9.recordcount gt 1><span class="two">, </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows locality'>: 
 										<cfloop query="locali">
 											<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: 
 											<cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#
 											</a>
-											<cfif locali.recordcount gt 1><span class="two">, </span></cfif>
-										</cfloop>
+										</cfloop><cfif locali.recordcount gt 1><span class="two">, </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows publication'>: 
 										<cfloop query="publication">
@@ -983,8 +974,7 @@ imgStyleClass=value
 											and p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> and fp.format_style = 'short' and m.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 										</cfquery>
 										<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#relm7.pub_short#, #relm7.publication_title# </a>
-										<cfif publication.recordcount gt 1><span class="two"> &##8226;&##8226; </span></cfif>
-										</cfloop>
+										</cfloop><cfif relm7.recordcount gt 1><span class="two"> &##8226;&##8226; </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
 										<cfloop query="underscore">
@@ -998,8 +988,7 @@ imgStyleClass=value
 												and mr.media_relationship = 'shows underscore_collection'
 											</cfquery>
 											<a class="font-weight-lessbold" href="#relm12.href##relm12.agent_id#"> #relm12.collection_name#</a>
-											<cfif underscore.recordcount gt 1><span class="two">, </span></cfif>
-										</cfloop>
+										</cfloop><cfif relm12.recordcount gt 1><span class="two">, </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'>
 										<cfloop query="spec">
