@@ -851,7 +851,7 @@ imgStyleClass=value
 												<a class="font-weight-lessbold" href="/media/#relm1.pk#"> #relm1.pk#</a>
 												<span class="two">, </span>
 											</cfif>
-											<cfif media_rel.media_relationship eq 'shows agent'>: 
+											<cfif spec.rel eq 'shows agent'>: 
 												<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select mr.related_primary_key as pk, '/agent/Agent.cfm?agent_id=' as href,  pan.agent_name as display
 													from media_relations mr 
@@ -863,7 +863,7 @@ imgStyleClass=value
 												<span class="two">, </span>
 												<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 											</cfif>
-											<cfif media_rel.auto_table eq 'accn'>: 
+											<cfif spec.rel eq 'accn'>: 
 												<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select distinct ac.transaction_id as pk, '/transactions/Accession.cfm?action=edit&transaction_id=' as href, ac.accn_number as display, mr.media_relationship as rel
 													from media_relations mr
