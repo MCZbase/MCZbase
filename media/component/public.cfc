@@ -916,8 +916,8 @@ imgStyleClass=value
 												where m.media_relationship = 'documents accn' 
 												and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#accns.transaction_id#" /> 
 											</cfquery> 
-											<a href="/transactions/Accession.cfm?action=edit&transaction_id=#relm5.transaction_id#" class="font-weight-lessbold">#relm5.accn_number#</a> 
-										</cfloop><cfif relm5.recordcount gt 1><span class="two">, </span></cfif>
+											<a href="/transactions/Accession.cfm?action=edit&transaction_id=#relm5.transaction_id#" class="font-weight-lessbold">#relm5.accn_number#</a> <cfif accns.recordcount gt 1><span class="two">, </span></cfif>
+										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents deaccession' and oneofus eq 1>: 
 										<cfloop query="daccns">
