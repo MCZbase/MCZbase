@@ -2707,7 +2707,7 @@ input[disabled] {
 		width: 21.5rem!important;
 	}
 .variedHeight {
-	height: 200px;
+	height: 240px;
 }
 @keyframes slideup {
 	from {top: 700px;}
@@ -3511,6 +3511,9 @@ text-truncate1 {
 	.caption-sm {
 		overflow-y: auto;
 		height: 6.5rem;
+	}
+	.variedHeight {
+	height: 280px;
 	}
 
 }
