@@ -2718,7 +2718,7 @@ tr.line-top-sd {
 	border-top: 2px solid #e8eaeb!important;
 }
 .variedHeight {
-	height: 200px;
+	height: 210px;
 }
 /****************end all screen styles*********************/
 /**********************************************************/
@@ -2728,7 +2728,7 @@ tr.line-top-sd {
 @media only screen and (min-device-width: 1400px) and (max-device-width: 2000px) {
 
 	.variedHeight {
-	height: 200px;
+	height: 210px;
 }
 	
 }
