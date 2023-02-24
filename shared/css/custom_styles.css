@@ -3299,7 +3299,9 @@ ol.flowNone li a, ul.flowNone li a {
 }
 }	
 @media only screen and (max-width: 768px) {
-
+	.variedHeight {
+		height: 180px;
+	}
 .tab-content {
 	margin-top: -4px;
 }
