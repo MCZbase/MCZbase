@@ -2729,6 +2729,7 @@ tr.line-top-sd {
 		padding-right: 9%;
 		padding-left: 9%;
 	}
+	
 }
 @media only screen and (min-width: 1499px) {
 	.w-350 {
@@ -2861,6 +2862,9 @@ and also iPads specifically.
 @media only screen and (max-width: 1498px) {
 	.w-350 {
 		width: 100%;
+	}
+	.variedHeight {
+		height: 250px;
 	}
 ol.flowXXS, ul.flowXXS {
 	display:flex;
