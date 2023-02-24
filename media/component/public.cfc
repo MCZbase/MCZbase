@@ -601,7 +601,7 @@ imgStyleClass=value
 				and lat_long.accepted_lat_long_fg = 1
 		</cfquery>
 		<cfquery name="media1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct mr.media_id
+			select distinct mr.media_id, m.media_uri
 			from media m
 				left join media_relations mr on mr.media_id = m.media_id 
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
@@ -796,14 +796,14 @@ imgStyleClass=value
 									<!---Display Media: relationship = related to media--->
 									<cfif media_rel.media_relationship eq 'related to media'>: 
 										<cfloop query="media1">
-											<a class="font-weight-lessbold" href="/media/#media1.related_primary_key#"> #media1.related_primary_key#</a>
+											<a class="font-weight-lessbold" href="#media1.media_uri#"> #media1.media_uri#</a>
 											<cfif media1.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
 									<!---Display Media: relationship = transcript for audio media--->
 									<cfif media_rel.media_relationship eq 'transcript for audio media'>:
 										<cfloop query="media2">
-											<a class="font-weight-lessbold" href="/media/#media2.related_primary_key#"> #media2.related_primary_key#</a>
+											<a class="font-weight-lessbold" href="#media2.media_uri#"> #media2.rel#</a>
 											<cfif media2.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
