@@ -851,12 +851,12 @@ imgStyleClass=value
 												<a class="font-weight-lessbold" href="/media/#relm1.pk#"> #relm1.pk#</a>
 												<span class="two">, </span>
 											</cfif>
-											<cfif media_rel.auto_table eq 'agent'>: 
+											<cfif media_rel.media_relationship eq 'shows agent'>: 
 												<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select mr.related_primary_key as pk, '/agent/Agent.cfm?agent_id=' as href,  pan.agent_name as display
 													from media_relations mr 
 													left join preferred_agent_name pan on pan.agent_id = mr.related_primary_key
-													where mr.media_relationship like '%agent' 
+													where mr.media_relationship eq 'shows agent' 
 													and mr.media_id = #spec.pk#
 												</cfquery>
 												<a class="font-weight-lessbold" href="#relm2.href##relm2.pk#"> #relm2.display#</a>
