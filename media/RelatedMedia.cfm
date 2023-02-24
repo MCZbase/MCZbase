@@ -49,7 +49,14 @@
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and ct.auto_table = 'cataloged_item'
+		and ct.media_relationship = 'shows cataloged_item'
+		UNION
+		select distinct  ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
+		from cataloged_item ci
+		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and ct.media_relationship = 'ledger entry for cataloged_item'
 		UNION
 		select distinct ce.collecting_event_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from media_relations mr
