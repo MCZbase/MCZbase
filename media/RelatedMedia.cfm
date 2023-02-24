@@ -214,7 +214,7 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>	
-							<cfif media_rel.recordcount gt 0> 
+							<cfif media_rel.recordcount eq spec.recordcount> 
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
@@ -242,7 +242,7 @@
 														<cfif spec.pk gt 1>and ct.media_relationship <> 'ledger entry for cataloged_item'</cfif>
 														</cfquery>
 														<!---Some of the ledgers have the same primary key as the agent_ids. I haven't found it on other types of relationships. We may need a different fix if it is more widespread.--->
-														<cfif relm.recordcount gt 0 and spec.recordcount gt 0>
+														<cfif relm.recordcount gt 0>
 															<cfset i = 1>
 															<cfloop query="relm">
 																<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
