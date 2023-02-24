@@ -865,7 +865,18 @@ imgStyleClass=value
 											<span class="two">, </span>
 										</cfloop>
 									</cfif>
-									<cfif media_rel.media_relationship eq 'shows agent'>:<cfloop query="agents2"><cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents2.agent_name#" /> and m.media_relationship = 'shows agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents2.agent_name#</a><span>, </span></cfloop>
+									<cfif media_rel.media_relationship eq 'shows agent'>:
+										<cfloop query="agents2">
+											<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
+												select m.media_id,an.agent_id 
+												from agent_name an 
+												left join media_relations m on an.agent_id=m.related_primary_key 
+												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents2.agent_name#" /> 
+												and m.media_relationship = 'shows agent'
+											</cfquery>
+											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents2.agent_name#</a>
+											<span class="two">, </span>
+										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents agent'>:<cfloop query="agents3"><cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select distinct m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents3.agent_name#" /> and m.media_relationship = 'documents agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm3.agent_id#"> #agents3.agent_name#</a><span>, </span></cfloop>
 									</cfif>
