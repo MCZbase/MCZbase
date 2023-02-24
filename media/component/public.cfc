@@ -860,7 +860,7 @@ imgStyleClass=value
 														from media_relations mr 
 														left join preferred_agent_name pan on pan.agent_id = mr.related_primary_key
 														where mr.media_relationship like 'agent' 
-														and m.media_id = #spec.pk#
+														and mr.media_id = #spec.pk#
 													</cfquery>
 													<a class="font-weight-lessbold" href="#relm2.href##relm2.pk#"> #relm2.display#</a>
 													<span>, </span>
