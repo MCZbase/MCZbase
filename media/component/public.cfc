@@ -839,7 +839,7 @@ imgStyleClass=value
 								<cfloop query="media_rel">#media_rel.label#
 									<div class="comma2 d-inline onlyfirst">
 										<cfloop query="spec">
-											<div class="comma2 d-inline">
+											<div class="comma2 d-inline onlyfirst">
 												#spec.rel#
 
 								<!---			<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
