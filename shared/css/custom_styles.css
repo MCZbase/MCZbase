@@ -3601,6 +3601,9 @@ text-truncate1 {
 	#map {
 		height: 350px;
 	}
+	.variedHeight {
+		height: 240px;
+	}
 }
 @media screen and (max-width: 414px) {
 	a.btn-sm {
