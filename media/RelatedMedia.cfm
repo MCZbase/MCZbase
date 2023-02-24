@@ -211,7 +211,7 @@
 										
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-												<cfif media_rel.recordcount gt 0>media_rel #media_rel.media_id#
+												<cfif media_rel.recordcount gt 0>
 													<!---If media relations are show or document cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfloop query="spec">
 														<cfif spec.pk eq '#media.media_id#'>
@@ -240,7 +240,7 @@
 														</cfquery>
 														</cfif>
 														<!---Some of the ledgers have the same primary key as the agent_ids. I haven't found it on other types of relationships. We may need a different fix if it is more widespread.--->
-														<cfif relm.recordcount gt 0>relm #relm.recordcount#
+														<cfif relm.recordcount gt 0>
 															<cfset i = 1>
 															<cfloop query="relm">
 																<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
