@@ -714,8 +714,10 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td class="w-80">
+							<!---Displays Media Relationship even if the links are now provided due to permissions or not being set up yet. So somewhat scalable with new relationship type entries on the code table--->
 							<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label#</span>
-								<div class="comma2 d-inline onlyfirst">
+								<!---The links within the div with id = "relatedLinks" provides access to the pages linked to the featured media (media_id of the page)--->
+								<div id = "relatedLinks" class="comma2 d-inline onlyfirst">
 									<!---Display Accn: documents accn--->
 									<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: 
 										<cfloop query="accns">
@@ -750,20 +752,12 @@ imgStyleClass=value
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents4.agent_id#"> #agents4.agent_name#</a>
 											<cfif agents4.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
-										
 									</cfif>
 									<!---Display Agent: physical object created by agent query--->
 									<cfif media_rel.media_relationship eq 'physical object created by agent'>:
 										<cfloop query="agents5">
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm6.agent_id#"> #agents5.agent_name#</a>
 											<cfif agents5.recordcount gt 1><span>, </span></cfif>
-										</cfloop>
-									</cfif>
-									<!---Display Specimens and Ledgers: relationship = %cataloged_item--->
-									<cfif media_rel.auto_table eq 'cataloged_item'>: 
-										<cfloop query="spec">
-											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
-											<cfif spec.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<!---Display Collecting Event: relationship = %collecting event--->
@@ -775,20 +769,20 @@ imgStyleClass=value
 											<cfif collecting_events.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
-									<!---Display Deaccession: documents deaccession--->
+									<!---Display Deaccession: relationship = documents deaccession--->
 									<cfif media_rel.media_relationship eq 'documents deaccession' and oneofus eq 1>: 
 										<cfloop query="daccns">
 											<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#daccns.transaction_id#" class="font-weight-lessbold">#daccns.deacc_number#</a> 
 											<cfif daccns.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
-									<!---Display loan: documents loan--->
+									<!---Display loan: relationship = documents loan--->
 									<cfif media_rel.media_relationship eq 'documents loan' and oneofus eq 1>:
 										<cfloop query="loan">
 											<a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><cfif loan.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
-									<!---Display shows locality-->
+									<!---Display Locality: relationship = shows locality-->
 									<cfif media_rel.media_relationship eq 'shows locality'>: 
 										<cfloop query="locali">
 											<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: 
@@ -797,26 +791,32 @@ imgStyleClass=value
 											<cfif locali.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
-									<!---Display related to media-->
+									<!---Display Media: relationship = related to media-->
 									<cfif media_rel.media_relationship eq 'related to media'>: 
 										<cfloop query="media1">
 											<a class="font-weight-lessbold" href="/media/#media1.related_primary_key#"> #media1.related_primary_key#</a>
 											<cfif media1.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
-									<!---Display transcript for audio media-->
+									<!---Display Media: relationship = transcript for audio media-->
 									<cfif media_rel.media_relationship eq 'transcript for audio media'>:
 										<cfloop query="media2">
 											<a class="font-weight-lessbold" href="/media/#media2.related_primary_key#"> #media2.related_primary_key#</a>
 											<cfif media2.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
-
 									<!---Display shows publication-->
 									<cfif media_rel.media_relationship eq 'shows publication'>: 
 										<cfloop query="publication">
 											<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_short#, #publication.publication_title# </a>
 											<cfif publication.recordcount gt 1><span> &##8226;&##8226; </span></cfif>
+										</cfloop>
+									</cfif>
+									<!---Display Specimens and Ledgers: relationship = %cataloged_item--->
+									<cfif media_rel.auto_table eq 'cataloged_item'>: 
+										<cfloop query="spec">
+											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
+											<cfif spec.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<!---Display underscore_collection-->
