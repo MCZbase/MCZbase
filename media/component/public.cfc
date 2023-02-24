@@ -843,21 +843,22 @@ imgStyleClass=value
 											<cfif media_rel.auto_table eq 'media'>: 
 												<cfloop query="spec">
 													<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select mr.related_primary_key, m.media_id 
-														from media m, media_relations mr 
-														where mr.media_id = m.media_id and mr.media_relationship like 'media' 
+														select mr.related_primary_key as pk, m.media_id 
+														from media m
+														left join media_relations mr on mr.media_id = m.media_id 
+														where mr.media_relationship like 'media' 
 														and m.media_id = #spec.pk#
 													</cfquery>
-													<a class="font-weight-lessbold" href="/media/#relm1.related_primary_key#"> #relm1.related_primary_key#</a>
+													<a class="font-weight-lessbold" href="/media/#relm1.pk#"> #relm1.pk#</a>
 													<span>, </span>
 												</cfloop>
 											</cfif>
 											<cfif media_rel.auto_table eq 'agent'>: 
 												<cfloop query="spec">
 													<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select mr.related_primary_key as pk, m.media_id, pan.agent_name as display
+														select mr.related_primary_key as pk, '/agent/Agent.cfm?agent_id=' as href, m.media_id, pan.agent_name as display
 														from media_relations mr 
-														left join preferred_agent_name pan on pan.agent_id = mr.related_primary_id
+														left join preferred_agent_name pan on pan.agent_id = mr.related_primary_key
 														where mr.media_relationship like 'agent' 
 														and m.media_id = #spec.pk#
 													</cfquery>
