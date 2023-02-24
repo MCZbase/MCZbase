@@ -224,7 +224,7 @@
 														and mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														and mr.media_relationship <> 'created by agent'
 														and MCZBASE.is_media_encumbered(m.media_id)  < 1 
-														<cfif spec.pk gt 1 and spec.label neq 'Shows Cataloged Item'>and ct.media_relationship <> 'ledger entry for cataloged_item'</cfif>
+														<cfif spec.pk gt 1 and spec.at eq 'media'>and ct.media_relationship <> 'ledger entry for cataloged_item'</cfif>
 														</cfquery>
 														<cfelse>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
