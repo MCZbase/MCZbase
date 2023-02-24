@@ -841,13 +841,13 @@ imgStyleClass=value
 									<cfif media_rel.auto_table eq 'cataloged_item'>: 
 										<cfloop query="spec">
 											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
-											<span class="two">, </span>
+											<cfif spec.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'loan' and oneofus eq 1>:
 										<cfloop query="loan">
 											<a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a>
-											<span class="two">, </span>
+											<cfif loan.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'created by agent'>:
@@ -860,7 +860,7 @@ imgStyleClass=value
 											and m.media_relationship = 'created by agent'
 											</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm1.agent_id#"> #agents1.agent_name#</a>
-											<span class="two">, </span>
+											<cfif agents1.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows agent'>:
@@ -873,7 +873,7 @@ imgStyleClass=value
 												and m.media_relationship = 'shows agent'
 											</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents2.agent_name#</a>
-											<span class="two">, </span>
+											<cfif agents2.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents agent'>:
@@ -885,7 +885,7 @@ imgStyleClass=value
 												and m.media_relationship = 'documents agent'
 											</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm3.agent_id#"> #agents3.agent_name#</a>
-											<span class="two">, </span>
+											<cfif agents3.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows handwriting of agent'>:
@@ -896,7 +896,7 @@ imgStyleClass=value
 												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents4.agent_name#" /> 
 												and m.media_relationship = 'shows handwriting of agent'</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm4.agent_id#"> #agents4.agent_name#</a>
-											<span class="two">, </span>
+											<cfif agents4.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'physical object created by agent'>:
@@ -952,7 +952,7 @@ imgStyleClass=value
 											and m.media_id = #media1.media_id#
 											</cfquery>
 											<a class="font-weight-lessbold" href="/media/#relm8.related_primary_key#"> #relm8.related_primary_key#</a>
-											<span class="two">, </span>
+											<cfif media1.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'transcript for audio media'>:
@@ -961,7 +961,7 @@ imgStyleClass=value
 												select m.media_id from media m, media_relations mr 
 												where mr.media_id = m.media_id and m.media_id = #media2.related_primary_key#</cfquery>
 											<a class="font-weight-lessbold" href="/media/#relm9.media_id#"> #relm9.media_id#</a>
-											<span class="two">, </span>
+											<cfif media2.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows locality'>: 
