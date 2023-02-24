@@ -926,24 +926,83 @@ imgStyleClass=value
 											<a href="/transactions/Accession.cfm?action=edit&transaction_id=#relm5.transaction_id#" class="font-weight-lessbold">#relm5.accn_number#</a> 
 											<span class="two">, </span></cfloop>
 									</cfif>
-									<cfif media_rel.media_relationship eq 'documents deaccession' and oneofus eq 1>: <cfloop query="daccns"><cfquery name="relm10" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,dac.deacc_number,dac.transaction_id from deaccession dac left join media_relations m on dac.transaction_id=m.related_primary_key where m.media_relationship = 'documents deaccession' and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#daccns.transaction_id#" /> </cfquery> <a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#relm10.transaction_id#" class="font-weight-lessbold">#relm10.deacc_number#</a> <span>, </span></cfloop>
+									<cfif media_rel.media_relationship eq 'documents deaccession' and oneofus eq 1>: 
+										<cfloop query="daccns">
+											<cfquery name="relm10" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
+												select m.media_id,dac.deacc_number,dac.transaction_id from deaccession dac 
+												left join media_relations m on dac.transaction_id=m.related_primary_key 
+												where m.media_relationship = 'documents deaccession' 
+												and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#daccns.transaction_id#" /> 
+											</cfquery> 
+											<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#relm10.transaction_id#" class="font-weight-lessbold">#relm10.deacc_number#</a> 
+											<span class="two">, </span>
+										</cfloop>
 									</cfif>
-									<cfif media_rel.media_relationship contains 'collecting_event' and oneofus eq 1>:<cfloop query="collecting_eventRel">
-									<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
+									<cfif media_rel.media_relationship contains 'collecting_event' and oneofus eq 1>:
+										<cfloop query="collecting_eventRel">
+											<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# 
+											<cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  
+											</a>
+											<span>, </span>
+										</cfloop>
 									</cfif>
-					<!---				<cfif media_rel.media_relationship contains 'underscore_collection'>: <cfloop query="namedGroup"><cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select mr.related_primary_key, m.media_id from media m, media_relations mr where mr.media_id = m.media_id and mr.media_relationship = 'shows underscore collection' and m.media_id = #namedGroup.media_id#</cfquery><a class="font-weight-lessbold" href="/media/#relm11.related_primary_key#"> #relm11.related_primary_key#</a><span>, </span></cfloop>
-									</cfif>--->
-									<cfif media_rel.media_relationship eq 'related to media'>: <cfloop query="media1"><cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select mr.related_primary_key, m.media_id from media m, media_relations mr where mr.media_id = m.media_id and mr.media_relationship = 'related to media' and m.media_id = #media1.media_id#</cfquery><a class="font-weight-lessbold" href="/media/#relm8.related_primary_key#"> #relm8.related_primary_key#</a><span>, </span></cfloop>
+									<cfif media_rel.media_relationship eq 'related to media'>: 
+										<cfloop query="media1"><cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select mr.related_primary_key, m.media_id from media m, media_relations mr 
+											where mr.media_id = m.media_id 
+											and mr.media_relationship = 'related to media' 
+											and m.media_id = #media1.media_id#
+											</cfquery>
+											<a class="font-weight-lessbold" href="/media/#relm8.related_primary_key#"> #relm8.related_primary_key#</a>
+											<span>, </span>
+										</cfloop>
 									</cfif>
-									<cfif media_rel.media_relationship eq 'transcript for audio media'>: <cfloop query="media2"><cfquery name="relm9" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select m.media_id from media m, media_relations mr where mr.media_id = m.media_id and m.media_id = #media2.related_primary_key#</cfquery><a class="font-weight-lessbold" href="/media/#relm9.media_id#"> #relm9.media_id#</a><span>, </span></cfloop>
+									<cfif media_rel.media_relationship eq 'transcript for audio media'>:
+										<cfloop query="media2">
+											<cfquery name="relm9" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select m.media_id from media m, media_relations mr 
+												where mr.media_id = m.media_id and m.media_id = #media2.related_primary_key#</cfquery>
+											<a class="font-weight-lessbold" href="/media/#relm9.media_id#"> #relm9.media_id#</a>
+											<span>, </span>
+										</cfloop>
 									</cfif>
-									<cfif media_rel.media_relationship eq 'shows locality'>: <cfloop query="locali"><a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: <cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#</a><span>, </span></cfloop>
+									<cfif media_rel.media_relationship eq 'shows locality'>: 
+										<cfloop query="locali">
+											<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: 
+											<cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#
+											</a>
+											<span class="two">, </span>
+										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows publication'>: 
-									<cfloop query="publication"><cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct fp.formatted_publication as pub_short, p.publication_title, m.media_uri from publication p, formatted_publication fp, media_relations mr,media m where mr.related_primary_key = p.publication_id and mr.media_id = m.media_id and p.publication_id = fp.publication_id and p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> and fp.format_style = 'short' and m.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal"></cfquery><a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#relm7.pub_short#, #relm7.publication_title# </a><span> &##8226;&##8226; </span> </cfloop>
+									<cfloop query="publication">
+										<cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select distinct fp.formatted_publication as pub_short, p.publication_title, m.media_uri 
+											from publication p, formatted_publication fp, media_relations mr,media m 
+											where mr.related_primary_key = p.publication_id 
+											and mr.media_id = m.media_id and p.publication_id = fp.publication_id 
+											and p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> and fp.format_style = 'short' and m.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
+										</cfquery>
+										<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#relm7.pub_short#, #relm7.publication_title# </a>
+										<span> &##8226;&##8226; </span> 
+										</cfloop>
 									</cfif>
-									<cfif media_rel.media_relationship eq 'shows underscore_collection'>:<cfloop query="underscore"><cfquery name="relm12" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select mr.media_id,uc.underscore_collection_id from cataloged_item ci left join underscore_relations ur on ur.collection_object_id = ci.collection_object_id left join underscore_collection uc on uc.underscore_collection_id = ur.underscore_collection_id left join media_relations mr on mr.related_primary_key = ci.collection_object_id where ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#underscore.collection_object_id#" /> and m.media_relationship = 'shows underscore_collection'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm12.agent_id#"> #underscore.collection_name#</a><span>, </span></cfloop>
+									<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
+										<cfloop query="underscore">
+											<cfquery name="relm12" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
+												select mr.media_id,uc.underscore_collection_id 
+												from cataloged_item ci 
+												left join underscore_relations ur on ur.collection_object_id = ci.collection_object_id 
+												left join underscore_collection uc on uc.underscore_collection_id = ur.underscore_collection_id 
+												left join media_relations mr on mr.related_primary_key = ci.collection_object_id 
+												where ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#underscore.collection_object_id#" /> 
+												and m.media_relationship = 'shows underscore_collection'
+											</cfquery>
+											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm12.agent_id#"> #underscore.collection_name#</a><span class="two">, </span>
+										</cfloop>
 									</cfif>
+									<!---<cfif media_rel.media_relationship contains 'underscore_collection'>: <cfloop query="namedGroup"><cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select mr.related_primary_key, m.media_id from media m, media_relations mr where mr.media_id = m.media_id and mr.media_relationship = 'shows underscore collection' and m.media_id = #namedGroup.media_id#</cfquery><a class="font-weight-lessbold" href="/media/#relm11.related_primary_key#"> #relm11.related_primary_key#</a><span>, </span></cfloop>
+									</cfif>--->
 									<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'> 
 										<cfloop query="spec">
 											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span>
