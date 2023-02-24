@@ -893,7 +893,8 @@ imgStyleClass=value
 												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents4.agent_name#" /> 
 												and m.media_relationship = 'shows handwriting of agent'</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm4.agent_id#"> #agents4.agent_name#</a>
-										</cfloop><cfif relm4.recordcount gt 1><span class="two">, </span></cfif>
+										</cfloop>
+										<cfif relm4.recordcount gt 1><span class="two">, </span></cfif>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'physical object created by agent'>:
 										<cfloop query="agents5">
@@ -904,7 +905,8 @@ imgStyleClass=value
 												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents5.agent_name#" /> 
 												and m.media_relationship = 'physical object created by agent'</cfquery>
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm6.agent_id#"> #agents5.agent_name#</a>
-										</cfloop><cfif relm6.recordcount gt 1><span class="two">, </span></cfif>
+											<cfif agent5.recordcount gt 1><span class="two">, </span></cfif>
+										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: 
 										<cfloop query="accns">
@@ -916,7 +918,8 @@ imgStyleClass=value
 												where m.media_relationship = 'documents accn' 
 												and ac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#accns.transaction_id#" /> 
 											</cfquery> 
-											<a href="/transactions/Accession.cfm?action=edit&transaction_id=#relm5.transaction_id#" class="font-weight-lessbold">#relm5.accn_number#</a> <cfif accns.recordcount gt 1><span class="two">, </span></cfif>
+											<a href="/transactions/Accession.cfm?action=edit&transaction_id=#relm5.transaction_id#" class="font-weight-lessbold">#relm5.accn_number#</a> 
+											<cfif accns.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents deaccession' and oneofus eq 1>: 
@@ -929,14 +932,16 @@ imgStyleClass=value
 												and dac.transaction_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#daccns.transaction_id#" /> 
 											</cfquery> 
 											<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#relm10.transaction_id#" class="font-weight-lessbold">#relm10.deacc_number#</a> 
-										</cfloop><cfif relm10.recordcount gt 1><span class="two">, </span></cfif>
+											<cfif daccns.recordcount gt 1><span class="two">, </span></cfif>
+										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'collecting_event' and oneofus eq 1>:
 										<cfloop query="collecting_eventRel">
 											<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# 
 											<cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  
 											</a>
-										</cfloop><cfif collecting_eventRel.recordcount gt 1><span class="two">, </span></cfif>
+											<cfif collecting_eventRel.recordcount gt 1><span class="two">, </span></cfif>
+										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'related to media'>: 
 										<cfloop query="media1"><cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -946,7 +951,8 @@ imgStyleClass=value
 											and m.media_id = #media1.media_id#
 											</cfquery>
 											<a class="font-weight-lessbold" href="/media/#relm8.related_primary_key#"> #relm8.related_primary_key#</a>
-										</cfloop><cfif relm8.recordcount gt 1><span class="two">, </span></cfif>
+											<cfif media1.recordcount gt 1><span class="two">, </span></cfif>
+										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'transcript for audio media'>:
 										<cfloop query="media2">
