@@ -190,7 +190,7 @@
 								<div id="mediaMetadataBlock#media_id#">
 									#mediaMetadataBlock#
 								</div>
-							</div>	
+							</div>	#spec.pk#
 							<cfif spec.recordcount gt 0> 
 								<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct mr.media_relationship
@@ -214,7 +214,7 @@
 											<div class="col-12 p-1">
 												<cfif media_rel.recordcount gt 0>
 													<!---If media relations are show or document cataloged_item, accn, ledger, deaccession, etc.--->
-													<cfloop query="spec">#spec.pk#
+													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct m.media_id,ct.media_relationship,ct.label
 														from media_relations mr 
