@@ -3520,9 +3520,6 @@ text-truncate1 {
 		overflow-y: auto;
 		height: 6.5rem;
 	}
-	.variedHeight {
-	height: 280px;
-	}
 
 }
 @media screen and (max-width: 1324px) {
