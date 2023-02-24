@@ -860,9 +860,9 @@ imgStyleClass=value
 											and m.media_relationship = 'created by agent'
 											</cfquery>--->
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agent1.agent_id#"> #agents1.agent_name#</a>
-											<cfif agent1.recordcount gt 1><span class="two">, </span></cfif>
+											
 										</cfloop>
-									</cfif>
+									</cfif><cfif agent1.recordcount gt 1><span class="two">, </span></cfif>
 									<cfif media_rel.media_relationship eq 'shows agent'>:
 										<cfloop query="agents2">
 											<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
