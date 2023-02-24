@@ -214,7 +214,7 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>	
-							<cfif  len(spec.pk)gt 0> 
+							<cfif  media_rel gt 1> 
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
