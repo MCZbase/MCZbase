@@ -105,9 +105,9 @@
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'borrow'
 		UNION
-		select distinct mr.related_primary_key as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
-		from media m
-		left join media_relations mr on m.media_id = mr.related_primary_key
+		select distinct m.media_id as pk, m.media_uri as rel, ct.label as label, ct.auto_table as at
+		from media_relations mr
+		left join media m on m.media_id = mr.media_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where m.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'media'
@@ -244,6 +244,8 @@
 																						select guid from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat, media_relations mr where mr.related_primary_key = flat.collection_object_id and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 																						</cfquery>
 																						#guidi.guid#
+																					<cfelseif spec.auto_table eq 'media'>
+																					#spec.rel#
 																					<cfelse>
 																					#spec.pk#
 																					</cfif>
