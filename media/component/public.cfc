@@ -842,8 +842,8 @@ imgStyleClass=value
 									<cfif media_rel.auto_table eq 'cataloged_item'>: 
 										<cfloop query="spec">
 											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
-											
-										</cfloop><cfif spec.recordcount gt 1><span class="two">, </span></cfif>
+											<cfif spec.recordcount gt 1><span class="two">, </span></cfif>
+										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'loan' and oneofus eq 1>:
 										<cfloop query="loan">
