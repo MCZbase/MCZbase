@@ -222,11 +222,11 @@
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
-													Related Media Records
+													Related Media Records <cfloop query="media_rel">#media_rel.media_relationship#<span class="two">, </span></cfloop>
 												</li>
 											</ul>
 										</div>
-										#media_rel.media_relationship#
+										
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<cfif len(media_rel.media_relationship) gt 0>
