@@ -782,7 +782,7 @@ imgStyleClass=value
 											<a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><cfif loan.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
-									<!---Display Locality: relationship = shows locality-->
+									<!---Display Locality: relationship = shows locality--->
 									<cfif media_rel.media_relationship eq 'shows locality'>: 
 										<cfloop query="locali">
 											<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: 
@@ -791,14 +791,14 @@ imgStyleClass=value
 											<cfif locali.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
-									<!---Display Media: relationship = related to media-->
+									<!---Display Media: relationship = related to media--->
 									<cfif media_rel.media_relationship eq 'related to media'>: 
 										<cfloop query="media1">
 											<a class="font-weight-lessbold" href="/media/#media1.related_primary_key#"> #media1.related_primary_key#</a>
 											<cfif media1.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
-									<!---Display Media: relationship = transcript for audio media-->
+									<!---Display Media: relationship = transcript for audio media--->
 									<cfif media_rel.media_relationship eq 'transcript for audio media'>:
 										<cfloop query="media2">
 											<a class="font-weight-lessbold" href="/media/#media2.related_primary_key#"> #media2.related_primary_key#</a>
@@ -819,7 +819,7 @@ imgStyleClass=value
 											<cfif spec.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
-									<!---Display underscore_collection-->
+									<!---Display underscore_collection--->
 									<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
 										<cfloop query="underscore">
 											<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a>
