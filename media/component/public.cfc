@@ -836,16 +836,14 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td class="w-80">
-						<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label#</span>
+							<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label#</span>
 								<div class="comma2 d-inline onlyfirst">
-									
 									<cfif media_rel.auto_table eq 'cataloged_item'>: 
 										<cfloop query="spec">
 											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
 											<span class="two">, </span>
 										</cfloop>
 									</cfif>
-									
 									<cfif media_rel.media_relationship contains 'loan' and oneofus eq 1>:
 										<cfloop query="loan">
 											<a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a>
@@ -990,30 +988,27 @@ imgStyleClass=value
 									<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
 										<cfloop query="underscore">
 											<cfquery name="relm12" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
-												select mr.media_id,uc.underscore_collection_id, '/grouping/showNamedCollection.cfm?underscore_collection_id=' as href
-												from cataloged_item ci, uc.collection_name 
-												left join underscore_relations ur on ur.collection_object_id = ci.collection_object_id 
+												select mr.media_id,uc.collection_name,'/grouping/showNamedCollection.cfm?underscore_collection_id=' as href
+												from  media_relations mr 
+												left join cataloged_item ci on mr.related_primary_key = ci.collection_object_id 
+												left join underscore_relation ur on ur.collection_object_id = ci.collection_object_id 
 												left join underscore_collection uc on uc.underscore_collection_id = ur.underscore_collection_id 
-												left join media_relations mr on mr.related_primary_key = ci.collection_object_id 
-												where ur.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#underscore.collection_object_id#" /> 
-												and m.media_relationship = 'shows underscore_collection'
+												where ci.collection_object_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#underscore.collection_object_id#" />
+												and mr.media_relationship = 'shows underscore_collection'
 											</cfquery>
 											<a class="font-weight-lessbold" href="#relm12.href##relm12.agent_id#"> #relm12.collection_name#</a>
 											<span class="two">, </span>
 										</cfloop>
 									</cfif>
-									<!---<cfif media_rel.media_relationship contains 'underscore_collection'>: <cfloop query="namedGroup"><cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select mr.related_primary_key, m.media_id from media m, media_relations mr where mr.media_id = m.media_id and mr.media_relationship = 'shows underscore collection' and m.media_id = #namedGroup.media_id#</cfquery><a class="font-weight-lessbold" href="/media/#relm11.related_primary_key#"> #relm11.related_primary_key#</a><span>, </span></cfloop>
-									</cfif>--->
-					<!---				<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'> 
+									<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'> 
 										<cfloop query="spec">
 											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
 											<span class="two">, </span>
 										</cfloop>
-				
-									</cfif>--->
+									</cfif>
 								</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-							</cfloop> 
+								</cfloop> 
 							</td>
 						</tr>
 					<cfelse>
