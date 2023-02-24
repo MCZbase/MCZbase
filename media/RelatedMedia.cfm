@@ -211,7 +211,7 @@
 							</div>	
 							<cfif spec.recordcount gt 1> 
 								<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct mr.media_relationship,ct.Label as label, ct.auto_table
+									select distinct mr.media_relationship
 									from media_relations mr
 									left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 									where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -222,14 +222,14 @@
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold comma2">
-													Related Media Records <cfif media_rel.media_relationship gt 1><cfloop query="media_rel">(#media_rel.label#<span>, </span>)</cfloop></cfif>
+													Related Media Records <cfif media_rel.media_relationship gt 1><cfloop query="media_rel">(#media_rel.media_relationship#<span>, </span>)</cfloop></cfif>
 												</li>
 											</ul>
 										</div>
 										
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-												<cfif len(media_rel.media_relationship) gt 0>
+												<cfif len(media_rel.media_relationship) gt 1>
 													<!---If media relations are show or document cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
