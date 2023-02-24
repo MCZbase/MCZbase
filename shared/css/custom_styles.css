@@ -2972,9 +2972,7 @@ ol.flowNone li a,ul.flowNone li a {
 }
 }
 @media only screen and (max-width: 1379px) {
-.variedHeight {
-	height: 200px;	
-}
+
 ol.flowXXS, ul.flowXXS {
 	display:flex;
 	flex-flow: column wrap; /* direction: column */
@@ -3083,6 +3081,9 @@ ol.flowNone li a, ul.flowNone li a {
 	input#searchText.form-control {
 		min-width: auto;
 	}
+	.variedHeight {
+	height: 200px;	
+}
 	h1 {
 		margin-bottom: 0;
 	}
