@@ -616,7 +616,7 @@ imgStyleClass=value
 				and ct.media_relationship = 'transcript for audio media'
 		</cfquery>
 		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct p.publication_id as pk,fp.formatted_publication as pub_short, p.publication_title
+			select distinct p.publication_id as pk,p.publication_title
 			from publication p
 				left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 				left join media m on m.media_id = mr.media_id
@@ -808,17 +808,17 @@ imgStyleClass=value
 									<!---Display shows publication--->
 									<cfif media_rel.media_relationship eq 'shows publication'>: 
 										<cfloop query="publication">
-											<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_short# </a>
+											<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_title# </a>
 											<cfif publication.recordcount gt 1><span> &##8226;&##8226; </span></cfif>
 										</cfloop>
 									</cfif>
 									<!---Display Specimens and Ledgers: relationship = %cataloged_item--->
-										<cfif media_rel.auto_table eq 'cataloged_item'>: 
-											<cfloop query="spec">
-												<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
-												<cfif spec.recordcount gt 1><span>, </span></cfif>
-											</cfloop>
-										</cfif>
+									<cfif media_rel.auto_table eq 'cataloged_item'>: 
+										<cfloop query="spec">
+											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
+											<cfif spec.recordcount gt 1><span>, </span></cfif>
+										</cfloop>
+									</cfif>
 									<!---Display underscore_collection--->
 									<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
 										<cfloop query="underscore">
