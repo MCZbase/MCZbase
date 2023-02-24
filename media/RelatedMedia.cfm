@@ -27,6 +27,12 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
+	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct mr.media_relationship,ct.Label as label, ct.auto_table
+		from media_relations mr
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+	</cfquery>
 	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct p.publication_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from publication p
@@ -50,6 +56,7 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pub.pk#">
 		and ct.auto_table = 'publication'--->
+
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		<cfif pub.recordcount gt 0>
 		select distinct c.collection_object_id as pk, cmr.media_relationship as rel, 'Cited Specimen' as label, ct.auto_table as at
@@ -207,7 +214,7 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>	
-							<cfif spec.recordcount gt 0> 
+							<cfif media_rel.recordcount gt 0> 
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
