@@ -212,21 +212,18 @@
 														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														and mr.media_relationship <> 'created by agent'
 														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
+														and ct.media_relationship = 
 														</cfquery>
 													<cfif relm.recordcount gt 0>
 														<cfset i = 1>
 															<cfloop query="relm">
 																<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
-																	<cfif relm.media_id eq '#media.media_id#'> 
-																		<cfset activeimg = "highlight_media rounded px-1 pt-1">
-																	<cfelse>	
-																		<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
-																	</cfif>
 																	<ul class="list-group px-0">
 																		<li class="list-group-item px-0 mx-1">
 																			<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
-																			<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:250px;">
+																			<div class="border-wide-ltgrey rounded bg-white px-1 py-1 image#i#" id="mediaBlock#relm.media_id#" style="height:250px;">
 																				<div class="px-0">
+																					<cfif spec.pk gt 1><cfset spec.rel eq 'shows agent'></cfset></cfif>
 																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">
 																						#relm.label# 
 																					<cfif relm.media_relationship contains 'cataloged_item'>
