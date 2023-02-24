@@ -756,7 +756,7 @@ imgStyleClass=value
 									<!---Display Agent: physical object created by agent query--->
 									<cfif media_rel.media_relationship eq 'physical object created by agent'>:
 										<cfloop query="agents5">
-											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm6.agent_id#"> #agents5.agent_name#</a>
+											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents5.agent_id#"> #agents5.agent_name#</a>
 											<cfif agents5.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
@@ -813,12 +813,12 @@ imgStyleClass=value
 										</cfloop>
 									</cfif>
 									<!---Display Specimens and Ledgers: relationship = %cataloged_item--->
-									<cfif media_rel.auto_table eq 'cataloged_item'>: 
-										<cfloop query="spec">
-											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
-											<cfif spec.recordcount gt 1><span class="two">, </span></cfif>
-										</cfloop>
-									</cfif>
+										<cfif media_rel.auto_table eq 'cataloged_item'>: 
+											<cfloop query="spec">
+												<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
+												<cfif spec.recordcount gt 1><span class="two">, </span></cfif>
+											</cfloop>
+										</cfif>
 									<!---Display underscore_collection--->
 									<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
 										<cfloop query="underscore">
