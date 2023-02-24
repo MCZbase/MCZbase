@@ -214,7 +214,7 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>	
-							<cfif media.recordcount gt 0> 
+							<cfif media_rel.recordcount gt 0> 
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
@@ -272,7 +272,7 @@
 																<cfset i=i+1>
 															</cfloop>
 														<cfelse>
-															<h3 class="h4 px-2 ml-1 pt-2 onlyfirst"><span class="one">No Related Media Records</span></h3>
+															<h3 class="h4 px-2 ml-1 pt-2 onlyfirst"><span class="one"><cfif len(relm.media_id)gt 0>No Related Media Records</cfif></span></h3>
 														</cfif>
 													</cfloop>
 												<cfelse>
