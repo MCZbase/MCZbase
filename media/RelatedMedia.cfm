@@ -256,7 +256,7 @@
 																<cfset i=i+1>
 															</cfloop>
 														<cfelse>
-															<cfif media_rel.media_relationship eq 'created by agent' AND relm.recordcount lt 3>No Related Media Records</cfif>
+															<cfif media_rel.media_relationship eq 'created by agent' AND relm.recordcount lt 3>	<h3 class="h4 px-2 ml-1 pt-2"><span>No Related Media Records</span></h3></cfif>
 														</cfif>
 													</cfloop>
 												<cfelse>
