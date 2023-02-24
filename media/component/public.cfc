@@ -943,7 +943,7 @@ imgStyleClass=value
 											<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# 
 											<cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  
 											</a>
-											<span>, </span>
+											<span class="two">, </span>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'related to media'>: 
@@ -954,7 +954,7 @@ imgStyleClass=value
 											and m.media_id = #media1.media_id#
 											</cfquery>
 											<a class="font-weight-lessbold" href="/media/#relm8.related_primary_key#"> #relm8.related_primary_key#</a>
-											<span>, </span>
+											<span class="two">, </span>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'transcript for audio media'>:
@@ -963,7 +963,7 @@ imgStyleClass=value
 												select m.media_id from media m, media_relations mr 
 												where mr.media_id = m.media_id and m.media_id = #media2.related_primary_key#</cfquery>
 											<a class="font-weight-lessbold" href="/media/#relm9.media_id#"> #relm9.media_id#</a>
-											<span>, </span>
+											<span class="two">, </span>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows locality'>: 
@@ -984,7 +984,7 @@ imgStyleClass=value
 											and p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> and fp.format_style = 'short' and m.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal">
 										</cfquery>
 										<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#relm7.pub_short#, #relm7.publication_title# </a>
-										<span> &##8226;&##8226; </span> 
+										<span class="two"> &##8226;&##8226; </span> 
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
@@ -1005,7 +1005,8 @@ imgStyleClass=value
 									</cfif>--->
 									<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'> 
 										<cfloop query="spec">
-											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span class="two">, </span>
+											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
+											<span class="two">, </span>
 										</cfloop>
 										<!---Removed --->
 									</cfif>
