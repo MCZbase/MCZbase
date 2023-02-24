@@ -201,7 +201,7 @@ imgStyleClass=value
 							<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
 							<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
 							<!---cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg"--->
-							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server. See https://iiif.io/api/image/3.0/#42-size for iiifFull use ^! before 2000 but won't work if original is small, remove ! to resume scaling on hover.--->
+							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server. See https://iiif.io/api/image/3.0/#42-size for iiifFull use ^! before 2000 but won't work if original is small, remove ! to resume scaling on hover otherwise you will see "Requests that would generate images of these sizes are errors that should result in a 400 (Bad Request) status code."--->
 							<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^!2000,/0/default.jpg">
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
