@@ -216,7 +216,7 @@
 													<cfloop query="spec">
 														<cfif spec.pk eq '#media.media_id#'>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct mr.related_primary_key,ct.media_relationship,ct.label
+														select distinct mr.related_primary_key as mk,ct.media_relationship,ct.label
 														from media_relations mr 
 														left join media m on mr.media_id = m.media_id
 														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
@@ -228,7 +228,7 @@
 														</cfquery>
 														<cfelse>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct m.media_id,ct.media_relationship,ct.label
+														select distinct m.media_id as mk,ct.media_relationship,ct.label
 														from media_relations mr 
 														left join media m on mr.media_id = m.media_id
 														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
@@ -246,8 +246,8 @@
 																<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 																	<ul class="list-group px-0">
 																		<li class="list-group-item px-0 mx-1">
-																			<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
-																			<div class="border-wide-ltgrey rounded bg-white px-1 py-1 image#i#" id="mediaBlock#relm.media_id#" style="height:250px;">
+																			<cfset mediablock= getMediaBlockHtml(media_id="#relm.mk#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
+																			<div class="border-wide-ltgrey rounded bg-white px-1 py-1 image#i#" id="mediaBlock#relm.mk#" style="height:250px;">
 																				<div class="px-0">
 																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">
 																						#relm.label# 
@@ -259,7 +259,7 @@
 																					<cfelse>
 																					#spec.pk#
 																					</cfif>
-																					<br>(media/#relm.media_id#)
+																					<br>(media/#relm.mk#)
 																					</span> 
 																					#mediablock#
 																				</div>
@@ -270,7 +270,7 @@
 																<cfset i=i+1>
 															</cfloop>
 														<cfelse>
-															<h3 class="h4 px-2 ml-1 pt-2">#relm.media_id#</h3>
+															<h3 class="h4 px-2 ml-1 pt-2">#relm.mk#</h3>
 														</cfif>
 													</cfloop>
 												<cfelse>
