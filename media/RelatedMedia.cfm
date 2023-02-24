@@ -210,9 +210,9 @@
 														left join media m on mr.media_id = m.media_id
 														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 														where mr.related_primary_key = <cfqueryparam  value="#spec.pk#">
-										<!---				and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														and mr.media_relationship <> 'created by agent'
-														and MCZBASE.is_media_encumbered(m.media_id)  < 1 --->
+														and MCZBASE.is_media_encumbered(m.media_id)  < 1 
 														<cfif spec.pk gt 1>and ct.media_relationship <> 'ledger entry for cataloged_item'</cfif>
 														</cfquery>
 														<!---Some of the ledgers have the same primary key as the agent_ids. I haven't found it on other types of relationships. We may need a different fix if it is more widespread.--->
