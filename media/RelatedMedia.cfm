@@ -27,6 +27,7 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
+	<cfif spec.pk gt 1><cfset spec.rel eq 'shows agent'></cfif>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct p.publication_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from publication p
@@ -222,7 +223,6 @@
 																			<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
 																			<div class="border-wide-ltgrey rounded bg-white px-1 py-1 image#i#" id="mediaBlock#relm.media_id#" style="height:250px;">
 																				<div class="px-0">
-																					<cfif spec.pk gt 1><cfset spec.rel eq 'shows agent'></cfif>
 																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">
 																						#relm.label# 
 																					<cfif relm.media_relationship contains 'cataloged_item'>
