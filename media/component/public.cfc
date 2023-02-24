@@ -909,12 +909,9 @@ imgStyleClass=value
 									</cfif>
 									<cfif media_rel.media_relationship eq 'transcript for audio media'>:
 										<cfloop query="media2">
-											<cfquery name="relm9" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select m.media_id from media m, media_relations mr 
-												where mr.media_id = m.media_id and m.media_id = #media2.related_primary_key#</cfquery>
-											<a class="font-weight-lessbold" href="/media/#relm9.media_id#"> #relm9.media_id#</a>
-											
-										</cfloop><cfif relm9.recordcount gt 1><span class="two">, </span></cfif>
+											<a class="font-weight-lessbold" href="/media/#media2.related_primary_key#"> #media2.related_primary_key#</a>
+											<cfif media2.recordcount gt 1><span>, </span></cfif>
+										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows locality'>: 
 										<cfloop query="locali">
