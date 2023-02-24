@@ -2706,9 +2706,7 @@ input[disabled] {
 	.html_desc {
 		width: 21.5rem!important;
 	}
-.variedHeight {
-	height: 240px;
-}
+
 @keyframes slideup {
 	from {top: 700px;}
 	to {top:100px;}
@@ -2729,6 +2727,9 @@ tr.line-top-sd {
 		padding-right: 9%;
 		padding-left: 9%;
 	}
+	.variedHeight {
+	height: 200px;
+}
 	
 }
 @media only screen and (min-width: 1499px) {
