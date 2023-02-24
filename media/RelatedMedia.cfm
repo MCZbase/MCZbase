@@ -245,10 +245,12 @@
 																</div>
 																<cfset i=i+1>
 															</cfloop>
+														<cfelse>
+															No Related Media Records
 														</cfif>
 													</cfloop>
 												<cfelse>
-													<h3 class="h4 px-2 ml-1 pt-2 onlyfirst">None</h3>
+													<h3 class="h4 px-2 ml-1 pt-2 onlyfirst">No Relationships to Other Records</h3>
 												</cfif>
 											</div>
 										</div>
