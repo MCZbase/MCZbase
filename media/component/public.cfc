@@ -643,11 +643,11 @@ imgStyleClass=value
 				left join agent_name on agent_name.agent_id = agent.agent_id
 				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			and media_relations.media_relationship = 'created by agent'
+			and media_relations.media_relationship like '%agent'
 				and agent_name_type = 'preferred'
 			order by agent_name.agent_name
 		</cfquery>
-		<cfquery name="agents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---		<cfquery name="agents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct agent_name.agent_name, agent.agent_id
 			from media_relations
 				left join agent on media_relations.related_primary_key = agent.agent_id
@@ -682,7 +682,7 @@ imgStyleClass=value
 			and media_relations.media_relationship <> 'created by agent'
 				and agent_name_type = 'preferred'
 			order by agent_name.agent_name
-		</cfquery>
+		</cfquery>--->
 		<cfquery name="agents5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct agent_name.agent_name, agent.agent_id
 			from media_relations
@@ -864,50 +864,50 @@ imgStyleClass=value
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows agent'>:
-										<cfloop query="agents2">
+										<cfloop query="agents1">
 											<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 												select m.media_id,an.agent_id 
 												from agent_name an 
 												left join media_relations m on an.agent_id=m.related_primary_key 
-												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents2.agent_name#" /> 
+												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents1.agent_name#" /> 
 												and m.media_relationship = 'shows agent'
 											</cfquery>
-											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents2.agent_name#</a>
+											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents1.agent_name#</a>
 											<cfif agents2.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'documents agent'>:
-										<cfloop query="agents3">
+										<cfloop query="agents1">
 											<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 												select distinct m.media_id,an.agent_id from agent_name an 
 												left join media_relations m on an.agent_id=m.related_primary_key 
-												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents3.agent_name#" /> 
+												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents1.agent_name#" /> 
 												and m.media_relationship = 'documents agent'
 											</cfquery>
-											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm3.agent_id#"> #agents3.agent_name#</a>
+											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm3.agent_id#"> #agents1.agent_name#</a>
 											<cfif agents3.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows handwriting of agent'>:
-										<cfloop query="agents4">
+										<cfloop query="agents1">
 											<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 												select m.media_id,an.agent_id from agent_name an 
 												left join media_relations m on an.agent_id=m.related_primary_key 
-												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents4.agent_name#" /> 
+												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents1.agent_name#" /> 
 												and m.media_relationship = 'shows handwriting of agent'</cfquery>
-											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm4.agent_id#"> #agents4.agent_name#</a>
+											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm4.agent_id#"> #agents1.agent_name#</a>
 											<cfif agents4.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'physical object created by agent'>:
-										<cfloop query="agents5">
+										<cfloop query="agents1">
 											<cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
 												select m.media_id,an.agent_id 
 												from agent_name an 
 												left join media_relations m on an.agent_id=m.related_primary_key 
-												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents5.agent_name#" /> 
+												where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents1.agent_name#" /> 
 												and m.media_relationship = 'physical object created by agent'</cfquery>
-											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm6.agent_id#"> #agents5.agent_name#</a>
+											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm6.agent_id#"> #agents1.agent_name#</a>
 											<cfif agents5.recordcount gt 1><span class="two">, </span></cfif>
 										</cfloop>
 									</cfif>
