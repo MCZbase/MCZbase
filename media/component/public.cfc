@@ -606,7 +606,7 @@ imgStyleClass=value
 				left join media_relations mr on mr.media_id = m.media_id 
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 			where mr.related_primary_key =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				and mczbase.ctmedia_relationship = 'related to media'
+				and ct.media_relationship = 'related to media'
 		</cfquery>
 		<cfquery name="media2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct mr.media_id, m.media_uri
@@ -614,7 +614,7 @@ imgStyleClass=value
 				left join media_relations mr on mr.media_id = m.media_id 
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 			where mr.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				and mczbase.ctmedia_relationship = 'transcript for audio media'
+				and ct.media_relationship = 'transcript for audio media'
 		</cfquery>
 		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct p.publication_id as pk, fp.formatted_publication as pub_long
