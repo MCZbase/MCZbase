@@ -1003,13 +1003,13 @@ imgStyleClass=value
 									</cfif>
 									<!---<cfif media_rel.media_relationship contains 'underscore_collection'>: <cfloop query="namedGroup"><cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select mr.related_primary_key, m.media_id from media m, media_relations mr where mr.media_id = m.media_id and mr.media_relationship = 'shows underscore collection' and m.media_id = #namedGroup.media_id#</cfquery><a class="font-weight-lessbold" href="/media/#relm11.related_primary_key#"> #relm11.related_primary_key#</a><span>, </span></cfloop>
 									</cfif>--->
-									<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'> 
+					<!---				<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'> 
 										<cfloop query="spec">
 											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
 											<span class="two">, </span>
 										</cfloop>
-										<!---Removed --->
-									</cfif>
+				
+									</cfif>--->
 								</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 							</cfloop> 
