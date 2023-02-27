@@ -154,6 +154,13 @@
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'locality' 
 		UNION
+		select distinct ce.collecting_event_id as pk 
+		from media_relations mr
+		left join collecting_event ce on mr.related_primary_key = ce.collecting_event_id
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and ct.auto_table = 'collecting_event'
+		UNION
 		select distinct pan.agent_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from preferred_agent_name pan
 		left join media_relations mr on pan.agent_id = mr.related_primary_key
