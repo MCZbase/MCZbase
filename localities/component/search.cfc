@@ -714,6 +714,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="max_error_distance" type="string" required="no">
 	<cfargument name="georef_updated_date" type="string" required="no">
 	<cfargument name="georef_by" type="string" required="no">
+	<cfargument name="geolocate_precision" type="string" required="no">
+	<cfargument name="geolocate_score" type="string" required="no">
+	<cfargument name="geolocate_score2" type="string" required="no">
+	<cfargument name="gs_comparator" type="string" required="no">
 	<!--- 
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
 	--->
@@ -730,6 +734,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfset includeCounts = false>
 	<cfif isdefined("include_counts") AND include_counts EQ 1 >
 		<cfset includeCounts=true>
+	</cfif>
+	<cfif not isdefined("gs_comparator") and len(gs_comparator) gt 0>
+		<cfset gs_comparator = "">
 	</cfif>
 
 	<!--- convert min/max ElevOper variables to operators as leading characters of min/max elevation --->
@@ -1428,6 +1435,39 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfelse>
 						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
+				</cfif>
+				<cfif isdefined("geolocate_precision") and len(#geolocate_precision#) gt 0>
+					AND lower(accepted_lat_long.geolocate_precision) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geolocate_precision#">
+				</cfif>
+				<cfif isdefined("geolocate_score") and len(#geolocate_score#) gt 0>
+					<cfif ArrayLen(REMatch("^[0-9]+\-[0-9]+$",geolocate_score))>0 >
+						<!--- new operator parser on single geolocate_score --->
+						<cfset bits = ListToArray(geolocate_score,"-")>
+						AND accepted_lat_long.geolocate_score
+							BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[0]#">
+							AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#">
+					<cfelse>
+						<!--- old form fields --->
+						<cfswitch expression="#gs_comparator#">
+							<cfcase value = "between">
+								AND accepted_lat_long.geolocate_score
+									BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score#">
+									AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score2#">
+							</cfcase>
+							<cfcase value = ">"><!--- " --->
+								AND accepted_lat_long.geolocate_score > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score#">
+							</cfcase>
+							<cfcase value = "<">
+								AND accepted_lat_long.geolocate_score < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score#">
+							</cfcase>
+							<cfcase value = "<>"><!--- " --->
+								AND accepted_lat_long.geolocate_score <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score#">
+							</cfcase>
+							<cfdefaultcase>
+								AND accepted_lat_long.geolocate_score = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score#">
+							</cfdefaultcase>
+						</cfswitch>
+					<cfif>
 				</cfif>
 			GROUP BY
 				geog_auth_rec.geog_auth_rec_id,
