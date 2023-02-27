@@ -795,7 +795,7 @@ imgStyleClass=value
 									<!---Display Permit: relationship like %permit--->
 									<cfif media_rel.media_relationship contains 'permit' and oneofus eq 1>:
 										<cfloop query="permit">
-											<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#"> #permit.permit_id##permit.permit_type#</a><cfif permit.recordcount gt 1><span>, </span></cfif>
+											<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#"> Permit ID: #permit.permit_id#/#permit.permit_type#</a><cfif permit.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
 									<!---Display Locality: relationship = shows locality--->
