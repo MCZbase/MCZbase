@@ -1474,6 +1474,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				accepted_lat_long.dec_long,
 				accepted_lat_long.datum,
 				accepted_lat_long.max_error_distance,
+				accepted_lat_long.max_error_units,
 				accepted_lat_long.extent,
 				accepted_lat_long.verificationstatus,
 				accepted_lat_long.georefmethod,
