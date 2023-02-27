@@ -919,8 +919,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				accepted_lat_long.extent,
 				accepted_lat_long.verificationstatus,
 				accepted_lat_long.georefmethod,
-				georef_verified_agent.georef_verified_by_agent,
-				georef_determined_agent.georef_determined_by_agent,
+				georef_verified_agent.agent_name georef_verified_by_agent,
+				georef_determined_agent.agent_name georef_determined_by_agent,
 				count(flatTableName.collection_object_id) as specimen_count
 			FROM 
 				locality
