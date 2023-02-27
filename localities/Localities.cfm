@@ -171,7 +171,7 @@ limitations under the License.
 							if (datafield == 'LOCALITY_ID') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/editLocality.cfm?locality_id="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'HIGHER_GEOG') { 
-					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?action=editGeog&geog_auth_rec_id=="+geog_auth_rec_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?action=editGeog&geog_auth_rec_id="+geog_auth_rec_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'Edit') {
 								// undefined generated column
 								console.log(datarecord[datafield]);
