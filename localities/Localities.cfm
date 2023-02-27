@@ -163,12 +163,15 @@ limitations under the License.
 						var gridWidth = $('##' + gridId).width();
 						var dialogWidth = Math.round(gridWidth/2);
 						var locality_id = datarecord['LOCALITY_ID'];
+						var geog_auth_rec_id = datarecord['GEOG_AUTH_REC_ID'];
 						if (dialogWidth < 299) { dialogWidth = 300; }
 						for (i = 1; i < columns.length; i++) {
 							var text = columns[i].text;
 							var datafield = columns[i].datafield;
 							if (datafield == 'LOCALITY_ID') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/editLocality.cfm?locality_id="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+							} else if (datafield == 'HIGHER_GEOG') { 
+					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?action=editGeog&geog_auth_rec_id=="+geog_auth_rec_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'Edit') {
 								// undefined generated column
 								console.log(datarecord[datafield]);
