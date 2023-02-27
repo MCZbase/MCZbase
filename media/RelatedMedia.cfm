@@ -136,7 +136,7 @@
 		select distinct mr.related_primary_key as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from media_relations mr
 		join media m on m.media_id = mr.media_id
-		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.media_relationship like '%media' 
 		UNION
@@ -227,6 +227,10 @@
 														<cfif spec.pk gt 1 and spec.label neq 'Shows Cataloged Item'>and ct.media_relationship <> 'ledger entry for cataloged_item'</cfif>
 														</cfquery>
 														<!---Some of the ledgers have the same primary key as the agent_ids. I haven't found it on other types of relationships. We may need a different fix if it is more widespread.--->
+														<cfif spec.rel contains 'media'>
+															#spec.pk#
+															
+														</cfif>
 														<cfif relm.recordcount gt 0>
 															<cfset i = 1>
 															<cfloop query="relm">
