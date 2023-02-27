@@ -134,9 +134,10 @@
 		and ct.auto_table = 'specimen_part'
 		UNION
 		select distinct mr.related_primary_key as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
-		from mczbase.ctmedia_relationship ct
-		left join media_relations mr on mr.media_relationship = ct.media_relationship
-		where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		from media_relations mr
+		join media m on m.media_id = mr.media_id
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.media_relationship like '%media' 
 		UNION
 		select distinct locality.locality_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
