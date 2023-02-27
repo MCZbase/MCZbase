@@ -442,7 +442,7 @@ limitations under the License.
 							var show = ! hidden;
 							if (hideable == true) { 
 								var listRow = { label: text, value: datafield, checked: show };
-								columnListSource.push(listRow);
+								columnListSource1.push(listRow);
 							}
 						} 
 						$("##columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
@@ -465,7 +465,7 @@ limitations under the License.
 							var show = ! hidden;
 							if (hideable == true) { 
 								var listRow = { label: text, value: datafield, checked: show };
-								columnListSource.push(listRow);
+								columnListSource2.push(listRow);
 							}
 						} 
 						$("##columnPick2").jqxListBox({ source: columnListSource2, autoHeight: true, width: '260px', checkboxes: true });
@@ -488,7 +488,7 @@ limitations under the License.
 							var show = ! hidden;
 							if (hideable == true) { 
 								var listRow = { label: text, value: datafield, checked: show };
-								columnListSource.push(listRow);
+								columnListSource3.push(listRow);
 							}
 						} 
 						$("##columnPick3").jqxListBox({ source: columnListSource3, autoHeight: true, width: '260px', checkboxes: true });
