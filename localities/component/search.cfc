@@ -1477,8 +1477,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				accepted_lat_long.extent,
 				accepted_lat_long.verificationstatus,
 				accepted_lat_long.georefmethod,
-				georef_verified_agent.georef_verified_by_agent,
-				georef_determined_agent.georef_determined_by_agent,
+				georef_verified_agent.agent_name,
+				georef_determined_agent.agent_name,
 				concatGeologyAttributeDetail(locality.locality_id)
 			ORDER BY
 				geog_auth_rec.higher_geog,
