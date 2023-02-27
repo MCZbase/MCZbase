@@ -616,6 +616,14 @@ imgStyleClass=value
 			where m.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and ct.media_relationship = 'transcript for audio media'
 		</cfquery>
+		<cfquery name="permit"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct permit.permit_id, permit.permit_type,permit.permit_title
+			from permit
+			left join media_relations mr on permit.permit_id = mr.related_primary_key
+			left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+			where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+			and ct.auto_table = 'permit'
+		</cfquery>
 		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct p.publication_id as pk, fp.formatted_publication as pub_long
 			from publication p
@@ -782,6 +790,12 @@ imgStyleClass=value
 									<cfif media_rel.media_relationship eq 'documents loan' and oneofus eq 1>:
 										<cfloop query="loan">
 											<a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><cfif loan.recordcount gt 1><span>, </span></cfif>
+										</cfloop>
+									</cfif>
+									<!---Display Permit: relationship like %permit--->
+									<cfif media_rel.media_relationship contains 'permit' and oneofus eq 1>:
+										<cfloop query="permit">
+											<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#"> #permit.permit_id##permit.permit_type#</a><cfif permit.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
 									<!---Display Locality: relationship = shows locality--->
