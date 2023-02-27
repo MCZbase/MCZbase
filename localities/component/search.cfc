@@ -891,9 +891,13 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.maximum_elevation,
 				locality.minimum_elevation,
 				locality.orig_elev_units,
+				to_meters(locality.minimum_elevation,locality.orig_elev_units) min_elevation_meters,
+				to_meters(locality.maximum_elevation,locality.orig_elev_units) max_elevation_meters,
 				locality.max_depth,
 				locality.min_depth,
 				locality.depth_units,
+				to_meters(locality.min_depth,locality.depth_units) min_depth_meters,
+				to_meters(locality.max_depth,locality.depth_units) max_depth_meters,
 				locality.curated_fg,
 				locality.sovereign_nation,
 				locality.georef_updated_date,
@@ -911,9 +915,12 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				accepted_lat_long.dec_long,
 				accepted_lat_long.datum,
 				accepted_lat_long.max_error_distance,
+				to_meters(accepted_lat_long.max_error_distance, accepted_lat_long.max_error_units) coordinateUncertaintyInMeters,
 				accepted_lat_long.extent,
 				accepted_lat_long.verificationstatus,
 				accepted_lat_long.georefmethod,
+				georef_verified_agent.agent_name georef_verified_by_agent,
+				georef_determined_agent.agent_name georef_determined_by_agent,
 				count(flatTableName.collection_object_id) as specimen_count
 			FROM 
 				locality
@@ -923,6 +930,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				<cfif (isdefined("geology_attribute") AND len(#geology_attribute#) gt 0) OR (isdefined("geo_att_value") AND len(#geo_att_value#) gt 0)>
 					left join geology_attributes on locality.locality_id = geology_attributes.locality_id
 				</cfif>
+				left join preferred_agent_name georef_verified_agent on accepted_lat_long.verified_by_agent_id = georef_verified_agent.agent_id
+				left join preferred_agent_name georef_determined_agent on accepted_lat_long.determined_by_agent_id = georef_determined_agent.agent_id
 			WHERE
 				locality.locality_id is not null
 				<cfif isDefined("any_geography") and len(any_geography) gt 0>
@@ -1465,9 +1474,12 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				accepted_lat_long.dec_long,
 				accepted_lat_long.datum,
 				accepted_lat_long.max_error_distance,
+				accepted_lat_long.max_error_units,
 				accepted_lat_long.extent,
 				accepted_lat_long.verificationstatus,
 				accepted_lat_long.georefmethod,
+				georef_verified_agent.agent_name,
+				georef_determined_agent.agent_name,
 				concatGeologyAttributeDetail(locality.locality_id)
 			ORDER BY
 				geog_auth_rec.higher_geog,

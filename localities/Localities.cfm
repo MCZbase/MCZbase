@@ -58,8 +58,19 @@ limitations under the License.
 									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 										<h1 class="h4">Results: </h1>
 										<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-										<div id="columnPickDialog">
-											<div id="columnPick" class="px-1"></div>
+										<div id="columnPickDialog" class="row pick-column-width">
+											<div class="col-12 col-md-3">
+												<div id="columnPick" class="px-1"></div>
+											</div>
+											<div class="col-12 col-md-3">
+												<div id="columnPick1" class="px-1"></div>
+											</div>
+											<div class="col-12 col-md-3">
+												<div id="columnPick2" class="px-1"></div>
+											</div>
+											<div class="col-12 col-md-3">
+												<div id="columnPick3" class="px-1"></div>
+											</div>
 										</div>
 										<div id="columnPickDialogButton"></div>
 										<div id="resultDownloadButtonContainer"></div>
@@ -77,18 +88,8 @@ limitations under the License.
 		
 				<cfset cellRenderClasses = "ml-1">
 				<script>
-					window.columnHiddenSettings = new Object();
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						lookupColumnVisibilities ('#cgi.script_name#','Default');
-					</cfif>
-
-					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						<!--- TODO: Locality Details Page --->
-						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/editLocality.cfm?locality_id=' + rowData['LOCALITY_ID'] + '" target="_blank">'+value+'</a></span>';
-					};
-					var summaryCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+					/** makeSummary combine row data into a single text string **/
+					function makeSummary(rowData) { 
 						var spec_locality = rowData['SPEC_LOCALITY'];
 						var id = rowData['LOCALITY_ID'];
 						var locality_remarks = rowData['LOCALITY_REMARKS'];
@@ -145,8 +146,75 @@ limitations under the License.
 						}
 						if (plss) { plss = " " + plss + " "; } 
 						var data = spec_locality + geology +  elevation + depth + sovereign_nation + plss + coordinates + remarks + " (" + id + ")" + curated;
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + data + '</span>';
+					   return data;
 					};
+					/** createLocalityRowDetailsDialog, create a custom loan specific popup dialog to show details for
+						a row of locality data from the locality results grid.
+					
+						@see createRowDetailsDialog defined in /shared/js/shared-scripts.js for details of use.
+					 */
+					function createLocalityRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowIndex) {
+						var columns = $('##' + gridId).jqxGrid('columns').records;
+						var content = "<div id='" + gridId+ "RowDetailsDialog" + rowIndex + "'><ul class='card-columns pl-md-3'>";
+						if (columns.length < 21) {
+							// don't split into columns for shorter sets of columns.
+							content = "<div id='" + gridId+ "RowDetailsDialog" + rowIndex + "'><ul>";
+						}
+						var gridWidth = $('##' + gridId).width();
+						var dialogWidth = Math.round(gridWidth/2);
+						var locality_id = datarecord['LOCALITY_ID'];
+						var geog_auth_rec_id = datarecord['GEOG_AUTH_REC_ID'];
+						if (dialogWidth < 299) { dialogWidth = 300; }
+						for (i = 1; i < columns.length; i++) {
+							var text = columns[i].text;
+							var datafield = columns[i].datafield;
+							if (datafield == 'LOCALITY_ID') { 
+					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/editLocality.cfm?locality_id="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+							} else if (datafield == 'HIGHER_GEOG') { 
+					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?action=editGeog&geog_auth_rec_id="+geog_auth_rec_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+							} else if (datafield == 'Edit') {
+								// undefined generated column
+								console.log(datarecord[datafield]);
+							} else if (datafield == 'summary') {
+								content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + makeSummary(datarecord) + "</li>";
+							} else if (datarecord[datafield] == '') {
+								// leave out blank column
+								console.log(datafield);
+							} else {
+								content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
+							}
+						}
+						content = content + "</ul>";
+						content = content + "</div>";
+						$("##" + rowDetailsTargetId + rowIndex).html(content);
+						$("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
+							{
+								autoOpen: true,
+								buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
+								width: dialogWidth,
+								title: 'Loan Details'
+							}
+						);
+						// Workaround, expansion sits below row in zindex.
+						var maxZIndex = getMaxZIndex();
+						$("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
+					};
+
+					window.columnHiddenSettings = new Object();
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
+					</cfif>
+
+					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						<!--- TODO: Locality Details Page --->
+						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/editLocality.cfm?locality_id=' + rowData['LOCALITY_ID'] + '" target="_blank">'+value+'</a></span>';
+					};
+					var summaryCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						var data = makeSummary(rowData);
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + data + '</span>';
+					}
 					var specimensCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						if (value==0) {
@@ -208,9 +276,13 @@ limitations under the License.
 									{ name: 'MINIMUM_ELEVATION', type: 'string' },
 									{ name: 'MAXIMUM_ELEVATION', type: 'string' },
 									{ name: 'ORIG_ELEV_UNITS', type: 'string' },
+									{ name: 'MIN_ELEVATION_METERS', type: 'string' },
+									{ name: 'MAX_ELEVATION_METERS', type: 'string' },
 									{ name: 'MIN_DEPTH', type: 'string' },
 									{ name: 'MAX_DEPTH', type: 'string' },
 									{ name: 'DEPTH_UNITS', type: 'string' },
+									{ name: 'MIN_DEPTH_METERS', type: 'string' },
+									{ name: 'MAX_DEPTH_METERS', type: 'string' },
 									{ name: 'PLSS', type: 'string' },
 									{ name: 'GEOLATTS', type: 'string' },
 									{ name: 'COLLCOUNTLOCALITY', type: 'string' },
@@ -218,10 +290,13 @@ limitations under the License.
 									{ name: 'DEC_LONG', type: 'string' },
 									{ name: 'DATUM', type: 'string' },
 									{ name: 'MAX_ERROR_DISTANCE', type: 'string' },
+									{ name: 'COORDINATEUNCERTAINTYINMETERS', type: 'string' },
 									{ name: 'EXTENT', type: 'string' },
 									{ name: 'VERIFICATIONSTATUS', type: 'string' },
 									{ name: 'GEOREFMETHOD', type: 'string' },
 									{ name: 'NOGEOREFBECAUSE', type: 'string' },
+									{ name: 'GEOREF_VERIFIED_BY_AGENT', type: 'string' },
+									{ name: 'GEOREF_DETERMINED_BY_AGENT', type: 'string' },
 									{ name: 'LOCALITY_REMARKS', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
@@ -243,7 +318,7 @@ limitations under the License.
 								var details = $($(parentElement).children()[0]);
 								details.html("<div id='rowDetailsTarget" + index + "'></div>");
 					
-								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+								createLocalityRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 								// Workaround, expansion sits below row in zindex.
 								var maxZIndex = getMaxZIndex();
 								$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -275,21 +350,29 @@ limitations under the License.
 										{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
-									{ text: 'Locality', datafield: 'LOCALITY_ID',width: 500, hideabel: true, hidden: getColHidProp('LOCALITY_ID',false), cellsrenderer: summaryCellRenderer  },
+									{ text: 'Locality_id', datafield: 'LOCALITY_ID',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_ID',true) },
+									{ text: 'Locality Summary', datafield: 'summary',width: 500, hideabel: true, hidden: getColHidProp('summary',false), cellsrenderer: summaryCellRenderer  },
 									{ text: 'Specific Locality', datafield: 'SPEC_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('SPEC_LOCALITY',true)  },
 									{ text: 'Vetted', datafield: 'CURATED_FG',width: 50, hideabel: true, hidden: getColHidProp('CURATED_FG',false)  },
 									{ text: 'Locality Remarks', datafield: 'LOCALITY_REMARKS',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_REMARKS',true)  },
 									{ text: 'Min Depth', datafield: 'MIN_DEPTH',width: 100, hideabel: true, hidden: getColHidProp('MIN_DEPTH',true)  },
 									{ text: 'Max Depth', datafield: 'MAX_DEPTH',width: 100, hideabel: true, hidden: getColHidProp('MAX_DEPTH',true)  },
 									{ text: 'Depth Units', datafield: 'DEPTH_UNITS',width: 100, hideabel: true, hidden: getColHidProp('DEPTH_UNITS',true)  },
+									{ text: 'Min Depth m', datafield: 'MIN_DEPTH_METERS',width: 100, hideabel: true, hidden: getColHidProp('MIN_DEPTH_METERS',true)  },
+									{ text: 'Max Depth m', datafield: 'MAX_DEPTH_METERS',width: 100, hideabel: true, hidden: getColHidProp('MAX_DEPTH_METERS',true)  },
 									{ text: 'Min Elevation', datafield: 'MINIMUM_ELEVATION',width: 100, hideabel: true, hidden: getColHidProp('MINIMUM_ELEVATION',true)  },
 									{ text: 'Max Elevation', datafield: 'MAXIMUM_ELEVATION',width: 100, hideabel: true, hidden: getColHidProp('MAXIMUM_ELEVATION',true)  },
 									{ text: 'Elev Units', datafield: 'ORIG_ELEV_UNITS',width: 100, hideabel: true, hidden: getColHidProp('ORIG_ELEV_UNITS',true)  },
+									{ text: 'Min Elevation m', datafield: 'MIN_ELEVATION_METERS',width: 100, hideabel: true, hidden: getColHidProp('MIN_ELEVATION_METERS',true)  },
+									{ text: 'Max Elevation m', datafield: 'MAX_ELEVATION_METERS',width: 100, hideabel: true, hidden: getColHidProp('MAX_ELEVATION_METERS',true)  },
 									{ text: 'Lat.', datafield: 'DEC_LAT', width: 100, hideable: true, hidden: getColHidProp('DEC_LAT',true) },
 									{ text: 'Long.', datafield: 'DEC_LONG', width: 100, hideable: true, hidden: getColHidProp('DEC_LONG',true) },
 									{ text: 'Datum', datafield: 'DATUM', width: 100, hideable: true, hidden: getColHidProp('DATUM',true) },
 									{ text: 'Error Radius', datafield: 'MAX_ERROR_DISTANCE', width: 100, hideable: true, hidden: getColHidProp('MAX_ERROR_DISTANCE',true) },
+									{ text: 'coordinateUncertantyInMeters', datafield: 'COORDINATEUNCERTAINTYINMETERS', width: 100, hideable: true, hidden: getColHidProp('COORDINATEUNCERTAINTYINMETERS',true) },
 									{ text: 'Extent', datafield: 'EXTENT', width: 100, hideable: true, hidden: getColHidProp('EXTENT',true) },
+									{ text: 'Georef Verifier', datafield: 'GEOREF_VERIFIED_BY_AGENT', width: 100, hideable: true, hidden: getColHidProp('GEOREF_VERIFIED_BY_AGENT',true) },
+									{ text: 'Georef Determiner', datafield: 'GEOREF_DETERMINED_BY_AGENT', width: 100, hideable: true, hidden: getColHidProp('GEOREF_DETERMINED_BY_AGENT',true) },
 									{ text: 'Verification', datafield: 'VERIFICATIONSTATUS', width: 100, hideable: true, hidden: getColHidProp('VERIFICATIONSTATUS',true) },
 									{ text: 'GeoRef Method', datafield: 'GEOREFMETHOD', width: 100, hideable: true, hidden: getColHidProp('GEOREFMETHOD',true) },
 									{ text: 'NotGeoreferenced', datafield: 'NOGEOREFBECAUSE', width: 100, hideable: true, hidden: getColHidProp('GEOREFMETHOD',true) },
@@ -333,7 +416,7 @@ limitations under the License.
 								var args = event.args;
 								var rowIndex = args.rowindex;
 								var datarecord = args.owner.source.records[rowIndex];
-								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+								createLocalityRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 							});
 							$('##searchResultsGrid').on('rowcollapse', function (event) {
 								// remove the dialog holding the row details
@@ -383,8 +466,10 @@ limitations under the License.
 						}
 						// add a control to show/hide columns
 						var columns = $('##' + gridId).jqxGrid('columns').records;
+						var quarterColumns = Math.round(columns.length/4);
+
 						var columnListSource = [];
-						for (i = 1; i < columns.length; i++) {
+						for (i = 1; i < quarterColumns; i++) {
 							var text = columns[i].text;
 							var datafield = columns[i].datafield;
 							var hideable = columns[i].hideable;
@@ -405,8 +490,80 @@ limitations under the License.
 							}
 							$("##" + gridId).jqxGrid('endupdate');
 						});
+
+						var columnListSource1 = [];
+						for (i = quarterColumns; i < (quarterColumns*2); i++) {
+							var text = columns[i].text;
+							var datafield = columns[i].datafield;
+							var hideable = columns[i].hideable;
+							var hidden = columns[i].hidden;
+							var show = ! hidden;
+							if (hideable == true) { 
+								var listRow = { label: text, value: datafield, checked: show };
+								columnListSource1.push(listRow);
+							}
+						} 
+						$("##columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
+						$("##columnPick1").on('checkChange', function (event) {
+							$("##" + gridId).jqxGrid('beginupdate');
+							if (event.args.checked) {
+								$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+							} else {
+								$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+							}
+							$("##" + gridId).jqxGrid('endupdate');
+						});
+
+						var columnListSource2 = [];
+						for (i = (quarterColumns*2); i < (quarterColumns*3); i++) {
+							var text = columns[i].text;
+							var datafield = columns[i].datafield;
+							var hideable = columns[i].hideable;
+							var hidden = columns[i].hidden;
+							var show = ! hidden;
+							if (hideable == true) { 
+								var listRow = { label: text, value: datafield, checked: show };
+								columnListSource2.push(listRow);
+							}
+						} 
+						$("##columnPick2").jqxListBox({ source: columnListSource2, autoHeight: true, width: '260px', checkboxes: true });
+						$("##columnPick2").on('checkChange', function (event) {
+							$("##" + gridId).jqxGrid('beginupdate');
+							if (event.args.checked) {
+								$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+							} else {
+								$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+							}
+							$("##" + gridId).jqxGrid('endupdate');
+						});
+
+						var columnListSource3 = [];
+						for (i = (quarterColumns*3); i < columns.length; i++) {
+							var text = columns[i].text;
+							var datafield = columns[i].datafield;
+							var hideable = columns[i].hideable;
+							var hidden = columns[i].hidden;
+							var show = ! hidden;
+							if (hideable == true) { 
+								var listRow = { label: text, value: datafield, checked: show };
+								columnListSource3.push(listRow);
+							}
+						} 
+						$("##columnPick3").jqxListBox({ source: columnListSource3, autoHeight: true, width: '260px', checkboxes: true });
+						$("##columnPick3").on('checkChange', function (event) {
+							$("##" + gridId).jqxGrid('beginupdate');
+							if (event.args.checked) {
+								$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+							} else {
+								$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+							}
+							$("##" + gridId).jqxGrid('endupdate');
+						});
+
 						$("##columnPickDialog").dialog({ 
 							height: 'auto', 
+							width: 'auto',
+							adaptivewidth: true,
 							title: 'Show/Hide Columns',
 							autoOpen: false,
 							modal: true, 

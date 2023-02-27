@@ -98,7 +98,7 @@ limitations under the License.
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
 						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-							var id = encodeURIComponent(rowData['geog_auth_rec_id']);
+							var id = encodeURIComponent(rowData['GEOG_AUTH_REC_ID']);
 							return '<a target="_blank" href="/Locality.cfm?action=editGeog&geog_auth_rec_id=' + id + '">Edit</a>';
 						};
 					</cfif>
