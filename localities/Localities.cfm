@@ -168,12 +168,15 @@ limitations under the License.
 							var text = columns[i].text;
 							var datafield = columns[i].datafield;
 							if (datafield == 'LOCALITY_ID') { 
-					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <button class='btn btn-outline-primary pt-1 px-2 btn-xs' href='/editLocality.cfm?locality_id="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</button></li>";
+					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/editLocality.cfm?locality_id="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'Edit') {
 								// undefined generated column
 								console.log(datarecord[datafield]);
 							} else if (datafield == 'summary') {
 								content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + makeSummary(datarecord) + "</li>";
+							} else if (datarecord[datafield] == '') {
+								// leave out blank column
+								console.log(datafield);
 							} else {
 								content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
 							}
