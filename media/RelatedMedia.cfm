@@ -255,14 +255,13 @@
 																</div>
 																<cfset i=i+1>
 															</cfloop>
-														<cfelse>
-															<cfif media_rel.media_relationship contains 'agent' AND relm.recordcount lt 3>	
-																<h3 class="h4 px-2 ml-1 pt-2 onlyfirst comma2"><span>No Related Media Records</span></h3>
-															<cfelse>
-																<h3 class="h4 px-2 ml-1 pt-2 onlyfirst comma2"><span>No Related Media Records</span></h3>
-															</cfif>
 														</cfif>
 													</cfloop>
+													<cfif relm.recordcount eq 0>
+														<h3 class="h4 px-2 ml-1 pt-2">
+															<span>No Related Media Records</span>
+														</h3>
+													</cfif>
 												<cfelse>
 													<h3 class="h4 px-2 ml-1 pt-2 onlyfirst"><span class="one">No Relationships to Other Records</span></h3>
 												</cfif>
