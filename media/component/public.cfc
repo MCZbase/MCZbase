@@ -568,6 +568,14 @@ imgStyleClass=value
 				and agent_name_type = 'preferred'
 			order by agent_name.agent_name
 		</cfquery>
+		<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
+			select b.transaction_id, b.lenders_trans_num_cde, b.borrow_number
+			from media_relations mr
+			left join borrow b on b.transaction_id = mr.related_primary_key
+			left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+			where mr.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+			and ct.media_relationship like '%borrow'
+		</cfquery>
 		<cfquery name="collecting_events" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct collecting_event.verbatim_locality,collecting_event.collecting_event_id, collecting_event.verbatim_date, collecting_event.ended_date, collecting_event.collecting_source
 			from media_relations
@@ -768,6 +776,13 @@ imgStyleClass=value
 										<cfloop query="agents5">
 											<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents5.agent_id#"> #agents5.agent_name#</a>
 											<cfif agents5.recordcount gt 1><span>, </span></cfif>
+										</cfloop>
+									</cfif>
+									<!---Display Borrow--->
+									<cfif media_rel.media_relationship contains 'borrow'>:
+										<cfloop query="borrow">
+											<a class="font-weight-lessbold" href="/borrow/Borrow.cfm?transaction_id=#borrow.transaction_id#"> #borrow.borrow_number#</a>
+											<cfif borrow.recordcount gt 1><span>, </span></cfif>
 										</cfloop>
 									</cfif>
 									<!---Display Collecting Event: relationship = %collecting event--->
