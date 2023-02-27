@@ -105,12 +105,19 @@
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'borrow'
 		UNION
-		select distinct m.media_id as pk, m.media_uri as rel, ct.label as label, ct.auto_table as at
+		select distinct mr.related_primary_key as pk, m.media_uri as rel, ct.label as label, ct.auto_table as at
 		from media_relations mr
-		left join media m on m.media_id = mr.media_id
-		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		join media m on m.media_id = mr.media_id
+		join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where m.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'media'
+		UNION
+		select distinct m.media_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
+		from media_relations mr
+		join media m on m.media_id = mr.media_id
+		join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and ct.media_relationship like '%media'
 		UNION
 		select distinct permit.permit_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from permit
