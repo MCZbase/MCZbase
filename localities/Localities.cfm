@@ -88,18 +88,8 @@ limitations under the License.
 		
 				<cfset cellRenderClasses = "ml-1">
 				<script>
-					window.columnHiddenSettings = new Object();
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						lookupColumnVisibilities ('#cgi.script_name#','Default');
-					</cfif>
-
-					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						<!--- TODO: Locality Details Page --->
-						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/editLocality.cfm?locality_id=' + rowData['LOCALITY_ID'] + '" target="_blank">'+value+'</a></span>';
-					};
-					var summaryCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+					/** makeSummary combine row data into a single text string **/
+					function makeSummary(rowData) { 
 						var spec_locality = rowData['SPEC_LOCALITY'];
 						var id = rowData['LOCALITY_ID'];
 						var locality_remarks = rowData['LOCALITY_REMARKS'];
@@ -156,8 +146,69 @@ limitations under the License.
 						}
 						if (plss) { plss = " " + plss + " "; } 
 						var data = spec_locality + geology +  elevation + depth + sovereign_nation + plss + coordinates + remarks + " (" + id + ")" + curated;
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + data + '</span>';
+					   return data;
 					};
+					/** createLocalityRowDetailsDialog, create a custom loan specific popup dialog to show details for
+						a row of locality data from the locality results grid.
+					
+						@see createRowDetailsDialog defined in /shared/js/shared-scripts.js for details of use.
+					 */
+					function createLocalityRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowIndex) {
+						var columns = $('##' + gridId).jqxGrid('columns').records;
+						var content = "<div id='" + gridId+ "RowDetailsDialog" + rowIndex + "'><ul class='card-columns pl-md-3'>";
+						if (columns.length < 21) {
+							// don't split into columns for shorter sets of columns.
+							content = "<div id='" + gridId+ "RowDetailsDialog" + rowIndex + "'><ul>";
+						}
+						var gridWidth = $('##' + gridId).width();
+						var dialogWidth = Math.round(gridWidth/2);
+						var locality_id = datarecord['LOCALITY_ID'];
+						if (dialogWidth < 299) { dialogWidth = 300; }
+						for (i = 1; i < columns.length; i++) {
+							var text = columns[i].text;
+							var datafield = columns[i].datafield;
+							if (datafield == 'LOCALITY_ID') { 
+					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <button class='btn btn-outline-primary pt-1 px-2 btn-xs' href='/editLocality.cfm?locality_id="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</button></li>";
+							} else if (datafield == 'Edit') {
+								// undefined generated column
+								console.log(datarecord[datafield]);
+							} else if (datafield == 'summary') {
+								content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + makeSummary(datarecord) + "</li>";
+							} else {
+								content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
+							}
+						}
+						content = content + "</ul>";
+						content = content + "</div>";
+						$("##" + rowDetailsTargetId + rowIndex).html(content);
+						$("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
+							{
+								autoOpen: true,
+								buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
+								width: dialogWidth,
+								title: 'Loan Details'
+							}
+						);
+						// Workaround, expansion sits below row in zindex.
+						var maxZIndex = getMaxZIndex();
+						$("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
+					};
+
+					window.columnHiddenSettings = new Object();
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						lookupColumnVisibilities ('#cgi.script_name#','Default');
+					</cfif>
+
+					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						<!--- TODO: Locality Details Page --->
+						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/editLocality.cfm?locality_id=' + rowData['LOCALITY_ID'] + '" target="_blank">'+value+'</a></span>';
+					};
+					var summaryCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						var data = makeSummary(rowData);
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + data + '</span>';
+					}
 					var specimensCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						if (value==0) {
@@ -261,7 +312,7 @@ limitations under the License.
 								var details = $($(parentElement).children()[0]);
 								details.html("<div id='rowDetailsTarget" + index + "'></div>");
 					
-								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+								createLocalityRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 								// Workaround, expansion sits below row in zindex.
 								var maxZIndex = getMaxZIndex();
 								$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -359,7 +410,7 @@ limitations under the License.
 								var args = event.args;
 								var rowIndex = args.rowindex;
 								var datarecord = args.owner.source.records[rowIndex];
-								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+								createLocalityRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 							});
 							$('##searchResultsGrid').on('rowcollapse', function (event) {
 								// remove the dialog holding the row details
