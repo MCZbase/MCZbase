@@ -257,7 +257,7 @@
 															</cfloop>
 														</cfif>
 													</cfloop>
-													<cfif relm.recordcount eq 0 and len(media_rel.recordcount) lt 4>
+													<cfif relm.recordcount eq 0 and len(media_rel.media_relationship) lt 3>
 														<h3 class="h4 px-2 ml-1 pt-2">
 															<span>No Related Media Records</span>
 														</h3>
