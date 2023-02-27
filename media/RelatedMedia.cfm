@@ -232,7 +232,7 @@
 																<ul class="list-group px-0">
 																	<li class="list-group-item px-0 mx-1">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#spec.pk#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
-																		<div class="border-wide-ltgrey rounded bg-white px-1 py-1 image#i# variedHeight" id="mediaBlock#spec.pk#">
+																		<div class="border-wide-ltgrey rounded bg-white px-1 py-1 variedHeight" id="mediaBlock#spec.pk#">
 																			<div class="px-0">
 																				<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">
 																				#spec.label# <br>
