@@ -201,7 +201,7 @@ imgStyleClass=value
 							<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
 							<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
 							<!---cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg"--->
-							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server. See https://iiif.io/api/image/3.0/#42-size for iiifFull. Use ^! before 2000 --Hover won't work if original is scaling more than 200%, put code below on line 321 to avoid Bad request. It skips hovering to larger image and title says click to full image, which is not much bigger than original. "Requests that would generate images of these sizes are errors that should result in a 400 (Bad Request) status code." Prior to overloading avoidance, image would scale nicely even if it was small. Using width only (e.g.,^1000,) allows a natural aspect ratio.--->
+							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server. See https://iiif.io/api/image/3.0/#42-size for iiifFull. Use ^! before 2000 --Hover won't work if original is scaling more than 200%, put code below on line 321 to avoid Bad request. It skips hovering to larger image and title says click to full image, which is not much bigger than original. "Requests that would generate images of these sizes are errors that should result in a 400 (Bad Request) status code." Prior to overloading avoidance, image would scale nicely even if it was small. Using height only (e.g.,^,1000) allows a natural aspect ratio.--->
 							<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^,1000/0/default.jpg">
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
@@ -259,9 +259,6 @@ imgStyleClass=value
 									<!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --[changed from 100 to auto-3/14/22 MK ledgers were too tall--need to check other types--it was changed at some point] ---->
 									<!---Just making a note that it was this when it worked: <cfif #media_uri# CONTAINS "nrs" OR #media_URI# CONTAINS "morphosource">--->
 									<cfif host EQ "nrs.harvard.edu" OR host EQ "www.morphosource.org">
-								<!---		<cfset hw = 'width="95" height="auto"'>
-										<cfset styles = "height: auto;margin: 0 auto;">
-										<cfset minheight = "min-height: auto">--->
 											<cfset hw = 'width="auto" height="auto"'>
 											<cfset styles = "height: 74px;margin: 0 auto;width: auto">
 											<cfset minheight = "min-height: auto">
