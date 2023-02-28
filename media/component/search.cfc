@@ -1151,16 +1151,16 @@ imgStyleClass=value
 
 
 ---> 
-<cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
+<!---<cffunction name="getMediaBlockHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 	<cfargument name="captionAs" type="string" required="no" default="textFull">
 	<cfargument name="background_class" type="string" required="no" default="bg-light">
 	<cfargument name="background_color" type="string" required="no" default="grey">
-	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:100%">
+	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:100%">--->
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
-	<cfset l_media_id= #arguments.media_id#>
+<!---	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
 	<cfset l_size = #arguments.size#>
 	<cfset l_styles = #arguments.styles#>
@@ -1177,13 +1177,13 @@ imgStyleClass=value
 	</cfthread>
 	<cfthread action="join" name="mediaWidgetThread#tn#" />
 	<cfreturn cfthread["mediaWidgetThread#tn#"].output>
-</cffunction>
+</cffunction>--->
 
 <!--- implementation for getMediaBlockHtml without creating a new thread 
  @see getMediaBlockHtml for API documentation.  
  WARNING: Do not make copies of this function and use elsewhere, include this function and use it.
   --->
-<cffunction name="getMediaBlockHtmlUnthreaded" access="remote" returntype="string" returnformat="plain">
+<!---<cffunction name="getMediaBlockHtmlUnthreaded" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="box" type="string" required="no" default="">
@@ -1233,17 +1233,17 @@ imgStyleClass=value
 			</cfquery>
 			<cfif media.recordcount EQ 1>
 				<cfset i= 1>
-				<cfloop query="media">
+				<cfloop query="media">--->
 					<!--- to turn on rewriting to deliver media via iiif server, set enableIIIF to true, to turn of, set to false --->
-					<cfset enableIIIF = true>
+					<!---<cfset enableIIIF = true>
 					<cfset iiifFull = "">
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF>
 						<cfif media_type EQ 'image' AND left(media.mime_type,6) EQ 'image/'>
 							<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
-							<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
+							<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">--->
 							<!---cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg"--->
 							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server--->
-							<cfif media.height LT 2000 or media.width LT 2000>
+							<!---<cfif media.height LT 2000 or media.width LT 2000>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#height#,#height#/0/default.jpg">
 							<cfelse>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/!2000,2000/0/default.jpg">
@@ -1261,9 +1261,9 @@ imgStyleClass=value
 					</cfif>
 					<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 					<cfset hw = 'height="auto"'>
-					<cfif isDisplayable>
+					<cfif isDisplayable>--->
 						<!--- the resource specified by media_uri should be an image that can be displayed in a browser with img src=media_uri --->
-						<cfif #displayAs# EQ "fixedSmallThumb">
+					<!---	<cfif #displayAs# EQ "fixedSmallThumb">
 							<cfset hw = 'height="#size#" width="#size#"'>
 							<cfset sizeParameters='&width=#size#&height=#size#'>
 							<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters#&background_color=#background_color#">
@@ -1276,34 +1276,34 @@ imgStyleClass=value
 							</cfif>
 						<cfelse>
 							<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF>
-								<cfset sizeParameters='&width=#size#&height=#size#'>
+								<cfset sizeParameters='&width=#size#&height=#size#'>--->
 								<!--- cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeParameters#" --->
-								<cfset displayImage = iiifSize>
+							<!---	<cfset displayImage = iiifSize>
 							<cfelse>
 								<cfset displayImage = media_uri>
 									<cfset styles = "height: 123px;margin: 0 auto;width: auto">
 							</cfif>
 						</cfif>
-					<cfelse>
+					<cfelse>--->
 						<!--- the resource specified by media_uri is not one that can be used in an image tag as img src="media_uri", we need to provide an alternative --->
-						<cfif len(preview_uri) GT 0>
+						<!---<cfif len(preview_uri) GT 0>--->
 						 	<!--- there is a preview_uri, use that --->
-							<cfif #displayAs# EQ "fixedSmallThumb">
+						<!---	<cfif #displayAs# EQ "fixedSmallThumb">
 								<cfset hw = 'height="#size#" width="#size#"'>
 								<cfset sizeParameters='&width=#size#&height=#size#'>
 								<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters#&background_color=#background_color#">
 								<cfset styles = "height: 76px;margin: 0 auto;width: auto">
-							<cfelse>
+							<cfelse>--->
 								<!--- use a preview_uri, if one was specified --->
 								<!--- TODO: change test to regex on http... with some sort of is this an image test --->
-								<cfset displayImage = preview_uri>
+							<!---	<cfset displayImage = preview_uri>
 								<cfif #displayAs# eq "thumb">
 									<cfset hw = 'width="auto" height="auto"'>
 									<cfset styles = "height: 76px;margin: 0 auto;width: auto;">
-								<cfelse>
+								<cfelse>--->
 									<!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --[changed from 100 to auto-3/14/22 MK ledgers were too tall--need to check other types--it was changed at some point] ---->
 									<!---Just making a note that it was this when it worked: <cfif #media_uri# CONTAINS "nrs" OR #media_URI# CONTAINS "morphosource">--->
-									<cfif host EQ "nrs.harvard.edu" OR host EQ "www.morphosource.org">
+									<!---<cfif host EQ "nrs.harvard.edu" OR host EQ "www.morphosource.org">
 										<cfset hw = 'width="auto" height="auto"'>
 										<cfset styles = "height: 76px;margin: 0 auto;width: auto">
 										<cfset minheight = "min-height: auto">
@@ -1316,24 +1316,24 @@ imgStyleClass=value
 								</cfif>
 							</cfif>
 						<cfelse>
-							<cfif #displayAs# EQ "fixedSmallThumb">
+							<cfif #displayAs# EQ "fixedSmallThumb">--->
 								<!--- leave it to logic in media/rescaleImage.cfm to work out correct icon and rescale it to fit desired size --->
-								<cfset hw = 'height="#size#px;" width="#size#px;"'>
+								<!---<cfset hw = 'height="#size#px;" width="#size#px;"'>
 								<cfset sizeParameters='&width=#size#&height=#size#'>
 								<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters#&background_color=#background_color#">
-							<cfelse>
+							<cfelse>--->
 								<!--- fall back on an svg image of an appropriate generic icon --->
-								<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
-									<cfset size = "90"><!---was 200--->
-										<cfset styles = "max-height:;width:auto;">
+								<!---<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
+									<cfset size = "90">--->    <!---was 200--->
+										<!---<cfset styles = "max-height:;width:auto;">
 								<cfelse>
 									<cfset size = "90">
-								</cfif>
+								</cfif>--->
 								
 								<!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
-								<cfset hw = 'height="#size#" width="#size#"'>
+								<!---<cfset hw = 'height="#size#" width="#size#"'>--->
 								<!--- pick placeholder --->
-								<cfif media_type is "image">
+								<!---<cfif media_type is "image">
 									<cfset displayImage = "/shared/images/tag-placeholder.png">
 								<cfelseif media_type is "audio">
 									<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
@@ -1346,34 +1346,34 @@ imgStyleClass=value
 								<cfelseif media_type is "spectrometer data">
 									<cfset displayImage = "/shared/images/Sine_waves_different_frequencies.svg">
 								<cfelse>
-									<cfset displayImage =  "/shared/images/tag-placeholder.svg">
+									<cfset displayImage =  "/shared/images/tag-placeholder.svg">--->
 									<!--- media_type is not on the known list --->
-								</cfif>
+							<!---	</cfif>
 							</cfif>
 						</cfif>
-					</cfif>
+					</cfif>--->
 					<!--- prepare output --->
 
-					<cfset output='#output#<div class="media_widget p-1" style="#minheight#">'>	
+				<!---	<cfset output='#output#<div class="media_widget p-1" style="#minheight#">'>	--->
 					<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
-					<cfif #captionAs# EQ "textNone">
+					<!---<cfif #captionAs# EQ "textNone">
 						<cfset linkTarget = "/media/#media.media_id#">
 					<cfelse>
 						<cfset linkTarget = "#media.media_uri#">
 					</cfif>
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF AND isDefined("iiifFull") AND len(iiifFull) GT 0>
 						<cfset linkTarget = iiifFull>
-					</cfif>
+					</cfif>--->
 						<!---Removed on 1/20/23 from <img...> tag: class="#background_class#"--->
-					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
+				<!---	<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
 					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
 							<cfif isDisplayable><cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom({zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'></cfif>
-					<cfif #captionAs# EQ "textNone">
+					<cfif #captionAs# EQ "textNone">--->
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
-					<cfelseif #captionAs# EQ "textLinks">
+					<!---<cfelseif #captionAs# EQ "textLinks">--->
 						<!--- textLinks is used when only the links are desired under the thumbnail--->
-						<cfset output='#output#<div class="mt-0 col-12 pb-1 px-0">'>
+						<!---<cfset output='#output#<div class="mt-0 col-12 pb-1 px-0">'>
 						<cfset output='#output#<p class="text-center px-1 pb-1 mb-0 small col-12">'>
 						<cfif listcontainsnocase(session.roles,"manage_specimens")>
 							<cfset output='#output#<span class="d-inline">(<a href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>'>
@@ -1383,12 +1383,12 @@ imgStyleClass=value
 							<cfif listcontainsnocase(session.roles,"manage_publications")> <span class="sr-only">#media_type# (#mime_type#)</span></cfif>
 								<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
 							<cfelse>
-								<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
+								<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">--->
 									<!---If on the zoom/related page, i.e. RelatedMedia.cfm, we don't need a link to it.--->
 									
-								<cfelse><!---Changed else on 1/20/23 to make it easier to test--->
+								<!---<cfelse>---><!---Changed else on 1/20/23 to make it easier to test--->
 									<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>---><!-- should make it show on spec details--->
-									<cfset output='#output#<span class="d-none d-md-inline-block">(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">zoom/related</a>)</span>'>
+									<!---<cfset output='#output#<span class="d-none d-md-inline-block">(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">zoom/related</a>)</span>'>
 								</cfif>
 								<cfif len(iiifFull) GT 0>
 									<cfset output='#output#(<a class="" href="#iiifFull#">full</a>)'>
@@ -1413,9 +1413,9 @@ imgStyleClass=value
 						<cfelse>
 							<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
 								<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>) '>
-							<cfelse>
+							<cfelse>--->
 								<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>--->
-								<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>) '>
+							<!---	<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>) '>
 							</cfif>
 							<cfif len(iiifFull) GT 0>
 								<cfset output='#output#(<a class="" href="#iiifFull#">Full</a>)'>
@@ -1432,33 +1432,33 @@ imgStyleClass=value
 						<cfif len(showTitleText) EQ 0>
 							<cfset showTitleText = "Externally Sourced Media Object">
 						</cfif>
-						<cfif #captionAs# EQ "textCaption"><!---This is for use when a caption of 197 characters is needed --->
-							<cfif len(showTitleText) GT 197>
+						<cfif #captionAs# EQ "textCaption">---><!---This is for use when a caption of 197 characters is needed --->
+						<!---	<cfif len(showTitleText) GT 197>
 								<cfset showTitleText = "#left(showTitleText,197)#..." >
 							</cfif>
 						</cfif>
-						<cfif #captionAs# EQ "textCaptionLong"><!---This is for use when a caption of 197 characters is needed --->
-							<cfif len(showTitleText) GT 232>
+						<cfif #captionAs# EQ "textCaptionLong">---><!---This is for use when a caption of 197 characters is needed --->
+							<!---<cfif len(showTitleText) GT 232>
 								<cfset showTitleText = "#left(showTitleText,200)#..." >
 							</cfif>
 						</cfif>
-						<cfif #captionAs# EQ "textCaptionFull"><!---This is for use when a full caption (or close to it) is needed. Related media (media viewer) --->
-							<cfif len(showTitleText) GT 500>
+						<cfif #captionAs# EQ "textCaptionFull">---><!---This is for use when a full caption (or close to it) is needed. Related media (media viewer) --->
+							<!---<cfif len(showTitleText) GT 500>
 								<cfset showTitleText = "#left(showTitleText,500)#..." >
 							</cfif>
 						</cfif>
-						<cfif #captionAs# EQ "textShort"><!---This is for use with a small size or with "thumb" so that the caption will be short (e.g., specimen details page)--->
-							<cfif len(showTitleText) GT 100>
+						<cfif #captionAs# EQ "textShort">---><!---This is for use with a small size or with "thumb" so that the caption will be short (e.g., specimen details page)--->
+						<!---	<cfif len(showTitleText) GT 100>
 								<cfset showTitleText = "#left(showTitleText,100)#..." >
 							</cfif>
 						</cfif>
-						<cfif #captionAs# EQ "textFull"><!---This is for use with a size and the caption is 250 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
-							<cfif len(showTitleText) GT 250>
+						<cfif #captionAs# EQ "textFull">---><!---This is for use with a size and the caption is 250 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
+							<!---<cfif len(showTitleText) GT 250>
 								<cfset showTitleText = "#left(showTitleText,250)#..." >
 							</cfif>
-						</cfif>
+						</cfif>--->
 						<!--- clean up broken html tags resulting from truncation of scientific names with <i></i> tags --->
-						<cfif refind("<$",showTitleText) GT 0>
+						<!---<cfif refind("<$",showTitleText) GT 0>
 							<cfset showTitleText = left(showTitleText,len(showTitleText-1))>
 						</cfif>
 						<cfif refind("<i$",showTitleText) GT 0>
@@ -1470,12 +1470,12 @@ imgStyleClass=value
 						<cfif refind("</i$",showTitleText) GT 0>
 							<cfset showTitleText = "#showTitleText#>">
 						</cfif>
-						<cfif refind("<i>[^<]+$",showTitleText) GT 0 >
+						<cfif refind("<i>[^<]+$",showTitleText) GT 0 >--->
 							<!--- close an unclosed italic tag resulting from truncation --->
-							<cfset showTitleText = "#showTitleText#</i>">
+						<!---	<cfset showTitleText = "#showTitleText#</i>">
 						</cfif>
 
-						<cfset output='#output#<p class="text-center col-12 my-0 p-0 small" > #showTitleText# </p>'>
+						<cfset output='#output#<p class="text-center col-12 my-0 p-0 small" > #showTitleText# </p>'>--->
 						<!---Was this meant to be something else? It currently duplicates the license display--->
 					<!---<cfif len(#copyright_statement#) gt 0>
 							<cfif #captionAs# EQ "TextFull">
@@ -1484,10 +1484,10 @@ imgStyleClass=value
 								<cfset output='#output#</p>'>
 							</cfif>
 						</cfif>--->
-						<cfif len(#license_uri#) gt 0>
-							<cfif #captionAs# EQ "TextFull">
+						<!---<cfif len(#license_uri#) gt 0>
+							<cfif #captionAs# EQ "TextFull">--->
 								<!---height is needed on the caption within the <p> or the media will not flow well--the above comment works but may not work on other, non specimen detail pages--->
-								<cfset output='#output#<p class="text-center col-12 p-0 my-0 small">'>
+					<!---			<cfset output='#output#<p class="text-center col-12 p-0 my-0 small">'>
 								<cfset output='#output#<a href="#license_uri#">#license_display#</a>'>
 								<cfset output='#output#</p>'>
 							</cfif>
@@ -1510,17 +1510,17 @@ imgStyleClass=value
 		</cftry>
 		#output#
 	</cfoutput>
-</cffunction>
+</cffunction>--->
 
 <!--- Media Metadata Table using media_id --->		
-<cffunction name="getMediaMetadata"  access="remote" returntype="string" returnformat="plain">
-	<cfargument name="media_id" type="string" required="yes">
+<!---<cffunction name="getMediaMetadata"  access="remote" returntype="string" returnformat="plain">
+	<cfargument name="media_id" type="string" required="yes">--->
 	<!---
 	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
 	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
    	scope issues related to cfthread 
 	--->
-	<cfset variables.media_id = arguments.media_id>
+	<!---<cfset variables.media_id = arguments.media_id>
 <cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfthread name="mediaMetadataThread#tn#" threadName="mediaMetadataThread#tn#">
 <cfoutput>
@@ -1789,10 +1789,10 @@ imgStyleClass=value
 									</cfif>
 									<cfif media_rel.media_relationship contains 'collecting_event' and oneofus eq 1>:<cfloop query="collecting_eventRel">
 									<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
-									</cfif>
+									</cfif>--->
 					<!---				<cfif media_rel.media_relationship contains 'underscore_collection'>: <cfloop query="namedGroup"><cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select mr.related_primary_key, m.media_id from media m, media_relations mr where mr.media_id = m.media_id and mr.media_relationship = 'shows underscore collection' and m.media_id = #namedGroup.media_id#</cfquery><a class="font-weight-lessbold" href="/media/#relm11.related_primary_key#"> #relm11.related_primary_key#</a><span>, </span></cfloop>
 									</cfif>--->
-									<cfif media_rel.media_relationship eq 'related to media'>: <cfloop query="media1"><cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select mr.related_primary_key, m.media_id from media m, media_relations mr where mr.media_id = m.media_id and mr.media_relationship = 'related to media' and m.media_id = #media1.media_id#</cfquery><a class="font-weight-lessbold" href="/media/#relm8.related_primary_key#"> #relm8.related_primary_key#</a><span>, </span></cfloop>
+									<!---<cfif media_rel.media_relationship eq 'related to media'>: <cfloop query="media1"><cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select mr.related_primary_key, m.media_id from media m, media_relations mr where mr.media_id = m.media_id and mr.media_relationship = 'related to media' and m.media_id = #media1.media_id#</cfquery><a class="font-weight-lessbold" href="/media/#relm8.related_primary_key#"> #relm8.related_primary_key#</a><span>, </span></cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'transcript for audio media'>: <cfloop query="media2"><cfquery name="relm9" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select m.media_id from media m, media_relations mr where mr.media_id = m.media_id and m.media_id = #media2.related_primary_key#</cfquery><a class="font-weight-lessbold" href="/media/#relm9.media_id#"> #relm9.media_id#</a><span>, </span></cfloop>
 									</cfif>
@@ -1806,9 +1806,9 @@ imgStyleClass=value
 									<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'> 
 										<cfloop query="spec">
 											<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span>
-										</cfloop>
+										</cfloop>--->
 										<!---Removed --->
-									</cfif>
+									<!---</cfif>
 								</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 							</cfloop> 
@@ -1831,7 +1831,7 @@ imgStyleClass=value
 	</cfthread>
 	<cfthread action="join" name="mediaMetadataThread#tn#" />
 	<cfreturn cfthread["mediaMetadataThread#tn#"].output>
-</cffunction>
+</cffunction>--->
 
 			
 	
