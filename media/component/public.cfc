@@ -245,7 +245,7 @@ imgStyleClass=value
 						 	<!--- there is a preview_uri, use that --->
 							<cfif #displayAs# EQ "fixedSmallThumb">
 								<cfset hw = 'height="#size#" width="#size#"'>
-								<cfset sizeParameters='&width=100%&height=#size#'>
+								<cfset sizeParameters='&width=#size#&height=#size#'>
 								<cfset styles = "height: 76px;margin: 0 auto;width: auto">
 								<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters##styles#&background_color=#background_color#">
 							<cfelse>
