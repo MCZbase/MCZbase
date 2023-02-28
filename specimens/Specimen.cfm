@@ -182,14 +182,7 @@ limitations under the License.
 	</cfquery>
 	<cfset partCount=#countParts.ct#>
 </cfif>
-<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT 
-		media_id
-	FROM
-		media_relations
-	WHERE
-		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-</cfquery>
+
 <cfoutput>
 	<!--- TODO: Split public.js into functions available for everyone and functions that support editing, load latter only with manage_specimens ---->
 	<script type="text/javascript" src="/specimens/js/public.js"></script> 
