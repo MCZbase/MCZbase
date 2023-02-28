@@ -138,10 +138,12 @@ imgStyleClass=value
 	<cfreturn cfthread["mediaWidgetThread#tn#"].output>
 </cffunction>
 
-<!--- implementation for getMediaBlockHtml without creating a new thread 
- @see getMediaBlockHtml for API documentation.  
- WARNING: Do not make copies of this function and use elsewhere, include this function and use it.
-  --->
+<!---Implementation for getMediaBlockHtml without creating a new thread 
+@see getMediaBlockHtml for API documentation. 
+WARNING: Do not make copies of this function and use elsewhere, 
+include this function and use it.
+--->
+<!---Note: Need to remove any links to similar code on /media/component/search.cfc (moved code here)--->
 <cffunction name="getMediaBlockHtmlUnthreaded" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="size" type="string" required="no" default="600">
@@ -231,8 +233,6 @@ imgStyleClass=value
 							</cfif>
 						<cfelse>
 							<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF>
-								<!---<cfset sizeParameters='&width=#size#&height=#size#'>--->
-			<!---					 <cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeParameters#"> --->
 								<cfset displayImage = iiifSize>
 							<cfelse>
 								<cfset displayImage = media_uri>
@@ -240,7 +240,7 @@ imgStyleClass=value
 							</cfif>
 						</cfif>
 					<cfelse>
-						<!--- the resource specified by media_uri is not one that can be used in an image tag as img src="media_uri", we need to provide an alternative --->
+					<!---Resource specified by media_uri is not one that can be used in an image tag as img src="media_uri", we need to provide an alternative --->
 						<cfif len(preview_uri) GT 0>
 						 	<!--- there is a preview_uri, use that --->
 							<cfif #displayAs# EQ "fixedSmallThumb">
@@ -256,8 +256,8 @@ imgStyleClass=value
 									<cfset hw = 'width="auto" height="auto"'>
 									<cfset styles = "height: 76px;margin: 0 auto;width: auto;">
 								<cfelse>
-									<!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --[changed from 100 to auto-3/14/22 MK ledgers were too tall--need to check other types--it was changed at some point] ---->
-									<!---Just making a note that it was this when it worked: <cfif #media_uri# CONTAINS "nrs" OR #media_URI# CONTAINS "morphosource">--->
+									<!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.--->
+									<!---Note: no difference between the two right now--->
 									<cfif host EQ "nrs.harvard.edu" OR host EQ "www.morphosource.org">
 											<cfset hw = 'width="auto" height="auto"'>
 											<cfset styles = "height: 74px;margin: 0 auto;width: auto">
@@ -278,13 +278,13 @@ imgStyleClass=value
 							<cfelse>
 								<!--- fall back on an svg image of an appropriate generic icon --->
 								<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
-									<cfset size = "90"><!---was 200--->
+									<cfset size = "90">
 										<cfset styles = "max-height:;width:auto;">
 								<cfelse>
 									<cfset size = "90">
 								</cfif>
 								
-								<!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
+								<!--- svg files so size shouldn't matter too much.--->
 								<cfset hw = 'height="#size#" width="#size#"'>
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
