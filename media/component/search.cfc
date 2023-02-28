@@ -1410,7 +1410,7 @@ imgStyleClass=value
 							<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>)'>
 							
 							<cfif media_uri contains "www.morphosource.org">
-								<cfset output='#output#(<a class="" href="#media_uri#">File&nbsp;<img src="/images/linkOut.gif"></a>)'>
+								<cfset output='#output#(<a class="" href="#media_uri#">File&#8201;<img src="/images/linkOut.gif"></a>)'>
 							<cfelse>
 								<cfset output='#output#(<a class="" href="#media_uri#">File</a>)'>
 							</cfif>
