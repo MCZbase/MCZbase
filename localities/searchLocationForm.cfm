@@ -46,7 +46,7 @@
 	select collection,collection_id from collection order by collection
 </cfquery>
 <cfquery name="geolocate_score_range" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
-	select min(geolocate_score) min_score, max(geolocate_score) max_score from lat_long where geolocate_score is not null;
+	select min(geolocate_score) min_score, max(geolocate_score) max_score from lat_long where geolocate_score is not null
 </cfquery>
 
 <cfif isdefined("session.locSrchPrefs") and len(session.locSrchPrefs) gt 0>
