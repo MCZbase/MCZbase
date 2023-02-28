@@ -319,7 +319,11 @@ imgStyleClass=value
 						<cfset linkTarget = "#media.media_uri#">
 					</cfif>
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF AND isDefined("iiifFull") AND len(iiifFull) GT 0>
+						<cfif size lt 400> 
+							<cfset linkTarget = iiifSize>
+						<cfelse>
 						<cfset linkTarget = iiifFull>
+						</cfif>
 					</cfif>
 						<!---Removed on 1/20/23 from <img...> tag: class="#background_class#"--->
 					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
