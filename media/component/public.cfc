@@ -365,7 +365,7 @@ imgStyleClass=value
 						<cfif NOT isDisplayable>
 							<cfif listcontainsnocase(session.roles,"manage_publications")><span class="sr-only">#media_type# (#mime_type#)</span></cfif>
 							<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>) '>
-							<cfset output='#output#(<a class="" href="#media_uri#">File <cfif host EQ "www.morphosource.org"><img src="/images/linkOut.gif"><cfelse></cfif></a>)'>
+							<cfset output='#output#(<a class="" href="#media_uri#">File <cfif media_uri contains "www.morphosource.org"><img src="/images/linkOut.gif"><cfelse></cfif></a>)'>
 							
 						<cfelse>
 							<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
