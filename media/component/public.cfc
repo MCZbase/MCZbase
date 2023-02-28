@@ -874,3 +874,4 @@ include this function and use it.
 	<cfreturn cfthread["mediaMetadataThread#tn#"].output>
 </cffunction>
 
+</cfcomponent>
