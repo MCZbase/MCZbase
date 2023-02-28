@@ -196,15 +196,13 @@ imgStyleClass=value
 					<!--- to turn on rewriting to deliver media via iiif server, set enableIIIF to true, to turn of, set to false --->
 					<cfset enableIIIF = true>
 					<cfset iiifFull = "">
-					<cfset iiifMid = "">
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF>
 						<cfif media_type EQ 'image' AND left(media.mime_type,6) EQ 'image/'>
 							<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
 							<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
 							<!---cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg"--->
 							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server. See https://iiif.io/api/image/3.0/#42-size for iiifFull. Use ^! before 2000 --Hover won't work if original is scaling more than 200%, put code below on line 321 to avoid Bad request. It skips hovering to larger image and title says click to full image, which is not much bigger than original. "Requests that would generate images of these sizes are errors that should result in a 400 (Bad Request) status code." Prior to overloading avoidance, image would scale nicely even if it was small.--->
-							<cfset iiifMid = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^800,/0/default.jpg">
-							<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^2000,2000/0/default.jpg">
+							<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^1000,1000/0/default.jpg">
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
 						</cfif>
@@ -320,18 +318,14 @@ imgStyleClass=value
 					<cfelse>
 						<cfset linkTarget = "#media.media_uri#">
 					</cfif>
-					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF>
-						<cfif media.height gt 600 AND isDefined("iiifFull") AND len(iiifFull) GT 0> 
-							<cfset linkTarget = iiifFull>
-						<cfelse>
-							<cfset linkTarget = iiifMid>
-						</cfif>
+					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF isDefined("iiifFull") AND len(iiifFull) GT 0>
+						<cfset linkTarget = iiifFull>
 					</cfif>
 						<!---Removed on 1/20/23 from <img...> tag: class="#background_class#"--->
 					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
 					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
-							<cfif isDisplayable><cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom({zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,<cfif media.height gt 1002>largeimage:"#iiifFull#"<cfelse>largeimage:"iiifMid"</cfif>})})</script>'></cfif>
+							<cfif isDisplayable><cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom({zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'></cfif>
 					<cfif #captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
 					<cfelseif #captionAs# EQ "textLinks">
