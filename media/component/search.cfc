@@ -1256,7 +1256,7 @@ imgStyleClass=value
 					<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png' OR (media.mime_type EQ 'image/tiff' AND enableIIIF))>
 						<cfset isDisplayable = true>
 					</cfif>
-					<cfif media.height lt '2000px'> Image height: #media.height#
+					<cfif media.height lt '2000'> <h1>Image height: #media.height#</h1>
 						<cfset isDisplayable = false>
 					</cfif>
 					<cfif media_type EQ '3D model'>
@@ -1374,7 +1374,7 @@ imgStyleClass=value
 							<cfif isDisplayable>
 								<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom({zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'>
 							</cfif>
-							<cfif isDisplayable eq 'false'>Hello</cfif>
+							
 					<cfif #captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
 					<cfelseif #captionAs# EQ "textLinks">
