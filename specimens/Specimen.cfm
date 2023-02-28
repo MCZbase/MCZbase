@@ -24,7 +24,8 @@ limitations under the License.
 <!--- (1) Check the provided guid or collection object id --->
 <!--- Set page title to reflect failure condition, if queries succeed it will be changed to reflect specimen record found --->
 <cfset pageTitle = "MCZbase Specimen not found.">
-
+<script type='text/javascript' src='/media/js/media.js'></script>
+<cfinclude template="/media/component/public.cfc" runOnce="true">
 <cfif isdefined("collection_object_id")>
 	<cfoutput>
 		<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
