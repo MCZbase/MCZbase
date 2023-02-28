@@ -311,7 +311,7 @@ imgStyleClass=value
 					</cfif>
 					<!--- prepare output --->
 
-					<cfset output='#output#<div class="media_widget p-1" style="#minheight#">'>	
+					<cfset output='#output#<div class="media_widget p-1" style="#minheight#" width="#size#">'>	
 					<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
 					<cfif #captionAs# EQ "textNone">
 						<cfset linkTarget = "/media/#media.media_id#">
