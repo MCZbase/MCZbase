@@ -202,7 +202,7 @@ imgStyleClass=value
 							<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
 							<!---cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg"--->
 							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server. See https://iiif.io/api/image/3.0/#42-size for iiifFull. Use ^! before 2000 --Hover won't work if original is scaling more than 200%, put code below on line 321 to avoid Bad request. It skips hovering to larger image and title says click to full image, which is not much bigger than original. "Requests that would generate images of these sizes are errors that should result in a 400 (Bad Request) status code." Prior to overloading avoidance, image would scale nicely even if it was small. Using width only (e.g.,^1300,) allows a natural aspect ratio. --->
-							<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^,1200/0/default.jpg">
+							<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^,1100/0/default.jpg">
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
 						</cfif>
