@@ -246,8 +246,8 @@ imgStyleClass=value
 							<cfif #displayAs# EQ "fixedSmallThumb">
 								<cfset hw = 'height="#size#" width="#size#"'>
 								<cfset sizeParameters='&width=#size#&height=#size#'>
-								<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##hw#&background_color=#background_color#">
 								<cfset styles = "height: 76px;margin: 0 auto;width: auto">
+								<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters##styles#&background_color=#background_color#">
 							<cfelse>
 								<!--- use a preview_uri, if one was specified --->
 								<!--- TODO: change test to regex on http... with some sort of is this an image test --->
