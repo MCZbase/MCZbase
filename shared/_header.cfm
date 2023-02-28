@@ -155,11 +155,9 @@ limitations under the License.
 		<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 	</cfif>
 </cfif>
-<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm" OR CGI.script_name CONTAINS "/Specimens.cfm">
-	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-migrate-1.2.1.min.js"></script>
-	<script type="text/javascript" src="/media/js/multizoom.js"></script>
-</cfif>
+<!---<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm" OR CGI.script_name CONTAINS "/Specimens.cfm">
+
+</cfif>--->
 <cfif CGI.script_name IS "/users/UserProfile.cfm">
 	<script type="text/javascript" src="/shared/js/login_scripts.js"></script> 
 	<script type="text/javascript" src="/users/js/profile.js"></script> 
@@ -188,6 +186,9 @@ limitations under the License.
 <cfif CGI.script_name IS "/grouping/NamedCollection.cfm">
 	<script type="text/javascript" src="/grouping/js/grouping.js"></script> 
 </cfif>
+	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="/media/js/multizoom.js"></script>
 <cfif not isdefined("session.header_color")>
 	<cfif NOT isDefined('setDbUser')>
 		<cfinclude template="/shared/loginFunctions.cfm">
