@@ -229,7 +229,7 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 function getMediaMetadata(targetDiv, media_id) { 
 	console.log("Where is it? " + targetDiv);
 	jQuery.ajax({
-		url: "/media/component/search.cfc",
+		url: "/media/component/public.cfc",
 		data : {
 			method : "getMediaMetadata",
 			media_id : media_id,
