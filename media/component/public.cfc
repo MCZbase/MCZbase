@@ -351,7 +351,7 @@ imgStyleClass=value
 									<cfset output='#output#(<a class="" href="#iiifFull#">full</a>)'>
 								<cfelse>
 									<cfset output='#output#(<a class="" href="#media_uri#">full</a>)'>
-										<cfset output='#output# <br> Externally Sourced Media'
+										<cfset output='#output# <br> Externally Sourced Media'>
 								</cfif>
 							</cfif>
 							<cfset output='#output#</p>'>
