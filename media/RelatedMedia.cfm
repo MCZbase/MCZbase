@@ -168,7 +168,6 @@
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mr.media_relationship <> 'created by agent'
 		and ct.media_relationship like '% agent'  
-
 	</cfquery>
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
@@ -223,7 +222,6 @@
 												</li>
 											</ul>
 										</div>
-										
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<cfif media_rel.recordcount gt 0>
@@ -311,6 +309,4 @@
 		</div>
 	</main>
 </cfoutput>
-	
-	
 <cfinclude template="/shared/_footer.cfm">
