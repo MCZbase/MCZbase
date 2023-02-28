@@ -1256,8 +1256,8 @@ imgStyleClass=value
 					<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png' OR (media.mime_type EQ 'image/tiff' AND enableIIIF))>
 						<cfset isDisplayable = true>
 					</cfif>
-					<cfif media.height lt '2000'> <h1>Image height: #media.height#</h1>
-						<cfset isDisplayable = false>
+					<cfif media.height lt 2000> <h1>Image height: #media.height#</h1>
+						<cfset isDisplayable = true>
 					</cfif>
 					<cfif media_type EQ '3D model'>
 						<cfset isDisplayable = false>
