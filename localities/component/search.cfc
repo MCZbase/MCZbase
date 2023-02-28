@@ -1470,9 +1470,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND accepted_lat_long.geolocate_score
 							BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#">
 							AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[2]#">
-					<cfif geolocate_score EQ 'NULL'>
+					<cfelseif geolocate_score EQ 'NULL'>
 						AND accepted_lat_long.geolocate_score IS NULL
-					<cfif geolocate_score EQ 'NOT NULL'>
+					<cfelseif geolocate_score EQ 'NOT NULL'>
 						AND accepted_lat_long.geolocate_score IS NOT NULL
 					<cfelse>
 						<!--- old form fields --->
