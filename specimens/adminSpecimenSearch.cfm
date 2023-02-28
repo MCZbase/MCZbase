@@ -721,6 +721,11 @@ limitations under the License.
 													});
 												</script>
 											</div>
+											<div class="col-12 col-md-2">
+												<cfif NOT isDefined("description")><cfset description=""></cfif>
+												<label for="description" class="data-entry-label" id="label_description">Description <span class="small">(NULL, NOT NULL)</span></label>
+												<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="label_description" >
+											</div>
 										</div>
 										<div class="form-row mt-2 mx-0">
 											<div class="col-12 px-0 pt-0">
