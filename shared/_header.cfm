@@ -155,7 +155,7 @@ limitations under the License.
 		<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 	</cfif>
 </cfif>
-<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm" OR CGI.script_name CONTAINS "/Specimen.cfm">
+<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm" OR CGI.script_name CONTAINS "/guid/">
 	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-migrate-1.2.1.min.js"></script>
 	<script type="text/javascript" src="/media/js/multizoom.js"></script>
