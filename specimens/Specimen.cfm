@@ -135,6 +135,7 @@ limitations under the License.
 <!--- Include the templates that contains functions used to load portions of this page --->
 <cfinclude template="/specimens/component/public.cfc">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
+<cfinclude template="/media/component/public.cfc" runOnce="true">
 <cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
 <cfset summaryHeadingBlock = getSummaryHeaderHTML(collection_object_id = "#collection_object_id#")>
 <cfoutput>
@@ -181,6 +182,14 @@ limitations under the License.
 	</cfquery>
 	<cfset partCount=#countParts.ct#>
 </cfif>
+<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT 
+		media_id
+	FROM
+		media_relations
+	WHERE
+		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+</cfquery>
 <cfoutput>
 	<!--- TODO: Split public.js into functions available for everyone and functions that support editing, load latter only with manage_specimens ---->
 	<script type="text/javascript" src="/specimens/js/public.js"></script> 
@@ -326,7 +335,6 @@ limitations under the License.
 			<cfif specimenMediaCount gt 0>
 				<div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 px-1 mb-2 float-left">
 
-					
 					<!-----------------------------Media----------------------------------> 
 					<div class="accordion" id="accordionMedia">
 						<div class="card mb-2 bg-light">
@@ -343,6 +351,7 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="mediaPane" class="collapse show" <cfif #specimenMediaCount# gt 8>style="height:940px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
+								<cfset mediablock= getMediaBlockHtml(media_id="#getMedia.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
 								<cfset specimenMediaBlock = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "shows")>
 								<div class="card-body" id="specimenMediaCardBody">
 									#specimenMediaBlock#
