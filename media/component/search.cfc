@@ -773,7 +773,6 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-
 <!--- backing for a media label aspect autocomplete control --->
 <cffunction name="getAspectAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
@@ -859,7 +858,6 @@ limitations under the License.
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
-
 
 <!--- backing for an autocomplete to list media label values in use (types of media label) --->
 <cffunction name="getMediaLabelTypeAutocomplete" access="remote" returntype="any" returnformat="json">
@@ -1018,10 +1016,9 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!--- function getMediaAutocomplete backing for a media lookup autocomplete returns metadata 
-  and a media_id 
-  @param term search term value for finding media records.
-  @return json structure containing id, value, and meta suitable for use with an autocomplete.
+<!---Function getMediaAutocomplete backing for a media lookup autocomplete returns metadata and a media_id 
+@param term search term value for finding media records.
+@return json structure containing id, value, and meta suitable for use with an autocomplete.
 --->
 <cffunction name="getMediaAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
@@ -1064,97 +1061,13 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!--- function getMediaBlockHtml safely (with use of is_media_encumbered) display an html block
- serving as an arbitrary media display widget on any MCZbase page in a conistent manner.
- Appropriately handles media objects of all types, displaying appropriate metadata and thumbnail
- or larger image for the requested context.   Responsibility for delivering the desired image is
- split between this function, and where it is invoked by this function in an img tag, 
- /media/rescaleImage.cfm?media_id=.
-
- Threaded wrapper for getMediaBlockHtmlUnthreaded, use getMediaBlockHtml when invoked directly in
- an ajax call, use getMediaBlockHtmlUnthreaded when calling from another thread.  
-
- WARNING: Do not make copies of this function and use elsewhere, include this function and use it.
-
-*** current API ***
-
- @param media_id the media_id of the media record to display a media widget for.
- @param size the size, an integer for pixel size of the image tag to include in the widget, image tags are
-   always square (except for thumb), with the image fitted into this square preserving its aspect ratio within this 
-   square, so size specifies both the height and width of the img tag in the returned html block,
-   default is 600.
- @param displayAs the mode in which to display this media block, default is full, allowed values are
-   full, fixedSmallThumb (which always returns a square image fitted to the specified size), and thumb
-   (which returns a thumbnail with its original aspect ratio). 
- @param captionAs the caption which should be shown, allowed values are textFull, textNone (no caption
-   shown, image is linked to media record instead of the media_uri resource), textLinks (caption is 
-   limited to links without descriptive text, image is linked to the media_uri resource).
- @param background_class a value for the class of the image tag, <img class="{background}", intended
-   for setting the background color for transparent images.
- @param background_color white or grey, the background color of the non-transparent image produced in 
-   displayAs fixedSmallThumb, only applies to fixedSmallTnumb
- @parm styles a css value to use for style="" in the image tag, probably required if thumb is specified.
-
-
-*** planned, not yet implemented, API ***
-
-getMediaBlockHtml returns a block of html with an img tag appropriate to the requested media object 
-enclosing anchor, divs, and optionally a caption for the image, these together comprise a media widget. 
-
-<div>
-...
-<a href={media_uri or media/media_id, depending on value of caption}>
-  <img src={*?? always rescaleImage.cfm?media_id=media_id&width={width}&... ??*} 
-		height={depend on values of widthAs and width} 
-		width={depends on values of widthAs and width} 
-		class={imgStyleClass}
-	>
-</a>
-...
-Caption here
-...
-</div>
-
-@param media_id  required, the media_id of the media record for which to display a media widget.
-
-caption={full,links,none}
-	if full a caption with metadata is provided for the image.
-	if links, only links to metadata are provided for the image.
-	if none, only the image is shown linked to the metadata record for the media object.
-
-@param display = {media|preview}, default media
-
-@param width width of the image to return in pixels, height depends on the value of aspectRatio.
-	parameter passed on to rescaleImage.cfm?width
-
-@param widthAs {auto,100pct,pixels}
-	how the width parameter is used in the image tag (??? and surrounding html ???).
-	if auto or 100pct, then img height=auto/100% width=auto/100pct
-	if pixels, and aspectRatio=square then img height={width} width={width}
-	if pixels and aspectRatio=original *** behavior not yet defined, may be invalid ***
-
-@param aspectRatio {original|square} default square
-	** to work out, if square, img src will be media/rescaleImage.cfm?aspectRatio.square
-	** if orginal, might the media_uri or preview uri be used instead of rescaleImage.cfm
-	** perhaps media block always uses rescaleImage.cfm, which should be then called
-   ** deliverAsImage.cfm....
-   // *** we need to think about this, perhaps always use  rescaleImage.cfm ??? ****
-
-@param background = {grey|white} default grey
-	parameter passed on to rescaleImage.cfm?background.  
-   the background color to fill a square image outside the bounds of the aspect ratio of the
-   original image (media_uri, preview_uri, or fallback icon).
-   the background parameter is ignored if aspect ratio is original. 
-
-imgStyleClass=value 
-	where value is passed to img class="{value}"
-
 
 ---> 
-			
-			
-			
+<!---END of WORKING CODE :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::--->				
+<!---:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::--->				
+<!---:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::--->				
 <!---BELOW:::FUNCTIONS FOR RELATIONSHIPS and LABELS on EDIT MEDIA AND FUNCTION FOR SHOWING THUMBNAILS FOR showMedia.cfc -- Michelle--->	
+<!---:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::--->	
 <cffunction name="getMediaRelationsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<!---
