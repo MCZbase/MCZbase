@@ -319,11 +319,11 @@ imgStyleClass=value
 					<cfelse>
 						<cfset linkTarget = "#media.media_uri#">
 					</cfif>
-					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF AND isDefined("iiifFull") AND len(iiifFull) GT 0>
-						<cfif media.height lt 600> 
-							<cfset linkTarget = iiifMid>
+					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF>
+						<cfif media.height gt 680 AND isDefined("iiifFull") AND len(iiifFull) GT 0> 
+							<cfset linkTarget = iiifFULL>
 						<cfelse>
-						<cfset linkTarget = iiifFull>
+							<cfset linkTarget = iiifMid>
 						</cfif>
 					</cfif>
 						<!---Removed on 1/20/23 from <img...> tag: class="#background_class#"--->
