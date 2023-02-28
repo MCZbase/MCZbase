@@ -1453,7 +1453,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("coordinateDeterminer") and len(#coordinateDeterminer#) gt 0>
-					<cfsset setup = setupClause(field="georef_determined_agent.agent_name",value="#coordinateDeterminer#")>
+					<cfset setup = setupClause(field="georef_determined_agent.agent_name",value="#coordinateDeterminer#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
