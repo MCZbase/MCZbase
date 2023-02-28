@@ -1256,9 +1256,6 @@ imgStyleClass=value
 					<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png' OR (media.mime_type EQ 'image/tiff' AND enableIIIF))>
 						<cfset isDisplayable = true>
 					</cfif>
-					<cfif media.height lt 2000> <h1>Image height: #media.height#</h1>
-						<cfset isDisplayable = true>
-					</cfif>
 					<cfif media_type EQ '3D model'>
 						<cfset isDisplayable = false>
 					</cfif>
@@ -1365,7 +1362,11 @@ imgStyleClass=value
 						<cfset linkTarget = "#media.media_uri#">
 					</cfif>
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF AND isDefined("iiifFull") AND len(iiifFull) GT 0>
-						<cfset linkTarget = iiifFull>
+						<cfif size lt 2000> 
+							<cfset linkTarget = iiifSize>
+						<cfelse>
+							<cfset linkTarget = iiifFull>
+						</cfif>
 					</cfif>
 						<!---Removed on 1/20/23 from <img...> tag: class="#background_class#"--->
 					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
