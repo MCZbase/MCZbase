@@ -779,7 +779,7 @@
 							<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
 							<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-input" value="#encodeForHtml(coordinateDeterminer)#">
 							<cfif #showExtraFields# IS 1>
-								<intput type="hidden" name="georeference_determined_by_id" id="georeference_determined_by_id" value="#encodeForHtml(georeference_determined_by_id)#"
+								<input type="hidden" name="georeference_determined_by_id" id="georeference_determined_by_id" value="#encodeForHtml(georeference_determined_by_id)#">
 								<script>
 									jQuery(document).ready(function() {
 										makeConstrainedAgentPicker('coordinateDeterminer', 'georeference_determined_by_id','georeference_determiner');
