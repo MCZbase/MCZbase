@@ -1243,20 +1243,21 @@ imgStyleClass=value
 							<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
 							<!---cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg"--->
 							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server--->
-							<cfif media.height LT 2000 or media.width LT 2000>
-				<!---				<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#height#,#height#/0/default.jpg">
+			<!---				<cfif media.height LT 2000 or media.width LT 2000>
+								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#height#,#height#/0/default.jpg">
 							<cfelse>--->
-							<cfif media.height GT 2000 or media.width GT 2000>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^2000,/0/default.jpg">
-							<cfelse>
-								<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
-							</cfif>
+							<!---</cfif>--->
+							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
 						</cfif>
 					</cfif>
 					<cfset isDisplayable = false>
 					<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png' OR (media.mime_type EQ 'image/tiff' AND enableIIIF))>
 						<cfset isDisplayable = true>
+					</cfif>
+					<cfif media.height lt '2000px'> 
+							<cfset isDisplayable = false>
 					</cfif>
 					<cfif media_type EQ '3D model'>
 						<cfset isDisplayable = false>
