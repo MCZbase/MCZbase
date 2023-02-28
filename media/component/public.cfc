@@ -196,6 +196,7 @@ imgStyleClass=value
 					<!--- to turn on rewriting to deliver media via iiif server, set enableIIIF to true, to turn of, set to false --->
 					<cfset enableIIIF = true>
 					<cfset iiifFull = "">
+					<cfset iiifMid = "">
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF>
 						<cfif media_type EQ 'image' AND left(media.mime_type,6) EQ 'image/'>
 							<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
