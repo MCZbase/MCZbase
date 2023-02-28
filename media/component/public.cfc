@@ -260,7 +260,7 @@ imgStyleClass=value
 									<!---Just making a note that it was this when it worked: <cfif #media_uri# CONTAINS "nrs" OR #media_URI# CONTAINS "morphosource">--->
 									<cfif host EQ "nrs.harvard.edu" OR host EQ "www.morphosource.org">
 										<cfset hw = 'width="95" height="auto"'>
-										<cfset styles = "height: auto;margin: 0 auto;width: auto">
+										<cfset styles = "height: auto;margin: 0 auto;">
 										<cfset minheight = "min-height: auto">
 					
 									<cfelse>
