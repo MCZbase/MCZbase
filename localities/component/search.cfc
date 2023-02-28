@@ -1444,8 +1444,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						<!--- new operator parser on single geolocate_score --->
 						<cfset bits = ListToArray(geolocate_score,"-")>
 						AND accepted_lat_long.geolocate_score
-							BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[0]#">
-							AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#">
+							BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#">
+							AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[2]#">
 					<cfelse>
 						<!--- old form fields --->
 						<cfswitch expression="#gs_comparator#">
