@@ -649,12 +649,12 @@
 				<div id="georefDetail" class="border my-2 mx-3 rounded p-1" style="#georefDetailStyle#">
 					<cfif #showExtraFields# IS 1>
 						<div class="form-row mx-0 px-3 my-2">
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<cfif not isDefined("dec_lat")><cfset dec_lat=""></cfif>
 								<label for="dec_lat" class="data-entry-label">Latitude</label>
 								<input type="text" name="dec_lat" class="data-entry-input" value="#encodeForHtml(dec_lat)#">
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<cfif not isDefined("dec_long")><cfset dec_long=""></cfif>
 								<label for="dec_long" class="data-entry-label">Longitude</label>
 								<input type="text" name="dec_long" class="data-entry-input" value="#encodeForHtml(dec_long)#">
@@ -673,16 +673,16 @@
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<cfif not isDefined("max_error_distance")><cfset max_error_distance=""></cfif>
 								<label for="max_error_distance" class="data-entry-label">Coordinate Uncertainty</label>
 								<input type="text" name="max_error_distance" class="data-entry-input" value="#encodeForHtml(max_error_distance)#">
 							</div>
 						</div>
-						<div class="col-12 col-md-4 pl-0 my-1">
+						<div class="col-12 col-md-3">
 							<cfif NOT isDefined("georeference_verified_by") ><cfset georeference_verified_by=""></cfif>
 							<cfif NOT isDefined("georeference_verified_by_id") ><cfset georeference_verified_by_id=""></cfif>
-							<label for="georeference_verified_by" class="data-entry-label">Coordinate Determiner</label>
+							<label for="georeference_verified_by" class="data-entry-label">Georeference verified by</label>
 							<input type="text" name="georeference_verified_by" id="georeference_verified_by" class="data-entry-input" value="#encodeForHtml(georeference_verified_by)#">
 							<input type="hidden" name="georeference_verified_by_id" id="georeference_verified_by_id" value="#encodeForHtml(georeference_verified_by_id)#">
 							<script>
