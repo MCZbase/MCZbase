@@ -265,6 +265,7 @@ imgStyleClass=value
 											<cfset hw = 'width="auto" height="auto"'>
 											<cfset styles = "height: 74px;margin: 0 auto;width: auto">
 											<cfset minheight = "min-height: auto">
+											<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters##styles#&background_color=#background_color#">
 									<cfelse>
 											<cfset hw = 'width="auto" height="auto"'>
 											<cfset styles = "height: 74px;margin: 0 auto;width: auto">
