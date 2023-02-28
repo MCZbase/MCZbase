@@ -776,6 +776,12 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 					join agent_name pub_agent_name on agent.agent_id = pub_agent_name.agent_id
 					join publication_author_name on pub_agent_name.agent_name_id = publication_author_name.agent_name_id
 				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'georeference_determiner'>
+					join lat_long on agent.agent_id = lat_long.determined_by_agent_id
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'georeference_verifier'>
+					join lat_long on agent.agent_id = lat_long.verified_by_agent_id
+				</cfif>
 			WHERE
 				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 				<cfif isdefined("constraint") AND (constraint EQ 'permit_issued_to_agent' or constraint EQ 'permit_issued_by_agent' or constraint EQ 'permit_contact_agent' )>
@@ -811,6 +817,12 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				</cfif>
 				<cfif isdefined("constraint") AND constraint EQ 'editor'>
 					and publication_author_name.author_role = 'editor'
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'georeference_determiner'>
+					and lat_long.determined_by_agent_id is not null
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'georeference_verifier'>
+					and lat_long.verified_by_agent_id is not null
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
