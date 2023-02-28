@@ -311,7 +311,7 @@ imgStyleClass=value
 					</cfif>
 					<!--- prepare output --->
 
-					<cfset output='#output#<div class="media_widget p-1" style="#minheight#" width="#media.height#">'>	
+					<cfset output='#output#<div class="media_widget p-1" style="#minheight#">'>	
 					<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
 					<cfif #captionAs# EQ "textNone">
 						<cfset linkTarget = "/media/#media.media_id#">
@@ -319,7 +319,7 @@ imgStyleClass=value
 						<cfset linkTarget = "#media.media_uri#">
 					</cfif>
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF AND isDefined("iiifFull") AND len(iiifFull) GT 0>
-						<cfif size lt 400> 
+						<cfif media.height lt 600> 
 							<cfset linkTarget = iiifSize>
 						<cfelse>
 						<cfset linkTarget = iiifFull>
