@@ -678,18 +678,18 @@
 								<label for="max_error_distance" class="data-entry-label">Coordinate Uncertainty</label>
 								<input type="text" name="max_error_distance" class="data-entry-input" value="#encodeForHtml(max_error_distance)#">
 							</div>
-						</div>
-						<div class="col-12 col-md-3">
-							<cfif NOT isDefined("georeference_verified_by") ><cfset georeference_verified_by=""></cfif>
-							<cfif NOT isDefined("georeference_verified_by_id") ><cfset georeference_verified_by_id=""></cfif>
-							<label for="georeference_verified_by" class="data-entry-label">Georeference verified by</label>
-							<input type="text" name="georeference_verified_by" id="georeference_verified_by" class="data-entry-input" value="#encodeForHtml(georeference_verified_by)#">
-							<input type="hidden" name="georeference_verified_by_id" id="georeference_verified_by_id" value="#encodeForHtml(georeference_verified_by_id)#">
-							<script>
-								jQuery(document).ready(function() {
-									makeAgentAutocompleteMeta('georeference_verified_by', 'georeference_verified_by_id');
-								});
-							</script>
+							<div class="col-12 col-md-3">
+								<cfif NOT isDefined("georeference_verified_by") ><cfset georeference_verified_by=""></cfif>
+								<cfif NOT isDefined("georeference_verified_by_id") ><cfset georeference_verified_by_id=""></cfif>
+								<label for="georeference_verified_by" class="data-entry-label">Georeference verified by</label>
+								<input type="text" name="georeference_verified_by" id="georeference_verified_by" class="data-entry-input" value="#encodeForHtml(georeference_verified_by)#">
+								<input type="hidden" name="georeference_verified_by_id" id="georeference_verified_by_id" value="#encodeForHtml(georeference_verified_by_id)#">
+								<script>
+									jQuery(document).ready(function() {
+										makeConstrainedAgentPicker('georeference_verified_by', 'georeference_verified_by_id','georeference_verifier');
+									});
+								</script>
+							</div>
 						</div>
 					</cfif>
 					<div class="form-row mx-0 px-3 my-2">
@@ -773,12 +773,21 @@
 						</div>
 					</div>
 					<div class="form-row mx-0 px-3 my-2">
-						<div class="col-12 col-md-4 pl-0 my-1">
+						<div class="col-12 col-md-3 pl-0 my-1">
 							<cfif NOT isDefined("coordinateDeterminer") ><cfset coordinateDeterminer=""></cfif>
+							<cfif NOT isDefined("georeference_determined_by_id") ><cfset georeference_determined_by_id=""></cfif>
 							<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
 							<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-input" value="#encodeForHtml(coordinateDeterminer)#">
+							<cfif #showExtraFields# IS 1>
+								<intput type="hidden" name="georeference_determined_by_id" id="georeference_determined_by_id" value="#encodeForHtml(georeference_determined_by_id)#"
+								<script>
+									jQuery(document).ready(function() {
+										makeConstrainedAgentPicker('coordinateDeterminer', 'georeference_determined_by_id','georeference_determiner');
+									});
+								</script>
+							</cfif>
 						</div>
-						<div class="col-12 col-md-4 my-1">
+						<div class="col-12 col-md-2 my-1">
 							<cfif isDefined("gs_comparator") and len(gs_comparator) GT 0 ><cfset gs_comparatorValue="#gs_comparator#"><cfelse><cfset gs_comparatorValue=""></cfif>
 							<label class="data-entry-label">Geolocate Score</label>
 							<select name="gs_comparator" id="gs_comparator" size="1" class="data-entry-select">

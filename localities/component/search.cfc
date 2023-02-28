@@ -1452,7 +1452,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
-				<cfif isdefined("coordinateDeterminer") and len(#coordinateDeterminer#) gt 0>
+				<cfif isdefined("georeference_determined_by_id") and len(#georeference_determined_by_id#) gt 0>
+					AND georef_determined_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#georeference_determined_by_id#">
+				<cfelseif isdefined("coordinateDeterminer") and len(#coordinateDeterminer#) gt 0>
 					<cfset setup = setupClause(field="georef_determined_agent.agent_name",value="#coordinateDeterminer#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
