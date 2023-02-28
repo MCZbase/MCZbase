@@ -1243,7 +1243,7 @@ imgStyleClass=value
 							<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
 							<!---cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg"--->
 							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server--->
-							<cfif media.height LT 1000 or media.width LT 1000><!---Zoom will not work if the image is near or equal to original size. Show original if there is not a larger size available.--->
+							<cfif media.height LT size><!---Zoom will not work if the image is near or equal to original size. Show original if there is not a larger size available.--->
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfelse>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^2000,2000/0/default.jpg">
