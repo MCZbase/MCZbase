@@ -1246,7 +1246,7 @@ imgStyleClass=value
 							<cfif media.height LT 2000 or media.width LT 2000>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#height#,#height#/0/default.jpg">
 							<cfelse>
-								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/!2000,2000/0/default.jpg">
+								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^2000,/0/default.jpg">
 							</cfif>
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
@@ -1408,7 +1408,12 @@ imgStyleClass=value
 						<cfif NOT isDisplayable>
 							<cfif listcontainsnocase(session.roles,"manage_publications")><span class="sr-only">#media_type# (#mime_type#)</span></cfif>
 							<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>) '>
-							<cfset output='#output#(<a class="" href="#media_uri#">File</a>)'>
+							
+							<cfif media_uri contains "www.morphosource.org">
+								<cfset output='#output#(<a class="" href="#media_uri#">File <img src="/images/linkOut.gif"></a>)'>
+							<cfelse>
+								<cfset output='#output#(<a class="" href="#media_uri#">File</a>)'>
+							</cfif>
 							
 						<cfelse>
 							<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
