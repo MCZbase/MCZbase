@@ -1400,7 +1400,7 @@ imgStyleClass=value
 						<cfset output='#output#</div>'>
 					<cfelse>
 						<cfset output='#output#<div class="mt-0 col-12 pb-2 px-0">'>
-						<cfset output='#output#<p class="text-center px-1 pb-0 mb-0 small col-12">'>
+						<cfset output='#output#<p class="text-center px-0 pb-0 mb-0 small col-12">'>
 						<cfif listcontainsnocase(session.roles,"manage_specimens")>
 							<cfset output='#output#<span class="d-inline">(<a href="/media.cfm?action=edit&media_id=#media_id#">Edit</a>)</span>'>
 						</cfif>
