@@ -1467,7 +1467,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 								AND accepted_lat_long.geolocate_score = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score#">
 							</cfdefaultcase>
 						</cfswitch>
-					<cfif>
+					</cfif>
 				</cfif>
 			GROUP BY
 				geog_auth_rec.geog_auth_rec_id,
