@@ -25,9 +25,9 @@ function loadSummaryHeaderHTML(collection_object_id,targetDivId) {
  **/
 function loadMedia(collection_object_id,targetDivId) { 
 	jQuery.ajax({
-		url: "/specimens/component/public.cfc",
+		url: "/media/component/public.cfc",
 		data : {
-			method : "getMediaHTML",
+			method : "getMediaBlockHtml",
 			collection_object_id: collection_object_id,
 			relationship_type: "shows" 
 		},
@@ -168,20 +168,20 @@ function removeMedia(media_id,form) {
  *  selector, for which to replace the html content with the identification 
  *  history.
  **/
-//function getMediaBlock(media_id,displayAs) { 
-//	jQuery.ajax({
-//		url: "/media/component/search.cfc",
-//		data : {
-//			method : "getMediaBlockHtml",
-//			media_id: media_id,
-//		},
-//		error: function (jqXHR, textStatus, error) {
-//			handleFail(jqXHR,textStatus,error,"loading media");
-//		},
-//		dataType: "html"
-//	}
-//	)
-//}
+function getMediaBlock(media_id,displayAs) { 
+	jQuery.ajax({
+		url: "/media/component/public.cfc",
+		data : {
+			method : "getMediaBlockHtml",
+			media_id: media_id,
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading media");
+		},
+		dataType: "html"
+	}
+	)
+}
 
 
 /**openEditMediaDialog (plural) open a dialog for editing 
