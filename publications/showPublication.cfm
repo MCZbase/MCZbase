@@ -34,7 +34,7 @@ limitations under the License.
 </cfif>
 <cfset pageTitle = "Publication Details#shortCitation#">
 <cfinclude template = "/shared/_header.cfm">
-<cfinclude template="/media/component/search.cfc" runOnce="true"><!--- for getMediaBlockHtml() --->
+<cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml() --->
 <cfinclude template="/specimens/component/public.cfc" runOnce="true"><!--- for getGuidLink() --->
 
 <main class="container py-3">
