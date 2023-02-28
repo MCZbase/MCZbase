@@ -116,15 +116,22 @@ limitations under the License.
 												</script>
 											</div>
 											<div class="col-12 col-md-2">
-												<cfif NOT isDefined("sql_element")><cfset sql_element=""></cfif>
-												<label for="sql_element" class="data-entry-label" id="label_sql_element">SQL (= ! ~ !~ ,)</label>
-												<input type="text" id="sql_element" name="sql_element" class="data-entry-input" value="#sql_element#" aria-labelledby="label_sql_element" >
-												<script>
-													jQuery(document).ready(function() {
-														makeSpecResColsAutocomplete('sql_element','sql_element');
-													});
-												</script>
+												<cfif NOT isDefined("description")><cfset description=""></cfif>
+												<label for="description" class="data-entry-label" id="label_description">Description <span class="small">(NULL, NOT NULL)</span></label>
+												<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="label_description" >
 											</div>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"COLLOPS")>
+												<div class="col-12 col-md-2">
+													<cfif NOT isDefined("sql_element")><cfset sql_element=""></cfif>
+													<label for="sql_element" class="data-entry-label" id="label_sql_element">SQL (= ! ~ !~ ,)</label>
+													<input type="text" id="sql_element" name="sql_element" class="data-entry-input" value="#sql_element#" aria-labelledby="label_sql_element" >
+													<script>
+														jQuery(document).ready(function() {
+															makeSpecResColsAutocomplete('sql_element','sql_element');
+														});
+													</script>
+												</div>
+											</cfif>
 										</div>
 										<div class="form-row mt-2 mx-0">
 											<div class="col-12 px-0 pt-0">

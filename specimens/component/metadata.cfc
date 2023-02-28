@@ -190,6 +190,7 @@ limitations under the License.
 	<cfargument name="label" type="string" required="no">
 	<cfargument name="access_role" type="string" required="no">
 	<cfargument name="ui_function" type="string" required="no">
+	<cfargument name="description" type="string" required="no">
 
 	<cftry>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
@@ -214,6 +215,15 @@ limitations under the License.
             		and all_col_comments.owner = 'MCZBASE'
 			WHERE 
 				ID is not null
+				<cfif isdefined("description") AND len(description) GT 0>
+					<cfif description EQ "NULL">
+						AND cf_spec_search_cols.description IS NULL
+					<cfelseif description EQ "NOT NULL">
+						AND cf_spec_search_cols.description IS NOT NULL
+					<cfelse>
+						AND upper(description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(description)#%">
+					</cfif>
+				</cfif>
 				<cfif isdefined("search_category") AND len(search_category) GT 0>
 					<cfif left(search_category,1) is "=">
 						AND upper(search_category) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(search_category,len(search_category)-1))#">
