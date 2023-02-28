@@ -1407,7 +1407,7 @@ imgStyleClass=value
 						<cfset output='#output#(<a class="" href="/media/#media_id#">Media Record</a>) '>
 						<cfif NOT isDisplayable>
 							<cfif listcontainsnocase(session.roles,"manage_publications")><span class="sr-only">#media_type# (#mime_type#)</span></cfif>
-							<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>) '>
+							<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>)'>
 							
 							<cfif media_uri contains "www.morphosource.org">
 								<cfset output='#output#(<a class="" href="#media_uri#">File <img src="/images/linkOut.gif"></a>)'>
@@ -1417,10 +1417,10 @@ imgStyleClass=value
 							
 						<cfelse>
 							<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
-								<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>) '>
+								<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>)'>
 							<cfelse>
 								<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>--->
-								<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>) '>
+								<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>)'>
 							</cfif>
 							<cfif len(iiifFull) GT 0>
 								<cfset output='#output#(<a class="" href="#iiifFull#">Full</a>)'>
