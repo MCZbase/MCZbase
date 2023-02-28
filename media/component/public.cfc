@@ -224,7 +224,7 @@ imgStyleClass=value
 							<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters#&background_color=#background_color#">
 						<cfelseif #displayAs# EQ "thumb">
 							<cfset displayImage = preview_uri>
-							<cfset hw = 'height="auto"'>
+							<cfset hw = 'width="auto" height="auto"'>
 							<cfset styles = "max-height:70px;">
 							<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF >
 								<cfset displayImage = iiifThumb>
