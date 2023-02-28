@@ -221,7 +221,7 @@ function updateMedia(media_id,targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
-		url: "/media/component/search.cfc",
+		url: "/media/component/public.cfc",
 		data: { 
 			method : "getMediaHtml",
 			media_id : media_id,
