@@ -350,8 +350,7 @@ imgStyleClass=value
 								<cfif len(iiifFull) GT 0>
 									<cfset output='#output#(<a class="" href="#iiifFull#">full</a>)'>
 								<cfelse>
-									<cfset output='#output#(<a class="" href="#media_uri#">full</a>)'>
-										<cfset output='#output# <br> Externally Sourced Media'>
+									<cfset output='#output#(<a class="" href="#media_uri#">full <img src="/images/linkOut.gif"></a>)'>
 								</cfif>
 							</cfif>
 							<cfset output='#output#</p>'>
