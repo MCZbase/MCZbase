@@ -27,7 +27,7 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
-
+	<!---Pub query that gets the publication_ID based on the media_id needs to be outside of the spec function. The publication_id is fed to the spec query to get the collection_object_id (i.e., citation) --->
 	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct p.publication_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from publication p
@@ -36,8 +36,6 @@
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'publication'
 	</cfquery>
-	
-
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		<cfif pub.recordcount gt 0>
 		select distinct c.collection_object_id as pk, cmr.media_relationship as rel, 'Cited Specimen' as label, ct.auto_table as at
@@ -239,6 +237,7 @@
 														<cfif spec.pk gt 1 and spec.label neq 'Shows Cataloged Item'>and ct.media_relationship <> 'ledger entry for cataloged_item'</cfif>
 														</cfquery>
 														<!---Some of the ledgers have the same primary key as the agent_ids. I haven't found it on other types of relationships. We may need a different fix if it is more widespread.--->
+														<!---Loops through only spec query to get media images and captions for the white card in Related Media section for media relationships like "audio transcript for media" and "related to media"--->
 														<cfif spec.rel contains 'media'>
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 																<ul class="list-group px-0">
@@ -258,6 +257,7 @@
 																</ul>
 															</div>
 														</cfif>
+														<!---Loops through relm & spec queries to get media images and captions for the white card in Related Media section--->
 														<cfif relm.recordcount gt 0>
 															<cfset i = 1>
 															<cfloop query="relm">
@@ -291,10 +291,10 @@
 													</cfloop>
 													<cfif relm.recordcount eq 0 and len(media_rel.media_relationship) lt 3>
 														<h3 class="h4 px-2 ml-1 pt-2">
-															<span>No Related Media Records</span>
+															<span>No Related Media Records</span><!---based on relm query--->
 														</h3>
 													</cfif>
-												<cfelse>
+												<cfelse><!---based on spec query--->
 													<h3 class="h4 px-2 ml-1 pt-2 onlyfirst"><span class="one">No Relationships to Other Records</span></h3>
 												</cfif>
 											</div>
