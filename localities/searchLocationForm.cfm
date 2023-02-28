@@ -679,6 +679,18 @@
 								<input type="text" name="max_error_distance" class="data-entry-input" value="#encodeForHtml(max_error_distance)#">
 							</div>
 						</div>
+						<div class="col-12 col-md-4 pl-0 my-1">
+							<cfif NOT isDefined("georeference_verified_by") ><cfset georeference_verified_by=""></cfif>
+							<cfif NOT isDefined("georeference_verified_by_id") ><cfset georeference_verified_by_id=""></cfif>
+							<label for="georeference_verified_by" class="data-entry-label">Coordinate Determiner</label>
+							<input type="text" name="georeference_verified_by" id="georeference_verified_by" class="data-entry-input" value="#encodeForHtml(georeference_verified_by)#">
+							<input type="hidden" name="georeference_verified_by_id" id="georeference_verified_by_id" value="#encodeForHtml(georeference_verified_by_id)#">
+							<script>
+								jQuery(document).ready(function() {
+									makeAgentAutocompleteMeta('georeference_verified_by', 'georeference_verified_by_id');
+								});
+							</script>
+						</div>
 					</cfif>
 					<div class="form-row mx-0 px-3 my-2">
 						<div class="col-6 col-md-3 px-4 pt-2 float-left">
