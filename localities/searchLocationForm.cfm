@@ -45,6 +45,9 @@
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select collection,collection_id from collection order by collection
 </cfquery>
+<cfquery name="geolocate_score_range" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+	select min(geolocate_score) min_score, max(geolocate_score) max_score from lat_long where geolocate_score is not null;
+</cfquery>
 
 <cfif isdefined("session.locSrchPrefs") and len(session.locSrchPrefs) gt 0>
 	<cfset searchPrefList = session.locSrchPrefs>
@@ -779,12 +782,12 @@
 						</div>
 						<div class="col-12 col-md-2 my-1">
 							<cfif not isDefined("geolocate_score")><cfset geolocate_score=""></cfif>
-							<label class="data-entry-label">Min</label>
+							<label class="data-entry-label">Min (#geolocate_score_range.min_score#)</label>
 							<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="data-entry-input" value="#encodeForHtml(geolocate_score)#">
 						</div>
 						<div class="col-12 col-md-2 my-1">
 							<cfif not isDefined("geolocate_score2")><cfset geolocate_score2=""></cfif>
-							<label class="data-entry-label">Max</label>
+							<label class="data-entry-label">Max (#geolocate_score_range.max_score#)</label>
 							<input type="text" name="geolocate_score2" size="3" id="geolocate_score2" class="data-entry-input" value="#encodeForHtml(geolocate_score2)#">
 						</div>
 					</div>
