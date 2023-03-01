@@ -85,8 +85,8 @@ img.zoom {
 	-webkit-transform: scale(8);
 	transform: scale(8); 
 	transform-origin: -5px 0;
-	position: absolute;
-	z-index: 3;
+	position: relative;
+	z-index: 5;
 }
 </style>
 </head>
