@@ -64,14 +64,12 @@ limitations under the License.
 	</main>
 </cfoutput>
 <style>
-* {
-  box-sizing: border-box;
-}
 #container {
 border: 1px solid black;
 width: 500px;
 height:500px;
 margin: 0 auto;
+z-index: 1;
 }
 .zoom {
 background-color: green;
@@ -79,15 +77,15 @@ transition: transform .5s;
 transition-timing-function: ease-in-out;
 height: 76px;
 width: 76px;
+z-index: 2;
 }
-.zoom a {display:none;}
 .zoom:hover {
-  -ms-transform: scale(8); /* IE 9 */
-  -webkit-transform: scale(8); /* Safari 3-8 */
-  transform: scale(8); 
+-ms-transform: scale(8);
+-webkit-transform: scale(8);
+transform: scale(8); 
 transform-origin: 0 0;
  background-image: url(https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg);
-      }
+z-index: 3;
 }
 </style>
 </head>
