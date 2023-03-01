@@ -324,11 +324,18 @@ include this function and use it.
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF AND isDefined("iiifFull") AND len(iiifFull) GT 0>
 						<cfset linkTarget = iiifFull>
 					</cfif>
+					
 						<!---Removed on 1/20/23 from <img...> tag: class="#background_class#"--->
 					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
-					<cfset output='#output#<img id="MID#media.media_id#" class="imageZoom" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
+					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
 							<!---<cfif isDisplayable><cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom({zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'></cfif>--->
+						<cfif isDisplayable><cfset output='<script>function magnify(imgID, zoom) {var img, glass, w, h, bw;img = document.getElementById(imgID);
+						 glass = document.createElement("DIV");glass.setAttribute("class", "img-magnifier-glass");img.parentElement.insertBefore(glass, img);glass.style.backgroundImage = "url('" + img.src + "')";glass.style.backgroundRepeat = "no-repeat";glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";bw = 3; w = glass.offsetWidth / 2;h = glass.offsetHeight / 2;glass.addEventListener("mousemove", moveMagnifier);img.addEventListener("mousemove", moveMagnifier);glass.addEventListener("touchmove", moveMagnifier);img.addEventListener("touchmove", moveMagnifier);function moveMagnifier(e) {var pos, x, y;e.preventDefault();pos = getCursorPos(e);x = pos.x;y = pos.y;if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}if (x < w / zoom) {x = w / zoom;}if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}if (y < h / zoom) {y = h / zoom;}glass.style.left = (x - w) + "px";glass.style.top = (y - h) + "px";glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";}function getCursorPos(e) {var a, x = 0, y = 0;e = e || window.event;a = img.getBoundingClientRect();x = e.pageX - a.left;y = e.pageY - a.top;x = x - window.pageXOffset;y = y - window.pageYOffset;return {x : x, y : y};}}</script>'>
+						</cfif>
+						<script>
+						magnify("MID#media.media_id#", 3);
+						</script>
 					<cfif #captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
 					<cfelseif #captionAs# EQ "textLinks">

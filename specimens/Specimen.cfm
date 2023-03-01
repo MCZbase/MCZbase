@@ -329,24 +329,7 @@ limitations under the License.
 				<div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 px-1 mb-2 float-left">
 
 					<!-----------------------------Media----------------------------------> 
-					<style>
-
-					* {box-sizing: border-box;}
-
-						.img-magnifier-container {
-						  position: relative;
-						}
-
-						.img-magnifier-glass {
-						  position: absolute;
-						  border: 3px solid ##000;
-						  border-radius: 50%;
-						  cursor: none;
-						  /*Set the size of the magnifier glass:*/
-						  width: 100px;
-						  height: 100px;
-						}
-					</style>
+				
 					<div class="accordion" id="accordionMedia">
 						<div class="card mb-2 bg-light">
 							<div id="mediaDialog"></div>
@@ -376,11 +359,7 @@ limitations under the License.
 				<!--- two column layout --->
 				<cfset twoThreeColumnClasses="col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
 			</cfif>
-<script>
-/* Execute the magnify function: */
-magnify("imageZoom", 3);
-/* Specify the id of the image, and the strength of the magnifier glass: */
-</script>
+
 			<!----------------------------- two right columns ---------------------------------->
 			<div class="col-12 mb-2 clearfix px-0 #twoThreeColumnClasses#">
 
