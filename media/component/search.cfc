@@ -1241,8 +1241,8 @@ imgStyleClass=value
 							<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
 							<!---cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg"--->
 							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server--->
-							<cfif media.height LT 2000 or media.width LT 2000>
-								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#height#,#height#/0/default.jpg">
+							<cfif media.height NEQ '' AND (media.height LT 2000 OR media.width LT 2000)>
+								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
 							<cfelse>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/!2000,2000/0/default.jpg">
 							</cfif>
