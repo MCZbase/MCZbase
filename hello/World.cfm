@@ -84,7 +84,7 @@ img.zoom {
 	-ms-transform: scale(8);
 	-webkit-transform: scale(8);
 	transform: scale(8); 
-	transform-origin: 0 -35px;
+	transform-origin: 0 0 0 -20px;
 	background-image: url(https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg);
 	position: absolute;
 	z-index: 3;
