@@ -63,5 +63,40 @@ limitations under the License.
 		</script> 
 	</main>
 </cfoutput>
+<style>
+* {
+  box-sizing: border-box;
+}
+#container {
+border: 1px solid black;
+width: 500px;
+height:500px;
+margin: 0 auto;
+}
+.zoom {
+  background-color: green;
+  transition: transform .5s;
+  height: 76px;
+  width: 76px;
+  
+}
+.zoom a {display:none;}
+.zoom:hover {
+  -ms-transform: scale(6.5); /* IE 9 */
+  -webkit-transform: scale(6.5); /* Safari 3-8 */
+  transform: scale(6.5); 
+transform-origin: 0 0;
+ background-image: url(https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg);
+      }
+}
+</style>
+</head>
+<body>
+
+<h1>Zoom on Hover</h1>
+<p>Hover over the div element.</p>
+<div id="container">  
+<div ><a href="https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg"><img class="zoom" src="https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg"></a></div>
+</div>
 
 <cfinclude template="/shared/_footer.cfm">
