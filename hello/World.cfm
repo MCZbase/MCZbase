@@ -81,9 +81,9 @@ img.zoom {
 	background-image: none;
 }
 .zoom:hover {
-	-ms-transform: scale(4);
-	-webkit-transform: scale(4);
-	transform: scale(4); 
+	-ms-transform: scale(5);
+	-webkit-transform: scale(5);
+	transform: scale(5); 
 	transform-origin: 0 0;
 	position: relative;
 	z-index: 5;
