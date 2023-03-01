@@ -97,7 +97,7 @@
 			</div>
 			<div id="geogDetail" class="col-12 px-3" style="#geogDetailStyle#">
 				<div class="form-row">
-					<div class="col-12 col-md-3 my-1">
+					<div class="col-12 col-md-2 my-1">
 						<label for="continent_ocean" class="data-entry-label">Continent or Ocean
 							<span class="small90">
 								(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('continent_ocean');e.value='='+e.value;" >=<span class="sr-only">prefix with = for exact match</span></button>)
@@ -111,7 +111,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-3 my-1">
+					<div class="col-12 col-md-2 my-1">
 						<cfif not isDefined("ocean_region")><cfset ocean_region=""></cfif>
 						<label for="ocean_region" class="data-entry-label" >Ocean Region</label>
 						<input type="text" name="ocean_region" id="ocean_region" class="data-entry-input" value="#encodeForHtml(ocean_region)#">
@@ -121,7 +121,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-3 my-1">
+					<div class="col-12 col-md-2 my-1">
 						<cfif not isDefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
 						<label for="ocean_subregion" class="data-entry-label">Ocean SubRegion</label>
 						<input type="text" name="ocean_subregion" id="ocean_subregion" class="data-entry-input" value="#encodeForHtml(ocean_subregion)#">
@@ -131,7 +131,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-3 my-1">
+					<div class="col-12 col-md-2 my-1">
 						<cfif not isDefined("sea")><cfset sea=""></cfif>
 						<label for="sea" class="data-entry-label">Sea</label>
 						<input type="text" name="sea" id="sea" class="data-entry-input" value="#encodeForHtml(sea)#">
@@ -141,9 +141,7 @@
 							});
 						</script>
 					</div>
-				</div>
-				<div class="form-row mb-0">
-					<div class="col-12 col-md-3 my-1">
+					<div class="col-12 col-md-2 my-1">
 						<cfif not isDefined("island")><cfset island=""></cfif>
 						<label for="island" class="data-entry-label">Island</label>
 						<input type="text" name="island" id="island" class="data-entry-input" value="#encodeForHtml(island)#">
@@ -153,7 +151,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-3 my-1">
+					<div class="col-12 col-md-2 my-1">
 						<cfif not isDefined("island_group")><cfset island_group=""></cfif>
 						<label for="island_group" class="data-entry-label">Island Group</label>
 						<input type="text" name="island_group" id="island_group" class="data-entry-input" value="#encodeForHtml(island_group)#">
@@ -163,7 +161,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-3 my-1">
+					<div class="col-12 col-md-2 my-1">
 						<cfif not isDefined("feature")><cfset feature=""></cfif>
 						<label for="feature" class="data-entry-label">Land Feature</label>
 						<input type="text" name="feature" id="feature" class="data-entry-input" value="#encodeForHtml(feature)#">
@@ -173,7 +171,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-3 my-1">
+					<div class="col-12 col-md-2 my-1">
 						<cfif not isDefined("water_feature")><cfset water_feature=""></cfif>
 						<label for="water_feature" class="data-entry-label">Water Feature</label>
 						<input type="text" name="water_feature" id="water_feature" class="data-entry-input" value="#encodeForHtml(water_feature)#">
@@ -183,9 +181,7 @@
 							});
 						</script>
 					</div>
-				</div>
-				<div class="form-row mb-3">
-					<div class="col-12 col-md-3 my-1">
+					<div class="col-12 col-md-2 my-1">
 						<cfif not isDefined("country")><cfset country=""></cfif>
 						<label for="country" class="data-entry-label">Country</label>
 						<input type="text" name="country" id="country" class="data-entry-input" value="#encodeForHtml(country)#">
@@ -195,7 +191,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-3 my-1">
+					<div class="col-12 col-md-2 my-1">
 						<cfif not isDefined("state_prov")><cfset state_prov=""></cfif>
 						<label for="state_prov" class="data-entry-label">State or Province</label>
 						<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#encodeForHtml(state_prov)#">
@@ -205,7 +201,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-3 my-1">
+					<div class="col-12 col-md-2 my-1">
 						<cfif not isDefined("county")><cfset county=""></cfif>
 						<label for="county" class="data-entry-label">County</label>
 						<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHtml(county)#">
@@ -215,7 +211,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-3 my-1">
+					<div class="col-12 col-md-2 my-1">
 						<cfif not isDefined("quad")><cfset quad=""></cfif>
 						<label for="quad" class="data-entry-label">Quad</label>
 						<input type="text" name="quad" id="quad" class="data-entry-input" value="#encodeForHtml(quad)#">
@@ -225,10 +221,8 @@
 							});
 						</script>
 					</div>
-				</div>
-				<cfif #showExtraFields# IS 1>
-					<div class="form-row mb-0">
-						<div class="col-12 col-md-3 my-1">
+					<cfif #showExtraFields# IS 1>
+						<div class="col-12 col-md-2 my-1">
 							<cfif not isDefined("wkt_polygon")><cfset wkt_polygon=""></cfif>
 							<label for="wkt_polygon" class="data-entry-label">Polygon (WKT)</label>
 							<select name="wkt_polygon" id="wkt_polygon" size="1" class="data-entry-select">
@@ -239,7 +233,7 @@
 								<option value="NULL" #selected#>No Shape</option>
 							</select>
 						</div>
-						<div class="col-12 col-md-3 my-1">
+						<div class="col-12 col-md-2 my-1">
 							<cfif not isDefined("highergeographyid")><cfset highergeographyid=""></cfif>
 							<label for="highergeographyid" class="data-entry-label">dwc:higherGeographyID</label>
 							<input type="text" name="highergeographyid" id="highergeographyid" class="data-entry-input" value="#encodeForHtml(highergeographyid)#">
@@ -249,7 +243,7 @@
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-3 my-1">
+						<div class="col-12 col-md-2 my-1">
 							<cfif not isDefined("source_authority")><cfset source_authority=""></cfif>
 							<label for="source_authority" class="data-entry-label">Source Authority</label>
 							<input type="text" name="source_authority" id="source_authority" class="data-entry-input" value="#encodeForHtml(source_authority)#">
@@ -259,8 +253,8 @@
 								});
 							</script>
 						</div>
-					</div>
-				</cfif>
+					</cfif>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -283,9 +277,9 @@
 				</cfif> 
 				<div class="form-row mx-0 mb-0">
 					<cfif #showExtraFields# IS 1>
-						<cfset spec_loc_class = "col-md-4">
+						<cfset spec_loc_class = "col-md-2">
 					<cfelse>
-						<cfset spec_loc_class = "col-md-8">
+						<cfset spec_loc_class = "col-md-4">
 					</cfif>
 					<div class="col-12 #spec_loc_class# px-3 mt-3 mt-md-3 mb-3 mb-md-3">
 						<cfif not isDefined("spec_locality")><cfset spec_locality=""></cfif>
@@ -293,12 +287,48 @@
 						<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input" value="#encodeForHtml(encodeForHtml(spec_locality))#">
 					</div>
 					<cfif #showExtraFields# IS 1>
-						<div class="col-12 col-md-4 mt-3 mt-md-3 mb-3 mb-md-3">
+						<div class="col-12 col-md-2 mt-3 mt-md-3 mb-3 mb-md-3">
 							<cfif not isDefined("any_geography")><cfset any_geography=""></cfif>
 							<label for="any_geography" class="data-entry-label">Any Geography (keyword)</label>
 							<input type="text" name="any_geography" id="any_geography" class="data-entry-input" value="#encodeForHtml(any_geography)#">
 						</div>
 					</cfif>
+					<div class="col-12 col-md-1">
+						<cfif not isDefined("collnOper")><cfset collnOper=""></cfif>
+						<label for="collnOper" class="data-entry-label">Use</label>
+						<select name="collnOper" id="collnOper" size="1" class="data-entry-select">
+							<cfif len(collnOper) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="" #selected#></option>
+							<cfif collnOper EQ "usedOnlyBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="usedOnlyBy" #selected#>used only by</option>
+							<cfif collnOper EQ "usedBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="usedBy" #selected#>used by</option>
+							<cfif collnOper EQ "notUsedBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="notUsedBy" #selected#>not used by</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-2">
+						<cfif isDefined("collection_id")><cfset collection_id_val="#collection_id#"><cfelse><cfset collection_id_val=""></cfif>
+						<label for="collection_id" class="data-entry-label">Collection</label>
+						<select name="collection_id" id="collection_id" size="1" class="data-entry-select">
+							<option value=""></option>
+							<cfloop query="ctcollection">
+								<cfif collection_id_val EQ ctcollection.collection_id><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="#ctcollection.collection_id#" #selected#>#ctcollection.collection#</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="col-12 col-md-1">
+						<cfif not isDefined("curated_fg")><cfset curated_fg=""></cfif>
+						<label for="curated_fg" class="data-entry-label">Vetted</label>
+						<select name="curated_fg" id="curated_fg" class="data-entry-select">
+							<option value=""></option>
+							<cfif curated_fg EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="0" #selected#>No</option>
+							<cfif curated_fg EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="1" #selected#>Yes *</option>
+						</select>
+					</div>
 					<div class="col-12 col-md-2 px-3 px-md-0 mt-md-3 mb-md-3 mt-2 mb-0">
 						<cfif not isDefined("locality_id")><cfset locality_id=""></cfif>
 						<label for="locality_id" class="data-entry-label">Locality ID</label>
@@ -310,44 +340,6 @@
 					</div>
 				</div>
 				<div id="locDetail" class="" style="#locDetailStyle#">
-					<div class="form-row px-3 my-2">
-						<div class="col-12 col-md-4">
-							<cfif not isDefined("collnOper")><cfset collnOper=""></cfif>
-							<label for="collnOper" class="data-entry-label">Use</label>
-							<select name="collnOper" id="collnOper" size="1" class="data-entry-select">
-								<cfif len(collnOper) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value="" #selected#></option>
-								<cfif collnOper EQ "usedOnlyBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value="usedOnlyBy" #selected#>used only by</option>
-								<cfif collnOper EQ "usedBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value="usedBy" #selected#>used by</option>
-								<cfif collnOper EQ "notUsedBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value="notUsedBy" #selected#>not used by</option>
-							</select>
-						</div>
-						<div class="col-12 col-md-4">
-							<cfif isDefined("collection_id")><cfset collection_id_val="#collection_id#"><cfelse><cfset collection_id_val=""></cfif>
-							<label for="collection_id" class="data-entry-label">Collection</label>
-							<select name="collection_id" id="collection_id" size="1" class="data-entry-select">
-								<option value=""></option>
-								<cfloop query="ctcollection">
-									<cfif collection_id_val EQ ctcollection.collection_id><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-									<option value="#ctcollection.collection_id#" #selected#>#ctcollection.collection#</option>
-								</cfloop>
-							</select>
-						</div>
-						<div class="col-12 col-md-4">
-							<cfif not isDefined("curated_fg")><cfset curated_fg=""></cfif>
-							<label for="curated_fg" class="data-entry-label">Vetted</label>
-							<select name="curated_fg" id="curated_fg" class="data-entry-select">
-								<option value=""></option>
-								<cfif curated_fg EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value="0" #selected#>No</option>
-								<cfif curated_fg EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value="1" #selected#>Yes *</option>
-							</select>
-						</div>
-					</div>
 					<div class="form-row px-3 my-2">
 						<div class="col-12 col-md-8">
 							<cfif not isDefined("locality_remarks")><cfset locality_remarks=""></cfif>
