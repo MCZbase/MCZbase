@@ -334,12 +334,7 @@ limitations under the License.
 						  box-sizing: border-box;
 						}
 						.imageZoom {
-						  padding: 50px;
-						  background-color: green;
 						  transition: transform .2s;
-						  width: 200px;
-						  height: 200px;
-						  margin: 0 auto;
 						}
 						.imageZoom:hover {
 						  -ms-transform: scale(1.5); /* IE 9 */
