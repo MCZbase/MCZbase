@@ -327,11 +327,7 @@ limitations under the License.
 			<cfset specimenMediaCount = val(rereplace(specimenMediaCount,"[^0-9]","","all"))>
 			<cfif specimenMediaCount gt 0>
 				<div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 px-1 mb-2 float-left">
-<script>
-/* Execute the magnify function: */
-magnify("image", 3);
-/* Specify the id of the image, and the strength of the magnifier glass: */
-</script>
+
 					<!-----------------------------Media----------------------------------> 
 					<style>
 
@@ -380,7 +376,11 @@ magnify("image", 3);
 				<!--- two column layout --->
 				<cfset twoThreeColumnClasses="col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
 			</cfif>
-
+<script>
+/* Execute the magnify function: */
+magnify("imageZoom", 3);
+/* Specify the id of the image, and the strength of the magnifier glass: */
+</script>
 			<!----------------------------- two right columns ---------------------------------->
 			<div class="col-12 mb-2 clearfix px-0 #twoThreeColumnClasses#">
 
