@@ -833,26 +833,34 @@
 					<cfset eventButton = "Fewer Fields">
 				</cfif> 
 				<div class="form-row px-3 my-2">
-					<div class="col-12 col-md-8">
+					<div class="col-12 col-md-2">
 						<cfif NOT isDefined("verbatim_locality") ><cfset verbatim_locality=""></cfif>
 						<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
 						<input type="text" name="verbatim_locality" id="verbatim_locality" size="75" class="data-entry-input" value="#encodeForHtml(verbatim_locality)#">
 					</div>
 					<div class="col-12 col-md-2">
+						<cfif NOT isDefined("verbatim_date") ><cfset verbatim_date=""></cfif>
+						<label for="verbatim_date" class="data-entry-label">Verbatim Date</label>
+						<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input" value="#encodeForHtml(verbatim_date)#" >
+					</div>
+					<div class="col-12 col-md-2">
+						<cfif NOT isDefined("verbatimdepth") ><cfset verbatimdepth=""></cfif>
+						<label for="verbatimdepth" class="data-entry-label">Verbatim Depth</label>
+						<input type="text" name="verbatimdepth" id="verbatimdepth" size="75" class="data-entry-input" value="#encodeForHtml(verbatimdepth)#">
+					</div>
+					<div class="col-12 col-md-2">
+						<cfif NOT isDefined("verbatimelevation") ><cfset verbatimelevation=""></cfif>
+						<label for="verbatimelevation" class="data-entry-label">Verbatim Elevation</label>
+						<input type="text" name="verbatimelevation" id="verbatimelevation" size="75" class="data-entry-input" value="#encodeForHtml(verbatimelevation)#">
+					</div>
+					<div class="col-12 col-md-2">
+						<cfif NOT isDefined("collecting_event_id") ><cfset collecting_event_id=""></cfif>
 						<label for="collecting_event_id" class="data-entry-label">Collecting Event ID</label>
-						<input type="text" name="collecting_event_id" id="collecting_event_id" class="data-entry-input" >
+						<input type="text" name="collecting_event_id" id="collecting_event_id" class="data-entry-input" value="#encodeForHtml(collecting_event_id)#" >
 					</div>
 					<div class="col-12 col-md-2">
 						<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent;">Collecting Event</label> 
 						<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
-					</div>
-					<div class="col-12 col-md-6">
-						<label for="verbatimdepth" class="data-entry-label">Verbatim Depth</label>
-						<input type="text" name="verbatimdepth" id="verbatimdepth" size="75" class="data-entry-input">
-					</div>
-					<div class="col-12 col-md-6">
-						<label for="verbatimelevation" class="data-entry-label">Verbatim Elevation</label>
-						<input type="text" name="verbatimelevation" id="verbatimelevation" size="75" class="data-entry-input">
 					</div>
 				</div>
 				<div class="form-row px-3 my-2">
@@ -861,10 +869,10 @@
 						<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select" aria-label="operator for began date">
 							<option value="=">is</option>
 							<option value="<">before</option>
-							<option value=">">after</option>
+							<option value=">">after</option><!--- " --->
 						</select>
 					</div>
-					<div class="col-12 col-md-3 pr-1">
+					<div class="col-12 col-md-2 pr-1">
 						<span class="data-entry-label">&nbsp</span>
 						<input type="text" name="began_date" id="began_date" class="data-entry-input">
 					</div>
@@ -873,43 +881,38 @@
 						<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select" aria-label="operator for end date">
 							<option value="=">is</option>
 							<option value="<">before</option>
-							<option value=">">after</option>
+							<option value=">">after</option><!--- " --->
 						</select>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-2">
 						<span class="data-entry-label">&nbsp</span>
 						<input type="text" name="ended_date" id="ended_date" class="data-entry-input">
-					</div>
-					<div class="col-12 col-md-4">
-						<label for="verbatim_date" class="data-entry-label">Verbatim Date</label>
-						<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input">
 					</div>
 				</div>
 				<div id="eventDetail" style="#eventDetailStyle#" >
 					<div class="form-row px-3 my-2">
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-2">
 							<label for="verbatimCoordinates" class="data-entry-label">Verbatim Coordinates</label>
 							<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-2">
 							<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System</label>
 							<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-2">
 							<label for="verbatimSRS" class="data-entry-label">Verbatim SRS (datum)</label>
 							<input type="text" name="verbatimSRS" id="verbatimSRS" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-2">
 							<label for="collecting_method" class="data-entry-label">Collecting Method</label>
 							<input type="text" name="collecting_method" id="collecting_method" class="data-entry-input">
 						</div>
-					</div>
-					<div class="form-row px-3 my-2">
-						<div class="col-12 col-md-4">
+						<div class="col-12 col-md-2">
+							<cfif NOT isDefined("habitat_desc") ><cfset habitat_desc=""></cfif>
 							<label for="habitat_desc" class="data-entry-label">Habitat</label>
-							<input type="text" name="habitat_desc" id="habitat_desc" class="data-entry-input">
+							<input type="text" name="habitat_desc" id="habitat_desc" class="data-entry-input" value="#encodeForHtml(habitat_desc)#">
 						</div>
-						<div class="col-12 col-md-4">
+						<div class="col-12 col-md-2">
 							<label for="collecting_source" class="data-entry-label">Collecting Source</label>
 							<select name="collecting_source" id="collecting_source" size="1" class="data-entry-select">
 								<option value=""></option>
