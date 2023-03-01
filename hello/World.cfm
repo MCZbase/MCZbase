@@ -72,13 +72,13 @@ limitations under the License.
 	margin-left: 2rem;
 	position: relative;
 }
-img.zoom {
+img.zoom a {
 	transition-timing-function: ease-in-out;
 	margin: 0;
 	position: relative;
 	background-image: none;
 }
-.zoom:hover {
+.zoom a:hover {
 	-ms-transform: scale(7);
 	-webkit-transform: scale(7);
 	transform: scale(7); 
