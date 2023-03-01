@@ -78,8 +78,8 @@ img.zoom {
 	transition-timing-function: ease-in-out;
 	height: 76px;
 	width: 76px;
-	z-index: 3;
-	position: relative;
+	
+	position: absolute;
 }
 .zoom:hover {
 	-ms-transform: scale(8);
@@ -87,6 +87,8 @@ img.zoom {
 	transform: scale(8); 
 	transform-origin: 0 0;
 	background-image: url(https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg);
+	position: absolute;
+	z-index: 3;
 }
 </style>
 </head>
