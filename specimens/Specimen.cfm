@@ -333,7 +333,7 @@ limitations under the License.
 						* {
 						  box-sizing: border-box;
 						}
-						.zoom {
+						.imageZoom {
 						  padding: 50px;
 						  background-color: green;
 						  transition: transform .2s;
@@ -341,7 +341,7 @@ limitations under the License.
 						  height: 200px;
 						  margin: 0 auto;
 						}
-						.zoom:hover {
+						.imageZoom:hover {
 						  -ms-transform: scale(1.5); /* IE 9 */
 						  -webkit-transform: scale(1.5); /* Safari 3-8 */
 						  transform: scale(1.5); 
