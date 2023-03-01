@@ -339,10 +339,10 @@ limitations under the License.
 					}
 
 					.media_widget img:hover {
-						-webkit-transform: scale(90); 
-						-moz-transform: scale(90);
-						-o-transform: scale(90);
-						transform: scale(90);
+						-webkit-transform: scale(10); 
+						-moz-transform: scale(10);
+						-o-transform: scale(10);
+						transform: scale(10);
 					}
 					</style>
 					<div class="accordion" id="accordionMedia">
