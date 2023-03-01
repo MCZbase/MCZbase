@@ -66,6 +66,8 @@ limitations under the License.
 <style>
 .card-body {
 	border: 1px solid black;
+	width: 800px;
+	height: 800px;
 	z-index: 2;
 	margin-left: 2rem;
 	position: relative;
@@ -74,6 +76,7 @@ img.zoom {
 	transition-timing-function: ease-in-out;
 	height: 76px;
 	width: 76px;
+	margin: 0 30px;
 	position: relative;
 	background-image: none;
 }
@@ -81,7 +84,7 @@ img.zoom {
 	-ms-transform: scale(8);
 	-webkit-transform: scale(8);
 	transform: scale(8); 
-	transform-origin: 0 0;
+	transform-origin: 0 -35px;
 	background-image: url(https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg);
 	position: absolute;
 	z-index: 3;
