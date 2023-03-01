@@ -68,7 +68,6 @@ limitations under the License.
 border: 1px solid black;
 width: 500px;
 height:500px;
-margin: 0 auto;
 z-index: 1;
 }
 .zoom {
