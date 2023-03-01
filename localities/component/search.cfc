@@ -2616,7 +2616,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				concatGeologyAttributeDetail(locality.locality_id)
 			ORDER BY
 				geog_auth_rec.higher_geog,
-				locality.spec_locality
+				locality.spec_locality,
+				locality.locality_id
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
