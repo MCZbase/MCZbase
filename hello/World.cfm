@@ -78,6 +78,7 @@ img.zoom {
 	transition-timing-function: ease-in-out;
 	height: 76px;
 	width: 76px;
+	margin: 0 30px;
 	
 	position: relative;
 }
