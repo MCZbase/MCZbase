@@ -330,18 +330,21 @@ limitations under the License.
 
 					<!-----------------------------Media----------------------------------> 
 					<style>
-						* {
+		/*				* {
 						  box-sizing: border-box;
 						}
-						.imageZoom {
+						##headingMedia.imageZoom {
 						  transition: transform .2s;
 						}
-						.imageZoom:hover {
-						  -ms-transform: scale(5); /* IE 9 */
-						  -webkit-transform: scale(5); /* Safari 3-8 */
-						  transform: scale(5); 
-							z-index: 1000;
+						##headingMedia {
+							
 						}
+						##headingMedia.imageZoom:hover {
+						  -ms-transform: scale(5); 
+						  -webkit-transform: scale(5);
+						  transform: scale(5); 
+							z-index: 10;
+						}*/
 					</style>
 					<div class="accordion" id="accordionMedia">
 						<div class="card mb-2 bg-light">
