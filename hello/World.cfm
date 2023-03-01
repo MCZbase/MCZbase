@@ -65,26 +65,27 @@ limitations under the License.
 </cfoutput>
 <style>
 #container {
-border: 1px solid black;
-width: 500px;
-height:500px;
-z-index: 1;
+	border: 1px solid black;
+	width: 500px;
+	height:500px;
+	z-index: 1;
+	margin-left: 2rem;
 }
 .zoom {
-background-color: green;
-transition: transform .5s;
-transition-timing-function: ease-in-out;
-height: 76px;
-width: 76px;
-z-index: 2;
+	background-color: green;
+	transition: transform .5s;
+	transition-timing-function: ease-in-out;
+	height: 76px;
+	width: 76px;
+	z-index: 2;
 }
 .zoom:hover {
--ms-transform: scale(8);
--webkit-transform: scale(8);
-transform: scale(8); 
-transform-origin: 0 0;
- background-image: url(https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg);
-z-index: 3;
+	-ms-transform: scale(8);
+	-webkit-transform: scale(8);
+	transform: scale(8); 
+	transform-origin: 0 0;
+	background-image: url(https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg);
+	z-index: 3001;
 }
 </style>
 </head>
