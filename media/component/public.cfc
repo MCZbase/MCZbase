@@ -204,7 +204,13 @@ include this function and use it.
 							<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
 							<!---cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg"--->
 							<!---Limiting the max size of the returned images to avoid overloading the iiif server. See https://iiif.io/api/image/3.0/#42-size for iiifFull. Use ^ before 1100 --Note: Hover won't work if original is scaling more than 200% and shows Bad request. "Requests that would generate images of these sizes are errors that should result in a 400 (Bad Request) status code." Using width only (e.g.,^1100,) allows a natural aspect ratio. Higher number shows more detail if original size is sufficiently large.--->
-							<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^,1100/0/default.jpg">
+							<!--- cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^,1100/0/default.jpg" --->
+							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server--->
+							<cfif media.height NEQ '' AND (media.height LT 2000 OR media.width LT 2000)>
+								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
+							<cfelse>
+								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/!2000,2000/0/default.jpg">
+							</cfif>
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
 						</cfif>
