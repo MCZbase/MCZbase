@@ -142,36 +142,6 @@
 						</script>
 					</div>
 					<div class="col-12 col-md-4 col-xl-2 my-1">
-						<cfif not isDefined("island")><cfset island=""></cfif>
-						<label for="island" class="data-entry-label">Island</label>
-						<input type="text" name="island" id="island" class="data-entry-input" value="#encodeForHtml(island)#">
-						<script>
-							jQuery(document).ready(function() {
-								makeGeogSearchAutocomplete('island','island');
-							});
-						</script>
-					</div>
-					<div class="col-12 col-md-4 col-xl-2 my-1">
-						<cfif not isDefined("island_group")><cfset island_group=""></cfif>
-						<label for="island_group" class="data-entry-label">Island Group</label>
-						<input type="text" name="island_group" id="island_group" class="data-entry-input" value="#encodeForHtml(island_group)#">
-						<script>
-							jQuery(document).ready(function() {
-								makeGeogSearchAutocomplete('island_group','island_group');
-							});
-						</script>
-					</div>
-					<div class="col-12 col-md-4 col-xl-2 my-1">
-						<cfif not isDefined("feature")><cfset feature=""></cfif>
-						<label for="feature" class="data-entry-label">Land Feature</label>
-						<input type="text" name="feature" id="feature" class="data-entry-input" value="#encodeForHtml(feature)#">
-						<script>
-							jQuery(document).ready(function() {
-								makeGeogSearchAutocomplete('feature','feature');
-							});
-						</script>
-					</div>
-					<div class="col-12 col-md-4 col-xl-2 my-1">
 						<cfif not isDefined("water_feature")><cfset water_feature=""></cfif>
 						<label for="water_feature" class="data-entry-label">Water Feature</label>
 						<input type="text" name="water_feature" id="water_feature" class="data-entry-input" value="#encodeForHtml(water_feature)#">
@@ -208,6 +178,36 @@
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('county','county');
+							});
+						</script>
+					</div>
+					<div class="col-12 col-md-4 col-xl-2 my-1">
+						<cfif not isDefined("feature")><cfset feature=""></cfif>
+						<label for="feature" class="data-entry-label">Land Feature</label>
+						<input type="text" name="feature" id="feature" class="data-entry-input" value="#encodeForHtml(feature)#">
+						<script>
+							jQuery(document).ready(function() {
+								makeGeogSearchAutocomplete('feature','feature');
+							});
+						</script>
+					</div>
+					<div class="col-12 col-md-4 col-xl-2 my-1">
+						<cfif not isDefined("island")><cfset island=""></cfif>
+						<label for="island" class="data-entry-label">Island</label>
+						<input type="text" name="island" id="island" class="data-entry-input" value="#encodeForHtml(island)#">
+						<script>
+							jQuery(document).ready(function() {
+								makeGeogSearchAutocomplete('island','island');
+							});
+						</script>
+					</div>
+					<div class="col-12 col-md-4 col-xl-2 my-1">
+						<cfif not isDefined("island_group")><cfset island_group=""></cfif>
+						<label for="island_group" class="data-entry-label">Island Group</label>
+						<input type="text" name="island_group" id="island_group" class="data-entry-input" value="#encodeForHtml(island_group)#">
+						<script>
+							jQuery(document).ready(function() {
+								makeGeogSearchAutocomplete('island_group','island_group');
 							});
 						</script>
 					</div>
