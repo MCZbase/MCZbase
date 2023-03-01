@@ -74,11 +74,11 @@ height:500px;
 margin: 0 auto;
 }
 .zoom {
-  background-color: green;
-  transition: transform .5s;
-  height: 76px;
-  width: 76px;
-  
+background-color: green;
+transition: transform .5s;
+transition-timing-function: ease-in-out;
+height: 76px;
+width: 76px;
 }
 .zoom a {display:none;}
 .zoom:hover {
