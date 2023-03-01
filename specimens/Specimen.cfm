@@ -403,8 +403,8 @@ limitations under the License.
 						  border-radius: 50%;
 						  cursor: none;
 						  /*Set the size of the magnifier glass:*/
-						  width: 150px;
-						  height: 150px;
+						  width: 100px;
+						  height: 100px;
 						}
 					</style>
 					<div class="accordion" id="accordionMedia">
