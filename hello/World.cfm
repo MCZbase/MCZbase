@@ -71,13 +71,13 @@ limitations under the License.
 	z-index: 1;
 	margin-left: 2rem;
 }
-.zoom {
+img.zoom {
 	background-color: green;
 	transition: transform .5s;
 	transition-timing-function: ease-in-out;
 	height: 76px;
 	width: 76px;
-	z-index: 2;
+	z-index: 3;
 }
 .zoom:hover {
 	-ms-transform: scale(8);
@@ -85,7 +85,6 @@ limitations under the License.
 	transform: scale(8); 
 	transform-origin: 0 0;
 	background-image: url(https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg);
-	z-index: 3001;
 }
 </style>
 </head>
