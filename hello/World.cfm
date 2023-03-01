@@ -117,30 +117,42 @@ img.zoom {
 							<div id="mediaBlock292861">
 								<div class="media_widget img-magnifier-container p-1" style="min-height:100px;">
 									<a href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg" class="d-block mb-1 w-100 active text-center" title="click to access media">
-										<img id="MID292861" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/^350,/0/default.jpg" class="zoom" alt="Media type: image;   Entomology PALE-1" height="auto" style="height: 76px;margin: 0 auto;width:auto;" title="Click for full image"></a><div class="mt-0 col-12 pb-2 px-0">
-									<p class="text-center px-1 pb-0 mb-0 small col-12">
-										<span class="d-inline">(<a href="/media.cfm?action=edit&amp;media_id=292861">Edit</a>) </span>(<a class="" href="/media/292861">Media Record</a>) (<a class="" href="/media/RelatedMedia.cfm?media_id=292861">Related</a>) (<a class="" href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg">Full</a>)
-									</p><div class="py-1"><p class="text-center col-12 my-0 p-0 small"> MCZ:Ent:PALE-1 Prodryas persephone  Holotype 
-									</p>
-								</div>
+										<img id="MID292861" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg" class="zoom" alt="Media type: image;   Entomology PALE-1" height="auto" style="height: 76px;margin: 0 auto;width:auto;" title="Click for full image">
+									</a>
+									<div class="mt-0 col-12 pb-2 px-0">
+										<p class="text-center px-1 pb-0 mb-0 small col-12">
+											<span class="d-inline">(<a href="/media.cfm?action=edit&amp;media_id=292861">Edit</a>) </span>(<a class="" href="/media/292861">Media Record</a>) (<a class="" href="/media/RelatedMedia.cfm?media_id=292861">Related</a>) (<a class="" href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg">Full</a>)
+										</p>
+										<div class="py-1">
+											<p class="text-center col-12 my-0 p-0 small"> MCZ:Ent:PALE-1 Prodryas persephone  Holotype 
+											</p>
+										</div>
+									</div>
+								</div> 
 							</div>
-						</div> 
-					</div>
-				</div>
-					
+						</div>
 						<div class="col-12 col-lg-6 px-1 mb-1 px-md-1 py-1 float-left">
-							
 							<div id="mediaBlock108503">
 								<div class="media_widget img-magnifier-container p-1" style="min-height:100px;"><a href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_full.jpg/full/max/0/default.jpg" class="d-block mb-1 w-100 active text-center" title="click to access media">
-									<img id="MID108503" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_full.jpg/full/^350,/0/default.jpg" class="zoom" alt="Media type: image;   Entomology PALE-1 Aspect: full" height="auto" style="height: 76px;margin: 0 auto;width:auto;" title="Click for full image"></a><div class="mt-0 col-12 pb-2 px-0"><p class="text-center px-1 pb-0 mb-0 small col-12"><span class="d-inline">(<a href="/media.cfm?action=edit&amp;media_id=108503">Edit</a>) </span>(<a class="" href="/media/108503">Media Record</a>) (<a class="" href="/media/RelatedMedia.cfm?media_id=108503">Related</a>) (<a class="" href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_full.jpg/full/max/0/default.jpg">Full</a>)</p><div class="py-1"><p class="text-center col-12 my-0 p-0 small"> MCZ:Ent:PALE-1 Prodryas persephone  Holotype  <dfn>Aspect:</dfn> full </p></div></div></div> 
+									<img id="MID108503" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_full.jpg/full/max/0/default.jpg" class="zoom" alt="Media type: image;   Entomology PALE-1 Aspect: full" height="auto" style="height: 76px;margin: 0 auto;width:auto;" title="Click for full image">
+									</a>
+									<div class="mt-0 col-12 pb-2 px-0">
+										<p class="text-center px-1 pb-0 mb-0 small col-12"><span class="d-inline">(<a href="/media.cfm?action=edit&amp;media_id=108503">Edit</a>) </span>(<a class="" href="/media/108503">Media Record</a>) (<a class="" href="/media/RelatedMedia.cfm?media_id=108503">Related</a>) (<a class="" href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_full.jpg/full/max/0/default.jpg">Full</a>)</p>
+										<div class="py-1"><p class="text-center col-12 my-0 p-0 small"> MCZ:Ent:PALE-1 Prodryas persephone  Holotype  <dfn>Aspect:</dfn> full </p>
+										</div>
+									</div>
+								</div> 
 							</div>
 						</div>
 					
 						<div class="col-12 col-lg-6 px-1 mb-1 px-md-1 py-1 float-left">
 							
 							<div id="mediaBlock108500">
-								<div class="media_widget img-magnifier-container p-1" style="min-height:100px;"><a href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_detail2.jpg/full/max/0/default.jpg" class="d-block mb-1 w-100 active text-center" title="click to access media">
-									<img id="MID108500" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_detail2.jpg/full/^350,/0/default.jpg" class="zoom" alt="Media type: image;   Entomology PALE-1 Aspect: detail" height="auto" style="height: 76px;margin: 0 auto;width:auto;" title="Click for full image"></a><div class="mt-0 col-12 pb-2 px-0"><p class="text-center px-1 pb-0 mb-0 small col-12"><span class="d-inline">(<a href="/media.cfm?action=edit&amp;media_id=108500">Edit</a>) </span>(<a class="" href="/media/108500">Media Record</a>) (<a class="" href="/media/RelatedMedia.cfm?media_id=108500">Related</a>) (<a class="" href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_detail2.jpg/full/max/0/default.jpg">Full</a>)</p><div class="py-1"><p class="text-center col-12 my-0 p-0 small"> MCZ:Ent:PALE-1 Prodryas persephone  Holotype  <dfn>Aspect:</dfn> detail </p></div></div></div> 
+								<div class="media_widget img-magnifier-container p-1" style="min-height:100px;">
+									<a href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_detail2.jpg/full/max/0/default.jpg" class="d-block mb-1 w-100 active text-center" title="click to access media">
+									<img id="MID108500" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_detail2.jpg/full/max/0/default.jpg" class="zoom" alt="Media type: image;   Entomology PALE-1 Aspect: detail" height="auto" style="height: 76px;margin: 0 auto;width:auto;" title="Click for full image">
+									</a>
+									<div class="mt-0 col-12 pb-2 px-0"><p class="text-center px-1 pb-0 mb-0 small col-12"><span class="d-inline">(<a href="/media.cfm?action=edit&amp;media_id=108500">Edit</a>) </span>(<a class="" href="/media/108500">Media Record</a>) (<a class="" href="/media/RelatedMedia.cfm?media_id=108500">Related</a>) (<a class="" href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_detail2.jpg/full/max/0/default.jpg">Full</a>)</p><div class="py-1"><p class="text-center col-12 my-0 p-0 small"> MCZ:Ent:PALE-1 Prodryas persephone  Holotype  <dfn>Aspect:</dfn> detail </p></div></div></div> 
 							</div>
 						</div>
 					
@@ -149,7 +161,7 @@ img.zoom {
 							<div id="mediaBlock108502">
 								<div class="media_widget img-magnifier-container p-1" style="min-height:100px;">
 									<a href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_detail.jpg/full/max/0/default.jpg" class="d-block mb-1 w-100 active text-center" title="click to access media">
-										<img id="MID108502" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_detail.jpg/full/^350,/0/default.jpg" class="zoom" alt="Media type: image;   Entomology PALE-1 Aspect: detail" height="auto" style="height: 76px;margin: 0 auto;width:auto;" title="Click for full image">
+										<img id="MID108502" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_detail.jpg/full/max/0/default.jpg" class="zoom" alt="Media type: image;   Entomology PALE-1 Aspect: detail" height="auto" style="height: 76px;margin: 0 auto;width:auto;" title="Click for full image">
 									</a>
 									<div class="mt-0 col-12 pb-2 px-0"><p class="text-center px-1 pb-0 mb-0 small col-12">
 									<span class="d-inline">(<a href="/media.cfm?action=edit&amp;media_id=108502">Edit</a>) </span>(<a class="" href="/media/108502">Media Record</a>) (<a class="" href="/media/RelatedMedia.cfm?media_id=108502">Related</a>) (<a class="" href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_detail.jpg/full/max/0/default.jpg">Full</a>)</p><div class="py-1"><p class="text-center col-12 my-0 p-0 small"> MCZ:Ent:PALE-1 Prodryas persephone  Holotype  <dfn>Aspect:</dfn> detail </p>
