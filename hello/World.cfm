@@ -66,8 +66,8 @@ limitations under the License.
 <style>
 #container {
 	border: 1px solid black;
-	width: 400px;
-	height:400px;
+	width: 800px;
+	height: 800px;
 	z-index: 1;
 	margin-left: 2rem;
 	position: relative;
