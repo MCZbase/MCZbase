@@ -337,9 +337,10 @@ limitations under the License.
 						  transition: transform .2s;
 						}
 						.imageZoom:hover {
-						  -ms-transform: scale(1.5); /* IE 9 */
-						  -webkit-transform: scale(1.5); /* Safari 3-8 */
-						  transform: scale(1.5); 
+						  -ms-transform: scale(3); /* IE 9 */
+						  -webkit-transform: scale(3); /* Safari 3-8 */
+						  transform: scale(3); 
+							z-index: 1000;
 						}
 					</style>
 					<div class="accordion" id="accordionMedia">
