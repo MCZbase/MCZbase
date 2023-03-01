@@ -97,7 +97,7 @@
 			</div>
 			<div id="geogDetail" class="col-12 mb-3 px-3" style="#geogDetailStyle#">
 				<div class="form-row">
-					<div class="col-12 col-md-2 my-1">
+					<div class="col-12 col-md-4 col-xl-2 my-1">
 						<label for="continent_ocean" class="data-entry-label">Continent or Ocean
 							<span class="small90">
 								(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('continent_ocean');e.value='='+e.value;" >=<span class="sr-only">prefix with = for exact match</span></button>)
@@ -111,7 +111,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-2 my-1">
+					<div class="col-12 col-md-4 col-xl-2 my-1">
 						<cfif not isDefined("ocean_region")><cfset ocean_region=""></cfif>
 						<label for="ocean_region" class="data-entry-label" >Ocean Region</label>
 						<input type="text" name="ocean_region" id="ocean_region" class="data-entry-input" value="#encodeForHtml(ocean_region)#">
@@ -121,7 +121,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-2 my-1">
+					<div class="col-12 col-md-4 col-xl-2 my-1">
 						<cfif not isDefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
 						<label for="ocean_subregion" class="data-entry-label">Ocean SubRegion</label>
 						<input type="text" name="ocean_subregion" id="ocean_subregion" class="data-entry-input" value="#encodeForHtml(ocean_subregion)#">
@@ -131,7 +131,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-2 my-1">
+					<div class="col-12 col-md-4 col-xl-2 my-1">
 						<cfif not isDefined("sea")><cfset sea=""></cfif>
 						<label for="sea" class="data-entry-label">Sea</label>
 						<input type="text" name="sea" id="sea" class="data-entry-input" value="#encodeForHtml(sea)#">
@@ -141,7 +141,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-2 my-1">
+					<div class="col-12 col-md-4 col-xl-2 my-1">
 						<cfif not isDefined("island")><cfset island=""></cfif>
 						<label for="island" class="data-entry-label">Island</label>
 						<input type="text" name="island" id="island" class="data-entry-input" value="#encodeForHtml(island)#">
@@ -151,7 +151,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-2 my-1">
+					<div class="col-12 col-md-4 col-xl-2 my-1">
 						<cfif not isDefined("island_group")><cfset island_group=""></cfif>
 						<label for="island_group" class="data-entry-label">Island Group</label>
 						<input type="text" name="island_group" id="island_group" class="data-entry-input" value="#encodeForHtml(island_group)#">
@@ -161,7 +161,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-2 my-1">
+					<div class="col-12 col-md-4 col-xl-2 my-1">
 						<cfif not isDefined("feature")><cfset feature=""></cfif>
 						<label for="feature" class="data-entry-label">Land Feature</label>
 						<input type="text" name="feature" id="feature" class="data-entry-input" value="#encodeForHtml(feature)#">
@@ -171,7 +171,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-2 my-1">
+					<div class="col-12 col-md-4 col-xl-2 my-1">
 						<cfif not isDefined("water_feature")><cfset water_feature=""></cfif>
 						<label for="water_feature" class="data-entry-label">Water Feature</label>
 						<input type="text" name="water_feature" id="water_feature" class="data-entry-input" value="#encodeForHtml(water_feature)#">
@@ -181,7 +181,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-2 my-1">
+					<div class="col-12 col-md-4 col-xl-2 my-1">
 						<cfif not isDefined("country")><cfset country=""></cfif>
 						<label for="country" class="data-entry-label">Country</label>
 						<input type="text" name="country" id="country" class="data-entry-input" value="#encodeForHtml(country)#">
@@ -191,7 +191,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-2 my-1">
+					<div class="col-12 col-md-4 col-xl-2 my-1">
 						<cfif not isDefined("state_prov")><cfset state_prov=""></cfif>
 						<label for="state_prov" class="data-entry-label">State or Province</label>
 						<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#encodeForHtml(state_prov)#">
@@ -201,7 +201,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-2 my-1">
+					<div class="col-12 col-md-4 col-xl-2 my-1">
 						<cfif not isDefined("county")><cfset county=""></cfif>
 						<label for="county" class="data-entry-label">County</label>
 						<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHtml(county)#">
@@ -211,7 +211,7 @@
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-2 my-1">
+					<div class="col-12 col-md-4 col-xl-2 my-1">
 						<cfif not isDefined("quad")><cfset quad=""></cfif>
 						<label for="quad" class="data-entry-label">Quad</label>
 						<input type="text" name="quad" id="quad" class="data-entry-input" value="#encodeForHtml(quad)#">
@@ -222,7 +222,7 @@
 						</script>
 					</div>
 					<cfif #showExtraFields# IS 1>
-						<div class="col-12 col-md-2 my-1">
+						<div class="col-12 col-md-4 col-xl-2 my-1">
 							<cfif not isDefined("wkt_polygon")><cfset wkt_polygon=""></cfif>
 							<label for="wkt_polygon" class="data-entry-label">Polygon (WKT)</label>
 							<select name="wkt_polygon" id="wkt_polygon" size="1" class="data-entry-select">
@@ -233,7 +233,7 @@
 								<option value="NULL" #selected#>No Shape</option>
 							</select>
 						</div>
-						<div class="col-12 col-md-2 my-1">
+						<div class="col-12 col-md-4 col-xl-2 my-1">
 							<cfif not isDefined("highergeographyid")><cfset highergeographyid=""></cfif>
 							<label for="highergeographyid" class="data-entry-label">dwc:higherGeographyID</label>
 							<input type="text" name="highergeographyid" id="highergeographyid" class="data-entry-input" value="#encodeForHtml(highergeographyid)#">
@@ -243,7 +243,7 @@
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-2 my-1">
+						<div class="col-12 col-md-4 col-xl-2 my-1">
 							<cfif not isDefined("source_authority")><cfset source_authority=""></cfif>
 							<label for="source_authority" class="data-entry-label">Source Authority</label>
 							<input type="text" name="source_authority" id="source_authority" class="data-entry-input" value="#encodeForHtml(source_authority)#">
