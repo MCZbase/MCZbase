@@ -24,7 +24,7 @@ limitations under the License.
 </cfif>
 <cfswitch expression="#action#">
 	<cfcase value="search">
-		<cfset pageTitle = "Search Localities">
+		<cfset pageTitle = "Search Collecting Events">
 	</cfcase>
 	<cfdefaultcase>
 		<cfset pageTitle = "Error: Unknown action.">
@@ -43,10 +43,10 @@ limitations under the License.
 				<main id="content">
 					<form name="searchForm" id="searchForm">
 						<cfset showLocality=1>
-						<cfset showEvent=0>
+						<cfset showEvent=1>
 						<cfset showExtraFields=1>
 						<cfset newSearchTarget = "/localities/Localities.cfm">
-						<input type="hidden" id="method" name="method" value="getLocalities">
+						<input type="hidden" id="method" name="method" value="getCollectingEvents">
 						<cfinclude template = "/localities/searchLocationForm.cfm">
 					</form>
 		
@@ -302,8 +302,8 @@ limitations under the License.
 								updaterow: function (rowid, rowdata, commit) {
 									commit(true);
 								},
-								root: 'locality',
-								id: 'locality_id',
+								root: 'collecting_event',
+								id: 'collecting_event_id',
 								url: '/localities/component/search.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
