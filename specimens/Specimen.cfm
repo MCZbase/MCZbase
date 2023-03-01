@@ -329,7 +329,24 @@ limitations under the License.
 				<div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 px-1 mb-2 float-left">
 
 					<!-----------------------------Media----------------------------------> 
-				
+					<style>
+						* {
+						  box-sizing: border-box;
+						}
+						.zoom {
+						  padding: 50px;
+						  background-color: green;
+						  transition: transform .2s;
+						  width: 200px;
+						  height: 200px;
+						  margin: 0 auto;
+						}
+						.zoom:hover {
+						  -ms-transform: scale(1.5); /* IE 9 */
+						  -webkit-transform: scale(1.5); /* Safari 3-8 */
+						  transform: scale(1.5); 
+						}
+					</style>
 					<div class="accordion" id="accordionMedia">
 						<div class="card mb-2 bg-light">
 							<div id="mediaDialog"></div>
