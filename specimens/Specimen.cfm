@@ -329,7 +329,7 @@ limitations under the License.
 				<div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 px-1 mb-2 float-left">
 <script>
 /* Execute the magnify function: */
-magnify("myimage", 3);
+magnify("image", 3);
 /* Specify the id of the image, and the strength of the magnifier glass: */
 </script>
 					<!-----------------------------Media----------------------------------> 
