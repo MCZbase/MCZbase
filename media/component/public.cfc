@@ -314,7 +314,7 @@ include this function and use it.
 					</cfif>
 					<!--- prepare output --->
 
-					<cfset output='#output#<div class="media_widget img-magnifier-container p-1" style="#minheight#">'>	
+					<cfset output='#output#<div class="media_widget p-1" style="#minheight#">'>	
 					<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
 					<cfif #captionAs# EQ "textNone">
 						<cfset linkTarget = "/media/#media.media_id#">
@@ -327,7 +327,7 @@ include this function and use it.
 					
 						<!---Removed on 1/20/23 from <img...> tag: class="#background_class#"--->
 					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
-					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" class="imageZoom" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
+					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
 				<!---			<cfif isDisplayable><cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom({zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'></cfif>--->
 					<cfif #captionAs# EQ "textNone">
