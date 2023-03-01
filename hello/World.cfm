@@ -74,8 +74,6 @@ limitations under the License.
 }
 img.zoom {
 	transition-timing-function: ease-in-out;
-	height: 76px;
-	width: 76px;
 	margin: 0;
 	position: relative;
 	background-image: none;
