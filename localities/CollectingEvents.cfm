@@ -1,7 +1,7 @@
 <!---
-localities/Localities.cfm
+localities/CollectingEvents.cfm
 
-Find locality records.
+Find collecting event records by collecting event, locality, or higher geography.
 
 Copyright 2023 President and Fellows of Harvard College
 
@@ -24,7 +24,7 @@ limitations under the License.
 </cfif>
 <cfswitch expression="#action#">
 	<cfcase value="search">
-		<cfset pageTitle = "Search Localities">
+		<cfset pageTitle = "Search Collecting Events">
 	</cfcase>
 	<cfdefaultcase>
 		<cfset pageTitle = "Error: Unknown action.">
@@ -43,10 +43,10 @@ limitations under the License.
 				<main id="content">
 					<form name="searchForm" id="searchForm">
 						<cfset showLocality=1>
-						<cfset showEvent=0>
+						<cfset showEvent=1>
 						<cfset showExtraFields=1>
-						<cfset newSearchTarget = "/localities/Localities.cfm">
-						<input type="hidden" id="method" name="method" value="getLocalities">
+						<cfset newSearchTarget = "/localities/CollectingEvents.cfm">
+						<input type="hidden" id="method" name="method" value="getCollectingEvents">
 						<cfinclude template = "/localities/searchLocationForm.cfm">
 					</form>
 		
@@ -88,8 +88,8 @@ limitations under the License.
 		
 				<cfset cellRenderClasses = "ml-1">
 				<script>
-					/** makeSummary combine row data into a single text string **/
-					function makeSummary(rowData) { 
+					/** makeLocalitySummary combine row data for locality into a single text string **/
+					function makeLocalitySummary(rowData) { 
 						var spec_locality = rowData['SPEC_LOCALITY'];
 						var id = rowData['LOCALITY_ID'];
 						var locality_remarks = rowData['LOCALITY_REMARKS'];
@@ -148,6 +148,17 @@ limitations under the License.
 						var data = spec_locality + geology +  elevation + depth + sovereign_nation + plss + coordinates + remarks + " (" + id + ")" + curated;
 					   return data;
 					};
+					/** makeEventSummary combine row data for collecting event into a single text string **/
+					function makeEventSummary(rowData) { 
+						var verbatim_locality = rowData['VERBATIM_LOCALITY'];
+						var id = rowData['COLLECTING_EVENT_ID'];
+						var coll_event_remarks = rowData['COLL_EVENT_REMARKS'];
+						if (coll_event_remarks) { remarks = " remarks: " + coll_event_remarks + " "; } else { remarks = ""; }
+						var source = rowData['COLLECTING_SOURCE'];
+						var method = rowData['COLLECTING_METHOD'];
+						var data = verbatim_locality + " " + source + " " + method + " " + remarks + " (" + id + ")";
+					   return data;
+					};
 					/** createLocalityRowDetailsDialog, create a custom loan specific popup dialog to show details for
 						a row of locality data from the locality results grid.
 					
@@ -176,7 +187,7 @@ limitations under the License.
 								// undefined generated column
 								console.log(datarecord[datafield]);
 							} else if (datafield == 'summary') {
-								content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + makeSummary(datarecord) + "</li>";
+								content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + makeLocalitySummary(datarecord) + "</li>";
 							} else if (datarecord[datafield] == '') {
 								// leave out blank column
 								console.log(datafield);
@@ -212,7 +223,12 @@ limitations under the License.
 					};
 					var summaryCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						var data = makeSummary(rowData);
+						var data = makeLocalitySummary(rowData);
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + data + '</span>';
+					}
+					var summaryEventCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						var data = makeEventSummary(rowData);
 						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + data + '</span>';
 					}
 					var specimensCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -226,10 +242,15 @@ limitations under the License.
 						}
 					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var editLocCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 							var id = encodeURIComponent(rowData['LOCALITY_ID']);
-							return '<a target="_blank" href="/editLocality.cfm?locality_id=' + id + '">Edit</a>';
+							return '<a target="_blank" href="/editLocality.cfm?locality_id=' + id + '">Loc.</a>';
+						};
+						var editEventCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+							var id = encodeURIComponent(rowData['COLLECTING_EVENT_ID']);
+							return '<a target="_blank" href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=' + id + '">Evt.</a>';
 						};
 					</cfif>
 
@@ -297,13 +318,35 @@ limitations under the License.
 									{ name: 'NOGEOREFBECAUSE', type: 'string' },
 									{ name: 'GEOREF_VERIFIED_BY_AGENT', type: 'string' },
 									{ name: 'GEOREF_DETERMINED_BY_AGENT', type: 'string' },
-									{ name: 'LOCALITY_REMARKS', type: 'string' }
+									{ name: 'LOCALITY_REMARKS', type: 'string' },
+									{ name: 'COLLECTING_EVENT_ID', type: 'string' },
+									{ name: 'VERBATIM_DATE', type: 'string'},
+									{ name: 'VERBATIM_LOCALITY', type: 'string'},
+									{ name: 'VALID_DISTRIBUTION_FG', type: 'string'},
+									{ name: 'COLLECTING_SOURCE', type: 'string'},
+									{ name: 'COLLECTING_METHOD', type: 'string'},
+									{ name: 'HABITAT_DESC', type: 'string'},
+									{ name: 'DATE_DETERMINED_BY_AGENT_ID', type: 'string'},
+									{ name: 'FISH_FIELD_NUMBER', type: 'string'},
+									{ name: 'BEGAN_DATE', type: 'string'},
+									{ name: 'ENDED_DATE', type: 'string'},
+									{ name: 'COLLECTING_TIME', type: 'string'},
+									{ name: 'VERBATIMCOORDINATES', type: 'string'},
+									{ name: 'VERBATIMLATITUDE', type: 'string'},
+									{ name: 'VERBATIMLONGITUDE', type: 'string'},
+									{ name: 'VERBATIMCOORDINATESYSTEM', type: 'string'},
+									{ name: 'VERBATIMSRS', type: 'string'},
+									{ name: 'STARTDAYOFYEAR', type: 'string'},
+									{ name: 'ENDDAYOFYEAR', type: 'string'},
+									{ name: 'VERBATIMELEVATION', type: 'string'},
+									{ name: 'VERBATIMDEPTH', type: 'string'},
+									{ name: 'COLL_EVENT_REMARKS', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
 									commit(true);
 								},
-								root: 'locality',
-								id: 'locality_id',
+								root: 'collecting_event',
+								id: 'collecting_event_id',
 								url: '/localities/component/search.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
@@ -347,11 +390,18 @@ limitations under the License.
 								showtoolbar: false,
 								columns: [
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-										{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
+										{text: 'Edit', datafield: 'edit_loc', width:60, columntype: 'button', hideable: false, cellsrenderer: editLocCellRenderer},
+										{text: 'Edit', datafield: 'edit_coll_evt', width:60, columntype: 'button', hideable: false, cellsrenderer: editEventCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
+									{ text: 'collecting_event_id', datafield: 'COLLECTING_EVENT_ID',width: 100, hideabel: true, hidden: getColHidProp('COLLECTING_EVENT_ID',true) },
 									{ text: 'Locality_id', datafield: 'LOCALITY_ID',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_ID',true) },
-									{ text: 'Locality Summary', datafield: 'summary',width: 500, hideabel: true, hidden: getColHidProp('summary',false), cellsrenderer: summaryCellRenderer  },
+									{ text: 'Locality Summary', datafield: 'summary',width: 400, hideabel: true, hidden: getColHidProp('summary',false), cellsrenderer: summaryCellRenderer  },
+									{ text: 'Coll Event Summary', datafield: 'ce_summary',width: 400, hideabel: true, hidden: getColHidProp('summary',false), cellsrenderer: summaryEventCellRenderer  },
+									{ text: 'Verbatim Locality', datafield: 'VERBATIM_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_LOCALITY',true)  },
+									{ text: 'Verb. Date', datafield: 'VERBATIM_DATE',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_DATE',true)  },
+									{ text: 'Coll Method', datafield: 'COLLECTING_METHOD',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_METHOD',true)  },
+									{ text: 'Coll Source', datafield: 'COLLECTING_SOURCE',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_SOURCE',true)  },
 									{ text: 'Specific Locality', datafield: 'SPEC_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('SPEC_LOCALITY',true)  },
 									{ text: 'Vetted', datafield: 'CURATED_FG',width: 50, hideabel: true, hidden: getColHidProp('CURATED_FG',false)  },
 									{ text: 'Locality Remarks', datafield: 'LOCALITY_REMARKS',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_REMARKS',true)  },
@@ -408,7 +458,7 @@ limitations under the License.
 							});
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
-								$('##resultLink').html('<a href="/localities/Localities.cfm?action=search&execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+								$('##resultLink').html('<a href="/localities/CollectingEvents.cfm?action=search&execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 								gridLoaded('searchResultsGrid','locality record');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
