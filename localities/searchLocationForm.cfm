@@ -95,7 +95,7 @@
 					<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
 				</div>
 			</div>
-			<div id="geogDetail" class="col-12 px-3" style="#geogDetailStyle#">
+			<div id="geogDetail" class="col-12 mb-3 px-3" style="#geogDetailStyle#">
 				<div class="form-row">
 					<div class="col-12 col-md-2 my-1">
 						<label for="continent_ocean" class="data-entry-label">Continent or Ocean
