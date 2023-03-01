@@ -242,10 +242,15 @@ limitations under the License.
 						}
 					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var editLocCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 							var id = encodeURIComponent(rowData['LOCALITY_ID']);
-							return '<a target="_blank" href="/editLocality.cfm?locality_id=' + id + '">Edit</a>';
+							return '<a target="_blank" href="/editLocality.cfm?locality_id=' + id + '">Loc.</a>';
+						};
+						var editEventCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+							var id = encodeURIComponent(rowData['COLLECTING_EVENT_ID']);
+							return '<a target="_blank" href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=' + id + '">Evt.</a>';
 						};
 					</cfif>
 
@@ -385,7 +390,8 @@ limitations under the License.
 								showtoolbar: false,
 								columns: [
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-										{text: 'Edit', datafield: 'Loc.', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
+										{text: 'Edit', datafield: 'edit_loc', width:60, columntype: 'button', hideable: false, cellsrenderer: editLocCellRenderer},
+										{text: 'Edit', datafield: 'edit_coll_evt', width:60, columntype: 'button', hideable: false, cellsrenderer: editEventCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
 									{ text: 'collecting_event_id', datafield: 'COLLECTING_EVENT_ID',width: 100, hideabel: true, hidden: getColHidProp('COLLECTING_EVENT_ID',true) },
@@ -393,6 +399,7 @@ limitations under the License.
 									{ text: 'Locality Summary', datafield: 'summary',width: 400, hideabel: true, hidden: getColHidProp('summary',false), cellsrenderer: summaryCellRenderer  },
 									{ text: 'Coll Event Summary', datafield: 'ce_summary',width: 400, hideabel: true, hidden: getColHidProp('summary',false), cellsrenderer: summaryEventCellRenderer  },
 									{ text: 'Verbatim Locality', datafield: 'VERBATIM_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_LOCALITY',true)  },
+									{ text: 'Verb. Date', datafield: 'VERBATIM_DATE',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_DATE',true)  },
 									{ text: 'Coll Method', datafield: 'COLLECTING_METHOD',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_METHOD',true)  },
 									{ text: 'Coll Source', datafield: 'COLLECTING_SOURCE',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_SOURCE',true)  },
 									{ text: 'Specific Locality', datafield: 'SPEC_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('SPEC_LOCALITY',true)  },
