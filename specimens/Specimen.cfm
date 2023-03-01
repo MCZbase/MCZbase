@@ -337,9 +337,9 @@ limitations under the License.
 						  transition: transform .2s;
 						}
 						.imageZoom:hover {
-						  -ms-transform: scale(3); /* IE 9 */
-						  -webkit-transform: scale(3); /* Safari 3-8 */
-						  transform: scale(3); 
+						  -ms-transform: scale(5); /* IE 9 */
+						  -webkit-transform: scale(5); /* Safari 3-8 */
+						  transform: scale(5); 
 							z-index: 1000;
 						}
 					</style>
