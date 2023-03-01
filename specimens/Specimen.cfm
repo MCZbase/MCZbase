@@ -343,6 +343,15 @@ limitations under the License.
 						-moz-transform: scale(10);
 						-o-transform: scale(10);
 						transform: scale(10);
+						animation:moveToRight 3s ease-in
+					}
+					@keyframes moveToRight {
+					  0% {
+						transform: translateX(0px);
+					  }
+					  100% {
+						transform: translateX(300px);
+					  }
 					}
 					</style>
 					<div class="accordion" id="accordionMedia">
