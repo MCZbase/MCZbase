@@ -329,6 +329,22 @@ limitations under the License.
 				<div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 px-1 mb-2 float-left">
 
 					<!-----------------------------Media----------------------------------> 
+					<style>
+					.media_widget img {
+						width: auto;
+						-webkit-transition: all .2s ease-in-out;
+						-moz-transition: all .2s ease-in-out;
+						-o-transition: all .2s ease-in-out;
+						-ms-transition: all .2s ease-in-out;
+					}
+
+					.media_widget img:hover {
+						-webkit-transform: scale(90); 
+						-moz-transform: scale(90);
+						-o-transform: scale(90);
+						transform: scale(90);
+					}
+					</style>
 					<div class="accordion" id="accordionMedia">
 						<div class="card mb-2 bg-light">
 							<div id="mediaDialog"></div>
