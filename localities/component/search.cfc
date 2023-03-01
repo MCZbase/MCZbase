@@ -1653,18 +1653,15 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="verbatimdepth" type="string" required="no">
 	<cfargument name="verbatimelevation" type="string" required="no">
 	<cfargument name="verbatim_date" type="string" required="no">
+	<cfargument name="collecting_source" type="string" required="no">
+	<cfargument name="collecting_method" type="string" required="no">
+	<cfargument name="habitat_desc" type="string" required="no">
+	<cfargument name="coll_event_remarks" type="string" required="no">
 	<!--- 
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
 	--->
 	<!--- 
-	"DATE_BEGAN_DATE" DATE, 
-	"DATE_ENDED_DATE" DATE, 
-	"VERBATIM_DATE" VARCHAR2(60 CHAR) NOT NULL ENABLE, 
-	"COLL_EVENT_REMARKS" VARCHAR2(500 CHAR), 
 	"VALID_DISTRIBUTION_FG" NUMBER, 
-	"COLLECTING_SOURCE" VARCHAR2(30 CHAR) NOT NULL ENABLE, 
-	"COLLECTING_METHOD" VARCHAR2(255), 
-	"HABITAT_DESC" VARCHAR2(500 CHAR), 
 	"DATE_DETERMINED_BY_AGENT_ID" NUMBER, 
 	"FISH_FIELD_NUMBER" VARCHAR2(50 CHAR), 
 	"BEGAN_DATE" VARCHAR2(22 CHAR), 
@@ -1677,8 +1674,6 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	"VERBATIMSRS" VARCHAR2(50 CHAR), 
 	"STARTDAYOFYEAR" NUMBER(3,0), 
 	"ENDDAYOFYEAR" NUMBER(3,0), 
-	"VERBATIMELEVATION" VARCHAR2(500), 
-	"VERBATIMDEPTH" VARCHAR2(500), 
 	--->
 
 	<!--- set default values where not defined --->
@@ -1892,6 +1887,23 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				collecting_event.verbatimdepth,
 				collecting_event.verbatimelevation,
 				collecting_event.verbatim_date,
+				collecting_event.began_date,
+				collecting_event.ended_date,
+				collecting_event.collecting_time,
+				collecting_event.startdayofyear,
+				collecting_event.enddayofyear,
+				collecting_event.habitat_desc,
+				collecting_event.collecting_source,
+				collecting_event.collecting_method,
+				collecting_event.valid_distribution_fg,
+				collecting_event.habitat_desc,
+				collecting_event.fish_field_number,
+				collecting_event.verbatimcoordinates,
+				collecting_event.verbatimlatitude,
+				collecting_event.verbatimlongitude,
+				collecting_event.verbatimcoordinatesystem,
+				collecting_event.verbatimsrs,
+				collecting_event.coll_event_remarks,
 				count(flatTableName.collection_object_id) as specimen_count
 			FROM 
 				collecting_event
@@ -2496,6 +2508,38 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
+				<cfif isdefined("habitat_desc") AND len(habitat_desc) gt 0>
+					<cfset setup = setupClause(field="collecting_event.habitat_desc",value="#habitat_desc#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("collecting_source") AND len(collecting_source) gt 0>
+					<cfset setup = setupClause(field="collecting_event.collecting_source",value="#collecting_source#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("collecting_method") AND len(collecting_method) gt 0>
+					<cfset setup = setupClause(field="collecting_event.collecting_method",value="#collecting_method#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("coll_event_remarks") AND len(coll_event_remarks) gt 0>
+					<cfset setup = setupClause(field="collecting_event.coll_event_remarks",value="#coll_event_remarks#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
 			GROUP BY
 				geog_auth_rec.geog_auth_rec_id,
 				geog_auth_rec.continent_ocean,
@@ -2552,6 +2596,23 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				collecting_event.verbatimdepth,
 				collecting_event.verbatimelevation,
 				collecting_event.verbatim_date,
+				collecting_event.began_date,
+				collecting_event.ended_date,
+				collecting_event.collecting_time,
+				collecting_event.startdayofyear,
+				collecting_event.enddayofyear,
+				collecting_event.habitat_desc,
+				collecting_event.collecting_source,
+				collecting_event.collecting_method,
+				collecting_event.valid_distribution_fg,
+				collecting_event.habitat_desc,
+				collecting_event.fish_field_number,
+				collecting_event.verbatimcoordinates,
+				collecting_event.verbatimlatitude,
+				collecting_event.verbatimlongitude,
+				collecting_event.verbatimcoordinatesystem,
+				collecting_event.verbatimsrs,
+				collecting_event.coll_event_remarks,
 				concatGeologyAttributeDetail(locality.locality_id)
 			ORDER BY
 				geog_auth_rec.higher_geog,
