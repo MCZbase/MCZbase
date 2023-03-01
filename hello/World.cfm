@@ -78,6 +78,7 @@ img.zoom {
 	width: 76px;
 	margin: 0 30px;
 	position: relative;
+	background-image: none;
 }
 .zoom:hover {
 	-ms-transform: scale(8);
