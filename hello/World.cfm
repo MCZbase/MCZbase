@@ -64,7 +64,7 @@ limitations under the License.
 	</main>
 </cfoutput>
 <style>
-##accordionMedia {
+.card-body {
 	border: 1px solid black;
 	width: 800px;
 	height: 800px;
