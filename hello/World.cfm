@@ -70,6 +70,7 @@ limitations under the License.
 	height:500px;
 	z-index: 1;
 	margin-left: 2rem;
+	position: relative;
 }
 img.zoom {
 	background-color: green;
@@ -78,6 +79,7 @@ img.zoom {
 	height: 76px;
 	width: 76px;
 	z-index: 3;
+	position: relative;
 }
 .zoom:hover {
 	-ms-transform: scale(8);
