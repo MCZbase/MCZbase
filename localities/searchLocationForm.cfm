@@ -293,7 +293,7 @@
 							<input type="text" name="any_geography" id="any_geography" class="data-entry-input" value="#encodeForHtml(any_geography)#">
 						</div>
 					</cfif>
-					<div class="col-12 col-md-1">
+					<div class="col-12 col-md-1 mt-3 mt-md-3 mb-3 mb-md-3">
 						<cfif not isDefined("collnOper")><cfset collnOper=""></cfif>
 						<label for="collnOper" class="data-entry-label">Use</label>
 						<select name="collnOper" id="collnOper" size="1" class="data-entry-select">
@@ -307,7 +307,7 @@
 							<option value="notUsedBy" #selected#>not used by</option>
 						</select>
 					</div>
-					<div class="col-12 col-md-2">
+					<div class="col-12 col-md-2 mt-3 mt-md-3 mb-3 mb-md-3">
 						<cfif isDefined("collection_id")><cfset collection_id_val="#collection_id#"><cfelse><cfset collection_id_val=""></cfif>
 						<label for="collection_id" class="data-entry-label">Collection</label>
 						<select name="collection_id" id="collection_id" size="1" class="data-entry-select">
@@ -318,7 +318,7 @@
 							</cfloop>
 						</select>
 					</div>
-					<div class="col-12 col-md-1">
+					<div class="col-12 col-md-1 mt-3 mt-md-3 mb-3 mb-md-3">
 						<cfif not isDefined("curated_fg")><cfset curated_fg=""></cfif>
 						<label for="curated_fg" class="data-entry-label">Vetted</label>
 						<select name="curated_fg" id="curated_fg" class="data-entry-select">
