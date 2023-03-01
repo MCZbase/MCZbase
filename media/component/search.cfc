@@ -1244,7 +1244,7 @@ imgStyleClass=value
 							<cfif media.height NEQ '' AND (media.height LT 2000 OR media.width LT 2000)>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
 							<cfelse>
-								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/!2000,/0/default.jpg">
+								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/!2000,2000/0/default.jpg">
 							</cfif>
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
