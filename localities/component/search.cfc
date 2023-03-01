@@ -1590,7 +1590,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 
 	@return json containing data about collecting events matching specified search criteria.
 --->
-<cffunction name="getLocalities" access="remote" returntype="any" returnformat="json">
+<cffunction name="getCollectingEvents" access="remote" returntype="any" returnformat="json">
 	<cfargument name="any_geography" type="string" required="no"><!--- keyword index search --->
 	<cfargument name="higher_geog" type="string" required="no">
 	<cfargument name="geog_auth_rec_id" type="string" required="no">
