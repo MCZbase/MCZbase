@@ -20,7 +20,7 @@ limitations under the License.
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics --->
 <cfoutput>
 <script async src="https://www.googletagmanager.com/gtag/js?id=#Application.Google_uacct#"></script>
 <script>
