@@ -1,7 +1,7 @@
 <!---
-localities/Localities.cfm
+localities/CollectingEvents.cfm
 
-Find locality records.
+Find collecting event records by collecting event, locality, or higher geography.
 
 Copyright 2023 President and Fellows of Harvard College
 
@@ -45,7 +45,7 @@ limitations under the License.
 						<cfset showLocality=1>
 						<cfset showEvent=1>
 						<cfset showExtraFields=1>
-						<cfset newSearchTarget = "/localities/Localities.cfm">
+						<cfset newSearchTarget = "/localities/CollectingEvents.cfm">
 						<input type="hidden" id="method" name="method" value="getCollectingEvents">
 						<cfinclude template = "/localities/searchLocationForm.cfm">
 					</form>
@@ -451,7 +451,7 @@ limitations under the License.
 							});
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
-								$('##resultLink').html('<a href="/localities/Localities.cfm?action=search&execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+								$('##resultLink').html('<a href="/localities/CollectingEvents.cfm?action=search&execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 								gridLoaded('searchResultsGrid','locality record');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
