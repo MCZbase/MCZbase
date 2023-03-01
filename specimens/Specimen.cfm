@@ -330,29 +330,22 @@ limitations under the License.
 
 					<!-----------------------------Media----------------------------------> 
 					<style>
-					.media_widget img {
-						width: auto;
-						-webkit-transition: all .2s ease-in-out;
-						-moz-transition: all .2s ease-in-out;
-						-o-transition: all .2s ease-in-out;
-						-ms-transition: all .2s ease-in-out;
-					}
 
-					.media_widget img:hover {
-						-webkit-transform: scale(10); 
-						-moz-transform: scale(10);
-						-o-transform: scale(10);
-						transform: scale(10);
-						animation:moveToRight 3s ease-in
-					}
-					@keyframes moveToRight {
-					  0% {
-						transform: translateX(0px);
-					  }
-					  100% {
-						transform: translateX(300px);
-					  }
-					}
+					* {box-sizing: border-box;}
+
+						.img-magnifier-container {
+						  position: relative;
+						}
+
+						.img-magnifier-glass {
+						  position: absolute;
+						  border: 3px solid #000;
+						  border-radius: 50%;
+						  cursor: none;
+						  /*Set the size of the magnifier glass:*/
+						  width: 150px;
+						  height: 150px;
+						}
 					</style>
 					<div class="accordion" id="accordionMedia">
 						<div class="card mb-2 bg-light">
