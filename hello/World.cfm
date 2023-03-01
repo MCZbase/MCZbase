@@ -82,9 +82,9 @@ width: 76px;
 }
 .zoom a {display:none;}
 .zoom:hover {
-  -ms-transform: scale(6.5); /* IE 9 */
-  -webkit-transform: scale(6.5); /* Safari 3-8 */
-  transform: scale(6.5); 
+  -ms-transform: scale(8); /* IE 9 */
+  -webkit-transform: scale(8); /* Safari 3-8 */
+  transform: scale(8); 
 transform-origin: 0 0;
  background-image: url(https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg);
       }
@@ -96,7 +96,7 @@ transform-origin: 0 0;
 <h1>Zoom on Hover</h1>
 <p>Hover over the div element.</p>
 <div id="container">  
-<div ><a href="https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg"><img class="zoom" src="https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg"></a></div>
+<div ><img class="zoom" src="https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg"></div>
 </div>
 
 <cfinclude template="/shared/_footer.cfm">
