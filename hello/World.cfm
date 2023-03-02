@@ -98,7 +98,7 @@ img.zoom:hover {
 <div ><img class="zoom" src="https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg"></div>
 </div>--->
 <style>	
-	##overlay9{
+	#overlay9{
 	border:1px solid black;
 	width:350px;
 	height:200px;
