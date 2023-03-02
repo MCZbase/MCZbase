@@ -420,7 +420,7 @@ window.onload = () => addZoom("zoomC");
 })(window);
 </script>
 		<div id="my-gallery" class="vanilla-zoom">
-            <div class="zoomed-image" style="background-image: url(&quot;https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg&quot;);"></div>
+            <div class="zoomed-image" style="background-image: url('https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg');"></div>
         </div>
 
 <script>
