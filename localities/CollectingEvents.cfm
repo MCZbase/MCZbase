@@ -156,7 +156,19 @@ limitations under the License.
 						if (coll_event_remarks) { remarks = " remarks: " + coll_event_remarks + " "; } else { remarks = ""; }
 						var source = rowData['COLLECTING_SOURCE'];
 						var method = rowData['COLLECTING_METHOD'];
-						var data = verbatim_locality + " " + source + " " + method + " " + remarks + " (" + id + ")";
+						var began_date = rowData['BEGAN_DATE'];
+						var ended_date = rowData['ENDED_DATE'];
+						var verbatim_date = rowData['VERBATIM_DATE'];
+						var date = began_date;
+						if (began_date == ended_date) { 
+							date = began_date;
+						} else if (began_date!="" && ended_date!="") { 
+							date = began_data + "-" + ended_date;
+						}
+						if (verbatim_date != "") { 
+							date = date + " [" + verbatim_date + "]";
+						} 
+						var data = date + " " + verbatim_locality + " " + source + " " + method + " " + remarks + " (" + id + ")";
 					   return data;
 					};
 					/** createLocalityRowDetailsDialog, create a custom loan specific popup dialog to show details for
@@ -400,6 +412,8 @@ limitations under the License.
 									{ text: 'Coll Event Summary', datafield: 'ce_summary',width: 400, hideabel: true, hidden: getColHidProp('summary',false), cellsrenderer: summaryEventCellRenderer  },
 									{ text: 'Verbatim Locality', datafield: 'VERBATIM_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_LOCALITY',true)  },
 									{ text: 'Verb. Date', datafield: 'VERBATIM_DATE',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_DATE',true)  },
+									{ text: 'Start Date', datafield: 'BEGAN_DATE',width: 200, hideabel: true, hidden: getColHidProp('BEGAN_DATE',true)  },
+									{ text: 'End Date', datafield: 'ENDED_DATE',width: 200, hideabel: true, hidden: getColHidProp('ENDED_DATE',true)  },
 									{ text: 'Coll Method', datafield: 'COLLECTING_METHOD',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_METHOD',true)  },
 									{ text: 'Coll Source', datafield: 'COLLECTING_SOURCE',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_SOURCE',true)  },
 									{ text: 'Specific Locality', datafield: 'SPEC_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('SPEC_LOCALITY',true)  },

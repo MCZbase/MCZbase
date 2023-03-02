@@ -1657,6 +1657,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="collecting_method" type="string" required="no">
 	<cfargument name="habitat_desc" type="string" required="no">
 	<cfargument name="coll_event_remarks" type="string" required="no">
+	<cfargument name="began_date" type="string" required="no">
+	<cfargument name="ended_date" type="string" required="no">
+	<cfargument name="verbatimCoordinates" type="string" required="no">
 	<!--- 
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
 	--->
@@ -1664,10 +1667,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	"VALID_DISTRIBUTION_FG" NUMBER, 
 	"DATE_DETERMINED_BY_AGENT_ID" NUMBER, 
 	"FISH_FIELD_NUMBER" VARCHAR2(50 CHAR), 
-	"BEGAN_DATE" VARCHAR2(22 CHAR), 
-	"ENDED_DATE" VARCHAR2(22 CHAR), 
 	"COLLECTING_TIME" VARCHAR2(50), 
-	"VERBATIMCOORDINATES" VARCHAR2(100 CHAR), 
 	"VERBATIMLATITUDE" VARCHAR2(50 CHAR), 
 	"VERBATIMLONGITUDE" VARCHAR2(50 CHAR), 
 	"VERBATIMCOORDINATESYSTEM" VARCHAR2(50 CHAR), 
@@ -2508,6 +2508,14 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
+				<cfif isdefined("verbatimCoordinates") AND len(verbatimCoordinates) gt 0>
+					<cfset setup = setupClause(field="collecting_event.verbatimCoordinates",value="#verbatimCoordinates#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
 				<cfif isdefined("habitat_desc") AND len(habitat_desc) gt 0>
 					<cfset setup = setupClause(field="collecting_event.habitat_desc",value="#habitat_desc#")>
 					<cfif len(setup["value"]) EQ 0>
@@ -2539,6 +2547,32 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfelse>
 						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
+				</cfif>
+				<cfif isdefined("began_date") and len(#began_date#) gt 0>
+					<cfswitch expression="#begDateOper#">
+						<cfcase value = ">"><!--- " --->
+							AND began_date > <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">
+						</cfcase>
+						<cfcase value = "<"><!--- " --->
+							AND began_date < <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">
+						</cfcase>
+						<cfdefaultcase>
+							AND began_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">
+						</cfdefaultcase>
+					</cfswitch>
+				</cfif>
+				<cfif isdefined("ended_date") and len(#ended_date#) gt 0>
+					<cfswitch expression="#endDateOper#">
+						<cfcase value = ">"><!--- " --->
+							AND ended_date > <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">
+						</cfcase>
+						<cfcase value = "<"><!--- " --->
+							AND ended_date < <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">
+						</cfcase>
+						<cfdefaultcase>
+							AND ended_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">
+						</cfdefaultcase>
+					</cfswitch>
 				</cfif>
 			GROUP BY
 				geog_auth_rec.geog_auth_rec_id,
