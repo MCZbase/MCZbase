@@ -291,10 +291,11 @@ window.onload = () => addZoom("zoomC");
 
 <style>
 	
-* {box-sizing: border-box;}
+
 
 .img-zoom-container {
   position: relative;
+	box-sizing: border-box;
 }
 
 .img-zoom-lens {
@@ -303,6 +304,7 @@ window.onload = () => addZoom("zoomC");
   /*set the size of the lens:*/
   width: 40px;
   height: 40px;
+	box-sizing: border-box;
 }
 
 .img-zoom-result {
@@ -310,6 +312,7 @@ window.onload = () => addZoom("zoomC");
   /*set the size of the result div:*/
   width: 300px;
   height: 300px;
+	box-sizing: border-box;
 }
 </style>
 	
