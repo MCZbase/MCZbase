@@ -2719,7 +2719,7 @@ input[disabled] {
 }
  .magnify-wrapper {
 	position: relative;
-	height: 76px;
+	min-height: 76px;
 	border: 1px solid purple;
 }
  .magnify-wrapper img {
