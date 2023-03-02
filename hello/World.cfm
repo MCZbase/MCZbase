@@ -237,7 +237,8 @@ img.right.zoom:hover {
 }
 </style>
 <div class="container" style="margin-top: 2rem;">
-	<h1>Test 3 - CSS & vanilla js : zoom and pan (background image in css)</h1>
+	<h1>Test 3 - CSS & vanilla js : zoom and follow (background image in css)</h1>
+	<!---image in the CSS as background//only html tag is the div with an ID--->
 <div id="zoomC"></div>
 <script>
 // CREDITS : https://www.cssscript.com/image-zoom-pan-hover-detail-view/
