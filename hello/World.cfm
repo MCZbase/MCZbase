@@ -80,8 +80,8 @@ limitations under the License.
 }
  .magnify-wrapper #large-img {
 	 background: url("https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80") no-repeat #fff;
-	 width: 100px;
-	 height: 100px;
+	 width: 150px;
+	 height: 150px;
 	 box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.3);
 	 pointer-events: none;
 	 position: absolute;
