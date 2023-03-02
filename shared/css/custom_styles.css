@@ -2714,7 +2714,7 @@ input[disabled] {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	min-height: 350rem;
+	min-height: 350px;
 }
  .magnify-wrapper {
 	position: relative;
