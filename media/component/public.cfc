@@ -203,9 +203,7 @@ include this function and use it.
 							<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
 							<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
 							<!---cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg"--->
-							<!---Limiting the max size of the returned images to avoid overloading the iiif server. See https://iiif.io/api/image/3.0/#42-size for iiifFull. Use ^ before 1100 --Note: Hover won't work if original is scaling more than 200% and shows Bad request. "Requests that would generate images of these sizes are errors that should result in a 400 (Bad Request) status code." Using width only (e.g.,^1100,) allows a natural aspect ratio. Higher number shows more detail if original size is sufficiently large.--->
-							<!--- cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^,1100/0/default.jpg" --->
-							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server--->
+							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server. See https://iiif.io/api/image/3.0/#42-size for iiifFull.--->
 							<cfif media.height NEQ '' AND (media.height LT 2000 OR media.width LT 2000)>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
 							<cfelse>
@@ -327,7 +325,7 @@ include this function and use it.
 					
 						<!---Removed on 1/20/23 from <img...> tag: class="#background_class#"--->
 					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
-					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
+					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" class="zoom" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
 				<!---			<cfif isDisplayable><cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom({zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'></cfif>--->
 					<cfif #captionAs# EQ "textNone">
