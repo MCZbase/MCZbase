@@ -2729,7 +2729,7 @@ input[disabled] {
 	position: relative;
 	z-index: 6;
 }*/
-.media_widget img.right.zoom:hover, .media_widget img.left.zoom:hover  {
+.media_widget img.zoom:hover {
     -webkit-transition: all 0.25s ease-in;
     -moz-transition: all 0.25s ease-in;
     -ms-transition: all 0.25s ease-in;
