@@ -2706,14 +2706,14 @@ input[disabled] {
 	.html_desc {
 		width: 21.5rem!important;
 	}
-.media_widget img.zoom  {
+.media_widget a.zoom  {
 	transition-timing-function: ease-in-out;
 	margin: 0;
 	position: relative;
 	background-image: none;
 	z-index: 4;
 }
-.media_widget img.zoom:hover {
+.media_widget a.zoom:hover {
 	-ms-transform: scale(3);
 	-webkit-transform: scale(3);
 	transform: scale(3); 
@@ -2729,7 +2729,8 @@ input[disabled] {
 	position: relative;
 	z-index: 6;
 }*/
-.media_widget img.right.zoom:hover, .media_widget img.left.zoom:hover  {
+/*.media_widget a.right.zoom:hover, */
+.media_widget a.zoom:hover  {
     -webkit-transition: all 0.25s ease-in;
     -moz-transition: all 0.25s ease-in;
     -ms-transition: all 0.25s ease-in;
