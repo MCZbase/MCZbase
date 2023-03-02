@@ -428,5 +428,7 @@ window.onload = () => addZoom("zoomC");
             <div class="zoomed-image" style="background-image: url(&quot;https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg&quot;);"></div>
         </div>
 
-
+<script>
+        vanillaZoom.init('#my-gallery');
+    </script>
 <cfinclude template="/shared/_footer.cfm">
