@@ -372,13 +372,15 @@ function imageZoom(imgID, resultID) {
     return {x : x, y : y};
   }
 }	
-document.getElementById("myresult").onmousemove = function() {
+document.getElementById("myresult").style.display = "none";
+
+document.getElementById("myresult").onHover= function() {
     document.getElementById("myresult").style.display = "block";
 }
 </script>
 <div class="img-zoom-container">
   <img id="myimage" src="https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg" width="300" height="240" alt="Girl">
-  <div id="myresult" class="img-zoom-result" style="display:none;"></div>
+  <div id="myresult" class="img-zoom-result"></div>
 </div>
 <script>
 imageZoom("myimage", "myresult");
