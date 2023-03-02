@@ -951,6 +951,28 @@
 								<label for="fish_field_number" class="data-entry-label">Fish Field Number</label>
 								<input type="text" name="fish_field_number" id="fish_field_number" class="data-entry-input" value="#encodeForHtml(fish_field_number)#">
 							</div>
+							<div class="col-12 col-md-2">
+								<cfif NOT isDefined("verbatimlatitude") ><cfset verbatimlatitude=""></cfif>
+								<label for="verbatimlatitude" class="data-entry-label">Verbatim Latitude</label>
+								<input type="text" name="verbatimlatitude" id="verbatimlatitude" class="data-entry-input" value="#encodeForHtml(verbatimlatitude)#">
+							</div>
+							<div class="col-12 col-md-2">
+								<cfif NOT isDefined("verbatimlongigude") ><cfset verbatimlongigude=""></cfif>
+								<label for="verbatimlongigude" class="data-entry-label">Verbatim Longitude</label>
+								<input type="text" name="verbatimlongigude" id="verbatimlongigude" class="data-entry-input" value="#encodeForHtml(verbatimlongigude)#">
+							</div>
+							<div class="col-12 col-md-3">
+								<cfif NOT isDefined("date_determined_by_agent") ><cfset date_determined_by_agent=""></cfif>
+								<cfif NOT isDefined("date_determined_by_agent_id") ><cfset date_determined_by_agent_id=""></cfif>
+								<label for="date_determined_by_agent" class="data-entry-label">Georeference verified by</label>
+								<input type="text" name="date_determined_by_agent" id="date_determined_by_agent" class="data-entry-input" value="#encodeForHtml(date_determined_by_agent)#">
+								<input type="hidden" name="date_determined_by_agent_id" id="date_determined_by_agent_id" value="#encodeForHtml(date_determined_by_agent_id)#">
+								<script>
+									jQuery(document).ready(function() {
+										makeConstrainedAgentPicker('date_determined_by_agent', 'date_determined_by_agent_id','ce_date_determiner');
+									});
+								</script>
+							</div>
 						</cfif>
 					</div>
 				</div>

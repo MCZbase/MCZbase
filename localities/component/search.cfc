@@ -1666,18 +1666,19 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="verbatimCoordinates" type="string" required="no">
 	<cfargument name="verbatimsrs" type="string" required="no">
 	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
+	<cfargument name="verbatimlatitude" type="string" required="no">
+	<cfargument name="verbatimlongitude" type="string" required="no">
 	<cfargument name="startdayofyear" type="string" required="no">
 	<cfargument name="enddayofyear" type="string" required="no">
 	<cfargument name="collectingtime" type="string" required="no">
 	<cfargument name="fish_field_number" type="string" required="no">
+	<cfargument name="date_determined_by_agent_id" type="string" required="no">
+	<cfargument name="date_determined_by_agent" type="string" required="no">
 	<!--- 
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
 	--->
 	<!--- 
 	"VALID_DISTRIBUTION_FG" NUMBER, 
-	"DATE_DETERMINED_BY_AGENT_ID" NUMBER, 
-	"VERBATIMLATITUDE" VARCHAR2(50 CHAR), 
-	"VERBATIMLONGITUDE" VARCHAR2(50 CHAR), 
 	--->
 
 	<!--- set default values where not defined --->
@@ -1920,6 +1921,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfif>
 				left join preferred_agent_name georef_verified_agent on accepted_lat_long.verified_by_agent_id = georef_verified_agent.agent_id
 				left join preferred_agent_name georef_determined_agent on accepted_lat_long.determined_by_agent_id = georef_determined_agent.agent_id
+				left join preferred_agent_name date_determined_agent on collecting_event.date_determined_by_agent_id = date_determined_agent.agent_id
 			WHERE
 				locality.locality_id is not null
 				<cfif isDefined("any_geography") and len(any_geography) gt 0>
@@ -2628,6 +2630,32 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfif>
 				<cfif isdefined("verbatimcoordinatesystem") AND len(verbatimcoordinatesystem) gt 0>
 					<cfset setup = setupClause(field="collecting_event.verbatimcoordinatesystem",value="#verbatimcoordinatesystem#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("date_determined_by_agent_id") and len(#date_determined_by_agent_id#) gt 0>
+					and georef_verified_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#date_determined_by_agent_id#">
+				<cfelseif isdefined("date_determined_by_agent") and len(#date_determined_by_agent#) gt 0>
+					<cfset setup = setupClause(field="date_determined_agent.agent_name",value="#date_determined_by_agent#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("verbatimlatitude") AND len(verbatimlatitude) gt 0>
+					<cfset setup = setupClause(field="collecting_event.verbatimlatitude",value="#verbatimlatitude#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("verbatimlongitude") AND len(verbatimlongitude) gt 0>
+					<cfset setup = setupClause(field="collecting_event.verbatimlongitude",value="#verbatimlongitude#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
 					<cfelse>

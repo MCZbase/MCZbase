@@ -782,6 +782,9 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				<cfif isdefined("constraint") AND constraint EQ 'georeference_verifier'>
 					join lat_long on agent.agent_id = lat_long.verified_by_agent_id
 				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'ce_date_determiner'>
+					join collecting_event on agent.agent_id = collecting_event.date_determined_by_agent_id
+				</cfif>
 			WHERE
 				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 				<cfif isdefined("constraint") AND (constraint EQ 'permit_issued_to_agent' or constraint EQ 'permit_issued_by_agent' or constraint EQ 'permit_contact_agent' )>
@@ -823,6 +826,9 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				</cfif>
 				<cfif isdefined("constraint") AND constraint EQ 'georeference_verifier'>
 					and lat_long.verified_by_agent_id is not null
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'ce_date_determiner'>
+					and collecting_event.date_determined_by_agent_id is not null
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
