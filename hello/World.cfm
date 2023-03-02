@@ -130,7 +130,7 @@ img.zoom:hover {
 </style>
 <div class="container">
 	<h1 style="margin-top: 2rem;">Test 2 - zoom to chosen scale (no panning)</h1>
-	<div class="accordion" id="accordionMedia" style = "width: 50%">
+	<div class="accordion" id="accordionMedia" style = "width: 70%">
 	<div class="card mb-2 bg-light">
 		<div id="mediaDialog"></div>
 		<div class="card-header" id="headingMedia">
