@@ -331,7 +331,7 @@ window.onload = () => addZoom("zoomC");
 </style>
 <div class="col_2 box">
   <a href="#" class="image">
-    <img src="http://ll-c.ooyala.com/e1/RoMXVvYjE6bIIVlTLF6Eel1wmw9xj9j_/promo322520974"></a>
+    <img src="http://mczbase.mcz.harvard.edu/specimen_images/invertebrates/thumbnails/151054_Munidopsis_sp_microCT.jpg"></a>
 </div>
 
 
