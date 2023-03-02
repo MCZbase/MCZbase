@@ -163,7 +163,7 @@ limitations under the License.
 						if (began_date == ended_date) { 
 							date = began_date;
 						} else if (began_date!="" && ended_date!="") { 
-							date = began_data + "-" + ended_date;
+							date = began_date + "-" + ended_date;
 						}
 						if (verbatim_date != "") { 
 							date = date + " [" + verbatim_date + "]";
