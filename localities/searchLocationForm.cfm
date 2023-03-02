@@ -942,7 +942,7 @@
 				<div class="col-12 col-md-2 px-0">
 					<div class="form-check">
 						<cfif not isDefined("accentInsensitive")><cfset accentInsensitive = "0"></cfif>
-						<cfif accentInsensitve EQ "1"><cfset checked = "checked"><cfelse><cfset checked=""></cfif>
+						<cfif accentInsensitive EQ "1"><cfset checked = "checked"><cfelse><cfset checked=""></cfif>
 						<input class="form-check-input" name="accentInsensitive" id="accentInsensitive" value="1" #checked# type="checkbox"/>
 						<label class="form-check-label mt3px small" for="accentInsenstive">Accent Insensitive?</label>
 					</div>
