@@ -1868,7 +1868,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.georef_by,
 				locality.nogeorefbecause,
 				trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
-				listagg(geology_attributes.geology_attribute || nvl2(geology_attributes.geology_attribute, ':', '') || geo_att_value,'; ') within group (order by geo_att_value) over (partition by collecting_event.collecting_event_id) geoAtts,
+				listagg(geology_attributes.geology_attribute || nvl2(geology_attributes.geology_attribute, ':', '') || geo_att_value,'; ') within group (order by geo_att_value) over (partition by collecting_event.collecting_event_id) geolAtts,
 				-- listagg(geo_att_value,'; ') within group (order by geo_att_value) over (partition by collecting_event.collecting_event_id) geolAtts,
 				<cfif includeCounts >
 					MCZBASE.get_collcodes_for_locality(locality.locality_id)  as collcountlocality,
