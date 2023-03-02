@@ -83,7 +83,7 @@ limitations under the License.
 }
 </style>
 <div class="container">
-	<img id="imgZoom1" width="350px" height="200px" style="vertical-align: top;" onmousemove="zoomIn1(event)" onmouseout="zoomOut1()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/^350,/0/default.jpg">
+	<img id="imgZoom1" width="350px" height="200px" style="vertical-align: top;margin-bottom:4px;" onmousemove="zoomIn1(event)" onmouseout="zoomOut1()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/^350,/0/default.jpg">
 <div id="overlay9" onmousemove="zoomIn1(event)"></div>
 </div>
 <script>
