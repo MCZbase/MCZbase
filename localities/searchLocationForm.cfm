@@ -890,6 +890,23 @@
 						<span class="data-entry-label">&nbsp</span>
 						<input type="text" name="ended_date" id="ended_date" class="data-entry-input" value="#encodeForHtml(ended_date)#" placeholder="yyyy-mm-dd">
 					</div>
+					<cfif #showExtraFields# IS 1>
+						<div class="col-12 col-md-2">
+							<cfif NOT isDefined("collecting_time") ><cfset collecting_time=""></cfif>
+							<span class="data-entry-label">Collecting Time</span>
+							<input type="text" name="collecting_time" id="collecting_time" class="data-entry-input" value="#encodeForHtml(collecting_time)#">
+						</div>
+						<div class="col-12 col-md-2">
+							<cfif NOT isDefined("startdayofyear") ><cfset startdayofyear=""></cfif>
+							<span class="data-entry-label">Start Day</span>
+							<input type="text" name="startdayofyear" id="startdayofyear" class="data-entry-input" value="#encodeForHtml(startdayofyear)#">
+						</div>
+						<div class="col-12 col-md-2">
+							<cfif NOT isDefined("enddayofyear") ><cfset enddayofyear=""></cfif>
+							<span class="data-entry-label">End Day</span>
+							<input type="text" name="enddayofyear" id="enddayofyear" class="data-entry-input" value="#encodeForHtml(enddayofyear)#">
+						</div>
+					</cfif>
 				</div>
 				<div id="eventDetail" style="#eventDetailStyle#" >
 					<div class="form-row px-3 my-2">
@@ -928,6 +945,13 @@
 							<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
 							<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input">
 						</div>
+						<cfif #showExtraFields# IS 1>
+							<div class="col-12 col-md-2">
+								<cfif NOT isDefined("fish_field_number") ><cfset fish_field_number=""></cfif>
+								<label for="fish_field_number" class="data-entry-label">Fish Field Number</label>
+								<input type="text" name="fish_field_number" id="fish_field_number" class="data-entry-input" value="#encodeForHtml(fish_field_number)#">
+							</div>
+						</cfif>
 					</div>
 				</div>
 			</div>
