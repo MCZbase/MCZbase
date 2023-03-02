@@ -964,7 +964,7 @@
 							<div class="col-12 col-md-3">
 								<cfif NOT isDefined("date_determined_by_agent") ><cfset date_determined_by_agent=""></cfif>
 								<cfif NOT isDefined("date_determined_by_agent_id") ><cfset date_determined_by_agent_id=""></cfif>
-								<label for="date_determined_by_agent" class="data-entry-label">Georeference verified by</label>
+								<label for="date_determined_by_agent" class="data-entry-label">Date Determined by</label>
 								<input type="text" name="date_determined_by_agent" id="date_determined_by_agent" class="data-entry-input" value="#encodeForHtml(date_determined_by_agent)#">
 								<input type="hidden" name="date_determined_by_agent_id" id="date_determined_by_agent_id" value="#encodeForHtml(date_determined_by_agent_id)#">
 								<script>
