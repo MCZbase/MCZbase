@@ -304,7 +304,7 @@ window.onload = () => addZoom("zoomC");
  .magnify-wrapper img {
     max-height: inherit;
   }
-  #large-img {
+  #large-img:hover {
     width: 100px;
     height: 100px;
 	  background-image: url(https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80) no-repeat #fff;
