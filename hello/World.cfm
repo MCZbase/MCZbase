@@ -371,7 +371,7 @@ function imageZoom(imgID, resultID) {
 }	
 </script>
 <div class="img-zoom-container">
-  <img id="myimage" src="http://mczbase.mcz.harvard.edu/specimen_images/invertebrates/thumbnails/151054_Munidopsis_sp_microCT.jpg" width="300" height="240" alt="Girl">
+  <img id="myimage" src="https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg" width="300" height="240" alt="Girl">
   <div id="myresult" class="img-zoom-result"></div>
 </div>
 <script>
