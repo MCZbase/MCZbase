@@ -949,7 +949,7 @@
 				<div class="col-12 col-md-6 px-0 pt-3 pt-md-0">
 					<input type="submit" value="Search" aria-label="execute a search with the current search form parameters"
 						class="btn btn-xs btn-primary px-2 px-xl-3">
-					<input type="reset" value="Clear Form" aria-label="reset form values to those on initial page load"
+					<input type="reset" value="Reset Form" aria-label="reset form values to those on initial page load"
 						class="btn btn-xs btn-warning ml-2">
 					<cfif len(newSearchTarget) GT 0>
 						<button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl##encodeForHTML(newSearchTarget)#';">New Search</button>
