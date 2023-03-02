@@ -2710,6 +2710,7 @@ input[disabled] {
 .html_desc {
 	width: 21.5rem!important;
 }
+/*IMAGE magnifier*/
 .img-block {
 	display: flex;
 	justify-content: center;
@@ -2723,7 +2724,7 @@ input[disabled] {
 	border: 1px solid purple;
 }
  .magnify-wrapper img {
-	max-height: inherit;
+	max-height: 300px;
 }
  .magnify-wrapper #large-img {
 	width: 300px;
@@ -2741,6 +2742,8 @@ input[disabled] {
  .magnify-wrapper:hover #large-img, .magnify-wrapper:active #large-img {
 	 opacity: 1;
 }
+/*************End Image magnifier***************/
+/**********************************************/
 @keyframes slideup {
 	from {top: 700px;}
 	to {top:100px;}
