@@ -110,7 +110,7 @@ function zoomOut1() {
   /* (A1) COVERS FULLSCREEN */
   position: fixed; z-index: 999;
   top: 0; left: 0;
-  width: 100vw; height: 100vh;
+  width: 50vw; height: 50vh;
  
   /* (A2) BACKGROUND */
   background: rgba(0, 0, 0, 0.5);
@@ -161,7 +161,7 @@ window.onload = () => {
   // (B) CLICK TO SHOW IMAGE IN LIGHTBOX
   // * SIMPLY CLONE INTO LIGHTBOX & SHOW
   if (all.length>0) { for (let i of all) {
-    i.onHover = () => {
+    i.onmousemove = () => {
       let clone = i.cloneNode();
       clone.className = "";
       lightbox.innerHTML = "";
@@ -171,7 +171,7 @@ window.onload = () => {
   }}
  
   // (C) CLICK TO CLOSE LIGHTBOX
-  lightbox.onHover= () => lightbox.className = "";
+  lightbox.onmouseleave= () => lightbox.className = "";
 };
 	
 	</script>
