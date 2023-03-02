@@ -148,7 +148,7 @@ imageSrc.src = imageUrl;
 	</script>
 
 <div class="container" >
-	<h1 style="margin-top: 2rem;">Test 2 - zoom to chosen scale (no panning); Javascript & CSS</h1>
+	<h1 style="margin-top: 2rem;">Test 2 - </h1>
 	<div class="accordion" id="accordionMedia" style = "width: 850px">
 	<div class="card mb-2 bg-light">
 		<div id="mediaDialog"></div>
@@ -164,7 +164,7 @@ imageSrc.src = imageUrl;
 		<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="#accordionMedia">
 			<div class="card-body" id="specimenMediaCardBody">
 				<div class="col-12 col-lg-6 px-1 mb-1 px-md-1 py-1 float-left">
-				<div class="detail-view" style="background-image: url(https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg);"></div>
+
 				</div>
 			</div>
 		</div>
