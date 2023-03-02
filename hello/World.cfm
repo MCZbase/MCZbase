@@ -105,12 +105,12 @@ function zoomOut1() {
 </script>
 	
 
-<!---Purely a css image zoom below - only one size and no pan--->	
+<!---Test 1 Purely a css image zoom below - only one size and no pan--->	
 <style>
 .card-body {
 	border: 1px solid black;
 	width: 800px;
-	height: 600px;
+	height: 540px;
 	z-index: 2;
 	margin-left: 2rem;
 	position: relative;
@@ -146,7 +146,7 @@ img.right.zoom:hover {
 }
 </style>
 <div class="container">
-	<h1 style="margin-top: 2rem;">Test 3 - zoom to chosen scale (no panning); CSS only</h1>
+	<h1 style="margin-top: 2rem;">Test 2 - zoom to chosen scale (no panning); CSS only</h1>
 	<div class="accordion" id="accordionMedia" style = "width: 850px">
 	<div class="card mb-2 bg-light">
 		<div id="mediaDialog"></div>
@@ -226,7 +226,7 @@ img.right.zoom:hover {
 </div>
 </div>
 
-<!---Image zoom with css and vanilla javascript below- zoom up to chosen zoom level and pan. -- it might be difficult to put background image as #variable# in css and have valid html.--->
+<!---Test 2  Image zoom with css and vanilla javascript below- zoom up to chosen zoom level and pan. -- it might be difficult to put background image as #variable# in css and have valid html.--->
 <style>	
 #zoomC {
   /* (A) DIMENSIONS */
@@ -240,7 +240,7 @@ img.right.zoom:hover {
 }
 </style>
 <div class="container" style="margin-top: 2rem;">
-	<h1>Test 4 - CSS & vanilla js : zoom and follow (background image in css)</h1>
+	<h1>Test 3 - CSS & vanilla js : zoom and follow (background image in css)</h1>
 	<!---image in the CSS as background//only html tag is the div with an ID--->
 <div id="zoomC"></div>
 <script>
