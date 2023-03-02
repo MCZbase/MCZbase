@@ -384,7 +384,7 @@ limitations under the License.
 								url: '/localities/component/search.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error, "Error performing locality search: "); 
+									handleFail(jqXHR,textStatus,error, "Error performing collecting event search: "); 
 								},
 								async: true
 							};
@@ -506,7 +506,7 @@ limitations under the License.
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
 								$('##resultLink').html('<a href="/localities/CollectingEvents.cfm?action=search&execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
-								gridLoaded('searchResultsGrid','locality record');
+								gridLoaded('searchResultsGrid','collecting event record');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
 								//  Create a content div, add it to the detail row, and make it into a dialog.
