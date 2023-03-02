@@ -17,6 +17,7 @@ limitations under the License.
 
 --->
 <cfset pageTitle = "Login">
+<cfset minimal = "true"><!--- load fewer js library files --->
 <cfinclude template = "/shared/_header.cfm">
 <cfif isdefined("session.username") and len(#session.username#) gt 0 and (NOT isDefined("action") OR #action# neq "signOut")>
 	<!--- user is logged in already, redirect to user profile page --->
