@@ -395,7 +395,7 @@ imageZoom("myimage", "myresult");
 	
 <style>
 	
-.container2 {
+.container8 {
 	 display: flex;
 	 justify-content: center;
 	 align-items: center;
@@ -429,7 +429,7 @@ imageZoom("myimage", "myresult");
 </style>
 
 <script>
-document.getElementById("zoom88").addEventListener(
+document.getElementById("zoom8").addEventListener(
   "mousemove",
   function (e) {
     let original = document.getElementById("main-img"),
@@ -466,8 +466,8 @@ document.getElementById("zoom88").addEventListener(
 	
 	
 </script>
-<div class="container2">
-  <div id="zoom88" class="magnify-wrapper">
+<div class="container8">
+  <div id="zoom8" class="magnify-wrapper">
     <img src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="main-img" />
     <div id="large-img"></div>
   </div>
