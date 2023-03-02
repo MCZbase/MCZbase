@@ -175,7 +175,8 @@ window.onload = () => {
 };
 	
 	</script>
-<div class="container" id="lightbox">
+	<div id="lightbox"></div>
+<div class="container" >
 	<h1 style="margin-top: 2rem;">Test 2 - zoom to chosen scale (no panning); CSS only</h1>
 	<div class="accordion" id="accordionMedia" style = "width: 850px">
 	<div class="card mb-2 bg-light">
