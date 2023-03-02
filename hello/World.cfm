@@ -300,14 +300,14 @@ window.onload = () => addZoom("zoomC");
 .magnify-wrapper {
   position: relative;
   max-height: 50vh;
-	}
- .magnify-wrapper img {
+  img {
     max-height: inherit;
   }
-  #large-img:hover {
+  #large-img {
+    background: url("https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80")
+      no-repeat #fff;
     width: 100px;
     height: 100px;
-	  background-image: url(https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80) no-repeat #fff;
     box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.3);
     pointer-events: none;
     position: absolute;
@@ -318,9 +318,14 @@ window.onload = () => addZoom("zoomC");
     opacity: 0;
     transition: opacity 0.2s;
   }
-  #large-img:hover,#large-img:active {
+  &:hover,
+  &:active {
+    #large-img {
       opacity: 1;
+    }
   }
+}
+
 </style>
 <script>
 	document.getElementById("zoom2").addEventListener(
