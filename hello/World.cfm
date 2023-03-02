@@ -291,12 +291,11 @@ window.onload = () => addZoom("zoomC");
 
 <style>
 	
-.col_2 {
+.col_2x {
   width: 260px;
   margin-left: 2%;
   margin-right: 2%;
   margin-bottom: 50px;
-  float: left;
   display: block;
 }
 
@@ -330,7 +329,7 @@ window.onload = () => addZoom("zoomC");
 	transform: translateX(-20%);
 }
 </style>
-<div class="col_2 boxt">
+<div class="col_2x boxt">
   <a href="#" class="imageee">
     <img src="http://mczbase.mcz.harvard.edu/specimen_images/invertebrates/thumbnails/151054_Munidopsis_sp_microCT.jpg"></a>
 </div>
