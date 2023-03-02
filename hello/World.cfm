@@ -111,7 +111,7 @@ img.zoom:hover {
 	
 <script>
 function zoomIn(event) {
-  var element = document.getElementById("overlay");
+  var element = document.getElementById("overlay9");
   element.style.display = "inline-block";
   var img = document.getElementById("imgZoom");
   var posX = event.offsetX ? (event.offsetX) : event.pageX - img.offsetLeft;
@@ -121,7 +121,7 @@ function zoomIn(event) {
 }
 
 function zoomOut() {
-  var element = document.getElementById("overlay");
+  var element = document.getElementById("overlay9");
   element.style.display = "none";
 }
 </script>
