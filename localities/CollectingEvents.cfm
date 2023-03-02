@@ -206,6 +206,7 @@ limitations under the License.
 						var gridWidth = $('##' + gridId).width();
 						var dialogWidth = Math.round(gridWidth/2);
 						var locality_id = datarecord['LOCALITY_ID'];
+						var collecting_event_id = datarecord['COLLECTING_EVENT_ID'];
 						var geog_auth_rec_id = datarecord['GEOG_AUTH_REC_ID'];
 						if (dialogWidth < 299) { dialogWidth = 300; }
 						for (i = 1; i < columns.length; i++) {
@@ -213,6 +214,8 @@ limitations under the License.
 							var datafield = columns[i].datafield;
 							if (datafield == 'LOCALITY_ID') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/editLocality.cfm?locality_id="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+							} else if (datafield == 'COLLECTING_EVENT_ID') { 
+					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?Action=editCollEvnt&collecting_event_id="+collecting_event_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'HIGHER_GEOG') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?action=editGeog&geog_auth_rec_id="+geog_auth_rec_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'edit_loc' || datafield == 'edit_coll_event') {
