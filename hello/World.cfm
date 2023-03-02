@@ -395,7 +395,7 @@ imageZoom("myimage", "myresult");
 	
 <style>
 	
-.container {
+.container2 {
 	 display: flex;
 	 justify-content: center;
 	 align-items: center;
@@ -466,7 +466,7 @@ document.getElementById("zoom88").addEventListener(
 	
 	
 </script>
-<div class="container">
+<div class="container2">
   <div id="zoom88" class="magnify-wrapper">
     <img src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="main-img" />
     <div id="large-img"></div>
