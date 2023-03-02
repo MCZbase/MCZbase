@@ -1664,6 +1664,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="began_date" type="string" required="no">
 	<cfargument name="ended_date" type="string" required="no">
 	<cfargument name="verbatimCoordinates" type="string" required="no">
+	<cfargument name="verbatimsrs" type="string" required="no">
+	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
 	<cfargument name="startdayofyear" type="string" required="no">
 	<cfargument name="enddayofyear" type="string" required="no">
 	<cfargument name="collectingtime" type="string" required="no">
@@ -1676,8 +1678,6 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	"DATE_DETERMINED_BY_AGENT_ID" NUMBER, 
 	"VERBATIMLATITUDE" VARCHAR2(50 CHAR), 
 	"VERBATIMLONGITUDE" VARCHAR2(50 CHAR), 
-	"VERBATIMCOORDINATESYSTEM" VARCHAR2(50 CHAR), 
-	"VERBATIMSRS" VARCHAR2(50 CHAR), 
 	--->
 
 	<!--- set default values where not defined --->
@@ -2612,6 +2612,22 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfif>
 				<cfif isdefined("collecting_time") AND len(collecting_time) gt 0>
 					<cfset setup = setupClause(field="collecting_event.collecting_time",value="#collecting_time#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("verbatimsrs") AND len(verbatimsrs) gt 0>
+					<cfset setup = setupClause(field="collecting_event.verbatimsrs",value="#verbatimsrs#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("verbatimcoordinatesystem") AND len(verbatimcoordinatesystem) gt 0>
+					<cfset setup = setupClause(field="collecting_event.verbatimcoordinatesystem",value="#verbatimcoordinatesystem#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
