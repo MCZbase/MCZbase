@@ -159,6 +159,16 @@ limitations under the License.
 						var began_date = rowData['BEGAN_DATE'];
 						var ended_date = rowData['ENDED_DATE'];
 						var verbatim_date = rowData['VERBATIM_DATE'];
+						var start_day = rowData['STARTDAYOFYEAR'];
+						var end_day = rowData['ENDDAYOFYEAR'];
+						var time = rowData['COLLECTING_TIME'];
+						var verb_coordinates = rowData['VERBATIMCOORDINATES'];
+						var verb_latitude = rowData['VERBATIMLATITUDE'];
+						var verb_longitude = rowData['VERBATIMLONGITUDE'];
+						var verb_coordsystem = rowData['VERBATIMCOORDINATESYSTEM'];
+						var verb_srs = rowData['VERBATIMSRS'];
+						var verbatim_elevation = rowData['VERBATIMELEVATION'];
+						var verbatim_depth = rowData['VERBATIMDEPTH'];
 						var date = began_date;
 						if (began_date == ended_date) { 
 							date = began_date;
@@ -168,7 +178,17 @@ limitations under the License.
 						if (verbatim_date != "") { 
 							date = date + " [" + verbatim_date + "]";
 						} 
-						var data = date + " " + verbatim_locality + " " + source + " " + method + " " + remarks + " (" + id + ")";
+						var depth_elev = " ";
+						if (verbatim_elevation) { depth_elev = " elevation: " + verbatim_elevation + " "; }
+						if (verbatim_depth) { depth_elev = depth_elev + " depth: " + verbatim_depth + " "; }
+						if (start_day != "" && end_day == "") { 
+							date = date + " day:" + start_day;
+						} else if (start_day != "" && end_day != "") { 
+							date = date + " days:" + start_day + "-" + end_day;
+						} 
+						var verb_georef = verb_coordinates + " " + verb_latitude + " " + verb_longitude + " " + verb_coordsystem + " " + verb_srs;
+						var leadbit = date + " " + time + " " + verbatim_locality;
+						var data = leadbit.trim() + " " + source + " " + method + " " + verb_georef + depth_elev + remarks + " (" + id + ")";
 					   return data;
 					};
 					/** createLocalityRowDetailsDialog, create a custom loan specific popup dialog to show details for
@@ -414,8 +434,19 @@ limitations under the License.
 									{ text: 'Verb. Date', datafield: 'VERBATIM_DATE',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_DATE',true)  },
 									{ text: 'Start Date', datafield: 'BEGAN_DATE',width: 200, hideabel: true, hidden: getColHidProp('BEGAN_DATE',true)  },
 									{ text: 'End Date', datafield: 'ENDED_DATE',width: 200, hideabel: true, hidden: getColHidProp('ENDED_DATE',true)  },
+									{ text: 'Time', datafield: 'COLLECTING_TIME',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_TIME',true)  },
 									{ text: 'Coll Method', datafield: 'COLLECTING_METHOD',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_METHOD',true)  },
 									{ text: 'Coll Source', datafield: 'COLLECTING_SOURCE',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_SOURCE',true)  },
+									{ text: 'Time', datafield: 'COLLECTIING_TIME',width: 200, hideabel: true, hidden: getColHidProp('COLLECTIING_TIME',true)  },
+									{ text: 'Verb. Coordinates', datafield: 'VERBATIMCOORDINATES',width: 200, hideabel: true, hidden: getColHidProp('VERBATIMCOORDINATES',true)  },
+									{ text: 'Verb. Lat.', datafield: 'VERBATIMLATITUDE',width: 200, hideabel: true, hidden: getColHidProp('VERBATIMLATITUDE',true)  },
+									{ text: 'Verb. Long.', datafield: 'VERBATIMLONGITUDE',width: 200, hideabel: true, hidden: getColHidProp('VERBATIMLONGITUDE',true)  },
+									{ text: 'Verb. Coord System', datafield: 'VERBATIMCOORDINATESYSTEM',width: 200, hideabel: true, hidden: getColHidProp('VERBATIMCOORDINATESYSTEM',true)  },
+									{ text: 'Verb. Datum', datafield: 'VERBATIMSRS',width: 150, hideabel: true, hidden: getColHidProp('VERBATIMSRS',true)  },
+									{ text: 'Start Day', datafield: 'STARTDAYOFYEAR',width: 100, hideabel: true, hidden: getColHidProp('STARTDAYOFYEAR',true)  },
+									{ text: 'End Day', datafield: 'ENDDAYOFYEAR',width: 100, hideabel: true, hidden: getColHidProp('ENDDAYOFYEAR',true)  },
+									{ text: 'Verb. Elevation', datafield: 'VERBATIMELEVATION',width: 150, hideabel: true, hidden: getColHidProp('VERBATIMELEVATION',true)  },
+									{ text: 'Verb. Depth', datafield: 'VERBATIMDEPTH',width: 150, hideabel: true, hidden: getColHidProp('VERBATIMDEPTH',true)  },
 									{ text: 'Specific Locality', datafield: 'SPEC_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('SPEC_LOCALITY',true)  },
 									{ text: 'Vetted', datafield: 'CURATED_FG',width: 50, hideabel: true, hidden: getColHidProp('CURATED_FG',false)  },
 									{ text: 'Locality Remarks', datafield: 'LOCALITY_REMARKS',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_REMARKS',true)  },
