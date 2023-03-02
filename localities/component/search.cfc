@@ -1551,7 +1551,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				accepted_lat_long.verificationstatus,
 				accepted_lat_long.georefmethod,
 				georef_verified_agent.agent_name,
-				georef_determined_agent.agent_name
+				georef_determined_agent.agent_name,
+				geo_att_value
 			ORDER BY
 				geog_auth_rec.higher_geog,
 				locality.spec_locality
@@ -2729,7 +2730,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				collecting_event.verbatimlongitude,
 				collecting_event.verbatimcoordinatesystem,
 				collecting_event.verbatimsrs,
-				collecting_event.coll_event_remarks
+				collecting_event.coll_event_remarks,
+				geo_att_value
 			ORDER BY
 				geog_auth_rec.higher_geog,
 				locality.spec_locality,
