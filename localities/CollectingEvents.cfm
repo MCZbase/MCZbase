@@ -215,11 +215,13 @@ limitations under the License.
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/editLocality.cfm?locality_id="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'HIGHER_GEOG') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?action=editGeog&geog_auth_rec_id="+geog_auth_rec_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
-							} else if (datafield == 'Edit') {
+							} else if (datafield == 'edit_loc' || datafield == 'edit_coll_event') {
 								// undefined generated column
 								console.log(datarecord[datafield]);
 							} else if (datafield == 'summary') {
 								content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + makeLocalitySummary(datarecord) + "</li>";
+							} else if (datafield == 'ce_summary') {
+								content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + makeEventSummary(datarecord) + "</li>";
 							} else if (datarecord[datafield] == '') {
 								// leave out blank column
 								console.log(datafield);
