@@ -291,6 +291,12 @@ window.onload = () => addZoom("zoomC");
 
 	
 <style>
+.container2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 .magnify-wrapper {
   position: relative;
   max-height: 50vh;
@@ -315,42 +321,43 @@ window.onload = () => addZoom("zoomC");
       opacity: 1;
   }
 </style>
-	<script>document.getElementById("zoom2").addEventListener(
-  "mousemove",
-  function (e) {
-    let original = document.getElementById("main-img"),
-      magnified = document.getElementById("large-img"),
-      style = magnified.style,
-      x = e.pageX - this.offsetLeft,
-      y = e.pageY - this.offsetTop,
-      imgWidth = original.width,
-      imgHeight = original.height,
-      xperc = (x / imgWidth) * 100,
-      yperc = (y / imgHeight) * 100;
+<script>
+	document.getElementById("zoom2").addEventListener(
+	  "mousemove",
+	  function (e) {
+		let original = document.getElementById("main-img"),
+		  magnified = document.getElementById("large-img"),
+		  style = magnified.style,
+		  x = e.pageX - this.offsetLeft,
+		  y = e.pageY - this.offsetTop,
+		  imgWidth = original.width,
+		  imgHeight = original.height,
+		  xperc = (x / imgWidth) * 100,
+		  yperc = (y / imgHeight) * 100;
 
-    // Add some margin for right edge
-    if (x > 0.01 * imgWidth) {
-      xperc += 0.15 * xperc;
-    }
+		// Add some margin for right edge
+		if (x > 0.01 * imgWidth) {
+		  xperc += 0.15 * xperc;
+		}
 
-    // Add some margin for bottom edge
-    if (y >= 0.01 * imgHeight) {
-      yperc += 0.15 * yperc;
-    }
+		// Add some margin for bottom edge
+		if (y >= 0.01 * imgHeight) {
+		  yperc += 0.15 * yperc;
+		}
 
-    // Set the background of the magnified image horizontal
-    style.backgroundPositionX = xperc - 9 + "%";
-    // Set the background of the magnified image vertical
-    style.backgroundPositionY = yperc - 9 + "%";
+		// Set the background of the magnified image horizontal
+		style.backgroundPositionX = xperc - 9 + "%";
+		// Set the background of the magnified image vertical
+		style.backgroundPositionY = yperc - 9 + "%";
 
-    // Move the magnifying glass with the mouse movement.
-    style.left = x - 50 + "px";
-    style.top = y - 50 + "px";
-  },
-  false
+		// Move the magnifying glass with the mouse movement.
+		style.left = x - 50 + "px";
+		style.top = y - 50 + "px";
+	  },
+	  false
 );
 </script>
-<div class="container">
+<div class="container2">
   <div id="zoom2" class="magnify-wrapper">
     <img src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="main-img" />
     <div id="large-img" style="background-image: url(https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80) no-repeat #fff"></div>
