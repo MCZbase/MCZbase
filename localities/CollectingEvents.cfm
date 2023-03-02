@@ -446,6 +446,7 @@ limitations under the License.
 									{ text: 'Start Date', datafield: 'BEGAN_DATE',width: 200, hideabel: true, hidden: getColHidProp('BEGAN_DATE',true)  },
 									{ text: 'End Date', datafield: 'ENDED_DATE',width: 200, hideabel: true, hidden: getColHidProp('ENDED_DATE',true)  },
 									{ text: 'Time', datafield: 'COLLECTING_TIME',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_TIME',true)  },
+									{ text: 'Ich. Field No.', datafield: 'FISH_FIELD_NUMBER',width: 200, hideabel: true, hidden: getColHidProp('FISH_FIELD_NUMBER',true)  },
 									{ text: 'Coll Method', datafield: 'COLLECTING_METHOD',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_METHOD',true)  },
 									{ text: 'Coll Source', datafield: 'COLLECTING_SOURCE',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_SOURCE',true)  },
 									{ text: 'Time', datafield: 'COLLECTIING_TIME',width: 200, hideabel: true, hidden: getColHidProp('COLLECTIING_TIME',true)  },
