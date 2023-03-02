@@ -1913,9 +1913,6 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName on collecting_event.collecting_event_id=flatTableName.collecting_event_id
 				left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
-				<cfif (isdefined("geology_attribute") AND len(#geology_attribute#) gt 0) OR (isdefined("geo_att_value") AND len(#geo_att_value#) gt 0)>
-					left join geology_attributes on locality.locality_id = geology_attributes.locality_id
-				</cfif>
 				left join preferred_agent_name georef_verified_agent on accepted_lat_long.verified_by_agent_id = georef_verified_agent.agent_id
 				left join preferred_agent_name georef_determined_agent on accepted_lat_long.determined_by_agent_id = georef_determined_agent.agent_id
 				left join preferred_agent_name date_determined_agent on collecting_event.date_determined_by_agent_id = date_determined_agent.agent_id
