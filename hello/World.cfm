@@ -109,8 +109,8 @@ function zoomOut1() {
 <style>
 .card-body {
 	border: 1px solid gray;
-	width: 800px;
-	height: 500px;
+	width: 400px;
+	height: 450px;
 	margin-bottom: 2rem
 	z-index: 2;
 	margin-left: 1.7rem;
