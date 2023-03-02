@@ -941,8 +941,10 @@
 			<div class="row mx-0 mb-3"> 
 				<div class="col-12 col-md-2 px-0">
 					<div class="form-check">
-					  <input class="form-check-input" name="accentInsensitive" id="accentInsensitive" value="1" type="checkbox"/>
-					  <label class="form-check-label mt3px small" for="accentInsenstive">Accent Insensitive?</label>
+						<cfif not isDefined("accentInsensitive")><cfset accentInsensitive = "0"></cfif>
+						<cfif accentInsensitve EQ "1"><cfset checked = "checked"><cfelse><cfset checked=""></cfif>
+						<input class="form-check-input" name="accentInsensitive" id="accentInsensitive" value="1" #checked# type="checkbox"/>
+						<label class="form-check-label mt3px small" for="accentInsenstive">Accent Insensitive?</label>
 					</div>
 				</div>
 
@@ -955,10 +957,18 @@
 						<button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl##encodeForHTML(newSearchTarget)#';">New Search</button>
 					</cfif>
 					<cfif showLocality is 1 AND showSpecimenCounts >
+						<cfif not isDefined("include_counts")><cfset include_counts = ""></cfif>
 						<label for="include_counts">Include Specimen Counts?</label>
 						<select name="include_counts" id="include_counts">
-							<option selected="selected" value="0">No</option>
-							<option value="1">Yes</option>
+							<cfif include_counts EQ "1">
+								<cfset y_selected = "">
+								<cfset n_selected = 'selected="selected"'>
+							<cfelse>
+								<cfset y_selected = 'selected="selected"'>
+								<cfset n_selected = "">
+							</cfif>
+							<option #y_selected# value="0">No</option>
+							<option #n_selected# value="1">Yes</option>
 						</select>
 					</cfif>
 				</div>
