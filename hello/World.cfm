@@ -168,7 +168,7 @@ img.right.zoom:hover {
 							<a href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg" class="d-block mb-1 w-100 active text-center" title="click to access media">
 								<img id="MID292861" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg" class="left zoom" alt="Media type: image;   Entomology PALE-1" height="auto" style="height: 76px;margin: 0 auto;width:auto;" title="Click for full image">
 							</a>
-							<div class="mt-0 col-12 pb-2 px-0" style="z-index:1;">
+							<div class="mt-0 col-12 pb-2 px-0">
 								<p class="text-center px-1 pb-0 mb-0 small col-12">
 									<span class="d-inline">(<a href="/media.cfm?action=edit&amp;media_id=292861">Edit</a>) </span>(<a class="" href="/media/292861">Media Record</a>) (<a class="" href="/media/RelatedMedia.cfm?media_id=292861">Related</a>) (<a class="" href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg">Full</a>)
 								</p>
@@ -287,5 +287,81 @@ var addZoom = target => {
 // (C) ATTACH FOLLOW ZOOM
 window.onload = () => addZoom("zoomC");	
 </script>
+</div>
+	
+	<style>.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.magnify-wrapper {
+  position: relative;
+  max-height: 50vh;
+  img {
+    max-height: inherit;
+  }
+  #large-img {
+    width: 100px;
+    height: 100px;
+    box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    position: absolute;
+    border: 4px solid #efefef;
+    z-index: 99;
+    border-radius: 100%;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  &:hover,
+  &:active {
+    #large-img {
+      opacity: 1;
+    }
+  }
+}
+</style>
+	<script>document.getElementById("zoom2").addEventListener(
+  "mousemove",
+  function (e) {
+    let original = document.getElementById("main-img"),
+      magnified = document.getElementById("large-img"),
+      style = magnified.style,
+      x = e.pageX - this.offsetLeft,
+      y = e.pageY - this.offsetTop,
+      imgWidth = original.width,
+      imgHeight = original.height,
+      xperc = (x / imgWidth) * 100,
+      yperc = (y / imgHeight) * 100;
+
+    // Add some margin for right edge
+    if (x > 0.01 * imgWidth) {
+      xperc += 0.15 * xperc;
+    }
+
+    // Add some margin for bottom edge
+    if (y >= 0.01 * imgHeight) {
+      yperc += 0.15 * yperc;
+    }
+
+    // Set the background of the magnified image horizontal
+    style.backgroundPositionX = xperc - 9 + "%";
+    // Set the background of the magnified image vertical
+    style.backgroundPositionY = yperc - 9 + "%";
+
+    // Move the magnifying glass with the mouse movement.
+    style.left = x - 50 + "px";
+    style.top = y - 50 + "px";
+  },
+  false
+);
+</script>
+<div class="container">
+  <div id="zoom2" class="magnify-wrapper">
+    <img src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="main-img" />
+    <div id="large-img" style="background: url("https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80")
+      no-repeat #fff"></div>
+  </div>
 </div>
 <cfinclude template="/shared/_footer.cfm">
