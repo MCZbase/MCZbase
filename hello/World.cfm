@@ -83,6 +83,7 @@ limitations under the License.
 }
 </style>
 <div class="container">
+	<h1>Test 1 - zoom to max image size and pan possible on hover; larger image in CSS</h1>
 	<img id="imgZoom1" width="350px" height="200px" style="vertical-align: top;margin-bottom:4px;" onmousemove="zoomIn1(event)" onmouseout="zoomOut1()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/^350,/0/default.jpg">
 <div id="overlay9" onmousemove="zoomIn1(event)"></div>
 </div>
@@ -127,7 +128,8 @@ img.zoom:hover {
 }
 
 </style>
-<div class="accordion" id="accordionMedia">
+	<h1>Test 2 - zoom to chosen scale (no panning)</h1>
+<div class="accordion" id="accordionMedia" style = "width: 50%">
 	<div class="card mb-2 bg-light">
 		<div id="mediaDialog"></div>
 		<div class="card-header" id="headingMedia">
