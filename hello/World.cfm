@@ -292,7 +292,7 @@ window.onload = () => addZoom("zoomC");
 <style>
 	
 .col_2 {
-  width: 46%;
+  width: 260px;
   margin-left: 2%;
   margin-right: 2%;
   margin-bottom: 50px;
