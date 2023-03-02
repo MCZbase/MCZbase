@@ -101,13 +101,13 @@ img.zoom:hover {
 	#overlay9{
 	border:1px solid black;
 	width:350px;
-	height:200px;
+	height:auto;
 	display:inline-block;
 	background-image:url('https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg');
 	background-repeat:no-repeat;
 }
 </style>
-	<img id="imgZoom1" width="300px" height="200px" onmousemove="zoomIn1(event)" onmouseout="zoomOut1()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/^350,/0/default.jpg">
+	<img id="imgZoom1" width="300px" height="auto" onmousemove="zoomIn1(event)" onmouseout="zoomOut1()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/^350,/0/default.jpg">
 <div id="overlay9" onmousemove="zoomIn1(event)"></div>
 <script>
 function zoomIn1(event) {
