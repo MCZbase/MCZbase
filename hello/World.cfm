@@ -222,4 +222,65 @@ img.right.zoom:hover {
 	</div>
 </div>
 </div>
+
+<!---Image zoom with css and vanilla javascript below- zoom up to chosen zoom level and pan. -- it might be difficult to put background image as #variable# in css and have valid html.--->
+<style>	
+#zoomC {
+  /* (A) DIMENSIONS */
+  width: 600px;
+  height: 338px;
+ 
+  /* (B) BACKGROUND IMAGE */
+  background: url("https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg");
+  background-position: center;
+  background-size: cover;
+}
+</style>
+<div class="container" style="margin-top: 2rem;">
+	<h1>Test 3 - CSS & vanilla js : zoom and pan (background image in css)</h1>
+<div id="zoomC"></div>
+<script>
+// CREDITS : https://www.cssscript.com/image-zoom-pan-hover-detail-view/
+var addZoom = target => {
+  // (A) GET CONTAINER + IMAGE SOURCE
+  let container = document.getElementById(target),
+      imgsrc = container.currentStyle || window.getComputedStyle(container, false);
+      imgsrc = imgsrc.backgroundImage.slice(4, -1).replace(/"/g, "");
+ 
+  // (B) LOAD IMAGE + ATTACH ZOOM
+  let img = new Image();
+  img.src = imgsrc;
+  img.onload = () => {
+    // (B1) CALCULATE ZOOM RATIO
+    let ratio = img.naturalHeight / img.naturalWidth,
+        percentage = ratio * 100 + "%";
+ 
+    // (B2) ATTACH ZOOM ON MOUSE MOVE
+    container.onmousemove = e => {
+      let rect = e.target.getBoundingClientRect(),
+          xPos = e.clientX - rect.left,
+          yPos = e.clientY - rect.top,
+          xPercent = xPos / (container.clientWidth / 100) + "%",
+          yPercent = yPos / ((container.clientWidth * ratio) / 100) + "%";
+ 
+      Object.assign(container.style, {
+        backgroundPosition: xPercent + " " + yPercent,
+        backgroundSize: img.naturalWidth + "px"
+      });
+    };
+ 
+    // (B3) RESET ZOOM ON MOUSE LEAVE
+    container.onmouseleave = e => {
+      Object.assign(container.style, {
+        backgroundPosition: "center",
+        backgroundSize: "cover"
+      });
+    };
+  }
+};
+ 
+// (C) ATTACH FOLLOW ZOOM
+window.onload = () => addZoom("zoomC");	
+</script>
+</div>
 <cfinclude template="/shared/_footer.cfm">
