@@ -329,6 +329,10 @@ include this function and use it.
 					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
 					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" #xzoom# alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
+						
+					<cfset output='<div class="img-block"><div id="zoomer" class="magnify-wrapper">'>
+					<cfset output='<img src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="main-img" />'>
+					<cfset output='<div id="large-img"></div></div></div>'>
 				<!---			<cfif isDisplayable><cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom({zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'></cfif>--->
 					<cfif #captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
