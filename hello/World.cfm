@@ -233,7 +233,7 @@ img.right.zoom:hover {
 							<a href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg" class="d-block mb-1 w-100 active text-center" title="click to access media">
 								<img id="MID292861" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg" class="left zoom" alt="Media type: image;   Entomology PALE-1" height="auto" style="height: 76px;margin: 0 auto;width:auto;" title="Click for full image">
 							</a>
-							<div class="mt-0 col-12 pb-2 px-0">
+							<div class="mt-0 col-12 pb-2 px-0" style="z-index:1;">
 								<p class="text-center px-1 pb-0 mb-0 small col-12">
 									<span class="d-inline">(<a href="/media.cfm?action=edit&amp;media_id=292861">Edit</a>) </span>(<a class="" href="/media/292861">Media Record</a>) (<a class="" href="/media/RelatedMedia.cfm?media_id=292861">Related</a>) (<a class="" href="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg">Full</a>)
 								</p>
