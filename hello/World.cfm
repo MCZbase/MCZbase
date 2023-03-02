@@ -297,10 +297,11 @@ window.onload = () => addZoom("zoomC");
   align-items: center;
   height: 100vh;
 }
-.magnify-wrapper {
+.magnify-wrapper img {
   position: relative;
   max-height: 50vh;
-  img {
+	}
+.magnify-wrapper img {
     max-height: inherit;
   }
   #large-img {
@@ -318,11 +319,11 @@ window.onload = () => addZoom("zoomC");
     opacity: 0;
     transition: opacity 0.2s;
   }
-  &:hover,
-  &:active {
-    #large-img {
+   #large-img:hover,
+  #large-img:active {
+
       opacity: 1;
-    }
+ 
   }
 }
 
