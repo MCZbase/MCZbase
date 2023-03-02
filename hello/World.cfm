@@ -244,6 +244,7 @@ img.right.zoom:hover {
 	<h1>Test 3 - CSS & vanilla js : zoom and follow (background image in css)</h1>
 	<!---image in the CSS as background//only html tag is the div with an ID--->
 <div id="zoomC"></div>
+</div>
 <script>
 // CREDITS : https://www.cssscript.com/image-zoom-pan-hover-detail-view/
 var addZoom = target => {
@@ -287,7 +288,7 @@ var addZoom = target => {
 // (C) ATTACH FOLLOW ZOOM
 window.onload = () => addZoom("zoomC");	
 </script>
-</div>
+
 	
 <style>
 .magnify-wrapper {
@@ -352,8 +353,7 @@ window.onload = () => addZoom("zoomC");
 <div class="container">
   <div id="zoom2" class="magnify-wrapper">
     <img src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="main-img" />
-    <div id="large-img" style="background: url("https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80")
-      no-repeat #fff"></div>
+    <div id="large-img" style="background-image: url(https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80) no-repeat #fff"></div>
   </div>
 </div>
 <cfinclude template="/shared/_footer.cfm">
