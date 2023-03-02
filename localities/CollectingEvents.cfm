@@ -152,11 +152,49 @@ limitations under the License.
 					function makeEventSummary(rowData) { 
 						var verbatim_locality = rowData['VERBATIM_LOCALITY'];
 						var id = rowData['COLLECTING_EVENT_ID'];
+						var remarks = "";
 						var coll_event_remarks = rowData['COLL_EVENT_REMARKS'];
-						if (coll_event_remarks) { remarks = " remarks: " + coll_event_remarks + " "; } else { remarks = ""; }
+						if (coll_event_remarks) { remarks = " Remarks: " + coll_event_remarks + " "; }
 						var source = rowData['COLLECTING_SOURCE'];
 						var method = rowData['COLLECTING_METHOD'];
-						var data = verbatim_locality + " " + source + " " + method + " " + remarks + " (" + id + ")";
+						var began_date = rowData['BEGAN_DATE'];
+						var ended_date = rowData['ENDED_DATE'];
+						var verbatim_date = rowData['VERBATIM_DATE'];
+						var start_day = rowData['STARTDAYOFYEAR'];
+						var end_day = rowData['ENDDAYOFYEAR'];
+						var time = rowData['COLLECTING_TIME'];
+						var verb_coordinates = rowData['VERBATIMCOORDINATES'];
+						var verb_latitude = rowData['VERBATIMLATITUDE'];
+						var verb_longitude = rowData['VERBATIMLONGITUDE'];
+						var verb_coordsystem = rowData['VERBATIMCOORDINATESYSTEM'];
+						var verb_srs = rowData['VERBATIMSRS'];
+						var verbatim_elevation = rowData['VERBATIMELEVATION'];
+						var verbatim_depth = rowData['VERBATIMDEPTH'];
+						var fish_field_number = rowData['FISH_FIELD_NUMBER'];
+						var date = began_date;
+						if (began_date == ended_date) { 
+							date = began_date;
+						} else if (began_date!="" && ended_date!="") { 
+							date = began_date + "/" + ended_date;
+						}
+						if (verbatim_date != "") { 
+							date = date + " [" + verbatim_date + "]";
+						} 
+						var depth_elev = " ";
+						if (verbatim_elevation) { depth_elev = " elevation: " + verbatim_elevation + " "; }
+						if (verbatim_depth) { depth_elev = depth_elev + " depth: " + verbatim_depth + " "; }
+						if (start_day != "" && end_day == "") { 
+							date = date + " day:" + start_day;
+						} else if (start_day != "" && end_day != "") { 
+							date = date + " days:" + start_day + "-" + end_day;
+						}
+						var fish=""; 
+						if (fish_field_number != "") {
+							fish = " Ich. Field No: " + fish_field_number + " ";
+						}
+						var verb_georef = verb_coordinates + " " + verb_latitude + " " + verb_longitude + " " + verb_coordsystem + " " + verb_srs;
+						var leadbit = date + " " + time + " " + verbatim_locality;
+						var data = leadbit.trim() + " " + source + " " + method + " " + verb_georef + depth_elev + fish + remarks + " (" + id + ")";
 					   return data;
 					};
 					/** createLocalityRowDetailsDialog, create a custom loan specific popup dialog to show details for
@@ -174,6 +212,7 @@ limitations under the License.
 						var gridWidth = $('##' + gridId).width();
 						var dialogWidth = Math.round(gridWidth/2);
 						var locality_id = datarecord['LOCALITY_ID'];
+						var collecting_event_id = datarecord['COLLECTING_EVENT_ID'];
 						var geog_auth_rec_id = datarecord['GEOG_AUTH_REC_ID'];
 						if (dialogWidth < 299) { dialogWidth = 300; }
 						for (i = 1; i < columns.length; i++) {
@@ -181,13 +220,17 @@ limitations under the License.
 							var datafield = columns[i].datafield;
 							if (datafield == 'LOCALITY_ID') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/editLocality.cfm?locality_id="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+							} else if (datafield == 'COLLECTING_EVENT_ID') { 
+					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?Action=editCollEvnt&collecting_event_id="+collecting_event_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'HIGHER_GEOG') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?action=editGeog&geog_auth_rec_id="+geog_auth_rec_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
-							} else if (datafield == 'Edit') {
+							} else if (datafield == 'edit_loc' || datafield == 'edit_coll_event') {
 								// undefined generated column
 								console.log(datarecord[datafield]);
 							} else if (datafield == 'summary') {
 								content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + makeLocalitySummary(datarecord) + "</li>";
+							} else if (datafield == 'ce_summary') {
+								content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + makeEventSummary(datarecord) + "</li>";
 							} else if (datarecord[datafield] == '') {
 								// leave out blank column
 								console.log(datafield);
@@ -348,9 +391,9 @@ limitations under the License.
 								root: 'collecting_event',
 								id: 'collecting_event_id',
 								url: '/localities/component/search.cfc?' + $('##searchForm').serialize(),
-								timeout: 30000,  // units not specified, miliseconds? 
+								timeout: 120000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error, "Error performing locality search: "); 
+									handleFail(jqXHR,textStatus,error, "Error performing collecting event search: "); 
 								},
 								async: true
 							};
@@ -400,8 +443,22 @@ limitations under the License.
 									{ text: 'Coll Event Summary', datafield: 'ce_summary',width: 400, hideabel: true, hidden: getColHidProp('summary',false), cellsrenderer: summaryEventCellRenderer  },
 									{ text: 'Verbatim Locality', datafield: 'VERBATIM_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_LOCALITY',true)  },
 									{ text: 'Verb. Date', datafield: 'VERBATIM_DATE',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_DATE',true)  },
+									{ text: 'Start Date', datafield: 'BEGAN_DATE',width: 200, hideabel: true, hidden: getColHidProp('BEGAN_DATE',true)  },
+									{ text: 'End Date', datafield: 'ENDED_DATE',width: 200, hideabel: true, hidden: getColHidProp('ENDED_DATE',true)  },
+									{ text: 'Time', datafield: 'COLLECTING_TIME',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_TIME',true)  },
+									{ text: 'Ich. Field No.', datafield: 'FISH_FIELD_NUMBER',width: 200, hideabel: true, hidden: getColHidProp('FISH_FIELD_NUMBER',true)  },
 									{ text: 'Coll Method', datafield: 'COLLECTING_METHOD',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_METHOD',true)  },
 									{ text: 'Coll Source', datafield: 'COLLECTING_SOURCE',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_SOURCE',true)  },
+									{ text: 'Time', datafield: 'COLLECTIING_TIME',width: 200, hideabel: true, hidden: getColHidProp('COLLECTIING_TIME',true)  },
+									{ text: 'Verb. Coordinates', datafield: 'VERBATIMCOORDINATES',width: 200, hideabel: true, hidden: getColHidProp('VERBATIMCOORDINATES',true)  },
+									{ text: 'Verb. Lat.', datafield: 'VERBATIMLATITUDE',width: 200, hideabel: true, hidden: getColHidProp('VERBATIMLATITUDE',true)  },
+									{ text: 'Verb. Long.', datafield: 'VERBATIMLONGITUDE',width: 200, hideabel: true, hidden: getColHidProp('VERBATIMLONGITUDE',true)  },
+									{ text: 'Verb. Coord System', datafield: 'VERBATIMCOORDINATESYSTEM',width: 200, hideabel: true, hidden: getColHidProp('VERBATIMCOORDINATESYSTEM',true)  },
+									{ text: 'Verb. Datum', datafield: 'VERBATIMSRS',width: 150, hideabel: true, hidden: getColHidProp('VERBATIMSRS',true)  },
+									{ text: 'Start Day', datafield: 'STARTDAYOFYEAR',width: 100, hideabel: true, hidden: getColHidProp('STARTDAYOFYEAR',true)  },
+									{ text: 'End Day', datafield: 'ENDDAYOFYEAR',width: 100, hideabel: true, hidden: getColHidProp('ENDDAYOFYEAR',true)  },
+									{ text: 'Verb. Elevation', datafield: 'VERBATIMELEVATION',width: 150, hideabel: true, hidden: getColHidProp('VERBATIMELEVATION',true)  },
+									{ text: 'Verb. Depth', datafield: 'VERBATIMDEPTH',width: 150, hideabel: true, hidden: getColHidProp('VERBATIMDEPTH',true)  },
 									{ text: 'Specific Locality', datafield: 'SPEC_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('SPEC_LOCALITY',true)  },
 									{ text: 'Vetted', datafield: 'CURATED_FG',width: 50, hideabel: true, hidden: getColHidProp('CURATED_FG',false)  },
 									{ text: 'Locality Remarks', datafield: 'LOCALITY_REMARKS',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_REMARKS',true)  },
@@ -459,7 +516,7 @@ limitations under the License.
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
 								$('##resultLink').html('<a href="/localities/CollectingEvents.cfm?action=search&execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
-								gridLoaded('searchResultsGrid','locality record');
+								gridLoaded('searchResultsGrid','collecting event record');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
 								//  Create a content div, add it to the detail row, and make it into a dialog.
