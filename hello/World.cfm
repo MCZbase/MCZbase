@@ -88,13 +88,15 @@ limitations under the License.
 <div id="overlay9" onmousemove="zoomIn1(event)"></div>
 </div>
 <script>
-function zoomIn1(event) {
-  var element = document.getElementById("overlay9");
-  element.style.display = "inline-block";
-  var img = document.getElementById("imgZoom1");
-  var posX = event.offsetX ? (event.offsetX) : event.pageX - img.offsetLeft;
-  var posY = event.offsetY ? (event.offsetY) : event.pageY - img.offsetTop;
-  element.style.backgroundPosition=(-posX*2)+"px "+(-posY*4)+"px";
+image.onmousemove = function(e) {
+	function zoomIn1(event) {
+  	var element = document.getElementById("overlay9");
+  	element.style.display = "inline-block";
+  	var img = document.getElementById("imgZoom1");
+  	var posX = event.offsetX ? (event.offsetX) : event.pageX - img.offsetLeft;
+		var posY = event.offsetY ? (event.offsetY) : event.pageY - img.offsetTop;
+		element.style.backgroundPosition=(-posX*2)+"px "+(-posY*4)+"px";
+	}
 }
 function zoomOut1() {
   var element = document.getElementById("overlay9");
