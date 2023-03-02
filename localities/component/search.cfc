@@ -2551,26 +2551,26 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				<cfif isdefined("began_date") and len(#began_date#) gt 0>
 					<cfswitch expression="#begDateOper#">
 						<cfcase value = ">"><!--- " --->
-							AND began_date > <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">
+							AND collecting_event.began_date > <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">
 						</cfcase>
 						<cfcase value = "<"><!--- " --->
-							AND began_date < <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">
+							AND collecting_event.began_date < <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">
 						</cfcase>
 						<cfdefaultcase>
-							AND began_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">
+							AND collecting_event.began_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">
 						</cfdefaultcase>
 					</cfswitch>
 				</cfif>
 				<cfif isdefined("ended_date") and len(#ended_date#) gt 0>
 					<cfswitch expression="#endDateOper#">
 						<cfcase value = ">"><!--- " --->
-							AND ended_date > <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">
+							AND collecting_event.ended_date > <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">
 						</cfcase>
 						<cfcase value = "<"><!--- " --->
-							AND ended_date < <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">
+							AND collecting_event.ended_date < <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">
 						</cfcase>
 						<cfdefaultcase>
-							AND ended_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">
+							AND collecting_Eventended_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">
 						</cfdefaultcase>
 					</cfswitch>
 				</cfif>
