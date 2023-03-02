@@ -96,6 +96,19 @@ img.zoom:hover {
   
 }
 </style>
+
+</head>
+<body>
+
+<h1>Zoom on Hover</h1>
+<p>Hover over the div element.</p>
+<!---<div id="container">  
+<div ><img class="zoom" src="https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg"></div>
+</div>--->
+	
+	<img id="imgZoom" width="300px" height="200px" onmousemove="zoomIn(event)" onmouseout="zoomOut()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg">
+<div id="overlay" onmousemove="zoomIn(event)"></div>
+	
 <script>
 function zoomIn()
 {
@@ -114,20 +127,7 @@ function zoomOut()
     var element = document.getElementById("overlay");
     element.style.visibility = "hidden";
 }
-	</script>
-</head>
-<body>
-
-<h1>Zoom on Hover</h1>
-<p>Hover over the div element.</p>
-<!---<div id="container">  
-<div ><img class="zoom" src="https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg"></div>
-</div>--->
-	
-	<img id="imgZoom" width="300px" height="200px" onmousemove="zoomIn(event)" onmouseout="zoomOut()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg">
-<div id="overlay" onmousemove="zoomIn(event)"></div>
-	
-	
+</script>
 <div class="accordion" id="accordionMedia">
 						<div class="card mb-2 bg-light">
 							<div id="mediaDialog"></div>
