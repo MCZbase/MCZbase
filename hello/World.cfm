@@ -130,9 +130,9 @@ img.left.zoom:hover {
 	z-index: 6;
 }
 img.right.zoom:hover {
-	-ms-transform: scale(2);
-	-webkit-transform: scale(2);
-	transform: scale(2); 
+	-ms-transform: scale(3);
+	-webkit-transform: scale(3);
+	transform: scale(3); 
 	transform-origin: top right;
 	position: relative;
 	z-index: 6;
