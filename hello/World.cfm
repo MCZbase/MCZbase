@@ -124,7 +124,7 @@ img.left.zoom:hover {
 	transform: scale(6); 
 	transform-origin: 0 0;
 	position: relative;
-	z-index: 5;
+	z-index: 6;
 }
 img.right.zoom:hover {
 	-ms-transform: scale(6);
@@ -132,7 +132,7 @@ img.right.zoom:hover {
 	transform: scale(6); 
 	transform-origin: top right;
 	position: relative;
-	z-index: 5;
+	z-index: 6;
 }
 * {
     -webkit-transition: all 0.5s ease-in-out;
@@ -140,7 +140,7 @@ img.right.zoom:hover {
     -ms-transition: all 0.5s ease-in-out;
     -o-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
-	z-index: 6;
+	z-index: 5;
 }
 </style>
 <div class="container">
