@@ -918,7 +918,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.georef_by,
 				locality.nogeorefbecause,
 				trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
-				listagg(geo_att_value,'; ') within group (order by geo_att_value) over (partition by locality.locality_id) geolAtts,
+				listagg(geology_attributes.geology_attribute || nvl2(geology_attributes.geology_attribute, ':', '') || geo_att_value,'; ') within group (order by geo_att_value) over (partition by locality.locality_id) geolAtts,
 				<cfif includeCounts >
 					MCZBASE.get_collcodes_for_locality(locality.locality_id)  as collcountlocality,
 				<cfelse>
@@ -944,6 +944,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				left join preferred_agent_name georef_verified_agent on accepted_lat_long.verified_by_agent_id = georef_verified_agent.agent_id
 				left join preferred_agent_name georef_determined_agent on accepted_lat_long.determined_by_agent_id = georef_determined_agent.agent_id
 				left join geology_attributes on locality.locality_id = geology_attributes.locality_id 
+				left join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
 			WHERE
 				locality.locality_id is not null
 				<cfif isDefined("any_geography") and len(any_geography) gt 0>
@@ -1552,7 +1553,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				accepted_lat_long.georefmethod,
 				georef_verified_agent.agent_name,
 				georef_determined_agent.agent_name,
-				geo_att_value
+				geo_att_value, geology_attributes.geology_attribute
 			ORDER BY
 				geog_auth_rec.higher_geog,
 				locality.spec_locality
@@ -1869,7 +1870,6 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.nogeorefbecause,
 				trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
 				listagg(geology_attributes.geology_attribute || nvl2(geology_attributes.geology_attribute, ':', '') || geo_att_value,'; ') within group (order by geo_att_value) over (partition by collecting_event.collecting_event_id) geolAtts,
-				-- listagg(geo_att_value,'; ') within group (order by geo_att_value) over (partition by collecting_event.collecting_event_id) geolAtts,
 				<cfif includeCounts >
 					MCZBASE.get_collcodes_for_locality(locality.locality_id)  as collcountlocality,
 				<cfelse>
