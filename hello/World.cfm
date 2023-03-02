@@ -420,11 +420,6 @@ window.onload = () => addZoom("zoomC");
 })(window);
 </script>
 		<div id="my-gallery" class="vanilla-zoom">
-            <div class="sidebar">
-                <img src="images/speaker-closeup.jpg" class="small-preview">
-                <img src="images/speaker-touch.jpg" class="small-preview">
-                <img src="images/speaker-lemons.jpg" class="small-preview">
-            </div>
             <div class="zoomed-image" style="background-image: url(&quot;https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg&quot;);"></div>
         </div>
 
