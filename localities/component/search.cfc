@@ -75,6 +75,10 @@ limitations under the License.
 		<cfset pre="soundex(#field#) <> soundex("><!--- ") --->
 		<cfset outvalue="#ucase(right(value,len(value)-2))#">
 		<cfset post=")">
+	<cfelseif left(value,2) is "!%">
+		<cfset pre="upper(#field#) NOT LIKE ">
+		<cfset outvalue="%#ucase(value)#%">
+		<cfset post ="">
 	<cfelseif left(value,1) is "!">
 		<cfset pre="upper(#field#) <>"><!--- " --->
 		<cfset outvalue="#ucase(right(value,len(value)-1))#">
@@ -1657,23 +1661,24 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="collecting_method" type="string" required="no">
 	<cfargument name="habitat_desc" type="string" required="no">
 	<cfargument name="coll_event_remarks" type="string" required="no">
+	<cfargument name="began_date" type="string" required="no">
+	<cfargument name="ended_date" type="string" required="no">
+	<cfargument name="verbatimCoordinates" type="string" required="no">
+	<cfargument name="verbatimsrs" type="string" required="no">
+	<cfargument name="verbatimcoordinatesystem" type="string" required="no">
+	<cfargument name="verbatimlatitude" type="string" required="no">
+	<cfargument name="verbatimlongitude" type="string" required="no">
+	<cfargument name="startdayofyear" type="string" required="no">
+	<cfargument name="enddayofyear" type="string" required="no">
+	<cfargument name="collectingtime" type="string" required="no">
+	<cfargument name="fish_field_number" type="string" required="no">
+	<cfargument name="date_determined_by_agent_id" type="string" required="no">
+	<cfargument name="date_determined_by_agent" type="string" required="no">
 	<!--- 
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
 	--->
 	<!--- 
 	"VALID_DISTRIBUTION_FG" NUMBER, 
-	"DATE_DETERMINED_BY_AGENT_ID" NUMBER, 
-	"FISH_FIELD_NUMBER" VARCHAR2(50 CHAR), 
-	"BEGAN_DATE" VARCHAR2(22 CHAR), 
-	"ENDED_DATE" VARCHAR2(22 CHAR), 
-	"COLLECTING_TIME" VARCHAR2(50), 
-	"VERBATIMCOORDINATES" VARCHAR2(100 CHAR), 
-	"VERBATIMLATITUDE" VARCHAR2(50 CHAR), 
-	"VERBATIMLONGITUDE" VARCHAR2(50 CHAR), 
-	"VERBATIMCOORDINATESYSTEM" VARCHAR2(50 CHAR), 
-	"VERBATIMSRS" VARCHAR2(50 CHAR), 
-	"STARTDAYOFYEAR" NUMBER(3,0), 
-	"ENDDAYOFYEAR" NUMBER(3,0), 
 	--->
 
 	<!--- set default values where not defined --->
@@ -1916,6 +1921,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfif>
 				left join preferred_agent_name georef_verified_agent on accepted_lat_long.verified_by_agent_id = georef_verified_agent.agent_id
 				left join preferred_agent_name georef_determined_agent on accepted_lat_long.determined_by_agent_id = georef_determined_agent.agent_id
+				left join preferred_agent_name date_determined_agent on collecting_event.date_determined_by_agent_id = date_determined_agent.agent_id
 			WHERE
 				locality.locality_id is not null
 				<cfif isDefined("any_geography") and len(any_geography) gt 0>
@@ -2508,6 +2514,14 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
+				<cfif isdefined("verbatimCoordinates") AND len(verbatimCoordinates) gt 0>
+					<cfset setup = setupClause(field="collecting_event.verbatimCoordinates",value="#verbatimCoordinates#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
 				<cfif isdefined("habitat_desc") AND len(habitat_desc) gt 0>
 					<cfset setup = setupClause(field="collecting_event.habitat_desc",value="#habitat_desc#")>
 					<cfif len(setup["value"]) EQ 0>
@@ -2534,6 +2548,114 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfif>
 				<cfif isdefined("coll_event_remarks") AND len(coll_event_remarks) gt 0>
 					<cfset setup = setupClause(field="collecting_event.coll_event_remarks",value="#coll_event_remarks#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("began_date") and len(#began_date#) gt 0>
+					<cfswitch expression="#begDateOper#">
+						<cfcase value = ">"><!--- " --->
+							AND collecting_event.began_date > <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">
+						</cfcase>
+						<cfcase value = "<"><!--- " --->
+							AND collecting_event.began_date < <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">
+						</cfcase>
+						<cfdefaultcase>
+							AND collecting_event.began_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">
+						</cfdefaultcase>
+					</cfswitch>
+				</cfif>
+				<cfif isdefined("ended_date") and len(#ended_date#) gt 0>
+					<cfswitch expression="#endDateOper#">
+						<cfcase value = ">"><!--- " --->
+							AND collecting_event.ended_date > <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">
+						</cfcase>
+						<cfcase value = "<"><!--- " --->
+							AND collecting_event.ended_date < <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">
+						</cfcase>
+						<cfdefaultcase>
+							AND collecting_event.ended_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">
+						</cfdefaultcase>
+					</cfswitch>
+				</cfif>
+				<cfif isdefined("startdayofyear") and len(#startdayofyear#) gt 0>
+					<cfset setup = setupNumericClause(field="collecting_event.startdayofyear",value="#startdayofyear#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif setup["between"] EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("enddayofyear") and len(#enddayofyear#) gt 0>
+					<cfset setup = setupNumericClause(field="collecting_event.enddayofyear",value="#enddayofyear#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif setup["between"] EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("fish_field_number") AND len(fish_field_number) gt 0>
+					<cfset setup = setupClause(field="collecting_event.fish_field_number",value="#fish_field_number#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("collecting_time") AND len(collecting_time) gt 0>
+					<cfset setup = setupClause(field="collecting_event.collecting_time",value="#collecting_time#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("verbatimsrs") AND len(verbatimsrs) gt 0>
+					<cfset setup = setupClause(field="collecting_event.verbatimsrs",value="#verbatimsrs#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("verbatimcoordinatesystem") AND len(verbatimcoordinatesystem) gt 0>
+					<cfset setup = setupClause(field="collecting_event.verbatimcoordinatesystem",value="#verbatimcoordinatesystem#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("date_determined_by_agent_id") and len(#date_determined_by_agent_id#) gt 0>
+					and georef_verified_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#date_determined_by_agent_id#">
+				<cfelseif isdefined("date_determined_by_agent") and len(#date_determined_by_agent#) gt 0>
+					<cfset setup = setupClause(field="date_determined_agent.agent_name",value="#date_determined_by_agent#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("verbatimlatitude") AND len(verbatimlatitude) gt 0>
+					<cfset setup = setupClause(field="collecting_event.verbatimlatitude",value="#verbatimlatitude#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("verbatimlongitude") AND len(verbatimlongitude) gt 0>
+					<cfset setup = setupClause(field="collecting_event.verbatimlongitude",value="#verbatimlongitude#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
