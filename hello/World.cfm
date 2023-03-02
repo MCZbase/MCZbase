@@ -289,7 +289,51 @@ var addZoom = target => {
 window.onload = () => addZoom("zoomC");	
 </script>
 
+<style>
 	
+	.col_2 {
+  width: 46%;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 50px;
+  float: left;
+  display: block;
+}
+
+.box {
+  transition: all 0.3s ease-out;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eeeeee;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.box:hover {
+  box-shadow: 0px 2px 25px 0px rgba(0, 0, 0, 0.25);
+}
+
+.box .image {
+  overflow: hidden;
+}
+
+.box .image img {
+  width: 100%;
+  max-width: 100%;
+  transition: all 0.3s;
+}
+
+.image:hover img {
+  overflow: hidden;
+  transform: translateY(-25%); /* translate is for move (pan), not scale */
+}
+</style>
+<div class="col_2 box">
+  <a href="#" class="image">
+    <img src="http://ll-c.ooyala.com/e1/RoMXVvYjE6bIIVlTLF6Eel1wmw9xj9j_/promo322520974"></a>
+</div>
+
 
 
 <cfinclude template="/shared/_footer.cfm">
