@@ -110,7 +110,7 @@ function zoomOut1() {
 .card-body {
 	width: 400px;
 	height: auto;
-	margin-bottom: 2rem
+	margin-bottom: 2rem;
 	z-index: 2;
 	margin-left: 1.7rem;
 	position: relative;
@@ -120,6 +120,7 @@ img.zoom  {
 	margin: 0;
 	position: relative;
 	background-image: none;
+	z-index: 4;
 }
 img.left.zoom:hover {
 	-ms-transform: scale(3);
