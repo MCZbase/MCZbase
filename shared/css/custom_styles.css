@@ -2711,12 +2711,11 @@ input[disabled] {
 	width: 21.5rem!important;
 }
 /*IMAGE magnifier*/
-.img-block {
+.img-block {/*container for image*/
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	min-height: 76px;
-	border:1px solid green;
 }
  .magnify-wrapper {
 	position: relative;
