@@ -961,7 +961,7 @@
 								<label for="verbatimlongigude" class="data-entry-label">Verbatim Longitude</label>
 								<input type="text" name="verbatimlongigude" id="verbatimlongigude" class="data-entry-input" value="#encodeForHtml(verbatimlongigude)#">
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<cfif NOT isDefined("date_determined_by_agent") ><cfset date_determined_by_agent=""></cfif>
 								<cfif NOT isDefined("date_determined_by_agent_id") ><cfset date_determined_by_agent_id=""></cfif>
 								<label for="date_determined_by_agent" class="data-entry-label">Date Determined by</label>
