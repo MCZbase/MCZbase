@@ -108,21 +108,21 @@ img.zoom:hover {
 }
 </style>
 <script>
-function zoomIn(event) {
+function zoomIn1(event) {
   var element = document.getElementById("overlay9");
   element.style.display = "inline-block";
-  var img = document.getElementById("imgZoom");
+  var img = document.getElementById("imgZoom1");
   var posX = event.offsetX ? (event.offsetX) : event.pageX - img.offsetLeft;
   var posY = event.offsetY ? (event.offsetY) : event.pageY - img.offsetTop;
   element.style.backgroundPosition=(-posX*2)+"px "+(-posY*4)+"px";
 }
-function zoomOut() {
+function zoomOut1() {
   var element = document.getElementById("overlay9");
   element.style.display = "none";
 }
 </script>
-<img id="imgZoom" width="300px" height="200px" onmousemove="zoomIn(event)" onmouseout="zoomOut()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/^350,/0/default.jpg">
-<div id="overlay9" onmousemove="zoomIn(event)"></div>
+<img id="imgZoom1" width="300px" height="200px" onmousemove="zoomIn1(event)" onmouseout="zoomOut1()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/^350,/0/default.jpg">
+<div id="overlay9" onmousemove="zoomIn1(event)"></div>
 	
 
 <div class="accordion" id="accordionMedia">
