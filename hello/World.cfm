@@ -307,6 +307,7 @@ window.onload = () => addZoom("zoomC");
   #large-img {
     width: 100px;
     height: 100px;
+	  background-image: url(https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80) no-repeat #fff;
     box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.3);
     pointer-events: none;
     position: absolute;
@@ -360,7 +361,7 @@ window.onload = () => addZoom("zoomC");
 <div class="container2">
   <div id="zoom2" class="magnify-wrapper">
     <img src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="main-img" />
-    <div id="large-img" style="background-image: url(https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80) no-repeat #fff"></div>
+    <div id="large-img" style=""></div>
   </div>
 </div>
 <cfinclude template="/shared/_footer.cfm">
