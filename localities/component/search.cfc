@@ -75,6 +75,10 @@ limitations under the License.
 		<cfset pre="soundex(#field#) <> soundex("><!--- ") --->
 		<cfset outvalue="#ucase(right(value,len(value)-2))#">
 		<cfset post=")">
+	<cfelseif left(value,2) is "!%">
+		<cfset pre="upper(#field#) NOT LIKE ">
+		<cfset outvalue="%#ucase(value)#%">
+		<cfset post ="">
 	<cfelseif left(value,1) is "!">
 		<cfset pre="upper(#field#) <>"><!--- " --->
 		<cfset outvalue="#ucase(right(value,len(value)-1))#">
