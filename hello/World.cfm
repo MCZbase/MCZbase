@@ -98,7 +98,15 @@ limitations under the License.
 
 </style>
 
-<script>
+
+<div class="container">
+  <div id="zoom" class="magnify-wrapper">
+    <img src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="main-img" />
+    <div id="large-img"></div>
+  </div>
+</div>
+
+	<script>
 	
 document.getElementById("zoom").addEventListener(
   "mousemove",
@@ -136,12 +144,5 @@ document.getElementById("zoom").addEventListener(
 );
 	
 </script>
-<div class="container">
-  <div id="zoom" class="magnify-wrapper">
-    <img src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="main-img" />
-    <div id="large-img"></div>
-  </div>
-</div>
-
 
 <cfinclude template="/shared/_footer.cfm">
