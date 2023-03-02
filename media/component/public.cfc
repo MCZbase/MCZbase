@@ -212,7 +212,7 @@ include this function and use it.
 							</cfif>
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
-							<cfset xzoom = "class = 'zoom'"
+							<cfset xzoom =  'class="zoom" '
 						</cfif>
 					</cfif>
 					<cfset isDisplayable = false>
