@@ -326,7 +326,8 @@ window.onload = () => addZoom("zoomC");
 
 .imageee:hover img {
   overflow: hidden;
-  transform: translateY(-25%); /* translate is for move (pan), not scale */
+  transform: translateY(-20%); /* translate is for move (pan), not scale */
+	transform: translateX(-20%);
 }
 </style>
 <div class="col_2 boxt">
