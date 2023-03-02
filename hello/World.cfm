@@ -289,12 +289,7 @@ window.onload = () => addZoom("zoomC");
 </script>
 </div>
 	
-	<style>.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+	<style>
 .magnify-wrapper {
   position: relative;
   max-height: 50vh;
