@@ -86,7 +86,7 @@ img.zoom:hover {
 	position: relative;
 	z-index: 5;
 }
-	##overlay{
+	##overlay9{
   border:1px solid black;
   width:350px;
   height:200px;
@@ -107,7 +107,7 @@ img.zoom:hover {
 </div>--->
 	
 	<img id="imgZoom" width="300px" height="200px" onmousemove="zoomIn(event)" onmouseout="zoomOut()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/^350,/0/default.jpg">
-<div id="overlay" onmousemove="zoomIn(event)"></div>
+<div id="overlay9" onmousemove="zoomIn(event)"></div>
 	
 <script>
 function zoomIn(event) {
