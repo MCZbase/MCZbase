@@ -2714,11 +2714,13 @@ input[disabled] {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 76px;
+	min-height: 76px;
+	border:1px solid green;
 }
  .magnify-wrapper {
 	position: relative;
 	height: 76px;
+	border: 1px solid purple;
 }
  .magnify-wrapper img {
 	max-height: inherit;
