@@ -106,26 +106,23 @@ img.zoom:hover {
 <div ><img class="zoom" src="https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg"></div>
 </div>--->
 	
-	<img id="imgZoom" width="300px" height="200px" onmousemove="zoomIn(event)" onmouseout="zoomOut()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg">
+	<img id="imgZoom" width="300px" height="200px" onmousemove="zoomIn(event)" onmouseout="zoomOut()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/^350,/0/default.jpg">
 <div id="overlay" onmousemove="zoomIn(event)"></div>
 	
 <script>
-function zoomIn()
-{
-    var element = document.getElementById("overlay");
-    element.style.visibility = "visible";
+function zoomIn(event) {
+  var element = document.getElementById("overlay");
+  element.style.display = "inline-block";
+  var img = document.getElementById("imgZoom");
+  var posX = event.offsetX ? (event.offsetX) : event.pageX - img.offsetLeft;
+  var posY = event.offsetY ? (event.offsetY) : event.pageY - img.offsetTop;
+  element.style.backgroundPosition=(-posX*2)+"px "+(-posY*4)+"px";
 
-    var x = event.clientX;     // Get the horizontal coordinate
-    var y = event.clientY;     // Get the vertical coordinate
-
-    element.style.top = y - 80;
-    element.style.left = x - 80;
 }
 
-function zoomOut()
-{
-    var element = document.getElementById("overlay");
-    element.style.visibility = "hidden";
+function zoomOut() {
+  var element = document.getElementById("overlay");
+  element.style.display = "none";
 }
 </script>
 <div class="accordion" id="accordionMedia">
