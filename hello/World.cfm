@@ -108,7 +108,6 @@ function zoomOut1() {
 <!---Test 1 Purely a css image zoom below - only one size and no pan--->	
 <style>
 .card-body {
-	border: 1px solid gray;
 	width: 400px;
 	height: auto;
 	margin-bottom: 2rem
