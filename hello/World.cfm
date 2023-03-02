@@ -300,7 +300,7 @@ window.onload = () => addZoom("zoomC");
   display: block;
 }
 
-.box {
+.boxt {
   transition: all 0.3s ease-out;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
   border: 1px solid #eeeeee;
@@ -314,11 +314,11 @@ window.onload = () => addZoom("zoomC");
   box-shadow: 0px 2px 25px 0px rgba(0, 0, 0, 0.25);
 }
 
-.box .image {
+.box .imageee {
   overflow: hidden;
 }
 
-.box .image img {
+.box .imageee img {
   width: 100%;
   max-width: 100%;
   transition: all 0.3s;
@@ -329,8 +329,8 @@ window.onload = () => addZoom("zoomC");
   transform: translateY(-25%); /* translate is for move (pan), not scale */
 }
 </style>
-<div class="col_2 box">
-  <a href="#" class="image">
+<div class="col_2 boxt">
+  <a href="#" class="imageee">
     <img src="http://mczbase.mcz.harvard.edu/specimen_images/invertebrates/thumbnails/151054_Munidopsis_sp_microCT.jpg"></a>
 </div>
 
