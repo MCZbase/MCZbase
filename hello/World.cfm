@@ -86,7 +86,35 @@ img.zoom:hover {
 	position: relative;
 	z-index: 5;
 }
+	##overlay{
+  border:1px solid black;
+  width:350px;
+  height:200px;
+  display:inline-block;
+  background-image:url('https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg');
+  background-repeat:no-repeat;
+  
+}
 </style>
+<script>
+function zoomIn()
+{
+    var element = document.getElementById("overlay");
+    element.style.visibility = "visible";
+
+    var x = event.clientX;     // Get the horizontal coordinate
+    var y = event.clientY;     // Get the vertical coordinate
+
+    element.style.top = y - 80;
+    element.style.left = x - 80;
+}
+
+function zoomOut()
+{
+    var element = document.getElementById("overlay");
+    element.style.visibility = "hidden";
+}
+	</script>
 </head>
 <body>
 
@@ -95,6 +123,11 @@ img.zoom:hover {
 <!---<div id="container">  
 <div ><img class="zoom" src="https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg"></div>
 </div>--->
+	
+	<img id="imgZoom" width="300px" height="200px" onmousemove="zoomIn(event)" onmouseout="zoomOut()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg">
+<div id="overlay" onmousemove="zoomIn(event)"></div>
+	
+	
 <div class="accordion" id="accordionMedia">
 						<div class="card mb-2 bg-light">
 							<div id="mediaDialog"></div>
