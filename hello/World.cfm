@@ -290,101 +290,143 @@ window.onload = () => addZoom("zoomC");
 </script>
 
 <style>
-	
-
-
-.img-zoom-container {
-  position: relative;
-	box-sizing: border-box;
+.vanilla-zoom {
+    width: 100%;
+    display: flex;
 }
 
-.img-zoom-lens {
-  position: absolute;
-  border: 1px solid #d4d4d4;
-  /*set the size of the lens:*/
-  width: 40px;
-  height: 40px;
-	box-sizing: border-box;
+.vanilla-zoom .sidebar {
+    flex-basis: 30%;
+    display: flex;
+    flex-direction: column;
 }
 
-.img-zoom-result {
-  border: 1px solid #d4d4d4;
-  /*set the size of the result div:*/
-  width: 300px;
-  height: 300px;
-	box-sizing: border-box;
+.vanilla-zoom .sidebar img.small-preview{
+    width: 100%;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.vanilla-zoom .sidebar img.small-preview:last-child{
+    margin-bottom: 0;
+}
+
+.vanilla-zoom .zoomed-image {
+    flex: 1;  
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: cover;
+    margin-left: 5px;
+}
+
+@media (max-width: 768px) {
+  .vanilla-zoom .sidebar {
+    flex: 1;
+  }
+
+  .vanilla-zoom .sidebar img.small-preview {
+    cursor: auto;
+    margin-bottom: 12px;
+  }
+
+  .vanilla-zoom .zoomed-image {
+    display: none;
+  }
 }
 </style>
 	
 <script>
-function imageZoom(imgID, resultID) {
-  var img, lens, result, cx, cy;
-  img = document.getElementById(imgID);
-  result = document.getElementById(resultID);
-  /* Create lens: */
-  lens = document.createElement("DIV");
-  lens.setAttribute("class", "img-zoom-lens");
-  /* Insert lens: */
-  img.parentElement.insertBefore(lens, img);
-  /* Calculate the ratio between result DIV and lens: */
-  cx = result.offsetWidth / lens.offsetWidth;
-  cy = result.offsetHeight / lens.offsetHeight;
-  /* Set background properties for the result DIV */
-  result.style.backgroundImage = "url('" + img.src + "')";
-  result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
-  /* Execute a function when someone moves the cursor over the image, or the lens: */
-  lens.addEventListener("mousemove", moveLens);
-  img.addEventListener("mousemove", moveLens);
-  /* And also for touch screens: */
-  lens.addEventListener("touchmove", moveLens);
-  img.addEventListener("touchmove", moveLens);
-  function moveLens(e) {
-    var pos, x, y;
-    /* Prevent any other actions that may occur when moving over the image */
-    e.preventDefault();
-    /* Get the cursor's x and y positions: */
-    pos = getCursorPos(e);
-    /* Calculate the position of the lens: */
-    x = pos.x - (lens.offsetWidth / 2);
-    y = pos.y - (lens.offsetHeight / 2);
-    /* Prevent the lens from being positioned outside the image: */
-    if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
-    if (x < 0) {x = 0;}
-    if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
-    if (y < 0) {y = 0;}
-    /* Set the position of the lens: */
-    lens.style.left = x + "px";
-    lens.style.top = y + "px";
-    /* Display what the lens "sees": */
-    result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
-  }
-  function getCursorPos(e) {
-    var a, x = 0, y = 0;
-    e = e || window.event;
-    /* Get the x and y positions of the image: */
-    a = img.getBoundingClientRect();
-    /* Calculate the cursor's x and y coordinates, relative to the image: */
-    x = e.pageX - a.left;
-    y = e.pageY - a.top;
-    /* Consider any page scrolling: */
-    x = x - window.pageXOffset;
-    y = y - window.pageYOffset;
-    return {x : x, y : y};
-  }
-}	
-document.getElementById("myresult").style.display = "none";
+(function(window){
+    function define_library() {
+        var vanillaZoom = {};
+        vanillaZoom.init = function(el) {
 
-document.getElementById("myresult").onHover= function() {
-    document.getElementById("myresult").style.display = "block";
-}
+            var container = document.querySelector(el);
+            if(!container) {
+                console.error('No container element. Please make sure you are using the right markup.');
+                return;
+            }
+
+            var firstSmallImage = container.querySelector('.small-preview');
+            var zoomedImage = container.querySelector('.zoomed-image');
+
+            if(!zoomedImage) {
+                console.error('No zoomed image element. Please make sure you are using the right markup.');
+                return;
+            }
+
+            if(!firstSmallImage) {
+                console.error('No preview images on page. Please make sure you are using the right markup.');
+                return;
+            }
+            else {
+                // Set the source of the zoomed image.
+                zoomedImage.style.backgroundImage = 'url('+ firstSmallImage.src +')';
+            }   
+
+            // Change the selected image to be zoomed when clicking on the previews.
+            container.addEventListener("click", function (event) {
+                var elem = event.target;
+
+                if (elem.classList.contains("small-preview")) {
+                    var imageSrc = elem.src;
+                    zoomedImage.style.backgroundImage = 'url('+ imageSrc +')';
+                }
+            });
+            
+            // Zoom image on mouse enter.
+            zoomedImage.addEventListener('mouseenter', function(e) {
+                this.style.backgroundSize = "250%"; 
+            }, false);
+
+
+            // Show different parts of image depending on cursor position.
+            zoomedImage.addEventListener('mousemove', function(e) {
+                
+                // getBoundingClientReact gives us various information about the position of the element.
+                var dimentions = this.getBoundingClientRect();
+
+                // Calculate the position of the cursor inside the element (in pixels).
+                var x = e.clientX - dimentions.left;
+                var y = e.clientY - dimentions.top;
+
+                // Calculate the position of the cursor as a percentage of the total width/height of the element.
+                var xpercent = Math.round(100 / (dimentions.width / x));
+                var ypercent = Math.round(100 / (dimentions.height / y));
+
+                // Update the background position of the image.
+                this.style.backgroundPosition = xpercent+'% ' + ypercent+'%';
+            
+            }, false);
+
+
+            // When leaving the container zoom out the image back to normal size.
+            zoomedImage.addEventListener('mouseleave', function(e) {
+                this.style.backgroundSize = "cover"; 
+                this.style.backgroundPosition = "center"; 
+            }, false);
+
+        }
+        return vanillaZoom;
+    }
+
+    // Add the vanillaZoom object to global scope.
+    if(typeof(vanillaZoom) === 'undefined') {
+        window.vanillaZoom = define_library();
+    }
+    else{
+        console.log("Library already defined.");
+    }
+})(window);
 </script>
-<div class="img-zoom-container">
-  <img id="myimage" src="https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg" width="300" height="240" alt="Girl">
-  <div id="myresult" class="img-zoom-result"></div>
-</div>
-<script>
-imageZoom("myimage", "myresult");
-</script>
+<div id="my-gallery" class="vanilla-zoom">
+            <div class="sidebar">
+                <img src="images/speaker-closeup.jpg" class="small-preview">
+                <img src="images/speaker-touch.jpg" class="small-preview">
+                <img src="images/speaker-lemons.jpg" class="small-preview">
+            </div>
+            <div class="zoomed-image" style="background-image: url('https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg');"></div>
+        </div>
 
 
 <cfinclude template="/shared/_footer.cfm">
