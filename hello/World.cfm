@@ -140,7 +140,6 @@ img.right.zoom:hover {
     -ms-transition: all 0.5s ease-in-out;
     -o-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
-	z-index: 5;
 }
 </style>
 <div class="container">
