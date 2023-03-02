@@ -198,6 +198,7 @@ include this function and use it.
 					<!--- to turn on rewriting to deliver media via iiif server, set enableIIIF to true, to turn of, set to false --->
 					<cfset enableIIIF = true>
 					<cfset iiifFull = "">
+					<cfset xzoom = "">
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF>
 						<cfif media_type EQ 'image' AND left(media.mime_type,6) EQ 'image/'>
 							<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
@@ -211,6 +212,7 @@ include this function and use it.
 							</cfif>
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
+							<cfset xzoom = "class = 'zoom'"
 						</cfif>
 					</cfif>
 					<cfset isDisplayable = false>
@@ -325,7 +327,7 @@ include this function and use it.
 					
 						<!---Removed on 1/20/23 from <img...> tag: class="#background_class#"--->
 					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
-					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
+					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" #xzoom# alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
 				<!---			<cfif isDisplayable><cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom({zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'></cfif>--->
 					<cfif #captionAs# EQ "textNone">
