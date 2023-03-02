@@ -128,8 +128,9 @@ img.zoom:hover {
 }
 
 </style>
-	<h1>Test 2 - zoom to chosen scale (no panning)</h1>
-<div class="accordion" id="accordionMedia" style = "width: 50%">
+<div class="container">
+	<h1 style="margin-top: 2rem;">Test 2 - zoom to chosen scale (no panning)</h1>
+	<div class="accordion" id="accordionMedia" style = "width: 50%">
 	<div class="card mb-2 bg-light">
 		<div id="mediaDialog"></div>
 		<div class="card-header" id="headingMedia">
@@ -205,5 +206,6 @@ img.zoom:hover {
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 <cfinclude template="/shared/_footer.cfm">
