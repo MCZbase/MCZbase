@@ -130,7 +130,7 @@ img.right.zoom:hover {
 	-ms-transform: scale(6);
 	-webkit-transform: scale(6);
 	transform: scale(6); 
-	transform-origin: 0 -600px;
+	transform-origin: 0 right;
 	position: relative;
 	z-index: 5;
 }
