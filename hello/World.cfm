@@ -107,6 +107,8 @@ img.zoom:hover {
 	background-repeat:no-repeat;
 }
 </style>
+	<img id="imgZoom1" width="300px" height="200px" onmousemove="zoomIn1(event)" onmouseout="zoomOut1()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/^350,/0/default.jpg">
+<div id="overlay9" onmousemove="zoomIn1(event)"></div>
 <script>
 function zoomIn1(event) {
   var element = document.getElementById("overlay9");
@@ -120,10 +122,7 @@ function zoomOut1() {
   var element = document.getElementById("overlay9");
   element.style.display = "none";
 }
-</script>
-<img id="imgZoom1" width="300px" height="200px" onmousemove="zoomIn1(event)" onmouseout="zoomOut1()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/^350,/0/default.jpg">
-<div id="overlay9" onmousemove="zoomIn1(event)"></div>
-	
+</script>	
 
 <div class="accordion" id="accordionMedia">
 						<div class="card mb-2 bg-light">
