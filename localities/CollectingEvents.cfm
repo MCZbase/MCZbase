@@ -152,8 +152,9 @@ limitations under the License.
 					function makeEventSummary(rowData) { 
 						var verbatim_locality = rowData['VERBATIM_LOCALITY'];
 						var id = rowData['COLLECTING_EVENT_ID'];
+						var remarks = "";
 						var coll_event_remarks = rowData['COLL_EVENT_REMARKS'];
-						if (coll_event_remarks) { remarks = " remarks: " + coll_event_remarks + " "; } else { remarks = ""; }
+						if (coll_event_remarks) { remarks = " Remarks: " + coll_event_remarks + " "; }
 						var source = rowData['COLLECTING_SOURCE'];
 						var method = rowData['COLLECTING_METHOD'];
 						var began_date = rowData['BEGAN_DATE'];
@@ -169,6 +170,7 @@ limitations under the License.
 						var verb_srs = rowData['VERBATIMSRS'];
 						var verbatim_elevation = rowData['VERBATIMELEVATION'];
 						var verbatim_depth = rowData['VERBATIMDEPTH'];
+						var fish_field_number = rowData['FISH_FIELD_NUMBER'];
 						var date = began_date;
 						if (began_date == ended_date) { 
 							date = began_date;
@@ -185,10 +187,14 @@ limitations under the License.
 							date = date + " day:" + start_day;
 						} else if (start_day != "" && end_day != "") { 
 							date = date + " days:" + start_day + "-" + end_day;
-						} 
+						}
+						var fish=""; 
+						if (fish_field_number != "") {
+							fish = " Ich. Field No: " + fish_field_number + " ";
+						}
 						var verb_georef = verb_coordinates + " " + verb_latitude + " " + verb_longitude + " " + verb_coordsystem + " " + verb_srs;
 						var leadbit = date + " " + time + " " + verbatim_locality;
-						var data = leadbit.trim() + " " + source + " " + method + " " + verb_georef + depth_elev + remarks + " (" + id + ")";
+						var data = leadbit.trim() + " " + source + " " + method + " " + verb_georef + depth_elev + fish + remarks + " (" + id + ")";
 					   return data;
 					};
 					/** createLocalityRowDetailsDialog, create a custom loan specific popup dialog to show details for
