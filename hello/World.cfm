@@ -110,9 +110,10 @@ function zoomOut1() {
 .card-body {
 	border: 1px solid black;
 	width: 800px;
-	height: 540px;
+	height: 500px;
+	margin-bottom: 2rem
 	z-index: 2;
-	margin-left: 2rem;
+	margin-left: 1.7rem;
 	position: relative;
 }
 img.zoom  {
