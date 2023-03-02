@@ -386,5 +386,90 @@ document.getElementById("myresult").onHover= function() {
 imageZoom("myimage", "myresult");
 </script>
 
+	
+	
+	
+	
+	
+	
+	
+<style>
+	
+.container {
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 height: 100vh;
+}
+ .magnify-wrapper {
+	 position: relative;
+	 max-height: 50vh;
+}
+ .magnify-wrapper img {
+	 max-height: inherit;
+}
+ .magnify-wrapper #large-img {
+	 background: url("https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80") no-repeat #fff;
+	 width: 100px;
+	 height: 100px;
+	 box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.3);
+	 pointer-events: none;
+	 position: absolute;
+	 border: 4px solid #efefef;
+	 z-index: 99;
+	 border-radius: 100%;
+	 display: block;
+	 opacity: 0;
+	 transition: opacity 0.2s;
+}
+ .magnify-wrapper:hover #large-img, .magnify-wrapper:active #large-img {
+	 opacity: 1;
+}
+ 
+</style>
 
+<script>
+document.getElementById("zoom88").addEventListener(
+  "mousemove",
+  function (e) {
+    let original = document.getElementById("main-img"),
+      magnified = document.getElementById("large-img"),
+      style = magnified.style,
+      x = e.pageX - this.offsetLeft,
+      y = e.pageY - this.offsetTop,
+      imgWidth = original.width,
+      imgHeight = original.height,
+      xperc = (x / imgWidth) * 100,
+      yperc = (y / imgHeight) * 100;
+
+    // Add some margin for right edge
+    if (x > 0.01 * imgWidth) {
+      xperc += 0.15 * xperc;
+    }
+
+    // Add some margin for bottom edge
+    if (y >= 0.01 * imgHeight) {
+      yperc += 0.15 * yperc;
+    }
+
+    // Set the background of the magnified image horizontal
+    style.backgroundPositionX = xperc - 9 + "%";
+    // Set the background of the magnified image vertical
+    style.backgroundPositionY = yperc - 9 + "%";
+
+    // Move the magnifying glass with the mouse movement.
+    style.left = x - 50 + "px";
+    style.top = y - 50 + "px";
+  },
+  false
+);
+	
+	
+</script>
+<div class="container">
+  <div id="zoom88" class="magnify-wrapper">
+    <img src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="main-img" />
+    <div id="large-img"></div>
+  </div>
+</div>
 <cfinclude template="/shared/_footer.cfm">
