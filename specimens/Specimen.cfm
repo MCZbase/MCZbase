@@ -347,7 +347,7 @@ limitations under the License.
 						}*/
 					</style>
 					<div class="accordion" id="accordionMedia">
-						<div class="card mb-2 bg-light">
+						<div class="card mb-2 bg-light" style="overflow-x:visible;">
 							<div id="mediaDialog"></div>
 							<div class="card-header" id="headingMedia">
 								<h3 class="h5 my-0 text-dark">
