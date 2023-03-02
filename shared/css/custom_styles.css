@@ -2718,7 +2718,7 @@ input[disabled] {
 }
  .magnify-wrapper {
 	position: relative;
-	max-height: 76px;
+	max-height: 50vh;
 }
  .magnify-wrapper img {
 	max-height: inherit;
