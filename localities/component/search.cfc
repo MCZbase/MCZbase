@@ -2570,7 +2570,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 							AND collecting_event.ended_date < <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">
 						</cfcase>
 						<cfdefaultcase>
-							AND collecting_Eventended_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">
+							AND collecting_event.ended_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">
 						</cfdefaultcase>
 					</cfswitch>
 				</cfif>
