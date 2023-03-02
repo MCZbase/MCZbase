@@ -161,7 +161,7 @@ window.onload = () => {
   // (B) CLICK TO SHOW IMAGE IN LIGHTBOX
   // * SIMPLY CLONE INTO LIGHTBOX & SHOW
   if (all.length>0) { for (let i of all) {
-    i.onclick = () => {
+    i.onHover = () => {
       let clone = i.cloneNode();
       clone.className = "";
       lightbox.innerHTML = "";
@@ -171,7 +171,7 @@ window.onload = () => {
   }}
  
   // (C) CLICK TO CLOSE LIGHTBOX
-  lightbox.onclick = () => lightbox.className = "";
+  lightbox.onHover= () => lightbox.className = "";
 };
 	
 	</script>
