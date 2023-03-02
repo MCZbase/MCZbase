@@ -2706,7 +2706,36 @@ input[disabled] {
 	.html_desc {
 		width: 21.5rem!important;
 	}
-
+.media_widget img.zoom  {
+	transition-timing-function: ease-in-out;
+	margin: 0;
+	position: relative;
+	background-image: none;
+	z-index: 4;
+}
+.media_widget img.zoom:hover {
+	-ms-transform: scale(3);
+	-webkit-transform: scale(3);
+	transform: scale(3); 
+	transform-origin: 0 0;
+	position: relative;
+	z-index: 6;
+}
+/*.media_widget img.right.zoom:hover {
+	-ms-transform: scale(3);
+	-webkit-transform: scale(3);
+	transform: scale(3); 
+	transform-origin: top right;
+	position: relative;
+	z-index: 6;
+}*/
+.media_widget img.right.zoom:hover, .media_widget img.left.zoom:hover  {
+    -webkit-transition: all 0.25s ease-in;
+    -moz-transition: all 0.25s ease-in;
+    -ms-transition: all 0.25s ease-in;
+    -o-transition: all 0.25s ease-in;
+    transition: all 0.25s ease-in;
+}
 @keyframes slideup {
 	from {top: 700px;}
 	to {top:100px;}
