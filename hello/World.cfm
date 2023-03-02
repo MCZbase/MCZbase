@@ -86,15 +86,7 @@ img.zoom:hover {
 	position: relative;
 	z-index: 5;
 }
-	##overlay9{
-  border:1px solid black;
-  width:350px;
-  height:200px;
-  display:inline-block;
-  background-image:url('https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg');
-  background-repeat:no-repeat;
-  
-}
+
 </style>
 
 </head>
@@ -105,10 +97,16 @@ img.zoom:hover {
 <!---<div id="container">  
 <div ><img class="zoom" src="https://iiif.mcz.harvard.edu/iiif/3/herpetology%2Flarge%2FA15810_O_floresiana_P_v.jpg/full/^1000,/0/default.jpg"></div>
 </div>--->
-	
-	<img id="imgZoom" width="300px" height="200px" onmousemove="zoomIn(event)" onmouseout="zoomOut()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/^350,/0/default.jpg">
-<div id="overlay9" onmousemove="zoomIn(event)"></div>
-	
+<style>	
+	##overlay9{
+	border:1px solid black;
+	width:350px;
+	height:200px;
+	display:inline-block;
+	background-image:url('https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/max/0/default.jpg');
+	background-repeat:no-repeat;
+}
+</style>
 <script>
 function zoomIn(event) {
   var element = document.getElementById("overlay9");
@@ -117,14 +115,16 @@ function zoomIn(event) {
   var posX = event.offsetX ? (event.offsetX) : event.pageX - img.offsetLeft;
   var posY = event.offsetY ? (event.offsetY) : event.pageY - img.offsetTop;
   element.style.backgroundPosition=(-posX*2)+"px "+(-posY*4)+"px";
-
 }
-
 function zoomOut() {
   var element = document.getElementById("overlay9");
   element.style.display = "none";
 }
 </script>
+<img id="imgZoom" width="300px" height="200px" onmousemove="zoomIn(event)" onmouseout="zoomOut()" src="https://iiif.mcz.harvard.edu/iiif/3/entomology%2Fpaleo%2Flarge%2FPALE-1_Prodryas_persephone_holotype.jpg/full/^350,/0/default.jpg">
+<div id="overlay9" onmousemove="zoomIn(event)"></div>
+	
+
 <div class="accordion" id="accordionMedia">
 						<div class="card mb-2 bg-light">
 							<div id="mediaDialog"></div>
