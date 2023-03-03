@@ -2719,7 +2719,7 @@ height:400px;
 position:absolute;
 z-index:500;
 }
-img,underlay{
+underlay{
 width:40px;
 height:40px;
 }
@@ -2732,7 +2732,7 @@ underlay:nth-of-type(1){
 left:0px;
 }
 
-img:hover ~ underlay{
+overlay:hover ~ underlay{
 top:0px;
 left:100px;
 width:300px;
