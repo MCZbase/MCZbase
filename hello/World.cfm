@@ -65,26 +65,25 @@ limitations under the License.
 </cfoutput>
 
 <style>
-* {}
 .img-magnifier-container {
-  position:relative;
-  cursor:none;
-	box-sizing: border-box;
+position:relative;
+cursor:none;
+box-sizing: border-box;
 }
 .img-magnifier-container:hover .img-magnifier-glass {
-  position: absolute;
-  border: 3px solid #000;
-  border-radius: 50%;
-  cursor: none;
-  /*Set the size of the magnifier glass:*/
-  width: 150px;
-  height: 150px;
-  display:block;
-	box-sizing: border-box;
+position: absolute;
+border: 3px solid #000;
+border-radius: 50%;
+cursor: none;
+/*Set the size of the magnifier glass:*/
+width: 150px;
+height: 150px;
+display:block;
+box-sizing: border-box;
 }
 .img-magnifier-glass {
   display:none;
-	box-sizing: border-box;
+box-sizing: border-box;
 }
 </style>
 <script>
@@ -153,7 +152,7 @@ function show(){
 </script>
 
 
-<div class="img-magnifier-container">
+<div class="img-magnifier-container col-6 float-right">
   <img id="myimage" src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" width="600" height="400" onmouseover="show()">
 </div>
 <script>
@@ -163,10 +162,10 @@ magnify("myimage", 3);
 </script>
 
 	<style>
-		.media_widget {
-			position: relative;
-			margin-top: 2rem;padding-bottom: 200rem;
-		}
+.media_widget {
+	position: relative;
+	margin-top: 2rem;padding-bottom: 200rem;
+}
 .thumbnail{
   width: 100px;
   height: auto;
@@ -185,7 +184,11 @@ magnify("myimage", 3);
 	position:absolute;
 }
 </style>	
-<div class="media_widget">
-<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" width="1000" height="auto" class="thumbnail"/>	
-	</div>
+<div class="media_widget"> 
+	<a href=""> 
+		<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" width="1000" height="auto" class="thumbnail"/>
+	</a> 
+</div>
+
+	
 <cfinclude template="/shared/_footer.cfm">
