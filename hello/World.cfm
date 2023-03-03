@@ -181,7 +181,8 @@ magnify("myimage", 3);
     -webkit-transition-property: all;
     -webkit-transition-duration: 0.3s;
     -webkit-transition-timing-function: ease;
-	position:absolute;
+	position:relative;
+	z-index: 5;
 }
 </style>	
 <div class="media_widget"> 
