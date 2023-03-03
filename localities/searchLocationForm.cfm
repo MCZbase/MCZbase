@@ -941,7 +941,7 @@
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-4">
+						<div class="col-12 col-md-2">
 							<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
 							<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input">
 						</div>
@@ -970,6 +970,18 @@
 								<script>
 									jQuery(document).ready(function() {
 										makeConstrainedAgentPicker('date_determined_by_agent', 'date_determined_by_agent_id','ce_date_determiner');
+									});
+								</script>
+							</div>
+							<div class="col-12 col-md-2">
+								<cfif NOT isDefined("collector_agent") ><cfset collector_agent=""></cfif>
+								<cfif NOT isDefined("collector_agent_id") ><cfset collector_agent_id=""></cfif>
+								<label for="collector_agent" class="data-entry-label">Collector</label>
+								<input type="text" name="collector_agent" id="collector_agent" class="data-entry-input" value="#encodeForHtml(collector_agent)#">
+								<input type="hidden" name="collector_agent_id" id="collector_agent_id" value="#encodeForHtml(collector_agent_id)#">
+								<script>
+									jQuery(document).ready(function() {
+										makeConstrainedAgentPicker('collector_agent', 'collector_agent_id','collector');
 									});
 								</script>
 							</div>

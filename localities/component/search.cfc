@@ -2660,6 +2660,35 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
+				<cfif isdefined("collector_agent_id") and len(#collector_agent_id#) gt 0>
+					AND collecting_event_id IN (
+						SELECT flatTableName.collecting_event_id 
+						FROM
+							collector 
+							LEFT JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName 
+								ON collector.collection_object_id=flatTableName.collection_object_id
+						WHERE
+							collector_role = 'c'
+							AND collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
+					)
+				<cfelseif isdefined("collector_agent") and len(#collector_agent#) gt 0>
+					<cfset setup = setupClause(field="agent_name.agent_name",value="#collector_agent#")>
+					AND collecting_event_id IN (
+						SELECT flatTableName.collecting_event_id 
+						FROM
+							collector 
+							LEFT JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName 
+								ON collector.collection_object_id=flatTableName.collection_object_id
+							LEFT JOIN agent_name on collector.agent_id = agent_name.agent_id
+						WHERE
+							collector_role = 'c'
+							<cfif len(setup["value"]) EQ 0>
+								AND #setup["pre"]# #setup["post"]#
+							<cfelse>
+								AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+							</cfif>
+					)
+				</cfif>
 			GROUP BY
 				geog_auth_rec.geog_auth_rec_id,
 				geog_auth_rec.continent_ocean,
