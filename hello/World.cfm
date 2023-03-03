@@ -191,11 +191,11 @@ cursor: pointer;
 </style>	
 <div class="media_widget"> 
 	<a href="#"> 
-		<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" width="500" height="auto" class="thumbnail"/>
+		<img src="" width="500" height="auto" class="thumbnail"/>
 	</a> 
-	<img src="https://static.pexels.com/photos/70497/pexels-photo-70497.jpeg" class="largerImg"/>
+	<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" class="largerImg"/>
 	<a href="#">
-	<img src="https://static.pexels.com/photos/70497/pexels-photo-70497.jpeg" class="thumbnailMain"/>
+	<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" class="thumbnailMain"/>
 	</a>
 	<h2> page text</h2>
 	<p> here is some text</p>
