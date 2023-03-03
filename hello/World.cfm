@@ -87,12 +87,6 @@ limitations under the License.
 	box-sizing: border-box;
 }
 </style>
-
-
-<div class="img-magnifier-container">
-  <img id="myimage" src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" width="600" height="400" onmouseover="show()">
-</div>
-
 <script>
 function magnify(imgID, zoom) {
   var img, glass, w, h, bw;
@@ -156,6 +150,16 @@ function show(){
     glass = document.getElementById("glassId").style.display = "block";
 }
 }
+</script>
+
+
+<div class="img-magnifier-container">
+  <img id="myimage" src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" width="600" height="400" onmouseover="show()">
+</div>
+<script>
+/* Initiate Magnify Function
+with the id of the image, and the strength of the magnifier glass:*/
+magnify("myimage", 3);
 </script>
 
 	
