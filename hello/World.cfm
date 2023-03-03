@@ -165,7 +165,7 @@ magnify("myimage", 3);
 	<style>
 		.media_widget {
 			position: relative;
-			margin-top: 2rem;margin-bottom: 5rem;
+			margin-top: 2rem;padding-bottom: 200rem;
 		}
 .thumbnail{
   width: 100px;
