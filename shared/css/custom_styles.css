@@ -656,7 +656,10 @@ BELOW: SPECIMEN DETAIL STYLES
 	padding-left: .5rem;
 	list-style: none;
 }
-
+.media_widget {
+	font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	position: relative;
+}
 li.pid {
 	padding-left: 0;
 }
@@ -2707,12 +2710,6 @@ input[disabled] {
 }
 .html_desc {
 	width: 21.5rem!important;
-}
-
-.card {overflow-x:visible;}
-.media_widget {
-	font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	position: relative;
 }
 /*IMAGE magnifier*/
 
