@@ -2661,7 +2661,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("collector_agent_id") and len(#collector_agent_id#) gt 0>
-					AND collecting_event_id IN (
+					AND collecting_event.collecting_event_id IN (
 						SELECT flatTableName.collecting_event_id 
 						FROM
 							collector 
@@ -2673,7 +2673,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					)
 				<cfelseif isdefined("collector_agent") and len(#collector_agent#) gt 0>
 					<cfset setup = setupClause(field="agent_name.agent_name",value="#collector_agent#")>
-					AND collecting_event_id IN (
+					AND collecting_event.collecting_event_id IN (
 						SELECT flatTableName.collecting_event_id 
 						FROM
 							collector 
