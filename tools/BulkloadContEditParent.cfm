@@ -182,6 +182,7 @@ validate
 				<th>CONTAINER_ID</th>
 				<th>PARENT_CONTAINER_ID</th>
 				<th>STATUS</th>
+			</tr>
 		<tbody>
 			<tr>
 				<cfloop query="data">
@@ -199,7 +200,7 @@ validate
 				<td>#data.PARENT_CONTAINER_ID#</td>
 				<td><strong>#STATUS#</strong></td>
 				</cfloop>
-			<tr>
+			</tr>
 		</tbody>
 	</table>
 </cfoutput>
