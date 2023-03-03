@@ -875,7 +875,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 			</cfquery>
 		</cfif>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT 
+			SELECT distinct
 				geog_auth_rec.geog_auth_rec_id,
 				geog_auth_rec.continent_ocean,
 				geog_auth_rec.country,
@@ -1826,7 +1826,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 			</cfquery>
 		</cfif>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT 
+			SELECT distinct
 				geog_auth_rec.geog_auth_rec_id,
 				geog_auth_rec.continent_ocean,
 				geog_auth_rec.country,
