@@ -181,13 +181,11 @@ magnify("myimage", 3);
     -webkit-transition-property: all;
     -webkit-transition-duration: 0.3s;
     -webkit-transition-timing-function: ease;
-	position:relative;
-	z-index: 5;
 }
 </style>	
 <div class="media_widget"> 
 	<a href="#"> 
-		<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" width="1000" height="auto" class="thumbnail"/>
+		<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" width="500" height="auto" class="thumbnail"/>
 	</a> 
 </div>
 
