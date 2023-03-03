@@ -1079,6 +1079,16 @@
 							<option #n_selected# value="1">Yes</option>
 						</select>
 					</cfif>
+					<cfif #showExtraFields# IS 1>
+						<cfif not isDefined("show_unused")><cfset show_unused = ""></cfif>
+						<label for="show_unused">Unused</label>
+						<select name="show_unused" id="show_unused">
+							<cfif show_unused EQ ""><cfset selected='selected="selected"'><cfelse><cfset selected=""></cfif>
+							<option #selected# value="">Show All</option>
+							<cfif show_unused EQ "only_unused"><cfset selected='selected="selected"'><cfelse><cfset selected=""></cfif>
+							<option #selected# value="only_unused">Unused Only</option>
+						</select>
+					</cfif>
 				</div>
 			</div>
 		</div>

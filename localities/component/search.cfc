@@ -418,6 +418,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="highergeographyid_guid_type" type="string" required="no">
 	<cfargument name="source_authority" type="string" required="no">
 	<cfargument name="return_wkt" type="string" required="no">
+	<cfargument name="show_unused" type="string" required="no">
 
 	<cfif NOT isDefined("return_wkt")><cfset return_wkt=""></cfif>
 	<cfset linguisticFlag = false>
@@ -468,6 +469,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName on geog_auth_rec.geog_auth_rec_id=flatTableName.geog_auth_rec_id
 			WHERE
 				geog_auth_rec.geog_auth_rec_id is not null
+				<cfif isDefined("show_unused") and show_unused EQ "unused_only">
+					AND geog_auth_rec.geog_auth_rec_id not in (select geog_auth_rec_id from flat)
+				</cfif>
 				<cfif isDefined("higher_geog") and len(higher_geog) gt 0>
 					<cfif left(higher_geog,1) is "=">
 						AND upper(geog_auth_rec.higher_geog) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(higher_geog,len(higher_geog)-1))#">
@@ -725,6 +729,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="coordinateDeterminer" type="string" required="no">
 	<cfargument name="georeference_verified_by_id" type="string" required="no">
 	<cfargument name="georeference_verified_by" type="string" required="no">
+	<cfargument name="show_unused" type="string" required="no">
 	<!--- 
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
 	--->
@@ -947,6 +952,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				left join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
 			WHERE
 				locality.locality_id is not null
+				<cfif isDefined("show_unused") and show_unused EQ "unused_only">
+					AND locality.locality_id not in (select locality_id from flat)
+				</cfif>
 				<cfif isDefined("any_geography") and len(any_geography) gt 0>
 					and locality.locality_id in (select locality_id from flat where contains(HIGHER_GEOG,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#any_geography#">,1) > 0)
 				</cfif>
@@ -1673,6 +1681,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="fish_field_number" type="string" required="no">
 	<cfargument name="date_determined_by_agent_id" type="string" required="no">
 	<cfargument name="date_determined_by_agent" type="string" required="no">
+	<cfargument name="show_unused" type="string" required="no">
 	<!--- 
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
 	--->
@@ -1922,6 +1931,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				left join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
 			WHERE
 				locality.locality_id is not null
+				<cfif isDefined("show_unused") and show_unused EQ "unused_only">
+					AND collecting_event.collecting_event_id not in (select collecting_event_id from flat)
+				</cfif>
 				<cfif isDefined("any_geography") and len(any_geography) gt 0>
 					and locality.locality_id in (select locality_id from flat where contains(HIGHER_GEOG,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#any_geography#">,1) > 0)
 				</cfif>
