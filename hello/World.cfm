@@ -189,9 +189,11 @@ margin: 5px;
 display:block;
 z-index:999;
 cursor: pointer;
+  transition-delay: .1s !important; 
 -webkit-transition-property: all;
 -webkit-transition-duration: 0.3s;
 -webkit-transition-timing-function: ease;
+ 
 }
 </style>	
 <div class="media_widget"> 
