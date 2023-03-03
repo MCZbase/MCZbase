@@ -658,6 +658,7 @@ BELOW: SPECIMEN DETAIL STYLES
 }
 .media_widget {
 	font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	position: relative;
 }
 li.pid {
 	padding-left: 0;
