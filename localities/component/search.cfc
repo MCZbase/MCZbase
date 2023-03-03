@@ -1681,12 +1681,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="fish_field_number" type="string" required="no">
 	<cfargument name="date_determined_by_agent_id" type="string" required="no">
 	<cfargument name="date_determined_by_agent" type="string" required="no">
+	<cfargument name="valid_distribution_fg" type="string" required="no">
 	<cfargument name="show_unused" type="string" required="no">
 	<!--- 
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
-	--->
-	<!--- 
-	"VALID_DISTRIBUTION_FG" NUMBER, 
 	--->
 
 	<!--- set default values where not defined --->
@@ -2700,6 +2698,15 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 								AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 							</cfif>
 					)
+				</cfif>
+				<cfif isdefined("valid_distribution_fg") AND len(valid_distribution_fg) gt 0>
+					<cfif valid_distribution_fg EQ 'NULL'>
+						AND valid_distribution_fg IS NULL
+					<cfelseif valid_distribution_fg EQ 'NOT NULL'>
+						AND valid_distribution_fg IS NOT NULL
+					<cfelse>
+						AND valid_distribution_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_distribution_fg#">
+					</cfif>
 				</cfif>
 			GROUP BY
 				geog_auth_rec.geog_auth_rec_id,
