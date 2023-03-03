@@ -434,7 +434,7 @@ limitations under the License.
 								columns: [
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 										{text: 'Edit', datafield: 'edit_loc', width:60, columntype: 'button', hideable: false, cellsrenderer: editLocCellRenderer},
-										{text: 'Edit', datafield: 'edit_coll_evt', width:60, columntype: 'button', hideable: false, cellsrenderer: editEventCellRenderer},
+										{text: 'Edit', datafield: 'edit_coll_event', width:60, columntype: 'button', hideable: false, cellsrenderer: editEventCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
 									{ text: 'collecting_event_id', datafield: 'COLLECTING_EVENT_ID',width: 100, hideabel: true, hidden: getColHidProp('COLLECTING_EVENT_ID',true) },
