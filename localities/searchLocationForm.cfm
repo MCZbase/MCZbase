@@ -831,7 +831,7 @@
 						<input type="text" name="verbatim_locality" id="verbatim_locality" size="75" class="data-entry-input" value="#encodeForHtml(verbatim_locality)#">
 						<script>
 							jQuery(document).ready(function() {
-								makeCEFieldAutocomplete("verbatim_locality", "verbatim_locality") { 
+								makeCEFieldAutocomplete("verbatim_locality", "verbatim_locality");
 							});
 						</script>
 					</div>
@@ -841,7 +841,7 @@
 						<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input" value="#encodeForHtml(verbatim_date)#" >
 						<script>
 							jQuery(document).ready(function() {
-								makeCEFieldAutocomplete("verbatim_date", "verbatim_date") { 
+								makeCEFieldAutocomplete("verbatim_date", "verbatim_date");
 							});
 						</script>
 					</div>
@@ -851,7 +851,7 @@
 						<input type="text" name="verbatimdepth" id="verbatimdepth" size="75" class="data-entry-input" value="#encodeForHtml(verbatimdepth)#">
 						<script>
 							jQuery(document).ready(function() {
-								makeCEFieldAutocomplete("verbatimdepth", "verbatimdepth") { 
+								makeCEFieldAutocomplete("verbatimdepth", "verbatimdepth"); 
 							});
 						</script>
 					</div>
@@ -861,7 +861,7 @@
 						<input type="text" name="verbatimelevation" id="verbatimelevation" size="75" class="data-entry-input" value="#encodeForHtml(verbatimelevation)#">
 						<script>
 							jQuery(document).ready(function() {
-								makeCEFieldAutocomplete("verbatimelevation", "verbatimelevation") { 
+								makeCEFieldAutocomplete("verbatimelevation", "verbatimelevation");
 							});
 						</script>
 					</div>
@@ -917,7 +917,7 @@
 							<input type="text" name="collecting_time" id="collecting_time" class="data-entry-input" value="#encodeForHtml(collecting_time)#">
 							<script>
 								jQuery(document).ready(function() {
-									makeCEFieldAutocomplete("collecting_time", "collecting_time") { 
+									makeCEFieldAutocomplete("collecting_time", "collecting_time"); 
 								});
 							</script>
 						</div>
@@ -945,7 +945,7 @@
 							<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" class="data-entry-input">
 							<script>
 								jQuery(document).ready(function() {
-									makeCEFieldAutocomplete("verbatimCoordinateSystem", "verbatimCoordinateSystem") { 
+									makeCEFieldAutocomplete("verbatimCoordinateSystem", "verbatimCoordinateSystem");
 								});
 							</script>
 						</div>
@@ -954,7 +954,7 @@
 							<input type="text" name="verbatimSRS" id="verbatimSRS" class="data-entry-input">
 							<script>
 								jQuery(document).ready(function() {
-									makeCEFieldAutocomplete("verbatimSRS", "verbatimSRS") { 
+									makeCEFieldAutocomplete("verbatimSRS", "verbatimSRS");
 								});
 							</script>
 						</div>
@@ -963,7 +963,7 @@
 							<input type="text" name="collecting_method" id="collecting_method" class="data-entry-input">
 							<script>
 								jQuery(document).ready(function() {
-									makeCEFieldAutocomplete("collecting_method", "collecting_method") { 
+									makeCEFieldAutocomplete("collecting_method", "collecting_method"); 
 								});
 							</script>
 						</div>
@@ -973,7 +973,7 @@
 							<input type="text" name="habitat_desc" id="habitat_desc" class="data-entry-input" value="#encodeForHtml(habitat_desc)#">
 							<script>
 								jQuery(document).ready(function() {
-									makeCEFieldAutocomplete("habitat_desc", "habitat_desc") { 
+									makeCEFieldAutocomplete("habitat_desc", "habitat_desc");
 								});
 							</script>
 						</div>
@@ -997,7 +997,7 @@
 								<input type="text" name="fish_field_number" id="fish_field_number" class="data-entry-input" value="#encodeForHtml(fish_field_number)#">
 								<script>
 									jQuery(document).ready(function() {
-										makeCEFieldAutocomplete("fish_field_number", "fish_field_number") { 
+										makeCEFieldAutocomplete("fish_field_number", "fish_field_number");
 									});
 								</script>
 							</div>
