@@ -150,6 +150,20 @@ validate
 </cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------->
+<!--- would need to run headless to be of use, adding as placeholder --->
+<cfif action is "dumpProblems">
+<cfoutput>
+	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
+		FROM cf_temp_cont_edit 
+	</cfquery>
+   <cfset newline = (Chr( 13 ) & Chr( 10 )) >
+	container_unique_id,parent_unique_id,container_type,container_name,status#newline#
+	<cfloop query="getProblemData">
+	#getProblemData.container_unique_id#,#getProblemData.parent_unique_id#,#getProblemData.container_type#,#getProblemData.container_name#,#getProblemData.status##newline#
+	<cfloop>
+</cfif>
+<!-------------------------------------------------------------------------------------------->
 <cfif action is "load">
 <cfoutput>
 	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -166,8 +180,26 @@ validate
 		</cfloop>
 	</cftransaction>
 	<cfcatch>
-		There was a problem updating container types.
-		 <cfrethrow>
+		<h2>There was a problem updating container types.</h2>
+		<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
+			FROM cf_temp_cont_edit 
+			WHERE status is not null
+		</cfquery>
+		<h3>Problematic Rows</h3>
+		<table>
+			<tr><th>container_unique_id</th><th>parent_unique_id</th><th>container_type</th><th>container_name</th><th>status</th></tr> 
+			<cfloop query="getProblemData">
+				<tr>
+					<td>#getProblemData.container_unique_id#</td>
+					<td>#getProblemData.parent_unique_id#</td>
+					<td>#getProblemData.container_type#</td>
+					<td>#getProblemData.container_name#</td>
+					<td>#getProblemData.status#</td>
+				</tr> 
+			</cfloop>
+		</table>
+		<cfrethrow>
 	</cfcatch>
 	</cftry>
 	<cftransaction>
