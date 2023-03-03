@@ -150,9 +150,10 @@ validate
 		</cfif>
 	</cfloop--->
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from cf_temp_cont_edit
+		SELECT CONTAINER_UNIQUE_ID, PARENT_UNIQUE_ID, CONTAINER_TYPE, CONTAINER_NAME, DESCRIPTION, REMARKS, WIDTH,
+			HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS 
+		FROM cf_temp_cont_edit
 	</cfquery>
-	<cfdump var=#data#>
 	<cfquery name="pf" dbtype="query">
 		select count(*) c from data where status is not null
 	</cfquery>
@@ -161,8 +162,44 @@ validate
 		There is a problem with #pf.c# row(s). Check STATUS. (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>).
 		</h2>
 	<cfelse>
-		Validation checks passed. Look over the above grid and <a href="BulkloadContEditParent.cfm?action=load">click to continue</a> if it all looks good.
+		Validation checks passed. Look over the table below and <a href="BulkloadContEditParent.cfm?action=load">click to continue</a> if it all looks good.
 	</cfif>
+	<table>
+		<thead>
+			<tr>
+				<th>CONTAINER_UNIQUE_ID</th>
+				<th>PARENT_UNIQUE_ID</th>
+				<th>CONTAINER_TYPE</th>
+				<th>CONTAINER_NAME</th>
+				<th>DESCRIPTION</th>
+				<th>REMARKS</th>
+				<th>WIDTH</th>
+				<th>HEIGHT</th>
+				<th>LENGTH</th>
+				<th>NUMBER_POSITIONS</th>
+				<th>CONTAINER_ID</th>
+				<th>PARENT_CONTAINER_ID</th>
+				<th>STATUS</th>
+		<tbody>
+			<tr>
+				<cfloop query="data">
+				<td>#data.CONTAINER_UNIQUE_ID#</td>
+				<td>#data.PARENT_UNIQUE_ID#</td>
+				<td>#data.CONTAINER_TYPE#</td>
+				<td>#data.CONTAINER_NAME#</td>
+				<td>#data.DESCRIPTION#</td>
+				<td>#data.REMARKS#</td>
+				<td>#data.WIDTH#</td>
+				<td>#data.HEIGHT#</td>
+				<td>#data.LENGTH#</td>
+				<td>#data.NUMBER_POSITIONS#</td>
+				<td>#data.CONTAINER_ID#</td>
+				<td>#data.PARENT_CONTAINER_ID#</td>
+				<td><strong>#STATUS#</strong></td>
+				</cfloop>
+			<tr>
+		</tbody>
+	</table>
 </cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------->
