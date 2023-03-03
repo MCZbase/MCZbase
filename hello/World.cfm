@@ -185,7 +185,7 @@ magnify("myimage", 3);
 }
 </style>	
 <div class="media_widget"> 
-	<a href=""> 
+	<a href="#"> 
 		<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" width="1000" height="auto" class="thumbnail"/>
 	</a> 
 </div>
