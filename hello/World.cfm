@@ -65,7 +65,7 @@ limitations under the License.
 </cfoutput>
 
 <style>
-.container {
+.img-block {
 	 display: flex;
 	 justify-content: center;
 	 align-items: center;
@@ -95,20 +95,19 @@ limitations under the License.
  .magnify-wrapper:hover #large-img, .magnify-wrapper:active #large-img {
 	 opacity: 1;
 }
-
 </style>
 
 
-<div class="container">
-  <div id="zoom" class="magnify-wrapper">
-    <img src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="main-img" />
-    <div id="large-img"></div>
+<div class="img-block">
+  <div id="zoomer" class="magnify-wrapper">
+	 <a href="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="large-image">
+    <img src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="main-img" /></a>
+   <!--- <div id="large-img"></div>--->
   </div>
 </div>
 
-	<script>
-	
-document.getElementById("zoom").addEventListener(
+<script>
+document.getElementById("zoomer").addEventListener(
   "mousemove",
   function (e) {
     let original = document.getElementById("main-img"),
@@ -120,17 +119,14 @@ document.getElementById("zoom").addEventListener(
       imgHeight = original.height,
       xperc = (x / imgWidth) * 100,
       yperc = (y / imgHeight) * 100;
-
     // Add some margin for right edge
     if (x > 0.01 * imgWidth) {
       xperc += 0.15 * xperc;
     }
-
     // Add some margin for bottom edge
     if (y >= 0.01 * imgHeight) {
       yperc += 0.15 * yperc;
     }
-
     // Set the background of the magnified image horizontal
     style.backgroundPositionX = xperc - 9 + "%";
     // Set the background of the magnified image vertical
@@ -142,7 +138,6 @@ document.getElementById("zoom").addEventListener(
   },
   false
 );
-	
 </script>
 
 <cfinclude template="/shared/_footer.cfm">
