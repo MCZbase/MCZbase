@@ -182,7 +182,7 @@ top:0;
 }
 .largerImg:hover {
 min-width: 500px;
-height: auto;
+max-height:500px;
 position: absolute;
 opacity:1;
 margin: 5px;
