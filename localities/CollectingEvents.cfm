@@ -391,7 +391,7 @@ limitations under the License.
 								root: 'collecting_event',
 								id: 'collecting_event_id',
 								url: '/localities/component/search.cfc?' + $('##searchForm').serialize(),
-								timeout: 120000,  // units not specified, miliseconds? 
+								timeout: 60000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
 									handleFail(jqXHR,textStatus,error, "Error performing collecting event search: "); 
 								},
