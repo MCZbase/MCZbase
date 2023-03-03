@@ -2842,7 +2842,7 @@ Function getCEFieldAutocomplete.  Search for distinct values of a particular fie
 					<cfcase value="VERBATIMDEPTH">VERBATIMDEPTH as name</cfcase>
 				</cfswitch>
 			FROM 
-				taxonomy
+				collecting_event
 			WHERE
 				<cfswitch expression="#ucase(field)#">
 					<cfcase value="VERBATIM_DATE">upper(VERBATIM_DATE)</cfcase>
