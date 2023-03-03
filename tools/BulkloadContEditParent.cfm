@@ -8,6 +8,7 @@
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfset csv = queryToCSV(getProblemData)>
+	<cfheader name="Content-Type" value="text/csv">
 	<cfoutput>#csv#</cfoutput>
 <cfabort>
 </cfif>
@@ -139,12 +140,13 @@ validate
 		</cfif>
 		<cfif len(parent_container_id) gt 0>
 			<cfquery name="isplbl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select container_type from container where container_id='#parent_container_id#'
+				SELECT container_type from container 
+				WHERE container_id = <cfqueryparam cfsqtype="CF_SQL_DECIMAL" value="#parent_container_id#">
 			</cfquery>
 			<cfif isplbl.container_type contains 'label'>
 				<cfquery name="miapp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_cont_edit set status = 'parent_is_label'
-					where key=#key#
+					WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 				</cfquery>
 			</cfif>
 		</cfif>
@@ -212,9 +214,12 @@ validate
 	<cftransaction>
 		<cfloop query="getTempData">
 			<cfquery name="updateC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update container set
-					CONTAINER_TYPE='#CONTAINER_TYPE#'
-				where CONTAINER_ID=#CONTAINER_ID#
+				UPDATE
+					container 
+				SET
+					CONTAINER_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_TYPE#">
+				WHERE
+					CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
 			</cfquery>
 		</cfloop>
 	</cftransaction>
@@ -244,31 +249,34 @@ validate
 	<cftransaction>
 		<cfloop query="getTempData">
 			<cfquery name="updateC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update container set
-					label='#CONTAINER_NAME#',
-					DESCRIPTION='#DESCRIPTION#',
+				UPDATE
+					container 
+				SET
+					label=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_NAME#">,
+					DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION#">,
 					PARENT_INSTALL_DATE=sysdate,
-					CONTAINER_REMARKS='#remarks#'
+					CONTAINER_REMARKS=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 					<cfif len(#WIDTH#) gt 0>
-						,WIDTH=#WIDTH#
+						,WIDTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#WIDTH#">
 					</cfif>
 					<cfif len(#HEIGHT#) gt 0>
-						,HEIGHT=#HEIGHT#
+						,HEIGHT=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#HEIGHT#">
 					</cfif>
 					<cfif len(#LENGTH#) gt 0>
-						,LENGTH=#LENGTH#
+						,LENGTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LENGTH#">
 					</cfif>
 					<cfif len(#NUMBER_POSITIONS#) gt 0>
-						,NUMBER_POSITIONS=#NUMBER_POSITIONS#
+						,NUMBER_POSITIONS=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NUMBER_POSITIONS#">
 					</cfif>
 					<cfif len(#parent_container_id#) gt 0>
-						,parent_container_id=#parent_container_id#
+						,parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
 					</cfif>
-				where CONTAINER_ID=#CONTAINER_ID#
+				WHERE
+					CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
 			</cfquery>
 		</cfloop>
 	</cftransaction>
-	Spiffy, all done.
+	Success, changes applied.
 </cfoutput>
 </cfif>
     </div>
