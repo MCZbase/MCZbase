@@ -2712,32 +2712,37 @@ input[disabled] {
 	width: 21.5rem!important;
 }
 /*IMAGE magnifier*/
-.thumbnailMain{
-width: 100px;
-height: auto;
-z-index:1;
+
+.magnify{
+  width:400px;
+  height:400px;
 }
-.largerImg{
-min-width: 500px;
-height: auto;
-position: absolute;
-opacity:0;
-left:0;
-top:0;
+img,underlay{
+  width:40px;
+  height:40px;
 }
-.largerImg:hover {
-min-width: 500px;
-height: auto;
-position: absolute;
-opacity:1;
-margin: 5px;
-display:block;
-z-index:999;
-cursor: pointer;
--webkit-transition-property: all;
--webkit-transition-duration: 0.3s;
--webkit-transition-timing-function: ease;
+underlay{
+  position:absolute;
+  z-index:-1;
+  background-size:contain;
 }
+underlay:nth-of-type(1){
+  left:0px;
+}
+underlay:nth-of-type(2){
+  left:40px;
+}
+underlay:nth-of-type(3){
+  left:80px;
+  }
+
+img:hover ~ underlay{
+  top:0px;
+ left:100px;
+ width:300px;
+ height:300px;
+}
+
 /*************End Image magnifier***************/
 /**********************************************/
 @keyframes slideup {
