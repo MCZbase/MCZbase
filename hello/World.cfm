@@ -173,7 +173,7 @@ height: auto;
 z-index:1;
 }
 .largerImg{
-min-width: 400px;
+min-width: 100px;
 height: auto;
 position: absolute;
 opacity:0;
