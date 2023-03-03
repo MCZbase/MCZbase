@@ -174,7 +174,7 @@ z-index:1;
 }
 .largerImg{
 min-width: 100px;
-height: auto;
+max-height: 100px;
 position: absolute;
 opacity:0;
 left:0;
