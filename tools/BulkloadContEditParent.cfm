@@ -1,3 +1,19 @@
+<!--- special case handling to dump problem data as csv --->
+<cfif isDefined("action") AND action is "dumpProblems">
+	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
+		FROM cf_temp_cont_edit 
+	</cfquery>
+   <cfset newline = (Chr( 13 ) & Chr( 10 )) >
+<cfoutput>
+"container_unique_id"."parent_unique_id"."container_type"."container_name"."status"#newline#
+<cfloop query="getProblemData">
+"#getProblemData.container_unique_id#"."#getProblemData.parent_unique_id#"."#getProblemData.container_type#"."#getProblemData.container_name#"."#getProblemData.status#"#newline#
+</cfloop>
+</cfoutput>
+<cfabort>
+</cfif>
+<!--- end special case dump of problems --->
 <cfinclude template="/includes/_header.cfm">
      <div style="width: 50em; margin: 0 auto; padding: 3em 0 4em 0;">
          <h3>Bulkload Container Edit Parent</h3>
@@ -150,20 +166,6 @@ validate
 </cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------->
-<!--- would need to run headless to be of use, adding as placeholder --->
-<cfif action is "dumpProblems">
-<cfoutput>
-	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
-		FROM cf_temp_cont_edit 
-	</cfquery>
-   <cfset newline = (Chr( 13 ) & Chr( 10 )) >
-	container_unique_id,parent_unique_id,container_type,container_name,status#newline#
-	<cfloop query="getProblemData">
-	#getProblemData.container_unique_id#,#getProblemData.parent_unique_id#,#getProblemData.container_type#,#getProblemData.container_name#,#getProblemData.status##newline#
-	<cfloop>
-</cfif>
-<!-------------------------------------------------------------------------------------------->
 <cfif action is "load">
 <cfoutput>
 	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -186,7 +188,7 @@ validate
 			FROM cf_temp_cont_edit 
 			WHERE status is not null
 		</cfquery>
-		<h3>Problematic Rows</h3>
+		<h3>Problematic Rows (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>)</h3>
 		<table>
 			<tr><th>container_unique_id</th><th>parent_unique_id</th><th>container_type</th><th>container_name</th><th>status</th></tr> 
 			<cfloop query="getProblemData">
