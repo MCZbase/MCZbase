@@ -156,7 +156,7 @@ validate
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from cf_temp_cont_edit
 	</cfquery>
-	<cfdump var=#data.RESULTSET#>
+	<cfdump var=#data#>
 	<cfquery name="pf" dbtype="query">
 		select count(*) c from data where status is not null
 	</cfquery>
