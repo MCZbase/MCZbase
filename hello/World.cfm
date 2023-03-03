@@ -162,32 +162,43 @@ magnify("myimage", 3);
 </script>
 
 	<style>
-.media_widget {
-	position: relative;
-	margin-top: 2rem;padding-bottom: 200rem;
+.thumbnailMain{
+width: 100px;
+height: auto;
+z-index:1;
 }
-.thumbnail{
-  width: 100px;
-  height: auto;
+.largerImg{
+min-width: 500px;
+height: auto;
+position: absolute;
+opacity:0;
+left:0;
+top:0;
 }
-.thumbnail:hover {
-    top:-50px;
-    left:-35px;
-    width:500px;
-    height:auto;
-    display:block;
-    z-index:999;
-    cursor: pointer;
-    -webkit-transition-property: all;
-    -webkit-transition-duration: 0.3s;
-    -webkit-transition-timing-function: ease;
+.largerImg:hover {
+min-width: 500px;
+height: auto;
+position: absolute;
+opacity:1;
+margin: 5px;
+display:block;
+z-index:999;
+cursor: pointer;
+-webkit-transition-property: all;
+-webkit-transition-duration: 0.3s;
+-webkit-transition-timing-function: ease;
 }
 </style>	
 <div class="media_widget"> 
 	<a href="#"> 
 		<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" width="500" height="auto" class="thumbnail"/>
 	</a> 
+	<img src="https://static.pexels.com/photos/70497/pexels-photo-70497.jpeg" class="larger"/>
+	<a href="#">
+	<img src="https://static.pexels.com/photos/70497/pexels-photo-70497.jpeg" class="thumbnail2"/>
+	</a>
 	<h2> page text</h2>
+	<p> here is some text</p>
 </div>
 
 	
