@@ -2058,7 +2058,7 @@ function makeCEFieldAutocomplete(fieldId, targetField) {
 		source: function (request, response) {
 			$.ajax({
 				url: "/localities/component/search.cfc",
-				data: { term: request.term, method: 'getCEFieldAutocomplete', rank: targetRank },
+				data: { term: request.term, method: 'getCEFieldAutocomplete', field: targetField },
 				dataType: 'json',
 				success : function (data) { response(data); },
 				error : function (jqXHR, textStatus, error) {
