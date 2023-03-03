@@ -1011,10 +1011,24 @@
 								<label for="verbatimlongigude" class="data-entry-label">Verbatim Longitude</label>
 								<input type="text" name="verbatimlongigude" id="verbatimlongigude" class="data-entry-input" value="#encodeForHtml(verbatimlongigude)#">
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-1">
+								<cfif NOT isDefined("valid_distribution_fg") ><cfset valid_distribution_fg=""></cfif>
+								<label for="valid_distribution_fg" class="data-entry-label">Valid Distribution</label>
+								<select name="valid_distribution_fg" id="valid_distribution_fg" size="1" class="data-entry-select">
+									<cfif valid_distribution_fg EQ ""><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="" #selected#></option>
+									<cfif valid_distribution_fg EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="1" #selected#>Yes</option>
+									<cfif valid_distribution_fg EQ "NULL"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="NULL" #selected#>NULL</option>
+									<cfif valid_distribution_fg EQ "NOT NULL"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="NOT NULL" #selected#>NOT NULL</option>
+								</select>
+							</div>
+							<div class="col-12 col-md-1">
 								<cfif NOT isDefined("date_determined_by_agent") ><cfset date_determined_by_agent=""></cfif>
 								<cfif NOT isDefined("date_determined_by_agent_id") ><cfset date_determined_by_agent_id=""></cfif>
-								<label for="date_determined_by_agent" class="data-entry-label">Date Determined by</label>
+								<label for="date_determined_by_agent" class="data-entry-label">Date Det. by</label>
 								<input type="text" name="date_determined_by_agent" id="date_determined_by_agent" class="data-entry-input" value="#encodeForHtml(date_determined_by_agent)#">
 								<input type="hidden" name="date_determined_by_agent_id" id="date_determined_by_agent_id" value="#encodeForHtml(date_determined_by_agent_id)#">
 								<script>
