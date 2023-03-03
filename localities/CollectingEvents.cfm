@@ -224,6 +224,10 @@ limitations under the License.
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?Action=editCollEvnt&collecting_event_id="+collecting_event_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'HIGHER_GEOG') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?action=editGeog&geog_auth_rec_id="+geog_auth_rec_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+							} else if (datafield == 'SPECIMEN_COUNT') { 
+								var loc = encodeURIComponent(rowData['VERBATIM_LOCALITY']);
+								var date = encodeURIComponent(rowData['VEBATIM_DATE']);
+					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=CATAOGED_ITEM%3ACATALOGED%20ITEM_COLLECTNG_EVENT_ID&searchText1=" + loc + "%20" + date + "%20(" + collecting_event_id + ")&searchId1="+ collecting_event_id +"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'edit_loc' || datafield == 'edit_coll_event') {
 								// undefined generated column
 								console.log(datarecord[datafield]);
@@ -279,9 +283,10 @@ limitations under the License.
 						if (value==0) {
 							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">None</span>';
 						} else {
-							var loc = encodeURIComponent(rowData['SPEC_LOCALITY']);
-							var id = encodeURIComponent(rowData['LOCALITY_ID']);
-							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID_PICK&searchText1=' + loc + '&searchId1='+ id +'" target="_blank">'+value+'</a></span>';
+							var loc = encodeURIComponent(rowData['VERBATIM_LOCALITY']);
+							var date = encodeURIComponent(rowData['VEBATIM_DATE']);
+							var id = encodeURIComponent(rowData['COLLECTING_EVENT_ID']);
+							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=CATAOGED_ITEM%3ACATALOGED%20ITEM_COLLECTNG_EVENT_ID&searchText1=' + loc + '%20' + date + '%20(' + id + ')&searchId1='+ id +'" target="_blank">'+value+'</a></span>';
 						}
 					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
