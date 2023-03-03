@@ -77,8 +77,8 @@ limitations under the License.
   border-radius: 50%;
   cursor: none;
   /*Set the size of the magnifier glass:*/
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   display:block;
 	box-sizing: border-box;
 }
@@ -162,9 +162,24 @@ with the id of the image, and the strength of the magnifier glass:*/
 magnify("myimage", 3);
 </script>
 
-	
-	
-	
-	
+	<style>
+.thumbnail{
+  width: 100px;
+  height: auto;
+}
+.thumbnail:hover {
+    top:-50px;
+    left:-35px;
+    width:500px;
+    height:auto;
+    display:block;
+    z-index:999;
+    cursor: pointer;
+    -webkit-transition-property: all;
+    -webkit-transition-duration: 0.3s;
+    -webkit-transition-timing-function: ease;
+}
+</style>	
+<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" width="1000" height="auto" class="thumbnail"/>	
 	
 <cfinclude template="/shared/_footer.cfm">
