@@ -1025,10 +1025,10 @@
 									<option value="NOT NULL" #selected#>NOT NULL</option>
 								</select>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-1">
 								<cfif NOT isDefined("date_determined_by_agent") ><cfset date_determined_by_agent=""></cfif>
 								<cfif NOT isDefined("date_determined_by_agent_id") ><cfset date_determined_by_agent_id=""></cfif>
-								<label for="date_determined_by_agent" class="data-entry-label">Date Determined by</label>
+								<label for="date_determined_by_agent" class="data-entry-label">Date Det. by</label>
 								<input type="text" name="date_determined_by_agent" id="date_determined_by_agent" class="data-entry-input" value="#encodeForHtml(date_determined_by_agent)#">
 								<input type="hidden" name="date_determined_by_agent_id" id="date_determined_by_agent_id" value="#encodeForHtml(date_determined_by_agent_id)#">
 								<script>
