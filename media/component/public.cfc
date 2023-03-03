@@ -325,9 +325,10 @@ include this function and use it.
 						<cfset linkTarget = iiifFull>
 					</cfif>
 					<!---Hover zoom--->
-					<cfset output='#output#<div class="img-block"><div id="zoomer" class="magnify-wrapper">'>
-					<cfset output='#output#<img src="#displayImage#" id="main-img" alt="#alt#" #hw# style="#styles#"/>'>
-					<cfset output='#output#<div id="large-img" style="background-image:url(&quot;#displayImage#&quot;)"></div></div></div>'>
+					<cfset output='#output#<img src="#displayImage#" class="largerImg"/>'>
+					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
+					<cfset output='#output#<img src="#displayImage#" alt="#alt#" #hw# style="#styles#" class="thumbnailMain"/>'>
+					<cfset output='#output#</a>'>
 					<!---old hover that used jquery--->
 					<!---	<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
 					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
