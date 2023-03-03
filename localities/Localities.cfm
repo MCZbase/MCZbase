@@ -192,7 +192,7 @@ limitations under the License.
 								autoOpen: true,
 								buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
 								width: dialogWidth,
-								title: 'Loan Details'
+								title: 'Locality Details'
 							}
 						);
 						// Workaround, expansion sits below row in zindex.

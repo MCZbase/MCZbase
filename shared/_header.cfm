@@ -436,23 +436,12 @@ limitations under the License.
 									<div>
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Locality.cfm?action=findHG">Geography</a> 
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Geography</a>
-											</cfif>
-											
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Locality.cfm?action=findLO">Localities</a> 
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Localities</a>
-											</cfif>
-																					
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Locality.cfm?action=findCO">Collecting Events</a> 
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Collecting Events</a>
-											</cfif>
+											<a class="dropdown-item" href="/Locality.cfm?action=findHG">Geography (old)</a> 
+											<a class="dropdown-item" href="/localities/HigherGeographies.cfm">Geography</a> 
+											<a class="dropdown-item" href="/Locality.cfm?action=findLO">Localities (old)</a> 
+											<a class="dropdown-item" href="/localities/Localities.cfm">Localities</a> 
+											<a class="dropdown-item" href="/Locality.cfm?action=findCO">Collecting Events (old)</a> 
+											<a class="dropdown-item" href="/localities/CollectingEvents.cfm">Collecting Events</a> 
 										</cfif>
 									
 										<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 

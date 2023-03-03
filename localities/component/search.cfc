@@ -418,6 +418,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="highergeographyid_guid_type" type="string" required="no">
 	<cfargument name="source_authority" type="string" required="no">
 	<cfargument name="return_wkt" type="string" required="no">
+	<cfargument name="show_unused" type="string" required="no">
 
 	<cfif NOT isDefined("return_wkt")><cfset return_wkt=""></cfif>
 	<cfset linguisticFlag = false>
@@ -468,6 +469,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName on geog_auth_rec.geog_auth_rec_id=flatTableName.geog_auth_rec_id
 			WHERE
 				geog_auth_rec.geog_auth_rec_id is not null
+				<cfif isDefined("show_unused") and show_unused EQ "unused_only">
+					AND geog_auth_rec.geog_auth_rec_id not in (select geog_auth_rec_id from flat)
+				</cfif>
 				<cfif isDefined("higher_geog") and len(higher_geog) gt 0>
 					<cfif left(higher_geog,1) is "=">
 						AND upper(geog_auth_rec.higher_geog) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(higher_geog,len(higher_geog)-1))#">
@@ -725,6 +729,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="coordinateDeterminer" type="string" required="no">
 	<cfargument name="georeference_verified_by_id" type="string" required="no">
 	<cfargument name="georeference_verified_by" type="string" required="no">
+	<cfargument name="show_unused" type="string" required="no">
 	<!--- 
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
 	--->
@@ -875,7 +880,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 			</cfquery>
 		</cfif>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT 
+			SELECT distinct
 				geog_auth_rec.geog_auth_rec_id,
 				geog_auth_rec.continent_ocean,
 				geog_auth_rec.country,
@@ -947,6 +952,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				left join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
 			WHERE
 				locality.locality_id is not null
+				<cfif isDefined("show_unused") and show_unused EQ "unused_only">
+					AND locality.locality_id not in (select locality_id from flat)
+				</cfif>
 				<cfif isDefined("any_geography") and len(any_geography) gt 0>
 					and locality.locality_id in (select locality_id from flat where contains(HIGHER_GEOG,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#any_geography#">,1) > 0)
 				</cfif>
@@ -1673,6 +1681,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="fish_field_number" type="string" required="no">
 	<cfargument name="date_determined_by_agent_id" type="string" required="no">
 	<cfargument name="date_determined_by_agent" type="string" required="no">
+	<cfargument name="show_unused" type="string" required="no">
 	<!--- 
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
 	--->
@@ -1826,7 +1835,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 			</cfquery>
 		</cfif>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT 
+			SELECT distinct
 				geog_auth_rec.geog_auth_rec_id,
 				geog_auth_rec.continent_ocean,
 				geog_auth_rec.country,
@@ -1921,7 +1930,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				left join geology_attributes on locality.locality_id = geology_attributes.locality_id 
 				left join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
 			WHERE
-				locality.locality_id is not null
+				collecting_event.collecting_event_id is not null
+				<cfif isDefined("show_unused") AND show_unused EQ "unused_only">
+					AND collecting_event.collecting_event_id not in (select collecting_event_id from flat)
+				</cfif>
 				<cfif isDefined("any_geography") and len(any_geography) gt 0>
 					and locality.locality_id in (select locality_id from flat where contains(HIGHER_GEOG,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#any_geography#">,1) > 0)
 				</cfif>
@@ -2660,6 +2672,35 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
+				<cfif isdefined("collector_agent_id") and len(#collector_agent_id#) gt 0>
+					AND collecting_event.collecting_event_id IN (
+						SELECT flatTableName.collecting_event_id 
+						FROM
+							collector 
+							LEFT JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName 
+								ON collector.collection_object_id=flatTableName.collection_object_id
+						WHERE
+							collector_role = 'c'
+							AND collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
+					)
+				<cfelseif isdefined("collector_agent") and len(#collector_agent#) gt 0>
+					<cfset setup = setupClause(field="agent_name.agent_name",value="#collector_agent#")>
+					AND collecting_event.collecting_event_id IN (
+						SELECT flatTableName.collecting_event_id 
+						FROM
+							collector 
+							LEFT JOIN <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName 
+								ON collector.collection_object_id=flatTableName.collection_object_id
+							LEFT JOIN agent_name on collector.agent_id = agent_name.agent_id
+						WHERE
+							collector_role = 'c'
+							<cfif len(setup["value"]) EQ 0>
+								AND #setup["pre"]# #setup["post"]#
+							<cfelse>
+								AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+							</cfif>
+					)
+				</cfif>
 			GROUP BY
 				geog_auth_rec.geog_auth_rec_id,
 				geog_auth_rec.continent_ocean,
@@ -2758,6 +2799,140 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				ALTER SESSION SET NLS_COMP = BINARY
 			</cfquery>
 		</cfif>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
+<!---
+Function getCEFieldAutocomplete.  Search for distinct values of a particular field in the collecting event table
+  by name with a substring match on name, returning json suitable for jquery-ui autocomplete.
+
+@param term value of the field to search for.
+@param field the field to search
+@return a json structure containing id and value, and meta, with matching value in value and id, 
+  and count metadata in meta.
+--->
+<cffunction name="getCEFieldAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfargument name="field" type="string" required="yes">
+	<!--- perform wildcard search anywhere in field --->
+	<cfset name = "%#term#%"> 
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT count(*) as ct,
+				<cfswitch expression="#ucase(field)#">
+					<cfcase value="VERBATIM_DATE">VERBATIM_DATE as name</cfcase>
+					<cfcase value="VERBATIM_LOCALITY">VERBATIM_LOCALITY as name</cfcase>
+					<cfcase value="COLL_EVENT_REMARKS">COLL_EVENT_REMARKS as name</cfcase>
+					<cfcase value="COLLECTING_SOURCE">COLLECTING_SOURCE as name</cfcase>
+					<cfcase value="COLLECTING_METHOD">COLLECTING_METHOD as name</cfcase>
+					<cfcase value="HABITAT_DESC">HABITAT_DESC as name</cfcase>
+					<cfcase value="FISH_FIELD_NUMBER">FISH_FIELD_NUMBER as name</cfcase>
+					<cfcase value="BEGAN_DATE">BEGAN_DATE as name</cfcase>
+					<cfcase value="ENDED_DATE">ENDED_DATE as name</cfcase>
+					<cfcase value="COLLECTING_TIME">COLLECTING_TIME as name</cfcase>
+					<cfcase value="VERBATIMCOORDINATES">VERBATIMCOORDINATES as name</cfcase>
+					<cfcase value="VERBATIMLATITUDE">VERBATIMLATITUDE as name</cfcase>
+					<cfcase value="VERBATIMLONGITUDE">VERBATIMLONGITUDE as name</cfcase>
+					<cfcase value="VERBATIMCOORDINATESYSTEM">VERBATIMCOORDINATESYSTEM as name</cfcase>
+					<cfcase value="VERBATIMSRS">VERBATIMSRS as name</cfcase>
+					<cfcase value="STARTDAYOFYEAR">STARTDAYOFYEAR as name</cfcase>
+					<cfcase value="ENDDAYOFYEAR">ENDDAYOFYEAR as name</cfcase>
+					<cfcase value="VERBATIMELEVATION">VERBATIMELEVATION as name</cfcase>
+					<cfcase value="VERBATIMDEPTH">VERBATIMDEPTH as name</cfcase>
+				</cfswitch>
+			FROM 
+				collecting_event
+			WHERE
+				<cfswitch expression="#ucase(field)#">
+					<cfcase value="VERBATIM_DATE">upper(VERBATIM_DATE)</cfcase>
+					<cfcase value="VERBATIM_LOCALITY">upper(VERBATIM_LOCALITY)</cfcase>
+					<cfcase value="COLL_EVENT_REMARKS">upper(COLL_EVENT_REMARKS)</cfcase>
+					<cfcase value="COLLECTING_SOURCE">upper(COLLECTING_SOURCE)</cfcase>
+					<cfcase value="COLLECTING_METHOD">upper(COLLECTING_METHOD)</cfcase>
+					<cfcase value="HABITAT_DESC">upper(HABITAT_DESC)</cfcase>
+					<cfcase value="FISH_FIELD_NUMBER">upper(FISH_FIELD_NUMBER)</cfcase>
+					<cfcase value="BEGAN_DATE">upper(BEGAN_DATE)</cfcase>
+					<cfcase value="ENDED_DATE">upper(ENDED_DATE)</cfcase>
+					<cfcase value="COLLECTING_TIME">upper(COLLECTING_TIME)</cfcase>
+					<cfcase value="VERBATIMCOORDINATES">upper(VERBATIMCOORDINATES)</cfcase>
+					<cfcase value="VERBATIMLATITUDE">upper(VERBATIMLATITUDE)</cfcase>
+					<cfcase value="VERBATIMLONGITUDE">upper(VERBATIMLONGITUDE)</cfcase>
+					<cfcase value="VERBATIMCOORDINATESYSTEM">upper(VERBATIMCOORDINATESYSTEM)</cfcase>
+					<cfcase value="VERBATIMSRS">upper(VERBATIMSRS)</cfcase>
+					<cfcase value="STARTDAYOFYEAR">upper(STARTDAYOFYEAR)</cfcase>
+					<cfcase value="ENDDAYOFYEAR">upper(ENDDAYOFYEAR)</cfcase>
+					<cfcase value="VERBATIMELEVATION">upper(VERBATIMELEVATION)</cfcase>
+					<cfcase value="VERBATIMDEPTH">upper(VERBATIMDEPTH)</cfcase>
+				</cfswitch>
+				like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+			GROUP BY 
+				<cfswitch expression="#ucase(field)#">
+					<cfcase value="VERBATIM_DATE">VERBATIM_DATE</cfcase>
+					<cfcase value="VERBATIM_LOCALITY">VERBATIM_LOCALITY</cfcase>
+					<cfcase value="COLL_EVENT_REMARKS">COLL_EVENT_REMARKS</cfcase>
+					<cfcase value="COLLECTING_SOURCE">COLLECTING_SOURCE</cfcase>
+					<cfcase value="COLLECTING_METHOD">COLLECTING_METHOD</cfcase>
+					<cfcase value="HABITAT_DESC">HABITAT_DESC</cfcase>
+					<cfcase value="FISH_FIELD_NUMBER">FISH_FIELD_NUMBER</cfcase>
+					<cfcase value="BEGAN_DATE">BEGAN_DATE</cfcase>
+					<cfcase value="ENDED_DATE">ENDED_DATE</cfcase>
+					<cfcase value="COLLECTING_TIME">COLLECTING_TIME</cfcase>
+					<cfcase value="VERBATIMCOORDINATES">VERBATIMCOORDINATES</cfcase>
+					<cfcase value="VERBATIMLATITUDE">VERBATIMLATITUDE</cfcase>
+					<cfcase value="VERBATIMLONGITUDE">VERBATIMLONGITUDE</cfcase>
+					<cfcase value="VERBATIMCOORDINATESYSTEM">VERBATIMCOORDINATESYSTEM</cfcase>
+					<cfcase value="VERBATIMSRS">VERBATIMSRS</cfcase>
+					<cfcase value="STARTDAYOFYEAR">STARTDAYOFYEAR</cfcase>
+					<cfcase value="ENDDAYOFYEAR">ENDDAYOFYEAR</cfcase>
+					<cfcase value="VERBATIMELEVATION">VERBATIMELEVATION</cfcase>
+					<cfcase value="VERBATIMDEPTH">VERBATIMDEPTH</cfcase>
+				</cfswitch>
+			ORDER BY 
+				<cfswitch expression="#ucase(field)#">
+					<cfcase value="VERBATIM_DATE">VERBATIM_DATE</cfcase>
+					<cfcase value="VERBATIM_LOCALITY">VERBATIM_LOCALITY</cfcase>
+					<cfcase value="COLL_EVENT_REMARKS">COLL_EVENT_REMARKS</cfcase>
+					<cfcase value="COLLECTING_SOURCE">COLLECTING_SOURCE</cfcase>
+					<cfcase value="COLLECTING_METHOD">COLLECTING_METHOD</cfcase>
+					<cfcase value="HABITAT_DESC">HABITAT_DESC</cfcase>
+					<cfcase value="FISH_FIELD_NUMBER">FISH_FIELD_NUMBER</cfcase>
+					<cfcase value="BEGAN_DATE">BEGAN_DATE</cfcase>
+					<cfcase value="ENDED_DATE">ENDED_DATE</cfcase>
+					<cfcase value="COLLECTING_TIME">COLLECTING_TIME</cfcase>
+					<cfcase value="VERBATIMCOORDINATES">VERBATIMCOORDINATES</cfcase>
+					<cfcase value="VERBATIMLATITUDE">VERBATIMLATITUDE</cfcase>
+					<cfcase value="VERBATIMLONGITUDE">VERBATIMLONGITUDE</cfcase>
+					<cfcase value="VERBATIMCOORDINATESYSTEM">VERBATIMCOORDINATESYSTEM</cfcase>
+					<cfcase value="VERBATIMSRS">VERBATIMSRS</cfcase>
+					<cfcase value="STARTDAYOFYEAR">STARTDAYOFYEAR</cfcase>
+					<cfcase value="ENDDAYOFYEAR">ENDDAYOFYEAR</cfcase>
+					<cfcase value="VERBATIMELEVATION">VERBATIMELEVATION</cfcase>
+					<cfcase value="VERBATIMDEPTH">VERBATIMDEPTH</cfcase>
+				</cfswitch>
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.name#">
+			<cfset row["value"] = "#search.name#" >
+			<cfset row["meta"] = "#search.ct#" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
