@@ -153,20 +153,19 @@ function show(){
 
 
 <div class="img-magnifier-container col-6 float-right">
-  <img id="myimage" src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" width="600" height="400" onmouseover="show()">
+  <img id="glassId" src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" width="600" height="400" onmouseover="show()">
 </div>
 <script>
 /* Initiate Magnify Function
 with the id of the image, and the strength of the magnifier glass:*/
-magnify("myimage", 3);
+magnify("glassId", 3);
 </script>
 
 	<style>
-		.media_widget {
-			position: relative;
-			
-			
-		}
+.media_widget {
+position: relative;
+float:left;
+}
 .thumbnailMain{
 width: 100px;
 height: auto;
