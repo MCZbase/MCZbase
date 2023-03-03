@@ -22,7 +22,7 @@
 	<cfif #action# is "nothing">
 		<p>This tool is used to edit container information and/or move parts to a different parent container.</p>
 		<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below. </p>
-		<span class="likeLink" onclick="document.getElementById('template').style.display='block';">View template</span>
+		<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 		<div id="template" style="display:none;margin: 1em 0;">
 			<label for="t" class="data-entry-label">Copy the existing code and save as a .csv file</label>
 			<textarea rows="2" cols="90" id="t" class="w-100 data-entry-textarea">container_unique_id,parent_unique_id,container_type,container_name,description,remarks,width,height,length,number_positions</textarea>
