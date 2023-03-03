@@ -100,7 +100,7 @@ limitations under the License.
 
 <div class="img-block">
   <div id="zoomer" class="magnify-wrapper">
-	 <a href="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="large-image">
+	 <a href="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="large-img">
     <img src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="main-img" /></a>
    <!--- <div id="large-img"></div>--->
   </div>
