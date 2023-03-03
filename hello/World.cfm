@@ -163,6 +163,10 @@ magnify("myimage", 3);
 </script>
 
 	<style>
+		.media_widget {
+			position: relative;
+			margin-top: 1rem;
+		}
 .thumbnail{
   width: 100px;
   height: auto;
@@ -181,6 +185,7 @@ magnify("myimage", 3);
 	position:absolute;
 }
 </style>	
+<div class="media_widget">
 <img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" width="1000" height="auto" class="thumbnail"/>	
-	
+	</div>
 <cfinclude template="/shared/_footer.cfm">
