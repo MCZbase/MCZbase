@@ -1930,8 +1930,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				left join geology_attributes on locality.locality_id = geology_attributes.locality_id 
 				left join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
 			WHERE
-				locality.locality_id is not null
-				<cfif isDefined("show_unused") and show_unused EQ "unused_only">
+				collecting_event.collecting_event_id is not null
+				<cfif isDefined("show_unused") AND show_unused EQ "unused_only">
 					AND collecting_event.collecting_event_id not in (select collecting_event_id from flat)
 				</cfif>
 				<cfif isDefined("any_geography") and len(any_geography) gt 0>

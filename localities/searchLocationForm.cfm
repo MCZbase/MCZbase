@@ -1047,6 +1047,15 @@
 	<div class="col-12"> 
 		<div class="container-lg mt-0 mb-3">
 			<div class="row mx-0 mb-3"> 
+				<div class="col-12 col-md-4 px-0 pt-3 pt-md-0">
+					<input type="submit" value="Search" aria-label="execute a search with the current search form parameters"
+						class="btn btn-xs btn-primary px-2 px-xl-3">
+					<input type="reset" value="Reset Form" aria-label="reset form values to those on initial page load"
+						class="btn btn-xs btn-warning ml-2">
+					<cfif len(newSearchTarget) GT 0>
+						<button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new search with a clear page" onclick="window.location.href='#Application.serverRootUrl##encodeForHTML(newSearchTarget)#';">New Search</button>
+					</cfif>
+				</div>
 				<div class="col-12 col-md-2 px-0">
 					<div class="form-check">
 						<cfif not isDefined("accentInsensitive")><cfset accentInsensitive = "0"></cfif>
@@ -1055,16 +1064,8 @@
 						<label class="form-check-label mt3px small" for="accentInsenstive">Accent Insensitive?</label>
 					</div>
 				</div>
-
-				<div class="col-12 col-md-6 px-0 pt-3 pt-md-0">
-					<input type="submit" value="Search" aria-label="execute a search with the current search form parameters"
-						class="btn btn-xs btn-primary px-2 px-xl-3">
-					<input type="reset" value="Reset Form" aria-label="reset form values to those on initial page load"
-						class="btn btn-xs btn-warning ml-2">
-					<cfif len(newSearchTarget) GT 0>
-						<button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl##encodeForHTML(newSearchTarget)#';">New Search</button>
-					</cfif>
-					<cfif showLocality is 1 AND showSpecimenCounts >
+				<cfif showLocality is 1 AND showSpecimenCounts >
+					<div class="col-12 col-md-2 px-0">
 						<cfif not isDefined("include_counts")><cfset include_counts = ""></cfif>
 						<label for="include_counts">Include Specimen Counts?</label>
 						<select name="include_counts" id="include_counts">
@@ -1078,18 +1079,20 @@
 							<option #y_selected# value="0">No</option>
 							<option #n_selected# value="1">Yes</option>
 						</select>
-					</cfif>
-					<cfif #showExtraFields# IS 1>
+					</div>
+				</cfif>
+				<cfif #showExtraFields# IS 1>
+					<div class="col-12 col-md-2 px-0">
 						<cfif not isDefined("show_unused")><cfset show_unused = ""></cfif>
 						<label for="show_unused">Unused</label>
 						<select name="show_unused" id="show_unused">
 							<cfif show_unused EQ ""><cfset selected='selected="selected"'><cfelse><cfset selected=""></cfif>
 							<option #selected# value="">Show All</option>
-							<cfif show_unused EQ "only_unused"><cfset selected='selected="selected"'><cfelse><cfset selected=""></cfif>
-							<option #selected# value="only_unused">Unused Only</option>
+							<cfif show_unused EQ "unused_only"><cfset selected='selected="selected"'><cfelse><cfset selected=""></cfif>
+							<option #selected# value="unused_only">Unused Only</option>
 						</select>
-					</cfif>
-				</div>
+					</div>
+				</cfif>
 			</div>
 		</div>
 	</div>
