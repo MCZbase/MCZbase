@@ -2728,7 +2728,7 @@ position:absolute;
 z-index:-1;
 background-size:contain;
 }
-underlay:nth-of-type(1){
+underlay{
 left:0px;
 }
 
