@@ -2045,3 +2045,33 @@ function openDownloadAgreeDialog(dialogid, result_id, filename) {
 		}
 	});
 }
+
+
+/** makeCEFieldAutocomplete make an input control into a picker for arbitrary collecting event fields.
+ *  This version of the function prefixes the selected value with an = for exact match search, and is
+ *  intended as a picker for collecting event search fields
+ * @param fieldId the id for the input without a leading # selector.
+ * @param targetRank the field in collecting_event to bind the autocomplete to.  
+**/
+function makeCEFieldAutocomplete(fieldId, targetField) { 
+	jQuery("#"+fieldId).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/localities/component/search.cfc",
+				data: { term: request.term, method: 'getCEFieldAutocomplete', rank: targetRank },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a collecting event field search autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+fieldId).val("=" + result.item.value);
+		},
+		minLength: 3
+	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+	};
+};

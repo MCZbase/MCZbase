@@ -829,21 +829,41 @@
 						<cfif NOT isDefined("verbatim_locality") ><cfset verbatim_locality=""></cfif>
 						<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
 						<input type="text" name="verbatim_locality" id="verbatim_locality" size="75" class="data-entry-input" value="#encodeForHtml(verbatim_locality)#">
+						<script>
+							jQuery(document).ready(function() {
+								makeCEFieldAutocomplete("verbatim_locality", "verbatim_locality") { 
+							});
+						</script>
 					</div>
 					<div class="col-12 col-md-2">
 						<cfif NOT isDefined("verbatim_date") ><cfset verbatim_date=""></cfif>
 						<label for="verbatim_date" class="data-entry-label">Verbatim Date</label>
 						<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input" value="#encodeForHtml(verbatim_date)#" >
+						<script>
+							jQuery(document).ready(function() {
+								makeCEFieldAutocomplete("verbatim_date", "verbatim_date") { 
+							});
+						</script>
 					</div>
 					<div class="col-12 col-md-2">
 						<cfif NOT isDefined("verbatimdepth") ><cfset verbatimdepth=""></cfif>
 						<label for="verbatimdepth" class="data-entry-label">Verbatim Depth</label>
 						<input type="text" name="verbatimdepth" id="verbatimdepth" size="75" class="data-entry-input" value="#encodeForHtml(verbatimdepth)#">
+						<script>
+							jQuery(document).ready(function() {
+								makeCEFieldAutocomplete("verbatimdepth", "verbatimdepth") { 
+							});
+						</script>
 					</div>
 					<div class="col-12 col-md-2">
 						<cfif NOT isDefined("verbatimelevation") ><cfset verbatimelevation=""></cfif>
 						<label for="verbatimelevation" class="data-entry-label">Verbatim Elevation</label>
 						<input type="text" name="verbatimelevation" id="verbatimelevation" size="75" class="data-entry-input" value="#encodeForHtml(verbatimelevation)#">
+						<script>
+							jQuery(document).ready(function() {
+								makeCEFieldAutocomplete("verbatimelevation", "verbatimelevation") { 
+							});
+						</script>
 					</div>
 					<div class="col-12 col-md-2">
 						<cfif NOT isDefined("collecting_event_id") ><cfset collecting_event_id=""></cfif>
@@ -895,6 +915,11 @@
 							<cfif NOT isDefined("collecting_time") ><cfset collecting_time=""></cfif>
 							<span class="data-entry-label">Collecting Time</span>
 							<input type="text" name="collecting_time" id="collecting_time" class="data-entry-input" value="#encodeForHtml(collecting_time)#">
+							<script>
+								jQuery(document).ready(function() {
+									makeCEFieldAutocomplete("collecting_time", "collecting_time") { 
+								});
+							</script>
 						</div>
 						<div class="col-12 col-md-2">
 							<cfif NOT isDefined("startdayofyear") ><cfset startdayofyear=""></cfif>
@@ -918,19 +943,39 @@
 						<div class="col-12 col-md-2">
 							<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System</label>
 							<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" class="data-entry-input">
+							<script>
+								jQuery(document).ready(function() {
+									makeCEFieldAutocomplete("verbatimCoordinateSystem", "verbatimCoordinateSystem") { 
+								});
+							</script>
 						</div>
 						<div class="col-12 col-md-2">
 							<label for="verbatimSRS" class="data-entry-label">Verbatim SRS (datum)</label>
 							<input type="text" name="verbatimSRS" id="verbatimSRS" class="data-entry-input">
+							<script>
+								jQuery(document).ready(function() {
+									makeCEFieldAutocomplete("verbatimSRS", "verbatimSRS") { 
+								});
+							</script>
 						</div>
 						<div class="col-12 col-md-2">
 							<label for="collecting_method" class="data-entry-label">Collecting Method</label>
 							<input type="text" name="collecting_method" id="collecting_method" class="data-entry-input">
+							<script>
+								jQuery(document).ready(function() {
+									makeCEFieldAutocomplete("collecting_method", "collecting_method") { 
+								});
+							</script>
 						</div>
 						<div class="col-12 col-md-2">
 							<cfif NOT isDefined("habitat_desc") ><cfset habitat_desc=""></cfif>
 							<label for="habitat_desc" class="data-entry-label">Habitat</label>
 							<input type="text" name="habitat_desc" id="habitat_desc" class="data-entry-input" value="#encodeForHtml(habitat_desc)#">
+							<script>
+								jQuery(document).ready(function() {
+									makeCEFieldAutocomplete("habitat_desc", "habitat_desc") { 
+								});
+							</script>
 						</div>
 						<div class="col-12 col-md-2">
 							<label for="collecting_source" class="data-entry-label">Collecting Source</label>
@@ -950,6 +995,11 @@
 								<cfif NOT isDefined("fish_field_number") ><cfset fish_field_number=""></cfif>
 								<label for="fish_field_number" class="data-entry-label">Fish Field Number</label>
 								<input type="text" name="fish_field_number" id="fish_field_number" class="data-entry-input" value="#encodeForHtml(fish_field_number)#">
+								<script>
+									jQuery(document).ready(function() {
+										makeCEFieldAutocomplete("fish_field_number", "fish_field_number") { 
+									});
+								</script>
 							</div>
 							<div class="col-12 col-md-2">
 								<cfif NOT isDefined("verbatimlatitude") ><cfset verbatimlatitude=""></cfif>

@@ -2799,4 +2799,138 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+
+<!---
+Function getCEFieldAutocomplete.  Search for distinct values of a particular field in the collecting event table
+  by name with a substring match on name, returning json suitable for jquery-ui autocomplete.
+
+@param term value of the field to search for.
+@param field the field to search
+@return a json structure containing id and value, and meta, with matching value in value and id, 
+  and count metadata in meta.
+--->
+<cffunction name="getCEFieldAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfargument name="field" type="string" required="yes">
+	<!--- perform wildcard search anywhere in field --->
+	<cfset name = "%#term#%"> 
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT count(*) as ct,
+				<cfswitch expression="#ucase(field)#">
+					<cfcase value="VERBATIM_DATE">VERBATIM_DATE as name</cfcase>
+					<cfcase value="VERBATIM_LOCALITY">VERBATIM_LOCALITY as name</cfcase>
+					<cfcase value="COLL_EVENT_REMARKS">COLL_EVENT_REMARKS as name</cfcase>
+					<cfcase value="COLLECTING_SOURCE">COLLECTING_SOURCE as name</cfcase>
+					<cfcase value="COLLECTING_METHOD">COLLECTING_METHOD as name</cfcase>
+					<cfcase value="HABITAT_DESC">HABITAT_DESC as name</cfcase>
+					<cfcase value="FISH_FIELD_NUMBER">FISH_FIELD_NUMBER as name</cfcase>
+					<cfcase value="BEGAN_DATE">BEGAN_DATE as name</cfcase>
+					<cfcase value="ENDED_DATE">ENDED_DATE as name</cfcase>
+					<cfcase value="COLLECTING_TIME">COLLECTING_TIME as name</cfcase>
+					<cfcase value="VERBATIMCOORDINATES">VERBATIMCOORDINATES as name</cfcase>
+					<cfcase value="VERBATIMLATITUDE">VERBATIMLATITUDE as name</cfcase>
+					<cfcase value="VERBATIMLONGITUDE">VERBATIMLONGITUDE as name</cfcase>
+					<cfcase value="VERBATIMCOORDINATESYSTEM">VERBATIMCOORDINATESYSTEM as name</cfcase>
+					<cfcase value="VERBATIMSRS">VERBATIMSRS as name</cfcase>
+					<cfcase value="STARTDAYOFYEAR">STARTDAYOFYEAR as name</cfcase>
+					<cfcase value="ENDDAYOFYEAR">ENDDAYOFYEAR as name</cfcase>
+					<cfcase value="VERBATIMELEVATION">VERBATIMELEVATION as name</cfcase>
+					<cfcase value="VERBATIMDEPTH">VERBATIMDEPTH as name</cfcase>
+				</cfswitch>
+			FROM 
+				taxonomy
+			WHERE
+				<cfswitch expression="#ucase(field)#">
+					<cfcase value="VERBATIM_DATE">upper(VERBATIM_DATE)</cfcase>
+					<cfcase value="VERBATIM_LOCALITY">upper(VERBATIM_LOCALITY)</cfcase>
+					<cfcase value="COLL_EVENT_REMARKS">upper(COLL_EVENT_REMARKS)</cfcase>
+					<cfcase value="COLLECTING_SOURCE">upper(COLLECTING_SOURCE)</cfcase>
+					<cfcase value="COLLECTING_METHOD">upper(COLLECTING_METHOD)</cfcase>
+					<cfcase value="HABITAT_DESC">upper(HABITAT_DESC)</cfcase>
+					<cfcase value="FISH_FIELD_NUMBER">upper(FISH_FIELD_NUMBER)</cfcase>
+					<cfcase value="BEGAN_DATE">upper(BEGAN_DATE)</cfcase>
+					<cfcase value="ENDED_DATE">upper(ENDED_DATE)</cfcase>
+					<cfcase value="COLLECTING_TIME">upper(COLLECTING_TIME)</cfcase>
+					<cfcase value="VERBATIMCOORDINATES">upper(VERBATIMCOORDINATES)</cfcase>
+					<cfcase value="VERBATIMLATITUDE">upper(VERBATIMLATITUDE)</cfcase>
+					<cfcase value="VERBATIMLONGITUDE">upper(VERBATIMLONGITUDE)</cfcase>
+					<cfcase value="VERBATIMCOORDINATESYSTEM">upper(VERBATIMCOORDINATESYSTEM)</cfcase>
+					<cfcase value="VERBATIMSRS">upper(VERBATIMSRS)</cfcase>
+					<cfcase value="STARTDAYOFYEAR">upper(STARTDAYOFYEAR)</cfcase>
+					<cfcase value="ENDDAYOFYEAR">upper(ENDDAYOFYEAR)</cfcase>
+					<cfcase value="VERBATIMELEVATION">upper(VERBATIMELEVATION)</cfcase>
+					<cfcase value="VERBATIMDEPTH">upper(VERBATIMDEPTH)</cfcase>
+				</cfswitch>
+				like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+			GROUP BY 
+				<cfswitch expression="#ucase(field)#">
+					<cfcase value="VERBATIM_DATE">VERBATIM_DATE</cfcase>
+					<cfcase value="VERBATIM_LOCALITY">VERBATIM_LOCALITY</cfcase>
+					<cfcase value="COLL_EVENT_REMARKS">COLL_EVENT_REMARKS</cfcase>
+					<cfcase value="COLLECTING_SOURCE">COLLECTING_SOURCE</cfcase>
+					<cfcase value="COLLECTING_METHOD">COLLECTING_METHOD</cfcase>
+					<cfcase value="HABITAT_DESC">HABITAT_DESC</cfcase>
+					<cfcase value="FISH_FIELD_NUMBER">FISH_FIELD_NUMBER</cfcase>
+					<cfcase value="BEGAN_DATE">BEGAN_DATE</cfcase>
+					<cfcase value="ENDED_DATE">ENDED_DATE</cfcase>
+					<cfcase value="COLLECTING_TIME">COLLECTING_TIME</cfcase>
+					<cfcase value="VERBATIMCOORDINATES">VERBATIMCOORDINATES</cfcase>
+					<cfcase value="VERBATIMLATITUDE">VERBATIMLATITUDE</cfcase>
+					<cfcase value="VERBATIMLONGITUDE">VERBATIMLONGITUDE</cfcase>
+					<cfcase value="VERBATIMCOORDINATESYSTEM">VERBATIMCOORDINATESYSTEM</cfcase>
+					<cfcase value="VERBATIMSRS">VERBATIMSRS</cfcase>
+					<cfcase value="STARTDAYOFYEAR">STARTDAYOFYEAR</cfcase>
+					<cfcase value="ENDDAYOFYEAR">ENDDAYOFYEAR</cfcase>
+					<cfcase value="VERBATIMELEVATION">VERBATIMELEVATION</cfcase>
+					<cfcase value="VERBATIMDEPTH">VERBATIMDEPTH</cfcase>
+				</cfswitch>
+			ORDER BY 
+				<cfswitch expression="#ucase(field)#">
+					<cfcase value="VERBATIM_DATE">VERBATIM_DATE</cfcase>
+					<cfcase value="VERBATIM_LOCALITY">VERBATIM_LOCALITY</cfcase>
+					<cfcase value="COLL_EVENT_REMARKS">COLL_EVENT_REMARKS</cfcase>
+					<cfcase value="COLLECTING_SOURCE">COLLECTING_SOURCE</cfcase>
+					<cfcase value="COLLECTING_METHOD">COLLECTING_METHOD</cfcase>
+					<cfcase value="HABITAT_DESC">HABITAT_DESC</cfcase>
+					<cfcase value="FISH_FIELD_NUMBER">FISH_FIELD_NUMBER</cfcase>
+					<cfcase value="BEGAN_DATE">BEGAN_DATE</cfcase>
+					<cfcase value="ENDED_DATE">ENDED_DATE</cfcase>
+					<cfcase value="COLLECTING_TIME">COLLECTING_TIME</cfcase>
+					<cfcase value="VERBATIMCOORDINATES">VERBATIMCOORDINATES</cfcase>
+					<cfcase value="VERBATIMLATITUDE">VERBATIMLATITUDE</cfcase>
+					<cfcase value="VERBATIMLONGITUDE">VERBATIMLONGITUDE</cfcase>
+					<cfcase value="VERBATIMCOORDINATESYSTEM">VERBATIMCOORDINATESYSTEM</cfcase>
+					<cfcase value="VERBATIMSRS">VERBATIMSRS</cfcase>
+					<cfcase value="STARTDAYOFYEAR">STARTDAYOFYEAR</cfcase>
+					<cfcase value="ENDDAYOFYEAR">ENDDAYOFYEAR</cfcase>
+					<cfcase value="VERBATIMELEVATION">VERBATIMELEVATION</cfcase>
+					<cfcase value="VERBATIMDEPTH">VERBATIMDEPTH</cfcase>
+				</cfswitch>
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.name#">
+			<cfset row["value"] = "#search.name#" >
+			<cfset row["meta"] = "#search.ct#" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
