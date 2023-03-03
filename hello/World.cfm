@@ -65,10 +65,11 @@ limitations under the License.
 </cfoutput>
 
 <style>
-* {box-sizing: border-box;}
+* {}
 .img-magnifier-container {
   position:relative;
   cursor:none;
+	box-sizing: border-box;
 }
 .img-magnifier-container:hover .img-magnifier-glass {
   position: absolute;
@@ -79,9 +80,11 @@ limitations under the License.
   width: 100px;
   height: 100px;
   display:block;
+	box-sizing: border-box;
 }
 .img-magnifier-glass {
   display:none;
+	box-sizing: border-box;
 }
 </style>
 
