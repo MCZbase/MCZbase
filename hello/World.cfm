@@ -162,6 +162,11 @@ magnify("myimage", 3);
 </script>
 
 	<style>
+		.media_widget {
+			position: relative;
+			
+			
+		}
 .thumbnailMain{
 width: 100px;
 height: auto;
