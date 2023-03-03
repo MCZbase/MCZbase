@@ -2732,7 +2732,7 @@ underlay:nth-of-type(1){
 left:0px;
 }
 
-overlay:hover ~ underlay{
+img.overlay:hover ~ underlay{
 top:0px;
 left:100px;
 width:300px;
