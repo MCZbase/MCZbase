@@ -1047,7 +1047,7 @@
 	<div class="col-12"> 
 		<div class="container-lg mt-0 mb-3">
 			<div class="row mx-0 mb-3"> 
-				<div class="col-12 col-md-4 px-0 pt-3 pt-md-0">
+				<div class="col-12 col-md-3 px-0 pt-3 pt-md-0">
 					<input type="submit" value="Search" aria-label="execute a search with the current search form parameters"
 						class="btn btn-xs btn-primary px-2 px-xl-3">
 					<input type="reset" value="Reset Form" aria-label="reset form values to those on initial page load"
@@ -1065,7 +1065,7 @@
 					</div>
 				</div>
 				<cfif showLocality is 1 AND showSpecimenCounts >
-					<div class="col-12 col-md-2 px-0">
+					<div class="col-12 col-md-3 px-0">
 						<cfif not isDefined("include_counts")><cfset include_counts = ""></cfif>
 						<label for="include_counts">Include Specimen Counts?</label>
 						<select name="include_counts" id="include_counts">
