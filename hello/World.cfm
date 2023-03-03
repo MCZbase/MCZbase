@@ -173,7 +173,7 @@ height: auto;
 z-index:1;
 }
 .largerImg{
-min-width: 500px;
+min-width: 400px;
 height: auto;
 position: absolute;
 opacity:0;
@@ -195,15 +195,12 @@ cursor: pointer;
 }
 </style>	
 <div class="media_widget"> 
-	<a href="#"> 
-		<img src="" width="500" height="auto" class="thumbnail"/>
-	</a> 
 	<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" class="largerImg"/>
 	<a href="#">
-	<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" class="thumbnailMain"/>
+		<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" class="thumbnailMain"/>
 	</a>
-	<h2> page text</h2>
-	<p> here is some text</p>
+	<h2> Page text</h2>
+	<p> Here is some text</p>
 </div>
 
 	
