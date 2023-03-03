@@ -6,13 +6,9 @@
 			status 
 		FROM cf_temp_cont_edit 
 	</cfquery>
-   <cfset newline = (Chr( 13 ) & Chr( 10 )) >
-<cfoutput>
-"container_unique_id","parent_unique_id","container_type","container_name","description","remarks","width","height","length","number_positions","status"#newline#
-<cfloop query="getProblemData">
-"#getProblemData.container_unique_id#","#getProblemData.parent_unique_id#","#getProblemData.container_type#","#getProblemData.container_name#","#getProblemData.description#","#getProblemData.remarks#","#getProblemData.width#","#getProblemData.height#","#getProblemData.length#","#getProblemData.number_positions#", #getProblemData.status#"#newline#
-</cfloop>
-</cfoutput>
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset csv = queryToCSV(getProblemData)>
+	<cfoutput>#csv#</cfoutput>
 <cfabort>
 </cfif>
 <!--- end special case dump of problems --->
