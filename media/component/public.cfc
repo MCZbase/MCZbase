@@ -325,8 +325,7 @@ include this function and use it.
 						<cfset linkTarget = iiifFull>
 					</cfif>
 					<!---Hover zoom--->
-					<cfset output='#output#<img src="#displayImage#" class="largerImg"/>'>
-					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
+					<cfset output='#output#<a href="#linkTarget#" class="largerImg d-block mb-1 w-100 active text-center" title="click to access media">'>
 					<cfset output='#output#<img src="#displayImage#" alt="#alt#" #hw# style="#styles#" class="thumbnailMain"/>'>
 					<cfset output='#output#</a>'>
 					<!---old hover that used jquery--->
