@@ -1,14 +1,16 @@
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
+		SELECT container_unique_id,parent_unique_id,container_type,container_name, 
+			description, remarks, width, height, length, number_positions,
+			status 
 		FROM cf_temp_cont_edit 
 	</cfquery>
    <cfset newline = (Chr( 13 ) & Chr( 10 )) >
 <cfoutput>
-"container_unique_id"."parent_unique_id"."container_type"."container_name"."status"#newline#
+"container_unique_id","parent_unique_id","container_type","container_name","description","remarks","width","height","length","number_positions","status"#newline#
 <cfloop query="getProblemData">
-"#getProblemData.container_unique_id#"."#getProblemData.parent_unique_id#"."#getProblemData.container_type#"."#getProblemData.container_name#"."#getProblemData.status#"#newline#
+"#getProblemData.container_unique_id#","#getProblemData.parent_unique_id#","#getProblemData.container_type#","#getProblemData.container_name#","#getProblemData.description#","#getProblemData.remarks#","#getProblemData.width#","#getProblemData.height#","#getProblemData.length#","#getProblemData.number_positions#", #getProblemData.status#"#newline#
 </cfloop>
 </cfoutput>
 <cfabort>
@@ -154,14 +156,16 @@ validate
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from cf_temp_cont_edit
 	</cfquery>
-	<cfdump var=#data#>
+	<cfdump var=#data.RESULTSET#>
 	<cfquery name="pf" dbtype="query">
 		select count(*) c from data where status is not null
 	</cfquery>
 	<cfif pf.c gt 0>
-		DoH! Something's busted. Check STATUS.
+		<h2>
+		There is a problem with #pf.c# row(s). Check STATUS. (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>).
+		</h2>
 	<cfelse>
-		yippee! Look over the above grid and <a href="BulkloadContEditParent.cfm?action=load">click to continue</a> if it all looks good.
+		Validation checks passed. Look over the above grid and <a href="BulkloadContEditParent.cfm?action=load">click to continue</a> if it all looks good.
 	</cfif>
 </cfoutput>
 </cfif>
