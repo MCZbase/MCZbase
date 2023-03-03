@@ -13,62 +13,49 @@
 <cfabort>
 </cfif>
 <!--- end special case dump of problems --->
-<cfinclude template="/includes/_header.cfm">
-     <div style="width: 50em; margin: 0 auto; padding: 3em 0 4em 0;">
-         <h3>Bulkload Container Edit Parent</h3>
-<cfset title="Bulk Edit Container">
-<cfif #action# is "nothing">
-<p>This tool is used to edit container information and/or move parts to a different parent container.</p>
-<p>Upload a comma-delimited text file (csv).
-    Include column headings, spelled exactly as below. </p>
-<span class="likeLink" onclick="document.getElementById('template').style.display='block';">View template</span>
-	<div id="template" style="display:none;margin: 1em 0;">
-		<label for="t">Copy the existing code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">container_unique_id,parent_unique_id,container_type,container_name,description,remarks,width,height,length,number_positions</textarea>
-	</div>
-<p>Columns in <span style="color:red">red</span> are required; others are optional:</p>
-<ul class="geol_hier">
-	<li style="color:red">container_unique_id</li>
-	<li>parent_unique_id</li>
-	<li style="color:red">container_type</li>
-	<li style="color:red">container_name</li>
-	<li>description</li>
-	<li>remarks</li>
-	<li>width</li>
-	<li>height</li>
-	<li>length</li>
-	<li>number_positions</li>
-</ul>
-
-
-
-<cfform name="atts" method="post" enctype="multipart/form-data" action="BulkloadContEditParent.cfm">
-			<input type="hidden" name="Action" value="getFile">
-			  <input type="file"
-		   name="FiletoUpload"
-		   size="45">
-			 <input type="submit" value="Upload this file"
-		class="savBtn"
-		onmouseover="this.className='savBtn btnhov'"
-		onmouseout="this.className='savBtn'">
-  </cfform>
-
-</cfif>
-<!------------------------------------------------------->
-<!------------------------------------------------------->
-
-<!------------------------------------------------------->
+<cfset pageTitle = "Bulk Edit Container">
+<cfinclude template="/shared/_header.cfm">
+<cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
+<main class="container py-3" id="content">
+	<h1 class="h2">Bulkload Container Edit Parent</h1>
+		<cfif #action# is "nothing">
+			<p>This tool is used to edit container information and/or move parts to a different parent container.</p>
+			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below. </p>
+			<span class="likeLink" onclick="document.getElementById('template').style.display='block';">View template</span>
+			<div id="template" style="display:none;margin: 1em 0;">
+				<label for="t">Copy the existing code and save as a .csv file</label>
+				<textarea rows="2" cols="80" id="t">container_unique_id,parent_unique_id,container_type,container_name,description,remarks,width,height,length,number_positions</textarea>
+			</div>
+			<p>Columns in <span style="color:red">red</span> are required; others are optional:</p>
+			<ul class="geol_hier">
+				<li style="color:red">container_unique_id</li>
+				<li>parent_unique_id</li>
+				<li style="color:red">container_type</li>
+				<li style="color:red">container_name</li>
+				<li>description</li>
+				<li>remarks</li>
+				<li>width</li>
+				<li>height</li>
+				<li>length</li>
+				<li>number_positions</li>
+			</ul>
+			<cfform name="atts" method="post" enctype="multipart/form-data" action="BulkloadContEditParent.cfm">
+				<input type="hidden" name="Action" value="getFile">
+				<input type="file" name="FiletoUpload" size="45">
+				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
+			</cfform>
+		</cfif>
+		<!------------------------------------------------------->
 <cfif #action# is "getFile">
 <cfoutput>
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
-
 	<cfset fileContent=replace(fileContent,"'","''","all")>
+	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 
-	 <cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-
- <cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	delete from cf_temp_cont_edit
-</cfquery>
+	<!--- Warning, cf_temp_cont_edit makes this a single user at at time functionality.  --->
+	<cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		delete from cf_temp_cont_edit
+	</cfquery>
 
 <cfset colNames="">
 	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
@@ -166,7 +153,7 @@ validate
 	<cfelse>
 		Validation checks passed. Look over the table below and <a href="BulkloadContEditParent.cfm?action=load">click to continue</a> if it all looks good.
 	</cfif>
-	<table>
+	<table class='table table-responsive table-striped d-lg-table'>
 		<thead>
 			<tr>
 				<th>CONTAINER_UNIQUE_ID</th>
@@ -280,5 +267,6 @@ validate
 	Success, changes applied.
 </cfoutput>
 </cfif>
-    </div>
-<cfinclude template="/includes/_footer.cfm">
+
+	</main>
+<cfinclude template="/shared/_footer.cfm">
