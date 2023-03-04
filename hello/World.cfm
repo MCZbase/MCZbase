@@ -89,7 +89,7 @@ limitations under the License.
 .magnify-wrapper:hover #large-img,
 .magnify-wrapper:active #large-img {
   opacity: 1;
-z-index: 3;
+
 }	
 </style>
 <script>
