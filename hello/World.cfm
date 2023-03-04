@@ -64,6 +64,12 @@ limitations under the License.
 	</main>
 </cfoutput>
 <style>
+	.container1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 .magnify-wrapper {
   position: relative;
   max-height: 50vh;
@@ -129,12 +135,11 @@ document.getElementById('zoom').addEventListener(
 );	
 	
 </script>
-<div class="container mt-5">
+<div class="container1 mt-5">
 	  <div  id="zoom" class="magnify-wrapper">
     <img
       src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80"
-      id="main-img"
-    />
+      id="main-img"/>
 	</div>
     <div id="large-img"></div>
   </div>
