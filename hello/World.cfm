@@ -67,8 +67,6 @@ limitations under the License.
 .magnify-wrapper {
   position: relative;
   max-height: 50vh;
-display:block;
-overflow:visible;
 }
 .magnify-wrapper img {
   max-height: inherit;
@@ -87,8 +85,6 @@ overflow:visible;
   display: block;
   opacity: 0;
   transition: opacity 0.2s;
-	margin-left: 140px;
-	margin-top:0;
 }
 .magnify-wrapper:hover #large-img,
 .magnify-wrapper:active #large-img {
