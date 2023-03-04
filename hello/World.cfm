@@ -248,7 +248,7 @@ jQuery(document).ready(function($){
 	
 </style>
 	
-<div class="media_widget" style="clear:both;"> 
+
 	<h2>title - test 3</h2>
 	<div class="targetarea" style="border:1px solid #eee"><img id="multizoom1" alt="zoomable" title="" src="lights.jpg" width="100%"/></div>
 <div id="description">Milla Jojovitch</div>
@@ -256,5 +256,5 @@ jQuery(document).ready(function($){
 <a href="lights.jpg" data-title="Northern Lights"><img width="66px" src="lights.jpg" alt="lights" title="lights"/></a>
 <a href="https://mczbase.mcz.harvard.edu/specimen_images/invertebrates/large/Louis_AgassizLg.jpg" data-lens="false" data-magsize="150,150" data-large="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" data-title="Saleen S7 Twin Turbo"><img src="images/samplepics/saleen_tmb.jpg" alt="Saleen" title=""/></a>
 </div>
-</div>
+
 <cfinclude template="/shared/_footer.cfm">
