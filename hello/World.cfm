@@ -67,8 +67,8 @@ limitations under the License.
 .magnify-wrapper {
   position: relative;
   max-height: 50vh;
-	display:block;
-	overflow:visible;
+display:block;
+overflow:visible;
 }
 .magnify-wrapper img {
   max-height: inherit;
@@ -87,10 +87,13 @@ limitations under the License.
   display: block;
   opacity: 0;
   transition: opacity 0.2s;
+	margin-left: 140px;
+	margin-top:0;
 }
 .magnify-wrapper:hover #large-img,
 .magnify-wrapper:active #large-img {
   opacity: 1;
+z-index: 3;
 }	
 </style>
 <script>
@@ -131,7 +134,7 @@ document.getElementById('zoom').addEventListener(
 	
 </script>
 <div class="container mt-5">
-	  <a href="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="zoom" class="magnify-wrapper">
+	  <a href="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="zoom" class="magnify-wrapper" style="z-index: 1;">
     <img
       src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80"
       id="main-img"
