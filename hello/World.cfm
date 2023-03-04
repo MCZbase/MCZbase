@@ -948,9 +948,10 @@ jQuery(document).ready(function($){
 
 .targetarea img { /* zoomable image */
 	margin: auto; /* for horizontal centering */
-	display: block; /* also for horizontal centering */
+	display: none; /* also for horizontal centering */
 	position: relative; /* along with on the fly calculations in script, for vertical centering */
 	border-width: 0;
+	left: 100px;
 }
 
 .thumbs { /* divs holding the trigger links - styles optional, used here to center their links below their respective zoomable image */
