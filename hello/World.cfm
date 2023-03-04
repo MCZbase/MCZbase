@@ -205,4 +205,55 @@ cursor: pointer;
 </div>
 
 	
+	
+	
+<div class="media_widget" style="clear:both;"> 
+	<h2>title - test 3</h2>
+<script type="text/javascript">
+
+jQuery(document).ready(function($){
+
+  $('#image1').addimagezoom({ // single image zoom
+		zoomrange: [3, 3],
+		magnifiersize: [300,300],
+		magnifierpos: 'right',
+		cursorshade: true,
+		largeimage: 'images/samplepics/hayden.jpg' //<-- No comma after last option!
+	})
+
+
+	$('#image2').addimagezoom() // single image zoom with default options
+
+	$('#multizoom1').addimagezoom({ // multi-zoom: options same as for previous Featured Image Zoomer's addimagezoom unless noted as '- new'
+		descArea: '#description', // description selector (optional - but required if descriptions are used) - new
+		speed: 1500, // duration of fade in for new zoomable images (in milliseconds, optional) - new
+		descpos: true, // if set to true - description position follows image position at a set distance, defaults to false (optional) - new
+		imagevertcenter: true, // zoomable image centers vertically in its container (optional) - new
+		magvertcenter: true, // magnified area centers vertically in relation to the zoomable image (optional) - new
+		zoomrange: [3, 10],
+		magnifiersize: [250,250],
+		magnifierpos: 'right',
+		cursorshadecolor: '#fdffd5',
+		cursorshade: true //<-- No comma after last option!
+	});
+
+	$('#multizoom2').addimagezoom({ // multi-zoom: options same as for previous Featured Image Zoomer's addimagezoom unless noted as '- new'
+		descArea: '#description2', // description selector (optional - but required if descriptions are used) - new
+		disablewheel: true // even without variable zoom, mousewheel will not shift image position while mouse is over image (optional) - new
+				//^-- No comma after last option!
+	});
+
+})
+
+</script>
+<style>
+	
+</style>
+	<div class="targetarea" style="border:1px solid #eee"><img id="multizoom1" alt="zoomable" title="" src="lights.jpg" width="100%"/></div>
+<div id="description">Milla Jojovitch</div>
+<div class="multizoom1 thumbs">
+<a href="lights.jpg" data-title="Northern Lights"><img width="66px" src="lights.jpg" alt="lights" title="lights"/></a>
+<a href="https://mczbase.mcz.harvard.edu/specimen_images/invertebrates/large/Louis_AgassizLg.jpg" data-lens="false" data-magsize="150,150" data-large="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" data-title="Saleen S7 Twin Turbo"><img src="images/samplepics/saleen_tmb.jpg" alt="Saleen" title=""/></a>
+</div>
 <cfinclude template="/shared/_footer.cfm">
+	</div>
