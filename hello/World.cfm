@@ -64,38 +64,36 @@ limitations under the License.
 	</main>
 </cfoutput>
 <style>
-	.container1 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-.magnify-wrapper {
-  position: relative;
-  max-height: 50vh;
-}
-.magnify-wrapper img {
-  max-height: inherit;
-}
-.magnify-wrapper #large-img {
-  background: url('https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80')
-    no-repeat #fff;
-  width: 100px;
-  height: 100px;
-  box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.3);
-  pointer-events: none;
-  position: absolute;
-  border: 4px solid #efefef;
-  z-index: 99;
-  border-radius: 100%;
-  display: block;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-.magnify-wrapper:hover #large-img,
-.magnify-wrapper:active #large-img {
-  opacity: 1;
 
+.container1 {
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 height: 100vh;
+}
+ .magnify-wrapper {
+	 position: relative;
+	 max-height: 50vh;
+}
+ .magnify-wrapper img {
+	 max-height: inherit;
+}
+ .magnify-wrapper #large-img {
+	 background: url("https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80") no-repeat #fff;
+	 width: 100px;
+	 height: 100px;
+	 box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.3);
+	 pointer-events: none;
+	 position: absolute;
+	 border: 4px solid #efefef;
+	 z-index: 99;
+	 border-radius: 100%;
+	 display: block;
+	 opacity: 0;
+	 transition: opacity 0.2s;
+}
+ .magnify-wrapper:hover #large-img, .magnify-wrapper:active #large-img {
+	 opacity: 1;
 }	
 </style>
 
