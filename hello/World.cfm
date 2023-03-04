@@ -136,7 +136,7 @@ document.getElementById('zoom').addEventListener(
 <div class="container mt-5">
 	  <a href="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80" id="zoom" class="magnify-wrapper" style="z-index: 1;">
     <img
-      src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80"
+      src="https://images.unsplash.com/photo-1542856204-00101eb6def4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=75&q=80"
       id="main-img"
     />
 	</a>
