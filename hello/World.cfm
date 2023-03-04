@@ -254,7 +254,7 @@ jQuery(document).ready(function($){
 <div id="description">Milla Jojovitch</div>
 <div class="multizoom1 thumbs">
 <a href="lights.jpg" data-title="Northern Lights"><img width="66px" src="lights.jpg" alt="lights" title="lights"/></a>
-<a href="https://mczbase.mcz.harvard.edu/specimen_images/invertebrates/large/Louis_AgassizLg.jpg" data-lens="false" data-magsize="150,150" data-large="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" data-title="Saleen S7 Twin Turbo"><img src="images/samplepics/saleen_tmb.jpg" alt="Saleen" title=""/></a>
+<a href="https://mczbase.mcz.harvard.edu/specimen_images/invertebrates/large/Louis_AgassizLg.jpg" data-lens="false" data-magsize="150,150" data-large="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" data-title="Saleen S7 Twin Turbo"><img src="https://mczbase.mcz.harvard.edu/specimen_images/test/Louis_Agassiz256px.jpg" alt="Saleen" title=""/></a>
 </div>
 
 <cfinclude template="/shared/_footer.cfm">
