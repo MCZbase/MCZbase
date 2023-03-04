@@ -949,7 +949,7 @@ jQuery(document).ready(function($){
 .targetarea img { /* zoomable image */
 	margin: auto; /* for horizontal centering */
 	display: none; /* also for horizontal centering */
-	position: relative; /* along with on the fly calculations in script, for vertical centering */
+	position: absolute; /* along with on the fly calculations in script, for vertical centering */
 	border-width: 0;
 	left: 100px;
 }
