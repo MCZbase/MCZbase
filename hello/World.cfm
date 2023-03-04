@@ -64,7 +64,7 @@ limitations under the License.
 	</main>
 </cfoutput>
 
-<style>
+<!---<style>
 .img-magnifier-container {
 position:relative;
 cursor:none;
@@ -149,18 +149,17 @@ function show(){
     glass = document.getElementById("glassId").style.display = "block";
 }
 }
-</script>
+</script>--->
 
 
-<div class="img-magnifier-container col-6 float-right">
+<!---<div class="img-magnifier-container col-6 float-right">
   <img id="glassId" src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00003012_Ceutorhynchus_serisetosus_had.jpg" width="600" height="400" onmouseover="show()">
 </div>
-<script>
-/* Initiate Magnify Function
-with the id of the image, and the strength of the magnifier glass:*/
-magnify("glassId", 3);
-</script>
+<script>--->
 
+<!---magnify("glassId", 3);
+</script>--->
+<!---
 	<style>
 .media_widget {
 position: relative;
@@ -202,7 +201,7 @@ cursor: pointer;
 	</a>
 	<h2> Page text</h2>
 	<p> Here is some text</p>
-</div>
+</div>--->
 
 	
 	
