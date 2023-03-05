@@ -131,7 +131,7 @@
 										<cfset val=trim(colValArray[col])>
 										<cfset val=rereplace(val,"^'+",'')>
 										<cfset val=rereplace(val,"'+$",'')>
-										<cfif val EQ "" OR val EQ "'"> 
+										<cfif val EQ ""> 
 											#separator#NULL
 										<cfelse>
 											#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#val#">
