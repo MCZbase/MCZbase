@@ -128,9 +128,9 @@
 								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
 									<cfif arrayFindNoCase(fieldArray,colNameArray[col]) GT 0>
 										<cfset fieldPos=arrayFind(fieldArray,colNameArray[col])>
-										<cfset val=rereplace(colValArray[col],"^'","")>
-										<cfset val=rereplace(val,"'$","")>
-										<cfif val EQ ""> 
+										<cfset val=rereplace(trim(colValArray[col]),"^'",'')>
+										<cfset val=rereplace(val,"'$",'')>
+										<cfif val EQ "" OR val="'"> 
 											#separator#NULL
 										<cfelse>
 											#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#val#">
