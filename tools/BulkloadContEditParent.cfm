@@ -130,7 +130,7 @@
 										<cfset fieldPos=arrayFind(fieldArray,colNameArray[col])>
 										<cfset val=rereplace(trim(colValArray[col]),"^'",'')>
 										<cfset val=rereplace(val,"'$",'')>
-										<cfif val EQ "" OR val="'"> 
+										<cfif val EQ "" OR val EQ "'"> 
 											#separator#NULL
 										<cfelse>
 											#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#val#">
