@@ -43,20 +43,22 @@
 		<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 		<div id="template" style="display:none;margin: 1em 0;">
 			<label for="templatearea" class="data-entry-label">
-				Copy this header line and save it as a .csv file (<a href="/tools/BulkloadContEditParent.cfm?action=getCSVHeader"><download</a>)
+				Copy this header line and save it as a .csv file (<a href="/tools/BulkloadContEditParent.cfm?action=getCSVHeader">download</a>)
 			</label>
 			<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 		</div>
 		<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
 		<ul class="geol_hier">
-			<cfloop list="fieldlist" index="field" delimiters=",">
-				<cfif listContains(requiredfieldlist,field,",")>
-					<cfset class="text-danger">
-				<cfelse>
-					<cfset class="text-dark">
-				</cfif>
-				<li class="#class#">#field#</li>
-			</cfloop>
+			<cfoutput>
+				<cfloop list="fieldlist" index="field" delimiters=",">
+					<cfif listContains(requiredfieldlist,field,",")>
+						<cfset class="text-danger">
+					<cfelse>
+						<cfset class="text-dark">
+					</cfif>
+					<li class="#class#">#field#</li>
+				</cfloop>
+			</cfoutput>
 		</ul>
 		<cfform name="atts" method="post" enctype="multipart/form-data" action="BulkloadContEditParent.cfm">
 			<input type="hidden" name="Action" value="getFile">
