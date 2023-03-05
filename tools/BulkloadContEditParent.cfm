@@ -104,6 +104,7 @@
 					<cfif #row# is 1>
 						<cfset colNames="#colNames#,#thisBit#">
 					<cfelse>
+						<!--- quote values to ensure all columns have content, will need to strip out later to insert values --->
 						<cfset colVals="#colVals#,'#thisBit#'">
 					</cfif>
 				</cfloop>
@@ -127,10 +128,12 @@
 								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
 									<cfif arrayFindNoCase(fieldArray,colNameArray[col]) GT 0>
 										<cfset fieldPos=arrayFind(fieldArray,colNameArray[col])>
-										<cfif colValArray[col] EQ ""> 
+										<cfset val=removeChars(colValArray[col],1,1)>
+										<cfset val=left(val,len(val)-1) >
+										<cfif val EQ ""> 
 											#separator#NULL
 										<cfelse>
-											#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#colValArray[col]#">
+											#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#val#">
 										</cfif>
 									<cfelse>
 										#separator#NULL
