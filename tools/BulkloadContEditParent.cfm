@@ -127,7 +127,11 @@
 								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
 									<cfif arrayFindNoCase(fieldArray,colNameArray[col]) GT 0>
 										<cfset fieldPos=arrayFind(fieldArray,colNameArray[col])>
-										#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#colValArray[col]#">
+										<cfif colValArray[col] EQ ""> 
+											#separator#NULL
+										<cfelse>
+											#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#colValArray[col]#">
+										</cfif>
 									<cfelse>
 										#separator#NULL
 									</cfif>
