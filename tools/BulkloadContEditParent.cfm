@@ -128,7 +128,8 @@
 								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
 									<cfif arrayFindNoCase(fieldArray,colNameArray[col]) GT 0>
 										<cfset fieldPos=arrayFind(fieldArray,colNameArray[col])>
-										<cfset val=rereplace(trim(colValArray[col]),"^.",'')>
+										<cfset val=trim(colValArray[col])>
+										<cfset val=removechars(val,1,1)>
 										<cfset val=rereplace(val,".$",'')>
 										<cfif val EQ "" OR val EQ "'"> 
 											#separator#NULL
@@ -253,7 +254,7 @@
 				<tbody>
 					<cfloop query="data">
 						<tr>
-						<td>#data.CONTAINER_UNIQUE_ID#</td>
+							<td>#data.CONTAINER_UNIQUE_ID#</td>
 							<td>#data.PARENT_UNIQUE_ID#</td>
 							<td>#data.CONTAINER_TYPE#</td>
 							<td>#data.CONTAINER_NAME#</td>
