@@ -129,8 +129,8 @@
 									<cfif arrayFindNoCase(fieldArray,colNameArray[col]) GT 0>
 										<cfset fieldPos=arrayFind(fieldArray,colNameArray[col])>
 										<cfset val=trim(colValArray[col])>
-										<cfset val=removechars(val,1,1)>
-										<cfset val=rereplace(val,".$",'')>
+										<cfset val=rereplace(val,"^'+",'')>
+										<cfset val=rereplace(val,"'+$",'')>
 										<cfif val EQ "" OR val EQ "'"> 
 											#separator#NULL
 										<cfelse>
