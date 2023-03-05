@@ -50,7 +50,7 @@
 			</div>
 			<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
 			<ul class="geol_hier">
-				<cfloop list="fieldlist" index="field" delimiters=",">
+				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfif listContains(requiredfieldlist,field,",")>
 						<cfset class="text-danger">
 					<cfelse>
