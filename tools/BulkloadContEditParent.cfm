@@ -26,7 +26,8 @@
 		<cfset csv='#csv##separator#"#field#"'>
 		<cfset separator = ",">
 	</cfloop>
-	<cfoutput>#csv#"#chr(13)##chr(10)#</cfoutput>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
 	<cfabort>
 </cfif>
 
