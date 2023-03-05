@@ -110,8 +110,8 @@
 				<cfif #row# is 1>
 					<!--- strip off the leading separator --->
 					<cfset colNames=replace(colNames,",","","first")>
-					<cfset colNameArray = listToArray(colNames)><!--- the list of columns/fields found in the input file --->
-					<cfset fieldArray = listToArray(fieldlist)><!--- the full list of fields --->
+					<cfset colNameArray = listToArray(ucase(colNames))><!--- the list of columns/fields found in the input file --->
+					<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 					<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
 				<cfelse>
 					<!--- strip off the leading separator --->
@@ -125,7 +125,7 @@
 							values (
 								<cfset separator = "">
 								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
-									<cfif arrayFind(fieldArray,colNameArray[col]) GT 0>
+									<cfif arrayFindNoCase(fieldArray,colNameArray[col]) GT 0>
 										<cfset fieldPos=arrayFind(fieldArray,colNameArray[col])>
 										#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#colValArray[col]#">
 									<cfelse>
