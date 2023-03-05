@@ -86,7 +86,7 @@
 				<cfif ucase(header) EQ 'CONTAINER_NAME'><cfset container_name_exists=true></cfif>
 			</cfloop>
 			<cfif not (container_unique_id_exists AND container_type_exists AND container_name_exists)>
-				<cfset message = "One or more required fields are missing in the header line of the csv file."
+				<cfset message = "One or more required fields are missing in the header line of the csv file.">
 				<cfif not container_unique_id_exits><cfset message = "#message# container_unique_id is missing."></cfif>
 				<cfif not container_type_exits><cfset message = "#message# container_type is missing."></cfif>
 				<cfif not container_name_exits><cfset message = "#message# container_name is missing."></cfif>
