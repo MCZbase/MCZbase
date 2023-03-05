@@ -22,7 +22,7 @@
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
-	<cfloop list="fieldlist" index="field" delimiters=",">
+	<cfloop list="#fieldlist#" index="field" delimiters=",">
 		<cfset csv='#csv##separator#"#field#"'>
 		<cfset separator = ",">
 	</cfloop>
@@ -38,18 +38,18 @@
 	<h1 class="h2">Bulkload Container Edit Parent</h1>
 
 	<cfif #action# is "nothing">
-		<p>This tool is used to edit container information and/or move parts to a different parent container.</p>
-		<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below. </p>
-		<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-		<div id="template" style="display:none;margin: 1em 0;">
-			<label for="templatearea" class="data-entry-label">
-				Copy this header line and save it as a .csv file (<a href="/tools/BulkloadContEditParent.cfm?action=getCSVHeader">download</a>)
-			</label>
-			<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
-		</div>
-		<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
-		<ul class="geol_hier">
-			<cfoutput>
+		<cfoutput>
+			<p>This tool is used to edit container information and/or move parts to a different parent container.</p>
+			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below. </p>
+			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
+			<div id="template" style="display:none;margin: 1em 0;">
+				<label for="templatearea" class="data-entry-label">
+					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadContEditParent.cfm?action=getCSVHeader">download</a>)
+				</label>
+				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
+			</div>
+			<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
+			<ul class="geol_hier">
 				<cfloop list="fieldlist" index="field" delimiters=",">
 					<cfif listContains(requiredfieldlist,field,",")>
 						<cfset class="text-danger">
@@ -58,13 +58,13 @@
 					</cfif>
 					<li class="#class#">#field#</li>
 				</cfloop>
-			</cfoutput>
-		</ul>
-		<cfform name="atts" method="post" enctype="multipart/form-data" action="BulkloadContEditParent.cfm">
-			<input type="hidden" name="Action" value="getFile">
-			<input type="file" name="FiletoUpload" size="45">
-			<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
-		</cfform>
+			</ul>
+			<cfform name="atts" method="post" enctype="multipart/form-data" action="BulkloadContEditParent.cfm">
+				<input type="hidden" name="Action" value="getFile">
+				<input type="file" name="FiletoUpload" size="45">
+				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
+			</cfform>
+		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
