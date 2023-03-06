@@ -1067,7 +1067,7 @@
 		<!---------------   Buttons ------------------------------------------------>
 			<div class="col-12 mt-0 mb-3"> 
 				<div class="row mx-0 mb-3"> 
-					<div class="col-12 col-md-3 px-0 px-md-2 pt-3">
+					<div class="col-12 col-md-5 col-xl-4 px-0 px-md-2 pt-3">
 						<input type="submit" value="Search" aria-label="execute a search with the current search form parameters"
 							class="btn btn-xs btn-primary px-2 px-xl-3">
 						<input type="reset" value="Reset Form" aria-label="reset form values to those on initial page load"
