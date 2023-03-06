@@ -280,7 +280,7 @@
 						<cfset toggleTo = "0">
 						<cfset locButton = "Fewer Fields">
 					</cfif> 
-					<div class="form-row mx-0 mb-0">
+					<div class="form-row mx-0 mt-2 mb-0">
 						<cfif #showExtraFields# IS 1>
 							<cfset spec_loc_class = "col-md-2">
 						<cfelse>
