@@ -370,7 +370,7 @@
 					<div class="form-row mx-0 my-2">
 						
 						
-						<div class="col-12 col-md-1 px-3 pl-md-3 pr-md-0 py-1">
+						<div class="col-12 col-md-3 px-3 pl-md-3 pr-md-0 py-1">
 							<label for="maximum_elevation" class="data-entry-label mb-0">Minimum Elevation <span class="small">(Original Units)</span></label>
 							<cfif not isDefined("MinElevOper")><cfset MinElevOper="="></cfif>
 							<cfif MinElevOper IS "!"><cfset MinElevOper="<>"></cfif>
