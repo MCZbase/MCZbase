@@ -938,9 +938,9 @@
 							</div>
 						</cfif>
 					</div>
-					<div id="eventDetail" style="#eventDetailStyle#" >
+					<div id="eventDetail" style="#eventDetailStyle#" class="py-2">
 						<div class="form-row px-3">
-							<div class="col-12 col-md-2 py-2">
+							<div class="col-12 col-md-2">
 								<cfif NOT isDefined("verbatimCoordinates") ><cfset verbatimCoordinates=""></cfif>
 								<label for="verbatimCoordinates" class="data-entry-label">Verbatim Coordinates</label>
 								<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" class="data-entry-input" value="#encodeForHtml(verbatimCoordinates)#">
