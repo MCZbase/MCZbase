@@ -280,7 +280,7 @@
 						<cfset toggleTo = "0">
 						<cfset locButton = "Fewer Fields">
 					</cfif> 
-					<div class="form-row mx-0 mt-2 mb-0">
+					<div class="form-row mx-0 mt-2 mb-2">
 						<cfif #showExtraFields# IS 1>
 							<cfset spec_loc_class = "col-md-2">
 						<cfelse>
@@ -339,7 +339,7 @@
 							<label for="locality_id" class="data-entry-label">Locality ID</label>
 							<input type="text" name="locality_id" id="locality_id" class="data-entry-input" value="#encodeForHtml(encodeForHtml(locality_id))#">
 						</div>
-						<div class="col-12 col-md-2 px-3 my-2">
+						<div class="col-12 col-md-2 px-3 my-1">
 							<label for="locDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Locality</label>
 							<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</button>
 						</div>
