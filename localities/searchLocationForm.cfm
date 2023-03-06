@@ -1102,7 +1102,7 @@
 						</div>
 					</cfif>
 					<cfif #showExtraFields# IS 1>
-						<div class="col-12 col-md-2 px-0">
+						<div class="col-12 col-md-2 px-0 pt-3">
 							<cfif not isDefined("show_unused")><cfset show_unused = ""></cfif>
 							<label for="show_unused" class="data-entry-label w-auto d-inline-block">Unused</label>
 							<select name="show_unused" id="show_unused" class="data-entry-select d-inline-block w-auto">
