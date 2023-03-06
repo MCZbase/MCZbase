@@ -375,7 +375,7 @@
 							<cfif not isDefined("MinElevOper")><cfset MinElevOper="="></cfif>
 							<cfif MinElevOper IS "!"><cfset MinElevOper="<>"></cfif>
 							<label for="MinElevOper" class="data-entry-label text-white">(operator)</label>
-							<select name="MinElevOper" id="MinElevOper" size="1" class="data-entry-select">
+							<select name="MinElevOper" id="MinElevOper" size="1" class="data-entry-select col-12 col-md-4 px-3 pl-md-0 pr-md-0 pb-1">
 								<cfif MinElevOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif MinElevOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -386,7 +386,7 @@
 								<option value="<" #selected#>less than</option>
 							</select>
 							<cfif not isDefined("minimum_elevation")><cfset minimum_elevation=""></cfif>
-							<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input col-12 col-md-2 px-3 pl-md-0 pr-md-0 pb-1" value="#encodeForHtml(minimum_elevation)#">
+							<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input col-12 col-md-7 px-3 pl-md-0 pr-md-0 pb-1" value="#encodeForHtml(minimum_elevation)#">
 						</div>
 						<div class="col-12 col-md-1 px-3 pl-md-0 pr-md-3 py-1">
 							<cfif isDefined("orig_elev_units")><cfset orig_elev_units_val="#orig_elev_units#"><cfelse><cfset orig_elev_units_val=""></cfif>
