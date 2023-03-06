@@ -36,25 +36,20 @@ limitations under the License.
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="search">
+
 		<div id="overlaycontainer" style="position: relative;"> 
 			<!--- Search Form ---> 
 			<cfoutput>
 				<main id="content">
-					<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
-						<div class="row mx-0 mb-3">
-							<div class="search-box">
-								<form name="searchForm" id="searchForm">
-									<cfset showLocality=0>
-									<cfset showEvent=0>
-									<cfset showExtraFields=1>
-									<cfset newSearchTarget = "/localities/HigherGeographies.cfm">
-									<input type="hidden" id="method" name="method" value="getHigherGeographies">
-									<cfinclude template = "/localities/searchLocationForm.cfm">
-								</form>
-							</div>
-						</div>
-					</section>
-
+					<form name="searchForm" id="searchForm">
+						<cfset showLocality=0>
+						<cfset showEvent=0>
+						<cfset showExtraFields=1>
+						<cfset newSearchTarget = "/localities/HigherGeographies.cfm">
+						<input type="hidden" id="method" name="method" value="getHigherGeographies">
+						<cfinclude template = "/localities/searchLocationForm.cfm">
+					</form>
+		
 					<!--- Results table as a jqxGrid. --->
 					<section class="container-fluid">
 						<div class="row mx-0">
