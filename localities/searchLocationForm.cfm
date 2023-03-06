@@ -938,14 +938,14 @@
 							</div>
 						</cfif>
 					</div>
-					<div id="eventDetail" style="#eventDetailStyle#" class="py-2">
+					<div id="eventDetail" style="#eventDetailStyle#">
 						<div class="form-row px-3">
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 py-2">
 								<cfif NOT isDefined("verbatimCoordinates") ><cfset verbatimCoordinates=""></cfif>
 								<label for="verbatimCoordinates" class="data-entry-label">Verbatim Coordinates</label>
 								<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" class="data-entry-input" value="#encodeForHtml(verbatimCoordinates)#">
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 py-2">
 								<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System</label>
 								<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" class="data-entry-input">
 								<script>
@@ -954,7 +954,7 @@
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 py-2">
 								<label for="verbatimSRS" class="data-entry-label">Verbatim SRS (datum)</label>
 								<input type="text" name="verbatimSRS" id="verbatimSRS" class="data-entry-input">
 								<script>
@@ -963,7 +963,7 @@
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 py-2">
 								<label for="collecting_method" class="data-entry-label">Collecting Method</label>
 								<input type="text" name="collecting_method" id="collecting_method" class="data-entry-input">
 								<script>
@@ -972,7 +972,7 @@
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 py-2">
 								<cfif NOT isDefined("habitat_desc") ><cfset habitat_desc=""></cfif>
 								<label for="habitat_desc" class="data-entry-label">Habitat</label>
 								<input type="text" name="habitat_desc" id="habitat_desc" class="data-entry-input" value="#encodeForHtml(habitat_desc)#">
@@ -982,7 +982,7 @@
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 py-2">
 								<label for="collecting_source" class="data-entry-label">Collecting Source</label>
 								<select name="collecting_source" id="collecting_source" size="1" class="data-entry-select">
 									<option value=""></option>
@@ -991,12 +991,12 @@
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 py-2">
 								<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
 								<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input">
 							</div>
 							<cfif #showExtraFields# IS 1>
-								<div class="col-12 col-md-2">
+								<div class="col-12 col-md-2 py-2">
 									<cfif NOT isDefined("fish_field_number") ><cfset fish_field_number=""></cfif>
 									<label for="fish_field_number" class="data-entry-label">Fish Field Number</label>
 									<input type="text" name="fish_field_number" id="fish_field_number" class="data-entry-input" value="#encodeForHtml(fish_field_number)#">
@@ -1006,17 +1006,17 @@
 										});
 									</script>
 								</div>
-								<div class="col-12 col-md-2">
+								<div class="col-12 col-md-2 py-2">
 									<cfif NOT isDefined("verbatimlatitude") ><cfset verbatimlatitude=""></cfif>
 									<label for="verbatimlatitude" class="data-entry-label">Verbatim Latitude</label>
 									<input type="text" name="verbatimlatitude" id="verbatimlatitude" class="data-entry-input" value="#encodeForHtml(verbatimlatitude)#">
 								</div>
-								<div class="col-12 col-md-2">
+								<div class="col-12 col-md-2 py-2">
 									<cfif NOT isDefined("verbatimlongigude") ><cfset verbatimlongigude=""></cfif>
 									<label for="verbatimlongigude" class="data-entry-label">Verbatim Longitude</label>
 									<input type="text" name="verbatimlongigude" id="verbatimlongigude" class="data-entry-input" value="#encodeForHtml(verbatimlongigude)#">
 								</div>
-								<div class="col-12 col-md-1">
+								<div class="col-12 col-md-1 py-2">
 									<cfif NOT isDefined("valid_distribution_fg") ><cfset valid_distribution_fg=""></cfif>
 									<label for="valid_distribution_fg" class="data-entry-label">Valid Distribution</label>
 									<select name="valid_distribution_fg" id="valid_distribution_fg" size="1" class="data-entry-select">
@@ -1030,7 +1030,7 @@
 										<option value="NOT NULL" #selected#>NOT NULL</option>
 									</select>
 								</div>
-								<div class="col-12 col-md-1">
+								<div class="col-12 col-md-1 py-1">
 									<cfif NOT isDefined("date_determined_by_agent") ><cfset date_determined_by_agent=""></cfif>
 									<cfif NOT isDefined("date_determined_by_agent_id") ><cfset date_determined_by_agent_id=""></cfif>
 									<label for="date_determined_by_agent" class="data-entry-label">Date Det. by</label>
@@ -1042,7 +1042,7 @@
 										});
 									</script>
 								</div>
-								<div class="col-12 col-md-2">
+								<div class="col-12 col-md-2 py-2">
 									<cfif NOT isDefined("collector_agent") ><cfset collector_agent=""></cfif>
 									<cfif NOT isDefined("collector_agent_id") ><cfset collector_agent_id=""></cfif>
 									<label for="collector_agent" class="data-entry-label">Collector</label>
