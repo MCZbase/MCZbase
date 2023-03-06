@@ -880,7 +880,7 @@
 						<div class="col-6 col-md-3 pr-0 py-1">
 							<label for="began_date" class="data-entry-label mt3px" style="margin-top:0.15rem;">Began Date</label>
 							<cfif NOT isDefined("begDateOper") ><cfset begDateOper=""></cfif>
-							<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select col-6 col-md-3 d-inline-block w-auto pr-0 py-1" aria-label="operator for began date">
+							<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select col-6 col-md-3 d-inline-block w-auto pr-0" aria-label="operator for began date">
 								<cfif begDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif begDateOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -894,7 +894,7 @@
 						<div class="col-6 col-md-3 pr-0 py-1">
 							<label for="ended_date" class="data-entry-label mt3px" style="margin-top: 0.15rem;">End Date</label>
 							<cfif NOT isDefined("endDateOper") ><cfset endDateOper=""></cfif>
-							<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select col-6 col-md-3 d-inline-block w-auto pr-0 py-1" aria-label="operator for end date">
+							<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select col-6 col-md-3 d-inline-block w-auto pr-0" aria-label="operator for end date">
 								<cfif endDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif endDateOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
