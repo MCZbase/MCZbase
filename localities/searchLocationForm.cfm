@@ -871,10 +871,7 @@
 							<label for="collecting_event_id" class="data-entry-label">Collecting Event ID</label>
 							<input type="text" name="collecting_event_id" id="collecting_event_id" class="data-entry-input" value="#encodeForHtml(collecting_event_id)#" >
 						</div>
-						<div class="col-12 col-md-2 py-1">
-							<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent;">Collecting Event</label> 
-							<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
-						</div>
+				
 					</div>
 					<div class="form-row px-3">
 						<div class="col-6 col-md-2 pr-0 py-1">
@@ -927,6 +924,10 @@
 								<input type="text" name="enddayofyear" id="enddayofyear" class="data-entry-input" value="#encodeForHtml(enddayofyear)#">
 							</div>
 						</cfif>
+						<div class="col-12 col-md-2 py-1">
+							<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent;">Collecting Event</label> 
+							<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
+						</div>
 					</div>
 					<div id="eventDetail" style="#eventDetailStyle#">
 						<div class="form-row px-3">
