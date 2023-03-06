@@ -292,13 +292,13 @@
 							<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input" value="#encodeForHtml(encodeForHtml(spec_locality))#">
 						</div>
 						<cfif #showExtraFields# IS 1>
-							<div class="col-12 col-md-2 py-2">
+							<div class="col-12 col-md-2 px-3 py-2">
 								<cfif not isDefined("any_geography")><cfset any_geography=""></cfif>
 								<label for="any_geography" class="data-entry-label">Any Geography (keyword)</label>
 								<input type="text" name="any_geography" id="any_geography" class="data-entry-input" value="#encodeForHtml(any_geography)#">
 							</div>
 						</cfif>
-						<div class="col-12 col-md-1 py-2">
+						<div class="col-12 col-md-1 px-3 py-2">
 							<cfif not isDefined("collnOper")><cfset collnOper=""></cfif>
 							<label for="collnOper" class="data-entry-label">Use</label>
 							<select name="collnOper" id="collnOper" size="1" class="data-entry-select">
@@ -312,7 +312,7 @@
 								<option value="notUsedBy" #selected#>not used by</option>
 							</select>
 						</div>
-						<div class="col-12 col-md-2 py-2">
+						<div class="col-12 col-md-2 px-3 py-2">
 							<cfif isDefined("collection_id")><cfset collection_id_val="#collection_id#"><cfelse><cfset collection_id_val=""></cfif>
 							<label for="collection_id" class="data-entry-label">Collection</label>
 							<select name="collection_id" id="collection_id" size="1" class="data-entry-select">
@@ -334,7 +334,7 @@
 								<option value="1" #selected#>Yes *</option>
 							</select>
 						</div>
-						<div class="col-6 col-md-1 px-3 px-md-0 py-2">
+						<div class="col-6 col-md-1 px-3 py-2">
 							<cfif not isDefined("locality_id")><cfset locality_id=""></cfif>
 							<label for="locality_id" class="data-entry-label">Locality ID</label>
 							<input type="text" name="locality_id" id="locality_id" class="data-entry-input" value="#encodeForHtml(encodeForHtml(locality_id))#">
