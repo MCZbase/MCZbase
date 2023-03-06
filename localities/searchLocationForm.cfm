@@ -1082,7 +1082,7 @@
 								<cfif not isDefined("accentInsensitive")><cfset accentInsensitive = "0"></cfif>
 								<cfif accentInsensitive EQ "1"><cfset checked = "checked"><cfelse><cfset checked=""></cfif>
 								<input class="form-check-input" name="accentInsensitive" id="accentInsensitive" value="1" #checked# type="checkbox"/>
-								<label class="form-check-label mt3px" for="accentInsenstive">Accent Insensitive?</label>
+								<label class="form-check-label mt3px data-entry-label" for="accentInsenstive">Accent Insensitive?</label>
 							</div>
 						</div>
 						<cfif showLocality is 1 AND showSpecimenCounts >
