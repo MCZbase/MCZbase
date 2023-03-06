@@ -400,10 +400,10 @@
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-1 px-3 py-1">
+						<div class="col-12 col-md-1 px-3 pr-md-0 py-1">
 							<cfif not isDefined("MaxElevOper")><cfset MaxElevOper="="></cfif>
 							<cfif MaxElevOper IS "!"><cfset MaxElevOper="<>"></cfif>
-							<label for="MaxElevOper" class="data-entry-label" style="color:transparent">Elevation</label>
+							<label for="MaxElevOper" class="data-entry-label text-white">Elevation</label>
 							<select name="MaxElevOper" id="MaxElevOper" size="1" class="data-entry-select">
 								<cfif MaxElevOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
@@ -415,7 +415,7 @@
 								<option value="<" #selected#>less than</option>
 							</select>
 						</div>
-						<div class="col-12 col-md-1 px-3 py-2">
+						<div class="col-12 col-md-2 px-3 pl-md-0 py-2">
 							<cfif not isDefined("maximum_elevation")><cfset maximum_elevation=""></cfif>
 							<label for="maximum_elevation" class="data-entry-label">Maximum Elevation</label>
 							<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input" value="#encodeForHtml(maximum_elevation)#">
