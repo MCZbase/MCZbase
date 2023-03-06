@@ -544,7 +544,7 @@
 								<option value="<" #selected#>less than</option>
 							</select>
 						</div>
-						<div class="col-12 col-md-3 px-3 py-2">
+						<div class="col-12 col-md-3 px-3 px-md-0 py-2">
 							<cfif not isDefined("max_depth_m")><cfset max_depth_m=""></cfif>
 							<label for="max_depth_m" class="data-entry-label">Maximum</label>
 							<input type="text" name="max_depth_m" id="max_depth_m" class="data-entry-input" value="#encodeForHtml(max_depth_m)#">
@@ -552,22 +552,22 @@
 					</div>
 					<cfif #showExtraFields# IS 1>
 						<div class="form-row my-2 mb-3">
-							<div class="col-12 col-md-2 px-3 py-2">
+							<div class="col-12 col-md-2 px-3 px-md-0 py-2">
 								<cfif not isDefined("section_part")><cfset section_part=""></cfif>
 								<label for="section_part" class="data-entry-label">PLSS Section Part</label>
 								<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHtml(section_part)#">
 							</div>
-							<div class="col-12 col-md-2 px-3 py-2">
+							<div class="col-12 col-md-2 px-3 px-md-0 py-2">
 								<cfif not isDefined("section")><cfset section=""></cfif>
 								<label for="section" class="data-entry-label">PLSS Section</label>
 								<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHtml(section)#">
 							</div>
-							<div class="col-12 col-md-2 px-3 py-2">
+							<div class="col-12 col-md-2 px-3 px-md-0 py-2">
 								<cfif not isDefined("township")><cfset township=""></cfif>
 								<label for="township" class="data-entry-label">PLSS Township</label>
 								<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHtml(township)#">
 							</div>
-							<div class="col-12 col-md-2 px-3 py-2">
+							<div class="col-12 col-md-2 px-3 px-md-0 py-2">
 								<cfif not isDefined("township_direction")><cfset township_direction=""></cfif>
 								<label for="township_direction" class="data-entry-label">Township Direction</label>
 								<select name="township_direction" id="" size="1" class="data-entry-select">
@@ -579,12 +579,12 @@
 									<option value="S" #selected#>S</option>
 								</select>
 							</div>
-							<div class="col-12 col-md-2 px-3 py-2">
+							<div class="col-12 col-md-2 px-3 px-md-0 py-2">
 								<cfif not isDefined("range")><cfset range=""></cfif>
 								<label for="range" class="data-entry-label">PLSS Range</label>
 								<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHtml(range)#">
 							</div>
-							<div class="col-12 col-md-2 px-3 py-2">
+							<div class="col-12 col-md-2 px-3 px-md-0 py-2">
 								<cfif not isDefined("range_direction")><cfset range_direction=""></cfif>
 								<label for="range_direction" class="data-entry-label">Township Direction</label>
 								<select name="range_direction" id="" size="1" class="data-entry-select">
@@ -599,7 +599,7 @@
 						</div>
 					</cfif>
 					<div class="form-row px-3 mt-2 mb-3">
-						<div class="col-12 col-md-4">
+						<div class="col-12 col-md-4 px-3 px-md-0 py-2">
 							<cfif isDefined("geology_attribute")><cfset geology_attribute_val="#geology_attribute#"><cfelse><cfset geology_attribute_val=""></cfif>
 							<label for="geology_attribute" class="data-entry-label">Geology Attribute</label>
 							<select name="geology_attribute" id="geology_attribute" class="data-entry-select">
@@ -610,12 +610,12 @@
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 px-3 px-md-0 py-2">
 							<cfif not isDefined("geo_att_value")><cfset geo_att_value=""></cfif>
 							<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
 							<input type="text" name="geo_att_value" class="data-entry-input" value="#encodeForHtml(geo_att_value)#">
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 px-3 px-md-0 py-2">
 							<cfif isDefined("geology_attribute_hier") and len(geology_attribute_hier) GT 0 ><cfset geology_attribute_hierValue="#geology_attribute_hier#"><cfelse><cfset geology_attribute_hierValue=""></cfif>
 							<label for="geology_attribute_hier" class="data-entry-label">Traverse Hierarchies?</label>
 							<select name="geology_attribute_hier" id="geology_attribute_hier" class="data-entry-select">
