@@ -369,8 +369,9 @@
 						</div>
 					<div class="form-row mx-0 my-2">
 						
-						<label class="data-entry-label mb-0 pt-1">Minimum Elevation <span class="small">(Original Units)</span></label>
-						<div class="col-12 col-md-1 px-3 pl-md-3 pr-md-0 pb-1">
+						
+						<div class="col-12 col-md-1 px-3 pl-md-3 pr-md-0 py-1">
+							<label for="maximum_elevation" class="data-entry-label mb-0">Minimum Elevation <span class="small">(Original Units)</span></label>
 							<cfif not isDefined("MinElevOper")><cfset MinElevOper="="></cfif>
 							<cfif MinElevOper IS "!"><cfset MinElevOper="<>"></cfif>
 							<label for="MinElevOper" class="data-entry-label text-white">(operator)</label>
@@ -384,11 +385,8 @@
 								<cfif MinElevOper IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="<" #selected#>less than</option>
 							</select>
-						</div>
-						<div class="col-12 col-md-2 px-3 pl-md-0 pr-md-0 pb-1">
-							<label for="minimum_elevation" class="data-entry-label text-white">Max. Elevation</label>
 							<cfif not isDefined("minimum_elevation")><cfset minimum_elevation=""></cfif>
-							<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input text-right" value="#encodeForHtml(minimum_elevation)#">
+							<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input col-12 col-md-2 px-3 pl-md-0 pr-md-0 pb-1" value="#encodeForHtml(minimum_elevation)#">
 						</div>
 						<div class="col-12 col-md-1 px-3 pl-md-0 pr-md-3 py-1">
 							<cfif isDefined("orig_elev_units")><cfset orig_elev_units_val="#orig_elev_units#"><cfelse><cfset orig_elev_units_val=""></cfif>
