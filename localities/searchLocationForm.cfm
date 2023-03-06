@@ -550,8 +550,8 @@
 						</div>
 					</div>
 					<cfif #showExtraFields# IS 1>
-						<div class="form-row my-2 mb-3">
-							<div class="col-12 col-md-2 px-3 px-md-0 py-2">
+						<div class="form-row mx-0 my-2 ">
+							<div class="col-12 col-md-2 px-3 pl-md-3 py-2">
 								<cfif not isDefined("section_part")><cfset section_part=""></cfif>
 								<label for="section_part" class="data-entry-label">PLSS Section Part</label>
 								<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHtml(section_part)#">
