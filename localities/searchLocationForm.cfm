@@ -883,7 +883,7 @@
 					<div class="form-row px-3 my-2">
 						<div class="col-12 col-md-1">
 							<cfif NOT isDefined("begDateOper") ><cfset begDateOper=""></cfif>
-							<label for="began_date" class="data-entry-label">Began Date</label>
+							<label for="began_date" class="data-entry-label mt3px">Began Date</label>
 							<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select" aria-label="operator for began date">
 								<cfif begDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
@@ -900,7 +900,7 @@
 						</div>
 						<div class="col-12 col-md-1">
 							<cfif NOT isDefined("endDateOper") ><cfset endDateOper=""></cfif>
-							<label for="ended_date" class="data-entry-label">End Date</label>
+							<label for="ended_date" class="data-entry-label mt3px">End Date</label>
 							<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select" aria-label="operator for end date">
 								<cfif endDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
@@ -939,8 +939,8 @@
 						</cfif>
 					</div>
 					<div id="eventDetail" style="#eventDetailStyle#" >
-						<div class="form-row px-3 my-2">
-							<div class="col-12 col-md-2">
+						<div class="form-row px-3">
+							<div class="col-12 col-md-2 py-2">
 								<cfif NOT isDefined("verbatimCoordinates") ><cfset verbatimCoordinates=""></cfif>
 								<label for="verbatimCoordinates" class="data-entry-label">Verbatim Coordinates</label>
 								<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" class="data-entry-input" value="#encodeForHtml(verbatimCoordinates)#">
