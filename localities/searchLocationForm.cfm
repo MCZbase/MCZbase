@@ -286,7 +286,7 @@
 						<cfelse>
 							<cfset spec_loc_class = "col-md-4">
 						</cfif>
-						<div class="col-12 col-md-3 px-3 px-md-0 py-2">
+						<div class="col-12 col-md-3 px-3 pl-md-3 pr-2 py-2">
 							<cfif not isDefined("spec_locality")><cfset spec_locality=""></cfif>
 							<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 							<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input" value="#encodeForHtml(encodeForHtml(spec_locality))#">
@@ -298,7 +298,7 @@
 								<input type="text" name="any_geography" id="any_geography" class="data-entry-input" value="#encodeForHtml(any_geography)#">
 							</div>
 						</cfif>
-						<div class="col-12 col-md-1 px-3 px-md-0 py-2">
+						<div class="col-12 col-md-1 px-3 px-md-2 py-2">
 							<cfif not isDefined("collnOper")><cfset collnOper=""></cfif>
 							<label for="collnOper" class="data-entry-label">Use</label>
 							<select name="collnOper" id="collnOper" size="1" class="data-entry-select">
@@ -323,7 +323,7 @@
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-6 col-md-1 px-3 py-2">
+						<div class="col-6 col-md-1 px-3 px-md-0 py-2">
 							<cfif not isDefined("curated_fg")><cfset curated_fg=""></cfif>
 							<label for="curated_fg" class="data-entry-label">Vetted</label>
 							<select name="curated_fg" id="curated_fg" class="data-entry-select">
@@ -334,7 +334,7 @@
 								<option value="1" #selected#>Yes *</option>
 							</select>
 						</div>
-						<div class="col-6 col-md-1 px-3 py-2">
+						<div class="col-6 col-md-1 px-3 px-md-2 py-2">
 							<cfif not isDefined("locality_id")><cfset locality_id=""></cfif>
 							<label for="locality_id" class="data-entry-label">Locality ID</label>
 							<input type="text" name="locality_id" id="locality_id" class="data-entry-input" value="#encodeForHtml(encodeForHtml(locality_id))#">
