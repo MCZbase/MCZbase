@@ -67,7 +67,7 @@
 	<!--------------------------------------- Higher Geography ----------------------------------------------------------->
 			<div class="row mx-0 mb-0">
 				<div class="col-12 px-0 mt-0">
-					<div class="search-box-header">
+					<div class="search-box-header rounded-teal">
 						<h2 class="h3 mt-1 text-white" id="searchForm">Higher Geography</h2>
 					</div>
 					<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
