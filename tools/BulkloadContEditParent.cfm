@@ -5,6 +5,7 @@
 			description, remarks, width, height, length, number_positions,
 			status 
 		FROM cf_temp_cont_edit 
+		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfset csv = queryToCSV(getProblemData)>
@@ -74,9 +75,9 @@
 			<cfset fileContent=replace(fileContent,"'","''","all")>
 			<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 		
-			<!--- Warning, cf_temp_cont_edit makes this a single user at at time functionality.  --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_cont_edit 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			
 			<cfset container_unique_id_exists = false>
@@ -122,7 +123,7 @@
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
 							insert into cf_temp_cont_edit
-								(#fieldlist#)
+								(#fieldlist#,username)
 							values (
 								<cfset separator = "">
 								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
@@ -141,6 +142,7 @@
 									</cfif>
 									<cfset separator = ",">
 								</cfloop>
+								#separator#<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							)
 						</cfquery>
 					<cfcatch>
@@ -160,26 +162,36 @@
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_cont_edit set container_id=
 				(select container_id from container where container.barcode = cf_temp_cont_edit.container_unique_id)
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_cont_edit set parent_container_id=
 				(select container_id from container where container.barcode = cf_temp_cont_edit.parent_unique_id)
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_cont_edit set status = 'container_not_found'
-				where container_id is null
+				UPDATE cf_temp_cont_edit 
+				SET status = 'container_not_found'
+				WHERE container_id is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_cont_edit set status = 'parent_container_not_found'
-				where parent_container_id is null and parent_unique_id is not null
+				UPDATE cf_temp_cont_edit 
+				SET status = 'parent_container_not_found'
+				WHERE parent_container_id is null and parent_unique_id is not null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_cont_edit set status = 'bad_container_type'
-				where container_type not in (select container_type from ctcontainer_type)
+				UPDATE cf_temp_cont_edit 
+				SET status = 'bad_container_type'
+				WHERE container_type not in (select container_type from ctcontainer_type)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_cont_edit set status = 'missing_label'
-				where CONTAINER_NAME is null
+				UPDATE cf_temp_cont_edit
+				SET status = 'missing_label'
+				WHERE CONTAINER_NAME is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 
 				<!---
@@ -195,6 +207,7 @@
 						<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							update cf_temp_cont_edit set status = 'only_updates_to_labels'
 							where key=#key#
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 					</cfif>
 				--->
@@ -208,6 +221,7 @@
 							<cfquery name="miapp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								update cf_temp_cont_edit set status = 'parent_is_label'
 								WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+									ANDusername = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						</cfif>
 					</cfif>
@@ -219,6 +233,7 @@
 				SELECT CONTAINER_UNIQUE_ID, PARENT_UNIQUE_ID, CONTAINER_TYPE, CONTAINER_NAME, DESCRIPTION, REMARKS, WIDTH,
 					HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS 
 				FROM cf_temp_cont_edit
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
@@ -277,12 +292,14 @@
 	<cfif action is "load">
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select * from cf_temp_cont_edit
+				SELECT * FROM cf_temp_cont_edit
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cftry>
+				<cfset container_type_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfquery name="updateC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="updateC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateC_result">
 							UPDATE
 								container 
 							SET
@@ -290,14 +307,17 @@
 							WHERE
 								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
 						</cfquery>
+						<cfset container_type_updates = container_type_updates + updateC_result.recordcount>
 					</cfloop>
 				</cftransaction>
+				<h2>Updated types for #container_type_updates# containers.</h2>
 			<cfcatch>
 				<h2>There was a problem updating container types.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
 					FROM cf_temp_cont_edit 
 					WHERE status is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<h3>Problematic Rows (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>)</h3>
 				<table class='sortable table table-responsive table-striped d-lg-table'>
@@ -322,8 +342,9 @@
 			</cfcatch>
 			</cftry>
 			<cftransaction>
+				<cfset container_updates = 0>
 				<cfloop query="getTempData">
-					<cfquery name="updateC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="updateC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateC_result">
 						UPDATE
 							container 
 						SET
@@ -349,8 +370,10 @@
 						WHERE
 							CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
 					</cfquery>
+					<cfset container_updates = container_updates + updateC_result.recordcount>
 				</cfloop>
 			</cftransaction>
+			<h2>Updated #container_updates# containers.</h2>
 			<h2>Success, changes applied.</h2>
 		</cfoutput>
 	</cfif>
