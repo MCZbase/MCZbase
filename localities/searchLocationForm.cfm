@@ -268,7 +268,7 @@
 		<cfif #showLocality# IS 1>
 			<div class="row mb-1"> 
 				<div class="col-12 mt-0">
-					<div class="search-box-header rounded-top">
+					<div class="search-box-header rounded-top" style="border-top-left-radius: 20%; border-top-right-radius: 20%">
 						<h2 class="h3 text-white" id="searchForm">Locality</h2>
 					</div>
 					<cfif listFind(searchPrefList,"LocDetail") EQ 0>
