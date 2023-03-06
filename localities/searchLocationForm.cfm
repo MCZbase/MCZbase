@@ -878,9 +878,9 @@
 					</div>
 					<div class="form-row px-3">
 						<div class="col-6 col-md-3 pr-0 py-1">
-							<label for="began_date" class="data-entry-label mt3px smaller" style="padding-top:0.15rem;">Began Date</label>
+							<label for="began_date" class="data-entry-label mt3px" style="padding-top:0.15rem;">Began Date</label>
 							<cfif NOT isDefined("begDateOper") ><cfset begDateOper=""></cfif>
-							<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select col-6 col-md-3 w-auto pr-0 py-1" aria-label="operator for began date">
+							<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select col-6 col-md-3 d-inline-block w-auto pr-0 py-1" aria-label="operator for began date">
 								<cfif begDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif begDateOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -890,7 +890,7 @@
 							</select>
 					
 							<cfif NOT isDefined("began_date") ><cfset began_date=""></cfif>
-							<input type="text" name="began_date" id="began_date" class="data-entry-input col-6 col-md-8 w-auto" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
+							<input type="text" name="began_date" id="began_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
 						</div>
 						<div class="col-6 col-md-1 pr-0 py-1">
 							<cfif NOT isDefined("endDateOper") ><cfset endDateOper=""></cfif>
