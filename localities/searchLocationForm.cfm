@@ -1087,7 +1087,7 @@
 					<cfif showLocality is 1 AND showSpecimenCounts >
 						<div class="col-12 col-md-3 px-0 pt-3">
 							<cfif not isDefined("include_counts")><cfset include_counts = ""></cfif>
-							<label for="include_counts" class="data-entry-label d-inline-block w-auto">Include Specimen Counts?</label>
+							<label for="include_counts" class="data-entry-label d-inline-block w-auto px-0">Include Specimen Counts?</label>
 							<select name="include_counts" id="include_counts" class="data-entry-select w-auto d-inline-block">
 								<cfif include_counts EQ "1">
 									<cfset y_selected = "">
@@ -1104,7 +1104,7 @@
 					<cfif #showExtraFields# IS 1>
 						<div class="col-12 col-md-2 px-0 pt-3">
 							<cfif not isDefined("show_unused")><cfset show_unused = ""></cfif>
-							<label for="show_unused" class="data-entry-label w-auto d-inline-block">Unused</label>
+							<label for="show_unused" class="data-entry-label w-auto d-inline-block px-0">Unused</label>
 							<select name="show_unused" id="show_unused" class="data-entry-select d-inline-block w-auto">
 								<cfif show_unused EQ ""><cfset selected='selected="selected"'><cfelse><cfset selected=""></cfif>
 								<option #selected# value="">Show All</option>
