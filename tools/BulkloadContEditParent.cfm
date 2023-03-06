@@ -299,7 +299,7 @@
 				<cfset container_type_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfquery name="updateC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateC_result">
+						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
 							UPDATE
 								container 
 							SET
@@ -307,7 +307,7 @@
 							WHERE
 								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
 						</cfquery>
-						<cfset container_type_updates = container_type_updates + updateC_result.recordcount>
+						<cfset container_type_updates = container_type_updates + updateContainer_result.recordcount>
 					</cfloop>
 				</cftransaction>
 				<h2>Updated types for #container_type_updates# containers.</h2>
@@ -341,40 +341,78 @@
 				<cfrethrow>
 			</cfcatch>
 			</cftry>
+			<cfset problem_key = "">
 			<cftransaction>
-				<cfset container_updates = 0>
-				<cfloop query="getTempData">
-					<cfquery name="updateC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateC_result">
-						UPDATE
-							container 
-						SET
-							label=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_NAME#">,
-							DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION#">,
-							PARENT_INSTALL_DATE=sysdate,
-							CONTAINER_REMARKS=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
-							<cfif len(#WIDTH#) gt 0>
-								,WIDTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#WIDTH#">
-							</cfif>
-							<cfif len(#HEIGHT#) gt 0>
-								,HEIGHT=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#HEIGHT#">
-							</cfif>
-							<cfif len(#LENGTH#) gt 0>
-								,LENGTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LENGTH#">
-							</cfif>
-							<cfif len(#NUMBER_POSITIONS#) gt 0>
-								,NUMBER_POSITIONS=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NUMBER_POSITIONS#">
-							</cfif>
-							<cfif len(#parent_container_id#) gt 0>
-								,parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
-							</cfif>
-						WHERE
-							CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
+				<cftry>
+					<cfset container_updates = 0>
+					<cfloop query="getTempData">
+						<cfset problem_key = getTempData.key>
+						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
+							UPDATE
+								container 
+							SET
+								label=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_NAME#">,
+								DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION#">,
+								PARENT_INSTALL_DATE=sysdate,
+								CONTAINER_REMARKS=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
+								<cfif len(#WIDTH#) gt 0>
+									,WIDTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#WIDTH#">
+								</cfif>
+								<cfif len(#HEIGHT#) gt 0>
+									,HEIGHT=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#HEIGHT#">
+								</cfif>
+								<cfif len(#LENGTH#) gt 0>
+									,LENGTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LENGTH#">
+								</cfif>
+								<cfif len(#NUMBER_POSITIONS#) gt 0>
+									,NUMBER_POSITIONS=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NUMBER_POSITIONS#">
+								</cfif>
+								<cfif len(#parent_container_id#) gt 0>
+									,parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
+								</cfif>
+							WHERE
+								CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
+						</cfquery>
+						<cfset container_updates = container_updates + updateContainer_result.recordcount>
+					</cfloop>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
+						FROM cf_temp_cont_edit 
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-					<cfset container_updates = container_updates + updateC_result.recordcount>
-				</cfloop>
+					<h3>Error updating row</h3>
+					<table class='sortable table table-responsive table-striped d-lg-table'>
+						<thead>
+							<tr>
+								<th>container_unique_id</th><th>parent_unique_id</th><th>container_type</th><th>container_name</th><th>status</th>
+							</tr> 
+						</thead>
+						<tbody>
+							<cfloop query="getProblemData">
+								<tr>
+									<td>#getProblemData.container_unique_id#</td>
+									<td>#getProblemData.parent_unique_id#</td>
+									<td>#getProblemData.container_type#</td>
+									<td>#getProblemData.container_name#</td>
+									<td>#getProblemData.status#</td>
+								</tr> 
+							</cfloop>
+						</tbody>
+					</table>
+					<cfrethrow>
+				</cfcatch>
+				</cftry>
 			</cftransaction>
 			<h2>Updated #container_updates# containers.</h2>
 			<h2>Success, changes applied.</h2>
+			<!--- cleanup --->
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+				DELETE FROM cf_temp_cont_edit 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 		</cfoutput>
 	</cfif>
 
