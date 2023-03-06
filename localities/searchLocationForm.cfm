@@ -879,7 +879,7 @@
 					<div class="form-row px-3">
 						<div class="col-6 col-md-1 pr-0 py-1">
 							<cfif NOT isDefined("begDateOper") ><cfset begDateOper=""></cfif>
-							<label for="began_date" class="data-entry-label mt3px smaller">Began Date</label>
+							<label for="began_date" class="data-entry-label mt3px smaller" style="padding-top:0.15rem;">Began Date</label>
 							<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select" aria-label="operator for began date">
 								<cfif begDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
