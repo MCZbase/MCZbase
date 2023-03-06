@@ -878,7 +878,7 @@
 					</div>
 					<div class="form-row px-3">
 						<div class="col-6 col-md-3 pr-0 py-1">
-							<label for="began_date" class="data-entry-label mt3px" style="padding-top:0.15rem;">Began Date</label>
+							<label for="began_date" class="data-entry-label mt3px" style="margin-top:0.15rem;">Began Date</label>
 							<cfif NOT isDefined("begDateOper") ><cfset begDateOper=""></cfif>
 							<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select col-6 col-md-3 d-inline-block w-auto pr-0 py-1" aria-label="operator for began date">
 								<cfif begDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -888,14 +888,13 @@
 								<cfif begDateOper EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value=">" #selected#>after</option><!--- " --->
 							</select>
-					
 							<cfif NOT isDefined("began_date") ><cfset began_date=""></cfif>
 							<input type="text" name="began_date" id="began_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
 						</div>
 						<div class="col-6 col-md-1 pr-0 py-1">
+							<label for="ended_date" class="data-entry-label mt3px" style="margin-top: 0.15rem;">End Date</label>
 							<cfif NOT isDefined("endDateOper") ><cfset endDateOper=""></cfif>
-							<label for="ended_date" class="data-entry-label mt3px smaller" style="padding-top: 0.15rem;">End Date</label>
-							<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select" aria-label="operator for end date">
+							<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select col-6 col-md-3 d-inline-block w-auto pr-0 py-1" aria-label="operator for end date">
 								<cfif endDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif endDateOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -903,11 +902,8 @@
 								<cfif endDateOper EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value=">" #selected#>after</option><!--- " --->
 							</select>
-						</div>
-						<div class="col-6 col-md-2 pl-0 py-1">
 							<cfif NOT isDefined("ended_date") ><cfset ended_date=""></cfif>
-							<span class="data-entry-label">&nbsp</span>
-							<input type="text" name="ended_date" id="ended_date" class="data-entry-input" value="#encodeForHtml(ended_date)#" placeholder="yyyy-mm-dd">
+							<input type="text" name="ended_date" id="ended_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(ended_date)#" placeholder="yyyy-mm-dd">
 						</div>
 						<cfif #showExtraFields# IS 1>
 							<div class="col-12 col-md-2 py-1">
