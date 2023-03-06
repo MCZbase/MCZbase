@@ -1014,7 +1014,7 @@
 								</div>
 								<div class="col-12 col-md-1 py-2">
 									<cfif NOT isDefined("valid_distribution_fg") ><cfset valid_distribution_fg=""></cfif>
-									<label for="valid_distribution_fg" class="data-entry-label smaller" style="padding-top:0.15rem;">Valid Distrib.</label>
+									<label for="valid_distribution_fg" class="data-entry-label">Valid Distrib.</label>
 									<select name="valid_distribution_fg" id="valid_distribution_fg" size="1" class="data-entry-select">
 										<cfif valid_distribution_fg EQ ""><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 										<option value="" #selected#></option>
