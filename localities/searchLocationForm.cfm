@@ -876,7 +876,7 @@
 							<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
 						</div>
 					</div>
-					<div class="form-row px-3 my-2">
+					<div class="form-row px-3">
 						<div class="col-12 col-md-1 py-1">
 							<cfif NOT isDefined("begDateOper") ><cfset begDateOper=""></cfif>
 							<label for="began_date" class="data-entry-label mt3px">Began Date</label>
@@ -894,7 +894,7 @@
 							<span class="data-entry-label">&nbsp</span>
 							<input type="text" name="began_date" id="began_date" class="data-entry-input" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
 						</div>
-						<div class="col-12 col-md-1">
+						<div class="col-12 col-md-1 py-1">
 							<cfif NOT isDefined("endDateOper") ><cfset endDateOper=""></cfif>
 							<label for="ended_date" class="data-entry-label mt3px">End Date</label>
 							<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select" aria-label="operator for end date">
@@ -906,13 +906,13 @@
 								<option value=">" #selected#>after</option><!--- " --->
 							</select>
 						</div>
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-2 py-1">
 							<cfif NOT isDefined("ended_date") ><cfset ended_date=""></cfif>
 							<span class="data-entry-label">&nbsp</span>
 							<input type="text" name="ended_date" id="ended_date" class="data-entry-input" value="#encodeForHtml(ended_date)#" placeholder="yyyy-mm-dd">
 						</div>
 						<cfif #showExtraFields# IS 1>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 py-1">
 								<cfif NOT isDefined("collecting_time") ><cfset collecting_time=""></cfif>
 								<span class="data-entry-label">Collecting Time</span>
 								<input type="text" name="collecting_time" id="collecting_time" class="data-entry-input" value="#encodeForHtml(collecting_time)#">
@@ -922,12 +922,12 @@
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 py-1">
 								<cfif NOT isDefined("startdayofyear") ><cfset startdayofyear=""></cfif>
 								<span class="data-entry-label">Start Day</span>
 								<input type="text" name="startdayofyear" id="startdayofyear" class="data-entry-input" value="#encodeForHtml(startdayofyear)#">
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 py-1">
 								<cfif NOT isDefined("enddayofyear") ><cfset enddayofyear=""></cfif>
 								<span class="data-entry-label">End Day</span>
 								<input type="text" name="enddayofyear" id="enddayofyear" class="data-entry-input" value="#encodeForHtml(enddayofyear)#">
