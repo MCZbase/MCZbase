@@ -312,7 +312,7 @@
 								<option value="notUsedBy" #selected#>not used by</option>
 							</select>
 						</div>
-						<div class="col-12 col-md-2 mt-3 py-2">
+						<div class="col-12 col-md-2 py-2">
 							<cfif isDefined("collection_id")><cfset collection_id_val="#collection_id#"><cfelse><cfset collection_id_val=""></cfif>
 							<label for="collection_id" class="data-entry-label">Collection</label>
 							<select name="collection_id" id="collection_id" size="1" class="data-entry-select">
@@ -334,12 +334,12 @@
 								<option value="1" #selected#>Yes *</option>
 							</select>
 						</div>
-						<div class="col-12 col-md-2 px-3 px-md-0 py-2">
+						<div class="col-12 col-md-1 px-3 px-md-0 py-2">
 							<cfif not isDefined("locality_id")><cfset locality_id=""></cfif>
 							<label for="locality_id" class="data-entry-label">Locality ID</label>
 							<input type="text" name="locality_id" id="locality_id" class="data-entry-input" value="#encodeForHtml(encodeForHtml(locality_id))#">
 						</div>
-						<div class="col-12 col-md-2 px-3 py-2">
+						<div class="col-12 col-md-1 px-3 py-2">
 							<label for="locDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Locality</label>
 							<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</button>
 						</div>
