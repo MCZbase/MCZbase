@@ -970,7 +970,7 @@
 							</div>
 							<div class="col-12 col-md-2 py-2">
 								<cfif NOT isDefined("habitat_desc") ><cfset habitat_desc=""></cfif>
-								<label for="habitat_desc" class="data-entry-label">General Habitat</label>
+								<label for="habitat_desc" class="data-entry-label pr-md-4 pr-lg-0">General Habitat</label>
 								<input type="text" name="habitat_desc" id="habitat_desc" class="data-entry-input" value="#encodeForHtml(habitat_desc)#">
 								<script>
 									jQuery(document).ready(function() {
@@ -979,7 +979,7 @@
 								</script>
 							</div>
 							<div class="col-12 col-md-2 py-2">
-								<label for="collecting_source" class="data-entry-label">Collecting Source</label>
+								<label for="collecting_source" class="data-entry-label pr-md-4 pr-lg-0">Collecting Source</label>
 								<select name="collecting_source" id="collecting_source" size="1" class="data-entry-select">
 									<option value=""></option>
 									<cfloop query="ctCollectingSource">
