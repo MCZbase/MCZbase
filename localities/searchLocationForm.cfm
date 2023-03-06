@@ -60,12 +60,13 @@
 <section class="container-fluid mb-3" role="search" title="Geography, Locality, Collecting Event Search Form">
 	<div class="row mx-0 mb-3">
 		<div class="search-box">
+			<h1 class="h2">Find Location</h1>
 			
 	<!--------------------------------------- Higher Geography ----------------------------------------------------------->
 			<div class="row mx-0 mb-0">
 				<div class="col-12 px-0 mt-0">
 					<div class="search-box-header">
-						<h1 class="h3 text-white" id="searchForm">Higher Geography</h1>
+						<h2 class="h3 text-white" id="searchForm">Higher Geography</h2>
 					</div>
 					<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 						<cfset geogDetailStyle="display:none;">
@@ -266,7 +267,7 @@
 			<div class="row mb-1"> 
 				<div class="col-12 mt-0">
 					<div class="search-box-header">
-						<h1 class="h3 text-white" id="searchForm">Locality</h1>
+						<h2 class="h3 text-white" id="searchForm">Locality</h2>
 					</div>
 					<cfif listFind(searchPrefList,"LocDetail") EQ 0>
 						<cfset locDetailStyle="display:none;">
@@ -815,7 +816,7 @@
 			<div class="row mx-0 mb-0"> 
 				<div class="col-12 px-0 mt-0">
 					<div class="search-box-header">
-						<h1 class="h3 text-white" id="searchForm">Collecting Event</h1>
+						<h2 class="h3 text-white" id="searchForm">Collecting Event</h2>
 					</div>
 					<cfif listFind(searchPrefList,"EventDetail") EQ 0>
 						<cfset eventDetailStyle="display:none;">
