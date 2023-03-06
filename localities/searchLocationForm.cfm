@@ -1029,7 +1029,7 @@
 								<div class="col-12 col-md-1 py-2">
 									<cfif NOT isDefined("date_determined_by_agent") ><cfset date_determined_by_agent=""></cfif>
 									<cfif NOT isDefined("date_determined_by_agent_id") ><cfset date_determined_by_agent_id=""></cfif>
-									<label for="date_determined_by_agent" class="data-entry-label smaller" style="padding-top:0.15rem;">Date Det. by</label>
+									<label for="date_determined_by_agent" class="data-entry-label">Date Det. by</label>
 									<input type="text" name="date_determined_by_agent" id="date_determined_by_agent" class="data-entry-input" value="#encodeForHtml(date_determined_by_agent)#">
 									<input type="hidden" name="date_determined_by_agent_id" id="date_determined_by_agent_id" value="#encodeForHtml(date_determined_by_agent_id)#">
 									<script>
@@ -1041,7 +1041,7 @@
 								<div class="col-12 col-md-2 py-2">
 									<cfif NOT isDefined("collector_agent") ><cfset collector_agent=""></cfif>
 									<cfif NOT isDefined("collector_agent_id") ><cfset collector_agent_id=""></cfif>
-									<label for="collector_agent" class="data-entry-label">Collector</label>
+									<label for="collector_agent" class="data-entry-label">Specimen Collector</label>
 									<input type="text" name="collector_agent" id="collector_agent" class="data-entry-input" value="#encodeForHtml(collector_agent)#">
 									<input type="hidden" name="collector_agent_id" id="collector_agent_id" value="#encodeForHtml(collector_agent_id)#">
 									<script>
