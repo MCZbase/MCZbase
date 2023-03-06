@@ -58,7 +58,7 @@
 <cfoutput>
 <div class="row mx-0">
 <section class="container-fluid mb-3" role="search" title="Geography, Locality, Collecting Event Search Form">
-	<h1 class="h2 mt-2">Find Location</h1>
+	<h1 class="h2 mt-2 px-1">Find Location</h1>
 	<div class="row mx-0 mb-3">
 
 		<div class="search-box mt-0">
