@@ -1014,7 +1014,7 @@
 								</div>
 								<div class="col-12 col-md-1 py-2">
 									<cfif NOT isDefined("valid_distribution_fg") ><cfset valid_distribution_fg=""></cfif>
-									<label for="valid_distribution_fg" class="data-entry-label">Valid Distribution</label>
+									<label for="valid_distribution_fg" class="data-entry-label smaller" style="padding-top:0.15rem;">Valid Distrib.</label>
 									<select name="valid_distribution_fg" id="valid_distribution_fg" size="1" class="data-entry-select">
 										<cfif valid_distribution_fg EQ ""><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 										<option value="" #selected#></option>
@@ -1026,10 +1026,10 @@
 										<option value="NOT NULL" #selected#>NOT NULL</option>
 									</select>
 								</div>
-								<div class="col-12 col-md-1 py-1">
+								<div class="col-12 col-md-1 py-2">
 									<cfif NOT isDefined("date_determined_by_agent") ><cfset date_determined_by_agent=""></cfif>
 									<cfif NOT isDefined("date_determined_by_agent_id") ><cfset date_determined_by_agent_id=""></cfif>
-									<label for="date_determined_by_agent" class="data-entry-label">Date Det. by</label>
+									<label for="date_determined_by_agent" class="data-entry-label smaller" style="padding-top:0.15rem;">Date Det. by</label>
 									<input type="text" name="date_determined_by_agent" id="date_determined_by_agent" class="data-entry-input" value="#encodeForHtml(date_determined_by_agent)#">
 									<input type="hidden" name="date_determined_by_agent_id" id="date_determined_by_agent_id" value="#encodeForHtml(date_determined_by_agent_id)#">
 									<script>
