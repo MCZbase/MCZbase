@@ -244,6 +244,9 @@
 				<h2>
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>).
 				</h2>
+				<h3>
+					Fix the problems in the data and <a href="/tools/BulkloadContEditParent.cfm">start again</a>.
+				</h3>
 			<cfelse>
 				<h2>
 					Validation checks passed. Look over the table below and <a href="BulkloadContEditParent.cfm?action=load">click to continue</a> if it all looks good.
