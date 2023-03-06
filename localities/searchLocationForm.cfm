@@ -375,7 +375,7 @@
 							<cfif not isDefined("MinElevOper")><cfset MinElevOper="="></cfif>
 							<cfif MinElevOper IS "!"><cfset MinElevOper="<>"></cfif>
 							<label for="MinElevOper" class="data-entry-label text-white">(operator)</label>
-							<select name="MinElevOper" id="MinElevOper" size="1" class="data-entry-select col-12 col-md-4 px-3 pl-md-0 pr-md-0 pb-1">
+							<select name="MinElevOper" id="MinElevOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4 px-3 pl-md-0 pr-md-0 pb-1">
 								<cfif MinElevOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif MinElevOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
