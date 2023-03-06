@@ -1062,7 +1062,7 @@
 			
 		<!---------------   Buttons ------------------------------------------------>
 			<div class="col-12 mt-0 px-0 mb-3"> 
-				<div class="row mx-0 mb-3"> 
+				<div class="row mx-2 mb-3"> 
 					<div class="col-12 col-md-5 col-lg-4 px-0 px-md-2 pt-3">
 						<input type="submit" value="Search" aria-label="execute a search with the current search form parameters"
 							class="btn btn-xs btn-primary px-2 px-xl-3 mx-1"  style="padding-top:.13rem;">
@@ -1072,45 +1072,45 @@
 							<button type="button" class="btn btn-xs btn-warning ml-2 my-1" style="padding-top:.13rem;" aria-label="Start a new search with a clear page" onclick="window.location.href='#Application.serverRootUrl##encodeForHTML(newSearchTarget)#';">New Search</button>
 						</cfif>
 					</div>
-					<div class="px-2 px-md-0">
-						<div class="col-12 col-md-2 px-0 px-md-2 pt-3">
-							<div class="form-check">
-								<cfif not isDefined("accentInsensitive")><cfset accentInsensitive = "0"></cfif>
-								<cfif accentInsensitive EQ "1"><cfset checked = "checked"><cfelse><cfset checked=""></cfif>
-								<input class="form-check-input" name="accentInsensitive" id="accentInsensitive" value="1" #checked# type="checkbox"/>
-								<label class="form-check-label mt3px data-entry-label pt-md-1" for="accentInsenstive">Accent Insensitive?</label>
-							</div>
+				
+					<div class="col-12 col-md-2 px-0 px-md-2 pt-3">
+						<div class="form-check">
+							<cfif not isDefined("accentInsensitive")><cfset accentInsensitive = "0"></cfif>
+							<cfif accentInsensitive EQ "1"><cfset checked = "checked"><cfelse><cfset checked=""></cfif>
+							<input class="form-check-input" name="accentInsensitive" id="accentInsensitive" value="1" #checked# type="checkbox"/>
+							<label class="form-check-label mt3px data-entry-label pt-md-1" for="accentInsenstive">Accent Insensitive?</label>
 						</div>
-						<cfif showLocality is 1 AND showSpecimenCounts >
-							<div class="col-12 col-md-3 px-0 px-md-2 pt-3">
-								<cfif not isDefined("include_counts")><cfset include_counts = ""></cfif>
-								<label for="include_counts" class="data-entry-label d-inline-block w-auto px-0">Include Specimen Counts?</label>
-								<select name="include_counts" id="include_counts" class="data-entry-select w-auto d-inline-block">
-									<cfif include_counts EQ "1">
-										<cfset y_selected = "">
-										<cfset n_selected = 'selected="selected"'>
-									<cfelse>
-										<cfset y_selected = 'selected="selected"'>
-										<cfset n_selected = "">
-									</cfif>
-									<option #y_selected# value="0">No</option>
-									<option #n_selected# value="1">Yes</option>
-								</select>
-							</div>
-						</cfif>
-						<cfif #showExtraFields# IS 1>
-							<div class="col-12 col-md-2 px-0 px-md-2 pt-3">
-								<cfif not isDefined("show_unused")><cfset show_unused = ""></cfif>
-								<label for="show_unused" class="data-entry-label w-auto d-inline-block px-0">Unused</label>
-								<select name="show_unused" id="show_unused" class="data-entry-select d-inline-block w-auto">
-									<cfif show_unused EQ ""><cfset selected='selected="selected"'><cfelse><cfset selected=""></cfif>
-									<option #selected# value="">Show All</option>
-									<cfif show_unused EQ "unused_only"><cfset selected='selected="selected"'><cfelse><cfset selected=""></cfif>
-									<option #selected# value="unused_only">Unused Only</option>
-								</select>
-							</div>
-						</cfif>
 					</div>
+					<cfif showLocality is 1 AND showSpecimenCounts >
+						<div class="col-12 col-md-3 px-0 px-md-2 pt-3">
+							<cfif not isDefined("include_counts")><cfset include_counts = ""></cfif>
+							<label for="include_counts" class="data-entry-label d-inline-block w-auto px-0">Include Specimen Counts?</label>
+							<select name="include_counts" id="include_counts" class="data-entry-select w-auto d-inline-block">
+								<cfif include_counts EQ "1">
+									<cfset y_selected = "">
+									<cfset n_selected = 'selected="selected"'>
+								<cfelse>
+									<cfset y_selected = 'selected="selected"'>
+									<cfset n_selected = "">
+								</cfif>
+								<option #y_selected# value="0">No</option>
+								<option #n_selected# value="1">Yes</option>
+							</select>
+						</div>
+					</cfif>
+					<cfif #showExtraFields# IS 1>
+						<div class="col-12 col-md-2 px-0 px-md-2 pt-3">
+							<cfif not isDefined("show_unused")><cfset show_unused = ""></cfif>
+							<label for="show_unused" class="data-entry-label w-auto d-inline-block px-0">Unused</label>
+							<select name="show_unused" id="show_unused" class="data-entry-select d-inline-block w-auto">
+								<cfif show_unused EQ ""><cfset selected='selected="selected"'><cfelse><cfset selected=""></cfif>
+								<option #selected# value="">Show All</option>
+								<cfif show_unused EQ "unused_only"><cfset selected='selected="selected"'><cfelse><cfset selected=""></cfif>
+								<option #selected# value="unused_only">Unused Only</option>
+							</select>
+						</div>
+					</cfif>
+				
 				</div>
 			</div>
 
