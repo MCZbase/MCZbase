@@ -894,9 +894,9 @@
 							<span class="data-entry-label">&nbsp</span>
 							<input type="text" name="began_date" id="began_date" class="data-entry-input" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
 						</div>
-						<div class="col-6 col-md-1 py-1">
+						<div class="col-6 col-md-1 pr-0 py-1">
 							<cfif NOT isDefined("endDateOper") ><cfset endDateOper=""></cfif>
-							<label for="ended_date" class="data-entry-label mt3px">End Date</label>
+							<label for="ended_date" class="data-entry-label mt3px smaller" style="padding-top: 0.15rem;">End Date</label>
 							<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select" aria-label="operator for end date">
 								<cfif endDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
@@ -906,7 +906,7 @@
 								<option value=">" #selected#>after</option><!--- " --->
 							</select>
 						</div>
-						<div class="col-6 col-md-2 py-1">
+						<div class="col-6 col-md-2 pl-0 py-1">
 							<cfif NOT isDefined("ended_date") ><cfset ended_date=""></cfif>
 							<span class="data-entry-label">&nbsp</span>
 							<input type="text" name="ended_date" id="ended_date" class="data-entry-input" value="#encodeForHtml(ended_date)#" placeholder="yyyy-mm-dd">
