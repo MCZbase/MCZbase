@@ -339,14 +339,14 @@
 							<label for="locality_id" class="data-entry-label">Locality ID</label>
 							<input type="text" name="locality_id" id="locality_id" class="data-entry-input" value="#encodeForHtml(encodeForHtml(locality_id))#">
 						</div>
-						<div class="col-12 col-md-2 px-3 my-1">
+						<div class="col-12 col-md-2 px-3 py-1">
 							<label for="locDetailCtl" class="data-entry-label text-white">Locality</label>
 							<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</button>
 						</div>
 					</div>
 					<div id="locDetail" class="" style="#locDetailStyle#">
 						<div class="form-row mx-0 my-2">
-							<div class="col-12 col-md-8 px-3 py-2">
+							<div class="col-12 col-md-8 px-3 py-1">
 								<cfif not isDefined("locality_remarks")><cfset locality_remarks=""></cfif>
 								<label for="locality_remarks" class="data-entry-label">Locality Remarks</label>
 								<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input" value="#encodeForHtml(locality_remarks)#">
