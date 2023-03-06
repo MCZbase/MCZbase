@@ -890,7 +890,7 @@
 							</select>
 					
 							<cfif NOT isDefined("began_date") ><cfset began_date=""></cfif>
-							<input type="text" name="began_date" id="began_date" class="data-entry-input col-6 col-md-9 w-auto pl-0 pr-1 py-1" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
+							<input type="text" name="began_date" id="began_date" class="data-entry-input col-6 col-md-8 w-auto" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
 						</div>
 						<div class="col-6 col-md-1 pr-0 py-1">
 							<cfif NOT isDefined("endDateOper") ><cfset endDateOper=""></cfif>
