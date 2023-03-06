@@ -1065,7 +1065,7 @@
 		</div>
 			<!---------------   Buttons ------------------------------------------------>
 
-			<div class="col-12"> 
+			<div class="col-12 px-0"> 
 				<div class="container-lg mt-0 mb-3">
 					<div class="row mx-0 mb-3"> 
 						<div class="col-12 col-md-3 px-0 pt-3 pt-md-0">
