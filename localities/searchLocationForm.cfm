@@ -368,7 +368,7 @@
 							</div>
 						</div>
 					<div class="form-row my-2">						
-						<div class="col-12 col-md-1 px-3 pl-md-3 pr-md-0 py-1">
+						<div class="col-12 col-md-2 px-3 pl-md-3 pr-md-0 py-1">
 							<label class="data-entry-label">Elevation <span class="small">(Original Units)</span></label>
 							<cfif not isDefined("MinElevOper")><cfset MinElevOper="="></cfif>
 							<cfif MinElevOper IS "!"><cfset MinElevOper="<>"></cfif>
