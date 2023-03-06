@@ -1065,15 +1065,15 @@
 		</div><!---End teal search-box class div--->
 			
 		<!---------------   Buttons ------------------------------------------------>
-			<div class="col-12 mt-0 mb-3"> 
+			<div class="col-12 mt-0 px-0 mb-3"> 
 				<div class="row mx-0 mb-3"> 
 					<div class="col-12 col-md-5 col-lg-4 px-0 px-md-2 pt-3">
 						<input type="submit" value="Search" aria-label="execute a search with the current search form parameters"
-							class="btn btn-xs btn-primary px-2 px-xl-3"  style="padding-top:.13rem;">
+							class="btn btn-xs btn-primary px-2 px-xl-3 mx-1"  style="padding-top:.13rem;">
 						<input type="reset" value="Reset Form" aria-label="reset form values to those on initial page load"
 							class="btn btn-xs btn-warning ml-2" style="padding-top:.13rem;">
 						<cfif len(newSearchTarget) GT 0>
-							<button type="button" class="btn btn-xs btn-warning mr-2 my-1" style="padding-top:.13rem;" aria-label="Start a new search with a clear page" onclick="window.location.href='#Application.serverRootUrl##encodeForHTML(newSearchTarget)#';">New Search</button>
+							<button type="button" class="btn btn-xs btn-warning ml-2 my-1" style="padding-top:.13rem;" aria-label="Start a new search with a clear page" onclick="window.location.href='#Application.serverRootUrl##encodeForHTML(newSearchTarget)#';">New Search</button>
 						</cfif>
 					</div>
 					<div class="col-12 col-md-2 px-0 px-md-2 pt-3">
