@@ -383,7 +383,7 @@
 						FROM cf_temp_cont_edit 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-					<h3>Error updating row</h3>
+					<h3>Error updating row (#container_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
