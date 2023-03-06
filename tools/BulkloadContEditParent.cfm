@@ -126,7 +126,7 @@
 								(#fieldlist#,username)
 							values (
 								<cfset separator = "">
-								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
+								<cfloop from="1" to ="#ArrayLen(colNameArray)#" index="col">
 									<cfif arrayFindNoCase(fieldArray,colNameArray[col]) GT 0>
 										<cfset fieldPos=arrayFind(fieldArray,colNameArray[col])>
 										<cfset val=trim(colValArray[col])>
