@@ -346,12 +346,12 @@
 					</div>
 					<div id="locDetail" class="" style="#locDetailStyle#">
 						<div class="form-row mx-0 my-2">
-							<div class="col-12 col-md-8 px-3 py-1">
+							<div class="col-12 col-md-8 pl-3 pr-1 py-1">
 								<cfif not isDefined("locality_remarks")><cfset locality_remarks=""></cfif>
 								<label for="locality_remarks" class="data-entry-label">Locality Remarks</label>
 								<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input" value="#encodeForHtml(locality_remarks)#">
 							</div>
-							<div class="col-12 col-md-4 px-3 py-1">
+							<div class="col-12 col-md-4 px-1 pr-3 py-1">
 								<cfif not isDefined("sovereign_nation")><cfset sovereign_nation_val=""><cfelse><cfset sovereign_nation_val="#sovereign_nation#"></cfif>
 								<label for="sovereign_nation" class="data-entry-label">Sovereign Nation</label>
 								<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select">
