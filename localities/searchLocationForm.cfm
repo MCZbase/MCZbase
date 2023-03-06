@@ -369,12 +369,13 @@
 						</div>
 					<div class="form-row px-3 my-2">
 						<div class="col-12 col-md-2">
-							<label class="data-entry-label">Elevation <span class="small">(Original Units)</span></label>
-						</div>
+							
+				
 						<div class="col-12 col-md-2">
+							<label class="data-entry-label">Elevation <span class="small">(Original Units)</span></label>
 							<cfif not isDefined("MinElevOper")><cfset MinElevOper="="></cfif>
 							<cfif MinElevOper IS "!"><cfset MinElevOper="<>"></cfif>
-							<label for="MinElevOper" class="data-entry-label" style="color: transparent">(operator)</label>
+							<label for="MinElevOper" class="data-entry-label sr-only">(operator)</label>
 							<select name="MinElevOper" id="MinElevOper" size="1" class="data-entry-select">
 								<cfif MinElevOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
