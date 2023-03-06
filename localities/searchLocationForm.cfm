@@ -95,7 +95,7 @@
 							<cfif not isDefined("geog_auth_rec_id")><cfset geog_auth_rec_id=""></cfif>
 							<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input" value="#encodeForHtml(geog_auth_rec_id)#">
 						</div>
-						<div class="col-12 col-md-2 px-3 mt-2 mb-md-3 mt-0 my-3">
+						<div class="col-12 col-md-2 px-3 my-md-3 my-3">
 							<label for="geogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left sr-only" >Geography</label>
 							<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
 						</div>
