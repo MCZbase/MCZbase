@@ -329,6 +329,10 @@ label {
 .text-grayish {
 	color: #f5f5f5;
 }
+.rounded-teal {/*used on locality search box*/
+	border-top-left-radius: .65rem !important; 
+	border-top-right-radius: .65rem !important;
+}
 /*********************************/
 /* BELOW:    code for 3 searches */
 /*********************************/

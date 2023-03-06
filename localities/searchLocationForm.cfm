@@ -268,7 +268,7 @@
 		<cfif #showLocality# IS 1>
 			<div class="row mb-1"> 
 				<div class="col-12 mt-0">
-					<div class="search-box-header" style="border-top-left-radius: .75rem; border-top-right-radius: .75rem">
+					<div class="search-box-header rounded-teal">
 						<h2 class="h3 text-white" id="searchForm">Locality</h2>
 					</div>
 					<cfif listFind(searchPrefList,"LocDetail") EQ 0>
@@ -817,7 +817,7 @@
 		<cfif #showEvent# is 1>
 			<div class="row mx-0 mb-0"> 
 				<div class="col-12 px-0 mt-0">
-					<div class="search-box-header rounded-top">
+					<div class="search-box-header rounded-teal">
 						<h2 class="h3 text-white" id="searchForm">Collecting Event</h2>
 					</div>
 					<cfif listFind(searchPrefList,"EventDetail") EQ 0>
