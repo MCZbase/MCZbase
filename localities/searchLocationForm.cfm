@@ -877,7 +877,7 @@
 						</div>
 					</div>
 					<div class="form-row px-3">
-						<div class="col-6 col-md-1 py-1">
+						<div class="col-6 col-md-1 pr-0 py-1">
 							<cfif NOT isDefined("begDateOper") ><cfset begDateOper=""></cfif>
 							<label for="began_date" class="data-entry-label mt3px">Began Date</label>
 							<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select" aria-label="operator for began date">
@@ -889,7 +889,7 @@
 								<option value=">" #selected#>after</option><!--- " --->
 							</select>
 						</div>
-						<div class="col-6 col-md-2 pr-1 py-1">
+						<div class="col-6 col-md-2 pl-0 pr-1 py-1">
 							<cfif NOT isDefined("began_date") ><cfset began_date=""></cfif>
 							<span class="data-entry-label">&nbsp</span>
 							<input type="text" name="began_date" id="began_date" class="data-entry-input" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
