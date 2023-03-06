@@ -994,7 +994,7 @@
 							<cfif #showExtraFields# IS 1>
 								<div class="col-12 col-md-2 py-2">
 									<cfif NOT isDefined("fish_field_number") ><cfset fish_field_number=""></cfif>
-									<label for="fish_field_number" class="data-entry-label">Fish Field Number</label>
+									<label for="fish_field_number" class="data-entry-label pr-md-3 pr-lg-0">Fish Field Number</label>
 									<input type="text" name="fish_field_number" id="fish_field_number" class="data-entry-input" value="#encodeForHtml(fish_field_number)#">
 									<script>
 										jQuery(document).ready(function() {
@@ -1004,7 +1004,7 @@
 								</div>
 								<div class="col-12 col-md-2 py-2">
 									<cfif NOT isDefined("verbatimlatitude") ><cfset verbatimlatitude=""></cfif>
-									<label for="verbatimlatitude" class="data-entry-label">Verbatim Latitude</label>
+									<label for="verbatimlatitude" class="data-entry-label pr-md-3 pr-lg-0">Verbatim Latitude</label>
 									<input type="text" name="verbatimlatitude" id="verbatimlatitude" class="data-entry-input" value="#encodeForHtml(verbatimlatitude)#">
 								</div>
 								<div class="col-12 col-md-2 py-2">
