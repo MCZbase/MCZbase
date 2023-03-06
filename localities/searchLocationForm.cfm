@@ -65,7 +65,7 @@
 			<div class="row mx-0 mb-0">
 				<div class="col-12 px-0 mt-0">
 					<div class="search-box-header">
-							<h1 class="h3 text-white" id="formheading">Higher Geography</h1>
+						<h1 class="h3 text-white" id="searchForm">Higher Geography</h1>
 					</div>
 					<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 						<cfset geogDetailStyle="display:none;">
@@ -266,7 +266,7 @@
 			<div class="row mb-1"> 
 				<div class="col-12 mt-0">
 					<div class="search-box-header">
-						<h1 class="h3 text-white" id="formheading">Locality</h1>
+						<h1 class="h3 text-white" id="searchForm">Locality</h1>
 					</div>
 					<cfif listFind(searchPrefList,"LocDetail") EQ 0>
 						<cfset locDetailStyle="display:none;">
@@ -814,8 +814,8 @@
 		<cfif #showEvent# is 1>
 			<div class="row mx-0 mb-0"> 
 				<div class="col-12 px-0 mt-0">
-					<div class="jqx-widget-header border-bottom px-4 py-1">
-						<h2 class="h4 text-dark mb-0">Collecting Event</h2>
+					<div class="search-box-header">
+						<h1 class="h3 text-white" id="searchForm">Collecting Event</h1>
 					</div>
 					<cfif listFind(searchPrefList,"EventDetail") EQ 0>
 						<cfset eventDetailStyle="display:none;">
