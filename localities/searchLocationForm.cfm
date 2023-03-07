@@ -482,7 +482,7 @@
 							</select>
 							<cfif not isDefined("minimum_elevation_m")><cfset minimum_elevation_m=""></cfif>
 							<label for="minimum_elevation_m" class="data-entry-label sr-only text-light">Minimum</label>
-							<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input" value="#encodeForHtml(minimum_elevation_m)#">
+							<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(minimum_elevation_m)#">
 						</div>
 						<div class="col-12 col-md-3 px-3 py-2">
 							<cfif not isDefined("MaxElevOperM")><cfset MaxElevOperM="="></cfif>
