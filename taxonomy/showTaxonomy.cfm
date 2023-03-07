@@ -355,7 +355,9 @@
 			citation.citation_text,
 			citation.citation_page_uri, 
 			citation.publication_id, 
+			publication.published_year,
 			formatted_publication.formatted_publication as short_citation, 
+			ctcitation_type_status.ordinal,
 			'MCZ:' || cataloged_item.collection_cde || ':' || cataloged_item.cat_num as guid 
 		FROM citation 
 			LEFT JOIN cataloged_item on CITATION.COLLECTION_OBJECT_ID = CATALOGED_ITEM.COLLECTION_OBJECT_ID
