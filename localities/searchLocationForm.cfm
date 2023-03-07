@@ -417,7 +417,7 @@
 								<option value="<" #selected#>less than</option>
 							</select>
 							<cfif not isDefined("maximum_elevation")><cfset maximum_elevation=""></cfif>
-							<label for="maximum_elevation" class="data-entry-label text-white">Elevation</label>
+							<label for="maximum_elevation" class="data-entry-label text-white sr-only">Elevation</label>
 							<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input w-100 d-inline-block col-12 col-md-8" value="#encodeForHtml(maximum_elevation)#">
 						</div>
 					</div>
