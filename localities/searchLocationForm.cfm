@@ -504,7 +504,7 @@
 						<div class="col-12 col-md-3">
 							<cfif not isDefined("maximum_elevation_m")><cfset maximum_elevation_m=""></cfif>
 							<label for="maximum_elevation_m" class="data-entry-label">Maximum</label>
-							<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="data-entry-input" value="#encodeForHtml(maximum_elevation_m)#">
+							<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(maximum_elevation_m)#">
 						</div>
 					</div>
 					<div class="form-row my-2">
