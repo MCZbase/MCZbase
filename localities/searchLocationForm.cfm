@@ -343,7 +343,7 @@
 							<input type="text" name="locality_id" id="locality_id" class="data-entry-input" value="#encodeForHtml(encodeForHtml(locality_id))#">
 						</div>
 						<div class="col-12 col-md-2 px-3 py-1 pt-md-0 px-xl-1">
-							<label for="locDetailCtl" class="data-entry-label text-white">Locality</label>
+							<label for="locDetailCtl" class="data-entry-label text-light">Locality</label>
 							<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</button>
 						</div>
 					</div>
@@ -391,7 +391,7 @@
 							<cfif not isDefined("minimum_elevation")><cfset minimum_elevation=""></cfif>
 							<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(minimum_elevation)#">
 						</div>
-						<div class="col-12 col-md-2 col-xl-1 px-3 pl-md-0 pr-md-3 py-1">
+						<div class="col-5 col-md-2 col-xl-1 px-3 pl-md-0 pr-md-3 py-1">
 							<cfif isDefined("orig_elev_units")><cfset orig_elev_units_val="#orig_elev_units#"><cfelse><cfset orig_elev_units_val=""></cfif>
 							<label for="orig_elev_units" class="data-entry-label">Elev. Units</label>
 							<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
@@ -406,7 +406,7 @@
 							<label for="MaxElevOper" class="data-entry-label mb-0">Maximum Elevation</label>
 							<cfif not isDefined("MaxElevOper")><cfset MaxElevOper="="></cfif>
 							<cfif MaxElevOper IS "!"><cfset MaxElevOper="<>"></cfif>
-							<select name="MaxElevOper" id="MaxElevOper" size="1" class="data-entry-select w-100 d-inline-block col-12 col-md-4">
+							<select name="MaxElevOper" id="MaxElevOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
 								<cfif MaxElevOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif MaxElevOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -432,10 +432,10 @@
 								<option value="<">less than</option>
 							</select>
 							<cfif not isDefined("min_depth")><cfset min_depth=""></cfif>
-							<label for="min_depth" class="data-entry-label text-white sr-only">Minimum Depth</label>
+							<label for="min_depth" class="data-entry-label text-light sr-only">Minimum Depth</label>
 							<input type="text" name="min_depth" id="min_depth" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth)#">
 						</div>
-						<div class="col-12 col-md-2 col-xl-1 px-3 pl-md-0 pr-md-3 py-1">
+						<div class="col-5 col-md-2 col-xl-1 px-3 pl-md-0 pr-md-3 py-1">
 							<cfif isDefined("depth_units")><cfset depth_units_val="#depth_units#"><cfelse><cfset depth_units_val=""></cfif>
 							<label for="depth_units" class="data-entry-label">Depth Units</label>
 							<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
@@ -449,7 +449,7 @@
 						<div class="col-12 col-md-5 col-xl-3 px-3 pr-md-3 pl-md-0 py-1">
 							<label for="max_depth" class="data-entry-label mb-0">Maximum Depth</label>
 							<cfif isDefined("MaxDepthOper")><cfset MaxDepthOper="#MaxDepthOper#"><cfelse><cfset MaxDepthOper=""></cfif>
-							<label for="MaxDepthOper" class="data-entry-label text-white sr-only">operator</label>
+							<label for="MaxDepthOper" class="data-entry-label text-light sr-only">operator</label>
 							<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
 								<cfif MaxDepthOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
@@ -465,12 +465,12 @@
 							<input type="text" name="max_depth" id="max_depth" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(max_depth)#">
 						</div>
 					</div>
-					<div class="form-row my-2">
-						<div class="col-12 col-md-3 px-3 py-2">
+					<div class="form-row mx-0 my-2">
+						<div class="col-12 col-md-5 px-3 py-2">
+							<label for="MinElevOperM" class="data-entry-label">Minimum Elevation (in Meters)</label>
 							<cfif not isDefined("MinElevOperM")><cfset MinElevOperM="="></cfif>
 							<cfif MinElevOperM IS "!"><cfset MinElevOperM="<>"></cfif>
-							<label for="MinElevOperM" class="data-entry-label">Minimum Elevation (in Meters)</label>
-							<select name="MinElevOperM" id="MinElevOperM" size="1" class="data-entry-select">
+							<select name="MinElevOperM" id="MinElevOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
 								<cfif MinElevOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif MinElevOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -480,17 +480,15 @@
 								<cfif MinElevOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="<" #selected#>less than</option>
 							</select>
-						</div>
-						<div class="col-12 col-md-3 px-3 py-2">
 							<cfif not isDefined("minimum_elevation_m")><cfset minimum_elevation_m=""></cfif>
-							<label for="minimum_elevation_m" class="data-entry-label">Minimum</label>
-							<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input" value="#encodeForHtml(minimum_elevation_m)#">
+							<label for="minimum_elevation_m" class="data-entry-label sr-only text-light">Minimum</label>
+							<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(minimum_elevation_m)#">
 						</div>
-						<div class="col-12 col-md-3 px-3 py-2">
+						<div class="col-12 col-md-5 px-3 py-2">
+							<label for="MaxElevOperM" class="data-entry-label">Maximum Elevation (in meters)</label>
 							<cfif not isDefined("MaxElevOperM")><cfset MaxElevOperM="="></cfif>
 							<cfif MaxElevOperM IS "!"><cfset MaxElevOperM="<>"></cfif>
-							<label for="MaxElevOperM" class="data-entry-label">Maximum Elevation (in meters)</label>
-							<select name="MaxElevOperM" id="MaxElevOperM" size="1" class="data-entry-select">
+							<select name="MaxElevOperM" id="MaxElevOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
 								<cfif MaxElevOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif MaxElevOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -500,18 +498,16 @@
 								<cfif MaxElevOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="<" #selected#>less than</option>
 							</select>
-						</div>
-						<div class="col-12 col-md-3">
 							<cfif not isDefined("maximum_elevation_m")><cfset maximum_elevation_m=""></cfif>
-							<label for="maximum_elevation_m" class="data-entry-label">Maximum</label>
+							<label for="maximum_elevation_m" class="data-entry-label sr-only text-light">Maximum</label>
 							<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(maximum_elevation_m)#">
 						</div>
 					</div>
-					<div class="form-row my-2">
-						<div class="col-12 col-md-3 px-3 py-2">
+					<div class="form-row mx-0 my-2">
+						<div class="col-12 col-md-5 px-3 py-2">
 							<cfif not isDefined("minDepthOperM")><cfset minDepthOperM="="></cfif>
 							<label for="minDepthOperM" class="data-entry-label">Minimum Depth (in meters)</label>
-							<select name="minDepthOperM" id="MinDepthOperM" size="1" class="data-entry-select w-100 d-inline-block col-12 col-md-4">
+							<select name="minDepthOperM" id="MinDepthOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
 								<cfif minDepthOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif minDepthOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -521,16 +517,14 @@
 								<cfif minDepthOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="<" #selected#>less than</option>
 							</select>
-						</div>
-						<div class="col-12 col-md-5 col-xl-3 px-3 py-2">
 							<cfif not isDefined("min_depth_m")><cfset min_depth_m=""></cfif>
-							<label for="min_depth_m" class="data-entry-label">Mimimum</label>
-							<input type="text" name="min_depth_m" id="min_depth_m" class="data-entry-input" value="#encodeForHtml(min_depth_m)#">
+							<label for="min_depth_m" class="data-entry-label sr-only text-light">Mimimum</label>
+							<input type="text" name="min_depth_m" id="min_depth_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth_m)#">
 						</div>
 						<div class="col-12 col-md-3 px-3 py-2">
 							<cfif not isDefined("MaxDepthOperM")><cfset MaxDepthOperM="="></cfif>
 							<label for="MaxDepthOperM" class="data-entry-label">Maximum Depth (in meters)</label>
-							<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-select w-100 d-inline-block col-12 col-md-4">
+							<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
 								<cfif MaxDepthOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif MaxDepthOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -541,7 +535,7 @@
 								<option value="<" #selected#>less than</option>
 							</select>
 							<cfif not isDefined("max_depth_m")><cfset max_depth_m=""></cfif>
-							<label for="max_depth_m" class="data-entry-label text-white sr-only">Maximum</label>
+							<label for="max_depth_m" class="data-entry-label text-light sr-only">Maximum</label>
 							<input type="text" name="max_depth_m" id="max_depth_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(max_depth_m)#">
 						</div>
 					</div>
@@ -593,7 +587,7 @@
 							</div>
 						</div>
 					</cfif>
-					<div class="form-row px-3 mt-2 mb-3">
+					<div class="form-row mx-0 mt-2 mb-3">
 						<div class="col-12 col-md-4 px-3 px-md-0 py-2">
 							<cfif isDefined("geology_attribute")><cfset geology_attribute_val="#geology_attribute#"><cfelse><cfset geology_attribute_val=""></cfif>
 							<label for="geology_attribute" class="data-entry-label">Geology Attribute</label>
@@ -610,7 +604,7 @@
 							<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
 							<input type="text" name="geo_att_value" class="data-entry-input" value="#encodeForHtml(geo_att_value)#">
 						</div>
-						<div class="col-12 col-md-3 px-3 px-md-0 py-2">
+						<div class="col-12 col-md-2 px-3 px-md-0 py-2">
 							<cfif isDefined("geology_attribute_hier") and len(geology_attribute_hier) GT 0 ><cfset geology_attribute_hierValue="#geology_attribute_hier#"><cfelse><cfset geology_attribute_hierValue=""></cfif>
 							<label for="geology_attribute_hier" class="data-entry-label">Traverse Hierarchies?</label>
 							<select name="geology_attribute_hier" id="geology_attribute_hier" class="data-entry-select">
@@ -629,7 +623,7 @@
 							<cfset toggleTo = "0">
 							<cfset georefButton = "Hide Georef Fields">
 						</cfif> 
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-3">
 							<label for="georefDetailCtl" class="data-entry-label" style="color: transparent">Georeference</label>
 							<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</button>
 						</div>
@@ -799,7 +793,7 @@
 							</div>
 						</div>
 					</div><!--- end georefDetail --->
-				</div><!--- end locDetail --->
+					</div><!--- end locDetail --->
 				</div>
 			</div>
 		</cfif>
