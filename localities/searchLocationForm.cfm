@@ -530,7 +530,7 @@
 						<div class="col-12 col-md-3 px-3 py-2">
 							<cfif not isDefined("MaxDepthOperM")><cfset MaxDepthOperM="="></cfif>
 							<label for="MaxDepthOperM" class="data-entry-label">Maximum Depth (in meters)</label>
-							<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-select">
+							<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-select w-100 d-inline-block col-12 col-md-4">
 								<cfif MaxDepthOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif MaxDepthOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
