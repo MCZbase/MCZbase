@@ -348,13 +348,31 @@
 			taxonomy_publication.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 	</cfquery>
 	<cfquery name="citedSpecimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citedSpecimens_result">
-		SELECT type_status, occurs_page_number, citation_remarks, citation_page_uri, publication_id, 
-			mczbase.getshortcitation(publication_id) as short_citation, 
-			'MCZ:' || collection_cde || ':' || cat_num as guid 
+		SELECT distinct
+			citation.type_status, 
+			citation.occurs_page_number, 
+			citation.citation_remarks,
+			citation.citation_text,
+			citation.citation_page_uri, 
+			citation.publication_id, 
+			publication.published_year,
+			formatted_publication.formatted_publication as short_citation, 
+			ctcitation_type_status.ordinal,
+			'MCZ:' || cataloged_item.collection_cde || ':' || cataloged_item.cat_num as guid 
 		FROM citation 
 			LEFT JOIN cataloged_item on CITATION.COLLECTION_OBJECT_ID = CATALOGED_ITEM.COLLECTION_OBJECT_ID
+			LEFT JOIN ctcitation_type_status on citation.type_status = ctcitation_type_status.type_status
+			LEFT JOIN publication on citation.publication_id = publication.publication_id
+			LEFT JOIN formatted_publication on citation.publication_id = formatted_publication.publication_id
+				AND formatted_publication.format_style = 'short'
 		WHERE 
-			cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+			citation.cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+		ORDER BY
+			publication.published_year, 
+			formatted_publication.formatted_publication, 
+			citation.occurs_page_number, 
+			ctcitation_type_status.ordinal, 
+			'MCZ:' || cataloged_item.collection_cde || ':' || cataloged_item.cat_num
 	</cfquery>
 	<cfquery name="ctguid_type_taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
