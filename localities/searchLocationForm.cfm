@@ -402,7 +402,7 @@
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-3 px-3 pr-md-3 pl-md-0 py-1">
+						<div class="col-12 col-md-5 col-xl-3 px-3 pr-md-3 pl-md-0 py-1">
 							<label for="MaxElevOper" class="data-entry-label mb-0">Maximum Elevation</label>
 							<cfif not isDefined("MaxElevOper")><cfset MaxElevOper="="></cfif>
 							<cfif MaxElevOper IS "!"><cfset MaxElevOper="<>"></cfif>
