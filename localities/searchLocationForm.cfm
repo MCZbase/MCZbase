@@ -465,8 +465,8 @@
 							<input type="text" name="max_depth" id="max_depth" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(max_depth)#">
 						</div>
 					</div>
-					<div class="form-row mx-0 my-2">
-						<div class="col-12 col-md-5 px-3 py-2">
+					<div class="form-row mx-0 my-1">
+						<div class="col-12 col-md-5 col-xl-3 px-3 pl-md-0 py-2">
 							<label for="MinElevOperM" class="data-entry-label">Minimum Elevation (in Meters)</label>
 							<cfif not isDefined("MinElevOperM")><cfset MinElevOperM="="></cfif>
 							<cfif MinElevOperM IS "!"><cfset MinElevOperM="<>"></cfif>
@@ -484,7 +484,7 @@
 							<label for="minimum_elevation_m" class="data-entry-label sr-only text-light">Minimum</label>
 							<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(minimum_elevation_m)#">
 						</div>
-						<div class="col-12 col-md-5 px-3 py-2">
+						<div class="col-12 col-md-5 col-xl-3 px-3 pl-md-0 py-2">
 							<label for="MaxElevOperM" class="data-entry-label">Maximum Elevation (in meters)</label>
 							<cfif not isDefined("MaxElevOperM")><cfset MaxElevOperM="="></cfif>
 							<cfif MaxElevOperM IS "!"><cfset MaxElevOperM="<>"></cfif>
@@ -503,8 +503,8 @@
 							<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(maximum_elevation_m)#">
 						</div>
 					</div>
-					<div class="form-row mx-0 my-2">
-						<div class="col-12 col-md-5 px-3 py-2">
+					<div class="form-row mx-0 my-1">
+						<div class="col-12 col-md-5 col-xl-3 pr-md-0 px-3 pr-md-0 py-2">
 							<cfif not isDefined("minDepthOperM")><cfset minDepthOperM="="></cfif>
 							<label for="minDepthOperM" class="data-entry-label">Minimum Depth (in meters)</label>
 							<select name="minDepthOperM" id="MinDepthOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
@@ -521,7 +521,7 @@
 							<label for="min_depth_m" class="data-entry-label sr-only text-light">Mimimum</label>
 							<input type="text" name="min_depth_m" id="min_depth_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth_m)#">
 						</div>
-						<div class="col-12 col-md-3 px-3 py-2">
+						<div class="col-12 col-md-3 col-xl-3 px-3 pl-md-0 py-2">
 							<cfif not isDefined("MaxDepthOperM")><cfset MaxDepthOperM="="></cfif>
 							<label for="MaxDepthOperM" class="data-entry-label">Maximum Depth (in meters)</label>
 							<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
@@ -540,7 +540,7 @@
 						</div>
 					</div>
 					<cfif #showExtraFields# IS 1>
-						<div class="form-row mx-0 my-2 ">
+						<div class="form-row mx-0 my-1">
 							<div class="col-12 col-md-2 px-3 pl-md-3 py-2">
 								<cfif not isDefined("section_part")><cfset section_part=""></cfif>
 								<label for="section_part" class="data-entry-label">PLSS Section Part</label>
