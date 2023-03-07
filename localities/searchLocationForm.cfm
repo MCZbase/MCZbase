@@ -406,7 +406,7 @@
 							<label for="MaxElevOper" class="data-entry-label mb-0">Maximum Elevation</label>
 							<cfif not isDefined("MaxElevOper")><cfset MaxElevOper="="></cfif>
 							<cfif MaxElevOper IS "!"><cfset MaxElevOper="<>"></cfif>
-							<select name="MaxElevOper" id="MaxElevOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4 pr-md-0">
+							<select name="MaxElevOper" id="MaxElevOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
 								<cfif MaxElevOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif MaxElevOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
