@@ -544,7 +544,7 @@
 							</select>
 							<cfif not isDefined("max_depth_m")><cfset max_depth_m=""></cfif>
 							<label for="max_depth_m" class="data-entry-label text-white sr-only">Maximum</label>
-							<input type="text" name="max_depth_m" id="max_depth_m" class="data-entry-input" value="#encodeForHtml(max_depth_m)#">
+							<input type="text" name="max_depth_m" id="max_depth_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(max_depth_m)#">
 						</div>
 					</div>
 					<cfif #showExtraFields# IS 1>
