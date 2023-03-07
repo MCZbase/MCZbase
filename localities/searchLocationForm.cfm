@@ -422,22 +422,20 @@
 						</div>
 					</div>
 					<div class="form-row mx-0 my-2">
-						<div class="col-12 col-md-1 px-3 pr-md-0 py-2">
-							<label class="data-entry-label">Depth <span class="small">(Orig. Units)</span></label>
+						<div class="col-12 col-md-5 col-xl-3 px-3 pl-md-3 pr-md-0 py-1">
+							<label class="data-entry-label">Minimum Depth <span class="small">(Orig. Units)</span></label>
 							<label for="minDepthOper" class="data-entry-label sr-only">Operator</label>
-							<select name="minDepthOper" id="MinDepthOper" size="1" class="data-entry-select">
+							<select name="minDepthOper" id="MinDepthOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
 								<option value="=">is</option>
 								<option value="<>">is not</option><!--- " --->
 								<option value=">">more than</option><!--- " --->
 								<option value="<">less than</option>
 							</select>
-						</div>
-						<div class="col-12 col-md-2 px-3 px-md-0 py-2">
 							<cfif not isDefined("min_depth")><cfset min_depth=""></cfif>
-							<label for="min_depth" class="data-entry-label">Minimum Depth</label>
-							<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHtml(min_depth)#">
+							<label for="min_depth" class="data-entry-label text-white sr-only">Minimum Depth</label>
+							<input type="text" name="min_depth" id="min_depth" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth)#">
 						</div>
-						<div class="col-12 col-md-2 px-3 pl-md-0 py-2">
+						<div class="col-12 col-md-2 col-xl-1 px-3 pl-md-0 pr-md-3 py-1">
 							<cfif isDefined("depth_units")><cfset depth_units_val="#depth_units#"><cfelse><cfset depth_units_val=""></cfif>
 							<label for="depth_units" class="data-entry-label">Depth Units</label>
 							<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
@@ -450,8 +448,8 @@
 						</div>
 						<div class="col-12 col-md-2 px-3 py-2">
 							<cfif isDefined("MaxDepthOper")><cfset MaxDepthOper="#MaxDepthOper#"><cfelse><cfset MaxDepthOper=""></cfif>
-							<label for="MaxDepthOper" class="data-entry-label" style="color:transparent">operator</label>
-							<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="data-entry-select">
+							<label for="MaxDepthOper" class="data-entry-label text-white">operator</label>
+							<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
 								<cfif MaxDepthOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif MaxDepthOper EQ "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
