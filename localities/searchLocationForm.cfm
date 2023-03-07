@@ -446,9 +446,10 @@
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-2 px-3 py-2">
+						<div class="col-12 col-md-5 col-xl-3 px-3 pr-md-3 pl-md-0 py-1">
+							<label for="max_depth" class="data-entry-label mb-0">Maximum Depth</label>
 							<cfif isDefined("MaxDepthOper")><cfset MaxDepthOper="#MaxDepthOper#"><cfelse><cfset MaxDepthOper=""></cfif>
-							<label for="MaxDepthOper" class="data-entry-label text-white">operator</label>
+							<label for="MaxDepthOper" class="data-entry-label text-white sr-only">operator</label>
 							<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
 								<cfif MaxDepthOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
@@ -462,7 +463,7 @@
 						</div>
 						<div class="col-12 col-md-2 px-3 py-2">
 							<cfif not isDefined("max_depth")><cfset max_depth=""></cfif>
-							<label for="max_depth" class="data-entry-label">Maximum Depth</label>
+							
 							<input type="text" name="max_depth" id="max_depth" class="data-entry-input" value="#encodeForHtml(max_depth)#">
 						</div>
 					</div>
