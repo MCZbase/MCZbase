@@ -343,7 +343,7 @@
 							<input type="text" name="locality_id" id="locality_id" class="data-entry-input" value="#encodeForHtml(encodeForHtml(locality_id))#">
 						</div>
 						<div class="col-12 col-md-2 px-3 py-1 pt-md-0 px-xl-1">
-							<label for="locDetailCtl" class="data-entry-label text-white">Locality</label>
+							<label for="locDetailCtl" class="data-entry-label text-light">Locality</label>
 							<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</button>
 						</div>
 					</div>
@@ -432,7 +432,7 @@
 								<option value="<">less than</option>
 							</select>
 							<cfif not isDefined("min_depth")><cfset min_depth=""></cfif>
-							<label for="min_depth" class="data-entry-label text-white sr-only">Minimum Depth</label>
+							<label for="min_depth" class="data-entry-label text-light sr-only">Minimum Depth</label>
 							<input type="text" name="min_depth" id="min_depth" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth)#">
 						</div>
 						<div class="col-5 col-md-2 col-xl-1 px-3 pl-md-0 pr-md-3 py-1">
@@ -449,7 +449,7 @@
 						<div class="col-12 col-md-5 col-xl-3 px-3 pr-md-3 pl-md-0 py-1">
 							<label for="max_depth" class="data-entry-label mb-0">Maximum Depth</label>
 							<cfif isDefined("MaxDepthOper")><cfset MaxDepthOper="#MaxDepthOper#"><cfelse><cfset MaxDepthOper=""></cfif>
-							<label for="MaxDepthOper" class="data-entry-label text-white sr-only">operator</label>
+							<label for="MaxDepthOper" class="data-entry-label text-light sr-only">operator</label>
 							<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
 								<cfif MaxDepthOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
@@ -467,10 +467,10 @@
 					</div>
 					<div class="form-row my-2">
 						<div class="col-12 col-md-3 px-3 py-2">
+							<label for="MinElevOperM" class="data-entry-label">Minimum Elevation (in Meters)</label>
 							<cfif not isDefined("MinElevOperM")><cfset MinElevOperM="="></cfif>
 							<cfif MinElevOperM IS "!"><cfset MinElevOperM="<>"></cfif>
-							<label for="MinElevOperM" class="data-entry-label">Minimum Elevation (in Meters)</label>
-							<select name="MinElevOperM" id="MinElevOperM" size="1" class="data-entry-select">
+							<select name="MinElevOperM" id="MinElevOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
 								<cfif MinElevOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif MinElevOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -480,10 +480,8 @@
 								<cfif MinElevOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="<" #selected#>less than</option>
 							</select>
-						</div>
-						<div class="col-12 col-md-3 px-3 py-2">
 							<cfif not isDefined("minimum_elevation_m")><cfset minimum_elevation_m=""></cfif>
-							<label for="minimum_elevation_m" class="data-entry-label">Minimum</label>
+							<label for="minimum_elevation_m" class="data-entry-label sr-only text-light">Minimum</label>
 							<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input" value="#encodeForHtml(minimum_elevation_m)#">
 						</div>
 						<div class="col-12 col-md-3 px-3 py-2">
@@ -541,7 +539,7 @@
 								<option value="<" #selected#>less than</option>
 							</select>
 							<cfif not isDefined("max_depth_m")><cfset max_depth_m=""></cfif>
-							<label for="max_depth_m" class="data-entry-label text-white sr-only">Maximum</label>
+							<label for="max_depth_m" class="data-entry-label text-light sr-only">Maximum</label>
 							<input type="text" name="max_depth_m" id="max_depth_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(max_depth_m)#">
 						</div>
 					</div>
