@@ -160,8 +160,10 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
+	<!--- PJM: Disabling to examine version incompatabilties with multizoom 
 	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-migrate-1.2.1.min.js"></script>
+	--->
 	<script type="text/javascript" src="/media/js/multizoom.js"></script>
 </cfif>
 <cfif CGI.script_name IS "/users/UserProfile.cfm">
