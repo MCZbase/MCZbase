@@ -289,13 +289,13 @@
 						<cfelse>
 							<cfset spec_loc_class = "col-md-4">
 						</cfif>
-						<div class="col-12 col-md-3 px-3 pl-md-3 pr-md-2 py-1">
+						<div class="col-12 col-md-4 col-xl-3 px-3 pl-md-3 pr-md-2 py-1">
 							<cfif not isDefined("spec_locality")><cfset spec_locality=""></cfif>
 							<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 							<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input" value="#encodeForHtml(encodeForHtml(spec_locality))#">
 						</div>
 						<cfif #showExtraFields# IS 1>
-							<div class="col-12 col-md-2 px-3 px-md-0 py-1">
+							<div class="col-12 col-md-3 col-xl-2 px-3 px-md-0 py-1">
 								<cfif not isDefined("any_geography")><cfset any_geography=""></cfif>
 								<label for="any_geography" class="data-entry-label">Any Geography (keyword)</label>
 								<input type="text" name="any_geography" id="any_geography" class="data-entry-input" value="#encodeForHtml(any_geography)#">
@@ -337,7 +337,7 @@
 								<option value="1" #selected#>Yes *</option>
 							</select>
 						</div>
-						<div class="col-6 col-md-1 px-3 px-md-0 py-1">
+						<div class="col-6 col-md-2 col-xl-1 px-3 px-md-0 py-1">
 							<cfif not isDefined("locality_id")><cfset locality_id=""></cfif>
 							<label for="locality_id" class="data-entry-label">Locality ID</label>
 							<input type="text" name="locality_id" id="locality_id" class="data-entry-input" value="#encodeForHtml(encodeForHtml(locality_id))#">
