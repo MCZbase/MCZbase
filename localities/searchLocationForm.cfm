@@ -462,7 +462,7 @@
 							</select>
 							<cfif not isDefined("max_depth")><cfset max_depth=""></cfif>
 							
-							<input type="text" name="max_depth" id="max_depth" class="data-entry-input" value="#encodeForHtml(max_depth)#">
+							<input type="text" name="max_depth" id="max_depth" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(max_depth)#">
 						</div>
 					</div>
 					<div class="form-row my-2">
@@ -525,7 +525,7 @@
 						<div class="col-12 col-md-5 col-xl-3 px-3 py-2">
 							<cfif not isDefined("min_depth_m")><cfset min_depth_m=""></cfif>
 							<label for="min_depth_m" class="data-entry-label">Mimimum</label>
-							<input type="text" name="min_depth_m" id="min_depth_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth_m)#">
+							<input type="text" name="min_depth_m" id="min_depth_m" class="data-entry-input" value="#encodeForHtml(min_depth_m)#">
 						</div>
 						<div class="col-12 col-md-3 px-3 py-2">
 							<cfif not isDefined("MaxDepthOperM")><cfset MaxDepthOperM="="></cfif>
