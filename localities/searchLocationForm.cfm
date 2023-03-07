@@ -391,7 +391,7 @@
 							<cfif not isDefined("minimum_elevation")><cfset minimum_elevation=""></cfif>
 							<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(minimum_elevation)#">
 						</div>
-						<div class="col-12 col-md-1 px-3 pl-md-0 pr-md-3 py-1">
+						<div class="col-12 col-md-2 col-xl-1 px-3 pl-md-0 pr-md-3 py-1">
 							<cfif isDefined("orig_elev_units")><cfset orig_elev_units_val="#orig_elev_units#"><cfelse><cfset orig_elev_units_val=""></cfif>
 							<label for="orig_elev_units" class="data-entry-label">Elev. Units</label>
 							<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
