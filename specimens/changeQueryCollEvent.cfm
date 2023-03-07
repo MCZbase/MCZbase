@@ -91,10 +91,10 @@ limitations under the License.
 		<cfset showLocality=1>
 		<cfset showEvent=1>
 		<cfoutput>
-			<div class="container-lg">
+		<!---	<div class="container-lg">--->
 	<!---			<div class="search-box">
 					<div class="search-box-header">--->
-						<h1 class="h3 my-1">Find new collecting event for cataloged items [in #encodeForHtml(result_id)#]</h1>
+						<h1 class="h3 my-1 px-1">Find new collecting event for cataloged items [in #encodeForHtml(result_id)#]</h1>
 					<!---</div>--->
 					<form name="getLoc" method="post" action="/specimens/changeQueryCollEvent.cfm">
 						<input type="hidden" name="Action" value="findCollectingEvent">
@@ -109,7 +109,7 @@ limitations under the License.
 						<cfinclude template="/localities/searchLocationForm.cfm">
 					</form>
 				<!---</div>--->
-			</div>
+		<!---	</div>--->
 		</cfoutput>
 	</cfcase>
 
