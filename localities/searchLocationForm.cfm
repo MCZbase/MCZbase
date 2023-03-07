@@ -435,7 +435,7 @@
 							<label for="min_depth" class="data-entry-label text-white sr-only">Minimum Depth</label>
 							<input type="text" name="min_depth" id="min_depth" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth)#">
 						</div>
-						<div class="col-12 col-md-2 col-xl-1 px-3 pl-md-0 pr-md-3 py-1">
+						<div class="col-5 col-md-2 col-xl-1 px-3 pl-md-0 pr-md-3 py-1">
 							<cfif isDefined("depth_units")><cfset depth_units_val="#depth_units#"><cfelse><cfset depth_units_val=""></cfif>
 							<label for="depth_units" class="data-entry-label">Depth Units</label>
 							<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
