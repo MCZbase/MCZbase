@@ -511,7 +511,7 @@
 						<div class="col-12 col-md-3 px-3 py-2">
 							<cfif not isDefined("minDepthOperM")><cfset minDepthOperM="="></cfif>
 							<label for="minDepthOperM" class="data-entry-label">Minimum Depth (in meters)</label>
-							<select name="minDepthOperM" id="MinDepthOperM" size="1" class="data-entry-select">
+							<select name="minDepthOperM" id="MinDepthOperM" size="1" class="data-entry-select w-100 d-inline-block col-12 col-md-4">
 								<cfif minDepthOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=" #selected#>is</option>
 								<cfif minDepthOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -525,7 +525,7 @@
 						<div class="col-12 col-md-5 col-xl-3 px-3 py-2">
 							<cfif not isDefined("min_depth_m")><cfset min_depth_m=""></cfif>
 							<label for="min_depth_m" class="data-entry-label">Mimimum</label>
-							<input type="text" name="min_depth_m" id="min_depth_m" class="data-entry-input" value="#encodeForHtml(min_depth_m)#">
+							<input type="text" name="min_depth_m" id="min_depth_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth_m)#">
 						</div>
 						<div class="col-12 col-md-3 px-3 py-2">
 							<cfif not isDefined("MaxDepthOperM")><cfset MaxDepthOperM="="></cfif>
