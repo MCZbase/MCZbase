@@ -372,7 +372,7 @@
 			formatted_publication.formatted_publication, 
 			citation.occurs_page_number, 
 			ctcitation_type_status.ordinal, 
-			cataloged_item.cat_num
+			'MCZ:' || cataloged_item.collection_cde || ':' || cataloged_item.cat_num
 	</cfquery>
 	<cfquery name="ctguid_type_taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
