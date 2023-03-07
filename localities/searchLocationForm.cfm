@@ -58,9 +58,9 @@
 <cfoutput>
 <div class="row mx-0">
 <section class="container-fluid" role="search" title="Geography, Locality, Collecting Event Search Form">
-	<cfif pageTitle = "Search Higher Geographies"></cfif><h1 class="h2 mt-2 px-1">Find Higher Geography</h1></cfif>
-	<cfif pageTitle = "Search Localities"></cfif><h1 class="h2 mt-2 px-1">Find Locality</h1></cfif>
-	<cfif pageTitle = "Search Localities"></cfif><h1 class="h2 mt-2 px-1">Search Collecting Events</h1></cfif>
+	<cfif pageTitle eq "Search Higher Geographies"><h1 class="h2 mt-2 px-1">Find Higher Geography</h1></cfif>
+	<cfif pageTitle eq "Search Localities"><h1 class="h2 mt-2 px-1">Find Locality</h1></cfif>
+	<cfif pageTitle eq "Search Collecting Events"><h1 class="h2 mt-2 px-1">Search Collecting Events</h1></cfif>
 	
 	<div class="row mx-0 mb-2">
 
