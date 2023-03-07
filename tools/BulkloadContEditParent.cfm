@@ -168,7 +168,7 @@
 								#separator#<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							)
 						</cfquery>
-						<cfset loadedRows = loadedRows + insertResult.recordcount>
+						<cfset loadedRows = loadedRows + insert_result.recordcount>
 					<cfcatch>
 						<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
 					</cfcatch>
