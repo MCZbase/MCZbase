@@ -249,7 +249,7 @@ jQuery.noConflict();
 			$tracker = $('<div class="zoomtracker" style="cursor:progress;position:absolute;z-index:'+basezindex+';left:'+o.left+'px;top:'+o.top+'px;height:'+h+'px;width:'+w+'px;" />')
 				.css({backgroundImage: (this.isie? 'url(cannotbe)' : 'none')})
 				.appendTo(document.body);
-			$(window).bind('load resize', function(){ //in case resizing the window repostions the image or description
+			$(window).on('load resize', function(){ //in case resizing the window repostions the image or description
 					var o = $img.offset(), $parent;
 					$tracker.css({left: o.left, top: o.top});
 					if(options.descpos && options.descArea){
@@ -303,7 +303,7 @@ jQuery.noConflict();
 					$img.stop(true, true).css({opacity:0.1}) //"dim" image while large image is loading
 					$statusdiv.css({left:imgcoords.left+w/2-$statusdiv.width()/2, top:imgcoords.top+h/2-$statusdiv.height()/2, visibility:'visible'})
 				}
-				$bigimage.bind('loadevt', function(event, e){ //magnified image ONLOAD event function (to be triggered later)
+				$bigimage.on('loadevt', function(event, e){ //magnified image ONLOAD event function (to be triggered later)
 					if(e.type === 'error'){
 						$img.css({opacity: 1}).data('added').remove();
 						var src = $('<a href="' + $bigimage.attr('src') + '"></a>').get(0).href;
@@ -341,19 +341,19 @@ jQuery.noConflict();
 						fiz.hideimage($tracker, $magnifier, showstatus)
 					}).css({cursor: fiz.magnifycursor});
 					if (setting.zoomrange && setting.zoomrange[1]>setting.zoomrange[0]){ //if zoom range enabled
-						$tracker.bind('DOMMouseScroll mousewheel', function(e){
+						$tracker.on('DOMMouseScroll mousewheel', function(e){
 							fiz.magnifyimage($tracker, e, setting.zoomrange);
 							e.preventDefault();
 						});
 					} else if(setting.disablewheel){
-						$tracker.bind('DOMMouseScroll mousewheel', function(e){e.preventDefault();});
+						$tracker.on('DOMMouseScroll mousewheel', function(e){e.preventDefault();});
 					}
 				})	//end $bigimage onload
 				if ($bigimage.get(0).complete){ //if image has already loaded (account for IE, Opera not firing onload event if so)
 					$bigimage.trigger('loadevt', {type: 'load'})
 				}
 				else{
-					$bigimage.bind('load error', function(e){$bigimage.trigger('loadevt', e)})
+					$bigimage.on('load error', function(e){$bigimage.trigger('loadevt', e)})
 				}
 			})
 		},
