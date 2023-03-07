@@ -344,7 +344,7 @@
 						</div>
 						<div class="col-12 col-md-2 px-3 py-1 pt-md-0 px-xl-1">
 							<label for="locDetailCtl" class="data-entry-label text-light">Locality</label>
-							<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</button>
+							<button type="button" id="locDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</button>
 						</div>
 					</div>
 					<div id="locDetail" class="" style="#locDetailStyle#">
