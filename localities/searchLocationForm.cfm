@@ -825,7 +825,7 @@
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-2 col-xl-1 py-1">
+						<div class="col-12 col-md-2 col-xl-2 py-1">
 							<cfif NOT isDefined("verbatim_date") ><cfset verbatim_date=""></cfif>
 							<label for="verbatim_date" class="data-entry-label">Verbatim Date</label>
 							<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input" value="#encodeForHtml(verbatim_date)#" >
@@ -891,6 +891,10 @@
 							<cfif NOT isDefined("ended_date") ><cfset ended_date=""></cfif>
 							<input type="text" name="ended_date" id="ended_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(ended_date)#" placeholder="yyyy-mm-dd">
 						</div>
+						<div class="col-12 col-md-2 py-1">
+							<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent;">Collecting Event</label> 
+							<button type="button" id="eventDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
+						</div>
 						<cfif #showExtraFields# IS 1>
 							<div class="col-12 col-md-2 py-1">
 								<cfif NOT isDefined("collecting_time") ><cfset collecting_time=""></cfif>
@@ -913,10 +917,7 @@
 								<input type="text" name="enddayofyear" id="enddayofyear" class="data-entry-input" value="#encodeForHtml(enddayofyear)#">
 							</div>
 						</cfif>
-						<div class="col-12 col-md-2 py-1">
-							<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent;">Collecting Event</label> 
-							<button type="button" id="eventDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
-						</div>
+						
 					</div>
 					<div id="eventDetail" style="#eventDetailStyle#">
 						<div class="form-row px-3">
@@ -971,7 +972,7 @@
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-2 py-2">
+							<div class="col-12 col-md-5 col-xl-5 py-2">
 								<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
 								<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input">
 							</div>
