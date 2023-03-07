@@ -370,7 +370,7 @@
 								</select>
 							</div>
 						</div>
-					<div class="form-row mx-0 my-2">
+					<div class="form-row mx-0 my-1">
 						
 						
 						<div class="col-12 col-md-5 col-xl-3 px-3 pl-md-3 pr-md-0 py-1">
@@ -421,7 +421,7 @@
 							<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(maximum_elevation)#">
 						</div>
 					</div>
-					<div class="form-row mx-0 my-2">
+					<div class="form-row mx-0 my-1">
 						<div class="col-12 col-md-5 col-xl-3 px-3 pl-md-3 pr-md-0 py-1">
 							<label class="data-entry-label">Minimum Depth <span class="small">(Orig. Units)</span></label>
 							<label for="minDepthOper" class="data-entry-label sr-only">Operator</label>
