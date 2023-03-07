@@ -826,7 +826,7 @@
 						<cfset eventButton = "Fewer Fields">
 					</cfif> 
 					<div class="form-row px-3 mt-2">
-						<div class="col-12 col-md-2 py-1">
+						<div class="col-12 col-md-3 py-1">
 							<cfif NOT isDefined("verbatim_locality") ><cfset verbatim_locality=""></cfif>
 							<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
 							<input type="text" name="verbatim_locality" id="verbatim_locality" size="75" class="data-entry-input" value="#encodeForHtml(verbatim_locality)#">
@@ -926,7 +926,7 @@
 						</cfif>
 						<div class="col-12 col-md-2 py-1">
 							<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent;">Collecting Event</label> 
-							<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
+							<button type="button" id="eventDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
 						</div>
 					</div>
 					<div id="eventDetail" style="#eventDetailStyle#">
