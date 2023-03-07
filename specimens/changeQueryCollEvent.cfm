@@ -94,7 +94,7 @@ limitations under the License.
 			<div class="container-lg">
 	<!---			<div class="search-box">
 					<div class="search-box-header">--->
-						<h1 class="h3 text-white my-1">Find new collecting event for cataloged items [in #encodeForHtml(result_id)#]</h1>
+						<h1 class="h3 my-1">Find new collecting event for cataloged items [in #encodeForHtml(result_id)#]</h1>
 					<!---</div>--->
 					<form name="getLoc" method="post" action="/specimens/changeQueryCollEvent.cfm">
 						<input type="hidden" name="Action" value="findCollectingEvent">
