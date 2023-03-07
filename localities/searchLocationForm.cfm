@@ -460,8 +460,6 @@
 								<cfif MaxDepthOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="<" #selected#>less than</option>
 							</select>
-						</div>
-						<div class="col-12 col-md-2 px-3 py-2">
 							<cfif not isDefined("max_depth")><cfset max_depth=""></cfif>
 							
 							<input type="text" name="max_depth" id="max_depth" class="data-entry-input" value="#encodeForHtml(max_depth)#">
