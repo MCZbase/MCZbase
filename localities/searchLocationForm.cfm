@@ -466,7 +466,7 @@
 						</div>
 					</div>
 					<div class="form-row my-2">
-						<div class="col-12 col-md-3 px-3 py-2">
+						<div class="col-12 col-md-5 px-3 py-2">
 							<label for="MinElevOperM" class="data-entry-label">Minimum Elevation (in Meters)</label>
 							<cfif not isDefined("MinElevOperM")><cfset MinElevOperM="="></cfif>
 							<cfif MinElevOperM IS "!"><cfset MinElevOperM="<>"></cfif>
