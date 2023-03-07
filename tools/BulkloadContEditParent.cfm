@@ -42,7 +42,7 @@
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<p>This tool is used to edit container information and/or move parts to a different parent container.</p>
-			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below. </p>
+			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
 				<label for="templatearea" class="data-entry-label">
@@ -61,7 +61,7 @@
 					<li class="#class#">#field#</li>
 				</cfloop>
 			</ul>
-			<cfform name="atts" method="post" enctype="multipart/form-data" action="BulkloadContEditParent.cfm">
+			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadContEditParent.cfm">
 				<input type="hidden" name="Action" value="getFile">
 				<input type="file" name="FiletoUpload" size="45">
 				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
@@ -70,16 +70,19 @@
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
+		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<cfoutput>
 			<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
 			<cfset fileContent=replace(fileContent,"'","''","all")>
 			<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 		
+			<!--- cleanup any incomplete work by the same user --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_cont_edit 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			
+			<!--- check for required fields in header line --->
 			<cfset container_unique_id_exists = false>
 			<cfset container_type_exists = false>
 			<cfset container_name_exists = false>
@@ -97,8 +100,10 @@
 				<cfthrow message="#message#">
 			</cfif>
 			<cfset colNames="">
+			<cfset loadedRows = 0>
 			<!--- get the headers from the first row of the input, then iterate through the remaining rows inserting the data into the temp table. --->
 			<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
+				<!--- obtain the values in the current row --->
 				<cfset colVals="">
 				<cfloop from="1" to ="#ArrayLen(arrResult[row])#" index="col">
 					<cfset thisBit=arrResult[row][col]>
@@ -110,12 +115,30 @@
 					</cfif>
 				</cfloop>
 				<cfif #row# is 1>
+					<!--- first row, obtain column headers --->
 					<!--- strip off the leading separator --->
 					<cfset colNames=replace(colNames,",","","first")>
 					<cfset colNameArray = listToArray(ucase(colNames))><!--- the list of columns/fields found in the input file --->
 					<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 					<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
+					<h3 class="h4">Found #arrayLen(colNameArray)# matching columns in header of csv file.</h3>
+					<ul class="geol_hier">
+						<cfloop list="#fieldlist#" index="field" delimiters=",">
+							<cfif listContains(requiredfieldlist,field,",")>
+								<cfset class="text-danger">
+							<cfelse>
+								<cfset class="text-dark">
+							</cfif>
+							<li class="#class#">
+								#field#
+								<cfif arrayFindNoCase(colNameArray,field) GT 0>
+									<strong>Present in CSV</strong>
+								</cfif>
+							</li>
+						</cfloop>
+					</ul>
 				<cfelse>
+					<!--- subsequent rows, data --->
 					<!--- strip off the leading separator --->
 					<cfset colVals=replace(colVals,",","","first")>
 					<cfset colValArray=listToArray(colVals)>
@@ -145,19 +168,22 @@
 								#separator#<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							)
 						</cfquery>
+						<cfset loadedRows = loadedRows + insertResult.recordcount>
 					<cfcatch>
-						<cfthrow message="Error inserting data from line #row# in input file.  [#colVals#]: #cfcatch.message#">
+						<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
 					</cfcatch>
 					</cftry>
 				</cfif>
 			</cfloop>
 		
-			<cflocation url="BulkloadContEditParent.cfm?action=validate">
+			<h3 class="h3">
+				Successfully loaded #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadContEditParent.cfm?action=validate">click to validate</a>.
+			</h3>
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
-		<h2 class="h3">Validation Step</h2>
+		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_cont_edit set container_id=
@@ -249,7 +275,7 @@
 				</h3>
 			<cfelse>
 				<h2>
-					Validation checks passed. Look over the table below and <a href="BulkloadContEditParent.cfm?action=load">click to continue</a> if it all looks good.
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadContEditParent.cfm?action=load">click to continue</a> if it all looks good.
 				</h2>
 			</cfif>
 			<table class='sortable table table-responsive table-striped d-lg-table'>
@@ -293,6 +319,7 @@
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
+		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_cont_edit
