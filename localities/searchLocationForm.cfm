@@ -730,7 +730,7 @@
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-2 px-4 px-md-5 mt-xl-4 py-2">
+							<div class="col-12 col-md-2 px-4 px-md-5 mt-xl-3 py-2">
 								<div class="form-check">
 									<input type="checkbox" name="onlyShared" id="onlyShared" class="form-check-input">
 									<label for="onlyShared" class="form-check-label mt3px small95">Shared Localities Only</label>
