@@ -630,18 +630,18 @@
 					</div>
 					<div id="georefDetail" class="border my-2 mx-3 rounded p-1" style="#georefDetailStyle#">
 						<cfif #showExtraFields# IS 1>
-							<div class="form-row mx-0 px-3 my-2">
+							<div class="form-row mx-0 px-3 py-2">
 								<div class="col-12 col-md-2">
 									<cfif not isDefined("dec_lat")><cfset dec_lat=""></cfif>
 									<label for="dec_lat" class="data-entry-label">Latitude</label>
 									<input type="text" name="dec_lat" class="data-entry-input" value="#encodeForHtml(dec_lat)#">
 								</div>
-								<div class="col-12 col-md-2">
+								<div class="col-12 col-md-2 py-2">
 									<cfif not isDefined("dec_long")><cfset dec_long=""></cfif>
 									<label for="dec_long" class="data-entry-label">Longitude</label>
 									<input type="text" name="dec_long" class="data-entry-input" value="#encodeForHtml(dec_long)#">
 								</div>
-								<div class="col-12 col-md-2">
+								<div class="col-12 col-md-2 py-2">
 									<cfquery name="ctDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 										select datum from ctdatum order by datum
 									</cfquery>
@@ -655,12 +655,12 @@
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-2">
+								<div class="col-12 col-md-2 py-2">
 									<cfif not isDefined("max_error_distance")><cfset max_error_distance=""></cfif>
 									<label for="max_error_distance" class="data-entry-label">Coordinate Uncertainty</label>
 									<input type="text" name="max_error_distance" class="data-entry-input" value="#encodeForHtml(max_error_distance)#">
 								</div>
-								<div class="col-12 col-md-3">
+								<div class="col-12 col-md-3 py-2">
 									<cfif NOT isDefined("georeference_verified_by") ><cfset georeference_verified_by=""></cfif>
 									<cfif NOT isDefined("georeference_verified_by_id") ><cfset georeference_verified_by_id=""></cfif>
 									<label for="georeference_verified_by" class="data-entry-label">Georeference verified by</label>
@@ -674,29 +674,29 @@
 								</div>
 							</div>
 						</cfif>
-						<div class="form-row mx-0 px-3 my-2 my-md-0">
+						<div class="form-row mx-0 px-3 py-2 my-md-0">
 							<div class="col-6 col-md-2 pl-4 pt-4 float-left">
 								<cfif isDefined("findNoGeoRef") AND findNoGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
 								<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="form-check-input" #checked#>
 								<label for="findNoGeoRef" class="form-check-label mt3px small95">No Georeferences</label>
 
 							</div>
-							<div class="col-6 col-md-2 float-left pt-4">
+							<div class="col-6 col-md-2 px-3 float-left py-2">
 								<div class="form-check">
 									<cfif isDefined("findHasGeoRef") AND findHasGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
 									<input class="form-check-input" name="findHasGeoRef" id="findHasGeoRef" value="1" type="checkbox" #checked#>
 									<label class="form-check-label mt3px small95" for="findHasGeoRef">Has Georeferences</label>
 								</div>
 							</div>
-							<div class="col-8 col-md-2 pt-4 float-left">
+							<div class="col-12 col-md-3 px-3 py-2 float-left">
 								<cfif isDefined("findNoAccGeoRef") AND findNoAccGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
 								<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="form-check-input" #checked#>
 								<label for="findNoAccGeoRef" class="form-check-label mt3px small95">No Accepted Georeferences</label>
 							</div>
-							<div class="col-12 col-md-4 col-xl-3 pt-2 pb-0 pb-md-2">
+							<div class="col-12 col-md-4 col-xl-3 px-3 py-2">
 								<cfif isDefined("NoGeorefBecause") AND NoGeorefBecause EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
 								<label for="NoGeorefBecause" class="data-entry-label">No Georeferece Because</label>
-								<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input w-75" #checked#>
+								<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input" #checked#>
 							</div>
 
 						</div>
