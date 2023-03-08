@@ -521,7 +521,7 @@
 							<label for="min_depth_m" class="data-entry-label sr-only text-light">Mimimum</label>
 							<input type="text" name="min_depth_m" id="min_depth_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth_m)#">
 						</div>
-						<div class="col-12 col-md-3 col-xl-3 px-3 pl-md-0 py-2">
+						<div class="col-12 col-md-5 col-xl-3 px-3 pl-md-0 py-2">
 							<cfif not isDefined("MaxDepthOperM")><cfset MaxDepthOperM="="></cfif>
 							<label for="MaxDepthOperM" class="data-entry-label">Maximum Depth (in meters)</label>
 							<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
