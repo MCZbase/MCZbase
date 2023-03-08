@@ -98,7 +98,7 @@
 							<cfif not isDefined("geog_auth_rec_id")><cfset geog_auth_rec_id=""></cfif>
 							<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input w-auto" value="#encodeForHtml(geog_auth_rec_id)#">
 						</div>
-						<div class="col-12 col-md-2 col-xl-1 px-3 py-2 pt-md-0">
+						<div class="col-12 col-md-2 col-xl-1 px-3 py-2 pt-md-0 pt-xl-4">
 							<label for="geogDetailCtl" class="data-entry-label text-light sr-only" >Geography</label>
 							<button type="button" id="geogDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
 						</div>
@@ -342,7 +342,7 @@
 							<label for="locality_id" class="data-entry-label">Locality ID</label>
 							<input type="text" name="locality_id" id="locality_id" class="data-entry-input" value="#encodeForHtml(encodeForHtml(locality_id))#">
 						</div>
-						<div class="col-12 col-md-2 col-xl-1 px-3 py-1 pt-md-1 px-xl-1">
+						<div class="col-12 col-md-2 col-xl-1 px-3 py-1 pt-md-1 px-xl-1 pt-xl-3">
 							<label for="locDetailCtl" class="data-entry-label text-light sr-only">Locality</label>
 							<button type="button" id="locDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</button>
 						</div>
