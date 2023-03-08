@@ -630,7 +630,7 @@
 					</div>
 					<div id="georefDetail" class="border my-2 mx-3 rounded p-1" style="#georefDetailStyle#">
 						<cfif #showExtraFields# IS 1>
-							<div class="form-row mx-0 px-3 py-2">
+							<div class="form-row mx-0 my-1">
 								<div class="col-12 col-md-2">
 									<cfif not isDefined("dec_lat")><cfset dec_lat=""></cfif>
 									<label for="dec_lat" class="data-entry-label">Latitude</label>
@@ -674,7 +674,7 @@
 								</div>
 							</div>
 						</cfif>
-						<div class="form-row mx-0 py-2">
+						<div class="form-row mx-0 my-1">
 							<div class="col-12 col-md-2 px-4 py-2 float-left">
 								<div class="form-check">
 									<cfif isDefined("findNoGeoRef") AND findNoGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
@@ -696,7 +696,7 @@
 									<label for="findNoAccGeoRef" class="form-check-label mt3px small95">No Accepted Georeferences</label>
 								</div>
 							</div>
-							<div class="col-12 col-md-4 col-xl-3 py-2">
+							<div class="col-12 col-md-4 col-xl-3 pr-3 pl-0 py-2">
 								<div class="form-check">
 									<cfif isDefined("NoGeorefBecause") AND NoGeorefBecause EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
 									<label for="NoGeorefBecause" class="data-entry-label">No Georeferece Because</label>
@@ -704,7 +704,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-row mx-0 px-3 my-2">
+						<div class="form-row mx-0 px-3 my-1">
 							<div class="col-12 col-md-2 px-4 py-2 float-left">
 								<div class="form-check">
 									<cfif isDefined("isIncomplete") AND isIncomplete EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
