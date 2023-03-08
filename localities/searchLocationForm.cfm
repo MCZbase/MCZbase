@@ -558,7 +558,7 @@
 							</div>
 							<div class="col-12 col-md-2 px-3 px-md-2 py-2">
 								<cfif not isDefined("township_direction")><cfset township_direction=""></cfif>
-								<label for="township_direction" class="data-entry-label">Township Direction</label>
+								<label for="township_direction" class="data-entry-label">Township Dir.</label>
 								<select name="township_direction" id="" size="1" class="data-entry-select">
 									<cfif len(township_direction) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 									<option value="" #selected#></option>
@@ -575,7 +575,7 @@
 							</div>
 							<div class="col-12 col-md-2 px-3 pr-md-3 pl-md-2 py-2">
 								<cfif not isDefined("range_direction")><cfset range_direction=""></cfif>
-								<label for="range_direction" class="data-entry-label">Township Direction</label>
+								<label for="range_direction" class="data-entry-label">Range Dir.</label>
 								<select name="range_direction" id="" size="1" class="data-entry-select">
 									<cfif len(range_direction) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 									<option value="" #selected#></option>
