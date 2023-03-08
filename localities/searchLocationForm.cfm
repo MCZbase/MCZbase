@@ -558,7 +558,7 @@
 							</div>
 							<div class="col-12 col-md-2 px-3 px-md-2 py-2">
 								<cfif not isDefined("township_direction")><cfset township_direction=""></cfif>
-								<label for="township_direction" class="data-entry-label">Township Direction</label>
+								<label for="township_direction" class="data-entry-label">Township Dir.</label>
 								<select name="township_direction" id="" size="1" class="data-entry-select">
 									<cfif len(township_direction) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 									<option value="" #selected#></option>
@@ -575,7 +575,7 @@
 							</div>
 							<div class="col-12 col-md-2 px-3 pr-md-3 pl-md-2 py-2">
 								<cfif not isDefined("range_direction")><cfset range_direction=""></cfif>
-								<label for="range_direction" class="data-entry-label">Township Direction</label>
+								<label for="range_direction" class="data-entry-label">Range Dir.</label>
 								<select name="range_direction" id="" size="1" class="data-entry-select">
 									<cfif len(range_direction) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 									<option value="" #selected#></option>
@@ -587,8 +587,8 @@
 							</div>
 						</div>
 					</cfif>
-					<div class="form-row mx-0 mt-2 mb-3">
-						<div class="col-12 col-md-4 px-3 pl-md-3 pr-md-0 py-2">
+					<div class="form-row mx-0 my-1">
+						<div class="col-12 col-md-3 px-3 pl-md-3 pr-md-0">
 							<cfif isDefined("geology_attribute")><cfset geology_attribute_val="#geology_attribute#"><cfelse><cfset geology_attribute_val=""></cfif>
 							<label for="geology_attribute" class="data-entry-label">Geology Attribute</label>
 							<select name="geology_attribute" id="geology_attribute" class="data-entry-select">
@@ -599,12 +599,12 @@
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-3 px-3 px-md-2 py-2">
+						<div class="col-12 col-md-3 px-3 px-md-2 ">
 							<cfif not isDefined("geo_att_value")><cfset geo_att_value=""></cfif>
 							<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
 							<input type="text" name="geo_att_value" class="data-entry-input" value="#encodeForHtml(geo_att_value)#">
 						</div>
-						<div class="col-12 col-md-2 px-3 pr-md-3 pl-md-0 py-2">
+						<div class="col-12 col-md-3 px-3 pr-md-3 pl-md-0">
 							<cfif isDefined("geology_attribute_hier") and len(geology_attribute_hier) GT 0 ><cfset geology_attribute_hierValue="#geology_attribute_hier#"><cfelse><cfset geology_attribute_hierValue=""></cfif>
 							<label for="geology_attribute_hier" class="data-entry-label">Traverse Hierarchies?</label>
 							<select name="geology_attribute_hier" id="geology_attribute_hier" class="data-entry-select">
@@ -623,7 +623,7 @@
 							<cfset toggleTo = "0">
 							<cfset georefButton = "Hide Georef Fields">
 						</cfif> 
-						<div class="col-12 col-md-3 px-3 py-2">
+						<div class="col-12 col-md-3 px-3 pt-3 pb-2">
 							<label for="georefDetailCtl" class="data-entry-label text-light sr-only">Georeference</label>
 							<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</button>
 						</div>
