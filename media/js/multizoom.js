@@ -30,8 +30,11 @@ jQuery.noConflict();
 	$('head').append('<style type="text/css">.featuredimagezoomerhidden {visibility: hidden!important;}</style>');
 
 	$.fn.multizoomhide = function(){
-		console.log("fn.multizoomhide: " + this.selector );
-		return $('<style type="text/css">' + this.selector + ' {visibility: hidden;}<\/style>').appendTo('head');
+		var sel = $(this).attr("id");  // workaround for removed this.selector, requires item to have an ID.
+		console.log("fn.multizoomhide: " + sel );
+		return $('<style type="text/css">' + sel + ' {visibility: hidden;}<\/style>').appendTo('head');
+		//console.log("fn.multizoomhide: " + this.selector );
+		//return $('<style type="text/css">' + this.selector + ' {visibility: hidden;}<\/style>').appendTo('head');
 	};
 
 	$.fn.addmultizoom = function(options){
@@ -368,10 +371,11 @@ jQuery.noConflict();
 
 	$.fn.addimagezoom = function(options){
 		console.log("fn.addimagezoom: " + this.selector);
-		// var sel = $(this).attr("id");  // workaround for removed this.selector, requires item to have an ID.
-		// $thumbs = $(sel.replace(featuredimagezoomer.hashre, '.') + '.thumbs a');
-		var sel = this.selector, $thumbs = $(sel.replace(featuredimagezoomer.hashre, '.') + '.thumbs a');
 		console.log(this);
+		var sel = $(this).attr("id");  // workaround for removed this.selector, requires item to have an ID.
+		$thumbs = $(sel.replace(featuredimagezoomer.hashre, '.') + '.thumbs a');
+		// var sel = this.selector, $thumbs = $(sel.replace(featuredimagezoomer.hashre, '.') + '.thumbs a');
+		console.log($thumbs);
 		options = options || {};
 		if(options.multizoom !== null && ($thumbs).size()){
 			$thumbs.addmultizoom($.extend(options, {imgObj: sel, multizoom: null}));
