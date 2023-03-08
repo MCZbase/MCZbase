@@ -623,9 +623,9 @@
 							<cfset toggleTo = "0">
 							<cfset georefButton = "Hide Georef Fields">
 						</cfif> 
-						<div class="col-12 col-md-3 px-3 pt-2 pb-3">
+						<div class="col-12 col-md-3 px-3 pt-2 pt-md-3 pb-md-2 pb-3">
 							<label for="georefDetailCtl" class="data-entry-label text-light sr-only">Georeference</label>
-							<button type="button" id="georefDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</button>
+							<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</button>
 						</div>
 					</div>
 					<div id="georefDetail" class="border my-2 mx-3 rounded p-1" style="#georefDetailStyle#">
