@@ -96,7 +96,7 @@
 						<div class="col-12 col-md-3 col-xl-2 px-3 pr-xl-0 py-2">
 							<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
 							<cfif not isDefined("geog_auth_rec_id")><cfset geog_auth_rec_id=""></cfif>
-							<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input w-auto" value="#encodeForHtml(geog_auth_rec_id)#">
+							<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input" value="#encodeForHtml(geog_auth_rec_id)#">
 						</div>
 						<div class="col-12 col-md-2 col-xl-1 px-3 py-2 pl-xl-0 pt-md-0 pt-xl-4">
 							<label for="geogDetailCtl" class="data-entry-label text-light sr-only" >Geography</label>
