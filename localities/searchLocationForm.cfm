@@ -326,7 +326,7 @@
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-6 col-md-1 px-3 px-md-2 py-1">
+						<div class="col-6 col-md-1 pl-3 pr-1 px-md-2 py-1">
 							<cfif not isDefined("curated_fg")><cfset curated_fg=""></cfif>
 							<label for="curated_fg" class="data-entry-label">Vetted</label>
 							<select name="curated_fg" id="curated_fg" class="data-entry-select">
@@ -337,7 +337,7 @@
 								<option value="1" #selected#>Yes *</option>
 							</select>
 						</div>
-						<div class="col-6 col-md-2 col-xl-1 px-3 pl-md-0 py-1">
+						<div class="col-6 col-md-2 col-xl-1 pr-3 pl-1 pr-md-3 pl-md-0 py-1">
 							<cfif not isDefined("locality_id")><cfset locality_id=""></cfif>
 							<label for="locality_id" class="data-entry-label">Locality ID</label>
 							<input type="text" name="locality_id" id="locality_id" class="data-entry-input" value="#encodeForHtml(encodeForHtml(locality_id))#">
