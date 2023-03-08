@@ -937,7 +937,7 @@
 								<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" class="data-entry-input" value="#encodeForHtml(verbatimCoordinates)#">
 							</div>
 							<div class="col-12 col-md-2 py-2">
-								<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System</label>
+								<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coord. System</label>
 								<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" class="data-entry-input">
 								<script>
 									jQuery(document).ready(function() {
