@@ -693,7 +693,7 @@
 								<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="form-check-input" #checked#>
 								<label for="findNoAccGeoRef" class="form-check-label mt3px small95">No Accepted Georeferences</label>
 							</div>
-							<div class="col-12 col-md-2 pt-2 pb-0 pb-md-2">
+							<div class="col-12 col-md-3 pt-2 pb-0 pb-md-2">
 								<cfif isDefined("NoGeorefBecause") AND NoGeorefBecause EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
 								<label for="NoGeorefBecause" class="data-entry-label">No Georeferece Because</label>
 								<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input w-75" #checked#>
