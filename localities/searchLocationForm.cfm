@@ -99,7 +99,7 @@
 							<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input w-auto" value="#encodeForHtml(geog_auth_rec_id)#">
 						</div>
 						<div class="col-12 col-md-2 col-xl-1 px-3 my-xl-3 my-3 mt-md-0">
-							<label for="geogDetailCtl" class="data-entry-label text-white" >Geography</label>
+							<label for="geogDetailCtl" class="data-entry-label text-light" >Geography</label>
 							<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
 						</div>
 					</div>
