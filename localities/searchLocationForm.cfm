@@ -675,11 +675,12 @@
 							</div>
 						</cfif>
 						<div class="form-row mx-0 py-2">
-							<div class="col-12 col-md-2 px-3 py-2 float-left">
-								<cfif isDefined("findNoGeoRef") AND findNoGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
-								<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="form-check-input" #checked#>
-								<label for="findNoGeoRef" class="form-check-label mt3px small95">No Georeferences</label>
-
+							<div class="col-12 col-md-2 px-4 py-2 float-left">
+								<div class="form-check">
+									<cfif isDefined("findNoGeoRef") AND findNoGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
+									<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="form-check-input" #checked#>
+									<label for="findNoGeoRef" class="form-check-label mt3px small95">No Georeferences</label>
+								</div>
 							</div>
 							<div class="col-12 col-md-2 px-4 float-left py-2">
 								<div class="form-check">
@@ -688,28 +689,35 @@
 									<label class="form-check-label mt3px small95" for="findHasGeoRef">Has Georeferences</label>
 								</div>
 							</div>
-							<div class="col-12 col-md-3 px-3 py-2 float-left">
-								<cfif isDefined("findNoAccGeoRef") AND findNoAccGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
-								<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="form-check-input" #checked#>
-								<label for="findNoAccGeoRef" class="form-check-label mt3px small95">No Accepted Georeferences</label>
+							<div class="col-12 col-md-3 px-4 py-2 float-left">
+								<div class="form-check">
+									<cfif isDefined("findNoAccGeoRef") AND findNoAccGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
+									<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="form-check-input" #checked#>
+									<label for="findNoAccGeoRef" class="form-check-label mt3px small95">No Accepted Georeferences</label>
+								</div>
 							</div>
 							<div class="col-12 col-md-4 col-xl-3 px-4 py-2">
-								<cfif isDefined("NoGeorefBecause") AND NoGeorefBecause EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
-								<label for="NoGeorefBecause" class="data-entry-label">No Georeferece Because</label>
-								<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input" #checked#>
+								<div class="form-check">
+									<cfif isDefined("NoGeorefBecause") AND NoGeorefBecause EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
+									<label for="NoGeorefBecause" class="data-entry-label">No Georeferece Because</label>
+									<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input" #checked#>
+								</div>
 							</div>
-
 						</div>
 						<div class="form-row mx-0 px-3 my-2">
 							<div class="col-6 col-md-1 px-3 py-2 float-left">
-								<cfif isDefined("isIncomplete") AND isIncomplete EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
-								<input type="checkbox" name="isIncomplete" id="isIncomplete" class="form-check-input" #checked#>
-								<label for="isIncomplete" class="form-check-label mt3px small95">Is Incomplete</label>
+								<div class="form-check">
+									<cfif isDefined("isIncomplete") AND isIncomplete EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
+									<input type="checkbox" name="isIncomplete" id="isIncomplete" class="form-check-input" #checked#>
+									<label for="isIncomplete" class="form-check-label mt3px small95">Is Incomplete</label>
+								</div>
 							</div>
 							<div class="col-6 col-md-2 pb-3 pt-4 float-left">
-								<cfif isDefined("nullNoGeorefBecause") AND nullNoGeorefBecause EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
-								<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="form-check-input" #checked#>
-								<label for="nullNoGeorefBecause" class="form-check-label mt3px small95">NULL, No Georef. Because</label>
+								<div class="form-check">
+									<cfif isDefined("nullNoGeorefBecause") AND nullNoGeorefBecause EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
+									<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="form-check-input" #checked#>
+									<label for="nullNoGeorefBecause" class="form-check-label mt3px small95">NULL, No Georef. Because</label>
+								</div>
 							</div>
 							<div class="col-12 col-md-2 px-0 mb-2">
 								<cfif isDefined("VerificationStatus") and len(VerificationStatus) GT 0 ><cfset VerificationStatusValue="#VerificationStatus#"><cfelse><cfset VerificationStatusValue=""></cfif>
@@ -723,8 +731,10 @@
 								</select>
 							</div>
 							<div class="col-12 col-md-2 px-4 px-md-5 py-3">
-								<input type="checkbox" name="onlyShared" id="onlyShared" class="form-check-input">
-								<label for="onlyShared" class="form-check-label mt3px small95">Shared Localities Only</label>
+								<div class="form-check">
+									<input type="checkbox" name="onlyShared" id="onlyShared" class="form-check-input">
+									<label for="onlyShared" class="form-check-label mt3px small95">Shared Localities Only</label>
+								</div>
 							</div>
 							<div class="col-12 col-md-3 my-1">
 								<cfif isDefined("GeorefMethod") and len(GeorefMethod) GT 0 ><cfset GeorefMethodValue="#GeorefMethod#"><cfelse><cfset GeorefMethodValue=""></cfif>
