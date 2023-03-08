@@ -982,7 +982,7 @@
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-4 col-xl-5 py-2 pt-md-4 pt-lg-2">
+							<div class="col-12 col-md-4 col-xl-4 py-2 pt-md-4 pt-lg-2">
 								<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
 								<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input">
 							</div>
@@ -1007,9 +1007,9 @@
 									<label for="verbatimlongigude" class="data-entry-label">Verbatim Longitude</label>
 									<input type="text" name="verbatimlongigude" id="verbatimlongigude" class="data-entry-input" value="#encodeForHtml(verbatimlongigude)#">
 								</div>
-								<div class="col-12 col-md-2 col-xl-1 py-2">
+								<div class="col-12 col-md-2 col-xl-2 py-2">
 									<cfif NOT isDefined("valid_distribution_fg") ><cfset valid_distribution_fg=""></cfif>
-									<label for="valid_distribution_fg" class="data-entry-label">Valid Distrib.</label>
+									<label for="valid_distribution_fg" class="data-entry-label">Valid Distribution</label>
 									<select name="valid_distribution_fg" id="valid_distribution_fg" size="1" class="data-entry-select">
 										<cfif valid_distribution_fg EQ ""><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 										<option value="" #selected#></option>
