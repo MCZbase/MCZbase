@@ -93,7 +93,7 @@
 							<cfif not isDefined("higher_geog")><cfset higher_geog=""></cfif>
 							<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input" value="#encodeForHtml(higher_geog)#"> 
 						</div>
-						<div class="col-12 col-md-3 col-xl-2 px-3 pr-xl-0 py-2">
+						<div class="col-12 col-md-3 col-xl-2 px-3 pr-xl-2 py-2">
 							<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
 							<cfif not isDefined("geog_auth_rec_id")><cfset geog_auth_rec_id=""></cfif>
 							<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input" value="#encodeForHtml(geog_auth_rec_id)#">
