@@ -846,12 +846,12 @@
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-2 col-xl-1 py-1 pt-xl-3">
+						<div class="col-12 col-md-2 col-xl-1 py-1">
 							<cfif NOT isDefined("collecting_event_id") ><cfset collecting_event_id=""></cfif>
 							<label for="collecting_event_id" class="data-entry-label">Collecting Event ID</label>
 							<input type="text" name="collecting_event_id" id="collecting_event_id" class="data-entry-input" value="#encodeForHtml(collecting_event_id)#" >
 						</div>
-						<div class="col-12 col-md-2 py-1">
+						<div class="col-12 col-md-2 py-1 pt-xl-3">
 							<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left sr-only text-light">Collecting Event</label> 
 							<button type="button" id="eventDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
 						</div>
