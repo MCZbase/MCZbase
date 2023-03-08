@@ -858,7 +858,7 @@
 					</div>
 					<div id="eventDetail" style="#eventDetailStyle#">
 						<div class="form-row px-3">
-							<div class="col-12 col-md-2 py-1">
+							<div class="col-12 col-md-2 mt3px py-1">
 								<cfif NOT isDefined("verbatimdepth") ><cfset verbatimdepth=""></cfif>
 								<label for="verbatimdepth" class="data-entry-label">Verbatim Depth</label>
 								<input type="text" name="verbatimdepth" id="verbatimdepth" size="75" class="data-entry-input" value="#encodeForHtml(verbatimdepth)#">
@@ -868,7 +868,7 @@
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2 py-1">
+							<div class="col-12 col-md-2 mt3px py-1">
 								<cfif NOT isDefined("verbatimelevation") ><cfset verbatimelevation=""></cfif>
 								<label for="verbatimelevation" class="data-entry-label">Verbatim Elevation</label>
 								<input type="text" name="verbatimelevation" id="verbatimelevation" size="75" class="data-entry-input" value="#encodeForHtml(verbatimelevation)#">
