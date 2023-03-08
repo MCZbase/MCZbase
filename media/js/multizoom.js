@@ -371,7 +371,7 @@ jQuery.noConflict();
 		// var sel = $(this).attr("id");  // workaround for removed this.selector, requires item to have an ID.
 		// $thumbs = $(sel.replace(featuredimagezoomer.hashre, '.') + '.thumbs a');
 		var sel = this.selector, $thumbs = $(sel.replace(featuredimagezoomer.hashre, '.') + '.thumbs a');
-		console.log(sel);
+		console.log(this);
 		options = options || {};
 		if(options.multizoom !== null && ($thumbs).size()){
 			$thumbs.addmultizoom($.extend(options, {imgObj: sel, multizoom: null}));
