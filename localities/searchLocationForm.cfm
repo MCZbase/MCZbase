@@ -982,7 +982,7 @@
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-5 col-xl-5 py-2 pt-md-4">
+							<div class="col-12 col-md-5 col-xl-5 py-2 pt-md-4 pt-lg-2">
 								<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
 								<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input">
 							</div>
