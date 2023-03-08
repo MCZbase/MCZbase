@@ -719,7 +719,7 @@
 									<label for="nullNoGeorefBecause" class="form-check-label mt3px small95">NULL, No Georef. Because</label>
 								</div>
 							</div>
-							<div class="col-12 col-md-2 px-0 mb-2">
+							<div class="col-12 col-md-2 px-2 py-2">
 								<cfif isDefined("VerificationStatus") and len(VerificationStatus) GT 0 ><cfset VerificationStatusValue="#VerificationStatus#"><cfelse><cfset VerificationStatusValue=""></cfif>
 								<label for="VerificationStatus" class="data-entry-label">VerificationStatus</label>
 								<select name="VerificationStatus" id="VerificationStatus" size="1" class="data-entry-select">
@@ -730,13 +730,13 @@
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-2 px-4 px-md-5 py-3">
+							<div class="col-12 col-md-2 px-4 px-md-5 py-2">
 								<div class="form-check">
 									<input type="checkbox" name="onlyShared" id="onlyShared" class="form-check-input">
 									<label for="onlyShared" class="form-check-label mt3px small95">Shared Localities Only</label>
 								</div>
 							</div>
-							<div class="col-12 col-md-3 my-1">
+							<div class="col-12 col-md-3 px-2 my-1">
 								<cfif isDefined("GeorefMethod") and len(GeorefMethod) GT 0 ><cfset GeorefMethodValue="#GeorefMethod#"><cfelse><cfset GeorefMethodValue=""></cfif>
 								<label for="GeorefMethod" class="data-entry-label">GeorefMethod</label>
 								<select name="GeorefMethod" id="GeorefMethod" size="1" class="data-entry-select">
@@ -750,7 +750,7 @@
 
 						</div>
 						<div class="form-row mx-0 px-2 my-1">
-							<div class="col-12 col-md-2 my-1">
+							<div class="col-12 col-md-2 px-2 py-2">
 								<label class="data-entry-label">Geolocate Precision</label>
 								<cfif isDefined("geolocate_precision") and len(geolocate_precision) GT 0 ><cfset geolocate_precisionValue="#geolocate_precision#"><cfelse><cfset geolocate_precisionValue=""></cfif>
 								<select name="geolocate_precision" id="geolocate_precision" size="1" class="data-entry-select">
@@ -764,7 +764,7 @@
 									<option value="low" #selected#>low</option>
 								</select>
 							</div>
-							<div class="col-12 col-md-2 pl-0 my-1">
+							<div class="col-12 col-md-2 px-2 py-2">
 								<cfif NOT isDefined("coordinateDeterminer") ><cfset coordinateDeterminer=""></cfif>
 								<cfif NOT isDefined("georeference_determined_by_id") ><cfset georeference_determined_by_id=""></cfif>
 								<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
@@ -778,7 +778,7 @@
 									</script>
 								</cfif>
 							</div>
-							<div class="col-12 col-md-2 my-1">
+							<div class="col-12 col-md-2 px-2 py-2">
 								<cfif isDefined("gs_comparator") and len(gs_comparator) GT 0 ><cfset gs_comparatorValue="#gs_comparator#"><cfelse><cfset gs_comparatorValue=""></cfif>
 								<label class="data-entry-label">Geolocate Score</label>
 								<select name="gs_comparator" id="gs_comparator" size="1" class="data-entry-select">
@@ -792,12 +792,12 @@
 									<option value="between" #selected#>between</option><!--- " --->
 								</select>
 							</div>
-							<div class="col-12 col-md-2 my-1">
+							<div class="col-12 col-md-2 px-2 py-2">
 								<cfif not isDefined("geolocate_score")><cfset geolocate_score=""></cfif>
 								<label class="data-entry-label">Min (#geolocate_score_range.min_score#)</label>
 								<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="data-entry-input" value="#encodeForHtml(geolocate_score)#">
 							</div>
-							<div class="col-12 col-md-2 my-1">
+							<div class="col-12 col-md-2 px-2 py-2">
 								<cfif not isDefined("geolocate_score2")><cfset geolocate_score2=""></cfif>
 								<label class="data-entry-label">Max (#geolocate_score_range.max_score#)</label>
 								<input type="text" name="geolocate_score2" size="3" id="geolocate_score2" class="data-entry-input" value="#encodeForHtml(geolocate_score2)#">
