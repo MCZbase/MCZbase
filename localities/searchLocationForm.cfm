@@ -588,7 +588,7 @@
 						</div>
 					</cfif>
 					<div class="form-row mx-0 mt-2 mb-3">
-						<div class="col-12 col-md-4 px-3 pl-md-3 pr-md-0 py-2">
+						<div class="col-12 col-md-3 px-3 pl-md-3 pr-md-0 py-2">
 							<cfif isDefined("geology_attribute")><cfset geology_attribute_val="#geology_attribute#"><cfelse><cfset geology_attribute_val=""></cfif>
 							<label for="geology_attribute" class="data-entry-label">Geology Attribute</label>
 							<select name="geology_attribute" id="geology_attribute" class="data-entry-select">
@@ -604,7 +604,7 @@
 							<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
 							<input type="text" name="geo_att_value" class="data-entry-input" value="#encodeForHtml(geo_att_value)#">
 						</div>
-						<div class="col-12 col-md-2 px-3 pr-md-3 pl-md-0 py-2">
+						<div class="col-12 col-md-3 px-3 pr-md-3 pl-md-0 py-2">
 							<cfif isDefined("geology_attribute_hier") and len(geology_attribute_hier) GT 0 ><cfset geology_attribute_hierValue="#geology_attribute_hier#"><cfelse><cfset geology_attribute_hierValue=""></cfif>
 							<label for="geology_attribute_hier" class="data-entry-label">Traverse Hierarchies?</label>
 							<select name="geology_attribute_hier" id="geology_attribute_hier" class="data-entry-select">
