@@ -83,7 +83,7 @@
 						<cfset geogButton = "Fewer Fields">
 					</cfif> 
 					<div class="form-row mx-0 mb-0">
-						<div class="col-12 col-md-8 px-3 mt-md-3 mb-md-0 mt-2 mb-0">
+						<div class="col-12 col-md-8 px-3 py-2">
 							<label for="higher_geog" class="data-entry-label">
 								Higher Geog
 								<span class="small90">
@@ -93,12 +93,12 @@
 							<cfif not isDefined("higher_geog")><cfset higher_geog=""></cfif>
 							<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input" value="#encodeForHtml(higher_geog)#"> 
 						</div>
-						<div class="col-12 col-md-3 col-xl-2  px-3 px-md-0 mt-md-3 mb-xl-3 mt-2 mb-md-0">
+						<div class="col-12 col-md-3 col-xl-2  px-3 py-2">
 							<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
 							<cfif not isDefined("geog_auth_rec_id")><cfset geog_auth_rec_id=""></cfif>
 							<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input w-auto" value="#encodeForHtml(geog_auth_rec_id)#">
 						</div>
-						<div class="col-12 col-md-2 col-xl-1 px-3 my-xl-3 my-3 mt-md-0">
+						<div class="col-12 col-md-2 col-xl-1 px-3 py-2">
 							<label for="geogDetailCtl" class="data-entry-label text-light sr-only" >Geography</label>
 							<button type="button" id="geogDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
 						</div>
