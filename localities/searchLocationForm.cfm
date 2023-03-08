@@ -100,7 +100,7 @@
 						</div>
 						<div class="col-12 col-md-2 col-xl-1 px-3 py-2 pt-md-0 pt-xl-4">
 							<label for="geogDetailCtl" class="data-entry-label text-light sr-only" >Geography</label>
-							<button type="button" id="geogDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
+							<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
 						</div>
 					</div>
 					<div id="geogDetail" class="col-12 mb-3 px-3" style="#geogDetailStyle#">
