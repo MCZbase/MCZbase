@@ -908,7 +908,7 @@
 							</div>
 				
 							<cfif #showExtraFields# IS 1>
-								<div class="col-12 col-md-2 py-1">
+								<div class="col-12 col-md-2 col-xl-1 py-1">
 									<cfif NOT isDefined("collecting_time") ><cfset collecting_time=""></cfif>
 									<span class="data-entry-label">Collecting Time</span>
 									<input type="text" name="collecting_time" id="collecting_time" class="data-entry-input" value="#encodeForHtml(collecting_time)#">
@@ -918,12 +918,12 @@
 										});
 									</script>
 								</div>
-								<div class="col-6 col-md-2 py-1">
+								<div class="col-6 col-md-2 col-xl-1 py-1">
 									<cfif NOT isDefined("startdayofyear") ><cfset startdayofyear=""></cfif>
 									<span class="data-entry-label">Start Day</span>
 									<input type="text" name="startdayofyear" id="startdayofyear" class="data-entry-input" value="#encodeForHtml(startdayofyear)#">
 								</div>
-								<div class="col-6 col-md-2 py-1">
+								<div class="col-6 col-md-2 col-xl-1 py-1">
 									<cfif NOT isDefined("enddayofyear") ><cfset enddayofyear=""></cfif>
 									<span class="data-entry-label">End Day</span>
 									<input type="text" name="enddayofyear" id="enddayofyear" class="data-entry-input" value="#encodeForHtml(enddayofyear)#">
