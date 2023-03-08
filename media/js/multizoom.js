@@ -49,6 +49,7 @@ jQuery.noConflict();
 			}, options);
 
 		function loadfunction(){
+			var selector = $imgObj.sel;
 			var lnk = this, styleobj1 = {}, styleobj2 = {}, $nim, lnkd, lnkt, lnko, w, h;
 			if((lnkd = lnk.getAttribute('data-dims'))){
 				lnkd = lnkd.split(splitre);
