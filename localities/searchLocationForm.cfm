@@ -100,7 +100,7 @@
 						</div>
 						<div class="col-12 col-md-2 col-xl-1 px-3 my-xl-3 my-3 mt-md-0">
 							<label for="geogDetailCtl" class="data-entry-label text-light" >Geography</label>
-							<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
+							<button type="button" id="geogDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
 						</div>
 					</div>
 					<div id="geogDetail" class="col-12 mb-3 px-3" style="#geogDetailStyle#">
@@ -342,7 +342,7 @@
 							<label for="locality_id" class="data-entry-label">Locality ID</label>
 							<input type="text" name="locality_id" id="locality_id" class="data-entry-input" value="#encodeForHtml(encodeForHtml(locality_id))#">
 						</div>
-						<div class="col-12 col-md-2 col-xl-1 px-3 py-1 pt-md-0 px-xl-1">
+						<div class="col-12 col-md-2 col-xl-1 px-3 py-1 pt-md-2 px-xl-1">
 							<label for="locDetailCtl" class="data-entry-label text-light sr-only">Locality</label>
 							<button type="button" id="locDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</button>
 						</div>
