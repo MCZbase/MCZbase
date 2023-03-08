@@ -1021,7 +1021,7 @@
 										<option value="NOT NULL" #selected#>NOT NULL</option>
 									</select>
 								</div>
-								<div class="col-12 col-md-1 py-2">
+								<div class="col-12 col-md-3 py-2">
 									<cfif NOT isDefined("date_determined_by_agent") ><cfset date_determined_by_agent=""></cfif>
 									<cfif NOT isDefined("date_determined_by_agent_id") ><cfset date_determined_by_agent_id=""></cfif>
 									<label for="date_determined_by_agent" class="data-entry-label">Date Det. by</label>
@@ -1033,7 +1033,7 @@
 										});
 									</script>
 								</div>
-								<div class="col-12 col-md-2 py-2">
+								<div class="col-12 col-md-3 py-2">
 									<cfif NOT isDefined("collector_agent") ><cfset collector_agent=""></cfif>
 									<cfif NOT isDefined("collector_agent_id") ><cfset collector_agent_id=""></cfif>
 									<label for="collector_agent" class="data-entry-label">Specimen Collector</label>
