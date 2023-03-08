@@ -890,7 +890,7 @@
 									<option value=">" #selected#>after</option><!--- " --->
 								</select>
 								<cfif NOT isDefined("began_date") ><cfset began_date=""></cfif>
-								<input type="text" name="began_date" id="began_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
+								<input type="text" name="began_date" id="began_date" class="data-entry-input col-7 col-md-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
 							</div>
 							<div class="col-6 col-md-3 col-xl-2 pr-0 py-1">
 								<label for="ended_date" class="data-entry-label mt3px" style="margin-top: 0.15rem;">End Date</label>
@@ -904,7 +904,7 @@
 									<option value=">" #selected#>after</option><!--- " --->
 								</select>
 								<cfif NOT isDefined("ended_date") ><cfset ended_date=""></cfif>
-								<input type="text" name="ended_date" id="ended_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(ended_date)#" placeholder="yyyy-mm-dd">
+								<input type="text" name="ended_date" id="ended_date" class="data-entry-input col-7 col-md-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(ended_date)#" placeholder="yyyy-mm-dd">
 							</div>
 				
 							<cfif #showExtraFields# IS 1>
