@@ -826,7 +826,7 @@
 						<cfset eventButton = "Fewer Fields">
 					</cfif> 
 					<div class="form-row px-3 mt-2">
-						<div class="col-12 col-md-5 mt3px col-xl-4 py-1">
+						<div class="col-12 col-md-5 col-xl-4 py-1">
 							<cfif NOT isDefined("verbatim_locality") ><cfset verbatim_locality=""></cfif>
 							<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
 							<input type="text" name="verbatim_locality" id="verbatim_locality" size="75" class="data-entry-input" value="#encodeForHtml(verbatim_locality)#">
@@ -836,7 +836,7 @@
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-3 mt3px col-xl-2 py-1">
+						<div class="col-12 col-md-3 col-xl-2 py-1">
 							<cfif NOT isDefined("verbatim_date") ><cfset verbatim_date=""></cfif>
 							<label for="verbatim_date" class="data-entry-label">Verbatim Date</label>
 							<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input" value="#encodeForHtml(verbatim_date)#" >
