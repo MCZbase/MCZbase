@@ -853,7 +853,7 @@
 						</div>
 					</div>
 					<div class="col-12 col-md-2 py-1">
-						<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent;">Collecting Event</label> 
+						<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left sr-only text-light">Collecting Event</label> 
 						<button type="button" id="eventDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
 					</div>
 					<div id="eventDetail" style="#eventDetailStyle#">
