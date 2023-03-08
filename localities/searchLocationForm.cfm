@@ -573,7 +573,7 @@
 								<label for="range" class="data-entry-label">PLSS Range</label>
 								<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHtml(range)#">
 							</div>
-							<div class="col-12 col-md-2 px-3 pr-md-3 pl-md-0 py-2">
+							<div class="col-12 col-md-2 px-3 pr-md-3 pl-md-2 py-2">
 								<cfif not isDefined("range_direction")><cfset range_direction=""></cfif>
 								<label for="range_direction" class="data-entry-label">Township Direction</label>
 								<select name="range_direction" id="" size="1" class="data-entry-select">
