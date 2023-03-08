@@ -852,6 +852,10 @@
 							<input type="text" name="collecting_event_id" id="collecting_event_id" class="data-entry-input" value="#encodeForHtml(collecting_event_id)#" >
 						</div>
 					</div>
+					<div class="col-12 col-md-2 py-1">
+						<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent;">Collecting Event</label> 
+						<button type="button" id="eventDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
+					</div>
 					<div id="eventDetail" style="#eventDetailStyle#">
 						<div class="form-row px-3">
 							<div class="col-12 col-md-2 py-1">
@@ -902,10 +906,7 @@
 								<cfif NOT isDefined("ended_date") ><cfset ended_date=""></cfif>
 								<input type="text" name="ended_date" id="ended_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(ended_date)#" placeholder="yyyy-mm-dd">
 							</div>
-							<div class="col-12 col-md-2 py-1">
-								<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent;">Collecting Event</label> 
-								<button type="button" id="eventDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
-							</div>
+				
 							<cfif #showExtraFields# IS 1>
 								<div class="col-12 col-md-2 py-1">
 									<cfif NOT isDefined("collecting_time") ><cfset collecting_time=""></cfif>
