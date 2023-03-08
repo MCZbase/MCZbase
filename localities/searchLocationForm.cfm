@@ -826,7 +826,7 @@
 						<cfset eventButton = "Fewer Fields">
 					</cfif> 
 					<div class="form-row px-3 mt-2">
-						<div class="col-12 col-md-4 col-xl-4 py-1">
+						<div class="col-12 col-md-5 col-xl-4 py-1">
 							<cfif NOT isDefined("verbatim_locality") ><cfset verbatim_locality=""></cfif>
 							<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
 							<input type="text" name="verbatim_locality" id="verbatim_locality" size="75" class="data-entry-input" value="#encodeForHtml(verbatim_locality)#">
@@ -836,7 +836,7 @@
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-2 col-xl-2 py-1">
+						<div class="col-12 col-md-3 col-xl-2 py-1">
 							<cfif NOT isDefined("verbatim_date") ><cfset verbatim_date=""></cfif>
 							<label for="verbatim_date" class="data-entry-label">Verbatim Date</label>
 							<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input" value="#encodeForHtml(verbatim_date)#" >
@@ -846,91 +846,89 @@
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-2 py-1">
-							<cfif NOT isDefined("verbatimdepth") ><cfset verbatimdepth=""></cfif>
-							<label for="verbatimdepth" class="data-entry-label">Verbatim Depth</label>
-							<input type="text" name="verbatimdepth" id="verbatimdepth" size="75" class="data-entry-input" value="#encodeForHtml(verbatimdepth)#">
-							<script>
-								jQuery(document).ready(function() {
-									makeCEFieldAutocomplete("verbatimdepth", "verbatimdepth"); 
-								});
-							</script>
-						</div>
-						<div class="col-12 col-md-2 py-1">
-							<cfif NOT isDefined("verbatimelevation") ><cfset verbatimelevation=""></cfif>
-							<label for="verbatimelevation" class="data-entry-label">Verbatim Elevation</label>
-							<input type="text" name="verbatimelevation" id="verbatimelevation" size="75" class="data-entry-input" value="#encodeForHtml(verbatimelevation)#">
-							<script>
-								jQuery(document).ready(function() {
-									makeCEFieldAutocomplete("verbatimelevation", "verbatimelevation");
-								});
-							</script>
-						</div>
 						<div class="col-12 col-md-2 col-xl-1 py-1">
 							<cfif NOT isDefined("collecting_event_id") ><cfset collecting_event_id=""></cfif>
 							<label for="collecting_event_id" class="data-entry-label">Collecting Event ID</label>
 							<input type="text" name="collecting_event_id" id="collecting_event_id" class="data-entry-input" value="#encodeForHtml(collecting_event_id)#" >
 						</div>
-				
 					</div>
-					<div class="form-row px-3">
-						<div class="col-6 col-md-3 col-xl-2 pr-0 py-1">
-							<label for="began_date" class="data-entry-label mt3px" style="margin-top:0.15rem;">Began Date</label>
-							<cfif NOT isDefined("begDateOper") ><cfset begDateOper=""></cfif>
-							<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select col-6 col-md-3 d-inline-block w-auto pr-0" style="max-width: 30%" aria-label="operator for began date">
-								<cfif begDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value="=" #selected#>is</option>
-								<cfif begDateOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value="<" #selected#>before</option>
-								<cfif begDateOper EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value=">" #selected#>after</option><!--- " --->
-							</select>
-							<cfif NOT isDefined("began_date") ><cfset began_date=""></cfif>
-							<input type="text" name="began_date" id="began_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
-						</div>
-						<div class="col-6 col-md-3 col-xl-2 pr-0 py-1">
-							<label for="ended_date" class="data-entry-label mt3px" style="margin-top: 0.15rem;">End Date</label>
-							<cfif NOT isDefined("endDateOper") ><cfset endDateOper=""></cfif>
-							<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select col-6 col-md-3 d-inline-block w-auto pr-0" style="max-width: 30%" aria-label="operator for end date">
-								<cfif endDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value="=" #selected#>is</option>
-								<cfif endDateOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value="<" #selected#>before</option>
-								<cfif endDateOper EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value=">" #selected#>after</option><!--- " --->
-							</select>
-							<cfif NOT isDefined("ended_date") ><cfset ended_date=""></cfif>
-							<input type="text" name="ended_date" id="ended_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(ended_date)#" placeholder="yyyy-mm-dd">
-						</div>
-						<div class="col-12 col-md-2 py-1">
-							<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent;">Collecting Event</label> 
-							<button type="button" id="eventDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
-						</div>
-						<cfif #showExtraFields# IS 1>
+					<div id="eventDetail" style="#eventDetailStyle#">
+						<div class="form-row px-3">
 							<div class="col-12 col-md-2 py-1">
-								<cfif NOT isDefined("collecting_time") ><cfset collecting_time=""></cfif>
-								<span class="data-entry-label">Collecting Time</span>
-								<input type="text" name="collecting_time" id="collecting_time" class="data-entry-input" value="#encodeForHtml(collecting_time)#">
+								<cfif NOT isDefined("verbatimdepth") ><cfset verbatimdepth=""></cfif>
+								<label for="verbatimdepth" class="data-entry-label">Verbatim Depth</label>
+								<input type="text" name="verbatimdepth" id="verbatimdepth" size="75" class="data-entry-input" value="#encodeForHtml(verbatimdepth)#">
 								<script>
 									jQuery(document).ready(function() {
-										makeCEFieldAutocomplete("collecting_time", "collecting_time"); 
+										makeCEFieldAutocomplete("verbatimdepth", "verbatimdepth"); 
 									});
 								</script>
 							</div>
-							<div class="col-6 col-md-2 py-1">
-								<cfif NOT isDefined("startdayofyear") ><cfset startdayofyear=""></cfif>
-								<span class="data-entry-label">Start Day</span>
-								<input type="text" name="startdayofyear" id="startdayofyear" class="data-entry-input" value="#encodeForHtml(startdayofyear)#">
+							<div class="col-12 col-md-2 py-1">
+								<cfif NOT isDefined("verbatimelevation") ><cfset verbatimelevation=""></cfif>
+								<label for="verbatimelevation" class="data-entry-label">Verbatim Elevation</label>
+								<input type="text" name="verbatimelevation" id="verbatimelevation" size="75" class="data-entry-input" value="#encodeForHtml(verbatimelevation)#">
+								<script>
+									jQuery(document).ready(function() {
+										makeCEFieldAutocomplete("verbatimelevation", "verbatimelevation");
+									});
+								</script>
 							</div>
-							<div class="col-6 col-md-2 py-1">
-								<cfif NOT isDefined("enddayofyear") ><cfset enddayofyear=""></cfif>
-								<span class="data-entry-label">End Day</span>
-								<input type="text" name="enddayofyear" id="enddayofyear" class="data-entry-input" value="#encodeForHtml(enddayofyear)#">
+							<div class="col-6 col-md-3 col-xl-2 pr-0 py-1">
+								<label for="began_date" class="data-entry-label mt3px" style="margin-top:0.15rem;">Began Date</label>
+								<cfif NOT isDefined("begDateOper") ><cfset begDateOper=""></cfif>
+								<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select col-6 col-md-3 d-inline-block w-auto pr-0" style="max-width: 30%" aria-label="operator for began date">
+									<cfif begDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="=" #selected#>is</option>
+									<cfif begDateOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="<" #selected#>before</option>
+									<cfif begDateOper EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value=">" #selected#>after</option><!--- " --->
+								</select>
+								<cfif NOT isDefined("began_date") ><cfset began_date=""></cfif>
+								<input type="text" name="began_date" id="began_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
 							</div>
-						</cfif>
-						
-					</div>
-					<div id="eventDetail" style="#eventDetailStyle#">
+							<div class="col-6 col-md-3 col-xl-2 pr-0 py-1">
+								<label for="ended_date" class="data-entry-label mt3px" style="margin-top: 0.15rem;">End Date</label>
+								<cfif NOT isDefined("endDateOper") ><cfset endDateOper=""></cfif>
+								<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select col-6 col-md-3 d-inline-block w-auto pr-0" style="max-width: 30%" aria-label="operator for end date">
+									<cfif endDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="=" #selected#>is</option>
+									<cfif endDateOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="<" #selected#>before</option>
+									<cfif endDateOper EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value=">" #selected#>after</option><!--- " --->
+								</select>
+								<cfif NOT isDefined("ended_date") ><cfset ended_date=""></cfif>
+								<input type="text" name="ended_date" id="ended_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(ended_date)#" placeholder="yyyy-mm-dd">
+							</div>
+							<div class="col-12 col-md-2 py-1">
+								<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent;">Collecting Event</label> 
+								<button type="button" id="eventDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
+							</div>
+							<cfif #showExtraFields# IS 1>
+								<div class="col-12 col-md-2 py-1">
+									<cfif NOT isDefined("collecting_time") ><cfset collecting_time=""></cfif>
+									<span class="data-entry-label">Collecting Time</span>
+									<input type="text" name="collecting_time" id="collecting_time" class="data-entry-input" value="#encodeForHtml(collecting_time)#">
+									<script>
+										jQuery(document).ready(function() {
+											makeCEFieldAutocomplete("collecting_time", "collecting_time"); 
+										});
+									</script>
+								</div>
+								<div class="col-6 col-md-2 py-1">
+									<cfif NOT isDefined("startdayofyear") ><cfset startdayofyear=""></cfif>
+									<span class="data-entry-label">Start Day</span>
+									<input type="text" name="startdayofyear" id="startdayofyear" class="data-entry-input" value="#encodeForHtml(startdayofyear)#">
+								</div>
+								<div class="col-6 col-md-2 py-1">
+									<cfif NOT isDefined("enddayofyear") ><cfset enddayofyear=""></cfif>
+									<span class="data-entry-label">End Day</span>
+									<input type="text" name="enddayofyear" id="enddayofyear" class="data-entry-input" value="#encodeForHtml(enddayofyear)#">
+								</div>
+							</cfif>
+						</div>
 						<div class="form-row px-3">
 							<div class="col-12 col-md-2 py-2">
 								<cfif NOT isDefined("verbatimCoordinates") ><cfset verbatimCoordinates=""></cfif>
