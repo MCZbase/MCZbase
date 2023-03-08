@@ -72,7 +72,7 @@ jQuery.noConflict();
 				if($imgObj.data('added')) {$imgObj.data('added').remove()};
 				$imgObj.data('last-trigger', lnk);
 				if(options.imagevertcenter){styleobj1 = {top: ($imgObj.parent().innerHeight() - h) / 2};}
-				$imgObj.css(styleobj1).addimagezoom($.extend(combinedoptions, options, indoptions))
+				$imgObj.css(styleobj1).addimagezoom(selector, $.extend(combinedoptions, options, indoptions))
 					.data('added', $('.magnifyarea:last' + (combinedoptions.cursorshade? ', .cursorshade:last' : '') + ', .zoomstatus:last, .zoomtracker:last'));
 				if(options.magvertcenter){
 					$('.magnifyarea:last').css({marginTop: (h - $('.magnifyarea:last').height()) / 2});
@@ -224,7 +224,10 @@ jQuery.noConflict();
 			return z;
 		},
 
-		init: function($img, options){
+		selector: "",
+
+		init: function($img, sel,  options){
+			selector = sel;
 			var setting=$.extend({}, this.dsetting, options), w = $img.width(), h = $img.height(), o = $img.offset(),
 			fiz = this, $tracker, $cursorshade, $statusdiv, $magnifier, lastpage = {pageX: 0, pageY: 0},
 			basezindex = setting.zIndex || this.highestzindex($img);
@@ -393,7 +396,7 @@ jQuery.noConflict();
 		return this.each(function(){ //return jQuery obj
 			if (this.tagName !== featuredimagezoomer.iname)
 				return true; //skip to next matched element
-			featuredimagezoomer.init($(this), options);
+			featuredimagezoomer.init($(this), selector, options);
 		});
 	};
 
