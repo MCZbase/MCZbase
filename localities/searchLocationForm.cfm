@@ -675,13 +675,13 @@
 							</div>
 						</cfif>
 						<div class="form-row mx-0 px-3 py-2 my-md-0">
-							<div class="col-6 col-md-2 pl-4 pt-4 float-left">
+							<div class="col-12 col-md-2 px-3 py-2 float-left">
 								<cfif isDefined("findNoGeoRef") AND findNoGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
 								<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="form-check-input" #checked#>
 								<label for="findNoGeoRef" class="form-check-label mt3px small95">No Georeferences</label>
 
 							</div>
-							<div class="col-6 col-md-2 px-3 float-left py-2">
+							<div class="col-12 col-md-2 px-3 float-left py-2">
 								<div class="form-check">
 									<cfif isDefined("findHasGeoRef") AND findHasGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
 									<input class="form-check-input" name="findHasGeoRef" id="findHasGeoRef" value="1" type="checkbox" #checked#>
