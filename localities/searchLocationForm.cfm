@@ -83,7 +83,7 @@
 						<cfset geogButton = "Fewer Fields">
 					</cfif> 
 					<div class="form-row mx-0 mb-2">
-						<div class="col-12 col-md-8 px-3 py-2">
+						<div class="col-12 col-md-8 col-xl-6 pr-xl-0 px-3 py-2">
 							<label for="higher_geog" class="data-entry-label">
 								Higher Geog
 								<span class="small90">
@@ -93,14 +93,14 @@
 							<cfif not isDefined("higher_geog")><cfset higher_geog=""></cfif>
 							<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input" value="#encodeForHtml(higher_geog)#"> 
 						</div>
-						<div class="col-12 col-md-3 col-xl-2 px-3 pr-xl-0 py-2">
+						<div class="col-12 col-md-3 col-xl-2 px-3 pl-xl-2 pr-xl-2 py-2">
 							<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
 							<cfif not isDefined("geog_auth_rec_id")><cfset geog_auth_rec_id=""></cfif>
-							<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input w-auto" value="#encodeForHtml(geog_auth_rec_id)#">
+							<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input" value="#encodeForHtml(geog_auth_rec_id)#">
 						</div>
-						<div class="col-12 col-md-2 col-xl-1 px-3 py-2 pt-md-0 pt-xl-4">
+						<div class="col-12 col-md-2 col-xl-1 px-3 py-2 pl-xl-0 pt-md-0 pt-xl-4">
 							<label for="geogDetailCtl" class="data-entry-label text-light sr-only" >Geography</label>
-							<button type="button" id="geogDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
+							<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
 						</div>
 					</div>
 					<div id="geogDetail" class="col-12 mb-3 px-3" style="#geogDetailStyle#">
@@ -730,7 +730,7 @@
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-2 px-4 px-md-5 py-2">
+							<div class="col-12 col-md-2 px-4 px-md-5 mt-xl-3 py-2">
 								<div class="form-check">
 									<input type="checkbox" name="onlyShared" id="onlyShared" class="form-check-input">
 									<label for="onlyShared" class="form-check-label mt3px small95">Shared Localities Only</label>
@@ -890,7 +890,7 @@
 									<option value=">" #selected#>after</option><!--- " --->
 								</select>
 								<cfif NOT isDefined("began_date") ><cfset began_date=""></cfif>
-								<input type="text" name="began_date" id="began_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
+								<input type="text" name="began_date" id="began_date" class="data-entry-input col-7 col-md-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
 							</div>
 							<div class="col-6 col-md-3 col-xl-2 pr-0 py-1">
 								<label for="ended_date" class="data-entry-label mt3px" style="margin-top: 0.15rem;">End Date</label>
@@ -904,7 +904,7 @@
 									<option value=">" #selected#>after</option><!--- " --->
 								</select>
 								<cfif NOT isDefined("ended_date") ><cfset ended_date=""></cfif>
-								<input type="text" name="ended_date" id="ended_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(ended_date)#" placeholder="yyyy-mm-dd">
+								<input type="text" name="ended_date" id="ended_date" class="data-entry-input col-7 col-md-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(ended_date)#" placeholder="yyyy-mm-dd">
 							</div>
 				
 							<cfif #showExtraFields# IS 1>
@@ -982,7 +982,7 @@
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-4 col-xl-5 py-2 pt-md-4 pt-lg-2">
+							<div class="col-12 col-md-4 col-xl-4 py-2 pt-md-4 pt-lg-2">
 								<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
 								<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input">
 							</div>
@@ -1007,9 +1007,9 @@
 									<label for="verbatimlongigude" class="data-entry-label">Verbatim Longitude</label>
 									<input type="text" name="verbatimlongigude" id="verbatimlongigude" class="data-entry-input" value="#encodeForHtml(verbatimlongigude)#">
 								</div>
-								<div class="col-12 col-md-2 col-xl-1 py-2">
+								<div class="col-12 col-md-2 col-xl-2 py-2">
 									<cfif NOT isDefined("valid_distribution_fg") ><cfset valid_distribution_fg=""></cfif>
-									<label for="valid_distribution_fg" class="data-entry-label">Valid Distrib.</label>
+									<label for="valid_distribution_fg" class="data-entry-label">Valid Distribution</label>
 									<select name="valid_distribution_fg" id="valid_distribution_fg" size="1" class="data-entry-select">
 										<cfif valid_distribution_fg EQ ""><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 										<option value="" #selected#></option>
