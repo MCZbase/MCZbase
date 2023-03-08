@@ -587,7 +587,7 @@
 							</div>
 						</div>
 					</cfif>
-					<div class="form-row mx-0 mt-2 mb-3">
+					<div class="form-row mx-0 my-1">
 						<div class="col-12 col-md-3 px-3 pl-md-3 pr-md-0 py-2">
 							<cfif isDefined("geology_attribute")><cfset geology_attribute_val="#geology_attribute#"><cfelse><cfset geology_attribute_val=""></cfif>
 							<label for="geology_attribute" class="data-entry-label">Geology Attribute</label>
