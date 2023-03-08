@@ -82,8 +82,8 @@
 						<cfset toggleTo = "0">
 						<cfset geogButton = "Fewer Fields">
 					</cfif> 
-					<div class="form-row mx-0 mb-0">
-						<div class="col-12 col-md-8 px-3 mt-md-3 mb-md-0 mt-2 mb-0">
+					<div class="form-row mx-0 mb-2">
+						<div class="col-12 col-md-8 px-3 py-2">
 							<label for="higher_geog" class="data-entry-label">
 								Higher Geog
 								<span class="small90">
@@ -93,14 +93,14 @@
 							<cfif not isDefined("higher_geog")><cfset higher_geog=""></cfif>
 							<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input" value="#encodeForHtml(higher_geog)#"> 
 						</div>
-						<div class="col-12 col-md-3 col-xl-2  px-3 px-md-0 mt-md-3 mb-xl-3 mt-2 mb-md-0">
+						<div class="col-12 col-md-3 col-xl-2 px-3 pr-xl-0 py-2">
 							<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
 							<cfif not isDefined("geog_auth_rec_id")><cfset geog_auth_rec_id=""></cfif>
 							<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input w-auto" value="#encodeForHtml(geog_auth_rec_id)#">
 						</div>
-						<div class="col-12 col-md-2 col-xl-1 px-3 my-xl-3 my-3 mt-md-0">
-							<label for="geogDetailCtl" class="data-entry-label text-light" >Geography</label>
-							<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
+						<div class="col-12 col-md-2 col-xl-1 px-3 py-2 pt-md-0 pt-xl-4">
+							<label for="geogDetailCtl" class="data-entry-label text-light sr-only" >Geography</label>
+							<button type="button" id="geogDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
 						</div>
 					</div>
 					<div id="geogDetail" class="col-12 mb-3 px-3" style="#geogDetailStyle#">
@@ -342,8 +342,8 @@
 							<label for="locality_id" class="data-entry-label">Locality ID</label>
 							<input type="text" name="locality_id" id="locality_id" class="data-entry-input" value="#encodeForHtml(encodeForHtml(locality_id))#">
 						</div>
-						<div class="col-12 col-md-2 col-xl-1 px-3 py-1 pt-md-0 px-xl-1">
-							<label for="locDetailCtl" class="data-entry-label text-light">Locality</label>
+						<div class="col-12 col-md-2 col-xl-1 px-3 py-1 pt-md-1 px-xl-1 pt-xl-3">
+							<label for="locDetailCtl" class="data-entry-label text-light sr-only">Locality</label>
 							<button type="button" id="locDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</button>
 						</div>
 					</div>
@@ -588,7 +588,7 @@
 						</div>
 					</cfif>
 					<div class="form-row mx-0 my-1">
-						<div class="col-12 col-md-3 px-3 pl-md-3 pr-md-0">
+						<div class="col-12 col-md-3 px-3 py-2 py-md-0 pl-md-3 pr-md-0">
 							<cfif isDefined("geology_attribute")><cfset geology_attribute_val="#geology_attribute#"><cfelse><cfset geology_attribute_val=""></cfif>
 							<label for="geology_attribute" class="data-entry-label">Geology Attribute</label>
 							<select name="geology_attribute" id="geology_attribute" class="data-entry-select">
@@ -599,12 +599,12 @@
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-3 px-3 px-md-2 ">
+						<div class="col-12 col-md-3 px-3 py-md-0 px-md-2 py-2">
 							<cfif not isDefined("geo_att_value")><cfset geo_att_value=""></cfif>
 							<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
 							<input type="text" name="geo_att_value" class="data-entry-input" value="#encodeForHtml(geo_att_value)#">
 						</div>
-						<div class="col-12 col-md-3 px-3 pr-md-3 pl-md-0">
+						<div class="col-12 col-md-3 px-3 py-2 py-md-0 pr-md-3 pl-md-0">
 							<cfif isDefined("geology_attribute_hier") and len(geology_attribute_hier) GT 0 ><cfset geology_attribute_hierValue="#geology_attribute_hier#"><cfelse><cfset geology_attribute_hierValue=""></cfif>
 							<label for="geology_attribute_hier" class="data-entry-label">Traverse Hierarchies?</label>
 							<select name="geology_attribute_hier" id="geology_attribute_hier" class="data-entry-select">
@@ -623,7 +623,7 @@
 							<cfset toggleTo = "0">
 							<cfset georefButton = "Hide Georef Fields">
 						</cfif> 
-						<div class="col-12 col-md-3 px-3 pt-3 pb-2">
+						<div class="col-12 col-md-3 px-3 pt-2 pt-md-3 pb-md-2 pb-3">
 							<label for="georefDetailCtl" class="data-entry-label text-light sr-only">Georeference</label>
 							<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</button>
 						</div>
@@ -826,7 +826,7 @@
 						<cfset eventButton = "Fewer Fields">
 					</cfif> 
 					<div class="form-row px-3 mt-2">
-						<div class="col-12 col-md-4 col-xl-4 py-1">
+						<div class="col-12 col-md-5 col-xl-4 py-1">
 							<cfif NOT isDefined("verbatim_locality") ><cfset verbatim_locality=""></cfif>
 							<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
 							<input type="text" name="verbatim_locality" id="verbatim_locality" size="75" class="data-entry-input" value="#encodeForHtml(verbatim_locality)#">
@@ -836,7 +836,7 @@
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-2 col-xl-2 py-1">
+						<div class="col-12 col-md-3 col-xl-2 py-1">
 							<cfif NOT isDefined("verbatim_date") ><cfset verbatim_date=""></cfif>
 							<label for="verbatim_date" class="data-entry-label">Verbatim Date</label>
 							<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input" value="#encodeForHtml(verbatim_date)#" >
@@ -846,91 +846,90 @@
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-2 py-1">
-							<cfif NOT isDefined("verbatimdepth") ><cfset verbatimdepth=""></cfif>
-							<label for="verbatimdepth" class="data-entry-label">Verbatim Depth</label>
-							<input type="text" name="verbatimdepth" id="verbatimdepth" size="75" class="data-entry-input" value="#encodeForHtml(verbatimdepth)#">
-							<script>
-								jQuery(document).ready(function() {
-									makeCEFieldAutocomplete("verbatimdepth", "verbatimdepth"); 
-								});
-							</script>
-						</div>
-						<div class="col-12 col-md-2 py-1">
-							<cfif NOT isDefined("verbatimelevation") ><cfset verbatimelevation=""></cfif>
-							<label for="verbatimelevation" class="data-entry-label">Verbatim Elevation</label>
-							<input type="text" name="verbatimelevation" id="verbatimelevation" size="75" class="data-entry-input" value="#encodeForHtml(verbatimelevation)#">
-							<script>
-								jQuery(document).ready(function() {
-									makeCEFieldAutocomplete("verbatimelevation", "verbatimelevation");
-								});
-							</script>
-						</div>
 						<div class="col-12 col-md-2 col-xl-1 py-1">
 							<cfif NOT isDefined("collecting_event_id") ><cfset collecting_event_id=""></cfif>
 							<label for="collecting_event_id" class="data-entry-label">Collecting Event ID</label>
 							<input type="text" name="collecting_event_id" id="collecting_event_id" class="data-entry-input" value="#encodeForHtml(collecting_event_id)#" >
 						</div>
-				
-					</div>
-					<div class="form-row px-3">
-						<div class="col-6 col-md-3 col-xl-2 pr-0 py-1">
-							<label for="began_date" class="data-entry-label mt3px" style="margin-top:0.15rem;">Began Date</label>
-							<cfif NOT isDefined("begDateOper") ><cfset begDateOper=""></cfif>
-							<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select col-6 col-md-3 d-inline-block w-auto pr-0" style="max-width: 30%" aria-label="operator for began date">
-								<cfif begDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value="=" #selected#>is</option>
-								<cfif begDateOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value="<" #selected#>before</option>
-								<cfif begDateOper EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value=">" #selected#>after</option><!--- " --->
-							</select>
-							<cfif NOT isDefined("began_date") ><cfset began_date=""></cfif>
-							<input type="text" name="began_date" id="began_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
-						</div>
-						<div class="col-6 col-md-3 col-xl-2 pr-0 py-1">
-							<label for="ended_date" class="data-entry-label mt3px" style="margin-top: 0.15rem;">End Date</label>
-							<cfif NOT isDefined("endDateOper") ><cfset endDateOper=""></cfif>
-							<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select col-6 col-md-3 d-inline-block w-auto pr-0" style="max-width: 30%" aria-label="operator for end date">
-								<cfif endDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value="=" #selected#>is</option>
-								<cfif endDateOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value="<" #selected#>before</option>
-								<cfif endDateOper EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-								<option value=">" #selected#>after</option><!--- " --->
-							</select>
-							<cfif NOT isDefined("ended_date") ><cfset ended_date=""></cfif>
-							<input type="text" name="ended_date" id="ended_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(ended_date)#" placeholder="yyyy-mm-dd">
-						</div>
-						<div class="col-12 col-md-2 py-1">
-							<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent;">Collecting Event</label> 
+						<div class="col-12 col-md-2 py-1 pt-xl-3">
+							<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left sr-only text-light">Collecting Event</label> 
 							<button type="button" id="eventDetailCtl" class="btn btn-xs mt3px btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
 						</div>
-						<cfif #showExtraFields# IS 1>
-							<div class="col-12 col-md-2 py-1">
-								<cfif NOT isDefined("collecting_time") ><cfset collecting_time=""></cfif>
-								<span class="data-entry-label">Collecting Time</span>
-								<input type="text" name="collecting_time" id="collecting_time" class="data-entry-input" value="#encodeForHtml(collecting_time)#">
+					</div>
+					<div id="eventDetail" style="#eventDetailStyle#">
+						<div class="form-row px-3">
+							<div class="col-12 col-md-2 mt3px py-1">
+								<cfif NOT isDefined("verbatimdepth") ><cfset verbatimdepth=""></cfif>
+								<label for="verbatimdepth" class="data-entry-label">Verbatim Depth</label>
+								<input type="text" name="verbatimdepth" id="verbatimdepth" size="75" class="data-entry-input" value="#encodeForHtml(verbatimdepth)#">
 								<script>
 									jQuery(document).ready(function() {
-										makeCEFieldAutocomplete("collecting_time", "collecting_time"); 
+										makeCEFieldAutocomplete("verbatimdepth", "verbatimdepth"); 
 									});
 								</script>
 							</div>
-							<div class="col-6 col-md-2 py-1">
-								<cfif NOT isDefined("startdayofyear") ><cfset startdayofyear=""></cfif>
-								<span class="data-entry-label">Start Day</span>
-								<input type="text" name="startdayofyear" id="startdayofyear" class="data-entry-input" value="#encodeForHtml(startdayofyear)#">
+							<div class="col-12 col-md-2 mt3px py-1">
+								<cfif NOT isDefined("verbatimelevation") ><cfset verbatimelevation=""></cfif>
+								<label for="verbatimelevation" class="data-entry-label">Verbatim Elevation</label>
+								<input type="text" name="verbatimelevation" id="verbatimelevation" size="75" class="data-entry-input" value="#encodeForHtml(verbatimelevation)#">
+								<script>
+									jQuery(document).ready(function() {
+										makeCEFieldAutocomplete("verbatimelevation", "verbatimelevation");
+									});
+								</script>
 							</div>
-							<div class="col-6 col-md-2 py-1">
-								<cfif NOT isDefined("enddayofyear") ><cfset enddayofyear=""></cfif>
-								<span class="data-entry-label">End Day</span>
-								<input type="text" name="enddayofyear" id="enddayofyear" class="data-entry-input" value="#encodeForHtml(enddayofyear)#">
+							<div class="col-6 col-md-3 col-xl-2 pr-0 py-1">
+								<label for="began_date" class="data-entry-label mt3px" style="margin-top:0.15rem;">Began Date</label>
+								<cfif NOT isDefined("begDateOper") ><cfset begDateOper=""></cfif>
+								<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select col-6 col-md-3 d-inline-block w-auto pr-0" style="max-width: 30%" aria-label="operator for began date">
+									<cfif begDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="=" #selected#>is</option>
+									<cfif begDateOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="<" #selected#>before</option>
+									<cfif begDateOper EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value=">" #selected#>after</option><!--- " --->
+								</select>
+								<cfif NOT isDefined("began_date") ><cfset began_date=""></cfif>
+								<input type="text" name="began_date" id="began_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(began_date)#" placeholder="yyyy-mm-dd">
 							</div>
-						</cfif>
-						
-					</div>
-					<div id="eventDetail" style="#eventDetailStyle#">
+							<div class="col-6 col-md-3 col-xl-2 pr-0 py-1">
+								<label for="ended_date" class="data-entry-label mt3px" style="margin-top: 0.15rem;">End Date</label>
+								<cfif NOT isDefined("endDateOper") ><cfset endDateOper=""></cfif>
+								<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select col-6 col-md-3 d-inline-block w-auto pr-0" style="max-width: 30%" aria-label="operator for end date">
+									<cfif endDateOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="=" #selected#>is</option>
+									<cfif endDateOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="<" #selected#>before</option>
+									<cfif endDateOper EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value=">" #selected#>after</option><!--- " --->
+								</select>
+								<cfif NOT isDefined("ended_date") ><cfset ended_date=""></cfif>
+								<input type="text" name="ended_date" id="ended_date" class="data-entry-input col-6 d-inline-block col-md-8 w-auto" value="#encodeForHtml(ended_date)#" placeholder="yyyy-mm-dd">
+							</div>
+				
+							<cfif #showExtraFields# IS 1>
+								<div class="col-12 col-md-2 col-xl-1 py-1">
+									<cfif NOT isDefined("collecting_time") ><cfset collecting_time=""></cfif>
+									<span class="data-entry-label">Collecting Time</span>
+									<input type="text" name="collecting_time" id="collecting_time" class="data-entry-input" value="#encodeForHtml(collecting_time)#">
+									<script>
+										jQuery(document).ready(function() {
+											makeCEFieldAutocomplete("collecting_time", "collecting_time"); 
+										});
+									</script>
+								</div>
+								<div class="col-6 col-md-2 col-xl-1 py-1">
+									<cfif NOT isDefined("startdayofyear") ><cfset startdayofyear=""></cfif>
+									<span class="data-entry-label">Start Day</span>
+									<input type="text" name="startdayofyear" id="startdayofyear" class="data-entry-input" value="#encodeForHtml(startdayofyear)#">
+								</div>
+								<div class="col-6 col-md-2 col-xl-1 py-1">
+									<cfif NOT isDefined("enddayofyear") ><cfset enddayofyear=""></cfif>
+									<span class="data-entry-label">End Day</span>
+									<input type="text" name="enddayofyear" id="enddayofyear" class="data-entry-input" value="#encodeForHtml(enddayofyear)#">
+								</div>
+							</cfif>
+						</div>
 						<div class="form-row px-3">
 							<div class="col-12 col-md-2 py-2">
 								<cfif NOT isDefined("verbatimCoordinates") ><cfset verbatimCoordinates=""></cfif>
@@ -938,7 +937,7 @@
 								<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" class="data-entry-input" value="#encodeForHtml(verbatimCoordinates)#">
 							</div>
 							<div class="col-12 col-md-2 py-2">
-								<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System</label>
+								<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coord. System</label>
 								<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" class="data-entry-input">
 								<script>
 									jQuery(document).ready(function() {
@@ -983,7 +982,7 @@
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-5 col-xl-5 py-2">
+							<div class="col-12 col-md-4 col-xl-5 py-2 pt-md-4 pt-lg-2">
 								<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
 								<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input">
 							</div>
@@ -1008,7 +1007,7 @@
 									<label for="verbatimlongigude" class="data-entry-label">Verbatim Longitude</label>
 									<input type="text" name="verbatimlongigude" id="verbatimlongigude" class="data-entry-input" value="#encodeForHtml(verbatimlongigude)#">
 								</div>
-								<div class="col-12 col-md-1 py-2">
+								<div class="col-12 col-md-2 col-xl-1 py-2">
 									<cfif NOT isDefined("valid_distribution_fg") ><cfset valid_distribution_fg=""></cfif>
 									<label for="valid_distribution_fg" class="data-entry-label">Valid Distrib.</label>
 									<select name="valid_distribution_fg" id="valid_distribution_fg" size="1" class="data-entry-select">
@@ -1022,7 +1021,7 @@
 										<option value="NOT NULL" #selected#>NOT NULL</option>
 									</select>
 								</div>
-								<div class="col-12 col-md-1 py-2">
+								<div class="col-12 col-md-3 py-2">
 									<cfif NOT isDefined("date_determined_by_agent") ><cfset date_determined_by_agent=""></cfif>
 									<cfif NOT isDefined("date_determined_by_agent_id") ><cfset date_determined_by_agent_id=""></cfif>
 									<label for="date_determined_by_agent" class="data-entry-label">Date Det. by</label>
@@ -1034,7 +1033,7 @@
 										});
 									</script>
 								</div>
-								<div class="col-12 col-md-2 py-2">
+								<div class="col-12 col-md-3 py-2">
 									<cfif NOT isDefined("collector_agent") ><cfset collector_agent=""></cfif>
 									<cfif NOT isDefined("collector_agent_id") ><cfset collector_agent_id=""></cfif>
 									<label for="collector_agent" class="data-entry-label">Specimen Collector</label>
