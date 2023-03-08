@@ -693,11 +693,14 @@
 								<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="form-check-input" #checked#>
 								<label for="findNoAccGeoRef" class="form-check-label mt3px small95">No Accepted Georeferences</label>
 							</div>
-							<div class="col-12 col-md-3 pt-2 pb-0 pb-md-2">
+							<div class="col-12 col-md-4 col-xl-3 pt-2 pb-0 pb-md-2">
 								<cfif isDefined("NoGeorefBecause") AND NoGeorefBecause EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
 								<label for="NoGeorefBecause" class="data-entry-label">No Georeferece Because</label>
 								<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input w-75" #checked#>
 							</div>
+
+						</div>
+						<div class="form-row mx-0 px-3 my-2">
 							<div class="col-6 col-md-1 pt-4 float-left">
 								<cfif isDefined("isIncomplete") AND isIncomplete EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
 								<input type="checkbox" name="isIncomplete" id="isIncomplete" class="form-check-input" #checked#>
@@ -707,10 +710,7 @@
 								<cfif isDefined("nullNoGeorefBecause") AND nullNoGeorefBecause EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
 								<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="form-check-input" #checked#>
 								<label for="nullNoGeorefBecause" class="form-check-label mt3px small95">NULL, No Georef. Because</label>
-
 							</div>
-						</div>
-						<div class="form-row mx-0 px-3 my-2">
 							<div class="col-12 col-md-2 px-0 mb-2">
 								<cfif isDefined("VerificationStatus") and len(VerificationStatus) GT 0 ><cfset VerificationStatusValue="#VerificationStatus#"><cfelse><cfset VerificationStatusValue=""></cfif>
 								<label for="VerificationStatus" class="data-entry-label">VerificationStatus</label>
@@ -737,6 +737,9 @@
 									</cfloop>
 								</select>
 							</div>
+
+						</div>
+						<div class="form-row mx-0 px-3 my-2">
 							<div class="col-12 col-md-2 my-1">
 								<label class="data-entry-label">Geolocate Precision</label>
 								<cfif isDefined("geolocate_precision") and len(geolocate_precision) GT 0 ><cfset geolocate_precisionValue="#geolocate_precision#"><cfelse><cfset geolocate_precisionValue=""></cfif>
@@ -751,8 +754,6 @@
 									<option value="low" #selected#>low</option>
 								</select>
 							</div>
-						</div>
-						<div class="form-row mx-0 px-3 my-2">
 							<div class="col-12 col-md-2 pl-0 my-1">
 								<cfif NOT isDefined("coordinateDeterminer") ><cfset coordinateDeterminer=""></cfif>
 								<cfif NOT isDefined("georeference_determined_by_id") ><cfset georeference_determined_by_id=""></cfif>
