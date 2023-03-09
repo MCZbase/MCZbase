@@ -37,10 +37,12 @@ jQuery.noConflict();
 		//return $('<style type="text/css">' + this.selector + ' {visibility: hidden;}<\/style>').appendTo('head');
 	};
 
-	$.fn.addmultizoom = function(options){
+	$.fn.addmultizoom = function(sel, options){
 
+		var selector = sel;
 		var indoptions = {largeimage: options.largeimage}, $imgObj = $(options.imgObj + ':not(".thumbs")'),
 		$descArea = $(options.descArea), first = true, splitre = /, ?/;
+		$imgObj.setAttribute("sel",selector);
 
 		options = $.extend({
 				speed: 'slow',
@@ -50,7 +52,7 @@ jQuery.noConflict();
 
 		function loadfunction(){
 			console.log($imgObj);
-			var selector = $imgObj.sel;
+			var selector = $imgObj.getAttribute("sel");
 			console.log(selector);
 			var lnk = this, styleobj1 = {}, styleobj2 = {}, $nim, lnkd, lnkt, lnko, w, h;
 			if((lnkd = lnk.getAttribute('data-dims'))){
@@ -67,6 +69,7 @@ jQuery.noConflict();
 				}
 			}).load(function(){
 				var opacity = $imgObj.css('opacity'), combinedoptions = {}, $parent;
+				var selector = $imgObj.getAttribute("sel");
 				if(isNaN(opacity)){opacity = 1;}
 				if(options.notmulti || !indoptions.largeimage){
 					w = options.width || $imgObj.width(); h = options.height || $imgObj.height();
@@ -384,16 +387,16 @@ jQuery.noConflict();
 		console.log($thumbs);
 		options = options || {};
 		if(options.multizoom !== null && ($thumbs).size()){
-			$thumbs.addmultizoom($.extend(options, {imgObj: sel, multizoom: null}));
+			$thumbs.addmultizoom(sel, $.extend(options, {imgObj: sel, multizoom: null}));
 			return this;
 		} else if(options.multizoom){
-			$(options.multizoom).addmultizoom($.extend(options, {imgObj: sel, multizoom: null}));
+			$(options.multizoom).addmultizoom(sel, $.extend(options, {imgObj: sel, multizoom: null}));
 			return this;
 		} else if (options.multizoom !== null){
 			return this.each(function(){
 				if (this.tagName !== featuredimagezoomer.iname)
 					return true; //skip to next matched element
-				$('<a href="' + this.src + '"></a>').addmultizoom($.extend(options, {imgObj: sel, multizoom: null, notmulti: true}));
+				$('<a href="' + this.src + '"></a>').addmultizoom(sel, $.extend(options, {imgObj: sel, multizoom: null, notmulti: true}));
 			});
 		}
 		return this.each(function(){ //return jQuery obj
