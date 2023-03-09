@@ -371,8 +371,17 @@
 							</div>
 						</div>
 					<div class="form-row mx-0 my-1">
-						
-						
+						<div class="col-5 col-md-2 col-xl-1 px-3 pl-md-0 pr-md-3 py-1">
+							<cfif isDefined("orig_elev_units")><cfset orig_elev_units_val="#orig_elev_units#"><cfelse><cfset orig_elev_units_val=""></cfif>
+							<label for="orig_elev_units" class="data-entry-label">Elev. Units</label>
+							<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
+								<option value=""></option>
+								<cfloop query="ctElevUnit">
+									<cfif ctElevUnit.orig_elev_units EQ orig_elev_units_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="#ctElevUnit.orig_elev_units#" #selected#>#ctElevUnit.orig_elev_units#</option>
+								</cfloop>
+							</select>
+						</div>
 						<div class="col-12 col-md-5 col-xl-3 px-3 pl-md-3 pr-md-0 py-1">
 							<label for="maximum_elevation" class="data-entry-label mb-0">Minimum Elevation <span class="small">(Original Units)</span></label>
 							<cfif not isDefined("MinElevOper")><cfset MinElevOper="="></cfif>
@@ -391,17 +400,7 @@
 							<cfif not isDefined("minimum_elevation")><cfset minimum_elevation=""></cfif>
 							<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(minimum_elevation)#">
 						</div>
-						<div class="col-5 col-md-2 col-xl-1 px-3 pl-md-0 pr-md-3 py-1">
-							<cfif isDefined("orig_elev_units")><cfset orig_elev_units_val="#orig_elev_units#"><cfelse><cfset orig_elev_units_val=""></cfif>
-							<label for="orig_elev_units" class="data-entry-label">Elev. Units</label>
-							<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
-								<option value=""></option>
-								<cfloop query="ctElevUnit">
-									<cfif ctElevUnit.orig_elev_units EQ orig_elev_units_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-									<option value="#ctElevUnit.orig_elev_units#" #selected#>#ctElevUnit.orig_elev_units#</option>
-								</cfloop>
-							</select>
-						</div>
+
 						<div class="col-12 col-md-5 col-xl-3 px-3 pr-md-3 pl-md-0 py-1">
 							<label for="MaxElevOper" class="data-entry-label mb-0">Maximum Elevation</label>
 							<cfif not isDefined("MaxElevOper")><cfset MaxElevOper="="></cfif>
