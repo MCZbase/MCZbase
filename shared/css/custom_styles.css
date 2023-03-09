@@ -2717,8 +2717,7 @@ input[disabled] {
 }
 
 
-/*************End Image magnifier***************/
-/**********************************************/
+
 @keyframes slideup {
 	from {top: 700px;}
 	to {top:100px;}
