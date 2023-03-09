@@ -2619,9 +2619,6 @@ input[disabled] {
 .html_desc {
 	width: 21.5rem!important;
 }
-
-
-
 @keyframes slideup {
 	from {top: 700px;}
 	to {top:100px;}
