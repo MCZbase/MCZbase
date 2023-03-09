@@ -42,7 +42,7 @@ jQuery.noConflict();
 		var selector = sel;
 		var indoptions = {largeimage: options.largeimage}, $imgObj = $(options.imgObj + ':not(".thumbs")'),
 		$descArea = $(options.descArea), first = true, splitre = /, ?/;
-		$imgObj.setAttribute("sel",selector);
+		$imgObj.attr("sel",selector);
 
 		options = $.extend({
 				speed: 'slow',
@@ -52,7 +52,7 @@ jQuery.noConflict();
 
 		function loadfunction(){
 			console.log($imgObj);
-			var selector = $imgObj.getAttribute("sel");
+			var selector = $imgObj.att("sel");
 			console.log(selector);
 			var lnk = this, styleobj1 = {}, styleobj2 = {}, $nim, lnkd, lnkt, lnko, w, h;
 			if((lnkd = lnk.getAttribute('data-dims'))){
@@ -69,7 +69,7 @@ jQuery.noConflict();
 				}
 			}).load(function(){
 				var opacity = $imgObj.css('opacity'), combinedoptions = {}, $parent;
-				var selector = $imgObj.getAttribute("sel");
+				var selector = $imgObj.att("sel");
 				if(isNaN(opacity)){opacity = 1;}
 				if(options.notmulti || !indoptions.largeimage){
 					w = options.width || $imgObj.width(); h = options.height || $imgObj.height();
