@@ -908,7 +908,7 @@
 							</div>
 				
 							<cfif #showExtraFields# IS 1>
-								<div class="col-12 col-md-2 col-xl-1 py-1">
+								<div class="col-12 col-md-2  py-1">
 									<cfif NOT isDefined("collecting_time") ><cfset collecting_time=""></cfif>
 									<span class="data-entry-label">Collecting Time</span>
 									<input type="text" name="collecting_time" id="collecting_time" class="data-entry-input" value="#encodeForHtml(collecting_time)#">
