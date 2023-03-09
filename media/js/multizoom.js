@@ -59,7 +59,7 @@ jQuery.noConflict();
 				lnkd = lnkd.split(splitre);
 				w = lnkd[0]; h = lnkd[1];
 			}
-			$(new Image()).error(function(){
+			$(new Image()).on("error",function(){
 				if(lnk.tagName && !options.notmulti){
 					alert("Error: I couldn't find the image:\n\n" + lnk.href + ((lnkt = lnk.getAttribute('data-title'))? '\n\n"' + lnkt + '"' : ''));
 					if((lnko = $imgObj.data('last-trigger'))){
