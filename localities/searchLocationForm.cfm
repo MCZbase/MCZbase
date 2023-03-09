@@ -422,6 +422,17 @@
 						</div>
 					</div>
 					<div class="form-row mx-0 my-1">
+						<div class="col-5 col-md-2 col-xl-1 px-3 pl-md-0 pr-md-3 py-1">
+							<cfif isDefined("depth_units")><cfset depth_units_val="#depth_units#"><cfelse><cfset depth_units_val=""></cfif>
+							<label for="depth_units" class="data-entry-label">Depth Units</label>
+							<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
+								<option value=""></option>
+								<cfloop query="ctDepthUnit">
+									<cfif ctDepthUnit.Depth_units EQ depth_units_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="#ctDepthUnit.Depth_units#" #selected#>#ctDepthUnit.Depth_units#</option>
+								</cfloop>
+							</select>
+						</div>
 						<div class="col-12 col-md-5 col-xl-3 px-3 pl-md-3 pr-md-0 py-1">
 							<label class="data-entry-label">Minimum Depth <span class="small">(Orig. Units)</span></label>
 							<label for="minDepthOper" class="data-entry-label sr-only">Operator</label>
@@ -435,17 +446,7 @@
 							<label for="min_depth" class="data-entry-label text-light sr-only">Minimum Depth</label>
 							<input type="text" name="min_depth" id="min_depth" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth)#">
 						</div>
-						<div class="col-5 col-md-2 col-xl-1 px-3 pl-md-0 pr-md-3 py-1">
-							<cfif isDefined("depth_units")><cfset depth_units_val="#depth_units#"><cfelse><cfset depth_units_val=""></cfif>
-							<label for="depth_units" class="data-entry-label">Depth Units</label>
-							<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
-								<option value=""></option>
-								<cfloop query="ctDepthUnit">
-									<cfif ctDepthUnit.Depth_units EQ depth_units_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-									<option value="#ctDepthUnit.Depth_units#" #selected#>#ctDepthUnit.Depth_units#</option>
-								</cfloop>
-							</select>
-						</div>
+
 						<div class="col-12 col-md-5 col-xl-3 px-3 pr-md-3 pl-md-0 py-1">
 							<label for="max_depth" class="data-entry-label mb-0">Maximum Depth</label>
 							<cfif isDefined("MaxDepthOper")><cfset MaxDepthOper="#MaxDepthOper#"><cfelse><cfset MaxDepthOper=""></cfif>
