@@ -1,6 +1,6 @@
 <cfset pageTitle = "Media Gallery">
 <cfinclude template = "/shared/_header.cfm">
-<cfinclude template="/media/component/search.cfc" runOnce="true">
+<cfinclude template="/media/component/public.cfc" runOnce="true">
 
 <cfoutput>
 	<div class="container-fluid my-3">
