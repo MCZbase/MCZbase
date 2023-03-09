@@ -324,17 +324,21 @@ include this function and use it.
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF AND isDefined("iiifFull") AND len(iiifFull) GT 0>
 						<cfset linkTarget = iiifFull>
 					</cfif>
-					<!---Hover zoom--->
-<!---					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
+					<!--- Experimental CSS zoom on hover--->
+					<!---
+					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
 					<cfset output='#output#<img src="#linkTarget#" alt="#alt#" #hw# style="#styles#" class="overlay"/>'>
 					<cfset output='#output#</a>'>
 					<cfset output='#output#<underlay style="background-image:url("#displayImage#")></underlay>'>
-					<cfset output='#output#<div class ="magnify"></div>'>--->
-					<!---old hover that used jquery--->
-						<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
+					<cfset output='#output#<div class ="magnify"></div>'>
+					--->
+					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
 					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
-						<cfif isDisplayable><cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom("##MID#media.media_id#",{zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'></cfif>
+					<!--- multizoom library for zoom on hover --->
+					<cfif isDisplayable>
+						<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom("##MID#media.media_id#",{zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'>
+					</cfif>
 					<cfif #captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
 					<cfelseif #captionAs# EQ "textLinks">

@@ -138,6 +138,9 @@ limitations under the License.
 <script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.js"></script> 
 <script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.filter.js"></script>
 
+<!--- media zoom on hover library --->
+<script type="text/javascript" src="/lib/misc/multizoom/multizoom.js"></script>
+
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
 		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script> 
@@ -158,13 +161,6 @@ limitations under the License.
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 		<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 	</cfif>
-</cfif>
-<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
-	<!--- PJM: disable to fix version incompatabilties with multizoom  --->
-	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-migrate-1.2.1.min.js"></script>
-	<!--- --->
-	<script type="text/javascript" src="/media/js/multizoom.js"></script>
 </cfif>
 <cfif CGI.script_name IS "/users/UserProfile.cfm">
 	<script type="text/javascript" src="/shared/js/login_scripts.js"></script> 

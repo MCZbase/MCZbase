@@ -19,7 +19,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<cfinclude template="/media/component/search.cfc" runOnce="true">
+<cfinclude template="/media/component/search.cfc" runOnce="true"><!--- for autocompletes --->
+<cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for media widget --->
 
 <cfif NOT isdefined("action")>
 	<cfset action = "edit">
@@ -111,10 +112,8 @@ limitations under the License.
 							<input type="hidden" id="media_id" name="media_id" value="#getRelations.media_id#">
 							<div class="col-12 px-1 float-left">
 								<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
-							<!---		<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull")>
-									<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>--->
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
-								<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+									<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 								</div>
 								<div class="col-12 col-md-9 col-xl-10 pb-4 pb-xl-2 px-0 px-md-2 float-left">
 									<div class="col-12 col-xl-9 px-0 px-xl-2 float-left">
@@ -350,10 +349,8 @@ limitations under the License.
 							<input type="hidden" id="media_id" name="media_id" value="#getRelations.media_id#">
 							<div class="col-12 px-1 float-left">
 								<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
-							<!---		<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull")>
-									<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>--->
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
-								<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+									<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 								</div>
 								<div class="col-12 col-md-9 col-xl-10 pb-4 pb-xl-2 px-0 px-md-2 float-left">
 									<div class="col-12 col-xl-9 px-0 px-xl-2 float-left">
