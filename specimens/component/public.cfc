@@ -1314,7 +1314,7 @@ limitations under the License.
 									</cfquery>
 									<cfif partAttributes.recordcount gt 0>
 										<tr class="border-top-0">
-											<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
+											<td colspan="6" class="border-top-0 mt-0 pb-2 pt-1">
 												<cfloop query="partAttributes">
 													<div class="small90 pl-3 pb-2 line-height-sm">
 														#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
