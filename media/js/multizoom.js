@@ -53,9 +53,8 @@ var featuredimagezoomer = { // the two options for Featured Image Zoomer:
 			}, options);
 
 		function loadfunction(){
-			console.log($imgObj);
 			var selector = $imgObj.attr("sel");
-			console.log(selector);
+			console.log("addmultiozoom on: " +selector);
 			var lnk = this, styleobj1 = {}, styleobj2 = {}, $nim, lnkd, lnkt, lnko, w, h;
 			if((lnkd = lnk.getAttribute('data-dims'))){
 				lnkd = lnkd.split(splitre);
@@ -381,10 +380,8 @@ var featuredimagezoomer = { // the two options for Featured Image Zoomer:
 	});
 
 	$.fn.addimagezoom = function(selector, options){
-		console.log("fn.addimagezoom: " + selector);
 		var sel = selector;  // fix for removed this.selector, requires selector to be passed in invocation
 		$thumbs = $(sel.replace(featuredimagezoomer.hashre, '.') + '.thumbs a');
-		// var sel = this.selector, $thumbs = $(sel.replace(featuredimagezoomer.hashre, '.') + '.thumbs a');
 		options = options || {};
 		if(options.multizoom !== null && ($thumbs).length){
 			$thumbs.addmultizoom(sel, $.extend(options, {imgObj: sel, multizoom: null}));
