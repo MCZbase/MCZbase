@@ -15,26 +15,28 @@
 // July 9th, 12': Script updated to v1.5.1, which fixes mouse wheel issue with script when used with a more recent version of jQuery.
 // Nov 5th, 2012: Unofficial update to v1.5.1m for integration with multi-zoom (adds multiple images to be zoomed via thumbnail activated image swapping)
 // Nov 28th, 2012: Version 2.1 w/Multi Zoom, updates - new features and bug fixes
+// 2023-03-09: President and Fellows of Harvard College, updates to run under jquery 3 
+//   Changes: passing selector instead using this.selector, replacing error(handler) and load(handler) with on('error',handler) and on('load',handler)
+//   using length property instead of size().   Commenting out noConflict by default.
 
 var featuredimagezoomer = { // the two options for Featured Image Zoomer:
 	loadinggif: '/shared/images/spinningred.gif', // full path or URL to "loading" gif
 	magnifycursor: 'crosshair' // value for CSS's 'cursor' property when over the zoomable image
 };
 
-	//////////////// No Need To Edit Beyond Here ////////////////
+// uses in some settings might need to run in noConflict mode.
+// jQuery.noConflict();
 
-jQuery.noConflict();
+	//////////////// No Need To Edit Beyond Here ////////////////
 
 (function($){
 
 	$('head').append('<style type="text/css">.featuredimagezoomerhidden {visibility: hidden!important;}</style>');
 
-	$.fn.multizoomhide = function(){
-		var sel = this.selector;  
-		console.log("fn.multizoomhide: " + sel );
-		return $('<style type="text/css">' + sel + ' {visibility: hidden;}<\/style>').appendTo('head');
-		//console.log("fn.multizoomhide: " + this.selector );
-		//return $('<style type="text/css">' + this.selector + ' {visibility: hidden;}<\/style>').appendTo('head');
+	$.fn.multizoomhide = function(sel){
+		var selector = sel;  
+		console.log("fn.multizoomhide: " + selector );
+		return $('<style type="text/css">' + selector + ' {visibility: hidden;}<\/style>').appendTo('head');
 	};
 
 	$.fn.addmultizoom = function(sel, options){
@@ -379,12 +381,10 @@ jQuery.noConflict();
 	});
 
 	$.fn.addimagezoom = function(selector, options){
-		console.log("fn.addimagezoom: " + this.selector);
-		console.log(selector)
+		console.log("fn.addimagezoom: " + selector);
 		var sel = selector;  // fix for removed this.selector, requires selector to be passed in invocation
 		$thumbs = $(sel.replace(featuredimagezoomer.hashre, '.') + '.thumbs a');
 		// var sel = this.selector, $thumbs = $(sel.replace(featuredimagezoomer.hashre, '.') + '.thumbs a');
-		console.log($thumbs);
 		options = options || {};
 		if(options.multizoom !== null && ($thumbs).length){
 			$thumbs.addmultizoom(sel, $.extend(options, {imgObj: sel, multizoom: null}));
@@ -407,3 +407,5 @@ jQuery.noConflict();
 	};
 
 })(jQuery);
+
+
