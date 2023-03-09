@@ -422,7 +422,7 @@
 						</div>
 					</div>
 					<div class="form-row mx-0 my-1">
-						<div class="col-5 col-md-2 col-xl-1 px-3 pl-md-0 pr-md-3 py-1">
+						<div class="col-5 col-md-2 col-xl-1 px-3 pl-md-3 pr-md-0 py-1">
 							<cfif isDefined("depth_units")><cfset depth_units_val="#depth_units#"><cfelse><cfset depth_units_val=""></cfif>
 							<label for="depth_units" class="data-entry-label">Depth Units</label>
 							<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
