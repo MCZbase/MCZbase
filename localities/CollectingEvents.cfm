@@ -46,7 +46,7 @@ limitations under the License.
 						<cfset showEvent=1>
 						<cfset showExtraFields=1>
 						<cfset newSearchTarget = "/localities/CollectingEvents.cfm">
-						<cfif pageTitle eq "Search Collecting Events"><h1 class="h2 mt-2 px-1">Search Collecting Events</h1></cfif>
+						<cfif pageTitle eq "Search Collecting Events"><h1 class="h2 mt-2 px-3">Search Collecting Events</h1></cfif>
 						<input type="hidden" id="method" name="method" value="getCollectingEvents">
 						<cfinclude template = "/localities/searchLocationForm.cfm">
 					</form>

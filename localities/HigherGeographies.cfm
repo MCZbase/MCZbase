@@ -46,7 +46,7 @@ limitations under the License.
 						<cfset showEvent=0>
 						<cfset showExtraFields=1>
 						<cfset newSearchTarget = "/localities/HigherGeographies.cfm">
-						<cfif pageTitle eq "Search Higher Geographies"><h1 class="h2 mt-2 px-1">Find Higher Geography</h1></cfif>
+						<cfif pageTitle eq "Search Higher Geographies"><h1 class="h2 mt-2 px-3">Find Higher Geography</h1></cfif>
 						<input type="hidden" id="method" name="method" value="getHigherGeographies">
 						<cfinclude template = "/localities/searchLocationForm.cfm">
 					</form>
