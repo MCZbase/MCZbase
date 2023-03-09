@@ -1765,15 +1765,6 @@ tr.line-top:first-child {
 .jqx-grid-column-menubutton {
 	border-left: 0;
 }
-/* TODO: This is causing the Link heading on permit search results to be invisible.  
- * Whatever it is intended as a fix for is breaking that, and probably other tables.
- * Need to fix this .
-*/
-/****TO DO:  Need to find a way to display/hide column headers when it is an ID or other header that doesn't explain contents ***/
-
-/*#columntablesearchResultsGrid .jqx-widget-header:nth-child(3) {
-	color: transparent !important;
-}*/
 .custom-file-label {
 	position: absolute;
 	top: 0;
@@ -1868,7 +1859,7 @@ tr.line-top:first-child {
 	/*display: none;  */
 	display: block;
 	margin-bottom: .5rem;
-	/* Caution, this directive will have unexpected side effects such as hiding badge spans */
+	/* Caution, this directive will have unexpected side effects such as hiding badge spans. The point of this is to prevent the */
 }
 .card-body li.list-group-item span.sd:last-child {
 	display:none;
@@ -2357,92 +2348,6 @@ div.vslider-item[aria-hidden="true"]{
 	background-color: lightgrey;
 	border-radius: 10px;
 }
-
-/*.secondary-red {
-	color: #dc4c35;
-}
-.darkest-red {
-	color: #a51c30;
-}
-.darker-pink {
-	color: #d64c59;
-}
-.reddish {
-	color: #e0112e;
-}
-.dark-orange {
-	color: #e17160;
-}
-.red {
-	color: #f51d06;
-}
-.cbp-scroller > nav {
-	position: fixed;
-	z-index: 9999;
-	right: 100px;
-	top: 50%;
-	-webkit-transform: translateY(-50%);
-	-moz-transform: translateY(-50%);
-	-ms-transform: translateY(-50%);
-	transform: translateY(-50%);
-}
-.cbp-scroller > nav a {
-	display: block;
-	position: relative;
-	color: transparent;
-	height: 50px;
-}
-
-.cbp-scroller > nav a:after {
-	content: '';
-	position: absolute;
-	width: 24px;
-	height: 24px;
-	border-radius: 50%;
-	border: 4px solid #fff;
-	bottom:20px;
-}
-
-.cbp-scroller > nav a:hover:after {
-	background: rgba(255,255,255,0.6);
-}
-
-.cbp-scroller > nav a.cbp-current:after {
-	background: #fff;
-}*/
-
-/* background-attachment does the trick */
-/*.cbp-scroller section {
-	position: relative;
-	background-position: top center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-attachment: fixed;
-}
-#section1 {
-	background-color: #f1f3f340;
-	padding-top: .5rem;
-	padding-bottom: .75rem;
-	border-radius: .2rem;
-}
-#section2 {
-	background-color: #d9f1f340;
-	padding-top: .5rem;
-	padding-bottom: 1.75rem; 
-	border-radius: .2rem;
-}
-#section3 {
-	background-color: #f1f3f340;
-	padding-top: .5rem;
-	padding-bottom: 1.5rem; 
-	border-radius: .2rem;
-}
-#section4 {
-	background-color: #d9f1f340;
-	padding-top: .5rem;
-	padding-bottom: 1.5rem; 
-	border-radius: .2rem;
-}*/
 #myBtn {
 	display: none;
 	position: fixed;
@@ -2665,7 +2570,6 @@ input[disabled] {
 }
 
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
-
 .flip-card {
 	background-color: transparent;
 	width: 100%;
@@ -3106,263 +3010,262 @@ ol.flowNone li a, ul.flowNone li a {
 	}
 	.variedHeight {
 	height: 220px;	
-}
+	}
 	h1 {
 		margin-bottom: 0;
 	}
-ol.flowXXS,ul.flowXXS {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: 390px; /* need to specify height :-( */
-	column-count: 2;
-}
-ol.flowXXS li, ul.flowXXS li {
-	width: 50%;
-	padding-right: .5rem;
-	overflow-wrap: anywhere;
-	list-style-position:inside;
-}
-ol.flowXXS li a, ul.flowXXS li a {
-	padding-right: 3px;
-}
-ol.flowXS,ul.flowXS {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: 543px;
-	column-count: 2;
-}
-ol.flowXS li, ul.flowXS li {
-	width: 50%;
-	overflow-wrap: anywhere;
-	list-style-position:inside;
-}
-ol.flowXS li a, ul.flowXS li a {
-	padding-right: 3px;
-}
-ol.flowSm, ul.flowSm {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: 825px; /* need to specify height :-( */
-	column-count: 2;
-}
-ol.flowSm li, ul.flowSm li{
-	width: 50%;
-	overflow-wrap: anywhere;
-	list-style-position:inside;
-}
-ol.flowSm li a, ul.flowSm li a {
-	padding-right: 3px;
-}
-ol.flowMd, ul.flowMd {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: 992px; /* need to specify height :-( */
-	column-count: 2;
-}
-ol.flowMd li, ul.flowMd li {
-	width: 50%;
-	overflow-wrap: anywhere;
-	list-style-position:inside;
-}
-ol.flowMd li a, ul.flowMd li a {
-	padding-right: 3px;
-}	
-ol.flowLg, ul.flowLg {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: 1340px; /* need to specify height :-( */
-	column-count: 2;
-}
-ol.flowLg li, ul.flowLg li {
-	width: 50%;
-	overflow-wrap: anywhere;
-	list-style-position:inside;
-}
-ol.flowLg li a, ul.flowLg li a {
-	padding-right: 3px;
-}	
-ol.flowXL, ul.flowXL {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: 2000px; /* need to specify height :-( */
-	column-count: 2;
-}
-ol.flowXL li, ul.flowXL li {
-	width: 50%;
-	overflow-wrap: anywhere;
-	list-style-position:inside;
-}
-ol.flowXL li a, ul.flowXL li a {
-	padding-right: 3px;
-}
-ol.flowNone, ul.flowNone  {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: auto; /* need to specify height :-( */
-	column-count: 1;
-}
-ol.flowNone li,ul.flowNone li {
-	width: 100%;
-	overflow-wrap: anywhere;
-	list-style-position:inside;
-}
-ol.flowNone li a {
-	padding-right: 3px;
-}
-.tab-content {
-	margin-top: 0px;
-}
+	ol.flowXXS,ul.flowXXS {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: 390px; /* need to specify height :-( */
+		column-count: 2;
+	}
+	ol.flowXXS li, ul.flowXXS li {
+		width: 50%;
+		padding-right: .5rem;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowXXS li a, ul.flowXXS li a {
+		padding-right: 3px;
+	}
+	ol.flowXS,ul.flowXS {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: 543px;
+		column-count: 2;
+	}
+	ol.flowXS li, ul.flowXS li {
+		width: 50%;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowXS li a, ul.flowXS li a {
+		padding-right: 3px;
+	}
+	ol.flowSm, ul.flowSm {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: 825px; /* need to specify height :-( */
+		column-count: 2;
+	}
+	ol.flowSm li, ul.flowSm li{
+		width: 50%;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowSm li a, ul.flowSm li a {
+		padding-right: 3px;
+	}
+	ol.flowMd, ul.flowMd {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: 992px; /* need to specify height :-( */
+		column-count: 2;
+	}
+	ol.flowMd li, ul.flowMd li {
+		width: 50%;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowMd li a, ul.flowMd li a {
+		padding-right: 3px;
+	}	
+	ol.flowLg, ul.flowLg {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: 1340px; /* need to specify height :-( */
+		column-count: 2;
+	}
+	ol.flowLg li, ul.flowLg li {
+		width: 50%;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowLg li a, ul.flowLg li a {
+		padding-right: 3px;
+	}	
+	ol.flowXL, ul.flowXL {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: 2000px; /* need to specify height :-( */
+		column-count: 2;
+	}
+	ol.flowXL li, ul.flowXL li {
+		width: 50%;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowXL li a, ul.flowXL li a {
+		padding-right: 3px;
+	}
+	ol.flowNone, ul.flowNone  {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: auto; /* need to specify height :-( */
+		column-count: 1;
+	}
+	ol.flowNone li,ul.flowNone li {
+		width: 100%;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowNone li a {
+		padding-right: 3px;
+	}
+	.tab-content {
+		margin-top: 0px;
+	}
 	.html_desc {
 		width: 21.5rem!important;
 	}
 }
 @media only screen and (max-width: 800px){
-ol.flowXXS, ul.flowXXS{
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: auto; /* need to specify height :-( */
-	column-count: 1;
-}
-ol.flowXXS li, ul.flowXXS li {
-	width: 100%;
-	padding-right: .5rem;
-	overflow-wrap: anywhere;
-	list-style-position:inside;
-}
-ol.flowXXS li a, ul.flowXXS li a {
-	padding-right: 3px;
-}
-ol.flowXS, ul.flowXS {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: auto; /* need to specify height :-( */
-	column-count: 1;
-}
-ol.flowXS li, ul.flowXS li {
-	width: 100%;
-	overflow-wrap: anywhere;
-	list-style-position:inside;
-}
-ol.flowXS li a, ul.flowXS li a {
-	padding-right: 3px;
-}
-ol.flowSm,ul.flowSm  {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: auto; /* need to specify height :-( */
-	column-count: 1;
-}
-ol.flowSm li, ul.flowSm li {
-	width: 100%;
-	overflow-wrap: anywhere;
-	list-style-position:inside;
-}
-ol.flowSm li a, ul.flowSm li a {
+	ol.flowXXS, ul.flowXXS{
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: auto; /* need to specify height :-( */
+		column-count: 1;
+	}
+	ol.flowXXS li, ul.flowXXS li {
+		width: 100%;
+		padding-right: .5rem;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowXXS li a, ul.flowXXS li a {
+		padding-right: 3px;
+	}
+	ol.flowXS, ul.flowXS {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: auto; /* need to specify height :-( */
+		column-count: 1;
+	}
+	ol.flowXS li, ul.flowXS li {
+		width: 100%;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowXS li a, ul.flowXS li a {
+		padding-right: 3px;
+	}
+	ol.flowSm,ul.flowSm  {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: auto; /* need to specify height :-( */
+		column-count: 1;
+	}
+	ol.flowSm li, ul.flowSm li {
+		width: 100%;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowSm li a, ul.flowSm li a {
 
-	padding-right: 3px;
-}
-ol.flowMd, ul.flowMd {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: auto; /* need to specify height :-( */
-	column-count: 1;
-}
-ol.flowMd li, ul.flowMd li {
-	width: auto;
-	overflow-wrap: anywhere;
-	list-style-position:inside;
-}
-ol.flowMd li a, ul.flowMd li a {
-	padding-right: 3px;
-}	
-ol.flowLg, ul.flowLg {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: auto; /* need to specify height :-( */
-	column-count: 1;
-}
-ol.flowLg li, ul.flowLg li {
-	width: 100%;
-	overflow-wrap: anywhere;
-	list-style-position:inside;
-}
-ol.flowLg li a, ul.flowLg li a {
-	padding-right: 3px;
-}	
-ol.flowXL, ul.flowXL {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: auto; /* need to specify height :-( */
-	column-count: 1;
-}
-ol.flowXL li, ul.flowXL li {
-	width: 100%;
-	overflow-wrap: anywhere;
-	list-style-position:inside;
-}
-ol.flowXL li a, ul.flowXL li a  {
-	padding-right: 3px;
-}
-ol.flowNone {
-	display:flex;
-	flex-flow: column wrap; /* direction: column */
-	height: auto; /* need to specify height :-( */
-	column-count: 1;
-}
-ol.flowNone li, ul.flowNone li {
-	width: 100%;
-	overflow-wrap: anywhere;
-	list-style-position:inside;
-}
-ol.flowNone li a, ul.flowNone li a {
-	padding-right: 3px;
-}
-.tab-content {
-	margin-top: -3px;
-}
+		padding-right: 3px;
+	}
+	ol.flowMd, ul.flowMd {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: auto; /* need to specify height :-( */
+		column-count: 1;
+	}
+	ol.flowMd li, ul.flowMd li {
+		width: auto;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowMd li a, ul.flowMd li a {
+		padding-right: 3px;
+	}	
+	ol.flowLg, ul.flowLg {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: auto; /* need to specify height :-( */
+		column-count: 1;
+	}
+	ol.flowLg li, ul.flowLg li {
+		width: 100%;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowLg li a, ul.flowLg li a {
+		padding-right: 3px;
+	}	
+	ol.flowXL, ul.flowXL {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: auto; /* need to specify height :-( */
+		column-count: 1;
+	}
+	ol.flowXL li, ul.flowXL li {
+		width: 100%;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowXL li a, ul.flowXL li a  {
+		padding-right: 3px;
+	}
+	ol.flowNone {
+		display:flex;
+		flex-flow: column wrap; /* direction: column */
+		height: auto; /* need to specify height :-( */
+		column-count: 1;
+	}
+	ol.flowNone li, ul.flowNone li {
+		width: 100%;
+		overflow-wrap: anywhere;
+		list-style-position:inside;
+	}
+	ol.flowNone li a, ul.flowNone li a {
+		padding-right: 3px;
+	}
+	.tab-content {
+		margin-top: -3px;
+	}
 }	
 @media only screen and (max-width: 768px) {
 	.variedHeight {
 		height: 215px;
 	}
-.tab-content {
-	margin-top: -4px;
-}
+	.tab-content {
+		margin-top: -4px;
+	}
 }
 @media screen and (max-width: 767px) {/*Test to see if this changes focus on phone so the whole page can be seen when cursor in input field*/
-  input, select, textarea {
-    font-size: 16px;
-  }
+	input, select, textarea {
+		font-size: 16px;
+	}
 }
 @media only screen and (max-width: 575px) {
 
-.tab-content {
-	margin-top: 5px;
-}
-.tab-headers button[aria-selected='true'] {
-    color: black;
-    background-color: #f5f5f5;
-    border-top: 3px solid rgb(38 143 255 / 50%);
-    border-bottom: 4px solid #f5f5f5;
-    cursor: pointer;
-    box-shadow: none;
-    border-right: 1px solid #96ECED;
-    border-left: 1px solid #96EcED;
-    outline: 0;
-}
-text-truncate1 {
-  background-color: transparent;
-  width: auto;
-}
+	.tab-content {
+		margin-top: 5px;
+	}
+	.tab-headers button[aria-selected='true'] {
+		color: black;
+		background-color: #f5f5f5;
+		border-top: 3px solid rgb(38 143 255 / 50%);
+		border-bottom: 4px solid #f5f5f5;
+		cursor: pointer;
+		box-shadow: none;
+		border-right: 1px solid #96ECED;
+		border-left: 1px solid #96EcED;
+		outline: 0;
+	}
+	text-truncate1 {
+		background-color: transparent;
+		width: auto;
+	}
 
- p.text-truncate1 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;  
-  overflow: hidden;
+	 p.text-truncate1 {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;  
+		overflow: hidden;
+	}
 }
-}
-
 @media (min-width:1060px) and (max-width: 1459px) {
 	form#regForm.tab {
 		display: none;
@@ -3383,7 +3286,6 @@ text-truncate1 {
 		font-size: .875rem;
 		margin-bottom: 1rem;
 	}
-
 	div span.ilt {
 		display: block;
 		height: 100%;
@@ -3446,7 +3348,6 @@ text-truncate1 {
 		content: '⇡';
 	}
 }
-
 @media(min-width:768px) {
 	.footer-col-4-md {
 		margin: 0 auto;
@@ -3480,7 +3381,6 @@ text-truncate1 {
 	.container-xl {
 		max-width: 1600px;
 	}
-	
 }
 @media(min-width: 1600px) {
 	.container  {
@@ -3506,7 +3406,6 @@ text-truncate1 {
 		overflow-y: visible;
 		height: 5rem;
 	}
-
 }
 @media screen and (max-width: 1500px) {
 	#map {
@@ -3550,7 +3449,6 @@ text-truncate1 {
 		padding-left: 3px;
 		padding-right: 8px;
 	}
-	
 }
 @media screen and (max-width: 1199px) {
 	#map {
@@ -3566,9 +3464,7 @@ text-truncate1 {
 	}
 }
 @media screen and (max-width: 1024px) {
-/*	.card-columns {
-		column-count: 2;
-	}*/
+	
 	.card-body h5 {
 		margin-top: -0.5rem;
 	}
@@ -3578,9 +3474,7 @@ text-truncate1 {
 	}
 }
 @media screen and (max-width: 1023px) {
-/*	.card-columns {
-		column-count: 1;
-	}*/
+
 	.card-body h5 {
 		margin-top: -0.5rem;
 	}
@@ -3618,9 +3512,6 @@ text-truncate1 {
 		padding-bottom: 0;
 		line-height: 1;
 	}
-/*	.card-columns {
-		column-count: 1;
-	}*/
 }
 @media screen and (max-width: 480px) {
 	#map {
