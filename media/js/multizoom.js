@@ -52,7 +52,7 @@ jQuery.noConflict();
 
 		function loadfunction(){
 			console.log($imgObj);
-			var selector = $imgObj.att("sel");
+			var selector = $imgObj.attr("sel");
 			console.log(selector);
 			var lnk = this, styleobj1 = {}, styleobj2 = {}, $nim, lnkd, lnkt, lnko, w, h;
 			if((lnkd = lnk.getAttribute('data-dims'))){
@@ -69,7 +69,7 @@ jQuery.noConflict();
 				}
 			}).load(function(){
 				var opacity = $imgObj.css('opacity'), combinedoptions = {}, $parent;
-				var selector = $imgObj.att("sel");
+				var selector = $imgObj.attr("sel");
 				if(isNaN(opacity)){opacity = 1;}
 				if(options.notmulti || !indoptions.largeimage){
 					w = options.width || $imgObj.width(); h = options.height || $imgObj.height();
