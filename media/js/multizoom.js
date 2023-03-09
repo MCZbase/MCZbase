@@ -386,7 +386,7 @@ jQuery.noConflict();
 		// var sel = this.selector, $thumbs = $(sel.replace(featuredimagezoomer.hashre, '.') + '.thumbs a');
 		console.log($thumbs);
 		options = options || {};
-		if(options.multizoom !== null && ($thumbs).size()){
+		if(options.multizoom !== null && ($thumbs).length){
 			$thumbs.addmultizoom(sel, $.extend(options, {imgObj: sel, multizoom: null}));
 			return this;
 		} else if(options.multizoom){
