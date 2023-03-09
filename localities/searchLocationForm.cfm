@@ -374,7 +374,7 @@
 						<div class="col-5 col-md-2 col-xl-2 px-3 pl-md-3 pr-md-2 py-1">
 							<cfif isDefined("orig_elev_units")><cfset orig_elev_units_val="#orig_elev_units#"><cfelse><cfset orig_elev_units_val=""></cfif>
 							<label for="orig_elev_units" class="data-entry-label">Elev. Units</label>
-							<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select w-auto">
+							<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select w-auto" style="min-width: 30%;">
 								<option value=""></option>
 								<cfloop query="ctElevUnit">
 									<cfif ctElevUnit.orig_elev_units EQ orig_elev_units_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -424,7 +424,7 @@
 						<div class="col-5 col-md-2 col-xl-2 px-3 pl-md-3 pr-md-2 py-1">
 							<cfif isDefined("depth_units")><cfset depth_units_val="#depth_units#"><cfelse><cfset depth_units_val=""></cfif>
 							<label for="depth_units" class="data-entry-label">Depth Units</label>
-							<select name="depth_units" id="depth_units" size="1" class="data-entry-select w-auto">
+							<select name="depth_units" id="depth_units" size="1" class="data-entry-select w-auto"  style="min-width: 30%;">
 								<option value=""></option>
 								<cfloop query="ctDepthUnit">
 									<cfif ctDepthUnit.Depth_units EQ depth_units_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
