@@ -67,7 +67,7 @@ jQuery.noConflict();
 						$(lnko).trigger('click');
 					}
 				}
-			}).load(function(){
+			}).on("load",function(){
 				var opacity = $imgObj.css('opacity'), combinedoptions = {}, $parent;
 				var selector = $imgObj.attr("sel");
 				if(isNaN(opacity)){opacity = 1;}
@@ -238,7 +238,7 @@ jQuery.noConflict();
 			fiz = this, $tracker, $cursorshade, $statusdiv, $magnifier, lastpage = {pageX: 0, pageY: 0},
 			basezindex = setting.zIndex || this.highestzindex($img);
 			if(h === 0 || w === 0){
-				$(new Image()).load(function(){
+				$(new Image()).on('load',function(){
 					featuredimagezoomer.init($img, options);
 				}).attr('src', $img.attr('src'));
 				return;
