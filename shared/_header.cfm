@@ -140,6 +140,7 @@ limitations under the License.
 
 <!--- media zoom on hover library --->
 <script type="text/javascript" src="/lib/misc/multizoom/multizoom.js"></script>
+<link rel="stylesheet" href="/lib/misc/multizoom/multizoom.css">
 
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
