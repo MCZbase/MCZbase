@@ -19,7 +19,7 @@ limitations under the License.
 * Demonstration of ajax patterns in MCZbase.
 
 -->
-<cfset pageTitle="Ajax Demonstration & image testing">
+<cfset pageTitle="Ajax Demonstration">
 <cfinclude template="/shared/_header.cfm">
 
 <!--- Script includes are normally in shared/_header.cfm, but in one-off non-reused, can be in the page --->
