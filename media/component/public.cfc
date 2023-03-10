@@ -746,6 +746,7 @@ include this function and use it.
 										<cfset sizein = "bytes">
 										<cfif size GT 1024><cfset size=Int(size/1024)><cfset sizein="kb"></cfif>
 										<cfif size GT 1024><cfset size=Int(size/1024)><cfset sizein="mb"></cfif>
+										<tr class="border mt-2 p-2"><th scope="row">Directory: </th><td>#media.auto_path#</td></tr>
 									<cfelse>
 										<cfset found = "[Not Found]">
 										<cfif NOT directoryExists("#directory#")><cfset found = "#found# [Directory Not Found]"></cfif>
