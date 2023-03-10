@@ -748,7 +748,8 @@ include this function and use it.
 										<cfif size GT 1024><cfset size=Int(size/1024)><cfset sizein="mb"></cfif>
 									<cfelse>
 										<cfset found = "[Not Found]">
-										<cfif NOT directoryExists("#directory#")><cfset found = "#found#[Directory Not Found]"></cfif>
+										<cfif NOT directoryExists("#directory#")><cfset found = "#found# [Directory Not Found]"></cfif>
+										<cfset found = "<span class='strong text-danger'>#found#</span>"><!--- " --->
 									</cfif>
 									<tr class="border mt-2 p-2"><th scope="row">File: </th><td>#media.auto_filename# #found# #size# #sizein#</td></tr>
 								</cfif>
