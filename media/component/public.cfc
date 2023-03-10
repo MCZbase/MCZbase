@@ -765,7 +765,9 @@ include this function and use it.
 									<th scope="row">Relationship#plural#:&nbsp; </span></th>
 									<td class="w-80">
 									<!---Loops through the media relationships (query = media_rel) and specific relationship queries above (queries=accn, agents1-5,collecting_events, daccns,loan, locali, media1-2,publication, spec, underscore) to find related media to the featured image on the page. Displays Media Relationship even if the links are not provided within the relatedLinks div (due to permissions or not being set up yet). It is somewhat scalable with regards to new relationship type entries on the code table--->
+									<cfset relationSeparator = "">
 									<cfloop query="media_rel">
+										#relationSeparator#
 										<span class="text-capitalize">#media_rel.label#</span>
 										<!---The links within the div with id = "relatedLinks" provides access to the pages linked to the featured media (media_id of the page)--->
 										<div id = "relatedLinks" class="comma2 d-inline onlyfirst">
@@ -891,7 +893,7 @@ include this function and use it.
 												</cfloop>
 											</cfif>
 										</div>
-										<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
+										<cfset relationSeparator='<span class="px-1"> | </span>'><!--- ' --->
 									</cfloop> 
 									</td>
 								</tr>
