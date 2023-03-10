@@ -29,8 +29,9 @@ limitations under the License.
 <cfoutput>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct 
-			media.media_id,
-			auto_host
+			media_id,
+			auto_host,
+			media_uri
 		From
 			media
 		WHERE 
@@ -51,7 +52,7 @@ limitations under the License.
 									<a class="btn float-right btn-xs btn-primary" href="/media.cfm?action=edit&media_id=#media_id#">Edit</a>
 								</cfif>
 								<button class="btn float-right btn-xs btn-primary" onclick="location.href='/media/RelatedMedia.cfm?media_id=#media_id#'">Related Media</button>
-								<cfif media.auto_host eq 'mczbase.mcz.harvard.edu'>
+								<cfif media.auto_host NEQ 'mczbase.mcz.harvard.edu'>
 									<a class="btn float-right btn-xs btn-primary mx-2" href="#media.media_uri#">
 										External Viewer 
 										<img src="/images/linkOut.gif" alt="arrow out">
