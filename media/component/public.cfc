@@ -491,7 +491,8 @@ include this function and use it.
 			<cftry>
 				<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct 
-						media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
+						media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri,
+						media.auto_host, media.auto_path, media.auto_filename,
 						MCZBASE.get_media_dctermsrights(media.media_id) as uri, 
 						MCZBASE.get_media_dcrights(media.media_id) as display, 
 						MCZBASE.is_media_encumbered(media.media_id) hideMedia,
@@ -730,6 +731,23 @@ include this function and use it.
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<tr class="border mt-2 p-2"><th scope="row">Alt Text: </th><td>#media.alttag#</td></tr>
+							</cfif>
+							<cfif listcontainsnocase(session.roles,"manage_media")>
+								<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">
+									<!--- check if file exists --->
+									<cfset size = "">
+									<cfset filefull = "#Application.webDirectory#/#media.auto_path##media.auto_filename#">
+									<cfset directory = "#Application.webDirectory#/#media.auto_path#">
+									<cfif fileExists("#filefull#")>
+										<cfset found = "[Found]">
+										<cfset info = GetFileInfo("#filefull#")>
+										<cfset size = info.size>
+									<cfelse>
+										<cfset found = "[Not Found]">
+										<cfif NOT directoryExists("#directory#")><cfset found = "#found#[Directory Not Found]"></cfif>
+									</cfif>
+									<tr class="border mt-2 p-2"><th scope="row">File: </th><td>#media.auto_filename# #found# #size#</td></tr>
+								</cfif>
 							</cfif>
 							<cfif len(media_rel.media_relationship) gt 0>
 								<cfif media_rel.recordcount GT 1>
