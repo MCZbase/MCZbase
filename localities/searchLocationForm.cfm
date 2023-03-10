@@ -368,7 +368,7 @@
 							</div>
 						</div>
 					<div class="form-row mx-0 my-1">
-						<div class="col-5 col-md-2 col-xl-2 px-3 pl-md-3 pr-md-2 py-1">
+						<div class="col-5 col-md-2 col-xl-1 px-3 pl-md-3 pr-md-2 py-1">
 							<cfif isDefined("orig_elev_units")><cfset orig_elev_units_val="#orig_elev_units#"><cfelse><cfset orig_elev_units_val=""></cfif>
 							<label for="orig_elev_units" class="data-entry-label">Elev. Units</label>
 							<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select w-auto" style="min-width: 100px;">
@@ -418,7 +418,7 @@
 						</div>
 					</div>
 					<div class="form-row mx-0 my-1">
-						<div class="col-5 col-md-2 col-xl-2 px-3 pl-md-3 pr-md-2 py-1">
+						<div class="col-5 col-md-2 col-xl-1 px-3 pl-md-3 pr-md-2 py-1">
 							<cfif isDefined("depth_units")><cfset depth_units_val="#depth_units#"><cfelse><cfset depth_units_val=""></cfif>
 							<label for="depth_units" class="data-entry-label">Depth Units</label>
 							<select name="depth_units" id="depth_units" size="1" class="data-entry-select w-auto"  style="min-width: 100px;">
@@ -431,11 +431,16 @@
 						</div>
 						<div class="col-12 col-md-5 col-xl-3 px-3 pl-md-3 pr-md-0 py-1">
 							<label class="data-entry-label">Minimum Depth <span class="small">(Orig. Units)</span></label>
+							<cfif not isDefined("minDepthOper")><cfset minDepthOper="="></cfif>
 							<label for="minDepthOper" class="data-entry-label sr-only">Operator</label>
 							<select name="minDepthOper" id="MinDepthOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
+								<cfif minDepthOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="=">is</option>
+								<cfif minDepthOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="<>">is not</option><!--- " --->
+								<cfif minDepthOper IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value=">">more than</option><!--- " --->
+								<cfif minDepthOper IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="<">less than</option>
 							</select>
 							<cfif not isDefined("min_depth")><cfset min_depth=""></cfif>
