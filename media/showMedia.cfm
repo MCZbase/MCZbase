@@ -48,15 +48,15 @@ limitations under the License.
 					<div class="row mx-0">
 						<div class="col-12 px-0 border-bottom border-dark my-3">
 							<h1 class="h2 my-2 py-2 px-2"> Media Record 	
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-									<a class="btn float-right btn-xs btn-primary" href="/media.cfm?action=edit&media_id=#media_id#">Edit</a>
-								</cfif>
 								<button class="btn float-right btn-xs btn-primary" onclick="location.href='/media/RelatedMedia.cfm?media_id=#media_id#'">Related Media</button>
 								<cfif media.auto_host NEQ 'mczbase.mcz.harvard.edu'>
 									<a class="btn float-right btn-xs btn-primary mx-2" href="#media.media_uri#">
 										External Viewer 
 										<img src="/images/linkOut.gif" alt="arrow out">
 									</a>
+								</cfif>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+									<a class="btn float-right btn-xs btn-primary" href="/media.cfm?action=edit&media_id=#media_id#">Edit</a>
 								</cfif>
 							</h1>
 						</div>
