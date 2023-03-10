@@ -744,8 +744,8 @@ include this function and use it.
 										<cfset info = GetFileInfo("#filefull#")>
 										<cfset size = info.size>
 										<cfset sizein = "bytes">
-										<cfif size GT 1024><cfset size=Floor(size/1024)><cfset sizein="kb"></cfif>
-										<cfif size GT 1024><cfset size=Floor(size/1024)><cfset sizein="mb"></cfif>
+										<cfif size GT 1024><cfset size=Int(size/1024)><cfset sizein="kb"></cfif>
+										<cfif size GT 1024><cfset size=Int(size/1024)><cfset sizein="mb"></cfif>
 									<cfelse>
 										<cfset found = "[Not Found]">
 										<cfif NOT directoryExists("#directory#")><cfset found = "#found#[Directory Not Found]"></cfif>
