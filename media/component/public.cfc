@@ -736,17 +736,21 @@ include this function and use it.
 								<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">
 									<!--- check if file exists --->
 									<cfset size = "">
+									<cfset sizein = "">
 									<cfset filefull = "#Application.webDirectory#/#media.auto_path##media.auto_filename#">
 									<cfset directory = "#Application.webDirectory#/#media.auto_path#">
 									<cfif fileExists("#filefull#")>
 										<cfset found = "[Found]">
 										<cfset info = GetFileInfo("#filefull#")>
 										<cfset size = info.size>
+										<cfset sizein = "bytes">
+										<cfif size GT 1024><cfset size=Floor(size/1024)><cfset sizein="kb"></cfif>
+										<cfif size GT 1024><cfset size=Floor(size/1024)><cfset sizein="mb"></cfif>
 									<cfelse>
 										<cfset found = "[Not Found]">
 										<cfif NOT directoryExists("#directory#")><cfset found = "#found#[Directory Not Found]"></cfif>
 									</cfif>
-									<tr class="border mt-2 p-2"><th scope="row">File: </th><td>#media.auto_filename# #found# #size#</td></tr>
+									<tr class="border mt-2 p-2"><th scope="row">File: </th><td>#media.auto_filename# #found# #size# #sizein#</td></tr>
 								</cfif>
 							</cfif>
 							<cfif len(media_rel.media_relationship) gt 0>
