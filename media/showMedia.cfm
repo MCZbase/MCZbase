@@ -48,7 +48,7 @@ limitations under the License.
 					<div class="row mx-0">
 						<div class="col-12 px-0 border-bottom border-dark my-3">
 							<h1 class="h2 my-2 py-2 px-2"> Media Record 	
-								<button class="btn float-right btn-xs btn-primary" onclick="location.href='/media/RelatedMedia.cfm?media_id=#media_id#'">Related Media</button>
+								<a class="btn float-right btn-xs btn-primary" onclick="location.href='/media/RelatedMedia.cfm?media_id=#media_id#'">Related Media</a>
 								<cfif media.auto_host NEQ 'mczbase.mcz.harvard.edu'>
 									<a class="btn float-right btn-xs btn-primary mx-2" href="#media.media_uri#">
 										External Viewer 
