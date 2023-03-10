@@ -171,18 +171,18 @@ table##t th {
 		<div class="container-fluid container-xl">
 			<div class="row mx-0">
 				<div class="col-12 mt-3 pb-5 float-left">
-					<h1 class="h2 px-0 mt-3 pb-2">Edit Media Browse Bulkloader</h2>
+					<h1 class="h2 px-0 mt-3 pb-2">Browse Bulkloader</h2>
 					<div class="col-12 col-md-5 px-0 pr-md-3 float-left">
 						<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
 							<ul>
 								<li>
 									<h2 class="h3">Edit in SQL Table</h2>
-									<p>Allows mass updates based on existing values. Will only load 500 records at one time.   Watch your browser's loading indicator for signs of it finishing to load before trying to update data. Use "control" + "F" to find data values in table.</p>
+									<p>Allows mass updates based on existing values. Will only load 500 records at one time.   Watch your browser&apos;s loading indicator for signs of it finishing to load before trying to update data. Use "control" + "F" to find data values in table.</p>
 								</li>
 								<li class="mt-2">
 									<h2 class="h3">Edit in AJAX grid</h2>
 									<p>Opens an AJAX table. Doubleclick cells to edit.
-										Saves automatically on change. Use "control" + "F" to find column headers and data values in the table.</p>
+										Saves automatically on change. Use Browser&apos;s Find ("control" + "F") to find column headers and data values in the table.</p>
 								</li>
 							</ul>
 					</div>
