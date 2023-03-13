@@ -768,8 +768,7 @@ include this function and use it.
 									<cfset relationSeparator = "">
 									<cfset trimmedLabel= TRIM(#media_rel.label#)>
 									<cfloop query="media_rel">
-										#relationSeparator##trimmedLabel#
-										<div id = "relatedLinks" class="comma2 d-inline"><!---Display Specimens and Ledgers: relationship = %cataloged_item---><cfif media_rel.auto_table eq 'cataloged_item'>: 
+										#relationSeparator##trimmedLabel#<div id = "relatedLinks" class="comma2 d-inline"><!---Display Specimens and Ledgers: relationship = %cataloged_item---><cfif media_rel.auto_table eq 'cataloged_item'>: 
 												<cfloop query="spec">
 													<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><cfif spec.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
