@@ -342,8 +342,8 @@ limitations under the License.
 										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
 									</cfif>
 								</h3>
-							</div>
-							<div id="mediaPane" class="collapse show" <cfif #specimenMediaCount# gt 14>style="height:940px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
+							</div> <!---<cfif #specimenMediaCount# gt 14>style="height:940px;"</cfif>--from mediaPane div---> 
+							<div id="mediaPane" class="collapse show"aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<cfset specimenMediaBlock = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "shows")>
 								<div class="card-body" id="specimenMediaCardBody">
 									#specimenMediaBlock#
