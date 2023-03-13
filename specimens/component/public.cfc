@@ -332,7 +332,7 @@ limitations under the License.
 					#getImages.recordcount#
 				<cfelse>
 					<cfif #getImages.recordcount# gt 8>
-						<p class='smaller mb-1 w-100 text-center' style="margin-top:-2rem;"> double-click header to see all #getImages.recordcount#</p>
+						<p class='smaller mb-1 w-100 text-center' style="margin-top:-1.25rem;"> double-click header to see all #getImages.recordcount#</p>
 					</cfif>
 					<cfloop query="getImages">
 						<cfif l_relationship_type EQ "shows">
