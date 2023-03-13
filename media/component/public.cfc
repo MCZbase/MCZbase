@@ -413,7 +413,7 @@ include this function and use it.
 						</cfif>
 						<cfif #captionAs# EQ "textCaptionLong"><!---This is for use when a caption of 197 characters is needed --->
 							<cfif len(showTitleText) GT 232>
-								<cfset showTitleText = "#left(showTitleText,200)#..." >
+								<cfset showTitleText = "#left(showTitleText,300)#..." >
 							</cfif>
 						</cfif>
 						<cfif #captionAs# EQ "textCaptionFull"><!---This is for use when a full caption (or close to it) is needed. Related media (media viewer) --->
