@@ -840,7 +840,7 @@ include this function and use it.
 														<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#"> Permit ID: #permit.permit_id#/#permit.permit_type#</a><cfif permit.recordcount gt 1><span>, </span></cfif>
 													</cfloop>
 												<cfelse>
-													<span>Hidden</span>
+													Hidden
 												</cfif>
 											</cfif>
 											<!---Display Locality: relationship = shows locality--->
