@@ -834,10 +834,14 @@ include this function and use it.
 												</cfloop>
 											</cfif>
 											<!---Display Permit: relationship like %permit--->
-											<cfif media_rel.media_relationship contains 'permit' and oneofus eq 1>
-												<cfloop query="permit">
-													<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#"> Permit ID: #permit.permit_id#/#permit.permit_type#</a><cfif permit.recordcount gt 1><span>, </span></cfif>
-												</cfloop>
+											<cfif media_rel.media_relationship contains 'permit'>
+												<cfif oneofus eq 1>
+													<cfloop query="permit">
+														<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#"> Permit ID: #permit.permit_id#/#permit.permit_type#</a><cfif permit.recordcount gt 1><span>, </span></cfif>
+													</cfloop>
+												<cfelse>
+													<span class="font-italic">Hidden</span>
+												</cfif>
 											</cfif>
 											<!---Display Locality: relationship = shows locality--->
 											<cfif media_rel.media_relationship eq 'shows locality'>
