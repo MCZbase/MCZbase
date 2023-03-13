@@ -197,7 +197,7 @@ limitations under the License.
 						<div class="col-12 my-3">
 							<h1 class="h3 px-4 mb-0">Media Related to:</h1>
 							<cfif len(media.media_id) gt 0>
-								<div class="col-12 col-md-5 col-xl-2 pt-0 pb-2 float-left">
+								<div class="col-12 col-md-5 col-xl-3 pt-0 pb-2 float-left">
 									<div id="zoom" class="rounded highlight_media pt-2 px-2 mt-3 mb-0 pb-1">
 										<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textCaptionFull")>
 										<div class="mx-auto text-center h4 mb-0 pb-1 pt-1" id="mediaBlock#media.media_id#"> 
@@ -219,7 +219,7 @@ limitations under the License.
 									</div>
 								</div>
 							</cfif>
-							<div id="metadatatable" class="col-12 col-md-7 col-xl-10 float-left my-0 pt-3 pb-0">
+							<div id="metadatatable" class="col-12 col-md-7 col-xl-9 float-left my-0 pt-3 pb-0">
 								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
 								<div id="mediaMetadataBlock#media_id#">
 									#mediaMetadataBlock#
