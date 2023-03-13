@@ -766,9 +766,10 @@ include this function and use it.
 									<td class="w-80">
 									<!---Loops through the media relationships (query = media_rel) and specific relationship queries above (queries=accn, agents1-5,collecting_events, daccns,loan, locali, media1-2,publication, spec, underscore) to find related media to the featured image on the page. Displays Media Relationship even if the links are not provided within the relatedLinks div (due to permissions or not being set up yet). It is somewhat scalable with regards to new relationship type entries on the code table--->
 									<cfset relationSeparator = "">
+									<cfset trimmedLabel= TRIM(#media_rel.label#)>
 									<cfloop query="media_rel">
 										#relationSeparator#
-										#media_rel.label#
+										#trimmedLabel#
 										<!---The links within the div with id = "relatedLinks" provides access to the pages linked to the featured media (media_id of the page)--->
 										<div id = "relatedLinks" class="comma2 d-inline onlyfirst">
 											<!---Display Accn: documents accn--->
