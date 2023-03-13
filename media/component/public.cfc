@@ -773,10 +773,14 @@ include this function and use it.
 										#media_rel.label#<cfif len(media_rel.label) gt 0>:</cfif>
 										<div id = "relatedLinks" class="comma2 d-inline">
 											<!---Display Accn: documents accn--->
-											<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>
-												<cfloop query="accns">
-													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accns.transaction_id#" class="font-weight-lessbold">#accns.accn_number#</a><cfif accns.recordcount gt 1><span>, </span></cfif>
-												</cfloop>
+											<cfif media_rel.media_relationship eq 'documents accn'>
+												<cfif oneofus eq 1>
+													<cfloop query="accns">
+														<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accns.transaction_id#" class="font-weight-lessbold">#accns.accn_number#</a><cfif accns.recordcount gt 1><span>, </span></cfif>
+													</cfloop>
+												<cfelse>
+													<span class="d-inline font-italic">Hidden</span>
+												</cfif>
 											</cfif>
 											<!---Display Agent: created by agent query--->
 											<cfif media_rel.media_relationship eq 'created by agent'>
