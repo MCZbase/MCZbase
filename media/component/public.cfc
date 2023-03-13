@@ -775,72 +775,72 @@ include this function and use it.
 											<!---Display Accn: documents accn--->
 											<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>
 												<cfloop query="accns">
-													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accns.transaction_id#" class="font-weight-lessbold">#accns.accn_number#</a><cfif accns.recordcount gt 1><span>, </span></cfif>
+													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accns.transaction_id#" class="font-weight-lessbold">#accns.accn_number#</a><cfif accns.recordcount gt 1><span class="lastNone">, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: created by agent query--->
 											<cfif media_rel.media_relationship eq 'created by agent'>
 												<cfloop query="agents1">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a><cfif agents1.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a><cfif agents1.recordcount gt 1><span class="lastNone">, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: shows agent query--->
 											<cfif media_rel.media_relationship eq 'shows agent'>
 												<cfloop query="agents2">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents2.agent_id#"> #agents2.agent_name#</a><cfif agents2.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents2.agent_id#"> #agents2.agent_name#</a><cfif agents2.recordcount gt 1><span class="lastNone">, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: documents agent query--->
 											<cfif media_rel.media_relationship eq 'documents agent'>
 												<cfloop query="agents3">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents3.agent_id#"> #agents3.agent_name#</a><cfif agents3.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents3.agent_id#"> #agents3.agent_name#</a><cfif agents3.recordcount gt 1><span class="lastNone">, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: shows handwriting of agent query--->
 											<cfif media_rel.media_relationship eq 'shows handwriting of agent'>
 												<cfloop query="agents4">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents4.agent_id#"> #agents4.agent_name#</a><cfif agents4.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents4.agent_id#"> #agents4.agent_name#</a><cfif agents4.recordcount gt 1><span class="lastNone">, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: physical object created by agent query--->
 											<cfif media_rel.media_relationship eq 'physical object created by agent'>
 												<cfloop query="agents5">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents5.agent_id#"> #agents5.agent_name#</a><cfif agents5.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents5.agent_id#"> #agents5.agent_name#</a><cfif agents5.recordcount gt 1><span class="lastNone">, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Borrow--->
 											<cfif media_rel.media_relationship contains 'borrow'>
 												<cfloop query="borrow">
-													<a class="font-weight-lessbold" href="/borrow/Borrow.cfm?transaction_id=#borrow.transaction_id#"> #borrow.borrow_number#</a><cfif borrow.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/borrow/Borrow.cfm?transaction_id=#borrow.transaction_id#"> #borrow.borrow_number#</a><cfif borrow.recordcount gt 1><span class="lastNone">, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Collecting Event: relationship = %collecting event--->
 											<cfif media_rel.media_relationship contains 'collecting_event' and oneofus eq 1>:
 												<cfloop query="collecting_events">
 													<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_events.collecting_event_id#">#collecting_events.verbatim_locality#  #collecting_events.collecting_source# #collecting_events.verbatim_date# 
-													<cfif collecting_events.ended_date gt 0>(#collecting_events.ended_date#)</cfif></a><cfif collecting_events.recordcount gt 1><span>, </span></cfif>
+													<cfif collecting_events.ended_date gt 0>(#collecting_events.ended_date#)</cfif></a><cfif collecting_events.recordcount gt 1><span class="lastNone">, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Deaccession: relationship = documents deaccession--->
 											<cfif media_rel.media_relationship eq 'documents deaccession' and oneofus eq 1>: 
 												<cfloop query="daccns">
-													<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#daccns.transaction_id#" class="font-weight-lessbold">#daccns.deacc_number#</a><cfif daccns.recordcount gt 1><span>, </span></cfif>
+													<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#daccns.transaction_id#" class="font-weight-lessbold">#daccns.deacc_number#</a><cfif daccns.recordcount gt 1><span class="lastNone">, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display loan: relationship = documents loan--->
 											<cfif media_rel.media_relationship eq 'documents loan' and oneofus eq 1>:
 												<cfloop query="loan">
-													<a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><cfif loan.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #loan.loan_number#</a><cfif loan.recordcount gt 1><span class="lastNone">, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Permit: relationship like %permit--->
 											<cfif media_rel.media_relationship contains 'permit'>
 												<cfif oneofus eq 1>
 													<cfloop query="permit">
-														<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#"> Permit ID: #permit.permit_id#/#permit.permit_type#</a><cfif permit.recordcount gt 1><span>, </span></cfif>
+														<a class="font-weight-lessbold" href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#"> Permit ID: #permit.permit_id#/#permit.permit_type#</a><cfif permit.recordcount gt 1><span class="lastNone">, </span></cfif>
 													</cfloop>
 												<cfelse>
-													Hidden
+													<span class="small90 font-italic">Hidden</span>
 												</cfif>
 											</cfif>
 											<!---Display Locality: relationship = shows locality--->
