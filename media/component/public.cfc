@@ -768,7 +768,12 @@ include this function and use it.
 									<cfset relationSeparator = "">
 									<cfset trimmedLabel= TRIM(#media_rel.label#)>
 									<cfloop query="media_rel">
-										#relationSeparator##trimmedLabel#<div id = "relatedLinks" class="comma2 d-inline onlyfirst">
+										#relationSeparator##trimmedLabel#
+										<div id = "relatedLinks" class="comma2 d-inline onlyfirst"><!---Display Specimens and Ledgers: relationship = %cataloged_item---><cfif media_rel.auto_table eq 'cataloged_item'>: 
+												<cfloop query="spec">
+													<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><cfif spec.recordcount gt 1><span>, </span></cfif>
+												</cfloop>
+											</cfif>
 											<!---Display Accn: documents accn--->
 											<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: 
 												<cfloop query="accns">
@@ -871,12 +876,7 @@ include this function and use it.
 													<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_long# </a><cfif publication.recordcount gt 1><span> &##8226;&##8226; </span></cfif>
 												</cfloop>
 											</cfif>
-											<!---Display Specimens and Ledgers: relationship = %cataloged_item--->
-											<cfif media_rel.auto_table eq 'cataloged_item'>: 
-												<cfloop query="spec">
-													<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><cfif spec.recordcount gt 1><span>, </span></cfif>
-												</cfloop>
-											</cfif>
+										
 											<!---Display underscore_collection--->
 											<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
 												<cfloop query="underscore">
