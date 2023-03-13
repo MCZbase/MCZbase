@@ -265,9 +265,6 @@ div:focus, div > span:focus {
 	width: 0;
 	overflow: hidden;
 }
-.accordion >.card {
-	overflow: hidden; 
-}
 a {
 	color:#006ee3;/*not working for accessibility*/
 	color: #0460c1;
