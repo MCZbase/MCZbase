@@ -768,7 +768,7 @@ include this function and use it.
 									<cfset relationSeparator = "">
 									<cfloop query="media_rel">
 										#relationSeparator#
-										<span class="text-capitalize">#media_rel.label#</span>
+										#media_rel.label#
 										<!---The links within the div with id = "relatedLinks" provides access to the pages linked to the featured media (media_id of the page)--->
 										<div id = "relatedLinks" class="comma2 d-inline onlyfirst">
 											<!---Display Accn: documents accn--->
