@@ -852,35 +852,31 @@ include this function and use it.
 											<cfif media_rel.media_relationship eq 'shows locality'>: 
 												<cfloop query="locali">
 													<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: 
-													<cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#
-													</a>
-													<cfif locali.recordcount gt 1><span>, </span></cfif>
+													<cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#</a><cfif locali.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Media: relationship = related to media--->
 											<cfif media_rel.media_relationship eq 'related to media'>: 
 												<cfloop query="media1">
-													<a class="font-weight-lessbold" href="/media/#media1.pk#"> /media/#media1.pk#</a>
-													<cfif media1.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/media/#media1.pk#"> /media/#media1.pk#</a><cfif media1.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Media: relationship = transcript for audio media--->
 											<cfif media_rel.media_relationship eq 'transcript for audio media'>:
 												<cfloop query="media2">
-													<a class="font-weight-lessbold" href="/media/#media2.pk#"> /media/#media2.pk#</a>
-													<cfif media2.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/media/#media2.pk#"> /media/#media2.pk#</a><cfif media2.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display shows publication--->
 											<cfif media_rel.media_relationship eq 'shows publication'>: 
 												<cfloop query="publication">
-													<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_long# </a>
-													<cfif publication.recordcount gt 1><span> &##8226;&##8226; </span></cfif>
+													<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_long# </a><cfif publication.recordcount gt 1><span> &##8226;&##8226; </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Specimens and Ledgers: relationship = %cataloged_item--->
 											<cfif media_rel.auto_table eq 'cataloged_item'>: 
-												<cfloop query="spec"><a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><cfif spec.recordcount gt 1><span>, </span></cfif>
+												<cfloop query="spec">
+													<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><cfif spec.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display underscore_collection--->
