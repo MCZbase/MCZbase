@@ -331,9 +331,9 @@ limitations under the License.
 				<cfif isDefined("l_get_count") AND l_get_count EQ "true">
 					#getImages.recordcount#
 				<cfelse>
-					<cfif #getImages.recordcount# gt 8>
-						<p class='smaller mb-1 w-100 text-center' style="margin-top:-1.25rem;cursor:pointer;"> double-click header to see all #getImages.recordcount#</p>
-					</cfif>
+		<!---			<cfif #getImages.recordcount# gt 8>
+						<p class='smaller mb-1 w-100 text-center'> double-click header to see all #getImages.recordcount#</p>
+					</cfif>--->
 					<cfloop query="getImages">
 						<cfif l_relationship_type EQ "shows">
 							<!--- two column specimen media --->
