@@ -783,8 +783,7 @@ include this function and use it.
 											<!---Display Agent: created by agent query--->
 											<cfif media_rel.media_relationship eq 'created by agent'>:
 												<cfloop query="agents1">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a>
-													<cfif agents1.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a><cfif agents1.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: shows agent query--->
