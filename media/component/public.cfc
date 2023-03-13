@@ -769,9 +769,10 @@ include this function and use it.
 									<cfloop query="media_rel">
 										#relationSeparator#
 										<!---The links within the div with id = "relatedLinks" provides access to the pages linked to the featured media (media_id of the page)--->
-										#media_rel.label#<div id = "relatedLinks" class="comma2 d-inline">
+										#media_rel.label#
+										<div id = "relatedLinks" class="comma2 d-inline">
 											<!---Display Accn: documents accn--->
-											<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: 
+											<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1><span>:</span>
 												<cfloop query="accns">
 													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accns.transaction_id#" class="font-weight-lessbold">#accns.accn_number#</a><cfif accns.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
