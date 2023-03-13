@@ -343,7 +343,7 @@ limitations under the License.
 									</cfif>
 								</h3>
 							</div>
-							<div id="mediaPane" class="collapse show" <cfif #specimenMediaCount# gt 8>style="height:940px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
+							<div id="mediaPane" class="collapse show" <cfif #specimenMediaCount# gt 14>style="height:940px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<cfset specimenMediaBlock = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "shows")>
 								<div class="card-body" id="specimenMediaCardBody">
 									#specimenMediaBlock#
