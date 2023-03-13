@@ -768,72 +768,61 @@ include this function and use it.
 									<cfset relationSeparator = "">
 									<cfloop query="media_rel">
 										#relationSeparator#
-										
 										<!---The links within the div with id = "relatedLinks" provides access to the pages linked to the featured media (media_id of the page)--->
 										#media_rel.label#<div id = "relatedLinks" class="comma2 d-inline onlyfirst">
 											<!---Display Accn: documents accn--->
 											<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: 
 												<cfloop query="accns">
-													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accns.transaction_id#" class="font-weight-lessbold">#accns.accn_number#</a> 
-													<cfif accns.recordcount gt 1><span>, </span></cfif>
+													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accns.transaction_id#" class="font-weight-lessbold">#accns.accn_number#</a><cfif accns.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: created by agent query--->
 											<cfif media_rel.media_relationship eq 'created by agent'>:
 												<cfloop query="agents1">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a>
-													<cfif agents1.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a><cfif agents1.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: shows agent query--->
 											<cfif media_rel.media_relationship eq 'shows agent'>:
 												<cfloop query="agents2">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents2.agent_id#"> #agents2.agent_name#</a>
-													<cfif agents2.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents2.agent_id#"> #agents2.agent_name#</a><cfif agents2.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: documents agent query--->
 											<cfif media_rel.media_relationship eq 'documents agent'>:
 												<cfloop query="agents3">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents3.agent_id#"> #agents3.agent_name#</a>
-													<cfif agents3.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents3.agent_id#"> #agents3.agent_name#</a><cfif agents3.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: shows handwriting of agent query--->
 											<cfif media_rel.media_relationship eq 'shows handwriting of agent'>:
 												<cfloop query="agents4">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents4.agent_id#"> #agents4.agent_name#</a>
-													<cfif agents4.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents4.agent_id#"> #agents4.agent_name#</a><cfif agents4.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: physical object created by agent query--->
 											<cfif media_rel.media_relationship eq 'physical object created by agent'>:
 												<cfloop query="agents5">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents5.agent_id#"> #agents5.agent_name#</a>
-													<cfif agents5.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents5.agent_id#"> #agents5.agent_name#</a><cfif agents5.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Borrow--->
 											<cfif media_rel.media_relationship contains 'borrow'>:
 												<cfloop query="borrow">
-													<a class="font-weight-lessbold" href="/borrow/Borrow.cfm?transaction_id=#borrow.transaction_id#"> #borrow.borrow_number#</a>
-													<cfif borrow.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/borrow/Borrow.cfm?transaction_id=#borrow.transaction_id#"> #borrow.borrow_number#</a><cfif borrow.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Collecting Event: relationship = %collecting event--->
 											<cfif media_rel.media_relationship contains 'collecting_event' and oneofus eq 1>:
 												<cfloop query="collecting_events">
 													<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_events.collecting_event_id#">#collecting_events.verbatim_locality#  #collecting_events.collecting_source# #collecting_events.verbatim_date# 
-													<cfif collecting_events.ended_date gt 0>(#collecting_events.ended_date#)</cfif>  
-													</a>
-													<cfif collecting_events.recordcount gt 1><span>, </span></cfif>
+													<cfif collecting_events.ended_date gt 0>(#collecting_events.ended_date#)</cfif></a><cfif collecting_events.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Deaccession: relationship = documents deaccession--->
 											<cfif media_rel.media_relationship eq 'documents deaccession' and oneofus eq 1>: 
 												<cfloop query="daccns">
-													<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#daccns.transaction_id#" class="font-weight-lessbold">#daccns.deacc_number#</a> 
-													<cfif daccns.recordcount gt 1><span>, </span></cfif>
+													<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#daccns.transaction_id#" class="font-weight-lessbold">#daccns.deacc_number#</a><cfif daccns.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display loan: relationship = documents loan--->
@@ -852,9 +841,7 @@ include this function and use it.
 											<cfif media_rel.media_relationship eq 'shows locality'>: 
 												<cfloop query="locali">
 													<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: 
-													<cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#
-													</a>
-													<cfif locali.recordcount gt 1><span>, </span></cfif>
+													<cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#</a><cfif locali.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Media: relationship = related to media--->
@@ -881,15 +868,13 @@ include this function and use it.
 											<!---Display Specimens and Ledgers: relationship = %cataloged_item--->
 											<cfif media_rel.auto_table eq 'cataloged_item'>: 
 												<cfloop query="spec">
-													<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
-													<cfif spec.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><cfif spec.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display underscore_collection--->
 											<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
 												<cfloop query="underscore">
-													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a>
-													<cfif underscore.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore.underscore_collection_id#"> #underscore.collection_name#</a><cfif underscore.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 										</div>
