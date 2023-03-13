@@ -417,8 +417,8 @@ include this function and use it.
 							</cfif>
 						</cfif>
 						<cfif #captionAs# EQ "textCaptionFull"><!---This is for use when a full caption (or close to it) is needed. Related media (media viewer) --->
-							<cfif len(showTitleText) GT 1200>
-								<cfset showTitleText = "#left(showTitleText,1200)#..." >
+							<cfif len(showTitleText) GT 1500>
+								<cfset showTitleText = "#left(showTitleText,1500)#..." >
 							</cfif>
 						</cfif>
 						<cfif #captionAs# EQ "textShort"><!---This is for use with a small size or with "thumb" so that the caption will be short (e.g., specimen details page)--->
