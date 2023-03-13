@@ -764,14 +764,11 @@ include this function and use it.
 								<tr>
 									<th scope="row">Relationship#plural#:&nbsp;</span></th>
 									<td class="w-80">
-									<!---Loops through the media relationships (query = media_rel) and specific relationship queries above (queries=accn, agents1-5,collecting_events, daccns,loan, locali, media1-2,publication, spec, underscore) to find related media to the featured image on the page. Displays Media Relationship even if the links are not provided within the relatedLinks div (due to permissions or not being set up yet). It is somewhat scalable with regards to new relationship type entries on the code table--->
+									<!---Loops through the media relationships (query = media_rel) and specific relationship queries above (queries=accn, agents1-5,collecting_events, daccns,loan, locali, media1-2,publication, spec, underscore) to find related media to the featured image on the page. Displays Media Relationship even if the links are not provided within the relatedLinks div (due to permissions or not being set up yet). It is somewhat scalable with regards to new relationship type entries on the code table---><!---The links within the div with id = "relatedLinks" provides access to the pages linked to the featured media (media_id of the page)--->
 									<cfset relationSeparator = "">
 									<cfset trimmedLabel= TRIM(#media_rel.label#)>
 									<cfloop query="media_rel">
-										#relationSeparator#
-										#trimmedLabel#
-										<!---The links within the div with id = "relatedLinks" provides access to the pages linked to the featured media (media_id of the page)--->
-										<div id = "relatedLinks" class="comma2 d-inline onlyfirst">
+										#relationSeparator##trimmedLabel#<div id = "relatedLinks" class="comma2 d-inline onlyfirst">
 											<!---Display Accn: documents accn--->
 											<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: 
 												<cfloop query="accns">
