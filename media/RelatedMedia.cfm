@@ -283,7 +283,7 @@ limitations under the License.
 														<cfif relm.recordcount gt 0>
 															<cfset i = 1>
 															<cfloop query="relm">
-																<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
+																<div class="col-md-4 col-lg-3 col-xl-2 px-1 pt-1 float-left multizoom thumbs">
 																	<ul class="list-group px-0">
 																		<li class="list-group-item px-0 mx-1">
 																			<cfset mediablock= getMediaBlockHtml(media_id="#relm.mk#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
