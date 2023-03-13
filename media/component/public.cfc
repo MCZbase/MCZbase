@@ -769,7 +769,7 @@ include this function and use it.
 									<cfloop query="media_rel">
 										#relationSeparator#
 										<!---The links within the div with id = "relatedLinks" provides access to the pages linked to the featured media (media_id of the page)--->
-										#media_rel.label#<div id = "relatedLinks" class="comma2 d-inline onlyfirst">
+										#media_rel.label#<div id = "relatedLinks" class="comma2 d-inline">
 											<!---Display Accn: documents accn--->
 											<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: 
 												<cfloop query="accns">
