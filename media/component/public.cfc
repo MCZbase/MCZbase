@@ -762,17 +762,15 @@ include this function and use it.
 									<cfset plural = "">
 								</cfif>
 								<tr>
-									<th scope="row">Relationship#plural#:&nbsp;</span></th>
+									<th scope="row">Relationship#plural#:&nbsp; </span></th>
 									<td class="w-80">
-									<!---Loops through the media relationships (query = media_rel) and specific relationship queries above (queries=accn, agents1-5,collecting_events, daccns,loan, locali, media1-2,publication, spec, underscore) to find related media to the featured image on the page. Displays Media Relationship even if the links are not provided within the relatedLinks div (due to permissions or not being set up yet). It is somewhat scalable with regards to new relationship type entries on the code table---><!---The links within the div with id = "relatedLinks" provides access to the pages linked to the featured media (media_id of the page)--->
+									<!---Loops through the media relationships (query = media_rel) and specific relationship queries above (queries=accn, agents1-5,collecting_events, daccns,loan, locali, media1-2,publication, spec, underscore) to find related media to the featured image on the page. Displays Media Relationship even if the links are not provided within the relatedLinks div (due to permissions or not being set up yet). It is somewhat scalable with regards to new relationship type entries on the code table--->
 									<cfset relationSeparator = "">
-									<cfset trimmedLabel= TRIM(#media_rel.label#)>
 									<cfloop query="media_rel">
-										#relationSeparator##trimmedLabel#<div id = "relatedLinks" class="comma2 d-inline"><!---Display Specimens and Ledgers: relationship = %cataloged_item---><cfif media_rel.auto_table eq 'cataloged_item'>: 
-												<cfloop query="spec">
-													<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><cfif spec.recordcount gt 1><span>, </span></cfif>
-												</cfloop>
-											</cfif>
+										#relationSeparator#
+										<span class="text-capitalize">#media_rel.label#</span>
+										<!---The links within the div with id = "relatedLinks" provides access to the pages linked to the featured media (media_id of the page)--->
+										<div id = "relatedLinks" class="comma2 d-inline onlyfirst">
 											<!---Display Accn: documents accn--->
 											<cfif media_rel.media_relationship eq 'documents accn' and oneofus eq 1>: 
 												<cfloop query="accns">
@@ -783,7 +781,8 @@ include this function and use it.
 											<!---Display Agent: created by agent query--->
 											<cfif media_rel.media_relationship eq 'created by agent'>:
 												<cfloop query="agents1">
-													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a><cfif agents1.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents1.agent_id#"> #agents1.agent_name#</a>
+													<cfif agents1.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Agent: shows agent query--->
@@ -853,28 +852,39 @@ include this function and use it.
 											<cfif media_rel.media_relationship eq 'shows locality'>: 
 												<cfloop query="locali">
 													<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #NumberFormat(locali.dec_lat,'00.00')#, #NumberFormat(locali.dec_long,'00.00')# (datum: 
-													<cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#</a><cfif locali.recordcount gt 1><span>, </span></cfif>
+													<cfif len(locali.datum)gt 0>#locali.datum#<cfelse>none listed</cfif>) error: #locali.error##locali.units#
+													</a>
+													<cfif locali.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Media: relationship = related to media--->
 											<cfif media_rel.media_relationship eq 'related to media'>: 
 												<cfloop query="media1">
-													<a class="font-weight-lessbold" href="/media/#media1.pk#"> /media/#media1.pk#</a><cfif media1.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/media/#media1.pk#"> /media/#media1.pk#</a>
+													<cfif media1.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display Media: relationship = transcript for audio media--->
 											<cfif media_rel.media_relationship eq 'transcript for audio media'>:
 												<cfloop query="media2">
-													<a class="font-weight-lessbold" href="/media/#media2.pk#"> /media/#media2.pk#</a><cfif media2.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="/media/#media2.pk#"> /media/#media2.pk#</a>
+													<cfif media2.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display shows publication--->
 											<cfif media_rel.media_relationship eq 'shows publication'>: 
 												<cfloop query="publication">
-													<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_long# </a><cfif publication.recordcount gt 1><span> &##8226;&##8226; </span></cfif>
+													<a class="font-weight-lessbold" href="/publications/showPublication.cfm?publication_id=#publication.pk#">#publication.pub_long# </a>
+													<cfif publication.recordcount gt 1><span> &##8226;&##8226; </span></cfif>
 												</cfloop>
 											</cfif>
-										
+											<!---Display Specimens and Ledgers: relationship = %cataloged_item--->
+											<cfif media_rel.auto_table eq 'cataloged_item'>: 
+												<cfloop query="spec">
+													<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a>
+													<cfif spec.recordcount gt 1><span>, </span></cfif>
+												</cfloop>
+											</cfif>
 											<!---Display underscore_collection--->
 											<cfif media_rel.media_relationship eq 'shows underscore_collection'>:
 												<cfloop query="underscore">
