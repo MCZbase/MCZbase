@@ -906,7 +906,7 @@ include this function and use it.
 											<!---Display Specimens parts--->
 											<cfif media_rel.auto_table eq 'specimen_part'> 
 												<cfloop query="specpart">
-													<a class="font-weight-lessbold" href="">#spec.part_name#</a><cfif spec.recordcount gt 1><span>, </span></cfif>
+													<a class="font-weight-lessbold" href="">#specpart.part_name#</a><cfif specpart.recordcount gt 1><span>, </span></cfif>
 												</cfloop>
 											</cfif>
 											<!---Display underscore_collection--->
