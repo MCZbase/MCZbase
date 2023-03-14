@@ -398,6 +398,7 @@
 		order by 
 			decode(geology_attribute,
 				'Lithology',1,
+				'Supergroup',9,
 				'Group',10,
 				'Formation',11,
 				'Member',12,
