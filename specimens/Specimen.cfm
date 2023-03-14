@@ -342,10 +342,11 @@ limitations under the License.
 										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
 									</cfif>
 								</h3>
-							</div> <!---<cfif #specimenMediaCount# gt 14>style="height:940px;"</cfif>--from mediaPane div---> 
-							<div id="mediaPane" class="collapse show"aria-labelledby="headingMedia" data-parent="##accordionMedia">
+							</div> 
+							<div id="mediaPane" class="collapse show"aria-labelledby="headingMedia" <cfif #specimenMediaCount# gt 24>style="height:940px;"</cfif> data-parent="##accordionMedia">
 								<cfset specimenMediaBlock = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "shows")>
 								<div class="card-body" id="specimenMediaCardBody">
+									<cfif #specimenMediaCount# gt 24>click once to close and another time to see all #partCount#</cfif>
 									#specimenMediaBlock#
 								</div>
 							</div>
@@ -525,7 +526,7 @@ limitations under the License.
 							<div id="PartsPane" <cfif #partCount# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
 								<div class="card-body px-1" id="partsCardBody">
 									<p class="smaller py-0 mb-0 text-center w-100">
-										<cfif #partCount# gt 5>click the part header twice to see all #partCount#</cfif>
+										<cfif #partCount# gt 5>click once to close and another time to see all #partCount#</cfif>
 									</p>
 									<cfset blockparts = getPartsHTML(collection_object_id = "#collection_object_id#")>
 									#blockparts#
