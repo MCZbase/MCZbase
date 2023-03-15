@@ -379,7 +379,7 @@ include this function and use it.
 							<cfif listcontainsnocase(session.roles,"manage_publications")><span class="sr-only">#media_type# (#mime_type#)</span></cfif>
 							<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>) '>
 							<cfif media_uri contains "www.morphosource.org">
-								<cfset output='#output#(<a class="" href="#media_uri#">File <img src="/images/linkOut.gif"></a>)'>
+								<cfset output='#output#(<a class="" href="#media_uri#">File <img src="/images/linkOut.gif" class="m-0 p-0"></a>)'>
 							<cfelse>
 								<cfset output='#output#(<a class="" href="#media_uri#">File</a>)'>
 							</cfif>
