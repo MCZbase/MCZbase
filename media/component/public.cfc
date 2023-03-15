@@ -448,7 +448,7 @@ include this function and use it.
 							<!--- close an unclosed italic tag resulting from truncation --->
 							<cfset showTitleText = "#showTitleText#</i>">
 						</cfif>
-						<cfset output='#output#<p class="text-center col-12 my-0 p-0 small" > #showTitleText# </p>'>
+						<cfset output='#output#<p class="text-left col-12 my-0 p-0 small" > #showTitleText# </p>'>
 						<cfif len(#license_uri#) gt 0>
 							<cfif #captionAs# EQ "TextFull">
 								<!---height is needed on the caption within the <p> or the media will not flow well--the above comment works but may not work on other, non specimen detail pages--->
