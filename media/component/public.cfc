@@ -402,43 +402,39 @@ include this function and use it.
 						<cfset showTitleText = trim(title)>
 						<cfif title contains 'ledger entry'>
 							<cfset textAlign = "text-left">
+						<cfelse>
+							<cfset textAlign = "text-center">
 						</cfif>
 						<cfif len(showTitleText) EQ 0>
 							<cfset showTitleText = trim(subject)>
-							<cfset textAlign = "text-center">
 						</cfif>
 						<cfif len(showTitleText) EQ 0>
 							<cfset showTitleText = "Externally Sourced Media Object">
-							<cfset textAlign = "text-center">
+							
 						</cfif>
 						<cfif #captionAs# EQ "textCaption"><!---This is for use when a caption of 197 characters is needed --->
 							<cfif len(showTitleText) GT 197>
 								<cfset showTitleText = "#left(showTitleText,197)#..." >
-								<cfset textAlign = "text-center">
 							</cfif>
 						</cfif>
 						<cfif #captionAs# EQ "textCaptionLong"><!---This is for use when a caption of 197 characters is needed --->
 							<cfif len(showTitleText) GT 232>
 								<cfset showTitleText = "#left(showTitleText,200)#..." >
-								<cfset textAlign = "text-center">
 							</cfif>
 						</cfif>
 						<cfif #captionAs# EQ "textCaptionFull"><!---This is for use when a full caption (or close to it) is needed. Related media (media viewer) --->
 							<cfif len(showTitleText) GT 3999>
 								<cfset showTitleText = "#left(showTitleText,3999)#..." >
-								<cfset textAlign = "text-left">
 							</cfif>
 						</cfif>
 						<cfif #captionAs# EQ "textShort"><!---This is for use with a small size or with "thumb" so that the caption will be short (e.g., specimen details page)--->
 							<cfif len(showTitleText) GT 100>
 								<cfset showTitleText = "#left(showTitleText,100)#..." >
-								<cfset textAlign = "text-center">
 							</cfif>
 						</cfif>
 						<cfif #captionAs# EQ "textFull"><!---This is for use with a size and the caption is 250 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
 							<cfif len(showTitleText) GT 250>
 								<cfset showTitleText = "#left(showTitleText,250)#..." >
-								<cfset textAlign = "text-center">
 							</cfif>
 						</cfif>
 						<!--- clean up broken html tags resulting from truncation of scientific names with <i></i> tags --->
@@ -458,7 +454,7 @@ include this function and use it.
 							<!--- close an unclosed italic tag resulting from truncation --->
 							<cfset showTitleText = "#showTitleText#</i>">
 						</cfif>
-						<cfset output='#output#<p class="text-center col-12 my-0 p-0 small"> #showTitleText# </p>'>
+						<cfset output='#output#<p class="#textAlign# col-12 my-0 p-0 small"> #showTitleText# </p>'>
 						<cfif len(#license_uri#) gt 0>
 							<cfif #captionAs# EQ "TextFull">
 								<!---height is needed on the caption within the <p> or the media will not flow well--the above comment works but may not work on other, non specimen detail pages--->
