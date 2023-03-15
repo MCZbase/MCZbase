@@ -10,9 +10,10 @@
 						SELECT
 							distinct(table_name) table_name
 						FROM
-							sys.user_tables
+							sys.dba_tables
 						WHERE
 							table_name like 'CT%'
+							and owner = 'MCZBASE'
 						UNION 
 							select 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name from dual
 						ORDER BY table_name
@@ -59,7 +60,7 @@
 		SELECT
 			table_name found_table
 		FROM
-			sys.user_tables
+			sys.dba_tables
 		WHERE
 			table_name like 'CT%'
 			and table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#table#">
