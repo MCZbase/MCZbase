@@ -93,6 +93,7 @@ limitations under the License.
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'collecting_event'
 		UNION
+		<cfif oneofus gt 0>
 		select distinct loan.transaction_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from loan
 		left join trans on trans.transaction_id = loan.transaction_id
@@ -101,6 +102,7 @@ limitations under the License.
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'loan'
 		UNION
+		</cfif>
 		select distinct accn.transaction_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from accn
 		left join trans on trans.transaction_id = accn.transaction_id
@@ -109,6 +111,7 @@ limitations under the License.
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'accn'
 		UNION
+		<cfif oneofus gt 0>
 		select distinct deaccession.transaction_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from deaccession
 		left join trans on trans.transaction_id = deaccession.transaction_id
@@ -117,6 +120,8 @@ limitations under the License.
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'deaccession'
 		UNION
+		</cfif>
+		<cfif oneofus gt 0>
 		select distinct borrow.transaction_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from borrow
 		left join trans on trans.transaction_id = borrow.transaction_id
@@ -125,6 +130,7 @@ limitations under the License.
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'borrow'
 		UNION
+		</cfif>
 		select distinct mr.related_primary_key as pk, m.media_uri as rel, ct.label as label, ct.auto_table as at
 		from media_relations mr
 		join media m on m.media_id = mr.media_id
