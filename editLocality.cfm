@@ -387,30 +387,27 @@
 			locality.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 	</cfquery>
 	<cfquery name="geolDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    	select
-			*
-		from
-			geology_attributes,
-			preferred_agent_name
-		where
-			geology_attributes.geo_att_determiner_id = preferred_agent_name.agent_id (+) and
+		SELECT
+			geology_attributes.GEOLOGY_ATTRIBUTE_ID GEOLOGY_ATTRIBUTE_ID,
+			geology_attributes.LOCALITY_ID LOCALITY_ID,
+			geology_attributes.GEOLOGY_ATTRIBUTE GEOLOGY_ATTRIBUTE,
+			geology_attributes.GEO_ATT_VALUE GEO_ATT_VALUE,
+			geology_attributes.GEO_ATT_DETERMINER_ID GEO_ATT_DETERMINER_ID,
+			geology_attributes.GEO_ATT_DETERMINED_DATE GEO_ATT_DETERMINED_DATE,
+			geology_attributes.GEO_ATT_DETERMINED_METHOD GEO_ATT_DETERMINED_METHOD,
+			geology_attributes.GEO_ATT_REMARK GEO_ATT_REMARK,
+			geology_attributes.PREVIOUS_VALUES PREVIOUS_VALUES,
+			preferred_agent_name.AGENT_NAME AGENT_NAME,
+			preferred_agent_name.AGENT_ID AGENT_ID,
+			ctgeology_attributes.TYPE geo_att_type
+		FROM
+			geology_attributes
+			left join preferred_agent_name on geology_attributes.geo_att_determiner_id = preferred_agent_name.agent_id 
+			left join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
+		WHERE
 			geology_attributes.locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-		order by 
-			decode(geology_attribute,
-				'Lithology',1,
-				'Group',10,
-				'Formation',11,
-				'Member',12,
-				'Horizon',13,
-				'Bed',14,
-				'Eonothem/Eon',20,
-				'Erathem/Era',21,
-				'Period/System',22,
-				'Epoch/Series',23,
-				'Sub-Epoch', 24,
-				'Age/Stage', 25,
-				'Zone',26,
-				50)
+		ORDER BY
+			ctgeology_attributes.ordinal asc 
 	</cfquery>
 	<cfquery name="whatSpecs" datasource="uam_god">
   		SELECT
