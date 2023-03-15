@@ -62,12 +62,12 @@ limitations under the License.
 						</div>
 						<div class="col-12 px-0 my-0">
 							<cfif len(media.media_id) gt 0>
-								<div class="rounded border bg-light col-12 col-md-3 float-left my-2 pt-3 pb-0">
+								<div class="rounded border bg-light col-12 col-md-5 col-xl-4 float-left my-2 pt-3 pb-0">
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textCaptionFull")>
 									<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 								</div>
 							</cfif>
-							<div class="float-left col-12 col-md-9 px-0 mt-2 pl-md-4">
+							<div class="float-left col-12 col-md-7 col-xl-8 px-0 mt-2 pl-md-4">
 								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
 								<div id="mediaMetadataBlock#media_id#">
 									#mediaMetadataBlock#
