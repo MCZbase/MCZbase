@@ -400,6 +400,9 @@ include this function and use it.
 						<cfset output='#output#</p>'>
 						<cfset output='#output#<div class="py-1">'>
 						<cfset showTitleText = trim(title)>
+						<cfif title contains 'ledger entry'>
+							<cfset textAlign = "text-left">
+						</cfif>
 						<cfif len(showTitleText) EQ 0>
 							<cfset showTitleText = trim(subject)>
 							<cfset textAlign = "text-center">
