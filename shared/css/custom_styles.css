@@ -2752,14 +2752,14 @@ tr.line-top-sd {
 }
 @media only screen and (min-width: 1467px) {
 	.variedHeight {
-		height: 250px;
+		height: 220px;
 	}
 }
-@media only screen and (min-device-width: 1468px) and (max-device-width: 2000px) {
+/*@media only screen and (min-device-width: 1468px) and (max-device-width: 2000px) {
 	.variedHeight {
 		height: 235px;
 	}
-}
+}*/
 /*******************/
 /*******************/
 /*******************/
