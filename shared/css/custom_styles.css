@@ -2909,7 +2909,7 @@ and also iPads specifically.
 }
 @media only screen and (max-width: 1379px) {
 	.variedHeight {
-		height: 280px;
+		height: 283px;
 	}
 	ol.flowXXS, ul.flowXXS {
 		display:flex;
@@ -3017,17 +3017,17 @@ and also iPads specifically.
 }
 @media only screen and (max-width: 1200px) {
 	.variedHeight {
-		height: 282px;
+		height: 283px;
 	}
 }
 @media only screen and (max-width: 1199px) {
 	.variedHeight {
-		height: 245px;
+		height: 217px;
 	}
 }
 @media only screen and (max-width: 1000px) {
 	.variedHeight {
-		height: 245px;
+		height: 217px;
 	}
 }
 @media only screen and (max-width: 991px) {
