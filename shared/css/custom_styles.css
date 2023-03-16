@@ -2648,6 +2648,7 @@ tr.line-top-sd {
 	.w-350 {
 		width: 100%;
 	}
+
 	ol.flowXXS,ul.flowXXS {
 		display:flex;
 		flex-flow: column wrap; /* direction: column */
@@ -2751,6 +2752,11 @@ tr.line-top-sd {
 	}
 	ol.flowNone li a,ul.flowNone li a {
 		padding-right: 3px;
+	}
+}
+@media only screen and (min-width: 1450px) {
+	.variedHeight {
+		height: 225px;
 	}
 }
 /*******************/
