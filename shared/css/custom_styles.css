@@ -2894,14 +2894,10 @@ and also iPads specifically.
 		padding-right: 3px;
 	}
 }
-@media only screen and (min-width: 1470px) {
-	.variedHeight {
-		height: 230px;
-	}
-}
+
 @media only screen and (min-width: 1466px) {
 	.variedHeight {
-		height: 217px;
+		height: 235px;
 	}
 }
 
