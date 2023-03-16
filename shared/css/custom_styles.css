@@ -2895,12 +2895,16 @@ and also iPads specifically.
 	}
 }
 
-@media only screen and (min-width: 1467px) {
+@media only screen and (min-width: 1513px) {
 	.variedHeight {
 		height: 217px;
 	}
 }
-
+@media only screen and (max-width: 1512px) {
+	.variedHeight {
+		height: 240px;
+	}
+}
 
 @media only screen and (max-width: 1466px) {
 	.variedHeight {
