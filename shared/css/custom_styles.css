@@ -2633,11 +2633,7 @@ tr.line-top-sd {
 /*********************************/
 /* Device styles below ***********/
 /*********************************/
-@media only screen and (min-device-width: 1468px) and (max-device-width: 2000px) {
-	.variedHeight {
-		height: 235px;
-	}
-}
+
 @media only screen and (min-width: 1599px) {
 	.container-wide {
 		padding-right: 9%;
@@ -2759,6 +2755,11 @@ tr.line-top-sd {
 		height: 250px;
 	}
 }
+@media only screen and (min-device-width: 1468px) and (max-device-width: 2000px) {
+	.variedHeight {
+		height: 235px;
+	}
+}
 /*******************/
 /*******************/
 /*******************/
@@ -2773,6 +2774,7 @@ a.wrapurl {
 ul li.list-unstyled span:last-child {
 	display:none;
 }
+
 /* 
 Max width before this PARTICULAR table gets nasty
 This query will take effect for any screen smaller than 760px
