@@ -2750,11 +2750,7 @@ tr.line-top-sd {
 		padding-right: 3px;
 	}
 }
-@media only screen and (min-width: 1467px) {
-	.variedHeight {
-		height: 220px;
-	}
-}
+
 /*@media only screen and (min-device-width: 1468px) and (max-device-width: 2000px) {
 	.variedHeight {
 		height: 235px;
@@ -2896,6 +2892,16 @@ and also iPads specifically.
 	}
 	ol.flowNone li a,ul.flowNone li a {
 		padding-right: 3px;
+	}
+}
+@media only screen and (min-width: 1467px) {
+	.variedHeight {
+		height: 220px;
+	}
+}
+@media only screen and (max-width: 1466px) {
+	.variedHeight {
+		height: 280px;
 	}
 }
 @media only screen and (max-width: 1379px) {
