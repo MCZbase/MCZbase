@@ -25,7 +25,8 @@
 
 .thumbs { /* divs holding the trigger links - styles optional, used here to center their links below their respective zoomable image */
 	padding-top: 25px;
-	width: 500px;
+	width: auto;
+/*	width: 500px;  --- this cannot have a width for responsive design*/
 	text-align: center;
 }
 
