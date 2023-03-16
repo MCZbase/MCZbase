@@ -2909,7 +2909,7 @@ and also iPads specifically.
 }
 @media only screen and (max-width: 1379px) {
 	.variedHeight {
-		height: 255px;
+		height: 280px;
 	}
 	ol.flowXXS, ul.flowXXS {
 		display:flex;
