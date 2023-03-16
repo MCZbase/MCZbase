@@ -3020,12 +3020,17 @@ and also iPads specifically.
 		height: 282px;
 	}
 }
-@media only screen and (max-width: 995px) {
+@media only screen and (max-width: 1199px) {
 	.variedHeight {
 		height: 245px;
 	}
 }
-@media only screen and (max-width: 990px) {
+@media only screen and (max-width: 1000px) {
+	.variedHeight {
+		height: 245px;
+	}
+}
+@media only screen and (max-width: 991px) {
 	input#searchText.form-control {
 		min-width: auto;
 	}
@@ -3248,7 +3253,7 @@ and also iPads specifically.
 }	
 @media only screen and (max-width: 768px) {
 	.variedHeight {
-		height: 195px;
+		height: 210px;
 	}
 	.tab-content {
 		margin-top: -4px;
