@@ -2633,7 +2633,7 @@ tr.line-top-sd {
 /*********************************/
 /* Device styles below ***********/
 /*********************************/
-@media only screen and (min-device-width: 1500px) and (max-device-width: 2000px) {
+@media only screen and (min-device-width: 1468px) and (max-device-width: 2000px) {
 	.variedHeight {
 		height: 235px;
 	}
