@@ -2901,7 +2901,7 @@ and also iPads specifically.
 }
 @media only screen and (max-width: 1466px) {
 	.variedHeight {
-		height: 280px;
+		height: 285px;
 	}
 }
 @media only screen and (max-width: 1379px) {
@@ -3015,6 +3015,11 @@ and also iPads specifically.
 @media only screen and (max-width: 1200px) {
 	.variedHeight {
 		height: 210px;
+	}
+}
+@media only screen and (max-width: 1000px) {
+	.variedHeight {
+		height: 245px;
 	}
 }
 @media only screen and (max-width: 990px) {
