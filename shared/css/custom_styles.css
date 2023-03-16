@@ -2635,7 +2635,7 @@ tr.line-top-sd {
 /*********************************/
 @media only screen and (min-device-width: 1500px) and (max-device-width: 2000px) {
 	.variedHeight {
-		height: 215px;
+		height: 205px;
 	}
 }
 @media only screen and (min-width: 1599px) {
@@ -3000,7 +3000,7 @@ and also iPads specifically.
 }
 @media only screen and (max-width: 1250px) {
 	.variedHeight {
-		height: 250px;
+		height: 205px;
 	}
 }
 @media only screen and (max-width: 990px) {
@@ -3008,7 +3008,7 @@ and also iPads specifically.
 		min-width: auto;
 	}
 	.variedHeight {
-	height: 220px;	
+	height: 248px;	
 	}
 	h1 {
 		margin-bottom: 0;
@@ -3226,7 +3226,7 @@ and also iPads specifically.
 }	
 @media only screen and (max-width: 768px) {
 	.variedHeight {
-		height: 215px;
+		height: 195px;
 	}
 	.tab-content {
 		margin-top: -4px;
