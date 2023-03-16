@@ -2626,16 +2626,16 @@ tr.line-top-sd {
 	border-top: 2px solid #e8eaeb!important;
 }
 .variedHeight {
-	height: 210px;
+	height: 212px;
 }
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
 /* Device styles below ***********/
 /*********************************/
-@media only screen and (min-device-width: 1400px) and (max-device-width: 2000px) {
+@media only screen and (min-device-width: 1500px) and (max-device-width: 2000px) {
 	.variedHeight {
-		height: 228px;
+		height: 215px;
 	}
 }
 @media only screen and (min-width: 1599px) {
@@ -2892,7 +2892,7 @@ and also iPads specifically.
 }
 @media only screen and (max-width: 1379px) {
 	.variedHeight {
-		height: 280px;
+		height: 250px;
 	}
 	ol.flowXXS, ul.flowXXS {
 		display:flex;
@@ -3000,7 +3000,7 @@ and also iPads specifically.
 }
 @media only screen and (max-width: 1250px) {
 	.variedHeight {
-		height: 268px;
+		height: 250px;
 	}
 }
 @media only screen and (max-width: 990px) {
