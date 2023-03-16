@@ -3026,12 +3026,12 @@ and also iPads specifically.
 }
 @media only screen and (max-width: 1199px) {
 	.variedHeight {
-		height: 217px;
+		height: 250px;
 	}
 }
 @media only screen and (max-width: 1000px) {
 	.variedHeight {
-		height: 217px;
+		height: 250px;
 	}
 }
 @media only screen and (max-width: 991px) {
