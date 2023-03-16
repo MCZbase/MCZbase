@@ -2998,11 +2998,11 @@ and also iPads specifically.
 		padding-right: 3px;
 	}
 }
-/*@media only screen and (max-width: 1250px) {
+@media only screen and (max-width: 1200px) {
 	.variedHeight {
-		height: 205px;
+		height: 200px;
 	}
-}*/
+}
 @media only screen and (max-width: 990px) {
 	input#searchText.form-control {
 		min-width: auto;
