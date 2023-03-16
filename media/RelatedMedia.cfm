@@ -269,7 +269,7 @@ limitations under the License.
 														<!---Some of the ledgers have the same primary key as the agent_ids. I haven't found it on other types of relationships. We may need a different fix if it is more widespread.--->
 														<!---Loops through only spec query to get media images and captions for the white card in Related Media section for media relationships like "audio transcript for media" and "related to media"--->
 														<cfif spec.rel contains 'media'>
-															<div class="col-md-4 col-lg-3 col-xl-2 px-1 pt-1 float-left multizoom thumbs">
+															<div class="col-md-4 col-lg-3 px-1 pt-1 float-left multizoom thumbs">
 																<ul class="list-group px-0">
 																	<li class="list-group-item px-0 mx-1">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#spec.pk#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
