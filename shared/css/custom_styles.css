@@ -2906,11 +2906,11 @@ and also iPads specifically.
 	}
 }
 
-@media only screen and (max-width: 1466px) {
+/*@media only screen and (max-width: 1466px) {
 	.variedHeight {
 		height: 250px;
 	}
-}
+}*/
 @media only screen and (max-width: 1379px) {
 	.variedHeight {
 		height: 283px;
@@ -3019,28 +3019,28 @@ and also iPads specifically.
 		padding-right: 3px;
 	}
 }
-@media only screen and (max-width: 1200px) {
+/*@media only screen and (max-width: 1200px) {
 	.variedHeight {
 		height: 283px;
 	}
-}
+}*/
 @media only screen and (max-width: 1199px) {
 	.variedHeight {
 		height: 250px;
 	}
 }
-@media only screen and (max-width: 1000px) {
+/*@media only screen and (max-width: 1000px) {
 	.variedHeight {
 		height: 250px;
 	}
-}
+}*/
 @media only screen and (max-width: 991px) {
 	input#searchText.form-control {
 		min-width: auto;
 	}
-	.variedHeight {
+/*	.variedHeight {
 	height: 250px;	
-	}
+	}*/
 	h1 {
 		margin-bottom: 0;
 	}
