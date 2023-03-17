@@ -137,7 +137,7 @@ limitations under the License.
 						} else { 
 							coordinates = " " + nogeorefbecause + " ";
 						}
-						if (sovereigNation) {
+						if (sovereignNation) {
 							if (sovereignNation=="[unknown]") { 
 								sovereignNation = " Sovereign Nation: " + sovereignNation + " ";
 							} else {
