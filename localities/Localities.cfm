@@ -100,13 +100,13 @@ limitations under the License.
 						var sovereignNation = rowData['SOVEREIGN_NATION'];
 						var minimum_elevation = rowData['MINIMUM_ELEVATION'];
 						var maximum_elevation = rowData['MAXIMUM_ELEVATION'];
-						var orig_elevation_units = rowData['ORIG_ELEV_UNITS'];
+						var origElevUnits = rowData['ORIG_ELEV_UNITS'];
 						if (minimum_elevation) { 
 							elevation = " Elev: " + minimum_elevation;
 							if (maximum_elevation && maximum_elevation != minimum_elevation) {
 								elevation = elevation + "-" + maximum_elevation;
 							}
-							elevation = elevation + " " + orig_elev_units + " ";
+							elevation = elevation + " " + origElevUnits + " ";
 						} else {
 							elevation = "";
 						}
