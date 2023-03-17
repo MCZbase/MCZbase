@@ -94,10 +94,10 @@ limitations under the License.
 						var spec_locality = rowData['SPEC_LOCALITY'];
 						var id = rowData['LOCALITY_ID'];
 						var locality_remarks = rowData['LOCALITY_REMARKS'];
-						if (locality_remarks) { remarks = " remarks: " + locality_remarks + " "; } else { remarks = ""; }
+						if (locality_remarks) { remarks = ". Remarks: " + locality_remarks + " "; } else { remarks = ""; }
 						var curated_fg = rowData['CURATED_FG'];
 						if (curated_fg=="1") { curated = "*"; } else { curated = ""; }
-						var sovereign_nation = rowData['SOVEREIGN_NATION'];
+						var sovereignNation = rowData['SOVEREIGN_NATION'];
 						var minimum_elevation = rowData['MINIMUM_ELEVATION'];
 						var maximum_elevation = rowData['MAXIMUM_ELEVATION'];
 						var orig_elevation_units = rowData['ORIG_ELEV_UNITS'];
@@ -112,15 +112,14 @@ limitations under the License.
 						}
 						var min_depth = rowData['MIN_DEPTH'];
 						var max_depth = rowData['MAX_DEPTH'];
+						var depthval = "";
 						var depth_units = rowData['DEPTH_UNITS'];
 						if (min_depth) { 
-							depth = " Depth: " + min_depth;
+							depthval = " Depth: " + min_depth;
 							if (max_depth && max_depth != min_depth) {
-								depth = depth + "-" + max_depth;
+								depthval = depthval + "-" + max_depth;
 							}
-							depth = depth + " " + depth_units + " ";
-						} else {
-							depth = "";
+							depthval = depthval + " " + depth_units + " ";
 						}
 						var plss = rowData['PLSS'];
 						var geolatts = rowData['GEOLATTS'];
@@ -138,15 +137,15 @@ limitations under the License.
 						} else { 
 							coordinates = " " + nogeorefbecause + " ";
 						}
-						if (sovereign_nation) {
-							if (sovereign_nation=="[unknown]") { 
-								sovereign_nation = " Sovereign Nation: " + sovereign_nation + " ";
+						if (sovereigNation) {
+							if (sovereignNation=="[unknown]") { 
+								sovereignNation = " Sovereign Nation: " + sovereignNation + " ";
 							} else {
-								sovereign_nation = " " + sovereign_nation + " ";
+								sovereignNation = " " + sovereignNation + " ";
 							}
 						}
 						if (plss) { plss = " " + plss + " "; } 
-						var data = spec_locality + geology +  elevation + depth + sovereign_nation + plss + coordinates + remarks + " (" + id + ")" + curated;
+						var data = spec_locality + geology +  elevation + depthval + sovereignNation + plss + coordinates + remarks + " (" + id + ")" + curated;
 					   return data;
 					};
 					/** createLocalityRowDetailsDialog, create a custom loan specific popup dialog to show details for
