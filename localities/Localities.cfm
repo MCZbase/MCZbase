@@ -145,7 +145,7 @@ limitations under the License.
 							}
 						}
 						if (plss) { plss = " " + plss + " "; } 
-						var data = spec_locality + geology +  elevation + depthval + sovereignNation + plss + coordinates + remarks + " (" + id + ")" + curated;
+						var data = $.trim(spec_locality + geology +  elevation + depthval + sovereignNation + plss + coordinates) + remarks + " (" + id + ")" + curated;
 					   return data;
 					};
 					/** createLocalityRowDetailsDialog, create a custom loan specific popup dialog to show details for

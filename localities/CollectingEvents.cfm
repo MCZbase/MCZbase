@@ -146,7 +146,7 @@ limitations under the License.
 							}
 						}
 						if (plss) { plss = " " + plss + " "; } 
-						var data = spec_locality + geology +  elevation + depth + sovereign_nation + plss + coordinates + remarks + " (" + id + ")" + curated;
+						var data = $.trim(spec_locality + geology +  elevation + depth + sovereign_nation + plss + coordinates) + remarks + " (" + id + ")" + curated;
 					   return data;
 					};
 					/** makeEventSummary combine row data for collecting event into a single text string **/
