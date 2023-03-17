@@ -94,7 +94,7 @@ limitations under the License.
 						var spec_locality = rowData['SPEC_LOCALITY'];
 						var id = rowData['LOCALITY_ID'];
 						var locality_remarks = rowData['LOCALITY_REMARKS'];
-						if (locality_remarks) { remarks = " remarks: " + locality_remarks + " "; } else { remarks = ""; }
+						if (locality_remarks) { remarks = ". Remarks: " + locality_remarks + " "; } else { remarks = ""; }
 						var curated_fg = rowData['CURATED_FG'];
 						if (curated_fg=="1") { curated = "*"; } else { curated = ""; }
 						var sovereign_nation = rowData['SOVEREIGN_NATION'];
@@ -106,7 +106,7 @@ limitations under the License.
 							if (maximum_elevation && maximum_elevation != minimum_elevation) {
 								elevation = elevation + "-" + maximum_elevation;
 							}
-							elevation = elevation + " " + orig_elev_units + " ";
+							elevation = $.trim(elevation + " " + orig_elevation_units) + ". ";
 						} else {
 							elevation = "";
 						}
@@ -118,7 +118,7 @@ limitations under the License.
 							if (max_depth && max_depth != min_depth) {
 								depth = depth + "-" + max_depth;
 							}
-							depth = depth + " " + depth_units + " ";
+							depth = $.trim(depth + " " + depth_units) + ". ";
 						} else {
 							depth = "";
 						}
