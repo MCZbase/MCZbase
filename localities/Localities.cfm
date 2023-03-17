@@ -110,16 +110,16 @@ limitations under the License.
 						} else {
 							elevation = "";
 						}
-						var min_depth = rowData['MIN_DEPTH'];
-						var max_depth = rowData['MAX_DEPTH'];
+						var minDepth = rowData['MIN_DEPTH'];
+						var maxDepth = rowData['MAX_DEPTH'];
 						var depthval = "";
-						var depth_units = rowData['DEPTH_UNITS'];
-						if (min_depth) { 
-							depthval = " Depth: " + min_depth;
-							if (max_depth && max_depth != min_depth) {
+						var depthUnits = rowData['DEPTH_UNITS'];
+						if (minDepth) { 
+							depthval = " Depth: " + minDepth;
+							if (maxDepth && maxDepth != minDepth) {
 								depthval = depthval + "-" + max_depth;
 							}
-							depthval = depthval + " " + depth_units + " ";
+							depthval = depthval + " " + depthUnits + " ";
 						}
 						var plss = rowData['PLSS'];
 						var geolatts = rowData['GEOLATTS'];
