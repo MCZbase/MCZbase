@@ -106,7 +106,7 @@ limitations under the License.
 							if (maximum_elevation && maximum_elevation != minimum_elevation) {
 								elevation = elevation + "-" + maximum_elevation;
 							}
-							elevation = elevation + " " + origElevUnits + " ";
+							elevation = $.trim(elevation + " " + origElevUnits) + ". ";
 						} else {
 							elevation = "";
 						}
@@ -119,7 +119,7 @@ limitations under the License.
 							if (maxDepth && maxDepth != minDepth) {
 								depthval = depthval + "-" + max_depth;
 							}
-							depthval = depthval + " " + depthUnits + " ";
+							depthval = $.trim(depthval + " " + depthUnits) + ". ";
 						}
 						var plss = rowData['PLSS'];
 						var geolatts = rowData['GEOLATTS'];
