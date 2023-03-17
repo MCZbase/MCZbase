@@ -129,12 +129,13 @@ limitations under the License.
 						var dec_long = rowData['DEC_LONG'];
 						var datum = rowData['DATUM'];
 						var max_error_distance = rowData['MAX_ERROR_DISTANCE'];
+						var max_error_units = rowData['MAX_ERROR_UNITS'];
 						var extent = rowData['EXTENT'];
 						var verificationstatus = rowData['VERIFICATIONSTATUS'];
 						var georefmethod = rowData['GEOREFMETHOD'];
 						var nogeorefbecause = rowData['NOGEOREFBECAUSE'];
 						if (dec_lat) { 
-							coordinates = " " + dec_lat + ", " + dec_long + " " + datum + " ±" + max_error_distance + " " + verificationstatus + " ";
+							coordinates = " " + dec_lat + ", " + dec_long + " " + datum + " ±" + max_error_distance + " " + max_error_units +  " " + verificationstatus + " ";
 						} else { 
 							coordinates = " " + nogeorefbecause + " ";
 						}
@@ -360,6 +361,7 @@ limitations under the License.
 									{ name: 'DEC_LONG', type: 'string' },
 									{ name: 'DATUM', type: 'string' },
 									{ name: 'MAX_ERROR_DISTANCE', type: 'string' },
+									{ name: 'MAX_ERROR_UNITS', type: 'string' },
 									{ name: 'COORDINATEUNCERTAINTYINMETERS', type: 'string' },
 									{ name: 'EXTENT', type: 'string' },
 									{ name: 'VERIFICATIONSTATUS', type: 'string' },
@@ -482,6 +484,7 @@ limitations under the License.
 									{ text: 'Long.', datafield: 'DEC_LONG', width: 100, hideable: true, hidden: getColHidProp('DEC_LONG',true) },
 									{ text: 'Datum', datafield: 'DATUM', width: 100, hideable: true, hidden: getColHidProp('DATUM',true) },
 									{ text: 'Error Radius', datafield: 'MAX_ERROR_DISTANCE', width: 100, hideable: true, hidden: getColHidProp('MAX_ERROR_DISTANCE',true) },
+									{ text: 'Error Units', datafield: 'MAX_ERROR_UNITS', width: 100, hideable: true, hidden: getColHidProp('MAX_ERROR_UNITS',true) },
 									{ text: 'coordinateUncertantyInMeters', datafield: 'COORDINATEUNCERTAINTYINMETERS', width: 100, hideable: true, hidden: getColHidProp('COORDINATEUNCERTAINTYINMETERS',true) },
 									{ text: 'Extent', datafield: 'EXTENT', width: 100, hideable: true, hidden: getColHidProp('EXTENT',true) },
 									{ text: 'Georef Verifier', datafield: 'GEOREF_VERIFIED_BY_AGENT', width: 100, hideable: true, hidden: getColHidProp('GEOREF_VERIFIED_BY_AGENT',true) },
