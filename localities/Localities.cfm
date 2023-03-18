@@ -227,8 +227,8 @@ limitations under the License.
 						}
 					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowData) {
+							//var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 							var id = encodeURIComponent(rowData['LOCALITY_ID']);
 							return '<a target="_blank" href="/editLocality.cfm?locality_id=' + id + '">Edit</a>';
 						};
