@@ -233,7 +233,7 @@ limitations under the License.
 							console.log(value);
 							//var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 							var id = encodeURIComponent(rowData['LOCALITY_ID']);
-							return '<a target="_blank" href="/editLocality.cfm?locality_id=' + id + '">Edit</a>';
+							return '<a target="_blank" href="/editLocality.cfm?locality_id=' + id + '">Edit '+id+'</a>';
 						};
 					</cfif>
 
