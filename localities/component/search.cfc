@@ -476,7 +476,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfif left(higher_geog,1) is "=">
 						AND upper(geog_auth_rec.higher_geog) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(higher_geog,len(higher_geog)-1))#">
 					<cfelse>
-						and geog_auth_rec.higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#higher_geog#%">
+						and upper(geog_auth_rec.higher_geog) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(higher_geog)#%">
 					</cfif>
 				</cfif>
 				<cfif isDefined("valid_catalog_term_fg") and len(valid_catalog_term_fg) gt 0>
@@ -966,7 +966,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						<cfif left(higher_geog,1) is "=">
 							AND upper(geog_auth_rec.higher_geog) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(higher_geog,len(higher_geog)-1))#">
 						<cfelse>
-							and geog_auth_rec.higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#higher_geog#%">
+							and upper(geog_auth_rec.higher_geog) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(higher_geog)#%">
 						</cfif>
 					</cfif>
 				</cfif>
@@ -1944,7 +1944,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						<cfif left(higher_geog,1) is "=">
 							AND upper(geog_auth_rec.higher_geog) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(higher_geog,len(higher_geog)-1))#">
 						<cfelse>
-							and geog_auth_rec.higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#higher_geog#%">
+							and upper(geog_auth_rec.higher_geog) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(higher_geog)#%">
 						</cfif>
 					</cfif>
 				</cfif>
