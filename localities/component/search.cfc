@@ -161,7 +161,7 @@ limitations under the License.
 	<cfelseif left(value,1) is ">"><!--- " --->
 		<cfset pre = "#field# > "><!--- " --->
 		<cfset outvalue="#right(value,len(value)-1)#">
-	<cfelseif find('-',value) GT 1>
+	<cfelseif REFind('^-{0,1}[0-9.]+--{0-1}[0-9.]+$',value) GT 0>
 		<cfset bits = listToArray(value,'-')>
 		<cfif arrayLen(bits) GT 1>
 			<cfif REFind('^[0-9.]+-[0-9.]+$',value) GT 0>
