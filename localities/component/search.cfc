@@ -1464,7 +1464,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 							BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 							AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
 						<cfelse>
-							AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']# scale="10"> #setup["post"]#
+							AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#" scale="10"> #setup["post"]#
 						</cfif>
 					</cfif>
 				</cfif>
