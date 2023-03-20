@@ -223,7 +223,7 @@ limitations under the License.
 							{ name: 'short_name', type: 'string' },
 							{ name: 'publication_count', type: 'string' },
 							{ name: 'journal_name', type: 'string' }, 
-							{ name: 'journal_name_1', type: 'string', map='journal_name' }
+							{ name: 'journal_name_1', type: 'string', map: 'journal_name' }
 						],
 						updaterow: function (rowid, rowdata, commit) {
 							commit(true);
