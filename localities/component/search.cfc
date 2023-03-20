@@ -164,10 +164,27 @@ limitations under the License.
 	<cfelseif find('-',value) GT 1>
 		<cfset bits = listToArray(value,'-')>
 		<cfif arrayLen(bits) GT 1>
-			<cfset pre = "#field# ">
-			<cfset between="true">
-			<cfset outvalue="#bits[1]#">
-			<cfset outvalue2="#bits[2]#">
+			<cfif REFind('^[0-9.]+-[0-9.]+$',value) GT 0>
+				<cfset pre = "#field# ">
+				<cfset between="true">
+				<cfset outvalue="#bits[1]#">
+				<cfset outvalue2="#bits[2]#">
+			<cfelseif REFind('^[0-9.]+--[0-9.]+$',value) GT 0>
+				<cfset pre = "#field# ">
+				<cfset between="true">
+				<cfset outvalue="#bits[1]#">
+				<cfset outvalue2="-#bits[2]#">
+			<cfelseif REFind('^-[0-9.]+-[0-9.]+$',value) GT 0>
+				<cfset pre = "#field# ">
+				<cfset between="true">
+				<cfset outvalue="-#bits[1]#">
+				<cfset outvalue2="#bits[2]#">
+			<cfelseif REFind('^-[0-9.]+--[0-9.]+$',value) GT 0>
+				<cfset pre = "#field# ">
+				<cfset between="true">
+				<cfset outvalue="-#bits[1]#">
+				<cfset outvalue2="-#bits[2]#">
+			</cfif>
 		<cfelse>
 			<cfset pre = "#field# = ">
 			<cfset outvalue="#bits[1]#">
