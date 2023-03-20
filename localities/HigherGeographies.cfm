@@ -97,10 +97,9 @@ limitations under the License.
 						}
 					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
-						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowData) {
 							var id = encodeURIComponent(rowData['GEOG_AUTH_REC_ID']);
-							return '<a target="_blank" href="/Locality.cfm?action=editGeog&geog_auth_rec_id=' + id + '">Edit</a>';
+							return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/Locality.cfm?action=editGeog&geog_auth_rec_id=' + id + '">Edit</a>';
 						};
 					</cfif>
 
@@ -121,6 +120,7 @@ limitations under the License.
 								datafields:
 								[
 									{ name: 'GEOG_AUTH_REC_ID', type: 'string' },
+									{ name: 'GEOG_AUTH_REC_ID_1', type: 'string', map: 'GEOG_AUTH_REC_ID' },
 									{ name: 'CONTINENT_OCEAN', type: 'string' },
 									{ name: 'COUNTRY', type: 'string' },
 									{ name: 'STATE_PROV', type: 'string' },
@@ -189,7 +189,7 @@ limitations under the License.
 								columns: [
 									{ text: 'ID', datafield: 'GEOG_AUTH_REC_ID',width: 100, hideabel: false, cellsrenderer: linkIdCellRenderer  },
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
-										{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
+										{text: 'Edit', datafield: 'GEOG_AUTH_REC_ID_1', width:60, hideable: false, cellsrenderer: editCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
 									{ text: 'Continent/Ocean', datafield: 'CONTINENT_OCEAN',width: 100, hideabel: true, hidden: getColHidProp('CONTINENT_OCEAN',true)  },

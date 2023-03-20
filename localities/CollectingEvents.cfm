@@ -292,15 +292,13 @@ limitations under the License.
 						}
 					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-						var editLocCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						var editLocCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowData) {
 							var id = encodeURIComponent(rowData['LOCALITY_ID']);
-							return '<a target="_blank" href="/editLocality.cfm?locality_id=' + id + '">Loc.</a>';
+							return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/editLocality.cfm?locality_id=' + id + '">Loc.</a>';
 						};
-						var editEventCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						var editEventCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowData) {
 							var id = encodeURIComponent(rowData['COLLECTING_EVENT_ID']);
-							return '<a target="_blank" href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=' + id + '">Evt.</a>';
+							return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=' + id + '">Evt.</a>';
 						};
 					</cfif>
 
@@ -341,6 +339,7 @@ limitations under the License.
 									{ name: 'HIGHERGEOGRAPHYID', type: 'string' },
 									{ name: 'SPECIMEN_COUNT', type: 'string' },
 									{ name: 'LOCALITY_ID', type: 'string' },
+									{ name: 'LOCALITY_ID_1', type: 'string', map: 'LOCALITY_ID' },
 									{ name: 'SPEC_LOCALITY', type: 'string' },
 									{ name: 'CURATED_FG', type: 'string' },
 									{ name: 'SOVEREIGN_NATION', type: 'string' },
@@ -371,6 +370,7 @@ limitations under the License.
 									{ name: 'GEOREF_DETERMINED_BY_AGENT', type: 'string' },
 									{ name: 'LOCALITY_REMARKS', type: 'string' },
 									{ name: 'COLLECTING_EVENT_ID', type: 'string' },
+									{ name: 'COLLECTING_EVENT_ID_1', type: 'string', map: 'COLLECTING_EVENT_ID' },
 									{ name: 'VERBATIM_DATE', type: 'string'},
 									{ name: 'VERBATIM_LOCALITY', type: 'string'},
 									{ name: 'VALID_DISTRIBUTION_FG', type: 'string'},
@@ -441,8 +441,8 @@ limitations under the License.
 								showtoolbar: false,
 								columns: [
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-										{text: 'Edit', datafield: 'edit_loc', width:60, columntype: 'button', hideable: false, cellsrenderer: editLocCellRenderer},
-										{text: 'Edit', datafield: 'edit_coll_event', width:60, columntype: 'button', hideable: false, cellsrenderer: editEventCellRenderer},
+										{text: 'Edit', datafield: 'COLLECTING_EVENT_ID_1', width:60, hideable: false, cellsrenderer: editLocCellRenderer},
+										{text: 'Edit', datafield: 'LOCALITY_ID_1', width:60, hideable: false, cellsrenderer: editEventCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
 									{ text: 'collecting_event_id', datafield: 'COLLECTING_EVENT_ID',width: 100, hideabel: true, hidden: getColHidProp('COLLECTING_EVENT_ID',true) },
