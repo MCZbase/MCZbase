@@ -229,7 +229,7 @@ limitations under the License.
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowData) {
 							var id = encodeURIComponent(rowData['LOCALITY_ID']);
-							return '<a target="_blank" class="btn btn-xs btn-warning ml-1" href="/editLocality.cfm?locality_id=' + id + '">Edit</a>';
+							return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/editLocality.cfm?locality_id=' + id + '">Edit</a>';
 						};
 					</cfif>
 
