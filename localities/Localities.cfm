@@ -352,7 +352,7 @@ limitations under the License.
 								showtoolbar: false,
 								columns: [
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-										{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
+										{text: 'Edit', datafield: 'LOCALITY_ID', width:60, hideable: false, cellsrenderer: editCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
 									{ text: 'Locality_id', datafield: 'LOCALITY_ID',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_ID',true) },
