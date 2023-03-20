@@ -184,10 +184,9 @@ limitations under the License.
 				lookupColumnVisibilities ('#cgi.script_name#','Default');
 			</cfif>
 
-			var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+			var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowData) {
 				var journalName = encodeURIComponent(rowData['journal_name']);
-				return '<a target="_blank" href="/publications/Journal.cfm?action=edit&journal_name=' + journalName + '">Edit</a>';
+				return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/publications/Journal.cfm?action=edit&journal_name=' + journalName + '">Edit</a>';
 			};
 			var pubCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -223,7 +222,8 @@ limitations under the License.
 							{ name: 'start_year', type: 'string' },
 							{ name: 'short_name', type: 'string' },
 							{ name: 'publication_count', type: 'string' },
-							{ name: 'journal_name', type: 'string' }
+							{ name: 'journal_name', type: 'string' }, 
+							{ name: 'journal_name_1', type: 'string', map='journal_name' }
 						],
 						updaterow: function (rowid, rowdata, commit) {
 							commit(true);
@@ -274,7 +274,7 @@ limitations under the License.
 						showtoolbar: false,
 						columns: [
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_codetables")>
-								{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
+								{text: 'Edit', datafield: 'journal_name_1', width:60, hideable: false, cellsrenderer: editCellRenderer},
 							</cfif>
 							{text: 'Journal Name', datafield: 'journal_name', width:400, hideable: false },
 							{text: 'Publications', datafield: 'publication_count', width:50, hideable: true, hidden: getColHidProp('publication_count', false), cellsrenderer: pubCellRenderer },
