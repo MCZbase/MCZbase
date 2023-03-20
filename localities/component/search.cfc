@@ -1445,8 +1445,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 							AND #setup["pre"]# #setup["post"]#
 						<cfelseif setup["between"] EQ "true">
 							AND #setup["pre"]# 
-							BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
-							AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
+							BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" scale="10" > 
+							AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#" scale="10"> 
 						<cfelse>
 							AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#" scale="10"> #setup["post"]#
 						</cfif>
@@ -1461,8 +1461,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 							AND #setup["pre"]# #setup["post"]#
 						<cfelseif setup["between"] EQ "true">
 							AND #setup["pre"]# 
-							BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
-							AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
+							BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" scale="10" > 
+							AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#" scale="10"> 
 						<cfelse>
 							AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#" scale="10"> #setup["post"]#
 						</cfif>
