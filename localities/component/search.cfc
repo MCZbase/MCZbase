@@ -184,7 +184,16 @@ limitations under the License.
 				<cfset between="true">
 				<cfset outvalue="-#bits[1]#">
 				<cfset outvalue2="-#bits[2]#">
+			<cfelse>
+				<cfset pre = "#field# = ">
+				<cfset outvalue="#bits[1]#">
 			</cfif>
+			<cfif len(outvalue) GT 0 and len(outvalue2) GT 0 and val(outvalue) GT val(outvalue2)>
+				<!--- switch order for range search to low to high --->
+				<cfset temp=outvalue2>
+				<cfset outvalue2=outvalue>
+				<cfset outvalue=temp>
+			</cfif> 
 		<cfelse>
 			<cfset pre = "#field# = ">
 			<cfset outvalue="#bits[1]#">
