@@ -1,4 +1,4 @@
-<!--
+<!---
 media/RelatedMedia.cfm
 
 Show gallery of media related to a specifed media object.
@@ -17,7 +17,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
--->
+--->
+<cfif not isdefined('media_id') OR  len(media_id) EQ 0>
+	<!--- redirect to media search page --->
+	<cflocation url="/media/findMedia.cfm">
+</cfif>
+
 <cfset pageTitle="Related Media">
 <cfinclude template="/shared/_header.cfm">
 

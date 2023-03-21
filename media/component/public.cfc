@@ -344,21 +344,19 @@ include this function and use it.
 					<cfelseif #captionAs# EQ "textLinks">
 						<!--- textLinks is used when only the links are desired under the thumbnail--->
 						<cfset output='#output#<div class="mt-0 col-12 pb-1 px-0">'>
-						<cfset output='#output#<p class="text-center px-1 pb-1 mb-0 small col-12">'>
+						<cfset output='#output#<p class="text-center px-1 pb-1 mb-0 small col-12">'><!--- ' --->
 						<cfif listcontainsnocase(session.roles,"manage_specimens")>
 							<cfset output='#output#<span class="d-inline">(<a href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>'>
 						</cfif>
-						<cfset output='#output#(<a class="" href="/media/#media_id#">Media Record</a>)'>
+						<cfset output='#output#(<a class="" href="/media/#media_id#">Media Record</a>)'><!--- ' --->
 						<cfif NOT isDisplayable>
 							<cfif listcontainsnocase(session.roles,"manage_publications")> <span class="sr-only">#media_type# (#mime_type#)</span></cfif>
-								<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
+								<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'><!--- ' --->
 							<cfelse>
 								<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
-									<!---If on the zoom/related page, i.e. RelatedMedia.cfm, we don't need a link to it.--->
-									
-								<cfelse><!---Changed else on 1/20/23 to make it easier to test--->
-									<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>---><!-- should make it show on spec details--->
-									<cfset output='#output#<span class="d-none d-md-inline-block">(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">zoom/related</a>)</span>'>
+									<!---If on the zoom/related page, i.e. RelatedMedia.cfm, we do not need a link to it.--->
+								<cfelse>
+									<cfset output='#output#<span class="d-none d-md-inline-block">(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">related</a>)</span>'>
 								</cfif>
 								<cfif len(iiifFull) GT 0>
 									<cfset output='#output#(<a class="" href="#iiifFull#">full</a>)'>
@@ -383,12 +381,10 @@ include this function and use it.
 							<cfelse>
 								<cfset output='#output#(<a class="" href="#media_uri#">File</a>)'>
 							</cfif>
-							
 						<cfelse>
 							<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
-								<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>) '>
+								<!---If on the zoom/related page, i.e. RelatedMedia.cfm, we do not need a link to it.--->
 							<cfelse>
-								<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>--->
 								<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>) '>
 							</cfif>
 							<cfif len(iiifFull) GT 0>
