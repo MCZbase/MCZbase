@@ -102,7 +102,11 @@ limitations under the License.
 							<input type="hidden" name="filterFamily" value="#filterFamily#">
 						</cfif>
 						<cfset showSpecimenCounts = false>
-						<cfinclude template="/localities/searchLocationForm.cfm">
+						<div class="row mx-0">
+							<section class="container-fluid" role="search">
+								<cfinclude template="/localities/searchLocationForm.cfm">
+							</section>
+						</div>
 					</form>
 				</div>
 			</div>

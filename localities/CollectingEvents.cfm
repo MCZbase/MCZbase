@@ -48,7 +48,11 @@ limitations under the License.
 						<cfset newSearchTarget = "/localities/CollectingEvents.cfm">
 						<cfif pageTitle eq "Search Collecting Events"><h1 class="h2 mt-3 px-4">Find Collecting Event</h1></cfif>
 						<input type="hidden" id="method" name="method" value="getCollectingEvents">
-						<cfinclude template = "/localities/searchLocationForm.cfm">
+						<div class="row mx-0">
+							<section class="container-fluid" role="search">
+								<cfinclude template = "/localities/searchLocationForm.cfm">
+							</section>
+						</div>
 					</form>
 		
 					<!--- Results table as a jqxGrid. --->

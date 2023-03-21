@@ -91,25 +91,23 @@ limitations under the License.
 		<cfset showLocality=1>
 		<cfset showEvent=1>
 		<cfoutput>
-		<!---	<div class="container-lg">--->
-	<!---			<div class="search-box">
-					<div class="search-box-header">--->
-						<h1 class="h2 mt-3 mb-0 px-4">Find new collecting event for cataloged items [in #encodeForHtml(result_id)#]</h1>
-					<!---</div>--->
-					<form name="getLoc" method="post" action="/specimens/changeQueryCollEvent.cfm">
-						<input type="hidden" name="Action" value="findCollectingEvent">
-						<input type="hidden" name="result_id" value="#result_id#">
-						<cfif isdefined("filterOrder")>
-							<input type="hidden" name="filterOrder" value="#filterOrder#">
-						</cfif>
-						<cfif isdefined("filterFamily")>
-							<input type="hidden" name="filterFamily" value="#filterFamily#">
-						</cfif>
-						<cfset showSpecimenCounts = false>
+			<h1 class="h2 mt-3 mb-0 px-4">Find new collecting event for cataloged items [in #encodeForHtml(result_id)#]</h1>
+			<form name="getLoc" method="post" action="/specimens/changeQueryCollEvent.cfm">
+				<input type="hidden" name="Action" value="findCollectingEvent">
+				<input type="hidden" name="result_id" value="#result_id#">
+				<cfif isdefined("filterOrder")>
+					<input type="hidden" name="filterOrder" value="#filterOrder#">
+				</cfif>
+				<cfif isdefined("filterFamily")>
+					<input type="hidden" name="filterFamily" value="#filterFamily#">
+				</cfif>
+				<cfset showSpecimenCounts = false>
+				<div class="row mx-0">
+					<section class="container-fluid" role="search">
 						<cfinclude template="/localities/searchLocationForm.cfm">
-					</form>
-				<!---</div>--->
-		<!---	</div>--->
+					</section>
+				</div>
+			</form>
 		</cfoutput>
 	</cfcase>
 
