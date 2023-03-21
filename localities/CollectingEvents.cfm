@@ -458,6 +458,8 @@ limitations under the License.
 									{ text: 'Coll Method', datafield: 'COLLECTING_METHOD',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_METHOD',true)  },
 									{ text: 'Coll Source', datafield: 'COLLECTING_SOURCE',width: 200, hideabel: true, hidden: getColHidProp('COLLECTING_SOURCE',true)  },
 									{ text: 'Time', datafield: 'COLLECTIING_TIME',width: 200, hideabel: true, hidden: getColHidProp('COLLECTIING_TIME',true)  },
+									{ text: 'Coll Event Remarks', datafield: 'COLL_EVENT_REMARKS',width: 100, hideabel: true, hidden: getColHidProp('COLL_EVENT_REMARKS',true)  },
+									{ text: 'Habitat', datafield: 'HABITAT_DESC',width: 100, hideabel: true, hidden: getColHidProp('HABITAT_DESC',true)  },
 									{ text: 'Verb. Coordinates', datafield: 'VERBATIMCOORDINATES',width: 200, hideabel: true, hidden: getColHidProp('VERBATIMCOORDINATES',true)  },
 									{ text: 'Verb. Lat.', datafield: 'VERBATIMLATITUDE',width: 200, hideabel: true, hidden: getColHidProp('VERBATIMLATITUDE',true)  },
 									{ text: 'Verb. Long.', datafield: 'VERBATIMLONGITUDE',width: 200, hideabel: true, hidden: getColHidProp('VERBATIMLONGITUDE',true)  },
