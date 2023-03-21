@@ -671,7 +671,7 @@ include this function and use it.
 					order by guid
 				</cfquery>
 				<cfquery name="specpart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct specimen_part.collection_object_id as pk, specimen_part.part_name
+					select distinct specimen_part.part_name
 					from media_relations
 						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 						left join specimen_part on specimen_part.derived_from_cat_item = flat.collection_object_id
