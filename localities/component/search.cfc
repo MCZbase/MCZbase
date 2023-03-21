@@ -2426,27 +2426,35 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					AND locality.locality_id in (select locality_id from FLAT group by locality_id having count(distinct collection_cde) > 1)
 				</cfif>
 				<cfif isdefined("dec_lat") and len(#dec_lat#) gt 0>
-					<cfset setup = setupNumericClause(field="accepted_lat_long.dec_lat",value="#dec_lat#")>
-					<cfif len(setup["value"]) EQ 0>
-						AND #setup["pre"]# #setup["post"]#
-					<cfelseif setup["between"] EQ "true">
-						AND #setup["pre"]# 
-						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
-						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
+				   <cfif left(dec_lat,1) is "=">
+						AND to_char(accepted_lat_long.dec_lat,'TM') = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(dec_lat,len(dec_lat)-1)#">
 					<cfelse>
-						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+						<cfset setup = setupNumericClause(field="accepted_lat_long.dec_lat",value="#dec_lat#")>
+						<cfif len(setup["value"]) EQ 0>
+							AND #setup["pre"]# #setup["post"]#
+						<cfelseif setup["between"] EQ "true">
+							AND #setup["pre"]# 
+							BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" scale="10" > 
+							AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#" scale="10"> 
+						<cfelse>
+							AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#" scale="10"> #setup["post"]#
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("dec_long") and len(#dec_long#) gt 0>
-					<cfset setup = setupNumericClause(field="accepted_lat_long.dec_long",value="#dec_long#")>
-					<cfif len(setup["value"]) EQ 0>
-						AND #setup["pre"]# #setup["post"]#
-					<cfelseif setup["between"] EQ "true">
-						AND #setup["pre"]# 
-						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
-						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
+				   <cfif left(dec_long,1) is "=">
+						AND to_char(accepted_lat_long.dec_long,'TM') = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(dec_long,len(dec_long)-1)#">
 					<cfelse>
-						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+						<cfset setup = setupNumericClause(field="accepted_lat_long.dec_long",value="#dec_long#")>
+						<cfif len(setup["value"]) EQ 0>
+							AND #setup["pre"]# #setup["post"]#
+						<cfelseif setup["between"] EQ "true">
+							AND #setup["pre"]# 
+							BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" scale="10" > 
+							AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#" scale="10"> 
+						<cfelse>
+							AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#" scale="10"> #setup["post"]#
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("datum") AND len(datum) gt 0>
