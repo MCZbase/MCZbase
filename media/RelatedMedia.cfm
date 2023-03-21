@@ -224,7 +224,7 @@ limitations under the License.
 												<aside class="collapse collapseStyle mt-0 border-warning rounded border-top border-right border-bottom border-left" id="collapseFixed" style="z-index: 5;">
 													<div class="card card-body p-3">
 														<h3 class="h5 mb-1">Media Zoom </h3>
-														<p class="d-none d-md-block mb-0 small85 line90">Hover over the image to show a larger version. Place cursor in top left corner of media and zoom in with mousewheel or touchpad to zoom in to a larger version of the image.  Click on different parts of image if it goes beyond your screen size.</p><p class="d-block d-md-none mb-0 small85 line90"> Tap the image and swipe left to see larger version. Place two fingers on the touchpad and pinch in or stretch out to zoom in on the image. Tap area off the image to close.  </p>
+														<p class="d-none d-md-block mb-0 small85 line90">Hover over the image to show a larger version. Place cursor in top left corner of media and zoom in with mousewheel or touchpad to zoom in to a larger version of the image.  Click on different parts of image if it goes beyond your screen size.</p><p class="d-block d-md-none mb-0 small85 line90"> Tap the image and swipe left to see larger version. Place two fingers on the touchpad/screen and pinch in or stretch out to zoom in on the image. Tap area off the image to close.  </p>
 													</div>
 												</aside>
 											</div>
