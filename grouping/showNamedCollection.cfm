@@ -405,8 +405,8 @@ limitations under the License.
 								<!--- specimen images --->
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="hidden" id="max_img_count">#specimenImagesForCarousel.recordcount#</div>
-									<section class="imagesLeft">
-										<div class="col-12 px-1">
+									<section class="imagesLeft col-12 col-xl-6 px-0">
+										<div class="">
 											<div class="carousel_background border rounded float-left w-100 p-2 mb-4">
 												<h3 class="mx-2 text-center">#specimenImagesForCarousel.recordcount# Specimen Images</h3>
 												<div class="vslider w-100 float-left bg-light" id="vslider-base">
@@ -481,7 +481,7 @@ limitations under the License.
 								</cfquery>							
 								<cfif points.recordcount gt 0>
 									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-									<section class="heatmap mt-2 float-left w-100">
+									<section class="heatmap mt-2 float-left w-100 col-12 col-xl-6 px-0">
 										<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 										<script>
 										let map, heatmap;
@@ -587,7 +587,7 @@ limitations under the License.
 									</section><!--- end heat map---> 	
 								</cfif>
 				
-								<section class="otherImages float-left w-100 mt-4">
+								<section class="otherImages float-left col-12 col-xl-6 mt-4">
 									<div class="other-images">
 										<!--- figure out widths of sub blocks, adapt to number of blocks --->
 										<cfswitch expression="#otherImageTypes#">
