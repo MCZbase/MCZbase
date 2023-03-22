@@ -344,21 +344,19 @@ include this function and use it.
 					<cfelseif #captionAs# EQ "textLinks">
 						<!--- textLinks is used when only the links are desired under the thumbnail--->
 						<cfset output='#output#<div class="mt-0 col-12 pb-1 px-0">'>
-						<cfset output='#output#<p class="text-center px-1 pb-1 mb-0 small col-12">'>
+						<cfset output='#output#<p class="col-12 text-center px-1 pb-1 mb-0 small">'>>!--- ' --->
 						<cfif listcontainsnocase(session.roles,"manage_specimens")>
 							<cfset output='#output#<span class="d-inline">(<a href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>'>
 						</cfif>
-						<cfset output='#output#(<a class="" href="/media/#media_id#">Media Record</a>)'>
+						<cfset output='#output#(<a class="" href="/media/#media_id#">Media Record</a>)'><!--- ' --->
 						<cfif NOT isDisplayable>
 							<cfif listcontainsnocase(session.roles,"manage_publications")> <span class="sr-only">#media_type# (#mime_type#)</span></cfif>
-								<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
+								<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'><!--- ' --->
 							<cfelse>
 								<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
-									<!---If on the zoom/related page, i.e. RelatedMedia.cfm, we don't need a link to it.--->
-									
-								<cfelse><!---Changed else on 1/20/23 to make it easier to test--->
-									<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>---><!-- should make it show on spec details--->
-									<cfset output='#output#<span class="d-none d-md-inline-block">(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">zoom/related</a>)</span>'>
+									<!---If on the zoom/related page, i.e. RelatedMedia.cfm, we do not need a link to it.--->
+								<cfelse>
+									<cfset output='#output#<span class="d-none d-md-inline-block">(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">related</a>)</span>'>
 								</cfif>
 								<cfif len(iiifFull) GT 0>
 									<cfset output='#output#(<a class="" href="#iiifFull#">full</a>)'>
@@ -383,12 +381,10 @@ include this function and use it.
 							<cfelse>
 								<cfset output='#output#(<a class="" href="#media_uri#">File</a>)'>
 							</cfif>
-							
 						<cfelse>
 							<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
-								<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>) '>
+								<!---If on the zoom/related page, i.e. RelatedMedia.cfm, we do not need a link to it.--->
 							<cfelse>
-								<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>--->
 								<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related</a>) '>
 							</cfif>
 							<cfif len(iiifFull) GT 0>
@@ -454,7 +450,7 @@ include this function and use it.
 							<!--- close an unclosed italic tag resulting from truncation --->
 							<cfset showTitleText = "#showTitleText#</i>">
 						</cfif>
-						<cfset output='#output#<p class="#textAlign# col-12 my-0 py-0 px-1 small">#showTitleText#</p>'>
+						<cfset output='#output#<p class="#textAlign# col-12 my-0 py-0 px-1 smaller">#showTitleText#</p>'>
 						<cfif len(#license_uri#) gt 0>
 							<cfif #captionAs# EQ "TextFull">
 								<!---height is needed on the caption within the <p> or the media will not flow well--the above comment works but may not work on other, non specimen detail pages--->
@@ -671,7 +667,7 @@ include this function and use it.
 					order by guid
 				</cfquery>
 				<cfquery name="specpart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct specimen_part.collection_object_id as pk, specimen_part.part_name
+					select distinct specimen_part.part_name
 					from media_relations
 						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 						left join specimen_part on specimen_part.derived_from_cat_item = flat.collection_object_id

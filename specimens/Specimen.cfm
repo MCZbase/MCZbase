@@ -345,8 +345,8 @@ limitations under the License.
 							</div> 
 							<div id="mediaPane" class="collapse show"aria-labelledby="headingMedia" <cfif #specimenMediaCount# gt 24>style="height:940px;"</cfif> data-parent="##accordionMedia">
 								<cfset specimenMediaBlock = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "shows")>
-								<div class="card-body" id="specimenMediaCardBody">
-									<cfif #specimenMediaCount# gt 24>click once to close and another time to see all #specimenMediaCount#</cfif>
+								<div class="card-body text-center" id="specimenMediaCardBody">
+									<cfif #specimenMediaCount# gt 24><p class="smaller">Click media header once to close and again to see all #specimenMediaCount#.</p></cfif>
 									#specimenMediaBlock#
 								</div>
 							</div>

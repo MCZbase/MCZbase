@@ -164,7 +164,8 @@ limitations under the License.
 								var details = $($(parentElement).children()[0]);
 								details.html("<div id='rowDetailsTarget" + index + "'></div>");
 					
-								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+								var omitArray = ["GEOG_AUTH_REC_ID_1"];
+								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index,omitArray);
 								// Workaround, expansion sits below row in zindex.
 								var maxZIndex = getMaxZIndex();
 								$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -232,7 +233,8 @@ limitations under the License.
 								var args = event.args;
 								var rowIndex = args.rowindex;
 								var datarecord = args.owner.source.records[rowIndex];
-								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+								var omitArray = ["GEOG_AUTH_REC_ID_1"];
+								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex,omitArray);
 							});
 							$('##searchResultsGrid').on('rowcollapse', function (event) {
 								// remove the dialog holding the row details

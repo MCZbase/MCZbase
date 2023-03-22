@@ -646,8 +646,9 @@ function getMaxZIndex() {
  *@param rowDetailsTargetId the id, without the leading # selector or the trailing rowid created in the initrowdetails function.
  *@param datarecord the jqxgrid datarecord.
  *@param rowIndex the row index for the selected grid row, available as index in initRowDetails() or event.args.rowIndex in rowexpand event handler.
+ *@param omitArray optional array of datarecord keys (columns) to omit from the display.
  */
-function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,rowIndex) {
+function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,rowIndex, omitArray = []) {
 	var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
 	var columns = $('#' + gridId).jqxGrid('columns').records;
 	var gridWidth = $('#' + gridId).width();
@@ -656,7 +657,9 @@ function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,rowIndex)
 	for (i = 1; i < columns.length; i++) {
 		var text = columns[i].text;
 		var datafield = columns[i].datafield;
-		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+		if (!omitArray || !omitArray.includes(datafield)) { 
+			content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+		}
 	}
 	content = content + "</ul></div>";
 	$("#" + rowDetailsTargetId + rowIndex).html(content);
@@ -1866,7 +1869,6 @@ function goImageByNumber(counter, imageMetadataArray, media_img, media_des, deta
 	// array is zero based, counter is one based (so display of zeroth element in array is 1 for first image)
 	var currentImageMetadataRecord = imageMetadataArray[currentCounter - 1];
 	$("#"+detail_a).attr("href","/media/" + currentImageMetadataRecord.media_id);
-	//$("#"+detail_a).attr("href","/MediaSet.cfm?media_id=" + currentImageMetadataRecord.media_id);
 	$("#"+media_a).attr("href",currentImageMetadataRecord.media_uri);
 	$("#"+media_img).attr("src","/media/rescaleImage.cfm?media_id="+currentImageMetadataRecord.media_id+sizeparams);
 	$("#"+media_img).attr("alt",currentImageMetadataRecord.alt);

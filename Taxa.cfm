@@ -730,7 +730,7 @@ limitations under the License.
 						root: 'taxonRecord',
 						id: 'taxon_name_id',
 						url: '/taxonomy/component/search.cfc?' + $('##searchForm').serialize(),
-						timeout: 30000,  // units not specified, miliseconds? 
+						timeout: 35000,  // units not specified, miliseconds? 
 						loadError: function(jqXHR, status, error) { 
 							$("##overlay").hide();
 						var message = "";

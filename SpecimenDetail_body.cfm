@@ -1800,8 +1800,8 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 						</cfif>
 						<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
                         	<cfset one_thumb = "<div class='one_thumb_box'>">
-							<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
-							<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
+							<cfset aForImHref = "/media/RelatedMedia.cfm?media_id=#media_id#" >
+							<cfset aForDetHref = "/media/RelatedMedia.cfm?media_id=#media_id#" >
 						<cfelse>
                         	<cfset one_thumb = "<div class='one_thumb'>">
 						    <cfset aForImHref = media_uri>

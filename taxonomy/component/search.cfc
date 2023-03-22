@@ -96,7 +96,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="30">
 			SELECT 
 				taxonomy.TAXON_NAME_ID as taxon_name_id,
 				taxonomy.FULL_TAXON_NAME,
