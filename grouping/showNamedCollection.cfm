@@ -1038,7 +1038,7 @@ limitations under the License.
 											and collector.collector_role = 'c'
 										ORDER BY person.last_name, preferred_agent_name.agent_name asc
 									</cfquery>
-									<cfif collectors.recordcount GT 0>
+				<!---					<cfif collectors.recordcount GT 0>
 										<div class="col-12 pb-3">
 											<h3 class="border-bottom pb-1 border-dark px-2">Collectors</h3>
 											<cfif collectors.recordcount gt 50>
@@ -1074,7 +1074,7 @@ limitations under the License.
 												</ul>
 											</cfif>
 										</div>
-									</cfif>
+									</cfif>--->
 									<cfset otherMediaCount = specimenNonImageMedia.recordcount + agentNonImageMedia.recordcount + collectingNonImageMedia.recordcount>
 									<cfif otherMediaCount GT 0>
 										<cfset shownMedia = "">
