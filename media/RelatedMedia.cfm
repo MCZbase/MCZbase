@@ -54,7 +54,9 @@ limitations under the License.
 	<cfif media.recordcount EQ 0>
 		<cfthrow message="Media record with media_id=[#encodeForHtml(media_id)#] not found.">
 	</cfif>
-	<!---Pub query that gets the publication_ID based on the media_id needs to be outside of the spec function. The publication_id is fed to the spec query to get the collection_object_id (i.e., citation) --->
+	<!--- query to get a publication_id based on the media_id if the media record shows publication.
+			The publication_id is fed to the getRelatedThings query to get the collection_object_id (i.e., citation) 
+	--->
 	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct p.publication_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from publication p
@@ -63,7 +65,7 @@ limitations under the License.
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'publication'
 	</cfquery>
-	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getRelatedThings" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRelatedThings_result">
 		<cfif pub.recordcount gt 0>
 		select distinct c.collection_object_id as pk, cmr.media_relationship as rel, 'Cited Specimen' as label, ct.auto_table as at
 		from media_relations cmr 
@@ -238,7 +240,7 @@ limitations under the License.
 									#mediaMetadataBlock#
 								</div>
 							</div>
-							<cfif spec.recordcount gt 0> 
+							<cfif getRelatedThings.recordcount gt 0> 
 								<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct mr.media_id,mr.media_relationship
 									from media_relations mr
@@ -259,31 +261,39 @@ limitations under the License.
 											<div class="col-12 p-1">
 												<cfif media_rel.recordcount gt 0>
 													<!---If media relations are show or document cataloged_item, accn, ledger, deaccession, etc.--->
-													<cfloop query="spec">
+													<cfloop query="getRelatedThings">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct m.media_id as mk,ct.media_relationship,ct.label
-														from media_relations mr 
-														left join media m on mr.media_id = m.media_id
-														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-														where mr.related_primary_key = <cfqueryparam  value="#spec.pk#">
-														<cfif spec.pk eq '#media.media_id#' and spec.at eq 'media'><cfelse>and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"></cfif>
-														and mr.media_relationship <> 'created by agent'
-														and MCZBASE.is_media_encumbered(m.media_id)  < 1 
-														<cfif spec.pk gt 1 and spec.label neq 'Shows Cataloged Item'>and ct.media_relationship <> 'ledger entry for cataloged_item'</cfif>
+															SELECT distinct 
+																m.media_id as mk,
+																ct.media_relationship,
+																ct.label
+															FROM media_relations mr 
+																left join media m on mr.media_id = m.media_id
+																left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+															WHERE
+																 mr.related_primary_key = <cfqueryparam  value="#getRelatedThings.pk#">
+																<cfif NOT ( getRelatedThings.pk eq '#media.media_id#' and getRelatedThings.at eq 'media' )>
+																	and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+																</cfif>
+																and mr.media_relationship <> 'created by agent'
+																and MCZBASE.is_media_encumbered(m.media_id)  < 1 
+																<cfif getRelatedThings.pk gt 1 and getRelatedThings.label neq 'Shows Cataloged Item'>
+																	and ct.media_relationship <> 'ledger entry for cataloged_item'
+																</cfif>
 														</cfquery>
 														<!---Some of the ledgers have the same primary key as the agent_ids. I haven't found it on other types of relationships. We may need a different fix if it is more widespread.--->
-														<!---Loops through only spec query to get media images and captions for the white card in Related Media section for media relationships like "audio transcript for media" and "related to media"--->
-														<cfif spec.rel contains 'media'>
+														<!---Loops through only getRelatedThings query to get media images and captions for the white card in Related Media section for media relationships like "audio transcript for media" and "related to media"--->
+														<cfif getRelatedThings.rel contains 'media'>
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 pt-1 float-left multizoom thumbs">
 																<ul class="list-group px-0">
 																	<li class="list-group-item px-0 mx-1">
-																		<cfset mediablock= getMediaBlockHtml(media_id="#spec.pk#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
-																		<div class="border-wide-ltgrey rounded bg-white px-1 py-1 variedHeight" id="mediaBlock#spec.pk#">
+																		<cfset mediablock= getMediaBlockHtml(media_id="#getRelatedThings.pk#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
+																		<div class="border-wide-ltgrey rounded bg-white px-1 py-1 variedHeight" id="mediaBlock#getRelatedThings.pk#">
 																			<div class="px-0">
 																				<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">
-																				#spec.label# <br>
-																				#spec.pk#
-																				(media/#spec.pk#)
+																				#getRelatedThings.label# <br>
+																				#getRelatedThings.pk#
+																				(media/#getRelatedThings.pk#)
 																				</span> 
 																				#mediablock#
 																			</div>
@@ -292,7 +302,7 @@ limitations under the License.
 																</ul>
 															</div>
 														</cfif>
-														<!---Loops through relm & spec queries to get media images and captions for the white card in Related Media section--->
+														<!---Loops through relm & getRelatedThings queries to get media images and captions for the white card in Related Media section--->
 														<cfif relm.recordcount gt 0>
 															<cfset i = 1>
 															<cfloop query="relm">
@@ -304,13 +314,17 @@ limitations under the License.
 																				<div class="px-0">
 																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">
 																						#relm.label# <br>
-																					<cfif spec.at eq 'cataloged_item' and relm.recordcount gt 0>
-																						<cfquery name="guidi" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																						select guid from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat, media_relations mr where mr.related_primary_key = flat.collection_object_id and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
+																						<cfif getRelatedThings.at eq 'cataloged_item' and relm.recordcount gt 0>
+																							<cfquery name="guidi" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																								SELECT guid 
+																								FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+																									join media_relations mr on flat.collection_object_id = mr.related_primary_key
+																								WHERE 
+																									mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getRelatedThings.pk#" >
 																						</cfquery>
 																						#guidi.guid#
 																					<cfelse>
-																					#spec.pk#
+																					#getRelatedThings.pk#
 																					</cfif>
 																					(media/#relm.mk#)
 																					</span> 
@@ -329,7 +343,7 @@ limitations under the License.
 															<span>No Related Media Records</span><!---based on relm query--->
 														</h3>
 													</cfif>
-												<cfelse><!---based on spec query--->
+												<cfelse><!---based on getRelatedThings query--->
 													<h3 class="h4 px-2 ml-1 pt-2 onlyfirst"><span class="one">No Relationships to Other Records</span></h3>
 												</cfif>
 											</div>
