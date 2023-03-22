@@ -265,7 +265,7 @@ limitations under the License.
 						<div class="tab-content mt-0 px-0 pb-0">
 							<!---Fixed Search tab panel--->
 							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
-								<div class="col-3 float-right px-0"> 
+								<div class="col-9 float-right px-0"> 
 									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
 										Search Help
 									</button>
@@ -1485,7 +1485,7 @@ Target JSON:
 --->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search">
-									<div class="col-9 float-right px-3"> 
+									<div class="col-3 float-right px-3"> 
 									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
 										Search Help
 									</button>
