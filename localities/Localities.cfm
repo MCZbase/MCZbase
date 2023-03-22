@@ -228,6 +228,14 @@ limitations under the License.
 						var data = makeSummary(rowData);
 						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + data + '</span>';
 					}
+					var collectingEventCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties,rowData) {
+						if (value==0) {
+							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">None</span>';
+						} else {
+							var id = encodeURIComponent(rowData['LOCALITY_ID']);
+							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/localities/CollectingEvents.cfm?execute=true&locality_id='+ id +'" target="_blank">'+value+'</a></span>';
+						}
+					};
 					var specimensCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						if (value==0) {
@@ -281,6 +289,7 @@ limitations under the License.
 									{ name: 'HIGHERGEOGRAPHYID_GUID_TYPE', type: 'string' },
 									{ name: 'HIGHERGEOGRAPHYID', type: 'string' },
 									{ name: 'SPECIMEN_COUNT', type: 'string' },
+									{ name: 'COLLECTING_EVENT_COUNT', type: 'string' },
 									{ name: 'LOCALITY_ID', type: 'string' },
 									{ name: 'LOCALITY_ID_1', type: 'string', map: 'LOCALITY_ID' },
 									{ name: 'SPEC_LOCALITY', type: 'string' },
@@ -364,6 +373,7 @@ limitations under the License.
 										{text: 'Edit', datafield: 'LOCALITY_ID_1', width:60, hideable: false, cellsrenderer: editCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
+									{ text: 'Coll Events', datafield: 'COLLECTING_EVENT_COUNT',width: 100, hideabel: true, hidden: getColHidProp('COLLECTING_EVENT_COUNT',false), cellsrenderer: collectingEventCellRenderer  },
 									{ text: 'Locality_id', datafield: 'LOCALITY_ID',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_ID',true) },
 									{ text: 'Locality Summary', datafield: 'summary',width: 500, hideabel: true, hidden: getColHidProp('summary',false), cellsrenderer: summaryCellRenderer  },
 									{ text: 'Specific Locality', datafield: 'SPEC_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('SPEC_LOCALITY',true)  },
