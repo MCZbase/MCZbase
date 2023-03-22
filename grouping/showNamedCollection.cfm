@@ -787,7 +787,7 @@ limitations under the License.
 											</ul>
 										</div>
 									</cfif>
-									<!---<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
 										FROM
 											underscore_relation 
@@ -800,9 +800,9 @@ limitations under the License.
 									<cfset taxonQuery_time = taxonQuery_result.ExecutionTime>
 									<cfset taxonQuery2_time = "not run">
 									<cfset taxonQuery3_time = "not run">
-									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >--->
+									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
 										<!--- try expanding to orders instead if very few classes --->
-										<!---<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+										<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 											SELECT DISTINCT flat.phylclass || ': ' || flat.phylorder as taxon, flat.phylorder as taxonlink, 'phylorder' as rank,
 												flat.phylclass, flat.phylorder
 											FROM
@@ -815,9 +815,9 @@ limitations under the License.
 										</cfquery>
 										<cfset taxonQuery2_time = taxonQuery_result.ExecutionTime>
 									</cfif>
-									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >--->
+									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
 										<!--- try expanding to families instead if very few orders --->
-										<!---<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+										<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 											SELECT DISTINCT flat.phylorder || ': ' || flat.family as taxon, flat.family as taxonlink, 'family' as rank,
 												flat.phylorder, flat.family
 											FROM
@@ -864,7 +864,7 @@ limitations under the License.
 												</ul>
 											</cfif>
 										</div>
-									</cfif>--->
+									</cfif>
 									<cfquery name="marine" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="marine_result">
 										SELECT DISTINCT flat.continent_ocean as ocean
 										FROM
@@ -1038,7 +1038,7 @@ limitations under the License.
 											and collector.collector_role = 'c'
 										ORDER BY person.last_name, preferred_agent_name.agent_name asc
 									</cfquery>
-				<!---					<cfif collectors.recordcount GT 0>
+									<cfif collectors.recordcount GT 0>
 										<div class="col-12 pb-3">
 											<h3 class="border-bottom pb-1 border-dark px-2">Collectors</h3>
 											<cfif collectors.recordcount gt 50>
@@ -1074,7 +1074,7 @@ limitations under the License.
 												</ul>
 											</cfif>
 										</div>
-									</cfif>--->
+									</cfif>
 									<cfset otherMediaCount = specimenNonImageMedia.recordcount + agentNonImageMedia.recordcount + collectingNonImageMedia.recordcount>
 									<cfif otherMediaCount GT 0>
 										<cfset shownMedia = "">
@@ -1179,7 +1179,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
-						<!---			<div class="col-12 px-0">
+									<div class="col-12 px-0">
 										<cfquery name="directCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="directCitations_result">
 											SELECT
 												publication_id,
@@ -1270,7 +1270,7 @@ limitations under the License.
 												</cfif>
 											</div>
 										</cfif>
-									</div>--->
+									</div>
 								</div>
 							</div>
 							<cfif oneOfUs EQ 1>
