@@ -175,10 +175,11 @@ limitations under the License.
 							var datafield = columns[i].datafield;
 							if (datafield == 'LOCALITY_ID') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/editLocality.cfm?locality_id="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+					 			content = content + "<li class='pr-3'><strong>Collecting Events:</strong> <a href='/localities/CollectingEvents.cfm?execute=true&locality_id="+locality_id+"' target='_blank'>Find</a></li>";
 							} else if (datafield == 'HIGHER_GEOG') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?action=editGeog&geog_auth_rec_id="+geog_auth_rec_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
-							} else if (datafield == 'Edit') {
-								// undefined generated column
+							} else if (datafield == 'LOCALITY_ID_1') {
+								// duplicate column, omit
 								console.log(datarecord[datafield]);
 							} else if (datafield == 'summary') {
 								content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + makeSummary(datarecord) + "</li>";
