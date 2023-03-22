@@ -185,6 +185,11 @@ limitations under the License.
 								}
 							} else if (datafield == 'HIGHER_GEOG') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?action=editGeog&geog_auth_rec_id="+geog_auth_rec_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+							} else if (datafield == 'VALID_CATALOG_TERM_FG') { 
+								var val = datarecord[datafield];
+								var flag = "True";
+								if (val=="1") { flat = "False"; }
+								content = content + "<li class='pr-3'><strong>Valid For Data Entry:</strong> " + flag + "</li>";
 							} else if (datafield == 'LOCALITY_ID_1') {
 								// duplicate column, omit
 								console.log(datarecord[datafield]);

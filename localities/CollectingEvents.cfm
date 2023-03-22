@@ -242,7 +242,6 @@ limitations under the License.
 								var flag = "True";
 								if (val=="1") { flat = "False"; }
 								content = content + "<li class='pr-3'><strong>Valid For Data Entry:</strong> " + flag + "</li>";
-
 							} else if (datafield == 'summary') {
 								content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + makeLocalitySummary(datarecord) + "</li>";
 							} else if (datafield == 'ce_summary') {
