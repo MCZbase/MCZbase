@@ -787,7 +787,7 @@ limitations under the License.
 											</ul>
 										</div>
 									</cfif>
-	<!---								<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+									<!---<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
 										FROM
 											underscore_relation 
@@ -802,7 +802,7 @@ limitations under the License.
 									<cfset taxonQuery3_time = "not run">
 									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >--->
 										<!--- try expanding to orders instead if very few classes --->
-								<!---		<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+										<!---<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 											SELECT DISTINCT flat.phylclass || ': ' || flat.phylorder as taxon, flat.phylorder as taxonlink, 'phylorder' as rank,
 												flat.phylclass, flat.phylorder
 											FROM
@@ -815,9 +815,9 @@ limitations under the License.
 										</cfquery>
 										<cfset taxonQuery2_time = taxonQuery_result.ExecutionTime>
 									</cfif>
-									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
+									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >--->
 										<!--- try expanding to families instead if very few orders --->
-	<!---									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+										<!---<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 											SELECT DISTINCT flat.phylorder || ': ' || flat.family as taxon, flat.family as taxonlink, 'family' as rank,
 												flat.phylorder, flat.family
 											FROM
