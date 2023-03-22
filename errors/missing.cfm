@@ -184,7 +184,7 @@
 			</cfif>
 			<!--- This is the redirect for /media/{media_id} which MUST go to the media details page for one media object.  --->
 			<cfinclude template="/media/showMedia.cfm">
-			<!--- Note: /production still uses old MediaSearch for lists of media_ids e.g. /MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#"  --->
+			<!--- Note: production still uses old MediaSearch for lists of media_ids e.g. /MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#"  --->
 		<cfcatch>
 			<cfinclude template="/errors/404.cfm">
 		</cfcatch>

@@ -1,3 +1,5 @@
+<!--- WARNING: production must retain /MediaSearch.cfm until it's API and functionality is fully provided by redesigned pages.  --->
+<!--- Key missing API element not supported yet in redesigned media pages is list of media_id values. --->
 <cfset title="Media">
 <cfset metaDesc="Locate Media, including audio (sound recordings), video (movies), and images (pictures) of specimens, collecting sites, habitat, collectors, and more.">
 <cfinclude template="/includes/_header.cfm">
