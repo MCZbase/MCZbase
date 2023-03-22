@@ -241,12 +241,6 @@ limitations under the License.
 								</div>
 							</div>
 							<cfif getRelatedThings.recordcount gt 0> 
-								<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct mr.media_id,mr.media_relationship
-									from media_relations mr
-									left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-									where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-								</cfquery>
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
@@ -259,12 +253,15 @@ limitations under the License.
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-												<cfif media_rel.recordcount gt 0>
-													<!---If media relations are show or document cataloged_item, accn, ledger, deaccession, etc.--->
+												<cfif getRelatedThings.recordcount EQ 0>
+													<h3 class="h4 px-2 ml-1 pt-2 onlyfirst"><span class="one">No Relationships to Other Records</span></h3>
+												<cfelse>
+													<!---If media relations exist for show or document cataloged_item, accn, ledger, deaccession, etc.--->
+													<cfset hasMedia = false>
 													<cfloop query="getRelatedThings">
-														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														<cfquery name="getMediaForRelated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															SELECT distinct 
-																m.media_id as mk,
+																m.media_id,
 																ct.media_relationship,
 																ct.label
 															FROM media_relations mr 
@@ -284,6 +281,7 @@ limitations under the License.
 														<!---Some of the ledgers have the same primary key as the agent_ids. I haven't found it on other types of relationships. We may need a different fix if it is more widespread.--->
 														<!---Loops through only getRelatedThings query to get media images and captions for the white card in Related Media section for media relationships like "audio transcript for media" and "related to media"--->
 														<cfif getRelatedThings.rel contains 'media'>
+															<cfset hasMedia = true>
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 pt-1 float-left multizoom thumbs">
 																<ul class="list-group px-0">
 																	<li class="list-group-item px-0 mx-1">
@@ -302,19 +300,20 @@ limitations under the License.
 																</ul>
 															</div>
 														</cfif>
-														<!---Loops through relm & getRelatedThings queries to get media images and captions for the white card in Related Media section--->
-														<cfif relm.recordcount gt 0>
+														<!---Loops through getMediaForRelated & getRelatedThings queries to get media images and captions for the white card in Related Media section--->
+														<cfif getMediaForRelated.recordcount gt 0>
 															<cfset i = 1>
-															<cfloop query="relm">
+															<cfloop query="getMediaForRelated">
+																<cfset hasMedia = true>
 																<div class="col-md-4 col-lg-3 col-xl-2 px-1 pt-1 float-left multizoom thumbs">
 																	<ul class="list-group px-0">
 																		<li class="list-group-item px-0 mx-1">
-																			<cfset mediablock= getMediaBlockHtml(media_id="#relm.mk#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
-																			<div class="border-wide-ltgrey rounded bg-white px-1 py-1 image#i# variedHeight" id="mediaBlock#relm.mk#">
+																			<cfset mediablock= getMediaBlockHtml(media_id="#getMediaForRelated.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
+																			<div class="border-wide-ltgrey rounded bg-white px-1 py-1 image#i# variedHeight" id="mediaBlock#getMediaForRelated.media_id#">
 																				<div class="px-0">
 																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">
-																						#relm.label# <br>
-																						<cfif getRelatedThings.at eq 'cataloged_item' and relm.recordcount gt 0>
+																						#getMediaForRelated.label# <br>
+																						<cfif getRelatedThings.at eq 'cataloged_item' and getMediaForRelated.recordcount gt 0>
 																							<cfquery name="guidi" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																								SELECT guid 
 																								FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
@@ -326,7 +325,7 @@ limitations under the License.
 																					<cfelse>
 																					#getRelatedThings.pk#
 																					</cfif>
-																					(media/#relm.mk#)
+																					(media/#getMediaForRelated.media_id#)
 																					</span> 
 																					#mediablock#
 																				</div>
@@ -338,13 +337,11 @@ limitations under the License.
 															</cfloop>
 														</cfif>
 													</cfloop>
-													<cfif relm.recordcount eq 0 and len(media_rel.media_relationship) eq 1>
+													<cfif NOT hasMedia>
 														<h3 class="h4 px-2 ml-1 pt-2">
-															<span>No Related Media Records</span><!---based on relm query--->
+															<span>No Related Media Records</span>
 														</h3>
 													</cfif>
-												<cfelse><!---based on getRelatedThings query--->
-													<h3 class="h4 px-2 ml-1 pt-2 onlyfirst"><span class="one">No Relationships to Other Records</span></h3>
 												</cfif>
 											</div>
 										</div>
