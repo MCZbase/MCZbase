@@ -157,7 +157,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12 mt-3">
 							<h2 class="h2">Changing collecting event for cataloged items [in #encodeForHtml(result_id)#]</h2>
-							<div><a href="#returnURL#"><i class="fa fa-arrow-left"></i> Back to Manage Locality</a></div>
+							<div><a href="#returnURL#"><i class="fa fa-arrow-left"></i> Back to Manage Collecting Event</a></div>
 						</div>
 					</div>
 				</div>
@@ -183,7 +183,7 @@ limitations under the License.
 						<h2 class="h2">Changed collecting event for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
 						<ul class="col-12 list-group list-group-horizontal">
 							<li class="list-group-item d-flex justify-content-between align-items-center">
-								<a href="#returnURL#"><i class="fa fa-arrow-left"></i> Back to Manage Locality  <!---<span class="badge badge-primary badge-pill">1</span>--->
+								<a href="#returnURL#"><i class="fa fa-arrow-left"></i> Back to Manage Collecting Event  <!---<span class="badge badge-primary badge-pill">1</span>--->
 								</a>
 							</li>
 							<li class="list-group-item d-flex justify-content-between align-items-center">

@@ -590,7 +590,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 			<cfif result_id_count.ct EQ 0>
-				<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
+				<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" timeout="60">
 					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 					<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
@@ -605,7 +605,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 			<cfset records = searchcount.ct>
-			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="60">
 				<cfif pagesize GT 0 >
 					SELECT * FROM (
 				</cfif>
@@ -939,7 +939,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		<cfif result_id_count.ct EQ 0>
-			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
+			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" timeout="60">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
@@ -986,7 +986,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		<cfset records = searchcount.ct>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="60">
 			<cfif pagesize GT 0 >
 				SELECT * FROM (
 			</cfif>
@@ -1775,7 +1775,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		</cfquery>
 		<cfif result_id_count.ct EQ 0>
 			<!--- errors are handled by build_query_dbms_sql throwing exceptions --->
-			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result">
+			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" timeout="120">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
@@ -1822,7 +1822,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		<cfset records = searchcount.ct>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="60">
 			<cfif pagesize GT 0 >
 				SELECT * FROM (
 			</cfif>
