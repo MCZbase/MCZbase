@@ -176,6 +176,13 @@ limitations under the License.
 							if (datafield == 'LOCALITY_ID') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/editLocality.cfm?locality_id="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 					 			content = content + "<li class='pr-3'><strong>Collecting Events:</strong> <a href='/localities/CollectingEvents.cfm?execute=true&locality_id="+locality_id+"' target='_blank'>Find</a></li>";
+							} else if (datafield == 'SPECIMEN_COUNT') { 
+								if (datarecord[datafield] == "0") {
+									content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
+								} else { 
+									var loc = encodeURIComponent(rowData['SPEC_LOCALITY']);
+					 				content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID_PICK&searchText1="+loc+"&searchId1="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+								}
 							} else if (datafield == 'HIGHER_GEOG') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?action=editGeog&geog_auth_rec_id="+geog_auth_rec_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'LOCALITY_ID_1') {
