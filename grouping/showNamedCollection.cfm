@@ -1179,7 +1179,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
-									<div class="col-12 px-0">
+						<!---			<div class="col-12 px-0">
 										<cfquery name="directCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="directCitations_result">
 											SELECT
 												publication_id,
@@ -1270,7 +1270,7 @@ limitations under the License.
 												</cfif>
 											</div>
 										</cfif>
-									</div>
+									</div>--->
 								</div>
 							</div>
 							<cfif oneOfUs EQ 1>
