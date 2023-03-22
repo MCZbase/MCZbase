@@ -817,7 +817,7 @@ limitations under the License.
 									</cfif>
 									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
 										<!--- try expanding to families instead if very few orders --->
-										<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
+	<!---									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 											SELECT DISTINCT flat.phylorder || ': ' || flat.family as taxon, flat.family as taxonlink, 'family' as rank,
 												flat.phylorder, flat.family
 											FROM
