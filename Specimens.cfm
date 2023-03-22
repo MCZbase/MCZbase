@@ -2412,7 +2412,7 @@ Target JSON:
 						url: '/specimens/component/search.cfc',
 						type: 'POST',
 						data: serializeFormAsJSON('fixedSearchForm'),
-						timeout: 120000,  // units not specified, miliseconds?
+						timeout: 125000,  // units not specified, miliseconds?  Fixed
 						loadError: function(jqXHR, textStatus, error) {
 							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 						},
@@ -2447,7 +2447,7 @@ Target JSON:
 						root: 'specimenRecord',
 						id: 'collection_object_id',
 						url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
-						timeout: 120000,  // units not specified, miliseconds?
+						timeout: 125000,  // units not specified, miliseconds?  Fixed
 						loadError: function(jqXHR, textStatus, error) {
 							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 						},
@@ -2632,7 +2632,7 @@ Target JSON:
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $("##keywordSearchForm").serialize(),
-					timeout: 60000,  // units not specified, miliseconds?
+					timeout: 65000,  // units not specified, miliseconds?  Keyword
 					loadError: function(jqXHR, textStatus, error) {
 						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 					},
@@ -2805,7 +2805,7 @@ Target JSON:
 					root: 'specimenRecord',
 					id: 'collection_object_id',
 					url: '/specimens/component/search.cfc?' + $("##builderSearchForm").serialize(),
-					timeout: 60000,  // units not specified, miliseconds?
+					timeout: 65000,  // units not specified, miliseconds?  Builder
 					loadError: function(jqXHR, textStatus, error) {
 						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 					},
