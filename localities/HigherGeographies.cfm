@@ -232,6 +232,7 @@ limitations under the License.
 								var args = event.args;
 								var rowIndex = args.rowindex;
 								var datarecord = args.owner.source.records[rowIndex];
+								var omitArray = ["GEOG_AUTH_REC_ID_1"];
 								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 							});
 							$('##searchResultsGrid').on('rowcollapse', function (event) {
