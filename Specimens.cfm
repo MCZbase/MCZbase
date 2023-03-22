@@ -1485,7 +1485,7 @@ Target JSON:
 --->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search">
-									<div class="col-9 float-right px-0"> 
+									<div class="col-9 float-right"> 
 									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
 										Search Help
 									</button>
