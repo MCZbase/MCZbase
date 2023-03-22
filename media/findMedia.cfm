@@ -916,7 +916,7 @@ limitations under the License.
 						root: 'mediaRecord',
 						id: 'media_id',
 						url: '/media/component/search.cfc?' + $('##searchForm').serialize(),
-						timeout: 60000,  // units not specified, miliseconds? 
+						timeout: 65000,  // units not specified, miliseconds? 
 						loadError: function(jqXHR, textStatus, error) { 
 							$("##overlay").hide();
 							handleFail(jqXHR,textStatus,error,"running media search");
