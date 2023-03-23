@@ -197,7 +197,7 @@
 			 	<img src="/images/info_i.gif" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]">
 			</h2>
 
-    <a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#">Detail Page</a>
+    <a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/media/#media_id#">Detail Page</a>
     <form name="editMedia" method="post" action="media.cfm">
       <input type="hidden" name="action" value="saveEdit">
       <input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
