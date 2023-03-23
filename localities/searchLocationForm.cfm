@@ -416,7 +416,7 @@ Typical use:
 								</div>
 							</div>
 						<div class="form-row mx-0 my-1">
-							<div class="form-row mx-0 my-1 col-6">
+							<div class="form-row mx-0 my-1 col-12 col-md-6">
 								<div class="col-5 col-md-2 col-xl-1 px-3 pl-md-3 pr-md-2 py-1">
 									<cfif isDefined("orig_elev_units")><cfset orig_elev_units_val="#orig_elev_units#"><cfelse><cfset orig_elev_units_val=""></cfif>
 									<label for="orig_elev_units" class="data-entry-label">Elev. Units</label>
@@ -428,7 +428,7 @@ Typical use:
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-5 col-xl-3 px-3 pl-md-3 pr-md-0 py-1">
+								<div class="col-12 col-md-5 px-3 pl-md-3 pr-md-0 py-1">
 									<label for="maximum_elevation" class="data-entry-label mb-0">Minimum Elevation <span class="small">(Original Units)</span></label>
 									<cfif not isDefined("MinElevOper")><cfset MinElevOper="="></cfif>
 									<cfif MinElevOper IS "!"><cfset MinElevOper="<>"></cfif>
@@ -446,7 +446,7 @@ Typical use:
 									<cfif not isDefined("minimum_elevation")><cfset minimum_elevation=""></cfif>
 									<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(minimum_elevation)#">
 								</div>
-								<div class="col-12 col-md-5 col-xl-3 px-3 pr-md-3 pl-md-0 py-1">
+								<div class="col-12 col-md-5 px-3 pr-md-3 pl-md-0 py-1">
 									<label for="MaxElevOper" class="data-entry-label mb-0">Maximum Elevation</label>
 									<cfif not isDefined("MaxElevOper")><cfset MaxElevOper="="></cfif>
 									<cfif MaxElevOper IS "!"><cfset MaxElevOper="<>"></cfif>
@@ -465,8 +465,8 @@ Typical use:
 									<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(maximum_elevation)#">
 								</div>
 							</div>
-							<div class="form-row mx-0 my-1 col-6">
-								<div class="col-12 col-md-5 col-xl-4 px-3 pr-md-0 py-2">
+							<div class="form-row mx-0 my-1 col-12 col-md-6">
+								<div class="col-12 col-md-5 px-3 pr-md-0 py-2">
 									<label for="MinElevOperM" class="data-entry-label">Minimum Elevation (in Meters)</label>
 									<cfif not isDefined("MinElevOperM")><cfset MinElevOperM="="></cfif>
 									<cfif MinElevOperM IS "!"><cfset MinElevOperM="<>"></cfif>
@@ -484,7 +484,7 @@ Typical use:
 									<label for="minimum_elevation_m" class="data-entry-label sr-only text-light">Minimum</label>
 									<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(minimum_elevation_m)#">
 								</div>
-								<div class="col-12 col-md-5 col-xl-4 px-3 pl-md-0 py-2">
+								<div class="col-12 col-md-5 px-3 pl-md-0 py-2">
 									<label for="MaxElevOperM" class="data-entry-label">Maximum Elevation (in meters)</label>
 									<cfif not isDefined("MaxElevOperM")><cfset MaxElevOperM="="></cfif>
 									<cfif MaxElevOperM IS "!"><cfset MaxElevOperM="<>"></cfif>
@@ -505,8 +505,8 @@ Typical use:
 							</div>
 						</div>
 						<div class="form-row mx-0 my-1">
-							<div class="form-row mx-0 my-1 col-6">
-								<div class="col-5 col-md-2 col-xl-1 px-3 pl-md-3 pr-md-2 py-1">
+							<div class="form-row mx-0 my-1 col-12 col-md-6">
+								<div class="col-5 col-md-2 px-3 pl-md-3 pr-md-2 py-1">
 									<cfif isDefined("depth_units")><cfset depth_units_val="#depth_units#"><cfelse><cfset depth_units_val=""></cfif>
 									<label for="depth_units" class="data-entry-label">Depth Units</label>
 									<select name="depth_units" id="depth_units" size="1" class="data-entry-select w-auto"  style="min-width: 100px;">
@@ -517,7 +517,7 @@ Typical use:
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-5 col-xl-3 px-3 pl-md-3 pr-md-0 py-1">
+								<div class="col-12 col-md-5 px-3 pl-md-3 pr-md-0 py-1">
 									<label class="data-entry-label">Minimum Depth <span class="small">(Orig. Units)</span></label>
 									<cfif not isDefined("minDepthOper")><cfset minDepthOper="="></cfif>
 									<label for="minDepthOper" class="data-entry-label sr-only">Operator</label>
@@ -535,7 +535,7 @@ Typical use:
 									<label for="min_depth" class="data-entry-label text-light sr-only">Minimum Depth</label>
 									<input type="text" name="min_depth" id="min_depth" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth)#">
 								</div>
-								<div class="col-12 col-md-5 col-xl-3 px-3 pr-md-3 pl-md-0 py-1">
+								<div class="col-12 col-md-5 px-3 pr-md-3 pl-md-0 py-1">
 									<label for="max_depth" class="data-entry-label mb-0">Maximum Depth</label>
 									<cfif isDefined("MaxDepthOper")><cfset MaxDepthOper="#MaxDepthOper#"><cfelse><cfset MaxDepthOper=""></cfif>
 									<label for="MaxDepthOper" class="data-entry-label text-light sr-only">operator</label>
@@ -553,8 +553,8 @@ Typical use:
 									<input type="text" name="max_depth" id="max_depth" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(max_depth)#">
 								</div>
 							</div>
-							<div class="form-row mx-0 my-1 col-6">
-								<div class="col-12 col-md-5 col-xl-4 pr-md-0 px-3 pr-md-0 py-2">
+							<div class="form-row mx-0 my-1 col-12 col-md-6">
+								<div class="col-12 col-md-5 pr-md-0 px-3 pr-md-0 py-2">
 									<cfif not isDefined("minDepthOperM")><cfset minDepthOperM="="></cfif>
 									<label for="minDepthOperM" class="data-entry-label">Minimum Depth (in meters)</label>
 									<select name="minDepthOperM" id="MinDepthOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
@@ -571,7 +571,7 @@ Typical use:
 									<label for="min_depth_m" class="data-entry-label sr-only text-light">Mimimum</label>
 									<input type="text" name="min_depth_m" id="min_depth_m" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth_m)#">
 								</div>
-								<div class="col-12 col-md-5 col-xl-4 px-3 pl-md-0 py-2">
+								<div class="col-12 col-md-5 px-3 pl-md-0 py-2">
 									<cfif not isDefined("MaxDepthOperM")><cfset MaxDepthOperM="="></cfif>
 									<label for="MaxDepthOperM" class="data-entry-label">Maximum Depth (in meters)</label>
 									<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
