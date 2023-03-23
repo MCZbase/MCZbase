@@ -97,7 +97,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="container-fluid mt-5"><h4 class="mb-0"> Background peach.  This example is the intrinsic size of the thumbnail (displayAs="thumb") with only the links --captionAs="textLinks".  </h4>
+			<div class="container-fluid mt-5"><h4 class="mb-0"> Background peach.  This example is the intrinsic size of the thumbnail (displayAs="thumb") with only the links (captionAs="textLinks").  </h4>
 			</div>
 				<div class="col-1 px-0 float-left" style="background-color:peachpuff">
 					<cfset media_id = "90914">
