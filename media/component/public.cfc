@@ -210,8 +210,8 @@ include this function and use it.
 								<cftry>
 									<cfset lookupInfo = "#iiifSchemeServerPrefix##iiifIdentifier#/info.json">
 									<cfhttp url="#lookupInfo#" method="GET" result="info_json" redirect="yes" throwOnError="yes" timeout="3"> 
-									<cfif isJSON(info_json)>
-										<cfset info = deserializeJSON(info_json)>
+									<cfif isJSON(info_json.Filecontent)>
+										<cfset info = deserializeJSON(info_json.Filecontent)>
 										<cfset infoHeight = info.height>
 										<cfset infoWidth = info.width>
 										<cfif media.height EQ "">
