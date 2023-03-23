@@ -330,8 +330,11 @@ include this function and use it.
 					<!--- multizoom library for zoom on hover --->
 					<cfif isDisplayable>
 						<cfset minzoom="2">
-						<cfif size LT 150>
+						<cfif size LT 155>
 							<cfset minzoom="4">
+						</cfif>
+						<cfif size LT 105>
+							<cfset minzoom="5">
 						</cfif>
 						<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom("##MID#media.media_id#",{zoomrange: [#minzoom#,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'>
 					</cfif>
