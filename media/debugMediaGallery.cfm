@@ -12,14 +12,14 @@
 				select max(media_id) media_id from media
 				group by mime_type, media_type
 				union
-				select max(media.media_id) media_id from media_relations join media on media_relations.media_id = media.media_id
+				select max(media_relations.media_id) media_id from media_relations join media on media_relations.media_id = media.media_id
 				group by media_relationship
 				union
 				select max(media_id) media_id from media 
 				group by media.auto_host
 				having count(*) > 50
 				union
-				select max(media.media_id) from media_labels join media on media_labels.media_id = media.media_id
+				select max(media_labels.media_id) from media_labels join media on media_labels.media_id = media.media_id
 				where media_label = 'height'
 				group by label_value
 				having count(*) > 500
