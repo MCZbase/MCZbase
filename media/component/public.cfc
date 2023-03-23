@@ -205,7 +205,54 @@ include this function and use it.
 							<cfset iiifIdentifier = "#encodeForURL(media_id)#">
 							<!---cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg"--->
 							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server. See https://iiif.io/api/image/3.0/#42-size for iiifFull.--->
+							<cfif media.height EQ "" OR media.width EQ "">
+								<!--- see if the IIIF server knows the height and width --->
+								<cftry>
+									<cfset lookupInfo = "#iiifSchemeServerPrefix##iiifIdentifier#/info.json">
+									<cfhttp url="#lookupInfo#" method="GET" result="info_json" redirect="yes" throwOnError="yes" timeout="3"> 
+									<cfif isJSON(info_json)>
+										<cfset info = deserializeJSON(info_json)>
+										<cfset infoHeight = info.height>
+										<cfset infoWidth = info.width>
+										<cfif media.height EQ "">
+											<cfquery name="addh" datasource="uam_god" timeout="2">
+												INSERT INTO media_labels (
+													media_id,
+													media_label,
+													label_value,
+													assigned_by_agent_id
+												) VALUES (
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+													'height',
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#infoHeight#">,
+													0
+												)
+											</cfquery>
+										</cfif>
+										<cfif media.width EQ "">
+											<cfquery name="addw" datasource="uam_god" timeout="2">
+												INSERT INTO media_labels (
+													media_id,
+													media_label,
+													label_value,
+													assigned_by_agent_id
+												) VALUES (
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+													'width',
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#infoWidth#">,
+													0
+												)
+											</cfquery>
+										</cfif>
+									</cfif>
+								<cfcatch>
+									<cfdump var="#cfcatch#">
+								</cfcatch>
+								</cftry>
+							</cfif>
 							<cfif media.height NEQ '' AND (media.height LT 2000 OR media.width LT 2000)>
+								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
+							<cfif media.height NEQ '' AND (infoHeight LT 2000 OR infoWidth LT 2000)>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
 							<cfelse>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/!2000,2000/0/default.jpg">
