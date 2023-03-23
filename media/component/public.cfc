@@ -252,7 +252,7 @@ include this function and use it.
 							</cfif>
 							<cfif media.height NEQ '' AND (media.height LT 2000 OR media.width LT 2000)>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
-							<cfif media.height NEQ '' AND (infoHeight LT 2000 OR infoWidth LT 2000)>
+							<cfelseif media.height NEQ '' AND (infoHeight LT 2000 OR infoWidth LT 2000)>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
 							<cfelse>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/!2000,2000/0/default.jpg">
