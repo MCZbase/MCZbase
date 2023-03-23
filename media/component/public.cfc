@@ -246,7 +246,7 @@ include this function and use it.
 							</cfif>
 						</cfif>
 					<cfelse>
-					<!---Resource specified by media_uri is not one that can be used in an image tag as img src="media_uri", we need to provide an alternative --->
+						<!---Resource specified by media_uri is not one that can be used in an image tag as img src="media_uri", we need to provide an alternative --->
 						<cfif len(preview_uri) GT 0>
 						 	<!--- there is a preview_uri, use that --->
 							<cfif #displayAs# EQ "fixedSmallThumb">
@@ -314,7 +314,7 @@ include this function and use it.
 					</cfif>
 					<!--- prepare output --->
 
-					<cfset output='#output#<div class="media_widget p-1" style="#minheight#">'>	
+					<cfset output='#output#<div class="media_widget p-1" style="#minheight#">'>
 					<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
 					<cfif #captionAs# EQ "textNone">
 						<cfset linkTarget = "/media/#media.media_id#">
@@ -324,20 +324,16 @@ include this function and use it.
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF AND isDefined("iiifFull") AND len(iiifFull) GT 0>
 						<cfset linkTarget = iiifFull>
 					</cfif>
-					<!--- Experimental CSS zoom on hover--->
-					<!---
-					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
-					<cfset output='#output#<img src="#linkTarget#" alt="#alt#" #hw# style="#styles#" class="overlay"/>'>
-					<cfset output='#output#</a>'>
-					<cfset output='#output#<underlay style="background-image:url("#displayImage#")></underlay>'>
-					<cfset output='#output#<div class ="magnify"></div>'>
-					--->
 					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
 					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
 					<!--- multizoom library for zoom on hover --->
 					<cfif isDisplayable>
-						<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom("##MID#media.media_id#",{zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'>
+						<cfset minzoom="2">
+						<cfif size LT 150>
+							<cfset minzoom="4">
+						</cfif>
+						<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom("##MID#media.media_id#",{zoomrange: [#minzoom#,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'>
 					</cfif>
 					<cfif #captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
