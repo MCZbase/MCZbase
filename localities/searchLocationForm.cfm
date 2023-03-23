@@ -444,7 +444,7 @@ Typical use:
 										<option value="<" #selected#>less than</option>
 									</select>
 									<cfif not isDefined("minimum_elevation")><cfset minimum_elevation=""></cfif>
-									<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(minimum_elevation)#">
+									<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input w-100 d-inline-block col-12 col-md-8" value="#encodeForHtml(minimum_elevation)#">
 								</div>
 								<div class="col-12 col-md-5 px-3 pr-md-3 pl-md-0 py-1">
 									<label for="MaxElevOper" class="data-entry-label mb-0">Maximum Elevation <span class="small">(Original Units)</span></label>
@@ -533,7 +533,7 @@ Typical use:
 									</select>
 									<cfif not isDefined("min_depth")><cfset min_depth=""></cfif>
 									<label for="min_depth" class="data-entry-label text-light sr-only">Minimum Depth</label>
-									<input type="text" name="min_depth" id="min_depth" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth)#">
+									<input type="text" name="min_depth" id="min_depth" class="data-entry-input w-100 d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth)#">
 								</div>
 								<div class="col-12 col-md-5 px-3 pr-md-3 pl-md-0 py-1">
 									<label for="max_depth" class="data-entry-label mb-0">Maximum Depth <span class="small">(Original Units)</span></label>
