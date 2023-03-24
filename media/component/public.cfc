@@ -293,6 +293,7 @@ include this function and use it.
 							</cfif>
 						</cfif>
 					<cfelse>
+<!--- TODO: .nef file is not displayable, but doesn't get a placeholder icon --->
 						<!---Resource specified by media_uri is not one that can be used in an image tag as img src="media_uri", we need to provide an alternative --->
 						<cfif len(preview_uri) GT 0>
 						 	<!--- there is a preview_uri, use that --->
@@ -332,7 +333,7 @@ include this function and use it.
 								<!--- fall back on an svg image of an appropriate generic icon --->
 								<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
 									<cfset size = "90">
-										<cfset styles = "max-height:;width:auto;">
+									<cfset styles = "max-height:;width:auto;">
 								<cfelse>
 									<cfset size = "90">
 								</cfif>
@@ -341,20 +342,20 @@ include this function and use it.
 								<cfset hw = 'height="#size#" width="#size#"'>
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
-									<cfset displayImage = "/shared/images/tag-placeholder.png">
+									<cfset displayImage = "/shared/images/Image-x-generic.svg">
 								<cfelseif media_type is "audio">
 									<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
 								<cfelseif media_type IS "video">
-									<cfset displayImage =  "/shared/images/Gnome-media-playback-start.svg">
+									<cfset displayImage =  "/shared/images/Gnome-video-x-generic.svg">
 								<cfelseif media_type is "text">
 									<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
 								<cfelseif media_type is "3D model">
-									<cfset displayImage =  "/shared/images/model_3d.svg">
+									<cfset displayImage =  "/shared/images/Dual_Cube-Octahedron.svg">
 								<cfelseif media_type is "spectrometer data">
 									<cfset displayImage = "/shared/images/Sine_waves_different_frequencies.svg">
 								<cfelse>
-									<cfset displayImage =  "/shared/images/tag-placeholder.svg">
-									<!--- media_type is not on the known list --->
+									<cfset displayImage =  "/shared/images/placeholderGeneric.png">
+									<!--- media_type is not on list from ctmedia_type --->
 								</cfif>
 							</cfif>
 						</cfif>
@@ -451,8 +452,8 @@ include this function and use it.
 							<cfset showTitleText = trim(subject)>
 						</cfif>
 						<cfif len(showTitleText) EQ 0>
+<!--- TODO: Logic error, this message shows up on an NEF file that is not external https://mczbase-test.rc.fas.harvard.edu/media/1464306
 							<cfset showTitleText = "Externally Sourced Media Object">
-							
 						</cfif>
 						<cfif #captionAs# EQ "textCaption"><!---This is for use when a caption of 197 characters is needed --->
 							<cfif len(showTitleText) GT 197>
