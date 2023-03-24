@@ -827,6 +827,12 @@ include this function and use it.
 								<tr class="border mt-2 p-2"><th scope="row">Alt Text: </th><td>#media.alttag#</td></tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
+								<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td>#media.media_uri#</td></tr>
+							</cfif>
+							<cfif listcontainsnocase(session.roles,"manage_media")>
+								<tr class="border mt-2 p-2"><th scope="row">Preview URI: </th><td>#media.preview_uri#</td></tr>
+							</cfif>
+							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">
 									<!--- check if file exists --->
 									<cfset size = "">
