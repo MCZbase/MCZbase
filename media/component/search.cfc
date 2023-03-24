@@ -757,7 +757,7 @@ limitations under the License.
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
-			<cfset row["id_link"] = "<a href='/media.cfm?media_id#search.media_id#' target='_blank'>#search.media_uri#</a>">
+			<cfset row["id_link"] = "<a href='/media/#search.media_id#' target='_blank'>#search.media_uri#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
