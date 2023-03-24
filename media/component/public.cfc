@@ -555,17 +555,15 @@ include this function and use it.
 				<cfif media.recordcount EQ 0>
 					<cfthrow message="No media records matching media_id [#encodeForHtml(media_id)#]">
 				</cfif>
-				<!---The queries to specific relationships below provide the variables for displaying the links within the id=relatedLinks div--->
+				<cfset oneOfUs = 0>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					<cfset oneOfUs = 1>
-				<cfelse>
-					<cfset oneOfUs = 0>
 				</cfif>
+				<cfset manageTransactions = 0>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-					<cfset manageTransactions = 1>
-				<cfelse>
-					<cfset manageTransactions = 0>
+					<cfset manageTransactions=1>
 				</cfif>
+				<!--- The queries to specific relationships below provide the variables for displaying the links within the id=relatedLinks div --->
 				<cfif manageTransactions EQ 1>
 					<cfquery name="accns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct transaction_id, accn.accn_number
@@ -579,7 +577,7 @@ include this function and use it.
 				<cfelse>
 					<cfquery name="accns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select null as transaction_id, null as accn_number from dual where 0=1
-					</cfif>
+					</cfquery>
 				</cfif>
 				<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct agent_name.agent_name, agent.agent_id
