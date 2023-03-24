@@ -200,7 +200,7 @@ include this function and use it.
 					<cfset iiifFull = "">
 					<cfset xzoom = "">
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF>
-						<cfif media_type EQ 'image' AND left(media.mime_type,6) EQ 'image/'>
+						<cfif media_type EQ 'image' AND left(media.mime_type,6) EQ 'image/' AND media.mime_type NEQ 'image/x-nikon-nef'>
 							<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
 							<cfset iiifIdentifier = "#encodeForURL(media_id)#">
 							<!---cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg"--->
