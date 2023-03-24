@@ -392,6 +392,10 @@ include this function and use it.
 					<!--- multizoom library for zoom on hover --->
 					<cfif isDisplayable>
 						<cfset minzoom="2">
+						<cfif displayAs EQ "thumb">
+							<!--- probably uses default size value of 600, but want larger zoom --->
+							<cfset minzoom="4">
+						</cfif>
 						<cfif size LT 155>
 							<cfset minzoom="4">
 						</cfif>
