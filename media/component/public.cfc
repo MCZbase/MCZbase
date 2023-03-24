@@ -640,7 +640,7 @@ include this function and use it.
 						and media_relations.media_relationship like '% collecting_event'
 				</cfquery>
 				<cfquery name="daccns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct transaction_id
+					select distinct transaction_id, deaccession.deacc_number
 					from media_relations
 						left join deaccession on media_relations.related_primary_key = deaccession.transaction_id
 						left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
