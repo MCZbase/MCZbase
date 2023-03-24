@@ -293,7 +293,6 @@ include this function and use it.
 							</cfif>
 						</cfif>
 					<cfelse>
-<!--- TODO: .nef file is not displayable, but doesn't get a placeholder icon --->
 						<!---Resource specified by media_uri is not one that can be used in an image tag as img src="media_uri", we need to provide an alternative --->
 						<cfif len(preview_uri) GT 0>
 						 	<!--- there is a preview_uri, use that --->
@@ -452,10 +451,6 @@ include this function and use it.
 						</cfif>
 						<cfif len(showTitleText) EQ 0>
 							<cfset showTitleText = trim(subject)>
-						</cfif>
-						<cfif len(showTitleText) EQ 0>
-<!--- TODO: Logic error, this message shows up on an NEF file that is not external https://mczbase-test.rc.fas.harvard.edu/media/1464306 --->
-							<cfset showTitleText = "Externally Sourced Media Object">
 						</cfif>
 						<cfif #captionAs# EQ "textCaption"><!---This is for use when a caption of 197 characters is needed --->
 							<cfif len(showTitleText) GT 197>
