@@ -372,8 +372,10 @@ include this function and use it.
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF AND isDefined("iiifFull") AND len(iiifFull) GT 0>
 						<cfset linkTarget = iiifFull>
 					</cfif>
+					<cfset unique = REReplace(CreateUUID(), "[-]", "", "all") >
+					<cfset elementID = "MID_#media.media_id#_#unique#">
 					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
-					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
+					<cfset output='#output#<img id="#elementID#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
 					<!--- multizoom library for zoom on hover --->
 					<cfif isDisplayable>
@@ -384,7 +386,7 @@ include this function and use it.
 						<cfif size LT 105>
 							<cfset minzoom="5">
 						</cfif>
-						<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom("##MID#media.media_id#",{zoomrange: [#minzoom#,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'>
+						<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("###elementId#").addimagezoom("###elementId#",{zoomrange: [#minzoom#,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'>
 					</cfif>
 					<cfif #captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
