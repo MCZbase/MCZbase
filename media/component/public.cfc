@@ -257,6 +257,19 @@ include this function and use it.
 							<cfelse>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/!2000,2000/0/default.jpg">
 							</cfif>
+							<cfif #displayAs# EQ "fixedSmallThumb">
+								<!--- workaround for zoom on fixed small thumb having aspect ratio of square not that of image delivered by iiif server --->
+								<cfif media.height NEQ '' AND (media.height LT 2000 OR media.width LT 2000)>
+									<cfset iiifSquare = "#iiifSchemeServerPrefix##iiifIdentifier#/square/max/0/default.jpg">
+								<cfelseif media.height EQ '' AND isDefined("infoHeight") AND (infoHeight LT 2000 OR infoWidth LT 2000)>
+									<cfset iiifSquare = "#iiifSchemeServerPrefix##iiifIdentifier#/square/max/0/default.jpg">
+								<cfelse>
+									<cfset iiifSquare = "#iiifSchemeServerPrefix##iiifIdentifier#/square/!2000,2000/0/default.jpg">
+								</cfif>
+							<cfelse>
+								<!--- graceful failure, making sure iiifSquare is defined, shouldn't be used --->
+								<cfset iiifSquare = iiifFull>
+							</cfif>
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
 							<cfset xzoom = 'class = "zoom"'>
@@ -385,7 +398,11 @@ include this function and use it.
 						<cfif size LT 105>
 							<cfset minzoom="5">
 						</cfif>
-						<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("###elementId#").addimagezoom("###elementId#",{zoomrange: [#minzoom#,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'>
+						<cfif #displayAs# EQ "fixedSmallThumb">
+							<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("###elementId#").addimagezoom("###elementId#",{zoomrange: [#minzoom#,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifSquare#"})})</script>'>
+						<cfelse>
+							<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("###elementId#").addimagezoom("###elementId#",{zoomrange: [#minzoom#,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'>
+						<cfif>
 					</cfif>
 					<cfif #captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
