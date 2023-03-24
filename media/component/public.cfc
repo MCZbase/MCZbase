@@ -452,7 +452,7 @@ include this function and use it.
 							<cfset showTitleText = trim(subject)>
 						</cfif>
 						<cfif len(showTitleText) EQ 0>
-<!--- TODO: Logic error, this message shows up on an NEF file that is not external https://mczbase-test.rc.fas.harvard.edu/media/1464306
+<!--- TODO: Logic error, this message shows up on an NEF file that is not external https://mczbase-test.rc.fas.harvard.edu/media/1464306 --->
 							<cfset showTitleText = "Externally Sourced Media Object">
 						</cfif>
 						<cfif #captionAs# EQ "textCaption"><!---This is for use when a caption of 197 characters is needed --->
