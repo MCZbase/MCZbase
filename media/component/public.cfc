@@ -556,15 +556,31 @@ include this function and use it.
 					<cfthrow message="No media records matching media_id [#encodeForHtml(media_id)#]">
 				</cfif>
 				<!---The queries to specific relationships below provide the variables for displaying the links within the id=relatedLinks div--->
-				<cfquery name="accns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct transaction_id, accn.accn_number
-					from media_relations
-						left join accn on media_relations.related_primary_key = accn.transaction_id
-						left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on accn.transaction_id = flat.accn_id
-					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-						and mczbase.ctmedia_relationship.auto_table = 'accn'
-				</cfquery>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+					<cfset manageTransactions = 1>
+				<cfelse>
+					<cfset manageTransactions = 0>
+				</cfif>
+				<cfif manageTransactions EQ 1>
+					<cfquery name="accns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct transaction_id, accn.accn_number
+						from media_relations
+							left join accn on media_relations.related_primary_key = accn.transaction_id
+							left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on accn.transaction_id = flat.accn_id
+						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+							and mczbase.ctmedia_relationship.auto_table = 'accn'
+					</cfquery>
+				<cfelse>
+					<cfquery name="accns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select null as transaction_id, null as accn_number from dual where 0=1
+					</cfif>
+				</cfif>
 				<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct agent_name.agent_name, agent.agent_id
 					from media_relations
@@ -624,14 +640,20 @@ include this function and use it.
 						and agent_name_type = 'preferred'
 					order by agent_name.agent_name
 				</cfquery>
-				<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-					select b.transaction_id, b.lenders_trans_num_cde, b.borrow_number
-					from media_relations mr
-					left join borrow b on b.transaction_id = mr.related_primary_key
-					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-					where mr.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and ct.media_relationship like '%borrow'
-				</cfquery>
+				<cfif manageTransactions EQ 1>
+					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
+						select b.transaction_id, b.lenders_trans_num_cde, b.borrow_number
+						from media_relations mr
+						left join borrow b on b.transaction_id = mr.related_primary_key
+						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+						where mr.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and ct.media_relationship like '%borrow'
+					</cfquery>
+				<cfelse>
+					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
+						select null as transaction_id, null as lenders_trans_num_cde, null as borrow_number from dual where 0=1
+					</cfquery>
+				</cfif>
 				<cfquery name="collecting_events" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct collecting_event.verbatim_locality,collecting_event.collecting_event_id, collecting_event.verbatim_date, collecting_event.ended_date, collecting_event.collecting_source
 					from media_relations
@@ -639,22 +661,34 @@ include this function and use it.
 					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and media_relations.media_relationship like '% collecting_event'
 				</cfquery>
-				<cfquery name="daccns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct transaction_id, deaccession.deacc_number
-					from media_relations
-						left join deaccession on media_relations.related_primary_key = deaccession.transaction_id
-						left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-						and mczbase.ctmedia_relationship.auto_table = 'deaccession'
-				</cfquery>
-				<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct transaction_id, loan.loan_number
-					from media_relations
-						left join loan on media_relations.related_primary_key = loan.transaction_id
-						left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-						and mczbase.ctmedia_relationship.auto_table = 'loan'
-				</cfquery>
+				<cfif manageTransactions EQ 1>
+					<cfquery name="daccns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct transaction_id, deaccession.deacc_number
+						from media_relations
+							left join deaccession on media_relations.related_primary_key = deaccession.transaction_id
+							left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+							and mczbase.ctmedia_relationship.auto_table = 'deaccession'
+					</cfquery>
+				<cfelse>
+					<cfquery name="daccns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select null as transaction_id, null as deacc_number from dual where 0=1
+					</cfquery>
+				</cfif>
+				<cfif manageTransactions EQ 1>
+					<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct transaction_id, loan.loan_number
+						from media_relations
+							left join loan on media_relations.related_primary_key = loan.transaction_id
+							left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+							and mczbase.ctmedia_relationship.auto_table = 'loan'
+					</cfquery>
+				<cfelse>
+					<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select null as transaction_id, null as loan_number from dual where 0=1
+					</cfquery>
+				</cfif>
 				<cfquery name="locali" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct locality.spec_locality,locality.locality_ID, lat_long.dec_lat, lat_long.dec_long, lat_long.datum, lat_long.max_error_distance as error, lat_long.max_error_units as units
 					from media_relations
@@ -680,14 +714,20 @@ include this function and use it.
 					where m.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and ct.media_relationship = 'transcript for audio media'
 				</cfquery>
-				<cfquery name="permit"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct permit.permit_id, permit.permit_type,permit.permit_title
-					from permit
-					left join media_relations mr on permit.permit_id = mr.related_primary_key
-					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-					where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and ct.auto_table = 'permit'
-				</cfquery>
+				<cfif manageTransactions EQ 1>
+					<cfquery name="permit"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct permit.permit_id, permit.permit_type,permit.permit_title
+						from permit
+						left join media_relations mr on permit.permit_id = mr.related_primary_key
+						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+						where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and ct.auto_table = 'permit'
+					</cfquery>
+				<cfelse>
+					<cfquery name="permit"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select null as permit_id, null as permit_type, null as permit_title from dual where 0=1
+					</cfquery>
+				</cfif>
 				<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct p.publication_id as pk, fp.formatted_publication as pub_long
 					from publication p
