@@ -39,7 +39,7 @@ limitations under the License.
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfif media.recordcount EQ 0>
-		<cfthrow message="Media record with media_id=[#encodeForHtml(media_id)#] not found.">
+		<cfthrow message="Media record with media_id=[#encodeForHtml(media_id)#] not found." type="MCZbase.MEDIA_NOT_FOUND" errorCode="9995">
 	</cfif>
 	<div class="container-fluid container-xl px-0 py-1">
 		<div class="row">
