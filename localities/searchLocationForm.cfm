@@ -35,6 +35,7 @@ Behavior is affected by the values of variables:
 
 Typical use: 
 
+	<main id="content">
 		<h1 class="h2 mt-3 mb-0 px-4">Find new collecting event for cataloged items [in #encodeForHtml(result_id)#]</h1>
 		<form name="getLoc" method="post" action="/specimens/changeQueryCollEvent.cfm">
 			<input type="hidden" name="Action" value="findCollectingEvent">
