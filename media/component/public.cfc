@@ -848,10 +848,14 @@ include this function and use it.
 								<tr class="border mt-2 p-2"><th scope="row">Alt Text: </th><td>#media.alttag#</td></tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
-								<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td>#media.media_uri#</td></tr>
+								<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href="#media.media_uri#">#media.media_uri#</a></td></tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
-								<tr class="border mt-2 p-2"><th scope="row">Preview URI: </th><td>#media.preview_uri#</td></tr>
+								<cfset thumbText = "None. Default Thumnail for media type used.">
+								<cfif len(media.preview_uri) GT 0>
+									<cfset thumbText = "<a target='_blank' href='#media.preview_uri#'>#media.preview_uri#</a>">
+								</cfif>
+								<tr class="border mt-2 p-2"><th scope="row">Preview URI: </th><td>#thumbText#</td></tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">
