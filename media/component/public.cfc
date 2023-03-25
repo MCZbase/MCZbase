@@ -246,7 +246,7 @@ include this function and use it.
 										</cfif>
 									</cfif>
 								<cfcatch>
-									<cfdump var="#cfcatch#">
+									<!--- cfdump var="#cfcatch.message#" --->
 								</cfcatch>
 								</cftry>
 							</cfif>
