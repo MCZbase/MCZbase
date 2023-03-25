@@ -88,7 +88,7 @@ limitations under the License.
 		<cfset showEvent=0>
 		<cfoutput>
 			<main id="content">
-				<h1 class="h3 text-white my-1">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
+				<h1 class="h2 mt-3 mb-0 px-4">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
 				<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
 					<input type="hidden" name="Action" value="findLocality">
 					<input type="hidden" name="result_id" value="#result_id#">
