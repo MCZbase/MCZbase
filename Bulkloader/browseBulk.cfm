@@ -88,15 +88,24 @@ table##t th {
 <cfif action is "ajaxGrid">
 	<div class="container-fluid">
 		<div class="col-12 p-4">
-			<h1 class="h2">Edit #data.recordcount# records individually in this grid.</h2>
-			<h2 class="h4"><u>Tips for finding and editing data</u></h2>
-			<ul class="pb-3">
-				<li>Default: All columns visible. Hover on any column header to see the option menu. Use the "Columns" button in the menu to select the columns visible in the grid. There is a delay after ticking a checkbox in the popup, especially when there are many rows/pages in the grid.</li>
-				<li>On page load, rows are sorted by the Key Column. Clicking on a column header sorts by that column. Also, sort through option menu next to each column header (hover to see menu). </li>
-				<li>Use "control" + "F" and search for data values to bring field to focus on your screen&mdash;This is not helpful for inserting values into empty columns because it will not find column headers. </li>
-				<li>Double click fields to edit. Click the refresh icon (bottom of grid) to see that the changes are saved. Click "Mark all to load" to move edited records from the bulkloader into MCZbase.</li>
-			</ul>
 			<cfoutput>
+				<h1 class="h2">Edit #data.recordcount# records individually in this grid.</h2>
+				<p>Viewing records in the bulkloader entered by #encodeForHtml(enteredby)#
+				<cfif len(accn) gt 0>
+					with accession number(s) #encodeForHtml(accn)#
+				</cfif>
+				<cfif isdefined("colln") and len(colln) gt 0>
+					in collection(s) #encodeForHtml(colln)#
+				</cfif>
+				.</p>
+				<h2 class="h4"><u>Tips for finding and editing data</u></h2>
+				<ul class="pb-3">
+					<li>On page load, rows are sorted by the Key Column.  The key value is not important, but it is hyperlinked to the data entry screen for the record.</li>
+					<li>Clicking on a column header sorts by that column. Also, sort through option menu next to each column header (hover to see menu (sort ascending, sort descending, columns)). </li>
+					<li>All columns are visible by default.  Each column menu has an option "Columns" button to change the columns visible in the grid. There is a delay after ticking a checkbox in the popup column selection menu, especially when there are many rows/pages in the grid.</li>
+					<li>Use "control" + "F" and search for data values to bring field to focus on your screen&mdash;This is not helpful for inserting values into empty columns because it will not find column headers. </li>
+					<li>Click fields to edit. Click the refresh icon (bottom of grid) to see that the changes are saved. Click "Mark all to load" to attempt to load edited records from the bulkloader into MCZbase, records that do not succeed will have an error message in the "loaded" column.</li>
+				</ul>
 				<cfquery name="cNames" datasource="uam_god">
 					select user_tab_cols.column_name from user_tab_cols
 						left outer join BULKLOADER_FIELD_ORDER
