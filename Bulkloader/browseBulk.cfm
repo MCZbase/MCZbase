@@ -150,24 +150,40 @@ table##t th {
 	<cfoutput>
 		<cf_setDataEntryGroups>
 		<cfset delimitedAdminForGroups=ListQualify(adminForUsers, "'")>
+		<cfquery name="userList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select 
+				cf_users.username, 
+				count(bulkloader.collection_object_id) as ct
+			from 
+				cf_users left join bulkloader on cf_users.username = bulkloader.enteredby
+			where 
+				cf_users.username in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#delimitedAdminForGroups#" list="yes">) 
+			group by 
+				cf_users.username
+			order by cf_users.username
+		</cfquery>
+
+		distinct(cf_users.username) admin_of_user
 		<cfquery name="ctAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select 
-				accn 
+				accn, 
+				count(collection_object_id) as ct 
 			from 
 				bulkloader 
 			where 
-				enteredby in (#preservesinglequotes(delimitedAdminForGroups)#) 
+				enteredby in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#delimitedAdminForGroups#" list="yes">)
 			group by 
 				accn 
 			order by accn
 		</cfquery>
 		<cfquery name="ctColln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select 
-				institution_acronym || ':' || collection_cde colln 
+				institution_acronym || ':' || collection_cde colln, 
+				count(collection_object_id) ct
 			from 
 				bulkloader 
 			where 
-				enteredby in (#preservesinglequotes(delimitedAdminForGroups)#)		
+				enteredby in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#delimitedAdminForGroups#" list="yes">)		
 			group by 
 				institution_acronym || ':' || collection_cde 
 			order by institution_acronym || ':' || collection_cde
@@ -199,8 +215,8 @@ table##t th {
 										<label for="enteredby" class="data-entry-label font-weight-bold">Entered By</label>
 										<select name="enteredby" multiple="multiple" size="12" id="enteredby" class="">
 											<option value="#delimitedAdminForGroups#" selected="selected" class="p-1">All</option>
-											<cfloop list="#adminForUsers#" index='agent_name'>
-												<option value="'#agent_name#'" class="p-1">#agent_name#</option>
+											<cfloop query="#userList#">
+												<option value="'#username#'" class="p-1">#username# (#ct#)</option>
 											</cfloop>
 										</select>
 									</td>
@@ -209,7 +225,7 @@ table##t th {
 										<select name="accn" multiple="multiple" size="12" id="accn" class="">
 											<option value="" selected class="p-1">All</option>
 											<cfloop query="ctAccn">
-												<option value="'#accn#'" class="p-1">#accn#</option>
+												<option value="'#accn#'" class="p-1">#accn# (#ct#)</option>
 											</cfloop>
 										</select>
 									</td>
@@ -218,7 +234,7 @@ table##t th {
 										<select name="colln" multiple="multiple" size="12" id="colln" class="">
 											<option value="" selected class="p-1">All</option>
 											<cfloop query="ctColln">
-												<option value="'#colln#'" class="p-1">#colln#</option>
+												<option value="'#colln#'" class="p-1">#colln# (#ct#)</option>
 											</cfloop>
 										</select>
 									</td>
