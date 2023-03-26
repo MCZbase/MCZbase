@@ -157,13 +157,11 @@ table##t th {
 			from 
 				cf_users left join bulkloader on cf_users.username = bulkloader.enteredby
 			where 
-				cf_users.username in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#delimitedAdminForGroups#" list="yes">) 
+				cf_users.username in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#adminForUsers#" list="yes">) 
 			group by 
 				cf_users.username
 			order by cf_users.username
 		</cfquery>
-
-		distinct(cf_users.username) admin_of_user
 		<cfquery name="ctAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select 
 				accn, 
@@ -171,7 +169,7 @@ table##t th {
 			from 
 				bulkloader 
 			where 
-				enteredby in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#delimitedAdminForGroups#" list="yes">)
+				enteredby in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#adminForUsers#" list="yes">)
 			group by 
 				accn 
 			order by accn
@@ -183,7 +181,7 @@ table##t th {
 			from 
 				bulkloader 
 			where 
-				enteredby in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#delimitedAdminForGroups#" list="yes">)		
+				enteredby in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#adminForUsers#" list="yes">)		
 			group by 
 				institution_acronym || ':' || collection_cde 
 			order by institution_acronym || ':' || collection_cde
