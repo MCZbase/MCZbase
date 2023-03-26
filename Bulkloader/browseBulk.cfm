@@ -86,10 +86,22 @@ table##t th {
 	</cfoutput>
 </cfif>
 <cfif action is "ajaxGrid">
+	<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT count(*) as ct
+		FROM bulkloader
+		WHERE 
+			enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredby#" list="yes">)
+		<cfif len(accn) gt 0>
+			AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn#" list="yes">)
+		</cfif>
+		<cfif isdefined("colln") and len(colln) gt 0>
+			AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colln#" list="yes">)
+		</cfif>
+	</cfquery>
 	<div class="container-fluid">
 		<div class="col-12 p-4">
 			<cfoutput>
-				<h1 class="h2">Edit #data.recordcount# records individually in this grid.</h2>
+				<h1 class="h2">Edit #countData.ct# records individually in this grid.</h2>
 				<p>Viewing records in the bulkloader entered by #encodeForHtml(enteredby)#
 				<cfif len(accn) gt 0>
 					with accession number(s) #encodeForHtml(accn)#
