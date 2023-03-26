@@ -22,12 +22,12 @@ table##t th {
 <!-------------------------------------------------------------->
 <cfif action is "loadAll">
 	<cfoutput>
-		<cfset sql="UPDATE bulkloader SET LOADED = NULL WHERE enteredby IN (#enteredby#)">
+		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
 		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			UPDATE bulkloader 
 			SET LOADED = NULL 
 			WHERE 
-				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredby#" list="yes">)
+				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 			<cfif len(accn) gt 0>
 				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn#" list="yes">)
 			</cfif>
@@ -44,10 +44,11 @@ table##t th {
 			select column_name from user_tab_cols where table_name='BULKLOADER'
 			order by internal_column_id
 		</cfquery>
+		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT * from bulkloader 
 			WHERE 
-				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredby#" list="yes">)
+				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 			<cfif len(accn) gt 0>
 				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn#" list="yes">)
 			</cfif>
@@ -86,11 +87,12 @@ table##t th {
 	</cfoutput>
 </cfif>
 <cfif action is "ajaxGrid">
+	<cfset enteredByCleaned = replace(enteredby,"'","","All")>
 	<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT count(*) as ct
 		FROM bulkloader
 		WHERE 
-			enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredby#" list="yes">)
+			enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 		<cfif len(accn) gt 0>
 			AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn#" list="yes">)
 		</cfif>
@@ -102,7 +104,7 @@ table##t th {
 		<div class="col-12 p-4">
 			<cfoutput>
 				<h1 class="h2">Edit #countData.ct# records individually in this grid.</h2>
-				<p>Viewing records in the bulkloader entered by #encodeForHtml(enteredby)#
+				<p>Viewing records in the bulkloader entered by #encodeForHtml(enteredByCleaned)#
 				<cfif len(accn) gt 0>
 					with accession number(s) #encodeForHtml(accn)#
 				</cfif>
@@ -742,11 +744,12 @@ table##t th {
 <!-------------------------------------------------------------->
 <cfif #action# is "viewTable">
 	<cfoutput>
+		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT * 
 			FROM bulkloader
 			WHERE 
-				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredby#" list="yes">)
+				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 			<cfif len(accn) gt 0>
 				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn#" list="yes">)
 			</cfif>
