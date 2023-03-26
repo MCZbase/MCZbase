@@ -378,6 +378,12 @@ table##t th {
 <!----------------------------------------------------------->
 <cfif action is "sqlTab">
 	<cfoutput>
+		<cfif NOT isdefined("accn")>
+			<cfset accn = "">
+		</cfif>
+		<cfif NOT isdefined("colln")>
+			<cfset colln = "">
+		</cfif>
 		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
 		<cfset accnCleaned = replace(accn,"'","","All")>
 		<cfset collnCleaned = replace(colln,"'","","All")>
