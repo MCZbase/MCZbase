@@ -88,60 +88,63 @@ table##t th {
 <cfif action is "ajaxGrid">
 	<div class="container-fluid">
 		<div class="col-12 p-4">
-	<h1 class="h2">Grid of New Cataloged Items to be Loaded</h1>
-		<h2 class="h4"><u>Tips for finding and editing data</u></h2>
-		<ul class="pb-3">
-			<li>Default: All columns visible. Hover on any column header to see the option menu. Use the "Columns" button in the menu to select the columns visible in the grid. There is a delay after ticking a checkbox in the popup, especially when there are many rows/pages in the grid.</li>
-			<li>On page load, rows are sorted by the Key Column. Clicking on a column header sorts by that column. Also, sort through option menu next to each column header (hover to see menu). </li>
-			<li>Use "control" + "F" and search for data values to bring field to focus on your screen&mdash;This is not helpful for inserting values into empty columns because it will not find column headers. </li>
-			<li>Double click fields to edit. Click the refresh icon (bottom of grid) to see that the changes are saved. Click "Mark all to load" to move edited records from the bulkloader into MCZbase.</li>
-			
-		</ul>
-		<cfoutput>
-		<cfquery name="cNames" datasource="uam_god">
-			select user_tab_cols.column_name from user_tab_cols
-				left outer join BULKLOADER_FIELD_ORDER
-				on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
-			where user_tab_cols.table_name='BULKLOADER' 
-				and 
-				(
-					(BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
-					or BULKLOADER_FIELD_ORDER.column_name is null
-				)
-			order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
-		</cfquery>
-		<cfset ColNameList = valuelist(cNames.column_name)>
-		<cfset ColNameList = replace(ColNameList,"COLLECTION_OBJECT_ID","","all")>
-		<cfset args.stripeRows = true>
-		<cfset args.selectColor = "##D9E8FB">
-		<cfset args.selectmode = "edit">
-		<cfset args.format="html">
-		<cfset args.gridLines = "yes">
-		<cfset args.title="Bulkloader">
-		<cfset args.onChange = "cfc:component.Bulkloader.editRecord({cfgridaction},{cfgridrow},{cfgridchanged})">
-		<cfset args.bind="cfc:component.Bulkloader.getPage({cfgridpage},{cfgridpagesize},{cfgridsortcolumn},{cfgridsortdirection},{accn},{enteredby},{colln})">
-		<cfset args.name="blGrid">
-		<cfset args.pageSize="25">
-		<cfset args.multirowselect="no">
-		<cfset args.autoWidth="no">
-		<a class="px-1 h4" href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=ajaxGrid">Mark all to load</a>
-		 <span class="h4">&nbsp;~&nbsp;</span> <a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
-		<cfform method="post" action="browseBulk.cfm">
-			<cfinput type="hidden" name="returnAction" value="ajaxGrid">
-			<cfinput type="hidden" name="action" value="saveGridUpdate">
-			<cfinput type="hidden" name="enteredby" value="#enteredby#">
-			<cfinput type="hidden" name="accn" value="#accn#">
-			<cfinput type="hidden" name="colln" value="#colln#">
-			<cfgrid attributeCollection="#args#">
-				<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
-				<cfgridcolumn name="collection_object_id" select="no" display="yes" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
-					hrefkey="collection_object_id" target="_blank" header="Key_(tempID)" textcolor="##006ee3" autoExpand="yes">
-				<cfloop list="#ColNameList#" index="thisName">
-					<cfgridcolumn name="#thisName#" width="135" autoExpand="no">
-				</cfloop>
-			</cfgrid>
-		</cfform>
-	</cfoutput>
+			<h1 class="h2">Edit #data.recordcount# records individually in this grid.</h2>
+			<h2 class="h4"><u>Tips for finding and editing data</u></h2>
+			<ul class="pb-3">
+				<li>Default: All columns visible. Hover on any column header to see the option menu. Use the "Columns" button in the menu to select the columns visible in the grid. There is a delay after ticking a checkbox in the popup, especially when there are many rows/pages in the grid.</li>
+				<li>On page load, rows are sorted by the Key Column. Clicking on a column header sorts by that column. Also, sort through option menu next to each column header (hover to see menu). </li>
+				<li>Use "control" + "F" and search for data values to bring field to focus on your screen&mdash;This is not helpful for inserting values into empty columns because it will not find column headers. </li>
+				<li>Double click fields to edit. Click the refresh icon (bottom of grid) to see that the changes are saved. Click "Mark all to load" to move edited records from the bulkloader into MCZbase.</li>
+			</ul>
+			<cfoutput>
+				<cfquery name="cNames" datasource="uam_god">
+					select user_tab_cols.column_name from user_tab_cols
+						left outer join BULKLOADER_FIELD_ORDER
+						on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
+					where user_tab_cols.table_name='BULKLOADER' 
+						and 
+						(
+							(BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
+							or BULKLOADER_FIELD_ORDER.column_name is null
+						)
+					order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
+				</cfquery>
+				<cfset ColNameList = valuelist(cNames.column_name)>
+				<cfset ColNameList = replace(ColNameList,"COLLECTION_OBJECT_ID","","all")>
+				<cfset args.stripeRows = true>
+				<cfset args.selectColor = "##D9E8FB">
+				<cfset args.selectmode = "edit">
+				<cfset args.format="html">
+				<cfset args.gridLines = "yes">
+				<cfset args.title="Bulkloader">
+				<cfset args.onChange = "cfc:component.Bulkloader.editRecord({cfgridaction},{cfgridrow},{cfgridchanged})">
+				<cfset args.bind="cfc:component.Bulkloader.getPage({cfgridpage},{cfgridpagesize},{cfgridsortcolumn},{cfgridsortdirection},{accn},{enteredby},{colln})">
+				<cfset args.name="blGrid">
+				<cfset args.pageSize="25">
+				<cfset args.multirowselect="no">
+				<cfset args.autoWidth="no">
+				<a class="px-1 h4" href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=ajaxGrid">Mark all to load</a>
+				<span class="h4">&nbsp;~&nbsp;</span> <a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
+				<cfform method="post" action="browseBulk.cfm">
+					<cfinput type="hidden" name="returnAction" value="ajaxGrid">
+					<cfinput type="hidden" name="action" value="saveGridUpdate">
+					<cfinput type="hidden" name="enteredby" value="#enteredby#">
+					<cfinput type="hidden" name="accn" value="#accn#">
+					<cfinput type="hidden" name="colln" value="#colln#">
+					<cfgrid attributeCollection="#args#">
+						<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
+						<cfgridcolumn name="collection_object_id" select="no" display="yes" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
+							hrefkey="collection_object_id" target="_blank" header="Key_(tempID)" textcolor="##006ee3" autoExpand="yes">
+						<cfloop list="#ColNameList#" index="thisName">
+							<cfif ucase(left(thisName,15) EQ 'COLLECTOR_ROLE_')> 
+								<cfgridcolumn name="#thisName#" values=",c,p" width="135" autoExpand="no">
+							<cfelse>
+								<cfgridcolumn name="#thisName#" width="135" autoExpand="no">
+							</cfif>
+						</cfloop>
+					</cfgrid>
+				</cfform>
+			</cfoutput>
 		</div>
 	</div>
 </cfif>
