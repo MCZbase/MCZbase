@@ -493,7 +493,7 @@ table##t th {
 						<cfif isdefined("colln") and len(colln) gt 0>
 							in collection(s) #encodeForHtml(colln)#
 						</cfif>
-						<cfif dataCount.ct GT 500>
+						<cfif countData.ct GT 500>
 						 	(limited to 500 records)
 						</cfif>
 						. <a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Ajax Grid</a>
