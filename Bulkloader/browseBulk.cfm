@@ -23,16 +23,18 @@ table##t th {
 <cfif action is "loadAll">
 	<cfoutput>
 		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
+		<cfset accnCleaned = replace(accn,"'","","All")>
+		<cfset collnCleaned = replace(colln,"'","","All")>
 		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			UPDATE bulkloader 
 			SET LOADED = NULL 
 			WHERE 
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 			<cfif len(accn) gt 0>
-				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn#" list="yes">)
+				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
 			</cfif>
 			<cfif isdefined("colln") and len(colln) gt 0>
-				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colln#" list="yes">)
+				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
 			</cfif>
 		</cfquery>
 		<cflocation url="browseBulk.cfm?action=#returnAction#&enteredby=#enteredby#&accn=#accn#&colln=#colln#" addtoken="false">
@@ -45,15 +47,17 @@ table##t th {
 			order by internal_column_id
 		</cfquery>
 		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
+		<cfset accnCleaned = replace(accn,"'","","All")>
+		<cfset collnCleaned = replace(colln,"'","","All")>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT * from bulkloader 
 			WHERE 
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 			<cfif len(accn) gt 0>
-				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn#" list="yes">)
+				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
 			</cfif>
 			<cfif isdefined("colln") and len(colln) gt 0>
-				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colln#" list="yes">)
+				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
 			</cfif>
 		</cfquery>
 		<cfset variables.encoding="UTF-8">
@@ -88,16 +92,18 @@ table##t th {
 </cfif>
 <cfif action is "ajaxGrid">
 	<cfset enteredByCleaned = replace(enteredby,"'","","All")>
+	<cfset accnCleaned = replace(accn,"'","","All")>
+	<cfset collnCleaned = replace(colln,"'","","All")>
 	<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT count(*) as ct
 		FROM bulkloader
 		WHERE 
 			enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 		<cfif len(accn) gt 0>
-			AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn#" list="yes">)
+			AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
 		</cfif>
 		<cfif isdefined("colln") and len(colln) gt 0>
-			AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colln#" list="yes">)
+			AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
 		</cfif>
 	</cfquery>
 	<div class="container-fluid">
@@ -744,17 +750,20 @@ table##t th {
 <!-------------------------------------------------------------->
 <cfif #action# is "viewTable">
 	<cfoutput>
+		<!--- strip off quotes from lists --->
 		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
+		<cfset accnCleaned = replace(accn,"'","","All")>
+		<cfset collnCleaned = replace(colln,"'","","All")>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT * 
 			FROM bulkloader
 			WHERE 
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 			<cfif len(accn) gt 0>
-				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn#" list="yes">)
+				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
 			</cfif>
 			<cfif isdefined("colln") and len(colln) gt 0>
-				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colln#" list="yes">)
+				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
 			</cfif>
 		</cfquery>
 		<cfquery name="cNames" datasource="uam_god">
