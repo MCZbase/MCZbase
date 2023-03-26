@@ -25,7 +25,7 @@ table##t th {
 		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
 		<cfset accnCleaned = replace(accn,"'","","All")>
 		<cfset collnCleaned = replace(colln,"'","","All")>
-		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="markForLoad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			UPDATE bulkloader 
 			SET LOADED = NULL 
 			WHERE 
@@ -377,93 +377,128 @@ table##t th {
 </cfif>
 <!----------------------------------------------------------->
 <cfif action is "sqlTab">
-<cfoutput>
-	<cfset sql = "select * from bulkloader where enteredby IN (#enteredby#)">
-	<cfif isdefined("accn") and len(accn) gt 0>
-		<cfset sql = "#sql# AND accn IN (#accn#)">
-	</cfif>
-	<cfif isdefined("colln") and len(colln) gt 0>
-		<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln#)">
-	</cfif>
-	<cfif isdefined("c1") and len(c1) gt 0 and isdefined("op1") and len(op1) gt 0 and isdefined("v1") and len(v1) gt 0>
-		<cfset sql = "#sql# AND #c1# #op1# ">
-		<cfif #op1# is "=">
-			<cfset sql = "#sql# '#v1#'">
-		<cfelseif op1 is "like">
-			<cfset sql = "#sql# '%#v1#%'">
-		<cfelseif op1 is "in">
-			<cfset sql = "#sql# ('#replace(v1,",","','","all")#')">
-		<cfelseif op1 is "between">
-			<cfset dash = find("-",v1)>
-			<cfset f = left(v1,dash-1)>
-			<cfset t = mid(v1,dash+1,len(v1))>
-			<cfset sql = "#sql# #f# and #t# ">
-		</cfif>		 
-	</cfif>
-	<cfif isdefined("c2") and len(c2) gt 0 and isdefined("op2") and len(op2) gt 0 and isdefined("v2") and len(v2) gt 0>
-		<cfset sql = "#sql# AND #c2# #op2# ">
-		<cfif #op2# is "=">
-			<cfset sql = "#sql# '#v2#'">
-		<cfelseif op2 is "like">
-			<cfset sql = "#sql# '%#v2#%'">
-		<cfelseif op2 is "in">
-			<cfset sql = "#sql# ('#replace(v2,",","','","all")#')">
-		<cfelseif op2 is "between">
-			<cfset dash = find("-",v2)>
-			<cfset f = left(v2,dash-1)>
-			<cfset t = mid(v2,dash+1,len(v2))>
-			<cfset sql = "#sql# #f# and #t# ">
-		</cfif>		 
-	</cfif>
-	<cfif isdefined("c3") and len(c3) gt 0 and isdefined("op3") and len(op3) gt 0 and isdefined("v3") and len(v3) gt 0>
-		<cfset sql = "#sql# AND #c3# #op3# ">
-		<cfif op3 is "=">
-			<cfset sql = "#sql# '#v3#'">
-		<cfelseif op3 is "like">
-			<cfset sql = "#sql# '%#v3#%'">
-		<cfelseif op3 is "in">
-			<cfset sql = "#sql# ('#replace(v3,",","','","all")#')">
-		<cfelseif op3 is "between">
-			<cfset dash = find("-",v3)>
-			<cfset f = left(v3,dash-1)>
-			<cfset t = mid(v3,dash+1,len(v3))>
-			<cfset sql = "#sql# #f# and #t# ">
-		</cfif>		 
-	</cfif>
-	<cfset sql="#sql# and rownum<500">
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		#preservesinglequotes(sql)#	
-	</cfquery>
-	<cfquery name="cNames" datasource="uam_god">
-		select user_tab_cols.column_name from user_tab_cols
-				left outer join BULKLOADER_FIELD_ORDER
-				on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
-			where user_tab_cols.table_name='BULKLOADER' 
-				and 
-				(
-					(BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
-						or BULKLOADER_FIELD_ORDER.column_name is null
-				)
-			order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
-	</cfquery>
+	<cfoutput>
+		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
+		<cfset accnCleaned = replace(accn,"'","","All")>
+		<cfset collnCleaned = replace(colln,"'","","All")>
+		<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT count(*) as ct
+			FROM bulkloader
+			WHERE 
+				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
+			<cfif len(accn) gt 0>
+				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+			</cfif>
+			<cfif isdefined("colln") and len(colln) gt 0>
+				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
+			</cfif>
+		</cfquery>
+		<cfset hasFilter = false>
+		<cfset sql = "select * from bulkloader where enteredby IN (#enteredby#)">
+		<cfif isdefined("accn") and len(accn) gt 0>
+			<cfset sql = "#sql# AND accn IN (#accn#)">
+		</cfif>
+		<cfif isdefined("colln") and len(colln) gt 0>
+			<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln#)">
+		</cfif>
+		<cfif isdefined("c1") and len(c1) gt 0 and isdefined("op1") and len(op1) gt 0 and isdefined("v1") and len(v1) gt 0>
+			<cfset hasFilter = true>
+			<cfset sql = "#sql# AND #c1# #op1# ">
+			<cfif #op1# is "=">
+				<cfset sql = "#sql# '#v1#'">
+			<cfelseif op1 is "like">
+				<cfset sql = "#sql# '%#v1#%'">
+			<cfelseif op1 is "in">
+				<cfset sql = "#sql# ('#replace(v1,",","','","all")#')">
+			<cfelseif op1 is "between">
+				<cfset dash = find("-",v1)>
+				<cfset f = left(v1,dash-1)>
+				<cfset t = mid(v1,dash+1,len(v1))>
+				<cfset sql = "#sql# #f# and #t# ">
+			</cfif>		 
+		</cfif>
+		<cfif isdefined("c2") and len(c2) gt 0 and isdefined("op2") and len(op2) gt 0 and isdefined("v2") and len(v2) gt 0>
+			<cfset hasFilter = true>
+			<cfset sql = "#sql# AND #c2# #op2# ">
+			<cfif #op2# is "=">
+				<cfset sql = "#sql# '#v2#'">
+			<cfelseif op2 is "like">
+				<cfset sql = "#sql# '%#v2#%'">
+			<cfelseif op2 is "in">
+				<cfset sql = "#sql# ('#replace(v2,",","','","all")#')">
+			<cfelseif op2 is "between">
+				<cfset dash = find("-",v2)>
+				<cfset f = left(v2,dash-1)>
+				<cfset t = mid(v2,dash+1,len(v2))>
+				<cfset sql = "#sql# #f# and #t# ">
+			</cfif>		 
+		</cfif>
+		<cfif isdefined("c3") and len(c3) gt 0 and isdefined("op3") and len(op3) gt 0 and isdefined("v3") and len(v3) gt 0>
+			<cfset hasFilter = true>
+			<cfset sql = "#sql# AND #c3# #op3# ">
+			<cfif op3 is "=">
+				<cfset sql = "#sql# '#v3#'">
+			<cfelseif op3 is "like">
+				<cfset sql = "#sql# '%#v3#%'">
+			<cfelseif op3 is "in">
+				<cfset sql = "#sql# ('#replace(v3,",","','","all")#')">
+			<cfelseif op3 is "between">
+				<cfset dash = find("-",v3)>
+				<cfset f = left(v3,dash-1)>
+				<cfset t = mid(v3,dash+1,len(v3))>
+				<cfset sql = "#sql# #f# and #t# ">
+			</cfif>		 
+		</cfif>
+		<cfset sql="#sql# and rownum<500">
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			#preservesinglequotes(sql)#	
+		</cfquery>
+		<cfquery name="cNames" datasource="uam_god">
+			select user_tab_cols.column_name from user_tab_cols
+					left outer join BULKLOADER_FIELD_ORDER
+					on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
+				where user_tab_cols.table_name='BULKLOADER' 
+					and 
+					(
+						(BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
+							or BULKLOADER_FIELD_ORDER.column_name is null
+					)
+				order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
+		</cfquery>
 		<div class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12 px-0">
-					<div class="col-12 mt-4 pb-2 float-left"><h1 class="h2">Filter and Update Column Values in Bulk</h1>
+					<div class="col-12 mt-4 pb-2 float-left">
+						<h1 class="h2">Update column values for multiple (#data.recordcount#) records at once.</h1>
 						<p>Use the top form to filter the table to the records of interest. All values are joined with "AND" and everything is case-sensitive. You must provide all three values (row) for the filter to apply. Then, use the bottom form to update them. Values in the update form are also case sensitive. There is no control over entries here - you can easily update such that records will never load. <span class="bg-dark px-1 text-white font-weight-lessbold">Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</span></p>
 					</div>
-					<div class="col-12 col-md-4 mt-2 pb-2 float-left">
-						<h2 class="h4">Operator values:</h2>
-							<ul class="geol_hier">
-								<li><b>&##61;</b> : single case-sensitive exact match ("something"-->"<strong>something</strong>")</li>
-								<li><b>like</b> : partial string match ("somet" --> "<strong>somet</strong>hing", "got<strong>somet</strong>oo", "<strong>somet</strong>ime", etc.)</li>
-								<li><b>in</b> : comma-delimited list ("one,two" --> "<strong>one</strong>" OR "<strong>two</strong>")</li>
-								<li><b>between</b> : range ("1-5" --> "1,2...5") Works only when ALL values are numeric (not only those you see in the current table)</li>
-							</ul>
-						<p>
-							NOTE: This form will load at most 500 records. In mobile view, swipe to see the whole table. 
-						</p>
-					</div>
+					<cfif listLen(enteredByCleaned) EQ 1>
+						<cfset entryList = "by #encodeForHtml(enteredByCleaned)#">
+					<cfelseif listLen(enteredByCleaned) GT 5>
+						<cfset entryList = "by any of #listLen(enteredByCleaned)# users">
+					<cfelse>
+						<cfset entryList = "by any of #encodeForHtml(enteredByCleaned)#">
+					</cfif>
+					<p>
+						Starting with #countData.ct# records in the bulkloader entered by #entryList#
+						<cfif len(accn) gt 0>
+							with accession number(s) #encodeForHtml(accn)#
+						</cfif>
+						<cfif isdefined("colln") and len(colln) gt 0>
+							in collection(s) #encodeForHtml(colln)#
+						</cfif>
+						<cfif dataCount.ct GT 500>
+						 	(limited to 500 records)
+						</cfif>
+						. <a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Ajax Grid</a>
+					</p>
+					<h2 class="h4">
+						<cfif hasFilter>
+							Filtered to #data.recordcount# records with:
+						<cfelse>
+							Optionally Filter these records with:
+						</cfif>
+					</h2>
 					<div class="col-12 col-md-8 mt-1 pb-3 float-left">
 						<form name="filter" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="sqlTab">
@@ -558,6 +593,18 @@ table##t th {
 								</tbody>
 							</table>
 						</form>
+					</div>
+					<div class="col-12 col-md-4 mt-2 pb-2 float-left">
+						<h2 class="h4">Operator values:</h2>
+							<ul class="geol_hier">
+								<li><b>&##61;</b> : single case-sensitive exact match ("something"-->"<strong>something</strong>")</li>
+								<li><b>like</b> : partial string match ("somet" --> "<strong>somet</strong>hing", "got<strong>somet</strong>oo", "<strong>somet</strong>ime", etc.)</li>
+								<li><b>in</b> : comma-delimited list ("one,two" --> "<strong>one</strong>" OR "<strong>two</strong>")</li>
+								<li><b>between</b> : range ("1-5" --> "1,2...5") Works only when ALL values are numeric (not only those you see in the current table)</li>
+							</ul>
+						<p>
+							NOTE: This form will load at most 500 records. In mobile view, swipe to see the whole table. 
+						</p>
 					</div>
 					<div class="col-12 mb-3 mt-0 float-left">
 						<h2 class="h3">Update data in table below (#data.recordcount# rows): </h2> 
@@ -720,6 +767,7 @@ table##t th {
 			
 
 <!-------------------------------------------------------------->
+<!--- unused action? --->
 <cfif #action# is "upBulk">
 <cfoutput>
 	<cfif len(#loaded#) gt 0 and
@@ -755,6 +803,7 @@ table##t th {
 </cfoutput>
 </cfif>
 <!-------------------------------------------------------------->
+<!--- unused action? --->
 <cfif #action# is "viewTable">
 	<cfoutput>
 		<!--- strip off quotes from lists --->
