@@ -110,7 +110,14 @@ table##t th {
 		<div class="col-12 p-4">
 			<cfoutput>
 				<h1 class="h2">Edit #countData.ct# records individually in this grid.</h2>
-				<p>Viewing records in the bulkloader entered by #encodeForHtml(enteredByCleaned)#
+				<cfif listLen(enteredByCleaned) EQ 1>
+					<cfset entryList = "by #encodeForHtml(enteredByCleaned)#">
+				<cfelseif listLen(enteredByCleaned) GT 5>
+					<cfset entryList = "by any of #listLen(enteredByCleaned)# users">
+				<cfelse>
+					<cfset entryList = "by any of #encodeForHtml(enteredByCleaned)#">
+				</cfif>
+				<p>Viewing records in the bulkloader entered by #entryList#
 				<cfif len(accn) gt 0>
 					with accession number(s) #encodeForHtml(accn)#
 				</cfif>
