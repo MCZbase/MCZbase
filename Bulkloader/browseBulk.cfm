@@ -23,14 +23,17 @@ table##t th {
 <cfif action is "loadAll">
 	<cfoutput>
 		<cfset sql="UPDATE bulkloader SET LOADED = NULL WHERE enteredby IN (#enteredby#)">
-		<cfif len(accn) gt 0>
-			<cfset sql = "#sql# AND accn IN (#accn#)">
-		</cfif>
-		<cfif isdefined("colln") and len(colln) gt 0>
-			<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln#)">
-		</cfif>
 		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			#preservesinglequotes(sql)#
+			UPDATE bulkloader 
+			SET LOADED = NULL 
+			WHERE 
+				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredby#" list="yes">)
+			<cfif len(accn) gt 0>
+				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn#" list="yes">)
+			</cfif>
+			<cfif isdefined("colln") and len(colln) gt 0>
+				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colln#" list="yes">)
+			</cfif>
 		</cfquery>
 		<cflocation url="browseBulk.cfm?action=#returnAction#&enteredby=#enteredby#&accn=#accn#&colln=#colln#" addtoken="false">
 	</cfoutput>
@@ -41,15 +44,16 @@ table##t th {
 			select column_name from user_tab_cols where table_name='BULKLOADER'
 			order by internal_column_id
 		</cfquery>
-		<cfset sql = "select * from bulkloader where enteredby IN (#enteredby#)">
-		<cfif len(accn) gt 0>
-			<cfset sql = "#sql# AND accn IN (#accn#)">
-		</cfif>
-		<cfif isdefined("colln") and len(colln) gt 0>
-			<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln#)">
-		</cfif>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			#preservesinglequotes(sql)#	
+			SELECT * from bulkloader 
+			WHERE 
+				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredby#" list="yes">)
+			<cfif len(accn) gt 0>
+				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn#" list="yes">)
+			</cfif>
+			<cfif isdefined("colln") and len(colln) gt 0>
+				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colln#" list="yes">)
+			</cfif>
 		</cfquery>
 		<cfset variables.encoding="UTF-8">
 		<cfset fname = "BulkPendingData_#cfid#_#cftoken#.csv">
@@ -89,7 +93,7 @@ table##t th {
 		<ul class="pb-3">
 			<li>Default: All columns visible. Hover on any column header to see the option menu. Use the "Columns" button in the menu to select the columns visible in the grid. There is a delay after ticking a checkbox in the popup, especially when there are many rows/pages in the grid.</li>
 			<li>On page load, rows are sorted by the Key Column. Clicking on a column header sorts by that column. Also, sort through option menu next to each column header (hover to see menu). </li>
-			<li>Use "control" + "F" to bring field to focus on your screen&mdash;This is less helpful for inserting values into empty columns because it doesn't find column headers. </li>
+			<li>Use "control" + "F" and search for data values to bring field to focus on your screen&mdash;This is not helpful for inserting values into empty columns because it will not find column headers. </li>
 			<li>Double click fields to edit. Click the refresh icon (bottom of grid) to see that the changes are saved. Click "Mark all to load" to move edited records from the bulkloader into MCZbase.</li>
 			
 		</ul>
@@ -177,7 +181,7 @@ table##t th {
 							<ul>
 								<li>
 									<h2 class="h3">Edit in SQL Table</h2>
-									<p>Allows mass updates based on existing values. Will only load 500 records at one time.   Watch your browser&apos;s loading indicator for signs of it finishing to load before trying to update data. Use "control" + "F" to find data values in table.</p>
+									<p>Allows mass updates. Will only load 500 records at one time.   Watch your browser&apos;s loading indicator for signs of it finishing to load before trying to update data. Use "control" + "F" to find data values in table.</p>
 								</li>
 								<li class="mt-2">
 									<h2 class="h3">Edit in AJAX grid</h2>
@@ -503,7 +507,7 @@ table##t th {
 						</form>
 					</div>
 					<div class="col-12 mb-3 mt-0 float-left">
-						<h2 class="h3">Update data in table below: </h2> 
+						<h2 class="h3">Update data in table below (#data.recordcount# rows): </h2> 
 						<p class="font-italic text-dark mb-1">To check updates: Use "control" + "F" to bring a column header or value into focus.</p>
 						<p class="font-italic text-dark mb-1">To empty a column, click "NULL" for the value and update.</p>
 						<p class="font-italic text-dark">To sort, click on a column header and wait. There is a delay with length of delay proportional to the number of rows in the table.</p>
@@ -699,107 +703,94 @@ table##t th {
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "viewTable">
-<cfoutput>
-<cfset sql = "select * from bulkloader
-	where enteredby IN (#enteredby#)">
-<cfif len(accn) gt 0>
-	<!----
-	<cfset thisAccnList = "">
-	<cfloop list="#accn#" index="a" delimiters=",">
-		<cfif len(#thisAccnList#) is 0>
-			<cfset thisAccnList = "'#a#'">
-		<cfelse>
-			<cfset thisAccnList = "#thisAccnList#,'#a#'">
-		</cfif>
-	</cfloop>
-	<cfset sql = "#sql# AND accn IN (#preservesinglequotes(thisAccnList)#)">
-	---->
-	<cfset sql = "#sql# AND accn IN (#accn#)">
-	
-</cfif>
-
-	<cfif isdefined("colln") and len(colln) gt 0>
-		<cfset sql = "#sql# AND institution_acronym || ':' || collection_cde IN (#colln#)">
-	</cfif>
-<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	#preservesinglequotes(sql)#	
-</cfquery>
-<cfquery name="cNames" datasource="uam_god">
-	select user_tab_cols.column_name from user_tab_cols
-		   left outer join BULKLOADER_FIELD_ORDER
-		   on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
-		where user_tab_cols.table_name='BULKLOADER' 
+	<cfoutput>
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT * 
+			FROM bulkloader
+			WHERE 
+				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredby#" list="yes">)
+			<cfif len(accn) gt 0>
+				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn#" list="yes">)
+			</cfif>
+			<cfif isdefined("colln") and len(colln) gt 0>
+				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colln#" list="yes">)
+			</cfif>
+		</cfquery>
+		<cfquery name="cNames" datasource="uam_god">
+			SELECT user_tab_cols.column_name 
+			FROM user_tab_cols
+		   	left outer join BULKLOADER_FIELD_ORDER on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
+			WHERE user_tab_cols.table_name='BULKLOADER' 
 			  and 
 			  (
 				 (BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
 				 or BULKLOADER_FIELD_ORDER.column_name is null
 			  )
-		order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
-</cfquery>
-<div class="container-fluid px-4">
-<!---
-<div style="background-color:##FFFFCC;">
-Mark some of the records in this bulkloader batch:
-<cfset columnList = "SPEC_LOCALITY,HIGHER_GEOG,ENTEREDBY,LOADED,ACCN,OTHER_ID_NUM_5">
+			ORDER BY BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
+		</cfquery>
+		<div class="container-fluid px-4">
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+				<div style="background-color:##FFFFCC;">
+					<h2 class="h3">Mark some of the records in this bulkloader batch:</h2>
+					<cfset columnList = "SPEC_LOCALITY,HIGHER_GEOG,ENTEREDBY,LOADED,ACCN,OTHER_ID_NUM_5">
+					<form name="bulkStuff" method="post" action="browseBulk.cfm">
+						<input type="hidden" name="action" value="upBulk" />
+						<input type="hidden" name="enteredby" value="#enteredby#" />
+						<input type="hidden" name="accn" value="#accn#" />
+						UPDATE bulkloader SET LOADED = 
+						<select name="loaded" size="1">
+							<option value="NULL">To Load</option>
+							<option value="FLAGGED BY BULKLOADER EDITOR">FLAGGED BY BULKLOADER EDITOR</option>
+							<option value="MARK FOR DELETION">MARK FOR DELETION</option>
+						</select>
+						<br />WHERE
+						<select name="column_name" size="1">
+							<CFLOOP list="#columnList#" index="i">
+								<option value="#i#">#i#</option>
+							</CFLOOP>
+						</select>
+						= TRIM(<input type="text" name="tValue" size="50" />)
+						<br />
+						<input type="submit" 
+								value="Update All Matches"
+								class="savBtn"
+								onmouseover="this.className='savBtn btnhov'"
+								onmouseout="this.className='savBtn'">
+					</form>
+				</div>
+			</cfif>
+			<hr />
+			<cfset ColNameList = valuelist(cNames.column_name)>
+			<cfset ColNameList = replace(ColNameList,"COLLECTION_OBJECT_ID","","all")>
+			<!---
+				<cfset ColNameList = replace(ColNameList,"LOADED","","all")>
+				<cfset ColNameList = replace(ColNameList,"ENTEREDBY","","all")>
+			--->
+			<hr />
+			<h2 class="h3">Edit #data.recordcount# records individually in this grid.</h2>
+			<cfform method="post" action="browseBulk.cfm">
+				<cfinput type="hidden" name="action" value="saveGridUpdate">
+				<cfinput type="hidden" name="enteredby" value="#enteredby#">
+				<cfinput type="hidden" name="accn" value="#accn#">
+				<cfinput type="hidden" name="colln" value="#colln#">
+				<cfinput type="hidden" name="returnAction" value="viewTable">
 
-<form name="bulkStuff" method="post" action="browseBulk.cfm">
-	<input type="hidden" name="action" value="upBulk" />
-	<input type="hidden" name="enteredby" value="#enteredby#" />
-	<input type="hidden" name="accn" value="#accn#" />
-	UPDATE bulkloader SET LOADED = 
-	<select name="loaded" size="1">
-		<option value="NULL">NULL</option>
-		<option value="FLAGGED BY BULKLOADER EDITOR">FLAGGED BY BULKLOADER EDITOR</option>
-		<option value="MARK FOR DELETION">MARK FOR DELETION</option>
-	</select>
-	<br />WHERE
-	<select name="column_name" size="1">
-		<CFLOOP list="#columnList#" index="i">
-			<option value="#i#">#i#</option>
-		</CFLOOP>
-	</select>
-	= TRIM(
-	<input type="text" name="tValue" size="50" />)
-	<br />
-	<input type="submit" 
-				value="Update All Matches"
-				class="savBtn"
-				onmouseover="this.className='savBtn btnhov'"
-				onmouseout="this.className='savBtn'">
-</form>
-</div>
----->
-<hr /><cfset ColNameList = valuelist(cNames.column_name)>
-<cfset ColNameList = replace(ColNameList,"COLLECTION_OBJECT_ID","","all")>
-<!---
-<cfset ColNameList = replace(ColNameList,"LOADED","","all")>
-<cfset ColNameList = replace(ColNameList,"ENTEREDBY","","all")>
---->
-<hr />
-	<cfform method="post" action="browseBulk.cfm">
-		<cfinput type="hidden" name="action" value="saveGridUpdate">
-		<cfinput type="hidden" name="enteredby" value="#enteredby#">
-		<cfinput type="hidden" name="accn" value="#accn#">
-		<cfinput type="hidden" name="colln" value="#colln#">
-		<cfinput type="hidden" name="returnAction" value="viewTable">
+				<cfgrid query="data"  name="blGrid" selectmode="edit">
+					<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&ImAGod=yes&pMode=edit" hrefkey="collection_object_id" target="_blank">
+					<cfloop list="#ColNameList#" index="thisName">
+						<cfif ucase(left(thisName,15) EQ 'COLLECTOR_ROLE_')> 
+							<cfgridcolumn name="#thisName#" values=",c,p">
+						<cfelse>
+							<cfgridcolumn name="#thisName#">
+						</cfif>
+					</cfloop>
 
-		<cfgrid query="data"  name="blGrid" selectmode="edit">
-			<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&ImAGod=yes&pMode=edit" hrefkey="collection_object_id" target="_blank">
-			<!----
-			<cfgridcolumn name="loaded" select="yes">---->
-	<!---		<cfgridcolumn name="ENTEREDBY" select="yes">--->
-			
-			<cfloop list="#ColNameList#" index="thisName">
-				<cfgridcolumn name="#thisName#">
-			</cfloop>
-
-		<cfinput type="submit" name="save" value="Save Changes In Grid">
-		<a href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=viewTable">Mark all to load</a>
-		&nbsp;~&nbsp;<a href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
-		</cfgrid>
-
-	</cfform>
-</div>
-</cfoutput>
+					<cfinput type="submit" name="save" value="Save Changes In Grid">
+					<a href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=viewTable">Mark all to load</a>
+					&nbsp;~&nbsp;<a href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
+				</cfgrid>
+			</cfform>
+		</div>
+	</cfoutput>
 </cfif>
 <cfinclude template="/shared/_footer.cfm">
