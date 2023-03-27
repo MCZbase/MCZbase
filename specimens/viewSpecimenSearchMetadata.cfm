@@ -407,7 +407,9 @@ limitations under the License.
 						<div class="row mx-0 mb-3">
 							<div class="search-box">
 								<div class="search-box-header">
-									<h1 class="h3 text-white" id="formheading">View Specimen Search Fields (<a href="/Specimens.cfm?action=builderSearch" target="_blank">specimen search builder</a> help)</h1>
+									<h1 class="h3 text-white" id="formheading">
+										View Specimen Search Fields (<a href="/Specimens.cfm?action=builderSearch" target="_blank" class="text-light">specimen search builder</a> help)
+									</h1>
 								</div>
 								<div class="col-12 px-4 pt-3 pb-2">
 									<form name="searchForm" id="searchForm">
