@@ -485,28 +485,30 @@ table##t th {
 				<div class="col-12 px-0">
 					<div class="col-12 mt-4 pb-2 float-left">
 						<h1 class="h2">Update column values for multiple (#data.recordcount#) records at once.</h1>
-						<p>Use the top form to filter the table to the records of interest. All values are joined with "AND" and everything is case-sensitive. You must provide all three values (row) for the filter to apply. Then, use the bottom form to update them. Values in the update form are also case sensitive. There is no control over entries here - you can easily update such that records will never load. <span class="bg-dark px-1 text-white font-weight-lessbold">Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</span></p>
+						<p>
+							Use the top form to filter the table to the records of interest. All values are joined with "AND" and everything is case-sensitive. You must provide all three values (row) for the filter to apply. Then, use the bottom form to update them. Values in the update form are also case sensitive. There is no control over entries here - you can easily update such that records will never load. <span class="bg-dark px-1 text-white font-weight-lessbold">Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</span>
+						</p>
+						<cfif listLen(enteredByCleaned) EQ 1>
+							<cfset entryList = "by #encodeForHtml(enteredByCleaned)#">
+						<cfelseif listLen(enteredByCleaned) GT 5>
+							<cfset entryList = "by any of #listLen(enteredByCleaned)# users">
+						<cfelse>
+							<cfset entryList = "by any of #encodeForHtml(enteredByCleaned)#">
+						</cfif>
+						<h2 class="h3">
+							Starting with #countData.ct# records in the bulkloader entered by #entryList#
+							<cfif len(accn) gt 0>
+								with accession number(s) #encodeForHtml(accn)#
+							</cfif>
+							<cfif isdefined("colln") and len(colln) gt 0>
+								in collection(s) #encodeForHtml(colln)#
+							</cfif>
+							<cfif countData.ct GT 500>
+						 		(limited to 500 records)
+							</cfif>
+							. <a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Ajax Grid</a>
+						</h2>
 					</div>
-					<cfif listLen(enteredByCleaned) EQ 1>
-						<cfset entryList = "by #encodeForHtml(enteredByCleaned)#">
-					<cfelseif listLen(enteredByCleaned) GT 5>
-						<cfset entryList = "by any of #listLen(enteredByCleaned)# users">
-					<cfelse>
-						<cfset entryList = "by any of #encodeForHtml(enteredByCleaned)#">
-					</cfif>
-					<h2 class="h3">
-						Starting with #countData.ct# records in the bulkloader entered by #entryList#
-						<cfif len(accn) gt 0>
-							with accession number(s) #encodeForHtml(accn)#
-						</cfif>
-						<cfif isdefined("colln") and len(colln) gt 0>
-							in collection(s) #encodeForHtml(colln)#
-						</cfif>
-						<cfif countData.ct GT 500>
-						 	(limited to 500 records)
-						</cfif>
-						. <a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Ajax Grid</a>
-					</h2>
 					<div class="col-12 col-md-8 mt-1 pb-3 float-left">
 						<form name="filter" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="sqlTab">
@@ -620,11 +622,8 @@ table##t th {
 							NOTE: This form will load at most 500 records. In mobile view, swipe to see the whole table. 
 						</p>
 					</div>
-					<div class="col-12 mb-3 mt-0 float-left">
+					<div class="col-12 col-md-8 mb-3 mt-0 float-left">
 						<h2 class="h3">Update data in table below (#data.recordcount# rows): </h2> 
-						<p class="font-italic text-dark mb-1">To check updates: Use "control" + "F" to bring a column header or value into focus.</p>
-						<p class="font-italic text-dark mb-1">To empty a column, click "NULL" for the value and update.</p>
-						<p class="font-italic text-dark">To sort, click on a column header and wait. There is a delay with length of delay proportional to the number of rows in the table.</p>
 						<form name="up" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="runSQLUp">
 							<input type="hidden" name="enteredby" value="#enteredby#">
@@ -683,7 +682,14 @@ table##t th {
 								</tbody>
 							</table>
 						</form>
-					
+					</div>
+					<div class="col-12 col-md-4 mb-3 mt-0 float-left">
+						<p class="font-italic text-dark mb-1">Select a column to update, then enter a new value to be applied for that column for all records shown.</p>
+						<p class="font-italic text-dark mb-1">To empty a column, select the column, click "NULL" for the value, and then update.</p>
+						<p class="font-italic text-dark">To sort, click on a column header and wait. There is a delay with length of delay proportional to the number of rows in the table.</p>
+						<p class="font-italic text-dark mb-1">Use your browser Find functionality ("control" + "F") to locate a column header or value.</p>
+					</div>
+					<div class="col-12 mb-3 mt-0 float-left">
 						<div class="blTabDiv">
 							<table class="table" id="t"> 
 				<!---				   class="sortable">  Sortable class goes with table id="t" but it slows the load down so much that it isn't practical to use for more than a handful of records. It also won't work for styling to have the <tr> wrapped around the whole table without <thead> and <tbody> --->
