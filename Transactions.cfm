@@ -2753,7 +2753,7 @@ limitations under the License.
 			var datafield = columns[i].datafield;
 			if (datafield == 'accn_number') { 
 				if (transaction_id) {
-					content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/transactions/Accession.cfm?action=edit&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+					content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/transactions/Accession.cfm?action=edit&transaction_id="+transaction_id+"' target='_blank'>Edit</a> "+ datarecord[datafield] + "</li>";
 				} else { 
 					content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
 				}
