@@ -160,7 +160,10 @@ table##t th {
 				<cfset args.multirowselect="no">
 				<cfset args.autoWidth="no">
 				<a class="px-1 h4" href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=ajaxGrid">Mark all to load</a>
-				<span class="h4">&nbsp;~&nbsp;</span> <a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
+				<span class="h4">&nbsp;~&nbsp;</span> 
+				<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
+				<span class="h4">&nbsp;~&nbsp;</span> 
+				<a class="px-1 h4" href="browseBulk.cfm?action=sqlTab&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Bulk</a>
 				<cfform method="post" action="browseBulk.cfm">
 					<cfinput type="hidden" name="returnAction" value="ajaxGrid">
 					<cfinput type="hidden" name="action" value="saveGridUpdate">
@@ -233,7 +236,7 @@ table##t th {
 						<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
 							<ul>
 								<li>
-									<h2 class="h3">Edit in SQL Table</h2>
+									<h2 class="h3">Edit in Bulk</h2>
 									<p>Allows mass updates. Will only load 500 records at one time.   Watch your browser&apos;s loading indicator for signs of it finishing to load before trying to update data. Use "control" + "F" to find data values in table.</p>
 								</li>
 								<li class="mt-2">
@@ -278,7 +281,7 @@ table##t th {
 								</tr>
 								<tr>
 									<td colspan="3">
-										<input type="button" value="SQL Table" class="lnkBtn" onclick="f.action.value='sqlTab';f.submit();">
+										<input type="button" value="Edit in Bulk" class="lnkBtn" onclick="f.action.value='sqlTab';f.submit();">
 										<input type="button" value="AJAX grid" class="lnkBtn" onclick="f.action.value='ajaxGrid';f.submit();">
 									</td>
 								</tr>
