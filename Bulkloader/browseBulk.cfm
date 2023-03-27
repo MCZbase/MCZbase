@@ -117,7 +117,7 @@ table##t th {
 				<cfelse>
 					<cfset entryList = "by any of #encodeForHtml(enteredByCleaned)#">
 				</cfif>
-				<p>Viewing records in the bulkloader entered by #entryList#
+				<p>Viewing records in the bulkloader entered #entryList#
 				<cfif len(accn) gt 0>
 					with accession number(s) #encodeForHtml(accn)#
 				</cfif>
@@ -496,7 +496,7 @@ table##t th {
 							<cfset entryList = "by any of #encodeForHtml(enteredByCleaned)#">
 						</cfif>
 						<h2 class="h3">
-							Starting with #countData.ct# records in the bulkloader entered by #entryList#
+							Starting with #countData.ct# records in the bulkloader entered #entryList#
 							<cfif len(accn) gt 0>
 								with accession number(s) #encodeForHtml(accn)#
 							</cfif>
