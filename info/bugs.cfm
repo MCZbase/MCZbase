@@ -26,7 +26,7 @@ limitations under the License.
 </cfif>
 
 <cfswitch expression="#action#">
-	<cfcase value is "bugReportForm">
+	<cfcase value="bugReportForm">
 		<cfoutput>
 			<center>
 				<cfif !listcontainsnocase(session.roles,"coldfusion_user")>
@@ -131,7 +131,7 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 	<!------------------------------------------------------------>
-	<cfcase value is "save">
+	<cfcase value="save">
 		<cfoutput>
 			<cfset user_id=0>
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
@@ -308,7 +308,7 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 	<!------------------------------------------------------------>
-	<cfcase value is "read">
+	<cfcase value="read">
 		<!--- deprecated, view/edit bugs replaced by bugzilla --->
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 			<cfoutput>
@@ -568,7 +568,7 @@ limitations under the License.
 		</cfif>
 	</cfcase>
 	<!------------------------------------------------------------>
-	<cfcase value is "saveAdmin">
+	<cfcase value="saveAdmin">
 		<!--- deprecated, view/edit bugs replaced by bugzilla --->
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 			<cfquery name="upAd" datasource="cf_dbuser">
@@ -584,7 +584,7 @@ limitations under the License.
 		</cfif>
 	</cfcase>
 	<!------------------------------------------------------------>
-	<cfcase value is "killit">
+	<cfcase value="killit">
 		<!--- deprecated, view/edit bugs replaced by bugzilla --->
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 			<cfquery name="upAd" datasource="cf_dbuser">
