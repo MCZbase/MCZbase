@@ -30,22 +30,21 @@ limitations under the License.
 		<cfoutput>
 			<cfset reportedName ="">
 			<cfset email = "">
-			<cfif listcontainsnocase(session.roles,"coldfusion_user")>
-				<cfif listcontainsnocase(session.roles,"coldfusion_user")>
-					<cfquery name="getUserInfo"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT username, preferred_agent_name.agent_name, GET_EMAILADDRESSES(agent_name.agent_id,', ') emails
-						FROM cf_users
-							left join agent_name on cf_users.username = agent_name.agent_name and agent_name.agent_name_type = 'login'
-							left join preferred_agent_name on agent_name.agent_id = preferred_agent_name.agent_id
-						WHERE
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-					<cfif getUserInfo.recordcount EQ 1>
-						<cfloop query="getUserInfo">
-							<cfset reportedName ="#getUserInfo.agent_name#">
-							<cfset email = "#getUserInfo.emails#">
-						</cfloop>
-					</cfif>
+			<cfif isDefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
+				<cfquery name="getUserInfo"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT username, preferred_agent_name.agent_name, GET_EMAILADDRESSES(agent_name.agent_id,', ') emails
+					FROM cf_users
+						left join agent_name on cf_users.username = agent_name.agent_name and agent_name.agent_name_type = 'login'
+						left join preferred_agent_name on agent_name.agent_id = preferred_agent_name.agent_id
+					WHERE
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfif getUserInfo.recordcount EQ 1>
+					<cfloop query="getUserInfo">
+						<cfset reportedName ="#getUserInfo.agent_name#">
+						<cfset email = "#getUserInfo.emails#">
+					</cfloop>
+				</cfif>
 			<cfelse>
 				<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 			</cfif>
@@ -99,7 +98,7 @@ limitations under the License.
 												<option value="4">High Priority</option>
 											</select>
 										</div>
-										<cfif NOT listcontainsnocase(session.roles,"coldfusion_user")>
+										<cfif NOT isdefined("session.roles") OR NOT listcontainsnocase(session.roles,"coldfusion_user")>
 											<div class="col-12">
 												<div class="g-recaptcha" data-sitekey="#application.g_sitekey#"></div>
 											</div>
