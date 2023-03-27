@@ -485,7 +485,7 @@ table##t th {
 					<cfelse>
 						<cfset entryList = "by any of #encodeForHtml(enteredByCleaned)#">
 					</cfif>
-					<p>
+					<h2 class="h3">
 						Starting with #countData.ct# records in the bulkloader entered by #entryList#
 						<cfif len(accn) gt 0>
 							with accession number(s) #encodeForHtml(accn)#
@@ -497,13 +497,6 @@ table##t th {
 						 	(limited to 500 records)
 						</cfif>
 						. <a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Ajax Grid</a>
-					</p>
-					<h2 class="h4">
-						<cfif hasFilter>
-							Filtered to #data.recordcount# records with:
-						<cfelse>
-							Optionally Filter these records with:
-						</cfif>
 					</h2>
 					<div class="col-12 col-md-8 mt-1 pb-3 float-left">
 						<form name="filter" method="post" action="browseBulk.cfm">
@@ -515,7 +508,13 @@ table##t th {
 							<cfif isdefined("colln") and len(colln) gt 0>
 								<input type="hidden" name="colln" value="#colln#">
 							</cfif>
-							<h2 class="h3">Create Filter:</h2>
+							<h2 class="h3">
+								<cfif hasFilter>
+									Filtered to #data.recordcount# records with filter:
+								<cfelse>
+									Optionally Filter these records with filter:
+								</cfif>
+							</h2>
 							<table class="table table-responsive">
 								<thead class="thead-light">
 								<tr>
