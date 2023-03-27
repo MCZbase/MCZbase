@@ -237,12 +237,18 @@ table##t th {
 							<ul>
 								<li>
 									<h2 class="h3">Edit in Bulk</h2>
-									<p>Allows mass updates. Will only load 500 records at one time.   Watch your browser&apos;s loading indicator for signs of it finishing to load before trying to update data. Use "control" + "F" to find data values in table.</p>
+									<p>
+										Allows mass updates to multiple records at once. Shows data in a table.  Will load a maximum of 500 records.   
+										Watch your browser&apos;s loading indicator for signs of it finishing to load before trying to update data. 
+										Use Find ("control" + "F") to find column headers and data values in the table.
+									</p>
 								</li>
 								<li class="mt-2">
 									<h2 class="h3">Edit in AJAX grid</h2>
-									<p>Opens an AJAX table. Doubleclick cells to edit.
-										Saves automatically on change. Use Browser&apos;s Find ("control" + "F") to find column headers and data values in the table.</p>
+									<p>
+										Shows data in an editable table. Click on cells to edit individually.
+										Saves automatically on change. Use Browser&apos;s  Use Find "control" + "F" to find data values in the table.
+									</p>
 								</li>
 							</ul>
 					</div>
