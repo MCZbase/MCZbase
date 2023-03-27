@@ -499,7 +499,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					AND geog_auth_rec.geog_auth_rec_id not in (select geog_auth_rec_id from flat)
 				</cfif>
 				<cfif isDefined("geog_auth_rec_id") and len(geog_auth_rec_id) gt 0>
-						and geog_auth_rec.geog_auth_rec_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#" list="yes">
+						and geog_auth_rec.geog_auth_rec_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#" list="yes">)
 				<cfelse>
 					<cfif isDefined("higher_geog") and len(higher_geog) gt 0>
 						<cfif left(higher_geog,1) is "=">
@@ -991,7 +991,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					and locality.locality_id in (select locality_id from flat where contains(HIGHER_GEOG,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#any_geography#">,1) > 0)
 				</cfif>
 				<cfif isDefined("geog_auth_rec_id") and len(geog_auth_rec_id) gt 0>
-						and geog_auth_rec.geog_auth_rec_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#" list="yes">
+						and geog_auth_rec.geog_auth_rec_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#" list="yes">)
 				<cfelse>
 					<cfif isDefined("higher_geog") and len(higher_geog) gt 0>
 						<cfif left(higher_geog,1) is "=">
@@ -1977,7 +1977,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					and locality.locality_id in (select locality_id from flat where contains(HIGHER_GEOG,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#any_geography#">,1) > 0)
 				</cfif>
 				<cfif isDefined("geog_auth_rec_id") and len(geog_auth_rec_id) gt 0>
-						and geog_auth_rec.geog_auth_rec_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#" list="yes">
+						and geog_auth_rec.geog_auth_rec_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#" list="yes">)
 				<cfelse>
 					<cfif isDefined("higher_geog") and len(higher_geog) gt 0>
 						<cfif left(higher_geog,1) is "=">
