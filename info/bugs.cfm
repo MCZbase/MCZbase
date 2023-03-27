@@ -1,7 +1,21 @@
-<!---><cfif len(#CGI.HTTP_REFERER#) is 0 OR #CGI.HTTP_REFERER# does not contain #Application.ServerRootUrl#>
-	Illegal use of form.
-	<cfabort>
-</cfif>--->
+<!--- info/bugs.cfm allow users to report issues
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2024 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
 <cfinclude template="/includes/_header.cfm">
 
 <cfset FEEDBACK_INSTRUCTIONS="Include DETAILS of the problem plus the text of any error you received, the catalog number of the record causing the issue, or the URL of the non-functioning page.">
@@ -34,7 +48,25 @@
             </td>
         </tr>
 
-        <cfif !listcontainsnocase(session.roles,"coldfusion_user")>
+			<cfset reportedName ="">
+			<cfset email = "">
+        <cfif listcontainsnocase(session.roles,"coldfusion_user")>
+				<cfquery name="getUserInfo"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		         SELECT username, preferred_agent_name.agent_name, GET_EMAILADDRESSES(agent_name.agent_id,', ') emails
+      		   FROM cf_users
+            		left join agent_name on cf_users.username = agent_name.agent_name and agent_name.agent_name_type = 'login'
+            		left join preferred_agent_name on agent_name.agent_id = preferred_agent_name.agent_id
+         		WHERE
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+         		ORDER BY cf_users.user_id
+				</cfquery>
+				<cfif getUserInfo.recordcount EQ 1>
+					<cfloop query="getUserInfo">
+						<cfset reportedName ="#getUserInfo.agent_name#">
+						<cfset email = "#getUserInfo.emails#">
+					</cfloop>
+				</cfif>
+			<cfelse>
         <tr>
             <td colspan="2" align="center">
                 <div class="g-recaptcha" data-sitekey="#application.g_sitekey#"></div>
@@ -50,7 +82,7 @@
                         <div align="right">Name</div>
                     </td>
                     <td>
-                        <input type="text" name="reported_name" size="50">
+                        <input type="text" name="reported_name" size="50" value="#reportedName#">
                     </td>
                 </tr>
                 <tr>
@@ -58,7 +90,7 @@
                         <div align="right">Email</div>
                      </td>
                     <td>
-                        <input type="text" name="user_email" size="50">
+                        <input type="text" name="user_email" size="50" value="#email#">
                     </td>
                 </tr>
 
