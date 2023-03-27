@@ -185,8 +185,13 @@
 			<!--- This is the redirect for /media/{media_id} which MUST go to the media details page for one media object.  --->
 			<cfinclude template="/media/showMedia.cfm">
 			<!--- Note: production still uses old MediaSearch for lists of media_ids e.g. /MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#"  --->
+		<cfcatch type="MCZbase.MEDIA_NOT_FOUND">
+				<cfinclude template="/errors/404.cfm">
+		</cfcatch>
 		<cfcatch>
-			<cfinclude template="/errors/404.cfm">
+			<cfset errorMessage = cfcatch.message>
+			<cfset errorDetail = cfcatch.detail>
+			<cfinclude template="/errors/500.cfm">
 		</cfcatch>
 		</cftry>
 	<cfelseif listfindnocase(rdurl,'publication',"/")>

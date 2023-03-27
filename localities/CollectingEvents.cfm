@@ -234,9 +234,14 @@ limitations under the License.
 								var loc = encodeURIComponent(datarecord['VERBATIM_LOCALITY']);
 								var date = encodeURIComponent(datarecord['VEBATIM_DATE']);
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=CATALOGED_ITEM%3ACATALOGED%20ITEM_COLLECTING_EVENT_ID&searchText1=" + loc + "%20" + date + "%20(" + collecting_event_id + ")&searchId1="+ collecting_event_id +"' target='_blank'>" + datarecord[datafield] + "</a></li>";
-							} else if (datafield == 'edit_loc' || datafield == 'edit_coll_event') {
-								// undefined generated column
+							} else if (datafield == 'LOCALITY_ID_1' || datafield == 'COLLECTING_EVENT_ID_1') {
+								// duplicate column for edit controls, skip
 								console.log(datarecord[datafield]);
+							} else if (datafield == 'VALID_CATALOG_TERM_FG') { 
+								var val = datarecord[datafield];
+								var flag = "True";
+								if (val=="1") { flat = "False"; }
+								content = content + "<li class='pr-3'><strong>Valid For Data Entry:</strong> " + flag + "</li>";
 							} else if (datafield == 'summary') {
 								content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + makeLocalitySummary(datarecord) + "</li>";
 							} else if (datafield == 'ce_summary') {

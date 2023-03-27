@@ -131,15 +131,16 @@ API
 						<cfif media_type is "audio">
 							<cfset source =  "#Application.webDirectory#/shared/images/Gnome-audio-volume-medium.svg">
 						<cfelseif media_type IS "video">
-							<cfset source =  "#Application.webDirectory#/shared/images/Gnome-media-playback-start.svg">
+							<cfset source =  "#Application.webDirectory#/shared/images/Gnome-video-x-generic.svg">
 						<cfelseif media_type is "text">
 							<cfset source =  "#Application.webDirectory#/shared/images/Gnome-text-x-generic.svg">
 						<cfelseif media_type is "3D model">
-							<cfset source =  "#Application.webDirectory#/shared/images/model_3d.svg">
+							<cfset source =  "#Application.webDirectory#/shared/images/Dual_Cube-Octahedron.svg">
 						<cfelseif media_type is "spectrometer data">
 							<cfset source = "#Application.webDirectory#/shared/images/Sine_waves_different_frequencies.svg">
 						<cfelse>
-							<cfset source = "#Application.webDirectory#/shared/images/noThumbDoc.png">
+							<!--- media_type is not on list from ctmedia_type --->
+							<cfset source = "#Application.webDirectory#/shared/images/placeholderGeneric.png">
 						</cfif>
 					</cfif>
 				</cfif>

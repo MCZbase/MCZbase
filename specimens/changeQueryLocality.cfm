@@ -87,33 +87,29 @@ limitations under the License.
 		<cfset showLocality=1>
 		<cfset showEvent=0>
 		<cfoutput>
-			<div class="container-lg">
-				<div class="search-box">
-					<div class="search-box-header">
-						<h1 class="h3 text-white my-1">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
+			<main id="content">
+				<h1 class="h2 mt-3 mb-0 px-4">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
+				<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
+					<input type="hidden" name="Action" value="findLocality">
+					<input type="hidden" name="result_id" value="#result_id#">
+					<cfif isdefined("filterOrder")>
+						<input type="hidden" name="filterOrder" value="#filterOrder#">
+					</cfif>
+					<cfif isdefined("filterFamily")>
+						<input type="hidden" name="filterFamily" value="#filterFamily#">
+					</cfif>
+					<cfset showSpecimenCounts = false>
+					<div class="row mx-0">
+						<section class="container-fluid" role="search">
+							<cfinclude template="/localities/searchLocationForm.cfm">
+						</section>
 					</div>
-					<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
-						<input type="hidden" name="Action" value="findLocality">
-						<input type="hidden" name="result_id" value="#result_id#">
-						<cfif isdefined("filterOrder")>
-							<input type="hidden" name="filterOrder" value="#filterOrder#">
-						</cfif>
-						<cfif isdefined("filterFamily")>
-							<input type="hidden" name="filterFamily" value="#filterFamily#">
-						</cfif>
-						<cfset showSpecimenCounts = false>
-						<div class="row mx-0">
-							<section class="container-fluid" role="search">
-								<cfinclude template="/localities/searchLocationForm.cfm">
-							</section>
-						</div>
-					</form>
-				</div>
-			</div>
+				</form>
+			</main>
 		</cfoutput>
 	</cfcase>
 
-	<cfcase value ="updateLocality">
+	<cfcase value="updateLocality">
 		<cfoutput>
 			<cfset failed=false>
 			<cftransaction>
@@ -213,7 +209,7 @@ limitations under the License.
 		</cfif>
 		<cfset actionWord = "That Have Been">
 		<cfoutput>
-			<div class="container-fluid">
+			<main id="content" class="container-fluid">
 				<div class="row mx-0">
 					<div class="col-12 px-4 mt-3">
 						<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
@@ -229,7 +225,7 @@ limitations under the License.
 						</ul>
 					</div>
 				</div>
-			</div>
+			</main>
 		</cfoutput>
 	</cfcase>
 
@@ -275,7 +271,7 @@ limitations under the License.
 			maximum_elevation,
 			orig_elev_units
 	</cfquery>
-	<div class="container-fluid">
+	<main id="content" class="container-fluid">
 		<div class="row mx-1">
 			<div class="col-12 px-4 mt-3">
 				<h2 class="h2 px-3">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
@@ -346,7 +342,7 @@ limitations under the License.
 				</table>
 			</div>
 		</div>
-	</div>
+	</main>
 	<cfset returnURL = "/specimens/changeQueryLocality.cfm?result_id=#encodeForURL(result_id)#">
 	<cfif isdefined("filterOrder")>
 		<cfset returnURL = returnURL & "&fiterOrder=#encodeForURL(filterOrder)#">

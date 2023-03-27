@@ -331,9 +331,6 @@ limitations under the License.
 				<cfif isDefined("l_get_count") AND l_get_count EQ "true">
 					#getImages.recordcount#
 				<cfelse>
-		<!---			<cfif #getImages.recordcount# gt 8>
-						<p class='smaller mb-1 w-100 text-center'> double-click header to see all #getImages.recordcount#</p>
-					</cfif>--->
 					<cfloop query="getImages">
 						<cfif l_relationship_type EQ "shows">
 							<!--- two column specimen media --->
@@ -344,6 +341,7 @@ limitations under the License.
 						</cfif>
 						<div class='#enclosingClass#'>
 							<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
+							<!--- note, size=350 will set minimum zoom on multizoom to 2, not 4, making small zoom on desktop --->
 							<div id='mediaBlock#getImages.media_id#'>
 								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getImages.media_id#",size="350",captionAs="textShort")>
 							</div>

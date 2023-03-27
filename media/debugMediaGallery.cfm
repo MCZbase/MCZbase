@@ -12,14 +12,14 @@
 				select max(media_id) media_id from media
 				group by mime_type, media_type
 				union
-				select max(media_id) media_id from media_relations
+				select max(media_relations.media_id) media_id from media_relations join media on media_relations.media_id = media.media_id
 				group by media_relationship
 				union
-				select max(media_id) media_id from media
+				select max(media_id) media_id from media 
 				group by media.auto_host
 				having count(*) > 50
 				union
-				select max(media_id) from media_labels
+				select max(media_labels.media_id) from media_labels join media on media_labels.media_id = media.media_id
 				where media_label = 'height'
 				group by label_value
 				having count(*) > 500
@@ -36,7 +36,8 @@
 				<div class="col-12 col-sm-6 col-md-4 col-xl-3 mt-5 bg-light">
 					<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textMid")>
 					<div id="mediaBlock#media_id#" class="border rounded">
-					#mediablock#
+						<cfif len(trim(mediablock)) EQ 0><cfset mediablock="ERROR: empty widget for media_id=#media_id#"></cfif>
+						#mediablock#
 					</div>
 				</div>
 			</cfloop>
@@ -97,7 +98,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="container-fluid mt-5"><h4 class="mb-0"> Background peach.  This example is the intrinsic size of the thumbnail (displayAs="thumb") with only the links --captionAs="textLinks".  </h4>
+			<div class="container-fluid mt-5"><h4 class="mb-0"> Background peach.  This example is the intrinsic size of the thumbnail (displayAs="thumb") with only the links (captionAs="textLinks").  </h4>
 			</div>
 				<div class="col-1 px-0 float-left" style="background-color:peachpuff">
 					<cfset media_id = "90914">
