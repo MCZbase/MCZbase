@@ -668,7 +668,7 @@ table##t th {
 									</tr>
 									<tr>
 										<td colspan="3">
-											<input type="submit" value="Update">
+											<input type="submit" value="Update all #data.recordcount# rows"> 
 										</td>
 									</tr>
 								</tbody>
