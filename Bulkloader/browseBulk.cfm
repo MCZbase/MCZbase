@@ -506,7 +506,9 @@ table##t th {
 							<cfif countData.ct GT 500>
 						 		(limited to 500 records)
 							</cfif>
-							. <a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Ajax Grid</a>
+							. <a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
+							<span class="h4">&nbsp;~&nbsp;</span> 
+							<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Ajax Grid</a>
 						</h2>
 					</div>
 					<div class="col-12 col-md-8 mt-1 pb-3 float-left">
