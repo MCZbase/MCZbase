@@ -883,9 +883,9 @@ Typical use:
 								<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
 								<input type="text" name="verbatim_locality" id="verbatim_locality" size="75" class="data-entry-input" value="#encodeForHtml(verbatim_locality)#">
 								<script>
-									jQuery(document).ready(function() {
-										makeCEFieldAutocomplete("verbatim_locality", "verbatim_locality");
-									});
+									//jQuery(document).ready(function() {
+									//	makeCEFieldAutocomplete("verbatim_locality", "verbatim_locality");
+									//});
 								</script>
 							</div>
 							<div class="col-12 col-md-3 col-xl-2 py-1">
@@ -893,9 +893,9 @@ Typical use:
 								<label for="verbatim_date" class="data-entry-label">Verbatim Date</label>
 								<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input" value="#encodeForHtml(verbatim_date)#" >
 								<script>
-									jQuery(document).ready(function() {
-										makeCEFieldAutocomplete("verbatim_date", "verbatim_date");
-									});
+									//jQuery(document).ready(function() {
+									//	makeCEFieldAutocomplete("verbatim_date", "verbatim_date");
+									//});
 								</script>
 							</div>
 							<div class="col-12 col-md-2 col-xl-2 py-1">
