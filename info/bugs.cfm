@@ -77,15 +77,15 @@ limitations under the License.
 											<input type="text" name="reported_name" id="reported_name" class="data-entry-input" value="#reportedName#">
 										</div>
 										<div class="col-12 col-md-6">
-											<label for="user_email" class="data-entry-label">email</label>
+											<label for="user_email" class="data-entry-label">Email</label>
 											<input type="text" name="user_email" id="user_email" class="data-entry-input" value="#email#">
 										</div>
 										<div class="col-12">
-											<h3 class="h4">Please provide as much detail as possible. We do not know what you see unless you write about it in the report.</h3>
+											<h3 class="h4 pt-2">Please provide as much detail as possible. We do not know what you see unless you write about it in the report.</h3>
 										</div>
 										<div class="col-12">
 											<label for="complaint" class="data-entry-label">Feedback</label>
-											<textarea name="complaint" id="complaint" rows="15"  class="data-entry-textarea reqdClr" placeholder="#FEEDBACK_INSTRUCTIONS#" style="padding: 5px;" onfocus="clearContents(this);"></textarea>
+											<textarea name="complaint" id="complaint" rows="15"  class="data-entry-textarea reqdClr autogrow" placeholder="#FEEDBACK_INSTRUCTIONS#" required></textarea>
 										</div>
 										<div class="col-12">
 											<label for="user_priority" class="data-entry-label">Priority</label>
