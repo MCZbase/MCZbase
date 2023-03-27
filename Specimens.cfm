@@ -1485,6 +1485,19 @@ Target JSON:
 --->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search">
+									<div class="col-3 float-right px-3"> 
+									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
+										Search Help
+									</button>
+									<aside class="collapse collapseStyle" id="collapseFixed">
+										<div class="card card-body pl-4 py-3 pr-3">
+											<h2 class="headerSm">Search Builder Search Help</h2>
+											<p>There is a page to explain the database fields available to build a search.
+											Access it here: <a href="https://mczbase-dev.rc.fas.harvard.edu/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=!HIDE">Search Builder Help Page</a>
+											</p>
+										</div>
+									</aside>
+								</div>
 									<form id="builderSearchForm" class="container-fluid">
 										<script>
 											var treeMap = new Map();
@@ -1886,7 +1899,7 @@ Target JSON:
 														</cfif>
 													</cfloop>
 												</cfif>
-
+							
 											</div><!--- end customFields: new form rows get appended here --->
 											<script>
 												function addBuilderRow() { 
@@ -1981,6 +1994,7 @@ Target JSON:
 												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 mr-md-5 my-1" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
 												<button type="reset" class="btn btn-xs btn-outline-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Reset this search form to inital values" disabled>Reset</button>
 												<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
+												
 											</div>
 										</div>
 									</form>
