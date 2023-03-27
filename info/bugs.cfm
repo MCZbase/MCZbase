@@ -51,9 +51,6 @@ limitations under the License.
 									<input type="hidden" name="action" value="save">
 									<div class="form-row mb-2">
 										<div class="col-12">
-											<h2 class="h4">Fill in form</h2>
-										</div>
-										<div class="col-12">
 											<cfset reportedName ="">
 											<cfset email = "">
 											<cfif listcontainsnocase(session.roles,"coldfusion_user")>
@@ -76,11 +73,11 @@ limitations under the License.
 											</cfif>
 										</div>
 										<div class="col-12 col-md-6">
-											<label for="reported_name" class="data-entry-label">Name</div>
+											<label for="reported_name" class="data-entry-label">Name</label>
 											<input type="text" name="reported_name" id="reported_name" class="data-entry-input" value="#reportedName#">
 										</div>
 										<div class="col-12 col-md-6">
-											<label for="user_email" class="data-entry-label">email</div>
+											<label for="user_email" class="data-entry-label">email</label>
 											<input type="text" name="user_email" id="user_email" class="data-entry-input" value="#email#">
 										</div>
 										<div class="col-12">
@@ -91,7 +88,7 @@ limitations under the License.
 											<textarea name="complaint" id="complaint" rows="15"  class="data-entry-textarea reqdClr" placeholder="#FEEDBACK_INSTRUCTIONS#" style="padding: 5px;" onfocus="clearContents(this);"></textarea>
 										</div>
 										<div class="col-12">
-											<label for="user_priority" class="data-entry-label">Priority</div>
+											<label for="user_priority" class="data-entry-label">Priority</label>
 											<select name="user_priority" size="1" class="data-entry-select">
 												<option value="0">Low Priority</option>
 												<option value="2" SELECTED >Normal Priority</option>
