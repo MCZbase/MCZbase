@@ -1493,7 +1493,7 @@ Target JSON:
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Search Builder Search Help</h2>
 											<p>There is a page to explain the database fields available to build a search.
-											Access it here: <a href="https://mczbase-dev.rc.fas.harvard.edu/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=!HIDE">Search Builder Help Page</a>
+											Access it here: <a href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=!HIDE">Search Builder Help Page</a>
 											</p>
 										</div>
 									</aside>
