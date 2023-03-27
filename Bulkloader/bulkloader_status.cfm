@@ -163,8 +163,11 @@ table.stat th {
 				</cfquery>
 
 				<cfset idList = valuelist(success.collection_object_id)>
-					<h2 class="h4">Successfully Loaded in the last Five days:<br>
-					<a href="/SpecimenResults.cfm?collection_object_id=#idList#">See All in SpecimenResults</a></h2>
+					<h2 class="h4">
+						Successfully Loaded in the last Five days:<br>
+						<a href="/SpecimenResults.cfm?collection_object_id=#idList#">See All in (old) SpecimenResults</a>
+						<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLL_OBJECT%3ACOLL_OBJ_COLLECTION_OBJECT_ID&searchText1=#idList#">See All in Search Builder</a>
+					</h2>
 				<table class="table">
 					<thead class="thead-light">
 						<tr>

@@ -451,6 +451,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1>
 		<cfset linguisticFlag=true>
 	</cfif>
+	<cfif isDefined("geog_auth_rec_id") AND len(geog_auth_rec_id) GT 0>
+		<!--- strip extraneous characters out of geog_auth_rec_id (ignores = operator) --->
+		<cfset geog_auth_rec_id = rereplace(geog_auth_rec_id,"[^0-9,]","","all")>
+	</cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -498,11 +502,15 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				<cfif isDefined("show_unused") and show_unused EQ "unused_only">
 					AND geog_auth_rec.geog_auth_rec_id not in (select geog_auth_rec_id from flat)
 				</cfif>
-				<cfif isDefined("higher_geog") and len(higher_geog) gt 0>
-					<cfif left(higher_geog,1) is "=">
-						AND upper(geog_auth_rec.higher_geog) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(higher_geog,len(higher_geog)-1))#">
-					<cfelse>
-						and upper(geog_auth_rec.higher_geog) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(higher_geog)#%">
+				<cfif isDefined("geog_auth_rec_id") and len(geog_auth_rec_id) gt 0>
+						and geog_auth_rec.geog_auth_rec_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#" list="yes">)
+				<cfelse>
+					<cfif isDefined("higher_geog") and len(higher_geog) gt 0>
+						<cfif left(higher_geog,1) is "=">
+							AND upper(geog_auth_rec.higher_geog) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(higher_geog,len(higher_geog)-1))#">
+						<cfelse>
+							and upper(geog_auth_rec.higher_geog) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(higher_geog)#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isDefined("valid_catalog_term_fg") and len(valid_catalog_term_fg) gt 0>
@@ -776,6 +784,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfif not isdefined("gs_comparator") and len(gs_comparator) gt 0>
 		<cfset gs_comparator = "">
 	</cfif>
+	<cfif isDefined("geog_auth_rec_id") AND len(geog_auth_rec_id) GT 0>
+		<!--- strip extraneous characters out of geog_auth_rec_id (ignores = operator) --->
+		<cfset geog_auth_rec_id = rereplace(geog_auth_rec_id,"[^0-9,]","","all")>
+	</cfif>
 
 	<!--- convert min/max ElevOper variables to operators as leading characters of min/max elevation --->
 	<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
@@ -987,7 +999,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					and locality.locality_id in (select locality_id from flat where contains(HIGHER_GEOG,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#any_geography#">,1) > 0)
 				</cfif>
 				<cfif isDefined("geog_auth_rec_id") and len(geog_auth_rec_id) gt 0>
-						and geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+						and geog_auth_rec.geog_auth_rec_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#" list="yes">)
 				<cfelse>
 					<cfif isDefined("higher_geog") and len(higher_geog) gt 0>
 						<cfif left(higher_geog,1) is "=">
@@ -1739,6 +1751,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfif not isdefined("gs_comparator") and len(gs_comparator) gt 0>
 		<cfset gs_comparator = "">
 	</cfif>
+	<cfif isDefined("geog_auth_rec_id") AND len(geog_auth_rec_id) GT 0>
+		<!--- strip extraneous characters out of geog_auth_rec_id (ignores = operator) --->
+		<cfset geog_auth_rec_id = rereplace(geog_auth_rec_id,"[^0-9,]","","all")>
+	</cfif>
 
 	<!--- convert min/max ElevOper variables to operators as leading characters of min/max elevation --->
 	<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
@@ -1973,7 +1989,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					and locality.locality_id in (select locality_id from flat where contains(HIGHER_GEOG,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#any_geography#">,1) > 0)
 				</cfif>
 				<cfif isDefined("geog_auth_rec_id") and len(geog_auth_rec_id) gt 0>
-						and geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+						and geog_auth_rec.geog_auth_rec_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#" list="yes">)
 				<cfelse>
 					<cfif isDefined("higher_geog") and len(higher_geog) gt 0>
 						<cfif left(higher_geog,1) is "=">

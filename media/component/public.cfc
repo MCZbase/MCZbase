@@ -200,15 +200,75 @@ include this function and use it.
 					<cfset iiifFull = "">
 					<cfset xzoom = "">
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF>
-						<cfif media_type EQ 'image' AND left(media.mime_type,6) EQ 'image/'>
+						<cfif media_type EQ 'image' AND left(media.mime_type,6) EQ 'image/' AND media.mime_type NEQ 'image/x-nikon-nef'>
 							<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
 							<cfset iiifIdentifier = "#encodeForURL(media_id)#">
 							<!---cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg"--->
 							<!---Temporarily limiting the max size of the returned images to avoid overloading the iiif server. See https://iiif.io/api/image/3.0/#42-size for iiifFull.--->
+							<cfif media.height EQ "" OR media.width EQ "">
+								<!--- see if the IIIF server knows the height and width --->
+								<cftry>
+									<cfset lookupInfo = "#iiifSchemeServerPrefix##iiifIdentifier#/info.json">
+									<cfhttp url="#lookupInfo#" method="GET" result="info_json" redirect="yes" throwOnError="yes" timeout="3"> 
+									<cfif isJSON(info_json.Filecontent)>
+										<cfset info = deserializeJSON(info_json.Filecontent)>
+										<cfset infoHeight = info.height>
+										<cfset infoWidth = info.width>
+										<cfif media.height EQ "">
+											<cfquery name="addh" datasource="uam_god" timeout="2">
+												INSERT INTO media_labels (
+													media_id,
+													media_label,
+													label_value,
+													assigned_by_agent_id
+												) VALUES (
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+													'height',
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#infoHeight#">,
+													0
+												)
+											</cfquery>
+										</cfif>
+										<cfif media.width EQ "">
+											<cfquery name="addw" datasource="uam_god" timeout="2">
+												INSERT INTO media_labels (
+													media_id,
+													media_label,
+													label_value,
+													assigned_by_agent_id
+												) VALUES (
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+													'width',
+													<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#infoWidth#">,
+													0
+												)
+											</cfquery>
+										</cfif>
+									</cfif>
+								<cfcatch>
+									<!--- cfdump var="#cfcatch.message#" --->
+								</cfcatch>
+								</cftry>
+							</cfif>
 							<cfif media.height NEQ '' AND (media.height LT 2000 OR media.width LT 2000)>
+								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
+							<cfelseif media.height EQ '' AND isDefined("infoHeight") AND (infoHeight LT 2000 OR infoWidth LT 2000)>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
 							<cfelse>
 								<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/!2000,2000/0/default.jpg">
+							</cfif>
+							<cfif #displayAs# EQ "fixedSmallThumb">
+								<!--- workaround for zoom on fixed small thumb having aspect ratio of square not that of image delivered by iiif server --->
+								<cfif media.height NEQ '' AND (media.height LT 2000 OR media.width LT 2000)>
+									<cfset iiifSquare = "#iiifSchemeServerPrefix##iiifIdentifier#/square/max/0/default.jpg">
+								<cfelseif media.height EQ '' AND isDefined("infoHeight") AND (infoHeight LT 2000 OR infoWidth LT 2000)>
+									<cfset iiifSquare = "#iiifSchemeServerPrefix##iiifIdentifier#/square/max/0/default.jpg">
+								<cfelse>
+									<cfset iiifSquare = "#iiifSchemeServerPrefix##iiifIdentifier#/square/!2000,2000/0/default.jpg">
+								</cfif>
+							<cfelse>
+								<!--- graceful failure, making sure iiifSquare is defined, shouldn't be used --->
+								<cfset iiifSquare = iiifFull>
 							</cfif>
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
@@ -246,7 +306,7 @@ include this function and use it.
 							</cfif>
 						</cfif>
 					<cfelse>
-					<!---Resource specified by media_uri is not one that can be used in an image tag as img src="media_uri", we need to provide an alternative --->
+						<!---Resource specified by media_uri is not one that can be used in an image tag as img src="media_uri", we need to provide an alternative --->
 						<cfif len(preview_uri) GT 0>
 						 	<!--- there is a preview_uri, use that --->
 							<cfif #displayAs# EQ "fixedSmallThumb">
@@ -285,7 +345,7 @@ include this function and use it.
 								<!--- fall back on an svg image of an appropriate generic icon --->
 								<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
 									<cfset size = "90">
-										<cfset styles = "max-height:;width:auto;">
+									<cfset styles = "max-height:;width:auto;">
 								<cfelse>
 									<cfset size = "90">
 								</cfif>
@@ -294,27 +354,27 @@ include this function and use it.
 								<cfset hw = 'height="#size#" width="#size#"'>
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
-									<cfset displayImage = "/shared/images/tag-placeholder.png">
+									<cfset displayImage = "/shared/images/Image-x-generic.svg">
 								<cfelseif media_type is "audio">
 									<cfset displayImage =  "/shared/images/Gnome-audio-volume-medium.svg">
 								<cfelseif media_type IS "video">
-									<cfset displayImage =  "/shared/images/Gnome-media-playback-start.svg">
+									<cfset displayImage =  "/shared/images/Gnome-video-x-generic.svg">
 								<cfelseif media_type is "text">
 									<cfset displayImage =  "/shared/images/Gnome-text-x-generic.svg">
 								<cfelseif media_type is "3D model">
-									<cfset displayImage =  "/shared/images/model_3d.svg">
+									<cfset displayImage =  "/shared/images/Dual_Cube-Octahedron.svg">
 								<cfelseif media_type is "spectrometer data">
 									<cfset displayImage = "/shared/images/Sine_waves_different_frequencies.svg">
 								<cfelse>
-									<cfset displayImage =  "/shared/images/tag-placeholder.svg">
-									<!--- media_type is not on the known list --->
+									<cfset displayImage =  "/shared/images/placeholderGeneric.png">
+									<!--- media_type is not on list from ctmedia_type --->
 								</cfif>
 							</cfif>
 						</cfif>
 					</cfif>
 					<!--- prepare output --->
 
-					<cfset output='#output#<div class="media_widget p-1" style="#minheight#">'>	
+					<cfset output='#output#<div class="media_widget p-1" style="#minheight#">'>
 					<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
 					<cfif #captionAs# EQ "textNone">
 						<cfset linkTarget = "/media/#media.media_id#">
@@ -324,20 +384,29 @@ include this function and use it.
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF AND isDefined("iiifFull") AND len(iiifFull) GT 0>
 						<cfset linkTarget = iiifFull>
 					</cfif>
-					<!--- Experimental CSS zoom on hover--->
-					<!---
+					<cfset unique = REReplace(CreateUUID(), "[-]", "", "all") >
+					<cfset elementID = "MID_#media.media_id#_#unique#">
 					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
-					<cfset output='#output#<img src="#linkTarget#" alt="#alt#" #hw# style="#styles#" class="overlay"/>'>
-					<cfset output='#output#</a>'>
-					<cfset output='#output#<underlay style="background-image:url("#displayImage#")></underlay>'>
-					<cfset output='#output#<div class ="magnify"></div>'>
-					--->
-					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
-					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
+					<cfset output='#output#<img id="#elementID#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
 					<!--- multizoom library for zoom on hover --->
 					<cfif isDisplayable>
-						<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom("##MID#media.media_id#",{zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'>
+						<cfset minzoom="2">
+						<cfif displayAs EQ "thumb">
+							<!--- probably uses default size value of 600, but want larger zoom --->
+							<cfset minzoom="4">
+						</cfif>
+						<cfif size LT 155>
+							<cfset minzoom="4">
+						</cfif>
+						<cfif size LT 105>
+							<cfset minzoom="5">
+						</cfif>
+						<cfif #displayAs# EQ "fixedSmallThumb">
+							<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("###elementId#").addimagezoom("###elementId#",{zoomrange: [#minzoom#,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifSquare#"})})</script>'>
+						<cfelse>
+							<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("###elementId#").addimagezoom("###elementId#",{zoomrange: [#minzoom#,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'>
+						</cfif>
 					</cfif>
 					<cfif #captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
@@ -403,10 +472,6 @@ include this function and use it.
 						</cfif>
 						<cfif len(showTitleText) EQ 0>
 							<cfset showTitleText = trim(subject)>
-						</cfif>
-						<cfif len(showTitleText) EQ 0>
-							<cfset showTitleText = "Externally Sourced Media Object">
-							
 						</cfif>
 						<cfif #captionAs# EQ "textCaption"><!---This is for use when a caption of 197 characters is needed --->
 							<cfif len(showTitleText) GT 197>
@@ -511,16 +576,30 @@ include this function and use it.
 				<cfif media.recordcount EQ 0>
 					<cfthrow message="No media records matching media_id [#encodeForHtml(media_id)#]">
 				</cfif>
-				<!---The queries to specific relationships below provide the variables for displaying the links within the id=relatedLinks div--->
-				<cfquery name="accns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct transaction_id, accn.accn_number
-					from media_relations
-						left join accn on media_relations.related_primary_key = accn.transaction_id
-						left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on accn.transaction_id = flat.accn_id
-					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-						and mczbase.ctmedia_relationship.auto_table = 'accn'
-				</cfquery>
+				<cfset oneOfUs = 0>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				</cfif>
+				<cfset manageTransactions = 0>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+					<cfset manageTransactions=1>
+				</cfif>
+				<!--- The queries to specific relationships below provide the variables for displaying the links within the id=relatedLinks div --->
+				<cfif manageTransactions EQ 1>
+					<cfquery name="accns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct transaction_id, accn.accn_number
+						from media_relations
+							left join accn on media_relations.related_primary_key = accn.transaction_id
+							left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on accn.transaction_id = flat.accn_id
+						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+							and mczbase.ctmedia_relationship.auto_table = 'accn'
+					</cfquery>
+				<cfelse>
+					<cfquery name="accns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select null as transaction_id, null as accn_number from dual where 0=1
+					</cfquery>
+				</cfif>
 				<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct agent_name.agent_name, agent.agent_id
 					from media_relations
@@ -580,14 +659,20 @@ include this function and use it.
 						and agent_name_type = 'preferred'
 					order by agent_name.agent_name
 				</cfquery>
-				<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-					select b.transaction_id, b.lenders_trans_num_cde, b.borrow_number
-					from media_relations mr
-					left join borrow b on b.transaction_id = mr.related_primary_key
-					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-					where mr.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and ct.media_relationship like '%borrow'
-				</cfquery>
+				<cfif manageTransactions EQ 1>
+					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
+						select b.transaction_id, b.lenders_trans_num_cde, b.borrow_number
+						from media_relations mr
+						left join borrow b on b.transaction_id = mr.related_primary_key
+						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+						where mr.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and ct.media_relationship like '%borrow'
+					</cfquery>
+				<cfelse>
+					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
+						select null as transaction_id, null as lenders_trans_num_cde, null as borrow_number from dual where 0=1
+					</cfquery>
+				</cfif>
 				<cfquery name="collecting_events" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct collecting_event.verbatim_locality,collecting_event.collecting_event_id, collecting_event.verbatim_date, collecting_event.ended_date, collecting_event.collecting_source
 					from media_relations
@@ -595,22 +680,34 @@ include this function and use it.
 					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and media_relations.media_relationship like '% collecting_event'
 				</cfquery>
-				<cfquery name="daccns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct transaction_id
-					from media_relations
-						left join deaccession on media_relations.related_primary_key = deaccession.transaction_id
-						left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-						and mczbase.ctmedia_relationship.auto_table = 'deaccession'
-				</cfquery>
-				<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct transaction_id, loan.loan_number
-					from media_relations
-						left join loan on media_relations.related_primary_key = loan.transaction_id
-						left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-						and mczbase.ctmedia_relationship.auto_table = 'loan'
-				</cfquery>
+				<cfif manageTransactions EQ 1>
+					<cfquery name="daccns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct transaction_id, deaccession.deacc_number
+						from media_relations
+							left join deaccession on media_relations.related_primary_key = deaccession.transaction_id
+							left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+							and mczbase.ctmedia_relationship.auto_table = 'deaccession'
+					</cfquery>
+				<cfelse>
+					<cfquery name="daccns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select null as transaction_id, null as deacc_number from dual where 0=1
+					</cfquery>
+				</cfif>
+				<cfif manageTransactions EQ 1>
+					<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct transaction_id, loan.loan_number
+						from media_relations
+							left join loan on media_relations.related_primary_key = loan.transaction_id
+							left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+							and mczbase.ctmedia_relationship.auto_table = 'loan'
+					</cfquery>
+				<cfelse>
+					<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select null as transaction_id, null as loan_number from dual where 0=1
+					</cfquery>
+				</cfif>
 				<cfquery name="locali" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct locality.spec_locality,locality.locality_ID, lat_long.dec_lat, lat_long.dec_long, lat_long.datum, lat_long.max_error_distance as error, lat_long.max_error_units as units
 					from media_relations
@@ -636,14 +733,20 @@ include this function and use it.
 					where m.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and ct.media_relationship = 'transcript for audio media'
 				</cfquery>
-				<cfquery name="permit"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct permit.permit_id, permit.permit_type,permit.permit_title
-					from permit
-					left join media_relations mr on permit.permit_id = mr.related_primary_key
-					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-					where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and ct.auto_table = 'permit'
-				</cfquery>
+				<cfif manageTransactions EQ 1>
+					<cfquery name="permit"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct permit.permit_id, permit.permit_type,permit.permit_title
+						from permit
+						left join media_relations mr on permit.permit_id = mr.related_primary_key
+						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+						where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and ct.auto_table = 'permit'
+					</cfquery>
+				<cfelse>
+					<cfquery name="permit"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select null as permit_id, null as permit_type, null as permit_title from dual where 0=1
+					</cfquery>
+				</cfif>
 				<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct p.publication_id as pk, fp.formatted_publication as pub_long
 					from publication p
@@ -743,6 +846,16 @@ include this function and use it.
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<tr class="border mt-2 p-2"><th scope="row">Alt Text: </th><td>#media.alttag#</td></tr>
+							</cfif>
+							<cfif listcontainsnocase(session.roles,"manage_media")>
+								<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href="#media.media_uri#">#media.media_uri#</a></td></tr>
+							</cfif>
+							<cfif listcontainsnocase(session.roles,"manage_media")>
+								<cfset thumbText = "None. Default Thumnail for media type used.">
+								<cfif len(media.preview_uri) GT 0>
+									<cfset thumbText = "<a target='_blank' href='#media.preview_uri#'>#media.preview_uri#</a>">
+								</cfif>
+								<tr class="border mt-2 p-2"><th scope="row">Preview URI: </th><td>#thumbText#</td></tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
 								<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">

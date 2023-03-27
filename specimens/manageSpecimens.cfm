@@ -64,7 +64,7 @@ limitations under the License.
 									<a href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs nav-link" target="_blank">Collectors/Preparators</a>
 								</li>
 								<cfif findNoCase('master',Session.gitBranch) EQ 0>
-									<!--- not working yet, don't link to on production --->
+									<!--- still needs testing, don't link to on production --->
 									<li class="nav-item mb-1">
 										<a href="/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-xs btn-secondary" target="_blank">Collecting Events</a>
 									</li>
@@ -74,7 +74,7 @@ limitations under the License.
 									</li>
 								</cfif>
 								<cfif findNoCase('master',Session.gitBranch) EQ 0>
-									<!--- not working yet, don't link to on production --->
+									<!--- still needs testing, don't link to on production --->
 									<li class="nav-item mb-1">
 										<a href="/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Localities</a>
 									</li>
