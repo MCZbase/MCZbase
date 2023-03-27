@@ -214,6 +214,14 @@ Except for placing a value in pageTitle for \_header.cfm, avoid using the reques
 
 	<cfset pageTitle = "Search Taxonomy">
 	<cfinclude template = "/shared/_header.cfm">
+Typical pattern is Verb Noun, but this is not consistent.  
+
+Advantage of Verb Noun is the ability to distinguish between Create/Edit/Search
+in shortened browser tabs.  Advantage of Noun Verb (Crystal's suggestion) is
+the ability to distinguish between the category of information in shortend
+browser tabs.  Both have advantages and disadvantages.  
+
+But we should be consistent.
 
 Avoid:
 
