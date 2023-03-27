@@ -212,15 +212,15 @@ limitations under the License.
 			<cfset sentok="true">
 			<cftry>
 				<cfmail to="#Application.bugReportEmail#" subject="ColdFusion bug report submitted" from="BugReport@#Application.fromEmail#" type="html">
-	<p>Reported Name: #reported_name# (AKA #session.username#) submitted a bug report on #thisDate#.</p>
-	
-	<p>Complaint: #complaint#</p>
-	
-	<p>Priority: #user_priority#</p>
-	
-	<p>Email: #user_email#</p>
-	
-	#insertErrorMessage#
+<p>Reported Name: #reported_name# (AKA #session.username#) submitted a bug report on #thisDate#.</p>
+
+<p>Complaint: #complaint#</p>
+
+<p>Priority: #user_priority#</p>
+
+<p>Email: #user_email#</p>
+
+#insertErrorMessage#
 				</cfmail>
 			<cfcatch>
 				<div>Error: Unable to send bugmail to admin. #cfcatch.Message#</div>
@@ -265,19 +265,19 @@ limitations under the License.
 			<cfset newline= Chr(13) & Chr(10)>
 			<cftry>
 				<cfmail to="#bugzilla_mail#" subject="#summary#" from="#bugzilla_user#" type="text">
-	@rep_platform = PC
-	@op_sys = Linux
-	@product = MCZbase
-	@component = Web Interface
-	@version = 2.5.1merge
-	#bugzilla_priority##newline#
-	#bugzilla_severity#
+@rep_platform = PC
+@op_sys = Linux
+@product = MCZbase
+@component = Web Interface
+@version = 2.5.1merge
+#bugzilla_priority##newline#
+#bugzilla_severity#
 	
-	Bug report by: #reported_name# (Username: #session.username#)
-	Email: #user_email#
-	Complaint: #complaint#
-	#newline##newline#
-	#human_importance#
+Bug report by: #reported_name# (Username: #session.username#)
+Email: #user_email#
+Complaint: #complaint#
+#newline##newline#
+#human_importance#
 				</cfmail>
 			<cfcatch>
 				<div>Error: Unable to send bugreport to bugzilla. #cfcatch.Message#</div>
