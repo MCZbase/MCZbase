@@ -87,6 +87,13 @@ limitations under the License.
 											<label for="complaint" class="data-entry-label">Feedback</label>
 											<textarea name="complaint" id="complaint" rows="15"  class="data-entry-textarea reqdClr autogrow" placeholder="#FEEDBACK_INSTRUCTIONS#" required></textarea>
 										</div>
+										<script>
+											// Make textarea with autogrow class be bound to the autogrow function on key up
+											$(document).ready(function() { 
+												$("textarea.autogrow").keyup(autogrow);
+												$('textarea.autogrow').keyup();
+											});
+										</script>
 										<div class="col-12">
 											<label for="user_priority" class="data-entry-label">Priority</label>
 											<select name="user_priority" size="1" class="data-entry-select">
@@ -97,7 +104,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-12">
-											<input type="submit" value="Submit Bug Report" class="btn btn-xs btn-primary" >
+											<input type="submit" value="Submit Bug Report" class="btn btn-xs btn-primary my-1" >
 										</div>
 									</div>
 								</form>
