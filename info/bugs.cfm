@@ -28,6 +28,9 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="bugReportForm">
 		<cfoutput>
+			<cfif !listcontainsnocase(session.roles,"coldfusion_user")>
+				<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+			</cfif>
 			<main class="container py-3" id="content">
 				<section class="container-fluid">
 					<div class="row mx-0 mb-3">
@@ -67,7 +70,6 @@ limitations under the License.
 												</cfif>
 											<cfelse>
 												<div class="g-recaptcha" data-sitekey="#application.g_sitekey#"></div>
-												<script src="https://www.google.com/recaptcha/api.js"></script>
 											</cfif>
 										</div>
 										<div class="col-12 col-md-6">
