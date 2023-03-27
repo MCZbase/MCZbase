@@ -28,111 +28,93 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="bugReportForm">
 		<cfoutput>
-			<center>
-				<cfif !listcontainsnocase(session.roles,"coldfusion_user")>
-					<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-				</cfif>
-				<div id="bug_form">
-	 				<div id="bug_text">
-						<h3>Provide Feedback</h3>
-						<ul class="geol_hier" style="padding-bottom: 0em;">
-							<li>Use this form to report problems you have encountered while using the database.</li>
-							<li>Use this form to make suggestions in relation to database function or data display.</li>
-						</ul>
-						<p>NOTE: To report problems or errors with specimen data, you may use this form, or if logged in, you may use the "Report Bad Data" link included on Search Results or Specimen Detail pages.</p>
-						<p>Include your email address if you wish to be contacted when the issue has been addressed. Your email address will <b>not</b> be released or publicly displayed on our site.</p>
+			<cfif !listcontainsnocase(session.roles,"coldfusion_user")>
+				<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+			</cfif>
+			<main class="container py-3" id="content">
+				<section class="container-fluid">
+					<div class="row mx-0 mb-3">
+						<div class="search-box">
+							<div class="search-box-header">
+								<h1 class="h2 text-white" id="formheading">Provide Feedback</h1>
+							</div>
+							<div class="col-12 px-4 py-1">
+								<ul>
+									<li>Use this form to report problems you have encountered while using the database.</li>
+									<li>Use this form to make suggestions in relation to database function or data display.</li>
+									<li>To report problems or errors with specimen data, you may use this form, or if logged in, you may use the "Report Bad Data" link included on Search Results or Specimen Detail pages.</li>
+									<li>Include your email address if you wish to be contacted when the issue has been addressed. Your email address will <b>not</b> be released or publicly displayed on our site.</li>
+								</ul>
+							</div>
+							<div class="col-12 px-4 py-1">
+								<form name="bug" method="post" action="bugs.cfm" onsubmit="return validateBugs();">
+									<input type="hidden" name="action" value="save">
+									<div class="form-row mb-2">
+										<div class="col-12">
+											<h2 class="h4">Fill in form</h2>
+										</div>
+										<div class="col-12">
+											<cfset reportedName ="">
+											<cfset email = "">
+											<cfif listcontainsnocase(session.roles,"coldfusion_user")>
+												<cfquery name="getUserInfo"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													SELECT username, preferred_agent_name.agent_name, GET_EMAILADDRESSES(agent_name.agent_id,', ') emails
+													FROM cf_users
+														left join agent_name on cf_users.username = agent_name.agent_name and agent_name.agent_name_type = 'login'
+														left join preferred_agent_name on agent_name.agent_id = preferred_agent_name.agent_id
+													WHERE
+														username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+												</cfquery>
+												<cfif getUserInfo.recordcount EQ 1>
+													<cfloop query="getUserInfo">
+														<cfset reportedName ="#getUserInfo.agent_name#">
+														<cfset email = "#getUserInfo.emails#">
+													</cfloop>
+												</cfif>
+											<cfelse>
+												<div class="g-recaptcha" data-sitekey="#application.g_sitekey#"></div>
+											</cfif>
+										</div>
+										<div class="col-12 col-md-6">
+											<label for="reported_name" class="data-entry-label">Name</div>
+											<input type="text" name="reported_name" id="reported_name" class="data-entry-input" value="#reportedName#">
+										</div>
+										<div class="col-12 col-md-6">
+											<label for="user_email" class="data-entry-label">email</div>
+											<input type="text" name="user_email" id="user_email" class="data-entry-input" value="#email#">
+										</div>
+										<div class="col-12">
+											<h3 class="h4">Please provide as much detail as possible. We do not know what you see unless you write about it in the report.</h3>
+										</div>
+										<div class="col-12">
+											<label for="complaint" class="data-entry-label">Feedback</label>
+											<textarea name="complaint" id="complaint" rows="15"  class="data-entry-textarea reqdClr" placeholder="#FEEDBACK_INSTRUCTIONS#" style="padding: 5px;" onfocus="clearContents(this);"></textarea>
+										</div>
+										<div class="col-12">
+											<label for="user_priority" class="data-entry-label">Priority</div>
+											<select name="user_priority" size="1" class="data-entry-select">
+												<option value="0">Low Priority</option>
+												<option value="2" SELECTED >Normal Priority</option>
+												<option value="6" >Enhancement Request</option>
+												<option value="4">High Priority</option>
+											</select>
+										</div>
+										<div class="col-12">
+											<input type="submit" value="Submit Bug Report" class="btn btn-xs btn-primary" >
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
 					</div>
-					<form name="bug" method="post" action="bugs.cfm" onsubmit="return validateBugs();">
-						<table>
-							<tr>
-								<td colspan="2" align="left">
-									<h4>Fill in form</h4>
-								</td>
-							</tr>
-		
-							<cfset reportedName ="">
-							<cfset email = "">
-							<cfif listcontainsnocase(session.roles,"coldfusion_user")>
-								<cfquery name="getUserInfo"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT username, preferred_agent_name.agent_name, GET_EMAILADDRESSES(agent_name.agent_id,', ') emails
-									FROM cf_users
-										left join agent_name on cf_users.username = agent_name.agent_name and agent_name.agent_name_type = 'login'
-										left join preferred_agent_name on agent_name.agent_id = preferred_agent_name.agent_id
-									WHERE
-										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-									ORDER BY cf_users.user_id
-								</cfquery>
-								<cfif getUserInfo.recordcount EQ 1>
-									<cfloop query="getUserInfo">
-										<cfset reportedName ="#getUserInfo.agent_name#">
-										<cfset email = "#getUserInfo.emails#">
-									</cfloop>
-								</cfif>
-							<cfelse>
-								<tr>
-									<td colspan="2" align="center">
-										<div class="g-recaptcha" data-sitekey="#application.g_sitekey#"></div>
-									</td>
-								</tr>
-							</cfif>
-							<input type="hidden" name="action" value="save">
-		
-							<tr>
-								<td>
-									<div align="right">Name</div>
-								</td>
-								<td>
-									<input type="text" name="reported_name" size="50" value="#reportedName#">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div align="right">Email</div>
-								 </td>
-								<td>
-									<input type="text" name="user_email" size="50" value="#email#">
-								</td>
-							</tr>
-		
-							<tr>
-								<td>
-									<div align="right">Feedback</div>
-									<div class="subnote">Please provide as much detail as possible. We do not know what you see unless you write about it in the report.</div>
-								</td>
-								<td>
-									<textarea name="complaint" rows="15"  class="reqdClr" placeholder="#FEEDBACK_INSTRUCTIONS#" style="padding: 5px;" onfocus="clearContents(this);"></textarea>
-								</td>
-							</tr>
-		
-							<tr>
-								<td valign="top">
-									<div align="right">Priority</div>
-								</td>
-								<td>
-									<select name="user_priority" size="1" style="background-color:inherit;">
-										<option value="0">Low Priority</option>
-										<option value="2" SELECTED >Normal Priority</option>
-										<option value="6" >Enhancement Request</option>
-										<option value="4">High Priority</option>
-									</select>
-								</td>
-							</tr>
-		
-							<tr>
-								<td>&nbsp;</td>
-								<td align="left">
-									<input type="submit" value="Submit Bug Report" class="btn btn-xs btn-primary" >
-								</td>
-							</tr>
-						</table>
-					</form>
-				</div>
-			</center>
+				</section>
+			</main>
 		</cfoutput>
 	</cfcase>
 	<!------------------------------------------------------------>
 	<cfcase value="save">
 		<cfoutput>
+		<main class="container py-3" id="content" >
 			<cfset user_id=0>
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				<cfquery name="isUser"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -305,6 +287,7 @@ limitations under the License.
 				</cfif>
 				<p align="center">Click <a href="/SpecimenSearch.cfm">here</a> to search MCZbase.</p>
 			</div>
+		</main>
 		</cfoutput>
 	</cfcase>
 	<!------------------------------------------------------------>
