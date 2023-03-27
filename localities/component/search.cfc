@@ -453,7 +453,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	</cfif>
 	<cfif isDefined("geog_auth_rec_id") AND len(geog_auth_rec_id) GT 0>
 		<!--- strip extraneous characters out of geog_auth_rec_id (ignores = operator) --->
-		<cfset geog_auth_rec_id = rereplace(geog_auth_rec_id,"[^0-9,]]","","all")
+		<cfset geog_auth_rec_id = rereplace(geog_auth_rec_id,"[^0-9,]]","","all")>
 	</cfif>
 
 	<cfset data = ArrayNew(1)>
@@ -786,7 +786,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	</cfif>
 	<cfif isDefined("geog_auth_rec_id") AND len(geog_auth_rec_id) GT 0>
 		<!--- strip extraneous characters out of geog_auth_rec_id (ignores = operator) --->
-		<cfset geog_auth_rec_id = rereplace(geog_auth_rec_id,"[^0-9,]]","","all")
+		<cfset geog_auth_rec_id = rereplace(geog_auth_rec_id,"[^0-9,]]","","all")>
 	</cfif>
 
 	<!--- convert min/max ElevOper variables to operators as leading characters of min/max elevation --->
@@ -1753,7 +1753,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	</cfif>
 	<cfif isDefined("geog_auth_rec_id") AND len(geog_auth_rec_id) GT 0>
 		<!--- strip extraneous characters out of geog_auth_rec_id (ignores = operator) --->
-		<cfset geog_auth_rec_id = rereplace(geog_auth_rec_id,"[^0-9,]]","","all")
+		<cfset geog_auth_rec_id = rereplace(geog_auth_rec_id,"[^0-9,]]","","all")>
 	</cfif>
 
 	<!--- convert min/max ElevOper variables to operators as leading characters of min/max elevation --->
