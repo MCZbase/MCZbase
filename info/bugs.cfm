@@ -28,7 +28,25 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="bugReportForm">
 		<cfoutput>
-			<cfif !listcontainsnocase(session.roles,"coldfusion_user")>
+			<cfset reportedName ="">
+			<cfset email = "">
+			<cfif listcontainsnocase(session.roles,"coldfusion_user")>
+				<cfif listcontainsnocase(session.roles,"coldfusion_user")>
+					<cfquery name="getUserInfo"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT username, preferred_agent_name.agent_name, GET_EMAILADDRESSES(agent_name.agent_id,', ') emails
+						FROM cf_users
+							left join agent_name on cf_users.username = agent_name.agent_name and agent_name.agent_name_type = 'login'
+							left join preferred_agent_name on agent_name.agent_id = preferred_agent_name.agent_id
+						WHERE
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<cfif getUserInfo.recordcount EQ 1>
+						<cfloop query="getUserInfo">
+							<cfset reportedName ="#getUserInfo.agent_name#">
+							<cfset email = "#getUserInfo.emails#">
+						</cfloop>
+					</cfif>
+			<cfelse>
 				<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 			</cfif>
 			<main class="container py-3" id="content">
@@ -50,28 +68,6 @@ limitations under the License.
 								<form name="bug" method="post" action="bugs.cfm" onsubmit="return validateBugs();">
 									<input type="hidden" name="action" value="save">
 									<div class="form-row mb-2">
-										<div class="col-12">
-											<cfset reportedName ="">
-											<cfset email = "">
-											<cfif listcontainsnocase(session.roles,"coldfusion_user")>
-												<cfquery name="getUserInfo"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT username, preferred_agent_name.agent_name, GET_EMAILADDRESSES(agent_name.agent_id,', ') emails
-													FROM cf_users
-														left join agent_name on cf_users.username = agent_name.agent_name and agent_name.agent_name_type = 'login'
-														left join preferred_agent_name on agent_name.agent_id = preferred_agent_name.agent_id
-													WHERE
-														username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-												</cfquery>
-												<cfif getUserInfo.recordcount EQ 1>
-													<cfloop query="getUserInfo">
-														<cfset reportedName ="#getUserInfo.agent_name#">
-														<cfset email = "#getUserInfo.emails#">
-													</cfloop>
-												</cfif>
-											<cfelse>
-												<div class="g-recaptcha" data-sitekey="#application.g_sitekey#"></div>
-											</cfif>
-										</div>
 										<div class="col-12 col-md-6">
 											<label for="reported_name" class="data-entry-label">Name</label>
 											<input type="text" name="reported_name" id="reported_name" class="data-entry-input" value="#reportedName#">
@@ -103,7 +99,12 @@ limitations under the License.
 												<option value="4">High Priority</option>
 											</select>
 										</div>
-										<div class="col-12">
+										<cfif NOT listcontainsnocase(session.roles,"coldfusion_user")>
+											<div class="col-12">
+												<div class="g-recaptcha" data-sitekey="#application.g_sitekey#"></div>
+											</div>
+										</cfif>
+										<div class="col-12 mt-1">
 											<input type="submit" value="Submit Bug Report" class="btn btn-xs btn-primary my-1" >
 										</div>
 									</div>
