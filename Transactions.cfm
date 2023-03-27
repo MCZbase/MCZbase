@@ -2670,7 +2670,7 @@ limitations under the License.
 			var datafield = columns[i].datafield;
 			if (datafield == 'loan_number') { 
 				if (transaction_id) {
-	 				content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a class='btn btn-outline-primary pt-1 px-2 btn-xs' href='/transactions/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>Edit</a> " + datarecord[datafield] + "</li>";
+	 				content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a class='btn btn-outline-primary px-2 btn-xs' href='/transactions/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>Edit</a> " + datarecord[datafield] + "</li>";
 				} else { 
 					content = content + "<li class='pr-3'><strong>" + text + ":</strong> " + datarecord[datafield] + "</li>";
 				}
