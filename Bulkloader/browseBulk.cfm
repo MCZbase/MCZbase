@@ -130,7 +130,7 @@ table##t th {
 					<li>On page load, rows are sorted by the Key Column.  The key value is not important, but it is hyperlinked to the data entry screen for the record.</li>
 					<li>Clicking on a column header sorts by that column. Also, sort through option menu next to each column header (hover to see menu (sort ascending, sort descending, columns)). </li>
 					<li>All columns are visible by default.  Each column menu has an option "Columns" button to change the columns visible in the grid. There is a delay after ticking a checkbox in the popup column selection menu, especially when there are many rows/pages in the grid.</li>
-					<li>Use "control" + "F" and search for data values to bring field to focus on your screen&mdash;This is not helpful for inserting values into empty columns because it will not find column headers. </li>
+					<li>Use your browser Find "control" + "F" function to search for column headers or data values.  Find will move the grid when it finds a data value, but only highlights a column header and does not move the grid to the column, but highlighted columns are easier to see when scrolling the grid (e.g. search for COLLECTOR_ROLE and scroll to locate the block of related columns).</li>
 					<li>Click fields to edit. Click the refresh icon (bottom of grid) to see that the changes are saved. Click "Mark all to load" to attempt to load edited records from the bulkloader into MCZbase, records that do not succeed will have an error message in the "loaded" column.</li>
 				</ul>
 				<cfquery name="cNames" datasource="uam_god">
@@ -247,7 +247,7 @@ table##t th {
 									<h2 class="h3">Edit in AJAX grid</h2>
 									<p>
 										Shows data in an editable table. Click on cells to edit individually.
-										Saves automatically on change. Use Browser&apos;s  Use Find "control" + "F" to find data values in the table.
+										Saves automatically on change. Use Browser&apos;s  Use Find "control" + "F" to find data values or column headers in the table.
 									</p>
 								</li>
 							</ul>
