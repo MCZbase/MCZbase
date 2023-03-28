@@ -87,7 +87,8 @@ limitations under the License.
 													$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
 												};
 											</script>
-											<select class="data-entry-select" id="selectMode">
+											<label class="mt-1" for="selectMode">Grid Select:</label>
+											<select class="data-entry-select mt-1" id="selectMode" onChange="changeSelectMode();">
 												<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 												<option #selected# value="singlecell">Single Cell</option>
 												<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
