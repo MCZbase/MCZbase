@@ -2903,7 +2903,8 @@ $(document).ready(function() {
 			autoshowloadelement: false, // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'multiplecellsadvanced',
+			selectionmode: 'singlerow',
+			enablebrowserselection: true,
 			altrows: true,
 			showtoolbar: false,
 			ready: function () {
@@ -3120,7 +3121,8 @@ $(document).ready(function() {
 			autoshowloadelement: false, // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'multiplecellsadvanced',
+			selectionmode: 'singlerow',
+			enablebrowserselection: true,
 			altrows: true,
 			showtoolbar: false,
 			ready: function () {
@@ -3288,7 +3290,8 @@ $(document).ready(function() {
 			autoshowloadelement: false, // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'multiplecellsadvanced',
+			selectionmode: 'singlerow',
+			enablebrowserselection: true,
 			altrows: true,
 			showtoolbar: false,
 			ready: function () {
@@ -3455,7 +3458,8 @@ $(document).ready(function() {
 			autoshowloadelement: false, // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'multiplecellsadvanced',
+			selectionmode: 'singlerow',
+			enablebrowserselection: true,
 			altrows: true,
 			showtoolbar: false,
 			ready: function () {
@@ -3650,7 +3654,8 @@ $(document).ready(function() {
 			autoshowloadelement: false, // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'multiplecellsadvanced',
+			selectionmode: 'singlerow',
+			enablebrowserselection: true,
 			altrows: true,
 			showtoolbar: false,
 			ready: function () {
