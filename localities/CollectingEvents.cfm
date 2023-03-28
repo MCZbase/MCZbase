@@ -86,14 +86,14 @@ limitations under the License.
 													var selmode = $("##selectMode").val();
 													$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
 													if (selmode=="none") { 
-														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: "true"});
+														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: true});
 													} else {
-														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: "false"});
+														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: false});
 													}
 												};
 											</script>
-											<label class="data-entry-label d-inline mt-1" for="selectMode">Grid Select:</label>
-											<select class="d-inline mt-1" id="selectMode" onChange="changeSelectMode();">
+											<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
+											<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
 												<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 												<option #selected# value="none">Text</option>
 												<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
