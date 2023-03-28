@@ -94,9 +94,9 @@ limitations under the License.
 												<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 												<option #selected# value="singlerow">Single Row</option>
 												<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-												<option #selected# value="multiplerowsextended">Multiple Rows</option>
+												<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
 												<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-												<option #selected# value="multiplecellsadvanced">Multiple Cells</option>
+												<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
 											</select>
 										</div>
 									</div>
