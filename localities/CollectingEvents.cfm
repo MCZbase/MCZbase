@@ -83,8 +83,8 @@ limitations under the License.
 										<div id="selectModeContainer" style="display: none;" >
 											<script>
 												function changeSelectMode(){
-													var selmode = $("#selectMode").val();
-													$("#searchResultsGrid").jqxGrid({selectionmode: selmode});
+													var selmode = $("##selectMode").val();
+													$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
 												};
 											</script>
 											<select class="data-entry-select" id="selectMode">
