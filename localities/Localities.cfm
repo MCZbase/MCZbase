@@ -371,6 +371,7 @@ limitations under the License.
 								columnsreorder: true,
 								groupable: true,
 								selectionmode: 'multiplecellsadvanced',
+								enablebrowserselection: true,
 								altrows: true,
 								showtoolbar: false,
 								columns: [

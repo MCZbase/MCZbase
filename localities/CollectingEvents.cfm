@@ -467,6 +467,7 @@ limitations under the License.
 								columnsreorder: true,
 								groupable: true,
 								selectionmode: '#defaultSelectionMode#',
+								enablebrowserselection: true,
 								altrows: true,
 								showtoolbar: false,
 								columns: [

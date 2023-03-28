@@ -189,6 +189,7 @@ limitations under the License.
 								columnsreorder: true,
 								groupable: true,
 								selectionmode: 'singlerow',
+								enablebrowserselection: true,
 								altrows: true,
 								showtoolbar: false,
 								columns: [
