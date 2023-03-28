@@ -92,8 +92,8 @@ limitations under the License.
 													}
 												};
 											</script>
-											<label class="mt-1" for="selectMode">Grid Select:</label>
-											<select class="mt-1" id="selectMode" onChange="changeSelectMode();">
+											<label class="data-entry-input d-inline mt-1" for="selectMode">Grid Select:</label>
+											<select class="data-entry-select d-inline mt-1" id="selectMode" onChange="changeSelectMode();">
 												<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 												<option #selected# value="none">Text</option>
 												<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
