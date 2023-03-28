@@ -34,6 +34,7 @@ limitations under the License.
 <cfset includeJQXEditor='false'>
 <cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
+<cfset defaultSelectionMode = "multiplecellsadvanced">
 <cfswitch expression="#action#">
 	<cfcase value="search">
 
@@ -79,6 +80,24 @@ limitations under the License.
 										</div>
 										<div id="columnPickDialogButton"></div>
 										<div id="resultDownloadButtonContainer"></div>
+										<div id="selectModeContainer" style="display: none;" >
+											<script>
+												function changeSelectMode(){
+													var selmode = $("#selectMode").val();
+													$("#searchResultsGrid").jqxGrid({selectionmode: selmode});
+												};
+											</script>
+											<select class="data-entry-select" id="selectMode">
+												<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option #selected# value="singlecell">Single Cell</option>
+												<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option #selected# value="singlerow">Single Row</option>
+												<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option #selected# value="multiplerowsextended">Multiple Rows</option>
+												<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option #selected# value="multiplecellsadvanced">Multiple Cells</option>
+											</select>
+										</div>
 									</div>
 									<div class="row mt-0"> 
 										<!--- Grid Related code is below along with search handlers --->
@@ -321,6 +340,7 @@ limitations under the License.
 							$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 							$('##resultCount').html('');
 							$('##resultLink').html('');
+							$('##selectModeContainer').hide();
 					
 							var search =
 							{
@@ -445,7 +465,7 @@ limitations under the License.
 								autoshowloadelement: false,  // overlay acts as load element for form+results
 								columnsreorder: true,
 								groupable: true,
-								selectionmode: 'multiplecellsadvanced',
+								selectionmode: '#defaultSelectionMode#',
 								altrows: true,
 								showtoolbar: false,
 								columns: [
@@ -721,6 +741,7 @@ limitations under the License.
 						$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 						$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 						$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mt-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+						$('##selectModeContainer').show();
 					}
 				</script> 
 			</cfoutput>
