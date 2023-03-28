@@ -34,7 +34,7 @@ limitations under the License.
 <cfset includeJQXEditor='false'>
 <cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
-<cfset defaultSelectionMode = "multiplecellsadvanced">
+<cfset defaultSelectionMode = "none">
 <cfswitch expression="#action#">
 	<cfcase value="search">
 
@@ -85,10 +85,17 @@ limitations under the License.
 												function changeSelectMode(){
 													var selmode = $("##selectMode").val();
 													$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
+													if (selmode=="none") { 
+														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: "true"});
+													} else {
+														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: "false"});
+													}
 												};
 											</script>
 											<label class="mt-1" for="selectMode">Grid Select:</label>
 											<select class="mt-1" id="selectMode" onChange="changeSelectMode();">
+												<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option #selected# value="none">Text</option>
 												<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 												<option #selected# value="singlecell">Single Cell</option>
 												<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
