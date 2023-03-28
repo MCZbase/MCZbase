@@ -86,9 +86,9 @@ limitations under the License.
 													var selmode = $("##selectMode").val();
 													$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
 													if (selmode=="none") { 
-														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: "true"});
+														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: true});
 													} else {
-														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: "false"});
+														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: false});
 													}
 												};
 											</script>
