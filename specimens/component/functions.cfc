@@ -2693,7 +2693,7 @@ limitations under the License.
 	<cfif len(getCited.doi) GT 0>
 	doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited.DOI#</a><br><br>
 	</cfif>
-<a href="Publication.cfm?publication_id=#publication_id#">Edit Publication</a>
+<a href="/publications/Publication.cfm?publication_id=#publication_id#">Edit Publication</a>
 	
 <form name="newCitation" id="newCitation" method="post" action="Citation.cfm">
 	<input type="hidden" name="Action" value="newCitation">
