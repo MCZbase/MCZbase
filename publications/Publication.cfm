@@ -145,7 +145,7 @@ limitations under the License.
 					</span>
 				</h1>
 				<div class="h2 px-2" id="fullCitationDiv">#pub.full_citation#</div>
-				<form class="col-12" name="editPubForm" id="editPubForm" method="post" action="Publication.cfm">
+				<form class="col-12" name="editPubForm" id="editPubForm" method="post" action="/publications/Publication.cfm">
 					<input type="hidden" name="publication_id" value="#pub.publication_id#">
 					<input type="hidden" name="action" value="saveEdit">
 					<input type="hidden" name="method" value="savePublication">
@@ -454,7 +454,7 @@ limitations under the License.
 					Create New Publication
 					<img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 				</h1>
-				<form name="newPubForm" id="newPubForm" method="post" action="Publication.cfm">
+				<form name="newPubForm" id="newPubForm" method="post" action="/publications/Publication.cfm">
 					<input type="hidden" name="action" value="createPub">
 					<div class="col-12 form-row pb-1">
 						<div class="col-12 col-md-11">
