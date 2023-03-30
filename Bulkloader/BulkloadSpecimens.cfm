@@ -135,7 +135,7 @@
 			#anyBads.cnt# of #allData.cnt# records will not successfully load.
 			<br>
 			Click <a href="bulkloader.txt" target="_blank">here</a>
-			to retrieve all data including error messages. Fix them up and reload them.
+			to retrieve all data including error messages. Fix them up and then <a href="/Bulkloader/BulkloadSpecimens.cfm">reload</a> them.
 			This method is strongly preferred.
 			<p>
 			Click <a href="bulkloaderLoader.cfm?action=loadAnyway">here</a> to load them to the
