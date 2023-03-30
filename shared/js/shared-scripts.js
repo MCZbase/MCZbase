@@ -1913,7 +1913,7 @@ function getMediaBlockHtml(media_id, targetDiv, displayAs, captionAs, size, back
 	jQuery.ajax(
 	{
 		dataType: "json",
-		url: "/media/component/search.cfc",
+		url: "/media/component/public.cfc",
 		data: { 
 			method : "getMediaBlockHtml",
 			media_id : media_id,

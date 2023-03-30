@@ -252,7 +252,7 @@ function getMediaMetadata(targetDiv, media_id) {
 function loadRelatedImages(targetDiv, media_id) { 
 	console.log("loadRelatedImages() called for " + targetDiv);
 	jQuery.ajax({
-		url: "/media/component/search.cfc",
+		url: "/media/component/public.cfc",
 		data : {
 			method : "getMediaBlockHtml",
 			media_id : media_id,

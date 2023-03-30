@@ -170,7 +170,7 @@ function removeMedia(media_id,form) {
  **/
 //function getMediaBlock(media_id,displayAs) { 
 //	jQuery.ajax({
-//		url: "/media/component/search.cfc",
+//		url: "/media/component/public.cfc",
 //		data : {
 //			method : "getMediaBlockHtml",
 //			media_id: media_id,

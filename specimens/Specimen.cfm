@@ -134,8 +134,8 @@ limitations under the License.
 <!--- (4) Display the summary/type bar for the record --->
 <!--- Include the templates that contains functions used to load portions of this page --->
 <cfinclude template="/specimens/component/public.cfc">
-<cfinclude template="/media/component/search.cfc" runOnce="true">
-<cfinclude template="/media/component/public.cfc" runOnce="true">
+<cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? removed ? --->
+<cfinclude template="/media/component/public.cfc" runOnce="true"><!--- getMediaBlockHtml --->
 <cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
 <cfset summaryHeadingBlock = getSummaryHeaderHTML(collection_object_id = "#collection_object_id#")>
 <cfoutput>
