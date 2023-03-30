@@ -176,10 +176,11 @@
 								<div style="float:left; width: 49%;">
 									<div class="h5 dropdown-header px-4 text-danger">Bulkloading</div>
 									<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>
+									<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>
 									<cfif targetMenu EQ "production">
-										<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>
+										<a class="dropdown-item" href="/Bulkloader/BulkloadSpecimens.cfm">Bulkload Specimens</a>
 									<cfelse>
-										<a class="dropdown-item bg-warning" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>
+										<a class="dropdown-item bg-warning" href="/Bulkloader/BulkloadSpecimens.cfm">Bulkload Specimens</a>
 									</cfif>
 									<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkload Status</a>
 									<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
