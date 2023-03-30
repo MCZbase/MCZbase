@@ -15,7 +15,8 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
-<cfinclude template = "/media/component/search.cfc" runOnce="true">
+<cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? remove ? --->
+<cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
 <cfif NOT isDefined("reportError")>
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
