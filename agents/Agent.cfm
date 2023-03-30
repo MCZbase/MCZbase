@@ -30,7 +30,8 @@ limitations under the License.
 	<cflocation url="/Agents.cfm">
 </cfif>
 <cfinclude template = "/shared/_header.cfm">
-<cfinclude template = "/media/component/search.cfc">
+<cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? remove ? --->
+<cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml ---><!--- ? unused ? remove ? --->
 <cfinclude template="/agents/component/functions.cfc" runOnce="true">
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>
