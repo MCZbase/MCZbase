@@ -170,6 +170,7 @@ include this function and use it.
 					auto_host as host,
 					auto_path as path,
 					auto_filename as filename,
+					media.mask_media_fg,
 					MCZBASE.get_media_dctermsrights(media.media_id) as license_uri, 
 					MCZBASE.get_media_dcrights(media.media_id) as license_display, 
 					MCZBASE.get_media_credit(media.media_id) as credit,
@@ -197,6 +198,10 @@ include this function and use it.
 				<cfloop query="media">
 					<!--- to turn on rewriting to deliver media via iiif server, set enableIIIF to true, to turn of, set to false --->
 					<cfset enableIIIF = true>
+					<cfif media.mask_media_fg NEQ 0>
+						<!--- do not use IIIF for hidden media, it can't determine the context to know if the media should be delivered or not, so does not deliver hidden media --->
+						<cfset enableIIIF = false>
+					</cfif>
 					<cfset iiifFull = "">
 					<cfset xzoom = "">
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF>
