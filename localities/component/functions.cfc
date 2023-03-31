@@ -242,6 +242,7 @@ CURATED_FG
 					<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(spec_locality)#" required>
 				</div>
 				<div class="col-12 col-md-4">
+					<cfif NOT isdefined("sovereign_nation")><cfset sovereign_nation=""></cfif>
 					<label class="data-entry-label" for="sovereign_nation">Sovereign Nation</label>
 					<input type="text" name="sovereign_nation" id="sovereign_nation" class="data-entry-input" value="#encodeforHTML(sovereign_nation)#">
 					<script>
