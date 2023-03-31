@@ -28,10 +28,10 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfswitch expression="#action#">
-	<cfcase val="edit">
+	<cfcase value="edit">
 		<cfset pageTitle="Edit Locality">
 	</cfcase>
-	<cfcase val="new">
+	<cfcase value="new">
 		<cfset pageTitle="New Locality">
 	</cfcase>
 	<cfdefaultcase>
@@ -41,7 +41,7 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 
 <cfswitch expression="#action#">
-	<cfcase val="edit">
+	<cfcase value="edit">
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
 			<cfthrow message="Error: unable to edit locality, no locality_id specified.">
 		</cfif>
@@ -60,7 +60,7 @@ limitations under the License.
 			</main>
 		</cfoutput>
 	</cfcase>
-	<cfcase val="new">
+	<cfcase value="new">
 		<cfoutput>
 		   <main id="content">
       		<h1 class="h2 mt-3 mb-0 px-4">Create New Locality</h1>
@@ -76,7 +76,7 @@ limitations under the License.
 			</main>
 		</cfoutput>
 	</cfcase>
-	<cfcase val="makenewLocality">
+	<cfcase value="makenewLocality">
 		<cfif NOT isdefined("cloneCoords") OR cloneCoords NEQ "yes">
 			<cfset cloneCoords = "no">
 		</cfif>
