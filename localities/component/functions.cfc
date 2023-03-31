@@ -236,6 +236,7 @@ SECTION_PART ,
 					</script>
 				</div>
 				<div class="col-12 col-md-2 mt-0">
+					<cfset otherClass="">
 					<cfif isdefined("geog_auth_rec_id") and len(geog_auth_rec_id) GT 0>
 						<cfset otherClass="disabled">
 					</cfif>
