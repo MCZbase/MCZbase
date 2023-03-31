@@ -126,9 +126,11 @@ Delete an existing collecting event number record.
 <!--- getEditLocalityHtml returns html for a form to edit an existing locality record 
 
 @param locality_id the primary key value for the locality to edit.
+@param form the id in the dom for the form that encloses the inputs returned from this function.
 --->
 <cffunction name="getEditLocalityHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="form" type="string" required="yes">
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="editLocalityFormThread#tn#">
