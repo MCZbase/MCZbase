@@ -165,7 +165,7 @@ Delete an existing collecting event number record.
 			ORDER BY orig_elev_units
 		</cfquery>
 		<cfquery name="ctDepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-			SELECT depth_units 
+			SELECT depth_units as unit
 			FROM ctdepth_units 
 			ORDER BY depth_units
 		</cfquery>
@@ -286,8 +286,8 @@ CURATED_FG
 					<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
 						<option value=""></option>
 						<cfloop query="ctDepthUnit">
-							<cfif isdefined("depth_units") AND ctDepthUnit.depth_units is depth_units><cfset selected="selected"></cfif>
-							<option #selected# value="#ctElevUnit.depth_units#">#ctElevUnit.depth_units#</option>
+							<cfif isdefined("depth_units") AND ctDepthUnit.unit is depth_units><cfset selected="selected"></cfif>
+							<option #selected# value="#ctDepthUnit.unit#">#ctDepthUnit.unit#</option>
 						</cfloop>
 					</select>
 				</div>
