@@ -64,13 +64,30 @@ limitations under the License.
 	<cfcase value="new">
 		<cfinclude template="/localities/component/functions.cfc" runOnce="true">
 		<cfoutput>
+			<cfset extra = "">
+			<cfif isDefined("geog_auth_rec_id") AND len(geog_auth_rec_id) GT 0 AND NOT (isDefined("clone_from_locality_id") and len(clone_from_locality_id) GT 0)>
+					<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT higher_geog
+						FROM geog_auth_rec
+						WHERE 
+							geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+					</cfquery>
+					<cfloop query="lookupHigherGeog">
+						<cfset extra = " within #lookupHigherGeog.higher_geog#">
+					</cfloop>
+					<cfset blockform = getCreateLocalityHtml(geog_auth_rec_id = "#geog_auth_rec_id#")>
+			<cfelseif isDefined("clone_from_locality_id") and len(clone_from_locality_id) GT 0>
+				<cfset extra = " cloned from #encodeForHtml(clone_from_locality_id)#">
+				<cfset blockform = getCreateLocalityHtml(clone_from_locality_id = "#clone_from_locality_id#")>
+			<cfelse>
+				<cfset blockform = getCreateLocalityHtml()>
+			</cfif>
 		   <main id="content">
-      		<h1 class="h2 mt-3 mb-0 px-4">Create New Locality</h1>
+      		<h1 class="h2 mt-3 mb-0 px-4">Create New Locality#extra#</h1>
      			<form name="createLocality" method="post" action="/localities/Locality.cfm">
             	<input type="hidden" name="Action" value="makenewLocality">
 		         <div class="row mx-0">
       		      <section class="container-fluid">
-							<cfset blockform = getCreateLocalityHtml(collection_object_id = "#collection_object_id#")>
 							#blockform#
 						</section>
 					</div>

@@ -146,14 +146,13 @@ Delete an existing collecting event number record.
 --->
 <cffunction name="getCreateLocalityHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="geog_auth_rec_id" type="string" required="no">
-	<cfargument name="higher_geog" type="string" required="no">
 	<cfargument name="spec_locality" type="string" required="no">
 	<cfargument name="sovereign_nation" type="string" required="no">
 	<cfargument name="minimum_elevation" type="string" required="no">
 	<cfargument name="maximum_elevation" type="string" required="no">
 	<cfargument name="orig_elev_units" type="string" required="no">
 	<cfargument name="locality_remarks" type="string" required="no">
-	<cfargument name="cloned_from_locality_id" type="string" required="no">
+	<cfargument name="clone_from_locality_id" type="string" required="no">
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="createLocalityFormThread#tn#">
@@ -167,6 +166,38 @@ Delete an existing collecting event number record.
 			FROM ctsovereign_nation
 			ORDER BY sovereign_nation
 		</cfquery>
+		<cfif isdefined('clone_from_locality_id') AND len(clone_from_locality_id) GT 0>
+			<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT geog_auth_rec_id, spec_locality, sovereign_nation, 
+					minimum_elevation, maximum_elevation, orig_elev_units, locality_remarks
+				FROM locality
+				WHERE 
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
+			<cfloop query="lookupLocality">
+				<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
+				<cfset spec_locality = "#lookupLocality.spec_locality#">
+				<cfset sovereign_nation = "#lookupLocality.sovereign_nation#">
+				<cfset minimum_elevation = "#lookupLocality.minimum_elevation#">
+				<cfset maximum_elevation = "#lookupLocality.maximum_elevation#">
+				<cfset orig_elev_units = "#lookupLocality.orig_elev_units#">
+				<cfset locality_remarks = "#lookupLocality.locality_remarks#">
+<!--- TODO: Add 
+TOWNSHIP ,
+TOWNSHIP_DIRECTION ,
+RANGE ,
+RANGE_DIRECTION ,
+SECTION ,
+SECTION_PART ,
+DEPTH_UNITS ,
+MIN_DEPTH ,
+MAX_DEPTH ,
+CURATED_FG 
+--->
+			</cfloop>
+		<cfelse> 
+			<cfset clone_from_locality_id = "">
+		</cfif>
 		<cfset higher_geog = "">
 		<cfif isdefined('geog_auth_rec_id') AND len(geog_auth_rec_id) GT 0>
 			<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -238,9 +269,9 @@ Delete an existing collecting event number record.
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
 					<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
 					<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input">
-					<cfif isdefined("cloned_from_locality_id") and len(cloned_from_locality_id) gt 0>
+					<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
 						<input type="hidden" name="locality_id" value="locality_id" />
-						<label class="data-entry-label" for="">Include accepted georeference from <a href="/editLocality.cfm?locality_id=#cloned_from_locality_id#" target="_blank">#cloned_from_locality_id#</a>?</label>
+						<label class="data-entry-label" for="">Include accepted georeference from <a href="/editLocality.cfm?locality_id=#clone_from_locality_id#" target="_blank">#clone_from_locality_id#</a>?</label>
 						Y<input type="radio" name="cloneCoords" value="yes" />
 						<br>
 						N<input type="radio" name="cloneCoords" value="no" checked="checked" />
