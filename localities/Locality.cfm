@@ -51,7 +51,7 @@ limitations under the License.
 				<section class="row">
 					<div class="col-12">
       				<h1 class="h2 mt-3 mb-0 px-4">Edit Locality [#encodeForHtml(locality_id)#]</h1>
-						<div class="border rounded px-2 py-2" arial-labeledby="formheading"
+						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
  			    			<form name="editLocality" id="editLocalityForm">
 								<input type="hidden" id="locality_id" name="locality_id" value="#locality_id#">
 					         <div class="row mx-0">
@@ -90,7 +90,7 @@ limitations under the License.
 				<section class="row">
 					<div class="col-12">
 		      		<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
-						<div class="border rounded px-2 py-2" arial-labeledby="formheading"
+						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
 			     			<form name="createLocality" method="post" action="/localities/Locality.cfm">
          			   	<input type="hidden" name="Action" value="makenewLocality">
 					         <div class="row mx-0">
