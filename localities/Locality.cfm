@@ -120,9 +120,13 @@ limitations under the License.
 					,MAXIMUM_ELEVATION
 					,MINIMUM_ELEVATION
 					,ORIG_ELEV_UNITS
+					,MAX_DEPTH
+					,MIN_DEPTH
+					,DEPTH_UNITS
 					,SPEC_LOCALITY
 					,SOVEREIGN_NATION
 					,LOCALITY_REMARKS
+					,curated_fg
 					,LEGACY_SPEC_LOCALITY_FG )
 				VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextLoc.nextLoc#">,
@@ -142,6 +146,21 @@ limitations under the License.
 					<cfelse>
 						NULL,
 					</cfif>
+					<cfif len(#max_depth#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#max_depth#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#min_depth#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#min_depth#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#depth_units#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#depth_units#">,
+					<cfelse>
+						NULL,
+					</cfif>
 					<cfif len(#SPEC_LOCALITY#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SPEC_LOCALITY#">,
 					<cfelse>
@@ -154,6 +173,11 @@ limitations under the License.
 					</cfif>
 					<cfif len(#LOCALITY_REMARKS#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOCALITY_REMARKS#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#curated_fg#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">,
 					<cfelse>
 						NULL,
 					</cfif>
