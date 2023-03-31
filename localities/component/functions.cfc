@@ -169,11 +169,6 @@ Delete an existing collecting event number record.
 			FROM ctdepth_units 
 			ORDER BY depth_units
 		</cfquery>
-		<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-			SELECT sovereign_nation 
-			FROM ctsovereign_nation
-			ORDER BY sovereign_nation
-		</cfquery>
 		<cfif isdefined('clone_from_locality_id') AND len(clone_from_locality_id) GT 0>
 			<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT geog_auth_rec_id, spec_locality, sovereign_nation, 
@@ -244,16 +239,16 @@ CURATED_FG
 				<div class="col-12">
 					<label class="data-entry-label" for="spec_locality">Specific Locality</label>
 					<cfif NOT isdefined("spec_locality")><cfset spec_locality=""></cfif>
-					<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value= "#encodeForHTML(spec_locality)#" required>
+					<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(spec_locality)#" required>
 				</div>
 				<div class="col-12 col-md-4">
 					<label class="data-entry-label" for="sovereign_nation">Sovereign Nation</label>
-					<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select">
-						<cfloop query="ctSovereignNation">
-							<cfif ctsovereignnation.sovereign_nation is sovereign_nation><cfset selected="selected"></cfif>
-							<option #selected# value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
-						</cfloop>
-					</select>
+					<input type="text" name="sovereign_nation" id="sovereign_nation" class="data-entry-input" value="#encodeforHTML(sovereign_nation)#">
+					<script>
+						$(document).ready(function() {
+							makeSovereignNationAutocomplete("sovereign_nation");
+						});
+					</script>
 				</div>
 				<div class="col-12 col-md-3">
 					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
@@ -290,7 +285,7 @@ CURATED_FG
 					<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
 						<option value=""></option>
 						<cfloop query="ctDepthUnit">
-							<cfif isdefined("origelevunits") AND ctdepthunit.depth_units is depth_units><cfset selected="selected"></cfif>
+							<cfif isdefined("depth_units") AND ctDepthUnit.depth_units is depth_units><cfset selected="selected"></cfif>
 							<option #selected# value="#ctElevUnit.depth_units#">#ctElevUnit.depth_units#</option>
 						</cfloop>
 					</select>

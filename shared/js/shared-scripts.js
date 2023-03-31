@@ -1501,6 +1501,63 @@ function makeSpecLocalitySearchAutocomplete(fieldId) {
 	};
 };
 
+
+/** makeSovereignNationAutocomplete make an input control into a picker for a sovereign_nation field.
+ *  This version of the function uses the value as returned and is intended for 
+ *  intended as a picker for data entry and exact matching.
+ * @param fieldId the id for the input without a leading # selector.
+**/
+function makeSovereignNationAutocomplete(fieldId) { 
+	jQuery("#"+fieldId).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/localities/component/search.cfc",
+				data: { term: request.term, method: 'getSovereignNationAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a sovereign nation autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+fieldId).val(result.item.value);
+		},
+		minLength: 3
+	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		return $("<li>").append( "<span>" + item.value + "</span>").appendTo( ul );
+	};
+};
+
+/** makeSovereignNationSearchAutocomplete make an input control into a picker for a sovereign nation field.
+ *  This version of the function prefixes the selected value with an = for exact match search, and is
+ *  intended as a picker for soveregin nation search fields.
+ * @param fieldId the id for the input without a leading # selector.
+**/
+function makeSovereignNationSearchAutocomplete(fieldId) { 
+	jQuery("#"+fieldId).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/localities/component/search.cfc",
+				data: { term: request.term, method: 'getSovereignNationAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a sovereign nation search autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+fieldId).val("=" + result.item.value);
+		},
+		minLength: 3
+	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		return $("<li>").append( "<span>" + item.value + " " + item.meta +"</span>").appendTo( ul );
+	};
+};
+
 /** makeCountrySearchAutocomplete make an input control into a picker for a country field.
  *  This version of the function prefixes the selected value with an = for exact match search, and is
  *  intended as a picker for country search fields.
@@ -1528,6 +1585,7 @@ function makeCountrySearchAutocomplete(fieldId) {
 		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
 	};
 };
+
 /** makeGeogSearchAutocomplete make an input control into a picker for a geog_auth_rec field of arbitrary rank.
  *  This version of the function prefixes the selected value with an = for exact match search, and is
  *  intended as a picker for higher geography search fields.
