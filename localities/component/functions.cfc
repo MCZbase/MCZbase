@@ -148,6 +148,7 @@ Delete an existing collecting event number record.
 --->
 <cffunction name="getCreateLocalityHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="geog_auth_rec_id" type="string" required="no">
+	<cfargument name="clone_from_locality_id" type="string" required="no">
 	<cfargument name="spec_locality" type="string" required="no">
 	<cfargument name="sovereign_nation" type="string" required="no">
 	<cfargument name="minimum_elevation" type="string" required="no">
@@ -156,8 +157,8 @@ Delete an existing collecting event number record.
 	<cfargument name="min_depth" type="string" required="no">
 	<cfargument name="max_depth" type="string" required="no">
 	<cfargument name="depth_units" type="string" required="no">
+	<cfargument name="curated_fg" type="string" required="no">
 	<cfargument name="locality_remarks" type="string" required="no">
-	<cfargument name="clone_from_locality_id" type="string" required="no">
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="createLocalityFormThread#tn#">
@@ -176,7 +177,7 @@ Delete an existing collecting event number record.
 				SELECT geog_auth_rec_id, spec_locality, sovereign_nation, 
 					minimum_elevation, maximum_elevation, orig_elev_units, 
 					min_depth, max_depth, depth_units,
-					locality_remarks
+					curated_fg, locality_remarks
 				FROM locality
 				WHERE 
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
@@ -191,6 +192,7 @@ Delete an existing collecting event number record.
 				<cfset min_depth = "#lookupLocality.min_depth#">
 				<cfset max_depth = "#lookupLocality.max_depth#">
 				<cfset depth_units = "#lookupLocality.depth_units#">
+				<cfset curated_fg = "#lookupLocality.curated_fg#">
 				<cfset locality_remarks = "#lookupLocality.locality_remarks#">
 <!--- TODO: Add 
 TOWNSHIP ,
@@ -199,7 +201,6 @@ RANGE ,
 RANGE_DIRECTION ,
 SECTION ,
 SECTION_PART ,
-CURATED_FG 
 --->
 			</cfloop>
 		<cfelse> 
@@ -271,6 +272,15 @@ CURATED_FG
 							<cfif isdefined("orig_elev_units") AND ctelevunit.orig_elev_units is orig_elev_units><cfset selected="selected"></cfif>
 							<option #selected# value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
 						</cfloop>
+					</select>
+				</div>
+				<div class="col-12 col-md-2">
+					<label class="data-entry-label" for="curated_fg">Curated</label>
+					<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select">
+						<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"></cfif>
+						<option value="0" #selected#>No</option>
+						<cfif isdefined("curated_fg") AND curated_fg EQ 1 ><cfset selected="selected"></cfif>
+						<option value="1" #selected#>Yes (*)</option>
 					</select>
 				</div>
 				<div class="col-12 col-md-3">
