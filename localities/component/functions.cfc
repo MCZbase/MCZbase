@@ -277,9 +277,9 @@ SECTION_PART ,
 				<div class="col-12 col-md-2">
 					<label class="data-entry-label" for="curated_fg">Curated</label>
 					<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select">
-						<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"></cfif>
+						<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 						<option value="0" #selected#>No</option>
-						<cfif isdefined("curated_fg") AND curated_fg EQ 1 ><cfset selected="selected"></cfif>
+						<cfif isdefined("curated_fg") AND curated_fg EQ 1 ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 						<option value="1" #selected#>Yes (*)</option>
 					</select>
 				</div>
