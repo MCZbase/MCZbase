@@ -1501,6 +1501,44 @@ function makeSpecLocalitySearchAutocomplete(fieldId) {
 	};
 };
 
+/** makeHigherGeogAutocomplete make an input control into a picker for paried higher_geog 
+ *  and geog_auth_rec_id fields.
+ *  This version of the function uses the value as returned and is intended for 
+ *  intended as a picker for data entry and exact matching, and clears both inputs if a value is not selected.
+ * @param nameControl the id for the input for higher_geog that is to become the autocomplete, without a leading # selector.
+ * @param idControl the id for the input holding geog_auth_rec_id without a leading # selector.
+**/
+function makeHigherGeogAutocomplete(nameControl, idControl) { 
+	jQuery("#"+nameControl).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/localities/component/search.cfc",
+				data: { term: request.term, method: 'getHigherGeogAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a higher geography autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+nameControl).val(result.item.value);
+			$('#'+idControl).val(result.item.id);
+		},
+		change: function(event,ui) { 
+			if(!ui.item){
+				// handle a change that isn't a selection from the pick list, clear the id control.
+				$('#'+idControl).val("");
+				// and clear the name control, so that e.g. a search cannot be run on a text substring
+				$('#'+nameControl).val("");
+			}
+		},
+		minLength: 3
+	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		return $("<li>").append( "<span>" + item.value + "</span>").appendTo( ul );
+	};
+};
 
 /** makeSovereignNationAutocomplete make an input control into a picker for a sovereign_nation field.
  *  This version of the function uses the value as returned and is intended for 

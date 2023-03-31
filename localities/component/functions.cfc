@@ -225,19 +225,22 @@ SECTION_PART ,
 				<div class="col-12 col-md-10 mt-0">
 					<input type="hidden" name="geog_auth_rec_id" value = "#geog_auth_rec_id#">
 					<label class="data-entry-label" for="higher_geog">Higher Geography:</label>
-					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input" value = "#encodeForHTML(higher_geog)#" readonly="yes">
-				</div>
-				<div class="col-12 col-md-2 mt-0">
-					<input type="button" value="Pick" class="btn btn-xs btn-secondary" onclick="pickHigherGeography(); return false;">
+					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input reqdClr" value = "#encodeForHTML(higher_geog)#" required>
 					<script>
 						function pickHigherGeography(){
    						<!--- TODO: Set a probably sane value for sovereign_nation from selected higher geography. --->
 						}
+						$(document).ready(function() {
+							makeHigherGeogAutocomplete("higher_geog","geog_auth_rec_id");
+						}
 					</script>
+				</div>
+				<div class="col-12 col-md-2 mt-0">
 					<cfif isdefined("geog_auth_rec_id") and len(geog_auth_rec_id) GT 0>
-						<input type="button" value="Details" class="btn btn-xs btn-info"
-							onclick="document.location='Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
+						<cfset otherClass="disabled">
 					</cfif>
+					<input type="button" value="Details" class="btn btn-xs btn-info #otherClass#"
+						onclick="document.location='Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
 				</div>
 				<div class="col-12">
 					<label class="data-entry-label" for="spec_locality">Specific Locality</label>

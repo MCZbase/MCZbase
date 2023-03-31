@@ -355,6 +355,47 @@ Function getCountryAutocomplete.  Search for country by name with a substring ma
 </cffunction>
 
 <!---
+Function getHigherGeogAutocomplete.  Search for higher geographies by higher_geog with a substring match, returning json suitable for jquery-ui autocomplete.
+
+@param term higher geography to search for.
+@return a json structure containing id and value, with matching higher_geog in value and geog_auth_rec_id in id.
+--->
+<cffunction name="getHigherGeogAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<!--- perform wildcard search anywhere in geog_auth_rec.higher_geog --->
+	<cfset name = "%#term#%"> 
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT 
+				geog_auth_rec_id, higher_geog
+			FROM 
+				geog_auth_rec
+			WHERE
+				upper(higher_geog) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.geog_auth_rec_id#">
+			<cfset row["value"] = "#search.higher_geog#" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+<!---
 Function getGeogAutocomplete.  Search for distinct values of a particular higher geography 
   by name with a substring match on name, returning json suitable for jquery-ui autocomplete.
 
