@@ -232,7 +232,7 @@ SECTION_PART ,
 						}
 						$(document).ready(function() {
 							makeHigherGeogAutocomplete("higher_geog","geog_auth_rec_id");
-						}
+						});
 					</script>
 				</div>
 				<div class="col-12 col-md-2 mt-0">
