@@ -151,6 +151,9 @@ Delete an existing collecting event number record.
 	<cfargument name="minimum_elevation" type="string" required="no">
 	<cfargument name="maximum_elevation" type="string" required="no">
 	<cfargument name="orig_elev_units" type="string" required="no">
+	<cfargument name="min_depth" type="string" required="no">
+	<cfargument name="max_depth" type="string" required="no">
+	<cfargument name="depth_units" type="string" required="no">
 	<cfargument name="locality_remarks" type="string" required="no">
 	<cfargument name="clone_from_locality_id" type="string" required="no">
 
@@ -161,6 +164,11 @@ Delete an existing collecting event number record.
 			FROM ctorig_elev_units 
 			ORDER BY orig_elev_units
 		</cfquery>
+		<cfquery name="ctDepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			SELECT depth_units 
+			FROM ctdepth_units 
+			ORDER BY depth_units
+		</cfquery>
 		<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			SELECT sovereign_nation 
 			FROM ctsovereign_nation
@@ -169,7 +177,9 @@ Delete an existing collecting event number record.
 		<cfif isdefined('clone_from_locality_id') AND len(clone_from_locality_id) GT 0>
 			<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT geog_auth_rec_id, spec_locality, sovereign_nation, 
-					minimum_elevation, maximum_elevation, orig_elev_units, locality_remarks
+					minimum_elevation, maximum_elevation, orig_elev_units, 
+					min_depth, max_depth, depth_units,
+					locality_remarks
 				FROM locality
 				WHERE 
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
@@ -181,6 +191,9 @@ Delete an existing collecting event number record.
 				<cfset minimum_elevation = "#lookupLocality.minimum_elevation#">
 				<cfset maximum_elevation = "#lookupLocality.maximum_elevation#">
 				<cfset orig_elev_units = "#lookupLocality.orig_elev_units#">
+				<cfset min_depth = "#lookupLocality.min_depth#">
+				<cfset max_depth = "#lookupLocality.max_depth#">
+				<cfset depth_units = "#lookupLocality.depth_units#">
 				<cfset locality_remarks = "#lookupLocality.locality_remarks#">
 <!--- TODO: Add 
 TOWNSHIP ,
@@ -189,9 +202,6 @@ RANGE ,
 RANGE_DIRECTION ,
 SECTION ,
 SECTION_PART ,
-DEPTH_UNITS ,
-MIN_DEPTH ,
-MAX_DEPTH ,
 CURATED_FG 
 --->
 			</cfloop>
@@ -220,21 +230,21 @@ CURATED_FG
 					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input" value = "#encodeForHTML(higher_geog)#" readonly="yes">
 				</div>
 				<div class="col-12 col-md-2 mt-0">
-					<input type="button" value="Pick" class="picBtn" onclick="pickHigherGeography(); return false;">
+					<input type="button" value="Pick" class="btn btn-xs btn-secondary" onclick="pickHigherGeography(); return false;">
 					<script>
 						function pickHigherGeography(){
    						<!--- TODO: Set a probably sane value for sovereign_nation from selected higher geography. --->
 						}
 					</script>
-					<cfif isdefined("geog_auth_rec_id")>
-						<input type="button" value="Details" class="lnkBtn"
+					<cfif isdefined("geog_auth_rec_id") and len(geog_auth_rec_id) GT 0>
+						<input type="button" value="Details" class="btn btn-xs btn-info"
 							onclick="document.location='Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
 					</cfif>
 				</div>
 				<div class="col-12">
 					<label class="data-entry-label" for="spec_locality">Specific Locality</label>
 					<cfif NOT isdefined("spec_locality")><cfset spec_locality=""></cfif>
-					<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input" value= "#encodeForHTML(spec_locality)#">
+					<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value= "#encodeForHTML(spec_locality)#" required>
 				</div>
 				<div class="col-12 col-md-4">
 					<label class="data-entry-label" for="sovereign_nation">Sovereign Nation</label>
@@ -245,23 +255,43 @@ CURATED_FG
 						</cfloop>
 					</select>
 				</div>
-				<div class="col-12 col-md-4">
+				<div class="col-12 col-md-3">
 					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
 					<label class="data-entry-label" for="minimum_elevation">Minimum Elevation</label>
 					<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(minimum_elevation)#" >
 				</div>
-				<div class="col-12 col-md-4">
+				<div class="col-12 col-md-3">
 					<cfif NOT isdefined("maximum_elevation")><cfset maximum_elevation=""></cfif>
 					<label class="data-entry-label" for="maximum_elevation">Maximum Elevation</label>
 					<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input" value="#encodeForHTML(maximum_elevation)#" >
 				</div>
-				<div class="col-12 col-md-4">
+				<div class="col-12 col-md-2">
 					<label class="data-entry-label" for="orig_elev_units">Elevation Units</label>
 					<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
 						<option value=""></option>
 						<cfloop query="ctElevUnit">
-							<cfif isdefined("origelevunits") AND ctelevunit.orig_elev_units is origelevunits><cfset selected="selected"></cfif>
+							<cfif isdefined("orig_elev_units") AND ctelevunit.orig_elev_units is orig_elev_units><cfset selected="selected"></cfif>
 							<option #selected# value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
+						</cfloop>
+					</select>
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("min_depth")><cfset min_depth=""></cfif> 
+					<label class="data-entry-label" for="min_depth">Minimum Depth</label>
+					<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(min_depth)#" >
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("max_depth")><cfset max_depth=""></cfif>
+					<label class="data-entry-label" for="max_depth">Maximum Depth</label>
+					<input type="text" name="max_depth" id="max_depth" class="data-entry-input" value="#encodeForHTML(max_depth)#" >
+				</div>
+				<div class="col-12 col-md-2">
+					<label class="data-entry-label" for="depth_units">Depth Units</label>
+					<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
+						<option value=""></option>
+						<cfloop query="ctDepthUnit">
+							<cfif isdefined("origelevunits") AND ctdepthunit.depth_units is depth_units><cfset selected="selected"></cfif>
+							<option #selected# value="#ctElevUnit.depth_units#">#ctElevUnit.depth_units#</option>
 						</cfloop>
 					</select>
 				</div>
