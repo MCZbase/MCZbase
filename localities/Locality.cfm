@@ -34,6 +34,9 @@ limitations under the License.
 	<cfcase value="new">
 		<cfset pageTitle="New Locality">
 	</cfcase>
+	<cfcase value="makenewLocality">
+		<cfset pageTitle="Creating New Locality">
+	</cfcase>
 	<cfdefaultcase>
 		<cfthrow message="Error: Unknown Action">
 	</cfdefaultcase>
