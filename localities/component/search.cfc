@@ -375,6 +375,8 @@ Function getHigherGeogAutocomplete.  Search for higher geographies by higher_geo
 				geog_auth_rec
 			WHERE
 				upper(higher_geog) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+			ORDER BY
+				higher_geog
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
