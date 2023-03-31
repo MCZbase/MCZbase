@@ -82,16 +82,19 @@ limitations under the License.
 			<cfelse>
 				<cfset blockform = getCreateLocalityHtml()>
 			</cfif>
-		   <main id="content">
-      		<h1 class="h2 mt-3 mb-0 px-4">Create New Locality#extra#</h1>
-     			<form name="createLocality" method="post" action="/localities/Locality.cfm">
-            	<input type="hidden" name="Action" value="makenewLocality">
-		         <div class="row mx-0">
-      		      <section class="container-fluid">
-							#blockform#
-						</section>
+		   <main class="container mt-3" id="content">
+				<section class="row">
+					<div class="col-12">
+		      		<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
+						<div class="border rounded px-2 pt-2" arial-labeledby="formheading"
+			     			<form name="createLocality" method="post" action="/localities/Locality.cfm">
+         			   	<input type="hidden" name="Action" value="makenewLocality">
+					         <div class="row mx-0">
+									#blockform#
+								</div>
+							</form>
 					</div>
-				</form>
+				</section>
 			</main>
 		</cfoutput>
 	</cfcase>
