@@ -245,7 +245,7 @@ Delete an existing collecting event number record.
 					<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
 						<option value=""></option>
 						<cfloop query="ctElevUnit">
-							<cfif isdefined("orig_elev_units") AND ctelevunit.orig_elev_units is orig_elev_units><cfset selected="selected"><cfelse><cfset selected=""</cfif>
+							<cfif isdefined("orig_elev_units") AND ctelevunit.orig_elev_units is orig_elev_units><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option #selected# value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
 						</cfloop>
 					</select>
