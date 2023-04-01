@@ -245,7 +245,7 @@ Delete an existing collecting event number record.
 					<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
 						<option value=""></option>
 						<cfloop query="ctElevUnit">
-							<cfif isdefined("orig_elev_units") AND ctelevunit.orig_elev_units is orig_elev_units><cfset selected="selected"></cfif>
+							<cfif isdefined("orig_elev_units") AND ctelevunit.orig_elev_units is orig_elev_units><cfset selected="selected"><cfelse><cfset selected=""</cfif>
 							<option #selected# value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
 						</cfloop>
 					</select>
@@ -274,7 +274,7 @@ Delete an existing collecting event number record.
 					<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
 						<option value=""></option>
 						<cfloop query="ctDepthUnit">
-							<cfif isdefined("depth_units") AND ctDepthUnit.unit is depth_units><cfset selected="selected"></cfif>
+							<cfif isdefined("depth_units") AND ctDepthUnit.unit is depth_units><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option #selected# value="#ctDepthUnit.unit#">#ctDepthUnit.unit#</option>
 						</cfloop>
 					</select>
@@ -500,7 +500,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
 						<option value=""></option>
 						<cfloop query="ctElevUnit">
-							<cfif isdefined("orig_elev_units") AND ctelevunit.orig_elev_units is orig_elev_units><cfset selected="selected"></cfif>
+							<cfif isdefined("orig_elev_units") AND ctelevunit.orig_elev_units is orig_elev_units><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option #selected# value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
 						</cfloop>
 					</select>
@@ -510,7 +510,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select">
 						<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 						<option value="0" #selected#>No</option>
-						<cfif isdefined("curated_fg") AND curated_fg EQ 1 ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<cfif isdefined("curated_fg") AND curated_fg EQ 1 ><cfset selected="selected"><cfelse><cfset selected=""><cfelse><cfset selected=""></cfif>
 						<option value="1" #selected#>Yes (*)</option>
 					</select>
 				</div>
@@ -529,7 +529,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
 						<option value=""></option>
 						<cfloop query="ctDepthUnit">
-							<cfif isdefined("depth_units") AND ctDepthUnit.unit is depth_units><cfset selected="selected"></cfif>
+							<cfif isdefined("depth_units") AND ctDepthUnit.unit is depth_units><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option #selected# value="#ctDepthUnit.unit#">#ctDepthUnit.unit#</option>
 						</cfloop>
 					</select>
