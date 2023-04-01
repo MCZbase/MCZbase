@@ -134,6 +134,7 @@ Delete an existing collecting event number record.
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="editLocalityFormThread#tn#">
+		<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			FROM ctorig_elev_units 
 			ORDER BY orig_elev_units
 		</cfquery>
