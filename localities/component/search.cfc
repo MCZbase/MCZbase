@@ -229,7 +229,7 @@ Function getSovereignNationAutocomplete.  Search for sovereign_nation by name wi
 			SELECT 
 				sovereign_nation
 			FROM 
-				ctsoverign_nation
+				ctsovereign_nation
 			WHERE
 				upper(sovereign_nation) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 			ORDER BY
