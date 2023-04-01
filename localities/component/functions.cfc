@@ -510,7 +510,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select">
 						<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 						<option value="0" #selected#>No</option>
-						<cfif isdefined("curated_fg") AND curated_fg EQ 1 ><cfset selected="selected"><cfelse><cfset selected=""><cfelse><cfset selected=""></cfif>
+						<cfif isdefined("curated_fg") AND curated_fg EQ 1 ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 						<option value="1" #selected#>Yes (*)</option>
 					</select>
 				</div>
