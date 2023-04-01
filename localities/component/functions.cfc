@@ -137,6 +137,7 @@ Delete an existing collecting event number record.
 		<cfoutput>
 			<cftry>
 			<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				SELECT orig_elev_units
 				FROM ctorig_elev_units 
 				ORDER BY orig_elev_units
 			</cfquery>
