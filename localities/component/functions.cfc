@@ -151,6 +151,7 @@ Delete an existing collecting event number record.
 					geog_auth_rec_id, spec_locality, sovereign_nation, 
 					minimum_elevation, maximum_elevation, orig_elev_units, 
 					min_depth, max_depth, depth_units,
+					section_part, section, township, township_direction, range, range_direction,
 					nogeorefbecause, georef_updated_date, georef_by,
 					curated_fg, locality_remarks
 				FROM locality
