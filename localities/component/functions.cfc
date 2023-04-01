@@ -134,36 +134,6 @@ Delete an existing collecting event number record.
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="editLocalityFormThread#tn#">
-		<cfoutput>
-			TODO: Implement
-		</cfoutput>
-	</cfthread>
-	<cfthread action="join" name="editLocalityFormThread#tn#" />
-
-	<cfreturn cfthread["editLocalityFormThread#tn#"].output>
-</cffunction>
-
-<!--- getCreateLocalityHtml returns html for a form to create or clone a locality record 
-
---->
-<cffunction name="getCreateLocalityHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="geog_auth_rec_id" type="string" required="no">
-	<cfargument name="clone_from_locality_id" type="string" required="no">
-	<cfargument name="spec_locality" type="string" required="no">
-	<cfargument name="sovereign_nation" type="string" required="no">
-	<cfargument name="minimum_elevation" type="string" required="no">
-	<cfargument name="maximum_elevation" type="string" required="no">
-	<cfargument name="orig_elev_units" type="string" required="no">
-	<cfargument name="min_depth" type="string" required="no">
-	<cfargument name="max_depth" type="string" required="no">
-	<cfargument name="depth_units" type="string" required="no">
-	<cfargument name="curated_fg" type="string" required="no">
-	<cfargument name="locality_remarks" type="string" required="no">
-
-	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-	<cfthread name="createLocalityFormThread#tn#">
-		<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-			SELECT orig_elev_units 
 			FROM ctorig_elev_units 
 			ORDER BY orig_elev_units
 		</cfquery>
@@ -172,56 +142,53 @@ Delete an existing collecting event number record.
 			FROM ctdepth_units 
 			ORDER BY depth_units
 		</cfquery>
-		<cfif isdefined('clone_from_locality_id') AND len(clone_from_locality_id) GT 0>
-			<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT geog_auth_rec_id, spec_locality, sovereign_nation, 
-					minimum_elevation, maximum_elevation, orig_elev_units, 
-					min_depth, max_depth, depth_units,
-					curated_fg, locality_remarks
-				FROM locality
-				WHERE 
-					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-			</cfquery>
-			<cfloop query="lookupLocality">
-				<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
-				<cfset spec_locality = "#lookupLocality.spec_locality#">
-				<cfset sovereign_nation = "#lookupLocality.sovereign_nation#">
-				<cfset minimum_elevation = "#lookupLocality.minimum_elevation#">
-				<cfset maximum_elevation = "#lookupLocality.maximum_elevation#">
-				<cfset orig_elev_units = "#lookupLocality.orig_elev_units#">
-				<cfset min_depth = "#lookupLocality.min_depth#">
-				<cfset max_depth = "#lookupLocality.max_depth#">
-				<cfset depth_units = "#lookupLocality.depth_units#">
-				<cfset curated_fg = "#lookupLocality.curated_fg#">
-				<cfset locality_remarks = "#lookupLocality.locality_remarks#">
-<!--- TODO: Add 
-TOWNSHIP ,
-TOWNSHIP_DIRECTION ,
-RANGE ,
-RANGE_DIRECTION ,
-SECTION ,
-SECTION_PART ,
---->
-			</cfloop>
-		<cfelse> 
-			<cfset clone_from_locality_id = "">
+		<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT 
+				geog_auth_rec_id, spec_locality, sovereign_nation, 
+				minimum_elevation, maximum_elevation, orig_elev_units, 
+				min_depth, max_depth, depth_units,
+				nogeorefbecause, georef_updated_date, georef_by,
+				curated_fg, locality_remarks
+			FROM locality
+			WHERE 
+				locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+		</cfquery>
+		<cfif lookupLocality.recordcount NEQ 1>
+			<cfthrow message="Found other than one locality with specified locality_id [#encodeForHtml(locality_id)#]">
 		</cfif>
-		<cfset higher_geog = "">
-		<cfif isdefined('geog_auth_rec_id') AND len(geog_auth_rec_id) GT 0>
-			<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT higher_geog
-				FROM geog_auth_rec
-				WHERE 
-					geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
-			</cfquery>
-			<cfloop query="lookupHigherGeog">
-				<cfset higher_geog = "#lookupHigherGeog.higher_geog#">
-			</cfloop>
-		<cfelse> 
-			<cfset geog_auth_rec_id = "">
-		</cfif>
+		<cfloop query="lookupLocality">
+			<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
+			<cfset spec_locality = "#lookupLocality.spec_locality#">
+			<cfset sovereign_nation = "#lookupLocality.sovereign_nation#">
+			<cfset minimum_elevation = "#lookupLocality.minimum_elevation#">
+			<cfset maximum_elevation = "#lookupLocality.maximum_elevation#">
+			<cfset orig_elev_units = "#lookupLocality.orig_elev_units#">
+			<cfset min_depth = "#lookupLocality.min_depth#">
+			<cfset max_depth = "#lookupLocality.max_depth#">
+			<cfset section_part = "#lookupLocality.section_part#">
+			<cfset section = "#lookupLocality.section#">
+			<cfset township = "#lookupLocality.township#">
+			<cfset township_direction = "#lookupLocality.township_direction#">
+			<cfset range = "#lookupLocality.range#">
+			<cfset range_direction = "#lookupLocality.range_direction#">
+			<cfset depth_units = "#lookupLocality.depth_units#">
+			<cfset nogeorefbecause = "#lookupLocality.nogeorefbecause#">
+			<cfset georef_by = "#lookupLocality.georef_by#">
+			<cfset georef_updated_date = "#lookupLocality.georef_updated_date#">
+			<cfset curated_fg = "#lookupLocality.curated_fg#">
+			<cfset locality_remarks = "#lookupLocality.locality_remarks#">
+		</cfloop>
+		<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT higher_geog
+			FROM geog_auth_rec
+			WHERE 
+				geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+		</cfquery>
+		<cfloop query="lookupHigherGeog">
+			<cfset higher_geog = "#lookupHigherGeog.higher_geog#">
+		</cfloop>
 		<cfoutput>
-			<div class="row mx-0 mb-0">
+			<div class="form-row mx-0 mb-0">
 				<div class="col-12 col-md-10 mt-0">
 					<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#geog_auth_rec_id#">
 					<label class="data-entry-label" for="higher_geog">Higher Geography:</label>
@@ -236,11 +203,12 @@ SECTION_PART ,
 					</script>
 				</div>
 				<div class="col-12 col-md-2 mt-0">
+					<label class="data-entry-label" for="details_button">Higher Geography</label>
 					<cfset otherClass="">
 					<cfif isdefined("geog_auth_rec_id") and len(geog_auth_rec_id) GT 0>
 						<cfset otherClass="disabled">
 					</cfif>
-					<input type="button" value="Details" class="btn btn-xs btn-info #otherClass#"
+					<input type="button" value="Details" id="details_button" class="btn btn-xs btn-info #otherClass#"
 						onclick="document.location='Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
 				</div>
 				<div class="col-12">
@@ -307,6 +275,36 @@ SECTION_PART ,
 						</cfloop>
 					</select>
 				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
+					<label class="data-entry-label" for="section_part">Section Part</label>
+					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" >
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("section")><cfset section=""></cfif>
+					<label class="data-entry-label" for="section">Section</label>
+					<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHTML(section)#" >
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("township")><cfset township=""></cfif>
+					<label class="data-entry-label" for="township">Township</label>
+					<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHTML(township)#" >
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("township_direction")><cfset township_direction=""></cfif>
+					<label class="data-entry-label" for="township_direction">Township Direction</label>
+					<input type="text" name="township_direction" id="township_direction" class="data-entry-input" value="#encodeForHTML(township_direction)#" >
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("range")><cfset range=""></cfif>
+					<label class="data-entry-label" for="range">Range</label>
+					<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHTML(range)#" >
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("range_direction")><cfset range_direction=""></cfif>
+					<label class="data-entry-label" for="range_direction">Range Direction</label>
+					<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
+				</div>
 				<div class="col-12">
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
 					<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
@@ -319,7 +317,259 @@ SECTION_PART ,
 						N<input type="radio" name="cloneCoords" value="no" checked="checked" />
 		 			</cfif>
 				</div>
+				<div class="col-12 mt-1">
+					<input type="button" value="Save" class="btn btn-xs btn-primary">
+				</div>
+			</div>
+
+			<!--- TODO: Implement ajax save --->
+			<script>
+
+			</script>
+
+			
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="editLocalityFormThread#tn#" />
+
+	<cfreturn cfthread["editLocalityFormThread#tn#"].output>
+</cffunction>
+
+<!--- getCreateLocalityHtml returns html for a set of form inputs to create or clone a locality record, optionally with
+higher geography specified, optionally cloning from an existing locality, optionally with field values specified.
+Does not provide the enclosing form.  Expected context provided by calling page:
+
+<cfset blockform = getCreateLocalityHtml()>
+<main class="container mt-3" id="content">
+	<section class="row">
+		<div class="col-12">
+     		<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
+			<div class="border rounded px-2 py-2" arial-labeledby="formheading">
+     			<form name="createLocality" method="post" action="/localities/Locality.cfm">
+  			   	<input type="hidden" name="Action" value="makenewLocality">
+					#blockform#
+				</form>
+			</div>
+		</div>
+	</section>
+</main>
+
+@param clone_from_locality_id if specified and a matching locality is found, copy the fields 
+  from the specified locality into the form and ignore any other specified values.
+@param geog_auth_rec_id if specified, populate the higher geography fields in the form with this
+  higher geography, use to link a create a locality form from a higher geography.
+@return html block for the content of a create locality form.
+--->
+<cffunction name="getCreateLocalityHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="clone_from_locality_id" type="string" required="no">
+	<cfargument name="geog_auth_rec_id" type="string" required="no">
+	<cfargument name="spec_locality" type="string" required="no">
+	<cfargument name="sovereign_nation" type="string" required="no">
+	<cfargument name="minimum_elevation" type="string" required="no">
+	<cfargument name="maximum_elevation" type="string" required="no">
+	<cfargument name="orig_elev_units" type="string" required="no">
+	<cfargument name="min_depth" type="string" required="no">
+	<cfargument name="max_depth" type="string" required="no">
+	<cfargument name="section_part" type="string" required="no">
+	<cfargument name="section" type="string" required="no">
+	<cfargument name="township" type="string" required="no">
+	<cfargument name="township_direction" type="string" required="no">
+	<cfargument name="range" type="string" required="no">
+	<cfargument name="range_direction" type="string" required="no">
+	<cfargument name="depth_units" type="string" required="no">
+	<cfargument name="curated_fg" type="string" required="no">
+	<cfargument name="locality_remarks" type="string" required="no">
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="createLocalityFormThread#tn#">
+		<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			SELECT orig_elev_units 
+			FROM ctorig_elev_units 
+			ORDER BY orig_elev_units
+		</cfquery>
+		<cfquery name="ctDepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+			SELECT depth_units as unit
+			FROM ctdepth_units 
+			ORDER BY depth_units
+		</cfquery>
+		<cfif isdefined('clone_from_locality_id') AND len(clone_from_locality_id) GT 0>
+			<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT geog_auth_rec_id, spec_locality, sovereign_nation, 
+					minimum_elevation, maximum_elevation, orig_elev_units, 
+					min_depth, max_depth, depth_units,
+					curated_fg, locality_remarks
+				FROM locality
+				WHERE 
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
+			<!--- by design, overwrite any other provided value --->
+			<cfloop query="lookupLocality">
+				<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
+				<cfset spec_locality = "#lookupLocality.spec_locality#">
+				<cfset sovereign_nation = "#lookupLocality.sovereign_nation#">
+				<cfset minimum_elevation = "#lookupLocality.minimum_elevation#">
+				<cfset maximum_elevation = "#lookupLocality.maximum_elevation#">
+				<cfset orig_elev_units = "#lookupLocality.orig_elev_units#">
+				<cfset min_depth = "#lookupLocality.min_depth#">
+				<cfset max_depth = "#lookupLocality.max_depth#">
+				<cfset section_part = "#lookupLocality.section_part#">
+				<cfset section = "#lookupLocality.section#">
+				<cfset township = "#lookupLocality.township#">
+				<cfset township_direction = "#lookupLocality.township_direction#">
+				<cfset range = "#lookupLocality.range#">
+				<cfset range_direction = "#lookupLocality.range_direction#">
+				<cfset depth_units = "#lookupLocality.depth_units#">
+				<cfset curated_fg = "#lookupLocality.curated_fg#">
+				<cfset locality_remarks = "#lookupLocality.locality_remarks#">
+			</cfloop>
+		<cfelse> 
+			<cfset clone_from_locality_id = "">
+		</cfif>
+		<cfset higher_geog = "">
+		<cfif isdefined('geog_auth_rec_id') AND len(geog_auth_rec_id) GT 0>
+			<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT higher_geog
+				FROM geog_auth_rec
+				WHERE 
+					geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+			</cfquery>
+			<cfloop query="lookupHigherGeog">
+				<cfset higher_geog = "#lookupHigherGeog.higher_geog#">
+			</cfloop>
+		<cfelse> 
+			<cfset geog_auth_rec_id = "">
+		</cfif>
+		<cfoutput>
+			<div class="form-row mx-0 mb-0">
+				<div class="col-12 col-md-10 mt-0">
+					<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#geog_auth_rec_id#">
+					<label class="data-entry-label" for="higher_geog">Higher Geography:</label>
+					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input reqdClr" value = "#encodeForHTML(higher_geog)#" required>
+					<script>
+						function pickHigherGeography(){
+   						<!--- TODO: Set a probably sane value for sovereign_nation from selected higher geography. --->
+						}
+						$(document).ready(function() {
+							makeHigherGeogAutocomplete("higher_geog","geog_auth_rec_id");
+						});
+					</script>
+				</div>
+				<div class="col-12 col-md-2 mt-0">
+					<label class="data-entry-label" for="details_button">Higher Geography</label>
+					<cfset otherClass="">
+					<cfif isdefined("geog_auth_rec_id") and len(geog_auth_rec_id) GT 0>
+						<cfset otherClass="disabled">
+					</cfif>
+					<input type="button" value="Details" id="details_button" class="btn btn-xs btn-info #otherClass#"
+						onclick="document.location='Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
+				</div>
 				<div class="col-12">
+					<label class="data-entry-label" for="spec_locality">Specific Locality</label>
+					<cfif NOT isdefined("spec_locality")><cfset spec_locality=""></cfif>
+					<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(spec_locality)#" required>
+				</div>
+				<div class="col-12 col-md-4">
+					<cfif NOT isdefined("sovereign_nation")><cfset sovereign_nation=""></cfif>
+					<label class="data-entry-label" for="sovereign_nation">Sovereign Nation</label>
+					<input type="text" name="sovereign_nation" id="sovereign_nation" class="data-entry-input" value="#encodeforHTML(sovereign_nation)#">
+					<script>
+						$(document).ready(function() {
+							makeSovereignNationAutocomplete("sovereign_nation");
+						});
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
+					<label class="data-entry-label" for="minimum_elevation">Minimum Elevation</label>
+					<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(minimum_elevation)#" >
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("maximum_elevation")><cfset maximum_elevation=""></cfif>
+					<label class="data-entry-label" for="maximum_elevation">Maximum Elevation</label>
+					<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input" value="#encodeForHTML(maximum_elevation)#" >
+				</div>
+				<div class="col-12 col-md-2">
+					<label class="data-entry-label" for="orig_elev_units">Elevation Units</label>
+					<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
+						<option value=""></option>
+						<cfloop query="ctElevUnit">
+							<cfif isdefined("orig_elev_units") AND ctelevunit.orig_elev_units is orig_elev_units><cfset selected="selected"></cfif>
+							<option #selected# value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
+						</cfloop>
+					</select>
+				</div>
+				<div class="col-12 col-md-2">
+					<label class="data-entry-label" for="curated_fg">Curated</label>
+					<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select">
+						<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<option value="0" #selected#>No</option>
+						<cfif isdefined("curated_fg") AND curated_fg EQ 1 ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<option value="1" #selected#>Yes (*)</option>
+					</select>
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("min_depth")><cfset min_depth=""></cfif> 
+					<label class="data-entry-label" for="min_depth">Minimum Depth</label>
+					<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(min_depth)#" >
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("max_depth")><cfset max_depth=""></cfif>
+					<label class="data-entry-label" for="max_depth">Maximum Depth</label>
+					<input type="text" name="max_depth" id="max_depth" class="data-entry-input" value="#encodeForHTML(max_depth)#" >
+				</div>
+				<div class="col-12 col-md-2">
+					<label class="data-entry-label" for="depth_units">Depth Units</label>
+					<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
+						<option value=""></option>
+						<cfloop query="ctDepthUnit">
+							<cfif isdefined("depth_units") AND ctDepthUnit.unit is depth_units><cfset selected="selected"></cfif>
+							<option #selected# value="#ctDepthUnit.unit#">#ctDepthUnit.unit#</option>
+						</cfloop>
+					</select>
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
+					<label class="data-entry-label" for="section_part">Section Part</label>
+					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" >
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("section")><cfset section=""></cfif>
+					<label class="data-entry-label" for="section">Section</label>
+					<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHTML(section)#" >
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("township")><cfset township=""></cfif>
+					<label class="data-entry-label" for="township">Township</label>
+					<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHTML(township)#" >
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("township_direction")><cfset township_direction=""></cfif>
+					<label class="data-entry-label" for="township_direction">Township Direction</label>
+					<input type="text" name="township_direction" id="township_direction" class="data-entry-input" value="#encodeForHTML(township_direction)#" >
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("range")><cfset range=""></cfif>
+					<label class="data-entry-label" for="range">Range</label>
+					<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHTML(range)#" >
+				</div>
+				<div class="col-12 col-md-3">
+					<cfif NOT isdefined("range_direction")><cfset range_direction=""></cfif>
+					<label class="data-entry-label" for="range_direction">Range Direction</label>
+					<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
+				</div>
+				<div class="col-12">
+					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
+					<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
+					<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input">
+					<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
+						<input type="hidden" name="locality_id" value="locality_id" />
+						<label class="data-entry-label" for="">Include accepted georeference from <a href="/editLocality.cfm?locality_id=#clone_from_locality_id#" target="_blank">#clone_from_locality_id#</a>?</label>
+						Y<input type="radio" name="cloneCoords" value="yes" />
+						<br>
+						N<input type="radio" name="cloneCoords" value="no" checked="checked" />
+		 			</cfif>
+				</div>
+				<div class="col-12 mt-1">
 					<input type="submit" value="Save" class="btn btn-xs btn-primary">
 				</div>
 			</div>

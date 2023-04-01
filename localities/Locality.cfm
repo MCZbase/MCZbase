@@ -57,10 +57,8 @@ limitations under the License.
 						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
  			    			<form name="editLocality" id="editLocalityForm">
 								<input type="hidden" id="locality_id" name="locality_id" value="#locality_id#">
-					         <div class="row mx-0">
-									<cfset blockEditorm = getEditLocalityHtml(locality_id = "#locality_id#", form="editLocalityForm")>
-									#blockEditForm#
-								</div>
+								<cfset blockEditorm = getEditLocalityHtml(locality_id = "#locality_id#", form="editLocalityForm")>
+								#blockEditForm#
 							</form>
 						</div>
 					</div>
@@ -96,10 +94,9 @@ limitations under the License.
 						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
 			     			<form name="createLocality" method="post" action="/localities/Locality.cfm">
          			   	<input type="hidden" name="Action" value="makenewLocality">
-					         <div class="row mx-0">
-									#blockform#
-								</div>
+								#blockform#
 							</form>
+						</div>
 					</div>
 				</section>
 			</main>
