@@ -125,70 +125,70 @@ Delete an existing collecting event number record.
 
 <!--- getEditLocalityHtml returns html for a form to edit an existing locality record 
 
-@param locality_id the primary key value for the locality to edit.
-@param form the id in the dom for the form that encloses the inputs returned from this function.
---->
-<cffunction name="getEditLocalityHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="locality_id" type="string" required="yes">
-	<cfargument name="form" type="string" required="yes">
-
-	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-	<cfthread name="editLocalityFormThread#tn#">
-		<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-			FROM ctorig_elev_units 
-			ORDER BY orig_elev_units
-		</cfquery>
-		<cfquery name="ctDepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-			SELECT depth_units as unit
-			FROM ctdepth_units 
-			ORDER BY depth_units
-		</cfquery>
-		<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT 
-				geog_auth_rec_id, spec_locality, sovereign_nation, 
-				minimum_elevation, maximum_elevation, orig_elev_units, 
-				min_depth, max_depth, depth_units,
-				nogeorefbecause, georef_updated_date, georef_by,
-				curated_fg, locality_remarks
-			FROM locality
-			WHERE 
-				locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-		</cfquery>
-		<cfif lookupLocality.recordcount NEQ 1>
-			<cfthrow message="Found other than one locality with specified locality_id [#encodeForHtml(locality_id)#]">
-		</cfif>
-		<cfloop query="lookupLocality">
-			<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
-			<cfset spec_locality = "#lookupLocality.spec_locality#">
-			<cfset sovereign_nation = "#lookupLocality.sovereign_nation#">
-			<cfset minimum_elevation = "#lookupLocality.minimum_elevation#">
-			<cfset maximum_elevation = "#lookupLocality.maximum_elevation#">
-			<cfset orig_elev_units = "#lookupLocality.orig_elev_units#">
-			<cfset min_depth = "#lookupLocality.min_depth#">
-			<cfset max_depth = "#lookupLocality.max_depth#">
-			<cfset section_part = "#lookupLocality.section_part#">
-			<cfset section = "#lookupLocality.section#">
-			<cfset township = "#lookupLocality.township#">
-			<cfset township_direction = "#lookupLocality.township_direction#">
-			<cfset range = "#lookupLocality.range#">
-			<cfset range_direction = "#lookupLocality.range_direction#">
-			<cfset depth_units = "#lookupLocality.depth_units#">
-			<cfset nogeorefbecause = "#lookupLocality.nogeorefbecause#">
-			<cfset georef_by = "#lookupLocality.georef_by#">
-			<cfset georef_updated_date = "#lookupLocality.georef_updated_date#">
-			<cfset curated_fg = "#lookupLocality.curated_fg#">
-			<cfset locality_remarks = "#lookupLocality.locality_remarks#">
-		</cfloop>
-		<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT higher_geog
-			FROM geog_auth_rec
-			WHERE 
-				geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
-		</cfquery>
-		<cfloop query="lookupHigherGeog">
-			<cfset higher_geog = "#lookupHigherGeog.higher_geog#">
-		</cfloop>
-		<cfoutput>
+	@param locality_id the primary key value for the locality to edit.
+	@param form the id in the dom for the form that encloses the inputs returned from this function.
+	--->
+	<cffunction name="getEditLocalityHtml" returntype="string" access="remote" returnformat="plain">
+		<cfargument name="locality_id" type="string" required="yes">
+		<cfargument name="form" type="string" required="yes">
+	
+		<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+		<cfthread name="editLocalityFormThread#tn#">
+			<cfoutput>
+			<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				FROM ctorig_elev_units 
+				ORDER BY orig_elev_units
+			</cfquery>
+			<cfquery name="ctDepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				SELECT depth_units as unit
+				FROM ctdepth_units 
+				ORDER BY depth_units
+			</cfquery>
+			<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					geog_auth_rec_id, spec_locality, sovereign_nation, 
+					minimum_elevation, maximum_elevation, orig_elev_units, 
+					min_depth, max_depth, depth_units,
+					nogeorefbecause, georef_updated_date, georef_by,
+					curated_fg, locality_remarks
+				FROM locality
+				WHERE 
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
+			<cfif lookupLocality.recordcount NEQ 1>
+				<cfthrow message="Found other than one locality with specified locality_id [#encodeForHtml(locality_id)#]">
+			</cfif>
+			<cfloop query="lookupLocality">
+				<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
+				<cfset spec_locality = "#lookupLocality.spec_locality#">
+				<cfset sovereign_nation = "#lookupLocality.sovereign_nation#">
+				<cfset minimum_elevation = "#lookupLocality.minimum_elevation#">
+				<cfset maximum_elevation = "#lookupLocality.maximum_elevation#">
+				<cfset orig_elev_units = "#lookupLocality.orig_elev_units#">
+				<cfset min_depth = "#lookupLocality.min_depth#">
+				<cfset max_depth = "#lookupLocality.max_depth#">
+				<cfset section_part = "#lookupLocality.section_part#">
+				<cfset section = "#lookupLocality.section#">
+				<cfset township = "#lookupLocality.township#">
+				<cfset township_direction = "#lookupLocality.township_direction#">
+				<cfset range = "#lookupLocality.range#">
+				<cfset range_direction = "#lookupLocality.range_direction#">
+				<cfset depth_units = "#lookupLocality.depth_units#">
+				<cfset nogeorefbecause = "#lookupLocality.nogeorefbecause#">
+				<cfset georef_by = "#lookupLocality.georef_by#">
+				<cfset georef_updated_date = "#lookupLocality.georef_updated_date#">
+				<cfset curated_fg = "#lookupLocality.curated_fg#">
+				<cfset locality_remarks = "#lookupLocality.locality_remarks#">
+			</cfloop>
+			<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT higher_geog
+				FROM geog_auth_rec
+				WHERE 
+					geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+			</cfquery>
+			<cfloop query="lookupHigherGeog">
+				<cfset higher_geog = "#lookupHigherGeog.higher_geog#">
+			</cfloop>
 			<div class="form-row mx-0 mb-0">
 				<div class="col-12 col-md-10 mt-0">
 					<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#geog_auth_rec_id#">
@@ -196,7 +196,7 @@ Delete an existing collecting event number record.
 					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input reqdClr" value = "#encodeForHTML(higher_geog)#" required>
 					<script>
 						function pickHigherGeography(){
-   						<!--- TODO: Set a probably sane value for sovereign_nation from selected higher geography. --->
+							<!--- TODO: Set a probably sane value for sovereign_nation from selected higher geography. --->
 						}
 						$(document).ready(function() {
 							makeHigherGeogAutocomplete("higher_geog","geog_auth_rec_id");
