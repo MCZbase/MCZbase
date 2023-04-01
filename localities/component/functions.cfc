@@ -125,16 +125,17 @@ Delete an existing collecting event number record.
 
 <!--- getEditLocalityHtml returns html for a form to edit an existing locality record 
 
-	@param locality_id the primary key value for the locality to edit.
-	@param form the id in the dom for the form that encloses the inputs returned from this function.
-	--->
-	<cffunction name="getEditLocalityHtml" returntype="string" access="remote" returnformat="plain">
-		<cfargument name="locality_id" type="string" required="yes">
-		<cfargument name="form" type="string" required="yes">
+@param locality_id the primary key value for the locality to edit.
+@param form the id in the dom for the form that encloses the inputs returned from this function.
+--->
+<cffunction name="getEditLocalityHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="form" type="string" required="yes">
 	
-		<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-		<cfthread name="editLocalityFormThread#tn#">
-			<cfoutput>
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="editLocalityFormThread#tn#">
+		<cfoutput>
+			<cftry>
 			<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 				FROM ctorig_elev_units 
 				ORDER BY orig_elev_units
@@ -328,7 +329,10 @@ Delete an existing collecting event number record.
 
 			</script>
 
-			
+			<cfcatch>
+				<cfdump var="#cfcatch#">
+			</cfcatch>
+			</cftry>
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="editLocalityFormThread#tn#" />
