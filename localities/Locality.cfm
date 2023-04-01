@@ -57,7 +57,7 @@ limitations under the License.
 						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
  			    			<form name="editLocality" id="editLocalityForm">
 								<input type="hidden" id="locality_id" name="locality_id" value="#locality_id#">
-								<cfset blockEditorm = getEditLocalityHtml(locality_id = "#locality_id#", form="editLocalityForm")>
+								<cfset blockEditForm = getEditLocalityHtml(locality_id = "#locality_id#", form="editLocalityForm")>
 								#blockEditForm#
 							</form>
 						</div>
@@ -123,6 +123,15 @@ limitations under the License.
 					,SPEC_LOCALITY
 					,SOVEREIGN_NATION
 					,LOCALITY_REMARKS
+					,section_part
+					,section
+					,township
+					,township_direction
+					,range,
+					,range_direction
+					,nogeorefbecause
+					,georef_updated_date
+					,georef_by
 					,curated_fg
 					,LEGACY_SPEC_LOCALITY_FG )
 				VALUES (
@@ -170,6 +179,51 @@ limitations under the License.
 					</cfif>
 					<cfif len(#LOCALITY_REMARKS#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOCALITY_REMARKS#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#section_part#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#section_part#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#section#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#section#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#township#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#township#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#township_direction#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#township_direction#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#range#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#range#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#range_direction#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#range_direction#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#nogeorefbecause#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nogeorefbecause#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#georef_updated_date#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DATE" value="#georef_updated_date#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#georef_by#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#georef_by#">,
 					<cfelse>
 						NULL,
 					</cfif>
