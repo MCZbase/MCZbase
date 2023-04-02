@@ -18,8 +18,8 @@
 				<cfinput type="file" name="FiletoUpload" id="fileToUpload" size="45" >
 				<label for="cSet">Character Set:</label> 
 				<select name="cSet" id="cSet" required class="reqdClr">
-					<option></option>
-					<option value="utf-8" selected>utf-8</option>
+					<option selected></option>
+					<option value="utf-8" >utf-8</option>
 					<option value="windows-1252">windows-1252</option>
 					<option value="MacRoman">MacRoman</option>
 					<option value="utf-16">utf-16</option>
@@ -72,7 +72,7 @@
 							</cfquery>
 							<cfset loadedRows = loadedRows + insert_result.recordcount>
 						<cfcatch>
-							<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
+							<cfthrow message="Error inserting data from line #row# in input file. Error: #cfcatch.message#  Row:[#colVals#] ">
 						</cfcatch>
 						</cftry>
 					</cfif>
