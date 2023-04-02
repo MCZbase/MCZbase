@@ -104,7 +104,7 @@
 					<h3 class="h3">Error: Failed to load data from the CSV file.</h3>
 					<div>#cfcatch.message#</div>
 					<h3 class="h3">Resolve the issue in your CSV file and <a href="/Bulkloader/BulkloadSpecimens.cfm">Upload Again</a>.</h3>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+					<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") AND isDefined("debug")>
 						<cfdump var="#cfcatch#">
 					</cfif>
 				</cfcatch>
