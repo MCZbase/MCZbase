@@ -64,7 +64,7 @@
 							<cfset colNameArray = listToArray(ucase(colNames))><!--- the list of columns/fields found in the input file --->
 							<h3 class="h4">Found #arrayLen(colNameArray)# columns in header of csv file.</h3>
 							<ul class="list-group-horizontal flex-wrap">
-								<cfloop list="colNames" item="colName">
+								<cfloop list="colNames" index="colName">
 									<li>#colName#</li>
 								</cfloop>
 							</ul>
