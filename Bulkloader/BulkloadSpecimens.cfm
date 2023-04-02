@@ -1,3 +1,17 @@
+<!--- special case handling to dump problem data as csv --->
+<cfif isDefined("action") AND action is "dumpProblems">
+	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT *
+		FROM bulkloader_stage
+	</cfquery>
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset csv = queryToCSV(getProblemData)>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfoutput>#csv#</cfoutput>
+	<cfabort>
+</cfif>
+<!--- end special case dump of problems --->
+
 <cfset pageTitle="Bulkload Specimens">
 <cfinclude template="/shared/_header.cfm">
 
@@ -226,14 +240,15 @@
 					<h1 class="h2">Problems Found Checking Staged Records.  Reload Recommended.</h1>
 					<h2 class="h3">#anyBads.cnt# of #allData.cnt# records will not successfully load into MCZbase.</h2>
 					<div>
-						Click <a href="bulkloader.txt" target="_blank">here</a>
-						to retrieve all data including error messages. Fix them up and then <a href="/Bulkloader/BulkloadSpecimens.cfm">reload</a> them.
+						Download your data with error messages added as a <a href="/Bulkloader/bulkloader.txt" target="_blank">tab delimited</a> 
+						or <a href="/Bulkloader/BulkloadSpecimens?action=dumpProblems">CSV</a> file. 
+						Fix issues in the data and then <a href="/Bulkloader/BulkloadSpecimens.cfm">reload</a>.
 						This method is strongly preferred.
 					</div>
 					<div><strong>Or</strong></div>
 					<div>
 						Click <a href="bulkloaderLoader.cfm?action=loadAnyway">here</a> to load them to the
-						bulkloader anyway. Use The Bulkloader Browse and Edit tools to fix them up and load them.
+						bulkloader anyway. Use The Bulkloader Browse and Edit tools to fix issues and load them.
 					</div>
 				<cfelse>
 					<cftransaction>
