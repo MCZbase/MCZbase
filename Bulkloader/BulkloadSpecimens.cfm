@@ -131,7 +131,7 @@
 					</cfloop>
 					<h3 class="h3">
 						Successfully loaded #loadedRows# records from the CSV file into the staging table.  
-						Next <a href="/Bulkloaders/BulkloadSpecimens.cfm?action=validate" target="_self">click to validate or load</a>.
+						Next <a href="/Bulkloader/BulkloadSpecimens.cfm?action=validate" target="_self">click to validate or load</a>.
 					</h3>
 				<cfcatch>
 					<h3 class="h3">Error: Failed to load data from the CSV file.</h3>
