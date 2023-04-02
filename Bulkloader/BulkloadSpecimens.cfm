@@ -82,7 +82,7 @@
 								<cfset rowArray = listToArray(colVals)>
 								<cfset badRow = "">
 								<cfset separator="">
-								<cfloop array="#colNameArray#" index="i">
+								<cfloop index="i" from="1" to="#ArrayLen(colNameArray)#">
 									<cfif find(cause,colNameArray[i]) GT 0>
 										<cfset badRow = "#badRow##separator#<strong>#colNameArray[i]#:#rowArray[i]#</strong>"><!--- " --->
 									<cfelse>
