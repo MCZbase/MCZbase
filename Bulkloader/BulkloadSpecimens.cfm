@@ -186,29 +186,27 @@
 					They have not been checked or processed yet. You aren&apos;t done here!  Next: 
 				</div>
 
-				<ul class="">
-					<li>
-						<a href="BulkloadSpecimens.cfm?action=checkStaged" target="_self">Check and load these records</a>.
-						If no errors are found, the data will be moved from Staging to the Bulkloader.  If errors are found, 
-						you can download the staged data with error messages, fix the errors, and reload your data.  
-						This may be a slow iterative process, but following it will allow you to fix problems in the data with
-						whatever tools you desire in your csv file and then re-load your data until no errors are found.  
-						Email a DBA if you wish to check your records at this stage but the process times out. We can schedule
-						the process, allowing it to take as long as necessary to complete, and notify you when it&apos;s done.
-						This method is strongly preferred.
-					</li>
-					<li><strong>Or</strong></li>
-					<li>
-						<a href="BulkloadSpecimens.cfm?action=loadAnyway" target="_self">Just load these records</a>.
-						Use this method if you wish to use MCZbase&apos;s tools to fix any errors. Everything will go to the normal
-						Bulkloader tables and be available via <a href="/Bulkloader/browseBulk.cfm">the Browse Bulk app</a>.
-						Once in the bulkloader, records need to have problems fixed with the bulkloader tools, you can&apos;t easily
-						remove records from the bulkloader and upload an externally cleaned spreadsheet as you can with Staging.
-						You need a thorough understanding of MCZbase&apos;s bulkloader tools and great confidence in your data
-						to use this application.  Misuse, particularly of the bulk update tool, can result in 
-						a mess in the Bulkloader, which may require sorting out record by record in the bulkloader.
-					</li>
-				</ul>
+				<div>
+					<a href="BulkloadSpecimens.cfm?action=checkStaged" target="_self">Check and load these records</a>.
+					If no errors are found, the data will be moved from Staging to the Bulkloader.  If errors are found, 
+					you can download the staged data with error messages, fix the errors, and reload your data.  
+					This may be a slow iterative process, but following it will allow you to fix problems in the data with
+					whatever tools you desire in your csv file and then re-load your data until no errors are found.  
+					Email a DBA if you wish to check your records at this stage but the process times out. We can schedule
+					the process, allowing it to take as long as necessary to complete, and notify you when it&apos;s done.
+					This method is strongly preferred.
+				</div>
+				<div><strong>Or</strong></div>
+				<div>
+					<a href="BulkloadSpecimens.cfm?action=loadAnyway" target="_self">Just load these records</a>.
+					Use this method if you wish to use MCZbase&apos;s tools to fix any errors. Everything will go to the normal
+					Bulkloader tables and be available via <a href="/Bulkloader/browseBulk.cfm">the Browse Bulk app</a>.
+					Once in the bulkloader, records need to have problems fixed with the bulkloader tools, you can&apos;t easily
+					remove records from the bulkloader and upload an externally cleaned spreadsheet as you can with Staging.
+					You need a thorough understanding of MCZbase&apos;s bulkloader tools and great confidence in your data
+					to use this application.  Misuse, particularly of the bulk update tool, can result in 
+					a mess in the Bulkloader, which may require sorting out record by record in the bulkloader.
+				</div>
 			</cfoutput>
 		</cfcase>
 		<!------------------------------------------------------->
