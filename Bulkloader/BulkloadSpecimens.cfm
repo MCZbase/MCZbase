@@ -254,6 +254,11 @@
 						</cfquery>
 						<cfset movedCount=moveEm_result.recordcount>
 						<cfif movedCount EQ toMoveCount>
+							<cfquery name="cleanUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cleanUp_result">
+								DELETE from bulkloader_stage 
+								SET loaded = 'BULKLOADED RECORD'
+								WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
 							<cftransaction action="commit">
 							<h1 class="h2">Loaded #movedCount# records from Staging to Bulkloader.</h1>
 	  						<div>
@@ -365,6 +370,11 @@
 							</cfquery>
 							<cfset movedCount=moveEm_result.recordcount>
 							<cfif movedCount EQ toMoveCount>
+								<cfquery name="cleanUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cleanUp_result">
+									DELETE from bulkloader_stage 
+									SET loaded = 'BULKLOADED RECORD'
+									WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								</cfquery>
 								<cftransaction action="commit">
 								<h1 class="h2">No Problems Found Checking Staged Records, loaded all #moveCount# to Bulkloader</h1>
 								<div>
