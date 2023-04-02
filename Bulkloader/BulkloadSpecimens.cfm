@@ -5,6 +5,7 @@
 		FROM all_tab_columns
 		WHERE table_name='BULKLOADER_STAGE' AND owner='MCZBASE' 
 			and column_name <> 'STAGING_USER'
+		ORDER BY internal_column_id
 	</cfquery>
 	<cfset columns = "">
 	<cfloop query="getColumnsNoUser">
@@ -67,6 +68,7 @@
 				SELECT column_name, data_type, data_length 
 				FROM all_tab_columns
 				WHERE table_name='BULKLOADER_STAGE' AND owner='MCZBASE' 
+				ORDER BY internal_column_id
 			</cfquery>
 			<cfloop query="getColumns">
 				<cfset fieldList = ListAppend(fieldList,"#getColumns.column_name#")>
@@ -217,6 +219,7 @@
 					FROM all_tab_columns
 					WHERE table_name='BULKLOADER_STAGE' AND owner='MCZBASE' 
 						and column_name <> 'STAGING_USER'
+					ORDER BY internal_column_id
 				</cfquery>
 				<cfset columns = "">
 				<cfloop query="getColumnsNoUser">
@@ -327,6 +330,7 @@
 						FROM all_tab_columns
 						WHERE table_name='BULKLOADER_STAGE' AND owner='MCZBASE' 
 							and column_name <> 'STAGING_USER'
+						ORDER BY internal_column_id
 					</cfquery>
 					<cfset columns = "">
 					<cfloop query="getColumnsNoUser">
