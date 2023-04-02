@@ -167,6 +167,7 @@
 						the process, allowing it to take as long as necessary to complete, and notify you when it&apos;s done.
 						This method is strongly preferred.
 					</li>
+					<li><strong>Or</strong></li>
 					<li>
 						<a href="BulkloadSpecimens.cfm?action=loadAnyway" target="_self">Just load these records</a>.
 						Use this method if you wish to use MCZbase&apos;s tools to fix any errors. Everything will go to the normal
@@ -229,6 +230,7 @@
 						to retrieve all data including error messages. Fix them up and then <a href="/Bulkloader/BulkloadSpecimens.cfm">reload</a> them.
 						This method is strongly preferred.
 					</div>
+					<div><strong>Or</strong></div>
 					<div>
 						Click <a href="bulkloaderLoader.cfm?action=loadAnyway">here</a> to load them to the
 						bulkloader anyway. Use The Bulkloader Browse and Edit tools to fix them up and load them.
