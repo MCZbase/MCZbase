@@ -72,7 +72,9 @@
 							</cfquery>
 							<cfset loadedRows = loadedRows + insert_result.recordcount>
 						<cfcatch>
-							<cfthrow message="Error inserting data from line #row# in input file. Error: #cfcatch.message#  Row:[#colVals#] ">
+							<cfset cause="">
+							<cfif isDefined(cfcatch.cause)><cfset cause="Cause: #cfcatch.cause.message#"></cfif>
+							<cfthrow message="Error inserting data from line #row# in input file. Error: #cfcatch.message# #cause# Row:[#colVals#] ">
 						</cfcatch>
 						</cftry>
 					</cfif>
