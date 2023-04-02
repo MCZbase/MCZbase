@@ -241,7 +241,7 @@
 					<h2 class="h3">#anyBads.cnt# of #allData.cnt# records will not successfully load into MCZbase.</h2>
 					<div>
 						Download your data with error messages added as a <a href="/Bulkloader/bulkloader.txt" target="_blank">tab delimited</a> 
-						or <a href="/Bulkloader/BulkloadSpecimens?action=dumpProblems">CSV</a> file. 
+						or <a href="/Bulkloader/BulkloadSpecimens.cfm?action=dumpProblems">CSV</a> file. 
 						Fix issues in the data and then <a href="/Bulkloader/BulkloadSpecimens.cfm">reload</a>.
 						This method is strongly preferred.
 					</div>
@@ -250,6 +250,24 @@
 						Click <a href="bulkloaderLoader.cfm?action=loadAnyway">here</a> to load them to the
 						bulkloader anyway. Use The Bulkloader Browse and Edit tools to fix issues and load them.
 					</div>
+					<cfquery name="listErrors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT count(*) ct, loaded 
+						FROM bulkloader_stage
+						WHERE loaded is not null
+						GROUP BY loaded
+						ORDER BY count(*) desc
+					</cfquery>
+					<cfset maxErrors = 30>
+					<cfif listErrors.recordCount GT maxErrors>
+						<h2 class="h3">Top 30 problems</h2>
+					<cfelse>
+						<h2 class="h3">Problems in the data</h2>
+					</cfif>
+					<ul>
+						<cfloop query="listErrors" endRow="#maxErrors#">
+							<li>#listErrors.loaded# (#listErrors.ct#)</li>
+						</cfloop>				
+					</ul>
 				<cfelse>
 					<cftransaction>
 						<cfquery name="allId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
