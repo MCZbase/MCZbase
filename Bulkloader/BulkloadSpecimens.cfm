@@ -81,6 +81,9 @@
 							<cfcatch>
 								<cfset cause="">
 								<cfif isDefined("cfcatch.cause")><cfset cause="Cause: #cfcatch.cause#"></cfif>
+								<cfif find("unique constraint (MCZBASE.PK_BULKSTAGEID) violated",cause) GT 0>
+									<cfset cause = "Duplicate COLLECTION_OBJECT_ID value.  Each row must have a unique value for collection_object_id. (unique constraint (MCZBASE.PK_BULKSTAGEID) violated).">
+								</cfif>
 								<cfset badRow = "">
 								<cfset separator="">
 								<cfloop index="i" from="1" to="#ArrayLen(colNameArray)#">
