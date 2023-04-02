@@ -6,7 +6,7 @@
 </cfif>
 
 <main class="container py-3" id="content">
-	<cfswitch expression="#action#"
+	<cfswitch expression="#action#">
 		<cfcase value="entryPoint">
 			<h1 class="h2">Bulkload specimen records from a .csv file.</h1>
 			<label for="fileToUpload">Upload a comma-delimited text file (csv).</label>
