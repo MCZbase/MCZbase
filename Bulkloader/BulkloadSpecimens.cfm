@@ -49,6 +49,7 @@
 					<!--- load --->
 					<cfset loadedRows = 0>
 					<cfset colNames="">
+					<cfset rowArray=ArrayNew(1)>
 					<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
 						<cfset colVals="">
 						<cfloop from="1"  to ="#ArrayLen(arrResult[row])#" index="col">
@@ -57,6 +58,7 @@
 								<cfset colNames="#colNames#,#thisBit#">
 							<cfelse>
 								<cfset colVals="#colVals#,'#thisBit#'">
+								<cfset ArrayAppend(rowArray,thisBit)>
 							</cfif>
 						</cfloop>
 						<cfif #row# is 1>
@@ -79,7 +81,6 @@
 							<cfcatch>
 								<cfset cause="">
 								<cfif isDefined("cfcatch.cause")><cfset cause="Cause: #cfcatch.cause#"></cfif>
-								<cfset rowArray = listToArray(colVals)>
 								<cfset badRow = "">
 								<cfset separator="">
 								<cfloop index="i" from="1" to="#ArrayLen(colNameArray)#">
