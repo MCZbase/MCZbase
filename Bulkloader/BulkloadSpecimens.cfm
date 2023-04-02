@@ -67,7 +67,7 @@
 					<cfif len(#colVals#) gt 1>
 						<cftry>
 							<cfset colVals=replace(colVals,",","","first")>
-							<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
 								insert into bulkloader_stage (#colNames#) values (#preservesinglequotes(colVals)#)
 							</cfquery>
 							<cfset loadedRows = loadedRows + insert_result.recordcount>
