@@ -11,7 +11,11 @@
 			<h1 class="h2">Bulkload specimen records from a .csv file.</h1>
 			<label for="fileToUpload">Upload a comma-delimited text file (csv).</label>
 			<p>
-				If your text file does not load, you can build templates that will load using the <a href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>.
+				You can upload up to about 1000 specimen records at once from a CSV file into the Bulkloader from here.  You must correctly identify the character set for your file, 
+				otherwise any accented or other extended characters will be loaded incorrectly.
+				You can build template CSV files using the <a href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>.
+				Alternatively, use one of the templates from the MCZbase Wiki <a href="https://code.mcz.harvard.edu/wiki/index.php/Bulkloader_Templates">Bulkloader Templates Page</a>.
+				Additional documentation can be found on the <a href="https://code.mcz.harvard.edu/wiki/index.php/Bulk_Upload_a_Spreadsheet_with_multiple_specimen_records">MCZbase Wiki</a>
 			</p>
 			<cfform name="fileUploadForm" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="action" value="getFile">
