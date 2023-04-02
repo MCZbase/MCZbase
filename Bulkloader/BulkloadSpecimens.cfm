@@ -34,6 +34,17 @@
 		</cfcase>
 		<!------------------------------------------------------->
 		<cfcase value="getFile">
+			<!--- find the fields present in the bulkloader_stage table, column header must match --->
+			<cfquery name="getColumns" datasource="uam_god">
+				SELECT column_name, data_type, data_length 
+				FROM all_tab_columns
+				WHERE table_name='BULKLOADER_STAGE' AND owner='MCZBASE'; 
+			</cfquery>
+			<cfloop query="getColumns">
+				<cfset fieldList = ListAppend(fieldList,getColumns.column_name)>
+				<cfset fieldTypes = ListAppend(fieldList,getColumns.data_type)>
+				<cfset fieldLengths = ListAppend(fieldList,getColumns.data_length)>
+			</cfloop>
 			<cfoutput>
 				<h1 class="h2">First step: Read data from CSV file into Staging.</h1>
 				<cftry>
@@ -74,6 +85,9 @@
 								<cfloop list="#colNames#" index="colName">
 									<cfif REFind("[^0-9A-Z_]",trim(ucase(colName))) GT 0>
 										<cfset error = "#error# Column [#colName#] contains a space or other incorrect character.">
+										<li class="list-group-item float-left"><strong class="text-danger">#colName#</strong></li>
+									<cfelseif NOT ListContains(fieldList,ucase(colName))>
+										<cfset error = "#error# Column [#colName#] unknown.">
 										<li class="list-group-item float-left"><strong class="text-danger">#colName#</strong></li>
 									<cfelse>
 										<li class="list-group-item float-left">#colName#</li>
