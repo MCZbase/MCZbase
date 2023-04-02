@@ -131,7 +131,7 @@
 							<cftry>
 								<cfset colVals=replace(colVals,",","","first")>
 								<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
-									insert into bulkloader_stage (#colNames#,'staging_user') values (#preservesinglequotes(colVals)#,'#session.username#')
+									insert into bulkloader_stage (#colNames#,STAGING_USER) values (#preservesinglequotes(colVals)#,'#session.username#')
 								</cfquery>
 								<cfset loadedRows = loadedRows + insert_result.recordcount>
 							<cfcatch>
