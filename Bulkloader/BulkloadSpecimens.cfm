@@ -91,6 +91,7 @@
 				<cfcatch>
 					<h3 class="h3">Error: Failed to load data from the CSV file.</h3>
 					<div>#cfcatch.message#</div>
+					<div>Resolve the issue and <a href="/Bulkloader/BulkloadSpecimens.cfm">Upload Again</a>.</div>
 				</cfcatch>
 				</cftry>
 			</cfoutput>
