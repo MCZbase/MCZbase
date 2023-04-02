@@ -28,11 +28,14 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfswitch expression="#action#">
-	<cfcase val="edit">
+	<cfcase value="edit">
 		<cfset pageTitle="Edit Locality">
 	</cfcase>
-	<cfcase val="new">
+	<cfcase value="new">
 		<cfset pageTitle="New Locality">
+	</cfcase>
+	<cfcase value="makenewLocality">
+		<cfset pageTitle="Creating New Locality">
 	</cfcase>
 	<cfdefaultcase>
 		<cfthrow message="Error: Unknown Action">
@@ -41,42 +44,65 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 
 <cfswitch expression="#action#">
-	<cfcase val="edit">
+	<cfcase value="edit">
+		<cfinclude template="/localities/component/functions.cfc" runOnce="true">
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
 			<cfthrow message="Error: unable to edit locality, no locality_id specified.">
 		</cfif>
 		<cfoutput>
-		   <main id="content">
-      		<h1 class="h2 mt-3 mb-0 px-4">Edit Locality [#encodeForHtml(locality_id)#]</h1>
-     			<form name="createLocality" method="post" action="/localities/">
-					<input type="hidden" id="locality_id" name="locality_id" value="#locality_id#">
-		         <div class="row mx-0">
-      		      <section class="container-fluid">
-							<cfset blockEditorm = getEditLocalityHtml(locality_id = "#locality_id#")>
-							#blockEditForm#
-						</section>
+		   <main class="container mt-3" id="content">
+				<section class="row">
+					<div class="col-12">
+      				<h1 class="h2 mt-3 mb-0 px-4">Edit Locality [#encodeForHtml(locality_id)#]</h1>
+						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
+ 			    			<form name="editLocality" id="editLocalityForm">
+								<input type="hidden" id="locality_id" name="locality_id" value="#locality_id#">
+								<cfset blockEditForm = getEditLocalityHtml(locality_id = "#locality_id#", form="editLocalityForm")>
+								#blockEditForm#
+							</form>
+						</div>
 					</div>
-				</form>
+				</section>
 			</main>
 		</cfoutput>
 	</cfcase>
-	<cfcase val="new">
+	<cfcase value="new">
+		<cfinclude template="/localities/component/functions.cfc" runOnce="true">
 		<cfoutput>
-		   <main id="content">
-      		<h1 class="h2 mt-3 mb-0 px-4">Create New Locality</h1>
-     			<form name="createLocality" method="post" action="/localities/Locality.cfm">
-            	<input type="hidden" name="Action" value="makenewLocality">
-		         <div class="row mx-0">
-      		      <section class="container-fluid">
-							<cfset blockform = getCreateLocalityHtml(collection_object_id = "#collection_object_id#")>
-							#blockform#
-						</section>
+			<cfset extra = "">
+			<cfif isDefined("geog_auth_rec_id") AND len(geog_auth_rec_id) GT 0 AND NOT (isDefined("clone_from_locality_id") and len(clone_from_locality_id) GT 0)>
+					<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT higher_geog
+						FROM geog_auth_rec
+						WHERE 
+							geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+					</cfquery>
+					<cfloop query="lookupHigherGeog">
+						<cfset extra = " within #lookupHigherGeog.higher_geog#">
+					</cfloop>
+					<cfset blockform = getCreateLocalityHtml(geog_auth_rec_id = "#geog_auth_rec_id#")>
+			<cfelseif isDefined("clone_from_locality_id") and len(clone_from_locality_id) GT 0>
+				<cfset extra = " cloned from #encodeForHtml(clone_from_locality_id)#">
+				<cfset blockform = getCreateLocalityHtml(clone_from_locality_id = "#clone_from_locality_id#")>
+			<cfelse>
+				<cfset blockform = getCreateLocalityHtml()>
+			</cfif>
+		   <main class="container mt-3" id="content">
+				<section class="row">
+					<div class="col-12">
+		      		<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
+						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
+			     			<form name="createLocality" method="post" action="/localities/Locality.cfm">
+         			   	<input type="hidden" name="Action" value="makenewLocality">
+								#blockform#
+							</form>
+						</div>
 					</div>
-				</form>
+				</section>
 			</main>
 		</cfoutput>
 	</cfcase>
-	<cfcase val="makenewLocality">
+	<cfcase value="makenewLocality">
 		<cfif NOT isdefined("cloneCoords") OR cloneCoords NEQ "yes">
 			<cfset cloneCoords = "no">
 		</cfif>
@@ -91,9 +117,22 @@ limitations under the License.
 					,MAXIMUM_ELEVATION
 					,MINIMUM_ELEVATION
 					,ORIG_ELEV_UNITS
+					,MAX_DEPTH
+					,MIN_DEPTH
+					,DEPTH_UNITS
 					,SPEC_LOCALITY
 					,SOVEREIGN_NATION
 					,LOCALITY_REMARKS
+					,section_part
+					,section
+					,township
+					,township_direction
+					,range,
+					,range_direction
+					,nogeorefbecause
+					,georef_updated_date
+					,georef_by
+					,curated_fg
 					,LEGACY_SPEC_LOCALITY_FG )
 				VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextLoc.nextLoc#">,
@@ -113,6 +152,21 @@ limitations under the License.
 					<cfelse>
 						NULL,
 					</cfif>
+					<cfif len(#max_depth#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#max_depth#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#min_depth#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#min_depth#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#depth_units#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#depth_units#">,
+					<cfelse>
+						NULL,
+					</cfif>
 					<cfif len(#SPEC_LOCALITY#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SPEC_LOCALITY#">,
 					<cfelse>
@@ -125,6 +179,56 @@ limitations under the License.
 					</cfif>
 					<cfif len(#LOCALITY_REMARKS#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOCALITY_REMARKS#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#section_part#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#section_part#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#section#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#section#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#township#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#township#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#township_direction#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#township_direction#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#range#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#range#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#range_direction#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#range_direction#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#nogeorefbecause#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nogeorefbecause#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#georef_updated_date#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DATE" value="#georef_updated_date#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#georef_by#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#georef_by#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#curated_fg#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">,
 					<cfelse>
 						NULL,
 					</cfif>
@@ -304,7 +408,7 @@ limitations under the License.
 			</cfif><!---  end cloneCoordinates  --->
 		</cftransaction>
 		<cfoutput>
-			<cflocation addtoken="no" url="editLocality.cfm?locality_id=#nextLoc.nextLoc#">
+			<cflocation addtoken="no" url="/locality/Locality.cfm?locality_id=#nextLoc.nextLoc#">
 		</cfoutput>
 	</cfcase>
 </cfswitch>
