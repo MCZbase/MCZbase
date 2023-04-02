@@ -69,8 +69,8 @@
 							<cfset colNames=replace(colNames,",","","first")>
 							<cfset colNameArray = listToArray(ucase(colNames))><!--- the list of columns/fields found in the input file --->
 							<h3 class="h4">Found #arrayLen(colNameArray)# columns in header of csv file.</h3>
+							<cfset error="">
 							<ul class="list-group list-group-horizontal flex-wrap">
-								<cfset error="">
 								<cfloop list="#colNames#" index="colName">
 									<cfif REFind("[^0-9A-Z_]",trim(ucase(colName))) GT 0>
 										<cfset error = "#error# Column [#colName#] contains a space or other incorrect character.">
@@ -80,6 +80,9 @@
 									</cfif>
 								</cfloop>
 							</ul>
+							<cfif error NEQ "">
+								<h3 class="h4">Error(s) in the header row: #error#</h3>
+							</cfif>
 						</cfif>
 						<cfif len(#colVals#) gt 1>
 							<cftry>
