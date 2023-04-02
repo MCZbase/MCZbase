@@ -35,6 +35,9 @@
 		<!------------------------------------------------------->
 		<cfcase value="getFile">
 			<!--- find the fields present in the bulkloader_stage table, column header must match --->
+			<cfset fieldList = ArrayNew(1)>
+			<cfset fieldTypes = ArrayNew(1)>
+			<cfset fieldLengths = ArrayNew(1)>
 			<cfquery name="getColumns" datasource="uam_god">
 				SELECT column_name, data_type, data_length 
 				FROM all_tab_columns
