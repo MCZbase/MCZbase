@@ -83,14 +83,14 @@
 								<cfset badRow = "">
 								<cfset separator="">
 								<cfloop index="i" from="1" to="#ArrayLen(colNameArray)#">
-									<cfif find(cause,colNameArray[i]) GT 0>
+									<cfif find(colNameArray[i],cause) GT 0>
 										<cfset badRow = "#badRow##separator#<strong>#colNameArray[i]#:#rowArray[i]#</strong>"><!--- " --->
 									<cfelse>
 										<cfset badRow = "#badRow##separator##colNameArray[i]#:#rowArray[i]#">
 									</cfif>
 									<cfset separator=", ">
 								</cfloop>
-								<cfthrow message="Error inserting data from line #row# in input file. Error: #cfcatch.message# #cause# Row:[#badRow#] ">
+								<cfthrow message="Error inserting data from line #row# in input file. <div>Error: #cfcatch.message#</div><div>#cause#</div><div>Row:[#badRow#]</div> "><!--- " --->
 							</cfcatch>
 							</cftry>
 						</cfif>
