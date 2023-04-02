@@ -70,8 +70,14 @@
 							<cfset colNameArray = listToArray(ucase(colNames))><!--- the list of columns/fields found in the input file --->
 							<h3 class="h4">Found #arrayLen(colNameArray)# columns in header of csv file.</h3>
 							<ul class="list-group list-group-horizontal flex-wrap">
+								<cfset error="">
 								<cfloop list="#colNames#" index="colName">
-									<li class="list-group-item float-left">#colName#</li>
+									<cfif REFind("[^0-9A-Z_]",trim(ucase(colName))) GT 0>
+										<cfset error = "#error# Column [#colName#] contains a space or other incorrect character.">
+										<li class="list-group-item float-left"><strong class="text-danger">#colName#</strong></li>
+									<cfelse>
+										<li class="list-group-item float-left">#colName#</li>
+									</cfif>
 								</cfloop>
 							</ul>
 						</cfif>
