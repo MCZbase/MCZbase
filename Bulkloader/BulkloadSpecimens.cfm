@@ -212,17 +212,17 @@
 		<!------------------------------------------------------->
 		<cfcase value="loadAnyway">
 			<cfoutput>
+				<cfquery name="getColumnsNoUser" datasource="uam_god">
+					SELECT column_name
+					FROM all_tab_columns
+					WHERE table_name='BULKLOADER_STAGE' AND owner='MCZBASE' 
+						and column_name <> 'STAGING_USER'
+				</cfquery>
+				<cfset columns = "">
+				<cfloop query="getColumnsNoUser">
+					<cfset columns=ListAppend(columns,getColumnsNoUser.column_name)>
+				</cfloop>
 				<cftransaction>
-					<cfquery name="getColumnsNoUser" datasource="uam_god">
-						SELECT column_name
-						FROM all_tab_columns
-						WHERE table_name='BULKLOADER_STAGE' AND owner='MCZBASE' 
-							and column_name <> 'STAGING_USER'
-					</cfquery>
-					<cfset columns = "">
-					<cfloop query="getColumnsNoUser">
-						<cfset columns=ListAppend(columns,getColumnsNoUser.column_name)>
-					</cfloop>
 					<cfquery name="allId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT collection_object_id 
 						FROM bulkloader_stage
