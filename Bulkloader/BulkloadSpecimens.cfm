@@ -44,9 +44,9 @@
 				WHERE table_name='BULKLOADER_STAGE' AND owner='MCZBASE' 
 			</cfquery>
 			<cfloop query="getColumns">
-				<cfset fieldList = ListAppend(fieldList,getColumns.column_name)>
-				<cfset fieldTypes = ListAppend(fieldList,getColumns.data_type)>
-				<cfset fieldLengths = ListAppend(fieldList,getColumns.data_length)>
+				<cfset fieldList = ListAppend(fieldList,"#getColumns.column_name#")>
+				<cfset fieldTypes = ListAppend(fieldList,"#getColumns.data_type#")>
+				<cfset fieldLengths = ListAppend(fieldList,"#getColumns.data_length#")>
 			</cfloop>
 			<cfoutput>
 				<h1 class="h2">First step: Read data from CSV file into Staging.</h1>
