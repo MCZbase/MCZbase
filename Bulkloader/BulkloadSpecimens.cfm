@@ -248,7 +248,7 @@
 							WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<cfquery name="moveEm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveEm_result">
-							INSERT into bulkloader 
+							INSERT into bulkloader (#columns#)
 								SELECT #columns# from bulkloader_stage
 								WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
@@ -359,7 +359,7 @@
 								WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							</cfquery>
 							<cfquery name="moveEm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveEm_result">
-								INSERT into bulkloader 
+								INSERT into bulkloader (#columns#)
 									SELECT #columns# from bulkloader_stage
 									WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							</cfquery>
