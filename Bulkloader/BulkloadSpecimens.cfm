@@ -32,57 +32,67 @@
 		<cfcase value="getFile">
 			<cfoutput>
 				<h1 class="h2">First step: Read data from CSV file into Staging.</h1>
-				<!--- remove existing staged data --->
-				<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					delete from bulkloader_stage
-				</cfquery>
-				<!--- read file --->
-				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
-				<cfset fileContent=replace(fileContent,"'","''","all")>
-				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-				<!--- TODO: Check required fields --->
-				<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
-					<cfset header = arrResult[1][col]>
-					<!--- TODO: check --->
-				</cfloop>
-				<!--- load --->
-				<cfset loadedRows = 0>
-				<cfset colNames="">
-				<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
-					<cfset colVals="">
-					<cfloop from="1"  to ="#ArrayLen(arrResult[row])#" index="col">
-						<cfset thisBit=trim(arrResult[row][col])>
+				<cftry>
+					<!--- remove existing staged data --->
+					<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						delete from bulkloader_stage
+					</cfquery>
+					<!--- read file --->
+					<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
+					<cfset fileContent=replace(fileContent,"'","''","all")>
+					<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
+					<!--- TODO: Check required fields --->
+					<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
+						<cfset header = arrResult[1][col]>
+						<!--- TODO: check --->
+					</cfloop>
+					<!--- load --->
+					<cfset loadedRows = 0>
+					<cfset colNames="">
+					<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
+						<cfset colVals="">
+						<cfloop from="1"  to ="#ArrayLen(arrResult[row])#" index="col">
+							<cfset thisBit=trim(arrResult[row][col])>
+							<cfif #row# is 1>
+								<cfset colNames="#colNames#,#thisBit#">
+							<cfelse>
+								<cfset colVals="#colVals#,'#thisBit#'">
+							</cfif>
+						</cfloop>
 						<cfif #row# is 1>
-							<cfset colNames="#colNames#,#thisBit#">
-						<cfelse>
-							<cfset colVals="#colVals#,'#thisBit#'">
+							<cfset colNames=replace(colNames,",","","first")>
+							<cfset colNameArray = listToArray(ucase(colNames))><!--- the list of columns/fields found in the input file --->
+							<h3 class="h4">Found #arrayLen(colNameArray)# columns in header of csv file.</h3>
+							<ul class="list-group-horizontal flex-wrap">
+								<cfloop list="colNames" item="colName">
+									<li>#colName#</li>
+								</cfloop>
+							</ul>
+						</cfif>
+						<cfif len(#colVals#) gt 1>
+							<cftry>
+								<cfset colVals=replace(colVals,",","","first")>
+								<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
+									insert into bulkloader_stage (#colNames#) values (#preservesinglequotes(colVals)#)
+								</cfquery>
+								<cfset loadedRows = loadedRows + insert_result.recordcount>
+							<cfcatch>
+								<cfset cause="">
+								<cfif isDefined("cfcatch.cause")><cfset cause="Cause: #cfcatch.cause#"></cfif>
+								<cfthrow message="Error inserting data from line #row# in input file. Error: #cfcatch.message# #cause# Row:[#replace(colVals,',',', ')#] ">
+							</cfcatch>
+							</cftry>
 						</cfif>
 					</cfloop>
-					<cfif #row# is 1>
-						<cfset colNames=replace(colNames,",","","first")>
-						<cfset colNameArray = listToArray(ucase(colNames))><!--- the list of columns/fields found in the input file --->
-						<h3 class="h4">Found #arrayLen(colNameArray)# columns in header of csv file.</h3>
-						<div>#colNames#</div>
-					</cfif>
-					<cfif len(#colVals#) gt 1>
-						<cftry>
-							<cfset colVals=replace(colVals,",","","first")>
-							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
-								insert into bulkloader_stage (#colNames#) values (#preservesinglequotes(colVals)#)
-							</cfquery>
-							<cfset loadedRows = loadedRows + insert_result.recordcount>
-						<cfcatch>
-							<cfset cause="">
-							<cfif isDefined("cfcatch.cause")><cfset cause="Cause: #cfcatch.cause#"></cfif>
-							<cfthrow message="Error inserting data from line #row# in input file. Error: #cfcatch.message# #cause# Row:[#colVals#] ">
-						</cfcatch>
-						</cftry>
-					</cfif>
-				</cfloop>
-				<h3 class="h3">
-					Successfully loaded #loadedRows# records from the CSV file into the staging table.  
-					Next <a href="/Bulkloaders/BulkloadSpecimens.cfm?action=validate" target="_self">click to validate or load</a>.
-				</h3>
+					<h3 class="h3">
+						Successfully loaded #loadedRows# records from the CSV file into the staging table.  
+						Next <a href="/Bulkloaders/BulkloadSpecimens.cfm?action=validate" target="_self">click to validate or load</a>.
+					</h3>
+				<cfcatch>
+					<h3 class="h3">Error: Failed to load data from the CSV file.</h3>
+					<div>#cfcatch.message#</div>
+				</cfcatch>
+				</cftry>
 			</cfoutput>
 		</cfcase>
 		<!------------------------------------------------------->
