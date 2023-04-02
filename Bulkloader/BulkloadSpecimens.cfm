@@ -79,7 +79,18 @@
 							<cfcatch>
 								<cfset cause="">
 								<cfif isDefined("cfcatch.cause")><cfset cause="Cause: #cfcatch.cause#"></cfif>
-								<cfthrow message="Error inserting data from line #row# in input file. Error: #cfcatch.message# #cause# Row:[#replace(colVals,',',', ')#] ">
+								<cfset rowArray = listToArray(colVals)>
+								<cfset badRow = "">
+								<cfset separator="">
+								<cfloop array="#colNameArray#" index="i">
+									<cfif find(cause,colNameArray[i]) GT 0>
+										<cfset badRow = "#badRow##separator#<strong>#colNameArray[i]#:#rowArray[i]#</strong>"><!--- " --->
+									<cfelse>
+										<cfset badRow = "#badRow##separator##colNameArray[i]#:#rowArray[i]#">
+									</cfif>
+									<cfset separator=", ">
+								</cfloop>
+								<cfthrow message="Error inserting data from line #row# in input file. Error: #cfcatch.message# #cause# Row:[#badRow#] ">
 							</cfcatch>
 							</cftry>
 						</cfif>
@@ -91,7 +102,7 @@
 				<cfcatch>
 					<h3 class="h3">Error: Failed to load data from the CSV file.</h3>
 					<div>#cfcatch.message#</div>
-					<div>Resolve the issue and <a href="/Bulkloader/BulkloadSpecimens.cfm">Upload Again</a>.</div>
+					<h3 class="h3">Resolve the issue in your CSV file and <a href="/Bulkloader/BulkloadSpecimens.cfm">Upload Again</a>.</h3>
 				</cfcatch>
 				</cftry>
 			</cfoutput>
