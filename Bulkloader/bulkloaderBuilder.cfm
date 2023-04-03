@@ -303,19 +303,23 @@
       ORDER BY column_id
 	</cfquery>
 	<cfset separator="">
+	<cfset separatorTab="">
 	<cfset headerLine="">
 	<cfset guidanceLine="">
+	<cfset guidanceLineTab="">
 	<cfloop query="lookupColumns">
 		<cfif ListContains(fld,lookupColumns.column_name) GT 0>
 			<cfset headerLine = '#headerLine##separator#"#lookupColumns.column_name#"'>
-			<cfset guidanceLine = '#guidanceLine##separator#"#lookupColumns.comments#"'>
+			<cfset quotesEscaped = replace(lookup_columns.comments,'"','""',"all")>
+			<cfset guidanceLine = '#guidanceLine##separator#"#quotesEscaped#"'>
+			<cfset guidanceLineTab = '#guidanceLine##separatorTab#"#trim(lookup_columns.comments)#"'>
 			<cfset separator=",">
+			<cfset separatorTab="#chr(9)#">
 		</cfif>
 	</cfloop>
 	<cfset fileDir = "#Application.webDirectory#">
 		<cfif #fileFormat# is "csv">
 			<cfset fileName = "CustomBulkloaderTemplate.csv">
-			<cfset header=#trim(fld)#>
 			<cffile action="write" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#trim(headerLine)#" charset="utf-8">
 			<cffile action="append" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#trim(guidanceLine)#" charset="utf-8">
 			<cflocation url="/download.cfm?file=#fileName#" addtoken="false">
@@ -323,9 +327,8 @@
 		<cfelseif #fileFormat# is "txt">
 			<cfset fileName = "CustomBulkloaderTemplate.txt">
 			<cfset header = replace(headerLine,'","',"#chr(9)#","all")>
-			<cfset guidance = replace(guidanceLine,'","',"#chr(9)#","all")>
 			<cffile action="write" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#trim(header)#" charset="utf-8">
-			<cffile action="append" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#trim(guidance)#" charset="utf-8">
+			<cffile action="append" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#guidanceLineTab#" charset="utf-8">
 			<cflocation url="/download.cfm?file=#fileName#" addtoken="false">
 			<a href="/download/#fileName#">Click here if your file does not automatically download.</a>
 		<cfelse>
