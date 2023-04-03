@@ -1,10 +1,15 @@
+<!--- write staging table data for current user into a tab delimited file --->
 <cfquery name="getCols" datasource="uam_god">
-	select column_name from sys.user_tab_cols
-	where table_name='BULKLOADER_STAGE'
-	order by internal_column_id
+	SELECT column_name 
+	FROM sys.user_tab_cols
+	WHERE table_name='BULKLOADER_STAGE'
+		AND column_name <> 'STAGING_USER'
+	ORDER BY internal_column_id
 </cfquery>
 <cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select * from BULKLOADER_STAGE		
+	SELECT * 
+	FROM bulkloader_stage
+	WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 </cfquery>
 <cfoutput>
 	<cfset colList = "">
@@ -21,7 +26,9 @@
 	<cffile action="write" file="#Application.webDirectory#/Bulkloader/bulkloader.txt" addnewline="no" output="#colList#">
 	<cfloop query="data">
 		<cfquery name="thisQueryRow" dbtype="query">
-			select * from data where collection_object_id = #collection_object_id#
+			SELECT * 
+			FROM data
+			WHERE collection_object_id = #collection_object_id#
 		</cfquery>
 		<cfset thisRow = "">
 		<cfloop list="#colList#" index="i" delimiters="#chr(9)#">
@@ -42,7 +49,7 @@
 			
 		</cfloop>
 		<cfset thisRow=#trim(thisRow)#>
-	<cfset thisRow = "#thisRow##chr(10)#">
+		<cfset thisRow = "#thisRow##chr(10)#">
 		<cffile action="append" file="#Application.webDirectory#/Bulkloader/bulkloader.txt" addnewline="no" output="#thisRow#">
 	</cfloop>
 </cfoutput>

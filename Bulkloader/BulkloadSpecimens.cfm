@@ -1,8 +1,20 @@
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
+	<cfquery name="getColumnsNoUser" datasource="uam_god">
+		SELECT column_name
+		FROM all_tab_columns
+		WHERE table_name='BULKLOADER_STAGE' AND owner='MCZBASE' 
+			and column_name <> 'STAGING_USER'
+		ORDER BY column_id
+	</cfquery>
+	<cfset columns = "">
+	<cfloop query="getColumnsNoUser">
+		<cfset columns=ListAppend(columns,getColumnsNoUser.column_name)>
+	</cfloop>
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT *
+		SELECT #columns#
 		FROM bulkloader_stage
+		WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfset csv = queryToCSV(getProblemData)>
@@ -56,6 +68,7 @@
 				SELECT column_name, data_type, data_length 
 				FROM all_tab_columns
 				WHERE table_name='BULKLOADER_STAGE' AND owner='MCZBASE' 
+				ORDER BY column_id
 			</cfquery>
 			<cfloop query="getColumns">
 				<cfset fieldList = ListAppend(fieldList,"#getColumns.column_name#")>
@@ -67,7 +80,8 @@
 				<cftry>
 					<!--- remove existing staged data --->
 					<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						delete from bulkloader_stage
+						DELETE FROM bulkloader_stage
+						WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<!--- read file --->
 					<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
@@ -82,6 +96,9 @@
 					<cfset loadedRows = 0>
 					<cfset colNames="">
 					<cfset rowArray=ArrayNew(1)>
+					<cfset foundHighCount = 0>
+					<cfset foundHighAscii = "">
+					<cfset foundMultiByte = "">
 					<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
 						<cfset colVals="">
 						<cfloop from="1"  to ="#ArrayLen(arrResult[row])#" index="col">
@@ -91,6 +108,19 @@
 							<cfelse>
 								<cfset colVals="#colVals#,'#thisBit#'">
 								<cfset ArrayAppend(rowArray,thisBit)>
+								<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
+									<!--- high ASCII --->
+									<cfif foundHighCount LT 6>
+										<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+										<cfset foundHighCount = foundHighCount + 1>
+									</cfif>
+								<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
+									<!--- multibyte --->
+									<cfif foundHighCount LT 6>
+										<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+										<cfset foundHighCount = foundHighCount + 1>
+									</cfif>
+								</cfif>
 							</cfif>
 						</cfloop>
 						<cfif #row# is 1>
@@ -119,7 +149,7 @@
 							<cftry>
 								<cfset colVals=replace(colVals,",","","first")>
 								<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
-									insert into bulkloader_stage (#colNames#) values (#preservesinglequotes(colVals)#)
+									insert into bulkloader_stage (#colNames#,STAGING_USER) values (#preservesinglequotes(colVals)#,'#session.username#')
 								</cfquery>
 								<cfset loadedRows = loadedRows + insert_result.recordcount>
 							<cfcatch>
@@ -138,15 +168,34 @@
 									</cfif>
 									<cfset separator=", ">
 								</cfloop>
-								<cfthrow message="Error inserting data from <strong>line #row#</strong> in input file. <div>Error: #cfcatch.message#</div><div>#cause#</div><div>Row:[#badRow#]</div> "><!--- " --->
+								<cfthrow message="Error inserting data from <strong>line #row#</strong> in input file. <div>Error: #cfcatch.message#</div><div class='mb-2'>#cause#</div><div>Row:[#badRow#]</div> "><!--- " --->
 							</cfcatch>
 							</cftry>
 						</cfif>
 					</cfloop>
-					<h3 class="h3">
-						Successfully loaded #loadedRows# records from the CSV file into the staging table.  
-						Next <a href="/Bulkloader/BulkloadSpecimens.cfm?action=validate" target="_self">click to validate or load</a>.
-					</h3>
+					<cfif foundHighCount GT 0>
+						<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
+						<div>
+							Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
+							you probably want to <a href="/Bulkloader/BulkloadSpecimens.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
+							you selected the correct encoding and can continue to validate or load.
+						</div>
+						<ul class="py-1" style="font-size: 1.2rem;">
+							#foundHighAscii#
+							#foundMultiByte#
+						</ul>
+					</cfif>
+					<cfif loadedRows GT 0>
+						<h3 class="h3">
+							Successfully loaded #loadedRows# records from the CSV file into the staging table.  
+							Next <a href="/Bulkloader/BulkloadSpecimens.cfm?action=validate" target="_self">click to validate or load</a>.
+						</h3>
+					<cfelse>
+						<h3 class="h3">
+							Found #loadedRows# records from the CSV file to load into the staging table.  
+							Examine your file and <a href="/Bulkloader/BulkloadSpecimens.cfm" target="_self">try again</a>.
+						</h3>
+					</cfif>
 				<cfcatch>
 					<h3 class="h3">Error: Failed to load data from the CSV file.</h3>
 					<div>#cfcatch.message#</div>
@@ -162,7 +211,9 @@
 		<cfcase value="validate">
 			<cfoutput>
 				<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select count(*) as cnt from bulkloader_stage
+					SELECT count(*) as cnt 
+					FROM bulkloader_stage
+					WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<h1 class="h2">Second step: Check and Load or Load from staging table.</h1>
     			<div>
@@ -170,57 +221,105 @@
 					They have not been checked or processed yet. You aren&apos;t done here!  Next: 
 				</div>
 
-				<ul class="">
-					<li>
-						<a href="BulkloadSpecimens.cfm?action=checkStaged" target="_self">Check and load these records</a>.
-						If no errors are found, the data will be moved from Staging to the Bulkloader.  If errors are found, 
-						you can download the staged data with error messages, fix the errors, and reload your data.  
-						This may be a slow iterative process, but following it will allow you to fix problems in the data with
-						whatever tools you desire in your csv file and then re-load your data until no errors are found.  
-						Email a DBA if you wish to check your records at this stage but the process times out. We can schedule
-						the process, allowing it to take as long as necessary to complete, and notify you when it&apos;s done.
-						This method is strongly preferred.
-					</li>
-					<li><strong>Or</strong></li>
-					<li>
-						<a href="BulkloadSpecimens.cfm?action=loadAnyway" target="_self">Just load these records</a>.
-						Use this method if you wish to use MCZbase&apos;s tools to fix any errors. Everything will go to the normal
-						Bulkloader tables and be available via <a href="/Bulkloader/browseBulk.cfm">the Browse Bulk app</a>.
-						Once in the bulkloader, records need to have problems fixed with the bulkloader tools, you can&apos;t easily
-						remove records from the bulkloader and upload an externally cleaned spreadsheet as you can with Staging.
-						You need a thorough understanding of MCZbase&apos;s bulkloader tools and great confidence in your data
-						to use this application.  Misuse, particularly of the bulk update tool, can result in 
-						a mess in the Bulkloader, which may require sorting out record by record in the bulkloader.
-					</li>
-				</ul>
+				<div>
+					<a href="BulkloadSpecimens.cfm?action=checkStaged" target="_self">Check and load these records</a>.
+					If no errors are found, the data will be moved from Staging to the Bulkloader.  If errors are found, 
+					you can download the staged data with error messages, fix the errors, and reload your data.  
+					This may be a slow iterative process, but following it will allow you to fix problems in the data with
+					whatever tools you desire in your csv file and then re-load your data until no errors are found.  
+					Email a DBA if you wish to check your records at this stage but the process times out. We can schedule
+					the process, allowing it to take as long as necessary to complete, and notify you when it&apos;s done.
+					This method is strongly preferred.
+				</div>
+				<div><strong>Or</strong></div>
+				<div>
+					<a href="BulkloadSpecimens.cfm?action=loadAnyway" target="_self">Just load these records</a>.
+					Use this method if you wish to use MCZbase&apos;s tools to fix any errors. Everything will go to the normal
+					Bulkloader tables and be available via <a href="/Bulkloader/browseBulk.cfm">the Browse Bulk app</a>.
+					Once in the bulkloader, records need to have problems fixed with the bulkloader tools, you can&apos;t easily
+					remove records from the bulkloader and upload an externally cleaned spreadsheet as you can with Staging.
+					You need a thorough understanding of MCZbase&apos;s bulkloader tools and great confidence in your data
+					to use this application.  Misuse, particularly of the bulk update tool, can result in 
+					a mess in the Bulkloader, which may require sorting out record by record in the bulkloader.
+				</div>
 			</cfoutput>
 		</cfcase>
 		<!------------------------------------------------------->
 		<cfcase value="loadAnyway">
 			<cfoutput>
+				<cfquery name="getColumnsNoUser" datasource="uam_god">
+					SELECT column_name
+					FROM all_tab_columns
+					WHERE table_name='BULKLOADER_STAGE' AND owner='MCZBASE' 
+						and column_name <> 'STAGING_USER'
+					ORDER BY column_id
+				</cfquery>
+				<cfset columns = "">
+				<cfloop query="getColumnsNoUser">
+					<cfset columns=ListAppend(columns,getColumnsNoUser.column_name)>
+				</cfloop>
+				<cfset movedCount = 0>
 				<cftransaction>
-					<cfquery name="allId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select collection_object_id from bulkloader_stage
-					</cfquery>
-					<cfloop query="allId">
-						<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update bulkloader_stage set collection_object_id=bulkloader_pkey.nextval
-							where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					<cftry>
+						<cfquery name="stagedToMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT collection_object_id 
+							FROM bulkloader_stage
+							WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-					</cfloop>
-					<cfquery name="flag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update bulkloader_stage set loaded = 'BULKLOADED RECORD'
-					</cfquery>
-					<cfquery name="moveEm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						insert into bulkloader select * from bulkloader_stage
-					</cfquery>
+						<cfset toMoveCount = stagedToMove.recordcount>
+						<cfloop query="stagedToMove">
+							<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								UPDATE bulkloader_stage 
+								SET collection_object_id=bulkloader_pkey.nextval
+								WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+									AND staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
+						</cfloop>
+						<cfquery name="flag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							UPDATE bulkloader_stage 
+							SET loaded = 'BULKLOADED RECORD'
+							WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+						<cfquery name="toMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT collection_object_id 
+							FROM bulkloader_stage
+							WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+						<!--- we could insert with a query on just staging_user, but that multi-row insert returns a count of 1 affected record, 
+							so to check for success, need to move one record at a time --->
+						<cfset movedCount = 0>
+						<cfloop query="toMove">
+							<cfquery name="moveRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveRow_result">
+								INSERT into bulkloader (#columns#)
+									SELECT #columns# from bulkloader_stage
+									WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#toMove.collection_object_id#">
+							</cfquery>
+							<cfset movedCount=movedCount+moveRow_result.recordcount>
+						</cfloop>
+						<cfif movedCount EQ toMoveCount>
+							<cfquery name="cleanUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cleanUp_result">
+								DELETE from bulkloader_stage 
+								WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
+							<cftransaction action="commit">
+							<h1 class="h2">Loaded #movedCount# records from Staging to Bulkloader.</h1>
+	  						<div>
+								Your records have been checked and are now in table Bulkloader and flagged as
+								loaded='BULKLOADED RECORD'.  You can un-flag and load them.
+								You can access these records in the Bulkloader with <a href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>.
+							</div>
+						<cfelse>
+							<cftransaction action="rollback">
+							<cfthrow message="Attempted to move #toMoveCount# records, but moved #movedCount#, so rolled back.">
+						</cfif>
+					<cfcatch>
+						<h1 class="h2">Error moving records from Staging to Bulkloader.</h1>
+						<div>#cfcatch.message#</div>
+						<cfdump var="#cfcatch#">
+					</cfcatch>
+					</cftry>
 				</cftransaction>
-				<h1 class="h2">Loaded #allId.recordcount# records from Staging to Bulkloader.</h1>
-	  			<div>
-					Your records have been checked and are now in table Bulkloader and flagged as
-					loaded='BULKLOADED RECORD'.  You can un-flag and load them.
-					You can access these records in the Bulkloader with <a href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>.
-				</div>
 			</cfoutput>
 		</cfcase>
 		<!------------------------------------------->
@@ -229,11 +328,15 @@
 				<cfstoredproc datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" procedure="bulkloader_stage_check">
 				</cfstoredproc>
 				<cfquery name="anyBads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select count(*) as cnt from bulkloader_stage
-					where loaded is not null
+					SELECT count(*) as cnt 
+					FROM bulkloader_stage
+					WHERE loaded is not null
+						AND staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="allData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select count(*) as cnt from bulkloader_stage
+					SELECT count(*) as cnt 
+					FROM bulkloader_stage
+					WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfif #anyBads.cnt# gt 0>
 					<cfinclude template="getBulkloaderStageRecs.cfm">
@@ -247,13 +350,14 @@
 					</div>
 					<div><strong>Or</strong></div>
 					<div>
-						Click <a href="bulkloaderLoader.cfm?action=loadAnyway">here</a> to load them to the
+						Click <a href="/Bulkloader/BulkloadSpecimens.cfm?action=loadAnyway">here</a> to load them to the
 						bulkloader anyway. Use The Bulkloader Browse and Edit tools to fix issues and load them.
 					</div>
 					<cfquery name="listErrors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT count(*) ct, loaded 
 						FROM bulkloader_stage
 						WHERE loaded is not null
+							AND staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						GROUP BY loaded
 						ORDER BY count(*) desc
 					</cfquery>
@@ -269,29 +373,78 @@
 						</cfloop>				
 					</ul>
 				<cfelse>
+					<cfquery name="getColumnsNoUser" datasource="uam_god">
+						SELECT column_name
+						FROM all_tab_columns
+						WHERE table_name='BULKLOADER_STAGE' AND owner='MCZBASE' 
+							and column_name <> 'STAGING_USER'
+						ORDER BY column_id
+					</cfquery>
+					<cfset columns = "">
+					<cfloop query="getColumnsNoUser">
+						<cfset columns=ListAppend(columns,getColumnsNoUser.column_name)>
+					</cfloop>
+					<cfset movedCount = 0>
 					<cftransaction>
-						<cfquery name="allId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select collection_object_id from bulkloader_stage
-						</cfquery>
-						<cfloop query="allId">
-							<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								UPDATE bulkloader_stage 
-								SET collection_object_id=bulkloader_pkey.nextval
-								WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						<cftry>
+							<cfquery name="stagedToMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT collection_object_id 
+								FROM bulkloader_stage
+								WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							</cfquery>
-						</cfloop>
-						<cfquery name="flag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update bulkloader_stage set loaded = 'BULKLOADED RECORD'
-						</cfquery>
-						<cfquery name="moveEm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							insert into bulkloader select * from bulkloader_stage
-						</cfquery>
-						<h1 class="h2">No Problems Found Checking Staged Records, loaded to Bulkloader</h1>
-						<div>
-							Your records have been checked and are now in table Bulkloader and flagged as
-							loaded='BULKLOADED RECORD'.  You can un-flag and load them.
-							You can access these records in the Bulkloader with <a href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>.
-						</div>
+							<cfset toMoveCount = stagedToMove.recordcount>
+							<cfloop query="stagedToMove">
+								<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									UPDATE bulkloader_stage 
+									SET collection_object_id=bulkloader_pkey.nextval
+									WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+										AND staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								</cfquery>
+							</cfloop>
+							<cfquery name="flag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								UPDATE bulkloader_stage 
+								SET loaded = 'BULKLOADED RECORD'
+								WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
+							<cfquery name="toMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT collection_object_id 
+								FROM bulkloader_stage
+								WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							</cfquery>
+							<!--- we could insert with a query on just staging_user, but that multi-row insert returns a count of 1 affected record, 
+								so to check for success, need to move one record at a time --->
+							<cfset movedCount = 0>
+							<cfloop query="toMove">
+								<cfquery name="moveRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveRow_result">
+									INSERT into bulkloader (#columns#)
+										SELECT #columns# from bulkloader_stage
+										WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#toMove.collection_object_id#">
+								</cfquery>
+								<cfset movedCount=movedCount+moveRow_result.recordcount>
+							</cfloop>
+							<cfif movedCount EQ toMoveCount>
+								<cfquery name="cleanUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cleanUp_result">
+									DELETE from bulkloader_stage 
+									WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								</cfquery>
+								<cftransaction action="commit">
+								<h1 class="h2">No Problems Found Checking Staged Records, loaded all #movedCount# to Bulkloader</h1>
+								<div>
+									Your records have been checked and are now in table Bulkloader and flagged as
+									loaded='BULKLOADED RECORD'.  You can un-flag and load them.
+									You can access these records in the Bulkloader with <a href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>.
+								</div>
+							<cfelse>
+								<cftransaction action="rollback">
+								<cfthrow message="Attempted to move #toMoveCount# records, but moved #movedCount#, so rolled back.">
+							</cfif>
+						<cfcatch>
+							<h1 class="h2">Error moving records from Staging to Bulkloader.</h1>
+							<div>#cfcatch.message#</div>
+							<cfdump var="#cfcatch#">
+						</cfcatch>
+						</cftry>
 					</cftransaction>
 				</cfif>
 			</cfoutput>
