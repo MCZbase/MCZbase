@@ -333,7 +333,9 @@
 			<cfset headerLineTab = '#headerLineTab##separatorTab##lookupColumns.column_name#'>
 			<cfset quotesEscaped = replace(lookupColumns.comments,'"','""',"all")>
 			<cfset guidanceLine = '#guidanceLine##separator#"#quotesEscaped#"'>
-			<cfset guidanceLineTab = '#guidanceLineTab##separatorTab##trim(lookupColumns.comments)#'>
+			<cfset quotesRemoved = replace(lookupColumns.comments,'"','',"all")>
+			<cfset quotesRemoved = replace(quotesRemoved,'#chr(9)#','',"all")>
+			<cfset guidanceLineTab = '#guidanceLineTab##separatorTab##trim(quotesRemoved)#'>
 			<cfset separator=",">
 			<cfset separatorTab="#chr(9)#">
 		</cfif>
