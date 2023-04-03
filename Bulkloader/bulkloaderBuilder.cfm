@@ -306,7 +306,7 @@
 	<cfset headerLine="">
 	<cfset guidanceLine="">
 	<cfloop query="lookupColumns">
-		<cfif ListContains(fld,lookupColumns.column_name>
+		<cfif ListContains(fld,lookupColumns.column_name) GT 0>
 		<cfset headerLine = '#headerLine##separator#"#lookupColumns.column_name#"'>
 		<cfset guidanceLine = '#headerLine##separator#"#lookupColumns.column_name#"'>
 		<cfset separator=",">
