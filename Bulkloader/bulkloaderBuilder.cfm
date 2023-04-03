@@ -310,7 +310,7 @@
 	<cfloop query="lookupColumns">
 		<cfif ListContains(fld,lookupColumns.column_name) GT 0>
 			<cfset headerLine = '#headerLine##separator#"#lookupColumns.column_name#"'>
-			<cfset quotesEscaped = replace(lookup_columns.comments,'"','""',"all")>
+			<cfset quotesEscaped = replace(lookupColumns.comments,'"','""',"all")>
 			<cfset guidanceLine = '#guidanceLine##separator#"#quotesEscaped#"'>
 			<cfset guidanceLineTab = '#guidanceLine##separatorTab#"#trim(lookup_columns.comments)#"'>
 			<cfset separator=",">
