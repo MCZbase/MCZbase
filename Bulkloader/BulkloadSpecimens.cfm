@@ -168,7 +168,7 @@
 									</cfif>
 									<cfset separator=", ">
 								</cfloop>
-								<cfthrow message="Error inserting data from <strong>line #row#</strong> in input file. <div>Error: #cfcatch.message#</div><div>#cause#</div><div>Row:[#badRow#]</div> "><!--- " --->
+								<cfthrow message="Error inserting data from <strong>line #row#</strong> in input file. <div>Error: #cfcatch.message#</div><div class='mb-2'>#cause#</div><div>Row:[#badRow#]</div> "><!--- " --->
 							</cfcatch>
 							</cftry>
 						</cfif>
