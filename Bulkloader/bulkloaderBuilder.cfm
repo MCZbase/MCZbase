@@ -261,6 +261,11 @@
 							<option value="txt">Tab-delimited text</option>
 							<option value="csv" selected>CSV</option>
 						</select>
+						<label for="guidance" class="col-4 float-left text-right pt-1">Include Guidance:</label>
+						<select name="guidance" id="guidance" class="data-entry-select col-4 float-left">
+							<option value="yes" selected>Yes, second line.</option>
+							<option value="no">No, just headers</option>
+						</select>
 						<input type="submit" value="Download Template" class="btn-xs btn-primary col-4 float-left">
 					</div>
 					<table class="table">
@@ -321,14 +326,18 @@
 		<cfif #fileFormat# is "csv">
 			<cfset fileName = "CustomBulkloaderTemplate.csv">
 			<cffile action="write" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#trim(headerLine)#" charset="utf-8">
-			<cffile action="append" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#trim(guidanceLine)#" charset="utf-8">
+			<cfif isDefined("guidance") AND guidance EQ "yes">
+				<cffile action="append" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#trim(guidanceLine)#" charset="utf-8">
+			</cfif>
 			<cflocation url="/download.cfm?file=#fileName#" addtoken="false">
 			<a href="/download/#fileName#">Click here if your file does not automatically download.</a>
 		<cfelseif #fileFormat# is "txt">
 			<cfset fileName = "CustomBulkloaderTemplate.txt">
 			<cfset header = replace(headerLine,'","',"#chr(9)#","all")>
 			<cffile action="write" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#trim(header)#" charset="utf-8">
-			<cffile action="append" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#guidanceLineTab#" charset="utf-8">
+			<cfif isDefined("guidance") AND guidance EQ "yes">
+				<cffile action="append" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#guidanceLineTab#" charset="utf-8">
+			</cfif>
 			<cflocation url="/download.cfm?file=#fileName#" addtoken="false">
 			<a href="/download/#fileName#">Click here if your file does not automatically download.</a>
 		<cfelse>
