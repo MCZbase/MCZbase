@@ -176,10 +176,11 @@
 					<cfif foundHighCount GT 0>
 						<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
 						<div>
-							Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected. 
-							You probably want to <a href="/Bulkloader/BulkloadSpecimens.cfm">reload this file</a> selecting a different encoding.
+							Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
+							you probably want to <a href="/Bulkloader/BulkloadSpecimens.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
+							you selected the correct encoding and can continue to validate or load.
 						</div>
-						<ul style="font-size: 1.3rem;">
+						<ul class="py-1" style="font-size: 1.2rem;">
 							#foundHighAscii#
 							#foundMultiByte#
 						</ul>
