@@ -372,7 +372,7 @@ function deleteThisRec () {
 					//console.log('going for previous');
 					var nextID=$('#selectbrowse option:selected').prev().val();
 					if (! nextID){
-						alert('Error loading new record. Select a new record in the dropdown, or close and re-open this form.');
+						alert('Deleted record successfully.  Navigating to previous record, but none was found. Select a new record in the dropdown, or close and re-open this form.');
 						msg('no record found','good');
 						return false;
 					}
