@@ -291,18 +291,40 @@
 </cfif>
 <cfif action is 'getTemplate'>
 <cfoutput>
+	<cfquery name="lookupColumns" datasource="uam_god" result="lookupColumns_result">
+      SELECT all_tab_columns.column_name, comments
+      FROM all_tab_columns
+                  left join all_col_comments
+               on all_tab_columns.table_name = all_col_comments.table_name
+                  and all_tab_columns.column_name = all_col_comments.column_name
+                  and all_col_comments.owner = 'MCZBASE'
+      WHERE all_tab_columns.table_name='BULKLOADER_STAGE' AND all_tab_columns.owner='MCZBASE'
+         and all_tab_columns.column_name <> 'STAGING_USER'
+      ORDER BY column_id
+	</cfquery>
+	<cfset separator="">
+	<cfset headerLine="">
+	<cfset guidanceLine="">
+	<cfloop query="lookupColumns">
+		<cfif ListContains(fld,lookupColumns.column_name>
+		<cfset headerLine = '#headerLine##separator#"#lookupColumns.column_name#"'>
+		<cfset guidanceLine = '#headerLine##separator#"#lookupColumns.column_name#"'>
+		<cfset separator=",">
+	</cfloop>
 	<cfset fileDir = "#Application.webDirectory#">
 		<cfif #fileFormat# is "csv">
 			<cfset fileName = "CustomBulkloaderTemplate.csv">
 			<cfset header=#trim(fld)#>
-			<cffile action="write" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#header#">
+			<cffile action="write" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#trim(headerLine)#" charset="utf-8">
+			<cffile action="append" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#trim(guidanceLine)#" charset="utf-8">
 			<cflocation url="/download.cfm?file=#fileName#" addtoken="false">
 			<a href="/download/#fileName#">Click here if your file does not automatically download.</a>
 		<cfelseif #fileFormat# is "txt">
 			<cfset fileName = "CustomBulkloaderTemplate.txt">
-			<cfset header = replace(fld,",","#chr(9)#","all")>
-			<cfset header=#trim(header)#>
-			<cffile action="write" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#header#">
+			<cfset header = replace(headerLine,'","',"#chr(9)#","all")>
+			<cfset guidance = replace(guidanceLine,'","',"#chr(9)#","all")>
+			<cffile action="write" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#trim(header)#" charset="utf-8">
+			<cffile action="append" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#trim(guidance)#" charset="utf-8">
 			<cflocation url="/download.cfm?file=#fileName#" addtoken="false">
 			<a href="/download/#fileName#">Click here if your file does not automatically download.</a>
 		<cfelse>
