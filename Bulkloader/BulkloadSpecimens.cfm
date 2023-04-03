@@ -96,6 +96,9 @@
 					<cfset loadedRows = 0>
 					<cfset colNames="">
 					<cfset rowArray=ArrayNew(1)>
+					<cfset foundHighCount = 0>
+					<cfset foundHighAscii = "">
+					<cfset foundMultiByte = "">
 					<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
 						<cfset colVals="">
 						<cfloop from="1"  to ="#ArrayLen(arrResult[row])#" index="col">
@@ -105,6 +108,19 @@
 							<cfelse>
 								<cfset colVals="#colVals#,'#thisBit#'">
 								<cfset ArrayAppend(rowArray,thisBit)>
+								<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
+									<!--- high ASCII --->
+									<cfif foundHighCount LT 6>
+										<cfset foundHighAscii = "#foundHighAscii# <li>#thisBit#</li>"><!--- " --->
+										<cfset foundHighCount = foundHighCount + 1>
+									</cfif>
+								<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
+									<!--- multibyte --->
+									<cfif foundHighCount LT 6>
+										<cfset foundMultiByte = "#foundMultiByte# <li>#thisBit#</li>"><!--- " --->
+										<cfset foundHighCount = foundHighCount + 1>
+									</cfif>
+								</cfif>
 							</cfif>
 						</cfloop>
 						<cfif #row# is 1>
@@ -157,6 +173,16 @@
 							</cftry>
 						</cfif>
 					</cfloop>
+					<cfif foundHighCount GT 0>
+						<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
+						<div>
+							Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected.
+						</div>
+						<ul>
+							#foundHighAscii#
+							#foundMultiByte#
+						</ul>
+					</cfif>
 					<h3 class="h3">
 						Successfully loaded #loadedRows# records from the CSV file into the staging table.  
 						Next <a href="/Bulkloader/BulkloadSpecimens.cfm?action=validate" target="_self">click to validate or load</a>.
