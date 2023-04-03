@@ -324,11 +324,13 @@
 	<cfset separator="">
 	<cfset separatorTab="">
 	<cfset headerLine="">
+	<cfset headerLineTab="">
 	<cfset guidanceLine="">
 	<cfset guidanceLineTab="">
 	<cfloop query="lookupColumns">
 		<cfif ListContains(fld,lookupColumns.column_name) GT 0>
 			<cfset headerLine = '#headerLine##separator#"#lookupColumns.column_name#"'>
+			<cfset headerLineTab = '#headerLineTab##separatorTab##lookupColumns.column_name#'>
 			<cfset quotesEscaped = replace(lookupColumns.comments,'"','""',"all")>
 			<cfset guidanceLine = '#guidanceLine##separator#"#quotesEscaped#"'>
 			<cfset guidanceLineTab = '#guidanceLineTab##separatorTab##trim(lookupColumns.comments)#'>
@@ -347,8 +349,7 @@
 			<a href="/download/#fileName#">Click here if your file does not automatically download.</a>
 		<cfelseif #fileFormat# is "txt">
 			<cfset fileName = "CustomBulkloaderTemplate.txt">
-			<cfset header = replace(headerLine,'","',"#chr(9)#","all")>
-			<cffile action="write" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#trim(header)#" charset="utf-8">
+			<cffile action="write" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#trim(headerLineTab)#" charset="utf-8">
 			<cfif isDefined("guidance") AND guidance EQ "yes">
 				<cffile action="append" file="#Application.webDirectory#/download/#fileName#" addnewline="yes" output="#guidanceLineTab#" charset="utf-8">
 			</cfif>
