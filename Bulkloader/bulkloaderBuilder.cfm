@@ -259,7 +259,7 @@
 						<label for="fileFormat" class="col-4 float-left text-right pt-1">Format:</label>
 						<select name="fileFormat" id="fileFormat" class="data-entry-select col-4 float-left">
 							<option value="txt">Tab-delimited text</option>
-							<option value="csv">CSV</option>
+							<option value="csv" selected>CSV</option>
 						</select>
 						<input type="submit" value="Download Template" class="btn-xs btn-primary col-4 float-left">
 					</div>
@@ -306,7 +306,7 @@
 			<cflocation url="/download.cfm?file=#fileName#" addtoken="false">
 			<a href="/download/#fileName#">Click here if your file does not automatically download.</a>
 		<cfelse>
-			That file format doesn't seem to be supported yet!
+			That file format is not supported.
 		</cfif>
 </cfoutput>
 </cfif>
