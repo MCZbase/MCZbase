@@ -257,7 +257,7 @@
 					</script>
 				</div>
 		
-				<div class="col-12 col-md-4 pt-4 mt-0 mt-md-5 float-left">
+				<div class="col-12 col-md-8 pt-4 mt-0 mt-md-5 float-left">
 					<form name="f" method="post" action="bulkloaderBuilder.cfm">
 						<input type="hidden" name="action" value="getTemplate">
 						<div class="border form-row mx-0 p-3">
