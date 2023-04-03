@@ -111,13 +111,13 @@
 								<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 									<!--- high ASCII --->
 									<cfif foundHighCount LT 6>
-										<cfset foundHighAscii = "#foundHighAscii# <li>#thisBit#</li>"><!--- " --->
+										<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
 										<cfset foundHighCount = foundHighCount + 1>
 									</cfif>
 								<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
 									<!--- multibyte --->
 									<cfif foundHighCount LT 6>
-										<cfset foundMultiByte = "#foundMultiByte# <li>#thisBit#</li>"><!--- " --->
+										<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
 										<cfset foundHighCount = foundHighCount + 1>
 									</cfif>
 								</cfif>
@@ -176,9 +176,10 @@
 					<cfif foundHighCount GT 0>
 						<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
 						<div>
-							Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected.
+							Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected. 
+							You probably want to <a href="/Bulkloader/BulkloadSpecimens.cfm">reload this file</a> selecting a different encoding.
 						</div>
-						<ul>
+						<ul style="font-size: 1.3rem;">
 							#foundHighAscii#
 							#foundMultiByte#
 						</ul>
