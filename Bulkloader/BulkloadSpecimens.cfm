@@ -185,10 +185,17 @@
 							#foundMultiByte#
 						</ul>
 					</cfif>
-					<h3 class="h3">
-						Successfully loaded #loadedRows# records from the CSV file into the staging table.  
-						Next <a href="/Bulkloader/BulkloadSpecimens.cfm?action=validate" target="_self">click to validate or load</a>.
-					</h3>
+					<cfif loadedRows GT 0>
+						<h3 class="h3">
+							Successfully loaded #loadedRows# records from the CSV file into the staging table.  
+							Next <a href="/Bulkloader/BulkloadSpecimens.cfm?action=validate" target="_self">click to validate or load</a>.
+						</h3>
+					<cfelse>
+						<h3 class="h3">
+							Found #loadedRows# records from the CSV file to load into the staging table.  
+							Examine your file and <a href="/Bulkloader/BulkloadSpecimens.cfm" target="_self">try again</a>.
+						</h3>
+					</cfif>
 				<cfcatch>
 					<h3 class="h3">Error: Failed to load data from the CSV file.</h3>
 					<div>#cfcatch.message#</div>
