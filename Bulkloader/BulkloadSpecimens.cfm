@@ -280,12 +280,23 @@
 							SET loaded = 'BULKLOADED RECORD'
 							WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<cfquery name="moveEm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveEm_result">
-							INSERT into bulkloader (#columns#)
-								SELECT #columns# from bulkloader_stage
-								WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						<cfquery name="toMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT collection_object_id 
+							FROM bulkloader_stage
+							WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<cfset movedCount=ListLen(moveEm_result.GENERATEDKEY)>
+						<!--- we could insert with a query on just staging_user, but that multi-row insert returns a count of 1 affected record, 
+							so to check for success, need to move one record at a time --->
+						<cfset movedCount = 0>
+						<cfloop query="toMove">
+							<cfquery name="moveRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveRow_result">
+								INSERT into bulkloader (#columns#)
+									SELECT #columns# from bulkloader_stage
+									WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#toMove.collection_object_id#">
+							</cfquery>
+							<cfset movedCount=movedCount+moveRow_result.recordcount>
+						</cfloop>
 						<cfif movedCount EQ toMoveCount>
 							<cfquery name="cleanUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cleanUp_result">
 								DELETE from bulkloader_stage 
@@ -395,11 +406,23 @@
 								SET loaded = 'BULKLOADED RECORD'
 								WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							</cfquery>
-							<cfquery name="moveEm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveEm_result">
-								INSERT into bulkloader (#columns#)
-									SELECT #columns# from bulkloader_stage
-									WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							<cfquery name="toMove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT collection_object_id 
+								FROM bulkloader_stage
+								WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							</cfquery>
+							<!--- we could insert with a query on just staging_user, but that multi-row insert returns a count of 1 affected record, 
+								so to check for success, need to move one record at a time --->
+							<cfset movedCount = 0>
+							<cfloop query="toMove">
+								<cfquery name="moveRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="moveRow_result">
+									INSERT into bulkloader (#columns#)
+										SELECT #columns# from bulkloader_stage
+										WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										AND collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#toMove.collection_object_id#">
+								</cfquery>
+								<cfset movedCount=movedCount+moveRow_result.recordcount>
+							</cfloop>
 							<cfset movedCount=ListLen(moveEm_result.GENERATEDKEY)>
 							<cfif movedCount EQ toMoveCount>
 								<cfquery name="cleanUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cleanUp_result">
