@@ -285,7 +285,7 @@
 								SELECT #columns# from bulkloader_stage
 								WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<cfset movedCount=ListLen(moveEm_result.GENERATED_KEY)>
+						<cfset movedCount=ListLen(moveEm_result.GENERATEDKEY)>
 						<cfif movedCount EQ toMoveCount>
 							<cfquery name="cleanUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cleanUp_result">
 								DELETE from bulkloader_stage 
@@ -400,7 +400,7 @@
 									SELECT #columns# from bulkloader_stage
 									WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							</cfquery>
-							<cfset movedCount=ListLen(moveEm_result.GENERATED_KEY)>
+							<cfset movedCount=ListLen(moveEm_result.GENERATEDKEY)>
 							<cfif movedCount EQ toMoveCount>
 								<cfquery name="cleanUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="cleanUp_result">
 									DELETE from bulkloader_stage 
