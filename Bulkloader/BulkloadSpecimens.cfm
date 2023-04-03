@@ -429,7 +429,7 @@
 									WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								</cfquery>
 								<cftransaction action="commit">
-								<h1 class="h2">No Problems Found Checking Staged Records, loaded all #moveCount# to Bulkloader</h1>
+								<h1 class="h2">No Problems Found Checking Staged Records, loaded all #movedCount# to Bulkloader</h1>
 								<div>
 									Your records have been checked and are now in table Bulkloader and flagged as
 									loaded='BULKLOADED RECORD'.  You can un-flag and load them.
