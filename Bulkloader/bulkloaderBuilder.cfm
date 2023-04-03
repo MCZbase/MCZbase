@@ -276,7 +276,7 @@
 								</select>
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="submitButton" class="data-entry-label">&nsbsp;</label>
+								<label for="submitButton" class="data-entry-label">&nbsp;</label>
 								<input type="submit" id="submitButton" value="Download Template" class="btn-xs btn-primary float-left">
 							</div>
 						</div>
