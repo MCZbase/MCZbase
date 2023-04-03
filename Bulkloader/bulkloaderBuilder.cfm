@@ -15,7 +15,7 @@
 <cfoutput>
 	<cfset everything=valuelist(blt.column_name)>
 	<cfset inListItems="">
-	<cfset required="COLLECTION_OBJECT_ID,ENTEREDBY,ACCN,TAXON_NAME,NATURE_OF_ID,ID_MADE_BY_AGENT,MADE_DATE,VERBATIM_DATE,BEGAN_DATE,ENDED_DATE,HIGHER_GEOG,SPEC_LOCALITY,VERBATIM_LOCALITY,COLLECTION_CDE,INSTITUTION_ACRONYM,COLLECTOR_AGENT_1,COLLECTOR_ROLE_1,PART_NAME_1,PRESERV_METHOD_1,PART_CONDITION_1,PART_LOT_COUNT_1,PART_DISPOSITION_1,COLLECTING_METHOD,COLLECTING_SOURCE">
+	<cfset required="COLLECTION_OBJECT_ID,ENTEREDBY,ACCN,CAT_NUM,TAXON_NAME,NATURE_OF_ID,ID_MADE_BY_AGENT,MADE_DATE,VERBATIM_DATE,BEGAN_DATE,ENDED_DATE,HIGHER_GEOG,SPEC_LOCALITY,VERBATIM_LOCALITY,COLLECTION_CDE,INSTITUTION_ACRONYM,COLLECTOR_AGENT_1,COLLECTOR_ROLE_1,PART_NAME_1,PRESERV_METHOD_1,PART_CONDITION_1,PART_LOT_COUNT_1,PART_DISPOSITION_1,COLLECTING_METHOD,COLLECTING_SOURCE">
 	<cfset inListItems=listappend(inListItems,required)>
 	<cfset basicCoords="ORIG_LAT_LONG_UNITS, DATUM,LAT_LONG_REF_SOURCE,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,GEOREFMETHOD,DETERMINED_BY_AGENT,DETERMINED_DATE,LAT_LONG_REMARKS,VERIFICATIONSTATUS,GPSACCURACY,EXTENT,DATUM">
 	<cfset inListItems=listappend(inListItems,basicCoords)>
@@ -27,6 +27,7 @@
 	<cfset inListItems=listappend(inListItems,dd)>
 	<cfset utm="UTM_ZONE,UTM_EW,UTM_NS">
 	<cfset inListItems=listappend(inListItems,utm)>
+	<cfset geological="">
 	<cfset n=5>
 	<cfset oid="CAT_NUM">
 	<cfloop from="1" to="#n#" index="i">
@@ -258,7 +259,7 @@
 						<label for="fileFormat" class="col-4 float-left text-right pt-1">Format:</label>
 						<select name="fileFormat" id="fileFormat" class="data-entry-select col-4 float-left">
 							<option value="txt">Tab-delimited text</option>
-							<option value="csv">CSV</option>
+							<option value="csv" selected>CSV</option>
 						</select>
 						<input type="submit" value="Download Template" class="btn-xs btn-primary col-4 float-left">
 					</div>
@@ -305,7 +306,7 @@
 			<cflocation url="/download.cfm?file=#fileName#" addtoken="false">
 			<a href="/download/#fileName#">Click here if your file does not automatically download.</a>
 		<cfelse>
-			That file format doesn't seem to be supported yet!
+			That file format is not supported.
 		</cfif>
 </cfoutput>
 </cfif>
