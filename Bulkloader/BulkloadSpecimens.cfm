@@ -48,7 +48,7 @@
 		<cfset loadedList = getLoadedValues.loaded>
 		<cfloop list="loadedList" index="loadedItem" delimiters=";">
 			<cfif NOT ArrayContains(loadedArray,loadedItem)>
-				<cfset loadedArray = ArrayAdd(loadedArray,loadedItem)>
+				<cfset loadedArray = ArrayAppend(loadedArray,loadedItem)>
 			</cfif>
 		</cfloop>
 	</cfloop>
