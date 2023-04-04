@@ -18,11 +18,92 @@
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfset csv = queryToCSV(getProblemData)>
+	<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHmmss')#">
+	<cfset filename = "StagedData_#session.username#_#timestamp#.csv">
 	<cfheader name="Content-Type" value="text/csv">
+	<cfheader name="Content-Disposition" value="attachment; filename=#filename#">
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
+<!--- special case handling to dump unique problems as csv --->
+<cfif isDefined("action") AND action is "dumpUniqueProblems">
+	<cfset crlf = chr(13) & chr(10) >
+	<cfquery name="getColumnsNoUser" datasource="uam_god">
+		SELECT column_name
+		FROM all_tab_columns
+		WHERE table_name='BULKLOADER_STAGE' AND owner='MCZBASE' 
+			and column_name <> 'STAGING_USER'
+		ORDER BY column_id
+	</cfquery>
+	<cfset columns = "">
+	<cfloop query="getColumnsNoUser">
+		<cfset columns=ListAppend(columns,getColumnsNoUser.column_name)>
+	</cfloop>
+	<cfquery name="getLoadedValues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT distinct loaded 
+		FROM bulkloader_stage
+		WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			AND loaded is not null
+	</cfquery>
+	<cfset loadedArray = ArrayNew(1)>
+	<cfloop query="getLoadedValues">
+		<cfset loadedList = getLoadedValues.loaded>
+		<cfloop list="#loadedList#" index="loadedItem" delimiters=";">
+			<cfif len(loadedItem) GT 0>
+				<cfif NOT ArrayContains(loadedArray,loadedItem)>
+					<cfset ArrayAppend(loadedArray,loadedItem)>
+				</cfif>
+			</cfif>
+		</cfloop>
+	</cfloop>
+	<cfset csv ='"ERROR","COLUMN","VALUE","ROWS"'>
+	<cfloop index="i" from="1" to="#ArrayLen(loadedArray)#">
+		<!--- TODO: identify the error column, for that error condition, find distinct values of the column with the error, report those --->
+		<cfquery name="getErrorRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT collection_object_id
+			FROM bulkloader_stage
+			WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				AND loaded like '%#loadedArray[i]#%'
+		</cfquery>
+		<cfset rows ="">
+		<cfset separator="">
+		<cfloop query="getErrorRows">
+			<cfset rows = "#rows##separator##getErrorRows.collection_object_id#">
+			<cfset separator=",">
+		</cfloop>
+		<cfset errorCase = loadedArray[i]>
+		<cfset errorCase = Trim(Replace(errorCase,'"','""','All'))>
+		<cfset columnInError = "">
+		<cfloop list="#columns#" index="col">
+			<cfif FindNoCase(col,errorCase) GT 0>
+				<cfset columnInError = col>
+			</cfif>
+		</cfloop>
+		<cfif columnInError NEQ "">
+			<cfquery name="getErrorCases" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT distinct #columnInError# value_error
+				FROM bulkloader_stage
+				WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND loaded like '%#errorCase#%'
+			</cfquery>
+			<cfloop query="getErrorCases">
+				<cfset valError = Replace(getErrorCases.value_error,'"','""','All')>
+				<cfset csv = '#csv##crlf#"#errorCase#","#columnInError#","#valError#","#rows#"'>
+			</cfloop>
+		<cfelse>
+			<cfset csv = '#csv##crlf#"#errorCase#","","","#rows#"'>
+		</cfif>
+	</cfloop>
+	<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHmmss')#">
+	<cfset filename = "StagedDataProblems_#session.username#_#timestamp#.csv">
+	<cfheader name="Content-Type" value="text/csv">
+	<cfheader name="Content-Disposition" value="attachment; filename=#filename#">
+	<cfoutput>#csv#</cfoutput>
+	<cfabort>
+</cfif>
+
+<!--- end special case dump of unique problems --->
 
 <cfset pageTitle="Bulkload Specimens">
 <cfinclude template="/shared/_header.cfm">
@@ -345,6 +426,7 @@
 					<div>
 						Download your data with error messages added as a <a href="/Bulkloader/bulkloader.txt" target="_blank">tab delimited</a> 
 						or <a href="/Bulkloader/BulkloadSpecimens.cfm?action=dumpProblems">CSV</a> file. 
+						You may also download a <a href="/Bulkloader/BulkloadSpecimens.cfm?action=dumpUniqueProblems">CSV file of distinct problems</a> found in the data. 
 						Fix issues in the data and then <a href="/Bulkloader/BulkloadSpecimens.cfm">reload</a>.
 						This method is strongly preferred.
 					</div>
