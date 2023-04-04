@@ -75,7 +75,7 @@
 		<cfloop list="#columns#" index="col">
 			<cfif FindNoCase(col,errorCase) GT 0>
 				<cfset columnInError = col>
-			<cfif>
+			</cfif>
 		</cfloop>
 		<cfif columnInError NEQ "">
 			<cfquery name="getErrorCases" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
