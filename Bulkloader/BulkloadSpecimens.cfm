@@ -23,6 +23,34 @@
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
+<!--- special case handling to dump unique problems as csv --->
+<cfif isDefined("action") AND action is "dumpUniqueProblems">
+	<cfquery name="getColumnsNoUser" datasource="uam_god">
+		SELECT column_name
+		FROM all_tab_columns
+		WHERE table_name='BULKLOADER_STAGE' AND owner='MCZBASE' 
+			and column_name <> 'STAGING_USER'
+		ORDER BY column_id
+	</cfquery>
+	<cfset columns = "">
+	<cfloop query="getColumnsNoUser">
+		<cfset columns=ListAppend(columns,getColumnsNoUser.column_name)>
+	</cfloop>
+	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT count(*) number_of_affected_rows, loaded 
+		FROM bulkloader_stage
+		WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			AND loaded is not null
+		GROUP BY loaded
+	</cfquery>
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset csv = queryToCSV(getProblemData)>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfoutput>#csv#</cfoutput>
+	<cfabort>
+</cfif>
+
+<!--- end special case dump of unique problems --->
 
 <cfset pageTitle="Bulkload Specimens">
 <cfinclude template="/shared/_header.cfm">
