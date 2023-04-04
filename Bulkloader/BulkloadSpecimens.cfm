@@ -19,7 +19,7 @@
 	<cfinclude template="/shared/component/functions.cfc">
 	<cfset csv = queryToCSV(getProblemData)>
 	<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHmmss')#">
-	<cfset filename = "StagedData_#session.username#_#timestamp#.csv"
+	<cfset filename = "StagedData_#session.username#_#timestamp#.csv">
 	<cfheader name="Content-Type" value="text/csv">
 	<cfheader name="Content-Disposition" value="attachment; filename=#filename#">
 	<cfoutput>#csv#</cfoutput>
@@ -96,7 +96,7 @@
 		</cfif>
 	</cfloop>
 	<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHmmss')#">
-	<cfset filename = "StagedDataProblems_#session.username#_#timestamp#.csv"
+	<cfset filename = "StagedDataProblems_#session.username#_#timestamp#.csv">
 	<cfheader name="Content-Type" value="text/csv">
 	<cfheader name="Content-Disposition" value="attachment; filename=#filename#">
 	<cfoutput>#csv#</cfoutput>
