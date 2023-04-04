@@ -70,7 +70,7 @@
 			<cfset separator=",">
 		</cfloop>
 		<cfset errorCase = loadedArray[i]>
-		<cfset errorCase = Replace(errorCase,'"','""','All')>
+		<cfset errorCase = Trim(Replace(errorCase,'"','""','All'))>
 		<cfset columnInError = "">
 		<cfloop list="#columns#" index="col">
 			<cfif FindNoCase(col,errorCase) GT 0>
