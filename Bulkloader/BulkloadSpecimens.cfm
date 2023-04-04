@@ -54,7 +54,7 @@
 			</cfif>
 		</cfloop>
 	</cfloop>
-	<cfset csv ='"ERROR","COLUMN","VALUE,"ROWS"'>
+	<cfset csv ='"ERROR","COLUMN","VALUE","ROWS"'>
 	<cfloop index="i" from="1" to="#ArrayLen(loadedArray)#">
 		<!--- TODO: identify the error column, for that error condition, find distinct values of the column with the error, report those --->
 		<cfquery name="getErrorRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -69,7 +69,7 @@
 			<cfset rows = "#rows##separator##getErrorRows.collection_object_id#">
 			<cfset separator=",">
 		</cfloop>
-		<cfset csv = '#csv##crlf#"#loadedArray[i]#"."TODO","TODO","#rows#"'>
+		<cfset csv = '#csv##crlf#"#loadedArray[i]#","TODO","TODO","#rows#"'>
 	</cfloop>
 	<cfheader name="Content-Type" value="text/csv">
 	<cfoutput>#csv#</cfoutput>
