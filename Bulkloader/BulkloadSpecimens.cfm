@@ -88,7 +88,7 @@
 				<cfset valError = Replace(getErrorCases.value_error,'"','""','All')>
 				<cfset csv = '#csv##crlf#"#errorCase#","#columnInError#","#valError#","#rows#"'>
 			</cfloop>
-		</cfelse>
+		<cfelse>
 			<cfset csv = '#csv##crlf#"#errorCase#","","","#rows#"'>
 		</cfif>
 	</cfloop>
