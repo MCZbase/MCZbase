@@ -426,6 +426,7 @@
 					<div>
 						Download your data with error messages added as a <a href="/Bulkloader/bulkloader.txt" target="_blank">tab delimited</a> 
 						or <a href="/Bulkloader/BulkloadSpecimens.cfm?action=dumpProblems">CSV</a> file. 
+						You may also download a <a href="/Bulkloader/BulkloadSpecimens.cfm?action=dumpUniqueProblems">CSV file of distinct problems</a> found in the data. 
 						Fix issues in the data and then <a href="/Bulkloader/BulkloadSpecimens.cfm">reload</a>.
 						This method is strongly preferred.
 					</div>
