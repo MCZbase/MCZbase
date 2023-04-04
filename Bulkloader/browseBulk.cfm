@@ -693,9 +693,13 @@ table##t th {
 					</div>
 					<div class="col-12 mb-3 mt-0 float-left">
 						<div class="blTabDiv">
-							<table class="table" id="t"> 
-				<!---				   class="sortable">  Sortable class goes with table id="t" but it slows the load down so much that it isn't practical to use for more than a handful of records. It also won't work for styling to have the <tr> wrapped around the whole table without <thead> and <tbody> --->
-							<!---	<tr>--->
+							<!--- Sortable class goes with table id="t" but it slows the load down so much that it isn't practical to use for more than a handful of records. --->
+							<cfif data.recordcount LT 31>
+								<cfset sortable = "sortable">
+							<cfelse>
+								<cfset sortable = "">
+							</cfif>
+							<table class="table" id="t" class="#sortable#">  
 									<thead class="thead-light">
 										<tr>
 											<cfloop query="cNames">
@@ -711,12 +715,15 @@ table##t th {
 											</cfquery>
 											<cfloop query="cNames">
 												<cfset thisData = evaluate("thisRec." & cNames.column_name)>
-												<td class="px-2">#thisData#</td>
+												<cfif cNames.column_name EQ "COLLECTION_OBJECT_ID">
+													<td class="px-2"><a href="/DataEntry.cfm?CFGRIDKEY=#thisData#">#thisData#</a></td>
+												<cfelse>
+													<td class="px-2">#thisData#</td>
+												</cfif>
 											</cfloop>
 											</tr>
 										</cfloop>
 									</tbody>
-								<!---</tr>--->
 							</table>
 							
 							<script>
