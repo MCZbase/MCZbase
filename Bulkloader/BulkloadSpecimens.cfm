@@ -69,7 +69,28 @@
 			<cfset rows = "#rows##separator##getErrorRows.collection_object_id#">
 			<cfset separator=",">
 		</cfloop>
-		<cfset csv = '#csv##crlf#"#loadedArray[i]#","TODO","TODO","#rows#"'>
+		<cfset errorCase = loadedArray[i]>
+		<cfset errorCase = Replace(errorCase,'"','""','All')>
+		<cfset columnInError = "">
+		<cfloop list="#columns#" index="col">
+			<cfif FindNoCase(col,errorCase) GT 0>
+				<cfset columnInError = col>
+			<cfif>
+		</cfloop>
+		<cfif columnInError NEQ "">
+			<cfquery name="getErrorCases" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT distinct #columnInError# value_error
+				FROM bulkloader_stage
+				WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND loaded like '%#errorCase#%'
+			</cfquery>
+			<cfloop query="getErrorCases">
+				<cfset valError = Replace(getErrorCases.value_error,'"','""','All')>
+				<cfset csv = '#csv##crlf#"#errorCase#","#columnInError#","#valError#","#rows#"'>
+			</cfloop>
+		</cfelse>
+			<cfset csv = '#csv##crlf#"#errorCase#","","","#rows#"'>
+		</cfif>
 	</cfloop>
 	<cfheader name="Content-Type" value="text/csv">
 	<cfoutput>#csv#</cfoutput>
