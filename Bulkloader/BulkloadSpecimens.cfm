@@ -45,8 +45,8 @@
 	</cfquery>
 	<cfset loadedArray = ArrayNew(1)>
 	<cfloop query="getLoadedValues">
-		<cfset loadedList = AsList(getLoadedValues,';')>
-		<cfloop list="loadedList" index="loadedItem">
+		<cfset loadedList = getLoadedValues.loaded>
+		<cfloop list="loadedList" index="loadedItem" delimiter=";">
 			<cfif NOT ArrayContains(loadedArray,loadedItem)>
 				<cfset loadedArray = ArrayAdd(loadedArray,loadedItem)>
 			</cfif>
