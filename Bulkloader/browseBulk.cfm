@@ -716,7 +716,7 @@ table##t th {
 											<cfloop query="cNames">
 												<cfset thisData = evaluate("thisRec." & cNames.column_name)>
 												<cfif cNames.column_name EQ "COLLECTION_OBJECT_ID">
-													<td class="px-2"><a href="/DataEntry.cfm?CFGRIDKEY=#thisData#">#thisData#</a></td>
+													<td class="px-2"><a href="/DataEntry.cfm?action=editEnterData&CFGRIDKEY=#thisData#">#thisData#</a></td>
 												<cfelse>
 													<td class="px-2">#thisData#</td>
 												</cfif>
