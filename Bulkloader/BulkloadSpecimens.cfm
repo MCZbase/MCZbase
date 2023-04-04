@@ -49,7 +49,7 @@
 		<cfloop list="#loadedList#" index="loadedItem" delimiters=";">
 			<cfif len(loadedItem) GT 0>
 				<cfif NOT ArrayContains(loadedArray,loadedItem)>
-					<cfset loadedArray = ArrayAppend(loadedArray,loadedItem)>
+					<cfset ArrayAppend(loadedArray,loadedItem)>
 				</cfif>
 			</cfif>
 		</cfloop>
