@@ -190,10 +190,14 @@ table##t th {
 							</cfquery>
 							<cfset rows ="">
 							<cfset separator="">
-							<cfloop query="getErrorRows">
-								<cfset rows = "#rows##separator#<a href='/DataEntry.cfm?action=editEnterData&CFGRIDKEY=#getErrorRows.collection_object_id#'>#getErrorRows.collection_object_id#</a>">
-								<cfset separator=", "><!--- " --->
-							</cfloop>
+							<cfif getErrorRows.recordcount LT 21>
+								<cfloop query="getErrorRows">
+									<cfset rows = "#rows##separator#<a href='/DataEntry.cfm?action=editEnterData&CFGRIDKEY=#getErrorRows.collection_object_id#'>#getErrorRows.collection_object_id#</a>">
+									<cfset separator=", "><!--- " --->
+								</cfloop>
+							<cfelse>
+								<cfset rows = "in #getErrorRows.recordcount# records">
+							</cfif>
 							<cfset errorCase = loadedArray[i]>
 							<cfset columnInError = "">
 							<cfloop list="#columns#" index="col">
