@@ -346,7 +346,7 @@ table##t th {
 				</cfquery>
 				<cfset ColNameList = valuelist(cNames.column_name)>
 				<cfset ColNameList = replace(ColNameList,"COLLECTION_OBJECT_ID","","all")>
-				<cfif isDefined("showOnlyPopulated") and showOnlyPopulated EQ "true")>
+				<cfif isDefined("showOnlyPopulated") AND showOnlyPopulated EQ "true">
 					<!--- optionally, leave unpopulated columns out of grid --->
 					<cfloop list="#ColNameList#" index="aColumnName">
 						<cfquery name="checkForData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
