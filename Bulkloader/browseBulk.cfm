@@ -205,15 +205,15 @@ table##t th {
 							</cfif>
 							<cfset errorCase = loadedArray[i]>
 							<cfset columnInError = "">
-							<cfloop list="#columns#" index="col">
-								<cfif FindNoCase(col,errorCase) GT 0>
-									<cfset columnInError = col>
-								<cfelse>
-									<cfif errorCase EQ 'geog_auth_rec matched 0 records'>
-										<cfset columnInError = "HIGHER_GEOG">
+							<cfif FindNoCase('geog_auth_rec matched 0 records',errorCase) GT 0>
+								<cfset columnInError = "HIGHER_GEOG">
+							<cfelse>
+								<cfloop list="#columns#" index="col">
+									<cfif FindNoCase(col,errorCase) GT 0>
+										<cfset columnInError = col>
 									</cfif>
-								</cfif>
-							</cfloop>
+								</cfloop>
+							</cfif>
 							<cfset doBulk = "?action=sqlTab&enteredby=#enteredby#">
 							<cfif isdefined("accn") and len(accn) gt 0>
 								<cfset doBulk = "#doBulk#&accn=#accn#">
