@@ -865,7 +865,7 @@ table##t th {
 
 					<div class="col-12 col-xl-7 mb-0 mt-1 pb-0 float-left">
 						<h2 class="h3">Update data in table below (#data.recordcount# rows): </h2> 
-						<form name="up" method="post" action="browseBulk.cfm">
+						<form name="up" method="post" action="browseBulk.cfm" class="col-auto float-left px-0">
 							<input type="hidden" name="action" value="runSQLUp">
 							<input type="hidden" name="enteredby" value="#enteredby#">
 							<cfif isdefined("accn") and len(accn) gt 0>
@@ -923,9 +923,7 @@ table##t th {
 								</tbody>
 							</table>
 						</form>
-					</div>
-					<div class="col-12 col-xl-5 pb-2 mt-0 mt-xl-5 float-left">
-						<p class="font-italic text-dark mb-1">Select a column to update, then enter a new value to be applied to all records shown below.
+						<p class="font-italic text-dark mb-1 col-6 px-3 float-left">Select a column to update, then enter a new value to be applied to all records shown below.
 						To empty a column, select the column, click "NULL" for the value, and then update. To sort, click on a column header and wait. The length of delay is proportional to the number of rows in the table.	Use your browser Find functionality ("control" + "F") to locate a column header or value.</p>
 					</div>
 
