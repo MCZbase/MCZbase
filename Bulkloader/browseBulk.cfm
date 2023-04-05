@@ -173,7 +173,7 @@ table##t th {
 					<cfelse>
 						<cfset sortable = "">
 				</cfif>
-				<table class="table table-bordered table-responsive-md table-striped #sortable#">
+				<table class="table table-bordered table-responsive-md table-striped" id="t">
 					<thead class="thead-light">
 						<tr>
 							<th>Error</th>
