@@ -738,13 +738,15 @@ table##t th {
 							</cfif>
 							<cfif countData.ct GT 500>
 						 		(limited to 500 records)
-							</cfif>
-							. <a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
+							</cfif>.
+						</h2>
+						<h4>
+							<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 							<span class="h4">&nbsp;~&nbsp;</span> 
 							<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Ajax Grid</a>
 							<span class="h4">&nbsp;~&nbsp;</span> 
 							<a class="px-1 h4" href="browseBulk.cfm?action=listUniqueProblems&enteredby=#enteredby#&accn=#accn#&colln=#colln#">List Problems</a>
-						</h2>
+						</h4>
 					</div>
 
 					<div class="col-12 col-xl-7 mt-1 pb-0 float-left">
