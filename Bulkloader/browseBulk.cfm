@@ -384,7 +384,7 @@ table##t th {
 				<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 				<span class="h4">&nbsp;~&nbsp;</span> 
 				<cfif isDefined("showOnlyPopulated") AND showOnlyPopulated EQ "true">
-					<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#&showOnlyPopulated=true">Show All Columns</a>
+					<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Show All Columns</a>
 				<cfelse>
 					<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#&showOnlyPopulated=true">Show Only Columns with Data</a>
 				</cfif>
