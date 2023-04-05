@@ -90,6 +90,158 @@ table##t th {
 		<a href="/download/#fname#">Click here if your file does not automatically download.</a>
 	</cfoutput>
 </cfif>
+<cfif isDefined("action") AND action is "listUniqueProblems">
+	<cfset enteredByCleaned = replace(enteredby,"'","","All")>
+	<cfset accnCleaned = replace(accn,"'","","All")>
+	<cfset collnCleaned = replace(colln,"'","","All")>
+	<cfquery name="countData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT count(*) as ct
+		FROM bulkloader
+		WHERE 
+			enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
+		<cfif len(accn) gt 0>
+			AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+		</cfif>
+		<cfif isdefined("colln") and len(colln) gt 0>
+			AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
+		</cfif>
+	</cfquery>
+	<cfset crlf = chr(13) & chr(10) >
+	<cfquery name="getColumnsNoUser" datasource="uam_god">
+		SELECT column_name
+		FROM all_tab_columns
+		WHERE table_name='BULKLOADER' AND owner='MCZBASE' 
+		ORDER BY column_id
+	</cfquery>
+	<cfset columns = "">
+	<cfloop query="getColumnsNoUser">
+		<cfset columns=ListAppend(columns,getColumnsNoUser.column_name)>
+	</cfloop>
+	<cfquery name="getLoadedValues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT distinct loaded 
+		FROM bulkloader
+		WHERE 
+			loaded is not null
+			AND loaded <> 'BULKLOADED RECORD'
+			AND loaded <> 'MARK FOR DELETION'
+			AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
+		<cfif len(accn) gt 0>
+			AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+		</cfif>
+		<cfif isdefined("colln") and len(colln) gt 0>
+			AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
+		</cfif>
+	</cfquery>
+	<cfset loadedArray = ArrayNew(1)>
+	<cfloop query="getLoadedValues">
+		<cfset loadedList = getLoadedValues.loaded>
+		<cfloop list="#loadedList#" index="loadedItem" delimiters=";">
+			<cfif len(loadedItem) GT 0>
+				<cfif NOT ArrayContains(loadedArray,loadedItem)>
+					<cfset ArrayAppend(loadedArray,loadedItem)>
+				</cfif>
+			</cfif>
+		</cfloop>
+	</cfloop>
+	<div class="container-fluid">
+		<div class="col-12 p-4">
+			<cfoutput>
+				<h1 class="h2">#ArrayLen(loadedArray)# issues with #countData.ct# records.</h2>
+				<cfif listLen(enteredByCleaned) EQ 1>
+					<cfset entryList = "by #encodeForHtml(enteredByCleaned)#">
+				<cfelseif listLen(enteredByCleaned) GT 5>
+					<cfset entryList = "by any of #listLen(enteredByCleaned)# users">
+				<cfelse>
+					<cfset entryList = "by any of #encodeForHtml(enteredByCleaned)#">
+				</cfif>
+				<p>Issues with records in the bulkloader entered #entryList#
+				<cfif len(accn) gt 0>
+					with accession number(s) #encodeForHtml(accn)#
+				</cfif>
+				<cfif isdefined("colln") and len(colln) gt 0>
+					in collection(s) #encodeForHtml(colln)#
+				</cfif>
+				</p>
+				<table class="table table-responsive border table-striped">
+					<thead class="thead-light">
+						<th>
+							<td>Error</td>
+							<td>Column</td>
+							<td>Problem Value</td>
+							<td>Records</td>
+							<td></td>
+						</th>
+					</thead>
+					<tbody>
+						<cfloop index="i" from="1" to="#ArrayLen(loadedArray)#">
+							<!--- TODO: identify the error column, for that error condition, find distinct values of the column with the error, report those --->
+							<cfquery name="getErrorRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT collection_object_id
+								FROM bulkloader
+								WHERE 
+									loaded like '%#loadedArray[i]#%'
+									AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
+									<cfif len(accn) gt 0>
+										AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+									</cfif>
+									<cfif isdefined("colln") and len(colln) gt 0>
+										AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
+									</cfif>
+							</cfquery>
+							<cfset rows ="">
+							<cfset separator="">
+							<cfloop query="getErrorRows">
+								<cfset rows = "#rows##separator#<a href='/DataEntry.cfm?action=editEnterData&CFGRIDKEY=#getErrorRows.collection_object_id#'>#getErrorRows.collection_object_id#</a>">
+								<cfset separator=", "><!--- " --->
+							</cfloop>
+							<cfset errorCase = loadedArray[i]>
+							<cfset columnInError = "">
+							<cfloop list="#columns#" index="col">
+								<cfif FindNoCase(col,errorCase) GT 0>
+									<cfset columnInError = col>
+								</cfif>
+							</cfloop>
+							<cfset doBulk = "?action=sqlTab&enteredby=#enteredby#">
+							<cfif isdefined("accn") and len(accn) gt 0>
+								<cfset doBulk = "#doBulk#&accn=#accn#">
+							</cfif>
+							<cfif isdefined("colln") and len(colln) gt 0>
+								<cfset doBulk = "#doBulk#&colln=#colln#">
+							</cfif>
+							<cfif columnInError NEQ "">
+								<cfquery name="getErrorCases" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT distinct #columnInError# value_error
+									FROM bulkloader_stage
+									WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+										AND loaded like '%#errorCase#%'
+								</cfquery>
+								<cfloop query="getErrorCases">
+									<cfset doBulk = "#doBulk#&c1=#columnInError#&v1=#getErrorCases.value_error#&op1==">
+									<cfset doBulk = "#doBulk#&c2=LOADED&v2=#errorCase#&op2=like">
+									<tr>
+										<td>#errorCase#</td>
+										<td>#columnInError#</td>
+										<td>#getErrorCases.value_error#</td>
+										<td>#rows#</td>
+										<td><a href="/Bulkloader/browseBulk.cfm#doBulk#">Bulk Edit</a></td>
+								</cfloop>
+							<cfelse>
+								<cfset doBulk = "#doBulk#&c1=LOADED&v1=#errorCase#&op1=like">
+								<tr>
+									<td>#errorCase#</td>
+									<td></td>
+									<td></td>
+									<td>#rows#</td>
+									<td><a href="/Bulkloader/browseBulk.cfm#doBulk#">Bulk Edit</a></td>
+								</tr>
+							</cfif>
+						</cfloop>
+					</tbody>
+				</table>
+			</output>
+		</div>
+	</div>
+</cfif>
 <cfif action is "ajaxGrid">
 	<cfset enteredByCleaned = replace(enteredby,"'","","All")>
 	<cfset accnCleaned = replace(accn,"'","","All")>
