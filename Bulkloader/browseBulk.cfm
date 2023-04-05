@@ -155,13 +155,18 @@ table##t th {
 					<cfset entryList = "by any of #encodeForHtml(enteredByCleaned)#">
 				</cfif>
 				<p>Issues with records in the bulkloader entered #entryList#
-				<cfif len(accn) gt 0>
-					with accession number(s) #encodeForHtml(accn)#
-				</cfif>
-				<cfif isdefined("colln") and len(colln) gt 0>
-					in collection(s) #encodeForHtml(colln)#
-				</cfif>
+					<cfif len(accn) gt 0>
+						with accession number(s) #encodeForHtml(accn)#
+					</cfif>
+					<cfif isdefined("colln") and len(colln) gt 0>
+						in collection(s) #encodeForHtml(colln)#
+					</cfif>
 				</p>
+				<div>
+					<a class="px-1 h4" href="browseBulk.cfm?action=sqlTab&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Bulk</a>
+					<span class="h4">&nbsp;~&nbsp;</span> 
+					<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Ajax Grid</a>
+				</div>
 				<table class="table table-responsive border table-striped">
 					<thead class="thead-light">
 						<th>
@@ -320,6 +325,8 @@ table##t th {
 				<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 				<span class="h4">&nbsp;~&nbsp;</span> 
 				<a class="px-1 h4" href="browseBulk.cfm?action=sqlTab&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Bulk</a>
+				<span class="h4">&nbsp;~&nbsp;</span> 
+				<a class="px-1 h4" href="browseBulk.cfm?action=listUniqueProblems&enteredby=#enteredby#&accn=#accn#&colln=#colln#">List Problems</a>
 				<cfform method="post" action="browseBulk.cfm">
 					<cfinput type="hidden" name="returnAction" value="ajaxGrid">
 					<cfinput type="hidden" name="action" value="saveGridUpdate">
@@ -665,6 +672,8 @@ table##t th {
 							. <a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 							<span class="h4">&nbsp;~&nbsp;</span> 
 							<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Ajax Grid</a>
+							<span class="h4">&nbsp;~&nbsp;</span> 
+							<a class="px-1 h4" href="browseBulk.cfm?action=listUniqueProblems&enteredby=#enteredby#&accn=#accn#&colln=#colln#">List Problems</a>
 						</h2>
 					</div>
 					<div class="col-12 col-md-8 mt-1 pb-3 float-left">
