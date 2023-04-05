@@ -851,7 +851,7 @@ table##t th {
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-12 col-md-6 mb-3 mt-0 float-left">
+						<div class="col-12 col-md-12 col-xl-7 mb-0 mt-1 pb-0 float-left">
 							<h2 class="h3">Update data in table below (#data.recordcount# rows): </h2> 
 							<form name="up" method="post" action="browseBulk.cfm">
 								<input type="hidden" name="action" value="runSQLUp">
@@ -912,7 +912,7 @@ table##t th {
 								</table>
 							</form>
 						</div>
-						<div class="col-12 col-md-6 mb-3 mt-0 float-left">
+						<div class="col-12 col-md-12 col-xl-5 pb-2 mt-0 mt-xl-5 float-left">
 							<p class="font-italic text-dark mb-1">Select a column to update, then enter a new value to be applied for that column for all records shown.</p>
 							<p class="font-italic text-dark mb-1">To empty a column, select the column, click "NULL" for the value, and then update.</p>
 							<p class="font-italic text-dark">To sort, click on a column header and wait. There is a delay with length of delay proportional to the number of rows in the table.</p>
