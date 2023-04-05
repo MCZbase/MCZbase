@@ -91,6 +91,7 @@ table##t th {
 	</cfoutput>
 </cfif>
 <cfif isDefined("action") AND action is "listUniqueProblems">
+	<script src="/lib/misc/sorttable.js"></script>
 	<cfset enteredByCleaned = replace(enteredby,"'","","All")>
 	<cfset accnCleaned = replace(accn,"'","","All")>
 	<cfset collnCleaned = replace(colln,"'","","All")>
