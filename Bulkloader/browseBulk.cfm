@@ -849,7 +849,7 @@ table##t th {
 								</tbody>
 							</table>
 						</form>
-						<div class="col-6 px-3 float-left mb-1">
+						<div class="col-6 mt-2 mt-xl-5 px-3 float-left mb-1">
 							<h2 class="h4">Operator values:</h2>
 								<ul class="geol_hier">
 									<li><b>&##61;</b> : single case-sensitive exact match ("something"-->"<strong>something</strong>")</li>
