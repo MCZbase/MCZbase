@@ -182,10 +182,10 @@ table##t th {
 					<tbody>
 						<cfset baseDoBulk = "?action=sqlTab&enteredby=#enteredby#">
 						<cfif isdefined("accn") and len(accn) gt 0>
-							<cfset baseDoBulk = "#doBulk#&accn=#accn#">
+							<cfset baseDoBulk = "#baseDoBulk#&accn=#accn#">
 						</cfif>
 						<cfif isdefined("colln") and len(colln) gt 0>
-							<cfset baseDoBulk = "#doBulk#&colln=#colln#">
+							<cfset baseDoBulk = "#baseDoBulk#&colln=#colln#">
 						</cfif>
 						<cfloop index="i" from="1" to="#ArrayLen(loadedArray)#">
 							<cfquery name="getErrorRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
