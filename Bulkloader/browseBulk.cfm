@@ -749,8 +749,8 @@ table##t th {
 						</h4>
 					</div>
 
-					<div class="col-12 col-xl-7 mt-1 pb-0 float-left">
-						<form name="filter" method="post" action="browseBulk.cfm">
+					<div class="col-12 mt-1 pb-0 float-left">
+						<form name="filter" method="post" action="browseBulk.cfm"  class="col-auto float-left px-0">
 							<input type="hidden" name="action" value="sqlTab">
 							<input type="hidden" name="enteredby" value="#enteredby#">
 							<cfif isdefined("accn") and len(accn) gt 0>
@@ -849,21 +849,21 @@ table##t th {
 								</tbody>
 							</table>
 						</form>
-					</div>
-					<div class="col-12 col-xl-4 mt-2 mt-xl-5 pb-2 float-left">
-						<h2 class="h4">Operator values:</h2>
-							<ul class="geol_hier">
-								<li><b>&##61;</b> : single case-sensitive exact match ("something"-->"<strong>something</strong>")</li>
-								<li><b>like</b> : partial string match ("somet" --> "<strong>somet</strong>hing", "got<strong>somet</strong>oo", "<strong>somet</strong>ime", etc.)</li>
-								<li><b>in</b> : comma-delimited list ("one,two" --> "<strong>one</strong>" OR "<strong>two</strong>")</li>
-								<li><b>between</b> : range ("1-5" --> "1,2...5") Works only when ALL values are numeric (not only those you see in the current table)</li>
-							</ul>
-						<p>
-							NOTE: This form will load at most 500 records. In mobile view, swipe to see the whole table. 
-						</p>
+						<div class="col-6 px-3 float-left mb-1">
+							<h2 class="h4">Operator values:</h2>
+								<ul class="geol_hier">
+									<li><b>&##61;</b> : single case-sensitive exact match ("something"-->"<strong>something</strong>")</li>
+									<li><b>like</b> : partial string match ("somet" --> "<strong>somet</strong>hing", "got<strong>somet</strong>oo", "<strong>somet</strong>ime", etc.)</li>
+									<li><b>in</b> : comma-delimited list ("one,two" --> "<strong>one</strong>" OR "<strong>two</strong>")</li>
+									<li><b>between</b> : range ("1-5" --> "1,2...5") Works only when ALL values are numeric (not only those you see in the current table)</li>
+								</ul>
+							<p>
+								NOTE: This form will load at most 500 records. In mobile view, swipe to see the whole table. 
+							</p>
+						</div>
 					</div>
 
-					<div class="col-12 col-xl-7 mb-0 mt-1 pb-0 float-left">
+					<div class="col-12 mb-2 mt-1 pb-0 float-left">
 						<h2 class="h3">Update data in table below (#data.recordcount# rows): </h2> 
 						<form name="up" method="post" action="browseBulk.cfm" class="col-auto float-left px-0">
 							<input type="hidden" name="action" value="runSQLUp">
