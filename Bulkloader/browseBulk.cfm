@@ -145,7 +145,7 @@ table##t th {
 		</cfloop>
 	</cfloop>
 	<div class="container-fluid">
-		<div class="col-12 p-4">
+		<div class="col-12 px-0 py-4">
 			<cfoutput>
 				<h1 class="h2">#ArrayLen(loadedArray)# issues with #countData.ct# records.</h2>
 				<cfif listLen(enteredByCleaned) EQ 1>
@@ -168,7 +168,7 @@ table##t th {
 					<span class="h4">&nbsp;~&nbsp;</span> 
 					<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Ajax Grid</a>
 				</div>
-				<table class="table border table-striped sortable">
+				<table class="table table-responsive-md table-striped sortable">
 					<thead class="thead-light">
 						<tr>
 							<th>Error</th>
