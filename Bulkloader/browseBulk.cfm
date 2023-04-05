@@ -741,7 +741,7 @@ table##t th {
 							<a class="px-1 h4" href="browseBulk.cfm?action=listUniqueProblems&enteredby=#enteredby#&accn=#accn#&colln=#colln#">List Problems</a>
 						</h2>
 					</div>
-					<div class="row">
+					<div class="row mx-0">
 						<div class="col-12 col-md-12 col-xl-8 mt-1 pb-0 float-left">
 							<form name="filter" method="post" action="browseBulk.cfm">
 								<input type="hidden" name="action" value="sqlTab">
