@@ -168,11 +168,11 @@ table##t th {
 					<span class="h4">&nbsp;~&nbsp;</span> 
 					<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Ajax Grid</a>
 				</div>
-						<cfif data.recordcount LT 31>
-								<cfset sortable = "sortable">
-							<cfelse>
-								<cfset sortable = "">
-							</cfif>
+				<cfif getLoadedValues.recordcount LT 31>
+						<cfset sortable = "sortable">
+					<cfelse>
+						<cfset sortable = "">
+				</cfif>
 				<table class="table table-bordered table-responsive-md table-striped #sortable#">
 					<thead class="thead-light">
 						<tr>
