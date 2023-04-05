@@ -167,15 +167,15 @@ table##t th {
 					<span class="h4">&nbsp;~&nbsp;</span> 
 					<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Ajax Grid</a>
 				</div>
-				<table class="table table-responsive border table-striped">
+				<table class="table table-responsive border table-striped sortable">
 					<thead class="thead-light">
-						<th>
-							<td>Error</td>
-							<td>Column</td>
-							<td>Problem Value</td>
-							<td>Records</td>
-							<td></td>
-						</th>
+						<tr>
+							<th>Error</th>
+							<th>Column</th>
+							<th>Problem Value</th>
+							<th>Records</th>
+							<th></th>
+						</tr>
 					</thead>
 					<tbody>
 						<cfloop index="i" from="1" to="#ArrayLen(loadedArray)#">
