@@ -935,7 +935,7 @@ table##t th {
 							<cfelse>
 								<cfset sortable = "">
 							</cfif>
-							<table class="table #sortable#" id="t">  
+							<table class="table mb-0 #sortable#" id="t">  
 									<thead class="thead-light">
 										<tr>
 											<cfloop query="cNames">
