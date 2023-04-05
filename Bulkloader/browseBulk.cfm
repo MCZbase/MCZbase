@@ -354,7 +354,7 @@ table##t th {
 						FROM bulkloader
 						WHERE 
 							#aColumnName# is NOT NULL
-							enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
+							AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
 							<cfif len(accn) gt 0>
 								AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
 							</cfif>
