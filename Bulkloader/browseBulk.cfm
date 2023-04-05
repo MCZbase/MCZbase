@@ -849,7 +849,7 @@ table##t th {
 								</tbody>
 							</table>
 						</form>
-						<div class="col-6 mt-2 mt-xl-5 px-3 float-left mb-1">
+						<div class="col-12 col-xl-6 mt-2 mt-xl-5 px-3 float-left mb-1">
 							<h2 class="h4">Operator values:</h2>
 								<ul class="geol_hier">
 									<li><b>&##61;</b> : single case-sensitive exact match ("something"-->"<strong>something</strong>")</li>
@@ -923,7 +923,7 @@ table##t th {
 								</tbody>
 							</table>
 						</form>
-						<p class="font-italic text-dark mb-2 col-12 col-xl-6 px-3 float-left">Select a column to update, then enter a new value to be applied to all records shown below.
+						<p class="font-italic text-dark mb-3 mb-xl-1 col-12 col-xl-6 px-3 float-left">Select a column to update, then enter a new value to be applied to all records shown below.
 						To empty a column, select the column, click "NULL" for the value, and then update. To sort, click on a column header and wait. The length of delay is proportional to the number of rows in the table.	Use your browser Find functionality ("control" + "F") to locate a column header or value.</p>
 					</div>
 
