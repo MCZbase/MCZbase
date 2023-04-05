@@ -208,6 +208,10 @@ table##t th {
 							<cfloop list="#columns#" index="col">
 								<cfif FindNoCase(col,errorCase) GT 0>
 									<cfset columnInError = col>
+								<cfelse>
+									<cfif errorCase EQ 'geog_auth_rec matched 0 records'>
+										<cfset columnInError = "HIGHER_GEOG">
+									</cfif>
 								</cfif>
 							</cfloop>
 							<cfset doBulk = "?action=sqlTab&enteredby=#enteredby#">
@@ -220,9 +224,16 @@ table##t th {
 							<cfif columnInError NEQ "">
 								<cfquery name="getErrorCases" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT distinct #columnInError# value_error
-									FROM bulkloader_stage
-									WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-										AND loaded like '%#errorCase#%'
+									FROM bulkloader
+									WHERE 
+										loaded like '%#errorCase#%'
+										AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
+										<cfif len(accn) gt 0>
+											AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+										</cfif>
+										<cfif isdefined("colln") and len(colln) gt 0>
+											AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
+										</cfif>
 								</cfquery>
 								<cfloop query="getErrorCases">
 									<cfset doBulk = "#doBulk#&c1=#columnInError#&v1=#getErrorCases.value_error#&op1==">
