@@ -180,6 +180,13 @@ table##t th {
 						</tr>
 					</thead>
 					<tbody>
+						<cfset baseDoBulk = "?action=sqlTab&enteredby=#enteredby#">
+						<cfif isdefined("accn") and len(accn) gt 0>
+							<cfset baseDoBulk = "#doBulk#&accn=#accn#">
+						</cfif>
+						<cfif isdefined("colln") and len(colln) gt 0>
+							<cfset baseDoBulk = "#doBulk#&colln=#colln#">
+						</cfif>
 						<cfloop index="i" from="1" to="#ArrayLen(loadedArray)#">
 							<cfquery name="getErrorRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT collection_object_id
@@ -214,13 +221,6 @@ table##t th {
 										<cfset columnInError = col>
 									</cfif>
 								</cfloop>
-							</cfif>
-							<cfset doBulk = "?action=sqlTab&enteredby=#enteredby#">
-							<cfif isdefined("accn") and len(accn) gt 0>
-								<cfset doBulk = "#doBulk#&accn=#accn#">
-							</cfif>
-							<cfif isdefined("colln") and len(colln) gt 0>
-								<cfset doBulk = "#doBulk#&colln=#colln#">
 							</cfif>
 							<cfif columnInError NEQ "">
 								<cfquery name="getErrorCases" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -261,7 +261,7 @@ table##t th {
 									<cfelse>
 										<cfset rows = "in #getErrorRowsForCase.recordcount# records">
 									</cfif>
-									<cfset doBulk = "#doBulk#&c1=#columnInError#&v1=#encodeForURL(getErrorCases.value_error)#&op1==">
+									<cfset doBulk = "#baseDoBulk#&c1=#columnInError#&v1=#encodeForURL(getErrorCases.value_error)#&op1==">
 									<cfset doBulk = "#doBulk#&c2=LOADED&v2=#encodeForURL(errorCase)#&op2=like">
 									<tr>
 										<td>#errorCase#</td>
@@ -272,7 +272,7 @@ table##t th {
 										<td><a href="/Bulkloader/browseBulk.cfm#doBulk#">Bulk Edit</a></td>
 								</cfloop>
 							<cfelse>
-								<cfset doBulk = "#doBulk#&c1=LOADED&v1=#errorCase#&op1=like">
+								<cfset doBulk = "#baseDoBulk#&c1=LOADED&v1=#errorCase#&op1=like">
 								<tr>
 									<td>#errorCase#</td>
 									<td></td>
