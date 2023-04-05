@@ -242,7 +242,7 @@ table##t th {
 						</cfloop>
 					</tbody>
 				</table>
-			</output>
+			</cfoutput>
 		</div>
 	</div>
 </cfif>
