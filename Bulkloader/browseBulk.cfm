@@ -927,12 +927,12 @@ table##t th {
 					<div class="col-12 mb-3 mt-0 float-left">
 						<div class="blTabDiv">
 							<!--- Sortable class goes with table id="t" but it slows the load down so much that it isn't practical to use for more than a handful of records. --->
-							<cfif data.recordcount LT 31>
+				<!---			<cfif data.recordcount LT 31>
 								<cfset sortable = "sortable">
 							<cfelse>
 								<cfset sortable = "">
-							</cfif>
-							<table class="table" id="t" class="#sortable#">  
+							</cfif>--->
+							<table class="table sortable" id="t">  
 									<thead class="thead-light">
 										<tr>
 											<cfloop query="cNames">
