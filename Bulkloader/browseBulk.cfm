@@ -147,7 +147,7 @@ table##t th {
 	<div class="container-fluid">
 		<div class="col-12 px-0 py-4">
 			<cfoutput>
-				<h1 class="h2">#ArrayLen(loadedArray)# issues with #countData.ct# records.</h2>
+				<h1 class="h2 px-1">#ArrayLen(loadedArray)# issues with #countData.ct# records.</h2>
 				<cfif listLen(enteredByCleaned) EQ 1>
 					<cfset entryList = "by #encodeForHtml(enteredByCleaned)#">
 				<cfelseif listLen(enteredByCleaned) GT 5>
@@ -155,7 +155,7 @@ table##t th {
 				<cfelse>
 					<cfset entryList = "by any of #encodeForHtml(enteredByCleaned)#">
 				</cfif>
-				<p>Issues with records in the bulkloader entered #entryList#
+				<p class="px-1">Issues with records in the bulkloader entered #entryList#
 					<cfif len(accn) gt 0>
 						with accession number(s) #encodeForHtml(accn)#
 					</cfif>
