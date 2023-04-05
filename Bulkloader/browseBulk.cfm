@@ -918,9 +918,9 @@ table##t th {
 						</form>
 					</div>
 					<div class="col-12 col-md-12 col-xl-5 pb-2 mt-0 mt-xl-5 float-left">
-						<p class="font-italic text-dark mb-1">Select a column to update, then enter a new value to be applied for that column for all records shown.</p>
+						<p class="font-italic text-dark mb-1">Select a column to update, then enter a new value to be applied to all records shown below.</p>
 						<p class="font-italic text-dark mb-1">To empty a column, select the column, click "NULL" for the value, and then update.</p>
-						<p class="font-italic text-dark">To sort, click on a column header and wait. There is a delay with length of delay proportional to the number of rows in the table.</p>
+						<p class="font-italic text-dark">To sort, click on a column header and wait. The length of delay is proportional to the number of rows in the table.</p>
 						<p class="font-italic text-dark mb-1">Use your browser Find functionality ("control" + "F") to locate a column header or value.</p>
 					</div>
 
