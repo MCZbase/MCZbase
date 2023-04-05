@@ -131,6 +131,7 @@ table##t th {
 		<cfif isdefined("colln") and len(colln) gt 0>
 			AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
 		</cfif>
+		ORDER BY loaded
 	</cfquery>
 	<cfset loadedArray = ArrayNew(1)>
 	<cfloop query="getLoadedValues">
@@ -174,12 +175,12 @@ table##t th {
 							<th>Column</th>
 							<th>Problem Value</th>
 							<th>Records</th>
-							<th></th>
+							<th>Count</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
 						<cfloop index="i" from="1" to="#ArrayLen(loadedArray)#">
-							<!--- TODO: identify the error column, for that error condition, find distinct values of the column with the error, report those --->
 							<cfquery name="getErrorRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT collection_object_id
 								FROM bulkloader
@@ -236,6 +237,30 @@ table##t th {
 										</cfif>
 								</cfquery>
 								<cfloop query="getErrorCases">
+									<cfquery name="getErrorRowsForCase" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT collection_object_id
+										FROM bulkloader
+										WHERE 
+											loaded like '%#loadedArray[i]#%'
+											AND #columnInError# = '#getErrorCases.value_error#'
+											AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
+											<cfif len(accn) gt 0>
+												AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+											</cfif>
+											<cfif isdefined("colln") and len(colln) gt 0>
+												AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
+											</cfif>
+									</cfquery>
+									<cfset rows ="">
+									<cfset separator="">
+									<cfif getErrorRowsForCase.recordcount LT 21>
+										<cfloop query="getErrorRowsForCase">
+											<cfset rows = "#rows##separator#<a href='/DataEntry.cfm?action=editEnterData&CFGRIDKEY=#getErrorRowsForCase.collection_object_id#'>#getErrorRowsForCase.collection_object_id#</a>">
+											<cfset separator=", "><!--- " --->
+										</cfloop>
+									<cfelse>
+										<cfset rows = "in #getErrorRowsForCase.recordcount# records">
+									</cfif>
 									<cfset doBulk = "#doBulk#&c1=#columnInError#&v1=#getErrorCases.value_error#&op1==">
 									<cfset doBulk = "#doBulk#&c2=LOADED&v2=#errorCase#&op2=like">
 									<tr>
@@ -243,6 +268,7 @@ table##t th {
 										<td>#columnInError#</td>
 										<td>#getErrorCases.value_error#</td>
 										<td>#rows#</td>
+										<td>#getErrorRowsForCase.recordcount#</td>
 										<td><a href="/Bulkloader/browseBulk.cfm#doBulk#">Bulk Edit</a></td>
 								</cfloop>
 							<cfelse>
@@ -252,6 +278,7 @@ table##t th {
 									<td></td>
 									<td></td>
 									<td>#rows#</td>
+									<td>#getErrorRows.recordcount#</td>
 									<td><a href="/Bulkloader/browseBulk.cfm#doBulk#">Bulk Edit</a></td>
 								</tr>
 							</cfif>
