@@ -328,9 +328,9 @@ table##t th {
 				<ul class="pb-3">
 					<li>On page load, rows are sorted by the Key Column.  The key value is not important, but it is hyperlinked to the data entry screen for the record.</li>
 					<li>Clicking on a column header sorts by that column. Also, sort through option menu next to each column header (hover to see menu (sort ascending, sort descending, columns)). </li>
-					<li>All columns are visible by default.  Each column menu has an option "Columns" button to change the columns visible in the grid. There is a delay after ticking a checkbox in the popup column selection menu, especially when there are many rows/pages in the grid.</li>
-					<li>Use your browser Find "control" + "F" function to search for column headers or data values.  Find will move the grid when it finds a data value, but only highlights a column header and does not move the grid to the column, but highlighted columns are easier to see when scrolling the grid (e.g. search for COLLECTOR_ROLE and scroll to locate the block of related columns).</li>
-					<li>Click fields to edit. Click the refresh icon (bottom of grid) to see that the changes are saved. Click "Mark all to load" to attempt to load edited records from the bulkloader into MCZbase, records that do not succeed will have an error message in the "loaded" column.</li>
+					<li>All columns are visible by default.  Each column menu has an option &quot;Columns&quot; button to change the columns visible in the grid. There is a delay after ticking a checkbox in the popup column selection menu, especially when there are many rows/pages in the grid.</li>
+					<li>Use your browser Find &quot;control&quot; + &quot;F&quot; function to search for column headers or data values.  Find will move the grid when it finds a data value, but only highlights a column header and does not move the grid to the column, but highlighted columns are easier to see when scrolling the grid (e.g. search for COLLECTOR_ROLE and scroll to locate the block of related columns).</li>
+					<li>Click fields to edit. Click the refresh icon (bottom of grid) to see that the changes are saved. Click &quot;Mark all to load&quot; to attempt to load edited records from the bulkloader into MCZbase, records that do not succeed will have an error message in the &quot;loaded&quot; column.</li>
 				</ul>
 				<cfquery name="cNames" datasource="uam_god">
 					select user_tab_cols.column_name from user_tab_cols
@@ -346,6 +346,27 @@ table##t th {
 				</cfquery>
 				<cfset ColNameList = valuelist(cNames.column_name)>
 				<cfset ColNameList = replace(ColNameList,"COLLECTION_OBJECT_ID","","all")>
+				<cfif isDefined("showOnlyPopulated") and showOnlyPopulated EQ "true")>
+					<!--- optionally, leave unpopulated columns out of grid --->
+					<cfloop list="#ColNameList#" index="aColumnName">
+						<cfquery name="checkForData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT count(*) as ct
+						FROM bulkloader
+						WHERE 
+							#aColumnName# is NOT NULL
+							enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
+							<cfif len(accn) gt 0>
+								AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+							</cfif>
+							<cfif isdefined("colln") and len(colln) gt 0>
+								AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
+							</cfif>
+						</cfquery>
+						<cfif checkForData.ct EQ 0>
+							<cfset ColNameList = ListDeleteAt(ColNameList,ListFind(ColNameList,"#aColumnName#"))>
+						</cfif>
+					</cfloop>
+				</cfif>
 				<cfset args.stripeRows = true>
 				<cfset args.selectColor = "##D9E8FB">
 				<cfset args.selectmode = "edit">
