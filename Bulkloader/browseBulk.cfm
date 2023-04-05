@@ -168,7 +168,7 @@ table##t th {
 					<span class="h4">&nbsp;~&nbsp;</span> 
 					<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Ajax Grid</a>
 				</div>
-				<table class="table table-borderd table-responsive-md table-striped sortable">
+				<table class="table table-bordered table-responsive-md table-striped sortable">
 					<thead class="thead-light">
 						<tr>
 							<th>Error</th>
