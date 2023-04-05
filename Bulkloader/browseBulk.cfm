@@ -742,7 +742,7 @@ table##t th {
 						</h2>
 					</div>
 
-					<div class="col-12 col-md-12 col-xl-8 mt-1 pb-0 float-left">
+					<div class="col-12 col-xl-7 mt-1 pb-0 float-left">
 						<form name="filter" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="sqlTab">
 							<input type="hidden" name="enteredby" value="#enteredby#">
@@ -843,7 +843,7 @@ table##t th {
 							</table>
 						</form>
 					</div>
-					<div class="col-12 col-md-12 col-xl-4 mt-2 mt-xl-5 pb-2 float-left">
+					<div class="col-12 col-xl-4 mt-2 mt-xl-5 pb-2 float-left">
 						<h2 class="h4">Operator values:</h2>
 							<ul class="geol_hier">
 								<li><b>&##61;</b> : single case-sensitive exact match ("something"-->"<strong>something</strong>")</li>
@@ -856,7 +856,7 @@ table##t th {
 						</p>
 					</div>
 
-					<div class="col-12 col-md-12 col-xl-7 mb-0 mt-1 pb-0 float-left">
+					<div class="col-12 col-xl-7 mb-0 mt-1 pb-0 float-left">
 						<h2 class="h3">Update data in table below (#data.recordcount# rows): </h2> 
 						<form name="up" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="runSQLUp">
@@ -917,7 +917,7 @@ table##t th {
 							</table>
 						</form>
 					</div>
-					<div class="col-12 col-md-12 col-xl-5 pb-2 mt-0 mt-xl-5 float-left">
+					<div class="col-12 col-xl-5 pb-2 mt-0 mt-xl-5 float-left">
 						<p class="font-italic text-dark mb-1">Select a column to update, then enter a new value to be applied to all records shown below.</p>
 						<p class="font-italic text-dark mb-1">To empty a column, select the column, click "NULL" for the value, and then update.</p>
 						<p class="font-italic text-dark">To sort, click on a column header and wait. The length of delay is proportional to the number of rows in the table.</p>
