@@ -261,8 +261,8 @@ table##t th {
 									<cfelse>
 										<cfset rows = "in #getErrorRowsForCase.recordcount# records">
 									</cfif>
-									<cfset doBulk = "#doBulk#&c1=#columnInError#&v1=#getErrorCases.value_error#&op1==">
-									<cfset doBulk = "#doBulk#&c2=LOADED&v2=#errorCase#&op2=like">
+									<cfset doBulk = "#doBulk#&c1=#columnInError#&v1=#encodeForURL(getErrorCases.value_error)#&op1==">
+									<cfset doBulk = "#doBulk#&c2=LOADED&v2=#encodeForURL(errorCase)#&op2=like">
 									<tr>
 										<td>#errorCase#</td>
 										<td>#columnInError#</td>
