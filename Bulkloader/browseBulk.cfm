@@ -47,6 +47,9 @@ table##t th {
 			order by internal_column_id
 		</cfquery>
 		<cfset ColNameList = valuelist(cNames.column_name)>
+		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
+		<cfset accnCleaned = replace(accn,"'","","All")>
+		<cfset collnCleaned = replace(colln,"'","","All")>
 		<cfif isDefined("showOnlyPopulated") AND showOnlyPopulated EQ "true">
 			<!--- optionally, leave unpopulated columns out of download --->
 			<cfloop list="#ColNameList#" index="aColumnName">
@@ -68,19 +71,16 @@ table##t th {
 				</cfif>
 			</cfloop>
 		</cfif>
-		<cfset enteredByCleaned = replace(enteredby,"'","","All")>
-		<cfset accnCleaned = replace(accn,"'","","All")>
-		<cfset collnCleaned = replace(colln,"'","","All")>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT #ColNameList# from bulkloader 
 			WHERE 
 				enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
-			<cfif len(accn) gt 0>
-				AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
-			</cfif>
-			<cfif isdefined("colln") and len(colln) gt 0>
-				AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
-			</cfif>
+				<cfif len(accn) gt 0>
+					AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+				</cfif>
+				<cfif isdefined("colln") and len(colln) gt 0>
+					AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
+				</cfif>
 		</cfquery>
 		<cfset variables.encoding="UTF-8">
 		<cfset fname = "BulkPendingData_#cfid#_#cftoken#.csv">
