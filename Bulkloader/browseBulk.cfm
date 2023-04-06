@@ -887,6 +887,9 @@ table##t th {
 						<form name="up" method="post" action="browseBulk.cfm" class="col-auto float-left px-0">
 							<input type="hidden" name="action" value="runSQLUp">
 							<input type="hidden" name="enteredby" value="#enteredby#">
+							<cfif isDefined("showOnlyPopulated")>
+								<input type="hidden" name="showOnlyPopulated" value="#showOnlyPopulated#">
+							</cfif>
 							<cfif isdefined("accn") and len(accn) gt 0>
 								<input type="hidden" name="accn" value="#accn#">
 							</cfif>
