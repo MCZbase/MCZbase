@@ -367,7 +367,7 @@ table##t th {
 								AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
 							</cfif>
 						</cfquery>
-						<cfif checkForData.ct EQ 0>
+						<cfif checkForData.ct EQ 0 AND ucase(aColumnName) NEQ "LOADED">
 							<cfset ColNameList = ListDeleteAt(ColNameList,ListFind(ColNameList,"#aColumnName#"))>
 						</cfif>
 					</cfloop>
@@ -966,7 +966,7 @@ table##t th {
 									AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
 								</cfif>
 							</cfquery>
-							<cfif checkForData.ct EQ 0 AND aColumnName NEQ "LOADED">
+							<cfif checkForData.ct EQ 0 AND ucase(aColumnName) NEQ "LOADED">
 								<cfset ColNameList = ListDeleteAt(ColNameList,ListFind(ColNameList,"#aColumnName#"))>
 							</cfif>
 						</cfloop>
