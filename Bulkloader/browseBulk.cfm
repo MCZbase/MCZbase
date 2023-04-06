@@ -1042,7 +1042,13 @@ table##t th {
 										<cfloop query="data">
 											<tr>
 											<cfloop list="#ColNameList#" index="currentColumn">
-												<cfset thisData = StructFind(QueryGetRow(data,data.currentRow),currentColumn)>
+												<cfset thisData = "">
+												<cftry>
+													<cfset thisData = StructFind(QueryGetRow(data,data.currentRow),currentColumn)>
+												<cfcatch>
+													<!--- if column has no value in row StructFind throws an exception --->
+												</cfcatch>
+												</cftry>
 												<cfif currentColumn EQ "COLLECTION_OBJECT_ID">
 													<td class="px-2"><a href="/DataEntry.cfm?action=editEnterData&CFGRIDKEY=#thisData#">#thisData#</a></td>
 												<cfelse>
