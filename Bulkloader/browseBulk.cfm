@@ -461,7 +461,7 @@ table##t th {
 				institution_acronym || ':' || collection_cde 
 			order by institution_acronym || ':' || collection_cde
 		</cfquery>
-		<cfset sortableLimit = 50>
+		<cfset sortableLimit = "50">
 		<div class="container-fluid container-xl">
 			<div class="row mx-0">
 				<div class="col-12 mt-3 pb-5 float-left">
@@ -474,7 +474,7 @@ table##t th {
 									<p>
 										Allows mass updates to multiple records at once. Shows data in a table.  Will load a maximum of 500 records.   
 										Watch your browser&apos;s loading indicator for signs of it finishing to load before trying to update data. 
-										Use Find ("control" + "F") to find column headers and data values in the table.  #sortableLimit# rows or less will be sortable.
+										Use Find ("control" + "F") to find column headers and data values in the table.  #sortableLimit# rows or fewer will be sortable.
 									</p>
 								</li>
 								<li class="mt-2">
