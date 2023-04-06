@@ -389,13 +389,17 @@ table##t th {
 				<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 				<span class="h4">&nbsp;~&nbsp;</span> 
 				<cfif isDefined("showOnlyPopulated") AND showOnlyPopulated EQ "true">
+					<!--- change state --->
 					<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Show All Columns</a>
 					<span class="h4">&nbsp;~&nbsp;</span> 
-					<a class="px-1 h4" href="browseBulk.cfm?action=sqlTab&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Bulk</a>
+					<!--- pass on the current state state --->
+					<a class="px-1 h4" href="browseBulk.cfm?action=sqlTab&enteredby=#enteredby#&accn=#accn#&colln=#colln#&showOnlyPopulated=true">Edit in Bulk</a>
 				<cfelse>
+					<!--- change state --->
 					<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#&showOnlyPopulated=true">Show Only Columns with Data</a>
 					<span class="h4">&nbsp;~&nbsp;</span> 
-					<a class="px-1 h4" href="browseBulk.cfm?action=sqlTab&enteredby=#enteredby#&accn=#accn#&colln=#colln#&showOnlyPopulated=true">Edit in Bulk</a>
+					<!--- pass on the current state state --->
+					<a class="px-1 h4" href="browseBulk.cfm?action=sqlTab&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Bulk</a>
 				</cfif>
 				<span class="h4">&nbsp;~&nbsp;</span> 
 				<a class="px-1 h4" href="browseBulk.cfm?action=listUniqueProblems&enteredby=#enteredby#&accn=#accn#&colln=#colln#">List Problems</a>
