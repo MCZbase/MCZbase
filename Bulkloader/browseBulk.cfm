@@ -85,14 +85,14 @@ table##t th {
 		<cfset variables.encoding="UTF-8">
 		<cfset fname = "BulkPendingData_#cfid#_#cftoken#.csv">
 		<cfset variables.fileName="#Application.webDirectory#/download/#fname#">
-		<cfset header=#trim(valuelist(cNames.column_name))#>
+		<cfset header=#trim(ColNameList)#>
 		<cfscript>
 			variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
 			variables.joFileWriter.writeLine(header); 
 		</cfscript>
 		<cfloop query="data">
 			<cfset oneLine = "">
-			<cfloop list="#valuelist(cNames.column_name)#" index="c">
+			<cfloop list="#ColNameList#" index="c">
 				<cfset thisData = #evaluate(c)#>
 				<cfif len(oneLine) is 0>
 					<cfset oneLine = '"#thisData#"'>
