@@ -1041,17 +1041,12 @@ table##t th {
 									<tbody>
 										<cfloop query="data">
 											<tr>
-											<cfquery name="thisRec" dbtype="query">
-												select * from data where collection_object_id=#data.collection_object_id#
-											</cfquery>
-											<cfloop query="cNames">
-												<cfif ListFindNoCase(ColNameList,cNames.column_name)>
-													<cfset thisData = evaluate("thisRec." & cNames.column_name)>
-													<cfif cNames.column_name EQ "COLLECTION_OBJECT_ID">
-														<td class="px-2"><a href="/DataEntry.cfm?action=editEnterData&CFGRIDKEY=#thisData#">#thisData#</a></td>
-													<cfelse>
-														<td class="px-2">#thisData#</td>
-													</cfif>
+											<cfloop list="ColNameList" index="currentColumn">
+												<cfset thisData = evaluate("data." & currentColumn)>
+												<cfif currentColumn EQ "COLLECTION_OBJECT_ID">
+													<td class="px-2"><a href="/DataEntry.cfm?action=editEnterData&CFGRIDKEY=#thisData#">#thisData#</a></td>
+												<cfelse>
+													<td class="px-2">#thisData#</td>
 												</cfif>
 											</cfloop>
 											</tr>
