@@ -733,7 +733,7 @@ table##t th {
 			</cfif>		 
 		</cfif>
 		<cfset sql="#sql# and rownum<501">
-		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="60">
 			#preservesinglequotes(sql)#	
 		</cfquery>
 		<cfquery name="cNames" datasource="uam_god">
