@@ -461,7 +461,6 @@ table##t th {
 				institution_acronym || ':' || collection_cde 
 			order by institution_acronym || ':' || collection_cde
 		</cfquery>
-		<cfset sortableLimit = "50">
 		<div class="container-fluid container-xl">
 			<div class="row mx-0">
 				<div class="col-12 mt-3 pb-5 float-left">
@@ -474,7 +473,7 @@ table##t th {
 									<p>
 										Allows mass updates to multiple records at once. Shows data in a table.  Will load a maximum of 500 records.   
 										Watch your browser&apos;s loading indicator for signs of it finishing to load before trying to update data. 
-										Use Find ("control" + "F") to find column headers and data values in the table.  #sortableLimit# rows or fewer will be sortable.
+										Use Find ("control" + "F") to find column headers and data values in the table.  
 									</p>
 								</li>
 								<li class="mt-2">
@@ -714,6 +713,7 @@ table##t th {
 					)
 				order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
 		</cfquery>
+		<cfset sortableLimit = 50>
 		<div class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12 px-0">
@@ -859,7 +859,7 @@ table##t th {
 									<li><b>between</b> : range ("1-5" --> "1,2...5") Works only when ALL values are numeric (not only those you see in the current table)</li>
 								</ul>
 							<p>
-								NOTE: This form will load at most 500 records. In mobile view, swipe to see the whole table. 
+								NOTE: This form will load at most 500 records. In mobile view, swipe to see the whole table.  #sortableLimit# rows or fewer will be sortable.
 							</p>
 						</div>
 					</div>
