@@ -1023,7 +1023,7 @@ table##t th {
 
 					<div class="col-12 mb-3 mt-0 float-left">
 						<div class="blTabDiv">
-							<!--- Sortable class goes with table id="t" but it slows the load down so much that it isn't practical to use for more than a handful of records. --->
+							<!--- Sortable is slow to rewrite the th cells and isn't practical to use for more than a handful of records when all columns are included. --->
 							<cfif data.recordcount LT sortableLimit + 1>
 								<cfset sortable = "sortable">
 							<cfelse>
@@ -1043,20 +1043,20 @@ table##t th {
 										<cfloop query="data">
 											<cfset thisRow = QueryGetRow(data,data.currentRow)>
 											<tr>
-											<cfloop list="#ColNameList#" index="currentColumn">
-												<cfset thisData = "">
-												<cftry>
-													<cfset thisData = StructFind(thisRow,currentColumn)>
-												<cfcatch>
-													<!--- if column has no value in row StructFind throws an exception --->
-												</cfcatch>
-												</cftry>
-												<cfif currentColumn EQ "COLLECTION_OBJECT_ID">
-													<td class="px-2"><a href="/DataEntry.cfm?action=editEnterData&CFGRIDKEY=#thisData#">#thisData#</a></td>
-												<cfelse>
+												<cfloop list="#ColNameList#" index="currentColumn">
+													<cfset thisData = "">
+													<cftry>
+														<cfset thisData = StructFind(thisRow,currentColumn)>
+													<cfcatch>
+														<!--- if column has no value in row StructFind throws an exception --->
+													</cfcatch>
+													</cftry>
+													<cfif currentColumn EQ "COLLECTION_OBJECT_ID">
+														<td class="px-2"><a href="/DataEntry.cfm?action=editEnterData&CFGRIDKEY=#thisData#">#thisData#</a></td>
+													<cfelse>
 													<td class="px-2">#thisData#</td>
-												</cfif>
-											</cfloop>
+													</cfif>
+												</cfloop>
 											</tr>
 										</cfloop>
 									</tbody>
