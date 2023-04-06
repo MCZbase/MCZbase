@@ -843,6 +843,24 @@ table##t th {
 										</td>
 									</tr>
 									<tr>
+										<td>
+											Show Columns:
+										</td>
+										<td colspan="3">
+											<select name="showOnlyPopluated" id="showOnlyPopulated">
+												<cfif isDefined("ShowOnlyPopulated") and showOnlyPopulated EQ "true">
+													<cfset selectedAll = "">
+													<cfset selectedOnly = "selected">
+												<cfelse>
+													<cfset selectedAll = "selected">
+													<cfset selectedOnly = "">
+												</cfif>
+												<option value="" #selectedAll#>All</option>
+												<option value="true" #selectedOnly#>Only columns with data</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
 										<td colspan="3">
 											<input type="submit" value="Filter">
 										</td>
