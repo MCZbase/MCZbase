@@ -410,16 +410,18 @@ table##t th {
 				<a class="px-1 h4" href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=ajaxGrid">Mark all to load</a>
 				<span class="h4">&nbsp;~&nbsp;</span> 
 				<cfif isDefined("showOnlyPopulated") AND showOnlyPopulated EQ "true">
-					<span class="h4">&nbsp;~&nbsp;</span> 
+					<!--- pass on the current state state --->
 					<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#&showOnlyPopulated=true">Download CSV (data only)</a>
+					<span class="h4">&nbsp;~&nbsp;</span> 
 					<!--- change state --->
 					<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Show All Columns</a>
 					<span class="h4">&nbsp;~&nbsp;</span> 
 					<!--- pass on the current state state --->
 					<a class="px-1 h4" href="browseBulk.cfm?action=sqlTab&enteredby=#enteredby#&accn=#accn#&colln=#colln#&showOnlyPopulated=true">Edit in Bulk</a>
 				<cfelse>
-					<span class="h4">&nbsp;~&nbsp;</span> 
+					<!--- pass on the current state state --->
 					<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV (all cols)</a>
+					<span class="h4">&nbsp;~&nbsp;</span> 
 					<!--- change state --->
 					<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#&showOnlyPopulated=true">Show Only Columns with Data</a>
 					<span class="h4">&nbsp;~&nbsp;</span> 
@@ -783,6 +785,7 @@ table##t th {
 								<cfset showPop = "">
 								<cfset showPopLabel = "(all columns)">
 							</cfif>
+							<!--- pass on current state (change state is from filer form) --->
 							<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln##showPop#">Download CSV #showPopLabel#</a>
 							<span class="h4">&nbsp;~&nbsp;</span>
 							<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln##showPop#">Edit in Ajax Grid</a>
