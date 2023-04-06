@@ -1040,11 +1040,12 @@ table##t th {
 									</thead>
 									<tbody>
 										<cfloop query="data">
+											<cfset thisRow = QueryGetRow(data,data.currentRow)>
 											<tr>
 											<cfloop list="#ColNameList#" index="currentColumn">
 												<cfset thisData = "">
 												<cftry>
-													<cfset thisData = StructFind(QueryGetRow(data,data.currentRow),currentColumn)>
+													<cfset thisData = StructFind(thisRow,currentColumn)>
 												<cfcatch>
 													<!--- if column has no value in row StructFind throws an exception --->
 												</cfcatch>
