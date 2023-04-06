@@ -732,7 +732,7 @@ table##t th {
 				<cfset sql = "#sql# #f# and #t# ">
 			</cfif>		 
 		</cfif>
-		<cfset sql="#sql# and rownum<500">
+		<cfset sql="#sql# and rownum<501">
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			#preservesinglequotes(sql)#	
 		</cfquery>
@@ -749,6 +749,9 @@ table##t th {
 				order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
 		</cfquery>
 		<cfset sortableLimit = 50>
+		<cfif isDefined("showOnlyPopulated") AND showOnlyPopulated EQ "true">
+			<cfset sortableLimit = 500>
+		</cfif>
 		<div class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12 px-0">
