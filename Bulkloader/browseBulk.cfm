@@ -83,7 +83,8 @@ table##t th {
 				</cfif>
 		</cfquery>
 		<cfset variables.encoding="UTF-8">
-		<cfset fname = "BulkPendingData_#cfid#_#cftoken#.csv">
+		<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHmmss')#">
+		<cfset fname = "BulkPendingData_#timestamp#.csv">
 		<cfset variables.fileName="#Application.webDirectory#/download/#fname#">
 		<cfset header=#trim(ColNameList)#>
 		<cfscript>
