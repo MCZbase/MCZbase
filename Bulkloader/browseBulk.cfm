@@ -614,6 +614,9 @@ table##t th {
 		<cfif isdefined("c3") and len(c3) gt 0 and isdefined("op3") and len(op3) gt 0 and isdefined("v3") and len(v3) gt 0>
 			<cfset rUrl="#rUrl#&c3=#c3#&op3=#op3#&v3=#v3#"> 
 		</cfif>
+		<cfif isdefined("showOnlyPopulated") and len(showOnlyPopulated) gt 0>
+			<cfset rUrl="#rUrl#&showOnlyPopulated=#showOnlyPopulated#"> 
+		</cfif>
 		<cflocation url="#rUrl#" addtoken="false">
 	</cfoutput>	
 </cfif>
