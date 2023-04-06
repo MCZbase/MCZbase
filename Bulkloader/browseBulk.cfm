@@ -847,8 +847,8 @@ table##t th {
 											Show Columns:
 										</td>
 										<td colspan="3">
-											<select name="showOnlyPopluated" id="showOnlyPopulated">
-												<cfif isDefined("ShowOnlyPopulated") and showOnlyPopulated EQ "true">
+											<select name="showOnlyPopulated" id="showOnlyPopulated">
+												<cfif isDefined("showOnlyPopulated") and showOnlyPopulated EQ "true">
 													<cfset selectedAll = "">
 													<cfset selectedOnly = "selected">
 												<cfelse>
