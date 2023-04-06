@@ -927,6 +927,29 @@ table##t th {
 						<p class="font-italic text-dark mb-3 mb-xl-1 col-12 col-xl-6 px-3 float-left">Select a column to update, then enter a new value to be applied to all records shown below.
 						To empty a column, select the column, click "NULL" for the value, and then update. To sort, click on a column header and wait. The length of delay is proportional to the number of rows in the table.	Use your browser Find functionality ("control" + "F") to locate a column header or value.</p>
 					</div>
+					<cfset ColNameList = valuelist(cNames.column_name)>
+					<cfif isDefined("showOnlyPopulated") AND showOnlyPopulated EQ "true">
+						<!--- optionally, leave unpopulated columns out of table --->
+						<cfloop query="cNames">
+							<cfset aColumnName=cNames.column_name>
+							<cfquery name="checkForData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT count(*) as ct
+							FROM bulkloader
+							WHERE 
+								#aColumnName# is NOT NULL
+								AND enteredby IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#enteredByCleaned#" list="yes">)
+								<cfif len(accn) gt 0>
+									AND accn IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accnCleaned#" list="yes">)
+								</cfif>
+								<cfif isdefined("colln") and len(colln) gt 0>
+									AND institution_acronym || ':' || collection_cde IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collnCleaned#" list="yes">)
+								</cfif>
+							</cfquery>
+							<cfif checkForData.ct EQ 0>
+								<cfset ColNameList = ListDeleteAt(ColNameList,ListFind(ColNameList,"#aColumnName#"))>
+							</cfif>
+						</cfloop>
+					</cfif>
 
 					<div class="col-12 mb-3 mt-0 float-left">
 						<div class="blTabDiv">
@@ -940,7 +963,9 @@ table##t th {
 									<thead class="thead-light">
 										<tr>
 											<cfloop query="cNames">
-												<th class="px-2">#column_name#</th>
+												<cfif ListFindNoCase(ColNameList,cNames.column_name)>
+													<th class="px-2">#column_name#</th>
+												</cfif>
 											</cfloop>
 										</tr>
 									</thead>
@@ -951,11 +976,13 @@ table##t th {
 												select * from data where collection_object_id=#data.collection_object_id#
 											</cfquery>
 											<cfloop query="cNames">
-												<cfset thisData = evaluate("thisRec." & cNames.column_name)>
-												<cfif cNames.column_name EQ "COLLECTION_OBJECT_ID">
-													<td class="px-2"><a href="/DataEntry.cfm?action=editEnterData&CFGRIDKEY=#thisData#">#thisData#</a></td>
-												<cfelse>
-													<td class="px-2">#thisData#</td>
+												<cfif ListFindNoCase(ColNameList,cNames.column_name)>
+													<cfset thisData = evaluate("thisRec." & cNames.column_name)>
+													<cfif cNames.column_name EQ "COLLECTION_OBJECT_ID">
+														<td class="px-2"><a href="/DataEntry.cfm?action=editEnterData&CFGRIDKEY=#thisData#">#thisData#</a></td>
+													<cfelse>
+														<td class="px-2">#thisData#</td>
+													</cfif>
 												</cfif>
 											</cfloop>
 											</tr>
