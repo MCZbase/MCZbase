@@ -390,11 +390,13 @@ table##t th {
 				<span class="h4">&nbsp;~&nbsp;</span> 
 				<cfif isDefined("showOnlyPopulated") AND showOnlyPopulated EQ "true">
 					<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Show All Columns</a>
+					<span class="h4">&nbsp;~&nbsp;</span> 
+					<a class="px-1 h4" href="browseBulk.cfm?action=sqlTab&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Bulk</a>
 				<cfelse>
 					<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#&showOnlyPopulated=true">Show Only Columns with Data</a>
+					<span class="h4">&nbsp;~&nbsp;</span> 
+					<a class="px-1 h4" href="browseBulk.cfm?action=sqlTab&enteredby=#enteredby#&accn=#accn#&colln=#colln#&showOnlyPopulated=true">Edit in Bulk</a>
 				</cfif>
-				<span class="h4">&nbsp;~&nbsp;</span> 
-				<a class="px-1 h4" href="browseBulk.cfm?action=sqlTab&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Bulk</a>
 				<span class="h4">&nbsp;~&nbsp;</span> 
 				<a class="px-1 h4" href="browseBulk.cfm?action=listUniqueProblems&enteredby=#enteredby#&accn=#accn#&colln=#colln#">List Problems</a>
 				<cfform method="post" action="browseBulk.cfm">
@@ -746,8 +748,13 @@ table##t th {
 						</h2>
 						<h4>
 							<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
-							<span class="h4">&nbsp;~&nbsp;</span> 
-							<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Edit in Ajax Grid</a>
+							<span class="h4">&nbsp;~&nbsp;</span>
+							<cfif isDefined("showOnlyPopulated") AND showOnlyPopulated EQ "true">
+								<cfset showPop = "&showOnlyPopulated=true">
+							<cfelse>
+								<cfset showPop = "">
+							</cfif>
+							<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln##showPop#">Edit in Ajax Grid</a>
 							<span class="h4">&nbsp;~&nbsp;</span> 
 							<a class="px-1 h4" href="browseBulk.cfm?action=listUniqueProblems&enteredby=#enteredby#&accn=#accn#&colln=#colln#">List Problems</a>
 						</h4>
