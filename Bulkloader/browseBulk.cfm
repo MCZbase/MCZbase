@@ -1,6 +1,7 @@
 <cfset pageTitle="Edit Bulkloaded Data">
 <cfinclude template="/shared/_header.cfm">
 <script src="/includes/sorttable.js"></script>
+<cfset MAX_BULK_ROWS = 450>
 <cfif not isdefined("action")>
 	<cfset action="nothing">
 </cfif>
@@ -503,7 +504,7 @@ table##t th {
 								<li>
 									<h2 class="h3">Edit in Bulk</h2>
 									<p>
-										Allows mass updates to multiple records at once. Shows data in a table.  Will load a maximum of 500 records.   
+										Allows mass updates to multiple records at once. Shows data in a table.  Will load a maximum of #MAX_BULK_ROWS# records.   
 										Watch your browser&apos;s loading indicator for signs of it finishing to load before trying to update data. 
 										Use Find ("control" + "F") to find column headers and data values in the table.  
 									</p>
@@ -732,7 +733,7 @@ table##t th {
 				<cfset sql = "#sql# #f# and #t# ">
 			</cfif>		 
 		</cfif>
-		<cfset sql="#sql# and rownum<501">
+		<cfset sql="#sql# and rownum<=#MAX_BULK_ROWS#">
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="60">
 			#preservesinglequotes(sql)#	
 		</cfquery>
@@ -750,7 +751,7 @@ table##t th {
 		</cfquery>
 		<cfset sortableLimit = 50>
 		<cfif isDefined("showOnlyPopulated") AND showOnlyPopulated EQ "true">
-			<cfset sortableLimit = 500>
+			<cfset sortableLimit = MAX_BULK_ROWS>
 		</cfif>
 		<div class="container-fluid">
 			<div class="row mx-0">
@@ -775,8 +776,8 @@ table##t th {
 							<cfif isdefined("colln") and len(colln) gt 0>
 								in collection(s) #encodeForHtml(colln)#
 							</cfif>
-							<cfif countData.ct GT 500>
-						 		(limited to 500 records)
+							<cfif countData.ct GT MAX_BULK_ROWS>
+						 		(limited to #MAX_BULK_ROWS# records)
 							</cfif>.
 						</h2>
 						<h4>
@@ -925,7 +926,7 @@ table##t th {
 									<li><b>between</b> : range ("1-5" --> "1,2...5") Works only when ALL values are numeric (not only those you see in the current table)</li>
 								</ul>
 							<p>
-								NOTE: This form will load at most 500 records. In mobile view, swipe to see the whole table.  #sortableLimit# rows or fewer will be sortable.
+								NOTE: This form will load at most #MAX_BULK_ROWS# records. In mobile view, swipe to see the whole table.  #sortableLimit# rows or fewer will be sortable.
 							</p>
 						</div>
 					</div>
