@@ -3,6 +3,7 @@ addEvent(window, "load", sortables_init);
 var SORT_COLUMN_INDEX;
 
 function sortables_init() {
+    console.log("sorttables_init");
     // Find all tables with class sortable and make them sortable
     if (!document.getElementsByTagName) return;
     tbls = document.getElementsByTagName("table");
@@ -16,9 +17,11 @@ function sortables_init() {
 }
 
 function ts_makeSortable(table) {
+    console.log(table);
     if (table.rows && table.rows.length > 0) {
         var firstRow = table.rows[0];
     }
+    console.log(firstRow);
     if (!firstRow) return;
     
     // We have a first row: assume it's the header, and make its contents clickable links
