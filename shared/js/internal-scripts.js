@@ -477,6 +477,18 @@ function makeMediaAutocompleteMeta(valueControl, idControl) {
 	};
 };
 
+/** function monitorForChangesGeneric bind a change monitoring function to inputs 
+ * on a given form.  Note: text inputs must have type=text to be bound to change function,
+ * binds input of type text, checkbox, textarea and select.  
+ * @param formId the id of the form, not including the # id selector to monitor.
+ * @param changeFunction the function to fire on change events for inputs on the form.
+ */
+function monitorForChangesGeneric(formId,changeFunction) { 
+	$('#'+formId+' input[type=text]').on("change",changeFunction);
+	$('#'+formId+' input[type=checkbox]').on("change",changeFunction);
+	$('#'+formId+' select').on("change",changeFunction);
+	$('#'+formId+' textarea').on("change",changeFunction);
+}
 
 function saveEditsFromForm(formId,methodUrl,outputDivId,action){ 
 	$('#'+outputDivId).html('Saving....');

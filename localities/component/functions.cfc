@@ -482,7 +482,7 @@ Delete an existing collecting event number record.
 					$('###outputDiv#').removeClass('text-warning');
 				};
 				$(document).ready(function() {
-					monitorForChanges('#formId#',handleChange);
+					monitorForChangesGeneric('#formId#',handleChange);
 				});
 			</script>
 
