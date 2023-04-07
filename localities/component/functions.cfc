@@ -312,7 +312,7 @@ Delete an existing collecting event number record.
 				<div class="col-12">
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
 					<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
-					<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input">
+					<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input" value="#encodeForHtml(locality_remarks)#">
 					<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
 						<input type="hidden" name="locality_id" value="locality_id" />
 						<label class="data-entry-label" for="">Include accepted georeference from <a href="/editLocality.cfm?locality_id=#clone_from_locality_id#" target="_blank">#clone_from_locality_id#</a>?</label>
