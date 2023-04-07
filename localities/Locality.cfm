@@ -59,11 +59,22 @@ limitations under the License.
 							<div id="relatedTo">#blockRelated#</div>
 						</div>
 						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
- 			    			<form name="editLocality" id="editLocalityForm">
+							<cfset formId = "editLocalityForm">
+							<cfset outputDiv="saveResultsDiv">
+ 			    			<form name="editLocality" id="#formId#">
 								<input type="hidden" id="locality_id" name="locality_id" value="#locality_id#">
-								<cfset blockEditForm = getEditLocalityHtml(locality_id = "#locality_id#", form="editLocalityForm")>
+								<input type="hidden" name="method" value="saveLocality">
+								<cfset blockEditForm = getEditLocalityHtml(locality_id = "#locality_id#", form="#formId#", outputDiv="#outputDiv#")>
 								#blockEditForm#
 							</form>
+							<script>
+								function reloadLocalityBlocks() { 
+									// TODO: Implmement
+								}
+								function saveEdits(){ 
+									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
+								};
+							</script>
 						</div>
 					</div>
 				</section>

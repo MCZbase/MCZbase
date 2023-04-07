@@ -270,10 +270,13 @@ Delete an existing collecting event number record.
 
 @param locality_id the primary key value for the locality to edit.
 @param form the id in the dom for the form that encloses the inputs returned from this function.
+@param outputDiv the id in the dom for an output element where feedback from form submission actions 
+  is placed.
 --->
 <cffunction name="getEditLocalityHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="form" type="string" required="yes">
+	<cfargument name="outputDiv" type="string" required="yes">
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="editLocalityFormThread#tn#">
@@ -466,12 +469,21 @@ Delete an existing collecting event number record.
 				</div>
 				<div class="col-12 mt-1">
 					<input type="button" value="Save" class="btn btn-xs btn-primary">
+					<output id="#outputDiv#" class="text-danger">&nbsp;</output>	
 				</div>
 			</div>
 
 			<!--- TODO: Implement ajax save --->
 			<script>
-
+				function handleChange(){
+					$('###outputDiv#').html('Unsaved changes.');
+					$('###outputDiv#').addClass('text-danger');
+					$('###outputDiv#').removeClass('text-success');
+					$('###outputDiv#').removeClass('text-warning');
+				};
+				$(document).ready(function() {
+					monitorForChanges('#form#',handleChange);
+				});
 			</script>
 
 			<cfcatch>
