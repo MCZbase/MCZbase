@@ -201,42 +201,42 @@ Delete an existing collecting event number record.
 					curated_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">,
 				</cfif>
 				<cfif len(#MINIMUM_ELEVATION#) gt 0>
-					MINIMUM_ELEVATION = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#min_elev_scale#" value="#MINIMUM_ELEVATION#">
+					MINIMUM_ELEVATION = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#min_elev_scale#" value="#MINIMUM_ELEVATION#">,
 				<cfelse>
-					MINIMUM_ELEVATION = null
+					MINIMUM_ELEVATION = null,
 				</cfif>
 				<cfif len(#MAXIMUM_ELEVATION#) gt 0>
-					MAXIMUM_ELEVATION = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#max_elev_scale#" value="#MAXIMUM_ELEVATION#">
+					MAXIMUM_ELEVATION = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#max_elev_scale#" value="#MAXIMUM_ELEVATION#">,
 				<cfelse>
-					MAXIMUM_ELEVATION = null
+					MAXIMUM_ELEVATION = null,
 				</cfif>
 				<cfif len(#ORIG_ELEV_UNITS#) gt 0>
-					ORIG_ELEV_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_ELEV_UNITS#">
+					ORIG_ELEV_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_ELEV_UNITS#">,
 				<cfelse>
-					ORIG_ELEV_UNITS = null
+					ORIG_ELEV_UNITS = null,
 				</cfif>
 				<cfif len(#min_depth#) gt 0>
-					min_depth = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#min_depth_scale#" value="#min_depth#">
+					min_depth = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#min_depth_scale#" value="#min_depth#">,
 				<cfelse>
-					min_depth = null
+					min_depth = null,
 				</cfif>
 				<cfif len(#max_depth#) gt 0>
-					max_depth = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#max_depth_scale#" value="#max_depth#">
+					max_depth = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#max_depth_scale#" value="#max_depth#">,
 				<cfelse>
-					max_depth = null
+					max_depth = null,
 				</cfif>
 				<cfif len(#depth_units#) gt 0>
-					depth_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#depth_units#">
+					depth_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#depth_units#">,
 				<cfelse>
-					depth_units = null
+					depth_units = null,
 				</cfif>
 				<cfif len(#sovereign_nation#) gt 0>
-					SOVEREIGN_NATION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sovereign_nation#">
+					SOVEREIGN_NATION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sovereign_nation#">,
 				</cfif>
 				<cfif len(#LOCALITY_REMARKS#) gt 0>
-					LOCALITY_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOCALITY_REMARKS#">
+					LOCALITY_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOCALITY_REMARKS#">,
 				<cfelse>
-					LOCALITY_REMARKS = null
+					LOCALITY_REMARKS = null,
 				</cfif>
 				<cfif len(#nogeorefbecause#) gt 0>
 					nogeorefbecause = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nogeorefbecause#">
@@ -617,6 +617,7 @@ Delete an existing collecting event number record.
 					<cfif NOT isdefined("nogeorefbecause")><cfset nogeorefbecause=""></cfif>
 					<label class="data-entry-label" for="nogeorefbecause">No Georeference Because</label>
 					<input type="text" name="nogeorefbecause" id="nogeorefbecause" class="data-entry-input" value="#encodeForHTML(nogeorefbecause)#" >
+				</div>
 				<div class="col-12">
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
 					<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
