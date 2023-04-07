@@ -63,7 +63,7 @@ limitations under the License.
 							<cfset outputDiv="saveResultsDiv">
  			    			<form name="editLocality" id="#formId#">
 								<input type="hidden" id="locality_id" name="locality_id" value="#locality_id#">
-								<input type="hidden" name="method" value="saveLocality">
+								<input type="hidden" name="method" value="updateLocality">
 								<cfset blockEditForm = getEditLocalityHtml(locality_id = "#locality_id#", formId="#formId#", outputDiv="#outputDiv#", saveButtonFunction="saveEdits")>
 								#blockEditForm#
 							</form>
