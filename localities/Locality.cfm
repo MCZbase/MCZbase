@@ -54,6 +54,10 @@ limitations under the License.
 				<section class="row">
 					<div class="col-12">
       				<h1 class="h2 mt-3 mb-0 px-4">Edit Locality [#encodeForHtml(locality_id)#]</h1>
+						<div class="border rounded px-2 py-2">
+							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
+							<div id="relatedTo">#blockRelated#</div>
+						</div>
 						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
  			    			<form name="editLocality" id="editLocalityForm">
 								<input type="hidden" id="locality_id" name="locality_id" value="#locality_id#">
