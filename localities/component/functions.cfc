@@ -123,6 +123,151 @@ Delete an existing collecting event number record.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- function updateLocality update a locality record 
+  @param locality_id the locality to update 
+  @return json structure with status=updated and id=locality_id of the locality, 
+   or http 500 status on an error.
+--->
+<cffunction name="updateLocality" access="remote" returntype="any" returnformat="json">
+	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="geog_auth_rec_id" type="string" required="no">
+	<cfargument name="spec_locality" type="string" required="no">
+	<cfargument name="sovereign_nation" type="string" required="no">
+	<cfargument name="minimum_elevation" type="string" required="no">
+	<cfargument name="maximum_elevation" type="string" required="no">
+	<cfargument name="orig_elev_units" type="string" required="no">
+	<cfargument name="min_depth" type="string" required="no">
+	<cfargument name="max_depth" type="string" required="no">
+	<cfargument name="section_part" type="string" required="no">
+	<cfargument name="section" type="string" required="no">
+	<cfargument name="township" type="string" required="no">
+	<cfargument name="township_direction" type="string" required="no">
+	<cfargument name="range" type="string" required="no">
+	<cfargument name="range_direction" type="string" required="no">
+	<cfargument name="depth_units" type="string" required="no">
+	<cfargument name="curated_fg" type="string" required="no">
+	<cfargument name="locality_remarks" type="string" required="no">
+
+	<cfif not isDefined("minimum_elevation")><cfset minimum_elevation = ""></cfif>
+	<cfif not isDefined("maximum_elevation")><cfset maximum_elevation = ""></cfif>
+	<cfif not isDefined("min_depth")><cfset min_depth = ""></cfif>
+	<cfif not isDefined("max_depth")><cfset max_depth = ""></cfif>
+
+	<cftransaction>
+		<cftry>
+			<cfif len(MINIMUM_ELEVATION) gt 0 OR len(MAXIMUM_ELEVATION) gt 0>
+				<cfif not isDefined("orig_elev_units") OR len(ORIG_ELEV_UNITS) is 0>
+					<cfthrow message="You must provide elevation units if you provide elevation data.">
+				</cfif>
+			</cfif>
+			<cfif len(MIN_DEPTH) gt 0 OR len(MAX_DEPTH) gt 0>
+				<cfif not isDefined("depth_units") OR len(depth_units) is 0>
+					<cfthrow message="You must provide depth units if you provide depth data.">
+				</cfif>
+			</cfif>
+			<cfif len(ORIG_ELEV_UNITS) gt 0>
+				<cfif len(MINIMUM_ELEVATION) is 0 AND len(MAXIMUM_ELEVATION) is 0>
+						<cfset orig_elev_units = "">
+				</cfif>
+			</cfif>
+			<cfif len(DEPTH_UNITS) gt 0>
+				<cfif len(MIN_DEPTH) is 0 AND len(MAX_DEPTH) is 0>
+						<cfset depth_units = "">
+				</cfif>
+			</cfif>
+			<cfif len(maximum_elevation) GT 0>
+				<cfset max_elev_scale = len(rereplace(maximum_elevation,'^[0-9-]*[.]',''))>
+			</cfif>
+			<cfif len(minimum_elevation) GT 0>
+				<cfset min_elev_scale = len(rereplace(minimum_elevation,'^[0-9-]*[.]',''))>
+			</cfif>
+			<cfif len(max_depth) GT 0>
+				<cfset max_depth_scale = len(rereplace(max_depth,'^[0-9-]*[.]',''))>
+			</cfif>
+			<cfif len(min_depth) GT 0>
+				<cfset min_depth_scale = len(rereplace(min_depth,'^[0-9-]*[.]',''))>
+			</cfif>
+
+			<cfquery name="updateLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateLocality_result">
+				UPDATE locality SET
+				<cfif len(#spec_locality#) GT 0>
+					spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec_locality#">,
+			  <cfelse>
+					spec_locality = null,
+				</cfif>
+				<cfif isdefined("curated_fg") AND len(#curated_fg#) gt 0>
+					curated_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">,
+				</cfif>
+				<cfif len(#MINIMUM_ELEVATION#) gt 0>
+					MINIMUM_ELEVATION = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#min_elev_scale#" value="MINIMUM_ELEVATION#">
+				<cfelse>
+					MINIMUM_ELEVATION = null
+				</cfif>
+				<cfif len(#MAXIMUM_ELEVATION#) gt 0>
+					MAXIMUM_ELEVATION = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#max_elev_scale#" value="MAXIMUM_ELEVATION#">
+				<cfelse>
+					MAXIMUM_ELEVATION = null
+				</cfif>
+				<cfif len(#ORIG_ELEV_UNITS#) gt 0>
+					ORIG_ELEV_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ORIG_ELEV_UNITS#">
+				<cfelse>
+					ORIG_ELEV_UNITS = null
+				</cfif>
+				<cfif len(#min_depth#) gt 0>
+					min_depth = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#min_depth_scale#" value="min_depth#">
+				<cfelse>
+					min_depth = null
+				</cfif>
+				<cfif len(#max_depth#) gt 0>
+					max_depth = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" scale="#max_depth_scale#" value="max_depth#">
+				<cfelse>
+					max_depth = null
+				</cfif>
+				<cfif len(#depth_units#) gt 0>
+					depth_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="depth_units#">
+				<cfelse>
+					depth_units = null
+				</cfif>
+				<cfif len(#sovereign_nation#) gt 0>
+					SOVEREIGN_NATION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="sovereign_nation#">
+				</cfif>
+				<cfif len(#LOCALITY_REMARKS#) gt 0>
+					LOCALITY_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="LOCALITY_REMARKS#">
+				<cfelse>
+					LOCALITY_REMARKS = null
+				</cfif>
+				<cfif len(#NoGeorefBecause#) gt 0>
+					NoGeorefBecause = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NoGeorefBecause#">
+				<cfelse>
+					NoGeorefBecause = null
+				</cfif>
+				WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
+
+			<cfset row = StructNew()>
+			<cfset row["status"] = "updated">
+			<cfset row["id"] = "#locality_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
+<!--- function getLocalityUsesHtml return a block of html sumarizing the collecting events, 
+   collections, and cataloged items associated with a locality.
+
+   @param locality_id the primary key value for the locality for which to return html.
+   @return block of html.
+--->
 <cffunction name="getLocalityUsesHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="locality_id" type="string" required="yes">
 	
