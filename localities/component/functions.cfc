@@ -426,6 +426,14 @@ Delete an existing collecting event number record.
 	<cfargument name="outputDiv" type="string" required="yes">
 	<cfargument name="saveButtonFunction" type="string" required="yes">
 	
+	<!---
+	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
+	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
+   	scope issues related to cfthread 
+	--->
+	<cfset variables.formId = arguments.formId>
+	<cfset variables.outputDiv = arguments.outputDiv>
+	<cfset variables.saveButtonFunction = arguments.saveButtonFunction>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="editLocalityFormThread#tn#">
 		<cfoutput>
