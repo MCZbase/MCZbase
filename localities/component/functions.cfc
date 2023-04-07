@@ -147,6 +147,8 @@ Delete an existing collecting event number record.
 	<cfargument name="depth_units" type="string" required="no">
 	<cfargument name="curated_fg" type="string" required="no">
 	<cfargument name="locality_remarks" type="string" required="no">
+	<cfargument name="nogeorefbecause" type="string" required="no">
+	<!--- update georef_updated_date and georef_by when adding georeferences --->
 
 	<cfif not isDefined("minimum_elevation")><cfset minimum_elevation = ""></cfif>
 	<cfif not isDefined("maximum_elevation")><cfset maximum_elevation = ""></cfif>
@@ -236,10 +238,10 @@ Delete an existing collecting event number record.
 				<cfelse>
 					LOCALITY_REMARKS = null
 				</cfif>
-				<cfif len(#NoGeorefBecause#) gt 0>
-					NoGeorefBecause = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NoGeorefBecause#">
+				<cfif len(#nogeorefbecause#) gt 0>
+					nogeorefbecause = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nogeorefbecause#">
 				<cfelse>
-					NoGeorefBecause = null
+					nogeorefbecause = null
 				</cfif>
 				WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
@@ -581,36 +583,40 @@ Delete an existing collecting event number record.
 						</cfloop>
 					</select>
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
 					<label class="data-entry-label" for="section_part">Section Part</label>
 					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" >
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("section")><cfset section=""></cfif>
 					<label class="data-entry-label" for="section">Section</label>
 					<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHTML(section)#" >
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("township")><cfset township=""></cfif>
 					<label class="data-entry-label" for="township">Township</label>
 					<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHTML(township)#" >
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("township_direction")><cfset township_direction=""></cfif>
 					<label class="data-entry-label" for="township_direction">Township Direction</label>
 					<input type="text" name="township_direction" id="township_direction" class="data-entry-input" value="#encodeForHTML(township_direction)#" >
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("range")><cfset range=""></cfif>
 					<label class="data-entry-label" for="range">Range</label>
 					<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHTML(range)#" >
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("range_direction")><cfset range_direction=""></cfif>
 					<label class="data-entry-label" for="range_direction">Range Direction</label>
 					<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
 				</div>
+				<div class="col-12 col-md-6">
+					<cfif NOT isdefined("nogeorefbecause")><cfset nogeorefbecause=""></cfif>
+					<label class="data-entry-label" for="nogeorefbecause">No Georeference Because</label>
+					<input type="text" name="nogeorefbecause" id="nogeorefbecause" class="data-entry-input" value="#encodeForHTML(nogeorefbecause)#" >
 				<div class="col-12">
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
 					<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
