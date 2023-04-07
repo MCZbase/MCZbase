@@ -417,11 +417,14 @@ Delete an existing collecting event number record.
 @param formId the id in the dom for the form that encloses the inputs returned from this function.
 @param outputDiv the id in the dom for an output element where feedback from form submission actions 
   is placed.
+@param saveButtonFunction the name of a javascript function that is to be invoked when the save
+  button is clicked, just the name without trailing parenthesies.
 --->
 <cffunction name="getEditLocalityHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="formId" type="string" required="yes">
 	<cfargument name="outputDiv" type="string" required="yes">
+	<cfargument name="saveButtonFunction" type="string" required="yes">
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="editLocalityFormThread#tn#">
@@ -613,12 +616,12 @@ Delete an existing collecting event number record.
 		 			</cfif>
 				</div>
 				<div class="col-12 mt-1">
-					<input type="button" value="Save" class="btn btn-xs btn-primary">
+					<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
+						onClick="if (checkFormValidity($('###formId#')[0])) { #saveButtonFunction#();  } " 
+						id="submitButton" >
 					<output id="#outputDiv#" class="text-danger">&nbsp;</output>	
 				</div>
 			</div>
-
-			<!--- TODO: Implement ajax save --->
 			<script>
 				function handleChange(){
 					$('###outputDiv#').html('Unsaved changes.');
