@@ -254,13 +254,18 @@ Delete an existing collecting event number record.
 					</cfif>
 				</div>
 			<cfcatch>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
 			</cfcatch>
+			</cftry>
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="localityUsesThread#tn#" />
 
 	<cfreturn cfthread["localityUsesThread#tn#"].output>
 </cffunction>
+
+
 <!--- getEditLocalityHtml returns html for a form to edit an existing locality record 
 
 @param locality_id the primary key value for the locality to edit.
@@ -470,7 +475,8 @@ Delete an existing collecting event number record.
 			</script>
 
 			<cfcatch>
-				<cfdump var="#cfcatch#">
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
