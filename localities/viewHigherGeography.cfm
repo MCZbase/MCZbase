@@ -26,49 +26,79 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 
-		geog_auth_rec_id,
-		continent_ocean,
-		country,
-		state_prov,
-		county,
-		quad,
-		feature,
-		island,
-		island_group,
-		sea,
-		valid_catalog_term_fg,
-		source_authority,
-		higher_geog,
-		ocean_region,
-		ocean_subregion,
-		water_feature,
-		wkt_polygon,
-		highergeographyid_guid_type,
-		highergeographyid
+		count(flatTableName.collection_object_id) ct
+		geog_auth_rec.geog_auth_rec_id,
+		geog_auth_rec.continent_ocean,
+		geog_auth_rec.country,
+		geog_auth_rec.state_prov,
+		geog_auth_rec.county,
+		geog_auth_rec.quad,
+		geog_auth_rec.feature,
+		geog_auth_rec.island,
+		geog_auth_rec.island_group,
+		geog_auth_rec.sea,
+		geog_auth_rec.valid_catalog_term_fg,
+		geog_auth_rec.source_authority,
+		geog_auth_rec.higher_geog,
+		geog_auth_rec.ocean_region,
+		geog_auth_rec.ocean_subregion,
+		geog_auth_rec.water_feature,
+		geog_auth_rec.wkt_polygon,
+		geog_auth_rec.highergeographyid_guid_type,
+		geog_auth_rec.highergeographyid
 	FROM 
 		geog_auth_rec
+		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+			on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
 	WHERE
 		geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
+	GROUP BY 
+		geog_auth_rec.geog_auth_rec.id
 </cfquery>
-<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+<cfquery name="getChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getChildren_result">
+	SELECT
+		count(flatTableName.collection_object_id) ct
+		geog_auth_rec.higher_geog, 
+		geog_auth_rec.geog_auth_rec_id
+	FROM
+		geog_auth_rec
+		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+			on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
+	WHERE 
+		geog_auth_rec.higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getGeography.higher_geog#%">
+	GROUP BY 
+		geog_auth_rec.geog_auth_rec.id
+	ORDER BY
+		geog_auth_rec.higher_geog
+</cfquery>
+<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(1,0,0,0)#">
 	SELECT distinct flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude 
 	FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 	WHERE 
 		flat.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 </cfquery>
-
 <cfoutput>
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
 			<cfloop query="getGeography">
-				<h1 class="h2">#higher_geog#</h2>
+				<h1 class="h2">#higher_geog#</h1>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
-					<a href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+						<a href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a>
 				</cfif>
-				<ul>
-					<li>Continent/Ocean: #continent_ocean#</li>
-				</ul>		
+				<div class="col-12">
+					<ul>
+						<li>Continent/Ocean: #continent_ocean#</li>
+						<li>Cataloged Items: #ct#</li>
+					</ul>		
+				</div>
 			</cfloop>
+			<h2 class="h3">#higher_geog#</h2>
+			<div class="col-12">
+				<cfloop query="getChildren">
+					<ul>
+							<li><a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getChildren.geog_auth_rec_id#">#getChildren.higher_geog#</a> (#getChildren.ct# cataloged items)</li>
+					</ul>		
+				</div>
 		</div>
 	</main>
 </cfoutput>
