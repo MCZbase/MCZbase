@@ -49,7 +49,7 @@ limitations under the License.
 	FROM 
 		geog_auth_rec
 		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-			on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
+			on geog_auth_rec.geog_auth_rec_id = flatTableName.geog_auth_rec_id
 	WHERE
 		geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
 	GROUP BY 
@@ -63,7 +63,7 @@ limitations under the License.
 	FROM
 		geog_auth_rec
 		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-			on geog_auth_rec.geog_auth_rec_id = flat.geog_auth_rec_id
+			on geog_auth_rec.geog_auth_rec_id = flatTableName.geog_auth_rec_id
 	WHERE 
 		geog_auth_rec.higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getGeography.higher_geog#%">
 	GROUP BY 
