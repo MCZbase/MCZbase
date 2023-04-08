@@ -97,8 +97,9 @@ limitations under the License.
 				<cfloop query="getChildren">
 					<ul>
 							<li><a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getChildren.geog_auth_rec_id#">#getChildren.higher_geog#</a> (#getChildren.ct# cataloged items)</li>
-					</ul>		
-				</div>
+					</ul>
+				</cfloop>
+			</div>
 		</div>
 	</main>
 </cfoutput>
