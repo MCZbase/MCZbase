@@ -43,7 +43,6 @@ limitations under the License.
 		geog_auth_rec.ocean_region,
 		geog_auth_rec.ocean_subregion,
 		geog_auth_rec.water_feature,
-		geog_auth_rec.wkt_polygon,
 		geog_auth_rec.highergeographyid_guid_type,
 		geog_auth_rec.highergeographyid
 	FROM 
@@ -69,9 +68,16 @@ limitations under the License.
 		geog_auth_rec.ocean_region,
 		geog_auth_rec.ocean_subregion,
 		geog_auth_rec.water_feature,
-		geog_auth_rec.wkt_polygon,
 		geog_auth_rec.highergeographyid_guid_type,
 		geog_auth_rec.highergeographyid
+</cfquery>
+<cfquery name="getSpatial" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT 
+		geog_auth_rec.wkt_polygon
+	FROM 
+		geog_auth_rec
+	WHERE
+		geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
 </cfquery>
 <cfquery name="getChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getChildren_result">
 	SELECT
