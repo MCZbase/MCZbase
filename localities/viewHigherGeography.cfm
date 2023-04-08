@@ -26,7 +26,6 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 
-		count(flatTableName.collection_object_id) ct,
 		geog_auth_rec.geog_auth_rec_id,
 		geog_auth_rec.continent_ocean,
 		geog_auth_rec.country,
@@ -43,42 +42,25 @@ limitations under the License.
 		geog_auth_rec.ocean_region,
 		geog_auth_rec.ocean_subregion,
 		geog_auth_rec.water_feature,
+		geog_auth_rec.wkt_polygon,
 		geog_auth_rec.highergeographyid_guid_type,
 		geog_auth_rec.highergeographyid
 	FROM 
 		geog_auth_rec
-		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-			on geog_auth_rec.geog_auth_rec_id = flatTableName.geog_auth_rec_id
 	WHERE
 		geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
-	GROUP BY 
-		geog_auth_rec.geog_auth_rec_id,
-		geog_auth_rec.continent_ocean,
-		geog_auth_rec.country,
-		geog_auth_rec.state_prov,
-		geog_auth_rec.county,
-		geog_auth_rec.quad,
-		geog_auth_rec.feature,
-		geog_auth_rec.island,
-		geog_auth_rec.island_group,
-		geog_auth_rec.sea,
-		geog_auth_rec.valid_catalog_term_fg,
-		geog_auth_rec.source_authority,
-		geog_auth_rec.higher_geog,
-		geog_auth_rec.ocean_region,
-		geog_auth_rec.ocean_subregion,
-		geog_auth_rec.water_feature,
-		geog_auth_rec.highergeographyid_guid_type,
-		geog_auth_rec.highergeographyid
 </cfquery>
-<cfquery name="getSpatial" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 
-		geog_auth_rec.wkt_polygon
+		count(collection_object_id) ct
 	FROM 
-		geog_auth_rec
+		<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 	WHERE
-		geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
+		geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
+	GROUP BY
+		geog_auth_rec_id
 </cfquery>
+<cfset specimenCount = getSpecimenCount.ct>
 <cfquery name="getChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getChildren_result">
 	SELECT
 		count(flatTableName.collection_object_id) ct,
@@ -113,7 +95,7 @@ limitations under the License.
 				<div class="col-12">
 					<ul>
 						<li>Continent/Ocean: #continent_ocean#</li>
-						<li>Cataloged Items: #ct#</li>
+						<li>Cataloged Items: #specimenCount#</li>
 					</ul>		
 				</div>
 			</cfloop>
