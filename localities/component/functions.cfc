@@ -230,6 +230,36 @@ Delete an existing collecting event number record.
 				<cfelse>
 					depth_units = null,
 				</cfif>
+				<cfif len(#section_part#) gt 0>
+					section_part = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#section_part#">,
+				<cfelse>
+					section_part = null,
+				</cfif>
+				<cfif len(#section#) gt 0>
+					section = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#section#">,
+				<cfelse>
+					section = null,
+				</cfif>
+				<cfif len(#township_direction#) gt 0>
+					township_direction = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#township_direction#">,
+				<cfelse>
+					township_direction = null,
+				</cfif>
+				<cfif len(#township#) gt 0>
+					township = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#township#">,
+				<cfelse>
+					township = null,
+				</cfif>
+				<cfif len(#range_direction#) gt 0>
+					range_direction = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#range_direction#">,
+				<cfelse>
+					range_direction = null,
+				</cfif>
+				<cfif len(#range#) gt 0>
+					range = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#range#">,
+				<cfelse>
+					range = null,
+				</cfif>
 				<cfif len(#sovereign_nation#) gt 0>
 					SOVEREIGN_NATION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sovereign_nation#">,
 				</cfif>
@@ -238,6 +268,7 @@ Delete an existing collecting event number record.
 				<cfelse>
 					LOCALITY_REMARKS = null,
 				</cfif>
+				<!--- last field in set clause, no commas at end --->
 				<cfif len(#nogeorefbecause#) gt 0>
 					nogeorefbecause = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nogeorefbecause#">
 				<cfelse>
