@@ -547,8 +547,8 @@ Delete an existing collecting event number record.
 					<cfif isdefined("geog_auth_rec_id") and len(geog_auth_rec_id) GT 0>
 						<cfset otherClass="disabled">
 					</cfif>
-					<input type="button" value="Details" id="details_button" class="btn btn-xs btn-info #otherClass#"
-						onclick="document.location='/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#'">
+					<a id="details_button" class="btn btn-xs btn-info #otherClass#" href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank"
+>Details</a>
 				</div>
 				<div class="col-12">
 					<label class="data-entry-label" for="spec_locality">Specific Locality</label>
