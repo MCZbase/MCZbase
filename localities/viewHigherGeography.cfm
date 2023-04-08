@@ -88,7 +88,7 @@ limitations under the License.
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
 			<cfloop query="getGeography">
-				<h1 class="h2">#higher_geog#</h1>
+				<h1 class="h2">#getGeography.higher_geog#</h1>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
 						<a href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a>
 				</cfif>
@@ -99,7 +99,7 @@ limitations under the License.
 					</ul>		
 				</div>
 			</cfloop>
-			<h2 class="h3">#higher_geog#</h2>
+			<h2 class="h3">Contained Geographies</h2>
 			<div class="col-12">
 				<cfloop query="getChildren">
 					<ul>
