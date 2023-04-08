@@ -52,7 +52,7 @@ limitations under the License.
 </cfquery>
 <cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 
-		count(collection_object_id) ct
+		count(distinct collection_object_id) ct
 	FROM 
 		<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 	WHERE
@@ -95,7 +95,7 @@ limitations under the License.
 				<div class="col-12">
 					<ul>
 						<li>Continent/Ocean: #continent_ocean#</li>
-						<li>Cataloged Items: #specimenCount#</li>
+						<li>Cataloged Items: <a href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&higher_geog=%3D#encodeForUrl(higher_geog)#">#specimenCount#</a></li>
 					</ul>		
 				</div>
 			</cfloop>
@@ -103,7 +103,12 @@ limitations under the License.
 			<div class="col-12">
 				<cfloop query="getChildren">
 					<ul>
-							<li><a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getChildren.geog_auth_rec_id#">#getChildren.higher_geog#</a> (#getChildren.ct# cataloged items)</li>
+							<li>
+								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getChildren.geog_auth_rec_id#">#getChildren.higher_geog#</a> 
+								<cfif getChildren.ct GT 0>
+									(<a href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&higher_geog=%3D#encodeForUrl(getChildren.higher_geog)#">#getChildren.ct#</a> cataloged items)
+								</a>
+							</li>
 					</ul>
 				</cfloop>
 			</div>
