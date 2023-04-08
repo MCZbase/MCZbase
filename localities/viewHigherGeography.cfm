@@ -53,7 +53,25 @@ limitations under the License.
 	WHERE
 		geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
 	GROUP BY 
-		geog_auth_rec.geog_auth_rec_id
+		geog_auth_rec.geog_auth_rec_id,
+		geog_auth_rec.continent_ocean,
+		geog_auth_rec.country,
+		geog_auth_rec.state_prov,
+		geog_auth_rec.county,
+		geog_auth_rec.quad,
+		geog_auth_rec.feature,
+		geog_auth_rec.island,
+		geog_auth_rec.island_group,
+		geog_auth_rec.sea,
+		geog_auth_rec.valid_catalog_term_fg,
+		geog_auth_rec.source_authority,
+		geog_auth_rec.higher_geog,
+		geog_auth_rec.ocean_region,
+		geog_auth_rec.ocean_subregion,
+		geog_auth_rec.water_feature,
+		geog_auth_rec.wkt_polygon,
+		geog_auth_rec.highergeographyid_guid_type,
+		geog_auth_rec.highergeographyid
 </cfquery>
 <cfquery name="getChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getChildren_result">
 	SELECT
@@ -67,6 +85,7 @@ limitations under the License.
 	WHERE 
 		geog_auth_rec.higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getGeography.higher_geog#%">
 	GROUP BY 
+		geog_auth_rec.higher_geog, 
 		geog_auth_rec.geog_auth_rec_id
 	ORDER BY
 		geog_auth_rec.higher_geog
