@@ -61,6 +61,18 @@ limitations under the License.
 		geog_auth_rec_id
 </cfquery>
 <cfset specimenCount = getSpecimenCount.ct>
+<cfquery name="getLocalities" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLocalities_result">
+	SELECT
+		locality_id,
+		spec_locality,
+		sovereign_nation,
+		curated_fg,
+		decode(curated_fg,0,'',1,'*','') curated
+	FROM
+		locality
+	WHERE
+		geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
+</cfquery>
 <cfquery name="getChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getChildren_result">
 	SELECT
 		count(flatTableName.collection_object_id) ct,
@@ -99,6 +111,16 @@ limitations under the License.
 					</ul>		
 				</div>
 			</cfloop>
+			<h2 class="h3">Localities</h2>
+			<div class="col-12">
+				<cfloop query="getLocalities">
+					<ul>
+							<li>
+								<a href="/localities/Locality.cfm?locality_id=#getLocalities.geog_auth_rec_id#">#getLocalities.spec_locality#</a> #getLocalities.curated# 
+							</li>
+					</ul>
+				</cfloop>
+			</div>
 			<h2 class="h3">Contained Geographies</h2>
 			<div class="col-12">
 				<cfloop query="getChildren">
