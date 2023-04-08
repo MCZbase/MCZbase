@@ -111,7 +111,7 @@ limitations under the License.
 					</ul>		
 				</div>
 			</cfloop>
-			<h2 class="h3">Localities</h2>
+			<h2 class="h3">Localities (<a href="https://mczbase-test.rc.fas.harvard.edu/localities/Localities.cfm?action=search&execute=true&method=getLocalities&geog_auth_rec_id=#geog_auth_rec_id#">#getLocalities.recordcount#</a>)</h2>
 			<div class="col-12">
 				<cfloop query="getLocalities">
 					<ul>
