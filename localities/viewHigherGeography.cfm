@@ -107,7 +107,7 @@ limitations under the License.
 								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getChildren.geog_auth_rec_id#">#getChildren.higher_geog#</a> 
 								<cfif getChildren.ct GT 0>
 									(<a href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&higher_geog=%3D#encodeForUrl(getChildren.higher_geog)#">#getChildren.ct#</a> cataloged items)
-								</a>
+								</cfif>
 							</li>
 					</ul>
 				</cfloop>
