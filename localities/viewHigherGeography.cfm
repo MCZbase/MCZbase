@@ -116,7 +116,7 @@ limitations under the License.
 				<cfloop query="getLocalities">
 					<ul>
 							<li>
-								<a href="/localities/Locality.cfm?locality_id=#getLocalities.geog_auth_rec_id#">#getLocalities.spec_locality#</a> #getLocalities.curated# 
+								<a href="/localities/Locality.cfm?locality_id=#getLocalities.locality_id#">#getLocalities.spec_locality#</a> #getLocalities.curated# 
 							</li>
 					</ul>
 				</cfloop>
