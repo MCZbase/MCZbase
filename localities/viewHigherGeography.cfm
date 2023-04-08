@@ -26,7 +26,7 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 
-		count(flatTableName.collection_object_id) ct
+		count(flatTableName.collection_object_id) ct,
 		geog_auth_rec.geog_auth_rec_id,
 		geog_auth_rec.continent_ocean,
 		geog_auth_rec.country,
@@ -57,7 +57,7 @@ limitations under the License.
 </cfquery>
 <cfquery name="getChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getChildren_result">
 	SELECT
-		count(flatTableName.collection_object_id) ct
+		count(flatTableName.collection_object_id) ct,
 		geog_auth_rec.higher_geog, 
 		geog_auth_rec.geog_auth_rec_id
 	FROM
