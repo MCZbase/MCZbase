@@ -3191,7 +3191,7 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 			<cfif len(maximum_elevation) GT 0 AND maximum_elevation NEQ minimum_elevation>
 				<cfset elevation = "#elevation#-#maximum_elevation# #origElevUnits#.">
 			<cfelse>
-				<cfset elevation = trim("#elevation# #origElevUnits#. ">
+				<cfset elevation = trim("#elevation# #origElevUnits#. ")>
 			</cfif>
 		<cfelse>
 			<cfset elevation = "">
