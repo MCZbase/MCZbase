@@ -112,19 +112,36 @@ limitations under the License.
 				</div>
 			</cfloop>
 			<h2 class="h3">Localities (<a href="https://mczbase-test.rc.fas.harvard.edu/localities/Localities.cfm?action=search&execute=true&method=getLocalities&geog_auth_rec_id=#geog_auth_rec_id#">#getLocalities.recordcount#</a>)</h2>
-			<cfif getLocalities.recordcount LT 11>
-				<div class="col-12">
-
-					<cfloop query="getLocalities">
-						<ul>
+			<div class="col-12">
+				<ul>
+					<cfif getLocalities.recordcount LT 11>
+						<cfloop query="getLocalities">
 							<li>
 								<cfset summary = getLocalitySummary(locality_id="#getLocalities.locality_id#")>
 								<a href="/localities/Locality.cfm?locality_id=#getLocalities.locality_id#">#getLocalities.spec_locality#</a> #summary# 
 							</li>
-						</ul>
-					</cfloop>
-				</div>
-			</cfif>
+						</cfloop>
+					<cfelse>
+						<cfquery name="getLocSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLocSummary_result">
+							SELECT
+								count(locality.locality_id) ct,
+								count(accepted_lat_long.locality_id) georef_ct,
+								curated_fg,
+							FROM
+								locality
+								left join accepted_lat_long on locality.locality_id = accepted_locality_id
+							WHERE
+								geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
+							GROUP BY
+								curated_fg
+						</cfquery>
+						<cfloop query="getLocSummary">
+							<cfif curated_fg EQ "1"><cfset curated="Vetted (*)"><cfelse><cfset curated="Not Vetted"></cfif>
+							<li>#curated# #getLocSummary.ct# localities, #getLocSummary.georef_ct# with georeferences.</li> 
+						</cfloop>
+					</cfif>
+				</ul>
+			</div>
 			<h2 class="h3">Contained Geographies</h2>
 			<div class="col-12">
 				<cfloop query="getChildren">
