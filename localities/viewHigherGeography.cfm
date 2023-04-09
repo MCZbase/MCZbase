@@ -24,6 +24,7 @@ limitations under the License.
 	<cfthrow message="No higher geography specified.">
 </cfif>
 <cfinclude template = "/shared/_header.cfm">
+<cfinclude template = "/localities/component/search.cfm" runOnce="true"><!--- for getLocalitySummary() --->
 <cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 
 		geog_auth_rec.geog_auth_rec_id,
