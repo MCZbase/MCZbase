@@ -143,7 +143,7 @@ limitations under the License.
 					</cfif>
 				</ul>
 			</div>
-			<h2 class="h3">Contained Geographies</h2>
+			<h2 class="h3">Contained Geographies (#getChildren.recordcount#)</h2>
 			<div class="col-12">
 				<cfloop query="getChildren">
 					<ul>
