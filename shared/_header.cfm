@@ -191,6 +191,9 @@ limitations under the License.
 <cfif CGI.script_name IS "/grouping/NamedCollection.cfm">
 	<script type="text/javascript" src="/grouping/js/grouping.js"></script> 
 </cfif>
+<cfif CGI.script_name CONTAINS "/localities/">
+	<script type="text/javascript" src="/localities/js/localities.js"></script>
+</cfif>
 
 
 <cfif not isdefined("session.header_color")>
