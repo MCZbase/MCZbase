@@ -533,11 +533,26 @@ Delete an existing collecting event number record.
 					<label class="data-entry-label" for="higher_geog">Higher Geography:</label>
 					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input reqdClr" value = "#encodeForHTML(higher_geog)#" required>
 					<script>
-						function pickHigherGeography(){
-							<!--- TODO: Set a probably sane value for sovereign_nation from selected higher geography. --->
+						function setSovereignNation(){
+							if ($("##geog_auth_rec_id").val() && ! $("##sovereign_nation").val()){
+								<!--- Set a probably sane value for sovereign_nation from selected higher geography. --->
+								console.log($("##geog_auth_rec_id").val());
+								var suggestion = suggestSovereignNation(geog_auth_rec_id);
+								if (suggestion) { 
+									$("##sovereign_nation").val(suggestion);
+								}
+							}
 						}
 						$(document).ready(function() {
 							makeHigherGeogAutocomplete("higher_geog","geog_auth_rec_id");
+							$("##higher_geog").on("change", function(evt){ 
+								setSovereignNation();
+								if ($("##higher_geog").val()) { 
+									$("##details_button").removeClass("disabled");
+								} else { 
+									$("##details_button").addClass("disabled");
+								}
+							});
 						});
 					</script>
 				</div>
@@ -803,11 +818,26 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<label class="data-entry-label" for="higher_geog">Higher Geography:</label>
 					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input reqdClr" value = "#encodeForHTML(higher_geog)#" required>
 					<script>
-						function pickHigherGeography(){
-   						<!--- TODO: Set a probably sane value for sovereign_nation from selected higher geography. --->
+						function setSovereignNation(){
+							if ($("##geog_auth_rec_id").val() && ! $("##sovereign_nation").val()){
+								<!--- Set a probably sane value for sovereign_nation from selected higher geography. --->
+								console.log($("##geog_auth_rec_id").val());
+								var suggestion = suggestSovereignNation(geog_auth_rec_id);
+								if (suggestion) { 
+									$("##sovereign_nation").val(suggestion);
+								}
+							}
 						}
 						$(document).ready(function() {
 							makeHigherGeogAutocomplete("higher_geog","geog_auth_rec_id");
+							$("##higher_geog").on("change", function(evt){ 
+								setSovereignNation();
+								if ($("##higher_geog").val()) { 
+									$("##details_button").removeClass("disabled");
+								} else { 
+									$("##details_button").addClass("disabled");
+								}
+							});
 						});
 					</script>
 				</div>

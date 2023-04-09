@@ -3100,4 +3100,46 @@ Function getCEFieldAutocomplete.  Search for distinct values of a particular fie
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+
+<!---
+Function suggestSovereignNation.  Search for sovereign_nation appropriate for a higher geography.
+
+@param geog_auth_rec_id the higher geography for which to obtain the country.
+@return a json structure containing id and value, with matching with matched sovereign_nation in value and id.
+--->
+<cffunction name="suggestSovereignNation" access="remote" returntype="any" returnformat="json">
+	<cfargument name="geog_auth_rec_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT 
+				suggest_sov_nation_from_string(country) sovereign_nation
+			FROM 
+				geog_auth_rec
+			WHERE
+				geog_auth_rec_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.sovereign_nation#">
+			<cfset row["value"] = "#search.sovereign_nation#" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
 </cfcomponent>
