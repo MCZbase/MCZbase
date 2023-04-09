@@ -9,7 +9,9 @@ function suggestSovereignNation(geog_auth_rec_id) {
       },
       function (result) {
 			console.log(result);
-			return(result.id);
+			if (result && result[0]) { 
+				return(result[0].id);
+			}
       }
    ).fail(function(jqXHR,textStatus,error){
       handleFail(jqXHR,textStatus,error,"looking up sovereign nation from higher geography");

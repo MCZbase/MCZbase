@@ -539,6 +539,7 @@ Delete an existing collecting event number record.
 								var geog = $("##geog_auth_rec_id").val();
 								console.log(geog);
 								var suggestion = suggestSovereignNation(geog);
+								console.log(suggestion);
 								if (suggestion) { 
 									$("##sovereign_nation").val(suggestion);
 								}
