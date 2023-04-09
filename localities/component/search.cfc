@@ -3199,9 +3199,9 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 			<cfset elevation = "">
 		</cfif>
 		<cfset depthval = "">
-		<cfif len(minDepth) GT 0> 
-			<cfset depthval = " Depth: #minDepth#">
-			<cfif len(maxDepth) GT 0 AND maxDepth NEQ minDepth>
+		<cfif len(min_depth) GT 0> 
+			<cfset depthval = " Depth: #min_depth#">
+			<cfif len(max_depth) GT 0 AND max_depth NEQ min_depth>
 				<cfset depthval = "#depthval#-#max_depth# #depthUnits#.">
 			<cfelse>
 				<cfset depthval = "#depthval# #depthUnits#. ">
