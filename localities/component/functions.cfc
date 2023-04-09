@@ -538,11 +538,7 @@ Delete an existing collecting event number record.
 								<!--- Set a probably sane value for sovereign_nation from selected higher geography. --->
 								var geog = $("##geog_auth_rec_id").val();
 								console.log(geog);
-								var suggestion = suggestSovereignNation(geog, "sovereign_nation");
-								console.log(suggestion);
-								if (suggestion) { 
-									$("##sovereign_nation").val(suggestion);
-								}
+								suggestSovereignNation(geog, "sovereign_nation");
 							}
 						}
 						$(document).ready(function() {
@@ -825,10 +821,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								<!--- Set a probably sane value for sovereign_nation from selected higher geography. --->
 								var geog = $("##geog_auth_rec_id").val();
 								console.log(geog);
-								var suggestion = suggestSovereignNation(geog);
-								if (suggestion) { 
-									$("##sovereign_nation").val(suggestion);
-								}
+								suggestSovereignNation(geog, "sovereign_nation");
 							}
 						}
 						$(document).ready(function() {

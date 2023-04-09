@@ -20,7 +20,7 @@ function suggestSovereignNation(geog_auth_rec_id, pasteTarget) {
 				var suggestion = result[0].id;
 				console.log(suggestion);
 				if (suggestion) { 
-					$("##"+pasteTarget).val(suggestion);
+					$("#"+pasteTarget).val(suggestion);
 				}
 			}
       }
