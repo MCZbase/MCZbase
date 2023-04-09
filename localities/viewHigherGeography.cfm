@@ -129,7 +129,7 @@ limitations under the License.
 								curated_fg
 							FROM
 								locality
-								left join accepted_lat_long on locality.locality_id = accepted_locality_id
+								left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
 							WHERE
 								geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
 							GROUP BY
