@@ -3115,7 +3115,7 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
-				suggest_sov_nation_from_string(country) sovereign_nation
+				suggest_sov_nation_from_str(country) sovereign_nation
 			FROM 
 				geog_auth_rec
 			WHERE
