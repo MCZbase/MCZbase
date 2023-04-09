@@ -112,25 +112,29 @@ limitations under the License.
 				</div>
 			</cfloop>
 			<h2 class="h3">Localities (<a href="https://mczbase-test.rc.fas.harvard.edu/localities/Localities.cfm?action=search&execute=true&method=getLocalities&geog_auth_rec_id=#geog_auth_rec_id#">#getLocalities.recordcount#</a>)</h2>
-			<div class="col-12">
-				<cfloop query="getLocalities">
-					<ul>
+			<cfif getLocalities.recordcount LT 11>
+				<div class="col-12">
+
+					<cfloop query="getLocalities">
+						<ul>
 							<li>
-								<a href="/localities/Locality.cfm?locality_id=#getLocalities.locality_id#">#getLocalities.spec_locality#</a> #getLocalities.curated# 
+								<cfset summary = getLocalitySummary(locality_id="#getLocalities.locality_id#")>
+								<a href="/localities/Locality.cfm?locality_id=#getLocalities.locality_id#">#getLocalities.spec_locality#</a> #summary# 
 							</li>
-					</ul>
-				</cfloop>
-			</div>
+						</ul>
+					</cfloop>
+				</div>
+			</cfif>
 			<h2 class="h3">Contained Geographies</h2>
 			<div class="col-12">
 				<cfloop query="getChildren">
 					<ul>
-							<li>
-								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getChildren.geog_auth_rec_id#">#getChildren.higher_geog#</a> 
-								<cfif getChildren.ct GT 0>
-									(<a href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&higher_geog=%3D#encodeForUrl(getChildren.higher_geog)#">#getChildren.ct#</a> cataloged items)
-								</cfif>
-							</li>
+						<li>
+							<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getChildren.geog_auth_rec_id#">#getChildren.higher_geog#</a> 
+							<cfif getChildren.ct GT 0>
+								(<a href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&higher_geog=%3D#encodeForUrl(getChildren.higher_geog)#">#getChildren.ct#</a> cataloged items)
+							</cfif>
+						</li>
 					</ul>
 				</cfloop>
 			</div>

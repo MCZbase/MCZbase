@@ -3142,4 +3142,87 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 </cffunction>
 
 
+<cffunction name="getLocalitySummary" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="locality_id" type="string" required="yes">
+	
+	<cfset retval = "">
+	<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupLocality_result">
+		SELECT
+			locality.locality_id,
+			spec_locality,
+			curated_fg,
+			sovereign_nation,
+			minimum_elevation,
+			maximum_elevation, 
+			orig_elev_units,
+			min_depth,
+			max_Depth,
+			depth_units,
+			trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
+			listagg(geology_attributes.geology_attribute || nvl2(geology_attributes.geology_attribute, ':', '') || geo_att_value,'; ') within group (order by geo_att_value) over (partition by locality.locality_id) geolAtts,
+			nogeorefbecause,
+			locality_remarks,
+  			accepted_lat_long.LAT_LONG_ID,
+			accepted_lat_long.dec_lat,
+			accepted_lat_long.dec_long,
+			accepted_lat_long.datum,
+			accepted_lat_long.max_error_distance,
+			accepted_lat_long.max_error_units,
+			to_meters(accepted_lat_long.max_error_distance, accepted_lat_long.max_error_units) coordinateUncertaintyInMeters,
+			accepted_lat_long.extent,
+			accepted_lat_long.verificationstatus,
+			accepted_lat_long.georefmethod
+		FROM
+			locality
+			left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
+		WHERE
+			locality.locality_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#" list="Yes" >)
+	</cfquery>
+	<cfloop query="lookupLocality">
+		<cfset id = lookupLocality.locality_id>
+		<cfif len(locality_remarks) GT 0>
+			<cfset remarks = ". Remarks: #locality_remarks# ">
+		<cfelse>
+			<cfset remarks = "">
+		</cfif>
+		<cfif curated_fg EQ "1"><cfset curated = "*"><cfelse><cfset curated = ""></cfif>
+		<cfif len(minimum_elevation) GT 0> 
+			<cfset elevation = " Elev: #minimum_elevation#">
+			<cfif len(maximum_elevation) GT 0 AND maximum_elevation NEQ minimum_elevation>
+				<cfset elevation = "#elevation#-#maximum_elevation# #origElevUnits#.">
+			<cfelse>
+				<cfset elevation = trim("#elevation# #origElevUnits#. ">
+			</cfif>
+		<cfelse>
+			<cfset elevation = "">
+		</cfif>
+		<cfset depthval = "">
+		<cfif len(minDepth) GT 0> 
+			<cfset depthval = " Depth: #minDepth#">
+			<cfif len(maxDepth) GT 0 AND maxDepth NEQ minDepth>
+				<cfset depthval = "#depthval#-#max_depth# #depthUnits#.">
+			<cfelse>
+				<cfset depthval = "#depthval# #depthUnits#. ">
+			</cfif>
+		</cfif>
+		<cfif len(dec_lat) GT 0>
+			<cfset coordinates = " #dec_lat#, #dec_long# #datum# ±# max_error_distance# #max_error_units# #verificationstatus# ">
+		<cfelse> 
+			<cfset coordinates = " #nogeorefbecause# ">
+		</cfif>
+		<cfif len(sovereignNation) GT 0>
+			<cfif sovereignNation EQ "[unknown]">
+				<cfset sovereignNation = " Sovereign Nation: #sovereignNation# ">
+			<cfelse>
+				<cfset sovereignNation = " #sovereignNation# ">
+			</cfif>
+		</cfif>
+		<cfif len(geolatts) GT 0><cfset geology = " [#geolatts#] "><cfelse><cfset geology = ""></cfif>
+		<cfif len(trim(plss)) GT 0><cfset plss = " #plss# "></cfif> 
+		<cfset retval = trim("#retval# #spec_locality##geology##elevation##depthval##sovereignNation##plss##coordinates##remarks# (#id#) #curated#")>
+		<cfset retval = replace(retval,"  "," ","All")>
+	</cfloop>
+	<cfreturn retval>
+</cffunction>
+
 </cfcomponent>
