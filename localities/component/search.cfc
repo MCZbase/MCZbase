@@ -3175,6 +3175,8 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 		FROM
 			locality
 			left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
+			left join geology_attributes on locality.locality_id = geology_attributes.locality_id 
+			left join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
 		WHERE
 			locality.locality_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#" list="Yes" >)
 	</cfquery>
