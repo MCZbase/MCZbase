@@ -126,7 +126,7 @@ limitations under the License.
 							SELECT
 								count(locality.locality_id) ct,
 								count(accepted_lat_long.locality_id) georef_ct,
-								curated_fg,
+								curated_fg
 							FROM
 								locality
 								left join accepted_lat_long on locality.locality_id = accepted_locality_id
