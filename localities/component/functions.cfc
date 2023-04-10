@@ -743,10 +743,12 @@ Delete an existing collecting event number record.
 					<div>
 					<ul>
 					<cfset valList = "">
+					<cfset shownParentsList = "">
 					<cfset separator = "">
+					<cfset separator2 = "">
 					<cfloop query="getGeologicalAttributes">
 						<cfset valList = "#valList##separator##getGeologicalAttributes.geo_att_value#">
-						<cfset separator = ",">
+						<cfset separator = "|">
 					</cfloop>
 					<cfloop query="getGeologicalAttributes">
 						<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="30">
@@ -764,8 +766,10 @@ Delete an existing collecting event number record.
 						</cfquery>
 						<cfset parentage="">
 						<cfloop query="getParentage">
-							<cfif ListContains(valList,getParentage.parent_attribute_value) EQ 0>
+							<cfif ListContains(valList,getParentage.parent_attribute_value,"|") EQ 0 AND  ListContains(shownParentsList,getParentage.parent_attribute_value,"|") EQ 0 >
 								<cfset parentage="#parentage#<li><span class='text-secondary'>#getParentage.parent_attribute#:#getParentage.parent_attribute_value#</span></li>" > <!--- " --->
+								<cfset shownParentsList = "#shownParentsList##separator2##getParentage.parent_attribute_value#"
+								<cfset separator2 = "|">
 							</cfif>
 						</cfloop>
 						#parentage#
