@@ -87,7 +87,7 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="border rounded px-2 py-2">
-							<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#")>
+							<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#",'reloadGeology')>
 							<div id="geologyDiv">#geology#</div>
 						</div>
 					</div>
