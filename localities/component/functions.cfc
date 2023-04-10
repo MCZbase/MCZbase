@@ -716,24 +716,24 @@ Delete an existing collecting event number record.
 					SELECT
 						ctgeology_attribute.type,
 						geology_attributes.geology_attribute,
-						geo_att_value,
-						geo_att_determiner_id,
+						geology_attributes.geo_att_value,
+						geology_attributes.geo_att_determiner_id,
 						agent_name determined_by,
-						geo_att_determined_date determined_date,
-						geo_att_determined_method determined_method,
-						geo_att_remark,
-						previous_values,
-						geology_attribute_heirarchy_id
+						geology_attributes.geo_att_determined_date determined_date,
+						geology_attributes.geo_att_determined_method determined_method,
+						geology_attributes.geo_att_remark,
+						geology_attributes.previous_values,
+						geology_attribute_hierarchy.geology_attribute_heirarchy_id
 					FROM
 						geology_attributes
 						join ctgeology_attribute on geology_attributes.geology_attribute = ctgeology_attribute.geology_attribute
 						left join preferred_agent_name on geo_att_determiner_id = agent_id
 						left join geology_attribute_hierarchy 
-							on geo_att_value = attribute_value 
+							on geology_attributes.geo_att_value = geology_attribute_hierarchy.attribute_value 
 								and
-								geology_attribute = attribute
+								geology_attributes.geology_attribute = geology_attribute_hierarchy.attribute
 					WHERE 
-						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						geology_attributes.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 					ORDER BY
 						ctgeology_attribute.ordinal
 				</cfquery>
