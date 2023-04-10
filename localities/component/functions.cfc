@@ -762,7 +762,7 @@ Delete an existing collecting event number record.
 							WHERE geology_attribute_heirarchy_id = <cfqueryparam cfsqlttype="CF_SQL_DECIMAL" value="#getGeologicalAttribtues.geology_attribute_heirarchy_id#">
 								and connect_by_root attribute_value not in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#valList#" list="Yes">)
 							CONNECT BY nocycle PRIOR geology_attribute_hierarchy_id = parent_id
-						<cfquery>
+						</cfquery>
 						<cfset parentage="">
 						<cfloop query="getParentage">
 							<cfset parentage="#parentage#<li><span class='text-light'>#attribute#:#attribute_value#</span></li>" > <!--- " --->
