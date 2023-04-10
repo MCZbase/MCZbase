@@ -745,7 +745,7 @@ Delete an existing collecting event number record.
 					<cfset valList = "">
 					<cfset separator = "">
 					<cfloop query="getGeologicalAttributes">
-						<cfset valList = "#valList##separator##getGeologicalAttributes.geo_att_value#"
+						<cfset valList = "#valList##separator##getGeologicalAttributes.geo_att_value#">
 						<cfset separator = ",">
 					</cfloop>
 					<cfloop query="getGeologicalAttributes">
