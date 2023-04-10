@@ -765,9 +765,9 @@ Delete an existing collecting event number record.
 						</cfquery>
 						<cfset parentage="">
 						<cfloop query="getParentage">
-							<cfset parentage="#parentage#<li><span class='text-light'>#attribute#:#attribute_value#</span></li>" > <!--- " --->
+							<cfset parentage="#parentage#<li><span class='text-light'>#getParentage.attribute#:#getParentage.attribute_value#</span></li>" > <!--- " --->
 						</cfloop>
-						<li>#attribute#:#attribute_value# #determined_name# #determined_date# #determined_method#</li>
+						<li>#geology_attribute#:#geo_att_value# #determined_name# #determined_date# #determined_method#</li>
 					</cfloop>
 					</ul>
 					</div>
