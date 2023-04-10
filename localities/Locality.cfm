@@ -75,7 +75,11 @@ limitations under the License.
 							<script>
 								function reloadLocalityBlocks() { 
 									updateLocalitySummary('#locality_id#','summary');	
+									reloadGeology();
 									// TODO: Implmement
+								}
+								function reloadGeology()  {
+									// TODO: Implement
 								}
 								function saveEdits(){ 
 									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);

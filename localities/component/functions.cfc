@@ -706,14 +706,17 @@ Delete an existing collecting event number record.
 </cffunction>
 
 <cffunction name="getLocalityGeologyHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="locality_id" type="string" required="no">
+	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="callbackName" type="string" required="yes">
 
+	<cfset variables.callbackName = arguments.callbackName>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityGeologyFormThread#tn#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="30">
 					SELECT
+						geology_attribute_id,
 						ctgeology_attribute.type,
 						geology_attributes.geology_attribute,
 						geology_attributes.geo_att_value,
@@ -738,45 +741,72 @@ Delete an existing collecting event number record.
 						ctgeology_attribute.ordinal
 				</cfquery>
 				<cfif getGeologicalAttributes.recordcount EQ 0>
-					<div><ul><li>Recent</li></ul></div>
+					<div>
+						<ul>
+							<li>
+								Recent (no geological attributes) 
+								<button type="button" value="Add" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id3','addGeologyDialog','#callbackName#'); ">
+							</li>
+						</ul>
+					</div>
 				<cfelse>
 					<div>
-					<ul>
-					<cfset valList = "">
-					<cfset shownParentsList = "">
-					<cfset separator = "">
-					<cfset separator2 = "">
-					<cfloop query="getGeologicalAttributes">
-						<cfset valList = "#valList##separator##getGeologicalAttributes.geo_att_value#">
-						<cfset separator = "|">
-					</cfloop>
-					<cfloop query="getGeologicalAttributes">
-						<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="30">
-							SELECT distinct
-							  connect_by_root geology_attribute_hierarchy.attribute parent_attribute,
-							  connect_by_root attribute_value parent_attribute_value,
-							  connect_by_root usable_value_fg
-							FROM geology_attribute_hierarchy
-							  left join geology_attributes on
-							     geology_attribute_hierarchy.attribute = geology_attributes.geology_attribute
-							     and
-							     geology_attribute_hierarchy.attribute_value = geology_attributes.geo_att_value
-							WHERE geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getGeologicalAttributes.geology_attribute_hierarchy_id#">
-							CONNECT BY nocycle PRIOR geology_attribute_hierarchy_id = parent_id
-						</cfquery>
-						<cfset parentage="">
-						<cfloop query="getParentage">
-							<cfif ListContains(valList,getParentage.parent_attribute_value,"|") EQ 0 AND  ListContains(shownParentsList,getParentage.parent_attribute_value,"|") EQ 0 >
-								<cfset parentage="#parentage#<li><span class='text-secondary'>#getParentage.parent_attribute#:#getParentage.parent_attribute_value#</span></li>" > <!--- " --->
-								<cfset shownParentsList = "#shownParentsList##separator2##getParentage.parent_attribute_value#">
-								<cfset separator2 = "|">
-							</cfif>
-						</cfloop>
-						#parentage#
-						<li>#geology_attribute#:#geo_att_value# #determined_by# #determined_date# #determined_method#</li>
-					</cfloop>
-					</ul>
+						<ul>
+							<cfset valList = "">
+							<cfset shownParentsList = "">
+							<cfset separator = "">
+							<cfset separator2 = "">
+							<cfloop query="getGeologicalAttributes">
+								<cfset valList = "#valList##separator##getGeologicalAttributes.geo_att_value#">
+								<cfset separator = "|">
+							</cfloop>
+							<cfloop query="getGeologicalAttributes">
+								<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="30">
+									SELECT distinct
+									  connect_by_root geology_attribute_hierarchy.attribute parent_attribute,
+									  connect_by_root attribute_value parent_attribute_value,
+									  connect_by_root usable_value_fg
+									FROM geology_attribute_hierarchy
+									  left join geology_attributes on
+									     geology_attribute_hierarchy.attribute = geology_attributes.geology_attribute
+									     and
+							   		  geology_attribute_hierarchy.attribute_value = geology_attributes.geo_att_value
+									WHERE geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getGeologicalAttributes.geology_attribute_hierarchy_id#">
+									CONNECT BY nocycle PRIOR geology_attribute_hierarchy_id = parent_id
+								</cfquery>
+								<cfset parentage="">
+								<cfloop query="getParentage">
+									<cfif ListContains(valList,getParentage.parent_attribute_value,"|") EQ 0 AND  ListContains(shownParentsList,getParentage.parent_attribute_value,"|") EQ 0 >
+										<cfset parentage="#parentage#<li><span class='text-secondary'>#getParentage.parent_attribute#:#getParentage.parent_attribute_value#</span></li>" > <!--- " --->
+										<cfset shownParentsList = "#shownParentsList##separator2##getParentage.parent_attribute_value#">
+										<cfset separator2 = "|">
+									</cfif>
+								</cfloop>
+								#parentage#
+								<li>
+									#geology_attribute#:#geo_att_value# #determined_by# #determined_date# #determined_method#
+									<button type="button" value="Edit" class="btn btn-xs btn-secondary" onClick=" openEditGeologyDialog('#geology_attribute_id#','editGeologyDialog','#callbackName#');">
+									<button type="button" value="Remove" class="btn btn-xs btn-warning" onClick=" removeGeologyAttribute('#geology_attribute_id#','#calbackName#');">
+								</li>
+							</cfloop>
+							<li>
+								<button type="button" value="Add" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id3','addGeologyDialog','#callbackName#'); ">
+							</li>
+						</ul>
 					</div>
+					<div class="editGeologyDialog"></div>
+					<div class="addGeologyDialog"></div>
+					<script>
+						function openEditGeologyDialog(geology_attribute_id, dialogDiv,callback) { 
+							console.log(geology_attribute_id);
+						}
+						function openAddGeologyDialog(locality_id, dialogDiv,callback) { 
+							console.log(locality_id);
+						}
+						function removeGeologyAttribute(geology_attribute_id, callback) { 
+							console.log(geology_attribute_id);
+						}
+					</script>
 				</cfif>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
