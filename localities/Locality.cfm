@@ -46,7 +46,7 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfinclude template="/localities/component/functions.cfc" runOnce="true">
-		<cfinclude template="/localities/component/search.cfc" runOnce="true"><!--- for getLocalitSummary() --->
+		<cfinclude template="/localities/component/search.cfc" runOnce="true"><!--- for getLocalitySummary() --->
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
 			<cfthrow message="Error: unable to edit locality, no locality_id specified.">
 		</cfif>
@@ -83,7 +83,7 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="border rounded px-2 py-2">
-							<cfset geology = getLocalityGeologyHtml(locality_id="#getLocalities.locality_id#")>
+							<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#")>
 							<div id="geologyDiv">#geology#</div>
 						</div>
 					</div>
