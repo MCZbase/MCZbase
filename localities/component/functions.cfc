@@ -723,7 +723,7 @@ Delete an existing collecting event number record.
 						geology_attributes.geo_att_determined_method determined_method,
 						geology_attributes.geo_att_remark,
 						geology_attributes.previous_values,
-						geology_attribute_hierarchy.geology_attribute_heirarchy_id
+						geology_attribute_hierarchy.geology_attribute_hierarchy_id
 					FROM
 						geology_attributes
 						join ctgeology_attribute on geology_attributes.geology_attribute = ctgeology_attribute.geology_attribute
