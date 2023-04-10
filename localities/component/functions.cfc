@@ -745,7 +745,7 @@ Delete an existing collecting event number record.
 						<ul>
 							<li>
 								Recent (no geological attributes) 
-								<button type="button" value="Add" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id3','addGeologyDialog','#callbackName#'); ">
+								<button type="button" value="Add" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog','#callbackName#'); ">
 							</li>
 						</ul>
 					</div>
@@ -790,7 +790,7 @@ Delete an existing collecting event number record.
 								</li>
 							</cfloop>
 							<li>
-								<button type="button" value="Add" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id3','addGeologyDialog','#callbackName#'); ">
+								<button type="button" value="Add" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog','#callbackName#'); ">
 							</li>
 						</ul>
 					</div>
