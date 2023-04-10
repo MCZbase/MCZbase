@@ -60,7 +60,7 @@ limitations under the License.
 							<div id="relatedTo">#blockRelated#</div>
 						</div>
 						<div class="border rounded px-2 py-2">
-							<cfset summary = getLocalitySummary(locality_id="#getLocalities.locality_id#")>
+							<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
 							<div id="summary">#summary#</div>
 						</div>
 						<div class="border rounded px-2 py-2" arial-labeledby="formheading">

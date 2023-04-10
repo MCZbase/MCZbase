@@ -337,13 +337,13 @@ Delete an existing collecting event number record.
 							<a href="SpecimenResults.cfm?locality_id=#locality_id#">
 								#localityUses.numOfSpecs# #localityUses.collection_cde# specimens
 							</a>
-							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#collectingEvents.ct# collecting events</a>.
+							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#localityUses.numOfCollEvents# collecting events</a>.
 						</div>
 					<cfelse>
 						<div>
 							This Locality (#locality_id#)
 							contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>
-							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#collectingEvents.ct# collecting events</a>:
+							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#localityUses.numOfCollEvents# collecting events</a>:
 						</div>
 						<div>
 							<ul>
