@@ -751,8 +751,8 @@ Delete an existing collecting event number record.
 					<cfloop query="getGeologicalAttributes">
 						<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="30">
 							SELECT distinct
-							  connect_by_root geology_attribute_hierarchy.attribute,
-							  connect_by_root attribute_value,
+							  connect_by_root geology_attribute_hierarchy.attribute parent_attribute,
+							  connect_by_root attribute_value parent_attribute_value,
 							  connect_by_root usable_value_fg
 							FROM geology_attribute_hierarchy
 							  left join geology_attributes on
@@ -765,7 +765,7 @@ Delete an existing collecting event number record.
 						</cfquery>
 						<cfset parentage="">
 						<cfloop query="getParentage">
-							<cfset parentage="#parentage#<li><span class='text-light'>#getParentage.attribute#:#getParentage.attribute_value#</span></li>" > <!--- " --->
+							<cfset parentage="#parentage#<li><span class='text-light'>#getParentage.parent_attribute#:#getParentage.parent_attribute_value#</span></li>" > <!--- " --->
 						</cfloop>
 						<li>#geology_attribute#:#geo_att_value# #determined_name# #determined_date# #determined_method#</li>
 					</cfloop>
