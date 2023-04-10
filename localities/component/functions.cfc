@@ -786,7 +786,7 @@ Delete an existing collecting event number record.
 								<li>
 									#geology_attribute#:#geo_att_value# #determined_by# #determined_date# #determined_method#
 									<button type="button" class="btn btn-xs btn-secondary" onClick=" openEditGeologyDialog('#geology_attribute_id#','editGeologyDialog','#callbackName#');">Edit</button>
-									<button type="button" class="btn btn-xs btn-warning" onClick=" removeGeologyAttribute('#geology_attribute_id#','#calbackName#');">Remove</button>
+									<button type="button" class="btn btn-xs btn-warning" onClick=" removeGeologyAttribute('#geology_attribute_id#','#callbackName#');">Remove</button>
 								</li>
 							</cfloop>
 							<li>
