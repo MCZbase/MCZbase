@@ -75,12 +75,19 @@
 		<cfset errorCase = loadedArray[i]>
 		<cfset errorCase = Trim(Replace(errorCase,'"','""','All'))>
 		<cfset columnInError = "">
-		<cfloop list="#columns#" index="col">
-			<cfif FindNoCase(col,errorCase) GT 0>
-				<cfset columnInError = col>
-			</cfif>
-		</cfloop>
+		<cfif FindNoCase('geog_auth_rec matched 0 records',errorCase) GT 0>
+			<cfset columnInError = "HIGHER_GEOG">
+		<cfelseif FindNoCase('Taxonomy (',errorCase) GT 0>
+			<cfset columnInError = "SCIENTIFIC_NAME">
+		<cfelse>
+			<cfloop list="#columns#" index="col">
+				<cfif FindNoCase(col,errorCase) GT 0>
+					<cfset columnInError = col>
+				</cfif>
+			</cfloop>
+		</cfif>
 		<cfif columnInError NEQ "">
+			<!--- TODO: Identify rows with the value_error --->
 			<cfquery name="getErrorCases" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT distinct #columnInError# value_error
 				FROM bulkloader_stage
