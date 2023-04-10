@@ -768,7 +768,7 @@ Delete an existing collecting event number record.
 						<cfloop query="getParentage">
 							<cfif ListContains(valList,getParentage.parent_attribute_value,"|") EQ 0 AND  ListContains(shownParentsList,getParentage.parent_attribute_value,"|") EQ 0 >
 								<cfset parentage="#parentage#<li><span class='text-secondary'>#getParentage.parent_attribute#:#getParentage.parent_attribute_value#</span></li>" > <!--- " --->
-								<cfset shownParentsList = "#shownParentsList##separator2##getParentage.parent_attribute_value#"
+								<cfset shownParentsList = "#shownParentsList##separator2##getParentage.parent_attribute_value#">
 								<cfset separator2 = "|">
 							</cfif>
 						</cfloop>
