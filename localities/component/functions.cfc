@@ -768,6 +768,7 @@ Delete an existing collecting event number record.
 								<cfset parentage="#parentage#<li><span class='text-light'>#getParentage.parent_attribute#:#getParentage.parent_attribute_value#</span></li>" > <!--- " --->
 							</cfif>
 						</cfloop>
+						#parentage#
 						<li>#geology_attribute#:#geo_att_value# #determined_by# #determined_date# #determined_method#</li>
 					</cfloop>
 					</ul>
