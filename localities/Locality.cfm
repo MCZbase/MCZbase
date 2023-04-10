@@ -46,6 +46,7 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfinclude template="/localities/component/functions.cfc" runOnce="true">
+		<cfinclude template="/localities/component/search.cfc" runOnce="true"><!--- for getLocalitSummary() --->
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
 			<cfthrow message="Error: unable to edit locality, no locality_id specified.">
 		</cfif>
