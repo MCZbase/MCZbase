@@ -724,7 +724,7 @@ Delete an existing collecting event number record.
 						geo_att_determined_method,
 						geo_att_remark,
 						previous_values,
-						connect_by_root geology_attribute_heirarchy.attribute as attribute,
+						connect_by_root geology_attribute_hierarchy.attribute as attribute,
 						connect_by_root attribute_value as attribute_value,
 						connect_by_root USABLE_VALUE_FG as USABLE_VALUE_FG,
 						connect_by_root PARENT_ID as parent_id
@@ -732,12 +732,12 @@ Delete an existing collecting event number record.
 						geology_attributes
 						join ctgeology_attribute on geology_attributes.geology_attribute = ctgeology_attribute.geology_attribute
 						left join preferred_agent_name on geo_att_determiner_id = agent_id
-						left join geology_attribute_heirarchy on geo_att_value = attribtue_value
+						left join geology_attribute_hierarchy on geo_att_value = attribute_value
 					WHERE 
 						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 					CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
 					ORDER BY
-						ctgeology_attribute.ordinal
+						ctgeology_attribute.ordinal,
 						level
 				</cfquery>
 				<cfif getGeologicalAttributes.recordcount EQ 0>
