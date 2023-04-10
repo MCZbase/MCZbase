@@ -73,6 +73,8 @@ limitations under the License.
 		locality
 	WHERE
 		geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
+	ORDER BY
+		spec_locality
 </cfquery>
 <cfquery name="getChildren" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getChildren_result">
 	SELECT
@@ -85,6 +87,8 @@ limitations under the License.
 			on geog_auth_rec.geog_auth_rec_id = flatTableName.geog_auth_rec_id
 	WHERE 
 		geog_auth_rec.higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getGeography.higher_geog#%">
+		AND
+		geog_auth_rec_id <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
 	GROUP BY 
 		geog_auth_rec.higher_geog, 
 		geog_auth_rec.geog_auth_rec_id

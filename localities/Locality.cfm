@@ -58,6 +58,10 @@ limitations under the License.
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 							<div id="relatedTo">#blockRelated#</div>
 						</div>
+						<div class="border rounded px-2 py-2">
+							<cfset summary = getLocalitySummary(locality_id="#getLocalities.locality_id#")>
+							<div id="summary">#summary#</div>
+						</div>
 						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
 							<cfset formId = "editLocalityForm">
 							<cfset outputDiv="saveResultsDiv">
@@ -69,12 +73,17 @@ limitations under the License.
 							</form>
 							<script>
 								function reloadLocalityBlocks() { 
+									updateLocalitySummary('#locality_id#','summary');	
 									// TODO: Implmement
 								}
 								function saveEdits(){ 
 									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
 								};
 							</script>
+						</div>
+						<div class="border rounded px-2 py-2">
+							<cfset geology = getLocalityGeologyHtml(locality_id="#getLocalities.locality_id#")>
+							<div id="geologyDiv">#geology#</div>
 						</div>
 					</div>
 				</section>

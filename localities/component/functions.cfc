@@ -705,6 +705,61 @@ Delete an existing collecting event number record.
 	<cfreturn cfthread["editLocalityFormThread#tn#"].output>
 </cffunction>
 
+<cffunction name="getLocalityGeologyHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="locality_id" type="string" required="no">
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="localityGeologyFormThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						level as parentagelevel,
+						ctgeology_attribute.type,
+						geology_attributes.geology_attribute,
+						geo_att_value,
+						geo_att_determiner_id,
+						agent_name determined_by,
+						geo_att_determined_date,
+						geo_att_determined_method,
+						geo_att_remark,
+						previous_values,
+						connect_by_root geology_attribute_heirarchy.attribute as attribute,
+						connect_by_root attribute_value as attribute_value,
+						connect_by_root USABLE_VALUE_FG as USABLE_VALUE_FG,
+						connect_by_root PARENT_ID as parent_id
+					FROM
+						geology_attributes
+						join ctgeology_attribute on geology_attributes.geology_attribute = ctgeology_attribute.geology_attribute
+						left join preferred_agent_name on geo_att_determiner_id = agent_id
+						left join geology_attribute_heirarchy on geo_att_value = attribtue_value
+					WHERE 
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+					ORDER BY
+						ctgeology_attribute.ordinal
+						level
+				</cfquery>
+				<cfif getGeologicalAttributes.recordcount EQ 0>
+					<div>Recent</div>
+				<cfelse>
+					<cfloop query="getGeologicalAttributes">
+						#attribute#:#attribute_value#
+					</cfloop>
+				</cfif>
+			<cfcatch>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="localityGeologyFormThread#tn#" />
+
+	<cfreturn cfthread["localityGeologyFormThread#tn#"].output>
+</cffunction>
+
+
 <!--- getCreateLocalityHtml returns html for a set of form inputs to create or clone a locality record, optionally with
 higher geography specified, optionally cloning from an existing locality, optionally with field values specified.
 Does not provide the enclosing form.  Expected context provided by calling page:
