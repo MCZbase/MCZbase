@@ -245,7 +245,7 @@ table##t th {
 							<cfif FindNoCase('geog_auth_rec matched 0 records',errorCase) GT 0>
 								<cfset columnInError = "HIGHER_GEOG">
 							<cfelseif FindNoCase('Taxonomy (',errorCase) GT 0>
-								<cfset columnInError = "SCIENTIFIC_NAME">
+								<cfset columnInError = "TAXON_NAME">
 							<cfelse>
 								<cfloop list="#columns#" index="col">
 									<cfif FindNoCase(col,errorCase) GT 0>
