@@ -1158,7 +1158,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					ORDER BY
 						accepted_lat_long_fg desc
 				</cfquery>
-				<cfif getGeologicalAttributes.recordcount EQ 0>
+				<cfif getGeoreferences.recordcount EQ 0>
 					<div>
 						<ul>
 							<li>
