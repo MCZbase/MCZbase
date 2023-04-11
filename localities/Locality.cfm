@@ -498,7 +498,7 @@ limitations under the License.
 							AND
 							media_relationship like '%locality'
 					)
-				<cfquery>
+				</cfquery>
 				<cfif countUses.total_uses GT 0>
 					<cfthrow message="Unable to delete. Locality has collecting events or media.">
 				</cfif>
