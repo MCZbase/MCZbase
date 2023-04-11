@@ -414,6 +414,7 @@
 		<cfcase value="checkStaged">
 			<cfoutput>
 				<cfstoredproc datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" procedure="bulkloader_stage_check">
+					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 				</cfstoredproc>
 				<cfquery name="anyBads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT count(*) as cnt 
