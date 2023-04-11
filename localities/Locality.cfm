@@ -122,7 +122,7 @@ limitations under the License.
 							<div id="geologyDiv">#geology#</div>
 						</div>
 						<div class="border rounded px-2 py-2">
-							<cfset georeferences = getLocalityGeorefencesHtml(locality_id="#locality_id#",callbackName='reloadGeoreferences')>
+							<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callbackName='reloadGeoreferences')>
 							<div id="georeferencesDiv">#georeferences#</div>
 						</div>
 					</div>
