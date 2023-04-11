@@ -1033,7 +1033,7 @@ table##t th {
 							</cfif>
 							<style>
 								##doublescroll {overflow:hidden;width: 100%;}
-								##doublescroll table {margin:0;padding:1rem;white-space: nowrap;}
+								##doublescroll div {margin:0;padding:1rem;white-space: nowrap;}
 							</style>
 							<div>
 							<table class="table mb-0 #sortable#" id="t">  
