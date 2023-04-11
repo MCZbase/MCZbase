@@ -1033,10 +1033,9 @@ table##t th {
 							</cfif>
 							<style>
 								##doublescroll {overflow:hidden;width: 100%;}
-								##doublescroll div {margin:0;padding:1rem;white-space: nowrap;}
+								##doublescroll table {margin:0;padding:1rem;white-space: nowrap;}
 							</style>
-							<div>
-							<table class="table mb-0 #sortable#" id="t">  
+							<table class="table mb-0" id="t">  
 									<thead class="thead-light">
 										<tr>
 											<cfloop query="cNames">
@@ -1088,7 +1087,7 @@ table##t th {
 								}
 								DoubleScroll(document.getElementById('doublescroll'));			
 							</script>
-							</div>
+
 						</div>
 					</div>
 				</div>
