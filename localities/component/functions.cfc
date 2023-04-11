@@ -155,6 +155,8 @@ Delete an existing collecting event number record.
 	<cfif not isDefined("min_depth")><cfset min_depth = ""></cfif>
 	<cfif not isDefined("max_depth")><cfset max_depth = ""></cfif>
 
+	<cfset data = ArrayNew(1)>
+
 	<cftransaction>
 		<cftry>
 			<cfif len(MINIMUM_ELEVATION) gt 0 OR len(MAXIMUM_ELEVATION) gt 0>
@@ -1078,6 +1080,129 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 	<cfreturn cfthread["createLocalityFormThread#tn#"].output>
 
+</cffunction>
+
+<!--- delete a georeference.
+  @param locality_id the primary key value of the locality from which to delete the lat_long
+  @param lat_long_id the primary key value of the georeference to delete.
+  @return json with status=deleted, or an http status 500.
+--->
+<cffunction name="deleteGeoreference" access="remote" returntype="any" returnformat="json">
+	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="lat_long_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="getGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					lat_long_id
+					accepted_lat_long_fg
+				FROM
+					lat_long
+				WHERE 
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					and 
+					lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
+				ORDER BY
+					accepted_lat_long_fg desc
+			</cfquery>
+			<cfif getRereferences.recordcount NEQ "1">
+				<cfthrow message="Unable to delete. Found other than one georefrence for lat_long_id and locality_id provided.">
+			</cfif>
+			<cfquery name="deleteGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
+				DELETE FROM lat_long
+				WHERE 
+					lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
+			</cfquery>
+			<cfif delete_result.recordcount NEQ 1>
+				<cfthrow message="Error deleteing georeference, provided lat_long_id matched other than one record.">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">
+			<cfset row["id"] = "#locality_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<cffunction name="getLocalityGeoreferencesHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="callbackName" type="string" required="yes">
+
+	<cfset variables.callbackName = arguments.callbackName>
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="localityGeoRefFormThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						dec_lat,
+						dec_long,
+						datum,
+						accepted_lat_long_fg
+					FROM
+						lat_long
+					WHERE 
+						lat_long.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					ORDER BY
+						accepted_lat_long_fg desc
+				</cfquery>
+				<cfif getGeologicalAttributes.recordcount EQ 0>
+					<div>
+						<ul>
+							<li>
+								<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeorefDialog('#locality_id#','addGeorefDialog','#callbackName#'); ">Add</button>
+							</li>
+						</ul>
+					</div>
+				<cfelse>
+					<div>
+						<ul>
+							<li>
+									#geology_attribute#:#geo_att_value# #determined_by# #determined_date# #determined_method#
+									<button type="button" class="btn btn-xs btn-secondary" onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');">Edit</button>
+									<button type="button" class="btn btn-xs btn-warning" onClick=" deleteGeoreference('#locality_id#','#lat_long_id#','#callbackName#');">Delete</button>
+								</li>
+							</cfloop>
+							<li>
+								<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog','#callbackName#'); ">Add</button>
+							</li>
+						</ul>
+					</div>
+				</cfif>
+					<div class="editGeorefDialog"></div>
+					<div class="addGeorefDialog"></div>
+					<script>
+						function openEditGeorefDialog(lat_long_id, dialogDiv, callback) { 
+							console.log(geology_attribute_id);
+						}
+						function openAddGeorefDialog(locality_id, dialogDiv, callback) { 
+							console.log(locality_id);
+						}
+						function deleteGeoreference(locality_id,lat_long_id, callback) { 
+							console.log(geology_attribute_id);
+						}
+					</script>
+			<cfcatch>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="localityGeorefFormThread#tn#" />
+
+	<cfreturn cfthread["localityGeorefFormThread#tn#"].output>
 </cffunction>
 
 </cfcomponent>

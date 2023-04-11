@@ -47,6 +47,27 @@ limitations under the License.
 	<cfcase value="edit">
 		<cfinclude template="/localities/component/functions.cfc" runOnce="true">
 		<cfinclude template="/localities/component/search.cfc" runOnce="true"><!--- for getLocalitySummary() --->
+		<cfquery name="countUses" datasource="uam_god">
+			SELECT 
+				sum(ct) total_uses
+			FROM (
+				SELECT
+					count(*) ct
+				FROM 
+					collecting_event
+				WHERE
+					locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+				UNION
+				SELECT
+					count(*) ct
+				FROM
+					media_relations
+				WHERE
+					related_primary_key =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					AND
+					media_relationship like '%locality'
+			)
+		<cfquery>
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
 			<cfthrow message="Error: unable to edit locality, no locality_id specified.">
 		</cfif>
@@ -86,9 +107,23 @@ limitations under the License.
 								};
 							</script>
 						</div>
+						<div class="border rounded px-2 py-2 form-row">
+							<button type="button" class="btn btn-xs btn-secondary" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
+							<cfif countUses.total_uses NEQ "0">
+								<button type="button" 
+									onClick="confirmDialog('Delete this Locality?', 'Confirm Delete Locality', function() { location.assign('/localities/Locality.cfm?action=delete&locality_id=#encodeForUrl(locality_id)#'); } );" 
+									class="btn btn-xs btn-danger" >
+										Delete Locality
+								</button>
+							</cfif>
+						</div>
 						<div class="border rounded px-2 py-2">
 							<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#",callbackName='reloadGeology')>
 							<div id="geologyDiv">#geology#</div>
+						</div>
+						<div class="border rounded px-2 py-2">
+							<cfset georeferences = getLocalityGeorefencesHtml(locality_id="#locality_id#",callbackName='reloadGeoreferences')>
+							<div id="georeferencesDiv">#georeferences#</div>
 						</div>
 					</div>
 				</section>
@@ -439,5 +474,50 @@ limitations under the License.
 		<cfoutput>
 			<cflocation addtoken="no" url="/locality/Locality.cfm?locality_id=#nextLoc.nextLoc#">
 		</cfoutput>
+	</cfcase>
+	<cfcase value="delete">  
+		<cftransaction>
+			<cftry>
+				<cfquery name="countUses" datasource="uam_god">
+					SELECT 
+						sum(ct) total_uses
+					FROM (
+						SELECT
+							count(*) ct
+						FROM 
+							collecting_event
+						WHERE
+							locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						UNION
+						SELECT
+							count(*) ct
+						FROM
+							media_relations
+						WHERE
+							related_primary_key =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+							AND
+							media_relationship like '%locality'
+					)
+				<cfquery>
+				<cfif countUses.total_uses GT 0>
+					<cfthrow message="Unable to delete. Locality has collecting events or media.">
+				</cfif>
+				<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
+						DELETE FROM locality
+						WHERE
+							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+				</cfquery>
+				<cfoutput>
+					<h1 class="h2">Locality successfully deleted.</h1>
+					<ul>
+						<li><a href="/localities/Localities.cfm">Search for Localities</a>.</li>
+						<li><a href="/localities/Locality.cfm?action=new">Create a new Locality</a>.</li>
+					</ul>
+				</cfoutput>
+			<cfcatch>
+				<cfthrow type="Application" message="Error deleting Locality (<a href='/localities/Locality.cfm?locality_id=#encodeForUrl(locality_id)#'>#encodeForHtml(locality_id)#</a>): #cfcatch.Message# #cfcatch.Detail#"><!--- " --->
+			</cfcatch>
+			<cftry>
+		<cftransaction>
 	</cfcase>
 </cfswitch>

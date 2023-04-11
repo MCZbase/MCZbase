@@ -35,7 +35,7 @@ function suggestSovereignNation(geog_auth_rec_id, pasteTarget) {
  @param pasteTarget the id in the dom, without a leading pound selector
    the content of which to replace with the returned summary.
 **/
-function updateLocalitySummary(locality_id,targetDiv) {
+function updateLocalitySummary(locality_id,pasteTarget) {
 	jQuery.ajax({
 		url: "/localities/component/search.cfc",
 		data : {
@@ -43,10 +43,38 @@ function updateLocalitySummary(locality_id,targetDiv) {
 			locality_id: locality_id
 		},
 		success: function (result) {
-			$("#"+targetDiv).html(result);
+			$("#"+pasteTarget).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"obtaining summary for a locality");
+		},
+		dataType: "html"
+	});
+};
+
+/** given a locality_id and lat_long_id, attempt to delete the georeference.
+ @param locality_id the locality for the georeference to delete
+ @param lat_long_id the primary key value for the georeference to delete
+ @param callback a callback function to invoke on success.
+**/
+function deleteGeoreference(locality_id, lat_long_id,callback) {
+	jQuery.ajax({
+		url: "/localities/component/search.cfc",
+		data : {
+			method : "deleteGeoreference",
+			locality_id: locality_id,
+			lat_long_id: lat_long_id
+		},
+		success: function (result) {
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
+				alert(result[0].MESSAGE);
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"deleting a georeference");
 		},
 		dataType: "html"
 	});
