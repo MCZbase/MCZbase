@@ -517,7 +517,7 @@ limitations under the License.
 			<cfcatch>
 				<cfthrow type="Application" message="Error deleting Locality (<a href='/localities/Locality.cfm?locality_id=#encodeForUrl(locality_id)#'>#encodeForHtml(locality_id)#</a>): #cfcatch.Message# #cfcatch.Detail#"><!--- " --->
 			</cfcatch>
-			<cftry>
+			</cftry>
 		<cftransaction>
 	</cfcase>
 </cfswitch>
