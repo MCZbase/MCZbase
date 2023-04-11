@@ -59,7 +59,7 @@
 	</cfloop>
 	<cfset csv ='"ERROR","COLUMN","VALUE","ROWS"'>
 	<cfloop index="i" from="1" to="#ArrayLen(loadedArray)#">
-		<!--- TODO: identify the error column, for that error condition, find distinct values of the column with the error, report those --->
+		<!--- identify the error column, for that error condition, find distinct values of the column with the error, report those --->
 		<cfquery name="getErrorRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT collection_object_id
 			FROM bulkloader_stage
@@ -95,8 +95,21 @@
 					AND loaded like '%#errorCase#%'
 			</cfquery>
 			<cfloop query="getErrorCases">
+				<cfquery name="getErrorCaseRows" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT collection_object_id
+					FROM bulkloader_stage
+					WHERE staging_user = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND loaded like '%#loadedArray[i]#%'
+						AND #columnInError# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getErrorCases.value_error#">
+				</cfquery>
+				<cfset caseRows ="">
+				<cfset separator1="">
+				<cfloop query="getErrorCaseRows">
+					<cfset caseRows = "#caseRows##separator1##getErrorCaseRows.collection_object_id#">
+					<cfset separator1=",">
+				</cfloop>
 				<cfset valError = Replace(getErrorCases.value_error,'"','""','All')>
-				<cfset csv = '#csv##crlf#"#errorCase#","#columnInError#","#valError#","#rows#"'>
+				<cfset csv = '#csv##crlf#"#errorCase#","#columnInError#","#valError#","#caseRows#"'>
 			</cfloop>
 		<cfelse>
 			<cfset csv = '#csv##crlf#"#errorCase#","","","#rows#"'>
