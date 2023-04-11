@@ -67,7 +67,7 @@ limitations under the License.
 					AND
 					media_relationship like '%locality'
 			)
-		<cfquery>
+		</cfquery>
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
 			<cfthrow message="Error: unable to edit locality, no locality_id specified.">
 		</cfif>
