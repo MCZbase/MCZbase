@@ -1149,7 +1149,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						dec_lat,
 						dec_long,
 						datum,
-						accepted_lat_long_fg
+						accepted_lat_long_fg,
+						decode(accepted_lat_long_fg,1,'*','') accepted_lat_long
 					FROM
 						lat_long
 					WHERE 
@@ -1169,7 +1170,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<div>
 						<ul>
 							<li>
-									#geology_attribute#:#geo_att_value# #determined_by# #determined_date# #determined_method#
+							<cfloop query="getGeoreferences">
+									#dec_lat#, #dec_long# #datum# #accepted_lat_long#
 									<button type="button" class="btn btn-xs btn-secondary" onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');">Edit</button>
 									<button type="button" class="btn btn-xs btn-warning" onClick=" deleteGeoreference('#locality_id#','#lat_long_id#','#callbackName#');">Delete</button>
 								</li>
