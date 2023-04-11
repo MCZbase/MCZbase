@@ -1146,13 +1146,53 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cftry>
 				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
+						georef_method,
 						dec_lat,
 						dec_long,
+						max_error_distance,
+						max_error_units,
+						to_meters(accepted_lat_long.max_error_distance, accepted_lat_long.max_error_units) coordinateUncertaintyInMeters,
+						error_polygon,
 						datum,
+						extent,
+						spatialfit,
+						determined_by_agent_id,
+.						det_agent.agent_name determined_by,
+						determined_date,
+						gps_accuracy,
+						lat_long_ref_source,
+						nearest_named_place,
+						lat_long_for_nnp_fg,
+						verification_status,
+						field_verified_fg,
+						verified_by_agent_id,
+						ver_agent.agent_name verified_by,
+						orig_lat_long_units,
+						lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
+						long_deg, dec_long_min, long_min, long_sec, long_dir,
+						utm_zone, utm_ew, utm_ns,
+						CASE orig_lat_long_units
+							WHEN 'decimal degrees' THEN dec_lat || 'd'
+							WHEN 'deg. min. sec.' THEN lat_deg || 'd ' || lat_min || 'm ' || lat_sec || 's ' || lat_dir
+							WHEN 'degrees dec. minutes' THEN lat_deg || 'd ' || dec_lat_min || 'm ' || lat_dir
+						END as LatitudeString,
+						CASE orig_lat_long_units
+							WHEN 'decimal degrees' THEN dec_long || 'd'
+							WHEN'degrees dec. minutes' THEN long_deg || 'd ' || dec_long_min || 'm ' || long_dir
+							WHEN 'deg. min. sec.' THEN long_deg || 'd ' || long_min || 'm ' || long_sec || 's ' || long_dir
+						END as LongitudeString,
 						accepted_lat_long_fg,
-						decode(accepted_lat_long_fg,1,'*','') accepted_lat_long
+						decode(accepted_lat_long_fg,1,'Accepted','') accepted_lat_long,
+						geolocate_uncertaintypolygon,
+						geolocate_score,
+						geolocate_precision,
+						geolocate_numresults,
+						geolocate_parsepattern,
+						lat_long_remarks
 					FROM
 						lat_long
+						left join preferred_agent_name det_agent on lat_long.determined_by_agent_id = det_agent.agent_id
+						left join preferred_agent_name ver_agent on lat_long.determined_by_agent_id = ver_agent.agent_id
 					WHERE 
 						lat_long.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 					ORDER BY
@@ -1169,9 +1209,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<cfelse>
 					<div>
 						<ul>
-							<li>
 							<cfloop query="getGeoreferences">
-									#dec_lat#, #dec_long# #datum# #accepted_lat_long#
+								<li>
+									<cfset original="">
+									<cfif len(utm_zone) GT 0>
+										<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
+									<cfelse>
+										<cfest original = "(as: #LatitudeString#,#LongitudeString#)">
+									</cfif>
+									#dec_lat#, #dec_long# #datum# ±#coordinateUncertaintyInMeters#m #original# #accepted_lat_long#
 									<button type="button" class="btn btn-xs btn-secondary" onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');">Edit</button>
 									<button type="button" class="btn btn-xs btn-warning" onClick=" deleteGeoreference('#locality_id#','#lat_long_id#','#callbackName#');">Delete</button>
 								</li>
