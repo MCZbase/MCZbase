@@ -1026,31 +1026,26 @@ table##t th {
 					<div class="col-12 mb-3 mt-0 float-left">
 						<style>
 							.wrapper1 {
-								width: 200px; 
+								width: auto; 
 								border: 1px solid blue;
 								overflow-x: scroll; 
-								overflow-y:hidden;
+								overflow-y: hidden;
+								height: 20px;
 							}
 							.wrapper2 {
 								width: auto; 
+								height: auto;
 								border: 1px solid yellow;
 								overflow-x: scroll; 
-								overflow-y:hidden;
-							}
-							.wrapper1{
-								height: 20px;
-								border: 1px solid green;
-							}
-							.wrapper2{
-								height: auto; 
-								border: 1px solid purple;
+								overflow-y: hidden;
 							}
 							.div1 {
-								width:1000px; height: 20px; 
+								width:1500px; 
+								height: 20px; 
 							}
 							.div2 {
-								width:1000px; 
-								height: 500px; 
+								width:1500px; 
+								height: auto; 
 								background-color: red;
 								overflow: auto;
 							}
@@ -1060,7 +1055,8 @@ table##t th {
 							</div>
 						</div>
 						
-						<div class="blTabDiv wrapper2">
+					<!---	<div class="blTabDiv wrapper2">--->
+						<div class="wrapper2">
 							<!--- Sortable is slow to rewrite the th cells and isn't practical to use for more than a handful of records when all columns are included. --->
 							<cfif data.recordcount LT sortableLimit + 1>
 								<cfset sortable = "sortable">
@@ -1068,7 +1064,7 @@ table##t th {
 								<cfset sortable = "">
 							</cfif>
 							
-							<table class="table mb-0 #sortable# div2" id="t">  
+							<table class="table mb-0 div2" id="example">  
 									<thead class="thead-light">
 										<tr>
 											<cfloop query="cNames">
@@ -1111,6 +1107,9 @@ table##t th {
 											.scrollLeft($(".wrapper2").scrollLeft());
 									});
 								});
+								$(document).ready(function () {
+									$('##example').DataTable();
+								 });
 							</script>
 						</div>
 					</div>
