@@ -1037,7 +1037,7 @@ table##t th {
 							</cfif>
 							<style>
 								.wrapper1, .wrapper2 {
-									width: 800px; 
+									width: 998px; 
 									border: 1px solid blue;
 									overflow-x: scroll; 
 									overflow-y:hidden;
