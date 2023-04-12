@@ -996,7 +996,8 @@ table##t th {
 								</tbody>
 							</table>
 						</form>
-						<p class="font-italic text-dark mb-3 mb-xl-1 col-12 col-xl-6 px-3 float-left">Select a column to update, then enter a new value to be applied to all records shown below.
+						<p class="font-italic text-dark mb-3 mb-xl-1 col-12 col-xl-6 px-3 float-left">
+						Select a column to update, then enter a new value to be applied to all records shown below.
 						To empty a column, select the column, click "NULL" for the value, and then update. To sort, click on a column header and wait. The length of delay is proportional to the number of rows in the table.	Use your browser Find functionality ("control" + "F") to locate a column header or value.</p>
 					</div>
 					<cfset ColNameList = valuelist(cNames.column_name)>
@@ -1027,7 +1028,6 @@ table##t th {
 						<style>
 							.wrapper1 {
 								width: auto; 
-								border: 1px solid blue;
 								overflow-x: scroll; 
 								overflow-y: hidden;
 								height: 20px;
@@ -1035,7 +1035,6 @@ table##t th {
 							.wrapper2 {
 								width: auto; 
 								height: auto;
-								border: 1px solid yellow;
 								overflow-x: scroll; 
 								overflow-y: hidden;
 							}
@@ -1044,9 +1043,8 @@ table##t th {
 								height: 20px; 
 							}
 							.div2 {
-								width:1500px; 
+								width:auto; 
 								height: auto; 
-								background-color: red;
 								overflow: auto;
 							}
 						</style>
