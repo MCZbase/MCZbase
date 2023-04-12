@@ -1026,15 +1026,11 @@ table##t th {
 					<div class="col-12 mb-3 mt-0 float-left">
 						<style>
 							.wrapper1 {
-								width: 1500px; 
+								width: 8%;
 								overflow-x: scroll; 
 								overflow-y: hidden;
 								height: 20px;
-								width: 8%;
-								height: 150px;
-								background: darkgrey;
 								float: left;
-								text-align: center;
 							}
 							.wrapper2 {
 								width: 1500px; 
@@ -1046,10 +1042,7 @@ table##t th {
 								width:1500px; 
 								height: 20px;
 								width: 8%;
-								height: 150px;
-								background: darkgrey;
-								float: left;   
-								text-align: center;
+								float: left;
 							}
 							.div2 {
 								width:1500px; 
