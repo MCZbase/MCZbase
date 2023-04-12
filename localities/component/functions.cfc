@@ -1215,7 +1215,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<cfif len(utm_zone) GT 0>
 										<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
 									<cfelse>
-										<cfest original = "(as: #LatitudeString#,#LongitudeString#)">
+										<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
 									</cfif>
 									#dec_lat#, #dec_long# #datum# ±#coordinateUncertaintyInMeters#m #original# #accepted_lat_long#
 									<button type="button" class="btn btn-xs btn-secondary" onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');">Edit</button>
