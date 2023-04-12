@@ -1031,7 +1031,7 @@ table##t th {
 								border-collapse: collapse;
 								}
 							.row {
-								background:#CCC;
+								background:##CCC;
 								}
 
 							td {
