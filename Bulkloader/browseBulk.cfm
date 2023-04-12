@@ -1037,7 +1037,7 @@ table##t th {
 							td {
 								white-space: nowrap;
 							}
-							#scroll1 div {
+							##scroll1 div {
 								height: 1px;
 								margin: 0 1%;
 							}
