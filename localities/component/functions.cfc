@@ -530,6 +530,11 @@ Delete an existing collecting event number record.
 				<cfset higher_geog = "#lookupHigherGeog.higher_geog#">
 			</cfloop>
 			<div class="form-row mx-0 mb-0">
+				<cfif lookupLocality.curated_fg EQ 1 >
+				<div class="col-12 mt-0">
+					<h2 class="h3">This locality record has been vetted. Please do not edit (or delete).</h3>
+				</div>
+				</cfif>
 				<div class="col-12 col-md-10 mt-0">
 					<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#geog_auth_rec_id#">
 					<label class="data-entry-label" for="higher_geog">Higher Geography:</label>
@@ -601,7 +606,7 @@ Delete an existing collecting event number record.
 					</select>
 				</div>
 				<div class="col-12 col-md-2">
-					<label class="data-entry-label" for="curated_fg">Curated</label>
+					<label class="data-entry-label" for="curated_fg">Vetted</label>
 					<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select">
 						<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 						<option value="0" #selected#>No</option>
