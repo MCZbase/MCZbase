@@ -1030,6 +1030,11 @@ table##t th {
 								overflow-x: scroll; 
 								overflow-y: hidden;
 								height: 20px;
+								width: 8%;
+								height: 150px;
+								background: darkgrey;
+								float: left;
+								text-align: center;
 							}
 							.wrapper2 {
 								width: 1500px; 
@@ -1039,7 +1044,12 @@ table##t th {
 							}
 							.div1 {
 								width:1500px; 
-								height: 20px; 
+								height: 20px;
+								width: 8%;
+								height: 150px;
+								background: darkgrey;
+								float: left;   
+								text-align: center;
 							}
 							.div2 {
 								width:1500px; 
