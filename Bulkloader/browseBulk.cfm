@@ -1024,33 +1024,24 @@ table##t th {
 					</cfif>
 
 					<div class="col-12 mb-3 mt-0 float-left">
-						<style>
-							##wrapper1, ##wrapper2{width: 300px; border: none 0px RED;
-							overflow-x: scroll; overflow-y:hidden;}
-							##wrapper1 {
-								height: 20px; 
-							}
-							##wrapper2 {
-								height: 100px; 
-							}
-							##div1 {
-								width:1000px; 
-								height: 20px; 
-							}
-							##div2 {
-								width:1000px; 
-								height: 100px; 
-								background-color: ##88FF88;
-								overflow: auto;
-							}
-						</style>
-						<div class="wrapper1">
-							<div class="div1">
-							</div>
-						</div>
+			
+<script type="text/javascript" src="jquery.doubleScroll.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+$('.double-scroll').doubleScroll();
+});
+</script>
+
+<style>
+.double-scroll{
+width: 400px;
+}
+</style>
+					
 						
 					<!---	<div class="blTabDiv wrapper2">--->
-						<div id="wrapper2">
+						<div class="double-scroll">
 							<!--- Sortable is slow to rewrite the th cells and isn't practical to use for more than a handful of records when all columns are included. --->
 							<cfif data.recordcount LT sortableLimit + 1>
 								<cfset sortable = "sortable">
@@ -1058,7 +1049,7 @@ table##t th {
 								<cfset sortable = "">
 							</cfif>
 							
-							<table class="table mb-0" id="div2">  
+							<table class="table mb-0">  
 									<thead class="thead-light">
 										<tr>
 											<cfloop query="cNames">
@@ -1090,16 +1081,8 @@ table##t th {
 										</cfloop>
 									</tbody>
 							</table>
-							<script>
-								var wrapper1 = document.getElementById('wrapper1');
-								var wrapper2 = document.getElementById('wrapper2');
-								wrapper1.onscroll = function() {
-								  wrapper2.scrollLeft = wrapper1.scrollLeft;
-								};
-								wrapper2.onscroll = function() {
-								  wrapper1.scrollLeft = wrapper2.scrollLeft;
-								};
-							</script>
+
+					
 						</div>
 					</div>
 				</div>
