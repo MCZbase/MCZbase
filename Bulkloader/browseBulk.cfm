@@ -1024,10 +1024,36 @@ table##t th {
 					</cfif>
 
 					<div class="col-12 mb-3 mt-0 float-left">
+						<style>
+							.wrapper1, .wrapper2 {
+								width: 200px; 
+								border: 1px solid blue;
+								overflow-x: scroll; 
+								overflow-y:hidden;
+							}
+							.wrapper1{
+								height: 20px;
+								border: 1px solid green;
+							}
+							.wrapper2{
+								height: auto; 
+								border: 1px solid purple;
+							}
+							.div1 {
+								width:1000px; height: 20px; 
+							}
+							.div2 {
+								width:1000px; 
+								height: 500px; 
+								background-color: red;
+								overflow: auto;
+							}
+						</style>
 						<div class="wrapper1">
 							<div class="div1">
 							</div>
 						</div>
+						
 						<div class="blTabDiv wrapper2">
 							<!--- Sortable is slow to rewrite the th cells and isn't practical to use for more than a handful of records when all columns are included. --->
 							<cfif data.recordcount LT sortableLimit + 1>
@@ -1035,31 +1061,7 @@ table##t th {
 							<cfelse>
 								<cfset sortable = "">
 							</cfif>
-							<style>
-								.wrapper1, .wrapper2 {
-									width: 200px; 
-									border: 1px solid blue;
-									overflow-x: scroll; 
-									overflow-y:hidden;
-								}
-								.wrapper1{
-									height: 20px;
-									border: 1px solid green;
-								}
-								.wrapper2{
-									height: auto; 
-									border: 1px solid purple;
-								}
-								.div1 {
-									width:1000px; height: 20px; 
-								}
-								.div2 {
-									width:1000px; 
-									height: 500px; 
-									background-color: red;
-									overflow: auto;
-								}
-							</style>
+							
 							<table class="table mb-0 #sortable# div2" id="t">  
 									<thead class="thead-light">
 										<tr>
