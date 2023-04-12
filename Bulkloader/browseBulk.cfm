@@ -1025,25 +1025,38 @@ table##t th {
 
 					<div class="col-12 mb-3 mt-0 float-left">
 						<style>
-							table.info {
-								width: 98%;
-								margin: 0 1%;
-								border-collapse: collapse;
-								}
-							td {
-								white-space: nowrap;
+							.wrapper1 {
+								width: auto; 
+								border: 1px solid blue;
+								overflow-x: scroll; 
+								overflow-y: hidden;
+								height: 20px;
 							}
-							##scroll1 div {
-								height: 1px;
-								margin: 0 1%;
+							.wrapper2 {
+								width: auto; 
+								height: auto;
+								border: 1px solid yellow;
+								overflow-x: scroll; 
+								overflow-y: hidden;
+							}
+							.div1 {
+								width:1500px; 
+								height: 20px; 
+							}
+							.div2 {
+								width:1500px; 
+								height: auto; 
+								background-color: red;
+								overflow: auto;
 							}
 						</style>
-						<div id="scroll1" style="overflow-x:auto;">
-							<div></div>
+						<div class="wrapper1">
+							<div class="div1">
+							</div>
 						</div>
-						<div id="scroll2" style="overflow-x:auto;">
 						
-					<!---	<div class="blTabDiv">--->
+					<!---	<div class="blTabDiv wrapper2">--->
+						<div class="blTabDiv wrapper2">
 							<!--- Sortable is slow to rewrite the th cells and isn't practical to use for more than a handful of records when all columns are included. --->
 							<cfif data.recordcount LT sortableLimit + 1>
 								<cfset sortable = "sortable">
@@ -1051,7 +1064,7 @@ table##t th {
 								<cfset sortable = "">
 							</cfif>
 							
-							<table class="table mb-0 info">  
+							<table class="table mb-0 #sortable# div2" id="t">  
 									<thead class="thead-light">
 										<tr>
 											<cfloop query="cNames">
@@ -1084,13 +1097,14 @@ table##t th {
 									</tbody>
 							</table>
 							<script>
-								$("document").ready(function(){
-									$("##scroll1 div").width($("##select").width());
-									$("##scroll1").on("scroll", function(){
-										$("##scroll2").scrollLeft($(this).scrollLeft()); 
+								$(function(){
+									$(".wrapper1").scroll(function(){
+										$(".wrapper2")
+											.scrollLeft($(".wrapper1").scrollLeft());
 									});
-									$("##scroll2").on("scroll", function(){
-										$("##scroll1").scrollLeft($(this).scrollLeft()); 
+									$(".wrapper2").scroll(function(){
+										$(".wrapper1")
+											.scrollLeft($(".wrapper2").scrollLeft());
 									});
 								});
 							</script>
