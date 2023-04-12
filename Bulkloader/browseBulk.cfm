@@ -1089,12 +1089,12 @@ table##t th {
 							</table>
 							<script>
 								$("document").ready(function(){
-									$("#scroll1 div").width($("#select").width());
-									$("#scroll1").on("scroll", function(){
-										$("#scroll2").scrollLeft($(this).scrollLeft()); 
+									$("##scroll1 div").width($("##select").width());
+									$("##scroll1").on("scroll", function(){
+										$("##scroll2").scrollLeft($(this).scrollLeft()); 
 									});
-									$("#scroll2").on("scroll", function(){
-										$("#scroll1").scrollLeft($(this).scrollLeft()); 
+									$("##scroll2").on("scroll", function(){
+										$("##scroll1").scrollLeft($(this).scrollLeft()); 
 									});
 								});
 							</script>
