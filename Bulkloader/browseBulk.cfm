@@ -1025,9 +1025,15 @@ table##t th {
 
 					<div class="col-12 mb-3 mt-0 float-left">
 						<style>
-							.wrapper1, .wrapper2 {
+							.wrapper1 {
 								width: 200px; 
 								border: 1px solid blue;
+								overflow-x: scroll; 
+								overflow-y:hidden;
+							}
+							.wrapper2 {
+								width: auto; 
+								border: 1px solid yellow;
 								overflow-x: scroll; 
 								overflow-y:hidden;
 							}
