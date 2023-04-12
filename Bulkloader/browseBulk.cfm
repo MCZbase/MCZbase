@@ -1027,15 +1027,13 @@ table##t th {
 						<style>
 							.wrapper1 {
 								width: 1500px; 
-								border: 1px solid blue;
 								overflow-x: scroll; 
 								overflow-y: hidden;
 								height: 20px;
 							}
 							.wrapper2 {
-								width: auto; 
+								width: 1500px; 
 								height: auto;
-								border: 1px solid yellow;
 								overflow-x: scroll; 
 								overflow-y: hidden;
 							}
