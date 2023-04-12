@@ -1099,9 +1099,6 @@ table##t th {
 								wrapper2.onscroll = function() {
 								  wrapper1.scrollLeft = wrapper2.scrollLeft;
 								};
-								$(document).ready(function () {
-									$('##example').DataTable();
-								 });
 							</script>
 						</div>
 					</div>
