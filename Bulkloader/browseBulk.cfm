@@ -1025,29 +1025,6 @@ table##t th {
 					</cfif>
 
 					<div class="col-12 mb-3 mt-0 float-left">
-						<style>
-							.wrapper1 {
-								width: auto; 
-								overflow-x: scroll; 
-								overflow-y: hidden;
-								height: 20px;
-							}
-							.wrapper2 {
-								width: auto; 
-								height: auto;
-								overflow-x: scroll; 
-								overflow-y: hidden;
-							}
-							.div1 {
-								width:5000px; 
-								height: 20px; 
-							}
-							.div2 {
-								width:auto; 
-								height: auto; 
-								overflow: auto;
-							}
-						</style>
 						<div class="wrapper1">
 							<div class="div1">
 							</div>
