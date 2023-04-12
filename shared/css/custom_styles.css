@@ -2203,6 +2203,27 @@ section#mediaSection.accordion {
 .smallselect {
 	font-size: 84%!important;
 }
+.wrapper1 {
+	width: auto; 
+	overflow-x: scroll; 
+	overflow-y: hidden;
+	height: 20px;
+}
+.wrapper2 {
+	width: auto; 
+	height: auto;
+	overflow-x: scroll; 
+	overflow-y: hidden;
+}
+.div1 {
+	width:5000px; 
+	height: 20px; 
+}
+.div2 {
+	width:auto; 
+	height: auto; 
+	overflow: auto;
+}
 #collapseKeyword.collapsing.width {
 	height: auto;
 	width: 0;
