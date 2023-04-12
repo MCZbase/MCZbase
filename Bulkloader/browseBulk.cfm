@@ -1030,10 +1030,6 @@ table##t th {
 								margin: 0 1%;
 								border-collapse: collapse;
 								}
-							.row {
-								background:##CCC;
-								}
-
 							td {
 								white-space: nowrap;
 							}
