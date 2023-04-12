@@ -1146,6 +1146,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cftry>
 				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
+						lat_long_id,
 						georefmethod,
 						dec_lat,
 						dec_long,
@@ -1198,11 +1199,29 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					ORDER BY
 						accepted_lat_long_fg desc
 				</cfquery>
+				<h2 class="h3">Georeferences (#getGeoreferences.recordcount#)</h2>
 				<cfif getGeoreferences.recordcount EQ 0>
+					<cfquery name="checkNoGeorefBecause" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							nogeorefbecause
+						FROM
+							locality
+						WHERE
+							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					</cfquery>
+					<cfif len(checkNoGeorefBecause.nogeorefbecause) EQ 0 >
+						<cfset noGeoRef = "<span class="text-warning">Add a georeference or put a value in Not Georeferenced Because.</span>"><!--- " --->
+					<cfelse> 
+						<cfset noGeoRef = " (#checkNoGeorefBecause.nogeorefbecause#)">
+					</cfif>
 					<div>
 						<ul>
+							<li>None #noGeoRef#</li>
 							<li>
-								<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeorefDialog('#locality_id#','addGeorefDialog','#callbackName#'); ">Add</button>
+								<button type="button" class="btn btn-xs btn-secondary" 
+									onClick=" openAddGeorefDialog('#locality_id#','addGeorefDialog','#callbackName#'); "
+									aria-label = "Add a georeference to this locality"
+								>Add</button>
 							</li>
 						</ul>
 					</div>
@@ -1218,12 +1237,21 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
 									</cfif>
 									#dec_lat#, #dec_long# #datum# ±#coordinateUncertaintyInMeters#m #original# #accepted_lat_long#
-									<button type="button" class="btn btn-xs btn-secondary" onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');">Edit</button>
-									<button type="button" class="btn btn-xs btn-warning" onClick=" deleteGeoreference('#locality_id#','#lat_long_id#','#callbackName#');">Delete</button>
+									<button type="button" class="btn btn-xs btn-secondary" 
+										onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');"
+										aria-label = "Edit this georeference"
+									>Edit</button>
+									<button type="button" class="btn btn-xs btn-warning" 
+										onClick=" deleteGeoreference('#locality_id#','#lat_long_id#','#callbackName#');"
+										aria-label = "Delete this georeference from this locality"
+									>Delete</button>
 								</li>
 							</cfloop>
 							<li>
-								<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog','#callbackName#'); ">Add</button>
+								<button type="button" class="btn btn-xs btn-secondary" 
+									onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog','#callbackName#'); "
+									aria-label = "Add another georeference to this locality"
+								>Add</button>
 							</li>
 						</ul>
 					</div>
