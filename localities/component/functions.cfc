@@ -1146,7 +1146,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cftry>
 				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
-						georef_method,
+						georefmethod,
 						dec_lat,
 						dec_long,
 						max_error_distance,
@@ -1159,11 +1159,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						determined_by_agent_id,
 						det_agent.agent_name determined_by,
 						determined_date,
-						gps_accuracy,
+						gpsaccuracy,
 						lat_long_ref_source,
 						nearest_named_place,
 						lat_long_for_nnp_fg,
-						verification_status,
+						verificationstatus,
 						field_verified_fg,
 						verified_by_agent_id,
 						ver_agent.agent_name verified_by,
