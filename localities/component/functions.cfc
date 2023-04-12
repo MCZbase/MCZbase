@@ -1157,7 +1157,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						extent,
 						spatialfit,
 						determined_by_agent_id,
-.						det_agent.agent_name determined_by,
+						det_agent.agent_name determined_by,
 						determined_date,
 						gps_accuracy,
 						lat_long_ref_source,
