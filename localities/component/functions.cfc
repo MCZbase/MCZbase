@@ -1192,7 +1192,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					FROM
 						lat_long
 						left join preferred_agent_name det_agent on lat_long.determined_by_agent_id = det_agent.agent_id
-						left join preferred_agent_name ver_agent on lat_long.determined_by_agent_id = ver_agent.agent_id
+						left join preferred_agent_name ver_agent on lat_long.verified_by_agent_id = ver_agent.agent_id
 					WHERE 
 						lat_long.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 					ORDER BY
@@ -1244,6 +1244,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
+				<cfif isDefined("cfcatch.cause.tagcontext")>
+					<div>Line #cfcatch.cause.tagcontext[1].line# of #replace(cfcatch.cause.tagcontext[1].template,Application.webdirectory,'')#</div>
+				</cfif>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
