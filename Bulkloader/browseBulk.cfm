@@ -1025,28 +1025,22 @@ table##t th {
 
 					<div class="col-12 mb-3 mt-0 float-left">
 						<style>
-							.wrapper1 {
-								width: auto; 
-								border: 1px solid blue;
-								overflow-x: scroll; 
-								overflow-y: hidden;
-								height: 20px;
-							}
-							.wrapper2 {
-								width: auto; 
-								height: auto;
-								border: 1px solid yellow;
-								overflow-x: scroll; 
-								overflow-y: hidden;
-							}
-							.div1 {
-								width:1500px; 
+							##wrapper1, ##wrapper2{width: 300px; border: none 0px RED;
+							overflow-x: scroll; overflow-y:hidden;}
+							##wrapper1 {
 								height: 20px; 
 							}
-							.div2 {
-								width:1500px; 
-								height: auto; 
-								background-color: red;
+							##wrapper2 {
+								height: 100px; 
+							}
+							##div1 {
+								width:1000px; 
+								height: 20px; 
+							}
+							##div2 {
+								width:1000px; 
+								height: 100px; 
+								background-color: ##88FF88;
 								overflow: auto;
 							}
 						</style>
@@ -1056,7 +1050,7 @@ table##t th {
 						</div>
 						
 					<!---	<div class="blTabDiv wrapper2">--->
-						<div class="wrapper2">
+						<div id="wrapper2">
 							<!--- Sortable is slow to rewrite the th cells and isn't practical to use for more than a handful of records when all columns are included. --->
 							<cfif data.recordcount LT sortableLimit + 1>
 								<cfset sortable = "sortable">
@@ -1064,7 +1058,7 @@ table##t th {
 								<cfset sortable = "">
 							</cfif>
 							
-							<table class="table mb-0 div2" id="example">  
+							<table class="table mb-0" id="div2">  
 									<thead class="thead-light">
 										<tr>
 											<cfloop query="cNames">
@@ -1097,16 +1091,14 @@ table##t th {
 									</tbody>
 							</table>
 							<script>
-								$(function(){
-									$(".wrapper1").scroll(function(){
-										$(".wrapper2")
-											.scrollLeft($(".wrapper1").scrollLeft());
-									});
-									$(".wrapper2").scroll(function(){
-										$(".wrapper1")
-											.scrollLeft($(".wrapper2").scrollLeft());
-									});
-								});
+								var wrapper1 = document.getElementById('wrapper1');
+								var wrapper2 = document.getElementById('wrapper2');
+								wrapper1.onscroll = function() {
+								  wrapper2.scrollLeft = wrapper1.scrollLeft;
+								};
+								wrapper2.onscroll = function() {
+								  wrapper1.scrollLeft = wrapper2.scrollLeft;
+								};
 								$(document).ready(function () {
 									$('##example').DataTable();
 								 });
