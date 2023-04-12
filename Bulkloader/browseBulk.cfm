@@ -1028,8 +1028,7 @@ table##t th {
 							<div class="div1">
 							</div>
 						</div>
-						<div class="wrapper2">
-						<div class="blTabDiv">
+						<div class="blTabDiv wrapper2">
 							<!--- Sortable is slow to rewrite the th cells and isn't practical to use for more than a handful of records when all columns are included. --->
 							<cfif data.recordcount LT sortableLimit + 1>
 								<cfset sortable = "sortable">
@@ -1105,7 +1104,6 @@ table##t th {
 									});
 								});
 							</script>
-						</div>
 						</div>
 					</div>
 				</div>
