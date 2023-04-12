@@ -1151,7 +1151,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						dec_long,
 						max_error_distance,
 						max_error_units,
-						to_meters(accepted_lat_long.max_error_distance, accepted_lat_long.max_error_units) coordinateUncertaintyInMeters,
+						to_meters(lat_long.max_error_distance, lat_long.max_error_units) coordinateUncertaintyInMeters,
 						error_polygon,
 						datum,
 						extent,
