@@ -1027,7 +1027,7 @@ table##t th {
 					<div class="col-12 mb-3 mt-0 float-left">
 						<style>
 							.wrapper1 {
-								width: 1200px; 
+								width: auto; 
 								overflow-x: scroll; 
 								overflow-y: hidden;
 								height: 20px;
@@ -1039,7 +1039,7 @@ table##t th {
 								overflow-y: hidden;
 							}
 							.div1 {
-								width:1500px; 
+								width:5000px; 
 								height: 20px; 
 							}
 							.div2 {
