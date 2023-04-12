@@ -1024,7 +1024,7 @@ table##t th {
 					</cfif>
 
 					<div class="col-12 mb-3 mt-0 float-left">
-						<div class="blTabDiv" id="doublescroll">
+						<div class="blTabDiv table-responsive">
 							<!--- Sortable is slow to rewrite the th cells and isn't practical to use for more than a handful of records when all columns are included. --->
 							<cfif data.recordcount LT sortableLimit + 1>
 								<cfset sortable = "sortable">
@@ -1032,8 +1032,15 @@ table##t th {
 								<cfset sortable = "">
 							</cfif>
 							<style>
-								##doublescroll {overflow:hidden;width: 100%;}
-								##doublescroll table {margin:0;padding:1rem;white-space: nowrap;}
+								.table-cont {
+									max-width: 400px;
+									max-height: 200px;
+									overflow: auto;
+									border: 1px red solid;
+								 }
+								 .table-cont .table {
+									min-width: 600px;
+								 }
 							</style>
 							<table class="table mb-0 #sortable#" id="t">  
 									<thead class="thead-light">
@@ -1068,26 +1075,10 @@ table##t th {
 									</tbody>
 							</table>
 							<script>
-								function DoubleScroll(element) {
-									var scrollbar= document.createElement('div');
-									scrollbar.appendChild(document.createElement('div'));
-									scrollbar.style.overflow= 'auto';
-									scrollbar.style.overflowY= 'hidden';
-									scrollbar.style.width= '100%';
-									scrollbar.firstChild.style.width= element.scrollWidth+'px';
-									scrollbar.firstChild.style.paddingTop= '1px';
-									scrollbar.firstChild.appendChild(document.createTextNode('\xA0'));
-									scrollbar.onscroll= function() {
-										element.scrollLeft= scrollbar.scrollLeft;
-									};
-									element.onscroll= function() {
-										scrollbar.scrollLeft= element.scrollLeft;
-									};
-									element.parentNode.insertBefore(scrollbar, element);
-								}
-								DoubleScroll(document.getElementById('doublescroll'));			
+								$(document).ready(function(){
+								  $('.table-responsive').doubleScroll();
+								});
 							</script>
-
 						</div>
 					</div>
 				</div>
