@@ -1024,24 +1024,38 @@ table##t th {
 					</cfif>
 
 					<div class="col-12 mb-3 mt-0 float-left">
-			
-<script type="text/javascript" src="jquery.doubleScroll.js"></script>
-
-<script type="text/javascript">
-$(document).ready(function(){
-$('.double-scroll').doubleScroll();
-});
-</script>
-
-<style>
-.double-scroll{
-width: 400px;
-}
-</style>
-					
+						<style>
+							.wrapper1 {
+								width: auto; 
+								border: 1px solid blue;
+								overflow-x: scroll; 
+								overflow-y: hidden;
+								height: 20px;
+							}
+							.wrapper2 {
+								width: auto; 
+								height: auto;
+								border: 1px solid yellow;
+								overflow-x: scroll; 
+								overflow-y: hidden;
+							}
+							.div1 {
+								width:1500px; 
+								height: 20px; 
+							}
+							.div2 {
+								width:1500px; 
+								height: auto; 
+								background-color: red;
+								overflow: auto;
+							}
+						</style>
+						<div class="wrapper1">
+							<div class="div1"></div>
+						</div>
 						
 					<!---	<div class="blTabDiv wrapper2">--->
-						<div class="double-scroll">
+						<div class="wrapper2">
 							<!--- Sortable is slow to rewrite the th cells and isn't practical to use for more than a handful of records when all columns are included. --->
 							<cfif data.recordcount LT sortableLimit + 1>
 								<cfset sortable = "sortable">
@@ -1049,7 +1063,7 @@ width: 400px;
 								<cfset sortable = "">
 							</cfif>
 							
-							<table class="table mb-0">  
+							<table class="table mb-0 div2" id="example">  
 									<thead class="thead-light">
 										<tr>
 											<cfloop query="cNames">
@@ -1081,8 +1095,21 @@ width: 400px;
 										</cfloop>
 									</tbody>
 							</table>
-
-					
+							<script>
+								$(function(){
+									$(".wrapper1").scroll(function(){
+										$(".wrapper2")
+											.scrollLeft($(".wrapper1").scrollLeft());
+									});
+									$(".wrapper2").scroll(function(){
+										$(".wrapper1")
+											.scrollLeft($(".wrapper2").scrollLeft());
+									});
+								});
+								$(document).ready(function () {
+									$('##example').DataTable();
+								 });
+							</script>
 						</div>
 					</div>
 				</div>
