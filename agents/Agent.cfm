@@ -75,7 +75,7 @@ limitations under the License.
 	WHERE
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
-<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
 	SELECT distinct flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude 
 	FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 		left join collector on collector.collection_object_id = flat.collection_object_id
@@ -90,7 +90,7 @@ limitations under the License.
 </cfquery>
 
 <cfoutput>
-	<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+	<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
 	SELECT media.media_id,
 		mczbase.get_media_descriptor(media.media_id) as alt,
 		mczbase.get_medialabel(media.media_id,'subject') as subject,
@@ -2216,7 +2216,7 @@ limitations under the License.
 													WHERE #getFKFields.column_name# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 												</cfquery>
 												<cfif getRels.ct GT 0>
-													<!--- note, since preferred name is required, and can't be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
+													<!--- note, since preferred name is required, and can not be deleted, and agent_name fk agent_id fk delete rule is NO ACTION, this will never be enabled --->
 													<cfset okToDelete = false>
 													<cfset relatedTo["#getFkFields.table_name#.#getFkFields.column_name#"] = getRels.ct>
 												</cfif>

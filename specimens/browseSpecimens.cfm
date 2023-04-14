@@ -47,7 +47,7 @@ limitations under the License.
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
 <script src="/shared/js/tabs.js"></script>
 
-<cfquery name="phyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+<cfquery name="phyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 	select count(*) ct, phylum 
 	from 
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
@@ -55,7 +55,7 @@ limitations under the License.
 	group by phylum
 	order by phylum
 </cfquery>
-<cfquery name="notphyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+<cfquery name="notphyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 	select count(*) ct, kingdom, phylorder 
 	from 
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
@@ -63,7 +63,7 @@ limitations under the License.
 	group by kingdom, phylorder
 	order by phylorder
 </cfquery>
-<cfquery name="notkingdoms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+<cfquery name="notkingdoms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 	select count(*) ct, scientific_name
 	from 
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
@@ -88,7 +88,7 @@ limitations under the License.
 </cfif>
 
 <cfif target NEQ "noscript">
-	<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
+	<cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 		SELECT
 			count(flat.collection_object_id) ct, 
 			underscore_collection.collection_name, 
@@ -116,7 +116,7 @@ limitations under the License.
 		ORDER BY lower(collection_name)
 	</cfquery>
 </cfif>
-<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
+<cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 	SELECT collection, collection_id, toptypestatus, count(collection_object_id) as ct
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
@@ -131,7 +131,7 @@ limitations under the License.
 		collection, collection_id, toptypestatus
 	order by collection, toptypestatus
 </cfquery>
-<cfquery name="continents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+<cfquery name="continents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 	SELECT sum(coll_obj_count) as ct, continent_ocean
 	FROM cf_geog_cat_item_counts
 	WHERE
@@ -139,7 +139,7 @@ limitations under the License.
 	GROUP BY continent_ocean
 	ORDER BY continent_ocean
 </cfquery>
-<cfquery name="continent_islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+<cfquery name="continent_islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 	SELECT continent_ocean
 	FROM cf_geog_cat_item_counts
 	WHERE
@@ -187,7 +187,7 @@ limitations under the License.
 									<cfset continent = "[No Continent Value]">
 									<cfset continentLookup = "NULL">
 								</cfif>
-								<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+								<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 									SELECT sum(coll_obj_count) ct, country
 									FROM 
 										cf_geog_cat_item_counts 
@@ -243,7 +243,7 @@ limitations under the License.
 											</li>
 										</cfloop>
 										<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
-											<cfquery name="ocean_regions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+											<cfquery name="ocean_regions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 												SELECT sum(coll_obj_count) ct, ocean_region
 												FROM 
 													cf_geog_cat_item_counts 
@@ -283,7 +283,7 @@ limitations under the License.
 									<a href="#specimenSearch#&higher_geog=#continent_islands.continent_ocean#" target="_blank"></a>
 								</h4>
 								<div class="w-100 pb-2 px-4" id="continent_islands_#j#">
-									<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+									<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 										SELECT sum(coll_obj_count) as ct, island_group
 										FROM cf_geog_cat_item_counts
 										WHERE
@@ -299,7 +299,7 @@ limitations under the License.
 											#island_groups.island_group# &nbsp;&nbsp;
 											<a href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct#)</a>
 										</h4>
-										<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+										<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 											SELECT sum(coll_obj_count) ct, island
 											FROM 
 												cf_geog_cat_item_counts 
@@ -567,7 +567,7 @@ limitations under the License.
 												<cfset continentLookup = "NULL">
 											</cfif>
 											<!--- TODO: Support continent in specimen search API --->
-											<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+											<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 												SELECT sum(coll_obj_count) ct, country
 												FROM 
 													cf_geog_cat_item_counts 
@@ -624,7 +624,7 @@ limitations under the License.
 														</li>
 													</cfloop>
 													<cfif FindNoCase("ocean",continents.continent_ocean) GT 0>
-														<cfquery name="ocean_regions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+														<cfquery name="ocean_regions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 															SELECT sum(coll_obj_count) ct, ocean_region
 															FROM 
 																cf_geog_cat_item_counts 
@@ -670,7 +670,7 @@ limitations under the License.
 												</button>
 											</h4>
 											<div class="collapse w-100 pb-2 px-4" id="continent_islands_#j#">
-												<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+												<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 													SELECT sum(coll_obj_count) as ct, island_group
 													FROM cf_geog_cat_item_counts
 													WHERE
@@ -689,7 +689,7 @@ limitations under the License.
 															<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct#)</a>
 														</button>
 													</h4>
-													<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+													<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 													SELECT sum(coll_obj_count) ct, island
 													FROM 
 														cf_geog_cat_item_counts 

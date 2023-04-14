@@ -37,7 +37,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT count(underscore_relation.collection_object_id) as specimen_count, 
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
 				collection_name,
@@ -148,7 +148,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT 
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
 				collection_name,
@@ -236,7 +236,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 		{ name: 'full_taxon_name', type: 'string' }
 	--->
 	<cftry>
-		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" >
+		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#" >
 			<cfif pagesize GT 0 >
 				SELECT * FROM (
 			</cfif>
@@ -478,7 +478,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 
 	<cfset retval = "">
 	<cftry>
-		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" cachedwithin="#CreateTimespan(24,0,0,0)#" >
+		<cfquery name="search"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" cachedwithin="#CreateTimespan(0,1,0,0)#" timeout="#Application.query_timeout#" >
 			SELECT DISTINCT 
 				flat.guid, 
 				flat.scientific_name, 
