@@ -1,8 +1,8 @@
 // TODO: Rework 
 function saveThisAnnotation() {
 	var idType = $("#idtype").val();
-	var idvalue = $("$idvalue").val();
-	var annotation = $("$annotation").val();
+	var idvalue = $("#idvalue").val();
+	var annotation = $("#annotation").val();
    var motivation = $("#motivation").val();
 	if (annotation.length==0){
 		alert('You must enter an annotation to save.');
