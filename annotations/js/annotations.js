@@ -1,8 +1,9 @@
 // TODO: Rework 
 function saveThisAnnotation() {
-	var idType = document.getElementById("idtype").value;
-	var idvalue = document.getElementById("idvalue").value;
-	var annotation = document.getElementById("annotation").value;
+	var idType = $("#idtype").val();
+	var idvalue = $("$idvalue").val();
+	var annotation = $("$annotation").val();
+   var motivation = $("#motivation").val();
 	if (annotation.length==0){
 		alert('You must enter an annotation to save.');
 		return false;
@@ -15,6 +16,7 @@ function saveThisAnnotation() {
 			target_type : idType,
 			target_id : idvalue,
 			annotation : annotation,
+			motivation : motivation,
 			returnformat : "json",
 			queryformat : 'column'
 		},
