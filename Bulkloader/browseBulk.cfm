@@ -996,7 +996,8 @@ table##t th {
 								</tbody>
 							</table>
 						</form>
-						<p class="font-italic text-dark mb-3 mb-xl-1 col-12 col-xl-6 px-3 float-left">Select a column to update, then enter a new value to be applied to all records shown below.
+						<p class="font-italic text-dark mb-3 mb-xl-1 col-12 col-xl-6 px-3 float-left">
+						Select a column to update, then enter a new value to be applied to all records shown below.
 						To empty a column, select the column, click "NULL" for the value, and then update. To sort, click on a column header and wait. The length of delay is proportional to the number of rows in the table.	Use your browser Find functionality ("control" + "F") to locate a column header or value.</p>
 					</div>
 					<cfset ColNameList = valuelist(cNames.column_name)>
@@ -1028,6 +1029,7 @@ table##t th {
 							<div class="div1">
 							</div>
 						</div>
+						
 						<div class="blTabDiv wrapper2">
 							<!--- Sortable is slow to rewrite the th cells and isn't practical to use for more than a handful of records when all columns are included. --->
 							<cfif data.recordcount LT sortableLimit + 1>
@@ -1035,31 +1037,7 @@ table##t th {
 							<cfelse>
 								<cfset sortable = "">
 							</cfif>
-							<style>
-								.wrapper1, .wrapper2 {
-									width: 998px; 
-									border: 1px solid blue;
-									overflow-x: scroll; 
-									overflow-y:hidden;
-								}
-								.wrapper1{
-									height: 20px;
-									border: 1px solid green;
-								}
-								.wrapper2{
-									height: auto; 
-									border: 1px solid purple;
-								}
-								.div1 {
-									width:1000px; height: 20px; 
-								}
-								.div2 {
-									width:1000px; 
-									height: 500px; 
-									background-color: red;
-									overflow: auto;
-								}
-							</style>
+							
 							<table class="table mb-0 #sortable# div2" id="t">  
 									<thead class="thead-light">
 										<tr>
