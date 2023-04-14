@@ -3,7 +3,7 @@
 
 Publications search/results 
 
-Copyright 2022 President and Fellows of Harvard College
+Copyright 2022-2023 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -599,7 +599,7 @@ limitations under the License.
 						root: 'publicationsRecord',
 						id: 'publication_id',
 						url: '/publications/component/search.cfc?' + $('##searchForm').serialize(),
-						timeout: 60000,  // units not specified, miliseconds? 
+						timeout: #Application.ajax_timeout#000,  // units not specified, miliseconds? 
 						loadError: function(jqXHR, textStatus, error) { 
 							$("##overlay").hide();
 							handleFail(jqXHR,textStatus,error,"running publications search");

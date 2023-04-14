@@ -35,7 +35,7 @@ limitations under the License.
 	<cfset oneOfUs = 0>
 </cfif>
 <cfoutput>
-	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
 		select distinct 
 			media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
 			MCZBASE.get_media_dctermsrights(media.media_id) as uri, 
@@ -57,7 +57,7 @@ limitations under the License.
 	<!--- query to get a publication_id based on the media_id if the media record shows publication.
 			The publication_id is fed to the getRelatedThings query to get the collection_object_id (i.e., citation) 
 	--->
-	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
 		select distinct p.publication_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from publication p
 		left join media_relations mr on mr.related_primary_key = p.publication_id 
@@ -65,7 +65,7 @@ limitations under the License.
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'publication'
 	</cfquery>
-	<cfquery name="getRelatedThings" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRelatedThings_result">
+	<cfquery name="getRelatedThings" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRelatedThings_result" timeout="#Application.query_timeout#">
 		<cfif pub.recordcount gt 0>
 		select distinct c.collection_object_id as pk, cmr.media_relationship as rel, 'Cited Specimen' as label, ct.auto_table as at
 		from media_relations cmr 
@@ -259,7 +259,7 @@ limitations under the License.
 													<!---If media relations exist for show or document cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfset hasMedia = false>
 													<cfloop query="getRelatedThings">
-														<cfquery name="getMediaForRelated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														<cfquery name="getMediaForRelated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
 															SELECT distinct 
 																m.media_id,
 																ct.media_relationship,

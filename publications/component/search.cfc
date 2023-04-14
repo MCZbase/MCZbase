@@ -81,7 +81,7 @@ Function getPublications.  Search for publications by fields
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT distinct
 				publication.publication_id, 
 				publication_type, 
@@ -434,7 +434,7 @@ Function getPublicationList.  Search for publications by name with a substring m
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT 
 				publication_type, published_year, publication_title,
 				publication_remarks,
@@ -490,7 +490,7 @@ Function getPublicationAutocomplete.  Search for publications by name with a sub
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT 
 				publication_id, formatted_publication
 			FROM 
@@ -535,7 +535,7 @@ Function getPublicationAutocompleteMeta.  Search for publications by name with a
 	<cfset data = ArrayNew(1)>
 	<cftry>
       <cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT 
 				publication_id, formatted_publication
 			FROM 
@@ -578,7 +578,7 @@ Function getTypeStatusSearchAutocomplete.  Search for type status values, return
 	<cfset data = ArrayNew(1)>
 	<cftry>
       <cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT 
 			   type_status, category	
 			FROM 
@@ -636,7 +636,7 @@ Function getDOIAutocomplete.  Search for dois by name with a substring match
 	<cfset data = ArrayNew(1)>
 	<cftry>
       <cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT distinct
 				doi as id, 
 				doi as value,
@@ -699,7 +699,7 @@ Function getJournalNames.  Search for publications by fields
 				ALTER SESSION SET NLS_SORT = GENERIC_M_AI
 			</cfquery>
 		</cfif>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT 
 				journal_name,
 				short_name,
@@ -854,7 +854,7 @@ Function getJournalNames.  Search for publications by fields
 			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				ALTER SESSION SET NLS_SORT = GENERIC_M_AI
 			</cfquery>
-			<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="dupPref_result">
+			<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="dupPref_result" timeout="#Application.query_timeout#">
 				SELECT journal_name
 				FROM 
 					ctjournal_name
