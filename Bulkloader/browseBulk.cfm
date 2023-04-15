@@ -786,15 +786,17 @@ table##t th {
 							<cfif isDefined("showOnlyPopulated") AND showOnlyPopulated EQ "true">
 								<cfset showPop = "&showOnlyPopulated=true">
 								<cfset showPopLabel = "(data only)">
+								<cfset showToggleLabel = "all columns">
 							<cfelse>
 								<cfset showPop = "">
 								<cfset showPopLabel = "(all columns)">
+								<cfset showToggleLabel = "data only">
 							</cfif>
 							<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#&showOnlyPopulated=true">Download CSV (data only)</a>
 							<span class="h4">&nbsp;~&nbsp;</span> 
 							<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV (all columns)</a>
 							<span class="h4">&nbsp;~&nbsp;</span> 
-							<span class="px-1 h4">(See filter for #showPopLabel#)</span>
+							<span class="px-1 h4">(See filter for #showToggleLabel#)</span>
 							<span class="h4">&nbsp;~&nbsp;</span> 
 							<!--- pass on current state (change state is from filer form) --->
 							<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln##showPop#">Edit in Ajax Grid</a>
