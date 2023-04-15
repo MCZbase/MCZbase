@@ -1073,10 +1073,10 @@ table##t th {
 									</tbody>
 							</table>
 							<script>
-								$(window).load(function () {
+								$(window).on("load",function () {
         							$('.topScrollBar').css('width', $('.scrollContent').outerWidth() );
     							});
-								$(function(){
+								$(document).ready(function(){
 									$(".scrollWrapperTop").scroll(function(){
 										$(".scrollWrapper")
 											.scrollLeft($(".scrollWrapperTop").scrollLeft());
@@ -1084,6 +1084,12 @@ table##t th {
 									$(".scrollWrapper").scroll(function(){
 										$(".scrollWrapperTop")
 											.scrollLeft($(".scrollWrapper").scrollLeft());
+									});
+									$(".scrollWrapperTop").one("scroll",function(){
+        								$('.topScrollBar').css('width', $('.scrollContent').outerWidth() );
+									});
+									$(".scrollWrapper").one("scroll",function(){
+        								$('.topScrollBar').css('width', $('.scrollContent').outerWidth() );
 									});
 								});
 							</script>
