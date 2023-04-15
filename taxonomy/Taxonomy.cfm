@@ -1134,7 +1134,7 @@ limitations under the License.
 												#annotation#
 												<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) #state#</span>
 												<cfif reviewed_fg EQ "1">
-													<span class="d-block small mb-0 pb-0">#resolution# #reviwer# #reviewer_comment#</span>
+													<span class="d-block small mb-0 pb-0">#resolution# #reviewer# #reviewer_comment#</span>
 												</cfif>
 											</li>
 										</cfif>
