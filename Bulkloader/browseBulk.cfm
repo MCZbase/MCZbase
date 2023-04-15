@@ -794,6 +794,8 @@ table##t th {
 							<span class="h4">&nbsp;~&nbsp;</span> 
 							<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV (all columns)</a>
 							<span class="h4">&nbsp;~&nbsp;</span> 
+							<span class="px-1 h4">(See filter for #showPopLabel#)</span>
+							<span class="h4">&nbsp;~&nbsp;</span> 
 							<!--- pass on current state (change state is from filer form) --->
 							<a class="px-1 h4" href="browseBulk.cfm?action=ajaxGrid&enteredby=#enteredby#&accn=#accn#&colln=#colln##showPop#">Edit in Ajax Grid</a>
 							<span class="h4">&nbsp;~&nbsp;</span> 
