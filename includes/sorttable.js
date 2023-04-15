@@ -17,11 +17,11 @@ function sortables_init() {
 }
 
 function ts_makeSortable(table) {
-    console.log(table);
+    //console.log(table);
     if (table.rows && table.rows.length > 0) {
         var firstRow = table.rows[0];
     }
-    console.log(firstRow);
+    //console.log(firstRow);
     if (!firstRow) return;
     
     // We have a first row: assume it's the header, and make its contents clickable links
