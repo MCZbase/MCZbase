@@ -1025,12 +1025,14 @@ table##t th {
 					</cfif>
 
 					<div class="col-12 mb-3 mt-0 float-left">
-						<div class="wrapper1">
-							<div class="div1">
+						<div class="scrollWrapperTop">
+							<div class="topScrollBar">
+								<!--- top scroll bar --->
+								&nbsp;
 							</div>
 						</div>
 						
-						<div class="blTabDiv wrapper2">
+						<div class="blTabDiv scrollWrapper">
 							<!--- Sortable is slow to rewrite the th cells and isn't practical to use for more than a handful of records when all columns are included. --->
 							<cfif data.recordcount LT sortableLimit + 1>
 								<cfset sortable = "sortable">
@@ -1038,7 +1040,7 @@ table##t th {
 								<cfset sortable = "">
 							</cfif>
 							
-							<table class="table mb-0 #sortable# div2" id="t">  
+							<table class="table mb-0 #sortable# scrollContent" id="t">  
 									<thead class="thead-light">
 										<tr>
 											<cfloop query="cNames">
@@ -1071,14 +1073,17 @@ table##t th {
 									</tbody>
 							</table>
 							<script>
+								$(window).load(function () {
+        							$('.topScrollBar').css('width', $('.scrollContent').outerWidth() );
+    							});
 								$(function(){
-									$(".wrapper1").scroll(function(){
-										$(".wrapper2")
-											.scrollLeft($(".wrapper1").scrollLeft());
+									$(".scrollWrapperTop").scroll(function(){
+										$(".scrollWrapper")
+											.scrollLeft($(".scrollWrapperTop").scrollLeft());
 									});
-									$(".wrapper2").scroll(function(){
-										$(".wrapper1")
-											.scrollLeft($(".wrapper2").scrollLeft());
+									$(".scrollWrapper").scroll(function(){
+										$(".scrollWrapperTop")
+											.scrollLeft($(".scrollWrapper").scrollLeft());
 									});
 								});
 							</script>

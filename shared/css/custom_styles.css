@@ -2203,26 +2203,22 @@ section#mediaSection.accordion {
 .smallselect {
 	font-size: 84%!important;
 }
-.wrapper1 {
-	width: auto; 
+/* controls for divs implementing top and bottom scroll bars */
+.scrollWrapperTop {
+	width: 100%; 
 	overflow-x: scroll; 
 	overflow-y: hidden;
 	height: 20px;
 }
-.wrapper2 {
-	width: auto; 
+.scrollWrapper {
+	width: 100%; 
 	height: auto;
 	overflow-x: scroll; 
 	overflow-y: hidden;
 }
-.div1 {
-	width:5000px; 
+.topScrollBar {
+	width: 100%; 
 	height: 20px; 
-}
-.div2 {
-	width:auto; 
-	height: auto; 
-	overflow: auto;
 }
 #collapseKeyword.collapsing.width {
 	height: auto;
