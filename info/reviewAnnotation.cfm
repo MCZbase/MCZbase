@@ -183,6 +183,7 @@
 					preferred_agent_name.agent_name reviewer,
 					annotations.reviewed_fg,
 					annotations.reviewer_comment,
+					annotations.motivation,
 					cf_user_data.email,
 					annotations.publication_id
 				FROM
@@ -226,7 +227,14 @@
 								<tbody class="bg-light">
 									<cfloop query="itemAnno">
 										<tr>
-											<td><label class="data-entry-label">Annotation by</label><span> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
+											<td>
+												<label class="data-entry-label">Annotation by</label>
+												<span> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
+											</td>
+											<td>
+												<label class="data-entry-label">Motivation</label>
+												<span class="small">#motivation#</span>
+											</td>
 											<td><span>#annotation#</span></td>
 											<form name="r" method="post" action="reviewAnnotation.cfm">
 												<input type="hidden" name="action" value="saveReview">
@@ -274,6 +282,7 @@
 					preferred_agent_name.agent_name reviewer,
 					annotations.reviewed_fg,
 					annotations.reviewer_comment,
+					annotations.motivation,
 					cf_user_data.email,
 					annotations.taxon_name_id
 				FROM
@@ -315,7 +324,14 @@
 								<tbody class="bg-light">
 									<cfloop query="itemAnno">
 										<tr>
-											<td><label class="data-entry-label px-0">Annotation by</label> <span><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
+											<td>
+												<label class="data-entry-label px-0">Annotation by</label> 
+												<span><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
+											</td>
+											<td>
+												<label class="data-entry-label">Motivation</label>
+												<span class="small">#motivation#</span>
+											</td>
 											<td><span>#annotation#</span></td>
 											<form name="r" method="post" action="reviewAnnotation.cfm">
 												<input type="hidden" name="action" value="saveReview">
@@ -356,6 +372,7 @@
 				preferred_agent_name.agent_name reviewer,
 				annotations.reviewed_fg,
 				annotations.reviewer_comment,
+				annotations.motivation,
 				cf_user_data.email,
 				annotations.project_id
 			FROM
@@ -395,7 +412,14 @@
 							<table class="table border table-responsive">
 								<cfloop query="itemAnno">
 									<tr>
-										<td><label class="data-entry-label">Annotation by</label><span> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
+										<td>
+											<label class="data-entry-label">Annotation by</label>
+											<span> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
+										</td>
+										<td>
+											<label class="data-entry-label">Motivation</label>
+											<span class="small">#motivation#</span>
+										</td>
 										<td class="col-4"><span>#annotation#</span></td>
 										<form name="r" method="post" action="reviewAnnotation.cfm">
 											<input type="hidden" name="action" value="saveReview">
