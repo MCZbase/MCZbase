@@ -231,7 +231,7 @@ limitations under the License.
 						root: 'journalRecord',
 						id: 'journal_name',
 						url: '/publications/component/search.cfc?' + $('##searchForm').serialize(),
-						timeout: 60000,  // units not specified, miliseconds? 
+						timeout: #Application.ajax_timeout#000,  // units not specified, miliseconds? 
 						loadError: function(jqXHR, textStatus, error) { 
 							$("##overlay").hide();
 							handleFail(jqXHR,textStatus,error,"running journal search");

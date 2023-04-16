@@ -78,7 +78,7 @@ limitations under the License.
 				<cfset to_collected_date=collected_date>
 			</cfif>
 			<cfif len(#collected_date#) LT 10 OR len(#to_collected_date#) LT 10>
-				<cfquery name="lookupdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+				<cfquery name="lookupdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.short_timeout#">
 					select to_char(to_startdate(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collected_date#">),'yyyy-mm-dd') as startdate,  
 						to_char(to_enddate(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_collected_date#">),'yyyy-mm-dd') as enddate
 					from dual
@@ -103,7 +103,7 @@ limitations under the License.
 				<cfset to_birth_date=birth_date>
 			</cfif>
 			<cfif len(#birth_date#) LT 10 OR len(#to_birth_date#) LT 10 >
-				<cfquery name="lookupbdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+				<cfquery name="lookupbdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.short_timeout#">
 					select to_char(to_startdate(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#birth_date#">),'yyyy-mm-dd') as startdate,  
 						to_char(to_enddate(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_birth_date#">),'yyyy-mm-dd') as enddate
 					from dual
@@ -128,7 +128,7 @@ limitations under the License.
 				<cfset to_death_date=death_date>
 			</cfif>
 			<cfif len(#death_date#) LT 10 OR len(#to_death_date#) LT 10>
-				<cfquery name="lookupddate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+				<cfquery name="lookupddate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.short_timeout#">
 					select to_char(to_startdate(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#death_date#">),'yyyy-mm-dd') as startdate,  
 						to_char(to_enddate(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#to_death_date#">),'yyyy-mm-dd') as enddate
 					from dual
@@ -143,7 +143,7 @@ limitations under the License.
 			</cfif>
 		</cfif>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT distinct
 				preferred_agent_name.agent_id as agent_id,
 				preferred_agent_name.agent_name as agent_name,
@@ -557,7 +557,7 @@ Function getAgentList.  Search for agents by name with a substring match on any 
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT 
 				searchname.agent_id, searchname.agent_name, searchname.agent_name_type,
 				agent.agent_type, agent.edited,
@@ -623,7 +623,7 @@ Function getPreferredNameExists Check if a prefered name exists.
 
 	<cfset retval ="">
 	<cftry>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.short_timeout#">
 			select count(*) as ct from agent_name
 			where
 				agent_name_type = 'preferred'
@@ -656,7 +656,7 @@ Function getAgentAutocomplete.  Search for agents by name with a substring match
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT 
 				searchname.agent_id, searchname.agent_name, 
 				agent.agent_type, agent.edited,
@@ -733,7 +733,7 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT distinct
 				searchname.agent_id, searchname.agent_name,
 				agent.agent_type, agent.edited,
@@ -899,7 +899,7 @@ Function getAuthorAutocompleteMeta.  Search for agents by name with a substring 
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT distinct
 				searchname.agent_id, searchname.agent_name,
 				agent.agent_type, agent.edited,
@@ -979,7 +979,7 @@ Function getAgentNameOfType obtain an agent name of a specified type given an ag
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset i = 1>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.short_timeout#">
 			select agent_name, agent_name_id
 				from agent_name 
 			where

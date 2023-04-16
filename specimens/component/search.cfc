@@ -583,21 +583,21 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				</cfloop>
 			</cfif>
 
-			<cfquery name="result_id_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="result_id_count_result">
+			<cfquery name="result_id_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="result_id_count_result" timeout="#Application.short_timeout#">
 				SELECT count(*) ct 
 				FROM user_search_table 
 				WHERE
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 			<cfif result_id_count.ct EQ 0>
-				<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" timeout="60">
+				<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout#">
 					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 					<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
 					<cfprocresult name="buildsearch">
 				</cfstoredproc>
 			</cfif>
-			<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchcount_result">
+			<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchcount_result" timeout="#Application.short_timeout#">
 				SELECT count(*) ct 
 				FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 					join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
@@ -605,7 +605,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 			<cfset records = searchcount.ct>
-			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="60">
+			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 				<cfif pagesize GT 0 >
 					SELECT * FROM (
 				</cfif>
@@ -939,7 +939,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		<cfif result_id_count.ct EQ 0>
-			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" timeout="60">
+			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
@@ -978,7 +978,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				</cfif>
 			</cfloop>
 		</cfif>
-		<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchcount_result">
+		<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchcount_result" timeout="#Application.short_timeout#">
 			SELECT count(*) ct 
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
@@ -986,7 +986,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		<cfset records = searchcount.ct>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="60">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			<cfif pagesize GT 0 >
 				SELECT * FROM (
 			</cfif>
@@ -1775,14 +1775,14 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		</cfquery>
 		<cfif result_id_count.ct EQ 0>
 			<!--- errors are handled by build_query_dbms_sql throwing exceptions --->
-			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" timeout="120">
+			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout*2#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
 				<cfprocresult name="buildsearch">
 			</cfstoredproc>
 		</cfif>
-		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result">
+		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result" timeout="#Application.short_timeout#">
 			SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
 			FROM cf_spec_res_cols_r
 			WHERE access_role = 'PUBLIC'
@@ -1814,7 +1814,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				</cfif>
 			</cfloop>
 		</cfif>
-		<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchcount_result">
+		<cfquery name="searchcount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="searchcount_result" timeout="#Application.short_timeout#">
 			SELECT count(*) ct 
 			FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
@@ -1822,7 +1822,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 		<cfset records = searchcount.ct>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="60">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			<cfif pagesize GT 0 >
 				SELECT * FROM (
 			</cfif>

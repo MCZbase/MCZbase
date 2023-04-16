@@ -721,7 +721,7 @@ Delete an existing collecting event number record.
 	<cfthread name="localityGeologyFormThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="30">
+				<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
 					SELECT
 						geology_attribute_id,
 						ctgeology_attribute.type,
@@ -768,7 +768,7 @@ Delete an existing collecting event number record.
 								<cfset separator = "|">
 							</cfloop>
 							<cfloop query="getGeologicalAttributes">
-								<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="30">
+								<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
 									SELECT distinct
 									  connect_by_root geology_attribute_hierarchy.attribute parent_attribute,
 									  connect_by_root attribute_value parent_attribute_value,

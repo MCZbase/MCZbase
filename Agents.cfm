@@ -569,7 +569,7 @@ limitations under the License.
 						root: 'agentRecord',
 						id: 'agent_id',
 						url: '/agents/component/search.cfc?' + $('##searchForm').serialize(),
-						timeout: 60000,  // units not specified, miliseconds? 
+						timeout: #Application.ajax_timeout#000,  // units not specified, miliseconds? 
 						loadError: function(jqXHR, status, error) { 
 							$("##overlay").hide();
 							var message = "";

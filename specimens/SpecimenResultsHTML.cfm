@@ -17,7 +17,7 @@
 		<cfif isdefined("collection_id") and len(#collection_id#) gt 0>
 			<cfset StructInsert(parameters,"collection_id",collection_id)>
 			<!--- lookup collection from collection_id if specified --->
-			<cfquery name="lookupColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="5">
+			<cfquery name="lookupColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 				SELECT collection_cde
 				FROM collection
 				WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_id#">
@@ -52,7 +52,7 @@
 			<cfif lcase(type_status) EQ "any">
 				<cfset type_status_value = "NOT NULL">
 			<cfelseif lcase(type_status) EQ "any type">
-				<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result" timeout="5">
+				<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result" timeout="#Application.short_timeout#">
 					SELECT type_status 
 					FROM ctcitation_type_status 
 					WHERE category = 'Primary' OR category = 'Secondary'
@@ -64,7 +64,7 @@
 					<cfset typeseparator = ",">
 				</cfloop>
 			<cfelseif lcase(type_status) EQ "any primary">
-				<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result" timeout="5">
+				<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result" timeout="#Application.short_timeout#">
 					SELECT type_status 
 					FROM ctcitation_type_status 
 					WHERE category = 'Primary'

@@ -76,7 +76,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT DISTINCT
 				transaction_view.transaction_id, 
 				transaction_view.transaction_type,
@@ -330,7 +330,7 @@ limitations under the License.
 	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
 	<cfif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
-		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
+		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result" timeout="#Application.query_timeout#">
 			select specimen_part.collection_object_id as part_coll_obj_id 
 			from 
 				#session.flatTableName# flat left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
@@ -407,7 +407,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select distinct
 				trans.transaction_id,
 				to_char(trans_date,'YYYY-MM-DD') trans_date,
@@ -731,7 +731,7 @@ limitations under the License.
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select distinct permit.permit_id,
 				issuedBy.agent_name as IssuedByAgent,
 				issuedTo.agent_name as IssuedToAgent,
@@ -888,7 +888,7 @@ limitations under the License.
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select distinct
 				trans.transaction_id,
 				to_char(trans_date,'YYYY-MM-DD') trans_date,
@@ -1103,7 +1103,7 @@ limitations under the License.
 	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
 	<cfif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
-		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
+		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result" timeout="#Application.query_timeout#">
 			select specimen_part.collection_object_id as part_coll_obj_id 
 			from 
 				#session.flatTableName# flat left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
@@ -1163,7 +1163,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT distinct
 				trans.transaction_id,
 				accn_number,
@@ -1588,7 +1588,7 @@ limitations under the License.
 	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
 	<cfif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
-		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
+		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result" timeout="#Application.query_timeout#">
 			select specimen_part.collection_object_id as part_coll_obj_id 
 			from 
 				#session.flatTableName# flat left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
@@ -1636,7 +1636,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT distinct
 				trans.transaction_id,
 				deacc_number,
@@ -2100,7 +2100,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT distinct
 				trans.transaction_id,
 				borrow_number,

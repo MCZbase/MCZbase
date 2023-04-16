@@ -201,7 +201,7 @@ limitations under the License.
 								root: 'cf_spec_res_cols_Record',
 								id: 'CF_SPEC_RES_COLS_ID',
 								url: '/specimens/component/metadata.cfc?' + $('##searchForm').serialize(),
-								timeout: 30000,  // units not specified, miliseconds? 
+								timeout: #Application.ajax_timeout#000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
 									handleFail(jqXHR,textStatus,error, "Error performing search for cf_spec_res_cols rows: "); 
 								},
@@ -611,7 +611,7 @@ limitations under the License.
 								root: 'cf_spec_search_cols_Record',
 								id: 'ID',
 								url: '/specimens/component/metadata.cfc?' + $('##searchForm').serialize(),
-								timeout: 30000,  // units not specified, miliseconds? 
+								timeout: #Application.ajax_timeout#000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
 									handleFail(jqXHR,textStatus,error, "Error performing search for cf_spec_search_cols rows: "); 
 								},

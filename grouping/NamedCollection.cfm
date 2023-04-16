@@ -289,7 +289,7 @@ limitations under the License.
 								root: 'underscoreCollectionRecord',
 								id: 'underscore_collection_id',
 								url: '/grouping/component/search.cfc?' + $('##searchForm').serialize(),
-								timeout: 30000,  // units not specified, miliseconds? 
+								timeout: #Application.ajax_timeout#000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
 									handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 								},
@@ -973,7 +973,7 @@ limitations under the License.
 									{ name: 'full_taxon_name', type: 'string' }
 								],
 								url: '/grouping/component/search.cfc?method=getSpecimensInGroup&returnallrecords=true&underscore_collection_id=#underscore_collection_id#',
-								timeout: 60000,  // units not specified, miliseconds? 
+								timeout: #Application.ajax_timeout#000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) { 
 									handleFail(jqXHR,textStatus,error,"retrieving cataloged items in named group");
 								}

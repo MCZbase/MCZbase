@@ -2866,7 +2866,7 @@ $(document).ready(function() {
 			root: 'transRecord',
 			id: 'transaction_id',
 			url: '/transactions/component/search.cfc?' + $('##searchForm').serialize(),
-			timeout: 30000, // units not specified, miliseconds? 
+			timeout: #Application.ajax_timeout#000, // units not specified, miliseconds? 
 			loadError: function(jqXHR, textStatus, error) { 
 				$("##overlay").hide();
 				handleFail(jqXHR,textStatus,error,"running transaction search");
@@ -3086,7 +3086,7 @@ $(document).ready(function() {
 			root: 'transRecord',
 			id: 'transaction_id',
 			url: '/transactions/component/search.cfc?' + $('##loanSearchForm').serialize(),
-			timeout: 30000, // units not specified, miliseconds? 
+			timeout: #Application.ajax_timeout#000, // units not specified, miliseconds? 
 			loadError: function(jqXHR, textStatus, error) { 
 				$("##overlay").hide();
 				handleFail(jqXHR,textStatus,error,"running loan search");
@@ -3255,7 +3255,7 @@ $(document).ready(function() {
 			root: 'accnRecord',
 			id: 'transaction_id',
 			url: '/transactions/component/search.cfc?' + $('##accnSearchForm').serialize(),
-			timeout: 30000, // units not specified, miliseconds? 
+			timeout: #Application.ajax_timeout#000, // units not specified, miliseconds? 
 			loadError: function(jqXHR, textStatus, error) { 
 				$("##overlay").hide();
 				handleFail(jqXHR,textStatus,error,"running accession search");
@@ -3423,7 +3423,7 @@ $(document).ready(function() {
 			root: 'deaccessionRecord',
 			id: 'transaction_id',
 			url: '/transactions/component/search.cfc?' + $('##deaccnSearchForm').serialize(),
-			timeout: 30000, // units not specified, miliseconds? 
+			timeout: #Application.ajax_timeout#000, // units not specified, miliseconds? 
 			loadError: function(jqXHR, textStatus, error) { 
 				$("##overlay").hide();
 				handleFail(jqXHR,textStatus,error,"running deaccession search");
@@ -3619,7 +3619,7 @@ $(document).ready(function() {
 			root: 'borrowRecord',
 			id: 'transaction_id',
 			url: '/transactions/component/search.cfc?' + $('##borrowSearchForm').serialize(),
-			timeout: 30000, // units not specified, miliseconds? 
+			timeout: #Application.ajax_timeout#000, // units not specified, miliseconds? 
 			loadError: function(jqXHR, textStatus, error) { 
 				$("##overlay").hide();
 				handleFail(jqXHR,textStatus,error,"running borrow search");

@@ -333,7 +333,7 @@ limitations under the License.
 								root: 'locality',
 								id: 'locality_id',
 								url: '/localities/component/search.cfc?' + $('##searchForm').serialize(),
-								timeout: 30000,  // units not specified, miliseconds? 
+								timeout: #Application.ajax_timeout#000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
 									handleFail(jqXHR,textStatus,error, "Error performing locality search: "); 
 								},

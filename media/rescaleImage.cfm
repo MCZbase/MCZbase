@@ -86,7 +86,7 @@ API
 	<cflocation URL="#Application.serverRootUrl##imageSrc#">
 	<cfabort>
 <cfelse>
-	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result" timeout="10">
+	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result" timeout="#Application.short_timeout#">
 		SELECT
 			media_type, mime_type, media_uri, preview_uri,
 			MCZBASE.get_medialabel(media.media_id,'width') as width

@@ -230,6 +230,7 @@ limitations under the License.
 		<cfset Application.session_timeout=90 /><!--- in minutes --->
 		<cfset Application.ajax_timeout=60 /><!--- in seconds, for ajax calls for search/browse --->
 		<cfset Application.query_timeout=55 /><!--- in seconds, for cfquery for search/browse --->
+		<cfset Application.short_timeout=5 /><!--- in seconds, for cfquery that should complete rapidly --->
 		<cfset Application.serverRootUrl = "#Application.protocol#://#serverName#" />
 		<cfset Application.user_login="user_login" />
 		<cfset Application.max_pw_age = 365 />
