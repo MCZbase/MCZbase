@@ -443,7 +443,19 @@ limitations under the License.
 								async: true
 							};
 					
-							var dataAdapter = new $.jqx.dataAdapter(search);
+							var dataAdapter = new $.jqx.dataAdapter(search, {
+								autoBind: true,
+								beforeLoadComplete: function (records) {
+									var data = new Array();
+									for (var i = 0; i < records.length; i++) {
+										var coll_event = records[i];
+										coll_event.summary = makeLocalitySummary(coll_event);
+										coll_event.ce_summary = makeEventSummary(coll_event);
+										data.push(coll_event);
+									}
+									return data;
+								}
+							});
 							var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 								var details = $($(parentElement).children()[0]);
@@ -485,8 +497,8 @@ limitations under the License.
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
 									{ text: 'collecting_event_id', datafield: 'COLLECTING_EVENT_ID',width: 100, hideabel: true, hidden: getColHidProp('COLLECTING_EVENT_ID',true) },
 									{ text: 'Locality_id', datafield: 'LOCALITY_ID',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_ID',true) },
-									{ text: 'Locality Summary', datafield: 'summary',width: 400, hideabel: true, hidden: getColHidProp('summary',false), cellsrenderer: summaryCellRenderer  },
-									{ text: 'Coll Event Summary', datafield: 'ce_summary',width: 400, hideabel: true, hidden: getColHidProp('summary',false), cellsrenderer: summaryEventCellRenderer  },
+									{ text: 'Locality Summary', datafield: 'summary',width: 400, hideabel: true, hidden: getColHidProp('summary',false) },
+									{ text: 'Coll Event Summary', datafield: 'ce_summary',width: 400, hideabel: true, hidden: getColHidProp('summary',false) },
 									{ text: 'Verbatim Locality', datafield: 'VERBATIM_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_LOCALITY',true)  },
 									{ text: 'Verb. Date', datafield: 'VERBATIM_DATE',width: 200, hideabel: true, hidden: getColHidProp('VERBATIM_DATE',true)  },
 									{ text: 'Start Date', datafield: 'BEGAN_DATE',width: 200, hideabel: true, hidden: getColHidProp('BEGAN_DATE',true)  },
