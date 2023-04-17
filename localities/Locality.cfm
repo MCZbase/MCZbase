@@ -243,15 +243,16 @@ limitations under the License.
 								FIELD_VERIFIED_FG,ACCEPTED_LAT_LONG_FG,
 								EXTENT,GPSACCURACY,GEOREFMETHOD, VERIFICATIONSTATUS,SPATIALFIT,
 								GEOLOCATE_UNCERTAINTYPOLYGON,GEOLOCATE_SCORE,GEOLOCATE_PRECISION,GEOLOCATE_NUMRESULTS,GEOLOCATE_PARSEPATTERN,
-								VERIFIED_BY_AGENT_ID,ERROR_POLYGON,db.agent_name as "determiner",
-								vb.agent_name as "verifiedby"
+								VERIFIED_BY_AGENT_ID,ERROR_POLYGON,db.agent_name as determiner,
+								vb.agent_name as verifiedby
 							FROM
 								lat_long
 								left join preferred_agent_name db on determined_by_agent_id = db.agent_id
 								left join preferred_agent_name vb on verified_by_agent_id = vb.agent_id
 							WHERE 
-								locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-							ORDER_BY ACCEPTED_LAT_LONG_FG DESC, lat_long_id
+								locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+							ORDER_BY 
+								ACCEPTED_LAT_LONG_FG DESC, lat_long_id
 						</cfquery>
 						<cfquery name="getAcceptedGeoref" dbtype="query">
 							SELECT * 
