@@ -337,7 +337,11 @@ limitations under the License.
 								loadError: function(jqXHR, textStatus, error) {
 									handleFail(jqXHR,textStatus,error, "Error performing locality search: "); 
 								},
-								async: true,
+								async: true
+							};
+					
+							var dataAdapter = new $.jqx.dataAdapter(search, {
+								autoBind: true,
 								beforeLoadComplete: function (records) {
 									var data = new Array();
 									for (var i = 0; i < records.length; i++) {
@@ -348,9 +352,7 @@ limitations under the License.
 									}
 									return data;
 								}
-							};
-					
-							var dataAdapter = new $.jqx.dataAdapter(search);
+							});
 							var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 								var details = $($(parentElement).children()[0]);
