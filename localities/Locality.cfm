@@ -107,7 +107,7 @@ limitations under the License.
 								};
 							</script>
 						</div>
-						<div class="border rounded px-2 py-2 form-row">
+						<div class="border rounded px-2 py-2">
 							<button type="button" class="btn btn-xs btn-secondary" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
 							<cfif countUses.total_uses EQ "0">
 								<button type="button" 
