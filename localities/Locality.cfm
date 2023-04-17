@@ -72,9 +72,9 @@ limitations under the License.
 			<cfthrow message="Error: unable to edit locality, no locality_id specified.">
 		</cfif>
 		<cfoutput>
-		   <main class="container mt-3" id="content">
-				<section class="row">
-					<div class="col-12">
+		   <main class="container-float mt-3" id="content">
+				<section class="row mx-1">
+					<div class="col-12 col-md-9">
       				<h1 class="h2 mt-3 mb-0 px-4">Edit Locality [#encodeForHtml(locality_id)#]</h1>
 						<div class="border rounded px-2 py-2">
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
@@ -124,6 +124,148 @@ limitations under the License.
 						<div class="border rounded px-2 py-2">
 							<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callbackName='reloadGeoreferences')>
 							<div id="georeferencesDiv">#georeferences#</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-3">
+						<!--- map --->
+						<script>
+							function setupMap(locid){
+								$("input[id^='coordinates_']").each(function(e){
+									var coords=this.value;
+									var bounds = new google.maps.LatLngBounds();
+									var polygonArray = [];
+									var ptsArray=[];
+									var lat=coords.split(',')[0];
+									var lng=coords.split(',')[1];
+									var errorm=$("#error_" + locid).val();
+									var mapOptions = {
+										zoom: 1,
+										center: new google.maps.LatLng(lat, lng),
+										mapTypeId: google.maps.MapTypeId.ROADMAP,
+										panControl: false,
+										scaleControl: true,
+										fullscreenControl: true,
+										zoomControl: true
+									};
+									var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
+
+									var center=new google.maps.LatLng(lat,lng);
+									var marker = new google.maps.Marker({
+										position: center,
+										map: map,
+										zIndex: 10
+									});
+									bounds.extend(center);
+									if (parseInt(errorm)>0){
+										var circleoptn = {
+											strokeColor: '#FF0000',
+											strokeOpacity: 0.8,
+											strokeWeight: 2,
+											fillColor: '#FF0000',
+											fillOpacity: 0.15,
+											map: map,
+											center: center,
+											radius: parseInt(errorm),
+											zIndex:-99
+										};
+										crcl = new google.maps.Circle(circleoptn);
+										bounds.union(crcl.getBounds());
+									}
+									// WKT can be big and slow, so async fetch
+									$.get( "/component/utilities.cfc?returnformat=plain&method=getGeogWKT&locality_id=" + locid, function( wkt ) {
+										if (wkt.length>0){
+											var regex = /\(([^()]+)\)/g;
+											var Rings = [];
+											var results;
+											while( results = regex.exec(wkt) ) {
+												Rings.push( results[1] );
+											}
+											for(var i=0;i<Rings.length;i++){
+												// for every polygon in the WKT, create an array
+												var lary=[];
+												var da=Rings[i].split(",");
+												for(var j=0;j<da.length;j++){
+													// push the coordinate pairs to the array as LatLngs
+													var xy = da[j].trim().split(" ");
+													var pt=new google.maps.LatLng(xy[1],xy[0]);
+													lary.push(pt);
+													console.log(lary);
+													bounds.extend(pt);
+												}
+												// now push the single-polygon array to the array of arrays (of polygons)
+												ptsArray.push(lary);
+											}
+											var poly = new google.maps.Polygon({
+												paths: ptsArray,
+												strokeColor: '#1E90FF',
+												strokeOpacity: 0.8,
+												strokeWeight: 2,
+												fillColor: '#1E90FF',
+												fillOpacity: 0.35
+											});
+											poly.setMap(map);
+											polygonArray.push(poly);
+											// END build WKT
+										} else {
+											$("#mapdiv_" + locid).addClass('noWKT');
+										}
+										if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+											var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+											var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+											bounds.extend(extendPoint1);
+											bounds.extend(extendPoint2);
+										}
+										map.fitBounds(bounds);
+										for(var a=0; a<polygonArray.length; a++){
+											if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
+												$("#mapdiv_" + locid).addClass('uglyGeoSPatData');
+											} else {
+												$("#mapdiv_" + locid).addClass('niceGeoSPatData');
+											}
+										}
+									});
+									map.fitBounds(bounds);
+								});
+							}
+							$(document).ready(function() {
+								setupMap(#locality_id#);
+							});
+						</script>
+						<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+							SELECT
+								LAT_LONG_ID,LOCALITY_ID,LAT_DEG,DEC_LAT_MIN,LAT_MIN,trim(LAT_SEC) LAT_SEC,LAT_DIR,
+								LONG_DEG,DEC_LONG_MIN,LONG_MIN,trim(LONG_SEC) LONG_SEC,LONG_DIR,trim(DEC_LAT) DEC_LAT,trim(DEC_LONG) DEC_LONG,
+								DATUM,to_meters(max_error_distance, max_error_units) COORDINATEUNCERTAINTYINMETERS,
+								UTM_ZONE,UTM_EW,UTM_NS,
+								ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,
+								LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,
+								MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,
+								FIELD_VERIFIED_FG,ACCEPTED_LAT_LONG_FG,
+								EXTENT,GPSACCURACY,GEOREFMETHOD, VERIFICATIONSTATUS,SPATIALFIT,
+								GEOLOCATE_UNCERTAINTYPOLYGON,GEOLOCATE_SCORE,GEOLOCATE_PRECISION,GEOLOCATE_NUMRESULTS,GEOLOCATE_PARSEPATTERN,
+								VERIFIED_BY_AGENT_ID,ERROR_POLYGON,db.agent_name as "determiner",
+								vb.agent_name as "verifiedby"
+							FROM
+								lat_long
+								left join preferred_agent_name db on determined_by_agent_id = db.agent_id
+								left join preferred_agent_name vb on verified_by_agent_id = vb.agent_id
+							WHERE 
+								locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+							ORDER_BY ACCEPTED_LAT_LONG_FG DESC, lat_long_id
+						</cfquery>
+						<cfquery name="getAcceptedGeoref" dbtype="query">
+							SELECT * 
+							FROM getGeoreferences
+							WHERE accepted_lat_long_fg=1
+						</cfquery>
+					   <div style="height: 288px;width: 288px;">
+						  <cfif len(getAcceptedGeoref.dec_lat) gt 0 and len(getAcceptedGeoref.dec_long) gt 0 and (getAcceptedGeoref.dec_lat is not 0 and getAcceptedGeoref.dec_long is not 0)>
+							<cfset coordinates="#getAcceptedGeoref.dec_lat#,#getAcceptedGeoref.dec_long#">
+							<input type="hidden" id="coordinates_#getAcceptedGeoref.locality_id#" value="#coordinates#">
+							<input type="hidden" id="error_#getAcceptedGeoref.locality_id#" value="#getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS#">
+							<div id="mapdiv_#getAcceptedGeoref.locality_id#" style="width:100%; height:100%;"></div>
+							</cfif>
+							</div>
 						</div>
 					</div>
 				</section>
