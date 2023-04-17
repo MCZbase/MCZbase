@@ -128,6 +128,8 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-3">
 						<!--- map --->
+						<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
+						</script>
 						<script>
 							function setupMap(locid){
 								$("input[id^='coordinates_']").each(function(e){
