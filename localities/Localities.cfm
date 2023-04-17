@@ -337,7 +337,17 @@ limitations under the License.
 								loadError: function(jqXHR, textStatus, error) {
 									handleFail(jqXHR,textStatus,error, "Error performing locality search: "); 
 								},
-								async: true
+								async: true,
+								beforeLoadComplete: function (records) {
+									var data = new Array();
+									for (var i = 0; i < records.length; i++) {
+										var locality = records[i];
+										var summary = makeSummary(locality);
+										data.push(summary);
+										console.log(summary);
+									}
+									return data;
+								}
 							};
 					
 							var dataAdapter = new $.jqx.dataAdapter(search);
