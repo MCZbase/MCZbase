@@ -251,7 +251,7 @@ limitations under the License.
 								left join preferred_agent_name vb on verified_by_agent_id = vb.agent_id
 							WHERE 
 								locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-							ORDER_BY 
+							ORDER BY 
 								ACCEPTED_LAT_LONG_FG DESC, lat_long_id
 						</cfquery>
 						<cfquery name="getAcceptedGeoref" dbtype="query">
