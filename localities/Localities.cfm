@@ -346,7 +346,8 @@ limitations under the License.
 									var data = new Array();
 									for (var i = 0; i < records.length; i++) {
 										var locality = records[i];
-										locality.summary = makeSummary(locality);
+										var summary = makeSummary(locality);
+										locality.summary = summary;
 										data.push(locality);
 										console.log(summary);
 									}
