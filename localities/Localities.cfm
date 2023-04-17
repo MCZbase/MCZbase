@@ -394,7 +394,7 @@ limitations under the License.
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
 									{ text: 'Coll Events', datafield: 'COLLECTING_EVENT_COUNT',width: 100, hideabel: true, hidden: getColHidProp('COLLECTING_EVENT_COUNT',false), cellsrenderer: collectingEventCellRenderer  },
 									{ text: 'Locality_id', datafield: 'LOCALITY_ID',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_ID',true) },
-									{ text: 'Locality Summary', datafield: 'summary',width: 500, hideabel: true, hidden: getColHidProp('summary',false), cellsrenderer: summaryCellRenderer  },
+									{ text: 'Locality Summary', datafield: 'summary',width: 500, hideabel: true, hidden: getColHidProp('summary',false) },
 									{ text: 'Specific Locality', datafield: 'SPEC_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('SPEC_LOCALITY',true)  },
 									{ text: 'Vetted', datafield: 'CURATED_FG',width: 50, hideabel: true, hidden: getColHidProp('CURATED_FG',false)  },
 									{ text: 'Locality Remarks', datafield: 'LOCALITY_REMARKS',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_REMARKS',true)  },
