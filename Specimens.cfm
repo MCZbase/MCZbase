@@ -75,13 +75,14 @@ limitations under the License.
 </cfswitch>
 <cfinclude template = "/shared/_header.cfm">
 
+<cfset defaultSelectionMode = "none">
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
 <cfelse>
 	<cfset oneOfUs = 0>
 </cfif>
 
-<cfquery name="ctCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	SELECT
 		collection_cde,
 		collection,
@@ -113,7 +114,7 @@ limitations under the License.
 </cfif>
 <cfif not isdefined("collection_cde") AND isdefined("collection_id") AND len(collection_id) GT 0 >
 	<!--- if collection id was provided, but not a collection code, lookup the collection code --->
-	<cfquery name="lookupCollection_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupCollection_cde_result">
+	<cfquery name="lookupCollection_cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupCollection_cde_result" timeout="#Application.short_timeout#">
 		SELECT
 			collection_cde code
 		FROM
@@ -128,7 +129,7 @@ limitations under the License.
 </cfif>
 <cfif not isdefined("underscore_collection") AND isdefined("underscore_collection_id") AND len(underscore_collection_id) GT 0 >
 	<!--- if underscore collection id was provided, but not a collection name, lookup the collection name --->
-	<cfquery name="lookupNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupNamedGroup_result">
+	<cfquery name="lookupNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupNamedGroup_result" timeout="#Application.short_timeout#">
 		SELECT
 			collection_name
 		FROM
@@ -1201,6 +1202,32 @@ limitations under the License.
 													<div id="fixedresultDownloadButtonContainer"></div>
 													<span id="fixedmanageButton" class=""></span>
 													<div id="fixedresultBMMapLinkContainer"></div>
+													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
+														<script>
+															function fixedchangeSelectMode(){
+																var selmode = $("##selectMode").val();
+																$("##fixedsearchResultsGrid").jqxGrid({selectionmode: selmode});
+																if (selmode=="none") { 
+																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
+																} else {
+																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
+																}
+															};
+														</script>
+														<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
+														<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
+															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="none">Text</option>
+															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="singlecell">Single Cell</option>
+															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="singlerow">Single Row</option>
+															<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+															<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+														</select>
+													</div>
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
 												<div class="row mx-0 mt-0"> 
@@ -1461,6 +1488,32 @@ limitations under the License.
 													<div id="keywordresultDownloadButtonContainer"></div>
 													<span id="keywordmanageButton" class=""></span>
 													<div id="keywordresultBMMapLinkContainer"></div>
+													<div id="keywordselectModeContainer" class="ml-3" style="display: none;" >
+														<script>
+															function keywordchangeSelectMode(){
+																var selmode = $("##selectMode").val();
+																$("##keywordsearchResultsGrid").jqxGrid({selectionmode: selmode});
+																if (selmode=="none") { 
+																	$("##keywordsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
+																} else {
+																	$("##keywordsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
+																}
+															};
+														</script>
+														<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
+														<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
+															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="none">Text</option>
+															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="singlecell">Single Cell</option>
+															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="singlerow">Single Row</option>
+															<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+															<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+														</select>
+													</div>
 													<output id="keywordactionFeedback" class="btn btn-xs btn-transparent px-2 my-2 mx-1 border-0"></output>
 												</div>
 												<div class="row mx-0 mt-0"> 
@@ -2038,6 +2091,32 @@ Target JSON:
 													<div id="builderresultDownloadButtonContainer"></div>
 													<span id="buildermanageButton" class=""></span>
 													<div id="builderresultBMMapLinkContainer"></div>
+													<div id="builderselectModeContainer" class="ml-3" style="display: none;" >
+														<script>
+															function builderchangeSelectMode(){
+																var selmode = $("##selectMode").val();
+																$("##buildersearchResultsGrid").jqxGrid({selectionmode: selmode});
+																if (selmode=="none") { 
+																	$("##buildersearchResultsGrid").jqxGrid({enableBrowserSelection: true});
+																} else {
+																	$("##buildersearchResultsGrid").jqxGrid({enableBrowserSelection: false});
+																}
+															};
+														</script>
+														<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
+														<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
+															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="none">Text</option>
+															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="singlecell">Single Cell</option>
+															<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="singlerow">Single Row</option>
+															<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+															<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+															<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+														</select>
+													</div>
 													<output id="builderactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 border-0"></output> 
 												</div>
 												<div class="row mt-0"> 
@@ -2389,6 +2468,7 @@ Target JSON:
 				$('##fixedmanageButton').html('');
 				$('##fixedsaveDialogButton').html('');
 				$('##fixedactionFeedback').html('');
+				$('##fixedselectModeContainer').hide();
 				/*var debug = $('##fixedSearchForm').serialize();
 				console.log(debug);*/
 				/*var datafieldlist = [ ];//add synchronous call to cf component*/
@@ -2499,7 +2579,7 @@ Target JSON:
 					autoshowloadelement: false,  // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
-					selectionmode: 'singlerow',
+					selectionmode: '#defaultSelectionMode#',
 					enablebrowserselection: true,
 					altrows: true,
 					showtoolbar: false,
@@ -2616,6 +2696,7 @@ Target JSON:
 				$('##keywordmanageButton').html('');
 				$('##keywordsaveDialogButton').html('');
 				$('##keywordactionFeedback').html('');
+				$('##keywordselectModeContainer').hide();
 				var debug = $("##keywordSearchForm").serialize();
 				console.log(debug);
 		
@@ -2683,7 +2764,7 @@ Target JSON:
 					autoshowloadelement: false,  // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
-					selectionmode: 'singlerow',
+					selectionmode: '#defaultSelectionMode#',
 					enablebrowserselection: true,
 					altrows: true,
 					showtoolbar: false,
@@ -2790,6 +2871,7 @@ Target JSON:
 				$('##buildermanageButton').html('');
 				$('##buildersaveDialogButton').html('');
 				$('##builderactionFeedback').html('');
+				$('##builderselectModeContainer').hide();
 				var debug = $("##builderSearchForm").serialize();
 				console.log(debug);
 				var search =
@@ -2856,7 +2938,7 @@ Target JSON:
 					autoshowloadelement: false,  // overlay acts as load element for form+results
 					columnsreorder: true,
 					groupable: true,
-					selectionmode: 'singlerow',
+					selectionmode: '#defaultSelectionMode#',
 					enablebrowserselection: true,
 					altrows: true,
 					showtoolbar: false,
@@ -3222,6 +3304,7 @@ Target JSON:
 				$('##'+whichGrid+'resultBMMapLinkContainer').html(`<a id="`+whichGrid+`BMMapButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" target="_blank" href="/bnhmMaps/bnhmMapData.cfm?result_id=`+result_uuid+`" aria-label="Plot points in Berkeley Mapper">BerkeleyMapper</a>`);
 			</cfif>
 			$("html, body").scrollTop($("##"+whichGrid+"SearchResultsSection").offset().top);
+			$('##'+whichGrid+'selectModeContainer').hide();
 		}
 
 	</script>
