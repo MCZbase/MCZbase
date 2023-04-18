@@ -3309,7 +3309,7 @@ Target JSON:
 				$('##'+whichGrid+'resultBMMapLinkContainer').html(`<a id="`+whichGrid+`BMMapButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" target="_blank" href="/bnhmMaps/bnhmMapData.cfm?result_id=`+result_uuid+`" aria-label="Plot points in Berkeley Mapper">BerkeleyMapper</a>`);
 			</cfif>
 			$("html, body").scrollTop($("##"+whichGrid+"SearchResultsSection").offset().top);
-			$('##'+whichGrid+'selectModeContainer').hide();
+			$('##'+whichGrid+'selectModeContainer').show();
 		}
 
 	</script>
