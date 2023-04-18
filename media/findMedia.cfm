@@ -21,17 +21,24 @@ limitations under the License.
 <cfset pageTitle = "Search Media">
 <cfinclude template = "/shared/_header.cfm">
 
-<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfset defaultSelectionMode = "none">
+<cfif defaultSelectionMode EQ "none">
+	<cfset defaultenablebrowserselection = "true">
+<cfelse>
+	<cfset defaultenablebrowserselection = "false">
+</cfif>	
+
+<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select media_type  from ctmedia_type
 </cfquery>
-<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select mime_type  from ctmime_type
 </cfquery>
-<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select media_label, description  from ctmedia_label
 </cfquery>
 <!--- media labels that are not explicitly included as controls on the form --->
-<cfquery name="ctothermedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctothermedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select media_label, description  from ctmedia_label
 	where media_label not in ('aspect','description','made date','subject','original filename','internal remarks','remarks','light source','height','width','md5hash','owner','credit')
 </cfquery>
@@ -39,7 +46,7 @@ limitations under the License.
  Such searches are supported by the inclusion of /transactions/js/transactions.js in /shared/_header.cfm for /media/ paths 
  and the manage_transactions role, changing which role has those searches enabled will take a change there as well as here.
 --->
-<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select media_relationship  from ctmedia_relationship
 	where media_relationship not in ('created by agent', 'shows cataloged_item')
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
@@ -52,7 +59,7 @@ limitations under the License.
 	select 'ANY cataloged_item' media_relationship from dual
 </cfquery>
 <!--- Note, jqxcombobox doesn't properly handle options that vary only in trailing whitespace, so using trim() here --->
-<cfquery name="distinctExtensions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="distinctExtensions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select trim(auto_extension) as extension, count(*) as ct
 	from media
 	where auto_extension is not null
@@ -796,6 +803,32 @@ limitations under the License.
 									<div id="gridCardToggleButton"></div>
 								</cfif>
 								<div id="resultDownloadButtonContainer"></div>
+								<div id="selectModeContainer" class="ml-3" style="display: none;" >
+									<script>
+										function changeSelectMode(){
+											var selmode = $("##selectMode").val();
+											$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
+											if (selmode=="none") { 
+												$("##searchResultsGrid").jqxGrid({enableBrowserSelection: true});
+											} else {
+												$("##searchResultsGrid").jqxGrid({enableBrowserSelection: false});
+											}
+										};
+									</script>
+									<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
+									<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
+										<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option #selected# value="none">Text</option>
+										<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option #selected# value="singlecell">Single Cell</option>
+										<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option #selected# value="singlerow">Single Row</option>
+										<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+										<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+									</select>
+								</div>
 								<output id="actionFeedback" class="btn btn-xs btn-transparent my-2 px-2 pt-1 mx-1 border-0"></output>
 							</div>
 							<div class="row mt-0"> 
@@ -866,6 +899,7 @@ limitations under the License.
 					$('##resultCount').html('');
 					$('##resultLink').html('');
 					$('##saveDialogButton').html('');
+					$('##selectModeContainer').hide();
 					$('##actionFeedback').html('');
 			
 					var search =
@@ -955,7 +989,8 @@ limitations under the License.
 						autoshowloadelement: false,  // overlay acts as load element for form+results
 						columnsreorder: true,
 						groupable: true,
-						selectionmode: 'singlerow',
+						selectionmode: '#defaultSelectionMode#',
+						enablebrowserselection: #defaultenablebrowserselection#,
 						altrows: true,
 						showtoolbar: false,
 						<cfif Application.serverrole NEQ "production" >
@@ -1223,6 +1258,7 @@ limitations under the License.
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary mx-1 my-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##selectModeContainer').show();
 			}
 		</script> 
 	</cfoutput>
