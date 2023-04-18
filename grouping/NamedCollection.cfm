@@ -929,6 +929,32 @@ limitations under the License.
 										</div>
 										<div id="columnPickDialogButton"></div>
 										<div id="resultDownloadButtonContainer"></div>
+										<div id="selectModeContainer" class="ml-3" style="display: none;" >
+											<script>
+												function changeSelectMode(){
+													var selmode = $("##selectMode").val();
+													$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
+													if (selmode=="none") { 
+														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: true});
+													} else {
+														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: false});
+													}
+												};
+											</script>
+											<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
+											<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
+												<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option #selected# value="none">Text</option>
+												<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option #selected# value="singlecell">Single Cell</option>
+												<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option #selected# value="singlerow">Single Row</option>
+												<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+												<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+											</select>
+										</div>
 									</div>
 									<div class="row mt-0"> 
 										<!--- Grid Related code is below along with search handlers --->
@@ -1038,7 +1064,8 @@ limitations under the License.
 								autoshowloadelement: true, 
 								columnsreorder: true,
 								groupable: true,
-								selectionmode: 'singlerow',
+								selectionmode: '#defaultSelectionMode#',
+								enablebrowserselection: true,
 								altrows: true,
 								showtoolbar: false,
 								ready: function () {
@@ -1214,6 +1241,7 @@ limitations under the License.
 							$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 							$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 							$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'catalogedItemsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+							$('##selectModeContainer').show();
 						}
 					</script>
 					<!---- end setup grid for cataloged items **** --->
