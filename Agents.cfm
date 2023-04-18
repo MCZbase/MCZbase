@@ -20,17 +20,18 @@ limitations under the License.
 --->
 <cfset pageTitle = "Search Agents">
 <cfinclude template = "/shared/_header.cfm">
+<cfset defaultSelectionMode = "none">
 
-<cfquery name="dist_prefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="dist_prefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select distinct(prefix) as dist_prefix from person where prefix is not null
 </cfquery>
-<cfquery name="dist_suffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="dist_suffix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select distinct(suffix) as dist_suffix from person where suffix is not null
 </cfquery>
-<cfquery name="ctagent_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctagent_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select agent_type  from ctagent_type
 </cfquery>
-<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select collection_cde, collection_id from collection
 </cfquery>
 
@@ -456,6 +457,32 @@ limitations under the License.
 								</div>
 								<div id="columnPickDialogButton"></div>
 								<div id="resultDownloadButtonContainer"></div>
+								<div id="selectModeContainer" class="ml-3" style="display: none;" >
+									<script>
+										function changeSelectMode(){
+											var selmode = $("##selectMode").val();
+											$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
+											if (selmode=="none") { 
+												$("##searchResultsGrid").jqxGrid({enableBrowserSelection: true});
+											} else {
+												$("##searchResultsGrid").jqxGrid({enableBrowserSelection: false});
+											}
+										};
+									</script>
+									<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
+									<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
+										<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option #selected# value="none">Text</option>
+										<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option #selected# value="singlecell">Single Cell</option>
+										<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option #selected# value="singlerow">Single Row</option>
+										<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+										<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+									</select>
+								</div>
 								<output id="actionFeedback"  class="btn btn-xs btn-transparent my-2 pt-1 px-2 mx-1 border-0"></output>
 							</div>
 							<div class="row mt-0"> 
@@ -516,6 +543,7 @@ limitations under the License.
 					$('##resultCount').html('');
 					$('##resultLink').html('');
 					$('##saveDialogButton').html('');
+					$('##selectModeContainer').hide();
 					$('##actionFeedback').html('');
 			
 					var search =
@@ -612,7 +640,8 @@ limitations under the License.
 						autoshowloadelement: false,  // overlay acts as load element for form+results
 						columnsreorder: true,
 						groupable: true,
-						selectionmode: 'singlerow',
+						selectionmode: '#defaultSelectionMode#',
+						enablebrowserselection: true,
 						altrows: true,
 						showtoolbar: false,
 						columns: [
@@ -869,6 +898,7 @@ limitations under the License.
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##selectModeContainer').show();
 			}
 		</script> 
 	</cfoutput>
