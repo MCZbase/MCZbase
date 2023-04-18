@@ -18,35 +18,36 @@ limitations under the License.
 
 -->
 
+<cfset addedMetaDescription = "Search MCZbase for taxonomic name records, including accepted, unaccepted, used, and unused names, higher taxonomy, and common names.">
 <cfinclude template = "/shared/_header.cfm">
-<cfset title = "Search for Taxa">
-<cfset metaDesc = "Search MCZbase for taxonomy, including accepted, unaccepted, used, and unused names, higher taxonomy, and common names.">
-<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfset defaultSelectionMode = "none">
+
+<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select count(*) as cnt from taxonomy
 </cfquery>
-<cfquery name="CTTAXONOMIC_AUTHORITY" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="CTTAXONOMIC_AUTHORITY" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select source_authority from CTTAXONOMIC_AUTHORITY order by source_authority
 </cfquery>
-<cfquery name="ctnomenclatural_code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctnomenclatural_code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select nomenclatural_code from ctnomenclatural_code order by sort_order
 </cfquery>
-<cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="cttaxon_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select taxon_status from cttaxon_status order by taxon_status
 </cfquery>
-<cfquery name="cttaxon_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="cttaxon_relation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select cttaxon_relation.taxon_relationship, count(taxon_relations.taxon_name_id) ct
 	from cttaxon_relation
 		left join taxon_relations on cttaxon_relation.taxon_relationship = taxon_relations.taxon_relationship 
 	group by cttaxon_relation.taxon_relationship
 	order by taxon_relationship
 </cfquery>
-<cfquery name="cttaxon_habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="cttaxon_habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(taxon_name_id) ct, taxon_habitat
 	FROM taxon_habitat
 	GROUP BY taxon_habitat
 	ORDER BY taxon_habitat
 </cfquery>
-<cfquery name="cttaxon_habitat_null" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="cttaxon_habitat_null" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct taxon_name_id) ct, 'NOT NULL' taxon_habitat
 	FROM taxon_habitat
 	UNION
@@ -589,6 +590,32 @@ limitations under the License.
 							</div>
 							<div id="columnPickDialogButton" class="pb-1"></div>
 							<div id="resultDownloadButtonContainer" class="py-0 py-md-1"></div>
+							<div id="selectModeContainer" class="ml-3" style="display: none;" >
+								<script>
+									function changeSelectMode(){
+										var selmode = $("##selectMode").val();
+										$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
+										if (selmode=="none") { 
+											$("##searchResultsGrid").jqxGrid({enableBrowserSelection: true});
+										} else {
+											$("##searchResultsGrid").jqxGrid({enableBrowserSelection: false});
+										}
+									};
+								</script>
+								<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
+								<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
+									<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option #selected# value="none">Text</option>
+									<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option #selected# value="singlecell">Single Cell</option>
+									<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option #selected# value="singlerow">Single Row</option>
+									<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+									<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+								</select>
+							</div>
 							<output id="actionFeedback" class="mx-1 my-0 my-md-2 p-2 h5"></output>
 						</div>
 						<div class="row mt-0 mx-0">
@@ -678,6 +705,7 @@ limitations under the License.
 					$('##resultLink').html('');
 					$('##saveDialogButton').html('');
 					$('##actionFeedback').html('');
+					$('##selectModeContainer').hide();
 
 					var search =
 					{
@@ -776,7 +804,8 @@ limitations under the License.
 						autoshowloadelement: false,  // overlay acts as load element for form+results
 						columnsreorder: true,
 						groupable: true,
-						selectionmode: 'singlerow',
+						selectionmode: '#defaultSelectionMode#',
+						enablebrowserselection: true,
 						altrows: true,
 						showtoolbar: false,
 						ready: function () {
@@ -1048,6 +1077,7 @@ limitations under the License.
 				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-2 mx-1 mt-1 mb-2 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##selectModeContainer').show();
 			}
 
 			function togglePinTaxonColumn() { 
