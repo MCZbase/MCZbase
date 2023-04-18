@@ -1680,7 +1680,7 @@ limitations under the License.
 					<cfthrow type="noQueryParameters" message="No search criteria provided." >
 				</cfif>
 
-				<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
 					select distinct permit.permit_id,
 						issuedByPref.agent_name IssuedByAgent,
 						issuedToPref.agent_name IssuedToAgent,
@@ -1875,7 +1875,7 @@ limitations under the License.
 			<div class='permittrans'>
 				<span id='permits_tr_#transaction_id#' class="pb-2">
 					<cfloop query="query">
-						<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
 							select media.media_id, media_uri, preview_uri, media_type, mczbase.get_media_descriptor(media.media_id) as media_descriptor
 							from media_relations left join media on media_relations.media_id = media.media_id
 							where media_relations.media_relationship = 'shows permit'
@@ -1920,7 +1920,7 @@ limitations under the License.
 <cffunction name="getPermitsForShipment" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="shipment_id" type="string" required="yes">
 	<cfset result="">
-	<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
 		select distinct permit_num, permit_type, issued_date, permit.permit_id,
 			issuedBy.agent_name as IssuedByAgent
 		from permit_shipment left join permit on permit_shipment.permit_id = permit.permit_id
@@ -1956,7 +1956,7 @@ limitations under the License.
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select distinct permit_num, permit_type, specific_type, permit_title, to_char(issued_date,'YYYY-MM-DD') as issued_date, permit.permit_id,
 				issuedBy.agent_name as IssuedByAgent
 			from permit left join permit_shipment on permit.permit_id = permit_shipment.permit_id
@@ -2257,13 +2257,13 @@ limitations under the License.
    
 	<cfthread name="getSPPHtmlThread">
  	<cftry>
-		<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 			select ct.permit_type, count(p.permit_id) uses 
 			from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type 
 			group by ct.permit_type
 			order by ct.permit_type
 		</cfquery>
-		<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 			select ct.specific_type, count(p.permit_id) uses 
 			from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
 			group by ct.specific_type
@@ -2451,7 +2451,7 @@ limitations under the License.
 			<cfthrow type="noQueryParameters" message="No search criteria provided." >
 		</cfif>
 
-		<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
 			select distinct permit.permit_id,
 				issuedByPref.agent_name IssuedByAgent,
 				issuedToPref.agent_name IssuedToAgent,
@@ -2680,7 +2680,7 @@ limitations under the License.
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select distinct 
 				permit.permit_id,
 				permit_num, 
@@ -2773,7 +2773,7 @@ limitations under the License.
 					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfset transaction = transType.transaction_type>
-			<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
 				select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment 
 				from (
 					select 
@@ -3424,7 +3424,7 @@ limitations under the License.
 	<cfthread name="getBorrowLimitThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="borrowLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="borrowLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
 					select count(distinct borrow_item.borrow_item_id) as ct,
 						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
 						borrow.transaction_id as borrow_id, borrow.borrow_number
@@ -4960,7 +4960,7 @@ limitations under the License.
 	<cfthread name="getAddressPickerThread">
 
 	<cftry>
-		<cfquery name="lookupTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="lookupTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 			select transaction_type, specific_number, trans_date, trans_remarks
 			from transaction_view
 			where
@@ -5158,7 +5158,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT agent_name, preferred_agent_name.agent_id, formatted_addr, addr_id,VALID_ADDR_FG, addr_type
 			FROM preferred_agent_name left join addr on preferred_agent_name.agent_id = addr.agent_id
 			WHERE
@@ -5541,7 +5541,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="use" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="use_result">
+		<cfquery name="use" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="use_result" timeout="#Application.query_timeout#">
 					select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
 						concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,

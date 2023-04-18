@@ -30,7 +30,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select count(coll_event_number_id) as number_count, number_series, coll_event_num_series.coll_event_num_series_id as id, pattern, remarks,
 				collector_agent_id,
 				case 
@@ -103,7 +103,7 @@ Function getJournalAutocomplete.  Search for journals by name with a substring m
 	<cfset data = ArrayNew(1)>
 	<cftry>
       <cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT 
 				journal_name as id, journal_name as value
 			FROM 
@@ -234,7 +234,7 @@ Function getBiolIndivRelationshipAutocompleteMeta.  Search for ctbiol_relations.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT 
 				count(distinct f.collection_object_id) ct,
 				ctbiol_relations.biol_indiv_relationship,

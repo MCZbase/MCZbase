@@ -337,7 +337,7 @@ limitations under the License.
 								root: 'permitsRecord',
 								id: 'permit_id',
 								url: '/transactions/component/search.cfc?' + $('##searchForm').serialize(),
-								timeout: 30000,  // units not specified, miliseconds? 
+								timeout: #Application.ajax_timeout#000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, status, error) { 
 									$("##overlay").hide();
 								var message = "";      
@@ -1600,7 +1600,7 @@ limitations under the License.
 								root: 'permitUseRecord',
 								id: 'row_number',
 								url: '/transactions/component/functions.cfc?method=getUseReportJSON&permit_id=#permit_id#',
-								timeout: 30000,  // units not specified, miliseconds? 
+								timeout: #Application.ajax_timeout#000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, status, error) { 
 									$("##overlay").hide();
 									var message = "";      

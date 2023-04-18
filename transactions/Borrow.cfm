@@ -1158,7 +1158,7 @@ limitations under the License.
 						root: 'borrowItemRecord',
 						id: 'BORROW_ITEM_ID',
 						url: '/transactions/component/borrowFunctions.cfc?method=getBorrowItemsData&transaction_id=#transaction_id#',
-						timeout: 30000, // units not specified, miliseconds? 
+						timeout: #Application.ajax_timeout#000, // units not specified, miliseconds? 
 						loadError: function(jqXHR, textStatus, error) { 
 							handleFail(jqXHR,textStatus,error,"loading borrow items");
 						},

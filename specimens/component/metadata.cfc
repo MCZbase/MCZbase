@@ -40,7 +40,7 @@ limitations under the License.
 	<cfargument name="access_role" type="string" required="no">
 
 	<cftry>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT COLUMN_NAME, SQL_ELEMENT, CATEGORY, CF_SPEC_RES_COLS_ID, DISP_ORDER,
 				LABEL, ACCESS_ROLE, HIDEABLE, HIDDEN, CELLSRENDERER, WIDTH, DATA_TYPE
 			FROM cf_spec_res_cols_r
@@ -193,7 +193,7 @@ limitations under the License.
 	<cfargument name="description" type="string" required="no">
 
 	<cftry>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			SELECT cf_spec_search_cols.ID, 
 				cf_spec_search_cols.TABLE_NAME, 
 				cf_spec_search_cols.TABLE_ALIAS, 

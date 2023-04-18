@@ -150,7 +150,7 @@ limitations under the License.
 								root: 'numberSeriesRecord',
 								id: 'coll_event_num_series_id',
 								url: '/vocabularies/component/search.cfc?' + $('##searchForm').serialize(),
-								timeout: 30000,  // units not specified, miliseconds? 
+								timeout: #Application.ajax_timeout#000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, status, error) { 
 									$("##overlay").hide();
 					            var message = "";      

@@ -26,7 +26,7 @@ limitations under the License.
 	<cfargument name="transaction_id" type="numeric" required="yes">
 	
 	<cftry>
-		<cfquery name="getBorrowItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getBorrowItemsQuery_result">
+		<cfquery name="getBorrowItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getBorrowItemsQuery_result" timeout="#Application.query_timeout#">
 			select 
 				transaction_id, borrow_item_id, 
 				catalog_number, sci_name, no_of_spec, 
@@ -201,7 +201,7 @@ limitations under the License.
 <!--- deprecated, now uses editable grid with data load from getBorrowItemsData ---> 
 <cffunction name="getBorrowItemsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="numeric" required="yes">
-	<cfquery name="borrowItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="borrowItems_result">
+	<cfquery name="borrowItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="borrowItems_result" timeout="#Application.query_timeout#">
 		select transaction_id,borrow_item_id,catalog_number,sci_name,
 				no_of_spec,spec_prep,type_status,country_of_origin,object_remarks 
 		from borrow_item 
@@ -240,7 +240,7 @@ limitations under the License.
 	
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="getBorrowItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getBorrowItemsQuery_result">
+		<cfquery name="getBorrowItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getBorrowItemsQuery_result" timeout="#Application.query_timeout#">
 			select 
 				transaction_id, borrow_item_id, 
 				catalog_number, sci_name, 

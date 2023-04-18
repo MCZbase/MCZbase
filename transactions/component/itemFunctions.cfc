@@ -405,7 +405,7 @@ limitations under the License.
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="getLoanItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLoanItemsQuery_result">
+		<cfquery name="getLoanItemsQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLoanItemsQuery_result" timeout="#Application.query_timeout#">
 		select 
 			loan.transaction_id,
 			cat_num as catalog_number, 

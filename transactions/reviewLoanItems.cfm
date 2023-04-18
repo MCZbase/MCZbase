@@ -614,7 +614,7 @@ limitations under the License.
 								root: 'loanItemRecord',
 								id: 'itemId',
 								url: '/transactions/component/itemFunctions.cfc?method=getLoanItemsData&transaction_id=#transaction_id#',
-								timeout: 30000, // units not specified, miliseconds? 
+								timeout: #Application.ajax_timeout#000, // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) { 
 									handleFail(jqXHR,textStatus,error,"loading loan items");
 								},
