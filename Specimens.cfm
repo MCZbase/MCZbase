@@ -1210,7 +1210,7 @@ limitations under the License.
 													<div id="fixedselectModeContainer" class="ml-3" style="display: none;" >
 														<script>
 															function fixedchangeSelectMode(){
-																var selmode = $("##selectMode").val();
+																var selmode = $("##fixedselectMode").val();
 																$("##fixedsearchResultsGrid").jqxGrid({selectionmode: selmode});
 																if (selmode=="none") { 
 																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
@@ -1219,8 +1219,8 @@ limitations under the License.
 																}
 															};
 														</script>
-														<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
-														<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
+														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
+														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="changeSelectMode();">
 															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="none">Text</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -1496,7 +1496,7 @@ limitations under the License.
 													<div id="keywordselectModeContainer" class="ml-3" style="display: none;" >
 														<script>
 															function keywordchangeSelectMode(){
-																var selmode = $("##selectMode").val();
+																var selmode = $("##keywordselectMode").val();
 																$("##keywordsearchResultsGrid").jqxGrid({selectionmode: selmode});
 																if (selmode=="none") { 
 																	$("##keywordsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
@@ -1505,8 +1505,8 @@ limitations under the License.
 																}
 															};
 														</script>
-														<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
-														<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
+														<label class="data-entry-label d-inline w-auto mt-1" for="keywordselectMode">Grid Select:</label>
+														<select class="data-entry-select d-inline w-auto mt-1" id="keywordselectMode" onChange="changeSelectMode();">
 															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="none">Text</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2099,7 +2099,7 @@ Target JSON:
 													<div id="builderselectModeContainer" class="ml-3" style="display: none;" >
 														<script>
 															function builderchangeSelectMode(){
-																var selmode = $("##selectMode").val();
+																var selmode = $("##builderselectMode").val();
 																$("##buildersearchResultsGrid").jqxGrid({selectionmode: selmode});
 																if (selmode=="none") { 
 																	$("##buildersearchResultsGrid").jqxGrid({enableBrowserSelection: true});
@@ -2108,8 +2108,8 @@ Target JSON:
 																}
 															};
 														</script>
-														<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
-														<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
+														<label class="data-entry-label d-inline w-auto mt-1" for="builderselectMode">Grid Select:</label>
+														<select class="data-entry-select d-inline w-auto mt-1" id="builderselectMode" onChange="changeSelectMode();">
 															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="none">Text</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
