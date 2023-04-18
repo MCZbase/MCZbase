@@ -5110,7 +5110,7 @@ limitations under the License.
 						autoshowcolumnsmenubutton: false,
 						columnsreorder: true,
 						groupable: false,
-						selectionmode: "singlerow",
+						selectionmode: 'singlerow',
 						altrows: true,
 						showtoolbar: false,
 						ready: function () {
