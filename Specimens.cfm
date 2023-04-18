@@ -1220,7 +1220,7 @@ limitations under the License.
 															};
 														</script>
 														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
-														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="changeSelectMode();">
+														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
 															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="none">Text</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -1506,7 +1506,7 @@ limitations under the License.
 															};
 														</script>
 														<label class="data-entry-label d-inline w-auto mt-1" for="keywordselectMode">Grid Select:</label>
-														<select class="data-entry-select d-inline w-auto mt-1" id="keywordselectMode" onChange="changeSelectMode();">
+														<select class="data-entry-select d-inline w-auto mt-1" id="keywordselectMode" onChange="keywordchangeSelectMode();">
 															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="none">Text</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -2109,7 +2109,7 @@ Target JSON:
 															};
 														</script>
 														<label class="data-entry-label d-inline w-auto mt-1" for="builderselectMode">Grid Select:</label>
-														<select class="data-entry-select d-inline w-auto mt-1" id="builderselectMode" onChange="changeSelectMode();">
+														<select class="data-entry-select d-inline w-auto mt-1" id="builderselectMode" onChange="builderchangeSelectMode();">
 															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 															<option #selected# value="none">Text</option>
 															<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
