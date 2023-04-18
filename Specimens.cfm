@@ -76,6 +76,11 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 
 <cfset defaultSelectionMode = "none">
+<cfif defaultSelectionMode EQ "none">
+	<cfset defaultenablebrowserselection = "true">
+<cfelse>
+	<cfset defaultenablebrowserselection = "false">
+</cfif>	
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
 <cfelse>
@@ -2580,7 +2585,7 @@ Target JSON:
 					columnsreorder: true,
 					groupable: true,
 					selectionmode: '#defaultSelectionMode#',
-					enablebrowserselection: true,
+					enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
 					ready: function () {
@@ -2765,7 +2770,7 @@ Target JSON:
 					columnsreorder: true,
 					groupable: true,
 					selectionmode: '#defaultSelectionMode#',
-					enablebrowserselection: true,
+					enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
 					ready: function () {
@@ -2939,7 +2944,7 @@ Target JSON:
 					columnsreorder: true,
 					groupable: true,
 					selectionmode: '#defaultSelectionMode#',
-					enablebrowserselection: true,
+					enablebrowserselection: #defaultenablebrowserselection#,
 					altrows: true,
 					showtoolbar: false,
 					ready: function () {
