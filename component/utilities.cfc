@@ -1,8 +1,21 @@
 <cfcomponent>
+
+<!--- getGeogWKT given a locality_id return the error polygon if there is one, or if not the 
+  polygon for the containing higher geography, can obtain the wkt from either
+  geog_auth_rec.wkt_polygon/lat_long.error_polygon directly, or if these contain
+  a value in the form "MEDIA:{media_id}" from a media record and the corresponding media_uri
+  is a file containing WKT. 
+  @param locality_id the primary key value for the locality for which to look up the error polygon.
+  @return wkt representing a region around the georeferenced point
+--->
 <cffunction name="getGeogWKT" returnType="string" access="remote">
 	<cfargument name="locality_id" type="numeric" required="yes">
 	<cfquery name="chkLatLong" datasource="uam_god">
-		select * from lat_long where locality_id=#locality_id# and accepted_lat_long_fg=1 and error_polygon is not null
+		SELECT * 
+		FROM lat_long
+		WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			and accepted_lat_long_fg=1 
+			and error_polygon is not null
 	</cfquery>
 	<cfif chkLatLong.RecordCount EQ 1>
 		<cfquery name="d" datasource="uam_god">
@@ -12,25 +25,27 @@
 			from
 				lat_long
 			where
-				accepted_lat_long_fg = 1 and
-				locality_id=#locality_id#
+				locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+				and accepted_lat_long_fg = 1 and
 		</cfquery>
 	<cfelse>
 		<cfquery name="d" datasource="uam_god">
 			select
-				WKT_POLYGON
+				geog_auth_rec.WKT_POLYGON
 			from
-				geog_auth_rec,
-				locality
+				locality 
+				join geog_auth_rec on geog_auth_rec.geog_auth_rec_id=locality.geog_auth_rec_id
 			where
-				geog_auth_rec.geog_auth_rec_id=locality.geog_auth_rec_id and
-				locality.locality_id=#locality_id#
+				geog_auth_rec.wkt_polygon is not null 
+				and locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		</cfquery>
 	</cfif>
 	<cfif left(d.WKT_POLYGON,5) is 'MEDIA'>
 		<cfset mid=listlast(d.WKT_POLYGON,':')>
 		<cfquery name="m" datasource="uam_god">
-			select media_uri from media where media_id=#mid#
+			select media_uri 
+			from media 
+			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mid#">
 		</cfquery>
 		<cfhttp method="get" url="#m.media_uri#"></cfhttp>
 		<cfreturn cfhttp.filecontent>
@@ -38,4 +53,43 @@
 		<cfreturn d.WKT_POLYGON>
 	</cfif>
 </cffunction>
+
+<!--- getGeoreferencErrorWKT given a locality_id return the error polygon for the accepted georeference if there is one.
+  @param locality_id the primary key value for the locality for which to look up the error polygon.
+  @return wkt representing a region around the georeferenced point
+--->
+<cffunction name="getGeoreferenceErrorWKT" returnType="string" access="remote">
+	<cfargument name="locality_id" type="numeric" required="yes">
+	<cfquery name="chkLatLong" datasource="uam_god">
+		SELECT * 
+		FROM lat_long
+		WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			and accepted_lat_long_fg=1 
+			and error_polygon is not null
+	</cfquery>
+	<cfif chkLatLong.RecordCount EQ 1>
+		<cfquery name="lookupPolygon" datasource="uam_god">
+			select
+				error_polygon 
+			from
+				lat_long
+			where
+				locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+				and accepted_lat_long_fg = 1 and
+		</cfquery>
+	</cfif>
+	<cfif left(lookupPolygon.error_polygon,5) is 'MEDIA'>
+		<cfset media_id = listlast(d.WKT_POLYGON,':')>
+		<cfquery name="getMedia" datasource="uam_god">
+			select media_uri 
+			from media 
+			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		</cfquery>
+		<cfhttp method="get" url="#getMedia.media_uri#"></cfhttp>
+		<cfreturn cfhttp.filecontent>
+	<cfelse>
+		<cfreturn lookupPolygon.WKT_POLYGON>
+	</cfif>
+</cffunction>
+
 </cfcomponent>
