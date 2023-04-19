@@ -26,7 +26,7 @@
 				lat_long
 			where
 				locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-				and accepted_lat_long_fg = 1 and
+				and accepted_lat_long_fg = 1
 		</cfquery>
 	<cfelse>
 		<cfquery name="d" datasource="uam_god">
@@ -78,17 +78,95 @@
 				and accepted_lat_long_fg = 1 and
 		</cfquery>
 	</cfif>
-	<cfif left(lookupPolygon.error_polygon,5) is 'MEDIA'>
-		<cfset media_id = listlast(d.WKT_POLYGON,':')>
-		<cfquery name="getMedia" datasource="uam_god">
-			select media_uri 
-			from media 
-			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		</cfquery>
-		<cfhttp method="get" url="#getMedia.media_uri#"></cfhttp>
-		<cfreturn cfhttp.filecontent>
+	<cfif lookupPolygon.recordcount GT 0>
+		<cfif left(lookupPolygon.error_polygon,5) is 'MEDIA'>
+			<cfset media_id = listlast(d.WKT_POLYGON,':')>
+			<cfquery name="getMedia" datasource="uam_god">
+				select media_uri 
+				from media 
+				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+			</cfquery>
+			<cfhttp method="get" url="#getMedia.media_uri#"></cfhttp>
+			<cfreturn cfhttp.filecontent>
+		<cfelse>
+			<cfreturn lookupPolygon.WKT_POLYGON>
+		</cfif>
 	<cfelse>
-		<cfreturn lookupPolygon.WKT_POLYGON>
+		<cfreturn "">
+	</cfif>
+</cffunction>
+
+<!--- getContainingGeographyWKT given a locality_id return the polygon for the containing higher geography, 
+  can obtain the wkt from either geog_auth_rec.wkt_polygon directly or if it contains
+  a value in the form "MEDIA:{media_id}" from a media record and the corresponding media_uri
+  is a file containing WKT. 
+  @param locality_id the primary key value for the locality for which to look up the containing 
+    geography
+  @return wkt representing a geographic region around the georeferenced point
+--->
+<cffunction name="getContainingGeographyWKT" returnType="string" access="remote">
+	<cfargument name="locality_id" type="numeric" required="yes">
+	<cfquery name="lookupPolygon" datasource="uam_god">
+		select
+			geog_auth_rec.WKT_POLYGON
+		from
+			locality 
+			join geog_auth_rec on geog_auth_rec.geog_auth_rec_id=locality.geog_auth_rec_id
+		where
+			geog_auth_rec.wkt_polygon is not null 
+			and locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+	</cfquery>
+	<cfif lookupPolygon.recordcount GT 0>
+		<cfif left(d.WKT_POLYGON,5) is 'MEDIA'>
+			<cfset media_id=listlast(lookupPolygon.WKT_POLYGON,':')>
+			<cfquery name="getMedia" datasource="uam_god">
+				select media_uri 
+				from media 
+				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+			</cfquery>
+			<cfhttp method="get" url="#getMedia.media_uri#"></cfhttp>
+			<cfreturn cfhttp.filecontent>
+		<cfelse>
+			<cfreturn lookupPolygon.WKT_POLYGON>
+		</cfif>
+	<cfelse>
+		<cfreturn "">
+	</cfif>
+</cffunction>
+
+<!--- getGeogographyWKT given a geog_auth_rec_id return the polygon for the higher geography, 
+  can obtain the wkt from either geog_auth_rec.wkt_polygon directly or if it contains
+  a value in the form "MEDIA:{media_id}" from a media record and the corresponding media_uri
+  is a file containing WKT. 
+  @param geog_auth_rec_id the primary key value for geography.
+  @return wkt representing a geographic region around the georeferenced point
+--->
+<cffunction name="getGeographyWKT" returnType="string" access="remote">
+	<cfargument name="geog_auth_rec_id" type="numeric" required="yes">
+	<cfquery name="lookupPolygon" datasource="uam_god">
+		select
+			geog_auth_rec.WKT_POLYGON
+		from
+			geog_auth_rec 
+		where
+			geog_auth_rec.wkt_polygon is not null 
+			and geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+	</cfquery>
+	<cfif lookupPolygon.recordcount GT 0>
+		<cfif left(d.WKT_POLYGON,5) is 'MEDIA'>
+			<cfset media_id=listlast(lookupPolygon.WKT_POLYGON,':')>
+			<cfquery name="getMedia" datasource="uam_god">
+				select media_uri 
+				from media 
+				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+			</cfquery>
+			<cfhttp method="get" url="#getMedia.media_uri#"></cfhttp>
+			<cfreturn cfhttp.filecontent>
+		<cfelse>
+			<cfreturn lookupPolygon.WKT_POLYGON>
+		</cfif>
+	<cfelse>
+		<cfreturn "">
 	</cfif>
 </cffunction>
 
