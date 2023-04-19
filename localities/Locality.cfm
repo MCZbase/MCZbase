@@ -131,6 +131,15 @@ limitations under the License.
 						<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
 						</script>
 						<script>
+							function findBounds(latLongs) { 
+								var bounds = new google.maps.LatLngBounds();
+								latLngs.getArray().forEach(function(path){ 
+									path.getArray().forEach(function(latlong){ 
+										bounds.extend(latlong)
+									});
+								}); 
+								return bounds;
+							} 
 							var map;
 							var enclosingpoly;
 							var uncertantypoly;
@@ -328,6 +337,43 @@ limitations under the License.
 							</cfif>
 							</div>
 						</div>
+						<ul>
+						<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+							SELECT count(*) ct 
+							FROM 
+								geog_auth_rec 
+							WHERE
+								wkt_polygon is not null
+								AND geog_auth_rec_id in (
+									SELECT geog_auth_rec_id 
+									FROM locality
+									WHERE
+										locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+								)
+						</cfquery>
+						<li>
+							<cfif hasHigherPolygon.ct GT 0>
+								<span class="h3">Higher Geography mappable</span> <span onclick=" enclosingpoly.setVisible(false); ">hide</span> <span onclick=" map.fitbounds(findBounds(enclosingpoly.latLngs));">zoom to</span>
+							<cfelse>
+								<span class="h3">Higher geography not mappable</span>
+							</cfif>
+						</li>
+						<cfquery name="hasUncertantyPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+							SELECT count(*) ct
+							FROM accepted_lat_long
+							WHERE
+								error_polygon is not null
+								AND
+								locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						</cfquery>
+						<li>
+							<cfif hasUncertantyPolygon.ct GT 0>
+								<span class="h3">Georeference has uncertanty polygon</span> <span onclick=" uncertantypoly.setVisible(false); ">hide</span> <span onclick=" map.fitbounds(findBounds(uncertantypoly.latLngs));">zoom to</span>
+							<cfelse>
+								<span class="h3">No polygon with georeference</span>
+							</cfif>
+						</li>
+						</ul>
 					</div>
 				</section>
 			</main>
