@@ -211,13 +211,13 @@
 			<cfset gPos=listfindnocase(rdurl,"saved","/")>
 			<cfif listlen(rdurl,"/") gt 1>
 				<cfset sName = listgetat(rdurl,gPos+1,"/")>
-				<cfquery name="d" datasource="cf_dbuser">
+				<cfquery name="d" datasource="cf_dbuser" timeout="#Application.short_timeout#">
 					SELECT url, execute 
 					FROM cf_canned_search 
 					WHERE upper(search_name)=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(sName)#">
 				</cfquery>
 				<cfif d.recordcount is 0>
-					<cfquery name="d" datasource="cf_dbuser">
+					<cfquery name="d" datasource="cf_dbuser" timeout="#Application.short_timeout#">
 						SELECT url, execute
 						FROM cf_canned_search
 						WHERE upper(search_name)=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(urldecode(sName))#">
