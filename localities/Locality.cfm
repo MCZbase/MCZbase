@@ -133,7 +133,7 @@ limitations under the License.
 						<script>
 							function findBounds(latLongs) { 
 								var bounds = new google.maps.LatLngBounds();
-								latLngs.getArray().forEach(function(path){ 
+								latLongs.getArray().forEach(function(path){ 
 									path.getArray().forEach(function(latlong){ 
 										bounds.extend(latlong)
 									});
@@ -353,7 +353,7 @@ limitations under the License.
 						</cfquery>
 						<li>
 							<cfif hasHigherPolygon.ct GT 0>
-								<span class="h3">Higher Geography mappable</span> <span onclick=" enclosingpoly.setVisible(false); ">hide</span> <span onclick=" map.fitbounds(findBounds(enclosingpoly.latLngs));">zoom to</span>
+								<span class="h3">Higher Geography mappable</span> <a onclick=" enclosingpoly.setVisible(false); ">hide</a> <a onclick=" map.fitbounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
 							<cfelse>
 								<span class="h3">Higher geography not mappable</span>
 							</cfif>
@@ -370,7 +370,7 @@ limitations under the License.
 						</cfquery>
 						<li>
 							<cfif hasUncertantyPolygon.ct GT 0>
-								<span class="h3">Georeference has uncertanty polygon</span> <span onclick=" uncertantypoly.setVisible(false); ">hide</span> <span onclick=" map.fitbounds(findBounds(uncertantypoly.latLngs));">zoom to</span>
+								<span class="h3">Georeference has uncertanty polygon</span> <a onclick=" uncertantypoly.setVisible(false); ">hide</a> <a onclick=" map.fitbounds(findBounds(uncertantypoly.latLngs));">zoom to</a>
 							<cfelse>
 								<span class="h3">No polygon with georeference</span>
 							</cfif>
