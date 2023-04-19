@@ -377,7 +377,7 @@ limitations under the License.
 						</li>
 						<li>
 							<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS GT 0>
-								<span class="h3">Coordinate uncertanty in meters = #getAcceptedGeoref.coordinateuncertantyinmeters#</span> <a onclick=" errorcircle.setVisible(!errorcircle.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(errorcircle.latLngs));">zoom to</a>
+								<span class="h3">Coordinate uncertanty in meters = #getAcceptedGeoref.coordinateuncertaintyinmeters#</span> <a onclick=" errorcircle.setVisible(!errorcircle.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(errorcircle.latLngs));">zoom to</a>
 							<cfelse>
 								<span class="h3">No error radius.</span>
 							</cfif>
