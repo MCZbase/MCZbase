@@ -197,7 +197,7 @@ limitations under the License.
 												// now push the single-polygon array to the array of arrays (of polygons)
 												ptsArray.push(lary);
 											}
-											var poly = new google.maps.Polygon({
+											var uncertaintypoly = new google.maps.Polygon({
 												paths: ptsArray,
 												strokeColor: '##FFA200',
 												strokeOpacity: 0.8,
@@ -205,8 +205,8 @@ limitations under the License.
 												fillColor: '##FFA200',
 												fillOpacity: 0.35
 											});
-											poly.setMap(map);
-											polygonArray.push(poly);
+											uncertantypoly.setMap(map);
+											polygonArray.push(uncertantypoly);
 											// END build WKT
 											// expand bounds if needed
 											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
@@ -252,7 +252,7 @@ limitations under the License.
 												// now push the single-polygon array to the array of arrays (of polygons)
 												ptsArray.push(lary);
 											}
-											var poly = new google.maps.Polygon({
+											var enclosingpoly = new google.maps.Polygon({
 												paths: ptsArray,
 												strokeColor: '##1E90FF',
 												strokeOpacity: 0.8,
@@ -260,8 +260,8 @@ limitations under the License.
 												fillColor: '##1E90FF',
 												fillOpacity: 0.25
 											});
-											poly.setMap(map);
-											polygonArray.push(poly);
+											enclosingpoly.setMap(map);
+											polygonArray.push(enclosingpoly);
 											// END build WKT
 										} else {
 											$("##mapdiv_" + locid).addClass('noWKT');
