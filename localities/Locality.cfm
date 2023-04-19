@@ -131,6 +131,7 @@ limitations under the License.
 						<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
 						</script>
 						<script>
+							var map;
 							var enclosingpoly;
 							var uncertantypoly;
 							function setupMap(locid){
@@ -151,7 +152,7 @@ limitations under the License.
 										fullscreenControl: true,
 										zoomControl: true
 									};
-									var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
+									map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
 
 									var center=new google.maps.LatLng(lat,lng);
 									var marker = new google.maps.Marker({
