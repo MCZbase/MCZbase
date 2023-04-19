@@ -174,7 +174,7 @@ limitations under the License.
 										bounds.union(crcl.getBounds());
 									}
 									// WKT can be big and slow, so async fetch
-									$.get( "/component/utilities.cfc?returnformat=plain&method=getGeogWKT&locality_id=" + locid, function( wkt ) {
+									$.get( "/component/utilities.cfc?returnformat=plain&method=getContainingGeographyWKT&locality_id=" + locid, function( wkt ) {
 										if (wkt.length>0){
 											var regex = /\(([^()]+)\)/g;
 											var Rings = [];
