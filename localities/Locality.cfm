@@ -360,8 +360,10 @@ limitations under the License.
 						</li>
 						<cfquery name="hasUncertantyPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 							SELECT count(*) ct
-							FROM accepted_lat_long
+							FROM lat_long
 							WHERE
+								accepted_lat_long_fg = 1
+								AND
 								error_polygon is not null
 								AND
 								locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
