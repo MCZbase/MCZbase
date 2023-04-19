@@ -208,22 +208,23 @@ limitations under the License.
 											poly.setMap(map);
 											polygonArray.push(poly);
 											// END build WKT
+											// expand bounds if needed
+											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+												bounds.extend(extendPoint1);
+												bounds.extend(extendPoint2);
+											}
+											map.fitBounds(bounds);
+											for(var a=0; a<polygonArray.length; a++){
+												if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
+													$("##mapdiv_" + locid).addClass('uglyGeoSPatData');
+												} else {
+													$("##mapdiv_" + locid).addClass('niceGeoSPatData');
+												}
+											}
 										} else {
 											$("##mapdiv_" + locid).addClass('noErrorWKT');
-										}
-										if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-											var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
-											var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
-											bounds.extend(extendPoint1);
-											bounds.extend(extendPoint2);
-										}
-										map.fitBounds(bounds);
-										for(var a=0; a<polygonArray.length; a++){
-											if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
-												$("##mapdiv_" + locid).addClass('uglyGeoSPatData');
-											} else {
-												$("##mapdiv_" + locid).addClass('niceGeoSPatData');
-											}
 										}
 									});
 									// Polygon for surrounding higher geography

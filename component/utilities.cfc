@@ -72,7 +72,7 @@
 	</cfquery>
 	<cfif lookupPolygon.recordcount GT 0>
 		<cfif left(lookupPolygon.error_polygon,5) is 'MEDIA'>
-			<cfset media_id = listlast(d.WKT_POLYGON,':')>
+			<cfset media_id = listlast(lookupPolygon.ERROR_POLYGON,':')>
 			<cfquery name="getMedia" datasource="uam_god">
 				select media_uri 
 				from media 
@@ -81,7 +81,7 @@
 			<cfhttp method="get" url="#getMedia.media_uri#"></cfhttp>
 			<cfreturn cfhttp.filecontent>
 		<cfelse>
-			<cfreturn lookupPolygon.WKT_POLYGON>
+			<cfreturn lookupPolygon.error_polygon>
 		</cfif>
 	<cfelse>
 		<cfreturn "">
