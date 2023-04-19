@@ -64,46 +64,54 @@ limitations under the License.
 
 -->
 <cfinclude template = "/shared/_header.cfm">
-<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+
+<cfset defaultSelectionMode = "none">
+<cfif defaultSelectionMode EQ "none">
+	<cfset defaultenablebrowserselection = "true">
+<cfelse>
+	<cfset defaultenablebrowserselection = "false">
+</cfif>	
+
+<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(transaction_id) as cnt FROM trans
 </cfquery>
-<cfquery name="ctSpecificType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctSpecificType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select distinct specific_type from mczbase.transaction_view order by specific_type
 </cfquery>
-<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select count(transaction_id), specific_type, transaction_type 
 	from mczbase.transaction_view 
 	group by specific_type, transaction_type
 	order by specific_type
 </cfquery>
-<cfquery name="ctStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select distinct status from mczbase.transaction_view order by status
 </cfquery>
-<cfquery name="ctLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctLoanType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select loan_type from ctloan_type order by loan_type
 </cfquery>
-<cfquery name="ctLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select loan_status from ctloan_status order by loan_status
 </cfquery>
-<cfquery name="ctAccnType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctAccnType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select accn_type from ctaccn_type order by accn_type
 </cfquery>
-<cfquery name="ctAccnStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctAccnStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select accn_status from ctaccn_status order by accn_status
 </cfquery>
-<cfquery name="ctDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctDeaccType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select deacc_type from ctdeacc_type order by deacc_type
 </cfquery>
-<cfquery name="ctDeaccStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctDeaccStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select deacc_status from ctdeacc_status order by deacc_status
 </cfquery>
-<cfquery name="ctBorrowStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctBorrowStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select borrow_status from ctborrow_status order by borrow_status
 </cfquery>
-<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
-<cfquery name="ctpermit_type_trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctpermit_type_trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
 	FROM ctpermit_type
 			left join permit on ctpermit_type.permit_type = permit.permit_type
@@ -118,7 +126,7 @@ limitations under the License.
 	group by ctpermit_type.permit_type
 	order by ctpermit_type.permit_type
 </cfquery>
-<cfquery name="ctspecific_permit_type_trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctspecific_permit_type_trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	FROM ctspecific_permit_type 
 		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
@@ -133,19 +141,19 @@ limitations under the License.
 	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	order by ctspecific_permit_type.specific_type
 </cfquery>
-<cfquery name="ctpermit_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctpermit_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select count(*) as ct, ctpermit_type.permit_type 
 	from ctpermit_type left join permit on ctpermit_type.permit_type = permit.permit_type
 	group by ctpermit_type.permit_type
 	order by ctpermit_type.permit_type
 </cfquery>
-<cfquery name="ctspecific_permit_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctspecific_permit_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select count(*) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type 
 	from ctspecific_permit_type left join permit on ctspecific_permit_type.specific_type = permit.specific_type
 	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	order by ctspecific_permit_type.specific_type
 </cfquery>
-<cfquery name="ctpermit_type_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctpermit_type_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
 	FROM ctpermit_type
 		left join permit on ctpermit_type.permit_type = permit.permit_type
@@ -162,7 +170,7 @@ limitations under the License.
 	GROUP BY ctpermit_type.permit_type
 	ORDER BY ctpermit_type.permit_type
 </cfquery>
-<cfquery name="ctspecific_permit_type_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctspecific_permit_type_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	FROM ctspecific_permit_type 
 		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
@@ -179,7 +187,7 @@ limitations under the License.
 	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
-<cfquery name="ctpermit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctpermit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
 	FROM ctpermit_type
 		left join permit on ctpermit_type.permit_type = permit.permit_type
@@ -196,7 +204,7 @@ limitations under the License.
 	GROUP BY ctpermit_type.permit_type
 	ORDER BY ctpermit_type.permit_type
 </cfquery>
-<cfquery name="ctspecific_permit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctspecific_permit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	FROM ctspecific_permit_type 
 		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
@@ -213,7 +221,7 @@ limitations under the License.
 	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
-<cfquery name="ctpermit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctpermit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
 	FROM ctpermit_type
 		left join permit on ctpermit_type.permit_type = permit.permit_type
@@ -230,7 +238,7 @@ limitations under the License.
 	GROUP BY ctpermit_type.permit_type
 	ORDER BY ctpermit_type.permit_type
 </cfquery>
-<cfquery name="ctspecific_permit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctspecific_permit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	FROM ctspecific_permit_type 
 		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
@@ -247,7 +255,7 @@ limitations under the License.
 	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
-<cfquery name="ctpermit_type_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctpermit_type_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
 	FROM ctpermit_type
 		left join permit on ctpermit_type.permit_type = permit.permit_type
@@ -264,7 +272,7 @@ limitations under the License.
 	GROUP BY ctpermit_type.permit_type
 	ORDER BY ctpermit_type.permit_type
 </cfquery>
-<cfquery name="ctspecific_permit_type_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctspecific_permit_type_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	FROM ctspecific_permit_type 
 		left join permit on ctspecific_permit_type.specific_type = permit.specific_type
@@ -281,10 +289,10 @@ limitations under the License.
 	GROUP BY ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	ORDER BY ctspecific_permit_type.specific_type
 </cfquery>
-<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select * from collection order by collection
 </cfquery>
-<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	SELECT count(*) as cnt, ct.trans_agent_role 
 	FROM cttrans_agent_role ct 
 		left join trans_agent on ct.trans_agent_role = trans_agent.trans_agent_role
@@ -2632,6 +2640,32 @@ limitations under the License.
 						</div>
 						<div id="columnPickDialogButton"></div>
 						<div id="resultDownloadButtonContainer"></div>
+						<div id="selectModeContainer" class="ml-3" style="display: none;" >
+							<script>
+								function changeSelectMode(){
+									var selmode = $("##selectMode").val();
+									$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
+									if (selmode=="none") { 
+										$("##searchResultsGrid").jqxGrid({enableBrowserSelection: true});
+									} else {
+										$("##searchResultsGrid").jqxGrid({enableBrowserSelection: false});
+									}
+								};
+							</script>
+							<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
+							<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
+								<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option #selected# value="none">Text</option>
+								<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option #selected# value="singlecell">Single Cell</option>
+								<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option #selected# value="singlerow">Single Row</option>
+								<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+								<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+							</select>
+						</div>
 						<output id="actionFeedback" class="btn btn-xs btn-transparent my-2 pt-1 px-2 mx-1 border-0"></output>
 					</div>
 					<div class="row mt-0 mx-0">
@@ -2829,6 +2863,7 @@ $(document).ready(function() {
 		$('##resultCount').html('');
 		$('##resultLink').html('');
 		$('##saveDialogButton').html('');
+		$('##selectModeContainer').hide();
 		$('##actionFeedback').html('');
 
 		var search =
@@ -2903,8 +2938,8 @@ $(document).ready(function() {
 			autoshowloadelement: false, // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'singlerow',
-			enablebrowserselection: true,
+			selectionmode: '#defaultSelectionMode#',
+			enablebrowserselection: #defaultenablebrowserselection#,
 			altrows: true,
 			showtoolbar: false,
 			ready: function () {
@@ -3042,6 +3077,7 @@ $(document).ready(function() {
 		$('##resultCount').html('');
 		$('##resultLink').html('');
 		$('##saveDialogButton').html('');
+		$('##selectModeContainer').hide();
 		$('##actionFeedback').html('');
 
 		var loanSearch =
@@ -3121,8 +3157,8 @@ $(document).ready(function() {
 			autoshowloadelement: false, // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'singlerow',
-			enablebrowserselection: true,
+			selectionmode: '#defaultSelectionMode#',
+			enablebrowserselection: #defaultenablebrowserselection#,
 			altrows: true,
 			showtoolbar: false,
 			ready: function () {
@@ -3213,6 +3249,7 @@ $(document).ready(function() {
 		$('##resultCount').html('');
 		$('##resultLink').html('');
 		$('##saveDialogButton').html('');
+		$('##selectModeContainer').hide();
 		$('##actionFeedback').html('');
 
 		var accnSearch =
@@ -3290,8 +3327,8 @@ $(document).ready(function() {
 			autoshowloadelement: false, // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'singlerow',
-			enablebrowserselection: true,
+			selectionmode: '#defaultSelectionMode#',
+			enablebrowserselection: #defaultenablebrowserselection#,
 			altrows: true,
 			showtoolbar: false,
 			ready: function () {
@@ -3380,6 +3417,7 @@ $(document).ready(function() {
 		$('##resultCount').html('');
 		$('##resultLink').html('');
 		$('##saveDialogButton').html('');
+		$('##selectModeContainer').hide();
 		$('##actionFeedback').html('');
 
 		var deaccessionSearch =
@@ -3458,8 +3496,8 @@ $(document).ready(function() {
 			autoshowloadelement: false, // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'singlerow',
-			enablebrowserselection: true,
+			selectionmode: '#defaultSelectionMode#',
+			enablebrowserselection: #defaultenablebrowserselection#,
 			altrows: true,
 			showtoolbar: false,
 			ready: function () {
@@ -3566,6 +3604,7 @@ $(document).ready(function() {
 		$('##resultCount').html('');
 		$('##resultLink').html('');
 		$('##saveDialogButton').html('');
+		$('##selectModeContainer').hide();
 		$('##actionFeedback').html('');
 
 		var borrowSearch =
@@ -3654,8 +3693,8 @@ $(document).ready(function() {
 			autoshowloadelement: false, // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'singlerow',
-			enablebrowserselection: true,
+			selectionmode: '#defaultSelectionMode#',
+			enablebrowserselection: #defaultenablebrowserselection#,
 			altrows: true,
 			showtoolbar: false,
 			ready: function () {
@@ -3924,6 +3963,7 @@ function gridLoaded(gridId, searchType) {
 	$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 	$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 	$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+	$('##selectModeContainer').show();
 }
 
 	</script> 

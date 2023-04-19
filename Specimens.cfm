@@ -81,6 +81,7 @@ limitations under the License.
 <cfelse>
 	<cfset defaultenablebrowserselection = "false">
 </cfif>	
+
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
 <cfelse>
