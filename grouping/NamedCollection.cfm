@@ -933,11 +933,11 @@ limitations under the License.
 											<script>
 												function changeSelectMode(){
 													var selmode = $("##selectMode").val();
-													$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
+													$("##catalogedItemsGrid").jqxGrid({selectionmode: selmode});
 													if (selmode=="none") { 
-														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: true});
+														$("##catalogedItemsGrid").jqxGrid({enableBrowserSelection: true});
 													} else {
-														$("##searchResultsGrid").jqxGrid({enableBrowserSelection: false});
+														$("##catalogedItemsGrid").jqxGrid({enableBrowserSelection: false});
 													}
 												};
 											</script>
