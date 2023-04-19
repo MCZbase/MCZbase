@@ -88,7 +88,7 @@ limitations under the License.
 	WHERE 
 		geog_auth_rec.higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getGeography.higher_geog#%">
 		AND
-		geog_auth_rec_id <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
+		geog_auth_rec.geog_auth_rec_id <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
 	GROUP BY 
 		geog_auth_rec.higher_geog, 
 		geog_auth_rec.geog_auth_rec_id
