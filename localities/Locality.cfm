@@ -142,7 +142,7 @@ limitations under the License.
 							} 
 							var map;
 							var enclosingpoly;
-							var uncertantypoly;
+							var uncertaintypoly;
 							function setupMap(locid){
 								$("input[id^='coordinates_']").each(function(e){
 									var coords=this.value;
@@ -217,8 +217,8 @@ limitations under the License.
 												fillColor: '##FFA200',
 												fillOpacity: 0.35
 											});
-											uncertantypoly.setMap(map);
-											polygonArray.push(uncertantypoly);
+											uncertaintypoly.setMap(map);
+											polygonArray.push(uncertaintypoly);
 											// END build WKT
 											// expand bounds if needed
 											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
@@ -369,7 +369,7 @@ limitations under the License.
 						</cfquery>
 						<li>
 							<cfif hasUncertantyPolygon.ct GT 0>
-								<span class="h3">Georeference has uncertanty polygon</span> <a onclick=" uncertantypoly.setVisible(!uncertantypoly.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(uncertantypoly.latLngs));">zoom to</a>
+								<span class="h3">Georeference has uncertanty polygon</span> <a onclick=" uncertaintypoly.setVisible(!uncertaintypoly.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(uncertaintypoly.latLngs));">zoom to</a>
 							<cfelse>
 								<span class="h3">No polygon with georeference</span>
 							</cfif>
