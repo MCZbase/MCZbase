@@ -2981,6 +2981,7 @@ $(document).ready(function() {
 			// add a link out to this search, serializing the form as http get parameters
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 			gridLoaded('searchResultsGrid','transaction');
+			changeSelectMode();
 		});
 		$('##searchResultsGrid').on('rowexpand', function (event) {
 			// Create a content div, add it to the detail row, and make it into a dialog.
