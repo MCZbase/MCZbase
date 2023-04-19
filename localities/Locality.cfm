@@ -143,6 +143,7 @@ limitations under the License.
 							var map;
 							var enclosingpoly;
 							var uncertaintypoly;
+							var errorcircle;
 							function setupMap(locid){
 								$("input[id^='coordinates_']").each(function(e){
 									var coords=this.value;
@@ -182,8 +183,8 @@ limitations under the License.
 											radius: parseInt(errorm),
 											zIndex:-99
 										};
-										crcl = new google.maps.Circle(circleoptn);
-										bounds.union(crcl.getBounds());
+										errorcircle = new google.maps.Circle(circleoptn);
+										bounds.union(errorcircle.getBounds());
 									}
 									// Polygon for error region, if specified
 									$.get( "/component/utilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&locality_id=" + locid, function( wkt ) {
@@ -374,6 +375,18 @@ limitations under the License.
 								<span class="h3">No polygon with georeference</span>
 							</cfif>
 						</li>
+						<li>
+							<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS GT 0>
+								<span class="h3">Coordinate uncertanty in meters = #getAcceptedGeoref.coordinateuncertantyinmeters#</span> <a onclick=" errorcircle.setVisible(!errorcircle.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(errorcircle.latLngs));">zoom to</a>
+							<cfelse>
+								<span class="h3">No error radius.</span>
+							</cfif>
+						</li>
+						<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS EQ "301">
+							<li>
+								<span class="h4 text-warning">Coordinate uncertanty of 301 is suspect, geolocate assigns this value when unable to calculate an error radius.<span>
+							</li>
+						</cfif>
 						</ul>
 						</div>
 					</div>
