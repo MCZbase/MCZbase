@@ -2981,7 +2981,6 @@ $(document).ready(function() {
 			// add a link out to this search, serializing the form as http get parameters
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 			gridLoaded('searchResultsGrid','transaction');
-			changeSelectMode();
 		});
 		$('##searchResultsGrid').on('rowexpand', function (event) {
 			// Create a content div, add it to the detail row, and make it into a dialog.
@@ -3965,6 +3964,7 @@ function gridLoaded(gridId, searchType) {
 	$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 	$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 	$('##selectModeContainer').show();
+	changeSelectMode();
 }
 
 	</script> 
