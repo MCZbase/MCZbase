@@ -67,7 +67,7 @@
 			lat_long
 		WHERE
 			locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-			and accepted_lat_long_fg = 1 and
+			and accepted_lat_long_fg = 1
 			and error_polygon is not null
 	</cfquery>
 	<cfif lookupPolygon.recordcount GT 0>
