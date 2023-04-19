@@ -330,12 +330,11 @@ limitations under the License.
 						</cfquery>
 					   <div style="height: 288px;width: 288px;">
 						  <cfif len(getAcceptedGeoref.dec_lat) gt 0 and len(getAcceptedGeoref.dec_long) gt 0 and (getAcceptedGeoref.dec_lat is not 0 and getAcceptedGeoref.dec_long is not 0)>
-							<cfset coordinates="#getAcceptedGeoref.dec_lat#,#getAcceptedGeoref.dec_long#">
-							<input type="hidden" id="coordinates_#getAcceptedGeoref.locality_id#" value="#coordinates#">
-							<input type="hidden" id="error_#getAcceptedGeoref.locality_id#" value="#getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS#">
-							<div id="mapdiv_#getAcceptedGeoref.locality_id#" style="width:100%; height:100%;"></div>
+								<cfset coordinates="#getAcceptedGeoref.dec_lat#,#getAcceptedGeoref.dec_long#">
+								<input type="hidden" id="coordinates_#getAcceptedGeoref.locality_id#" value="#coordinates#">
+								<input type="hidden" id="error_#getAcceptedGeoref.locality_id#" value="#getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS#">
+								<div id="mapdiv_#getAcceptedGeoref.locality_id#" style="width:100%; height:100%;"></div>
 							</cfif>
-							</div>
 						</div>
 						<ul>
 						<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
@@ -353,7 +352,7 @@ limitations under the License.
 						</cfquery>
 						<li>
 							<cfif hasHigherPolygon.ct GT 0>
-								<span class="h3">Higher Geography mappable</span> <a onclick=" enclosingpoly.setVisible(false); ">hide</a> <a onclick=" map.fitbounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
+								<span class="h3">Higher Geography mappable</span> <a onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
 							<cfelse>
 								<span class="h3">Higher geography not mappable</span>
 							</cfif>
@@ -370,12 +369,13 @@ limitations under the License.
 						</cfquery>
 						<li>
 							<cfif hasUncertantyPolygon.ct GT 0>
-								<span class="h3">Georeference has uncertanty polygon</span> <a onclick=" uncertantypoly.setVisible(false); ">hide</a> <a onclick=" map.fitbounds(findBounds(uncertantypoly.latLngs));">zoom to</a>
+								<span class="h3">Georeference has uncertanty polygon</span> <a onclick=" uncertantypoly.setVisible(!uncertantypoly.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(uncertantypoly.latLngs));">zoom to</a>
 							<cfelse>
 								<span class="h3">No polygon with georeference</span>
 							</cfif>
 						</li>
 						</ul>
+						</div>
 					</div>
 				</section>
 			</main>
