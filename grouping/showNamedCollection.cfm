@@ -23,7 +23,7 @@ limitations under the License.
 	<cfset debug ="">
 </cfif>
 <cfif isDefined("underscore_collection_id") AND len(underscore_collection_id) GT 0>
-	<cfquery name="getTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTitleGroup_result">
+	<cfquery name="getTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTitleGroup_result" timeout="#Application.short_timeout#">
 		SELECT collection_name
 		FROM underscore_collection
 		WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -44,7 +44,7 @@ limitations under the License.
 <cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 	<cfthrow message="No named group specified to show.">
 </cfif>
-<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
+<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result" timeout="#Application.short_timeout#">
 	SELECT underscore_collection_id, collection_name, description, html_description,
 		mask_fg,
 		displayed_media_id
@@ -353,7 +353,8 @@ limitations under the License.
 									altrows: true,
 									showtoolbar: false,
 									enabletooltips: true,
-									selectionmode: 'multiplecelladvanced',
+									selectionmode: 'text',
+									enablebrowserselection: true,
 									pageable: true,
 									columns: [
 										{ text: 'GUID', datafield: 'guid', width:'180', filtertype: 'input', cellsalign: 'left',cellsrenderer: cellsrenderer },
