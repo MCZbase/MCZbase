@@ -60,24 +60,16 @@
 --->
 <cffunction name="getGeoreferenceErrorWKT" returnType="string" access="remote">
 	<cfargument name="locality_id" type="numeric" required="yes">
-	<cfquery name="chkLatLong" datasource="uam_god">
-		SELECT * 
-		FROM lat_long
-		WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-			and accepted_lat_long_fg=1 
+	<cfquery name="lookupPolygon" datasource="uam_god">
+		SELECT
+			error_polygon 
+		FROM
+			lat_long
+		WHERE
+			locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			and accepted_lat_long_fg = 1 and
 			and error_polygon is not null
 	</cfquery>
-	<cfif chkLatLong.RecordCount EQ 1>
-		<cfquery name="lookupPolygon" datasource="uam_god">
-			select
-				error_polygon 
-			from
-				lat_long
-			where
-				locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-				and accepted_lat_long_fg = 1 and
-		</cfquery>
-	</cfif>
 	<cfif lookupPolygon.recordcount GT 0>
 		<cfif left(lookupPolygon.error_polygon,5) is 'MEDIA'>
 			<cfset media_id = listlast(d.WKT_POLYGON,':')>
@@ -117,7 +109,7 @@
 			and locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 	</cfquery>
 	<cfif lookupPolygon.recordcount GT 0>
-		<cfif left(d.WKT_POLYGON,5) is 'MEDIA'>
+		<cfif left(lookupPolygon.WKT_POLYGON,5) is 'MEDIA'>
 			<cfset media_id=listlast(lookupPolygon.WKT_POLYGON,':')>
 			<cfquery name="getMedia" datasource="uam_god">
 				select media_uri 
