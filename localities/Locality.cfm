@@ -131,6 +131,8 @@ limitations under the License.
 						<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
 						</script>
 						<script>
+							var enclosingpoly;
+							var uncertantypoly;
 							function setupMap(locid){
 								$("input[id^='coordinates_']").each(function(e){
 									var coords=this.value;
@@ -197,7 +199,7 @@ limitations under the License.
 												// now push the single-polygon array to the array of arrays (of polygons)
 												ptsArray.push(lary);
 											}
-											var uncertaintypoly = new google.maps.Polygon({
+											uncertaintypoly = new google.maps.Polygon({
 												paths: ptsArray,
 												strokeColor: '##FFA200',
 												strokeOpacity: 0.8,
@@ -252,7 +254,7 @@ limitations under the License.
 												// now push the single-polygon array to the array of arrays (of polygons)
 												ptsArray.push(lary);
 											}
-											var enclosingpoly = new google.maps.Polygon({
+											enclosingpoly = new google.maps.Polygon({
 												paths: ptsArray,
 												strokeColor: '##1E90FF',
 												strokeOpacity: 0.8,
