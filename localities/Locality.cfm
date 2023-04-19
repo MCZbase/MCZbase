@@ -174,7 +174,7 @@ limitations under the License.
 										bounds.union(crcl.getBounds());
 									}
 									// Polygon for error region, if specified
-									$.get( "/component/utilities.cfc?returnformat=plain&method=getGeoreferencErrorWKT&locality_id=" + locid, function( wkt ) {
+									$.get( "/component/utilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&locality_id=" + locid, function( wkt ) {
 										if (wkt.length>0){
 											var regex = /\(([^()]+)\)/g;
 											var Rings = [];
