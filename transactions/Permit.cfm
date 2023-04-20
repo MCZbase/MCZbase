@@ -271,6 +271,7 @@ limitations under the License.
 									<div id="columnPickDialogButton"></div>
 									<div id="resultDownloadButtonContainer"></div>
 									<div id="selectModeContainer" class="ml-3" style="display: none;" >
+										<cfoutput>
 										<script>
 											function changeSelectMode(){
 												var selmode = $("##selectMode").val();
@@ -295,6 +296,7 @@ limitations under the License.
 											<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 											<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
 										</select>
+										</cfoutput>
 									</div>
 									<output id="actionFeedback" class="btn btn-xs btn-transparent my-2 pt-1 px-2 mx-1 border-0"></output>
 								</div>
