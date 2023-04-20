@@ -1,6 +1,5 @@
 <cfset pageTitle = "Batch Tools">
 <cfinclude template = "/shared/_header.cfm">
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/scripts/demos.js"></script>
 
 <cfoutput>
 	<main class="container py-3">
