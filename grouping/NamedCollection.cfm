@@ -39,7 +39,15 @@ limitations under the License.
 <!---------------------------------------------------------------------------------->
 <cfset includeJQXEditor='true'>
 <cfinclude template = "/shared/_header.cfm">
+
 <cfset defaultSelectionMode = "none">
+<cfif defaultSelectionMode EQ "none">
+	<cfset defaultenablebrowserselection = "true">
+<cfelse>
+	<cfset defaultenablebrowserselection = "false">
+</cfif>	
+
+<!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<!--- Check for finer granularity permissions than rolecheck called in _header.cfm provides --->
 	<cfcase value="new">
@@ -354,7 +362,7 @@ limitations under the License.
 								columnsreorder: true,
 								groupable: true,
 								selectionmode: '#defaultSelectionMode#',
-								enablebrowserselection: true,
+								enablebrowserselection: #defaultenablebrowserselection#,
 								altrows: true,
 								showtoolbar: false,
 								columns: [
@@ -1065,7 +1073,7 @@ limitations under the License.
 								columnsreorder: true,
 								groupable: true,
 								selectionmode: '#defaultSelectionMode#',
-								enablebrowserselection: true,
+								enablebrowserselection: #defaultenablebrowserselection#,
 								altrows: true,
 								showtoolbar: false,
 								ready: function () {

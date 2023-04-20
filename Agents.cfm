@@ -20,7 +20,13 @@ limitations under the License.
 --->
 <cfset pageTitle = "Search Agents">
 <cfinclude template = "/shared/_header.cfm">
+
 <cfset defaultSelectionMode = "none">
+<cfif defaultSelectionMode EQ "none">
+	<cfset defaultenablebrowserselection = "true">
+<cfelse>
+	<cfset defaultenablebrowserselection = "false">
+</cfif>	
 
 <cfquery name="dist_prefix" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select distinct(prefix) as dist_prefix from person where prefix is not null
@@ -641,7 +647,7 @@ limitations under the License.
 						columnsreorder: true,
 						groupable: true,
 						selectionmode: '#defaultSelectionMode#',
-						enablebrowserselection: true,
+						enablebrowserselection: #defaultenablebrowserselection#,
 						altrows: true,
 						showtoolbar: false,
 						columns: [

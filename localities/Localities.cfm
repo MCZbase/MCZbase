@@ -35,6 +35,12 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
 <cfset defaultSelectionMode = "none">
+<cfif defaultSelectionMode EQ "none">
+	<cfset defaultenablebrowserselection = "true">
+<cfelse>
+	<cfset defaultenablebrowserselection = "false">
+</cfif>	
+<!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="search">
 
@@ -413,7 +419,7 @@ limitations under the License.
 								columnsreorder: true,
 								groupable: true,
 								selectionmode: '#defaultSelectionMode#',
-								enablebrowserselection: true,
+								enablebrowserselection: #defaultenablebrowserselection#,
 								altrows: true,
 								showtoolbar: false,
 								columns: [

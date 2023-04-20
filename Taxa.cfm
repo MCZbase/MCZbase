@@ -20,7 +20,13 @@ limitations under the License.
 
 <cfset addedMetaDescription = "Search MCZbase for taxonomic name records, including accepted, unaccepted, used, and unused names, higher taxonomy, and common names.">
 <cfinclude template = "/shared/_header.cfm">
+
 <cfset defaultSelectionMode = "none">
+<cfif defaultSelectionMode EQ "none">
+	<cfset defaultenablebrowserselection = "true">
+<cfelse>
+	<cfset defaultenablebrowserselection = "false">
+</cfif>	
 
 <cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 	select count(*) as cnt from taxonomy
@@ -805,7 +811,7 @@ limitations under the License.
 						columnsreorder: true,
 						groupable: true,
 						selectionmode: '#defaultSelectionMode#',
-						enablebrowserselection: true,
+						enablebrowserselection: #defaultenablebrowserselection#,
 						altrows: true,
 						showtoolbar: false,
 						ready: function () {
