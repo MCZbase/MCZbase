@@ -353,7 +353,7 @@ limitations under the License.
 									altrows: true,
 									showtoolbar: false,
 									enabletooltips: true,
-									selectionmode: 'text',
+									selectionmode: 'text',  // special case display grid as small pageable table rather than full grid, leaving as selection mode text for clarity
 									enablebrowserselection: true,
 									pageable: true,
 									columns: [

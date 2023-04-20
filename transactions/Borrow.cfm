@@ -1199,7 +1199,7 @@ limitations under the License.
 							autoshowloadelement: false, // overlay acts as load element for form+results
 							columnsreorder: true,
 							groupable: true,
-							selectionmode: 'singlerow',
+							selectionmode: 'singlerow', // editable grid, leaving as single row selection mode
 							altrows: true,
 							showtoolbar: false,
 							ready: function () {
