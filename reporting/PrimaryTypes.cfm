@@ -21,8 +21,16 @@ Report on primary types, by department.
 --->
 <cfset pageTitle = "Primary Type Report">
 <cfinclude template = "/shared/_header.cfm">
+
 <cfif not isDefined("collection")><cfset collection=""></cfif>
 <cfset selectedCollection = collection>
+
+<cfset defaultSelectionMode = "none">
+<cfif defaultSelectionMode EQ "none">
+	<cfset defaultenablebrowserselection = "true">
+<cfelse>
+	<cfset defaultenablebrowserselection = "false">
+</cfif>	
 
 <cfoutput>
 	<div id="overlaycontainer" style="position: relative;"> 
@@ -127,6 +135,32 @@ Report on primary types, by department.
 								</div>
 								<div id="columnPickDialogButton"></div>
 								<div id="resultDownloadButtonContainer"></div>
+								<div id="selectModeContainer" class="ml-3" style="display: none;" >
+									<script>
+										function changeSelectMode(){
+											var selmode = $("##selectMode").val();
+											$("##searchResultsGrid").jqxGrid({selectionmode: selmode});
+											if (selmode=="none") { 
+												$("##searchResultsGrid").jqxGrid({enableBrowserSelection: true});
+											} else {
+												$("##searchResultsGrid").jqxGrid({enableBrowserSelection: false});
+											}
+										};
+									</script>
+									<label class="data-entry-label d-inline w-auto mt-1" for="selectMode">Grid Select:</label>
+									<select class="data-entry-select d-inline w-auto mt-1" id="selectMode" onChange="changeSelectMode();">
+										<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option #selected# value="none">Text</option>
+										<cfif defaultSelectionMode EQ 'singlecell'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option #selected# value="singlecell">Single Cell</option>
+										<cfif defaultSelectionMode EQ 'singlerow'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option #selected# value="singlerow">Single Row</option>
+										<cfif defaultSelectionMode EQ 'multiplerowsextended'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option #selected# value="multiplerowsextended">Multiple Rows (click, drag, release)</option>
+										<cfif defaultSelectionMode EQ 'multiplecellsadvanced'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
+									</select>
+								</div>
 							</div>
 							<div class="row mt-0"> 
 							<!--- Grid Related code is below along with search handlers --->
@@ -187,6 +221,7 @@ Report on primary types, by department.
 					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 					$('##resultCount').html('');
 					$('##resultLink').html('');
+					$('##selectModeContainer').hide();
 			
 					var search =
 					{
@@ -261,7 +296,8 @@ Report on primary types, by department.
 						autoshowloadelement: false,  // overlay acts as load element for form+results
 						columnsreorder: true,
 						groupable: true,
-						selectionmode: 'singlerow',
+						selectionmode: '#defaultSelectionMode#',
+						enablebrowserselection: #defaultenablebrowserselection#,
 						altrows: true,
 						showtoolbar: false,
 						columns: [
@@ -407,6 +443,7 @@ Report on primary types, by department.
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mt-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##selectModeContainer').show();
 			}
 		</script> 
 	</div><!--- overlay container --->

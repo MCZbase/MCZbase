@@ -2205,7 +2205,7 @@ limitations under the License.
 									autoshowcolumnsmenubutton: false,
 									columnsreorder: true,
 									groupable: false,
-									selectionmode: 'singlerow',
+									selectionmode: 'singlerow',  // simple pick grid selection mode singlerow
 									altrows: true,
 									showtoolbar: false,
 									ready: function () {
@@ -5110,7 +5110,7 @@ limitations under the License.
 						autoshowcolumnsmenubutton: false,
 						columnsreorder: true,
 						groupable: false,
-						selectionmode: 'singlerow',
+						selectionmode: 'singlerow',  // small pick grid, selection mode singlerow
 						altrows: true,
 						showtoolbar: false,
 						ready: function () {

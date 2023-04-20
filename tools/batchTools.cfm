@@ -1,6 +1,5 @@
 <cfset pageTitle = "Batch Tools">
 <cfinclude template = "/shared/_header.cfm">
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/scripts/demos.js"></script>
 
 <cfoutput>
 	<main class="container py-3">
@@ -277,6 +276,7 @@
             $("##csvExport8").jqxButton();
 
             $("##csvExport8").click(function () {
+// TODO: Can't use exportdata, it needs a backing export function.  
                 $("##grid8").jqxGrid('exportdata', 'csv', 'jqxGrid');
             });
            
@@ -344,6 +344,7 @@
 								<h2 class="h3">Bulk Add Attributes</h2>
 								<h3 class="h5">Add Attributes to Existing Specimen Records</h3>
 								<script>
+// TODO: Change to example data by configuration, not hard coded in the coldfusion file.
 									function generatedata(rowscount, hasNullValues) {
 										// prepare the data
 										var data = new Array();
@@ -459,6 +460,8 @@
 													sortable: false,
 													columnsresize: true,
 													selectionmode: 'multiplecellsextended',
+// TODO: Use changable selection mode as in other grids.
+// TODO: Editable grid?  
 													columns: [
 													  { text: 'collection_cde', datafield: 'collection_cde', width: 115 },
 													  { text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },

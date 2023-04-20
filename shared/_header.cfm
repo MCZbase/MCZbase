@@ -46,11 +46,14 @@ limitations under the License.
 	<cfthrow message="Error: shared/_header.cfm was included from a page that does not set the required pageTitle.">
 </cfif>
 <title>#pageTitle# | MCZbase</title>
-<cfinclude template="/shared/functionLib.cfm">
 <!--- Easy to overlook this shared function file ---> 
+<cfinclude template="/shared/functionLib.cfm">
+<!--- switch out version of library files to use --->
+<cfset jqwidgets_ver = "jqwidgets_ver14.0.0">
+<cfset jqwidgets_ver = "jqwidgets_ver12.1.2">
 <!--- include stylesheets and javascript library files --->
 <link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css"><!---needed for overall look--->
-<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/styles/jqx.base.css"><!--- needed for jqxwidgets to work --->
+<link rel="stylesheet" href="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/styles/jqx.base.css"><!--- needed for jqxwidgets to work --->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
 <link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons-->
 <!--- NOTE, use either the fontawesome css implementation or the js implementation, not both.  CSS is substantially smaller, JS is minimum 1 MB --->
@@ -71,55 +74,55 @@ limitations under the License.
 <cfif isdefined("minimal") AND minimal IS 'true'>
 	<!--- faster load (for login page), don't include jqxwidgets library --->
 <cfelse> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxcore.js"></script>
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxdata.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxdata.export.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxgrid.js"></script> <!--- jqxgrid is the primary reason we are including jqwidgets ---> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxgrid.filter.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxgrid.edit.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxgrid.sort.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxgrid.selection.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxgrid.export.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxgrid.storage.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxcombobox.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxgrid.pager.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxgrid.grouping.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxgrid.aggregates.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxgrid.columnsresize.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxgrid.columnsreorder.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxscrollbar.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxwindow.js"></script>
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/globalization/globalize.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxbuttons.js"></script>
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxlistbox.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxdropdownlist.js"></script>
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxcore.js"></script>
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxdata.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxdata.export.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxgrid.js"></script> <!--- jqxgrid is the primary reason we are including jqwidgets ---> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxgrid.filter.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxgrid.edit.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxgrid.sort.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxgrid.selection.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxgrid.export.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxgrid.storage.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxcombobox.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxgrid.pager.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxgrid.grouping.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxgrid.aggregates.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxgrid.columnsresize.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxgrid.columnsreorder.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxscrollbar.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxwindow.js"></script>
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/globalization/globalize.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxbuttons.js"></script>
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxlistbox.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxdropdownlist.js"></script>
 	<!--- All jqwidgets below are suspect, include only if they provide functionality not available in jquery-ui.  ---> 
 	<!--- TODO: Remove all jqwidgets where functionality can be provided by jquery-ui ---> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxmenu.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxdatetimeinput.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxdate.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxslider.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxpanel.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxinput.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxdragdrop.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxcalendar.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxtree.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxinput.js"></script> 
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxexport.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxmenu.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxdatetimeinput.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxdate.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxslider.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxpanel.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxinput.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxdragdrop.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxcalendar.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxtree.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxinput.js"></script> 
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxexport.js"></script> 
 	<!---- End supspect block ----> 
 </cfif>
 
 <!---- JQX WSIWG text editor ---->
 <cfif isdefined("includeJQXEditor") AND includeJQXEditor IS 'true'>
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxscrollbar.js"></script>
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxdropdownbutton.js"></script>
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxcolorpicker.js"></script>
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxeditor.js"></script>
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxtooltip.js"></script>
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxcheckbox.js"></script>
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxscrollbar.js"></script>
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxdropdownbutton.js"></script>
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxcolorpicker.js"></script>
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxeditor.js"></script>
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxtooltip.js"></script>
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxcheckbox.js"></script>
 </cfif>
 <cfif isdefined("includeJQXMoreInputs") AND includeJQXMoreInputs IS 'true'>
-	<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver12.1.2/jqwidgets/jqxnumberinput.js"></script>
+	<script type="text/javascript" src="/lib/JQWidgets/#jqwidgets_ver#/jqwidgets/jqxnumberinput.js"></script>
 </cfif>
 
 <script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
