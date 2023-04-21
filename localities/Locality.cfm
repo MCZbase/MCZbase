@@ -165,12 +165,30 @@ limitations under the License.
 									map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
 
 									map.data.loadGeoJson('/localities/component/georefUtilities.cfc?method=getGeorefsGeoJSON&locality_id=' + locid);
+									map.data.setStyle(function(feature) {
+										var accepted = feature.getProperty('accepted');
+										var determiner = feature.getProperty('determiner');
+										var opacity = 1.0;
+										if (accepted=='Yes') { 
+											zindex = 15;
+											opacity = 1.0;
+										} else {
+											opacity = 0.5;
+											zindex = 11;
+										}
+										return {
+											opacity: opacity,
+											label: accepted,
+											title: determiner
+										};
+									});
 
 									var center=new google.maps.LatLng(lat,lng);
 									var marker = new google.maps.Marker({
 										position: center,
 										map: map,
-										zIndex: 10
+										zIndex: 10,
+										visible: false
 									});
 									bounds.extend(center);
 									if (parseInt(errorm)>0){
