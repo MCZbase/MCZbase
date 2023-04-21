@@ -103,6 +103,9 @@ table td .small {
 .border-lt-gray {
 	border: 1px solid #dbe0e1;
 }
+.bg-lt-gray {
+	background-color: #dbe0e1;
+}
 .border-wide-green {
 	border: 2px solid green !important;
 }
