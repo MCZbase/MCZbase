@@ -187,7 +187,7 @@ limitations under the License.
 										bounds.union(errorcircle.getBounds());
 									}
 									// Polygon for error region, if specified
-									$.get( "/component/utilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&locality_id=" + locid, function( wkt ) {
+									$.get( "/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&locality_id=" + locid, function( wkt ) {
 										if (wkt.length>0){
 											var regex = /\(([^()]+)\)/g;
 											var Rings = [];
@@ -242,7 +242,7 @@ limitations under the License.
 									});
 									// Polygon for surrounding higher geography
 									// WKT can be big and slow, so async fetch
-									$.get( "/component/utilities.cfc?returnformat=plain&method=getContainingGeographyWKT&locality_id=" + locid, function( wkt ) {
+									$.get( "/localities/component/georefUtilities.cfc?returnformat=plain&method=getContainingGeographyWKT&locality_id=" + locid, function( wkt ) {
 										if (wkt.length>0){
 											var regex = /\(([^()]+)\)/g;
 											var Rings = [];
@@ -335,6 +335,8 @@ limitations under the License.
 								<input type="hidden" id="coordinates_#getAcceptedGeoref.locality_id#" value="#coordinates#">
 								<input type="hidden" id="error_#getAcceptedGeoref.locality_id#" value="#getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS#">
 								<div id="mapdiv_#getAcceptedGeoref.locality_id#" style="width:100%; height:100%;"></div>
+							<cfelse>
+								<div class="h3 text-danger">No accepted georeferences</div>
 							</cfif>
 						</div>
 						<ul>
