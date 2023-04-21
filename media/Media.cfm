@@ -327,7 +327,59 @@ limitations under the License.
 		</cfquery>
 
 		<cfoutput>
-
+		<section class="jumbotron text-center">
+			<div class="container">
+				<h1 class="jumbotron-heading">Create Media Records</h1>
+				<p class="lead text-muted">
+					Select the stored type of the media you want to add to MCZbase. Each storage type has a different pathway to create a media record.
+				</p>
+			</div>
+		</section>
+		<div class="album py-5 bg-light">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="card mb-4 box-shadow">
+							<img class="card-img-top" data-src="" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="" data-holder-rendered="true">
+							<div class="card-body">
+								<p class="card-text">The shared drive is where MCZ files are stored and it located in a Harvard run facility.</p>
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="btn-group">
+										<button type="button" class="btn btn-xs btn-primary">Start</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card mb-4 box-shadow">
+							<img class="card-img-top" data-src="" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="" data-holder-rendered="true">
+							<div class="card-body">
+								<p class="card-text">External files could be stored anywhere outside of Harvard's facilities. Permission or copyright clearance must be on file before uploading.</p>
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="btn-group">
+										<button type="button" class="btn btn-xs btn-primary">Start</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card mb-4 box-shadow">
+							<img class="card-img-top" data-src="" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="" data-holder-rendered="true">
+							<div class="card-body">
+								<p class="card-text">DSpace is for larger files such as tif and/or for batch loading files. Metadata is submitted with the file and is kept in the media record and on DSpace.</p>
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="btn-group">
+										<button type="button" class="btn btn-xs btn-primary">Start</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 			<div class="container-fluid container-xl pb-5">
 				<div class="row mx-0">
 						<div class="col-12 px-2 border-bottom border-dark my-3">
