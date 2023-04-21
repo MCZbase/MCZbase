@@ -164,6 +164,8 @@ limitations under the License.
 									};
 									map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
 
+									map.data.loadGeoJSON('/localities/component/georefUtilities.cfc?method=getGeorefsGeoJSON&locality_id=' + locid);
+
 									var center=new google.maps.LatLng(lat,lng);
 									var marker = new google.maps.Marker({
 										position: center,
