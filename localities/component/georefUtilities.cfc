@@ -228,7 +228,7 @@ Utility methods to support display of spatial information on maps.
 	<cfif isJSON(retval)>
 		<cfreturn "#retval#">
 	<cfelse>
-		<cfif isDefined("debug") and debug="true">
+		<cfif isDefined("debug") and debug EQ "true">
 			<cfreturn "#retval#">
 		<cfelse>
 			<cfreturn "">
