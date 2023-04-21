@@ -1,4 +1,26 @@
+<!---
+localities/component/georefUtilties.cfc
+
+Copyright 2020-2023 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Utility methods to support display of spatial information on maps.
+
+--->
 <cfcomponent>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cf_rolecheck>
 
 <!--- getGeogWKT given a locality_id return the error polygon if there is one, or if not the 
   polygon for the containing higher geography, can obtain the wkt from either
@@ -145,7 +167,7 @@
 			and geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 	</cfquery>
 	<cfif lookupPolygon.recordcount GT 0>
-		<cfif left(d.WKT_POLYGON,5) is 'MEDIA'>
+		<cfif left(lookupPolygon.WKT_POLYGON,5) is 'MEDIA'>
 			<cfset media_id=listlast(lookupPolygon.WKT_POLYGON,':')>
 			<cfquery name="getMedia" datasource="uam_god">
 				select media_uri 
@@ -157,6 +179,53 @@
 		<cfelse>
 			<cfreturn lookupPolygon.WKT_POLYGON>
 		</cfif>
+	<cfelse>
+		<cfreturn "">
+	</cfif>
+</cffunction>
+
+<!--- getGeorefesGeoJSON given a locality_id return the georeferencs, accepted and otherwise
+  for the locality as geoJSON.
+  @param locality_id the primary key value for the locality.
+  @return geoJSON for the set georeferences or an http 500 on error
+--->
+<cffunction name="getGeorefsGeoJSON" returnType="string" access="remote">
+	<cfargument name="locality_id" type="numeric" required="yes">
+
+	<cfset retval = '{ "type": "FeatureCollection", "features": ['>
+	<cftry>
+		<cfquery name="lookupGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT
+				dec_lat, dec_long, datum,
+				decode(accepted_lat_long_fg,0,'No',1,'Yes','No') accepted,
+				to_meters(max_error_distance, max_error_units) coordinateuncertaintyinmeters,
+				det_by.agent_name determiner
+			FROM
+				lat_long
+				left join preferred_agent_name det_by on determined_by_agent_id = det_by.agent_id
+			WHERE
+				locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			ORDER BY
+				accepted_lat_long_fg desc, determined_date, lat_long_id
+		</cfquery>
+		<cfset separator = "">
+		<cfloop query="lookupGeorefs">
+			<cfset det = replace(determiner,'"','','All')><!--- remove quotes to embed in json --->
+    		<cfset retval = '#separator#{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [#dec)long#, #dec_lat#] },'>
+			<cfset retval = '#retval# "properties": { "accepted": "#accepted#", "datum": "#datum#", "coordinateuncertaintyinmeters": "#coordinateuncertaintyinmeters#", "determiner": "#det#" }'>
+   	 	<cfset retval = "#retval# }">		
+			<cfset separator = ",">
+		</cfquery>
+		<cfset retval = '#retval# ] }'>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfif isJSON(retval)>
+		<cfreturn "#retval#">
 	<cfelse>
 		<cfreturn "">
 	</cfif>
