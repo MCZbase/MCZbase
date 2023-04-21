@@ -191,6 +191,7 @@ Utility methods to support display of spatial information on maps.
 --->
 <cffunction name="getGeorefsGeoJSON" returnType="string" access="remote">
 	<cfargument name="locality_id" type="numeric" required="yes">
+	<cfargument name="debug" type="numeric" required="no">
 
 	<cfset retval = '{ "type": "FeatureCollection", "features": ['>
 	<cftry>
@@ -227,7 +228,11 @@ Utility methods to support display of spatial information on maps.
 	<cfif isJSON(retval)>
 		<cfreturn "#retval#">
 	<cfelse>
-		<cfreturn "">
+		<cfif isDefined("debug") and debug="true">
+			<cfreturn "#retval#">
+		<cfelse>
+			<cfreturn "">
+		</cfif>
 	</cfif>
 </cffunction>
 
