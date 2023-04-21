@@ -550,7 +550,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-md-4 p-5">
 						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray ">
-							<img class="card-img-top mx-auto" data-src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00010649_Myrmeleon_pallidipes_hef.jpg" alt="placeholder thumbnail" style="height: 100%; width: 350px; display: block;" src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00010649_Myrmeleon_pallidipes_hef.jpg" data-holder-rendered="true">
+							<img class="card-img-top mx-auto" data-src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00010649_Myrmeleon_pallidipes_hef.jpg" alt="placeholder thumbnail" style="height: 320px; width: 100%; display: block;" src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00010649_Myrmeleon_pallidipes_hef.jpg" data-holder-rendered="true">
 							<div class="card-body">
 								<p class="card-text">The shared drive is where MCZ files are stored and it located in a Harvard run facility.</p>
 								<div class="d-flex justify-content-between align-items-center">
