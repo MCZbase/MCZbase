@@ -537,7 +537,7 @@ limitations under the License.
 
 	<cfcase value="new">
 		<cfoutput>
-		<section class="jumbotron text-center">
+		<section class="jumbotron bg-white text-center">
 			<div class="container">
 				<h1 class="jumbotron-heading">Create Media Records</h1>
 				<p class="lead text-muted">
