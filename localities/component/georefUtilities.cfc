@@ -189,7 +189,7 @@ Utility methods to support display of spatial information on maps.
   @param locality_id the primary key value for the locality.
   @return geoJSON for the set georeferences or an http 500 on error
 --->
-<cffunction name="getGeorefsGeoJSON" returnType="string" access="remote">
+<cffunction name="getGeorefsGeoJSON" returntype="any" returnformat="json" access="remote">
 	<cfargument name="locality_id" type="numeric" required="yes">
 	<cfargument name="debug" type="numeric" required="no">
 
