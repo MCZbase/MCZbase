@@ -208,10 +208,10 @@ Utility methods to support display of spatial information on maps.
 			ORDER BY
 				accepted_lat_long_fg desc, determined_date, lat_long_id
 		</cfquery>
-		<cfset separator = "">
+		<cfset separator = " ">
 		<cfloop query="lookupGeorefs">
 			<cfset det = replace(determiner,'"','','All')><!--- remove quotes to embed in json --->
-    		<cfset retval = '#separator#{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [#dec_long#, #dec_lat#] },'>
+    		<cfset retval = '#retval##separator#{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [#dec_long#, #dec_lat#] },'>
 			<cfset retval = '#retval# "properties": { "accepted": "#accepted#", "datum": "#datum#", "coordinateuncertaintyinmeters": "#coordinateuncertaintyinmeters#", "determiner": "#det#" }'>
 			<cfset retval = "#retval# }">		
 			<cfset separator = ",">
