@@ -215,7 +215,7 @@ Utility methods to support display of spatial information on maps.
 			<cfset retval = '#retval# "properties": { "accepted": "#accepted#", "datum": "#datum#", "coordinateuncertaintyinmeters": "#coordinateuncertaintyinmeters#", "determiner": "#det#" }'>
 			<cfset retval = "#retval# }">		
 			<cfset separator = ",">
-		</cfquery>
+		</cfloop>
 		<cfset retval = '#retval# ] }'>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
