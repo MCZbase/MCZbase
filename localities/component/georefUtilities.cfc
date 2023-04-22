@@ -200,7 +200,8 @@ Utility methods to support display of spatial information on maps.
 				dec_lat, dec_long, datum,
 				decode(accepted_lat_long_fg,0,'No',1,'Yes','No') accepted,
 				to_meters(max_error_distance, max_error_units) coordinateuncertaintyinmeters,
-				det_by.agent_name determiner
+				det_by.agent_name determiner,
+				lat_long_id
 			FROM
 				lat_long
 				left join preferred_agent_name det_by on determined_by_agent_id = det_by.agent_id
@@ -213,7 +214,7 @@ Utility methods to support display of spatial information on maps.
 		<cfloop query="lookupGeorefs">
 			<cfset det = replace(determiner,'"','','All')><!--- remove quotes to embed in json --->
     		<cfset retval = '#retval##separator#{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [#dec_long#, #dec_lat#] },'>
-			<cfset retval = '#retval# "properties": { "accepted": "#accepted#", "datum": "#datum#", "coordinateuncertaintyinmeters": "#coordinateuncertaintyinmeters#", "determiner": "#det#" }'>
+			<cfset retval = '#retval# "properties": { "id": "#lat_long_id#", "accepted": "#accepted#", "datum": "#datum#", "coordinateuncertaintyinmeters": "#coordinateuncertaintyinmeters#", "determiner": "#det#" }'>
 			<cfset retval = "#retval# }">		
 			<cfset separator = ",">
 		</cfloop>

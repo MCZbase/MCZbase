@@ -165,7 +165,7 @@ limitations under the License.
 									};
 									map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
 
-									georefs = map.data.loadGeoJson('/localities/component/georefUtilities.cfc?method=getGeorefsGeoJSON&locality_id=' + locid);
+									map.data.loadGeoJson('/localities/component/georefUtilities.cfc?method=getGeorefsGeoJSON&locality_id=' + locid, { idPropertyName: "id"} );
 									map.data.setStyle(function(feature) {
 										var accepted = feature.getProperty('accepted');
 										var determiner = feature.getProperty('determiner');
