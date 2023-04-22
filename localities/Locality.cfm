@@ -171,12 +171,12 @@ limitations under the License.
 										var opacity = 1.0;
 										var title = '';
 										if (accepted=='Yes') { 
-											label = { text: 'A', color: 'black' };
+											label = '';
 											zindex = 15;
 											opacity = 1.0;
 											title='Accepted.'
 										} else {
-											label = '';
+											label = { text: 'n', color: 'black' };
 											opacity = 0.4;
 											zindex = 11;
 											title='Not Accepted.'
