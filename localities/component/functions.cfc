@@ -1250,15 +1250,21 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
 									</cfif>
 									#dec_lat#, #dec_long# #datum# ±#coordinateUncertaintyInMeters#m #original# #accepted_lat_long#
-									#det# #verificationstatus# #ver#
-									<button type="button" class="btn btn-xs btn-secondary" 
-										onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');"
-										aria-label = "Edit this georeference"
-									>Edit</button>
-									<button type="button" class="btn btn-xs btn-warning" 
-										onClick=" deleteGeoreference('#locality_id#','#lat_long_id#','#callbackName#');"
-										aria-label = "Delete this georeference from this locality"
-									>Delete</button>
+									<ul>
+										<li>
+											#georefmethod# #det# Verification: #verificationstatus# #ver#
+										</li>
+										<li>
+											<button type="button" class="btn btn-xs btn-secondary" 
+												onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');"
+												aria-label = "Edit this georeference"
+											>Edit</button>
+											<button type="button" class="btn btn-xs btn-warning" 
+												onClick=" deleteGeoreference('#locality_id#','#lat_long_id#','#callbackName#');"
+												aria-label = "Delete this georeference from this locality"
+											>Delete</button>
+										</li>
+									</ul>
 								</li>
 							</cfloop>
 							<li>

@@ -171,7 +171,7 @@ limitations under the License.
 										var opacity = 1.0;
 										var title = '';
 										if (accepted=='Yes') { 
-											label = { text: 'A' };
+											label = new google.maps.MarkerLabel({ text: 'A' });
 											zindex = 15;
 											opacity = 1.0;
 											title='Accepted.'
