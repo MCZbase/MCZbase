@@ -169,17 +169,23 @@ limitations under the License.
 										var accepted = feature.getProperty('accepted');
 										var determiner = feature.getProperty('determiner');
 										var opacity = 1.0;
+										var title = '';
 										if (accepted=='Yes') { 
+											label = 'A';
 											zindex = 15;
 											opacity = 1.0;
+											title='Accepted.'
 										} else {
+											label = '';
 											opacity = 0.5;
 											zindex = 11;
+											title='Not Accepted.'
 										}
+										title = title + ' Determiner: ' + determiner;
 										return {
 											opacity: opacity,
-											label: accepted,
-											title: determiner
+											label: label,
+											title: title
 										};
 									});
 

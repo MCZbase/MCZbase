@@ -1236,12 +1236,21 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<cfloop query="getGeoreferences">
 								<li>
 									<cfset original="">
+									<cfset det = "">
+									<cfset ver = "">
+									<cfif len(determined_by) GT 0>
+										<cfset det = " Determiner: #determined_by#. ">
+									</cfif>
+									<cfif len(verified_by) GT 0>
+										<cfset ver = " Verified by: #verified_by#. ">
+									</cfif>
 									<cfif len(utm_zone) GT 0>
 										<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
 									<cfelse>
 										<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
 									</cfif>
 									#dec_lat#, #dec_long# #datum# ±#coordinateUncertaintyInMeters#m #original# #accepted_lat_long#
+									#det# #verification_status# #ver#
 									<button type="button" class="btn btn-xs btn-secondary" 
 										onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');"
 										aria-label = "Edit this georeference"
