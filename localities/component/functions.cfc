@@ -1249,10 +1249,14 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<cfelse>
 										<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
 									</cfif>
-									#dec_lat#, #dec_long# #datum# ±#coordinateUncertaintyInMeters#m 
+									<cfset spanClass="">
+									<cfif accepted_lat_long EQ "Accepted">
+										<cfset spanClass="font-weight-bold">
+									</cfif>
+									<span class="#spanClass#">#dec_lat#, #dec_long# #datum# ±#coordinateUncertaintyInMeters#m</span>
 									<ul>
 										<li>
-											#original# #accepted_lat_long#
+											#original# <span class="#spanClass#">#accepted_lat_long#</span>
 										</li>
 										<li>
 											Method: #georefmethod# #det# Verification: #verificationstatus# #ver#

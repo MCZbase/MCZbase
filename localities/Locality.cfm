@@ -412,7 +412,7 @@ limitations under the License.
 						</li>
 						<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS EQ "301">
 							<li>
-								<span class="h4 text-warning">Coordinate uncertanty of 301 is suspect, geolocate assigns this value when unable to calculate an error radius.<span>
+								<span class="h4 text-danger">Coordinate uncertanty of 301 is suspect, geolocate assigns this value when unable to calculate an error radius.<span>
 							</li>
 						</cfif>
 						</ul>
