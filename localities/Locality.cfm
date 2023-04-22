@@ -176,9 +176,9 @@ limitations under the License.
 											opacity = 1.0;
 											title='Accepted.'
 										} else {
-											label = { text: 'n', color: 'black' };
+											label = { text: 'n' };
 											opacity = 0.4;
-											zindex = 11;
+											zindex = 3;
 											title='Not Accepted.'
 										}
 										title = title + ' Determiner: ' + determiner;
