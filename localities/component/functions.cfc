@@ -1249,11 +1249,19 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<cfelse>
 										<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
 									</cfif>
-									#dec_lat#, #dec_long# #datum# ±#coordinateUncertaintyInMeters#m #original# #accepted_lat_long#
+									#dec_lat#, #dec_long# #datum# ±#coordinateUncertaintyInMeters#m 
 									<ul>
 										<li>
-											#georefmethod# #det# Verification: #verificationstatus# #ver#
+											#original# #accepted_lat_long#
 										</li>
+										<li>
+											Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
+										</li>
+										<cfif len(geolocate_score) GT 0>
+											<li>
+												GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
+											</li>
+										</cfif>
 										<li>
 											<button type="button" class="btn btn-xs btn-secondary" 
 												onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');"
