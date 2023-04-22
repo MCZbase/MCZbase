@@ -207,7 +207,7 @@ Utility methods to support display of spatial information on maps.
 			WHERE
 				locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			ORDER BY
-				accepted_lat_long_fg desc, determined_date, lat_long_id
+				accepted_lat_long_fg asc, determined_date, lat_long_id
 		</cfquery>
 		<cfset separator = " ">
 		<cfloop query="lookupGeorefs">
