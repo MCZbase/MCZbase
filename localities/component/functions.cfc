@@ -1250,7 +1250,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
 									</cfif>
 									#dec_lat#, #dec_long# #datum# ±#coordinateUncertaintyInMeters#m #original# #accepted_lat_long#
-									#det# #verification_status# #ver#
+									#det# #verificationstatus# #ver#
 									<button type="button" class="btn btn-xs btn-secondary" 
 										onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');"
 										aria-label = "Edit this georeference"
