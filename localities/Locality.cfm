@@ -126,7 +126,7 @@ limitations under the License.
 							<div id="georeferencesDiv">#georeferences#</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 pt-5">
 						<!--- map --->
 						<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
 						</script>
@@ -369,7 +369,7 @@ limitations under the License.
 							FROM getGeoreferences
 							WHERE accepted_lat_long_fg=1
 						</cfquery>
-					   <div style="height: 350px;width: 350px;">
+					   <div class="mb-2" style="height: 350px;width: 350px;">
 							<!--- TODO: Display a map even if no georeferences, higher geography may have spatial representation. --->
 							<cfif len(getAcceptedGeoref.dec_lat) gt 0 and len(getAcceptedGeoref.dec_long) gt 0 and (getAcceptedGeoref.dec_lat is not 0 and getAcceptedGeoref.dec_long is not 0)>
 								<cfset coordinates="#getAcceptedGeoref.dec_lat#,#getAcceptedGeoref.dec_long#">
