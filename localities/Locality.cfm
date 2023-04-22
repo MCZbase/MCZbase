@@ -186,12 +186,14 @@ limitations under the License.
 										title = title + ' Determiner: ' + determiner;
 										if (accepted=='Yes') { 
 											return {
+												zIndex: zindex,
 												opacity: opacity,
 												label: label,
 												title: title
 											};
 										} else {
 											return {
+												zIndex: zindex,
 												opacity: opacity,
 												label: label,
 												icon: icon,
