@@ -142,6 +142,7 @@ limitations under the License.
 							} 
 							var map;
 							var enclosingpoly;
+							var georefs;
 							var uncertaintypoly;
 							var errorcircle;
 							function setupMap(locid){
@@ -164,7 +165,7 @@ limitations under the License.
 									};
 									map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
 
-									map.data.loadGeoJson('/localities/component/georefUtilities.cfc?method=getGeorefsGeoJSON&locality_id=' + locid);
+									georefs = map.data.loadGeoJson('/localities/component/georefUtilities.cfc?method=getGeorefsGeoJSON&locality_id=' + locid);
 									map.data.setStyle(function(feature) {
 										var accepted = feature.getProperty('accepted');
 										var determiner = feature.getProperty('determiner');
@@ -177,16 +178,26 @@ limitations under the License.
 											title='Accepted.'
 										} else {
 											label = { text: 'n' };
+											icon = '/shared/images/map_pin_grey.png';
 											opacity = 0.4;
 											zindex = 3;
 											title='Not Accepted.'
 										}
 										title = title + ' Determiner: ' + determiner;
-										return {
-											opacity: opacity,
-											label: label,
-											title: title
-										};
+										if (accepted=='Yes') { 
+											return {
+												opacity: opacity,
+												label: label,
+												title: title
+											};
+										} else {
+											return {
+												opacity: opacity,
+												label: label,
+												icon: icon,
+												title: title
+											};
+										} 
 									});
 
 									var center=new google.maps.LatLng(lat,lng);
