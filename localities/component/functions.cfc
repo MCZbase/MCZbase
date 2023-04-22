@@ -1267,6 +1267,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</li>
 										</cfif>
 										<li>
+											<span onMouseOver=' map.data.forEach(function (feature) { console.log(feature.m); if (feature.m == "#lat_long_id#") { console.log("matched"); map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); '>Highlight on map</span>
 											<button type="button" class="btn btn-xs btn-secondary" 
 												onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');"
 												aria-label = "Edit this georeference"
