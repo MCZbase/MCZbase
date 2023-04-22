@@ -164,11 +164,37 @@ limitations under the License.
 									};
 									map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
 
+									map.data.loadGeoJson('/localities/component/georefUtilities.cfc?method=getGeorefsGeoJSON&locality_id=' + locid);
+									map.data.setStyle(function(feature) {
+										var accepted = feature.getProperty('accepted');
+										var determiner = feature.getProperty('determiner');
+										var opacity = 1.0;
+										var title = '';
+										if (accepted=='Yes') { 
+											label = '';
+											zindex = 15;
+											opacity = 1.0;
+											title='Accepted.'
+										} else {
+											label = { text: 'n' };
+											opacity = 0.4;
+											zindex = 3;
+											title='Not Accepted.'
+										}
+										title = title + ' Determiner: ' + determiner;
+										return {
+											opacity: opacity,
+											label: label,
+											title: title
+										};
+									});
+
 									var center=new google.maps.LatLng(lat,lng);
 									var marker = new google.maps.Marker({
 										position: center,
 										map: map,
-										zIndex: 10
+										zIndex: 10,
+										visible: false
 									});
 									bounds.extend(center);
 									if (parseInt(errorm)>0){
@@ -187,7 +213,7 @@ limitations under the License.
 										bounds.union(errorcircle.getBounds());
 									}
 									// Polygon for error region, if specified
-									$.get( "/component/utilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&locality_id=" + locid, function( wkt ) {
+									$.get( "/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&locality_id=" + locid, function( wkt ) {
 										if (wkt.length>0){
 											var regex = /\(([^()]+)\)/g;
 											var Rings = [];
@@ -204,7 +230,7 @@ limitations under the License.
 													var xy = da[j].trim().split(" ");
 													var pt=new google.maps.LatLng(xy[1],xy[0]);
 													lary.push(pt);
-													console.log(lary);
+													// console.log(lary);
 													bounds.extend(pt);
 												}
 												// now push the single-polygon array to the array of arrays (of polygons)
@@ -242,7 +268,7 @@ limitations under the License.
 									});
 									// Polygon for surrounding higher geography
 									// WKT can be big and slow, so async fetch
-									$.get( "/component/utilities.cfc?returnformat=plain&method=getContainingGeographyWKT&locality_id=" + locid, function( wkt ) {
+									$.get( "/localities/component/georefUtilities.cfc?returnformat=plain&method=getContainingGeographyWKT&locality_id=" + locid, function( wkt ) {
 										if (wkt.length>0){
 											var regex = /\(([^()]+)\)/g;
 											var Rings = [];
@@ -259,7 +285,7 @@ limitations under the License.
 													var xy = da[j].trim().split(" ");
 													var pt=new google.maps.LatLng(xy[1],xy[0]);
 													lary.push(pt);
-													console.log(lary);
+													// console.log(lary);
 													bounds.extend(pt);
 												}
 												// now push the single-polygon array to the array of arrays (of polygons)
@@ -335,6 +361,8 @@ limitations under the License.
 								<input type="hidden" id="coordinates_#getAcceptedGeoref.locality_id#" value="#coordinates#">
 								<input type="hidden" id="error_#getAcceptedGeoref.locality_id#" value="#getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS#">
 								<div id="mapdiv_#getAcceptedGeoref.locality_id#" style="width:100%; height:100%;"></div>
+							<cfelse>
+								<div class="h3 text-danger">No accepted georeferences</div>
 							</cfif>
 						</div>
 						<ul>
@@ -384,7 +412,7 @@ limitations under the License.
 						</li>
 						<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS EQ "301">
 							<li>
-								<span class="h4 text-warning">Coordinate uncertanty of 301 is suspect, geolocate assigns this value when unable to calculate an error radius.<span>
+								<span class="h4 text-danger">Coordinate uncertanty of 301 is suspect, geolocate assigns this value when unable to calculate an error radius.<span>
 							</li>
 						</cfif>
 						</ul>

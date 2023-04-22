@@ -1236,20 +1236,47 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<cfloop query="getGeoreferences">
 								<li>
 									<cfset original="">
+									<cfset det = "">
+									<cfset ver = "">
+									<cfif len(determined_by) GT 0>
+										<cfset det = " Determiner: #determined_by#. ">
+									</cfif>
+									<cfif len(verified_by) GT 0>
+										<cfset ver = " Verified by: #verified_by#. ">
+									</cfif>
 									<cfif len(utm_zone) GT 0>
 										<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
 									<cfelse>
 										<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
 									</cfif>
-									#dec_lat#, #dec_long# #datum# ±#coordinateUncertaintyInMeters#m #original# #accepted_lat_long#
-									<button type="button" class="btn btn-xs btn-secondary" 
-										onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');"
-										aria-label = "Edit this georeference"
-									>Edit</button>
-									<button type="button" class="btn btn-xs btn-warning" 
-										onClick=" deleteGeoreference('#locality_id#','#lat_long_id#','#callbackName#');"
-										aria-label = "Delete this georeference from this locality"
-									>Delete</button>
+									<cfset spanClass="">
+									<cfif accepted_lat_long EQ "Accepted">
+										<cfset spanClass="font-weight-bold">
+									</cfif>
+									<span class="#spanClass#">#dec_lat#, #dec_long# #datum# ±#coordinateUncertaintyInMeters#m</span>
+									<ul>
+										<li>
+											#original# <span class="#spanClass#">#accepted_lat_long#</span>
+										</li>
+										<li>
+											Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
+										</li>
+										<cfif len(geolocate_score) GT 0>
+											<li>
+												GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
+											</li>
+										</cfif>
+										<li>
+											<button type="button" class="btn btn-xs btn-secondary" 
+												onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');"
+												aria-label = "Edit this georeference"
+											>Edit</button>
+											<button type="button" class="btn btn-xs btn-warning" 
+												onClick=" deleteGeoreference('#locality_id#','#lat_long_id#','#callbackName#');"
+												aria-label = "Delete this georeference from this locality"
+											>Delete</button>
+										</li>
+									</ul>
 								</li>
 							</cfloop>
 							<li>
