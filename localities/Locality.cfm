@@ -179,7 +179,7 @@ limitations under the License.
 										} else {
 											label = { text: 'n' };
 											icon = '/shared/images/map_pin_grey.png';
-											opacity = 0.4;
+											opacity = 0.6;
 											zindex = 3;
 											title='Not Accepted.'
 										}
