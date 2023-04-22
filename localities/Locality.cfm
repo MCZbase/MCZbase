@@ -171,13 +171,13 @@ limitations under the License.
 										var opacity = 1.0;
 										var title = '';
 										if (accepted=='Yes') { 
-											label = 'A';
+											label = { text: 'A' };
 											zindex = 15;
 											opacity = 1.0;
 											title='Accepted.'
 										} else {
 											label = '';
-											opacity = 0.5;
+											opacity = 0.4;
 											zindex = 11;
 											title='Not Accepted.'
 										}
@@ -230,7 +230,7 @@ limitations under the License.
 													var xy = da[j].trim().split(" ");
 													var pt=new google.maps.LatLng(xy[1],xy[0]);
 													lary.push(pt);
-													console.log(lary);
+													// console.log(lary);
 													bounds.extend(pt);
 												}
 												// now push the single-polygon array to the array of arrays (of polygons)
@@ -285,7 +285,7 @@ limitations under the License.
 													var xy = da[j].trim().split(" ");
 													var pt=new google.maps.LatLng(xy[1],xy[0]);
 													lary.push(pt);
-													console.log(lary);
+													// console.log(lary);
 													bounds.extend(pt);
 												}
 												// now push the single-polygon array to the array of arrays (of polygons)
