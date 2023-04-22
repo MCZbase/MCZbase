@@ -146,6 +146,7 @@ limitations under the License.
 							var uncertaintypoly;
 							var errorcircle;
 							function setupMap(locid){
+								// TODO: create map even if no georeferences 
 								$("input[id^='coordinates_']").each(function(e){
 									var coords=this.value;
 									var bounds = new google.maps.LatLngBounds();
@@ -154,9 +155,10 @@ limitations under the License.
 									var lat=coords.split(',')[0];
 									var lng=coords.split(',')[1];
 									var errorm=$("##error_" + locid).val();
+									// start with world map
 									var mapOptions = {
 										zoom: 1,
-										center: new google.maps.LatLng(lat, lng),
+										center: new google.maps.LatLng(0, 0),
 										mapTypeId: google.maps.MapTypeId.ROADMAP,
 										panControl: false,
 										scaleControl: true,
@@ -165,6 +167,8 @@ limitations under the License.
 									};
 									map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
 
+									// obtain georeferences 
+									// TODO: load via ajax and then map.data.addGeoJson
 									map.data.loadGeoJson('/localities/component/georefUtilities.cfc?method=getGeorefsGeoJSON&locality_id=' + locid, { idPropertyName: "id"} );
 									map.data.setStyle(function(feature) {
 										var accepted = feature.getProperty('accepted');
@@ -202,13 +206,9 @@ limitations under the License.
 										} 
 									});
 
+									// circle for coordinate uncertanty in meters, if specified
+									// TODO: look up from webservice
 									var center=new google.maps.LatLng(lat,lng);
-									var marker = new google.maps.Marker({
-										position: center,
-										map: map,
-										zIndex: 10,
-										visible: false
-									});
 									bounds.extend(center);
 									if (parseInt(errorm)>0){
 										var circleoptn = {
@@ -225,7 +225,8 @@ limitations under the License.
 										errorcircle = new google.maps.Circle(circleoptn);
 										bounds.union(errorcircle.getBounds());
 									}
-									// Polygon for error region, if specified
+
+									// Polygon for error region, if specified, ajax load.
 									$.get( "/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&locality_id=" + locid, function( wkt ) {
 										if (wkt.length>0){
 											var regex = /\(([^()]+)\)/g;
@@ -368,8 +369,9 @@ limitations under the License.
 							FROM getGeoreferences
 							WHERE accepted_lat_long_fg=1
 						</cfquery>
-					   <div style="height: 288px;width: 288px;">
-						  <cfif len(getAcceptedGeoref.dec_lat) gt 0 and len(getAcceptedGeoref.dec_long) gt 0 and (getAcceptedGeoref.dec_lat is not 0 and getAcceptedGeoref.dec_long is not 0)>
+					   <div style="height: 350px;width: 350px;">
+							// TODO: Display a map even if no georeferences, higher geography may have spatial representation.
+							<cfif len(getAcceptedGeoref.dec_lat) gt 0 and len(getAcceptedGeoref.dec_long) gt 0 and (getAcceptedGeoref.dec_lat is not 0 and getAcceptedGeoref.dec_long is not 0)>
 								<cfset coordinates="#getAcceptedGeoref.dec_lat#,#getAcceptedGeoref.dec_long#">
 								<input type="hidden" id="coordinates_#getAcceptedGeoref.locality_id#" value="#coordinates#">
 								<input type="hidden" id="error_#getAcceptedGeoref.locality_id#" value="#getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS#">
