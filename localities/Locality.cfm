@@ -370,7 +370,7 @@ limitations under the License.
 							WHERE accepted_lat_long_fg=1
 						</cfquery>
 					   <div style="height: 350px;width: 350px;">
-							// TODO: Display a map even if no georeferences, higher geography may have spatial representation.
+							<!--- TODO: Display a map even if no georeferences, higher geography may have spatial representation. --->
 							<cfif len(getAcceptedGeoref.dec_lat) gt 0 and len(getAcceptedGeoref.dec_long) gt 0 and (getAcceptedGeoref.dec_lat is not 0 and getAcceptedGeoref.dec_long is not 0)>
 								<cfset coordinates="#getAcceptedGeoref.dec_lat#,#getAcceptedGeoref.dec_long#">
 								<input type="hidden" id="coordinates_#getAcceptedGeoref.locality_id#" value="#coordinates#">
