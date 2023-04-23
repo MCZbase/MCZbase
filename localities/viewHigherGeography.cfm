@@ -196,7 +196,7 @@ limitations under the License.
 							fullscreenControl: true,
 							zoomControl: true
 						};
-						map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
+						map = new google.maps.Map(document.getElementById("mapdiv_" + geog_auth_rec_id), mapOptions);
 
 						// obtain georeferences 
 						$.getJSON("/localities/component/georefUtilities.cfc",
@@ -286,7 +286,7 @@ limitations under the License.
 								enclosingpoly.setMap(map);
 								polygonArray.push(enclosingpoly);
 							} else {
-								$("##mapdiv_" + locid).addClass('noWKT');
+								$("##mapdiv_" + geog_auth_rec_id).addClass('noWKT');
 							}
 							if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
 								var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
@@ -297,16 +297,16 @@ limitations under the License.
 							map.fitBounds(bounds);
 							for(var a=0; a<polygonArray.length; a++){
 								if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
-									$("##mapdiv_" + locid).addClass('uglyGeoSPatData');
+									$("##mapdiv_" + geog_auth_rec_id).addClass('uglyGeoSPatData');
 								} else {
-									$("##mapdiv_" + locid).addClass('niceGeoSPatData');
+									$("##mapdiv_" + geog_auth_rec_id).addClass('niceGeoSPatData');
 								}
 							}
 						});
 						map.fitBounds(bounds);
 					};
 					$(document).ready(function() {
-						setupMap(#locality_id#);
+						setupMap(#geog_auth_rec_id#);
 					});
 				</script>
 			   <div class="mb-2" style="height: 350px;width: 350px;">
