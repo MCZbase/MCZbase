@@ -202,7 +202,7 @@ limitations under the License.
 						// obtain georeferences 
 						$.getJSON("/localities/component/georefUtilities.cfc",
 	      				{
-								method : "",
+								method : "getLocalityGeorefsGeoJSON",
 								geog_auth_rec_id: #geog_auth_rec_id#,
 								returnformat : "json"
 							},
