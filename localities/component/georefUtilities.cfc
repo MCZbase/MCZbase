@@ -265,6 +265,7 @@ Utility methods to support display of spatial information on maps.
 				accepted_lat_long_fg = 1
 				and
 				geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+				and dec_lat is not null and dec_long is not null
 		</cfquery>
 		<cfset separator = " ">
 		<cfloop query="lookupGeorefs">
