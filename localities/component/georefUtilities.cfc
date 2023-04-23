@@ -258,7 +258,7 @@ Utility methods to support display of spatial information on maps.
 				lat_long_id
 			FROM
 				locality 
-				join lat_long on locality_id = lat_long.locality_id
+				join lat_long on locality.locality_id = lat_long.locality_id
 				left join preferred_agent_name det_by on determined_by_agent_id = det_by.agent_id
 			WHERE
 				accepted_lat_long_fg = 1
