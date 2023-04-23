@@ -246,6 +246,14 @@ limitations under the License.
 											};
 										} 
 									});
+									// fit the map bounds to the loaded features
+									var bounds = new google.maps.LatLngBounds(); 
+									map.data.forEach(function(feature){
+										feature.getGeometry().forEachLatLng(function(latlng){
+											bounds.extend(latlng);
+										});
+									});
+									map.fitBounds(bounds);
 								}
 							}
 						).fail(function(jqXHR,textStatus,error){
