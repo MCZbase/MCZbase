@@ -104,61 +104,231 @@ limitations under the License.
 <cfoutput>
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
-			<cfloop query="getGeography">
-				<h1 class="h2">#getGeography.higher_geog#</h1>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
-						<a href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a>
-				</cfif>
+			<div class="col-12 col-md-8 row">
+				<cfloop query="getGeography">
+					<h1 class="h2">#getGeography.higher_geog#</h1>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+							<a href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+					</cfif>
+					<div class="col-12">
+						<ul>
+							<li>Continent/Ocean: #continent_ocean#</li>
+							<li>Cataloged Items: <a href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&higher_geog=%3D#encodeForUrl(higher_geog)#">#specimenCount#</a></li>
+						</ul>		
+					</div>
+				</cfloop>
+				<h2 class="h3">Localities (<a href="https://mczbase-test.rc.fas.harvard.edu/localities/Localities.cfm?action=search&execute=true&method=getLocalities&geog_auth_rec_id=#geog_auth_rec_id#">#getLocalities.recordcount#</a>)</h2>
 				<div class="col-12">
 					<ul>
-						<li>Continent/Ocean: #continent_ocean#</li>
-						<li>Cataloged Items: <a href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&higher_geog=%3D#encodeForUrl(higher_geog)#">#specimenCount#</a></li>
-					</ul>		
-				</div>
-			</cfloop>
-			<h2 class="h3">Localities (<a href="https://mczbase-test.rc.fas.harvard.edu/localities/Localities.cfm?action=search&execute=true&method=getLocalities&geog_auth_rec_id=#geog_auth_rec_id#">#getLocalities.recordcount#</a>)</h2>
-			<div class="col-12">
-				<ul>
-					<cfif getLocalities.recordcount LT 11>
-						<cfloop query="getLocalities">
-							<li>
-								<cfset summary = getLocalitySummary(locality_id="#getLocalities.locality_id#")>
-								<a href="/localities/Locality.cfm?locality_id=#getLocalities.locality_id#">#getLocalities.spec_locality#</a> #summary# 
-							</li>
-						</cfloop>
-					<cfelse>
-						<cfquery name="getLocSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLocSummary_result">
-							SELECT
-								count(locality.locality_id) ct,
-								count(accepted_lat_long.locality_id) georef_ct,
-								curated_fg
-							FROM
-								locality
-								left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
-							WHERE
-								geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
-							GROUP BY
-								curated_fg
-						</cfquery>
-						<cfloop query="getLocSummary">
-							<cfif curated_fg EQ "1"><cfset curated="Vetted (*)"><cfelse><cfset curated="Not Vetted"></cfif>
-							<li>#curated# #getLocSummary.ct# localities, #getLocSummary.georef_ct# with georeferences.</li> 
-						</cfloop>
-					</cfif>
-				</ul>
-			</div>
-			<h2 class="h3">Contained Geographies (#getChildren.recordcount#)</h2>
-			<div class="col-12">
-				<cfloop query="getChildren">
-					<ul>
-						<li>
-							<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getChildren.geog_auth_rec_id#">#getChildren.higher_geog#</a> 
-							<cfif getChildren.ct GT 0>
-								(<a href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&higher_geog=%3D#encodeForUrl(getChildren.higher_geog)#">#getChildren.ct#</a> cataloged items)
-							</cfif>
-						</li>
+						<cfif getLocalities.recordcount LT 11>
+							<cfloop query="getLocalities">
+								<li>
+									<cfset summary = getLocalitySummary(locality_id="#getLocalities.locality_id#")>
+									<a href="/localities/Locality.cfm?locality_id=#getLocalities.locality_id#">#getLocalities.spec_locality#</a> #summary# 
+								</li>
+							</cfloop>
+						<cfelse>
+							<cfquery name="getLocSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLocSummary_result">
+								SELECT
+									count(locality.locality_id) ct,
+									count(accepted_lat_long.locality_id) georef_ct,
+									curated_fg
+								FROM
+									locality
+									left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
+								WHERE
+									geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geog_auth_rec_id#">
+								GROUP BY
+									curated_fg
+							</cfquery>
+							<cfloop query="getLocSummary">
+								<cfif curated_fg EQ "1"><cfset curated="Vetted (*)"><cfelse><cfset curated="Not Vetted"></cfif>
+								<li>#curated# #getLocSummary.ct# localities, #getLocSummary.georef_ct# with georeferences.</li> 
+							</cfloop>
+						</cfif>
 					</ul>
-				</cfloop>
+				</div>
+				<h2 class="h3">Contained Geographies (#getChildren.recordcount#)</h2>
+				<div class="col-12">
+					<cfloop query="getChildren">
+						<ul>
+							<li>
+								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getChildren.geog_auth_rec_id#">#getChildren.higher_geog#</a> 
+								<cfif getChildren.ct GT 0>
+									(<a href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&higher_geog=%3D#encodeForUrl(getChildren.higher_geog)#">#getChildren.ct#</a> cataloged items)
+								</cfif>
+							</li>
+						</ul>
+					</cfloop>
+				</div>
+			</div>
+			<div class="col-12 col-md-4 pt-5">
+				<!--- map --->
+				<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"/>
+				<script>
+					function findBounds(latLongs) { 
+						var bounds = new google.maps.LatLngBounds();
+						latLongs.getArray().forEach(function(path){ 
+							path.getArray().forEach(function(latlong){ 
+								bounds.extend(latlong)
+							});
+						}); 
+						return bounds;
+					} 
+					var map;
+					var enclosingpoly;
+					var georefs;
+					function setupMap(geog_auth_rec_id){
+						var coords=this.value;
+						var bounds = new google.maps.LatLngBounds();
+						var polygonArray = [];
+						var ptsArray=[];
+						var lat=coords.split(',')[0];
+						var lng=coords.split(',')[1];
+
+						// start with world map
+						var mapOptions = {
+							zoom: 1,
+							center: new google.maps.LatLng(0, 0),
+							mapTypeId: google.maps.MapTypeId.ROADMAP,
+							panControl: false,
+							scaleControl: true,
+							fullscreenControl: true,
+							zoomControl: true
+						};
+						map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
+
+						// obtain georeferences 
+						$.getJSON("/localities/component/georefUtilities.cfc",
+	      				{
+								method : "",
+								geog_auth_rec_id: #geog_auth_rec_id#,
+								returnformat : "json"
+							},
+							function (result) {
+								console.log(result);
+								if (result) {
+									map.data.addGeoJson(result, { idPropertyName: "id" } );
+									map.data.setStyle(function(feature) {
+										var accepted = feature.getProperty('accepted');
+										var determiner = feature.getProperty('determiner');
+										var loc = feature.getProperty('spec_locality');
+										var opacity = 1.0;
+										var title = '';
+										if (accepted=='Yes') { 
+											label = '';
+											zindex = 15;
+											opacity = 1.0;
+											title='Accepted.'
+										} else {
+											label = { text: 'n' };
+											icon = '/shared/images/map_pin_grey.png';
+											opacity = 0.6;
+											zindex = 3;
+											title='Not Accepted.'
+										}
+										title = title + ' ' + loc + ' ' +  ' Determiner: ' + determiner;
+										if (accepted=='Yes') { 
+											return {
+												zIndex: zindex,
+												opacity: opacity,
+												label: label,
+												title: title
+											};
+										} else {
+											return {
+												zIndex: zindex,
+												opacity: opacity,
+												label: label,
+												icon: icon,
+												title: title
+											};
+										} 
+									});
+								}
+							}
+						).fail(function(jqXHR,textStatus,error){
+							handleFail(jqXHR,textStatus,error,"looking up georeferences for localities in higher geography");
+						});
+
+						// Polygon for higher geography
+						$.get( "/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeographyWKT&geog_auth_rec_id=" + #geog_auth_rec_id#, function( wkt ) {
+							if (wkt.length>0){
+								var regex = /\(([^()]+)\)/g;
+								var Rings = [];
+								var results;
+								while( results = regex.exec(wkt) ) {
+									Rings.push( results[1] );
+								}
+								for(var i=0;i<Rings.length;i++){
+									// for every polygon in the WKT, create an array
+									var lary=[];
+									var da=Rings[i].split(",");
+									for(var j=0;j<da.length;j++){
+										// push the coordinate pairs to the array as LatLngs
+										var xy = da[j].trim().split(" ");
+										var pt=new google.maps.LatLng(xy[1],xy[0]);
+										lary.push(pt);
+										// console.log(lary);
+										bounds.extend(pt);
+									}
+									// now push the single-polygon array to the array of arrays (of polygons)
+									ptsArray.push(lary);
+								}
+								enclosingpoly = new google.maps.Polygon({
+									paths: ptsArray,
+									strokeColor: '##1E90FF',
+									strokeOpacity: 0.8,
+									strokeWeight: 2,
+									fillColor: '##1E90FF',
+									fillOpacity: 0.25
+								});
+								enclosingpoly.setMap(map);
+								polygonArray.push(enclosingpoly);
+							} else {
+								$("##mapdiv_" + locid).addClass('noWKT');
+							}
+							if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+								var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+								var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+								bounds.extend(extendPoint1);
+								bounds.extend(extendPoint2);
+							}
+							map.fitBounds(bounds);
+							for(var a=0; a<polygonArray.length; a++){
+								if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
+									$("##mapdiv_" + locid).addClass('uglyGeoSPatData');
+								} else {
+									$("##mapdiv_" + locid).addClass('niceGeoSPatData');
+								}
+							}
+						});
+						map.fitBounds(bounds);
+					};
+					$(document).ready(function() {
+						setupMap(#locality_id#);
+					});
+				</script>
+			   <div class="mb-2" style="height: 350px;width: 350px;">
+					<div id="mapdiv_#geog_auth_rec_id#" style="width:100%; height:100%;"></div>
+				</div>
+				<ul>
+					<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+						SELECT count(*) ct 
+						FROM 
+							geog_auth_rec 
+						WHERE
+							wkt_polygon is not null
+							AND geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+					</cfquery>
+					<li>
+						<cfif hasHigherPolygon.ct GT 0>
+							<span class="h3">Higher Geography mappable</span> <a onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
+						<cfelse>
+							<span class="h3">Higher geography not mappable</span>
+						</cfif>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</main>
