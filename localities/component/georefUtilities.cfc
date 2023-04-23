@@ -270,7 +270,7 @@ Utility methods to support display of spatial information on maps.
 			<cfset det = replace(determiner,'"','','All')><!--- remove quotes to embed in json --->
 			<cfset loc = replace(spec_locality,'"','','All')><!--- remove quotes to embed in json --->
     		<cfset retval = '#retval##separator#{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [#dec_long#, #dec_lat#] },'>
-			<cfset retval = '#retval# "properties": { "id": "#lat_long_id#", "accepted": "#accepted#", "datum": "#datum#", "coordinateuncertaintyinmeters": "#coordinateuncertaintyinmeters#", "determiner": "#det#", spec_locality: "#spec_locality#" }'>
+			<cfset retval = '#retval# "properties": { "id": "#lat_long_id#", "accepted": "#accepted#", "datum": "#datum#", "coordinateuncertaintyinmeters": "#coordinateuncertaintyinmeters#", "determiner": "#det#", spec_locality: "#loc#" }'>
 			<cfset retval = "#retval# }">		
 			<cfset separator = ",">
 		</cfloop>
