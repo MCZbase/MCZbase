@@ -186,6 +186,7 @@ limitations under the License.
 						var ptsArray=[];
 						var lat=coords.split(',')[0];
 						var lng=coords.split(',')[1];
+						var center = new google.maps.LatLng(0, 0);
 
 						// start with world map
 						var mapOptions = {
@@ -254,6 +255,7 @@ limitations under the License.
 										});
 									});
 									map.fitBounds(bounds);
+									center = map.getCenter();
 								}
 							}
 						).fail(function(jqXHR,textStatus,error){
