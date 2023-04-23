@@ -269,7 +269,7 @@ Utility methods to support display of spatial information on maps.
 		<cfset separator = " ">
 		<cfloop query="lookupGeorefs">
 			<cfset det = replace(determiner,'"','','All')><!--- remove quotes to embed in json --->
-			<cfset loc = replace(spec_locality,'"','','All')><!--- remove quotes to embed in json --->
+			<cfset loc = rereplace(replace(spec_locality,'"','','All'),'[^A-Za-z0-9 .]','','all')><!--- remove quotes to embed in json --->
     		<cfset retval = '#retval##separator#{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [#dec_long#, #dec_lat#] },'>
 			<cfset retval = '#retval# "properties": { "id": "#lat_long_id#", "accepted": "#accepted#", "datum": "#datum#", "coordinateuncertaintyinmeters": "#coordinateuncertaintyinmeters#", "determiner": "#det#", "spec_locality": "#loc#", "locality_id": "#locality_id#" }'>
 			<cfset retval = "#retval# }">		
