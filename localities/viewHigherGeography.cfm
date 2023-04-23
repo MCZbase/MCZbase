@@ -164,7 +164,8 @@ limitations under the License.
 			</div>
 			<div class="col-12 col-md-4 pt-5">
 				<!--- map --->
-				<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"/>
+				<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
+				</script>
 				<script>
 					function findBounds(latLongs) { 
 						var bounds = new google.maps.LatLngBounds();
@@ -179,7 +180,7 @@ limitations under the License.
 					var enclosingpoly;
 					var georefs;
 					function setupMap(geog_auth_rec_id){
-						var coords=this.value;
+						var coords="0.0,0.0";
 						var bounds = new google.maps.LatLngBounds();
 						var polygonArray = [];
 						var ptsArray=[];
