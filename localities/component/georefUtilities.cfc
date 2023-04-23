@@ -251,6 +251,7 @@ Utility methods to support display of spatial information on maps.
 		<cfquery name="lookupGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT
 				spec_locality,
+				locality.locality_id,
 				dec_lat, dec_long, datum,
 				decode(accepted_lat_long_fg,0,'No',1,'Yes','No') accepted,
 				to_meters(max_error_distance, max_error_units) coordinateuncertaintyinmeters,
@@ -270,7 +271,7 @@ Utility methods to support display of spatial information on maps.
 			<cfset det = replace(determiner,'"','','All')><!--- remove quotes to embed in json --->
 			<cfset loc = replace(spec_locality,'"','','All')><!--- remove quotes to embed in json --->
     		<cfset retval = '#retval##separator#{ "type": "Feature", "geometry": { "type": "Point", "coordinates": [#dec_long#, #dec_lat#] },'>
-			<cfset retval = '#retval# "properties": { "id": "#lat_long_id#", "accepted": "#accepted#", "datum": "#datum#", "coordinateuncertaintyinmeters": "#coordinateuncertaintyinmeters#", "determiner": "#det#", "spec_locality": "#loc#" }'>
+			<cfset retval = '#retval# "properties": { "id": "#lat_long_id#", "accepted": "#accepted#", "datum": "#datum#", "coordinateuncertaintyinmeters": "#coordinateuncertaintyinmeters#", "determiner": "#det#", "spec_locality": "#loc#", "locality_id": "#locality_id#" }'>
 			<cfset retval = "#retval# }">		
 			<cfset separator = ",">
 		</cfloop>
