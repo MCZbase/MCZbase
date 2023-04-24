@@ -577,7 +577,7 @@ limitations under the License.
 					<div class="col-md-4 px-5 pb-5">
 						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray">
 							<img class="card-img-top" data-src="https://iiif.mcz.harvard.edu/iiif/3/3823370/full/max/0/default.jpg" alt="DSpace logo" style="height: 320px; width: 100%; display: block;" src="https://iiif.mcz.harvard.edu/iiif/3/3823370/full/max/0/default.jpg" data-holder-rendered="true">
-							<div class="card-body">
+							<div class="card-body bg-white p-4">
 								<p class="card-text">DSpace is for larger files such as tif and/or for batch loading files. Metadata is submitted with the file and is kept in the media record and on DSpace.</p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
