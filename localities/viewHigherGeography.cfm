@@ -25,6 +25,7 @@ limitations under the License.
 </cfif>
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template = "/localities/component/search.cfc" runOnce="true"><!--- for getLocalitySummary() --->
+<cfinclude template = "/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
 <cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 
 		geog_auth_rec.geog_auth_rec_id,

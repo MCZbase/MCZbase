@@ -611,4 +611,40 @@ limitations under the License.
 	<cfreturn outputBuffer.toString() >
 </cffunction>
 
+<!--- getGuidLink given an guid and guid type, return html for a link out to that guid, if
+  either guid or guid_guid_type are not supplied or if the the guid_guid_type is not recognized
+  in ctguid_type, then returns an empty string.
+	@param guid the guid to provide as a link
+	@param guid_guid_type the type of  guid, used to apply a replacement pattern to convert the
+     guid in stored form into a resolvable link.
+   @return html for link to a resource specified by a guid.
+--->
+<cffunction name="getGuidLink" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="guid" type="string" required="no">
+	<cfargument name="guid_type" type="string" required="no">
+	
+	<cfset returnValue = "">
+	<cfif len(guid) GT 0 and len(guid_type) GT 0>
+		<cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select resolver_regex, resolver_replacement
+			from ctguid_type
+			where 
+			guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid_type#">
+		</cfquery>
+		<cfif ctguid_type.recordcount GT 0>
+			<cfif len(ctguid_type.resolver_regex) GT 0 >
+				<cfset link = REReplace(guid,ctguid_type.resolver_regex,ctguid_type.resolver_replacement)>
+			<cfelse>
+				<cfset link = guid>
+			</cfif>
+			<cfif guid_type EQ "ORCiD">
+				<cfset returnValue = "<a href='#link#' aria-label='link to ORCID record'><img src='/shared/images/ORCIDiD_icon.svg' height='15' width='15' class='ml-1' alt='ORCID iD icon'></a>" > <!--- " --->
+			<cfelse>
+				<cfset returnValue = "<a href='#link#'><img src='/shared/images/linked_data.png' height='15' width='15' alt='linked data icon'></a>" > <!--- " --->
+			</cfif>
+		</cfif>
+	</cfif>
+	<cfreturn returnValue>
+</cffunction>
+
 </cfcomponent>
