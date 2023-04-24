@@ -563,7 +563,7 @@ limitations under the License.
 					</div>
 					<div class="col-md-4 px-5 pb-5">
 						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray">
-							<img class="card-img-top" data-src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/mcz_newsletter_BHL.jpg" alt="external file placeholder image" style="height: 100%; width: 300px; display: block;" src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/mcz_newsletter_BHL.jpg" data-holder-rendered="true">
+							<img class="card-img-top" data-src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/mcz_newsletter_BHL.jpg" alt="external file placeholder image" style="height: 350px; width: 100%; display: block;" src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/mcz_newsletter_BHL.jpg" data-holder-rendered="true">
 							<div class="card-body bg-white p-4">
 								<p class="card-text">External files could be stored anywhere outside of Harvard's facilities. Permission or copyright clearance must be on file before uploading.</p>
 								<div class="d-flex justify-content-between align-items-center">
