@@ -552,7 +552,7 @@ limitations under the License.
 						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray ">
 							<img class="card-img-top mx-auto" data-src="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg" alt="placeholder thumbnail" style="height: 320px; width: 100%; display: block;" src="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg" data-holder-rendered="true">
 							<div class="card-body bg-white p-4">
-								<p class="card-text pt-2">The shared drive is where MCZ files are stored. It located in a facility managed by Harvard. Map to the drive or use Filezilla to transfer files to the shared drive from your computer.</p>
+								<p class="card-text pt-2">The shared drive is where MCZ files are stored. It located in a facility managed by Harvard. Map to the drive or use Filezilla to transfer files to the shared drive.</p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
 										<button type="button" class="btn btn-xs btn-primary px-5">Start</button>
