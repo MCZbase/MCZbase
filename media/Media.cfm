@@ -567,7 +567,7 @@ limitations under the License.
 						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray">
 							<img class="card-img-top" data-src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/mcz_newsletter_BHL.jpg" alt="external file placeholder image" style="width: 100%; display: block;" src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/mcz_newsletter_BHL.jpg" data-holder-rendered="true">
 							<div class="card-body bg-white p-4">
-								<p class="card-text">External files could be stored anywhere outside of Harvard's facilities. This one is served from the Biodiversity Heritage Library. Permission must be on file before uploading.</p>
+								<p class="card-text">External files could be stored anywhere outside of Harvard's facilities. Example:  Biodiversity Heritage Library. Permission must be on file before uploading.</p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
 										<button type="button" class="btn btn-xs btn-primary px-5">Start</button>
