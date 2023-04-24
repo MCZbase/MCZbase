@@ -169,6 +169,7 @@ limitations under the License.
 							<cfif len(source_authority) GT 0>
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Source Authority:</li>
 								<li class="list-group-item col-7 col-xl-8 px-0">#source_authority#</li>
+							</cfif>
 							<cfif len(getGeography.highergeographyid) gt 0>
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">dwc:highergeographyID:</li>
 								<cfset geogLink = getGuidLink(guid=#getGeography.highergeographyid#,guid_type=#getGeography.highergeographyid_guid_type#)>
