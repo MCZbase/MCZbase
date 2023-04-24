@@ -184,7 +184,7 @@ Utility methods to support display of spatial information on maps.
 	</cfif>
 </cffunction>
 
-<!--- getGeorefesGeoJSON given a locality_id return the georeferencs, accepted and otherwise
+<!--- getGeorefsGeoJSON given a locality_id return the georeferencs, accepted and otherwise
   for the locality as geoJSON.
   @param locality_id the primary key value for the locality.
   @return geoJSON for the set georeferences or an http 500 on error
@@ -277,6 +277,51 @@ Utility methods to support display of spatial information on maps.
 			<cfset separator = ",">
 		</cfloop>
 		<cfset retval = '#retval# ] }'>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfif isJSON(retval)>
+		<cfreturn "#retval#">
+	<cfelse>
+		<cfif isDefined("debug") and debug EQ "true">
+			<cfreturn "#retval#">
+		<cfelse>
+			<cfreturn "">
+		</cfif>
+	</cfif>
+</cffunction>
+
+<!--- getPointRadiusJSON given a locality_id return the latitude, longigude, and 
+  coordinateuncertainty in meters of the accepted georeference, if any.
+  @param locality_id the primary key value for the locality for which to return the georeference
+  @return json for the georeference or an http 500 on error
+--->
+<cffunction name="getPointRadiusJSON" returntype="any" returnformat="json" access="remote">
+	<cfargument name="locality_id" type="numeric" required="yes">
+	<cfargument name="debug" type="numeric" required="no">
+
+	<cfset retval = '{'>
+	<cftry>
+		<cfquery name="lookupGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT
+				dec_lat, dec_long,
+				to_meters(max_error_distance, max_error_units) coordinateuncertaintyinmeters,
+				lat_long_id
+			FROM
+				lat_long
+			WHERE
+				locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+				and 
+				accepted_lat_long_fg = 1
+		</cfquery>
+		<cfloop query="lookupGeoref">
+    		<cfset retval = '#retval# "dec_lat":"#dec_lat#", "dec_long":"#dec_long#", "coordinateuncertaintyinmeters":"#coordinateuncertaintyinmeters#" '>
+		</cfloop>
+		<cfset retval = '#retval# }'>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<cfset function_called = "#GetFunctionCalledName()#">

@@ -131,6 +131,7 @@ limitations under the License.
 						<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
 						</script>
 						<script>
+							// utility function to support fitting bounds of map to data
 							function findBounds(latLongs) { 
 								var bounds = new google.maps.LatLngBounds();
 								latLongs.getArray().forEach(function(path){ 
@@ -140,185 +141,167 @@ limitations under the License.
 								}); 
 								return bounds;
 							} 
+
+							// global scope varaiables available for referencing map objects.
 							var map;
 							var enclosingpoly;
 							var georefs;
 							var uncertaintypoly;
 							var errorcircle;
-							function setupMap(locid){
-								// TODO: create map even if no georeferences 
-								$("input[id^='coordinates_']").each(function(e){
-									var coords=this.value;
-									var bounds = new google.maps.LatLngBounds();
-									var polygonArray = [];
-									var ptsArray=[];
-									var lat=coords.split(',')[0];
-									var lng=coords.split(',')[1];
-									var errorm=$("##error_" + locid).val();
-									// start with world map
-									var mapOptions = {
-										zoom: 1,
-										center: new google.maps.LatLng(0, 0),
-										mapTypeId: google.maps.MapTypeId.ROADMAP,
-										panControl: false,
-										scaleControl: true,
-										fullscreenControl: true,
-										zoomControl: true
-									};
-									map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
 
-									// obtain georeferences 
-									// TODO: load via ajax and then map.data.addGeoJson
-									map.data.loadGeoJson('/localities/component/georefUtilities.cfc?method=getGeorefsGeoJSON&locality_id=' + locid, { idPropertyName: "id"} );
-									map.data.setStyle(function(feature) {
-										var accepted = feature.getProperty('accepted');
-										var determiner = feature.getProperty('determiner');
-										var opacity = 1.0;
-										var title = '';
-										if (accepted=='Yes') { 
-											label = '';
-											zindex = 15;
-											opacity = 1.0;
-											title='Accepted.'
-										} else {
-											label = { text: 'n' };
-											icon = '/shared/images/map_pin_grey.png';
-											opacity = 0.6;
-											zindex = 3;
-											title='Not Accepted.'
+							function setupMap(locality_id){
+								var bounds = new google.maps.LatLngBounds();
+								var polygonArray = [];
+								var pointsArray=[];
+
+								// start with world map
+								var mapOptions = {
+									zoom: 1,
+									center: new google.maps.LatLng(0, 0),
+									mapTypeId: google.maps.MapTypeId.ROADMAP,
+									panControl: false,
+									scaleControl: true,
+									fullscreenControl: true,
+									zoomControl: true
+								};
+								map = new google.maps.Map(document.getElementById("mapdiv_" + locality_id), mapOptions);
+
+								// obtain georeferences 
+								$.getJSON("/localities/component/georefUtilities.cfc",
+			      				{
+										method : "getGeorefsGeoJSON",
+										geog_auth_rec_id: #geog_auth_rec_id#,
+										returnformat : "json"
+									},
+									function (result) {
+										console.log(result);
+										if (result) {
+											map.data.addGeoJson(result, { idPropertyName: "id" } );
+											map.data.setStyle(function(feature) {
+												var accepted = feature.getProperty('accepted');
+												var determiner = feature.getProperty('determiner');
+												var loc = feature.getProperty('spec_locality');
+												var opacity = 1.0;
+												var title = '';
+												if (accepted=='Yes') { 
+													label = '';
+													zindex = 15;
+													opacity = 1.0;
+													title='Accepted.'
+												} else {
+													label = { text: 'n' };
+													icon = '/shared/images/map_pin_grey.png';
+													opacity = 0.6;
+													zindex = 3;
+													title='Not Accepted.'
+												}
+												title = title + ' ' + loc + ' ' +  ' Determiner: ' + determiner;
+												if (accepted=='Yes') { 
+													return {
+														zIndex: zindex,
+														opacity: opacity,
+														label: label,
+														title: title
+													};
+												} else {
+													return {
+														zIndex: zindex,
+														opacity: opacity,
+														label: label,
+														icon: icon,
+														title: title
+													};
+												} 
+											});
+											// fit the map bounds to the loaded features
+											var bounds = new google.maps.LatLngBounds(); 
+											map.data.forEach(function(feature){
+												feature.getGeometry().forEachLatLng(function(latlng){
+													bounds.extend(latlng);
+												});
+											});
+											map.fitBounds(bounds);
+											center = map.getCenter();
 										}
-										title = title + ' Determiner: ' + determiner;
-										if (accepted=='Yes') { 
-											return {
-												zIndex: zindex,
-												opacity: opacity,
-												label: label,
-												title: title
-											};
-										} else {
-											return {
-												zIndex: zindex,
-												opacity: opacity,
-												label: label,
-												icon: icon,
-												title: title
-											};
-										} 
-									});
+									}
+								).fail(function(jqXHR,textStatus,error){
+									handleFail(jqXHR,textStatus,error,"looking up georeferences for localities in higher geography");
+								});
 
-									// circle for coordinate uncertanty in meters, if specified
-									// TODO: look up from webservice
-									var center=new google.maps.LatLng(lat,lng);
-									bounds.extend(center);
-									if (parseInt(errorm)>0){
-										var circleoptn = {
-											strokeColor: '##FF0000',
+								// circle for coordinate uncertanty in meters, if specified
+							   $.getJSON("/localities/component/georefUtilities.cfc",
+							      {
+							         method : "getPointRadiusJSON",
+							         locality_id : locality_id,
+							         returnformat : "json"
+							      },
+							      function (result) {
+										console.log(result);
+										if (result) { 
+											var dec_lat = result.dec_lat;
+											var dec_long = result.dec_long;
+											var radius = result.coordinateuncertaintyinmeters;
+											if (radius) { 
+												var center=new google.maps.LatLng(dec_lat,dec_lng);
+												bounds.extend(center);
+												if (parseInt(radius)>0){
+													var circleoptn = {
+														strokeColor: '##FF0000',
+														strokeOpacity: 0.8,
+														strokeWeight: 2,
+														fillColor: '##FF0000',
+														fillOpacity: 0.15,
+														map: map,
+														center: center,
+														radius: parseInt(radius),
+														zIndex:-99
+													};
+													errorcircle = new google.maps.Circle(circleoptn);
+													bounds.union(errorcircle.getBounds());
+												}
+											}
+										}
+							      }
+							   ).fail(function(jqXHR,textStatus,error){
+							      handleFail(jqXHR,textStatus,error,"looking up coordinate uncertainty of georeference for locality");
+							   });
+
+								// Polygon for error region, if specified, ajax load.
+								$.get( "/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&locality_id=" + locality_id, function( wkt ) {
+									if (wkt.length>0){
+										var regex = /\(([^()]+)\)/g;
+										var Rings = [];
+										var results;
+										while( results = regex.exec(wkt) ) {
+											Rings.push( results[1] );
+										}
+										for(var i=0;i<Rings.length;i++){
+											// for every polygon in the WKT, create an array
+											var lary=[];
+											var da=Rings[i].split(",");
+											for(var j=0;j<da.length;j++){
+												// push the coordinate pairs to the array as LatLngs
+												var xy = da[j].trim().split(" ");
+												var pt=new google.maps.LatLng(xy[1],xy[0]);
+												lary.push(pt);
+												// console.log(lary);
+												bounds.extend(pt);
+											}
+											// now push the single-polygon array to the array of arrays (of polygons)
+											pointsArray.push(lary);
+										}
+										uncertaintypoly = new google.maps.Polygon({
+											paths: pointsArray,
+											strokeColor: '##FFA200',
 											strokeOpacity: 0.8,
 											strokeWeight: 2,
-											fillColor: '##FF0000',
-											fillOpacity: 0.15,
-											map: map,
-											center: center,
-											radius: parseInt(errorm),
-											zIndex:-99
-										};
-										errorcircle = new google.maps.Circle(circleoptn);
-										bounds.union(errorcircle.getBounds());
-									}
-
-									// Polygon for error region, if specified, ajax load.
-									$.get( "/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&locality_id=" + locid, function( wkt ) {
-										if (wkt.length>0){
-											var regex = /\(([^()]+)\)/g;
-											var Rings = [];
-											var results;
-											while( results = regex.exec(wkt) ) {
-												Rings.push( results[1] );
-											}
-											for(var i=0;i<Rings.length;i++){
-												// for every polygon in the WKT, create an array
-												var lary=[];
-												var da=Rings[i].split(",");
-												for(var j=0;j<da.length;j++){
-													// push the coordinate pairs to the array as LatLngs
-													var xy = da[j].trim().split(" ");
-													var pt=new google.maps.LatLng(xy[1],xy[0]);
-													lary.push(pt);
-													// console.log(lary);
-													bounds.extend(pt);
-												}
-												// now push the single-polygon array to the array of arrays (of polygons)
-												ptsArray.push(lary);
-											}
-											uncertaintypoly = new google.maps.Polygon({
-												paths: ptsArray,
-												strokeColor: '##FFA200',
-												strokeOpacity: 0.8,
-												strokeWeight: 2,
-												fillColor: '##FFA200',
-												fillOpacity: 0.35
-											});
-											uncertaintypoly.setMap(map);
-											polygonArray.push(uncertaintypoly);
-											// END build WKT
-											// expand bounds if needed
-											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
-												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
-												bounds.extend(extendPoint1);
-												bounds.extend(extendPoint2);
-											}
-											map.fitBounds(bounds);
-											for(var a=0; a<polygonArray.length; a++){
-												if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
-													$("##mapdiv_" + locid).addClass('uglyGeoSPatData');
-												} else {
-													$("##mapdiv_" + locid).addClass('niceGeoSPatData');
-												}
-											}
-										} else {
-											$("##mapdiv_" + locid).addClass('noErrorWKT');
-										}
-									});
-									// Polygon for surrounding higher geography
-									// WKT can be big and slow, so async fetch
-									$.get( "/localities/component/georefUtilities.cfc?returnformat=plain&method=getContainingGeographyWKT&locality_id=" + locid, function( wkt ) {
-										if (wkt.length>0){
-											var regex = /\(([^()]+)\)/g;
-											var Rings = [];
-											var results;
-											while( results = regex.exec(wkt) ) {
-												Rings.push( results[1] );
-											}
-											for(var i=0;i<Rings.length;i++){
-												// for every polygon in the WKT, create an array
-												var lary=[];
-												var da=Rings[i].split(",");
-												for(var j=0;j<da.length;j++){
-													// push the coordinate pairs to the array as LatLngs
-													var xy = da[j].trim().split(" ");
-													var pt=new google.maps.LatLng(xy[1],xy[0]);
-													lary.push(pt);
-													// console.log(lary);
-													bounds.extend(pt);
-												}
-												// now push the single-polygon array to the array of arrays (of polygons)
-												ptsArray.push(lary);
-											}
-											enclosingpoly = new google.maps.Polygon({
-												paths: ptsArray,
-												strokeColor: '##1E90FF',
-												strokeOpacity: 0.8,
-												strokeWeight: 2,
-												fillColor: '##1E90FF',
-												fillOpacity: 0.25
-											});
-											enclosingpoly.setMap(map);
-											polygonArray.push(enclosingpoly);
-											// END build WKT
-										} else {
-											$("##mapdiv_" + locid).addClass('noWKT');
-										}
+											fillColor: '##FFA200',
+											fillOpacity: 0.35
+										});
+										uncertaintypoly.setMap(map);
+										polygonArray.push(uncertaintypoly);
+										// END build WKT
+										// expand bounds if needed
 										if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
 											var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
 											var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
@@ -328,12 +311,67 @@ limitations under the License.
 										map.fitBounds(bounds);
 										for(var a=0; a<polygonArray.length; a++){
 											if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
-												$("##mapdiv_" + locid).addClass('uglyGeoSPatData');
+												$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
 											} else {
-												$("##mapdiv_" + locid).addClass('niceGeoSPatData');
+												$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
 											}
 										}
-									});
+									} else {
+										$("##mapdiv_" + locality_id).addClass('noErrorWKT');
+									}
+								});
+								// Polygon for surrounding higher geography if any, ajax load
+								$.get( "/localities/component/georefUtilities.cfc?returnformat=plain&method=getContainingGeographyWKT&locality_id=" + locality_id, function( wkt ) {
+									if (wkt.length>0){
+										var regex = /\(([^()]+)\)/g;
+										var Rings = [];
+										var results;
+										while( results = regex.exec(wkt) ) {
+											Rings.push( results[1] );
+										}
+										for(var i=0;i<Rings.length;i++){
+											// for every polygon in the WKT, create an array
+											var lary=[];
+											var da=Rings[i].split(",");
+											for(var j=0;j<da.length;j++){
+												// push the coordinate pairs to the array as LatLngs
+												var xy = da[j].trim().split(" ");
+												var pt=new google.maps.LatLng(xy[1],xy[0]);
+												lary.push(pt);
+												// console.log(lary);
+												bounds.extend(pt);
+											}
+											// now push the single-polygon array to the array of arrays (of polygons)
+											pointsArray.push(lary);
+										}
+										enclosingpoly = new google.maps.Polygon({
+											paths: pointsArray,
+											strokeColor: '##1E90FF',
+											strokeOpacity: 0.8,
+											strokeWeight: 2,
+											fillColor: '##1E90FF',
+											fillOpacity: 0.25
+										});
+										enclosingpoly.setMap(map);
+										polygonArray.push(enclosingpoly);
+										// END build WKT
+									} else {
+										$("##mapdiv_" + locality_id).addClass('noWKT');
+									}
+									if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+										var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+										var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+										bounds.extend(extendPoint1);
+										bounds.extend(extendPoint2);
+									}
+									map.fitBounds(bounds);
+									for(var a=0; a<polygonArray.length; a++){
+										if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
+											$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
+										} else {
+											$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
+										}
+									}
 									map.fitBounds(bounds);
 								});
 							}
@@ -369,16 +407,16 @@ limitations under the License.
 							FROM getGeoreferences
 							WHERE accepted_lat_long_fg=1
 						</cfquery>
+						<cfif len(getAcceptedGeoref.dec_lat) gt 0 and len(getAcceptedGeoref.dec_long) gt 0 and (getAcceptedGeoref.dec_lat is not 0 and getAcceptedGeoref.dec_long is not 0)>
+							<div class="h3">Map of georeferences</div>
+						<cfelse>
+							<div class="h3 text-danger">No accepted georeferences</div>
+						</cfif>
 					   <div class="mb-2" style="height: 350px;width: 350px;">
-							<!--- TODO: Display a map even if no georeferences, higher geography may have spatial representation. --->
-							<cfif len(getAcceptedGeoref.dec_lat) gt 0 and len(getAcceptedGeoref.dec_long) gt 0 and (getAcceptedGeoref.dec_lat is not 0 and getAcceptedGeoref.dec_long is not 0)>
-								<cfset coordinates="#getAcceptedGeoref.dec_lat#,#getAcceptedGeoref.dec_long#">
-								<input type="hidden" id="coordinates_#getAcceptedGeoref.locality_id#" value="#coordinates#">
-								<input type="hidden" id="error_#getAcceptedGeoref.locality_id#" value="#getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS#">
-								<div id="mapdiv_#getAcceptedGeoref.locality_id#" style="width:100%; height:100%;"></div>
-							<cfelse>
-								<div class="h3 text-danger">No accepted georeferences</div>
-							</cfif>
+							<cfset coordinates="#getAcceptedGeoref.dec_lat#,#getAcceptedGeoref.dec_long#">
+							<input type="hidden" id="coordinates_#getAcceptedGeoref.locality_id#" value="#coordinates#">
+							<input type="hidden" id="error_#getAcceptedGeoref.locality_id#" value="#getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS#">
+							<div id="mapdiv_#getAcceptedGeoref.locality_id#" style="width:100%; height:100%;"></div>
 						</div>
 						<ul>
 						<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
