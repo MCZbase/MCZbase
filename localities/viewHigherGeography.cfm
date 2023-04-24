@@ -256,6 +256,15 @@ limitations under the License.
 									});
 									map.fitBounds(bounds);
 									center = map.getCenter();
+									map.data.addListener('click',
+										function(event) { 
+											var f = event.feature;
+											var id = f.getProperty("id");
+											var locality_id = f.getProperty("locality_id");
+											var spec_locality = f.getProperty("spec_locality");
+											$("##selectedMarkerDiv").html("<a href='/localities/Locality.cfm?locality_id="+locality_id+"' target='_blank'>" + spec_locality + "</a> (" + locality_id + ").");
+										}
+									); 
 								}
 							}
 						).fail(function(jqXHR,textStatus,error){
@@ -338,6 +347,9 @@ limitations under the License.
 						<cfelse>
 							<span class="h3">Higher geography not mappable</span>
 						</cfif>
+					</li>
+					<li>
+						<div id="selectedMarkerDiv"></div>
 					</li>
 				</ul>
 			</div>
