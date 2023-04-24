@@ -242,7 +242,7 @@ limitations under the License.
 											var dec_long = result.dec_long;
 											var radius = result.coordinateuncertaintyinmeters;
 											if (radius) { 
-												var center=new google.maps.LatLng(dec_lat,dec_lng);
+												var center=new google.maps.LatLng(dec_lat,dec_long);
 												bounds.extend(center);
 												if (parseInt(radius)>0){
 													var circleoptn = {
