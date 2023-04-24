@@ -1267,6 +1267,21 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</li>
 										</cfif>
 										<li>
+											<script>
+												var bouncing#lat_long_id# = false;
+												function toggleBounce#lat_long_id#() { 
+													if (bouncing#lat_long_id#==true) { 
+														bouncing#lat_long_id# = false;
+														map.data.forEach(function (feature) { console.log(feature.m); if (feature.m == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
+														$('##toggleButton#lat_long_id#').html("Highlight on map");
+													} else { 
+														bouncing#lat_long_id# = true;
+														map.data.forEach(function (feature) { console.log(feature.m); if (feature.m == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
+														$('##toggleButton#lat_long_id#').html("Stop bouncing");
+													}
+												};
+											</script>
+											<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
 											<button type="button" class="btn btn-xs btn-secondary" 
 												onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');"
 												aria-label = "Edit this georeference"

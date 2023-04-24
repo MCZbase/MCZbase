@@ -15,6 +15,10 @@ Creative Commons Attribution-Share Alike 3.0 United States
 * Gnome-video-x-generic.svg
 * Gnome-x-office-document.svg
 
+## Modified from open clip art, public domain
+
+* map_pin_grey.png modified from Map Pin 2 by Kilroy_2525 
+
 ### Tango Icons
 Works released into the public domain by their author, The Tango Desktop Project
 
