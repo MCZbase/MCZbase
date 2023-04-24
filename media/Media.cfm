@@ -562,9 +562,9 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-md-4 px-5 pb-5">
-						<div class="card mb-4 box-shadow">
-							<img class="card-img-top" data-src="" alt="Thumbnail [100%x225]" style="height: 100%; width: 300px; display: block;" src="" data-holder-rendered="true">
-							<div class="card-body bg-white p-3">
+						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray">
+							<img class="card-img-top" data-src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/mcz_newsletter_BHL.jpg" alt="external file placeholder image" style="height: 100%; width: 300px; display: block;" src="" data-holder-rendered="true">
+							<div class="card-body bg-white p-4">
 								<p class="card-text">External files could be stored anywhere outside of Harvard's facilities. Permission or copyright clearance must be on file before uploading.</p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
@@ -575,13 +575,13 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="col-md-4 px-5 pb-5">
-						<div class="card mb-4 box-shadow">
-							<img class="card-img-top" data-src="https://iiif.mcz.harvard.edu/iiif/3/3823370/full/max/0/default.jpg" alt="DSpace logo" style="height: 225px; width: 100%; display: block;" src="https://iiif.mcz.harvard.edu/iiif/3/3823370/full/max/0/default.jpg" data-holder-rendered="true">
+						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray">
+							<img class="card-img-top" data-src="https://iiif.mcz.harvard.edu/iiif/3/3823370/full/max/0/default.jpg" alt="DSpace logo" style="height: 320px; width: 100%; display: block;" src="https://iiif.mcz.harvard.edu/iiif/3/3823370/full/max/0/default.jpg" data-holder-rendered="true">
 							<div class="card-body">
 								<p class="card-text">DSpace is for larger files such as tif and/or for batch loading files. Metadata is submitted with the file and is kept in the media record and on DSpace.</p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
-										<button type="button" class="btn btn-xs btn-primary">Start</button>
+										<button type="button" class="btn btn-xs btn-primary px-5">Start</button>
 									</div>
 								</div>
 							</div>
