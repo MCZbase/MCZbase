@@ -413,10 +413,7 @@ limitations under the License.
 							<div class="h3 text-danger">No accepted georeferences</div>
 						</cfif>
 					   <div class="mb-2" style="height: 350px;width: 350px;">
-							<cfset coordinates="#getAcceptedGeoref.dec_lat#,#getAcceptedGeoref.dec_long#">
-							<input type="hidden" id="coordinates_#getAcceptedGeoref.locality_id#" value="#coordinates#">
-							<input type="hidden" id="error_#getAcceptedGeoref.locality_id#" value="#getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS#">
-							<div id="mapdiv_#getAcceptedGeoref.locality_id#" style="width:100%; height:100%;"></div>
+							<div id="mapdiv_#REReplace(locality_id,'[^0-9]','','All')#" style="width:100%; height:100%;"></div>
 						</div>
 						<ul>
 						<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
