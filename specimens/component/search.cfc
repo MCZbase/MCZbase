@@ -2747,7 +2747,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						</select>
 					</div>
 					<div class="col-12">
-						<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" target="_blank" onClick="handleInternalDonwloadClick();" >Download as CSV</a>
+						<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" target="_blank" onClick="handleInternalDownloadClick();" >Download as CSV</a>
 						<output id="downloadFeedback"></output>
 					</div>
 				</div>
