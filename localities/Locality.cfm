@@ -170,7 +170,7 @@ limitations under the License.
 								$.getJSON("/localities/component/georefUtilities.cfc",
 			      				{
 										method : "getGeorefsGeoJSON",
-										geog_auth_rec_id: #geog_auth_rec_id#,
+										locality_id: locality_id,
 										returnformat : "json"
 									},
 									function (result) {
