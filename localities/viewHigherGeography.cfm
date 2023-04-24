@@ -348,9 +348,21 @@ limitations under the License.
 							<span class="h3">Higher geography not mappable</span>
 						</cfif>
 					</li>
-					<li>
-						<div id="selectedMarkerDiv"></div>
-					</li>
+					<cfquery name="hasGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+						SELECT count(*) ct 
+						FROM 
+							lat_long
+							join locality on lat_long.locality_id = locality.locality_id
+						WHERE
+							dec_lat is not null and dec_long is not null
+							AND accepted_lat_long_fg = 1
+							AND geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+					</cfquery>
+					<cfif hasGeorefs.ct GT 0>
+						<li>
+							<div id="selectedMarkerDiv">Click on a marker for locality details.</div>
+						</li>
+					</cfif>
 				</ul>
 			</div>
 		</div>
