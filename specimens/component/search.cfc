@@ -2729,6 +2729,9 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 								var profile = $("##profile_picker").val();
 								$('##specimencsvdownloadbutton').attr("href", "/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id="+profile);
 							}
+							function handleInternalDownloadClick() {
+								$("##downloadFeedback").html("Download requested...");
+							}
 						</script>
 						<label class="data-entry-label" for="profile_picker">Pick profile for which fields to include in the download</label>
 						<select id="profile_picker" name="profile_picker" class="data-entry-select" onchange="changeProfile()">
@@ -2744,7 +2747,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						</select>
 					</div>
 					<div class="col-12">
-						<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" target="_blank" >Download as CSV</a>
+						<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" target="_blank" onClick="handleInternalDonwloadClick();" >Download as CSV</a>
+						<output id="downloadFeedback"></output>
 					</div>
 				</div>
 			<cfcatch>
@@ -2872,6 +2876,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 									}
 								}
 								function handleDownloadClick() {
+									$("##downloadFeedback").html("Download requested...");
 									jQuery.ajax({
 										dataType: "json",
 										url: "/specimens/component/search.cfc",
@@ -2934,6 +2939,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<div class="col-12">
 							<!--- using target _blank to give user feedback on ongoing download.  Could monitor for a cookie, see for example https://www.bennadel.com/blog/2533-tracking-file-download-events-using-javascript-and-coldfusion.htm --->
 							<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id=#encodeForUrl(result_id)#" download="#filename#" target="_blank" onclick="handleDownloadClick();" >Download as CSV</a>
+							<output id="downloadFeedback"></output>
 						</div>
 					</div>
 				</form>
