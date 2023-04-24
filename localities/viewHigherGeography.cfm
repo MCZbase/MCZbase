@@ -25,6 +25,7 @@ limitations under the License.
 </cfif>
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template = "/localities/component/search.cfc" runOnce="true"><!--- for getLocalitySummary() --->
+<cfinclude template = "/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
 <cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 
 		geog_auth_rec.geog_auth_rec_id,
@@ -111,9 +112,80 @@ limitations under the License.
 							<a href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a>
 					</cfif>
 					<div class="col-12">
-						<ul>
-							<li>Continent/Ocean: #continent_ocean#</li>
-							<li>Cataloged Items: <a href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&higher_geog=%3D#encodeForUrl(higher_geog)#">#specimenCount#</a></li>
+						<ul class="sd list-unstyled row mx-0 px-2 py-1 mb-0">
+							<cfif len(valid_catalog_term_fg) EQ 1><cfset valid="*"><cfelse><cfset valid=""></cfif>
+							<cfif len(getGeography.continent_ocean) gt 0>
+								<cfif find('Ocean',getGeography.continent_ocean) GT 0><cfset colabel="Ocean"><cfelse><cfset colabel="Continent"></cfif>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">#colabel#:</li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.continent_ocean#</li>
+							</cfif>
+							<cfif len(getGeography.ocean_region) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Ocean Region:</li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.ocean_region#</li>
+							</cfif>
+							<cfif len(getGeography.ocean_subregion) gt 0>
+								<li class="list-group-item col-5 px-0 font-weight-lessbold">Ocean Subregion:</li>
+								<li class="list-group-item col-7 px-0">#getGeography.ocean_subregion#</li>
+							</cfif>
+							<cfif len(getGeography.sea) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Sea:</li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.sea#</li>
+							</cfif>
+							<cfif len(getGeography.water_feature) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold"><em>Water Feature:</em></li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.water_feature#</li>
+							</cfif>
+							<cfif len(getGeography.country) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Country:</li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.country#</li>
+							</cfif>
+							<cfif len(getGeography.state_prov) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">State/Province:</li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.state_prov#</li>
+							</cfif>
+							<cfif len(getGeography.feature) gt 0>
+								<li class="list-group-item col-5 col-xl-4 col-xl-4 px-0 font-weight-lessbold">Feature:</li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.feature#</li>
+							</cfif>
+							<cfif len(getGeography.county) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold"><em>County:</em></li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.county#</li>
+							</cfif>
+							<cfif len(getGeography.island_group) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Island Group:</li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.island_group#</li>
+							</cfif>
+							<cfif len(getGeography.island) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Island:</li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.island#</li>
+							</cfif>
+							<cfif len(getGeography.quad) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Quad:</li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.quad#</li>
+							</cfif>
+							<cfif len(wkt_polygon) GT 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Has Spatial Representation:</li>
+								<li class="list-group-item col-7 col-xl-8 px-0"><a onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">Zoom to on map</a></li>
+							</cfif>
+							<cfif len(source_authority) GT 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Source Authority:</li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#source_authority#</li>
+							</cfif>
+							<cfif len(getGeography.highergeographyid) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">dwc:highergeographyID:</li>
+								<cfset geogLink = getGuidLink(guid=#getGeography.highergeographyid#,guid_type=#getGeography.highergeographyid_guid_type#)>
+								<li class="list-group-item col-7 col-xl-8 px-0">
+									#getGeography.highergeographyid# #geogLink#
+								</li>
+							</cfif>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Cataloged Items:</li>
+							<li class="list-group-item col-7 col-xl-8 px-0">
+								<cfif specimenCount GT 0>
+									<a href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&higher_geog=%3D#encodeForUrl(higher_geog)#">#specimenCount#</a>
+								<cfelse>
+									None.
+								</cfif>
+							</li>
 						</ul>		
 					</div>
 				</cfloop>
@@ -256,6 +328,15 @@ limitations under the License.
 									});
 									map.fitBounds(bounds);
 									center = map.getCenter();
+									map.data.addListener('click',
+										function(event) { 
+											var f = event.feature;
+											var id = f.getProperty("id");
+											var locality_id = f.getProperty("locality_id");
+											var spec_locality = f.getProperty("spec_locality");
+											$("##selectedMarkerDiv").html("<a href='/localities/Locality.cfm?locality_id="+locality_id+"' target='_blank'>" + spec_locality + "</a> (" + locality_id + ").");
+										}
+									); 
 								}
 							}
 						).fail(function(jqXHR,textStatus,error){
@@ -339,6 +420,21 @@ limitations under the License.
 							<span class="h3">Higher geography not mappable</span>
 						</cfif>
 					</li>
+					<cfquery name="hasGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+						SELECT count(*) ct 
+						FROM 
+							lat_long
+							join locality on lat_long.locality_id = locality.locality_id
+						WHERE
+							dec_lat is not null and dec_long is not null
+							AND accepted_lat_long_fg = 1
+							AND geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+					</cfquery>
+					<cfif hasGeorefs.ct GT 0>
+						<li>
+							<div id="selectedMarkerDiv">Click on a marker for locality details.</div>
+						</li>
+					</cfif>
 				</ul>
 			</div>
 		</div>
