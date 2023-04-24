@@ -556,7 +556,7 @@ limitations under the License.
 								<p class="card-text">The shared drive is where MCZ files are stored. It located in a facility managed by Harvard. Map to the drive or use Filezilla to transfer files to the shared drive.</p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
-										<button type="button" class="btn btn-xs btn-primary px-5"  onclick="location.href='/media/RelatedMedia.cfm'">Start</button>
+										<button type="button" class="btn btn-xs btn-primary px-5"  onclick="location.href='/media/SharedDrive.cfm'">Start</button>
 									</div>
 								</div>
 							</div>
