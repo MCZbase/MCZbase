@@ -112,7 +112,24 @@ limitations under the License.
 					</cfif>
 					<div class="col-12">
 						<ul>
+							<cfif len(valid_catalog_term_fg) EQ 1><cfset valid="*"><cfelse><cfset valid=""></cfif>
 							<li>Continent/Ocean: #continent_ocean#</li>
+							<cfif len(country) GT 0> <li>Country: #country#</li> </cfif>
+							<cfif len(state_prov) GT 0> <li>State/Province: #state_prov#</li> </cfif>
+							<cfif len(county) GT 0> <li>County/Parish/Shire: #county#</li> </cfif>
+							<cfif len(quad) GT 0> <li>Quad: #quad#</li> </cfif>
+							<cfif len(feature) GT 0> <li>Feature: #feature#</li> </cfif>
+							<cfif len(ocean_region) GT 0> <li>Ocean Region: #ocean_region#</li> </cfif>
+							<cfif len(ocean_subregion) GT 0> <li>Subregion: #ocean_subregion#</li> </cfif>
+							<cfif len(sea) GT 0> <li>Sea: #sea#</li> </cfif>
+							<cfif len(water_feature) GT 0> <li>Water Feature: #water_feature#</li> </cfif>
+							<cfif len(island_group) GT 0> <li>Island Group: #island_group#</li> </cfif>
+							<cfif len(island) GT 0> <li>Island: #island#</li> </cfif>
+							<cfif len(wkt_polygon) GT 0>
+								<li>Has Spatial Representation, see map.</li> 
+							</cfif>
+							<cfif len(source_authority) GT 0> <li>Source Authority: #source_authority#</li> </cfif>
+							<cfif len(highergeographyid) GT 0> <li>GUID: #highergeographyid#</li> </cfif>
 							<li>Cataloged Items: <a href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&higher_geog=%3D#encodeForUrl(higher_geog)#">#specimenCount#</a></li>
 						</ul>		
 					</div>
