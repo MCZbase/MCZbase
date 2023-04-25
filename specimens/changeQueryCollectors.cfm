@@ -1,4 +1,4 @@
-<cfset pageTitle = "Change Collectors for Search Result">
+<cfset pageTitle = "Change Collectors in Search Result">
 <cfinclude template="/shared/_header.cfm">
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>

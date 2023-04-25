@@ -49,19 +49,19 @@ limitations under the License.
 			"Link to this search" link.
 	--->
 	<cfcase value="fixedSearch">
-		<cfset pageTitle = "Basic Specimen Search">
+		<cfset pageTitle = "Search Specimen | Basic">
 		<cfif isdefined("execute")>
 			<cfset execute="fixed">
 		</cfif>
 	</cfcase>
 	<cfcase value="keywordSearch">
-		<cfset pageTitle = "Specimen Search by Keyword">
+		<cfset pageTitle = "Search Specimens | by Keyword">
 		<cfif isdefined("execute")>
 			<cfset execute="keyword">
 		</cfif>
 	</cfcase>
 	<cfcase value="builderSearch">
-		<cfset pageTitle = "Specimen Search Builder">
+		<cfset pageTitle = "Search Specimens | Build Parameters">
 		<cfif isdefined("execute")>
 			<cfset execute="builder">
 		</cfif>

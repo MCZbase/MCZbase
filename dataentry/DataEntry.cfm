@@ -1,4 +1,4 @@
-<cfset pageTitle = "Data Entry">
+<cfset pageTitle = "Enter Data">
 <!---
 DataEntry.cfm
 

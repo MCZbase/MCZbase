@@ -28,7 +28,7 @@ limitations under the License.
 			"Link to this search" link.
 	--->
 		<cfcase value="browseallgroups">
-		<cfset pageTitle = "Browse Featured Collections">
+		<cfset pageTitle = "Browse All Collections">
 		<cfif isdefined("execute")>
 			<cfset execute="allgroups">
 		</cfif>

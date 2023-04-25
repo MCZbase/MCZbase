@@ -27,10 +27,10 @@ limitations under the License.
 		<cfset pageTitle = "Search Named Groups">
 	</cfcase>
 	<cfcase value="new">
-		<cfset pageTitle = "Add New Named Group">
+		<cfset pageTitle = "Create Named Group">
 	</cfcase>
 	<cfcase value="edit">
-		<cfset pageTitle = "Edit a Named Group">
+		<cfset pageTitle = "Edit Named Group">
 	</cfcase>
 	<cfdefaultcase>
 		<cfset pageTitle = "Named Group of Cataloged Items">

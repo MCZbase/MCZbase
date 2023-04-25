@@ -1,6 +1,6 @@
-<cfset pageTitle = "Loan Management">
+<cfset pageTitle = "Manage Loan">
 <cfif isdefined("action") AND action EQ 'newLoan'>
-	<cfset pageTitle = "Create New Loan">
+	<cfset pageTitle = "Create Loan">
 </cfif>
 <cfif isdefined("action") AND action EQ 'edit'>
 	<cfset action="editLoan">
@@ -16,7 +16,7 @@
 			where
 				loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
-		<cfset pageTitle = "Edit Loan #loanNumber.loan_number#">
+		<cfset pageTitle = " #loanNumber.loan_number# Edit Loan">
 	</cfif>
 </cfif>
 <cfset MAGIC_MCZ_COLLECTION = 12>

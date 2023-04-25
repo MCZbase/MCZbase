@@ -1,6 +1,6 @@
-<cfset pageTitle = "Borrow Management">
+<cfset pageTitle = "Manage Borrow">
 <cfif isdefined("action") AND action EQ 'new'>
-	<cfset pageTitle = "Create New Borrow">
+	<cfset pageTitle = "Create Borrow">
 </cfif>
 <cfif isdefined("action") AND action EQ 'edit'>
 	<cfset pageTitle = "Edit Borrow">

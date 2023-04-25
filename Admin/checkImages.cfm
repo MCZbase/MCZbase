@@ -18,7 +18,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfset pageTitle = "Image Check">
+<cfset pageTitle = "Check Image">
 <cfinclude template = "/shared/_header.cfm">
 <cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agent_result">
 	SELECT agent_id 

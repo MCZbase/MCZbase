@@ -30,10 +30,10 @@ limitations under the License.
 		<cfset pageTitle = "Manage Specimen Results Columns">
 	</cfcase>
 	<cfcase value="newsearchfield">
-		<cfset pageTitle = "Add New Specimen Search Field">
+		<cfset pageTitle = "Add Field to Specimen Search">
 	</cfcase>
 	<cfcase value="newresultcolumn">
-		<cfset pageTitle = "Add New Specimen Result Column">
+		<cfset pageTitle = "Add Column to Specimen Result">
 	</cfcase>
 	<cfdefaultcase>
 		<cfset pageTitle = "Manage Specimen Search Fields/Results">

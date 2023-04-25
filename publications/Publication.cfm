@@ -29,7 +29,7 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfif action EQ "new">
-	<cfset pageTitle = "New Publication">
+	<cfset pageTitle = "Create Publication">
 <cfelse>
 	<cfset shortCitation = "">
 	<cfif isdefined("publication_id") and len(publication_id) GT 0 and isNumeric(publication_id) >
@@ -47,7 +47,7 @@ limitations under the License.
 			<cfset shortCitation = ": #lookupShort.citation#">
 		</cfif>
 	</cfif>
-	<cfset pageTitle = "Edit Publication#shortCitation#">
+	<cfset pageTitle = "#shortCitation# Edit Publication">
 </cfif>
 <cfset includeJQXEditor="true">
 <cfinclude template="/shared/_header.cfm">

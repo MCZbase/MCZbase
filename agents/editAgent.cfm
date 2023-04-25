@@ -42,7 +42,7 @@ limitations under the License.
 	<cfset pageTitle = "Edit Agent">
 </cfcase>
 <cfcase value="new">
-	<cfset pageTitle = "New Agent">
+	<cfset pageTitle = "Create Agent">
 	<cfif isDefined("agent_type") AND len(agent_type) GT 0>
 		<cfset curAgentType = agent_type>
 	<cfelse>

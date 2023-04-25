@@ -28,10 +28,10 @@ limitations under the License.
 </cfif>
 <cfswitch expression="#action#">
 	<cfcase value="new">
-		<cfset pageTitle = "Add New Serial/Journal Title">
+		<cfset pageTitle = "Create Serial/Journal Title">
 	</cfcase>
 	<cfcase value="edit">
-		<cfset pageTitle = "Edit a Serial/Journal Title">
+		<cfset pageTitle = "Edit Serial/Journal Title">
 	</cfcase>
 	<cfdefaultcase>
 		<!--- save new, delete --->

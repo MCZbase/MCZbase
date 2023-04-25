@@ -1,4 +1,4 @@
-<cfset pageTitle = "Review Pending Agent Merges">
+<cfset pageTitle = "Review Merges Pending for Agent Records">
 <!---
 /Admin/agentMergeReview.cfm
 
