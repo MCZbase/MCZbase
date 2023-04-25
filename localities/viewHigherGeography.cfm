@@ -440,4 +440,4 @@ limitations under the License.
 		</div>
 	</main>
 </cfoutput>
-<cfinclude template = "/shared/_header.cfm">
+<cfinclude template = "/shared/_footer.cfm">
