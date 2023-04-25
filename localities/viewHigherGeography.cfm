@@ -401,7 +401,7 @@ limitations under the License.
 						setupMap(#geog_auth_rec_id#);
 					});
 				</script>
-			   <div class="mb-2" style="height: 550px;width: 550px;">
+			   <div class="mb-2 w-100" style="height: 600px;">
 					<div id="mapdiv_#geog_auth_rec_id#" style="width:100%; height:100%;"></div>
 				</div>
 				<ul>
