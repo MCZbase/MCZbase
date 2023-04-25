@@ -79,3 +79,55 @@ function deleteGeoreference(locality_id, lat_long_id,callback) {
 		dataType: "html"
 	});
 };
+
+// Create and open a dialog to georeference a locality
+function openAddGeoreferenceDialog(dialogid, locality_id, locality_label, okcallback) { 
+	var title = "Add a georeference for locality " + locality_label;
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 600,
+		minHeight: 500,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() { 
+				$("#"+dialogid).dialog('close'); 
+			}
+		},
+		close: function(event,ui) { 
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+	  		}
+			$("#"+dialogid+"_div").html("");
+			$("#"+dialogid).dialog('destroy'); 
+		} 
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/localities/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "georeferenceDialogHtml",
+			returnformat: "plain",
+			locality_id: transaction_id,
+			locality_label: locality_label
+		}, 
+		success: function (data) { 
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading add georeference dialog");
+		}
+	});
+}

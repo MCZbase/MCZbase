@@ -1149,6 +1149,18 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfthread name="localityGeoRefFormThread#tn#">
 		<cfoutput>
 			<cftry>
+				<cfquery name="getLocalityMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						spec_locality, locality_id, 
+						decode(curated_fg,1,' *','') curated
+					FROM locality
+					WHERE
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+				</cfquery>
+				<cfif getLocalityMetadata.recordcount NEQ 1>
+					<cfthrow message="Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#]">
+				</cfif>
+				<cfset localityLabel = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
 				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						lat_long_id,
@@ -1224,7 +1236,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<li>None #noGeoRef#</li>
 							<li>
 								<button type="button" class="btn btn-xs btn-secondary" 
-									onClick=" openAddGeorefDialog('#locality_id#','addGeorefDialog','#callbackName#'); "
+									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', '#callbackName#') " 
 									aria-label = "Add a georeference to this locality"
 								>Add</button>
 							</li>
@@ -1296,7 +1308,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							</cfloop>
 							<li>
 								<button type="button" class="btn btn-xs btn-secondary" 
-									onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog','#callbackName#'); "
+									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', '#callbackName#') " 
 									aria-label = "Add another georeference to this locality"
 								>Add</button>
 							</li>
@@ -1308,9 +1320,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<script>
 						function openEditGeorefDialog(lat_long_id, dialogDiv, callback) { 
 							console.log(geology_attribute_id);
-						}
-						function openAddGeorefDialog(locality_id, dialogDiv, callback) { 
-							console.log(locality_id);
 						}
 						function deleteGeoreference(locality_id,lat_long_id, callback) { 
 							console.log(geology_attribute_id);
@@ -1330,5 +1339,49 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 	<cfreturn cfthread["localityGeorefFormThread#tn#"].output>
 </cffunction>
+
+<cffunction name="georeferenceDialogHtml" access="remote" returntype="string">
+	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="locality_label" type="string" required="yes">
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getGeorefThread#tn#">
+		<cftry>
+			<cfoutput>
+				<h2 class="h3">Add a georeference for locality #encodeForHtml(locality_label)#</h2>
+				<div>
+					<div class="tabs card-header tab-card-header px-2 pt-3">
+						<!-- Nav tabs -->
+						<div class="tab-headers tabList px-0 px-md-3" role="tablist" aria-label="create georeference by">
+							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 active" id="manualTabButton" role="tab" aria-controls="manualPanel" aria-selected="true" tabindex="0" aria-label="Enter original coordinates">You have original coordinates: Enter manually</button>
+							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 " id="geolocateTabButton" role="tab" aria-controls="geolocatePanel" aria-selected="false" tabindex="-1" aria-label="Use geolocate to georeference specific locality">Use Geolocate with Specific Locality</button>
+						</div>
+						<!-- Tab panes -->
+						<div class="tab-content flex-wrap d-flex">
+							<div id="manualPanel" role="tabpanel" aria-labelledby="manualTabButton" tabindex="0" class="col-12 px-0 mx-0 active unfocus">
+								<h2 class="px-2 h3">Enter georeference</h2>
+							/div>
+							<div id="geolocatePanel" role="tabpanel" aria-labelledby="geolocateTabButton" tabindex="-1" class="col-12 px-0 mx-0 unfocus" hidden>
+								<h2 class="px-2 h3">Use Geolocate</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getGeorefThread#tn#" />
+	<cfreturn cfthread["getGeorefThread#tn#"].output>
+</cffunction>
+
+
 
 </cfcomponent>
