@@ -1315,8 +1315,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						</ul>
 					</div>
 				</cfif>
-				<div class="editGeorefDialog"></div>
-				<div class="addGeorefDialog"></div>
+				<div id="editGeorefDialog"></div>
+				<div id="addGeorefDialog"></div>
 				<script>
 					function openEditGeorefDialog(lat_long_id, dialogDiv, callback) { 
 						console.log(geology_attribute_id);
