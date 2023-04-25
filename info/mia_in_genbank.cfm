@@ -1,10 +1,10 @@
-<cfset pageTitle = "Potential Missed GenBank Records">
+<cfset pageTitle = "Missed GenBank Records">
 <cfinclude template="/shared/_header.cfm">
 <script src="/lib/misc/sorttable.js"></script>
 
 <main class="container py-3" id=”content” title="GenBank report content" >
-	<section class=”row border rounded my-2”>
-		<h1 class=”h2”>Potential Missed GenBank Records</h1>
+	<section class="row border rounded my-2">
+		<h1 class="h2">Potential Missed GenBank Records</h1>
 		<div class="border p-1">
 			The following are potential specimen records that are in GenBank but not in MCZbase.
 			On GenBank <strong>wild1:</strong> query types are limited to 600 records - the numbers you see here may make no sense.
