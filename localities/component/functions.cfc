@@ -1347,6 +1347,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getGeorefThread#tn#">
 		<cftry>
+			<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT ORIG_LAT_LONG_UNITS 
+				FROM ctlat_long_units
+				ORDER BY ORIG_LAT_LONG_UNITS
+			</cfquery>
 			<cfoutput>
 				<h2 class="h3">Add a georeference for locality #encodeForHtml(locality_label)#</h2>
 				<div>
@@ -1360,6 +1365,78 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<div class="tab-content flex-wrap d-flex">
 							<div id="manualPanel" role="tabpanel" aria-labelledby="manualTabButton" tabindex="0" class="col-12 px-0 mx-0 active unfocus">
 								<h2 class="px-2 h3">Enter georeference</h2>
+								<div class="form-row">
+									<div class="col-12">
+										<label for="orig_lat_long_units" class="data-entry-label">Original Units</label>
+										<select id="orig_lat_long_units" class="data-entry-select reqdClr" onChange=" changeLatLongUnits(); ">
+											<option></option>
+											<cfloop query="ctunits">
+												<option value="#orig_lat_long_units#">#orig_lat_long_units#</option>
+											</cfloop>
+										</select>
+										<script>
+											function changeLatLongUnits(){ 
+												var units = $("##orig_lat_long_units").val();
+												if (!units) { 
+												} else if (units == 'decimal degrees') {
+												} else if (orig_units == 'degrees dec. minutes') {
+												} else if (orig_units == 'deg. min. sec.') {
+												} else if (orig_units == 'UTM') {
+												}
+											} 
+										</script>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="lat_deg" class="data-entry-label">Latitude Degrees</label>
+										<input type="text" name="lat_deg" size="4" id="lat_deg" class="data-entry-input reqdClr">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="lat_min" class="data-entry-label">Minutes</label>
+										<input type="text" name="lat_min" size="4" id="lat_min" class="data-entry-input reqdClr">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="lat_sec" class="data-entry-label">Seconds</label>
+										<input type="text" name="lat_sec" size="4" id="lat_sec" class="data-entry-input reqdClr">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="lat_ns" class="data-entry-label">Direction</label>
+										<select name="lat_ns" size="4" id="lat_ns" class="data-entry-select reqdClr">
+											<option value="N">N</option>
+											<option value="S">S</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="long_deg" class="data-entry-label">Longitude Degrees</label>
+										<input type="text" name="long_deg" size="4" id="long_deg" class="data-entry-input reqdClr">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="long_min" class="data-entry-label">Minutes</label>
+										<input type="text" name="long_min" size="4" id="long_min" class="data-entry-input reqdClr">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="long_sec" class="data-entry-label">Seconds</label>
+										<input type="text" name="long_sec" size="4" id="long_sec" class="data-entry-input reqdClr">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="long_ew" class="data-entry-label">Direction</label>
+										<select name="long_ew" size="4" id="long_ew" class="data-entry-select reqdClr">
+											<option value="E">E</option>
+											<option value="W">W</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-4">
+										<label for="utm_zone" class="data-entry-label">UTM Zone/Letter</label>
+										<input type="text" name="utm_zone" size="4" id="utm_zone" class="data-entry-input reqdClr">
+									</div>
+									<div class="col-12 col-md-4">
+										<label for="utm_ew" class="data-entry-label">Easting</label>
+										<input type="text" name="utm_ew" size="4" id="utm_ew" class="data-entry-input reqdClr">
+									</div>
+									<div class="col-12 col-md-4">
+										<label for="utm_ns" class="data-entry-label">Northing</label>
+										<input type="text" name="utm_ns" size="4" id="utm_ns" class="data-entry-input reqdClr">
+									</div>
+								</div>
 							</div>
 							<div id="geolocatePanel" role="tabpanel" aria-labelledby="geolocateTabButton" tabindex="-1" class="col-12 px-0 mx-0 unfocus" hidden>
 								<h2 class="px-2 h3">Use Geolocate</h2>
