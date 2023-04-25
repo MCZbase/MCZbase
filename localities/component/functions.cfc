@@ -1315,16 +1315,16 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						</ul>
 					</div>
 				</cfif>
-					<div class="editGeorefDialog"></div>
-					<div class="addGeorefDialog"></div>
-					<script>
-						function openEditGeorefDialog(lat_long_id, dialogDiv, callback) { 
-							console.log(geology_attribute_id);
-						}
-						function deleteGeoreference(locality_id,lat_long_id, callback) { 
-							console.log(geology_attribute_id);
-						}
-					</script>
+				<div class="editGeorefDialog"></div>
+				<div class="addGeorefDialog"></div>
+				<script>
+					function openEditGeorefDialog(lat_long_id, dialogDiv, callback) { 
+						console.log(geology_attribute_id);
+					}
+					function deleteGeoreference(locality_id,lat_long_id, callback) { 
+						console.log(geology_attribute_id);
+					}
+				</script>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
