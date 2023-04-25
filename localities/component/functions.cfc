@@ -1360,7 +1360,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<div class="tab-content flex-wrap d-flex">
 							<div id="manualPanel" role="tabpanel" aria-labelledby="manualTabButton" tabindex="0" class="col-12 px-0 mx-0 active unfocus">
 								<h2 class="px-2 h3">Enter georeference</h2>
-							/div>
+							</div>
 							<div id="geolocatePanel" role="tabpanel" aria-labelledby="geolocateTabButton" tabindex="-1" class="col-12 px-0 mx-0 unfocus" hidden>
 								<h2 class="px-2 h3">Use Geolocate</h2>
 							</div>
