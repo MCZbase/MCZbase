@@ -5,7 +5,7 @@
 <!--- Set MAXTEMPLATE to the largest value of a collection_id that is used as bulkloader.collection_object_id as a template --->
 <!--- --->
 <cfset MAXTEMPLATE="14">
-<cfset title="Data Entry">
+<cfset title="Enter Data">
 <link rel="stylesheet" type="text/css" href="/includes/_DEstyle.css">
 <!---
 <script type='text/javascript' src='/includes/jquery/suggest.js'></script>
@@ -350,7 +350,7 @@ Some Totally Random String Data .....
 		<cfif len(loadedMsg) gt 0>
 			<cfset pageTitle = replace(loadedMsg,"::","","all")>
 		<cfelse>
-			<cfset pageTitle = "This record has passed all bulkloader checks!">
+			<cfset pageTitle = "Passed Checks!">
 		</cfif>
 		<cfif not isdefined("inEntryGroups") OR len(inEntryGroups) eq 0>
 			You have group issues! You must be in a Data Entry group to use this form.

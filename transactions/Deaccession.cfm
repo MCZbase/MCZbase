@@ -1,9 +1,9 @@
-<cfset pageTitle = "Deaccession Management">
+<cfset pageTitle = "Manage Deaccession">
 <cfif isdefined("action") AND action EQ 'newDeacc'>
 	<cfset action = "new">
 </cfif>
 <cfif isdefined("action") AND action EQ 'new'>
-	<cfset pageTitle = "Create New Deaccession">
+	<cfset pageTitle = "Create Deaccession">
 </cfif>
 <cfif isdefined("action") AND action EQ 'edit'>
 	<cfset pageTitle = "Edit Deaccession">
@@ -16,7 +16,7 @@
 			where
 				deaccession.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
-		<cfset pageTitle = "Edit Deaccession #deaccessionNumber.deacc_number#">
+		<cfset pageTitle = " #deaccessionNumber.deacc_number# | Edit Deaccession">
 	</cfif>
 </cfif>
 <cfset MAGIC_MCZ_COLLECTION = 12>

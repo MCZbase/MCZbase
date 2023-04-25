@@ -17,7 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfset pageTitle="Add Deacc Items by Barcode">
+<cfset pageTitle="Add Deacc. Items by Barcode">
 <cfinclude template="/shared/_header.cfm">
 <script>
 	function addThis(i){

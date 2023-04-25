@@ -26,10 +26,10 @@ limitations under the License.
 		<cfset pageTitle = "Search Collecting Event Number Series">
 	</cfcase>
 	<cfcase value="new">
-		<cfset pageTitle = "Add New Collecting Event Number Series">
+		<cfset pageTitle = "Create Collecting Event Number Series">
 	</cfcase>
 	<cfcase value="edit">
-		<cfset pageTitle = "Edit a Collecting Event Number Series">
+		<cfset pageTitle = "Edit Collecting Event Number Series">
 	</cfcase>
 	<cfdefaultcase>
 		<cfset pageTitle = "Collecting Event Number Series">

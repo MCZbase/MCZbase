@@ -47,7 +47,7 @@ limitations under the License.
 			<cfset shortCitation = ": #lookupShort.citation#">
 		</cfif>
 	</cfif>
-	<cfset pageTitle = "#shortCitation# Edit Publication">
+	<cfset pageTitle = "#shortCitation# | Edit Publication">
 </cfif>
 <cfset includeJQXEditor="true">
 <cfinclude template="/shared/_header.cfm">

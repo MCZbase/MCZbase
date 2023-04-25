@@ -1,6 +1,6 @@
-<cfset pageTitle = "Accession Management">
+<cfset pageTitle = "Manage Accession">
 <cfif isdefined("action") AND action EQ 'new'>
-	<cfset pageTitle = "Create New Accession">
+	<cfset pageTitle = "Create Accession">
 </cfif>
 <cfif isdefined("action") AND action EQ 'edit'>
 	<cfset pageTitle = "Edit Accession">
@@ -13,7 +13,7 @@
 			where
 				accn.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
-		<cfset pageTitle = "Edit Accession #accessionNumber.accn_number#">
+		<cfset pageTitle = "#accessionNumber.accn_number# | Edit Accession ">
 		<cfquery name="accessControl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select trans.transaction_id, vpd_collection_cde.collection_cde 
 			from 

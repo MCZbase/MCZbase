@@ -32,7 +32,7 @@ limitations under the License.
 		<cfset shortCitation = ": #lookupShort.citation#">
 	</cfif>
 </cfif>
-<cfset pageTitle = "Publication Details#shortCitation#">
+<cfset pageTitle = "#shortCitation# | Publication Details">
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml() --->
 <cfinclude template="/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->

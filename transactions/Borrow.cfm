@@ -13,7 +13,7 @@
 			where
 				borrow.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
-		<cfset pageTitle = "Edit Borrow #borrowNumber.borrow_number#">
+		<cfset pageTitle = "#borrowNumber.borrow_number# | Edit Borrow">
 	</cfif>
 </cfif>
 <cfset MAGIC_MCZ_COLLECTION = 12>
