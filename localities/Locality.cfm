@@ -863,3 +863,5 @@ limitations under the License.
 		<cftransaction>
 	</cfcase>
 </cfswitch>
+
+<cfinclude template = "/shared/_footer.cfm">
