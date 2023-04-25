@@ -120,7 +120,7 @@ function openAddGeoreferenceDialog(dialogid, locality_id, locality_label, okcall
 		data: {
 			method: "georeferenceDialogHtml",
 			returnformat: "plain",
-			locality_id: transaction_id,
+			locality_id: locality_id,
 			locality_label: locality_label
 		}, 
 		success: function (data) { 
