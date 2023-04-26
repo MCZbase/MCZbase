@@ -650,7 +650,16 @@ limitations under the License.
 						<div class="col-12 col-md-2 col-xl-3 float-left">
 							<div class="form-group mb-2">
 								<label for="folder" class="data-entry-label mb-0" id="folder_label">Folder<span></span></label>
-								<input type="text" id="folder" name="folder" class="data-entry-input" value="#encodeForHtml(folder)#" aria-labelledby="filename_label" >
+								<select class="data-entry-select">
+									<option selected class="font-italic">folder select menu</option>
+									<option value="archival">Archival</option>
+									<option value="ct_data">CT Data</option>
+									<option value="large">Large</option>
+									<option value="spectrometer">Spectrometer</option>
+									<option value="thumbnails">Thumbnails</option>
+									<option value="transactions">Transactions</option>
+									<option value="video">Video</option>
+								</select>
 							</div>
 							<script>
 								$(document).ready(function() {
@@ -660,7 +669,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-2 col-xl-3 float-left">
 							<div class="form-group mb-2">
-								<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename<span></span></label>
+								<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename <span></span></label>
 								<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label" >
 							</div>
 							<script>
