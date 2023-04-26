@@ -1373,9 +1373,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<label for="orig_lat_long_units" class="data-entry-label">Original Units</label>
 										<select id="orig_lat_long_units" class="data-entry-select reqdClr" onChange=" changeLatLongUnits(); ">
 											<option></option>
-											<cfloop query="ctunits">
-												<option value="#orig_lat_long_units#">#orig_lat_long_units#</option>
-											</cfloop>
+											<option value="decimal degrees">decimal degrees</option>
+											<option value="degrees dec. minutes">degrees with decimal minutes</option>
+											<option value="deg. min. sec.">degrees, minutes and seconds</option>
+											<option value="UTM">Universal Transverse Mercator (UTM)</option>
 										</select>
 										<script>
 											function changeLatLongUnits(){ 
@@ -1396,12 +1397,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													$("##long_deg").prop('disabled', false);
 													$("##long_deg").prop('required', true);
 													$("##long_deg").addClass('reqdClr');
-													$("##lat_ns").prop('disabled', false);
-													$("##lat_ns").prop('required', true);
-													$("##lat_ns").addClass('reqdClr');
-													$("##long_ew").prop('disabled', false);
-													$("##long_ew").prop('required', true);
-													$("##long_ew").addClass('reqdClr');
 												} else if (units == 'degrees dec. minutes') {
 													$("##lat_deg").prop('disabled', false);
 													$("##lat_deg").prop('required', true);
