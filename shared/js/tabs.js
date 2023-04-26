@@ -34,36 +34,41 @@ function loadTabs() {
 
 	// Enable arrow navigation between tabs in the tab list, if there is a tabList
 	if (tabList !== null) { 
-		tabList.addEventListener("keydown", e => {
-			// Move right
-			if (e.keyCode === 39 || e.keyCode === 37) {
-				tabs[tabFocus].setAttribute("tabindex", -1);
-				if (e.keyCode === 39) {
-					tabFocus++;
-					// If we're at the end, go to the start
-					if (tabFocus >= tabs.length) {
-						tabFocus = 0;
-					}
-					// Move left
-				} else if (e.keyCode === 37) {
-					tabFocus--;
-					// If we're at the start, move to the end
-					if (tabFocus < 0) {
-						tabFocus = tabs.length - 1;
-					}
-				}
-				tabs[tabFocus].setAttribute("tabindex", 0);
-				tabs[tabFocus].focus();
-			}
-		});
-	} 
+		tabList.addEventListener("keydown", function(event) { handleKeyPressOnTab(event) ); });
+	}
 }
 
-// tab click event handler 
+// key press handler, move right or left on tabs from arrow key presses
+function handleKeyPressOnTab(e) {
+	if (e.keyCode === 39 || e.keyCode === 37) {
+		// keystroke was left arrow or right arrow
+		tabs[tabFocus].setAttribute("tabindex", -1);
+		if (e.keyCode === 39) {
+			// Move right
+			tabFocus++;
+			// If we're at the end, go to the start
+			if (tabFocus >= tabs.length) {
+				tabFocus = 0;
+			}
+		} else if (e.keyCode === 37) {
+			// Move left
+			tabFocus--;
+			// If we're at the start, move to the end
+			if (tabFocus < 0) {
+				tabFocus = tabs.length - 1;
+			}
+		}
+		tabs[tabFocus].setAttribute("tabindex", 0);
+		tabs[tabFocus].focus();
+		changeTabs(e);
+	}
+}
+
+// tab click event handler, also invoked from keystroke listener
 function changeTabs(e) {
-	const target = e.target;
-	const parent = target.parentNode;
-	const grandparent = parent.parentNode;
+	const target = e.target;  // the tab 
+	const parent = target.parentNode; // the container for the tabs 
+	const grandparent = parent.parentNode; // the container for the tabs plus the panels to show/hide
 
 	// Remove all current selected tabs
 	parent
