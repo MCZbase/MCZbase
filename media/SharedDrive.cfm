@@ -626,7 +626,20 @@ limitations under the License.
 						<div class="col-12 col-md-2 col-xl-3 float-left">
 							<div class="form-group mb-2">
 								<label for="collection" class="data-entry-label mb-0" id="collection_label">Collection<span></span></label>
-								<input type="text" id="collection" name="collection" class="data-entry-input" value="#encodeForHtml(collection)#" aria-labelledby="collection" >
+								<select class="data-entry-select">
+									<option selected>collection select menu</option>
+									<option value="Cryo">Cryogenic</option>
+									<option value="Ent">Entomology</option>
+									<option value="Herp">Herpetology</option>
+									<option value="HerpOBS">Herpetology Observations</option>
+									<option value="IP">Invertebrate Paleontology</option>
+									<option value="IZ">Invertebrate Zoology</option>
+									<option value="Mala">Malacology</option>
+									<option value="Mamm">Mammalogy</option>
+									<option value="Orn">Ornithology</option>
+									<option value="SC">Special Collections</option>
+									<option value="VP">Vertebrate Paleontology</option>
+								</select>
 							</div>
 							<script>
 								$(document).ready(function() {
