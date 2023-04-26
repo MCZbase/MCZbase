@@ -674,7 +674,7 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="col-12 col-md-2 col-xl-3 float-left">
-							<div class="form-group mb-2">
+	<!---						<div class="form-group mb-2">
 								<label for="filename" class="data-entry-label mb-0">MIME Type <span></span></label>
 								<input type="text" id="mime_type" name="mime_type" class="data-entry-input" value="#ctmime_type.mime_type#">
 							</div>
@@ -682,7 +682,7 @@ limitations under the License.
 								$(document).ready(function() {
 									makeMediaURIPartAutocomplete("mime_type","mime_type");
 								});
-							</script>
+							</script>--->
 							
 							<div class="form-group mb-2">
 								<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
