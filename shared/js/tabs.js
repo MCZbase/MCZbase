@@ -34,7 +34,7 @@ function loadTabs() {
 
 	// Enable arrow navigation between tabs in the tab list, if there is a tabList
 	if (tabList !== null) { 
-		tabList.addEventListener("keydown", function(event) { handleKeyPressOnTab(event) ); });
+		tabList.addEventListener("keydown", function(event) { handleKeyPressOnTab(event); });
 	}
 }
 
