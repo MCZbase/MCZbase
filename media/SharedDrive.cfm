@@ -31,13 +31,6 @@ limitations under the License.
 	<cfcase value="new">
 		<cfset pageTitle = "New Shared Drive Media">
 	</cfcase>
-	<cfcase value="edit">
-		<cfset pageTitle = "Edit Media Record">
-		<cfif NOT isDefined("media_id") OR len(media_id) EQ 0>
-			<!--- redirect to media search page --->
-			<cflocation url="/media/SharedDrive.cfm" addtoken="false">
-		</cfif>
-	</cfcase>
 </cfswitch>
 
 <cfinclude template = "/shared/_header.cfm">
