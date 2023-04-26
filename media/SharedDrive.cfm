@@ -41,6 +41,9 @@ limitations under the License.
 </cfswitch>
 
 <cfinclude template = "/shared/_header.cfm">
+<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+	select COLLECTION_CDE, COLLECTION from collection order by collection
+</cfquery>
 <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select media_relationship from ctmedia_relationship order by media_relationship
 </cfquery>
@@ -607,10 +610,7 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------------------------------->
-<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select COLLECTION_CDE, COLLECTION
-	from collection order by collection
-</cfquery>
+
 	<cfcase value="new">
 		<cfoutput>
 		<section class="jumbotron pb-3 bg-white text-center">
