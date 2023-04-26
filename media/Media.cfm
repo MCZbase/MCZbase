@@ -79,7 +79,7 @@ limitations under the License.
 								<p class="card-text">The shared drive is where MCZ files are stored. It located in a facility managed by Harvard. Map to the drive or use Filezilla to transfer files to the shared drive.</p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
-										<button type="submit" class="btn btn-xs btn-primary px-5" onclick="window.location.href='/media/SharedDrive.cfm';">Start</button>
+										<button type="submit" class="btn btn-xs btn-primary px-5" onclick="window.location.href='/media/SharedDrive.cfm';" addtoken="false">Start</button>
 									</div>
 								</div>
 							</div>
@@ -93,7 +93,7 @@ limitations under the License.
 								<p class="card-text">External files could be stored anywhere outside of Harvard's facilities. Example:  Biodiversity Heritage Library. Permission must be on file before uploading.</p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
-										<button type="button" class="btn btn-xs btn-primary px-5" onClick="location url='/media/SharedDrive.cfm'" addtoken="false">">Start</button>
+										<button type="submit" class="btn btn-xs btn-primary px-5" onClick="" addtoken="false">">Start</button>
 									</div>
 								</div>
 							</div>
