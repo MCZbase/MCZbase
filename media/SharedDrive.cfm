@@ -701,12 +701,11 @@ limitations under the License.
 						<div class="col-4">
 							<script>
 								function checkInput() {
-									if ($("#filename").val().length == 0) {
-									// change image
+									if ($("##filename").val().length == 0) {
+									<img src="http://mczbase.mcz.harvard.edu/specimen_images/#collection#/#folder#/#filename#"/>
 									}
 								}
 							</script>
-							<img src="http://mczbase.mcz.harvard.edu/specimen_images/#collection#/#folder#/#filename#"/>
 						</div>
 					</div>
 				</div>
