@@ -1442,7 +1442,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<input type="text" name="determined_by_agent" id="determined_by_agent" class="data-entry-input reqdClr">
 										<script>
 											$(document).ready(function() { 
-												makeAgentAutocompleteMeta("determined_by_agent", "determined_by_agent_id") { 
+												makeAgentAutocompleteMeta("determined_by_agent", "determined_by_agent_id");
 											});
 										</script>
 									</div>
