@@ -674,28 +674,13 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="col-12 col-md-2 col-xl-3 float-left">
-	<!---						<div class="form-group mb-2">
-								<label for="filename" class="data-entry-label mb-0">MIME Type <span></span></label>
-								<input type="text" id="mime_type" name="mime_type" class="data-entry-input" value="#ctmime_type.mime_type#">
-							</div>
-							<script>
-								$(document).ready(function() {
-									makeMediaURIPartAutocomplete("mime_type","mime_type");
-								});
-							</script>--->
-							
 							<div class="form-group mb-2">
 								<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
 								<cfset selectedmimetypelist = "">
 								<select id="mime_type" name="mime_type" class="data-entry-select" multiple="true">
 									<option></option>
 									<cfloop query="ctmime_type">
-								<!---		<cfif listContains(in_mime_type,ctmime_type.mime_type) GT 0>
-											<cfset selected="selected='true'">
-											<cfset selectedmimetypelist = listAppend(selectedmimetypelist,'#ctmime_type.mime_type#') >
-										<cfelse>--->
-											<cfset selected="">
-									<!---	</cfif>--->
+										<cfset selected="">
 										<option value="#ctmime_type.mime_type#" #selected#>#ctmime_type.mime_type#</option>
 									</cfloop>
 								</select>
@@ -714,7 +699,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12">
 						<div class="col-4">
-						
+							<cfif len(collection) gt 0>hello</cfif>
 						</div>
 					</div>
 				</div>
