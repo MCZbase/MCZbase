@@ -778,6 +778,7 @@ limitations under the License.
 <cffunction name="getMimeTypeAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
 	<cfset data = ArrayNew(1)>
+
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
@@ -786,6 +787,9 @@ limitations under the License.
 				mime_type
 			from 
 				ctmime_type
+			where 
+				upper(mime_type) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			group by mime_type
 			order by mime_type
 		</cfquery>
 		<cfset rows = search_result.recordcount>
