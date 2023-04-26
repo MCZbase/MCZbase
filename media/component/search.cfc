@@ -786,9 +786,6 @@ limitations under the License.
 				mime_type
 			from 
 				ctmime_type
-			where 
-				upper(mime_type) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
-			group by mime_type
 			order by mime_type
 		</cfquery>
 		<cfloop query="search">
