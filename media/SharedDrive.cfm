@@ -607,15 +607,18 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------------------------------->
-
+<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select COLLECTION_CDE, COLLECTION
+	from collection order by collection
+</cfquery>
 	<cfcase value="new">
 		<cfoutput>
 		<section class="jumbotron pb-3 bg-white text-center">
 			<div class="container">
 				<h1 class="jumbotron-heading">Shared Drive</h1>
 				<p class="lead text-muted">
-					A thumbnail will be created for you.  Enter the largest size media available. The Shared Drive is MCZ media storage managed by Collections Operations and Research Computing (RC). Account questions can go into a RC ticket with a cc to Brendan Haley. 
-
+					Save the largest size of the media available to the shared drive. A thumbnail will be created for you. 
+					<br>The Shared Drive is MCZ media storage managed by Collections Operations and Research Computing (RC). Account questions can go into a RC ticket with a cc to Brendan Haley. 
 				</p>
 			</div>
 		</section>
@@ -628,17 +631,9 @@ limitations under the License.
 								<label for="collection" class="data-entry-label mb-0" id="collection_label">Collection<span></span></label>
 								<select class="data-entry-select">
 									<option selected class="font-italic">collection select menu</option>
-									<option value="Cryo">Cryogenic</option>
-									<option value="Ent">Entomology</option>
-									<option value="Herp">Herpetology</option>
-									<option value="HerpOBS">Herpetology Observations</option>
-									<option value="IP">Invertebrate Paleontology</option>
-									<option value="IZ">Invertebrate Zoology</option>
-									<option value="Mala">Malacology</option>
-									<option value="Mamm">Mammalogy</option>
-									<option value="Orn">Ornithology</option>
-									<option value="SC">Special Collections</option>
-									<option value="VP">Vertebrate Paleontology</option>
+									<cfloop query="">
+										<option value="#ctcollection.collection_cde#">#ctcollection.collection#</option>
+									</cfloop>
 								</select>
 							</div>
 							<script>
@@ -703,6 +698,13 @@ limitations under the License.
 									});
 								</script>
 							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<div class="col-4">
+							<cfif 
 						</div>
 					</div>
 				</div>
@@ -890,7 +892,8 @@ limitations under the License.
 			<div class="container">
 				<h1 class="jumbotron-heading">Shared Drive</h1>
 				<p class="lead text-muted">
-					A thumbnail will be created for you.  Enter the largest size media available. The Shared Drive is MCZ media storage managed by Collections Operations and Research Computing (RC). Account questions can go into a RC ticket with a cc to Brendan Haley. 
+					Save the largest size of the media available to the shared drive. A thumbnail will be created for you. 
+					<br>The Shared Drive is MCZ media storage managed by Collections Operations and Research Computing (RC). Account questions can go into a RC ticket with a cc to Brendan Haley. 
 				</p>
 			</div>
 		</section>
