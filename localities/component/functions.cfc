@@ -1392,7 +1392,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													$("##lat_deg").addClass('reqdClr');
 													$("##long_deg").prop('disabled', false);
 													$("##long_deg").addClass('reqdClr');
-												} else if (orig_units == 'degrees dec. minutes') {
+													$("##lat_ns").prop('disabled', false);
+													$("##lat_ns").addClass('reqdClr');
+													$("##long_ew").prop('disabled', false);
+													$("##long_ew").addClass('reqdClr');
+												} else if (units == 'degrees dec. minutes') {
 													$("##lat_deg").prop('disabled', false);
 													$("##lat_deg").addClass('reqdClr');
 													$("##lat_min").prop('disabled', false);
@@ -1405,10 +1409,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													$("##long_min").addClass('reqdClr');
 													$("##long_ew").prop('disabled', false);
 													$("##long_ew").addClass('reqdClr');
-												} else if (orig_units == 'deg. min. sec.') {
+												} else if (units == 'deg. min. sec.') {
 													$(".latlong").prop('disabled', false);
 													$(".latlong").addClass('reqdClr');
-												} else if (orig_units == 'UTM') {
+												} else if (units == 'UTM') {
 													$(".utm").prop('disabled', false);
 													$(".utm").addClass('reqdClr');
 												}
