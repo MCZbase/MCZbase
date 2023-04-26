@@ -699,7 +699,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12">
 						<div class="col-4">
-							<cfif len(collection) gt 0>hello</cfif><cfif len(filename) gt 0>hello2</cfif>
+							<cfif len(collection) gt 0>hello</cfif><cfif len(#encodeForHtml(filename)#) gt 0>hello2</cfif>
 						</div>
 					</div>
 				</div>
