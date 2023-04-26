@@ -790,7 +790,7 @@ limitations under the License.
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
-		<cfloop query="search_result">
+		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["value"] = "#search.mime_type#" >
 			<cfset row["meta"] = "#search.mime_type# (#search.ct#)" >
