@@ -127,6 +127,12 @@ limitations under the License.
 	<cfif not isdefined("multitypelink")>
 		<cfset multitypelink="">
 	</cfif>
+	<cfif not isdefined("collection")>
+		<cfset collection="">
+	</cfif>
+	<cfif not isdefined("folder")>
+		<cfset folder="">
+	</cfif>
 	<cfif not isdefined("media_label_type")>
 		<cfset media_label_type="">
 	</cfif>
@@ -618,23 +624,23 @@ limitations under the License.
 					<div class="col-12 py-5">
 						<div class="col-12 col-md-2 col-xl-3 float-left">
 							<div class="form-group mb-2">
-								<label for="filename" class="data-entry-label mb-0" id="filename_label">Collection<span></span></label>
-								<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label" >
+								<label for="collection" class="data-entry-label mb-0" id="collection_label">Collection<span></span></label>
+								<input type="text" id="collection" name="collection" class="data-entry-input" value="#encodeForHtml(collection)#" aria-labelledby="collection" >
 							</div>
 							<script>
 								$(document).ready(function() {
-									makeMediaURIPartAutocomplete("filename","filename");
+									makeMediaURIPartAutocomplete("collection","collection");
 								});
 							</script>
 						</div>
 						<div class="col-12 col-md-2 col-xl-3 float-left">
 							<div class="form-group mb-2">
-								<label for="filename" class="data-entry-label mb-0" id="filename_label">Folder<span></span></label>
-								<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label" >
+								<label for="folder" class="data-entry-label mb-0" id="folder_label">Folder<span></span></label>
+								<input type="text" id="folder" name="folder" class="data-entry-input" value="#encodeForHtml(folder)#" aria-labelledby="filename_label" >
 							</div>
 							<script>
 								$(document).ready(function() {
-									makeMediaURIPartAutocomplete("filename","filename");
+									makeMediaURIPartAutocomplete("folder","folder");
 								});
 							</script>
 						</div>
