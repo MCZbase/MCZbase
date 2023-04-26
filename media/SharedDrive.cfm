@@ -615,8 +615,7 @@ limitations under the License.
 		<div class="album pb-5 bg-light">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-4 px-5 pb-5">
-						<h2 class="text-center pt-3">Shared Drive</h2>
+					<div class="col-12">
 						<div class="col-12 col-md-2 col-xl-3">
 							<div class="form-group mb-2">
 								<label for="filename" class="data-entry-label mb-0" id="filename_label">Collection<span></span></label>
