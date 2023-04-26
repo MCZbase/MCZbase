@@ -1381,10 +1381,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											function changeLatLongUnits(){ 
 												var units = $("##orig_lat_long_units").val();
 												if (!units) { 
+													$("##lat_deg").hide();
 												} else if (units == 'decimal degrees') {
+													$("##lat_deg").show();
 												} else if (orig_units == 'degrees dec. minutes') {
+													$("##lat_deg").show();
 												} else if (orig_units == 'deg. min. sec.') {
+													$("##lat_deg").show();
 												} else if (orig_units == 'UTM') {
+													$("##lat_deg").show();
 												}
 											} 
 										</script>
