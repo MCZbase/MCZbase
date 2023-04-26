@@ -1380,40 +1380,54 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<script>
 											function changeLatLongUnits(){ 
 												$(".latlong").prop('disabled', true);
+												$(".latlong").prop('required', false);
 												$(".latlong").removeClass('reqdClr');
 												$(".utm").removeClass('reqdClr');
 												$(".utm").prop('disabled', true);
+												$(".utm").prop('required', false);
 												var units = $("##orig_lat_long_units").val();
 												if (!units) { 
 													$(".latlong").prop('disabled', true);
 													$(".utm").prop('disabled', true);
 												} else if (units == 'decimal degrees') {
 													$("##lat_deg").prop('disabled', false);
+													$("##lat_deg").prop('required', true);
 													$("##lat_deg").addClass('reqdClr');
 													$("##long_deg").prop('disabled', false);
+													$("##long_deg").prop('required', true);
 													$("##long_deg").addClass('reqdClr');
 													$("##lat_ns").prop('disabled', false);
+													$("##lat_ns").prop('required', true);
 													$("##lat_ns").addClass('reqdClr');
 													$("##long_ew").prop('disabled', false);
+													$("##long_ew").prop('required', true);
 													$("##long_ew").addClass('reqdClr');
 												} else if (units == 'degrees dec. minutes') {
 													$("##lat_deg").prop('disabled', false);
+													$("##lat_deg").prop('required', true);
 													$("##lat_deg").addClass('reqdClr');
 													$("##lat_min").prop('disabled', false);
+													$("##lat_min").prop('required', true);
 													$("##lat_min").addClass('reqdClr');
 													$("##lat_ns").prop('disabled', false);
+													$("##lat_ns").prop('required', true);
 													$("##lat_ns").addClass('reqdClr');
 													$("##long_deg").prop('disabled', false);
+													$("##long_deg").prop('required', true);
 													$("##long_deg").addClass('reqdClr');
 													$("##long_min").prop('disabled', false);
+													$("##long_mit").prop('required', true);
 													$("##long_min").addClass('reqdClr');
 													$("##long_ew").prop('disabled', false);
+													$("##long_ew").prop('required', true);
 													$("##long_ew").addClass('reqdClr');
 												} else if (units == 'deg. min. sec.') {
 													$(".latlong").prop('disabled', false);
 													$(".latlong").addClass('reqdClr');
+													$(".latlong").prop('required', true);
 												} else if (units == 'UTM') {
 													$(".utm").prop('disabled', false);
+													$(".utm").prop('required', true);
 													$(".utm").addClass('reqdClr');
 												}
 											} 
@@ -1434,7 +1448,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="lat_ns" class="data-entry-label">Direction</label>
-										<select name="lat_ns" size="4" id="lat_ns" class="data-entry-select latlong">
+										<select name="lat_ns" size="1" id="lat_ns" class="data-entry-select latlong">
+											<option value=""></option>
 											<option value="N">N</option>
 											<option value="S">S</option>
 										</select>
@@ -1453,7 +1468,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="long_ew" class="data-entry-label">Direction</label>
-										<select name="long_ew" size="4" id="long_ew" class="data-entry-select latlong">
+										<select name="long_ew" size="1" id="long_ew" class="data-entry-select latlong">
+											<option value=""></option>
 											<option value="E">E</option>
 											<option value="W">W</option>
 										</select>
