@@ -708,7 +708,7 @@ limitations under the License.
 				</div>
 			</div>
 		</div>
-			<div class="container-fluid container-xl">
+	<!---		<div class="container-fluid container-xl">
 				<form name="newMedia" method="post" action="Media.cfm">
 					<input type="hidden" name="action" value="saveNew">
 					<input type="hidden" id="media_type" name="media_type" value="">
@@ -725,7 +725,7 @@ limitations under the License.
 								<h1 class="h2 px-0 py-2 my-2">Create Media </h1>
 							</div>
 							<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 py-3">
-								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="width:100%"><!---Image can be width 100% and height auto. It will fit the container of col-md-2 width wise and display at natural aspect ratio.--->
+								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="width:100%">
 								<p class="small mb-1">Media Image (preview shows here)</p>
 								
 							</div>
@@ -880,7 +880,7 @@ limitations under the License.
 						</script>
 					</cfif>
 				</cfif>
-			</div>
+			</div>--->
 		</cfoutput>
 	</cfcase>
 							
