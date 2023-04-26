@@ -779,7 +779,7 @@ limitations under the License.
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="mime_type_ahead" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+		<cfquery name="mime_type_ahead" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mime_type_ahead_result" timeout="#Application.query_timeout#">
 			select 
 				mime_type
 			from 
@@ -787,7 +787,7 @@ limitations under the License.
 			order by mime_type
 		</cfquery>
 		<cfset i = 1>
-		<cfloop query="mime_type_ahead">
+		<cfloop query="mime_type_ahead_result">
 			<cfset row = StructNew()>
 			<cfset row["value"] = "#mime_type_ahead.mime_type#" >
 			<cfset row["meta"] = "#mime_type_ahead.mime_type#" >
