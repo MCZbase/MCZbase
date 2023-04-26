@@ -260,6 +260,10 @@ limitations under the License.
 								if (x != "") {
 									alert("Field must be filled out");
 								return false;
+								var v = document.forms["startMedia"]["mime_type"].value;
+								if (v != "") {
+									alert("Field must be filled out");
+								return false;
 								}
 							}
 						</script>
