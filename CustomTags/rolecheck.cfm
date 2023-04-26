@@ -12,7 +12,7 @@
 		you will be denied access until the cache expires (or you transiently reset to a timespan of 0,0,0,0).
 		See the Redmine wiki for instructions on adding a new page to MCZbase.
 	--->
-	<cfquery name="isValid" datasource="uam_god" cachedWithin="#CreateTimeSpan(0,0,0,0)#">
+	<cfquery name="isValid" datasource="uam_god" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 		 	SELECT DISTINCT ROLE_NAME 
 			FROM cf_form_permissions
 			WHERE form_path = <cfqueryparam value="#filePath#" cfsqltype="CF_SQL_VARCHAR">
