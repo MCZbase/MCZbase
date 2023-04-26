@@ -772,25 +772,28 @@ limitations under the License.
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+			
+			
 <!--- backing for a mime_type assignment autocomplete control --->
 <cffunction name="getMimeTypeAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
 	<cfset data = ArrayNew(1)>
-
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="mime_type_ahead" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mime_type_ahead_result" timeout="#Application.query_timeout#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select 
+				count(*) ct,
 				mime_type
 			from 
 				ctmime_type
 			order by mime_type
 		</cfquery>
+		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
-		<cfloop query="mime_type_ahead_result">
+		<cfloop query="search_result">
 			<cfset row = StructNew()>
-			<cfset row["value"] = "#mime_type_ahead.mime_type#" >
-			<cfset row["meta"] = "#mime_type_ahead.mime_type#" >
+			<cfset row["value"] = "#search.mime_type#" >
+			<cfset row["meta"] = "#search.mime_type# (#search.ct#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
@@ -805,11 +808,12 @@ limitations under the License.
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+			
+			
 <!--- backing for a media label aspect autocomplete control --->
 <cffunction name="getAspectAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
 	<cfset data = ArrayNew(1)>
-
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
