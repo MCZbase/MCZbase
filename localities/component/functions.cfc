@@ -1379,70 +1379,92 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</select>
 										<script>
 											function changeLatLongUnits(){ 
+												$(".latlong").prop('disabled', true);
+												$(".latlong").removeClass('reqdClr');
+												$(".utm").removeClass('reqdClr');
+												$(".utm").prop('disabled', true);
 												var units = $("##orig_lat_long_units").val();
 												if (!units) { 
-													$("##lat_deg").hide();
+													$(".latlong").prop('disabled', true);
+													$(".utm").prop('disabled', true);
 												} else if (units == 'decimal degrees') {
-													$("##lat_deg").show();
+													$("##lat_deg").prop('disabled', false);
+													$("##lat_deg").addClass('reqdClr');
+													$("##long_deg").prop('disabled', false);
+													$("##long_deg").addClass('reqdClr');
 												} else if (orig_units == 'degrees dec. minutes') {
-													$("##lat_deg").show();
+													$("##lat_deg").prop('disabled', false);
+													$("##lat_deg").addClass('reqdClr');
+													$("##lat_min").prop('disabled', false);
+													$("##lat_min").addClass('reqdClr');
+													$("##lat_ns").prop('disabled', false);
+													$("##lat_ns").addClass('reqdClr');
+													$("##long_deg").prop('disabled', false);
+													$("##long_deg").addClass('reqdClr');
+													$("##long_min").prop('disabled', false);
+													$("##long_min").addClass('reqdClr');
+													$("##long_ew").prop('disabled', false);
+													$("##long_ew").addClass('reqdClr');
 												} else if (orig_units == 'deg. min. sec.') {
-													$("##lat_deg").show();
+													$(".latlong").prop('disabled', false);
+													$(".latlong").addClass('reqdClr');
 												} else if (orig_units == 'UTM') {
-													$("##lat_deg").show();
+													$(".utm").prop('disabled', false);
+													$(".utm").addClass('reqdClr');
 												}
 											} 
+											$(document).ready(changeLatLongUnits);
 										</script>
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="lat_deg" class="data-entry-label">Latitude Degrees</label>
-										<input type="text" name="lat_deg" size="4" id="lat_deg" class="data-entry-input reqdClr">
+										<input type="text" name="lat_deg" size="4" id="lat_deg" class="data-entry-input latlong">
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="lat_min" class="data-entry-label">Minutes</label>
-										<input type="text" name="lat_min" size="4" id="lat_min" class="data-entry-input reqdClr">
+										<input type="text" name="lat_min" size="4" id="lat_min" class="data-entry-input latlong">
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="lat_sec" class="data-entry-label">Seconds</label>
-										<input type="text" name="lat_sec" size="4" id="lat_sec" class="data-entry-input reqdClr">
+										<input type="text" name="lat_sec" size="4" id="lat_sec" class="data-entry-input latlong">
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="lat_ns" class="data-entry-label">Direction</label>
-										<select name="lat_ns" size="4" id="lat_ns" class="data-entry-select reqdClr">
+										<select name="lat_ns" size="4" id="lat_ns" class="data-entry-select latlong">
 											<option value="N">N</option>
 											<option value="S">S</option>
 										</select>
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="long_deg" class="data-entry-label">Longitude Degrees</label>
-										<input type="text" name="long_deg" size="4" id="long_deg" class="data-entry-input reqdClr">
+										<input type="text" name="long_deg" size="4" id="long_deg" class="data-entry-input latlong">
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="long_min" class="data-entry-label">Minutes</label>
-										<input type="text" name="long_min" size="4" id="long_min" class="data-entry-input reqdClr">
+										<input type="text" name="long_min" size="4" id="long_min" class="data-entry-input latlong">
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="long_sec" class="data-entry-label">Seconds</label>
-										<input type="text" name="long_sec" size="4" id="long_sec" class="data-entry-input reqdClr">
+										<input type="text" name="long_sec" size="4" id="long_sec" class="data-entry-input latlong">
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="long_ew" class="data-entry-label">Direction</label>
-										<select name="long_ew" size="4" id="long_ew" class="data-entry-select reqdClr">
+										<select name="long_ew" size="4" id="long_ew" class="data-entry-select latlong">
 											<option value="E">E</option>
 											<option value="W">W</option>
 										</select>
 									</div>
 									<div class="col-12 col-md-4">
 										<label for="utm_zone" class="data-entry-label">UTM Zone/Letter</label>
-										<input type="text" name="utm_zone" size="4" id="utm_zone" class="data-entry-input reqdClr">
+										<input type="text" name="utm_zone" size="4" id="utm_zone" class="data-entry-input utm">
 									</div>
 									<div class="col-12 col-md-4">
 										<label for="utm_ew" class="data-entry-label">Easting</label>
-										<input type="text" name="utm_ew" size="4" id="utm_ew" class="data-entry-input reqdClr">
+										<input type="text" name="utm_ew" size="4" id="utm_ew" class="data-entry-input utm">
 									</div>
 									<div class="col-12 col-md-4">
 										<label for="utm_ns" class="data-entry-label">Northing</label>
-										<input type="text" name="utm_ns" size="4" id="utm_ns" class="data-entry-input reqdClr">
+										<input type="text" name="utm_ns" size="4" id="utm_ns" class="data-entry-input utm">
 									</div>
 								</div>
 							</div>
