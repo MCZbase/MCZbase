@@ -1,9 +1,13 @@
 // For accessibility of tabs //
 // from https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role#example 
 //
-window.addEventListener("DOMContentLoaded", () => {
-	const tabs = document.querySelectorAll('[role="tab"]');
-	const tabList = document.querySelector('[role="tablist"]');
+window.addEventListener("DOMContentLoaded", loadTabs);
+var tabs;
+var tablist;
+
+function loadTabs() { 
+	tabs = document.querySelectorAll('[role="tab"]');
+	tabList = document.querySelector('[role="tablist"]');
 	var activeTab = $('.tabList > .active').get(0);
 	if (typeof activeTab !== 'undefined') { 
 		var activeTabId = $(activeTab).attr('id');

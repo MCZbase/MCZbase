@@ -1362,6 +1362,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 " id="geolocateTabButton" role="tab" aria-controls="geolocatePanel" aria-selected="false" tabindex="-1" aria-label="Use geolocate to georeference specific locality">Use Geolocate with Specific Locality</button>
 						</div>
 						<!-- Tab panes -->
+						<script>
+							$(document).ready(loadTabs);
+						</script>
 						<div class="tab-content flex-wrap d-flex">
 							<div id="manualPanel" role="tabpanel" aria-labelledby="manualTabButton" tabindex="0" class="col-12 px-0 mx-0 active unfocus">
 								<h2 class="px-2 h3">Enter georeference</h2>
