@@ -177,39 +177,25 @@ limitations under the License.
 				<div class="container">
 					<div class="row">
 						<div class="col-12 py-5">
-							<div class="col-12 col-md-2 col-xl-3 float-left">
+							<div class="col-12 col-md-2">
 								<div class="form-group mb-2">
-									<label for="collection" class="data-entry-label mb-0" id="collection_label">Collection<span></span></label>
-									<select class="data-entry-select">
-										<option selected class="font-italic">collection select menu</option>
-										<cfloop query="ctcollection">
-											<option value="#ctcollection.collection_cde#">#ctcollection.collection#</option>
-										</cfloop>
-									</select>
+									<label for="hostname" class="data-entry-label mb-0" id="hostname_label">Host<span></span></label>
+									<input type="text" id="hostname" name="hostname" class="data-entry-input" value="#encodeForHtml(hostname)#" aria-labelledby="hostname_label" >
 								</div>
 								<script>
 									$(document).ready(function() {
-										makeMediaURIPartAutocomplete("collection","collection");
+										makeMediaURIPartAutocomplete("hostname","hostname");
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2 col-xl-3 float-left">
+							<div class="col-12 col-md-2">
 								<div class="form-group mb-2">
-									<label for="folder" class="data-entry-label mb-0" id="folder_label">Folder<span></span></label>
-									<select class="data-entry-select" name="folder">
-										<option selected class="font-italic">folder select menu</option>
-										<option value="archival">Archival</option>
-										<option value="ct_data">CT Data</option>
-										<option value="large">Large</option>
-										<option value="spectrometer">Spectrometer</option>
-										<option value="thumbnails">Thumbnails</option>
-										<option value="transactions">Transactions</option>
-										<option value="video">Video</option>
-									</select>
+									<label for="path" class="data-entry-label mb-0" id="path_label">Path<span></span></label>
+									<input type="text" id="path" name="path" class="data-entry-input" value="#encodeForHtml(path)#" aria-labelledby="path_label" >
 								</div>
 								<script>
 									$(document).ready(function() {
-										makeMediaURIPartAutocomplete("folder","folder");
+										makeMediaURIPartAutocomplete("path","path");
 									});
 								</script>
 							</div>
