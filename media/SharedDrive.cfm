@@ -699,7 +699,30 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12">
 						<div class="col-4">
-							<cfif len(collection) gt 0>hello</cfif><cfif len(#encodeForHtml(filename)#) gt 0>hello2</cfif>
+							<script>
+								function myFunction() {
+									var x = document.getElementById("filename");
+									var curVal = x.value;
+									var imageRW = document.getElementById('img_right_wrong');
+								if (curVal == "")
+									{
+										//wrong.png   
+									imageRW.src = "http://findicons.com/files/icons/1671/simplicio/128/notification_error.png";
+									}
+								else
+									{
+										//right.png
+									imageRW.src = "http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/#filename#";
+									}
+								}
+							
+							</script>
+						<form>
+							<input type="text" id="abc" onkeyup="myFunction()" name="abc" value="">
+							<img src="http://findicons.com/files/icons/1671/simplicio/128/notification_error.png" id="img_right_wrong" width="2%">
+							<input type="submit" id="submit" value="submit">
+						</form>
+
 						</div>
 					</div>
 				</div>
