@@ -35,7 +35,7 @@ limitations under the License.
 		<cfset pageTitle = "Edit Media Record">
 		<cfif NOT isDefined("media_id") OR len(media_id) EQ 0>
 			<!--- redirect to media search page --->
-			<cflocation url="/media/findMedia.cfm" addtoken="false">
+			<cflocation url="/media/SharedDrive.cfm" addtoken="false">
 		</cfif>
 	</cfcase>
 </cfswitch>
