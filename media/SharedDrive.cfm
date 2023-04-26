@@ -704,7 +704,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12">
 						<div class="col-4">
-							<cfif 
+						
 						</div>
 					</div>
 				</div>
