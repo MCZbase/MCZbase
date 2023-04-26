@@ -673,8 +673,8 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-2 col-xl-3 float-left">
 							<div class="form-group mb-2">
-								<label for="mime_type" class="data-entry-label mb-0">MIME Type <span></span></label>
-								<input type="text" id="mime_type" name="mime_type" class="data-entry-input" value="#encodeForHtml(mime_type)#">
+								<label for="mime_type" class="data-entry-label mb-0" id="filename_label">MIME Type <span></span></label>
+								<input type="text" id="mime_type" name="mime_type" class="data-entry-input" value="#encodeForHtml(mime_type)#" labelledby="mime_type" >
 							</div>
 							<script>
 								$(document).ready(function() {
