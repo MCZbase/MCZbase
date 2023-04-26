@@ -696,6 +696,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
+								  <input class="btn btn-xs btn-primary" type="submit" value="Submit">
 					</form>
 				</div>
 				<div class="row">
