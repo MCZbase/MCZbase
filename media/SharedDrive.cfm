@@ -645,7 +645,7 @@ limitations under the License.
 						<div class="col-12 col-md-2 col-xl-3 float-left">
 							<div class="form-group mb-2">
 								<label for="folder" class="data-entry-label mb-0" id="folder_label">Folder<span></span></label>
-								<select class="data-entry-select">
+								<select class="data-entry-select" onChange="checkInput()">
 									<option selected class="font-italic">folder select menu</option>
 									<option value="archival">Archival</option>
 									<option value="ct_data">CT Data</option>
@@ -665,7 +665,7 @@ limitations under the License.
 						<div class="col-12 col-md-2 col-xl-3 float-left">
 							<div class="form-group mb-2">
 								<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename <span></span></label>
-								<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label" >
+								<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label"  onchange="checkInput()">
 							</div>
 							<script>
 								$(document).ready(function() {
@@ -677,7 +677,7 @@ limitations under the License.
 							<div class="form-group mb-2">
 								<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
 								<cfset selectedmimetypelist = "">
-								<select id="mime_type" name="mime_type" class="data-entry-select" multiple="true">
+								<select id="mime_type" name="mime_type" class="data-entry-select" multiple="true" onChange="checkInput()">
 									<option></option>
 									<cfloop query="ctmime_type">
 										<cfset selected="">
@@ -700,29 +700,13 @@ limitations under the License.
 					<div class="col-12">
 						<div class="col-4">
 							<script>
-								function myFunction() {
-									var x = document.getElementById("filename");
-									var curVal = x.value;
-									var imageRW = document.getElementById('img_right_wrong');
-								if (curVal == "")
-									{
-										//wrong.png   
-									imageRW.src = "http://findicons.com/files/icons/1671/simplicio/128/notification_error.png";
-									}
-								else
-									{
-										//right.png
-									imageRW.src = "http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/#filename#";
+								function checkInput() {
+									if ($("#filename").val().length == 0) {
+									// change image
 									}
 								}
-							
 							</script>
-						<form>
-					
-							<img src="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/#filename#" id="filename" width="2%">
-							<input type="submit" id="submit" value="submit">
-						</form>
-
+							<img src="http://mczbase.mcz.harvard.edu/specimen_images/#collection#/#folder#/#filename#"/>
 						</div>
 					</div>
 				</div>
