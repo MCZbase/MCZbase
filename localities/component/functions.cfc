@@ -1369,7 +1369,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<div id="manualPanel" role="tabpanel" aria-labelledby="manualTabButton" tabindex="0" class="col-12 px-0 mx-0 active unfocus">
 								<h2 class="px-2 h3">Enter georeference</h2>
 								<div class="form-row">
-									<div class="col-12">
+									<div class="col-12 col-md-3">
 										<label for="orig_lat_long_units" class="data-entry-label">Original Units</label>
 										<select id="orig_lat_long_units" class="data-entry-select reqdClr" onChange=" changeLatLongUnits(); ">
 											<option></option>
@@ -1430,16 +1430,42 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</script>
 									</div>
 									<div class="col-12 col-md-3">
+										<label for="accepted" class="data-entry-label">Accepted</label>
+										<select name="accepted_lat_long_fg" size="1" id="accepted_lat_long_fg" class="data-entry-select reqdClr">
+											<option value="Yes" selected>Yes</option>
+											<option value="No">No</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="determined_by_agent" class="data-entry-label">Determiner</label>
+										<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id">
+										<input type="text" name="determined_by_agent" id="determined_by_agent" class="data-entry-input reqdClr">
+										<script>
+											$(document).ready(function() { 
+												makeAgentAutocompleteMeta("determined_by_agent", "determined_by_agent_id") { 
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="determined_date" class="data-entry-label">Date Determined</label>
+										<input type="text" name="determined_date" id="determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd">
+										<script>
+											$(document).ready(function() {
+												$("##determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-3">
 										<label for="lat_deg" class="data-entry-label">Latitude Degrees</label>
-										<input type="text" name="lat_deg" size="4" id="lat_deg" class="data-entry-input latlong">
+										<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input latlong">
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="lat_min" class="data-entry-label">Minutes</label>
-										<input type="text" name="lat_min" size="4" id="lat_min" class="data-entry-input latlong">
+										<input type="text" name="lat_min" id="lat_min" class="data-entry-input latlong">
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="lat_sec" class="data-entry-label">Seconds</label>
-										<input type="text" name="lat_sec" size="4" id="lat_sec" class="data-entry-input latlong">
+										<input type="text" name="lat_sec" id="lat_sec" class="data-entry-input latlong">
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="lat_ns" class="data-entry-label">Direction</label>
