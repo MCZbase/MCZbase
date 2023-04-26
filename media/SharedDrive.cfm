@@ -690,12 +690,12 @@ limitations under the License.
 								<select id="mime_type" name="mime_type" class="data-entry-select" multiple="true">
 									<option></option>
 									<cfloop query="ctmime_type">
-										<cfif listContains(in_mime_type,ctmime_type.mime_type) GT 0>
+								<!---		<cfif listContains(in_mime_type,ctmime_type.mime_type) GT 0>
 											<cfset selected="selected='true'">
 											<cfset selectedmimetypelist = listAppend(selectedmimetypelist,'#ctmime_type.mime_type#') >
-										<cfelse>
+										<cfelse>--->
 											<cfset selected="">
-										</cfif>
+									<!---	</cfif>--->
 										<option value="#ctmime_type.mime_type#" #selected#>#ctmime_type.mime_type#</option>
 									</cfloop>
 								</select>
