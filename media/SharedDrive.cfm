@@ -71,9 +71,11 @@ limitations under the License.
 	<cfif not isdefined("mime_type")> 
 		<cfset mime_type="">
 	</cfif>
+	<cfset in_mime_type=mime_type>
 	<cfif not isdefined("media_type")> 
 		<cfset media_type="">
 	</cfif>
+	<cfset in_media_type=media_type>
 	<cfif not isdefined("media_id")> 
 		<cfset media_id="">
 	</cfif>
@@ -671,7 +673,17 @@ limitations under the License.
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-2 col-xl-3 float-left">							
+						<div class="col-12 col-md-2 col-xl-3 float-left">
+							<div class="form-group mb-2">
+								<label for="filename" class="data-entry-label mb-0">MIME Type <span></span></label>
+								<input type="text" id="mime_type" name="mime_type" class="data-entry-input" value="#ctmime_type.mime_type#">
+							</div>
+							<script>
+								$(document).ready(function() {
+									makeMediaURIPartAutocomplete("mime_type","mime_type");
+								});
+							</script>
+							
 							<div class="form-group mb-2">
 								<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
 								<cfset selectedmimetypelist = "">
