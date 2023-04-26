@@ -705,7 +705,7 @@ limitations under the License.
 								function validateForm() {
 								  var x = document.forms["startMedia"]["collection"]["folder"]["filename"]["mime_type"].value;
 								  if (x == "") {
-									alert("Name must be filled out");
+									alert("Field must be filled out");
 									return false;
 								  }
 								}
