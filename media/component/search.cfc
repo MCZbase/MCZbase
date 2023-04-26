@@ -774,35 +774,7 @@ limitations under the License.
 </cffunction>
 			
 			
-<!--- backing for a mime_type assignment autocomplete control --->
-<cffunction name="getMimeTypeAutocomplete" access="remote" returntype="any" returnformat="json">
-	<cfargument name="term" type="string" required="yes">
-	<cfset data = ArrayNew(1)>
 
-	<cftry>
-		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
-			select 
-				mime_type
-			from 
-				ctmime_type
-			order by mime_type
-		</cfquery>
-		<cfloop query="search">
-			<cfset row = StructNew()>
-			<cfset row["value"] = "#search.mime_type#" >
-		</cfloop>
-		<cfreturn #serializeJSON(data)#>
-	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
 			
 			
 <!--- backing for a media label aspect autocomplete control --->

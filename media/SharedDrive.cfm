@@ -671,19 +671,9 @@ limitations under the License.
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-2 col-xl-3 float-left">
+						<div class="col-12 col-md-2 col-xl-3 float-left">							
 							<div class="form-group mb-2">
-								<label for="mime_type" class="data-entry-label mb-0" id="filename_label">MIME Type <span></span></label>
-								<input type="text" id="mime_type" name="mime_type" class="data-entry-input" value="#encodeForHtml(mime_type)#" labelledby="mime_type" >
-							</div>
-							<script>
-								$(document).ready(function() {
-									getMimeTypeAutocomplete("mime_type","mime_type");
-								});
-							</script>
-							
-							<div class="form-group mb-2">
-		<!---						<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
+								<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
 								<cfset selectedmimetypelist = "">
 								<select id="mime_type" name="mime_type" class="data-entry-select" multiple="true">
 									<option></option>
@@ -696,15 +686,15 @@ limitations under the License.
 										</cfif>
 										<option value="#ctmime_type.mime_type#" #selected#>#ctmime_type.mime_type#</option>
 									</cfloop>
-								</select>--->
-								<!---<script>
+								</select>
+								<script>
 									$(document).ready(function () {
-										$("##mime_type").jqxComboBox({  multiSelect: true, width: '100%', enableBrowserBoundsDetection: true });  
+										$("##mime_type").jqxDropDownList({source: datasource, true, width: '100%', enableBrowserBoundsDetection: true });  
 										<cfloop list="#selectedmimetypelist#" index="mt">
-											$("##mime_type").jqxComboBox('selectItem', '#mt#');
+											$("##mime_type").jqxDropDownList('selectItem', '#mt#');
 										</cfloop>
 									});
-								</script>--->
+								</script>
 							</div>
 						</div>
 					</div>
