@@ -631,7 +631,7 @@ limitations under the License.
 								<label for="collection" class="data-entry-label mb-0" id="collection_label">Collection<span></span></label>
 								<select class="data-entry-select">
 									<option selected class="font-italic">collection select menu</option>
-									<cfloop query="">
+									<cfloop query="ctcollection">
 										<option value="#ctcollection.collection_cde#">#ctcollection.collection#</option>
 									</cfloop>
 								</select>
