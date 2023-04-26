@@ -625,7 +625,7 @@ limitations under the License.
 		<div class="album pb-5 bg-light">
 			<div class="container">
 				<div class="row">
-					<form name="startMedia" action="/SharedDrive.cfm" onsubmit="return validateForm()" method="post" required>
+					<form name="startMedia" id="newMedia" action="/media/SharedDrive.cfm" onsubmit="return noenter();" method="post" required>
 						<div class="col-12 py-5">
 							<div class="col-12 col-md-2 col-xl-3 float-left">
 								<div class="form-group mb-2">
