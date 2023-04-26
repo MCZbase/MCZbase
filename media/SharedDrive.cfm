@@ -718,8 +718,8 @@ limitations under the License.
 							
 							</script>
 						<form>
-							<input type="text" id="abc" onkeyup="myFunction()" name="abc" value="">
-							<img src="http://findicons.com/files/icons/1671/simplicio/128/notification_error.png" id="img_right_wrong" width="2%">
+					
+							<img src="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/#filename#" id="filename" width="2%">
 							<input type="submit" id="submit" value="submit">
 						</form>
 
