@@ -783,7 +783,6 @@ limitations under the License.
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
 			select 
-				count(*) ct,
 				mime_type
 			from 
 				ctmime_type
@@ -792,14 +791,9 @@ limitations under the License.
 			group by mime_type
 			order by mime_type
 		</cfquery>
-		<cfset rows = search_result.recordcount>
-		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["value"] = "#search.mime_type#" >
-			<cfset row["meta"] = "#search.mime_type# (#search.ct#)" >
-			<cfset data[i]  = row>
-			<cfset i = i + 1>
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
