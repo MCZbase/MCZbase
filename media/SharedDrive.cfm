@@ -616,7 +616,7 @@ limitations under the License.
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<div class="col-12 col-md-2 col-xl-3">
+						<div class="col-12 col-md-2 col-xl-3 float-left">
 							<div class="form-group mb-2">
 								<label for="filename" class="data-entry-label mb-0" id="filename_label">Collection<span></span></label>
 								<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label" >
@@ -627,7 +627,7 @@ limitations under the License.
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-2 col-xl-3">
+						<div class="col-12 col-md-2 col-xl-3 float-left">
 							<div class="form-group mb-2">
 								<label for="filename" class="data-entry-label mb-0" id="filename_label">Folder<span></span></label>
 								<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label" >
@@ -638,7 +638,7 @@ limitations under the License.
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-2 col-xl-3">
+						<div class="col-12 col-md-2 col-xl-3 float-left">
 							<div class="form-group mb-2">
 								<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename<span></span></label>
 								<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label" >
@@ -649,7 +649,7 @@ limitations under the License.
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-2 col-xl-3 float-left">
 							<div class="form-group mb-2">
 								<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
 								<cfset selectedmimetypelist = "">
