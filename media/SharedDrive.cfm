@@ -28,7 +28,7 @@ limitations under the License.
 </cfif>
 <cfset pageTitle = "Shared Drive Media">
 <cfswitch expression="#action#">
-	<cfcase value="new">
+	<cfcase value="">
 		<cfset pageTitle = "New Shared Drive Media">
 	</cfcase>
 	<cfcase value="edit">
