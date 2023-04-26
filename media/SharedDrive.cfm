@@ -694,7 +694,7 @@ limitations under the License.
 											<cfset selected="selected='true'">
 											<cfset selectedmimetypelist = listAppend(selectedmimetypelist,'#ctmime_type.mime_type#') >
 										<cfelse>--->
-											<!---<cfset selected="">--->
+											<cfset selected="">
 									<!---	</cfif>--->
 										<option value="#ctmime_type.mime_type#" #selected#>#ctmime_type.mime_type#</option>
 									</cfloop>
