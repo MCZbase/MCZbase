@@ -23,22 +23,22 @@ limitations under the License.
 <cfinclude template="/media/component/functions.cfc" runOnce="true"><!--- for autocompletes --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for media widget --->
 
-<!---<cfif NOT isdefined("action")>
+<cfif NOT isdefined("action")>
 	<cfset action = "edit">
-</cfif>--->
+</cfif>
 <cfset pageTitle = "Shared Drive Media">
-<!---<cfswitch expression="#action#">
+<cfswitch expression="#action#">
 	<cfcase value="new">
 		<cfset pageTitle = "New Shared Drive Media">
 	</cfcase>
 	<cfcase value="edit">
 		<cfset pageTitle = "Edit Media Record">
 		<cfif NOT isDefined("media_id") OR len(media_id) EQ 0>
-			<cflocation url="/media/SharedDrive.cfm" addtoken="false">
+			<cflocation url="/media/SharedDrive.cfm?action=edit&media_id=#media_id#" addtoken="false">
 		</cfif>
 	</cfcase>
 </cfswitch>
---->
+
 <cfinclude template = "/shared/_header.cfm">
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select COLLECTION_CDE, COLLECTION from collection order by collection
