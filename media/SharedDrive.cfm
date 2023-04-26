@@ -260,36 +260,7 @@ limitations under the License.
 								</div><!---end form-row Relationships and labels--->
 							</div>
 						</form>
-								
-						<!---<form id="editRelationsForm">
-							<div class="form-row my-1">
-								<script>
-									function reloadMediaRelationships() { 
-										loadRelationsTable("relationsTableContainerDiv",#media_id#,"editRelationsForm",handleChange);
-									}
-									$(document).ready(function() {
-										reloadMediaRelationships();
-										});
-								</script>
-								<div class="col-12 mt-1" id="relationsTableContainerDiv">
-								<img src='/shared/images/indicator.gif'>
-									Loading Relations....  <span id='relationsWarningSpan' style="display:none;">(if relationships don't appear here, there is an error).</span>
-									<script>
-										$(document).ready(function() { 
-											$('##relationsWarningSpan').delay(1000).fadeIn(300);
-										});
-									</script>
-								</div>
-								<script>
-									$(document).ready(function() { 
-										$('##relationsTableContainerDiv').on('domChanged',function() {
-											console.log("dom change within relationsTableContainerDiv");
-											monitorForChanges('editRelationsForm',handleChange);
-											});
-										});
-								</script>
-							</div>	
-						</form>--->
+
 					</div><!---end col-12--->
 				</div>
 			</div>
@@ -331,7 +302,7 @@ limitations under the License.
 			<div class="container-fluid container-xl pb-5">
 				<div class="row mx-0">
 						<div class="col-12 px-2 border-bottom border-dark my-3">
-							<h1 class="h2 px-0 py-2 my-2">Edit Media 
+							<h1 class="h2 px-0 py-2 my-2">Shared Drive 
 								<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
 								<a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info float-right">Media Record</a>
 							</h1>
@@ -539,9 +510,10 @@ limitations under the License.
 		<cfoutput>
 		<section class="jumbotron pb-3 bg-white text-center">
 			<div class="container">
-				<h1 class="jumbotron-heading">Create Media Records</h1>
+				<h1 class="jumbotron-heading">Shared Drive</h1>
 				<p class="lead text-muted">
-					Select the stored type of the media you want to add to MCZbase. Each storage type has a different pathway to create a media record.
+					A thumbnail will be created for you.  Enter the largest size media available. The Shared Drive is MCZ media storage managed by Collections Operations and Research Computing (RC). Account questions can go into a RC ticket with a cc to Brendan Haley. 
+
 				</p>
 			</div>
 		</section>
@@ -550,44 +522,49 @@ limitations under the License.
 				<div class="row">
 					<div class="col-md-4 px-5 pb-5">
 						<h2 class="text-center pt-3">Shared Drive</h2>
-						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray ">
-							<img class="card-img-top mx-auto" data-src="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg" alt="placeholder thumbnail" style="width: 93.5%; display: block;" src="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg" data-holder-rendered="true">
-							<div class="card-body bg-white p-4">
-								<p class="card-text">The shared drive is where MCZ files are stored. It located in a facility managed by Harvard. Map to the drive or use Filezilla to transfer files to the shared drive.</p>
-								<div class="d-flex justify-content-between align-items-center">
-									<div class="btn-group">
-										<button type="button" class="btn btn-xs btn-primary px-5">Start</button>
-									</div>
-								</div>
+						<div class="col-12 col-md-2 col-xl-3">
+							<div class="form-group mb-2">
+								<label for="filename" class="data-entry-label mb-0" id="filename_label">Collection<span></span></label>
+								<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label" >
 							</div>
+							<script>
+								$(document).ready(function() {
+									makeMediaURIPartAutocomplete("filename","filename");
+								});
+							</script>
 						</div>
-					</div>
-					<div class="col-md-4 px-5 pb-5">
-						<h2 class="text-center pt-3">External Link</h2>
-						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray">
-							<img class="card-img-top" data-src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/mcz_newsletter_BHL.jpg" alt="external file placeholder image" style="width: 100%; display: block;" src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/mcz_newsletter_BHL.jpg" data-holder-rendered="true">
-							<div class="card-body bg-white p-4">
-								<p class="card-text">External files could be stored anywhere outside of Harvard's facilities. This one is served from the Biodiversity Heritage Library. Permission must be on file before uploading.</p>
-								<div class="d-flex justify-content-between align-items-center">
-									<div class="btn-group">
-										<button type="button" class="btn btn-xs btn-primary px-5">Start</button>
-									</div>
-								</div>
+						<div class="col-12 col-md-2 col-xl-3">
+							<div class="form-group mb-2">
+								<label for="filename" class="data-entry-label mb-0" id="filename_label">Folder<span></span></label>
+								<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label" >
 							</div>
+							<script>
+								$(document).ready(function() {
+									makeMediaURIPartAutocomplete("filename","filename");
+								});
+							</script>
 						</div>
-					</div>
-					<div class="col-md-4 px-5 pb-5">
-						<h2 class="text-center pt-3">Submit to DSpace</h2>
-						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray">
-							<img class="card-img-top" data-src="https://iiif.mcz.harvard.edu/iiif/3/3823370/full/max/0/default.jpg" alt="DSpace logo" style="width: 100%; display: block;" src="https://iiif.mcz.harvard.edu/iiif/3/3823370/full/max/0/default.jpg" data-holder-rendered="true">
-							<div class="card-body bg-white p-4">
-								<p class="card-text">DSpace is for larger files such as tif and/or for batch loading files. Metadata is submitted with the file and is kept in the media record and on DSpace.</p>
-								<div class="d-flex justify-content-between align-items-center">
-									<div class="btn-group">
-										<button type="button" class="btn btn-xs btn-primary px-5">Start</button>
-									</div>
-								</div>
+						<div class="col-12 col-md-2 col-xl-3">
+							<div class="form-group mb-2">
+								<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename<span></span></label>
+								<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label" >
 							</div>
+							<script>
+								$(document).ready(function() {
+									makeMediaURIPartAutocomplete("filename","filename");
+								});
+							</script>
+						</div>
+						<div class="col-12 col-md-2 col-xl-3">
+							<div class="form-group mb-2">
+								<label for="filename" class="data-entry-label mb-0" id="filename_label">Mime Type<span></span></label>
+								<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label" >
+							</div>
+							<script>
+								$(document).ready(function() {
+									makeMediaURIPartAutocomplete("filename","filename");
+								});
+							</script>
 						</div>
 					</div>
 				</div>
