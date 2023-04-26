@@ -31,6 +31,13 @@ limitations under the License.
 	<cfcase value="new">
 		<cfset pageTitle = "New Shared Drive Media">
 	</cfcase>
+	<cfcase value="edit">
+		<cfset pageTitle = "Edit Media Record">
+		<cfif NOT isDefined("media_id") OR len(media_id) EQ 0>
+			<!--- redirect to media search page --->
+			<cflocation url="/media/SharedDrive.cfm" addtoken="false">
+		</cfif>
+	</cfcase>
 </cfswitch>
 
 <cfinclude template = "/shared/_header.cfm">
@@ -616,9 +623,9 @@ limitations under the License.
 			</div>
 		</section>
 		<div class="album pb-5 bg-light">
-			<div class="container">
-				<div class="row">
-					<form name="startMedia" id="newMedia" action="/media/SharedDrive.cfm" onsubmit="return noenter();" method="post" required>
+			<form name="startMedia" id="newMedia" action="/media/SharedDrive.cfm" onsubmit="return noenter();" method="post" required>
+				<div class="container">
+					<div class="row">
 						<div class="col-12 py-5">
 							<div class="col-12 col-md-2 col-xl-3 float-left">
 								<div class="form-group mb-2">
@@ -689,22 +696,23 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-								  <input class="btn btn-xs btn-primary" type="submit" value="Submit">
-					</form>
+	
 				</div>
-				<div class="row">
-					<div class="col-12">
-						<div class="col-4">
-							<script>
-								function validateForm() {
-								  var x = document.forms["startMedia"]["collection"]["folder"]["filename"]["mime_type"].value;
-								  if (x != "") {
-									alert("Field must be filled out");
-									return false;
-								  }
-								}
-							</script>
-						</div>
+					<input class="btn btn-xs btn-primary" type="submit" value="Submit">
+				</div>
+			</form>
+			<div class="row">
+				<div class="col-12">
+					<div class="col-4">
+						<script>
+							function validateForm() {
+							  var x = document.forms["startMedia"]["collection"]["folder"]["filename"]["mime_type"].value;
+							  if (x != "") {
+								alert("Field must be filled out");
+								return false;
+							  }
+							}
+						</script>
 					</div>
 				</div>
 			</div>
