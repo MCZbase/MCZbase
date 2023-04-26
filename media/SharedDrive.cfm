@@ -55,7 +55,102 @@ limitations under the License.
 <cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select media_license_id,display media_license from ctmedia_license order by media_license_id
 </cfquery>
-
+	<cfif not isdefined("mask_media_fg")> 
+		<cfset mask_media_fg="">
+	</cfif>
+	<cfif not isdefined("media_uri")> 
+		<cfset media_uri="">
+	</cfif>
+	<cfif not isdefined("preview_uri")> 
+		<cfset preview_uri="">
+	</cfif>
+	<cfif not isdefined("mime_type")> 
+		<cfset mime_type="">
+	</cfif>
+	<cfset in_mime_type=mime_type>
+	<cfif not isdefined("media_type")> 
+		<cfset media_type="">
+	</cfif>
+	<cfset in_media_type=media_type>
+	<cfif not isdefined("media_id")> 
+		<cfset media_id="">
+	</cfif>
+	<cfif not isdefined("keywords")> 
+		<cfset keywords="">
+	</cfif>
+	<cfif not isdefined("description")> 
+		<cfset description="">
+	</cfif>
+	<cfif not isdefined("protocol")> 
+		<cfset protocol="">
+	</cfif>
+	<cfif not isdefined("hostname")> 
+		<cfset hostname="">
+	</cfif>
+	<cfif not isdefined("path")> 
+		<cfset path="">
+	</cfif>
+	<cfif not isdefined("filename")> 
+		<cfset filename="">
+	</cfif>
+	<cfif not isdefined("extension")> 
+		<cfset extension="">
+	</cfif>
+	<cfset in_extension=extension>
+	<cfif not isdefined("created_by_agent_name")>
+		<cfset created_by_agent_name="">
+	</cfif>
+	<cfif not isdefined("created_by_agent_id")>
+		<cfset created_by_agent_id="">
+	</cfif>
+	<cfif not isdefined("text_made_date")>
+		<cfset text_made_date="">
+	</cfif>
+	<cfif not isdefined("to_made_date")>
+		<cfset to_made_date="">
+	</cfif>
+	<cfif not isdefined("dcterms_identifier")>
+		<cfset dcterms_identifier="">
+	</cfif>
+	<cfif not isdefined("related_cataloged_item")>
+		<cfset related_cataloged_item="">
+	</cfif>
+	<cfif not isdefined("collection_object_id")>
+		<cfset collection_object_id="">
+	</cfif>
+	<cfif not isdefined("unlinked")>
+		<cfset unlinked="">
+	</cfif>
+	<cfif not isdefined("multilink")>
+		<cfset multilink="">
+	</cfif>
+	<cfif not isdefined("multitypelink")>
+		<cfset multitypelink="">
+	</cfif>
+	<cfif not isdefined("media_label_type")>
+		<cfset media_label_type="">
+	</cfif>
+	<cfif not isdefined("media_label_value")>
+		<cfset media_label_value="">
+	</cfif>
+	<cfif not isdefined("media_relationship_type")>
+		<cfset media_relationship_type="">
+	</cfif>
+	<cfif not isdefined("media_relationship_value")>
+		<cfset media_relationship_value="">
+	</cfif>
+	<cfif not isdefined("media_relationship_id")>
+		<cfset media_relationship_id="">
+	</cfif>
+	<cfif not isdefined("media_relationship_type_1")>
+		<cfset media_relationship_type_1="">
+	</cfif>
+	<cfif not isdefined("media_relationship_value_1")>
+		<cfset media_relationship_value_1="">
+	</cfif>
+	<cfif not isdefined("media_relationship_id_1")>
+		<cfset media_relationship_id_1="">
+	</cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 
@@ -555,16 +650,31 @@ limitations under the License.
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-2 col-xl-3">
+						<div class="col-12 col-md-3">
 							<div class="form-group mb-2">
-								<label for="filename" class="data-entry-label mb-0" id="filename_label">Mime Type<span></span></label>
-								<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label" >
+								<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
+								<cfset selectedmimetypelist = "">
+								<select id="mime_type" name="mime_type" class="data-entry-select" multiple="true">
+									<option></option>
+									<cfloop query="ctmime_type">
+										<cfif listContains(in_mime_type,ctmime_type.mime_type) GT 0>
+											<cfset selected="selected='true'">
+											<cfset selectedmimetypelist = listAppend(selectedmimetypelist,'#ctmime_type.mime_type#') >
+										<cfelse>
+											<cfset selected="">
+										</cfif>
+										<option value="#ctmime_type.mime_type#" #selected#>#ctmime_type.mime_type#</option>
+									</cfloop>
+								</select>
+								<script>
+									$(document).ready(function () {
+										$("##mime_type").jqxComboBox({  multiSelect: true, width: '100%', enableBrowserBoundsDetection: true });  
+										<cfloop list="#selectedmimetypelist#" index="mt">
+											$("##mime_type").jqxComboBox('selectItem', '#mt#');
+										</cfloop>
+									});
+								</script>
 							</div>
-							<script>
-								$(document).ready(function() {
-									makeMediaURIPartAutocomplete("filename","filename");
-								});
-							</script>
 						</div>
 					</div>
 				</div>
