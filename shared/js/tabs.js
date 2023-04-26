@@ -5,8 +5,9 @@
 // Make available to pages with  <cfset pageHasTabs="true"> before loading shared/_header.cfm
 //
 window.addEventListener("DOMContentLoaded", loadTabs);
-var tabs;
-var tabList;
+var tabs;  // array of tabs
+var tabList; // container for the tabs 
+var tabFocus; // position in zero indexed tabs array of currently active tab
 
 // enumerate page elements with role tab or tablist, invoke with $(document).ready(loadTabs) when using on ajax loaded elements
 // subsequent to initial DOMContentLoaded event.
@@ -25,7 +26,7 @@ function loadTabs() {
 		var activeTabIndex = 0;
 		console.log("Page loaded with no active tab, index:" + activeTabIndex);
 	}
-	let tabFocus = activeTabIndex;  // define a block scope variable for the tab with initial focus on page load, used in the keydown event listener
+	tabFocus = activeTabIndex;  // define a block scope variable for the tab with initial focus on page load, used in the keydown event listener
 
 	// Add a click event handler to each tab
 	tabs.forEach(tab => {
