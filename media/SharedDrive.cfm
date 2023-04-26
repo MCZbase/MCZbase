@@ -34,7 +34,7 @@ limitations under the License.
 	<cfcase value="edit">
 		<cfset pageTitle = "Edit Media Record">
 		<cfif NOT isDefined("media_id") OR len(media_id) EQ 0>
-			<cflocation url="/media/SharedDrive.cfm?action=edit&media_id=#media_id#" addtoken="false">
+			<cflocation url="/media/SharedDrive.cfm?action=edit" addtoken="false">
 		</cfif>
 	</cfcase>
 </cfswitch>
