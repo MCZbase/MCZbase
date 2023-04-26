@@ -41,11 +41,11 @@ limitations under the License.
 		<cfset pageTitle = "Browse Specimens: Taxonomy">
 	</cfcase>
 </cfswitch>
+<cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? remove ? --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
-<script src="/shared/js/tabs.js"></script>
 
 <cfquery name="phyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 	select count(*) ct, phylum 

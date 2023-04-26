@@ -173,7 +173,7 @@ limitations under the License.
 <cfif CGI.script_name IS "/Specimens.cfm">
 	<script type="text/javascript" src="/specimens/js/search.js"></script> 
 </cfif>
-<cfif CGI.script_name IS "/Specimens.cfm" OR CGI.script_name IS "/Transactions.cfm" OR CGI.script_name IS "/localities/Locality.cfm">
+<cfif isDefined("pageHasTabs") AND pageHasTabs EQ "true">
 	<script type="text/javascript" src="/shared/js/tabs.js"></script>
 </cfif>
 <cfif CGI.script_name IS "/Specimens.cfm" AND isdefined("session.roles") AND listfindnocase(session.roles,"manage_transactions")>

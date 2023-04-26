@@ -41,6 +41,7 @@ limitations under the License.
 		<cfthrow message="Error: Unknown Action">
 	</cfdefaultcase>
 </cfswitch>
+<cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 
 <cfswitch expression="#action#">

@@ -73,6 +73,7 @@ limitations under the License.
 		</cfif>
 	</cfdefaultcase>
 </cfswitch>
+<cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 
 <cfset defaultSelectionMode = "none">

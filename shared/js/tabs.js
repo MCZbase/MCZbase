@@ -1,10 +1,15 @@
-// For accessibility of tabs //
-// from https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role#example 
+// Support tabs, including accessibility
+// 
+// Modified from https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role#example 
+//
+// Make available to pages with  <cfset pageHasTabs="true"> before loading shared/_header.cfm
 //
 window.addEventListener("DOMContentLoaded", loadTabs);
 var tabs;
-var tablist;
+var tabList;
 
+// enumerate page elements with role tab or tablist, invoke with $(document).ready(loadTabs) when using on ajax loaded elements
+// subsequent to initial DOMContentLoaded event.
 function loadTabs() { 
 	tabs = document.querySelectorAll('[role="tab"]');
 	tabList = document.querySelector('[role="tablist"]');
@@ -48,7 +53,7 @@ function loadTabs() {
 			}
 		});
 	} 
-});
+}
 
 function changeTabs(e) {
 	const target = e.target;
