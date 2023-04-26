@@ -18,12 +18,12 @@ limitations under the License.
 --->
 <ul class="nav nav-tabs" role="tablist">
 <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="##taxa">Taxa</a></li>
-<li class="nav-item"><a class="nav-link" data-toggle="tab" role="tab" href="##trans">Transactions</a></li>
-<li class="nav-item"><a class="nav-link" data-toggle="tab" role="tab" href="##otherid">Other IDs</a></li>
-<li class="nav-item"><a class="nav-link" data-toggle="tab" role="tab" href="##collevent">Collecting Event</a></li>
-<li class="nav-item"><a class="nav-link" data-toggle="tab" role="tab" href="##locality1">Locality</a></li>
-<li class="nav-item"><a class="nav-link" data-toggle="tab" role="tab" href="##relations">Relations</a></li>
-<li class="nav-item"><a class="nav-link" data-toggle="tab" role="tab" href="##parts">Parts <span class="caret"></span></a>
+<li class="nav-item"><a class="nav-link" data-toggle="tab" tabid="1" role="tab" href="##trans">Transactions</a></li>
+<li class="nav-item"><a class="nav-link" data-toggle="tab" tabid="2" role="tab" href="##otherid">Other IDs</a></li>
+<li class="nav-item"><a class="nav-link" data-toggle="tab" tabid="3" role="tab" href="##collevent">Collecting Event</a></li>
+<li class="nav-item"><a class="nav-link" data-toggle="tab" tabid="4" role="tab" href="##locality1">Locality</a></li>
+<li class="nav-item"><a class="nav-link" data-toggle="tab" tabid="5" role="tab" href="##relations">Relations</a></li>
+<li class="nav-item"><a class="nav-link" data-toggle="tab" tabid="6" role="tab" href="##parts">Parts <span class="caret"></span></a>
 	<ul class="dropdown-menu">
 		<li class="nav-item"><a class="nav-link" data-toggle="tab" href="##containers">Containers</a></li>
 		<li class="nav-item"><a class="nav-link" data-toggle="tab" href="##barcode">Barcode Lookup</a></li>

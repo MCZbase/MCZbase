@@ -690,15 +690,22 @@ for Organization and Focus
 
 *'*Without Tabs: *'*Use the class=”search-box”, which has a teal border and gray background \#f5f5f5 and within it there is class=”search-header” with the `<h1 class="h3 smallcaps text-white" tabindex="0"> </h1>` (inside the teal header).  See [Search-Pages](#Search-Pages) for details.
 
-*'*With Tabs: *'*The tabs should follow this set of tags and classes. It makes a Teal border with light tabs.
+*'*With Tabs: *'*
+
+Include accessible tab navigation by setting pageHasTabs=true prior to loading _header.cfm
+
+	<cfset pageHasTabs="true">
+	<cfinclude template = "/shared/_header.cfm">
+
+The tabs should follow this set of tags and classes. It makes a Teal border with light tabs.  To support accessible navigation, active tab must have class active, tabs should have role tab and one based integer value for tabid, container for tabs should have role tablist.  Tabs and tab pane content should be crossreferenced with aria-labelledby={id} on the tab pane content.
 
 	<div class=”tab-card-main mt-1 tab-card”>
 		<div class="tab-card-main mt-1 tab-card">
-			<div class="card-header tab-card-header pb-0">
+			<div class="card-header tab-card-header pb-0" role="tablist">
 				<li class="nav-item col-5 col-lg-3 px-1">
-					<a class="nav-link #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >
+					<a class="nav-link active" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" tabid="1" role="tab" aria-controls="Search All Transactions" aria-selected="true" >
 					<div class="tab-content pb-0 px-2" id="tabContentDiv">
-						<div class="tab-pane fade #allTabShow# #allTabActive# py-3 mx-2 mx-sm-3" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
+						<div class="tab-pane fade active py-3 mx-2 mx-sm-3" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 
 Within main groupings, try to keep the spaces and margins even. Give highlight boxes or borders when additional grouping is needed. Sometimes it is difficult to distribute the fields evenly on the page. The “Find loans” page search section shows the difficulty.
 

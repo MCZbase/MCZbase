@@ -10,13 +10,17 @@ var tabList;
 
 // enumerate page elements with role tab or tablist, invoke with $(document).ready(loadTabs) when using on ajax loaded elements
 // subsequent to initial DOMContentLoaded event.
+// 
+// each tab must have a role=tab, and an integer tabid, where tabid is 1 indexed
+// one tab on page load should have class active.
+// container for tabs must have role=tablist
 function loadTabs() { 
 	tabs = document.querySelectorAll('[role="tab"]');
 	tabList = document.querySelector('[role="tablist"]');
 	var activeTab = $('.tabList > .active').get(0);
 	if (typeof activeTab !== 'undefined') { 
-		var activeTabId = $(activeTab).attr('id');
-		var activeTabIndex = activeTabId - 1; // tabs array is zero indexed, tab Ids are 1 indexed.
+		var activeTabId = $(activeTab).attr('tabid');
+		var activeTabIndex = activeTabId - 1; // tabs array is zero indexed, tabid values are 1 indexed.
 	} else { 
 		var activeTabIndex = 0;
 		console.log("Page loaded with no active tab, index:" + activeTabIndex);
@@ -55,6 +59,7 @@ function loadTabs() {
 	} 
 }
 
+// tab click event handler 
 function changeTabs(e) {
 	const target = e.target;
 	const parent = target.parentNode;
