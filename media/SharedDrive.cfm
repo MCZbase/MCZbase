@@ -627,7 +627,7 @@ limitations under the License.
 							<div class="form-group mb-2">
 								<label for="collection" class="data-entry-label mb-0" id="collection_label">Collection<span></span></label>
 								<select class="data-entry-select">
-									<option selected>collection select menu</option>
+									<option selected class="font-italic">collection select menu</option>
 									<option value="Cryo">Cryogenic</option>
 									<option value="Ent">Entomology</option>
 									<option value="Herp">Herpetology</option>
