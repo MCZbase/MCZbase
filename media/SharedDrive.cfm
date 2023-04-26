@@ -19,7 +19,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<cfinclude template="/media/component/search.cfc" runOnce="true"><!--- for autocompletes --->
+
 <cfinclude template="/media/component/functions.cfc" runOnce="true"><!--- for autocompletes --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for media widget --->
 
