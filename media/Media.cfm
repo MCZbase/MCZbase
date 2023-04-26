@@ -22,9 +22,9 @@ limitations under the License.
 <cfinclude template="/media/component/search.cfc" runOnce="true"><!--- for autocompletes --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for media widget --->
 
-<cfif NOT isdefined("action")>
+<!---<cfif NOT isdefined("action")>
 	<cfset action = "edit">
-</cfif>
+</cfif>--->
 <cfset pageTitle = "Manage Media">
 <!---<cfswitch expression="#action#">
 	<cfcase value="new">
