@@ -177,7 +177,7 @@ limitations under the License.
 				<div class="container">
 					<div class="row">
 						<div class="col-12 py-5">
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 float-left">
 								<div class="form-group mb-2">
 									<label for="hostname" class="data-entry-label mb-0" id="hostname_label">Host<span></span></label>
 									<input type="text" id="hostname" name="hostname" class="data-entry-input" value="#encodeForHtml(hostname)#" aria-labelledby="hostname_label" >
@@ -188,7 +188,7 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2">
+							<div class="col-12 col-md-2 float-left">
 								<div class="form-group mb-2">
 									<label for="path" class="data-entry-label mb-0" id="path_label">Path<span></span></label>
 									<input type="text" id="path" name="path" class="data-entry-input" value="#encodeForHtml(path)#" aria-labelledby="path_label" >
@@ -199,7 +199,7 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2 col-xl-3 float-left">
+							<div class="col-12 col-md-2 float-left">
 								<div class="form-group mb-2">
 									<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename <span></span></label>
 									<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label">
@@ -210,7 +210,7 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2 col-xl-3 float-left">
+							<div class="col-12 col-md-2 float-left">
 								<div class="form-group mb-2">
 									<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
 									<cfset selectedmimetypelist = "">
