@@ -288,17 +288,16 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					
-					<form>
-<!---<input type="text" id="protocol2" name="protocol2" class="data-entry-input" value="#encodeForHtml(protocol2)#">
-<input type="text" id="hostname2" name="hostname2" class="data-entry-input" value="#encodeForHtml(hostname2)#">
-<input type="text" id="path2" name="path2" class="data-entry-input" value="#encodeForHtml(hostname2)#">
-<input type="text" id="txt" name="txt" class="data-entry-input" value="#encodeForHtml(filename2)#">--->
-<input id="btn" type="button" value="Get Image" onclick="getImg();" />
-</form>
-<br /><br />
-
-<div id="images"></div>
+						<div class="row">
+							<div class="col-12">
+								<input id="btn" type="button" class="mx-auto col-2" value="Get Image" onclick="getImg();" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-12">
+								<div id="images"></div>
+							</div>
+						</div>
 						<script>
 							function getImg(){
 								var url=document.getElementById('protocol').value;
@@ -306,7 +305,7 @@ limitations under the License.
 								url+=document.getElementById('path').value;
 								url+=document.getElementById('filename').value;
 								var div=document.createElement('div');
-								div.className="imageWrapper";
+								div.className="imageWrapper col-4 mx-auto";
 								var img=document.createElement('img');
 								img.src=url;
 								div.appendChild(img);
