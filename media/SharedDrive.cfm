@@ -278,7 +278,7 @@ limitations under the License.
 						</div>
 					
 					<form>
-<input type="text" id="txt" value="http://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Liliumbulbiferumflowertop.jpg/220px-Liliumbulbiferumflowertop.jpg">
+<input type="text" id="txt" name="txt" class="data-entry-input" value="#encodeForHtml(filename)#">
 <input id="btn" type="button" value="Get Image" onclick="getImg();" />
 </form>
 <br /><br />
