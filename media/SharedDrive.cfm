@@ -237,8 +237,8 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3 float-left">
 								<div class="form-group mb-2">
-									<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename <span></span></label>
-									<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label">
+									<label for="filename" class="data-entry-label mb-0">Filename <span></span></label>
+									<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#">
 								</div>
 								<script>
 									$(document).ready(function() {
@@ -248,13 +248,13 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-2 col-xl-1 float-left">
 								<div class="form-group mb-2">
-									<label for="extension" class="data-entry-label mb-0" id="extension_label">Extension<span></span></label>
+									<label for="extension" class="data-entry-label mb-0">Extension<span></span></label>
 									<cfset selectedextensionlist = "">
 									<select id="extension" name="extension" class="data-entry-select" multiple="true">
 										<option></option>
 										<cfloop query="distinctExtensions">
 											<cfif listFind(in_extension, distinctExtensions.extension) GT 0>
-												<cfset selected="selected='true'">
+												<cfset selected>
 												<cfset selectedextensionlist = listAppend(selectedextensionlist,'#distinctExtensions.extension#') >
 											<cfelse>
 												<cfset selected="">
