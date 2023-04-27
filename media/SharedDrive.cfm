@@ -276,13 +276,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<input class="btn btn-xs btn-primary" type="submit" value="Submit" onClick="displayImage()">
-					</div>
-				</div>
-			</form>
-			<div class="row">
-				<div class="col-12">
-					<div class="col-4">
+						<button class="btn btn-xs btn-primary" type="submit" onClick="displayImage()">Button</button>
 						<script>
 							function displayImage(){
 								var output = document.getElementById('protocol').value;
@@ -294,7 +288,7 @@ limitations under the License.
 						</script>
 					</div>
 				</div>
-			</div>
+			</form>
 		</div>
 	</cfoutput>
 
