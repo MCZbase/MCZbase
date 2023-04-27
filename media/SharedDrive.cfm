@@ -286,9 +286,12 @@ limitations under the License.
 						<script>
 							function validateForm() {
 								var x = document.forms["startMedia"]["filename"].value;
-								if (x != "") {
-									alert("Field must be filled out");
-								return false;
+								var h = document.forms["startMedia"]["hostname"].value;
+								var p = document.forms["startMedia"]["path"].value;
+								if (x == "") {
+									return ='Field must be filled out';
+								} else {
+								return '<img src="x"/>';
 								}
 							}
 						</script>
