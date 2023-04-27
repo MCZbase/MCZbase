@@ -302,7 +302,7 @@ limitations under the License.
 								margin-top: 2rem;
 							}
 						</style>
-						<div class="col-3 mx-auto">
+						<div class="col-12 mx-auto">
 							<div id="images"></div>
 						</div>
 					
@@ -313,7 +313,7 @@ limitations under the License.
 								url+=document.getElementById('path').value;
 								url+=document.getElementById('filename').value;
 								var div=document.createElement('div');
-								div.className="imageWrapper w-100";
+								div.className="imageWrapper col-3";
 								var img=document.createElement('img');
 								img.classList.add('imageFeatures');
 								img.src=url;
