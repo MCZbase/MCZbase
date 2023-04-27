@@ -305,7 +305,6 @@ limitations under the License.
 						<div class="col-12 mx-auto">
 							<div id="images"></div>
 						</div>
-					
 						<script>
 							function getImg(){
 								var url=document.getElementById('protocol').value;
@@ -321,14 +320,6 @@ limitations under the License.
 								document.getElementById('images').appendChild(div);
 								return false;
 							}
-							
-						const images2 = document.getElementsByClassName('imageWrapper');
-
-						for (const images2 of imageWrapper) {
-							imageWrapper.addEventListener('click', (event) => {
-								event.target.remove();
-							});
-						}
 						</script>
 					</div>
 				</div>
