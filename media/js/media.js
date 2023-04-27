@@ -151,6 +151,7 @@ function makeMediaURIPartAutocomplete(valueControl,targetField) {
 				//  on select, set prefix the value with an equals for exact match
 				// removed the "=" + to the left of result.item.value
 				event.preventDefault();
+				//	$('#'+valueControl).val("=" + result.item.value);
 				$('#'+valueControl).val(result.item.value);
 			},
 			minLength: 3
