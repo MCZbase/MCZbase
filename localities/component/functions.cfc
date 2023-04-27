@@ -1559,10 +1559,36 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<div class="h3">No verbatim locality values</div>
 				<cfelse>
 					<ul>
-					<cfloop query="getVerbatim">
-						<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
-						<li>#verbatim_locality##counts#</li>
-					</cfloop>
+						<cfloop query="getVerbatim">
+							<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
+							<li>#verbatim_locality##counts#</li>
+						</cfloop>
+					</ul>
+				</cfif>
+				<cfquery name="getVerbatimGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getVerbatimGeoref_result">
+					SELECT 
+						count(*) ct,
+						verbatimcoordinates,
+						verbatimlatitude, verbatimlongitude,
+						verbatimcoordinatesystem, verbatimsrs
+					FROM collecting_event
+					WHERE
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						and (verbatimcoordinates is not null or verbatimlatitude is not null)
+					GROUP BY 
+						verbatimcoordinates,
+						verbatimlatitude, verbatimlongitude,
+						verbatimcoordinatesystem, verbatimsrs
+				</cfquery>
+				<cfif getVerbatimGeoref.recordcount EQ 0>
+					<div class="h3">No verbatim coordinates</div>
+				<cfelse>
+					<ul>
+						<cfloop query="getVerbatimGeoref">
+							<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
+							<li>#verbatimcoordinatesystem# #verbatimcoordinates# #verbatimlatitude# #verbatimlongitude# #verbatimsrs# #counts#</li>
+						</cfloop>
+					</ul>
 				</cfif>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
