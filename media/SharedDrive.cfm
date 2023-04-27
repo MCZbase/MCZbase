@@ -229,11 +229,11 @@ limitations under the License.
 									<label for="path" class="data-entry-label mb-0">Path<span class="text-italic"> (e.g., "/specimen_images/entomology/large/")</span></label>
 									<input type="text" id="path" name="path" class="data-entry-input" value="#encodeForHtml(path)#">
 								</div>
-								<script>
+					<!---			<script>
 									$(document).ready(function() {
 										makeMediaURIPartAutocomplete("path","path");
 									});
-								</script>
+								</script>--->
 							</div>
 							<div class="col-12 col-md-3 float-left">
 								<div class="form-group mb-2">
