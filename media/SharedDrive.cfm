@@ -254,7 +254,7 @@ limitations under the License.
 										<option></option>
 										<cfloop query="distinctExtensions">
 											<cfif listFind(in_extension, distinctExtensions.extension) GT 0>
-												<cfset selected>
+												<cfset selected="">
 												<cfset selectedextensionlist = listAppend(selectedextensionlist,'#distinctExtensions.extension#') >
 											<cfelse>
 												<cfset selected="">
