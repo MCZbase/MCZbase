@@ -289,7 +289,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-										<style>.imageFeatures {width:100%;}</style>
+					<style>.imageFeatures {width:100%;}</style>
 					<div class="row">
 						<div class="col-2 mx-auto">
 							<input id="btn" type="button" class="btn btn-xs btn-primary" value="Get Image" onclick="getImg();" />
@@ -309,7 +309,7 @@ limitations under the License.
 								var div=document.createElement('div');
 								div.className="imageWrapper w-100";
 								var img=document.createElement('img');
-								img.classList.add("imageFeatures");
+								img.classList.add('imageFeatures');
 								div.appendChild(img);
 								document.getElementById('images').appendChild(div);
 								return false;
