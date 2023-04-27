@@ -356,8 +356,9 @@ Delete an existing collecting event number record.
 								<cfloop query="localityUses">
 									<li>
 										<cfif numOfSpecs GT 0>
+											<cfif numOfSpecs EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 											<a href="SpecimenResults.cfm?locality_id=#locality_id#&collection_id=#localityUses.collection_id#">
-												#numOfSpecs# #collection_cde# specimens
+												#numOfSpecs# #collection_cde# specimen#plural#
 											</a>
 										<cfelse>
 											no specimens
@@ -390,8 +391,9 @@ Delete an existing collecting event number record.
 											<cfset numShared = countShared.recordcount>
 										</cfif>
 										<cfif numShared EQ 0 and numSole GT 0>
+											<cfif numSole EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 											<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
-												#numSole# #collection_cde# only collecting events
+												#numSole# #collection_cde# only collecting event#plural#
 											</a>
 										<cfelseif numShared EQ 0 AND numSole EQ 0>
 												#localityUses.numOfCollEvents# unused collecting events
@@ -418,25 +420,29 @@ Delete an existing collecting event number record.
 												<cfset separator= ";">
 											</cfloop>
 											<cfif numSole EQ 0>
+												<cfif numShared EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 												<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventSharedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
-													#numShared# shared collecting events (#collection_cde# shared with #sharedNames#)
+													#numShared# shared collecting event#plural# (#collection_cde# shared with #sharedNames#)
 												</a>
 											<cfelse>
 												<div>
+													<cfif numSole EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 													<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
-														#numSole# #collection_cde# only collecting events
+														#numSole# #collection_cde# only collecting event#plural#
 													</a>
 												</div>
 												<div>
 													and 
+													<cfif numShared EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 													<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventSharedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
-														#numShared# shared collecting events (#collection_cde# shared with #sharedNames#)
+														#numShared# shared collecting event#plural# (#collection_cde# shared with #sharedNames#)
 													</a>
 												</div>
 												<div>
 													All 
+													<cfif numShared + numSole EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 													<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
-														#numSole+numShared# #collection_cde# collecting events
+														#numSole+numShared# #collection_cde# collecting event#plural#
 													</a>.
 												</div>
 											</cfif>
