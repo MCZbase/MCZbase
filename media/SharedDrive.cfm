@@ -226,7 +226,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3 float-left">
 								<div class="form-group mb-2">
-									<label for="path" class="data-entry-label mb-0">Path<span></span></label>
+									<label for="path" class="data-entry-label mb-0">Path<span class="italic small"> (type collection)</span></label>
 									<input type="text" id="path" name="path" class="data-entry-input" value="#encodeForHtml(path)#">
 								</div>
 								<script>
@@ -295,7 +295,13 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row">
-						<style>.imageFeatures {width: 100%;}</style>
+						<style>
+							.imageFeatures {
+								width: 100%;
+								border: 2px solid gray;
+								padding-top: 1rem;
+							}
+						</style>
 						<div class="col-4 mx-auto">
 							<div id="images"></div>
 						</div>
