@@ -303,7 +303,7 @@ limitations under the License.
 							}
 						</style>
 						<div class="col-4 mx-auto">
-							<div id="images"></div><cfif len(filename)gt 0><button onClick="goodbyeImg()">Remove</button></cfif>
+							<div id="images"><button onClick="goodbyeImg()">Remove</button></div>
 						</div>
 					
 						<script>
