@@ -152,7 +152,7 @@ function makeMediaURIPartAutocomplete(valueControl,targetField) {
 				event.preventDefault();
 				$('#'+valueControl).val(result.item.value);
 			},
-   	   minLength: 3
+			minLength: 3
 		}).autocomplete("instance")._renderItem = function(ul,item) { 
 			// override to display meta "collection name * (description)" instead of value in picklist.
 			return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);

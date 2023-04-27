@@ -226,8 +226,8 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3 float-left">
 								<div class="form-group mb-2">
-									<label for="path" class="data-entry-label mb-0">Path<span class="text-italic"> (e.g., "specimen_images/entomology/large/")</span></label>
-									<input type="text" id="path" name="path" class="data-entry-input" value="#encodeForHtml(path)#">
+									<label for="path2" class="data-entry-label mb-0">Path<span class="text-italic"> (e.g., "specimen_images/entomology/large/")</span></label>
+									<input type="text" id="path2" name="path2" class="data-entry-input" value="#encodeForHtml(path2)#">
 								</div>
 								<script>
 									$(document).ready(function() {
