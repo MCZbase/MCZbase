@@ -73,6 +73,7 @@ limitations under the License.
 		</cfif>
 	</cfdefaultcase>
 </cfswitch>
+<cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 
 <cfset defaultSelectionMode = "none">
@@ -265,9 +266,9 @@ limitations under the License.
 							</script>
 						</cfif>
 						<div class="tab-headers px-0 tabList" role="tablist" aria-label="search panel tabs">
-							<button class="col-3 col-md-2 px-2 my-0 #fixedTabActive#" id="basicSearchTabButton" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
-							<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
-							<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="builderSearchTabButton" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
+							<button class="col-3 col-md-2 px-2 my-0 #fixedTabActive#" id="basicSearchTabButton" tabid="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
+							<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" tabid="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
+							<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="builderSearchTabButton" tabid="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
 						</div>
 						<div class="tab-content mt-0 px-0 pb-0">
 							<!---Fixed Search tab panel--->

@@ -41,11 +41,11 @@ limitations under the License.
 		<cfset pageTitle = "Browse Specimens: Taxonomy">
 	</cfcase>
 </cfswitch>
+<cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? remove ? --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
-<script src="/shared/js/tabs.js"></script>
 
 <cfquery name="phyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimeSpan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 	select count(*) ct, phylum 
@@ -498,16 +498,16 @@ limitations under the License.
 							<div class="tab-headers tabList px-0 px-md-3" role="tablist" aria-label="browse specimens">
 								<cfif target NEQ "noscript">
 									<!--- don't show links to named groups if noscript, page and links need scripts --->
-									<button class="col-12 px-1 col-sm-3 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 #featuredTabActive#" id="1" role="tab" aria-controls="featuredPanel" #featuredTabAria# aria-label="Browse Featured Collections">Featured Collections of <br>Cataloged Items</button>
+									<button class="col-12 px-1 col-sm-3 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 #featuredTabActive#" id="tabFeatured" tabid="1" role="tab" aria-controls="featuredPanel" #featuredTabAria# aria-label="Browse Featured Collections">Featured Collections of <br>Cataloged Items</button>
 								</cfif>
-								<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #primarytypesTabActive#" id="2" role="tab" aria-controls="primarytypesPanel" #primarytypesTabAria# aria-label="Browse Primary Types">Primary <br>Types</button>
-								<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 #highergeoTabActive#" id="3" role="tab" aria-controls="highergeoPanel" #highergeoTabAria# aria-label="Browse Higher Geography">Higher <br>Geography</button>
-								<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #islandTabActive#" id="3" role="tab" aria-controls="islandPanel" #islandTabAria# aria-label="Browse Specimens by Islands and Island Groups">Islands<br>&nbsp;&nbsp;</button>
-								<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #taxonomyTabActive#" id="4" role="tab" aria-controls="taxonomyPanel" #taxonomyTabAria# aria-label="Browse Taxonomy">Higher <br>Taxonomy</button>
+								<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #primarytypesTabActive#" id="tabPrimaryTypes" tabid="2" role="tab" aria-controls="primarytypesPanel" #primarytypesTabAria# aria-label="Browse Primary Types">Primary <br>Types</button>
+								<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 #highergeoTabActive#" id="tabGeography" tabid="3" role="tab" aria-controls="highergeoPanel" #highergeoTabAria# aria-label="Browse Higher Geography">Higher <br>Geography</button>
+								<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #islandTabActive#" id="tabIslands" tabid="4" role="tab" aria-controls="islandPanel" #islandTabAria# aria-label="Browse Specimens by Islands and Island Groups">Islands<br>&nbsp;&nbsp;</button>
+								<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #taxonomyTabActive#" id="tabTaxonomy" tabid="5" role="tab" aria-controls="taxonomyPanel" #taxonomyTabAria# aria-label="Browse Taxonomy">Higher <br>Taxonomy</button>
 							</div>
 							<!-- Tab panes -->
 							<div class="tab-content flex-wrap d-flex">
-								<div id="featuredPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #featuredTabActive# unfocus"  #featuredTabShow#>
+								<div id="featuredPanel" role="tabpanel" aria-labelledby="tabFeatured" tabindex="0" class="col-12 px-0 mx-0 #featuredTabActive# unfocus"  #featuredTabShow#>
 									<h2 class="px-2 h3">MCZ Featured Collections of Cataloged Items</h2>
 									<cfloop query="namedGroups">
 										<cfif len(#namedGroups.collection_name#)gt 0>
@@ -536,7 +536,7 @@ limitations under the License.
 										</cfif>
 									</cfloop>
 								</div>
-								<div id="primarytypesPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #primarytypesTabActive# unfocus"  #primarytypesTabShow#>
+								<div id="primarytypesPanel" role="tabpanel" aria-labelledby="tabPrimaryTypes" tabindex="-1" class="col-12 px-0 mx-0 #primarytypesTabActive# unfocus"  #primarytypesTabShow#>
 									<h3 class="px-2">Primary Types</h3>			
 									<div class="col-12 float-left float-left px-0 mt-1 mb-1">
 										<ul class="list-group list-group-horizontal d-flex flex-wrap px-1">
@@ -555,7 +555,7 @@ limitations under the License.
 										</ul>
 									</div>
 								</div>
-								<div id="highergeoPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
+								<div id="highergeoPanel" role="tabpanel" aria-labelledby="tabGeography" tabindex="-1" class="col-12 px-0 mx-0 #highergeoTabActive# unfocus"  #highergeoTabShow#>
 									<h3 class="px-2">Browse by Higher Geography</h3>
 									<div class="col-12 px-0 px-md-2">
 										<cfset i="1">
@@ -658,7 +658,7 @@ limitations under the License.
 									</div>
 	
 								</div>
-								<div id="islandPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
+								<div id="islandPanel" role="tabpanel" aria-labelledby="tabIslands" tabindex="-1" class="col-12 px-0 mx-0 #islandTabActive# unfocus"  #islandTabShow#>
 									<h3 class="px-2">Browse By Islands</h3>	
 									<div class="col-12 px-0 px-md-2">
 										<cfset j=1>
@@ -749,7 +749,7 @@ limitations under the License.
 										</cfloop>
 									</div>
 								</div>
-								<div id="taxonomyPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
+								<div id="taxonomyPanel" role="tabpanel" aria-labelledby="tabTaxonomy" tabindex="-1" class="col-12 px-0 mx-0 #taxonomyTabActive# unfocus"  #taxonomyTabShow#>
 									<h3 class="px-2">Browse by Higher Taxonomy</h3>
 									<div class="col-12 px-0 px-md-2">
 										<div class="w-100 my-2">

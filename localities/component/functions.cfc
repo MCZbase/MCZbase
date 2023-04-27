@@ -318,13 +318,11 @@ Delete an existing collecting event number record.
 						collection.collection_cde,
 						collection.collection_id
 					from
-						cataloged_item,
-						collection,
 						collecting_event
+						left join cataloged_item on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
+						left join collection on cataloged_item.collection_id = collection.collection_id
 					WHERE
-						cataloged_item.collecting_event_id = collecting_event.collecting_event_id and
-						cataloged_item.collection_id = collection.collection_id and
-						collecting_event.locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 					GROUP BY
 						collection.collection,
 						collection.collection_cde,
@@ -336,51 +334,69 @@ Delete an existing collecting event number record.
 					<cfelseif #localityUses.recordcount# is 1>
 						<div>
 							This Locality (#locality_id#) contains 
-							<a href="SpecimenResults.cfm?locality_id=#locality_id#">
+							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#">
 								#localityUses.numOfSpecs# #localityUses.collection_cde# specimens
 							</a>
 							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#localityUses.numOfCollEvents# collecting events</a>.
 						</div>
 					<cfelse>
+						<cfset totalEvents=0>
+						<cfset totalSpecimens=0>
+						<cfloop query="localityUses">
+							<cfset totalEvents=totalEvents+localityUses.numOfCollEvents>
+							<cfset totalSpecimens=totalSpecimens+localityUses.numOfSpecs>
+						</cfloop>
 						<div>
 							This Locality (#locality_id#)
-							contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>
-							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#localityUses.numOfCollEvents# collecting events</a>:
+							contains the following <a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#">#totalSpecimens# specimens</a>
+							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#totalEvents# collecting events</a>:
 						</div>
 						<div>
 							<ul>
 								<cfloop query="localityUses">
 									<li>
-										<a href="SpecimenResults.cfm?locality_id=#locality_id#&collection_id=#localityUses.collection_id#">
-											#numOfSpecs# #collection_cde# specimens
-										</a>
-										from 
-										<cfquery name="countSole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT flatTableName.collecting_event_id 
-											FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat1 on
-													flatTableName.collecting_event_id = flat1.collecting_event_id
-											WHERE flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-													and flat1.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#localityUses.collection_id#">
-											GROUP BY flatTableName.collecting_event_id
-											HAVING count(distinct flatTableName.collection_cde) = 1
-										</cfquery>
-										<cfset numSole = countSole.recordcount>
-										<cfquery name="countShared" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT flatTableName.collecting_event_id 
-											FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat1 on
-													flatTableName.collecting_event_id = flat1.collecting_event_id
-											WHERE flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-													and flat1.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#localityUses.collection_id#">
-											GROUP BY flatTableName.collecting_event_id
-											HAVING count(distinct flatTableName.collection_cde) > 1
-										</cfquery>
-										<cfset numShared = countShared.recordcount>
-										<cfif numShared EQ 0>
-											<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
-												#numSole# #collection_cde# only collecting events
+										<cfif numOfSpecs GT 0>
+											<cfif numOfSpecs EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+											<a href="SpecimenResults.cfm?locality_id=#locality_id#&collection_id=#localityUses.collection_id#">
+												#numOfSpecs# #collection_cde# specimen#plural#
 											</a>
+										<cfelse>
+											no specimens
+										</cfif>
+										from 
+										<cfset numSole = 0>
+										<cfset numShared = 0>
+										<cfif len(localityUses.collection_id) GT 0>
+											<cfquery name="countSole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT flatTableName.collecting_event_id 
+												FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+													left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat1 on
+														flatTableName.collecting_event_id = flat1.collecting_event_id
+												WHERE flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+														and flat1.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#localityUses.collection_id#">
+												GROUP BY flatTableName.collecting_event_id
+												HAVING count(distinct flatTableName.collection_cde) = 1
+											</cfquery>
+											<cfset numSole = countSole.recordcount>
+											<cfquery name="countShared" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT flatTableName.collecting_event_id 
+												FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+													left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat1 on
+														flatTableName.collecting_event_id = flat1.collecting_event_id
+												WHERE flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+														and flat1.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#localityUses.collection_id#">
+												GROUP BY flatTableName.collecting_event_id
+												HAVING count(distinct flatTableName.collection_cde) > 1
+											</cfquery>
+											<cfset numShared = countShared.recordcount>
+										</cfif>
+										<cfif numShared EQ 0 and numSole GT 0>
+											<cfif numSole EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+											<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
+												#numSole# #collection_cde# only collecting event#plural#
+											</a>
+										<cfelseif numShared EQ 0 AND numSole EQ 0>
+												#localityUses.numOfCollEvents# unused collecting events
 										<cfelse>
 											<cfquery name="sharedWith" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT DISTINCT collection_cde 
@@ -404,25 +420,29 @@ Delete an existing collecting event number record.
 												<cfset separator= ";">
 											</cfloop>
 											<cfif numSole EQ 0>
+												<cfif numShared EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 												<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventSharedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
-													#numShared# shared collecting events (#collection_cde# shared with #sharedNames#)
+													#numShared# shared collecting event#plural# (#collection_cde# shared with #sharedNames#)
 												</a>
 											<cfelse>
 												<div>
+													<cfif numSole EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 													<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
-														#numSole# #collection_cde# only collecting events
+														#numSole# #collection_cde# only collecting event#plural#
 													</a>
 												</div>
 												<div>
 													and 
+													<cfif numShared EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 													<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventSharedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
-														#numShared# shared collecting events (#collection_cde# shared with #sharedNames#)
+														#numShared# shared collecting event#plural# (#collection_cde# shared with #sharedNames#)
 													</a>
 												</div>
 												<div>
 													All 
+													<cfif numShared + numSole EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 													<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
-														#numSole+numShared# #collection_cde# collecting events
+														#numSole+numShared# #collection_cde# collecting event#plural#
 													</a>.
 												</div>
 											</cfif>
@@ -1149,6 +1169,18 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfthread name="localityGeoRefFormThread#tn#">
 		<cfoutput>
 			<cftry>
+				<cfquery name="getLocalityMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						spec_locality, locality_id, 
+						decode(curated_fg,1,' *','') curated
+					FROM locality
+					WHERE
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+				</cfquery>
+				<cfif getLocalityMetadata.recordcount NEQ 1>
+					<cfthrow message="Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#]">
+				</cfif>
+				<cfset localityLabel = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
 				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						lat_long_id,
@@ -1224,7 +1256,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<li>None #noGeoRef#</li>
 							<li>
 								<button type="button" class="btn btn-xs btn-secondary" 
-									onClick=" openAddGeorefDialog('#locality_id#','addGeorefDialog','#callbackName#'); "
+									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', '#callbackName#') " 
 									aria-label = "Add a georeference to this locality"
 								>Add</button>
 							</li>
@@ -1272,11 +1304,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												function toggleBounce#lat_long_id#() { 
 													if (bouncing#lat_long_id#==true) { 
 														bouncing#lat_long_id# = false;
-														map.data.forEach(function (feature) { console.log(feature.m); if (feature.m == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
+														map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
 														$('##toggleButton#lat_long_id#').html("Highlight on map");
 													} else { 
 														bouncing#lat_long_id# = true;
-														map.data.forEach(function (feature) { console.log(feature.m); if (feature.m == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
+														map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
 														$('##toggleButton#lat_long_id#').html("Stop bouncing");
 													}
 												};
@@ -1296,26 +1328,23 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							</cfloop>
 							<li>
 								<button type="button" class="btn btn-xs btn-secondary" 
-									onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog','#callbackName#'); "
+									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', '#callbackName#') " 
 									aria-label = "Add another georeference to this locality"
 								>Add</button>
 							</li>
 						</ul>
 					</div>
 				</cfif>
-					<div class="editGeorefDialog"></div>
-					<div class="addGeorefDialog"></div>
-					<script>
-						function openEditGeorefDialog(lat_long_id, dialogDiv, callback) { 
-							console.log(geology_attribute_id);
-						}
-						function openAddGeorefDialog(locality_id, dialogDiv, callback) { 
-							console.log(locality_id);
-						}
-						function deleteGeoreference(locality_id,lat_long_id, callback) { 
-							console.log(geology_attribute_id);
-						}
-					</script>
+				<div id="editGeorefDialog"></div>
+				<div id="addGeorefDialog"></div>
+				<script>
+					function openEditGeorefDialog(lat_long_id, dialogDiv, callback) { 
+						console.log(geology_attribute_id);
+					}
+					function deleteGeoreference(locality_id,lat_long_id, callback) { 
+						console.log(geology_attribute_id);
+					}
+				</script>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
@@ -1330,5 +1359,269 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 	<cfreturn cfthread["localityGeorefFormThread#tn#"].output>
 </cffunction>
+
+<cffunction name="georeferenceDialogHtml" access="remote" returntype="string">
+	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="locality_label" type="string" required="yes">
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getGeorefThread#tn#">
+		<cftry>
+			<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT ORIG_LAT_LONG_UNITS 
+				FROM ctlat_long_units
+				ORDER BY ORIG_LAT_LONG_UNITS
+			</cfquery>
+			<cfoutput>
+				<h2 class="h3">Add a georeference for locality #encodeForHtml(locality_label)#</h2>
+				<div>
+					<div class="tabs card-header tab-card-header px-2 pt-3">
+						<!-- Nav tabs -->
+						<div class="tab-headers tabList px-0 px-md-3" role="tablist" aria-label="create georeference by">
+							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 active" id="manualTabButton" tabid="1" role="tab" aria-controls="manualPanel" aria-selected="true" tabindex="0" aria-label="Enter original coordinates">You have original coordinates: Enter manually</button>
+							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 " id="geolocateTabButton" tabid="2" role="tab" aria-controls="geolocatePanel" aria-selected="false" tabindex="-1" aria-label="Use geolocate to georeference specific locality">Use Geolocate with Specific Locality</button>
+						</div>
+						<!-- Tab panes -->
+						<script>
+							$(document).ready(loadTabs);
+						</script>
+						<div class="tab-content flex-wrap d-flex">
+							<div id="manualPanel" role="tabpanel" aria-labelledby="manualTabButton" tabindex="0" class="col-12 px-0 mx-0 active unfocus">
+								<h2 class="px-2 h3">Enter georeference</h2>
+								<div class="form-row">
+									<div class="col-12 col-md-3">
+										<label for="orig_lat_long_units" class="data-entry-label">Original Units</label>
+										<select id="orig_lat_long_units" class="data-entry-select reqdClr" onChange=" changeLatLongUnits(); ">
+											<option></option>
+											<option value="decimal degrees">decimal degrees</option>
+											<option value="degrees dec. minutes">degrees with decimal minutes</option>
+											<option value="deg. min. sec.">degrees, minutes and seconds</option>
+											<option value="UTM">Universal Transverse Mercator (UTM)</option>
+										</select>
+										<script>
+											function changeLatLongUnits(){ 
+												$(".latlong").prop('disabled', true);
+												$(".latlong").prop('required', false);
+												$(".latlong").removeClass('reqdClr');
+												$(".utm").removeClass('reqdClr');
+												$(".utm").prop('disabled', true);
+												$(".utm").prop('required', false);
+												var units = $("##orig_lat_long_units").val();
+												if (!units) { 
+													$(".latlong").prop('disabled', true);
+													$(".utm").prop('disabled', true);
+												} else if (units == 'decimal degrees') {
+													$("##lat_deg").prop('disabled', false);
+													$("##lat_deg").prop('required', true);
+													$("##lat_deg").addClass('reqdClr');
+													$("##long_deg").prop('disabled', false);
+													$("##long_deg").prop('required', true);
+													$("##long_deg").addClass('reqdClr');
+												} else if (units == 'degrees dec. minutes') {
+													$("##lat_deg").prop('disabled', false);
+													$("##lat_deg").prop('required', true);
+													$("##lat_deg").addClass('reqdClr');
+													$("##lat_min").prop('disabled', false);
+													$("##lat_min").prop('required', true);
+													$("##lat_min").addClass('reqdClr');
+													$("##lat_ns").prop('disabled', false);
+													$("##lat_ns").prop('required', true);
+													$("##lat_ns").addClass('reqdClr');
+													$("##long_deg").prop('disabled', false);
+													$("##long_deg").prop('required', true);
+													$("##long_deg").addClass('reqdClr');
+													$("##long_min").prop('disabled', false);
+													$("##long_mit").prop('required', true);
+													$("##long_min").addClass('reqdClr');
+													$("##long_ew").prop('disabled', false);
+													$("##long_ew").prop('required', true);
+													$("##long_ew").addClass('reqdClr');
+												} else if (units == 'deg. min. sec.') {
+													$(".latlong").prop('disabled', false);
+													$(".latlong").addClass('reqdClr');
+													$(".latlong").prop('required', true);
+												} else if (units == 'UTM') {
+													$(".utm").prop('disabled', false);
+													$(".utm").prop('required', true);
+													$(".utm").addClass('reqdClr');
+												}
+											} 
+											$(document).ready(changeLatLongUnits);
+										</script>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="accepted" class="data-entry-label">Accepted</label>
+										<select name="accepted_lat_long_fg" size="1" id="accepted_lat_long_fg" class="data-entry-select reqdClr">
+											<option value="Yes" selected>Yes</option>
+											<option value="No">No</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="determined_by_agent" class="data-entry-label">Determiner</label>
+										<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id">
+										<input type="text" name="determined_by_agent" id="determined_by_agent" class="data-entry-input reqdClr">
+										<script>
+											$(document).ready(function() { 
+												makeAgentAutocompleteMeta("determined_by_agent", "determined_by_agent_id");
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="determined_date" class="data-entry-label">Date Determined</label>
+										<input type="text" name="determined_date" id="determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd">
+										<script>
+											$(document).ready(function() {
+												$("##determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="lat_deg" class="data-entry-label">Latitude Degrees</label>
+										<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input latlong">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="lat_min" class="data-entry-label">Minutes</label>
+										<input type="text" name="lat_min" id="lat_min" class="data-entry-input latlong">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="lat_sec" class="data-entry-label">Seconds</label>
+										<input type="text" name="lat_sec" id="lat_sec" class="data-entry-input latlong">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="lat_ns" class="data-entry-label">Direction</label>
+										<select name="lat_ns" size="1" id="lat_ns" class="data-entry-select latlong">
+											<option value=""></option>
+											<option value="N">N</option>
+											<option value="S">S</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="long_deg" class="data-entry-label">Longitude Degrees</label>
+										<input type="text" name="long_deg" size="4" id="long_deg" class="data-entry-input latlong">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="long_min" class="data-entry-label">Minutes</label>
+										<input type="text" name="long_min" size="4" id="long_min" class="data-entry-input latlong">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="long_sec" class="data-entry-label">Seconds</label>
+										<input type="text" name="long_sec" size="4" id="long_sec" class="data-entry-input latlong">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="long_ew" class="data-entry-label">Direction</label>
+										<select name="long_ew" size="1" id="long_ew" class="data-entry-select latlong">
+											<option value=""></option>
+											<option value="E">E</option>
+											<option value="W">W</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-4">
+										<label for="utm_zone" class="data-entry-label">UTM Zone/Letter</label>
+										<input type="text" name="utm_zone" size="4" id="utm_zone" class="data-entry-input utm">
+									</div>
+									<div class="col-12 col-md-4">
+										<label for="utm_ew" class="data-entry-label">Easting</label>
+										<input type="text" name="utm_ew" size="4" id="utm_ew" class="data-entry-input utm">
+									</div>
+									<div class="col-12 col-md-4">
+										<label for="utm_ns" class="data-entry-label">Northing</label>
+										<input type="text" name="utm_ns" size="4" id="utm_ns" class="data-entry-input utm">
+									</div>
+								</div>
+							</div>
+							<div id="geolocatePanel" role="tabpanel" aria-labelledby="geolocateTabButton" tabindex="-1" class="col-12 px-0 mx-0 unfocus" hidden>
+								<h2 class="px-2 h3">Use Geolocate</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getGeorefThread#tn#" />
+	<cfreturn cfthread["getGeorefThread#tn#"].output>
+</cffunction>
+
+<!--- function getLocalityVerbatimHtml return a block of html with verbatim data from
+ collecting events associated with a locality. 
+
+   @param locality_id the primary key value for the locality for which to return 
+     verbatim data.
+   @return block of html.
+--->
+<cffunction name="getLocalityVerbatimHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="locality_id" type="string" required="yes">
+	
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="localityVerbatimThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getVerbatim" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getVerbatim_result">
+					SELECT 
+						count(*) ct,
+						verbatim_locality
+					FROM collecting_event
+					WHERE
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						and verbatim_locality is not null
+					GROUP BY 
+						verbatim_locality
+				</cfquery>
+				<cfif getVerbatim.recordcount EQ 0>
+					<div class="h4">No verbatim locality values</div>
+				<cfelse>
+					<ul>
+						<cfloop query="getVerbatim">
+							<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
+							<li>#verbatim_locality##counts#</li>
+						</cfloop>
+					</ul>
+				</cfif>
+				<cfquery name="getVerbatimGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getVerbatimGeoref_result">
+					SELECT 
+						count(*) ct,
+						verbatimcoordinates,
+						verbatimlatitude, verbatimlongitude,
+						verbatimcoordinatesystem, verbatimsrs
+					FROM collecting_event
+					WHERE
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						and (verbatimcoordinates is not null or verbatimlatitude is not null)
+					GROUP BY 
+						verbatimcoordinates,
+						verbatimlatitude, verbatimlongitude,
+						verbatimcoordinatesystem, verbatimsrs
+				</cfquery>
+				<cfif getVerbatimGeoref.recordcount EQ 0>
+					<div class="h4">No verbatim coordinates</div>
+				<cfelse>
+					<div class="h4">Verbatim coordinate values</div>
+					<ul>
+						<cfloop query="getVerbatimGeoref">
+							<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
+							<li>#verbatimcoordinatesystem# #verbatimcoordinates# #verbatimlatitude# #verbatimlongitude# #verbatimsrs# #counts#</li>
+						</cfloop>
+					</ul>
+				</cfif>
+			<cfcatch>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="localityVerbatimThread#tn#" />
+
+	<cfreturn cfthread["localityVerbatimThread#tn#"].output>
+</cffunction>
+
 
 </cfcomponent>

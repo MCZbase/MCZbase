@@ -109,7 +109,7 @@ limitations under the License.
 				<cfloop query="getGeography">
 					<h1 class="h2">#getGeography.higher_geog#</h1>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
-							<a href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+							<span><a href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a></span>
 					</cfif>
 					<div class="col-12">
 						<ul class="sd list-unstyled row mx-0 px-2 py-1 mb-0">
@@ -334,6 +334,7 @@ limitations under the License.
 											var id = f.getProperty("id");
 											var locality_id = f.getProperty("locality_id");
 											var spec_locality = f.getProperty("spec_locality");
+											if (!spec_locality) { spec_locality = "[no specific locality text]"; } 
 											$("##selectedMarkerDiv").html("<a href='/localities/Locality.cfm?locality_id="+locality_id+"' target='_blank'>" + spec_locality + "</a> (" + locality_id + ").");
 										}
 									); 
@@ -401,7 +402,7 @@ limitations under the License.
 						setupMap(#geog_auth_rec_id#);
 					});
 				</script>
-			   <div class="mb-2" style="height: 550px;width: 550px;">
+			   <div class="mb-2 w-100" style="height: 600px;">
 					<div id="mapdiv_#geog_auth_rec_id#" style="width:100%; height:100%;"></div>
 				</div>
 				<ul>
@@ -440,3 +441,4 @@ limitations under the License.
 		</div>
 	</main>
 </cfoutput>
+<cfinclude template = "/shared/_footer.cfm">
