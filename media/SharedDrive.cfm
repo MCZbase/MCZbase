@@ -226,7 +226,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3 float-left">
 								<div class="form-group mb-2">
-									<label for="path" class="data-entry-label mb-0">Path<span class="text-italic"> (e.g., "/specimen_images/entomology/large/")</span></label>
+									<label for="path" class="data-entry-label mb-0">Path<span class="text-italic"> (e.g., "/specimen_images/herpetology/large/")</span></label>
 									<input type="text" id="path" name="path" class="data-entry-input" value="/specimen_images/#encodeForHtml(path)#">
 								</div>
 					<!---			<script>
@@ -237,7 +237,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3 float-left">
 								<div class="form-group mb-2">
-									<label for="filename" class="data-entry-label mb-0">Filename (e.g., enter a part of: A139491_Bufo_fustiger_d_4.jpg ) <span></span></label>
+									<label for="filename" class="data-entry-label mb-0">Filename (e.g., A139491_Bufo_fustiger_d_4.jpg ) <span></span></label>
 									<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#">
 								</div>
 								<script>
