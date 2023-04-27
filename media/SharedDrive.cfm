@@ -304,8 +304,9 @@ limitations under the License.
 						</style>
 						<div class="col-12 mx-auto">
 							<div id="images">
-							<button class="button btn btn-xs btn-secondary">Remove</button>
+							
 							</div>
+							<button class="button btn btn-xs btn-secondary">Remove</button>
 						</div>
 					
 						<script type="javascript">
