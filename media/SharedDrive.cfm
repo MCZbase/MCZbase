@@ -224,7 +224,7 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-3 float-left">
+							<div class="col-12 col-md-4 float-left">
 								<div class="form-group mb-2">
 									<label for="path" class="data-entry-label mb-0">Path<span class="text-italic"> (e.g., "/specimen_images/herpetology/large/")</span></label>
 									<input type="text" id="path" name="path" class="data-entry-input" value="/specimen_images/#encodeForHtml(path)#">
@@ -235,7 +235,7 @@ limitations under the License.
 									});
 								</script>--->
 							</div>
-							<div class="col-12 col-md-3 float-left">
+							<div class="col-12 col-md-4 float-left">
 								<div class="form-group mb-2">
 									<label for="filename" class="data-entry-label mb-0">Filename (e.g., A139491_Bufo_fustiger_d_4.jpg ) <span></span></label>
 									<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#">
@@ -246,7 +246,7 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2 float-left">
+						<!---	<div class="col-12 col-md-2 float-left">
 								<div class="form-group mb-2">
 									<label for="extension" class="data-entry-label mb-0">Extension<span></span></label>
 									<cfset selectedextensionlist = "">
@@ -286,7 +286,7 @@ limitations under the License.
 										});
 									</script>
 								</div>
-							</div>
+							</div>--->
 						</div>
 					</div>
 					<div class="row">
