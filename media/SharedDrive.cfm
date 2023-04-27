@@ -276,12 +276,15 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="imageWrapper">				
-							<button class="btn btn-xs btn-primary" type="submit"  onclick="getImg();">See Image</button>
-						</div>
+						<div class="imageWrapper">	
+							<input type="text" id="txt" value="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg">
+						</div>			
+						<button class="btn btn-xs btn-primary" type="submit"  onclick="getImg();">See Image</button>
+						
 						<script>
 							function getImg(){
-								var url=document.getElementById('filename').value;
+								var url=document.getElementById('txt').value;
+								var div=document.createElement('div');
 								div.className="imageWrapper";
 								var img=document.createElement('img');
 								img.src=url;
@@ -290,7 +293,6 @@ limitations under the License.
 								return false;
 							}
 						</script>
-						<img src="">
 					</div>
 				</div>
 			</form>
