@@ -318,13 +318,11 @@ Delete an existing collecting event number record.
 						collection.collection_cde,
 						collection.collection_id
 					from
-						cataloged_item,
-						collection,
 						collecting_event
+						left join cataloged_item on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
+						left join collection on cataloged_item.collection_id = collection.collection_id
 					WHERE
-						cataloged_item.collecting_event_id = collecting_event.collecting_event_id and
-						cataloged_item.collection_id = collection.collection_id and
-						collecting_event.locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 					GROUP BY
 						collection.collection,
 						collection.collection_cde,
