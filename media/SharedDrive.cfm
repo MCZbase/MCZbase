@@ -322,9 +322,9 @@ limitations under the License.
 								return false;
 							}
 							
-						const imagesset = document.getElementsByClassName('imageWrapper');
+						const images = document.getElementsByClassName('imageWrapper');
 
-						for (const imageWrapper of imagesset) {
+						for (const imageWrapper of images) {
 							imageWrapper.addEventListener('click', (event) => {
 								event.target.remove();
 							});
