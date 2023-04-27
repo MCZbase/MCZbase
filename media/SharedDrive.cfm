@@ -290,7 +290,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-2 mx-auto">
+						<div class="col-1 mx-auto">
 							<input id="btn" type="button" class="btn btn-xs btn-primary" value="Get Image" onclick="getImg();" />
 						</div>
 					</div>
@@ -299,7 +299,7 @@ limitations under the License.
 							.imageFeatures {
 								width: 100%;
 								border: 2px solid gray;
-								padding-top: 1rem;
+								margin-top: 2rem;
 							}
 						</style>
 						<div class="col-4 mx-auto">
