@@ -277,10 +277,13 @@ limitations under the License.
 							</div>
 						</div>
 					
-							<input type="text" id="txt" value="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg">
-								
-						<button class="btn btn-xs btn-primary" type="submit"  onclick="getImg();">See Image</button>
-										<div class="images">	</div>
+					<form>
+<input type="text" id="txt" value="http://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Liliumbulbiferumflowertop.jpg/220px-Liliumbulbiferumflowertop.jpg">
+<input id="btn" type="button" value="Get Image" onclick="getImg();" />
+</form>
+<br /><br />
+
+<div id="images"></div>
 						<script>
 							function getImg(){
 								var url=document.getElementById('txt').value;
