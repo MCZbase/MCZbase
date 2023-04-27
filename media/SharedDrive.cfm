@@ -240,11 +240,11 @@ limitations under the License.
 									<label for="filename" class="data-entry-label mb-0">Filename <span></span></label>
 									<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#">
 								</div>
-								<script>
+					<!---			<script>
 									$(document).ready(function() {
 										makeMediaURIPartAutocomplete("filename","filename");
 									});
-								</script>
+								</script>--->
 							</div>
 							<div class="col-12 col-md-2 float-left">
 								<div class="form-group mb-2">
