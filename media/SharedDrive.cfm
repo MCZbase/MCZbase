@@ -303,7 +303,7 @@ limitations under the License.
 							}
 						</style>
 						<div class="col-4 mx-auto">
-							<div id="images"><button class="btn btn-xs btn-primary" onClick="goodbyeImg()">Remove</button></div>
+							<div id="images"><button class="btn btn-xs btn-secondary" onClick="goodbyeImg()">Remove</button></div>
 						</div>
 					
 						<script>
