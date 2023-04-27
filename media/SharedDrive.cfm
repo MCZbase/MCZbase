@@ -309,7 +309,7 @@ limitations under the License.
 								var div=document.createElement('div');
 								div.className="imageWrapper w-100";
 								var img=document.createElement('img');
-								img.classList.add("imageFeatures");
+								img.classList.add('imageFeatures');
 								img.src=url;
 								div.appendChild(img);
 								document.getElementById('images').appendChild(div);
