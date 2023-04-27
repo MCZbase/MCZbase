@@ -317,7 +317,6 @@ limitations under the License.
 								img.classList.add('imageFeatures');
 								img.src=url;
 								div.appendChild(img);
-								div.appendChild(button);
 								document.getElementById('images').appendChild(div);
 								return false;
 							}
