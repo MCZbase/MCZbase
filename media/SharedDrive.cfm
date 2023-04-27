@@ -303,9 +303,12 @@ limitations under the License.
 							}
 						</style>
 						<div class="col-12 mx-auto">
-							<div id="images"></div>
+							<div id="images">
+							<button class="btn btn-xs btn-secondary">Remove</button>
+							</div>
 						</div>
-						<script>
+					
+						<script type="javascript">
 							function getImg(){
 								var url=document.getElementById('protocol').value;
 								url+=document.getElementById('hostname').value;
@@ -320,6 +323,10 @@ limitations under the License.
 								document.getElementById('images').appendChild(div);
 								return false;
 							}
+							
+							$('.slide button').on('click',function(){ // on click of button
+								$(this).parent('.slide').remove(); // find the parent div and remove it
+							});
 						</script>
 					</div>
 				</div>
