@@ -64,11 +64,11 @@ limitations under the License.
 		</cfif>
 	</cfdefaultcase>
 </cfswitch>
+<cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/grouping/component/search.cfc" runOnce="true">
 <cfinclude template="/media/component/search.cfc" runOnce="true"><!--- ? unused ? remove ? --->
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtml --->
-	<script src="/shared/js/tabs.js"></script>
 <style>
 	.nav-tabs .nav-link {background-color: #fff;border-color: #fff;border-bottom: 1px solid #f5f5f5;font-weight: 450;}	
 	.nav-tabs .nav-link.active {background-color: #f5f5f5;border-color: #f5f5f5; font-weight:550;}
@@ -228,17 +228,17 @@ limitations under the License.
 						</cfswitch>
 						<!-- Nav tabs -->
 						<div class="tab-headers tabList" role="tablist" aria-label="browse collections types">
-							<button class="col-12 col-md-auto px-md-4 px-xl-5 my-1 my-md-0 #allgroupsTabActive#" id="1" role="tab" aria-controls="allgroupsPanel" #allgroupsTabAria# aria-label="Browse All Collections">All</button>
-							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #collectionTabActive#" id="2" role="tab" aria-controls="collectionPanel" #collectionTabAria# aria-label="Browse Collections"><img src="/shared/images/filter-3-line.svg" width="14">  Collections</button>
-							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #expeditionTabActive#" id="3" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions"><img src="/shared/images/filter-3-line.svg" width="14"> Expeditions</button>
-							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #grantTabActive#" id="4" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants"><img src="/shared/images/filter-3-line.svg" width="14"></i> Grants</button>
+							<button class="col-12 col-md-auto px-md-4 px-xl-5 my-1 my-md-0 #allgroupsTabActive#" id="tab-1" tabid="1" role="tab" aria-controls="allgroupsPanel" #allgroupsTabAria# aria-label="Browse All Collections">All</button>
+							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #collectionTabActive#" id="tab-2" tabid="2"  role="tab" aria-controls="collectionPanel" #collectionTabAria# aria-label="Browse Collections"><img src="/shared/images/filter-3-line.svg" width="14">  Collections</button>
+							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #expeditionTabActive#" id="tab-3" tabid="3" role="tab" aria-controls="expeditionPanel" #expeditionTabAria# aria-label="Browse Expeditions"><img src="/shared/images/filter-3-line.svg" width="14"> Expeditions</button>
+							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #grantTabActive#" id="tab-4" tabid="4" role="tab" aria-controls="grantPanel" #grantTabAria# aria-label="Browse Grants"><img src="/shared/images/filter-3-line.svg" width="14"></i> Grants</button>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #workflowTabActive#" id="5" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow"><img src="/shared/images/filter-3-line.svg" width="14"> Workflows</button>
+							<button class="col-12 col-md-auto px-md-3 px-xl-5 my-1 my-md-0 #workflowTabActive#" id="tab-5" tabid="5" role="tab" aria-controls="workflowPanel" #workflowTabAria# aria-label="Browse Workflow"><img src="/shared/images/filter-3-line.svg" width="14"> Workflows</button>
 							</cfif>
 						</div>
 						<div class="tab-content flex-wrap d-flex mb-1">
 							<!---Fixed Search tab panel--->
-							<div id="allgroupsPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #allgroupsTabActive# unfocus"  #allgroupsTabShow#>
+							<div id="allgroupsPanel" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="col-12 px-0 mx-0 #allgroupsTabActive# unfocus"  #allgroupsTabShow#>
 								<h3 class="px-2">All</h3>
 								<cfloop query="namedGroups">
 									<div class="col-12 col-sm-6 col-md-6 col-xl-4 float-left px-1 mt-1 mb-1">
@@ -269,7 +269,7 @@ limitations under the License.
 									</div>
 								</cfloop>
 							</div>
-							<div id="collectionPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #collectionTabActive# unfocus"  #collectionTabShow#>
+							<div id="collectionPanel" role="tabpanel" aria-labelledby="tab-2" tabindex="-1" class="col-12 px-0 mx-0 #collectionTabActive# unfocus"  #collectionTabShow#>
 								<h3 class="px-2">Collections</h3>
 								<p class="px-2">Collections highlight specimens that are linked via their shared history and includes collections assembled by famous naturalists, histological slide collections, and acquisitions or exchanges from other museums.</p>
 								<cfloop query="namedGroups">
@@ -302,7 +302,7 @@ limitations under the License.
 									</cfif>
 								</cfloop>
 							</div>
-							<div id="expeditionPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="col-12 px-0 mx-0 #expeditionTabActive# unfocus"  #expeditionTabShow#>
+							<div id="expeditionPanel" role="tabpanel" aria-labelledby="tab-3" tabindex="-1" class="col-12 px-0 mx-0 #expeditionTabActive# unfocus"  #expeditionTabShow#>
 								<h3 class="px-2">Expeditions</h3>
 								<p class="px-2">Expeditions feature specimens collected during specific voyages undertaken for the purpose of scientific exploration.</p>
 								<cfloop query="namedGroups">
@@ -335,7 +335,7 @@ limitations under the License.
 									</cfif>
 								</cfloop>
 							</div>
-							<div id="grantPanel" role="tabpanel" aria-labelledby="4" tabindex="-1" class="col-12 px-0 mx-0 #grantTabActive# unfocus"  #grantTabShow#>
+							<div id="grantPanel" role="tabpanel" aria-labelledby="tab-4" tabindex="-1" class="col-12 px-0 mx-0 #grantTabActive# unfocus"  #grantTabShow#>
 								<h3 class="px-2">Grants</h3>
 								<p class="px-2">Grants showcase specimens used in funded work and includes digitization projects that enrich digital specimen data and make MCZ holdings more accessible to researchers around the world.</p>
 								<cfloop query="namedGroups">
@@ -369,7 +369,7 @@ limitations under the License.
 								</cfloop>
 							</div>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-								<div id="workflowPanel" role="tabpanel" aria-labelledby="5" tabindex="-1" class="col-12 px-0 mx-0 #workflowTabActive# unfocus"  #workflowTabShow#>
+								<div id="workflowPanel" role="tabpanel" aria-labelledby="tab-5" tabindex="-1" class="col-12 px-0 mx-0 #workflowTabActive# unfocus"  #workflowTabShow#>
 									<h3 class="px-2">Workflow</h3>
 									<cfloop query="namedGroups">
 										<cfif #namedGroups.underscore_collection_type# eq 'workflow'>

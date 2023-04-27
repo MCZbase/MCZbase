@@ -63,6 +63,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
+<cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
 
 <cfset defaultSelectionMode = "none">
@@ -541,7 +542,7 @@ limitations under the License.
 			<div class="row">
 				<div class="col-12 mt-1 pb-3">
 					<h1 class="h3 smallcaps mb-1 pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
-						<!--- Tab header div --->
+					<!--- Tab header div --->
 					<div class="tabs card-header tab-card-header px-1 pb-0">
 						<cfswitch expression="#action#">
 							<cfcase value="findLoans">
@@ -631,11 +632,11 @@ limitations under the License.
 							</cfdefaultcase>
 						</cfswitch>
 						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
-							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0  #allTabActive#" id="tab-1" role="tab" aria-controls="panel-1" #allTabAria#>All</button>
-							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0  #loanTabActive#" id="tab-2" role="tab" aria-controls="panel-2" #loanTabAria# >Loans</button>
-							<button class="px-5 px-sm-3 px-md-4 col-12 col-md-auto mb-1 mb-md-0  #accnTabActive#" id="tab-3" role="tab" aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
-							<button class="px-5 px-sm-3 px-md-4 col-12 col-md-auto mb-1 mb-md-0  #deaccnTabActive#" id="tab-4" role="tab" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button>
-							<button class="px-5 px-sm-3 px-md-4 col-12 col-md-auto mb-1 mb-md-0 #borrowTabActive#" id="tab-5" role="tab" aria-controls="panel-5" #borrowTabAria#>Borrows</button>
+							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0  #allTabActive#" id="tab-1" tabid="1" role="tab" aria-controls="panel-1" #allTabAria#>All</button>
+							<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0  #loanTabActive#" id="tab-2" tabid="2" role="tab" aria-controls="panel-2" #loanTabAria# >Loans</button>
+							<button class="px-5 px-sm-3 px-md-4 col-12 col-md-auto mb-1 mb-md-0  #accnTabActive#" id="tab-3" tabid="3" role="tab" aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
+							<button class="px-5 px-sm-3 px-md-4 col-12 col-md-auto mb-1 mb-md-0  #deaccnTabActive#" id="tab-4" tabid="4" role="tab" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button>
+							<button class="px-5 px-sm-3 px-md-4 col-12 col-md-auto mb-1 mb-md-0 #borrowTabActive#" id="tab-5" tabid="5" role="tab" aria-controls="panel-5" #borrowTabAria#>Borrows</button>
 						</div>
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
@@ -3806,7 +3807,7 @@ function populateSaveSearch(targetAction) {
 		" <input type='hidden' value='"+uri+"' name='url'>" + 
 		" <div class='col-12'>" + 
 		"  <label for='search_name_input'>Search Name</label>" + 
-		"  <input type='text' id='search_name_input'  name='search_name' value='' class='data-entry-input reqdClr' pattern='Your name for this search' maxlenght='60' required>" + 
+		"  <input type='text' id='search_name_input'  name='search_name' value='' class='data-entry-input reqdClr' pattern='Your name for this search' maxlength='60' required>" + 
 		" </div>" + 
 		" <div class='col-12'>" + 
 		"  <label for='execute_input'>Execute Immediately</label>"+
