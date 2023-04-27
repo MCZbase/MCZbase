@@ -1555,7 +1555,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					GROUP BY 
 						verbatim_locality
 				</cfquery>
-				<cfif getLocalityMetadata.recordcount EQ 0>
+				<cfif getVerbatim.recordcount EQ 0>
 					<div class="h3">No verbatim locality values</div>
 				<cfelse>
 					<ul>
