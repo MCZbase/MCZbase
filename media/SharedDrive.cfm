@@ -306,7 +306,7 @@ limitations under the License.
 								url+=document.getElementById('path').value;
 								url+=document.getElementById('filename').value;
 								var div=document.createElement('div');
-								div.className="imageWrapper";
+								div.className="imageWrapper w-100";
 								var img=document.createElement('img');
 								img.src=url;
 								div.appendChild(img);
