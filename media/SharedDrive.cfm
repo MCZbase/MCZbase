@@ -181,7 +181,7 @@ limitations under the License.
 			</div>
 		</section>
 		<div class="album pb-5 bg-light">
-			<form name="startMedia" id="newMedia" action="/media/SharedDrive.cfm" onsubmit="return noenter();" method="post" required>
+			<form name="startMedia" id="newMedia" action="/media/SharedDrive.cfm" method="post" required>
 				<div class="container">
 					<div class="row">
 						<div class="col-12 py-5">
@@ -276,12 +276,12 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-										
-						<button class="btn btn-xs btn-primary" type="submit"  onclick="getImg();">See Image</button>
+						<div class="imageWrapper">				
+							<button class="btn btn-xs btn-primary" type="submit"  onclick="getImg();">See Image</button>
+						</div>
 						<script>
 							function getImg(){
 								var url=document.getElementById('filename').value;
-								var div=document.createElement('div');
 								div.className="imageWrapper";
 								var img=document.createElement('img');
 								img.src=url;
