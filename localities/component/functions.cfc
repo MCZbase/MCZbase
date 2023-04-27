@@ -1530,6 +1530,51 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfreturn cfthread["getGeorefThread#tn#"].output>
 </cffunction>
 
+<!--- function getLocalityVerbatimHtml return a block of html with verbatim data from
+ collecting events associated with a locality. 
+
+   @param locality_id the primary key value for the locality for which to return 
+     verbatim data.
+   @return block of html.
+--->
+<cffunction name="getLocalityVerbatimHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="locality_id" type="string" required="yes">
+	
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="localityVerbatimThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getVerbatim" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getVerbatim_result">
+					SELECT 
+						count(*) ct,
+						verbatim_locality
+					FROM collecting_event
+					WHERE
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						and verbatim_locality is not null
+					GROUP BY 
+						verbatim_locality
+				</cfquery>
+				<cfif getLocalityMetadata.recordcount EQ 0>
+					<div class="h3">No verbatim locality values</div>
+				<cfelse>
+					<ul>
+					<cfloop query="getVerbatim">
+						<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
+						<li>#verbatim_locality##counts#</li>
+					</cfloop>
+				</cfif>
+			<cfcatch>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="localityVerbatimThread#tn#" />
+
+	<cfreturn cfthread["localityVerbatimThread#tn#"].output>
+</cffunction>
 
 
 </cfcomponent>
