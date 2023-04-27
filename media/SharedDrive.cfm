@@ -58,6 +58,14 @@ limitations under the License.
 <cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select media_license_id,display media_license from ctmedia_license order by media_license_id
 </cfquery>
+<!--- Note, jqxcombobox doesn't properly handle options that vary only in trailing whitespace, so using trim() here --->
+<cfquery name="distinctExtensions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+	select trim(auto_extension) as extension, count(*) as ct
+	from media
+	where auto_extension is not null
+	group by trim(auto_extension)
+	order by upper(trim(auto_extension))
+</cfquery>
 	<cfif not isdefined("mask_media_fg")> 
 		<cfset mask_media_fg="">
 	</cfif>
@@ -177,6 +185,22 @@ limitations under the License.
 				<div class="container">
 					<div class="row">
 						<div class="col-12 py-5">
+							<div class="col-12 col-md-1">
+								<div class="form-group mb-2">
+									<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
+									<select id="protocol" name="protocol" class="data-entry-select">
+										<option></option>
+										<cfif protocol EQ "http"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+										<option value="http" #sel#>http://</option>
+										<cfif protocol EQ "https"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+										<option value="https" #sel#>https://</option>
+										<cfif protocol EQ "httphttps"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+										<option value="httphttps" #sel#>http or https</option>
+										<cfif protocol EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+										<option value="NULL" #sel#>NULL</option>
+									</select>
+								</div>
+							</div>
 							<div class="col-12 col-md-2 float-left">
 								<div class="form-group mb-2">
 									<label for="hostname" class="data-entry-label mb-0" id="hostname_label">Host<span></span></label>
@@ -210,31 +234,50 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2 float-left">
+							<div class="col-12 col-md-2 col-xl-1">
 								<div class="form-group mb-2">
-									<label for="mime_type" class="data-entry-label mb-0" id="mime_type_label">MIME Type</label>
-									<cfset selectedmimetypelist = "">
-									<select id="mime_type" name="mime_type" class="data-entry-select" multiple="true">
+									<label for="extension" class="data-entry-label mb-0" id="extension_label">Extension<span></span></label>
+									<cfset selectedextensionlist = "">
+									<select id="extension" name="extension" class="data-entry-select" multiple="true">
 										<option></option>
-										<cfloop query="ctmime_type">
-											<cfset selected="">
-											<option value="#ctmime_type.mime_type#" #selected#>#ctmime_type.mime_type#</option>
+										<cfloop query="distinctExtensions">
+											<cfif listFind(in_extension, distinctExtensions.extension) GT 0>
+												<cfset selected="selected='true'">
+												<cfset selectedextensionlist = listAppend(selectedextensionlist,'#distinctExtensions.extension#') >
+											<cfelse>
+												<cfset selected="">
+											</cfif>
+											<option value="#distinctExtensions.extension#" #selected#>#distinctExtensions.extension# (#distinctExtensions.ct#)</option>
 										</cfloop>
+										<option value="Select All">Select All</option>
+										<option value="NULL">NULL</option>
+										<option value="NOT NULL">NOT NULL</option>
 									</select>
 									<script>
 										$(document).ready(function () {
-											$("##mime_type").jqxComboBox({  multiSelect: false, width: '100%', enableBrowserBoundsDetection: true });  
-											<cfloop list="#selectedmimetypelist#" index="mt">
-												$("##mime_type").jqxComboBox('selectItem', '#mt#');
+											$("##extension").jqxComboBox({  multiSelect: false, width: '100%', enableBrowserBoundsDetection: true });  
+											<cfloop list="#selectedextensionlist#" index="ext">
+												$("##extension").jqxComboBox('selectItem', '#ext#');
 											</cfloop>
+											$("##extension").jqxComboBox().on('select', function (event) {
+												var args = event.args;
+												if (args) {
+													var item = args.item;
+													if (item.label == 'Select All') { 
+														for (i=0;i<args.index;i++) { 
+															$("##extension").jqxComboBox('selectIndex', i);
+														}
+														$("##extension").jqxComboBox('unselectIndex', args.index);
+													}
+												}
+											});
 										});
 									</script>
 								</div>
 							</div>
 						</div>
-	
-				</div>
-					<input class="btn btn-xs btn-primary" type="submit" value="Submit">
+						<input class="btn btn-xs btn-primary" type="submit" value="Submit" onClick="validateForm()">
+					</div>
 				</div>
 			</form>
 			<div class="row">
@@ -244,10 +287,6 @@ limitations under the License.
 							function validateForm() {
 								var x = document.forms["startMedia"]["filename"].value;
 								if (x != "") {
-									alert("Field must be filled out");
-								return false;
-								var v = document.forms["startMedia"]["mime_type"].value;
-								if (v != "") {
 									alert("Field must be filled out");
 								return false;
 								}
