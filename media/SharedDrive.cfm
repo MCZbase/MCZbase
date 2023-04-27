@@ -291,7 +291,7 @@ limitations under the License.
 					</div>
 					<div class="row">
 						<div class="col-1 mx-auto">
-							<input id="btn" type="button" class="btn btn-xs btn-primary" value="Preview Image" onclick="getImg();" />
+							<input id="btn" type="button" class="btn btn-xs btn-primary" value="Preview Image(s)" onclick="getImg();" />
 						</div>
 					</div>
 					<div class="row">
@@ -322,7 +322,13 @@ limitations under the License.
 								return false;
 							}
 							
-					
+						const imagesset = document.getElementsByClassName('imageWrapper');
+
+						for (const imageWrapper of imagesset) {
+							imageWrapper.addEventListener('click', (event) => {
+								event.target.remove();
+							});
+						}
 						</script>
 					</div>
 				</div>
