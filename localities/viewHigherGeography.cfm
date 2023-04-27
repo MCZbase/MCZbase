@@ -334,6 +334,7 @@ limitations under the License.
 											var id = f.getProperty("id");
 											var locality_id = f.getProperty("locality_id");
 											var spec_locality = f.getProperty("spec_locality");
+											if (!spec_locality) { spec_locality = "[no specific locality text]"; } 
 											$("##selectedMarkerDiv").html("<a href='/localities/Locality.cfm?locality_id="+locality_id+"' target='_blank'>" + spec_locality + "</a> (" + locality_id + ").");
 										}
 									); 
