@@ -185,7 +185,7 @@ limitations under the License.
 				<div class="container">
 					<div class="row">
 						<div class="col-12 py-5">
-							<div class="col-12 col-md-1">
+							<div class="col-12 col-md-2 float-left">
 								<div class="form-group mb-2">
 									<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
 									<select id="protocol" name="protocol" class="data-entry-select">
@@ -212,7 +212,7 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2 float-left">
+							<div class="col-12 col-md-3 float-left">
 								<div class="form-group mb-2">
 									<label for="path" class="data-entry-label mb-0" id="path_label">Path<span></span></label>
 									<input type="text" id="path" name="path" class="data-entry-input" value="#encodeForHtml(path)#" aria-labelledby="path_label" >
@@ -223,7 +223,7 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2 float-left">
+							<div class="col-12 col-md-3 float-left">
 								<div class="form-group mb-2">
 									<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename <span></span></label>
 									<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label">
@@ -234,7 +234,7 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class="col-12 col-md-2 col-xl-1">
+							<div class="col-12 col-md-2 col-xl-1 float-left">
 								<div class="form-group mb-2">
 									<label for="extension" class="data-entry-label mb-0" id="extension_label">Extension<span></span></label>
 									<cfset selectedextensionlist = "">
