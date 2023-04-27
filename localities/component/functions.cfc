@@ -1294,11 +1294,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												function toggleBounce#lat_long_id#() { 
 													if (bouncing#lat_long_id#==true) { 
 														bouncing#lat_long_id# = false;
-														map.data.forEach(function (feature) { console.log(feature.m); if (feature.m == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
+														map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
 														$('##toggleButton#lat_long_id#').html("Highlight on map");
 													} else { 
 														bouncing#lat_long_id# = true;
-														map.data.forEach(function (feature) { console.log(feature.m); if (feature.m == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
+														map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
 														$('##toggleButton#lat_long_id#').html("Stop bouncing");
 													}
 												};
