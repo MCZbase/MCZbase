@@ -288,16 +288,17 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-12">
-								<input id="btn" type="button" class="mx-auto col-2" value="Get Image" onclick="getImg();" />
-							</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<input id="btn" type="button" class="mx-auto col-2" value="Get Image" onclick="getImg();" />
 						</div>
-						<div class="row">
-							<div class="col-12">
-								<div id="images"></div>
-							</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<div id="images"></div>
 						</div>
+					
 						<script>
 							function getImg(){
 								var url=document.getElementById('protocol').value;
