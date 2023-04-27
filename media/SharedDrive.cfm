@@ -303,7 +303,7 @@ limitations under the License.
 							}
 						</style>
 						<div class="col-4 mx-auto">
-							<div id="images"><button class="btn btn-xs btn-secondary" onClick="goodbyeImg()">Remove</button></div>
+							<div id="images"></div>
 						</div>
 					
 						<script>
@@ -322,10 +322,7 @@ limitations under the License.
 								return false;
 							}
 							
-							function goodbyeImg(){
-								var el = document.getElementById('images');
-								el.parentNode.removeChild(el);
-							}
+					
 						</script>
 					</div>
 				</div>
