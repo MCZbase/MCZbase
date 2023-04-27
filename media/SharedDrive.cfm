@@ -276,7 +276,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<input class="btn btn-xs btn-primary" type="submit" value="Submit" onClick="displayImage(protocol, hostname, path, filename)">
+						<input class="btn btn-xs btn-primary" type="submit" value="Submit" onClick="displayImage()">
 					</div>
 				</div>
 			</form>
@@ -289,7 +289,7 @@ limitations under the License.
 								var output += document.getElementById('hostname').value;
 								var output += document.getElementById('path').value;
 								var output += document.getElementById('filename').value;
-								return output;
+								output;
 							}
 						</script>
 					</div>
