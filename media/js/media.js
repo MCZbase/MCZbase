@@ -149,8 +149,9 @@ function makeMediaURIPartAutocomplete(valueControl,targetField) {
 			},
 			select: function (event, result) {
 				//  on select, set prefix the value with an equals for exact match
+				// removed the "=" + to the left of result.item.value
 				event.preventDefault();
-				$('#'+valueControl).val("=" + result.item.value);
+				$('#'+valueControl).val(result.item.value);
 			},
 			minLength: 3
 		}).autocomplete("instance")._renderItem = function(ul,item) { 
