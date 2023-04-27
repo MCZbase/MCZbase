@@ -346,7 +346,7 @@ Delete an existing collecting event number record.
 						<cfset totalSpecimens=0>
 						<cfloop query="localityUses">
 							<cfset totalEvents=totalEvents+localityUses.numOfCollEvents>
-							<cfset totalSpecimens=totalSpecimens+localityUses.numOfSpec>
+							<cfset totalSpecimens=totalSpecimens+localityUses.numOfSpecs>
 						</cfloop>
 						<div>
 							This Locality (#locality_id#)
