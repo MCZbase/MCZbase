@@ -276,7 +276,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<input class="btn btn-xs btn-primary" type="submit" value="Submit" onClick="validateForm()">
+						<input class="btn btn-xs btn-primary" type="submit" value="Submit" onClick="displayImage(protocol, hostname, path, filename)">
 					</div>
 				</div>
 			</form>
@@ -284,16 +284,12 @@ limitations under the License.
 				<div class="col-12">
 					<div class="col-4">
 						<script>
-							function validateForm() {
-								var x = document.forms["startMedia"]["filename"].value;
-								var h = document.forms["startMedia"]["hostname"].value;
-								var p = document.forms["startMedia"]["path"].value;
-								if (x == "") {
-									return ='Field must be filled out';
-								} else {
-								return '<img src="x"/>';
-								}
-							}
+						function displayImage(src) {
+							 var img = document.createElement("img");
+							 img.src = src;
+							 img.width = 100%;
+							 img.height = auto;
+							 document.body.appendChild(img);
 						</script>
 					</div>
 				</div>
