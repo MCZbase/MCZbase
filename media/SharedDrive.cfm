@@ -201,7 +201,7 @@ limitations under the License.
 								<div class="form-group mb-2">
 									<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
 									<select id="protocol" name="protocol" class="data-entry-select">
-										<option></option>
+										<option>https://</option>
 										<cfif protocol EQ "http://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
 										<option value="http://" #sel#>http://</option>
 										<cfif protocol EQ "https://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
@@ -214,7 +214,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="col-12 col-md-2 float-left">
-								<div class="form-group mb-2">
+								<div class="form-group mb-2"><!---will it ever change? hard coded value --could remove autofill maybe--->
 									<label for="hostname" class="data-entry-label mb-0" id="hostname_label">Host<span></span></label>
 									<input type="text" id="hostname" name="hostname" class="data-entry-input" value="mczbase.mcz.harvard.edu" aria-labelledby="hostname_label" >
 								</div>
