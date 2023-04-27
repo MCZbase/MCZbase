@@ -324,7 +324,7 @@ limitations under the License.
 							
 						const images = document.getElementsByClassName('imageWrapper');
 
-						for (const imageWrapper of images) {
+						for (const images of imageWrapper) {
 							imageWrapper.addEventListener('click', (event) => {
 								event.target.remove();
 							});
