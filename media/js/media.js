@@ -120,8 +120,6 @@ function makeMediaURIPartAutocomplete(valueControl,targetField) {
 		targetMethod = "getHostnameAutocomplete";
 	} else if (targetField=="path") {
 		targetMethod = "getPathAutocomplete";
-	} else if (targetField=="path2") {
-		targetMethod = "getPathAutocomplete2";
 	} else if (targetField=="filename") {
 		targetMethod = "getFilenameAutocomplete";
    } else {
