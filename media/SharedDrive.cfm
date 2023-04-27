@@ -278,9 +278,10 @@ limitations under the License.
 						</div>
 					
 					<form>
-<input type="text" id="protocol2" name="protocol2" class="data-entry-input" value="#encodeForHtml(protocol)#">
-<input type="text" id="hostname2" name="hostname2" class="data-entry-input" value="#encodeForHtml(hostname)#">
-<input type="text" id="txt" name="txt" class="data-entry-input" value="#encodeForHtml(filename)#">
+<input type="text" id="protocol2" name="protocol2" class="data-entry-input" value="#encodeForHtml(protocol2)#">
+<input type="text" id="hostname2" name="hostname2" class="data-entry-input" value="#encodeForHtml(hostname2)#">
+<input type="text" id="path2" name="path2" class="data-entry-input" value="#encodeForHtml(hostname2)#">
+<input type="text" id="txt" name="txt" class="data-entry-input" value="#encodeForHtml(filename2)#">
 <input id="btn" type="button" value="Get Image" onclick="getImg();" />
 </form>
 <br /><br />
@@ -290,6 +291,7 @@ limitations under the License.
 							function getImg(){
 								var url=document.getElementById('protocol2').value;
 								url+=document.getElementById('hostname2').value;
+								url+=document.getElementById('path').value;
 								url+=document.getElementById('txt').value;
 								var div=document.createElement('div');
 								div.className="imageWrapper";
