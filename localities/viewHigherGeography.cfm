@@ -251,6 +251,7 @@ limitations under the License.
 					var map;
 					var enclosingpoly;
 					var georefs;
+					var georefsBounds;
 					function setupMap(geog_auth_rec_id){
 						var coords="0.0,0.0";
 						var bounds = new google.maps.LatLngBounds();
@@ -327,6 +328,7 @@ limitations under the License.
 										});
 									});
 									map.fitBounds(bounds);
+									georefsBounds = bounds;
 									center = map.getCenter();
 									map.data.addListener('click',
 										function(event) { 
@@ -432,6 +434,9 @@ limitations under the License.
 							AND geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 					</cfquery>
 					<cfif hasGeorefs.ct GT 0>
+						<li>
+							<span class="h3">#hasGeorefs.ct# georeferenced localities.</span> <a onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
+						</li>
 						<li>
 							<div id="selectedMarkerDiv">Click on a marker for locality details.</div>
 						</li>
