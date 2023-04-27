@@ -389,7 +389,7 @@ Delete an existing collecting event number record.
 											<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
 												#numSole# #collection_cde# only collecting events
 											</a>
-										<cfifelseif numShared EQ 0 AND numSole EQ 0>
+										<cfelseif numShared EQ 0 AND numSole EQ 0>
 												#localityUses.numOfCollEvents# unused collecting events
 										<cfelse>
 											<cfquery name="sharedWith" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
