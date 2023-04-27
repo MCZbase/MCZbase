@@ -304,7 +304,7 @@ limitations under the License.
 								var url=document.getElementById('protocol').value;
 								url+=document.getElementById('hostname').value;
 								url+=document.getElementById('path').value;
-								url+=document.getElementById('txt').value;
+								url+=document.getElementById('filename').value;
 								var div=document.createElement('div');
 								div.className="imageWrapper";
 								var img=document.createElement('img');
