@@ -323,9 +323,10 @@ limitations under the License.
 								document.getElementById('images').appendChild(div);
 								return false;
 							}
-							
+						</script>
+						<script type="javascript">
 							$('.imageWrapper button').on('click',function(){ // on click of button
-								$(this).parent('.slide').remove(); // find the parent div and remove it
+								$(this).parent('.imageWrapper').remove(); // find the parent div and remove it
 							});
 						</script>
 					</div>
