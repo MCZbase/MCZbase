@@ -304,7 +304,7 @@ limitations under the License.
 						</style>
 						<div class="col-12 mx-auto">
 							<div id="images">
-							<button class="btn btn-xs btn-secondary">Remove</button>
+							<button class="button btn btn-xs btn-secondary">Remove</button>
 							</div>
 						</div>
 					
@@ -324,7 +324,7 @@ limitations under the License.
 								return false;
 							}
 							
-							$('.slide button').on('click',function(){ // on click of button
+							$('.imageWrapper button').on('click',function(){ // on click of button
 								$(this).parent('.slide').remove(); // find the parent div and remove it
 							});
 						</script>
