@@ -355,9 +355,13 @@ Delete an existing collecting event number record.
 							<ul>
 								<cfloop query="localityUses">
 									<li>
-										<a href="SpecimenResults.cfm?locality_id=#locality_id#&collection_id=#localityUses.collection_id#">
-											#numOfSpecs# #collection_cde# specimens
-										</a>
+										<cfif numOfSpecs GT 0>
+											<a href="SpecimenResults.cfm?locality_id=#locality_id#&collection_id=#localityUses.collection_id#">
+												#numOfSpecs# #collection_cde# specimens
+											</a>
+										<cfelse>
+											no specimens
+										</cfif>
 										from 
 										<cfset numSole = 0>
 										<cfset numShared = 0>
