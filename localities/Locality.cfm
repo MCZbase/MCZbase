@@ -416,57 +416,58 @@ limitations under the License.
 					   <div class="mb-2 w-100" style="height: 360px;">
 							<div id="mapdiv_#REReplace(locality_id,'[^0-9]','','All')#" style="width:100%; height:100%;"></div>
 						</div>
-						<ul>
-						<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
-							SELECT count(*) ct 
-							FROM 
-								geog_auth_rec 
-							WHERE
-								wkt_polygon is not null
-								AND geog_auth_rec_id in (
-									SELECT geog_auth_rec_id 
-									FROM locality
+						<div class="mb-2 w-100">
+							<ul>
+								<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+									SELECT count(*) ct 
+									FROM 
+										geog_auth_rec 
 									WHERE
+										wkt_polygon is not null
+										AND geog_auth_rec_id in (
+											SELECT geog_auth_rec_id 
+											FROM locality
+											WHERE
+												locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+										)
+								</cfquery>
+								<li>
+									<cfif hasHigherPolygon.ct GT 0>
+										<span class="h3">Higher Geography mappable</span> <a onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
+									<cfelse>
+										<span class="h3">Higher geography not mappable</span>
+									</cfif>
+								</li>
+								<cfquery name="hasUncertantyPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+									SELECT count(*) ct
+									FROM lat_long
+									WHERE
+										accepted_lat_long_fg = 1
+										AND
+										error_polygon is not null
+										AND
 										locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-								)
-						</cfquery>
-						<li>
-							<cfif hasHigherPolygon.ct GT 0>
-								<span class="h3">Higher Geography mappable</span> <a onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
-							<cfelse>
-								<span class="h3">Higher geography not mappable</span>
-							</cfif>
-						</li>
-						<cfquery name="hasUncertantyPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
-							SELECT count(*) ct
-							FROM lat_long
-							WHERE
-								accepted_lat_long_fg = 1
-								AND
-								error_polygon is not null
-								AND
-								locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-						</cfquery>
-						<li>
-							<cfif hasUncertantyPolygon.ct GT 0>
-								<span class="h3">Georeference has uncertanty polygon</span> <a onclick=" uncertaintypoly.setVisible(!uncertaintypoly.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(uncertaintypoly.latLngs));">zoom to</a>
-							<cfelse>
-								<span class="h3">No polygon with georeference</span>
-							</cfif>
-						</li>
-						<li>
-							<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS GT 0>
-								<span class="h3">Coordinate uncertanty in meters = #getAcceptedGeoref.coordinateuncertaintyinmeters#</span> <a onclick=" errorcircle.setVisible(!errorcircle.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(errorcircle.getBounds());">zoom to</a>
-							<cfelse>
-								<span class="h3">No error radius.</span>
-							</cfif>
-						</li>
-						<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS EQ "301">
-							<li>
-								<span class="h4 text-danger">Coordinate uncertanty of 301 is suspect, geolocate assigns this value when unable to calculate an error radius.<span>
-							</li>
-						</cfif>
-						</ul>
+								</cfquery>
+								<li>
+									<cfif hasUncertantyPolygon.ct GT 0>
+										<span class="h3">Georeference has uncertanty polygon</span> <a onclick=" uncertaintypoly.setVisible(!uncertaintypoly.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(uncertaintypoly.latLngs));">zoom to</a>
+									<cfelse>
+										<span class="h3">No polygon with georeference</span>
+									</cfif>
+								</li>
+								<li>
+									<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS GT 0>
+										<span class="h3">Coordinate uncertanty in meters = #getAcceptedGeoref.coordinateuncertaintyinmeters#</span> <a onclick=" errorcircle.setVisible(!errorcircle.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(errorcircle.getBounds());">zoom to</a>
+									<cfelse>
+										<span class="h3">No error radius.</span>
+									</cfif>
+								</li>
+								<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS EQ "301">
+									<li>
+										<span class="h4 text-danger">Coordinate uncertanty of 301 is suspect, geolocate assigns this value when unable to calculate an error radius.<span>
+									</li>
+								</cfif>
+							</ul>
 						</div>
 					</div>
 				</section>
