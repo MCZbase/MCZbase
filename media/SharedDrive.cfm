@@ -226,8 +226,8 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3 float-left">
 								<div class="form-group mb-2">
-									<label for="path" class="data-entry-label mb-0" id="path_label">Path<span></span></label>
-									<input type="text" id="path" name="path" class="data-entry-input" value="#encodeForHtml(path)#" aria-labelledby="path_label" >
+									<label for="path" class="data-entry-label mb-0">Path<span></span></label>
+									<input type="text" id="path" name="path" class="data-entry-input" value="#encodeForHtml(path)#">
 								</div>
 								<script>
 									$(document).ready(function() {
@@ -290,10 +290,10 @@ limitations under the License.
 						</div>
 					
 					<form>
-<input type="text" id="protocol2" name="protocol2" class="data-entry-input" value="#encodeForHtml(protocol2)#">
+<!---<input type="text" id="protocol2" name="protocol2" class="data-entry-input" value="#encodeForHtml(protocol2)#">
 <input type="text" id="hostname2" name="hostname2" class="data-entry-input" value="#encodeForHtml(hostname2)#">
 <input type="text" id="path2" name="path2" class="data-entry-input" value="#encodeForHtml(hostname2)#">
-<input type="text" id="txt" name="txt" class="data-entry-input" value="#encodeForHtml(filename2)#">
+<input type="text" id="txt" name="txt" class="data-entry-input" value="#encodeForHtml(filename2)#">--->
 <input id="btn" type="button" value="Get Image" onclick="getImg();" />
 </form>
 <br /><br />
@@ -301,9 +301,9 @@ limitations under the License.
 <div id="images"></div>
 						<script>
 							function getImg(){
-								var url=document.getElementById('protocol2').value;
-								url+=document.getElementById('hostname2').value;
-								url+=document.getElementById('path2').value;
+								var url=document.getElementById('protocol').value;
+								url+=document.getElementById('hostname').value;
+								url+=document.getElementById('path').value;
 								url+=document.getElementById('txt').value;
 								var div=document.createElement('div');
 								div.className="imageWrapper";
