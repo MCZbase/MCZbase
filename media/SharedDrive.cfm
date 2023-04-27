@@ -284,23 +284,13 @@ limitations under the License.
 				<div class="col-12">
 					<div class="col-4">
 						<script>
-							function readURL(input) {
-								if (input.text && input.text[0]) {
-									var reader = new FileReader();
-
-									reader.onload = function (e) {
-										imgId = '#preview-'+$(input).attr('id');
-										$(imgId).attr('src', e.target.result);
-									}
-
-									reader.readAsDataURL(input.text[0]);
-								}
-							  }
-
-
-							  $("form#startMedia input[type='text']").change(function(){
-								readURL(this);
-							  });
+							function displayImage(){
+								var output = document.getElementById('protocol').value;
+								var output += document.getElementById('hostname').value;
+								var output += document.getElementById('path').value;
+								var output += document.getElementById('filename').value;
+								return output;
+							}
 						</script>
 					</div>
 				</div>
