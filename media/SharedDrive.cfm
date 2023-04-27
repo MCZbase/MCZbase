@@ -202,10 +202,10 @@ limitations under the License.
 									<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
 									<select id="protocol" name="protocol" class="data-entry-select">
 										<option></option>
-										<cfif protocol EQ "http"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-										<option value="http" #sel#>http://</option>
-										<cfif protocol EQ "https"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-										<option value="https" #sel#>https://</option>
+										<cfif protocol EQ "http://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+										<option value="http://" #sel#>http://</option>
+										<cfif protocol EQ "https://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+										<option value="https://" #sel#>https://</option>
 										<cfif protocol EQ "httphttps"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
 										<option value="httphttps" #sel#>http or https</option>
 										<cfif protocol EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
