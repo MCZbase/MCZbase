@@ -95,11 +95,23 @@ limitations under the License.
 	<cfif not isdefined("protocol")> 
 		<cfset protocol="">
 	</cfif>
+	<cfif not isdefined("protocol2")> 
+		<cfset protocol2="">
+	</cfif>
+	<cfif not isdefined("hostname2")> 
+		<cfset hostname2="">
+	</cfif>
 	<cfif not isdefined("hostname")> 
 		<cfset hostname="">
 	</cfif>
+	<cfif not isdefined("path2")> 
+		<cfset path2="">
+	</cfif>
 	<cfif not isdefined("path")> 
 		<cfset path="">
+	</cfif>
+	<cfif not isdefined("filename2")> 
+		<cfset filename2="">
 	</cfif>
 	<cfif not isdefined("filename")> 
 		<cfset filename="">
