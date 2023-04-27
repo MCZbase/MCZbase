@@ -284,12 +284,23 @@ limitations under the License.
 				<div class="col-12">
 					<div class="col-4">
 						<script>
-						function displayImage(src) {
-							 var img = document.createElement("img");
-							 img.src = src;
-							 img.width = 100%;
-							 img.height = auto;
-							 document.body.appendChild(img);
+							function readURL(input) {
+								if (input.text && input.text[0]) {
+									var reader = new FileReader();
+
+									reader.onload = function (e) {
+										imgId = '#preview-'+$(input).attr('id');
+										$(imgId).attr('src', e.target.result);
+									}
+
+									reader.readAsDataURL(input.text[0]);
+								}
+							  }
+
+
+							  $("form#startMedia input[type='text']").change(function(){
+								readURL(this);
+							  });
 						</script>
 					</div>
 				</div>
