@@ -303,7 +303,7 @@ limitations under the License.
 							function getImg(){
 								var url=document.getElementById('protocol2').value;
 								url+=document.getElementById('hostname2').value;
-								url+=document.getElementById('path').value;
+								url+=document.getElementById('path2').value;
 								url+=document.getElementById('txt').value;
 								var div=document.createElement('div');
 								div.className="imageWrapper";
