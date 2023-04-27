@@ -302,7 +302,7 @@ limitations under the License.
 								margin-top: 2rem;
 							}
 						</style>
-						<div class="col-4 mx-auto">
+						<div class="col-3 mx-auto">
 							<div id="images"></div>
 						</div>
 					
