@@ -276,16 +276,21 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<button class="btn btn-xs btn-primary" type="submit" onClick="displayImage()">Button</button>
+										
+						<button class="btn btn-xs btn-primary" type="submit"  onclick="getImg();">See Image</button>
 						<script>
-							function displayImage(){
-								var output = document.getElementById('protocol').value;
-								var output += document.getElementById('hostname').value;
-								var output += document.getElementById('path').value;
-								var output += document.getElementById('filename').value;
-								output;
+							function getImg(){
+								var url=document.getElementById('filename').value;
+								var div=document.createElement('div');
+								div.className="imageWrapper";
+								var img=document.createElement('img');
+								img.src=url;
+								div.appendChild(img);
+								document.getElementById('images').appendChild(div);
+								return false;
 							}
 						</script>
+						<img src="">
 					</div>
 				</div>
 			</form>
