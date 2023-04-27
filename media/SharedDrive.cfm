@@ -276,11 +276,11 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-						<div class="imageWrapper">	
+					
 							<input type="text" id="txt" value="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg">
-						</div>			
+								
 						<button class="btn btn-xs btn-primary" type="submit"  onclick="getImg();">See Image</button>
-						
+										<div class="images">	</div>
 						<script>
 							function getImg(){
 								var url=document.getElementById('txt').value;
