@@ -1593,6 +1593,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<cfif getVerbatimGeoref.recordcount EQ 0>
 					<div class="h3">No verbatim coordinates</div>
 				<cfelse>
+					<div class="h3">Verbatim coordinate values</div>
 					<ul>
 						<cfloop query="getVerbatimGeoref">
 							<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
