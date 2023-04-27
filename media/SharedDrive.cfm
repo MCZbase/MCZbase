@@ -196,7 +196,7 @@ limitations under the License.
 			<form name="startMedia" id="newMedia" action="/media/SharedDrive.cfm" method="post" required>
 				<div class="container">
 					<div class="row">
-						<div class="col-12 py-5">
+						<div class="col-12 pt-4 pb-1">
 							<div class="col-12 col-md-2 float-left">
 								<div class="form-group mb-2">
 									<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
@@ -295,7 +295,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-12">
+						<div class="col-4 mx-auto">
 							<div id="images"></div>
 						</div>
 					
@@ -306,7 +306,7 @@ limitations under the License.
 								url+=document.getElementById('path').value;
 								url+=document.getElementById('filename').value;
 								var div=document.createElement('div');
-								div.className="imageWrapper col-4 mx-auto";
+								div.className="imageWrapper";
 								var img=document.createElement('img');
 								img.src=url;
 								div.appendChild(img);
