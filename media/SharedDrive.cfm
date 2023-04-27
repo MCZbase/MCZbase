@@ -216,7 +216,7 @@ limitations under the License.
 							<div class="col-12 col-md-2 float-left">
 								<div class="form-group mb-2">
 									<label for="hostname" class="data-entry-label mb-0" id="hostname_label">Host<span></span></label>
-									<input type="text" id="hostname" name="hostname" class="data-entry-input" value="#encodeForHtml(hostname)#" aria-labelledby="hostname_label" >
+									<input type="text" id="hostname" name="hostname" class="data-entry-input" value="mczbase.mcz.harvard.edu" aria-labelledby="hostname_label" >
 								</div>
 								<script>
 									$(document).ready(function() {
