@@ -1566,7 +1566,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						verbatim_locality
 				</cfquery>
 				<cfif getVerbatim.recordcount EQ 0>
-					<div class="h3">No verbatim locality values</div>
+					<div class="h4">No verbatim locality values</div>
 				<cfelse>
 					<ul>
 						<cfloop query="getVerbatim">
@@ -1591,9 +1591,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						verbatimcoordinatesystem, verbatimsrs
 				</cfquery>
 				<cfif getVerbatimGeoref.recordcount EQ 0>
-					<div class="h3">No verbatim coordinates</div>
+					<div class="h4">No verbatim coordinates</div>
 				<cfelse>
-					<div class="h3">Verbatim coordinate values</div>
+					<div class="h4">Verbatim coordinate values</div>
 					<ul>
 						<cfloop query="getVerbatimGeoref">
 							<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
