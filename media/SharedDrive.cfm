@@ -321,7 +321,7 @@ limitations under the License.
 								return false;
 								var button = document.createElement("button");
 								button.innerHTML = "Remove";
-								var body = document.getElementsByClassName("imageWrapper")[0];
+								var div = document.getElementsByClassName("imageWrapper")[0];
 								images.appendChild(button);
 								button.addEventListener ("click", function() {
   									alert("did something");
