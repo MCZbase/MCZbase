@@ -322,7 +322,7 @@ limitations under the License.
 								var button = document.createElement("button");
 								button.innerHTML = "Remove";
 								var body = document.getElementsByClassName("imageWrapper")[0];
-								body.appendChild(button);
+								images.appendChild(button);
 								button.addEventListener ("click", function() {
   									alert("did something");
 								});
