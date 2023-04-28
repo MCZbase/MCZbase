@@ -262,7 +262,7 @@ limitations under the License.
 							} else if (datafield == 'COLLECTING_EVENT_ID') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?Action=editCollEvnt&collecting_event_id="+collecting_event_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'HIGHER_GEOG') { 
-					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?action=editGeog&geog_auth_rec_id="+geog_auth_rec_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/localities/viewHigherGeography.cfm?geog_auth_rec_id="+geog_auth_rec_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'SPECIMEN_COUNT') { 
 								var loc = encodeURIComponent(datarecord['VERBATIM_LOCALITY']);
 								var date = encodeURIComponent(datarecord['VEBATIM_DATE']);

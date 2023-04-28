@@ -121,9 +121,9 @@ limitations under the License.
 					</cfif>
 
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						<!--- TODO: Higher Geography Details Page --->
+						<!--- Link to Higher Geography Details Page --->
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Locality.cfm?Action=editGeog&geog_auth_rec_id=' + rowData['GEOG_AUTH_REC_ID'] + '" target="_blank">'+value+'</a></span>';
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=' + rowData['GEOG_AUTH_REC_ID'] + '" target="_blank">'+value+'</a></span>';
 					};
 					var specimensCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -135,6 +135,7 @@ limitations under the License.
 					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
 						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowData) {
+							<!--- Link edit Higher Geography --->
 							var id = encodeURIComponent(rowData['GEOG_AUTH_REC_ID']);
 							return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/Locality.cfm?action=editGeog&geog_auth_rec_id=' + id + '">Edit</a>';
 						};
