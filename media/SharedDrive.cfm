@@ -318,17 +318,9 @@ limitations under the License.
 								img.src=url;
 								div.appendChild(img);
 								document.getElementById('images').appendChild(div);
+								document.getElementsByClassName('imageWrapper').appendChild(button);
 								return false;
-								var button1 = document.createElement("button");
-								button.innerHTML = "Remove";
-								var button1 = document.getElementsByClassName("imageWrapper")[0];
-								images.appendChild(button1);
-								
 							}
-							function deleteImg() { 
-								button.addEventListener ("click", function() {
-  									alert("did something");
-								});
 						</script>
 					</div>
 				</div>
