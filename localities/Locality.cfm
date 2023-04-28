@@ -43,6 +43,10 @@ limitations under the License.
 </cfswitch>
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
+<cfif findNoCase('master',Session.gitBranch) NEQ 0>
+	<!--- not ready for production use, prevent access from production, redirect to locality search --->
+	<cflocation url="/localities/Localities.cfm" addtoken="false">
+</cfif>
 
 <cfswitch expression="#action#">
 	<cfcase value="edit">
