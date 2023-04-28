@@ -597,20 +597,34 @@ Delete an existing collecting event number record.
 				</div>
 				<div class="col-12 col-md-4">
 					<cfif NOT isdefined("sovereign_nation")><cfset sovereign_nation=""></cfif>
-					<label class="data-entry-label" for="sovereign_nation">Sovereign Nation</label>
-					<input type="text" name="sovereign_nation" id="sovereign_nation" class="data-entry-input" value="#encodeforHTML(sovereign_nation)#">
+					<label class="data-entry-label" for="sovereign_nation">
+						Sovereign Nation
+						<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sovereign_nation').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+					</label>
+					<input type="text" name="sovereign_nation" id="sovereign_nation" class="data-entry-input reqdClr" value="#encodeforHTML(sovereign_nation)#" required>
 					<script>
 						$(document).ready(function() {
 							makeSovereignNationAutocomplete("sovereign_nation");
 						});
 					</script>
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-2">
+					<label class="data-entry-label" for="curated_fg">Vetted</label>
+					<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select">
+						<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<option value="0" #selected#>No</option>
+						<cfif isdefined("curated_fg") AND curated_fg EQ 1 ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<option value="1" #selected#>Yes (*)</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-row mx-0 mb-0">
+				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
 					<label class="data-entry-label" for="minimum_elevation">Minimum Elevation</label>
 					<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(minimum_elevation)#" >
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("maximum_elevation")><cfset maximum_elevation=""></cfif>
 					<label class="data-entry-label" for="maximum_elevation">Maximum Elevation</label>
 					<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input" value="#encodeForHTML(maximum_elevation)#" >
@@ -626,20 +640,11 @@ Delete an existing collecting event number record.
 					</select>
 				</div>
 				<div class="col-12 col-md-2">
-					<label class="data-entry-label" for="curated_fg">Vetted</label>
-					<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select">
-						<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-						<option value="0" #selected#>No</option>
-						<cfif isdefined("curated_fg") AND curated_fg EQ 1 ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-						<option value="1" #selected#>Yes (*)</option>
-					</select>
-				</div>
-				<div class="col-12 col-md-3">
 					<cfif NOT isdefined("min_depth")><cfset min_depth=""></cfif> 
 					<label class="data-entry-label" for="min_depth">Minimum Depth</label>
 					<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(min_depth)#" >
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("max_depth")><cfset max_depth=""></cfif>
 					<label class="data-entry-label" for="max_depth">Maximum Depth</label>
 					<input type="text" name="max_depth" id="max_depth" class="data-entry-input" value="#encodeForHTML(max_depth)#" >
@@ -654,20 +659,22 @@ Delete an existing collecting event number record.
 						</cfloop>
 					</select>
 				</div>
+			</div>
+			<div class="form-row mx-0 mb-0">
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
-					<label class="data-entry-label" for="section_part">Section Part</label>
-					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" >
+					<label class="data-entry-label" for="section_part">PLSS Section Part</label>
+					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" placeholder="NE 1/4" >
 				</div>
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("section")><cfset section=""></cfif>
 					<label class="data-entry-label" for="section">Section</label>
-					<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHTML(section)#" >
+					<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHTML(section)#" pattern="[0-3]{0,1}[0-9]{0,1}" >
 				</div>
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("township")><cfset township=""></cfif>
 					<label class="data-entry-label" for="township">Township</label>
-					<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHTML(township)#" >
+					<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHTML(township)#" pattern="[0-9]+" >
 				</div>
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("township_direction")><cfset township_direction=""></cfif>
@@ -677,7 +684,7 @@ Delete an existing collecting event number record.
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("range")><cfset range=""></cfif>
 					<label class="data-entry-label" for="range">Range</label>
-					<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHTML(range)#" >
+					<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHTML(range)#" pattern="[0-9]+">
 				</div>
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("range_direction")><cfset range_direction=""></cfif>
@@ -689,6 +696,8 @@ Delete an existing collecting event number record.
 					<label class="data-entry-label" for="nogeorefbecause">No Georeference Because</label>
 					<input type="text" name="nogeorefbecause" id="nogeorefbecause" class="data-entry-input" value="#encodeForHTML(nogeorefbecause)#" >
 				</div>
+			</div>
+			<div class="form-row mx-0 mb-0">
 				<div class="col-12">
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
 					<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
@@ -1007,12 +1016,23 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						});
 					</script>
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-2">
+					<label class="data-entry-label" for="curated_fg">Curated</label>
+					<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select">
+						<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<option value="0" #selected#>No</option>
+						<cfif isdefined("curated_fg") AND curated_fg EQ 1 ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<option value="1" #selected#>Yes (*)</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-row mx-0 mb-0">
+				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
 					<label class="data-entry-label" for="minimum_elevation">Minimum Elevation</label>
 					<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(minimum_elevation)#" >
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("maximum_elevation")><cfset maximum_elevation=""></cfif>
 					<label class="data-entry-label" for="maximum_elevation">Maximum Elevation</label>
 					<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input" value="#encodeForHTML(maximum_elevation)#" >
@@ -1028,20 +1048,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</select>
 				</div>
 				<div class="col-12 col-md-2">
-					<label class="data-entry-label" for="curated_fg">Curated</label>
-					<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select">
-						<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-						<option value="0" #selected#>No</option>
-						<cfif isdefined("curated_fg") AND curated_fg EQ 1 ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-						<option value="1" #selected#>Yes (*)</option>
-					</select>
-				</div>
-				<div class="col-12 col-md-3">
 					<cfif NOT isdefined("min_depth")><cfset min_depth=""></cfif> 
 					<label class="data-entry-label" for="min_depth">Minimum Depth</label>
 					<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(min_depth)#" >
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("max_depth")><cfset max_depth=""></cfif>
 					<label class="data-entry-label" for="max_depth">Maximum Depth</label>
 					<input type="text" name="max_depth" id="max_depth" class="data-entry-input" value="#encodeForHTML(max_depth)#" >
@@ -1056,9 +1067,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						</cfloop>
 					</select>
 				</div>
+			</div>
+			<div class="form-row mx-0 mb-0">
 				<div class="col-12 col-md-3">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
-					<label class="data-entry-label" for="section_part">Section Part</label>
+					<label class="data-entry-label" for="section_part">PLSS Section Part</label>
 					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" >
 				</div>
 				<div class="col-12 col-md-3">
@@ -1086,6 +1099,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<label class="data-entry-label" for="range_direction">Range Direction</label>
 					<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
 				</div>
+			</div>
+			<div class="form-row mx-0 mb-0">
 				<div class="col-12">
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
 					<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
