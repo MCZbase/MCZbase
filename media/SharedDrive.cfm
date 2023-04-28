@@ -313,6 +313,7 @@ limitations under the License.
 								url+=document.getElementById('filename').value;
 								var div=document.createElement('div');
 								div.className="imageWrapper col-3 float-left";
+								document.getElementById('images').appendChild(div);
 								var a=document.createElement('a');
 								a.className="linker";
 								var img=document.createElement('img');
