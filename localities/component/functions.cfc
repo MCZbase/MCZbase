@@ -996,8 +996,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				</div>
 				<div class="col-12 col-md-4">
 					<cfif NOT isdefined("sovereign_nation")><cfset sovereign_nation=""></cfif>
-					<label class="data-entry-label" for="sovereign_nation">Sovereign Nation</label>
-					<input type="text" name="sovereign_nation" id="sovereign_nation" class="data-entry-input" value="#encodeforHTML(sovereign_nation)#">
+					<label class="data-entry-label" for="sovereign_nation">
+						Sovereign Nation
+						<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sovereign_nation').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+					</label>
+					<input type="text" name="sovereign_nation" id="sovereign_nation" class="data-entry-input reqdClr" value="#encodeforHTML(sovereign_nation)#" required>
 					<script>
 						$(document).ready(function() {
 							makeSovereignNationAutocomplete("sovereign_nation");
