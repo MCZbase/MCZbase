@@ -320,6 +320,8 @@ limitations under the License.
 								document.getElementById('images').appendChild(div);
 								var button=document.createElement('button');
 								document.getElementById('images').appendChild(button);
+								button.classList.add('btn btn-xs btn-primary');
+								button.innerHTML = 'remove';
 								return false;
 							}
 						</script>
