@@ -319,7 +319,7 @@ limitations under the License.
 								div.appendChild(img);
 								var button=document.createElement('button');
 								button.className="btn btn-xs btn-primary";
-								document.getElementsByClassName('imageWrapper').appendChild(button);
+								item.querySelector('imageWrapper').appendChild(button);
 								button.innerHTML = 'remove';
 								return false;
 							}
