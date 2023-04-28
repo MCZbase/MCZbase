@@ -318,6 +318,7 @@ limitations under the License.
 								img.src=url;
 								div.appendChild(img);
 								document.getElementById('images').appendChild(div);
+								var button=document.createElement('button');
 								document.getElementsByClassName('imageWrapper').appendChild(button);
 								return false;
 							}
