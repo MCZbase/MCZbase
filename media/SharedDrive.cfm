@@ -316,6 +316,7 @@ limitations under the License.
 								document.getElementById('images').appendChild(div);
 								var a=document.createElement('a');
 								a.className="linker";
+								document.getElementsByClassName('imageWrapper').appendChild(a);
 								var img=document.createElement('img');
 								img.classList.add('imageFeatures');
 								img.src=url;
