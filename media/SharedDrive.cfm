@@ -317,10 +317,9 @@ limitations under the License.
 								img.classList.add('imageFeatures');
 								img.src=url;
 								div.appendChild(img);
-								document.getElementById('images').appendChild(div);
 								var button=document.createElement('button');
 								button.className="btn btn-xs btn-primary";
-								document.getElementById('images').appendChild(button);
+								document.getElementsByClassName('imageWrapper').appendChild(button);
 								button.innerHTML = 'remove';
 								return false;
 							}
