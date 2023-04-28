@@ -626,7 +626,7 @@ Delete an existing collecting event number record.
 			<div class="form-row mx-0 mb-0">
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
-					<label class="data-entry-label" for="minimum_elevation">Minimum Elevation</label>
+					<label class="data-entry-label" for="minimum_elevation"><strong>Elevation</strong>: Minimum</label>
 					<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(minimum_elevation)#" >
 				</div>
 				<div class="col-12 col-md-2">
@@ -646,7 +646,7 @@ Delete an existing collecting event number record.
 				</div>
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("min_depth")><cfset min_depth=""></cfif> 
-					<label class="data-entry-label" for="min_depth">Minimum Depth</label>
+					<label class="data-entry-label" for="min_depth"><strong>Depth</strong>: Minimum</label>
 					<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(min_depth)#" >
 				</div>
 				<div class="col-12 col-md-2">
@@ -665,10 +665,10 @@ Delete an existing collecting event number record.
 					</select>
 				</div>
 			</div>
-			<div class="form-row mx-0 mb-0">
+			<div class="form-row border m-1 p-1 pb-2">
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
-					<label class="data-entry-label" for="section_part">PLSS Section Part</label>
+					<label class="data-entry-label" for="section_part"><strong>PLSS</strong> Section Part</label>
 					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" placeholder="NE 1/4" >
 				</div>
 				<div class="col-12 col-md-2">
@@ -1029,7 +1029,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<div class="form-row mx-0 mb-0">
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
-					<label class="data-entry-label" for="minimum_elevation">Minimum Elevation</label>
+					<label class="data-entry-label" for="minimum_elevation"><strong>Elevation</strong>: Minimum</label>
 					<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(minimum_elevation)#" >
 				</div>
 				<div class="col-12 col-md-2">
@@ -1049,7 +1049,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				</div>
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("min_depth")><cfset min_depth=""></cfif> 
-					<label class="data-entry-label" for="min_depth">Minimum Depth</label>
+					<label class="data-entry-label" for="min_depth"><strong>Depth</strong>: Minimum</label>
 					<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(min_depth)#" >
 				</div>
 				<div class="col-12 col-md-2">
@@ -1068,10 +1068,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</select>
 				</div>
 			</div>
-			<div class="form-row mx-0 mb-0">
+			<div class="form-row border m-1 p-1 pb-2">
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
-					<label class="data-entry-label" for="section_part">PLSS Section Part</label>
+					<label class="data-entry-label" for="section_part"><strong>PLSS</strong> Section Part</label>
 					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" placeholder="NW 1/4" >
 				</div>
 				<div class="col-12 col-md-2">
