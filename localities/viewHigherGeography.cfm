@@ -26,6 +26,13 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template = "/localities/component/search.cfc" runOnce="true"><!--- for getLocalitySummary() --->
 <cfinclude template = "/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
+
+<cfif findNoCase('master',Session.gitBranch) EQ 0>
+	<cfset editLocalityLinkTarget = "/editLocality.cfm?locality_id=">
+<cfelse>
+	<cfset editLocalityLinkTarget = "/localities/Locality.cfm?locality_id=">
+</cfif>
+
 <cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 
 		geog_auth_rec.geog_auth_rec_id,
@@ -109,7 +116,7 @@ limitations under the License.
 				<cfloop query="getGeography">
 					<h1 class="h2">#getGeography.higher_geog#</h1>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
-							<span><a href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a></span>
+						<span><a href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a></span>
 					</cfif>
 					<div class="col-12">
 						<ul class="sd list-unstyled row mx-0 px-2 py-1 mb-0">
@@ -189,14 +196,14 @@ limitations under the License.
 						</ul>		
 					</div>
 				</cfloop>
-				<h2 class="h3">Localities (<a href="https://mczbase-test.rc.fas.harvard.edu/localities/Localities.cfm?action=search&execute=true&method=getLocalities&geog_auth_rec_id=#geog_auth_rec_id#">#getLocalities.recordcount#</a>)</h2>
+				<h2 class="h3">Localities (<a href="/localities/Localities.cfm?action=search&execute=true&method=getLocalities&geog_auth_rec_id=#geog_auth_rec_id#">#getLocalities.recordcount#</a>)</h2>
 				<div class="col-12">
 					<ul>
 						<cfif getLocalities.recordcount LT 11>
 							<cfloop query="getLocalities">
 								<li>
 									<cfset summary = getLocalitySummary(locality_id="#getLocalities.locality_id#")>
-									<a href="/localities/Locality.cfm?locality_id=#getLocalities.locality_id#">#getLocalities.spec_locality#</a> #summary# 
+									<a href="#editLocalityLinkTarget##getLocalities.locality_id#">#getLocalities.spec_locality#</a> #summary# 
 								</li>
 							</cfloop>
 						<cfelse>
@@ -275,7 +282,7 @@ limitations under the License.
 
 						// obtain georeferences 
 						$.getJSON("/localities/component/georefUtilities.cfc",
-	      				{
+							{
 								method : "getLocalityGeorefsGeoJSON",
 								geog_auth_rec_id: #geog_auth_rec_id#,
 								returnformat : "json"
@@ -302,7 +309,7 @@ limitations under the License.
 											zindex = 3;
 											title='Not Accepted.'
 										}
-										title = title + ' ' + loc + ' ' +  ' Determiner: ' + determiner;
+										title = title + ' ' + loc + ' ' + ' Determiner: ' + determiner;
 										if (accepted=='Yes') { 
 											return {
 												zIndex: zindex,
@@ -337,7 +344,7 @@ limitations under the License.
 											var locality_id = f.getProperty("locality_id");
 											var spec_locality = f.getProperty("spec_locality");
 											if (!spec_locality) { spec_locality = "[no specific locality text]"; } 
-											$("##selectedMarkerDiv").html("<a href='/localities/Locality.cfm?locality_id="+locality_id+"' target='_blank'>" + spec_locality + "</a> (" + locality_id + ").");
+											$("##selectedMarkerDiv").html("<a href='#editLocalityLinkTarget#"+locality_id+"' target='_blank'>" + spec_locality + "</a> (" + locality_id + ").");
 										}
 									); 
 								}
@@ -404,7 +411,7 @@ limitations under the License.
 						setupMap(#geog_auth_rec_id#);
 					});
 				</script>
-			   <div class="mb-2 w-100" style="height: 600px;">
+				<div class="mb-2 w-100" style="height: 600px;">
 					<div id="mapdiv_#geog_auth_rec_id#" style="width:100%; height:100%;"></div>
 				</div>
 				<ul>
