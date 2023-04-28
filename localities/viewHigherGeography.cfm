@@ -28,9 +28,9 @@ limitations under the License.
 <cfinclude template = "/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
 
 <cfif findNoCase('master',Session.gitBranch) EQ 0>
-	<cfset editLocalityLinkTarget = "/editLocality.cfm?locality_id=">
-<cfelse>
 	<cfset editLocalityLinkTarget = "/localities/Locality.cfm?locality_id=">
+<cfelse>
+	<cfset editLocalityLinkTarget = "/editLocality.cfm?locality_id=">
 </cfif>
 
 <cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
