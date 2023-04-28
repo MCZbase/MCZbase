@@ -319,8 +319,8 @@ limitations under the License.
 								div.appendChild(img);
 								document.getElementById('images').appendChild(div);
 								var button=document.createElement('button');
-								document.getElementById('images').appendChild(button);
 								button.classList.add('btn btn-xs btn-primary');
+								document.getElementById('images').appendChild(button);
 								button.innerHTML = 'remove';
 								return false;
 							}
