@@ -319,7 +319,7 @@ limitations under the License.
 								div.appendChild(img);
 								document.getElementById('images').appendChild(div);
 								var button=document.createElement('button');
-								document.getElementsById('images').appendChild(button);
+								document.getElementById('images').appendChild(button);
 								return false;
 							}
 						</script>
