@@ -323,10 +323,12 @@ limitations under the License.
 								button.innerHTML = "Remove";
 								var div = document.getElementsByClassName("imageWrapper")[0];
 								images.appendChild(button);
+								
+							}
+							function deleteImg() { 
 								button.addEventListener ("click", function() {
   									alert("did something");
 								});
-							}
 						</script>
 					</div>
 				</div>
