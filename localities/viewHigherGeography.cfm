@@ -328,14 +328,14 @@ limitations under the License.
 										} 
 									});
 									// fit the map bounds to the loaded features
-									var bounds = new google.maps.LatLngBounds(); 
+									var gbounds = new google.maps.LatLngBounds(); 
 									map.data.forEach(function(feature){
 										feature.getGeometry().forEachLatLng(function(latlng){
-											bounds.extend(latlng);
+											gbounds.extend(latlng);
 										});
 									});
-									map.fitBounds(bounds);
-									georefsBounds = bounds;
+									map.fitBounds(gbounds.union(bounds));
+									georefsBounds = gbounds;
 									center = map.getCenter();
 									map.data.addListener('click',
 										function(event) { 
@@ -396,7 +396,7 @@ limitations under the License.
 								bounds.extend(extendPoint1);
 								bounds.extend(extendPoint2);
 							}
-							map.fitBounds(bounds);
+							map.fitBounds(bounds.union(georefBounds));
 							for(var a=0; a<polygonArray.length; a++){
 								if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
 									$("##mapdiv_" + geog_auth_rec_id).addClass('uglyGeoSPatData');
@@ -405,7 +405,7 @@ limitations under the License.
 								}
 							}
 						});
-						map.fitBounds(bounds);
+						map.fitBounds(bounds.union(georefBounds));
 					};
 					$(document).ready(function() {
 						setupMap(#geog_auth_rec_id#);
