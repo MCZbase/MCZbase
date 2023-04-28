@@ -50,6 +50,7 @@ limitations under the License.
 					var map;
 					var enclosingpoly;
 					var georefs;
+					var georefsBounds;
 					var uncertaintypoly;
 					var errorcircle;
 
@@ -125,6 +126,7 @@ limitations under the License.
 										});
 									});
 									map.fitBounds(bounds);
+									georefsBounds = bounds;
 									center = map.getCenter();
 								}
 							}
@@ -368,6 +370,11 @@ limitations under the License.
 						<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS EQ "301">
 							<li>
 								<span class="h4 text-danger">Coordinate uncertanty of 301 is suspect, geolocate assigns this value when unable to calculate an error radius.<span>
+							</li>
+						</cfif>
+						<cfif getGeoreferences.recordcount GT 1>
+							<li>
+								<span class="h3">#getGeoreferences.recordcount# georeferences, including unaccepted.</span> <a onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
 							</li>
 						</cfif>
 					</ul>
