@@ -311,7 +311,7 @@ limitations under the License.
 								url+=document.getElementById('hostname').value;
 								url+=document.getElementById('path').value;
 								url+=document.getElementById('filename').value;
-								let img = document.createElement("img");
+								var img = document.createElement("img");
 								img.src=url;
 								
 								var a=document.createElement('a');
