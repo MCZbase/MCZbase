@@ -311,19 +311,18 @@ limitations under the License.
 								url+=document.getElementById('hostname').value;
 								url+=document.getElementById('path').value;
 								url+=document.getElementById('filename').value;
-								var img = document.createElement("img");
-								img.src=url;
-								
+								var div=document.createElement('div');
+								div.className="imageWrapper col-3 float-left";
 								var a=document.createElement('a');
-								a.className="imageWrapper col-3 float-left";
+								a.className="linker";
 								var img=document.createElement('img');
 								img.classList.add('imageFeatures');
 								img.src=url;
 								div.appendChild(img);
-//								var button=document.createElement('button');
-//								button.className="btn btn-xs btn-primary";
-//								document.getElementById('images').appendChild(button);
-//								button.innerHTML = 'remove';
+								var button=document.createElement('button');
+								button.className="btn btn-xs btn-primary";
+								document.getElementById('images').appendChild(button);
+								button.innerHTML = 'remove';
 								return false;
 							}
 						</script>
