@@ -210,7 +210,7 @@ limitations under the License.
 					,section
 					,township
 					,township_direction
-					,range,
+					,range
 					,range_direction
 					,nogeorefbecause
 					,georef_updated_date
