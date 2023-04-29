@@ -295,17 +295,17 @@ limitations under the License.
 					<cfelse>
 						NULL,
 					</cfif>
-					<cfif len(#nogeorefbecause#) gt 0>
+					<cfif isDefined("nogeorefbecause") AND len(#nogeorefbecause#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nogeorefbecause#">,
 					<cfelse>
 						NULL,
 					</cfif>
-					<cfif len(#georef_updated_date#) gt 0>
+					<cfif isDefined("georef_updated_date") AND len(#georef_updated_date#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_DATE" value="#georef_updated_date#">,
 					<cfelse>
 						NULL,
 					</cfif>
-					<cfif len(#georef_by#) gt 0>
+					<cfif isDefined("georef_by") AND len(#georef_by#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#georef_by#">,
 					<cfelse>
 						NULL,
