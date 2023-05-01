@@ -305,40 +305,41 @@ limitations under the License.
 						<div class="col-12 mx-auto">
 							<div id="images" class="d-inline"></div>
 						</div>
-						<script>
-							function getImg(){
-								var url=document.getElementById('protocol').value;
-								url+=document.getElementById('hostname').value;
-								url+=document.getElementById('path').value;
-								url+=document.getElementById('filename').value;
-								var div=document.createElement('div');
-								div.className="imageWrapper col-3 float-left";
-								document.getElementById('images').appendChild(div);
-								var img=document.createElement('img');
-								img.classList.add('imageFeatures');
-								img.src=url;
-								div.appendChild(img);
-								return false;
-							}
-						</script>
-						<script>
-						function resetForm(){
-						 // clearing selects
-							  var selects = document.getElementsByTagName('select');
-							   for (var i = 0; i<selects.length; i++) {
-								   selects[i].selectedIndex = 0;
-							   }
-							  var input = document.getElementsByTagName('input');
-								for (var i=0; i< input.length; i++) {
-									inputs[i].input.val("");
-								}
-						 }
-						 window.load(resetForm());
-						</script>
+	
 					</div>
 				</div>
 			</form>
-		</div>
+		</div>					
+		<script>
+			function getImg(){
+				var url=document.getElementById('protocol').value;
+				url+=document.getElementById('hostname').value;
+				url+=document.getElementById('path').value;
+				url+=document.getElementById('filename').value;
+				var div=document.createElement('div');
+				div.className="imageWrapper col-3 float-left";
+				document.getElementById('images').appendChild(div);
+				var img=document.createElement('img');
+				img.classList.add('imageFeatures');
+				img.src=url;
+				div.appendChild(img);
+				return false;
+			}
+		</script>
+		<script>
+			function resetForm(){
+			 // clearing selects
+				  var selects = document.getElementsByTagName('select');
+				   for (var i = 0; i<selects.length; i++) {
+					   selects[i].selectedIndex = 0;
+				   }
+				  var input = document.getElementsByTagName('input');
+					for (var i=0; i< input.length; i++) {
+						inputs[i].input.val("");
+					}
+			 }
+			 window.load(resetForm());
+		</script>
 	</cfoutput>
 
 
