@@ -289,23 +289,24 @@ limitations under the License.
 			}
 		</script>
 		<script>
-			var i = 0;
+			var i = 1;
 			function getImg(){
 				var url=document.getElementById('protocol').value;
 				url+=document.getElementById('hostname').value;
 				url+=document.getElementById('path').value;
 				url+=document.getElementById('filename').value;
 				var div=document.createElement('div');
-				div.className="col-3 imageWrapper" + i++;
+				div.className="float-left col-3 imageWrapper";
 				document.getElementById('images').appendChild(div);
 				var img=document.createElement('img');
 				img.classList.add('imageFeatures');
+				img.data.add(i++);
 				img.src=url;
 				div.appendChild(img);
-//				
-//				var div=document.createElement('span');
-//				div.className="imageWrapper";
-//				document.getElementById('images').appendChild(div);
+				
+	//			var div=document.createElement('span');
+//				div.className="close";
+//				document.getElementsByClassName('imageWrapper + i++').appendChild(div);
 //				var img=document.createElement('img');
 //				img.classList.add('imageFeatures');
 //				img.src=url;
