@@ -291,7 +291,7 @@ limitations under the License.
 					</div>
 					<div class="row">
 						<div class="col-1 mx-auto">
-							<input id="Previewbtn" type="button" class="btn btn-xs btn-primary" value="Preview Image(s)" onclick="getImg();" />
+							<input id="Previewbtn" type="button" class="btn btn-xs btn-primary" value="Preview Image(s)" onclick="getImg();" /><input type="reset" id="reset" class="btn btn-xs btn-secondary m-4" onClick="newReset()" value="Reset Form"/>
 						</div>
 					</div>
 					<div class="row">
@@ -304,9 +304,6 @@ limitations under the License.
 						</style>
 						<div class="col-12 mx-auto">
 							<div id="images" class="d-inline"></div>
-						</div>
-						<div class="col-12 mx-auto">
-							<button type="reset" id="reset" class="btn btn-xs btn-secondary m-4" onClick="newReset()">Reset</button>
 						</div>
 						<script>
 							function getImg(){
