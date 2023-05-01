@@ -3580,3 +3580,21 @@ and also iPads specifically.
 	}
 }
 /* styles above are media queries for named groups page*/
+
+/* styles for locality maps */
+.uglyGeoSPatData{
+	border:4px solid red;
+	margin:.3em;
+	padding:1em;
+}
+.niceGeoSPatData{
+	border:3px solid green;
+	margin:.3em;
+	padding:1em;
+}
+.noWKT{
+	border:3px solid yellow;
+		margin:.3em;
+		padding:1em;
+}
+/* end styles for locality maps */

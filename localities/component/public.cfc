@@ -56,8 +56,10 @@ limitations under the License.
 
 					function setupMap(locality_id){
 						var bounds = new google.maps.LatLngBounds();
-						var polygonArray = [];
-						var pointsArray=[];
+						var uncertaintyPolygonArray = [];
+						var enclosingPolygonArray = [];
+						var uncertaintyPointsArray=[];
+						var enclosingPointsArray=[];
 
 						// start with world map
 						var mapOptions = {
@@ -124,6 +126,12 @@ limitations under the License.
 										feature.getGeometry().forEachLatLng(function(latlng){
 											bounds.extend(latlng);
 										});
+										var accepted = feature.getProperty('accepted');
+										if (accepted=='Yes') { 
+											feature.getGeometry().forEachLatLng(function(latlng){
+												georefs = latlng
+											});
+										}
 									});
 									map.fitBounds(bounds);
 									georefsBounds = bounds;
@@ -176,15 +184,15 @@ limitations under the License.
 						$.get( "/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&locality_id=" + locality_id, function( wkt ) {
 							if (wkt.length>0){
 								var regex = /\(([^()]+)\)/g;
-								var Rings = [];
+								var RingsErr = [];
 								var results;
 								while( results = regex.exec(wkt) ) {
-									Rings.push( results[1] );
+									RingsErr.push( results[1] );
 								}
-								for(var i=0;i<Rings.length;i++){
+								for(var i=0;i<RingsErr.length;i++){
 									// for every polygon in the WKT, create an array
 									var lary=[];
-									var da=Rings[i].split(",");
+									var da=RingsErr[i].split(",");
 									for(var j=0;j<da.length;j++){
 										// push the coordinate pairs to the array as LatLngs
 										var xy = da[j].trim().split(" ");
@@ -194,18 +202,18 @@ limitations under the License.
 										bounds.extend(pt);
 									}
 									// now push the single-polygon array to the array of arrays (of polygons)
-									pointsArray.push(lary);
+									uncertaintyPointsArray.push(lary);
 								}
 								uncertaintypoly = new google.maps.Polygon({
-									paths: pointsArray,
-									strokeColor: '##FFA200',
-									strokeOpacity: 0.8,
+									paths: uncertaintyPointsArray,
+									strokeColor: '##7412A4',
+									strokeOpacity: 0.9,
 									strokeWeight: 2,
-									fillColor: '##FFA200',
+									fillColor: '##CF6FFF', 
 									fillOpacity: 0.35
 								});
 								uncertaintypoly.setMap(map);
-								polygonArray.push(uncertaintypoly);
+								uncertaintyPolygonArray.push(uncertaintypoly);
 								// END build WKT
 								// expand bounds if needed
 								if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
@@ -215,8 +223,8 @@ limitations under the License.
 									bounds.extend(extendPoint2);
 								}
 								map.fitBounds(bounds);
-								for(var a=0; a<polygonArray.length; a++){
-									if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
+								for(var a=0; a<uncertaintyPolygonArray.length; a++){
+									if (! google.maps.geometry.poly.containsLocation(center, uncertaintyPolygonArray[a]) ) {
 										$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
 									} else {
 										$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
@@ -248,10 +256,10 @@ limitations under the License.
 										bounds.extend(pt);
 									}
 									// now push the single-polygon array to the array of arrays (of polygons)
-									pointsArray.push(lary);
+									enclosingPointsArray.push(lary);
 								}
 								enclosingpoly = new google.maps.Polygon({
-									paths: pointsArray,
+									paths: enclosingPointsArray,
 									strokeColor: '##1E90FF',
 									strokeOpacity: 0.8,
 									strokeWeight: 2,
@@ -259,7 +267,7 @@ limitations under the License.
 									fillOpacity: 0.25
 								});
 								enclosingpoly.setMap(map);
-								polygonArray.push(enclosingpoly);
+								enclosingPolygonArray.push(enclosingpoly);
 								// END build WKT
 							} else {
 								$("##mapdiv_" + locality_id).addClass('noWKT');
@@ -271,8 +279,8 @@ limitations under the License.
 								bounds.extend(extendPoint2);
 							}
 							map.fitBounds(bounds);
-							for(var a=0; a<polygonArray.length; a++){
-								if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
+							for(var a=0; a<enclosingPolygonArray.length; a++){
+								if (! google.maps.geometry.poly.containsLocation(georefs, enclosingPolygonArray[a]) ) {
 									$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
 								} else {
 									$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
@@ -338,7 +346,9 @@ limitations under the License.
 						</cfquery>
 						<li>
 							<cfif hasHigherPolygon.ct GT 0>
-								<span class="h3">Higher Geography mappable</span> <a onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
+								<span class="h3">Higher Geography mappable</span> 
+								<a class="btn btn-xs btn-powder-blue"  onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a>
+								<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
 							<cfelse>
 								<span class="h3">Higher geography not mappable</span>
 							</cfif>
@@ -355,14 +365,18 @@ limitations under the License.
 						</cfquery>
 						<li>
 							<cfif hasUncertantyPolygon.ct GT 0>
-								<span class="h3">Georeference has uncertanty polygon</span> <a onclick=" uncertaintypoly.setVisible(!uncertaintypoly.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(uncertaintypoly.latLngs));">zoom to</a>
+								<span class="h3">Georeference has uncertanty polygon</span>
+								<a class="btn btn-xs btn-powder-blue" onclick=" uncertaintypoly.setVisible(!uncertaintypoly.getVisible()); ">hide/show</a> 
+								<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(findBounds(uncertaintypoly.latLngs));">zoom to</a>
 							<cfelse>
 								<span class="h3">No polygon with georeference</span>
 							</cfif>
 						</li>
 						<li>
 							<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS GT 0>
-								<span class="h3">Coordinate uncertanty in meters = #getAcceptedGeoref.coordinateuncertaintyinmeters#</span> <a onclick=" errorcircle.setVisible(!errorcircle.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(errorcircle.getBounds());">zoom to</a>
+								<span class="h3">Coordinate uncertanty in meters = #getAcceptedGeoref.coordinateuncertaintyinmeters#</span> 
+								<a class="btn btn-xs btn-powder-blue" onclick=" errorcircle.setVisible(!errorcircle.getVisible()); ">hide/show</a> 
+								<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(errorcircle.getBounds());">zoom to</a>
 							<cfelse>
 								<span class="h3">No error radius.</span>
 							</cfif>
@@ -374,7 +388,8 @@ limitations under the License.
 						</cfif>
 						<cfif getGeoreferences.recordcount GT 1>
 							<li>
-								<span class="h3">#getGeoreferences.recordcount# georeferences, including unaccepted.</span> <a onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
+								<span class="h3">#getGeoreferences.recordcount# georeferences, including unaccepted.</span> 
+								<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
 							</li>
 						</cfif>
 					</ul>

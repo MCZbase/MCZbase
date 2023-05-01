@@ -357,7 +357,7 @@ Delete an existing collecting event number record.
 									<li>
 										<cfif numOfSpecs GT 0>
 											<cfif numOfSpecs EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-											<a href="SpecimenResults.cfm?locality_id=#locality_id#&collection_id=#localityUses.collection_id#">
+											<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=CATALOGED_ITEM%3ACOLLECTION_CDE&searchText2=%3D#localityUses.collection_cde#">
 												#numOfSpecs# #collection_cde# specimen#plural#
 											</a>
 										<cfelse>
@@ -626,7 +626,7 @@ Delete an existing collecting event number record.
 			<div class="form-row mx-0 mb-0">
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
-					<label class="data-entry-label" for="minimum_elevation">Minimum Elevation</label>
+					<label class="data-entry-label" for="minimum_elevation"><strong>Elevation</strong>: Minimum</label>
 					<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(minimum_elevation)#" >
 				</div>
 				<div class="col-12 col-md-2">
@@ -646,7 +646,7 @@ Delete an existing collecting event number record.
 				</div>
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("min_depth")><cfset min_depth=""></cfif> 
-					<label class="data-entry-label" for="min_depth">Minimum Depth</label>
+					<label class="data-entry-label" for="min_depth"><strong>Depth</strong>: Minimum</label>
 					<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(min_depth)#" >
 				</div>
 				<div class="col-12 col-md-2">
@@ -665,10 +665,10 @@ Delete an existing collecting event number record.
 					</select>
 				</div>
 			</div>
-			<div class="form-row mx-0 mb-0">
+			<div class="form-row border m-1 p-1 pb-2">
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
-					<label class="data-entry-label" for="section_part">PLSS Section Part</label>
+					<label class="data-entry-label" for="section_part"><strong>PLSS</strong> Section Part</label>
 					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" placeholder="NE 1/4" >
 				</div>
 				<div class="col-12 col-md-2">
@@ -697,19 +697,35 @@ Delete an existing collecting event number record.
 					<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
 				</div>
 			</div>
-			<div class="form-row mx-0 mb-0">
-				<div class="col-12">
+			<div class="form-row mx-0 mb-1">
+				<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
+					<cfset remarksClass = "col-md-9">
+				<cfelse>
+					<cfset remarksClass = "">
+				</cfif>
+				<div class="col-12 #remarksClass#">
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
-					<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
-					<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input" value="#encodeForHtml(locality_remarks)#">
-					<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
+					<label class="data-entry-label" for="locality_remarks">Locality Remarks (<span id="length_locality_remarks"></span>)</label>
+					<textarea name="locality_remarks" id="locality_remarks" 
+						onkeyup="countCharsLeft('locality_remarks', 4000, 'length_locality_remarks');"
+						class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(locality_remarks)#</textarea>
+					<script>
+						// Bind input to autogrow function on key up, and trigger autogrow to fit text
+						$(document).ready(function() { 
+							$("##locality_remarks").keyup(autogrow);  
+							$('##locality_remarks').keyup();
+						});
+					</script>
+				</div>
+				<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
+					<div class="col-12 col-md-3">
 						<input type="hidden" name="locality_id" value="locality_id" />
 						<label class="data-entry-label" for="">Include accepted georeference from <a href="/editLocality.cfm?locality_id=#clone_from_locality_id#" target="_blank">#clone_from_locality_id#</a>?</label>
 						Y<input type="radio" name="cloneCoords" value="yes" />
 						<br>
 						N<input type="radio" name="cloneCoords" value="no" checked="checked" />
-		 			</cfif>
-				</div>
+					</div>
+		 		</cfif>
 				<div class="col-12 mt-1">
 					<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 						onClick="if (checkFormValidity($('###formId#')[0])) { #saveButtonFunction#();  } " 
@@ -1017,8 +1033,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</script>
 				</div>
 				<div class="col-12 col-md-2">
-					<label class="data-entry-label" for="curated_fg">Curated</label>
-					<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select">
+					<label class="data-entry-label" for="curated_fg">Vetted</label>
+					<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select reqdClr">
 						<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 						<option value="0" #selected#>No</option>
 						<cfif isdefined("curated_fg") AND curated_fg EQ 1 ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -1029,7 +1045,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<div class="form-row mx-0 mb-0">
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
-					<label class="data-entry-label" for="minimum_elevation">Minimum Elevation</label>
+					<label class="data-entry-label" for="minimum_elevation"><strong>Elevation</strong>: Minimum</label>
 					<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(minimum_elevation)#" >
 				</div>
 				<div class="col-12 col-md-2">
@@ -1049,7 +1065,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				</div>
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("min_depth")><cfset min_depth=""></cfif> 
-					<label class="data-entry-label" for="min_depth">Minimum Depth</label>
+					<label class="data-entry-label" for="min_depth"><strong>Depth</strong>: Minimum</label>
 					<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(min_depth)#" >
 				</div>
 				<div class="col-12 col-md-2">
@@ -1068,10 +1084,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</select>
 				</div>
 			</div>
-			<div class="form-row mx-0 mb-0">
+			<div class="form-row border m-1 p-1 pb-2">
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
-					<label class="data-entry-label" for="section_part">PLSS Section Part</label>
+					<label class="data-entry-label" for="section_part"><strong>PLSS</strong> Section Part</label>
 					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" placeholder="NW 1/4" >
 				</div>
 				<div class="col-12 col-md-2">
@@ -1100,19 +1116,35 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
 				</div>
 			</div>
-			<div class="form-row mx-0 mb-0">
-				<div class="col-12">
+			<div class="form-row mx-0 mb-1">
+				<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
+					<cfset remarksClass = "col-md-9">
+				<cfelse>
+					<cfset remarksClass = "">
+				</cfif>
+				<div class="col-12 #remarksClass#">
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
-					<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
-					<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input">
-					<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
+					<label class="data-entry-label" for="locality_remarks">Locality Remarks (<span id="length_locality_remarks"></span>)</label>
+					<textarea name="locality_remarks" id="locality_remarks" 
+						onkeyup="countCharsLeft('locality_remarks', 4000, 'length_locality_remarks');"
+						class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(locality_remarks)#</textarea>
+					<script>
+						// Bind input to autogrow function on key up, and trigger autogrow to fit text
+						$(document).ready(function() { 
+							$("##locality_remarks").keyup(autogrow);  
+							$('##locality_remarks').keyup();
+						});
+					</script>
+				</div>
+				<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
+					<div class="col-12 col-md-3">
 						<input type="hidden" name="locality_id" value="locality_id" />
 						<label class="data-entry-label" for="">Include accepted georeference from <a href="/editLocality.cfm?locality_id=#clone_from_locality_id#" target="_blank">#clone_from_locality_id#</a>?</label>
 						Y<input type="radio" name="cloneCoords" value="yes" />
 						<br>
 						N<input type="radio" name="cloneCoords" value="no" checked="checked" />
-		 			</cfif>
-				</div>
+					</div>
+		 		</cfif>
 				<div class="col-12 mt-1">
 					<input type="submit" value="Save" class="btn btn-xs btn-primary">
 				</div>
