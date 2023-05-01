@@ -126,7 +126,7 @@ libraries found in github.com/filteredpush/ repositories.
                FROM locality
                     join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
                     left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
-					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+					WHERE locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 			</cfcase>
 			<cfdefaultcase>
