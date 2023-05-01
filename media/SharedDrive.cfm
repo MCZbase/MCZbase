@@ -325,10 +325,18 @@ limitations under the License.
 							}
 						</script>
 						<script>
-							function newReset(){
-								var element = document.getElementById("startMedia")
-								element.reset()
-							}
+						function resetForm(){
+						 // clearing selects
+							  var selects = document.getElementsByTagName('select');
+							   for (var i = 0; i<selects.length; i++) {
+								   selects[i].selectedIndex = 0;
+							   }
+							  var input = document.getElementsByTagName('input');
+								for (var i=0; i< input.length; i++) {
+									inputs[i].input.val("");
+								}
+						 }
+						 window.load(resetForm());
 						</script>
 					</div>
 				</div>
