@@ -193,7 +193,7 @@ limitations under the License.
 			</div>
 		</section>
 		<div class="album pb-5 bg-light">
-			<form name="newMedia" id="newMedia" action="/media/SharedDrive.cfm" method="get" required>
+			<form name="newMedia" id="newMedia" action="/media/SharedDrive.cfm" method="post" required>
 				<div class="container">
 					<div class="row">
 						<div class="col-12 pt-4 pb-1">
@@ -251,7 +251,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-3 mx-auto">
 						<input id="Preview" type="button" class="btn btn-xs btn-primary d-inline-block" value="Preview Image(s)" onclick="getImg();"/>
-							<input type="button" class="btn btn-xs btn-secondary mx-4 d-inline-block" onClick="clearInput()" value="Reset Form"/>
+							<input type="button" class="btn btn-xs btn-secondary mx-4 d-inline-block" onClick="clearInput();session_unset();" value="Reset Form"/>
 						</div>
 					</div>
 	
