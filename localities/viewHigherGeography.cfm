@@ -116,7 +116,7 @@ limitations under the License.
 		FROM
 			geog_auth_rec
 		WHERE
-			higher_geog = <cfqueryaparam cfsqltype="CF_SQL_VARCHAR" value="#parent#">
+			higher_geog = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent#">
 	</cfquery>
 </cfif>
 <cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(1,0,0,0)#">
