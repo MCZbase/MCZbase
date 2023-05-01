@@ -307,7 +307,7 @@ limitations under the License.
 		<script>
 			function removeInput() {
 				var element = document.getElementById("images");
-				element.classList.remove("imageWrapper"+ i++);
+				element.class.remove("imageWrapper"+ i--);
 			}
 		</script>
 	</cfoutput>
