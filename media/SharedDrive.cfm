@@ -260,11 +260,6 @@ limitations under the License.
 							.imageWrapper {
 								position: relative;
 							}
-							.imageWrapper .close {
-								position: absolute;
-								z-index: 100;
-								font-weight: bold;
-							}
 							.imageFeatures {
 								width: 100%;
 								border: 2px solid gray;
@@ -296,7 +291,7 @@ limitations under the License.
 				url+=document.getElementById('path').value;
 				url+=document.getElementById('filename').value;
 				var div=document.createElement('div');
-				div.className="float-left px-0 col-3 imageWrapper" + i++;
+				div.className="float-left col-3 imageWrapper" + i++;
 				document.getElementById('images').appendChild(div);
 				var img=document.createElement('img');
 				img.classList.add('imageFeatures');
@@ -304,7 +299,7 @@ limitations under the License.
 				div.appendChild(img);
 				
 				var div=document.createElement('span');
-				div.className="d-block my-2 float-left text-danger close" + j++;
+				div.className="d-block float-left text-danger close" + j++;
 				div.innerHTML="&times;";
 				document.getElementById("images").appendChild(div);
 				
