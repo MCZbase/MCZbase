@@ -289,7 +289,7 @@ limitations under the License.
 					var map;
 					var enclosingpoly;
 					var georefs;
-					var georefsBounds;
+					var georefsBounds = new google.maps.LatLngBounds();
 					function setupMap(geog_auth_rec_id){
 						var coords="0.0,0.0";
 						var bounds = new google.maps.LatLngBounds();
