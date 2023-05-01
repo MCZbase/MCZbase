@@ -305,11 +305,8 @@ limitations under the License.
 				
 				var div=document.createElement('span');
 				div.className="close";
+				div.innerHTML='&times'.style.color="red";
 				document.getElementsByClassName('imageWrapper + i++').appendChild(div);
-				var img=document.createElement('img');
-				img.classList.add('imageFeatures');
-				img.src=url;
-				div.appendChild(img);
 				
 				
 				return false;
