@@ -198,7 +198,7 @@ limitations under the License.
 								}
 								uncertaintypoly = new google.maps.Polygon({
 									paths: pointsArray,
-									strokeColor: '##9350B5', 
+									strokeColor: '##CF6FFF', 
 									strokeOpacity: 0.8,
 									strokeWeight: 2,
 									fillColor: '##CF6FFF', 
