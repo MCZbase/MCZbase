@@ -318,15 +318,10 @@ limitations under the License.
 								img.classList.add('imageFeatures');
 								img.src=url;
 								div.appendChild(img);
-								var button=document.createElement('button');
-								button.className="btn btn-xs btn-primary";
-								button.type="submit";
-								document.getElementById('images').appendChild(button);
-								button.innerHTML = 'remove';
 								return false;
 								let output = document.getElementById('images');
 								const formToReset = document.getElementById('startMedia');
-								formToReset.addEventListener('submit', (e) => {
+								formToReset.addEventListener('Previewbtn', (e) => {
 									e.preventDefault();
 									formToReset.reset();
 									output.innerHTML += "Form cleared"
