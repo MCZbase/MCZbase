@@ -131,6 +131,19 @@ limitations under the License.
 							<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callbackName='reloadGeoreferences')>
 							<div id="georeferencesDiv">#georeferences#</div>
 						</div>
+						<div class="p-3 border bg-light rounded mt-2">
+							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
+							<script>
+								function runTests() {
+									$("##SpaceDQDiv").html("Running tests....");
+									loadSpaceQC("", #locality_id#, "SpaceDQDiv");
+								}
+							</script>
+							<input type="button" value="Run Quality Control Tests" class="btn btn-xs btn-secondary" onClick=" runTests(); ">
+							<!---  Space tests --->
+							<div id="SpaceDQDiv"></div>
+						</div>
+					<section class="mt-2 float-left col-12 px-0">
 					</div>
 					<div class="col-12 col-md-3 pt-5">
 						<!--- map --->
@@ -210,7 +223,7 @@ limitations under the License.
 					,section
 					,township
 					,township_direction
-					,range,
+					,range
 					,range_direction
 					,nogeorefbecause
 					,georef_updated_date
@@ -295,17 +308,17 @@ limitations under the License.
 					<cfelse>
 						NULL,
 					</cfif>
-					<cfif len(#nogeorefbecause#) gt 0>
+					<cfif isDefined("nogeorefbecause") AND len(#nogeorefbecause#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nogeorefbecause#">,
 					<cfelse>
 						NULL,
 					</cfif>
-					<cfif len(#georef_updated_date#) gt 0>
+					<cfif isDefined("georef_updated_date") AND len(#georef_updated_date#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_DATE" value="#georef_updated_date#">,
 					<cfelse>
 						NULL,
 					</cfif>
-					<cfif len(#georef_by#) gt 0>
+					<cfif isDefined("georef_by") AND len(#georef_by#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#georef_by#">,
 					<cfelse>
 						NULL,
@@ -491,7 +504,7 @@ limitations under the License.
 			</cfif><!---  end cloneCoordinates  --->
 		</cftransaction>
 		<cfoutput>
-			<cflocation addtoken="no" url="/locality/Locality.cfm?locality_id=#nextLoc.nextLoc#">
+			<cflocation addtoken="no" url="/localities/Locality.cfm?locality_id=#nextLoc.nextLoc#">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="delete">  

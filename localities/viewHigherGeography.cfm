@@ -103,6 +103,22 @@ limitations under the License.
 	ORDER BY
 		geog_auth_rec.higher_geog
 </cfquery>
+<cfset parentage = getGeography.higher_geog>
+<cfset parent = "">
+<cfif ListLen(parentage,':') GT 1>
+  <cfset parent = ListDeleteAt(parentage,ListLen(parentage,':'),':')>
+</cfif>
+<cfif len(parent) GT 0>
+	<cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getParent_result">
+		SELECT
+			geog_auth_rec_id,
+			higher_geog
+		FROM
+			geog_auth_rec
+		WHERE
+			higher_geog = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent#">
+	</cfquery>
+</cfif>
 <cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(1,0,0,0)#">
 	SELECT distinct flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude 
 	FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
@@ -114,7 +130,7 @@ limitations under the License.
 		<div class="row mx-0">
 			<div class="col-12 col-md-6 row">
 				<cfloop query="getGeography">
-					<h1 class="h2">#getGeography.higher_geog#</h1>
+					<h1 class="h2 mr-2">#getGeography.higher_geog#</h1>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
 						<span><a href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a></span>
 					</cfif>
@@ -139,7 +155,7 @@ limitations under the License.
 								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.sea#</li>
 							</cfif>
 							<cfif len(getGeography.water_feature) gt 0>
-								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold"><em>Water Feature:</em></li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Water Feature:</li>
 								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.water_feature#</li>
 							</cfif>
 							<cfif len(getGeography.country) gt 0>
@@ -155,7 +171,7 @@ limitations under the License.
 								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.feature#</li>
 							</cfif>
 							<cfif len(getGeography.county) gt 0>
-								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold"><em>County:</em></li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">County:</li>
 								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.county#</li>
 							</cfif>
 							<cfif len(getGeography.island_group) gt 0>
@@ -227,18 +243,33 @@ limitations under the License.
 						</cfif>
 					</ul>
 				</div>
+				<cfif len(parent) GT 0>
+					<h2 class="h3">Contained in Geography</h2>
+					<div class="col-12">
+						<ul>
+							<cfloop query="getParent">
+								<li>
+									<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getParent.geog_auth_rec_id#">#getParent.higher_geog#</a> 
+								</li>
+							</cfloop>
+						</ul>
+					</div>
+				</cfif>
 				<h2 class="h3">Contained Geographies (#getChildren.recordcount#)</h2>
 				<div class="col-12">
-					<cfloop query="getChildren">
-						<ul>
+					<ul>
+						<cfif getChildren.recordcount EQ 0>
+							<li>None</li>
+						</cfif>
+						<cfloop query="getChildren">
 							<li>
 								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getChildren.geog_auth_rec_id#">#getChildren.higher_geog#</a> 
 								<cfif getChildren.ct GT 0>
 									(<a href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&higher_geog=%3D#encodeForUrl(getChildren.higher_geog)#">#getChildren.ct#</a> cataloged items)
 								</cfif>
 							</li>
-						</ul>
-					</cfloop>
+						</cfloop>
+					</ul>
 				</div>
 			</div>
 			<div class="col-12 col-md-6 pt-5">
@@ -258,7 +289,7 @@ limitations under the License.
 					var map;
 					var enclosingpoly;
 					var georefs;
-					var georefsBounds;
+					var georefsBounds = new google.maps.LatLngBounds();
 					function setupMap(geog_auth_rec_id){
 						var coords="0.0,0.0";
 						var bounds = new google.maps.LatLngBounds();
@@ -344,7 +375,14 @@ limitations under the License.
 											var locality_id = f.getProperty("locality_id");
 											var spec_locality = f.getProperty("spec_locality");
 											if (!spec_locality) { spec_locality = "[no specific locality text]"; } 
-											$("##selectedMarkerDiv").html("<a href='#editLocalityLinkTarget#"+locality_id+"' target='_blank'>" + spec_locality + "</a> (" + locality_id + ").");
+											var contentText = "<a href='#editLocalityLinkTarget#"+locality_id+"' target='_blank'>" + spec_locality + "</a> (" + locality_id + ")."
+											$("##selectedMarkerDiv").html("Click on a marker for details: " + contentText + "");
+											var infoWindow = new google.maps.InfoWindow({
+												content: contentText,
+												ariaLabel: spec_locality
+											});
+											map.data.getFeatureById(id).getGeometry().forEachLatLng(function(ll){ infoWindow.setPosition(ll);});
+											infoWindow.open({ map: map, shouldFocus: true },);
 										}
 									); 
 								}
@@ -396,7 +434,7 @@ limitations under the License.
 								bounds.extend(extendPoint1);
 								bounds.extend(extendPoint2);
 							}
-							map.fitBounds(bounds.union(georefBounds));
+							map.fitBounds(bounds.union(georefsBounds));
 							for(var a=0; a<polygonArray.length; a++){
 								if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
 									$("##mapdiv_" + geog_auth_rec_id).addClass('uglyGeoSPatData');
@@ -405,7 +443,7 @@ limitations under the License.
 								}
 							}
 						});
-						map.fitBounds(bounds.union(georefBounds));
+						map.fitBounds(bounds.union(georefsBounds));
 					};
 					$(document).ready(function() {
 						setupMap(#geog_auth_rec_id#);
@@ -425,7 +463,9 @@ limitations under the License.
 					</cfquery>
 					<li>
 						<cfif hasHigherPolygon.ct GT 0>
-							<span class="h3">Higher Geography mappable</span> <a onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
+							<span class="h3">Higher Geography mappable</span> 
+							<a class="btn btn-xs btn-powder-blue" onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a> 
+							<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
 						<cfelse>
 							<span class="h3">Higher geography not mappable</span>
 						</cfif>
@@ -442,7 +482,8 @@ limitations under the License.
 					</cfquery>
 					<cfif hasGeorefs.ct GT 0>
 						<li>
-							<span class="h3">#hasGeorefs.ct# georeferenced localities.</span> <a onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
+							<span class="h3">#hasGeorefs.ct# georeferenced localities.</span>
+							<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
 						</li>
 						<li>
 							<div id="selectedMarkerDiv">Click on a marker for locality details.</div>
