@@ -250,14 +250,11 @@ limitations under the License.
 					</div>
 					<div class="row">
 						<div class="col-3 mx-auto">
-						<input id="Preview" type="button" class="btn btn-xs btn-primary d-inline-block" value="Preview Image(s)" onclick="getImg();"/><input type="button" class="btn btn-xs btn-secondary mx-4 d-inline-block" onClick="clearInput()" value="Reset Form"/>
+						<input id="Preview" type="button" class="btn btn-xs btn-primary d-inline-block" value="Preview Image(s)" onclick="getImg();"/>
+							<input type="button" class="btn btn-xs btn-secondary mx-4 d-inline-block" onClick="clearInput()" value="Reset Form"/>
 						</div>
 					</div>
-					<script>
-						function clearInput() {
-							document.getElementById("newMedia").reset();
-						}
-					</script>
+	
 					<div class="row">
 						<style>
 							.imageFeatures {
@@ -273,7 +270,12 @@ limitations under the License.
 					</div>
 				</div>
 			</form>
-		</div>					
+		</div>	
+		<script>
+			function clearInput() {
+				document.getElementById("newMedia").reset();
+			}
+		</script>
 		<script>
 			function getImg(){
 				var url=document.getElementById('protocol').value;
