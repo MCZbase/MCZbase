@@ -262,14 +262,14 @@ limitations under the License.
 							}
 							.imageWrapper .close {
 								position: absolute;
-								top: 2px;
-								right: 2px;
 								z-index: 100;
+								font-weight: bold;
+								margin-top:1rem;
 							}
 							.imageFeatures {
 								width: 100%;
 								border: 2px solid gray;
-								margin-top: 2rem;
+								margin-top: 1rem;
 							}
 						</style>
 						<div class="col-12 mx-auto">
