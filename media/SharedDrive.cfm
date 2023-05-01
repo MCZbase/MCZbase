@@ -193,105 +193,66 @@ limitations under the License.
 			</div>
 		</section>
 		<div class="album pb-5 bg-light">
-			<form name="newMedia" id="newMedia" action="/media/SharedDrive.cfm" method="post" required>
+			
 				<div class="container">
-					<div class="row">
-						<div class="col-12 pt-4 pb-1">
-							<div class="col-12 col-md-2 float-left">
-								<div class="form-group mb-2">
-									<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
-									<select id="protocol" name="protocol" class="data-entry-select">
-										<option>https://</option>
-										<cfif protocol EQ "http://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-										<option value="http://" #sel#>http://</option>
-										<cfif protocol EQ "https://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-										<option value="https://" #sel#>https://</option>
-										<cfif protocol EQ "httphttps"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-										<option value="httphttps" #sel#>http or https</option>
-										<cfif protocol EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-										<option value="NULL" #sel#>NULL</option>
-									</select>
+					<form name="newMedia" id="newMedia" action="/media/SharedDrive.cfm" method="post" required>
+						<div class="row">
+							<div class="col-12 pt-4 pb-1">
+								<div class="col-12 col-md-2 float-left">
+									<div class="form-group mb-2">
+										<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
+										<select id="protocol" name="protocol" class="data-entry-select">
+											<option>https://</option>
+											<cfif protocol EQ "http://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="http://" #sel#>http://</option>
+											<cfif protocol EQ "https://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="https://" #sel#>https://</option>
+											<cfif protocol EQ "httphttps"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="httphttps" #sel#>http or https</option>
+											<cfif protocol EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+											<option value="NULL" #sel#>NULL</option>
+										</select>
+									</div>
 								</div>
-							</div>
-							<div class="col-12 col-md-2 float-left">
-								<div class="form-group mb-2"><!---will it ever change? hard coded value --could remove autofill maybe--->
-									<label for="hostname" class="data-entry-label mb-0" id="hostname_label">Host<span></span></label>
-									<input type="text" id="hostname" name="hostname" class="data-entry-input" value="mczbase.mcz.harvard.edu" aria-labelledby="hostname_label" >
-								</div>
-								<script>
-									$(document).ready(function() {
-										makeMediaURIPartAutocomplete("hostname","hostname");
-									});
-								</script>
-							</div>
-							<div class="col-12 col-md-4 float-left">
-								<div class="form-group mb-2">
-									<label for="path" class="data-entry-label mb-0">Path<span class="text-italic"> (e.g., "/specimen_images/herpetology/large/")</span></label>
-									<input type="text" id="path" name="path" class="data-entry-input" value="#encodeForHtml(path)#">
-								</div>
-					<!---			<script>
-									$(document).ready(function() {
-										makeMediaURIPartAutocomplete("path","path");
-									});
-								</script>--->
-							</div>
-							<div class="col-12 col-md-4 float-left">
-								<div class="form-group mb-2">
-									<label for="filename" class="data-entry-label mb-0">Filename (e.g., A139491_Bufo_fustiger_d_4.jpg ) <span></span></label>
-									<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#">
-								</div>
-								<script>
-									$(document).ready(function() {
-										makeMediaURIPartAutocomplete("filename","filename");
-									});
-								</script>
-							</div>
-						<!---	<div class="col-12 col-md-2 float-left">
-								<div class="form-group mb-2">
-									<label for="extension" class="data-entry-label mb-0">Extension<span></span></label>
-									<cfset selectedextensionlist = "">
-									<select id="extension" name="extension" class="data-entry-select" multiple="true">
-										<option></option>
-										<cfloop query="distinctExtensions">
-											<cfif listFind(in_extension, distinctExtensions.extension) GT 0>
-												<cfset selected="">
-												<cfset selectedextensionlist = listAppend(selectedextensionlist,'#distinctExtensions.extension#') >
-											<cfelse>
-												<cfset selected="">
-											</cfif>
-											<option value="#distinctExtensions.extension#" #selected#>#distinctExtensions.extension# (#distinctExtensions.ct#)</option>
-										</cfloop>
-										<option value="Select All">Select All</option>
-										<option value="NULL">NULL</option>
-										<option value="NOT NULL">NOT NULL</option>
-									</select>
+								<div class="col-12 col-md-2 float-left">
+									<div class="form-group mb-2"><!---will it ever change? hard coded value --could remove autofill maybe--->
+										<label for="hostname" class="data-entry-label mb-0" id="hostname_label">Host<span></span></label>
+										<input type="text" id="hostname" name="hostname" class="data-entry-input" value="mczbase.mcz.harvard.edu" aria-labelledby="hostname_label" >
+									</div>
 									<script>
-										$(document).ready(function () {
-											$("##extension").jqxComboBox({  multiSelect: false, width: '100%', enableBrowserBoundsDetection: true });  
-											<cfloop list="#selectedextensionlist#" index="ext">
-												$("##extension").jqxComboBox('selectItem', '#ext#');
-											</cfloop>
-											$("##extension").jqxComboBox().on('select', function (event) {
-												var args = event.args;
-												if (args) {
-													var item = args.item;
-													if (item.label == 'Select All') { 
-														for (i=0;i<args.index;i++) { 
-															$("##extension").jqxComboBox('selectIndex', i);
-														}
-														$("##extension").jqxComboBox('unselectIndex', args.index);
-													}
-												}
-											});
+										$(document).ready(function() {
+											makeMediaURIPartAutocomplete("hostname","hostname");
 										});
 									</script>
 								</div>
-							</div>--->
+								<div class="col-12 col-md-4 float-left">
+									<div class="form-group mb-2">
+										<label for="path" class="data-entry-label mb-0">Path<span class="text-italic"> (e.g., "/specimen_images/herpetology/large/")</span></label>
+										<input type="text" id="path" name="path" class="data-entry-input" value="#encodeForHtml(path)#">
+									</div>
+									<!---<script>
+										$(document).ready(function() {
+											makeMediaURIPartAutocomplete("path","path");
+										});
+									</script>--->
+								</div>
+								<div class="col-12 col-md-4 float-left">
+									<div class="form-group mb-2">
+										<label for="filename" class="data-entry-label mb-0">Filename (e.g., A139491_Bufo_fustiger_d_4.jpg ) <span></span></label>
+										<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#">
+									</div>
+									<script>
+										$(document).ready(function() {
+											makeMediaURIPartAutocomplete("filename","filename");
+										});
+									</script>
+								</div>
+							</div>
 						</div>
-					</div>
+					</form>
 					<div class="row">
-						<div class="col-2 mx-auto">
-						<input id="Preview" type="button" class="btn btn-xs btn-primary" value="Preview Image(s)" onclick="getImg();"/><input type="button" class="btn btn-xs btn-secondary mx-4 d-inline-block" onClick="clearInput()" value="Reset Form"/>
+						<div class="col-3 mx-auto">
+						<input id="Preview" type="button" class="btn btn-xs btn-primary d-inline-block" value="Preview Image(s)" onclick="getImg();"/><input type="button" class="btn btn-xs btn-secondary mx-4 d-inline-block" onClick="clearInput()" value="Reset Form"/>
 						</div>
 					</div>
 					<div class="row">
@@ -308,7 +269,7 @@ limitations under the License.
 	
 					</div>
 				</div>
-			</form>
+			
 		</div>					
 		<script>
 			function getImg(){
