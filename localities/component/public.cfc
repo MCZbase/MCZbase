@@ -58,7 +58,8 @@ limitations under the License.
 						var bounds = new google.maps.LatLngBounds();
 						var uncertaintyPolygonArray = [];
 						var enclosingPolygonArray = [];
-						var pointsArray=[];
+						var uncertaintyPointsArray=[];
+						var enclosingPointsArray=[];
 
 						// start with world map
 						var mapOptions = {
@@ -201,10 +202,10 @@ limitations under the License.
 										bounds.extend(pt);
 									}
 									// now push the single-polygon array to the array of arrays (of polygons)
-									pointsArray.push(lary);
+									uncertaintyPointsArray.push(lary);
 								}
 								uncertaintypoly = new google.maps.Polygon({
-									paths: pointsArray,
+									paths: uncertaintyPointsArray,
 									strokeColor: '##7412A4',
 									strokeOpacity: 0.9,
 									strokeWeight: 2,
@@ -255,10 +256,10 @@ limitations under the License.
 										bounds.extend(pt);
 									}
 									// now push the single-polygon array to the array of arrays (of polygons)
-									pointsArray.push(lary);
+									enclosingPointsArray.push(lary);
 								}
 								enclosingpoly = new google.maps.Polygon({
-									paths: pointsArray,
+									paths: enclosingPointsArray,
 									strokeColor: '##1E90FF',
 									strokeOpacity: 0.8,
 									strokeWeight: 2,
