@@ -59,18 +59,74 @@ libraries found in github.com/filteredpush/ repositories.
 			</cfcase>
 			<cfcase value="LOCALITY">
 				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT distinct locality_id as item_label, 
-						'' as basisofrecord,
-						highergeographyid,
-						continent, country, countrycode,
-						spec_locality as locality,
-						dec_lat as decimal_latitude, dec_long as decimal_longitude, datum as geodeticDatum,
-						verbatimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
-						max_depth_in_m, min_depth_in_m, max_elev_in_m, min_elev_in_m,
-						waterbody, island_group, island
-					FROM DIGIR_QUERY.digir_filtered_flat
+					SELECT distinct 
+                  locality.locality_id as item_label,
+                  '' as basisofrecord,
+                  highergeographyid,
+                  (CASE WHEN geog_auth_rec.continent_ocean like '% Ocean' THEN '' ELSE geog_auth_rec.continent_ocean END) as continent, 
+                  country, 
+                  MCZBASE.get_countrycode(geog_auth_rec.country) countrycode,
+                  spec_locality as locality,
+                  accepted_lat_long.dec_lat as decimal_latitude, 
+                  accepted_lat_long.dec_long as decimal_longitude, 
+                  accepted_lat_long.datum as geodeticDatum,
+                  decode(accepted_lat_long.orig_lat_long_units,
+                                'decimal degrees',
+                                        to_char(decimalZero(accepted_lat_long.dec_lat)) || 'd',
+                                'deg. min. sec.',
+                                        to_char(decimalZero(accepted_lat_long.lat_deg)) || 'd ' ||
+                                        to_char(decimalZero(accepted_lat_long.lat_min)) || 'm ' ||
+                                        to_char(decimalZero(accepted_lat_long.lat_sec)) || 's ' ||
+                                        accepted_lat_long.lat_dir,
+                                'degrees dec. minutes',
+                                        to_char(decimalZero(accepted_lat_long.lat_deg)) || 'd ' ||
+                                        to_char(decimalZero(accepted_lat_long.dec_lat_min)) || 'm ' ||
+                                        accepted_lat_long.lat_dir) verbatimlatitude,
+                        decode(accepted_lat_long.orig_lat_long_units,
+                                'decimal degrees',
+                                        to_char(decimalZero(accepted_lat_long.dec_long)) || 'd',
+                                'deg. min. sec.',
+                                        to_char(decimalZero(accepted_lat_long.long_deg)) || 'd ' ||
+                                        to_char(decimalZero(accepted_lat_long.long_min)) || 'm ' ||
+                                        to_char(decimalZero(accepted_lat_long.long_sec)) || 's ' ||
+                                        accepted_lat_long.long_dir,
+                                'UTM', 
+                                    'UTM E/W: ' || to_char(accepted_lat_long.UTM_EW) 
+                                    || '; UTM Zone: ' || 
+                                    decode(accepted_lat_long.UTM_ZONE,
+                                        null,'not given',
+                                        accepted_lat_long.UTM_ZONE
+                                    ),
+                                'degrees dec. minutes',
+                                        to_char(decimalZero(accepted_lat_long.long_deg)) || 'd ' ||
+                                        to_char(decimalZero(accepted_lat_long.dec_long_min)) || 'm ' ||
+                                        accepted_lat_long.long_dir) verbatimlongitude,
+                  nvl2(minimum_elevation, 
+                      '', 
+                      minimum_elevation || decode(minimum_elevation,maximum_elevation,' ', '-' || maximum_elevation || ' ') ||  orig_elev_units
+                      ) as verbatimelevation, 
+                  '' verbatimlocality,
+                  to_meters(locality.max_depth, locality.depth_units) max_depth_in_m, 
+                  to_meters(locality.min_depth, locality.depth_units) min_depth_in_m, 
+                  to_meters(locality.maximum_elevation, locality.orig_elev_units) max_elev_in_m, 
+                  to_meters(locality.minimum_elevation, locality.orig_elev_units) min_elev_in_m,
+                  decode (water_feature, null, 
+                           decode (sea, null, 
+                              decode (ocean_subregion, null, 
+                                 decode (ocean_region, null, 
+                                   decode ( (CASE WHEN continent_ocean like '% Ocean' THEN continent_ocean ELSE '' END), null, 
+                                        '', 
+                                       (CASE WHEN continent_ocean like '% Ocean' THEN continent_ocean ELSE '' END)
+                                   ), 
+                                ocean_region),
+                              ocean_subregion),
+                           sea),
+                         water_feature) as  waterbody,
+                 island_group, island
+               FROM locality
+                    join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+                    left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
 					WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
-						and rownum < 2
 				</cfquery>
 			</cfcase>
 			<cfdefaultcase>
