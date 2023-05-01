@@ -296,7 +296,7 @@ limitations under the License.
 				div.appendChild(img);
 				
 				var div=document.createElement('div');
-				div.className="h1 float-left text-danger mr-1 font-weight-bold close" + j++;
+				div.className="h1 float-left text-danger mt-1 mr-1 font-weight-bold close" + j++;
 				div.innerHTML="&times;";
 				document.getElementById("images").appendChild(div);
 				
