@@ -295,15 +295,21 @@ limitations under the License.
 				img.src=url;
 				div.appendChild(img);
 				
-				var div=document.createElement('div');
-				div.className="h1 float-left text-danger mt-1 mr-1 font-weight-bold close" + j++;
-				div.innerHTML="&times;";
-				document.getElementById("images").appendChild(div);
+				var button=document.createElement('button');
+				button.className="h1 float-left text-danger mt-1 mr-1 font-weight-bold close";
+				button.innerHTML="&times;";
+				button.addEventListener("click", removeInput)
+				document.getElementById("images").appendChild(button);
 				
 				return false;
 			}
 		</script>
-
+		<script>
+			function removeInput() {
+				var element = document.getElementById("images");
+				element.classList.remove("imageWrapper"+ i++);
+			}
+		</script>
 	</cfoutput>
 
 
