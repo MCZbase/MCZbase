@@ -131,6 +131,19 @@ limitations under the License.
 							<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callbackName='reloadGeoreferences')>
 							<div id="georeferencesDiv">#georeferences#</div>
 						</div>
+						<div class="p-3 border bg-light rounded mt-2">
+							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
+							<script>
+								function runTests() {
+									$("##SpaceDQDiv").html("Running tests....");
+									loadSpaceQC("", #locality_id#, "SpaceDQDiv");
+								}
+							</script>
+							<input type="button" value="Run Quality Control Tests" class="btn btn-xs btn-secondary" onClick=" runTests(); ">
+							<!---  Space tests --->
+							<div id="SpaceDQDiv"></div>
+						</div>
+					<section class="mt-2 float-left col-12 px-0">
 					</div>
 					<div class="col-12 col-md-3 pt-5">
 						<!--- map --->
