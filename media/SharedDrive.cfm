@@ -288,7 +288,7 @@ limitations under the License.
 				url+=document.getElementById('path').value;
 				url+=document.getElementById('filename').value;
 				var div=document.createElement('div');
-				div.className="float-left col-3 imageWrapper" + i++;
+				div.className="float-left col-3 pr-1 imageWrapper" + i++;
 				document.getElementById('images').appendChild(div);
 				var img=document.createElement('img');
 				img.classList.add('imageFeatures');
@@ -296,7 +296,7 @@ limitations under the License.
 				div.appendChild(img);
 				
 				var div=document.createElement('div');
-				div.className="h1 float-left text-danger font-weight-bold close" + j++;
+				div.className="h1 float-left text-danger mr-1 font-weight-bold close" + j++;
 				div.innerHTML="&times;";
 				document.getElementById("images").appendChild(div);
 				
