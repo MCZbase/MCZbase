@@ -456,7 +456,9 @@ limitations under the License.
 					</cfquery>
 					<li>
 						<cfif hasHigherPolygon.ct GT 0>
-							<span class="h3">Higher Geography mappable</span> <a onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
+							<span class="h3">Higher Geography mappable</span> 
+							<a class="btn btn-xs btn-powder-blue" onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a> 
+							<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
 						<cfelse>
 							<span class="h3">Higher geography not mappable</span>
 						</cfif>
@@ -473,7 +475,8 @@ limitations under the License.
 					</cfquery>
 					<cfif hasGeorefs.ct GT 0>
 						<li>
-							<span class="h3">#hasGeorefs.ct# georeferenced localities.</span> <a onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
+							<span class="h3">#hasGeorefs.ct# georeferenced localities.</span>
+							<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
 						</li>
 						<li>
 							<div id="selectedMarkerDiv">Click on a marker for locality details.</div>

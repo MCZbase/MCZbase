@@ -346,7 +346,9 @@ limitations under the License.
 						</cfquery>
 						<li>
 							<cfif hasHigherPolygon.ct GT 0>
-								<span class="h3">Higher Geography mappable</span> <a onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
+								<span class="h3">Higher Geography mappable</span> 
+								<a class="btn btn-xs btn-powder-blue"  onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a>
+								<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
 							<cfelse>
 								<span class="h3">Higher geography not mappable</span>
 							</cfif>
@@ -363,14 +365,18 @@ limitations under the License.
 						</cfquery>
 						<li>
 							<cfif hasUncertantyPolygon.ct GT 0>
-								<span class="h3">Georeference has uncertanty polygon</span> <a onclick=" uncertaintypoly.setVisible(!uncertaintypoly.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(findBounds(uncertaintypoly.latLngs));">zoom to</a>
+								<span class="h3">Georeference has uncertanty polygon</span>
+								<a class="btn btn-xs btn-powder-blue" onclick=" uncertaintypoly.setVisible(!uncertaintypoly.getVisible()); ">hide/show</a> 
+								<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(findBounds(uncertaintypoly.latLngs));">zoom to</a>
 							<cfelse>
 								<span class="h3">No polygon with georeference</span>
 							</cfif>
 						</li>
 						<li>
 							<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS GT 0>
-								<span class="h3">Coordinate uncertanty in meters = #getAcceptedGeoref.coordinateuncertaintyinmeters#</span> <a onclick=" errorcircle.setVisible(!errorcircle.getVisible()); ">hide/show</a> <a onclick=" map.fitBounds(errorcircle.getBounds());">zoom to</a>
+								<span class="h3">Coordinate uncertanty in meters = #getAcceptedGeoref.coordinateuncertaintyinmeters#</span> 
+								<a class="btn btn-xs btn-powder-blue" onclick=" errorcircle.setVisible(!errorcircle.getVisible()); ">hide/show</a> 
+								<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(errorcircle.getBounds());">zoom to</a>
 							<cfelse>
 								<span class="h3">No error radius.</span>
 							</cfif>
@@ -382,7 +388,8 @@ limitations under the License.
 						</cfif>
 						<cfif getGeoreferences.recordcount GT 1>
 							<li>
-								<span class="h3">#getGeoreferences.recordcount# georeferences, including unaccepted.</span> <a onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
+								<span class="h3">#getGeoreferences.recordcount# georeferences, including unaccepted.</span> 
+								<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
 							</li>
 						</cfif>
 					</ul>
