@@ -56,7 +56,8 @@ limitations under the License.
 
 					function setupMap(locality_id){
 						var bounds = new google.maps.LatLngBounds();
-						var polygonArray = [];
+						var uncertaintyPolygonArray = [];
+						var enclosingPolygonArray = [];
 						var pointsArray=[];
 
 						// start with world map
@@ -182,15 +183,15 @@ limitations under the License.
 						$.get( "/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeoreferenceErrorWKT&locality_id=" + locality_id, function( wkt ) {
 							if (wkt.length>0){
 								var regex = /\(([^()]+)\)/g;
-								var Rings = [];
+								var RingsErr = [];
 								var results;
 								while( results = regex.exec(wkt) ) {
-									Rings.push( results[1] );
+									RingsErr.push( results[1] );
 								}
-								for(var i=0;i<Rings.length;i++){
+								for(var i=0;i<RingsErr.length;i++){
 									// for every polygon in the WKT, create an array
 									var lary=[];
-									var da=Rings[i].split(",");
+									var da=RingsErr[i].split(",");
 									for(var j=0;j<da.length;j++){
 										// push the coordinate pairs to the array as LatLngs
 										var xy = da[j].trim().split(" ");
@@ -211,7 +212,7 @@ limitations under the License.
 									fillOpacity: 0.35
 								});
 								uncertaintypoly.setMap(map);
-								polygonArray.push(uncertaintypoly);
+								uncertaintyPolygonArray.push(uncertaintypoly);
 								// END build WKT
 								// expand bounds if needed
 								if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
@@ -221,8 +222,8 @@ limitations under the License.
 									bounds.extend(extendPoint2);
 								}
 								map.fitBounds(bounds);
-								for(var a=0; a<polygonArray.length; a++){
-									if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
+								for(var a=0; a<uncertaintyPolygonArray.length; a++){
+									if (! google.maps.geometry.poly.containsLocation(center, uncertaintyPolygonArray[a]) ) {
 										$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
 									} else {
 										$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
@@ -265,7 +266,7 @@ limitations under the License.
 									fillOpacity: 0.25
 								});
 								enclosingpoly.setMap(map);
-								polygonArray.push(enclosingpoly);
+								enclosingPolygonArray.push(enclosingpoly);
 								// END build WKT
 							} else {
 								$("##mapdiv_" + locality_id).addClass('noWKT');
@@ -277,8 +278,8 @@ limitations under the License.
 								bounds.extend(extendPoint2);
 							}
 							map.fitBounds(bounds);
-							for(var a=0; a<polygonArray.length; a++){
-								if (! google.maps.geometry.poly.containsLocation(georefs, polygonArray[a]) ) {
+							for(var a=0; a<enclosingPolygonArray.length; a++){
+								if (! google.maps.geometry.poly.containsLocation(georefs, enclosingPolygonArray[a]) ) {
 									$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
 								} else {
 									$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
