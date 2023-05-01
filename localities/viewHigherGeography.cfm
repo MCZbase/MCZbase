@@ -130,7 +130,7 @@ limitations under the License.
 		<div class="row mx-0">
 			<div class="col-12 col-md-6 row">
 				<cfloop query="getGeography">
-					<h1 class="h2">#getGeography.higher_geog#</h1>
+					<h1 class="h2 mr-2">#getGeography.higher_geog#</h1>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
 						<span><a href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a></span>
 					</cfif>
