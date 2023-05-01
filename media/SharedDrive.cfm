@@ -291,7 +291,7 @@ limitations under the License.
 					</div>
 					<div class="row">
 						<div class="col-1 mx-auto">
-							<input id="Previewbtn" type="button" class="btn btn-xs btn-primary" value="Preview Image(s)" onclick="getImg();" /><input type="reset" id="reset" class="btn btn-xs btn-secondary m-4" onClick="newReset()" value="Reset Form"/>
+						<input id="Preview" type="button" class="btn btn-xs btn-primary" value="Preview Image(s)" onclick="getImg();"/><input type="button" class="btn btn-xs btn-secondary m-4" onClick="clearInput()" value="Reset Form"/>
 						</div>
 					</div>
 					<div class="row">
@@ -327,18 +327,9 @@ limitations under the License.
 			}
 		</script>
 		<script>
-			function resetForm(){
-			 // clearing selects
-				  var selects = document.getElementsByTagName('select');
-				   for (var i = 0; i<selects.length; i++) {
-					   selects[i].selectedIndex = 0;
-				   }
-				  var input = document.getElementsByTagName('input');
-					for (var i=0; i< input.length; i++) {
-						inputs[i].input.val("");
-					}
-			 }
-			 window.load(resetForm());
+			function clearInput() {
+    			document.getElementById("startMedia").reset();
+			}
 		</script>
 	</cfoutput>
 
