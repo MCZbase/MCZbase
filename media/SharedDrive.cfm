@@ -193,7 +193,7 @@ limitations under the License.
 			</div>
 		</section>
 		<div class="album pb-5 bg-light">
-			<form name="startMedia" id="newMedia" action="/media/SharedDrive.cfm" method="post" required>
+			<form name="newMedia" id="newMedia" action="/media/SharedDrive.cfm" method="post" required>
 				<div class="container">
 					<div class="row">
 						<div class="col-12 pt-4 pb-1">
@@ -328,7 +328,7 @@ limitations under the License.
 		</script>
 		<script>
 			function clearInput() {
-    			document.getElementById("startMedia").reset();
+    			document.getElementById("newMedia").reset();
 			}
 		</script>
 	</cfoutput>
