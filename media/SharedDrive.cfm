@@ -257,6 +257,15 @@ limitations under the License.
 	
 					<div class="row">
 						<style>
+							.imageWrapper {
+								position: relative;
+							}
+							.imageWrapper .close {
+								position: absolute;
+								top: 2px;
+								right: 2px;
+								z-index: 100;
+							}
 							.imageFeatures {
 								width: 100%;
 								border: 2px solid gray;
@@ -264,7 +273,10 @@ limitations under the License.
 							}
 						</style>
 						<div class="col-12 mx-auto">
-							<div id="images" class="d-inline"></div>
+							<div id="images" class="d-inline">
+							
+							
+							</div>
 						</div>
 	
 					</div>
@@ -277,18 +289,29 @@ limitations under the License.
 			}
 		</script>
 		<script>
+			var i = 0;
 			function getImg(){
 				var url=document.getElementById('protocol').value;
 				url+=document.getElementById('hostname').value;
 				url+=document.getElementById('path').value;
 				url+=document.getElementById('filename').value;
 				var div=document.createElement('div');
-				div.className="imageWrapper col-3 float-left";
+				div.className="col-3 imageWrapper" + i++;
 				document.getElementById('images').appendChild(div);
 				var img=document.createElement('img');
 				img.classList.add('imageFeatures');
 				img.src=url;
 				div.appendChild(img);
+//				
+//				var div=document.createElement('span');
+//				div.className="imageWrapper";
+//				document.getElementById('images').appendChild(div);
+//				var img=document.createElement('img');
+//				img.classList.add('imageFeatures');
+//				img.src=url;
+//				div.appendChild(img);
+				
+				
 				return false;
 			}
 		</script>
