@@ -227,7 +227,7 @@ limitations under the License.
 							<div class="col-12 col-md-4 float-left">
 								<div class="form-group mb-2">
 									<label for="path" class="data-entry-label mb-0">Path<span class="text-italic"> (e.g., "/specimen_images/herpetology/large/")</span></label>
-									<input type="text" id="path" name="path" class="data-entry-input" value="#encodeForHtml(path)#">
+									<input type="text" id="path" name="path" placeholder="/specimen_images/+collection+/+folder+/" class="data-entry-input" value="#encodeForHtml(path)#">
 								</div>
 								<!---<script>
 									$(document).ready(function() {
@@ -251,7 +251,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-3 mx-auto">
 						<input id="Preview" type="button" class="btn btn-xs btn-primary d-inline-block" value="Preview Image(s)" onclick="getImg();"/>
-							<input type="button" class="btn btn-xs btn-secondary mx-4 d-inline-block" onClick="clearInput();session_unset();" value="Reset Form"/>
+							<input type="button" class="btn btn-xs btn-secondary mx-4 d-inline-block" onClick="clearInput();" value="Reset Form"/>
 						</div>
 					</div>
 	
