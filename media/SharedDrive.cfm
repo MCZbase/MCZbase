@@ -290,6 +290,7 @@ limitations under the License.
 		</script>
 		<script>
 			var i = 1;
+			var j = 1;
 			function getImg(){
 				var url=document.getElementById('protocol').value;
 				url+=document.getElementById('hostname').value;
@@ -304,7 +305,7 @@ limitations under the License.
 				div.appendChild(img);
 				
 				var div=document.createElement('span');
-				div.className="close" + i++;
+				div.className="close" + j++;
 				div.innerHTML="&times;";
 				document.getElementById("images").appendChild(div);
 				
