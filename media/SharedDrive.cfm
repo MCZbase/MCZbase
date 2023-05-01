@@ -304,10 +304,9 @@ limitations under the License.
 				div.appendChild(img);
 				
 				var div=document.createElement('span');
-				div.className="close";
+				div.className="close" + i++;
 				div.innerHTML="&times;";
-				document.getElementsByClassName("imageWrapper" + i++).appendChild(div);
-				
+				document.getElementById("images").appendChild(div);
 				
 				return false;
 			}
