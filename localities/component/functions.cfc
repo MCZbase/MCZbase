@@ -357,7 +357,7 @@ Delete an existing collecting event number record.
 									<li>
 										<cfif numOfSpecs GT 0>
 											<cfif numOfSpecs EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-											<a href="SpecimenResults.cfm?locality_id=#locality_id#&collection_id=#localityUses.collection_id#">
+											<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=CATALOGED_ITEM%3ACOLLECTION_CDE&searchText2=%3D#localityUses.collection_cde#">
 												#numOfSpecs# #collection_cde# specimen#plural#
 											</a>
 										<cfelse>
