@@ -381,7 +381,8 @@ limitations under the License.
 												content: contentText,
 												ariaLabel: spec_locality
 											});
-											infoWindow.open({ anchor: f, map: map });
+											map.data.getFeatureById(id).getGeometry().forEachLatLng(function(ll){ infoWindow.setPosition(ll);});
+											infoWindow.open({ map: map, shouldFocus: true },);
 										}
 									); 
 								}
