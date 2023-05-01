@@ -375,7 +375,13 @@ limitations under the License.
 											var locality_id = f.getProperty("locality_id");
 											var spec_locality = f.getProperty("spec_locality");
 											if (!spec_locality) { spec_locality = "[no specific locality text]"; } 
-											$("##selectedMarkerDiv").html("<a href='#editLocalityLinkTarget#"+locality_id+"' target='_blank'>" + spec_locality + "</a> (" + locality_id + ").");
+											var contentText = "<a href='#editLocalityLinkTarget#"+locality_id+"' target='_blank'>" + spec_locality + "</a> (" + locality_id + ")."
+											$("##selectedMarkerDiv").html("Click on a marker for details: " + contentText + "");
+											var infoWindow = new google.maps.InfoWindow({
+												content: contentText,
+												ariaLabel: spec_locality
+											});
+											infoWindow.open({ anchor: f });
 										}
 									); 
 								}
