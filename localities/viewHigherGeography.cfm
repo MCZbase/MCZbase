@@ -103,6 +103,22 @@ limitations under the License.
 	ORDER BY
 		geog_auth_rec.higher_geog
 </cfquery>
+<cfset parentage = getGeography.higher_geog>
+<cfset parent = "">
+<cfif ListLen(parentage,':') GT 1>
+  <cfset parent = ListDeleteAt(parentage,ListLen(parentage,':'),':')>
+</cfif>
+<cfif len(parent) GT 0>
+	<cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getParent_result">
+		SELECT
+			geog_auth_rec_id,
+			higher_geog
+		FROM
+			geog_auth_rec
+		WHERE
+			higher_geog = <cfqueryaparam cfsqltype="CF_SQL_VARCHAR" value="#parent#">
+	</cfquery>
+</cfif>
 <cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(1,0,0,0)#">
 	SELECT distinct flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude 
 	FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
@@ -227,18 +243,32 @@ limitations under the License.
 						</cfif>
 					</ul>
 				</div>
+				<cfif len(parent) GT 0>
+					<h2 class="h3">Contained in Geography</h2>
+					<div class="col-12">
+						<ul>
+							<cfloop query="getParent">
+								<li>
+									<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getParent.geog_auth_rec_id#">#getParent.higher_geog#</a> 
+								</li>
+							</cfloop>
+						</ul>
+				</cfif>
 				<h2 class="h3">Contained Geographies (#getChildren.recordcount#)</h2>
 				<div class="col-12">
-					<cfloop query="getChildren">
-						<ul>
+					<ul>
+						<cfif getChildren.recordcount EQ 0>
+							<li>None</li>
+						</cfif>
+						<cfloop query="getChildren">
 							<li>
 								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getChildren.geog_auth_rec_id#">#getChildren.higher_geog#</a> 
 								<cfif getChildren.ct GT 0>
 									(<a href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&higher_geog=%3D#encodeForUrl(getChildren.higher_geog)#">#getChildren.ct#</a> cataloged items)
 								</cfif>
 							</li>
-						</ul>
-					</cfloop>
+						</cfloop>
+					</ul>
 				</div>
 			</div>
 			<div class="col-12 col-md-6 pt-5">
