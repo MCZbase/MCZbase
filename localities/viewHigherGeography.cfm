@@ -433,7 +433,7 @@ limitations under the License.
 								bounds.extend(extendPoint1);
 								bounds.extend(extendPoint2);
 							}
-							map.fitBounds(bounds.union(georefBounds));
+							map.fitBounds(bounds.union(georefsBounds));
 							for(var a=0; a<polygonArray.length; a++){
 								if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
 									$("##mapdiv_" + geog_auth_rec_id).addClass('uglyGeoSPatData');
@@ -442,7 +442,7 @@ limitations under the License.
 								}
 							}
 						});
-						map.fitBounds(bounds.union(georefBounds));
+						map.fitBounds(bounds.union(georefsBounds));
 					};
 					$(document).ready(function() {
 						setupMap(#geog_auth_rec_id#);
