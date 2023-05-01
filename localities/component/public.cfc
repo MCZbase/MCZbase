@@ -124,6 +124,12 @@ limitations under the License.
 										feature.getGeometry().forEachLatLng(function(latlng){
 											bounds.extend(latlng);
 										});
+										var accepted = feature.getProperty('accepted');
+										if (accepted=='Yes') { 
+											feature.getGeometry().forEachLatLng(function(latlng){
+												georefs = latlng
+											});
+										}
 									});
 									map.fitBounds(bounds);
 									georefsBounds = bounds;
@@ -272,7 +278,7 @@ limitations under the License.
 							}
 							map.fitBounds(bounds);
 							for(var a=0; a<polygonArray.length; a++){
-								if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
+								if (! google.maps.geometry.poly.containsLocation(georefs, polygonArray[a]) ) {
 									$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
 								} else {
 									$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
