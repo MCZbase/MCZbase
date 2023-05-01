@@ -697,19 +697,33 @@ Delete an existing collecting event number record.
 					<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
 				</div>
 			</div>
-			<div class="form-row mx-0 mb-0">
-				<div class="col-12">
+			<div class="form-row mx-0 mb-1">
+				<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
+					<cfset remarksClass = "col-md-9">
+				<cfelse>
+					<cfset remarksClass = "">
+				</cfif>
+				<div class="col-12 #remarksClass#">
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
 					<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
-					<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input" value="#encodeForHtml(locality_remarks)#">
-					<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
+					<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input autogrow" value="#encodeForHtml(locality_remarks)#">
+					<script>
+						// Bind input to autogrow function on key up, and trigger autogrow to fit text
+						$(document).ready(function() { 
+							$("##locality_remarks").keyup(autogrow);  
+							$('##locality_remarks').keyup();
+						});
+					</script>
+				</div>
+				<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
+					<div class="col-12 col-md-3">
 						<input type="hidden" name="locality_id" value="locality_id" />
 						<label class="data-entry-label" for="">Include accepted georeference from <a href="/editLocality.cfm?locality_id=#clone_from_locality_id#" target="_blank">#clone_from_locality_id#</a>?</label>
 						Y<input type="radio" name="cloneCoords" value="yes" />
 						<br>
 						N<input type="radio" name="cloneCoords" value="no" checked="checked" />
-		 			</cfif>
-				</div>
+					</div>
+		 		</cfif>
 				<div class="col-12 mt-1">
 					<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 						onClick="if (checkFormValidity($('###formId#')[0])) { #saveButtonFunction#();  } " 
@@ -1100,19 +1114,33 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
 				</div>
 			</div>
-			<div class="form-row mx-0 mb-0">
-				<div class="col-12">
+			<div class="form-row mx-0 mb-1">
+				<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
+					<cfset remarksClass = "col-md-9">
+				<cfelse>
+					<cfset remarksClass = "">
+				</cfif>
+				<div class="col-12 #remarksClass#">
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
 					<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
-					<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input">
-					<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
+					<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input autogrow" value="#encodeForHtml(locality_remarks)#">
+					<script>
+						// Bind input to autogrow function on key up, and trigger autogrow to fit text
+						$(document).ready(function() { 
+							$("##locality_remarks").keyup(autogrow);  
+							$('##locality_remarks').keyup();
+						});
+					</script>
+				</div>
+				<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
+					<div class="col-12 col-md-3">
 						<input type="hidden" name="locality_id" value="locality_id" />
 						<label class="data-entry-label" for="">Include accepted georeference from <a href="/editLocality.cfm?locality_id=#clone_from_locality_id#" target="_blank">#clone_from_locality_id#</a>?</label>
 						Y<input type="radio" name="cloneCoords" value="yes" />
 						<br>
 						N<input type="radio" name="cloneCoords" value="no" checked="checked" />
-		 			</cfif>
-				</div>
+					</div>
+		 		</cfif>
 				<div class="col-12 mt-1">
 					<input type="submit" value="Save" class="btn btn-xs btn-primary">
 				</div>
