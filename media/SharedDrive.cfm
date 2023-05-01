@@ -193,63 +193,61 @@ limitations under the License.
 			</div>
 		</section>
 		<div class="album pb-5 bg-light">
-			
+			<form name="newMedia" id="newMedia" action="/media/SharedDrive.cfm" method="post" required>
 				<div class="container">
-					<form name="newMedia" id="newMedia" action="/media/SharedDrive.cfm" method="post" required>
-						<div class="row">
-							<div class="col-12 pt-4 pb-1">
-								<div class="col-12 col-md-2 float-left">
-									<div class="form-group mb-2">
-										<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
-										<select id="protocol" name="protocol" class="data-entry-select">
-											<option>https://</option>
-											<cfif protocol EQ "http://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="http://" #sel#>http://</option>
-											<cfif protocol EQ "https://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="https://" #sel#>https://</option>
-											<cfif protocol EQ "httphttps"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="httphttps" #sel#>http or https</option>
-											<cfif protocol EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-											<option value="NULL" #sel#>NULL</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-12 col-md-2 float-left">
-									<div class="form-group mb-2"><!---will it ever change? hard coded value --could remove autofill maybe--->
-										<label for="hostname" class="data-entry-label mb-0" id="hostname_label">Host<span></span></label>
-										<input type="text" id="hostname" name="hostname" class="data-entry-input" value="mczbase.mcz.harvard.edu" aria-labelledby="hostname_label" >
-									</div>
-									<script>
-										$(document).ready(function() {
-											makeMediaURIPartAutocomplete("hostname","hostname");
-										});
-									</script>
-								</div>
-								<div class="col-12 col-md-4 float-left">
-									<div class="form-group mb-2">
-										<label for="path" class="data-entry-label mb-0">Path<span class="text-italic"> (e.g., "/specimen_images/herpetology/large/")</span></label>
-										<input type="text" id="path" name="path" class="data-entry-input" value="#encodeForHtml(path)#">
-									</div>
-									<!---<script>
-										$(document).ready(function() {
-											makeMediaURIPartAutocomplete("path","path");
-										});
-									</script>--->
-								</div>
-								<div class="col-12 col-md-4 float-left">
-									<div class="form-group mb-2">
-										<label for="filename" class="data-entry-label mb-0">Filename (e.g., A139491_Bufo_fustiger_d_4.jpg ) <span></span></label>
-										<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#">
-									</div>
-									<script>
-										$(document).ready(function() {
-											makeMediaURIPartAutocomplete("filename","filename");
-										});
-									</script>
+					<div class="row">
+						<div class="col-12 pt-4 pb-1">
+							<div class="col-12 col-md-2 float-left">
+								<div class="form-group mb-2">
+									<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
+									<select id="protocol" name="protocol" class="data-entry-select">
+										<option>https://</option>
+										<cfif protocol EQ "http://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+										<option value="http://" #sel#>http://</option>
+										<cfif protocol EQ "https://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+										<option value="https://" #sel#>https://</option>
+										<cfif protocol EQ "httphttps"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+										<option value="httphttps" #sel#>http or https</option>
+										<cfif protocol EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+										<option value="NULL" #sel#>NULL</option>
+									</select>
 								</div>
 							</div>
+							<div class="col-12 col-md-2 float-left">
+								<div class="form-group mb-2"><!---will it ever change? hard coded value --could remove autofill maybe--->
+									<label for="hostname" class="data-entry-label mb-0" id="hostname_label">Host<span></span></label>
+									<input type="text" id="hostname" name="hostname" class="data-entry-input" value="mczbase.mcz.harvard.edu" aria-labelledby="hostname_label" >
+								</div>
+								<script>
+									$(document).ready(function() {
+										makeMediaURIPartAutocomplete("hostname","hostname");
+									});
+								</script>
+							</div>
+							<div class="col-12 col-md-4 float-left">
+								<div class="form-group mb-2">
+									<label for="path" class="data-entry-label mb-0">Path<span class="text-italic"> (e.g., "/specimen_images/herpetology/large/")</span></label>
+									<input type="text" id="path" name="path" class="data-entry-input" value="#encodeForHtml(path)#">
+								</div>
+								<!---<script>
+									$(document).ready(function() {
+										makeMediaURIPartAutocomplete("path","path");
+									});
+								</script>--->
+							</div>
+							<div class="col-12 col-md-4 float-left">
+								<div class="form-group mb-2">
+									<label for="filename" class="data-entry-label mb-0">Filename (e.g., A139491_Bufo_fustiger_d_4.jpg ) <span></span></label>
+									<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#">
+								</div>
+								<script>
+									$(document).ready(function() {
+										makeMediaURIPartAutocomplete("filename","filename");
+									});
+								</script>
+							</div>
 						</div>
-					</form>
+					</div>
 					<div class="row">
 						<div class="col-3 mx-auto">
 						<input id="Preview" type="button" class="btn btn-xs btn-primary d-inline-block" value="Preview Image(s)" onclick="getImg();"/><input type="button" class="btn btn-xs btn-secondary mx-4 d-inline-block" onClick="clearInput()" value="Reset Form"/>
@@ -269,7 +267,7 @@ limitations under the License.
 	
 					</div>
 				</div>
-			
+			</form>
 		</div>					
 		<script>
 			function getImg(){
@@ -289,7 +287,10 @@ limitations under the License.
 		</script>
 		<script>
 			function clearInput() {
-    			document.getElementById("newMedia").reset();
+    			document.getElementById("filename").reset();
+				if(getValue.value !=""){
+					getValue.value = "";
+				}
 			}
 		</script>
 	</cfoutput>
