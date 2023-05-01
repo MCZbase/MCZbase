@@ -326,7 +326,8 @@ limitations under the License.
 						</script>
 						<script>
 							function newReset(){
-								var element = document.getElementById("startMedia").style.diplay="block";
+								var element = document.getElementById("startMedia")
+								document.getElementById("reset").style.display="block";
 								element.reset()
 							}
 						</script>
