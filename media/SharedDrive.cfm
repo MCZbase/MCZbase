@@ -306,7 +306,7 @@ limitations under the License.
 							<div id="images" class="d-inline"></div>
 						</div>
 						<div class="col-12 mx-auto">
-							<button type="reset" id="reset" class="btn btn-xs btn-secondary d-none" onClick="newReset()">Reset</button>
+							<button type="reset" id="reset" class="btn btn-xs btn-secondary" style="display:none;" onClick="newReset()">Reset</button>
 						</div>
 						<script>
 							function getImg(){
