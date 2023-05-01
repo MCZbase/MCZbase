@@ -491,7 +491,7 @@ limitations under the License.
 			</cfif><!---  end cloneCoordinates  --->
 		</cftransaction>
 		<cfoutput>
-			<cflocation addtoken="no" url="/locality/Locality.cfm?locality_id=#nextLoc.nextLoc#">
+			<cflocation addtoken="no" url="/localities/Locality.cfm?locality_id=#nextLoc.nextLoc#">
 		</cfoutput>
 	</cfcase>
 	<cfcase value="delete">  
