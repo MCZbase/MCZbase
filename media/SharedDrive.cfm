@@ -287,10 +287,7 @@ limitations under the License.
 		</script>
 		<script>
 			function clearInput() {
-    			document.getElementById("filename").reset();
-				if(getValue.value !=""){
-					getValue.value = "";
-				}
+    			document.getElementById("newMedia").reset();
 			}
 		</script>
 	</cfoutput>
