@@ -139,7 +139,7 @@ limitations under the License.
 								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.sea#</li>
 							</cfif>
 							<cfif len(getGeography.water_feature) gt 0>
-								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold"><em>Water Feature:</em></li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Water Feature:</li>
 								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.water_feature#</li>
 							</cfif>
 							<cfif len(getGeography.country) gt 0>
@@ -155,7 +155,7 @@ limitations under the License.
 								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.feature#</li>
 							</cfif>
 							<cfif len(getGeography.county) gt 0>
-								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold"><em>County:</em></li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">County:</li>
 								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.county#</li>
 							</cfif>
 							<cfif len(getGeography.island_group) gt 0>
