@@ -257,9 +257,6 @@ limitations under the License.
 	
 					<div class="row">
 						<style>
-							.imageWrapper {
-								position: relative;
-							}
 							.imageFeatures {
 								width: 100%;
 								border: 2px solid gray;
@@ -298,8 +295,8 @@ limitations under the License.
 				img.src=url;
 				div.appendChild(img);
 				
-				var div=document.createElement('span');
-				div.className="d-block float-left text-danger close" + j++;
+				var div=document.createElement('div');
+				div.className="float-left text-danger mt-1 close" + j++;
 				div.innerHTML="&times;";
 				document.getElementById("images").appendChild(div);
 				
