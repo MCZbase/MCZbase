@@ -253,6 +253,7 @@ limitations under the License.
 								</li>
 							</cfloop>
 						</ul>
+					</div>
 				</cfif>
 				<h2 class="h3">Contained Geographies (#getChildren.recordcount#)</h2>
 				<div class="col-12">
