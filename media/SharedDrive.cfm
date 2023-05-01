@@ -291,7 +291,7 @@ limitations under the License.
 					</div>
 					<div class="row">
 						<div class="col-1 mx-auto">
-							<input id="btn" type="button" class="btn btn-xs btn-primary" value="Preview Image(s)" onclick="getImg();" />
+							<input id="Previewbtn" type="button" class="btn btn-xs btn-primary" value="Preview Image(s)" onclick="getImg();" />
 						</div>
 					</div>
 					<div class="row">
@@ -324,15 +324,16 @@ limitations under the License.
 								document.getElementById('images').appendChild(button);
 								button.innerHTML = 'remove';
 								return false;
+								let output = document.getElementById('images');
+								const formToReset = document.getElementById('startMedia');
+								formToReset.addEventListener('submit', (e) => {
+									e.preventDefault();
+									formToReset.reset();
+									output.innerHTML += "Form cleared"
+								});
 							}
 							
-							let output = document.getElementById('images');
-							const formToReset = document.getElementById('startMedia');
-							formToReset.addEventListener('submit', (e) => {
-								e.preventDefault();
-								formToReset.reset();
-								output.innerHTML += "Form cleared"
-							});
+					
 						</script>
 					</div>
 				</div>
