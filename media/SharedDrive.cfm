@@ -305,7 +305,7 @@ limitations under the License.
 				div.appendChild(img);
 				
 				var div=document.createElement('span');
-				div.className="close d-block float-left text-danger" + j++;
+				div.className="d-block float-left text-danger close" + j++;
 				div.innerHTML="&times;";
 				document.getElementById("images").appendChild(div);
 				
