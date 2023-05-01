@@ -381,7 +381,7 @@ limitations under the License.
 												content: contentText,
 												ariaLabel: spec_locality
 											});
-											infoWindow.open({ anchor: f });
+											infoWindow.open({ anchor: f, map: map });
 										}
 									); 
 								}
