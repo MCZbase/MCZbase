@@ -705,8 +705,10 @@ Delete an existing collecting event number record.
 				</cfif>
 				<div class="col-12 #remarksClass#">
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
-					<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
-					<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input autogrow" value="#encodeForHtml(locality_remarks)#">
+					<label class="data-entry-label" for="locality_remarks">Locality Remarks (<span id="length_locality_remarks"></span>)</label>
+					<textarea name="locality_remarks" id="locality_remarks" 
+						onkeyup="countCharsLeft('locality_remarks', 4000, 'length_locality_remarks');"
+						class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(locality_remarks)#</textarea>
 					<script>
 						// Bind input to autogrow function on key up, and trigger autogrow to fit text
 						$(document).ready(function() { 
@@ -1122,8 +1124,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				</cfif>
 				<div class="col-12 #remarksClass#">
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
-					<label class="data-entry-label" for="locality_remarks">Locality Remarks</label>
-					<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input autogrow" value="#encodeForHtml(locality_remarks)#">
+					<label class="data-entry-label" for="locality_remarks">Locality Remarks (<span id="length_locality_remarks"></span>)</label>
+					<textarea name="locality_remarks" id="locality_remarks" 
+						onkeyup="countCharsLeft('locality_remarks', 4000, 'length_locality_remarks');"
+						class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(locality_remarks)#</textarea>
 					<script>
 						// Bind input to autogrow function on key up, and trigger autogrow to fit text
 						$(document).ready(function() { 
