@@ -306,7 +306,7 @@ limitations under the License.
 							<div id="images" class="d-inline"></div>
 						</div>
 						<div class="col-12 mx-auto">
-							<button type="reset" id="reset" class="btn btn-xs btn-secondary" style="display:inline;" onClick="newReset()">Reset</button>
+							<button type="reset" id="reset" class="btn btn-xs btn-secondary m-4" onClick="newReset()">Reset</button>
 						</div>
 						<script>
 							function getImg(){
@@ -327,7 +327,6 @@ limitations under the License.
 						<script>
 							function newReset(){
 								var element = document.getElementById("startMedia")
-								document.getElementById("reset").style.display="block";
 								element.reset()
 							}
 						</script>
