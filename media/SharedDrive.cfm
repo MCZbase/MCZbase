@@ -306,7 +306,7 @@ limitations under the License.
 							<div id="images" class="d-inline"></div>
 						</div>
 						<div class="col-12 mx-auto">
-							<cfif len(#filename#)gt 0><button type="reset">Reset</button></cfif>
+							<button type="reset" id="reset" class="btn btn-xs btn-secondary d-none" onClick="newReset()">Reset</button>
 						</div>
 						<script>
 							function getImg(){
@@ -322,16 +322,13 @@ limitations under the License.
 								img.src=url;
 								div.appendChild(img);
 								return false;
-								let output = document.getElementById('images');
-								const formToReset = document.getElementById('startMedia');
-								formToReset.addEventListener('Previewbtn', (e) => {
-									e.preventDefault();
-									formToReset.reset();
-									output.innerHTML += "Form cleared"
-								});
 							}
-							
-					
+						</script>
+						<script>
+							function newReset(){
+								var element = document.getElementById("startMedia").style.diplay="block";
+								element.reset()
+							}
 						</script>
 					</div>
 				</div>
