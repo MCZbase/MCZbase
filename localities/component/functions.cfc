@@ -849,8 +849,8 @@ Delete an existing collecting event number record.
 						</ul>
 					</div>
 				</cfif>
-				<div class="editGeologyDialog"></div>
-				<div class="addGeologyDialog"></div>
+				<div id="editGeologyDialog"></div>
+				<div id="addGeologyDialog"></div>
 				<script>
 					function openEditGeologyDialog(geology_attribute_id, dialogDiv,callback) { 
 						console.log(geology_attribute_id);
