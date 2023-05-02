@@ -302,7 +302,6 @@ limitations under the License.
 			}
 		</script>
 		<script>
-			var i = 1;
 			function getImg(){
 				var url=document.getElementById('protocol').value;
 				url+=document.getElementById('hostname').value;
@@ -327,7 +326,7 @@ limitations under the License.
 
 		<script>
 			function closebtn(){
-			let childDivs = document.querySelectorAll("imagewrapper > img");
+			var childDivs = document.querySelectorAll("imagewrapper > img");
 			for(var i = 0; i < childDivs.length; i++){
 				childDivs[i].remove();
 			}
