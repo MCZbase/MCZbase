@@ -262,6 +262,33 @@ limitations under the License.
 								border: 2px solid gray;
 								margin-top: 1rem;
 							}
+							.imageWrapper {
+								position: relative;
+								display: inline-block;
+								border: 1px red solid;
+								font-size: 0;
+							}
+
+							.imageWrapper .close {
+								position: absolute;
+								top: 2px;
+								right: 2px;
+								z-index: 100;
+								background-color: #FFF;
+								padding: 5px 2px 2px;
+								color: #000;
+								font-weight: bold;
+								cursor: pointer;
+								opacity: .2;
+								text-align: center;
+								font-size: 22px;
+								line-height: 10px;
+								border-radius: 50%;
+							}
+
+							.imageWrapper:hover .close {
+								opacity: 1;
+							}
 						</style>
 						<div class="col-12 mx-auto">
 							<div id="images" class="d-inline">
@@ -288,30 +315,31 @@ limitations under the License.
 				url+=document.getElementById('path').value;
 				url+=document.getElementById('filename').value;
 				var div=document.createElement('div');
-				div.className="float-left col-3 pr-1 imageWrapper" + i++;
+				div.className="float-left col-3 pr-1 imageWrapper";
 				document.getElementById('images').appendChild(div);
 				var img=document.createElement('img');
 				img.classList.add('imageFeatures');
 				img.src=url;
 				div.appendChild(img);
 				
-				var button=document.createElement('button');
-				button.id="close" + j++;
-				button.className="h1 float-left text-danger mt-1 mr-1 font-weight-bold close";
-				button.innerHTML="&times;";
-				button.addEventListener("click", removeInput)
-				document.getElementById("images").appendChild(button);
+				var span=document.createElement('span');
+				span.className="h1 float-left text-danger mt-1 mr-1 font-weight-bold close";
+				span.innerHTML="&times;"
+				span.addEventListener("click", removeInput)
+				document.getElementById("images").appendChild(span);
 				
 				return false;
 			}
 		</script>
 		<script>
-			function removeInput() {
-					var oneImg = $('##imageWrapper' + i++.val();
-					$('.close').on('click', function() {
-					document.getElementById("images").remove()
+			var closeBtns = document.querySelectorAll('.imageWrapper .close')
+
+				for (var i = 0, l = closeBtns.length; i < l; i++) {
+					closeBtns[i].addEventListener('click', function() {
+						var imgWrap = this.parentElement;
+						imgWrap.parentElement.removeChild(imgWrap);
 					});
-			};
+				}
 
 		</script>
 	</cfoutput>
