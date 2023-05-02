@@ -273,7 +273,7 @@ limitations under the License.
 								right: 18px;
 								z-index: 100;
 								background-color: ##FFF;
-								padding: 5px 2px 8px;
+								padding: 4px 2px 7px;
 								color: ##000;
 								font-weight: bold;
 								cursor: pointer;
