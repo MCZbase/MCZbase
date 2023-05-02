@@ -321,7 +321,6 @@ limitations under the License.
 $.ajax({
    type: "POST",
    url: "/media/SharedDrive.cfm",
-   data: "id="+$(this).prev().text(),
    success: function(table){
      $('##imageWrapper' + i++).html(img);
    }
