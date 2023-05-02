@@ -270,7 +270,7 @@ limitations under the License.
 							.imagewrapper .close {
 								position: absolute;
 								top: 2px;
-								right: 18px;
+								right: 3px;
 								z-index: 100;
 								background-color: ##FFF;
 								padding: 4px 2px 7px;
