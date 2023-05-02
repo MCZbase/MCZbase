@@ -326,10 +326,12 @@ limitations under the License.
 		</script>
 
 		<script>
-			let childDivs = document.querySelectorAll("imagewrapper > img");
-			for(var i = 0; i < childDivs.length; i++){
-				childDivs[i].remove();
-			}
+//			let childDivs = document.querySelectorAll("imagewrapper > img");
+//			for(var i = 0; i < childDivs.length; i++){
+//				childDivs[i].remove();
+//			}
+			let menu = document.getElementById('image');
+				menu.removeChild(menu.lastElementChild);
 		</script>
 	</cfoutput>
 
