@@ -991,20 +991,20 @@ Delete an existing collecting event number record.
 						</select>
 					</div>
 					<div class="col-12 col-md-2" id="parentsDiv">
-						<!--- Area to Show parents of selected attribute value --->
+						<!--- Area to show parents of selected attribute value --->
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-4">
 						<label for="determiner" class="data-entry-label">Determiner</label>
 						<input type="text" id="determiner" name="determiner" class="data-entry-input">
 						<input type="hidden" id="geo_att_determiner_id" name="geo_att_determiner_id">
 					</div>
-					<div class="col-12 col-md-3">
-						<label for="geo_att_determined_date" class="data-entry-label">Loan Date</label>
+					<div class="col-12 col-md-4">
+						<label for="geo_att_determined_date" class="data-entry-label">Date Determined</label>
 						<input type="text" name="geo_att_determined_date" id="geo_att_determined_date"
 							value="#dateformat(now(),"yyyy-mm-dd")#" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-3">
-						<label for="geo_att_determined_method" class="data-entry-label">Loan Date</label>
+					<div class="col-12 col-md-4">
+						<label for="geo_att_determined_method" class="data-entry-label">Determination Method</label>
 						<input type="text" id="geo_att_determined_method" name="geo_att_determined_method" class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-12">
