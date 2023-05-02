@@ -316,7 +316,7 @@ limitations under the License.
 		
 				document.getElementById('images').appendChild(span);
 				var img=document.createElement('img');
-				img.classList.add('imageFeatures');
+				img.classList.add('imageFeatures close');
 				img.src=url;
 				div.appendChild(span);
 				div.appendChild(img);
@@ -324,7 +324,7 @@ limitations under the License.
 					// When there is a "click"
 					// it shows an alert in the browser
 					//alert('Oh, you clicked me!');
-					let childDivs = document.querySelectorAll(".imageFeatures");
+					let childDivs = document.querySelectorAll("div.imagewrapper > .close");
 					for(var i = 0; i < childDivs.length; i++){
 						childDivs[i].remove();
 					}
