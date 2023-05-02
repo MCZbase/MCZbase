@@ -993,7 +993,7 @@ Delete an existing collecting event number record.
 							<option value="yes">Yes</option>
 						</select>
 					</div>
-					<div class="col-12 col-md-2" id="parentsDiv">
+					<div class="col-12 col-md-4" id="parentsDiv">
 						<!--- Area to show parents of selected attribute value --->
 					</div>
 					<div class="col-12 col-md-4">
