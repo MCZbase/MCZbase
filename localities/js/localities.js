@@ -132,6 +132,57 @@ function openAddGeoreferenceDialog(dialogid, locality_id, locality_label, okcall
 	});
 }
 
+// Create and open a dialog to add geological attributes to a locality
+function openAddGeologyDialog(locality_id, dialogDiv, callback) { 
+	var title = "Add geological attributes to locality. ";
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 600,
+		minHeight: 500,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() { 
+				$("#"+dialogid).dialog('close'); 
+			}
+		},
+		close: function(event,ui) { 
+			if (jQuery.type(callback)==='function') {
+				callback();
+	  		}
+			$("#"+dialogid+"_div").html("");
+			$("#"+dialogid).dialog('destroy'); 
+		} 
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/localities/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "geologyAttributeDialogHtml",
+			returnformat: "plain",
+			locality_id: locality_id
+		}, 
+		success: function (data) { 
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading add geology attribute dialog");
+		}
+	});
+}
+
 /** given a geology_attribute_id delete the geology attribute record 
   removingthe reference to a geological attribute from a locality.
  @param geology_attribute_id the primary key value for the geological 

@@ -848,17 +848,14 @@ Delete an existing collecting event number record.
 							</li>
 						</ul>
 					</div>
-					<div class="editGeologyDialog"></div>
-					<div class="addGeologyDialog"></div>
-					<script>
-						function openEditGeologyDialog(geology_attribute_id, dialogDiv,callback) { 
-							console.log(geology_attribute_id);
-						}
-						function openAddGeologyDialog(locality_id, dialogDiv,callback) { 
-							console.log(locality_id);
-						}
-					</script>
 				</cfif>
+				<div class="editGeologyDialog"></div>
+				<div class="addGeologyDialog"></div>
+				<script>
+					function openEditGeologyDialog(geology_attribute_id, dialogDiv,callback) { 
+						console.log(geology_attribute_id);
+					}
+				</script>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
@@ -926,7 +923,7 @@ Delete an existing collecting event number record.
 	@param locality_id the id of the locality for which to add geological attributes
 	@return html to populate a dialog, including save buttons.
 --->
-<cffunction name="georeferenceDialogHtml" access="remote" returntype="string">
+<cffunction name="geologyAttributeDialogHtml" access="remote" returntype="string">
 	<cfargument name="locality_id" type="string" required="yes">
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
