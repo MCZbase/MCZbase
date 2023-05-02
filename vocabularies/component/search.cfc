@@ -273,4 +273,68 @@ Function getBiolIndivRelationshipAutocompleteMeta.  Search for ctbiol_relations.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!---
+Function getGeologyAutocomplete.  Search for geological attributes with a substring match on any part of attribute/value, 
+   returning json suitable for jquery-ui autocomplete.
+
+@param term geology attribute value to search for.
+@param mode if search then include all values, otherwise limit to usable_value_fg = 1 for data entry.
+@param type if present, limit to attributes of specified type
+@return a json structure containing id, meta, and value, with matching geological attribute in both value and id, and more information in meta.
+--->
+<cffunction name="getGeologyAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfargument name="mode" type="string" required="yes">
+	<cfargument name="type" type="string" required="no">
+	<!--- perform wildcard search --->
+	<cfset name = "%#term#%"> 
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+      <cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result" timeout="#Application.query_timeout#">
+			SELECT
+				attribute,
+				attribute_value as id, 
+				attribute_value as value
+			FROM 
+				geology_attribute_hierarchy
+				join ctgeology_attribute on attribute = geology_attribute
+			WHERE
+				(
+					upper(attribute) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+					OR
+					upper(attribute_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+				)
+				<cfif isDefined("type") and len(type) GT 0>
+					AND upper(ctgeology_attribute.type) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">
+				</cfif>
+				<cfif isDefined("mode") and mode NEQ "search">
+					AND usable_value_fg = 1
+				</cfif>
+			ORDER BY
+				attribute_value
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.id#">
+			<cfset row["value"] = "#search.value#" >
+			<cfset row["meta"] = "#search.attribute# #search.value#" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
