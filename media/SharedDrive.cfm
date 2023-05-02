@@ -312,7 +312,6 @@ limitations under the License.
 						var oneImg = $(this).data('oneImg');
 						var this_div = $(this);
 					});
-				);
 			};
 
 		</script>
