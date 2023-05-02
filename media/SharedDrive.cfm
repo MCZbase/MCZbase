@@ -313,6 +313,13 @@ limitations under the License.
 				var span=document.createElement('span');
 				span.className="close float-left";
 				span.innerHTML="&times;";
+		
+				document.getElementById('images').appendChild(span);
+				var img=document.createElement('img');
+				img.classList.add('imageFeatures');
+				img.src=url;
+				div.appendChild(span);
+				div.appendChild(img);
 				span.addEventListener('click', () => {
 					// When there is a "click"
 					// it shows an alert in the browser
@@ -322,25 +329,10 @@ limitations under the License.
 						childDivs[i].remove();
 					}
 				});
-				document.getElementById('images').appendChild(span);
-				var img=document.createElement('img');
-				img.classList.add('imageFeatures');
-				img.src=url;
-				div.appendChild(span);
-				div.appendChild(img);
-			
 				return false;
 			}
 		</script>
 
-		<script>
-			function closebtn(){
-			let childDivs = document.querySelectorAll("imagewrapper > img");
-			for(var i = 0; i < childDivs.length; i++){
-				childDivs[i].remove();
-			}
-			}
-		</script>
 	</cfoutput>
 
 
