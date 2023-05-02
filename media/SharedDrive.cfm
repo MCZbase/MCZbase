@@ -249,9 +249,9 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-3 mx-auto">
+						<div class="col-2 mx-auto">
 						<input id="Preview" type="button" class="btn btn-xs mr-2 btn-primary d-inline-block" value="Preview Image(s)" onclick="getImg();"/>
-							<input type="button" class="btn btn-xs ml-2 btn-secondary mx-4 d-inline-block" onClick="clearInput();" value="Reset Form"/>
+							<input type="button" class="btn btn-xs ml-2 btn-secondary ml-2 d-inline-block" onClick="clearInput();" value="Reset Form"/>
 						</div>
 					</div>
 	
