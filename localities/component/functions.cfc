@@ -1055,7 +1055,6 @@ Delete an existing collecting event number record.
 								$('##geoAttFeedback').addClass('text-success');
 								$('##geoAttFeedback').removeClass('text-danger');
 								$('##geoAttFeedback').removeClass('text-warning');
-								loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
 							},
 							error: function(jqXHR,textStatus,error){
 								$('##geoAttFeedback').html('Error.');
