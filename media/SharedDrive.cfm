@@ -297,7 +297,7 @@ limitations under the License.
 				
 				var button=document.createElement('button');
 				button.id="close" + j++;
-				button.className="h1 float-left text-danger mt-1 mr-1 font-weight-bold";
+				button.className="h1 float-left text-danger mt-1 mr-1 font-weight-bold close";
 				button.innerHTML="&times;";
 				button.addEventListener("click", removeInput)
 				document.getElementById("images").appendChild(button);
