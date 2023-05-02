@@ -292,10 +292,7 @@ limitations under the License.
 							}
 						</style>
 						<div class="col-12 mx-auto">
-							<div id="images" class="d-inline">
-							
-							
-							</div>
+							<div id="images" class="d-inline"></div>
 						</div>
 	
 					</div>
