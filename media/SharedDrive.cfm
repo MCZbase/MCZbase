@@ -307,7 +307,6 @@ limitations under the License.
 		</script>
 		<script>
 			function removeInput() {
-				document.getElementById("close" + j++).remove();
 					var oneImg = $('##imageWrapper' + i++.val();
 					$('.close').on('click', function() {
 						var oneImg = $(this).data('oneImg');
