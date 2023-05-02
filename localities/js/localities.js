@@ -59,7 +59,7 @@ function updateLocalitySummary(locality_id,pasteTarget) {
 **/
 function deleteGeoreference(locality_id, lat_long_id,callback) {
 	jQuery.ajax({
-		url: "/localities/component/search.cfc",
+		url: "/localities/component/functions.cfc",
 		data : {
 			method : "deleteGeoreference",
 			locality_id: locality_id,
@@ -131,3 +131,31 @@ function openAddGeoreferenceDialog(dialogid, locality_id, locality_label, okcall
 		}
 	});
 }
+
+/** given a geology_attribute_id delete the geology attribute record 
+  removingthe reference to a geological attribute from a locality.
+ @param geology_attribute_id the primary key value for the geological 
+  attribute to delete.
+ @param callback a callback function to invoke on success.
+**/
+function removeGeologyAttribute(geology_attribute_id, callback) { 
+	jQuery.ajax({
+		url: "/localities/component/functions.cfc",
+		data : {
+			method : "deleteGeologyAttribute",
+			geology_attribute_id: geology_attribute_id
+		},
+		success: function (result) {
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
+				alert(result[0].MESSAGE);
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"deleting a georeference");
+		},
+		dataType: "html"
+	});
+};

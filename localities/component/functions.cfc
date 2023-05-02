@@ -838,7 +838,9 @@ Delete an existing collecting event number record.
 								<li>
 									#geology_attribute#:#geo_att_value# #determined_by# #determined_date# #determined_method#
 									<button type="button" class="btn btn-xs btn-secondary" onClick=" openEditGeologyDialog('#geology_attribute_id#','editGeologyDialog','#callbackName#');">Edit</button>
-									<button type="button" class="btn btn-xs btn-warning" onClick=" removeGeologyAttribute('#geology_attribute_id#','#callbackName#');">Remove</button>
+									<button type="button" 
+										class="btn btn-xs btn-warning" 
+										onClick=" confirmDialog('Remove #geology_attribute#:#geo_att_value# from this locality ?', 'Confirm Remove Geological Attribute', function() { removeGeologyAttribute('#geology_attribute_id#','#locality_id#','#callbackName#'); } ">Remove</button>
 								</li>
 							</cfloop>
 							<li>
@@ -855,9 +857,6 @@ Delete an existing collecting event number record.
 						function openAddGeologyDialog(locality_id, dialogDiv,callback) { 
 							console.log(locality_id);
 						}
-						function removeGeologyAttribute(geology_attribute_id, callback) { 
-							console.log(geology_attribute_id);
-						}
 					</script>
 				</cfif>
 			<cfcatch>
@@ -872,6 +871,129 @@ Delete an existing collecting event number record.
 	<cfreturn cfthread["localityGeologyFormThread#tn#"].output>
 </cffunction>
 
+<!--- delete a geological attribute, .
+  @param geology_attribute_id the primary key value of the locality from which to delete the 
+   geological attribute.
+  @param locality_id the locality the geology_attribute_id applies to.
+  @return json with status=deleted, or an http status 500.
+--->
+<cffunction name="deleteGeologyAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="geology_attribute_id" type="string" required="yes">
+	<cfargument name="locality_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="getGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					locality_id
+				FROM
+					geology_attributes
+				WHERE 
+					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_id#">
+					and 
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
+			<cfif getRereferences.recordcount NEQ "1">
+				<cfthrow message="Unable to delete. Found other than one attribute for the geology_attribute_id [#encodeForHtml(geology_attribute_id#] and locality_id [#encodeForHtml(locality_id)#] provided.">
+			</cfif>
+			<cfquery name="deleteGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteGeoAttribute_result">
+				DELETE FROM geology_attributes
+				WHERE 
+					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_id#">
+			</cfquery>
+			<cfif deleteGeoAttribute_result.recordcount NEQ 1>
+				<cfthrow message="Error deleteing geology_attribute, provided geology_attribute_id matched other than one record.">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">
+			<cfset row["id"] = "#locality_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- returns html to populate a dialog to add geological attributes to a locality 
+	@param locality_id the id of the locality for which to add geological attributes
+	@return html to populate a dialog, including save buttons.
+--->
+<cffunction name="georeferenceDialogHtml" access="remote" returntype="string">
+	<cfargument name="locality_id" type="string" required="yes">
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getGeorefThread#tn#">
+		<cftry>
+			<cfquery name="currentAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					geology_attribute_id, 
+					geology_attributes.geology_attribute,
+					geology_attributes.geo_att_value
+				FROM
+					geology_attributes
+				WHERE 
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
+			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					distinct type
+				FROM	
+					ctgeology_attribute
+				ORDER BY
+					type
+			</cfquery>
+			<cfquery name="ctgeology_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					ctgeology_attribute.geology_attribute,
+					ctgeology_attribute.type,
+					ctgeology_attribute.ordinal,
+					ctgeology_attribute.description
+				FROM	
+					ctgeology_attribute
+				ORDER BY
+					ctgeology_attribute.ordinal
+			</cfquery>
+			<cfquery name="getLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					nvl(spec_locality,'[No specific locality value]') locality_label
+				FROM locality
+				WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
+			<cfoutput>
+				<h2 class="h3">Add a geological attribute for locality #encodeForHtml(locality_label)#</h2>
+				<div class="form-row">
+					<div class="col-12 col-md-3">
+						<label for="orig_lat_long_units" class="data-entry-label">Type</label>
+						<select id="orig_lat_long_units" class="data-entry-select reqdClr" onChange=" changeGeoAttType(); ">
+							<cfloop query="types">
+								<option value="#types.type#">#types.type#</option>
+							</cfloop>
+						</select>
+					</div>
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getGeorefThread#tn#" />
+	<cfreturn cfthread["getGeorefThread#tn#"].output>
+</cffunction>
 
 <!--- getCreateLocalityHtml returns html for a set of form inputs to create or clone a locality record, optionally with
 higher geography specified, optionally cloning from an existing locality, optionally with field values specified.
