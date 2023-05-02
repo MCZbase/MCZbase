@@ -2185,8 +2185,8 @@ function makeGeologyAutocompleteMeta(attributeControl, valueControl, mode, type)
 				url: "/vocabularies/component/search.cfc",
 				data: { 
 					term: request.term, 
-					mode: request.mode,
-					type: request.type,
+					mode: mode,
+					type: type,
 					method: 'getGeologyAutoComplete' 
 				},
 				dataType: 'json',
