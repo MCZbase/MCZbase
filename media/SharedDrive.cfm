@@ -311,12 +311,10 @@ limitations under the License.
 				div.className="float-left col-3 imagewrapper";
 				document.getElementById('images').appendChild(div);
 				var span=document.createElement('span');
-				span.className="close closeit float-left";
+				span.className="close float-left";
 				span.innerHTML="&times;";
-		
 				document.getElementById('images').appendChild(span);
 				var img=document.createElement('img');
-				img.className = "closeit";
 				img.classList.add('imageFeatures');
 				img.src=url;
 				div.appendChild(span);
@@ -333,9 +331,8 @@ limitations under the License.
 				return false;
 			}
 		</script>
-											
 		<script>
-			const ele = document.getElementsByClassName('imagewrapper'); // The element to be removed from the list
+			const ele = document.querySelectorAll('div##images > .imagewrapper'); // The element to be removed from the list
 				if(ele.parentNode){
 				ele.parentNode.removeChild(ele);
 			}
