@@ -983,12 +983,15 @@ Delete an existing collecting event number record.
 						<input type="text" id="geo_att_value" name="geo_att_value" class="data-entry-input">
 						<input type="hidden" id="geo_attribute" name="geo_attribute">
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-2">
 						<label for="add_parents" class="data-entry-label">Add Parents</label>
-						<select id="add_parents" name="add_parents">
+						<select id="add_parents" name="add_parents" class="data-entry-select" onChange=" addParentsChange(); ">
 							<option value="no" selected>No</option>
 							<option value="yes">Yes</option>
 						</select>
+					</div>
+					<div class="col-12 col-md-2" id="parentsDiv">
+						<!--- Area to Show parents of selected attribute value --->
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="determiner" class="data-entry-label">Determiner</label>
@@ -996,18 +999,25 @@ Delete an existing collecting event number record.
 						<input type="hidden" id="geo_att_determiner_id" name="geo_att_determiner_id">
 					</div>
 					<div class="col-12 col-md-3">
-						<!--- TODO: Metadata 
-							"GEO_ATT_DETERMINED_DATE" DATE, 
-						--->
+						<label for="geo_att_determined_date" class="data-entry-label">Loan Date</label>
+						<input type="text" name="geo_att_determined_date" id="geo_att_determined_date"
+							value="#dateformat(now(),"yyyy-mm-dd")#" class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-3">
-						<!--- TODO: Metadata 
-							"GEO_ATT_DETERMINED_METHOD" VARCHAR2(255 CHAR), 
-						--->
+						<label for="geo_att_determined_method" class="data-entry-label">Loan Date</label>
+						<input type="text" id="geo_att_determined_method" name="geo_att_determined_method" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-12">
 						<label for="geo_att_remark" class="data-entry-label">Remarks</label>
-						<input type="text" id="geo_att_remark" name="geo_att_remark" class="data-entry-input">
+						<textarea name="geo_att_remark" id="geo_att_remark" 
+							onkeyup="countCharsLeft('geo_att_remarks', 4000, 'length_locality_remarks');"
+							class="form-control form-control-sm w-100 autogrow mb-1" rows="2"></textarea>
+						<script>
+							// Bind textarea to autogrow function on key up
+							$(document).ready(function() { 
+								$("##geo_att_remark").keyup(autogrow);  
+							});
+						</script>
 					</div>
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label">&nbsp;</label>
@@ -1015,6 +1025,18 @@ Delete an existing collecting event number record.
 					</div>
 				</div>
 				<script>
+					function addParentsChange() { 
+						var selection = $('##add_parents').val();
+						if (selection=="yes") { 
+							lookupParents();
+						} else { 
+							$('##parentsDiv').html("");
+						}
+					}
+					function lookupParents() { 
+						// TODO: implement
+
+					}
 					function changeGeoAttType() { 
 						$('##geo_attribute').val("");
 						$('##geo_att_value').val("");
@@ -1022,6 +1044,8 @@ Delete an existing collecting event number record.
 					} 
 					$(document).ready(function(){ 
 						makeGeologyAutocompleteMeta('geo_attribute', 'geo_att_value','entry',$('##attribute_type').val());
+						makeAgentAutocompleteMeta('determiner', 'geo_att_determiner_id');
+						$("##geo_att_determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
 					});
 				</script>
 			</cfoutput>
