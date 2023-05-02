@@ -302,7 +302,7 @@ limitations under the License.
 			}
 		</script>
 		<script>
-			var j = 1;
+			var i = 1;
 			function getImg(){
 				var url=document.getElementById('protocol').value;
 				url+=document.getElementById('hostname').value;
