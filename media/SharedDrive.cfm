@@ -267,7 +267,7 @@ limitations under the License.
 								font-size: 0;
 							}
 
-							.imagewrapper .close {
+							.imagewrapper .close1 {
 								position: absolute;
 								top: 2px;
 								right: 18px;
@@ -284,7 +284,7 @@ limitations under the License.
 								border-radius: 50%;
 							}
 
-							.imagewrapper:hover .close {
+							.imagewrapper:hover .close1 {
 								opacity: 1;
 							}
 						</style>
@@ -313,7 +313,7 @@ limitations under the License.
 				div.className="float-left col-3 imagewrapper";
 				document.getElementById('images').appendChild(div);
 				var span=document.createElement('span');
-				span.className="close";
+				span.className="close1 float-left";
 				span.innerHTML="&times;"
 				document.getElementById("images").appendChild(span);
 				var img=document.createElement('img');
@@ -326,7 +326,7 @@ limitations under the License.
 			}
 		</script>
 		<script>
-			var closeBtns = document.querySelectorAll('.imagewrapper .close')
+			var closeBtns = document.querySelectorAll('.imagewrapper .close1')
 				for (var i = 0, l = closeBtns.length; i < l; i++) {
 					closeBtns[i].addEventListener('click', function() {
 						var imgWrap = this.parentElement;
