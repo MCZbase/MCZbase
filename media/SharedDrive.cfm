@@ -257,9 +257,6 @@ limitations under the License.
 	
 					<div class="row">
 						<style>
-							##images {
-								margin-top: 2rem;
-							}
 							.imageFeatures {
 								width: 100%;
 								border: 2px solid gray;
@@ -291,7 +288,7 @@ limitations under the License.
 								opacity: 1;
 							}
 						</style>
-						<div class="col-12 mx-auto">
+						<div class="col-12 mt-3 mx-auto">
 							<div id="images" class="d-inline"></div>
 						</div>
 	
