@@ -966,7 +966,7 @@ Delete an existing collecting event number record.
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
 			<cfoutput>
-				<h2 class="h3">Add a geological attribute for locality #encodeForHtml(locality_label)#</h2>
+				<h2 class="h3">Add a geological attribute for locality #encodeForHtml(getLabel.locality_label)#</h2>
 				<div class="form-row">
 					<div class="col-12 col-md-3">
 						<label for="orig_lat_long_units" class="data-entry-label">Type</label>
