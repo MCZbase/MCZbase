@@ -280,7 +280,8 @@ Function getGeologyAutocomplete.  Search for geological attributes with a substr
 @param term geology attribute value to search for.
 @param mode if search then include all values, otherwise limit to usable_value_fg = 1 for data entry.
 @param type if present, limit to attributes of specified type
-@return a json structure containing id, meta, and value, with matching geological attribute in both value and id, and more information in meta.
+@return a json structure containing id, meta, attribute and value, with matching geological 
+  attribute value in both value and id, attribute for that value in attribute and both in meta.
 --->
 <cffunction name="getGeologyAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
@@ -321,6 +322,7 @@ Function getGeologyAutocomplete.  Search for geological attributes with a substr
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.id#">
 			<cfset row["value"] = "#search.value#" >
+			<cfset row["attribute"] = "#search.attribute#" >
 			<cfset row["meta"] = "#search.attribute#: #search.value#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>

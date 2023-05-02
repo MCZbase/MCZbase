@@ -2173,3 +2173,30 @@ function makeCEFieldAutocomplete(fieldId, targetField) {
 	};
 };
 
+/** Make a paired text attribute and text attribute value control into an autocomplete geological attribute picker that displays meta 
+ *  on picklist and value on selection.
+ *  @param attributeControl the id for a text input that is to hold the attribute for the selected value (without a leading # selector).
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makeGeologyAutocompleteMeta(attributeControl, valueControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/vocabularies/component/search.cfc",
+				data: { term: request.term, method: 'getGeologyAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up geological attributes for an autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+attributeControl).val(result.item.attribute);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta "matched name * (preferred name)" instead of value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};

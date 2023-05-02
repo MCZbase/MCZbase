@@ -969,14 +969,30 @@ Delete an existing collecting event number record.
 				<h2 class="h3">Add a geological attribute for locality #encodeForHtml(getLabel.locality_label)#</h2>
 				<div class="form-row">
 					<div class="col-12 col-md-3">
-						<label for="orig_lat_long_units" class="data-entry-label">Type</label>
-						<select id="orig_lat_long_units" class="data-entry-select reqdClr" onChange=" changeGeoAttType(); ">
+						<label for="attribute_type" class="data-entry-label">Type</label>
+						<select id="attribute_type" name="attribute_type" class="data-entry-select reqdClr" onChange=" changeGeoAttType(); ">
 							<cfloop query="types">
 								<option value="#types.type#">#types.type#</option>
 							</cfloop>
 						</select>
 					</div>
+					<div class="col-12 col-md-3">
+						<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
+						<input type="text" id="geo_att_value" name="geo_att_value">
+						<input type="hidden" id="geo_attribute" name="geo_attribute">
+					</div>
+					<div class="col-12 col-md-3">
+						<!--- TODO: Metadata --->
+					</div>
+					<div class="col-12 col-md-3">
+						<button type="button" class="btn btn-xs btn-primary">Add</button>
+					</div>
 				</div>
+				<script>
+					$.(document).ready(function(){ 
+						makeGeologyAutocompleteMeta('geo_attribute', 'geo_att_value');
+					});
+				</script>
 			</cfoutput>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
