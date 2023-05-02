@@ -310,28 +310,37 @@ limitations under the License.
 				var div=document.createElement('div');
 				div.className="float-left col-3 imagewrapper";
 				document.getElementById('images').appendChild(div);
-				var span=document.createElement('span');
-				span.className="close float-left";
-				span.innerHTML="&times;"
-				document.getElementById('images').appendChild(span);
+				var input=document.createElement('input');
+				input.className="close float-left";
+				input.id="close";
+				input.value="&times;"
+				document.getElementById('images').appendChild(input);
 				var img=document.createElement('img');
 				img.classList.add('imageFeatures');
 				img.src=url;
-				div.appendChild(span);
+				div.appendChild(input);
 				div.appendChild(img);
 			
 				return false;
 			}
 		</script>
-
 		<script>
-			function closebtn(){
-			var childDivs = document.querySelectorAll("imagewrapper > img");
-			for(var i = 0; i < childDivs.length; i++){
-				childDivs[i].remove();
+			function deleteChild() {
+				var e = document.querySelector("img");
+
+				//e.firstElementChild can be used.
+				var child = e.lastElementChild; 
+				while (child) {
+					e.removeChild(child);
+					child = e.lastElementChild;
+				}
 			}
+			var btn = document.getElementById(
+			"close").onclick = function() {
+				deleteChild();
 			}
 		</script>
+
 	</cfoutput>
 
 
