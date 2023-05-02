@@ -306,10 +306,22 @@ limitations under the License.
 			}
 		</script>
 		<script>
-			function removeInput() {
-				document.getElementById("close" + j++).remove();
-				return false;
-			}
+$(document).ready(function () {
+
+    $('.close').click(function () {
+        var parent = $(this).closest('imageWrapper');
+        $.ajax({
+            type: 'get',
+            url: 'SharedDrive.cfm',
+            data: 'ajax=1&delete=' + $(this).attr('id'),
+            beforeSend: function () {
+                parent.animate({
+                    'backgroundColor': '#fb6c6c'
+                }, 300);
+            },
+
+        });
+    });
 		</script>
 	</cfoutput>
 
