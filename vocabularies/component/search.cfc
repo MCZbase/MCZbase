@@ -307,7 +307,7 @@ Function getGeologyAutocomplete.  Search for geological attributes with a substr
 					upper(attribute_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 				)
 				<cfif isDefined("type") and len(type) GT 0>
-					AND upper(ctgeology_attribute.type) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">
+					AND upper(ctgeology_attribute.type) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(type)#">
 				</cfif>
 				<cfif isDefined("mode") and mode NEQ "search">
 					AND usable_value_fg = 1
