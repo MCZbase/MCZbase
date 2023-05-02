@@ -275,13 +275,14 @@ Function getBiolIndivRelationshipAutocompleteMeta.  Search for ctbiol_relations.
 
 <!---
 Function getGeologyAutocomplete.  Search for geological attributes with a substring match on any part of attribute/value, 
-   returning json suitable for jquery-ui autocomplete.
+   returning json suitable for jquery-ui autocomplete.  Supports binding to separate value/attribute input pair along with
+   surrogate numeric primary key value of geology_attribute_heirarchy_id in a distinct input.
 
 @param term geology attribute value to search for.
 @param mode if search then include all values, otherwise limit to usable_value_fg = 1 for data entry.
 @param type if present, limit to attributes of specified type
-@return a json structure containing id, meta, attribute and value, with matching geological 
-  attribute value in both value and id, attribute for that value in attribute and both in meta.
+@return a json structure containing id, meta, attribute, value, and geology_attribute_hierarchy_id with matching geological 
+  attribute value in both value and id, attribute for that value in attribute and both in meta.  
 --->
 <cffunction name="getGeologyAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
@@ -297,7 +298,8 @@ Function getGeologyAutocomplete.  Search for geological attributes with a substr
 			SELECT
 				attribute,
 				attribute_value as id, 
-				attribute_value as value
+				attribute_value as value,
+				geology_attribute_hierarchy_id
 			FROM 
 				geology_attribute_hierarchy
 				join ctgeology_attribute on attribute = geology_attribute
@@ -323,6 +325,7 @@ Function getGeologyAutocomplete.  Search for geological attributes with a substr
 			<cfset row["id"] = "#search.id#">
 			<cfset row["value"] = "#search.value#" >
 			<cfset row["attribute"] = "#search.attribute#" >
+			<cfset row["geology_attribute_hierarchy_id"] = "#search.geology_attribute_hierarchy_id#" >
 			<cfset row["meta"] = "#search.attribute#: #search.value#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>

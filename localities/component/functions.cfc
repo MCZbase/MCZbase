@@ -982,6 +982,7 @@ Delete an existing collecting event number record.
 						<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
 						<input type="text" id="geo_att_value" name="geo_att_value" class="data-entry-input">
 						<input type="hidden" id="geo_attribute" name="geo_attribute">
+						<input type="hidden" id="geology_attribute_hierarchy_id" name="geology_attribute_hierarchy_id">
 					</div>
 					<div class="col-12 col-md-2">
 						<label for="add_parents" class="data-entry-label">Add Parents</label>
@@ -1021,21 +1022,23 @@ Delete an existing collecting event number record.
 					</div>
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label">&nbsp;</label>
-						<button type="button" class="btn btn-xs btn-primary">Add</button>
+						<button type="button" class="btn btn-xs btn-primary" onClick=" saveGeoAtt(); " >Add</button>
+					</div>
+					<div class="col-12 col-md-3">
+						<output id="geoAttFeedback"></output>
 					</div>
 				</div>
 				<script>
 					function addParentsChange() { 
 						var selection = $('##add_parents').val();
 						if (selection=="yes") { 
-							lookupParents();
+							lookupGeoAttParents($('##geology_attribute_hierarchy_id').val(),'parentsDiv');
 						} else { 
 							$('##parentsDiv').html("");
 						}
-					}
-					function lookupParents() { 
-						// TODO: implement
-
+					};
+					function saveGeoAtt() { 
+						// TODO: Implement
 					}
 					function changeGeoAttType() { 
 						$('##geo_attribute').val("");
@@ -1043,7 +1046,7 @@ Delete an existing collecting event number record.
 						makeGeologyAutocompleteMeta('geo_attribute', 'geo_att_value','entry',$('##attribute_type').val());
 					} 
 					$(document).ready(function(){ 
-						makeGeologyAutocompleteMeta('geo_attribute', 'geo_att_value','entry',$('##attribute_type').val());
+						makeGeologyAutocompleteMeta('geo_attribute', 'geo_att_value','geology_attribute_hierarchy_id','entry',$('##attribute_type').val());
 						makeAgentAutocompleteMeta('determiner', 'geo_att_determiner_id');
 						$("##geo_att_determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
 					});

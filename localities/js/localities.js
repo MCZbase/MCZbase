@@ -222,3 +222,4 @@ function removeGeologyAttribute(geology_attribute_id, callback) {
 		dataType: "html"
 	});
 };
+

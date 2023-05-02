@@ -880,4 +880,59 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 	<cfreturn listNodeInGeoTreeThread.output>
 </cffunction>
 
+<!--- ** getNodeToRootGeologyTreeHtml obtain an html representation of the path of node within its tree to root, 
+  * excluding the node iteslf and excluding children of the specified node.
+  *
+  * @param geology_attribute_hierarchy_id the surrogate numeric primary key value of the node to return tree placement
+  *   information about
+  * @returns html representation of the tree as nested unordered lists.
+--->
+<cffunction name="getNodeToRootGeologyTreeHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="geology_attribute_hierarchy_id" type="string" required="yes">
+
+	<cfthread name="listNodePathInGeoTreeThread">
+		<cfoutput>
+			<!--- lookup path from root to specified node, leaving out the specified node --->
+			<cfquery name="parents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parents_result">
+				SELECT * FROM (
+					SELECT 
+						level as parentagelevel,
+						connect_by_root attribute as attribute,
+						connect_by_root attribute_value as attribute_value,
+						connect_by_root geology_attribute_hierarchy_id as geology_attribute_hierarchy_id,
+						connect_by_root PARENT_ID as parent_id,
+						connect_by_root USABLE_VALUE_FG as USABLE_VALUE_FG,
+						connect_by_root DESCRIPTION as description
+					FROM geology_attribute_hierarchy 
+					WHERE
+						geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+					CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+					ORDER BY level desc
+				) WHERE parentagelevel > 1
+			</cfquery>
+			<cfset parentnesting = 0>
+			<cfloop query="parents">
+				<!--- parentage down to, but not including the current node, we'll get that from the children query --->
+				<ul>
+					<cfset parentnesting = parentnesting + 1>
+					<li>
+						<cfset nodeclass = "">
+						<cfset marker = "*">
+						<cfif parents.usable_value_fg is 0>
+							<cfset nodeclass="text-danger">
+							<cfset marker="">
+						</cfif>
+						<span class="#nodeclass#">#parents.attribute_value# (#parents.attribute#)#marker#</span>
+						<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#parents.geology_attribute_hierarchy_id#">edit</a>
+					</li>
+			</cfloop>
+			<cfloop from="1" to="#parentnesting#" index="i">
+				<!--- for parentage of current node to root --->
+				</ul>
+			</cfloop>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="listNodePathInGeoTreeThread" />
+	<cfreturn listNodePathInGeoTreeThread.output>
+</cffunction>
 </cfcomponent>

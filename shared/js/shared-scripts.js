@@ -2177,8 +2177,11 @@ function makeCEFieldAutocomplete(fieldId, targetField) {
  *  on picklist and value on selection.
  *  @param attributeControl the id for a text input that is to hold the attribute for the selected value (without a leading # selector).
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param hierarchyIdControl the id for a hidden input that is to hold the geological_attribute_hierarchy_id for the selection.
+ *  @param mode if search, then include all matching values, otherwise only return values allowed for data entry..
+ *  @param type to limit the results to a specific ctgeology_attribute.type of attribute.
  */
-function makeGeologyAutocompleteMeta(attributeControl, valueControl, mode, type) { 
+function makeGeologyAutocompleteMeta(attributeControl, valueControl, hierarchyIdControl, mode, type) { 
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
@@ -2198,10 +2201,34 @@ function makeGeologyAutocompleteMeta(attributeControl, valueControl, mode, type)
 		},
 		select: function (event, result) {
 			$('#'+attributeControl).val(result.item.attribute);
+			$('#'+hierarchyIdControl).val(result.item.geology_attribute_hierarchy_id);
 		},
 		minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
 		// override to display meta "matched name * (preferred name)" instead of value in picklist.
 		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
 	};
+};
+
+/** lookuGeoAttParents lookup the path from a geological attribute node
+  to root in the geological heirarchy tree.
+  @param geology_attribute_hierarchy_id the node to look up.
+  @param targetDiv the id (without a leading # selector) of a node in the 
+   DOM the html of which to populate with the returned result.
+*/
+function lookupGeoAttParents(geology_attribute_hierarchy_id,targetDiv) { 
+	$.ajax({
+		url: "/vocabularies/component/functions.cfc",
+		data: { 
+			geology_attribute_hierarchy_id: geology_attribute_hierarchy_id,
+			method: 'getNodeToRootGeologyTreeHtml'
+		},
+		dataType: 'html',
+		success : function (result) { 
+			$('#'+targetDiv).html(result)
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error, "Error looking up parentage for geological attribute: "); 
+		}
+	});
 };
