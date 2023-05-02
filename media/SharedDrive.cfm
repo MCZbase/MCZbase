@@ -324,7 +324,7 @@ limitations under the License.
 					// When there is a "click"
 					// it shows an alert in the browser
 					//alert('Oh, you clicked me!');
-					let childDivs = document.querySelectorAll("div.imagewrapper");
+					let childDivs = document.querySelectorAll("div.imagewrapper > ");
 					for(var i = 0; i < childDivs.length; i++){
 						childDivs[i].remove();
 					}
