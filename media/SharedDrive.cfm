@@ -322,7 +322,7 @@ limitations under the License.
 				var p=document.createElement('p');
 				p.className="small float-left text-dark w-100";
 				p.innerHTML=document.getElementById('filename').value;
-				p.appendChild(p);
+				div.appendChild(p);
 				span.addEventListener('click', () => {
 					// When there is a "click"
 					// it shows an alert in the browser
