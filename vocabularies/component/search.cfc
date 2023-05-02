@@ -321,7 +321,7 @@ Function getGeologyAutocomplete.  Search for geological attributes with a substr
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.id#">
 			<cfset row["value"] = "#search.value#" >
-			<cfset row["meta"] = "#search.attribute# #search.value#" >
+			<cfset row["meta"] = "#search.attribute#: #search.value#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
