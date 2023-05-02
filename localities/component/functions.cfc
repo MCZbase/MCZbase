@@ -966,6 +966,8 @@ Delete an existing collecting event number record.
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
 			<cfoutput>
+				<form id="addGeoAttForm">
+					<input type="hidden" name="method" value="saveGeologyAttribute">
 				<h2 class="h3">Add a geological attribute for locality #encodeForHtml(getLabel.locality_label)#</h2>
 				<div class="form-row">
 					<div class="col-12 col-md-3">
@@ -1028,6 +1030,7 @@ Delete an existing collecting event number record.
 						<output id="geoAttFeedback"></output>
 					</div>
 				</div>
+				</form>
 				<script>
 					function addParentsChange() { 
 						var selection = $('##add_parents').val();
@@ -1037,9 +1040,32 @@ Delete an existing collecting event number record.
 							$('##parentsDiv').html("");
 						}
 					};
-					function saveGeoAtt() { 
-						// TODO: Implement
-					}
+					function saveGeoAtt(){ 
+						$('##geoAttFeedback').html('Saving....');
+						$('##geoAttFeedback').addClass('text-warning');
+						$('##geoAttFeedback').removeClass('text-success');
+						$('##geoAttFeedback').removeClass('text-danger');
+						jQuery.ajax({
+							url : "/localities/component/functions.cfc",
+							type : "post",
+							dataType : "json",
+							data : $('##addGeoAttForm').serialize(),
+							success : function (data) {
+								$('##geoAttFeedback').html('Saved.');
+								$('##geoAttFeedback').addClass('text-success');
+								$('##geoAttFeedback').removeClass('text-danger');
+								$('##geoAttFeedback').removeClass('text-warning');
+								loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
+							},
+							error: function(jqXHR,textStatus,error){
+								$('##geoAttFeedback').html('Error.');
+								$('##geoAttFeedback').addClass('text-danger');
+								$('##geoAttFeedback').removeClass('text-success');
+								$('##geoAttFeedback').removeClass('text-warning');
+								handleFail(jqXHR,textStatus,error,'saving geological attribute for locality');
+							}
+						});
+					};
 					function changeGeoAttType() { 
 						$('##geo_attribute').val("");
 						$('##geo_att_value').val("");
