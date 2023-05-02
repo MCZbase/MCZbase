@@ -318,6 +318,7 @@ limitations under the License.
 				document.getElementById("images").appendChild(span);
 				var img=document.createElement('img');
 				img.classList.add('imageFeatures');
+				img.attributes.dataset="i++";
 				img.src=url;
 				div.appendChild(img);
 				div.appendChild(span);
