@@ -971,8 +971,10 @@ Delete an existing collecting event number record.
 					<div class="col-12 col-md-3">
 						<label for="attribute_type" class="data-entry-label">Type</label>
 						<select id="attribute_type" name="attribute_type" class="data-entry-select reqdClr" onChange=" changeGeoAttType(); ">
+							<cfset selected="selected">
 							<cfloop query="types">
-								<option value="#types.type#">#types.type#</option>
+								<option value="#types.type#" #selected#>#types.type#</option>
+								<cfset selected="">
 							</cfloop>
 						</select>
 					</div>
@@ -989,8 +991,11 @@ Delete an existing collecting event number record.
 					</div>
 				</div>
 				<script>
-					$.(document).ready(function(){ 
-						makeGeologyAutocompleteMeta('geo_attribute', 'geo_att_value');
+					function changeGeoAttType() { 
+						makeGeologyAutocompleteMeta('geo_attribute', 'geo_att_value','entry',$('##attribute_type').val());
+					} 
+					$(document).ready(function(){ 
+						makeGeologyAutocompleteMeta('geo_attribute', 'geo_att_value','entry',$('##attribute_type').val());
 					});
 				</script>
 			</cfoutput>

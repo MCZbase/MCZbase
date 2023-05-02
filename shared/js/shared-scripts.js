@@ -2178,12 +2178,17 @@ function makeCEFieldAutocomplete(fieldId, targetField) {
  *  @param attributeControl the id for a text input that is to hold the attribute for the selected value (without a leading # selector).
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  */
-function makeGeologyAutocompleteMeta(attributeControl, valueControl) { 
+function makeGeologyAutocompleteMeta(attributeControl, valueControl, mode, type) { 
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
 				url: "/vocabularies/component/search.cfc",
-				data: { term: request.term, method: 'getGeologyAutocompleteMeta' },
+				data: { 
+					term: request.term, 
+					mode: request.mode,
+					type: request.type,
+					method: 'getGeologyAutoComplete' 
+				},
 				dataType: 'json',
 				success : function (data) { response(data); },
 				error : function (jqXHR, textStatus, error) {
