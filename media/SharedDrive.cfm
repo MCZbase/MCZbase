@@ -274,9 +274,9 @@ limitations under the License.
 								top: 2px;
 								right: 2px;
 								z-index: 100;
-								background-color: #FFF;
+								background-color: ##FFF;
 								padding: 5px 2px 2px;
-								color: #000;
+								color: ##000;
 								font-weight: bold;
 								cursor: pointer;
 								opacity: .2;
