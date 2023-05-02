@@ -297,19 +297,37 @@ limitations under the License.
 				
 				var button=document.createElement('button');
 				button.id="close" + j++;
-				button.className="h1 float-left text-danger mt-1 mr-1 font-weight-bold";
+				button.className="h1 float-left text-danger mt-1 mr-1 font-weight-bold close";
 				button.innerHTML="&times;";
-				button.addEventListener("click", removeInput)
+				//button.addEventListener("click", removeInput)
 				document.getElementById("images").appendChild(button);
 				
 				return false;
 			}
 		</script>
 		<script>
-			function removeInput() {
-				document.getElementById("close" + j++).remove();
-				return false;
-			}
+//			function removeInput() {
+//				document.getElementById("close" + j++).remove();
+//				return false;
+//
+//					var service_folder = $('##imageWrapper').val();
+//					$('.close').on('click', function() {
+//						var filename = $(this).data('filename');
+//						var this_div = $(this);
+//					});
+//			}
+			
+			$('.close').click(function(){
+$.ajax({
+   type: "POST",
+   url: "/media/SharedDrive.cfm",
+   data: "id="+$(this).prev().text(),
+   success: function(table){
+     $('##imageWrapper' + i++).html(img);
+   }
+ });
+ return false
+});
 		</script>
 	</cfoutput>
 
