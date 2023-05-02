@@ -319,6 +319,10 @@ limitations under the License.
 				img.src=url;
 				div.appendChild(span);
 				div.appendChild(img);
+				var p=document.createElement('p');
+				p.className="small float-left";
+				p.innerHTML=document.getElementById('filename').value;
+				div.appendChild(p);
 				span.addEventListener('click', () => {
 					// When there is a "click"
 					// it shows an alert in the browser
