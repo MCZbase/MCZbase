@@ -980,18 +980,44 @@ Delete an existing collecting event number record.
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
-						<input type="text" id="geo_att_value" name="geo_att_value">
+						<input type="text" id="geo_att_value" name="geo_att_value" class="data-entry-input">
 						<input type="hidden" id="geo_attribute" name="geo_attribute">
 					</div>
 					<div class="col-12 col-md-3">
-						<!--- TODO: Metadata --->
+						<label for="add_parents" class="data-entry-label">Add Parents</label>
+						<select id="add_parents" name="add_parents">
+							<option value="no" selected>No</option>
+							<option value="yes">Yes</option>
+						</select>
 					</div>
 					<div class="col-12 col-md-3">
+						<label for="determiner" class="data-entry-label">Determiner</label>
+						<input type="text" id="determiner" name="determiner" class="data-entry-input">
+						<input type="hidden" id="geo_att_determiner_id" name="geo_att_determiner_id">
+					</div>
+					<div class="col-12 col-md-3">
+						<!--- TODO: Metadata 
+							"GEO_ATT_DETERMINED_DATE" DATE, 
+						--->
+					</div>
+					<div class="col-12 col-md-3">
+						<!--- TODO: Metadata 
+							"GEO_ATT_DETERMINED_METHOD" VARCHAR2(255 CHAR), 
+						--->
+					</div>
+					<div class="col-12 col-md-6">
+						<label for="geo_att_remark" class="data-entry-label">Remarks</label>
+						<input type="text" id="geo_att_remark" name="geo_att_remark" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label">&nbsp;</label>
 						<button type="button" class="btn btn-xs btn-primary">Add</button>
 					</div>
 				</div>
 				<script>
 					function changeGeoAttType() { 
+						$('##geo_attribute').val("");
+						$('##geo_att_value').val("");
 						makeGeologyAutocompleteMeta('geo_attribute', 'geo_att_value','entry',$('##attribute_type').val());
 					} 
 					$(document).ready(function(){ 
