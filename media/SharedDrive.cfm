@@ -317,11 +317,11 @@ limitations under the License.
 //					});
 //			}
 			
-			$('.close').click(function(){
+			$('##close' + j++).click(function(){
 $.ajax({
    type: "POST",
    url: "/media/SharedDrive.cfm",
-   success: function(table){
+   success: function(div){
      $('##imageWrapper' + i++).html(img);
    }
  });
