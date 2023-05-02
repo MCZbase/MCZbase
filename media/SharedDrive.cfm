@@ -325,7 +325,6 @@ limitations under the License.
 					// it shows an alert in the browser
 					//alert('Oh, you clicked me!');
 					let childDivs = document.querySelectorAll("div.imagewrapper > img");
-					let childDivs = document.querySelectorAll("div.imagewrapper > span");
 					for(var i = 0; i < childDivs.length; i++){
 						childDivs[i].remove();
 					}
