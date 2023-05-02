@@ -324,8 +324,6 @@ limitations under the License.
 				p.innerHTML=document.getElementById('filename').value;
 				div.appendChild(p);
 				span.addEventListener('click', () => {
-					// When there is a "click"
-					// it shows an alert in the browser
 					//alert('Oh, you clicked me!');
 					let childDivs = document.querySelectorAll("div##images > .imagewrapper");
 					for(var i = 0; i < childDivs.length; i++){
