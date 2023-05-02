@@ -311,12 +311,13 @@ limitations under the License.
 				div.className="float-left col-3 imagewrapper";
 				document.getElementById('images').appendChild(div);
 				var span=document.createElement('span');
-				span.className="close epe float-left";
+				span.className="close closeit float-left";
 				span.innerHTML="&times;";
 		
 				document.getElementById('images').appendChild(span);
 				var img=document.createElement('img');
-				img.classList.add('imageFeatures epe');
+				img.className = "closeit";
+				img.classList.add('imageFeatures');
 				img.src=url;
 				div.appendChild(span);
 				div.appendChild(img);
@@ -324,7 +325,7 @@ limitations under the License.
 					// When there is a "click"
 					// it shows an alert in the browser
 					//alert('Oh, you clicked me!');
-					let childDivs = document.querySelectorAll("div.imagewrapper > .epe");
+					let childDivs = document.querySelectorAll("div.imagewrapper > img");
 					for(var i = 0; i < childDivs.length; i++){
 						childDivs[i].remove();
 					}
