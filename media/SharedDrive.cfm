@@ -297,7 +297,7 @@ limitations under the License.
 				
 				var button=document.createElement('button');
 				button.id="close" + j++;
-				button.className="h1 float-left text-danger mt-1 mr-1 font-weight-bold close";
+				button.className="h1 float-left text-danger mt-1 mr-1 font-weight-bold";
 				button.innerHTML="&times;";
 				button.addEventListener("click", removeInput)
 				document.getElementById("images").appendChild(button);
@@ -306,22 +306,10 @@ limitations under the License.
 			}
 		</script>
 		<script>
-$(document).ready(function () {
-
-    $('.close').click(function removeInput() {
-        var parent = $(this).closest('imageWrapper');
-        $.ajax({
-            type: 'get',
-            url: 'SharedDrive.cfm',
-            data: 'ajax=1&delete=' + $(this).attr('id'),
-            beforeSend: function () {
-                parent.animate({
-                    'backgroundColor': '##fb6c6c'
-                }, 300);
-            },
-
-        });
-    });
+			function removeInput() {
+				document.getElementById("close" + j++).remove();
+				return false;
+			}
 		</script>
 	</cfoutput>
 
