@@ -309,7 +309,7 @@ limitations under the License.
 			function removeInput() {
 					var oneImg = $('##imageWrapper' + i++.val();
 					$('.close').on('click', function() {
-						array.remove()
+					document.getElementById("images").remove()
 					});
 			};
 
