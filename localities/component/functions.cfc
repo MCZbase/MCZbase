@@ -1011,9 +1011,9 @@ Delete an existing collecting event number record.
 						<input type="text" id="geo_att_determined_method" name="geo_att_determined_method" class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-12">
-						<label for="geo_att_remark" class="data-entry-label">Remarks</label>
+						<label for="geo_att_remark" class="data-entry-label">Remarks (<span id="length_geo_att_remarks">0 characters, 4000 left</span>)</label>
 						<textarea name="geo_att_remark" id="geo_att_remark" 
-							onkeyup="countCharsLeft('geo_att_remarks', 4000, 'length_locality_remarks');"
+							onkeyup="countCharsLeft('geo_att_remarks', 4000, 'length_geo_att_remarks');"
 							class="form-control form-control-sm w-100 autogrow mb-1" rows="2"></textarea>
 						<script>
 							// Bind textarea to autogrow function on key up
