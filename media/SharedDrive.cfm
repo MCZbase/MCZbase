@@ -302,14 +302,13 @@ limitations under the License.
 			}
 		</script>
 		<script>
-			var j = 1;
 			function getImg(){
 				var url=document.getElementById('protocol').value;
 				url+=document.getElementById('hostname').value;
 				url+=document.getElementById('path').value;
 				url+=document.getElementById('filename').value;
 				var div=document.createElement('div');
-				div.className="float-left col-3 imagewrapper"+ j++;
+				div.className="float-left col-3 imagewrapper";
 				document.getElementById('images').appendChild(div);
 				var span=document.createElement('span');
 				span.className="close float-left";
@@ -328,7 +327,7 @@ limitations under the License.
 					// When there is a "click"
 					// it shows an alert in the browser
 					//alert('Oh, you clicked me!');
-					let childDivs = document.querySelectorAll("div##images > .imagewrapper"+ j++);
+					let childDivs = document.querySelectorAll("div##images > .imagewrapper");
 					for(var i = 0; i < childDivs.length; i++){
 						childDivs[i].remove();
 					}
