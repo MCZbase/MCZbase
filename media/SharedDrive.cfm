@@ -323,7 +323,7 @@ limitations under the License.
 				span.addEventListener('click', () => {
 					// When there is a "click"
 					// it shows an alert in the browser
-					alert('Oh, you clicked me!');
+					//alert('Oh, you clicked me!');
 					let childDivs = document.querySelectorAll("imagewrapper > img");
 					for(var i = 0; i < childDivs.length; i++){
 						childDivs[i].remove();
