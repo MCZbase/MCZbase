@@ -270,7 +270,7 @@ limitations under the License.
 							.imageWrapper .close {
 								position: absolute;
 								top: 2px;
-								right: 2px;
+								right: 18px;
 								z-index: 100;
 								background-color: ##FFF;
 								padding: 2px;
@@ -310,7 +310,7 @@ limitations under the License.
 				url+=document.getElementById('path').value;
 				url+=document.getElementById('filename').value;
 				var div=document.createElement('div');
-				div.className="float-left col-3 p-0 imageWrapper";
+				div.className="float-left col-3 imageWrapper";
 				document.getElementById('images').appendChild(div);
 				var span=document.createElement('span');
 				span.className="close";
