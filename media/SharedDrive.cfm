@@ -313,7 +313,7 @@ limitations under the License.
 				var input=document.createElement('input');
 				input.className="close float-left";
 				input.id="close";
-				input.value="&times;"
+				input.value.innerHTML="&times;"
 				document.getElementById('images').appendChild(input);
 				var img=document.createElement('img');
 				img.classList.add('imageFeatures');
