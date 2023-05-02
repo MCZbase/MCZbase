@@ -261,13 +261,13 @@ limitations under the License.
 								width: 100%;
 								border: 2px solid gray;
 							}
-							.imageWrapper {
+							.imagewrapper {
 								position: relative;
 								display: inline-block;
 								font-size: 0;
 							}
 
-							.imageWrapper .close {
+							.imagewrapper .close {
 								position: absolute;
 								top: 2px;
 								right: 18px;
@@ -284,7 +284,7 @@ limitations under the License.
 								border-radius: 50%;
 							}
 
-							.imageWrapper:hover .close {
+							.imagewrapper:hover .close {
 								opacity: 1;
 							}
 						</style>
