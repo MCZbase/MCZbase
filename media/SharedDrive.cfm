@@ -308,7 +308,7 @@ limitations under the License.
 		<script>
 $(document).ready(function () {
 
-    $('.close').click(function () {
+    $('.close').click(function removeInput() {
         var parent = $(this).closest('imageWrapper');
         $.ajax({
             type: 'get',
