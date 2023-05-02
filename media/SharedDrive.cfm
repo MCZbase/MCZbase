@@ -312,7 +312,12 @@ limitations under the License.
 				document.getElementById('images').appendChild(div);
 				var span=document.createElement('span');
 				span.className="close float-left";
-				span.innerHTML="&times;"
+				span.innerHTML="&times;";
+				span.addEventListener('click', () => {
+				  // When there is a "click"
+				  // it shows an alert in the browser
+				  alert('Oh, you clicked me!')
+				});
 				document.getElementById('images').appendChild(span);
 				var img=document.createElement('img');
 				img.classList.add('imageFeatures');
