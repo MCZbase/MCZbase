@@ -314,7 +314,7 @@ limitations under the License.
 				var span=document.createElement('span');
 				span.className="close float-left";
 				span.innerHTML="&times;"
-				element.addEventListener("click", closebtn);
+				span.addEventListener("click", closebtn);
 				document.getElementById("images").appendChild(span);
 				var img=document.createElement('img');
 				img.classList.add('imageFeatures');
