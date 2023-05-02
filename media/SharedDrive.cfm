@@ -314,6 +314,7 @@ limitations under the License.
 				var span=document.createElement('span');
 				span.className="close float-left";
 				span.innerHTML="&times;"
+				element.addEventListener("click", closebtn);
 				document.getElementById("images").appendChild(span);
 				var img=document.createElement('img');
 				img.classList.add('imageFeatures');
@@ -326,12 +327,12 @@ limitations under the License.
 		</script>
 
 		<script>
-//			let childDivs = document.querySelectorAll("imagewrapper > img");
-//			for(var i = 0; i < childDivs.length; i++){
-//				childDivs[i].remove();
-//			}
-			let menu = document.getElementById('image');
-				menu.removeChild(menu.lastElementChild);
+			function closebtn(){
+			let childDivs = document.querySelectorAll("imagewrapper > img");
+			for(var i = 0; i < childDivs.length; i++){
+				childDivs[i].remove();
+			}
+			}
 		</script>
 	</cfoutput>
 
