@@ -325,9 +325,9 @@ limitations under the License.
 			}
 		</script>
 		<script>
-			var closeBtns = document.querySelectorAll('.imagewrapper'+ j++, '.close1')
+			var closeBtns = document.querySelectorAll('.imageFeatures .close1')
 				for (var i = 0, l = closeBtns.length; i < l; i++) {
-					closeBtns[i].addEventListener('click', function () {
+					closeBtns[i].addEventListener('click', function() {
 						var imgWrap = this.parentElement;
 						imgWrap.parentElement.removeChild(imgWrap);
 					});
