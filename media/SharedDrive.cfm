@@ -324,23 +324,11 @@ limitations under the License.
 				return false;
 			}
 		</script>
-		<script>
-//			var closeBtns = document.querySelectorAll('.close')
-//				for (var i = 0, l = closeBtns.length; i < l; i++) {
-//					closeBtns[i].addEventListener('click', function() {
-//						var imagewrapper = this.parentElement;
-//						imagewrapper.parentElement.removeChild(imagewrapper);
-//					});
-//				}
-		</script>
-		<script>
-			var closebtns = document.getElementsByClassName("close");
-			var i;
 
-			for (i = 0; i < closebtns.length; i++) {
-				closebtns[i].addEventListener("click", function() {
-				this.parentElement.style.display = 'none';
-				});
+		<script>
+			let childDivs = document.querySelectorAll("imagewrapper > img");
+			for(var i = 0; i < childDivs.length; i++){
+				childDivs[i].remove();
 			}
 		</script>
 	</cfoutput>
