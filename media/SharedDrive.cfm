@@ -331,13 +331,6 @@ limitations under the License.
 				return false;
 			}
 		</script>
-		<script>
-			const ele = document.querySelectorAll('div##images > .imagewrapper'); // The element to be removed from the list
-				if(ele.parentNode){
-				ele.parentNode.removeChild(ele);
-			}
-		</script>
-
 	</cfoutput>
 
 
