@@ -309,7 +309,7 @@ limitations under the License.
 				url+=document.getElementById('path').value;
 				url+=document.getElementById('filename').value;
 				var div=document.createElement('div');
-				div.className="float-left col-3 imagewrapper";
+				div.className="float-left col-3 imagewrapper" + j++;
 				document.getElementById('images').appendChild(div);
 				var span=document.createElement('span');
 				span.className="close1 float-left";
@@ -317,7 +317,6 @@ limitations under the License.
 				document.getElementById("images").appendChild(span);
 				var img=document.createElement('img');
 				img.classList.add('imageFeatures');
-				img.attributes.dataset="j++";
 				img.src=url;
 				div.appendChild(span);
 				div.appendChild(img);
@@ -326,9 +325,9 @@ limitations under the License.
 			}
 		</script>
 		<script>
-			var closeBtns = document.querySelectorAll('.imagewrapper .close1')
+			var closeBtns = document.querySelectorAll('.imagewrapper'+ j++, '.close1')
 				for (var i = 0, l = closeBtns.length; i < l; i++) {
-					closeBtns[i].addEventListener('click', function() {
+					closeBtns[i].addEventListener('click', function () {
 						var imgWrap = this.parentElement;
 						imgWrap.parentElement.removeChild(imgWrap);
 					});
