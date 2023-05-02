@@ -265,7 +265,6 @@ limitations under the License.
 							.imageWrapper {
 								position: relative;
 								display: inline-block;
-								border: 1px red solid;
 								font-size: 0;
 							}
 
@@ -315,7 +314,7 @@ limitations under the License.
 				url+=document.getElementById('path').value;
 				url+=document.getElementById('filename').value;
 				var div=document.createElement('div');
-				div.className="float-left col-3 pr-1 imageWrapper";
+				div.className="float-left col-3 p-0 imageWrapper";
 				document.getElementById('images').appendChild(div);
 				var span=document.createElement('span');
 				span.className="close";
