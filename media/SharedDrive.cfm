@@ -317,17 +317,16 @@ limitations under the License.
 				var div=document.createElement('div');
 				div.className="float-left col-3 pr-1 imageWrapper";
 				document.getElementById('images').appendChild(div);
-				var img=document.createElement('img');
-				img.classList.add('imageFeatures');
-				img.src=url;
-				div.appendChild(img);
-				
 				var span=document.createElement('span');
 				span.className="h1 float-left text-danger mt-1 mr-1 font-weight-bold close";
 				span.innerHTML="&times;"
 				span.addEventListener("click", removeInput)
 				document.getElementById("images").appendChild(span);
-				
+				var img=document.createElement('img');
+				img.classList.add('imageFeatures');
+				img.src=url;
+				div.appendChild(img);
+				div.appendChild(span);
 				return false;
 			}
 		</script>
