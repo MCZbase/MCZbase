@@ -276,14 +276,14 @@ limitations under the License.
 								right: 2px;
 								z-index: 100;
 								background-color: ##FFF;
-								padding: 2px;
+								padding: 3px;
 								color: ##000;
 								font-weight: bold;
 								cursor: pointer;
 								opacity: .2;
 								text-align: center;
 								font-size: 22px;
-								line-height: 10px;
+								line-height: 12px;
 								border-radius: 50%;
 							}
 
