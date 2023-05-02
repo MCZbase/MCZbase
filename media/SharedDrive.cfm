@@ -328,8 +328,8 @@ limitations under the License.
 			var closeBtns = document.querySelectorAll('.close')
 				for (var i = 0, l = closeBtns.length; i < l; i++) {
 					closeBtns[i].addEventListener('click', function() {
-						var imgWrap = this.parentElement;
-						imgWrap.parentElement.removeChild(imgWrap);
+						var imagewrapper = this.parentElement;
+						imagewrapper.parentElement.removeChild(imagewrapper);
 					});
 				}
 		</script>
