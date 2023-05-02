@@ -314,9 +314,13 @@ limitations under the License.
 				span.className="close float-left";
 				span.innerHTML="&times;";
 				span.addEventListener('click', () => {
-				  // When there is a "click"
-				  // it shows an alert in the browser
-				  alert('Oh, you clicked me!')
+					// When there is a "click"
+					// it shows an alert in the browser
+					alert('Oh, you clicked me!');
+					let childDivs = document.querySelectorAll("imagewrapper > img");
+					for(var i = 0; i < childDivs.length; i++){
+						childDivs[i].remove();
+					}
 				});
 				document.getElementById('images').appendChild(span);
 				var img=document.createElement('img');
