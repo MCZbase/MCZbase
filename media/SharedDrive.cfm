@@ -288,7 +288,7 @@ limitations under the License.
 								opacity: 1;
 							}
 						</style>
-						<div class="col-12 mt-3 mx-auto">
+						<div class="col-3 mt-3 mx-auto">
 							<div id="images" class="d-inline"></div>
 						</div>
 	
@@ -308,10 +308,10 @@ limitations under the License.
 				url+=document.getElementById('path').value;
 				url+=document.getElementById('filename').value;
 				var div=document.createElement('div');
-				div.className="float-left col-3 imagewrapper";
+				div.className="imagewrapper";
 				document.getElementById('images').appendChild(div);
 				var span=document.createElement('span');
-				span.className="close float-left";
+				span.className="close";
 				span.innerHTML="&times;";
 				document.getElementById('images').appendChild(span);
 				var img=document.createElement('img');
