@@ -296,7 +296,7 @@ limitations under the License.
 				div.appendChild(img);
 				
 				var button=document.createElement('button');
-				button.className="h1 float-left text-danger mt-1 mr-1 font-weight-bold close";
+				button.className="h1 float-left text-danger mt-1 mr-1 font-weight-bold close" + j++;
 				button.innerHTML="&times;";
 				button.addEventListener("click", removeInput)
 				document.getElementById("images").appendChild(button);
@@ -306,7 +306,7 @@ limitations under the License.
 		</script>
 		<script>
 			function removeInput() {
-				document.getElementsByClassName("close").reset();
+				document.getElementsByClassName("close" + j++).reset();
 			}
 		</script>
 	</cfoutput>
