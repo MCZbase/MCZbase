@@ -272,17 +272,18 @@ limitations under the License.
 
 							.imageWrapper .close {
 								position: absolute;
+								top: 2px;
 								right: 2px;
 								z-index: 100;
 								background-color: ##FFF;
-								padding: 3px;
+								padding: 2px;
 								color: ##000;
 								font-weight: bold;
 								cursor: pointer;
 								opacity: .2;
 								text-align: center;
 								font-size: 22px;
-								line-height: 12px;
+								line-height: 11px;
 								border-radius: 50%;
 							}
 
