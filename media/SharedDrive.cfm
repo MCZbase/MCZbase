@@ -308,6 +308,7 @@ limitations under the License.
 		<script>
 			function removeInput() {
 				document.getElementById("close" + j++).remove();
+				return false;
 			}
 		</script>
 	</cfoutput>
