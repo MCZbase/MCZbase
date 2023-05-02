@@ -311,7 +311,7 @@ limitations under the License.
 				div.className="float-left col-3 imagewrapper";
 				document.getElementById('images').appendChild(div);
 				var span=document.createElement('span');
-				span.className="close float-left";
+				span.className="close imageFeatures float-left";
 				span.innerHTML="&times;";
 		
 				document.getElementById('images').appendChild(span);
@@ -324,7 +324,7 @@ limitations under the License.
 					// When there is a "click"
 					// it shows an alert in the browser
 					//alert('Oh, you clicked me!');
-					let childDivs = document.querySelectorAll("div.imagewrapper > ");
+					let childDivs = document.querySelectorAll("div.imagewrapper > .imageFeatures");
 					for(var i = 0; i < childDivs.length; i++){
 						childDivs[i].remove();
 					}
