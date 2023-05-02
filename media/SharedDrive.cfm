@@ -304,7 +304,11 @@ limitations under the License.
 				return false;
 			}
 		</script>
-	
+		<script>
+			function clearInput() {
+				document.getElementById("removeInput").reset();
+			}
+		</script>
 	</cfoutput>
 
 
