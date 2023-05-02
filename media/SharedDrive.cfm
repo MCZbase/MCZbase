@@ -257,10 +257,12 @@ limitations under the License.
 	
 					<div class="row">
 						<style>
+							##images {
+								margin-top: 2rem;
+							}
 							.imageFeatures {
 								width: 100%;
 								border: 2px solid gray;
-								margin-top: 1rem;
 							}
 							.imageWrapper {
 								position: relative;
