@@ -320,7 +320,7 @@ limitations under the License.
 				var span=document.createElement('span');
 				span.className="h1 float-left text-danger mt-1 mr-1 font-weight-bold close";
 				span.innerHTML="&times;"
-				span.addEventListener("click", removeInput)
+				//span.addEventListener("click", removeInput)
 				document.getElementById("images").appendChild(span);
 				var img=document.createElement('img');
 				img.classList.add('imageFeatures');
