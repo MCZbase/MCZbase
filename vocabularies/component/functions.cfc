@@ -923,7 +923,6 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 							<cfset marker="">
 						</cfif>
 						<span class="#nodeclass#">#parents.attribute_value# (#parents.attribute#)#marker#</span>
-						<a class="infoLink" href="/vocabularies/GeologicalHierarchies.cfm?action=edit&geology_attribute_hierarchy_id=#parents.geology_attribute_hierarchy_id#">edit</a>
 					</li>
 			</cfloop>
 			<cfloop from="1" to="#parentnesting#" index="i">
