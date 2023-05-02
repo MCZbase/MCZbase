@@ -309,7 +309,7 @@ limitations under the License.
 				url+=document.getElementById('path').value;
 				url+=document.getElementById('filename').value;
 				var div=document.createElement('div');
-				div.className="float-left col-3 imagewrapper";
+				div.className="float-left col-3 imagewrapper"+ j++;
 				document.getElementById('images').appendChild(div);
 				var span=document.createElement('span');
 				span.className="close float-left";
@@ -317,7 +317,7 @@ limitations under the License.
 		
 				document.getElementById('images').appendChild(span);
 				var img=document.createElement('img');
-				img.classList.add('imageFeatures')+ j++;
+				img.classList.add('imageFeatures');
 				img.src=url;
 				div.appendChild(span);
 				div.appendChild(img);
@@ -325,7 +325,7 @@ limitations under the License.
 					// When there is a "click"
 					// it shows an alert in the browser
 					//alert('Oh, you clicked me!');
-					let childDivs = document.getElementsByClassName("imageFeatures");
+					let childDivs = document.getElementsByClassName("imagewrapper"+ j++);
 					for(var i = 0; i < childDivs.length; i++){
 						childDivs[i].remove();
 					}
