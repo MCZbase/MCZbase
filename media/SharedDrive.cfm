@@ -316,7 +316,7 @@ $(document).ready(function () {
             data: 'ajax=1&delete=' + $(this).attr('id'),
             beforeSend: function () {
                 parent.animate({
-                    'backgroundColor': '#fb6c6c'
+                    'backgroundColor': '##fb6c6c'
                 }, 300);
             },
 
