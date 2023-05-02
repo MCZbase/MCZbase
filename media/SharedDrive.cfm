@@ -320,7 +320,7 @@ limitations under the License.
 				div.appendChild(span);
 				div.appendChild(img);
 				var p=document.createElement('p');
-				p.className="text-dark w-auto mx-auto";
+				p.className="text-dark text-center";
 				p.innerHTML=document.getElementById('filename').value;
 				div.appendChild(p);
 				span.addEventListener('click', () => {
