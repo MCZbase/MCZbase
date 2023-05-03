@@ -328,6 +328,9 @@ limitations under the License.
 				button.id="btn_link";
 				button.class="btn btn-xs btn-secondary";
 				button.type="submit";
+				button.onclick = function(){
+					alert("button is clicked");
+				};
 				button.innerHTML="Create Media Record";
 				div.appendChild(button);
 				span.addEventListener('click', () => {
