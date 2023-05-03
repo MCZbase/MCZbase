@@ -891,7 +891,7 @@ Delete an existing collecting event number record.
 					and 
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
-			<cfif getRereferences.recordcount NEQ "1">
+			<cfif getGeoAttribute.recordcount NEQ "1">
 				<cfthrow message="Unable to delete. Found other than one attribute for the geology_attribute_id [#encodeForHtml(geology_attribute_id)#] and locality_id [#encodeForHtml(locality_id)#] provided.">
 			</cfif>
 			<cfquery name="deleteGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteGeoAttribute_result">
@@ -977,8 +977,6 @@ Delete an existing collecting event number record.
 					<cfthrow message="Unable to insert, unable to find a geology_attribute_hierarchy record for the specified geology_attribute and geo_att_value">
 				</cfif>
 				<cfset geology_attribute_hierarchy_id = getGeoAttributeId.id>
-			</cfif>
-			<cfif getRereferences.recordcount NEQ "1">
 			</cfif>
 			<cfquery name="addGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addGeoAttribute_result">
 				INSERT INTO geology_attributes
@@ -1588,7 +1586,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				ORDER BY
 					accepted_lat_long_fg desc
 			</cfquery>
-			<cfif getRereferences.recordcount NEQ "1">
+			<cfif getGeoreference.recordcount NEQ "1">
 				<cfthrow message="Unable to delete. Found other than one georefrence for lat_long_id and locality_id provided.">
 			</cfif>
 			<cfquery name="deleteGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
