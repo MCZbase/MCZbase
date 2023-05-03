@@ -308,7 +308,7 @@ limitations under the License.
 				url+=document.getElementById('path').value;
 				url+=document.getElementById('filename').value;
 				var div=document.createElement('div');
-				div.className="imagewrapper";
+				div.className="imagewrapper text-center";
 				document.getElementById('images').appendChild(div);
 				var span=document.createElement('span');
 				span.className="close";
