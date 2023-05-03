@@ -982,7 +982,7 @@ Delete an existing collecting event number record.
 				INSERT INTO geology_attributes
 					( locality_id,
 						geology_attribute,
-						geol_att_value,
+						geo_att_value,
 						geo_att_determiner_id,
 						geo_att_determined_date,
 						geo_att_determined_method,
@@ -1055,7 +1055,7 @@ Delete an existing collecting event number record.
 							INSERT INTO geology_attributes
 								( locality_id,
 									geology_attribute,
-									geol_att_value,
+									geo_att_value,
 									geo_att_determiner_id,
 									geo_att_determined_date,
 									geo_att_determined_method
