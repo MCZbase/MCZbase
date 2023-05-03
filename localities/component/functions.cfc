@@ -986,7 +986,7 @@ Delete an existing collecting event number record.
 						geo_att_determiner_id,
 						geo_att_determined_date,
 						geo_att_determined_method,
-						geo_att_remarks
+						geo_att_remark
 					) VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geology_attribute#">,
@@ -1197,9 +1197,9 @@ Delete an existing collecting event number record.
 							<input type="text" id="geo_att_determined_method" name="geo_att_determined_method" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-12">
-							<label for="geo_att_remark" class="data-entry-label">Remarks (<span id="length_geo_att_remarks">0 characters, 4000 left</span>)</label>
+							<label for="geo_att_remark" class="data-entry-label">Remarks (<span id="length_geo_att_remark">0 characters, 4000 left</span>)</label>
 							<textarea name="geo_att_remark" id="geo_att_remark" 
-								onkeyup="countCharsLeft('geo_att_remarks', 4000, 'length_geo_att_remarks');"
+								onkeyup="countCharsLeft('geo_att_remark', 4000, 'length_geo_att_remark');"
 								class="form-control form-control-sm w-100 autogrow mb-1" rows="2"></textarea>
 							<script>
 								// Bind textarea to autogrow function on key up
