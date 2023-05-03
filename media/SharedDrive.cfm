@@ -315,7 +315,7 @@ limitations under the License.
 				</div>
 			</form>
 		</div>	
-		<div class="col-12 px-0 my-0">
+		<div class="col-3 float-left px-0 my-0">
 			<table class="table table-responsive-sm mb-3 border-none small90">
 				<thead class="thead-dark">
 					<tr>
