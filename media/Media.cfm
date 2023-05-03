@@ -93,7 +93,7 @@ limitations under the License.
 								<p class="card-text">External files could be stored anywhere outside of Harvard's facilities. Example:  Biodiversity Heritage Library. Permission must be on file before uploading.</p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
-										<button type="submit" class="btn btn-xs btn-primary px-5" onClick="" addtoken="false">">Start</button>
+										<button type="submit" class="btn btn-xs btn-primary px-5" onClick="" addtoken="false">Start</button>
 									</div>
 								</div>
 							</div>
