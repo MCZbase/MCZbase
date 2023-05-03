@@ -185,142 +185,142 @@ limitations under the License.
 
 <cfif action is 'new'>
 	<cfoutput>
-	<section class="jumbotron pb-3 bg-white text-center">
-		<div class="container">
-			<h1 class="jumbotron-heading">Shared Drive</h1>
-			<p class="lead text-muted">
-				Save the largest size of the media available to the shared drive. A thumbnail will be created for you. 
-				<br>The Shared Drive is MCZ media storage managed by Collections Operations and Research Computing (RC). Account questions can go into a RC ticket with a cc to Brendan Haley. 
-			</p>
-		</div>
-	</section>
-	<div class="album pb-5 bg-light">
-		<form name="newMedia" id="newMedia" action="/media/SharedDrive.cfm" method="post" required>
+		<section class="jumbotron pb-3 bg-white text-center">
 			<div class="container">
-				<div class="row">
-					<div class="col-12 pt-4 pb-1">
-						<div class="col-12 col-md-2 float-left">
-							<div class="form-group mb-2">
-								<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
-								<select id="protocol" name="protocol" class="data-entry-select">
-									<option>https://</option>
-									<cfif protocol EQ "http://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-									<option value="http://" #sel#>http://</option>
-									<cfif protocol EQ "https://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-									<option value="https://" #sel#>https://</option>
-									<cfif protocol EQ "httphttps"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-									<option value="httphttps" #sel#>http or https</option>
-									<cfif protocol EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
-									<option value="NULL" #sel#>NULL</option>
-								</select>
-							</div>
-						</div>
-						<div class="col-12 col-md-2 float-left">
-							<div class="form-group mb-2"><!---will it ever change? hard coded value --could remove autofill maybe--->
-								<label for="hostname" class="data-entry-label mb-0" id="hostname_label">Host<span></span></label>
-								<input type="text" id="hostname" name="hostname" class="data-entry-input" value="mczbase.mcz.harvard.edu" aria-labelledby="hostname_label" >
-							</div>
-							<script>
-								$(document).ready(function() {
-									makeMediaURIPartAutocomplete("hostname","hostname");
-								});
-							</script>
-						</div>
-						<div class="col-12 col-md-4 float-left">
-							<div class="form-group mb-2">
-								<label for="path" class="data-entry-label mb-0">Path<span class="text-italic"> (e.g., "/specimen_images/herpetology/large/")</span></label>
-								<input type="text" id="path" name="path" placeholder="/specimen_images/+collection+/+folder+/" class="data-entry-input" value="#encodeForHtml(path)#">
-							</div>
-							<!---<script>
-								$(document).ready(function() {
-									makeMediaURIPartAutocomplete("path","path");
-								});
-							</script>--->
-						</div>
-						<div class="col-12 col-md-4 float-left">
-							<div class="form-group mb-2">
-								<label for="filename" class="data-entry-label mb-0">Filename (e.g., A139491_Bufo_fustiger_d_4.jpg ) <span></span></label>
-								<input type="text" id="filename" name="filename" placeholder="name of file on the shared drive" class="data-entry-input" value="#encodeForHtml(filename)#">
-							</div>
-							<script>
-								$(document).ready(function() {
-									makeMediaURIPartAutocomplete("filename","filename");
-								});
-							</script>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-2 mx-auto">
-					<input id="Preview" type="button" class="btn btn-xs mr-2 btn-primary d-inline-block" value="Preview Image(s)" onclick="getImg();"/>
-						<input type="button" class="btn btn-xs ml-2 btn-warning ml-2 d-inline-block" onClick="clearInput();" value="Reset Form"/>
-					</div>
-				</div>
-
-				<div class="row">
-
-					<div class="col-3 mt-3 mx-auto">
-						<div id="images" class="d-inline"></div>
-					</div>
-
-				</div>
+				<h1 class="jumbotron-heading">Shared Drive</h1>
+				<p class="lead text-muted">
+					Save the largest size of the media available to the shared drive. A thumbnail will be created for you. 
+					<br>The Shared Drive is MCZ media storage managed by Collections Operations and Research Computing (RC). Account questions can go into a RC ticket with a cc to Brendan Haley. 
+				</p>
 			</div>
-		</form>
-	</div>	
-	<script>
-		function clearInput() {
-			document.getElementById("newMedia").reset();
-		}
-	</script>
-	<script>
-		function getImg(){
-			var url=document.getElementById('protocol').value;
-			url+=document.getElementById('hostname').value;
-			url+=document.getElementById('path').value;
-			url+=document.getElementById('filename').value;
-			var div=document.createElement('div');
-			div.className="imagewrapper text-center";
-			document.getElementById('images').appendChild(div);
-			var span=document.createElement('span');
-			span.className="close";
-			span.innerHTML="&times;";
-			document.getElementById('images').appendChild(span);
-			var img=document.createElement('img');
-			img.classList.add('imageFeatures');
-			img.src=url;
-			div.appendChild(span);
-			div.appendChild(img);
-			var p=document.createElement('p');
-			p.className="text-dark text-center";
-			p.innerHTML=document.getElementById('filename').value;
-			div.appendChild(p);
-			var button=document.createElement('button');
-			button.id="btn_link";
-			button.className="btn btn-xs btn-secondary";
-			button.type="submit";
-			button.onclick = function(){
-				window.location='https://mczbase-dev.rc.fas.harvard.edu/media/SharedDrive.cfm?action=newMedia';
+		</section>
+		<div class="album pb-5 bg-light">
+			<form name="newMedia" id="newMedia" action="/media/SharedDrive.cfm" method="post" required>
+				<div class="container">
+					<div class="row">
+						<div class="col-12 pt-4 pb-1">
+							<div class="col-12 col-md-2 float-left">
+								<div class="form-group mb-2">
+									<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Protocol<span></span></label>
+									<select id="protocol" name="protocol" class="data-entry-select">
+										<option>https://</option>
+										<cfif protocol EQ "http://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+										<option value="http://" #sel#>http://</option>
+										<cfif protocol EQ "https://"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+										<option value="https://" #sel#>https://</option>
+										<cfif protocol EQ "httphttps"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+										<option value="httphttps" #sel#>http or https</option>
+										<cfif protocol EQ "NULL"><cfset sel = "selected='true'"><cfelse><cfset sel = ""></cfif>
+										<option value="NULL" #sel#>NULL</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-12 col-md-2 float-left">
+								<div class="form-group mb-2"><!---will it ever change? hard coded value --could remove autofill maybe--->
+									<label for="hostname" class="data-entry-label mb-0" id="hostname_label">Host<span></span></label>
+									<input type="text" id="hostname" name="hostname" class="data-entry-input" value="mczbase.mcz.harvard.edu" aria-labelledby="hostname_label" >
+								</div>
+								<script>
+									$(document).ready(function() {
+										makeMediaURIPartAutocomplete("hostname","hostname");
+									});
+								</script>
+							</div>
+							<div class="col-12 col-md-4 float-left">
+								<div class="form-group mb-2">
+									<label for="path" class="data-entry-label mb-0">Path<span class="text-italic"> (e.g., "/specimen_images/herpetology/large/")</span></label>
+									<input type="text" id="path" name="path" placeholder="/specimen_images/+collection+/+folder+/" class="data-entry-input" value="#encodeForHtml(path)#">
+								</div>
+								<!---<script>
+									$(document).ready(function() {
+										makeMediaURIPartAutocomplete("path","path");
+									});
+								</script>--->
+							</div>
+							<div class="col-12 col-md-4 float-left">
+								<div class="form-group mb-2">
+									<label for="filename" class="data-entry-label mb-0">Filename (e.g., A139491_Bufo_fustiger_d_4.jpg ) <span></span></label>
+									<input type="text" id="filename" name="filename" placeholder="name of file on the shared drive" class="data-entry-input" value="#encodeForHtml(filename)#">
+								</div>
+								<script>
+									$(document).ready(function() {
+										makeMediaURIPartAutocomplete("filename","filename");
+									});
+								</script>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-2 mx-auto">
+						<input id="Preview" type="button" class="btn btn-xs mr-2 btn-primary d-inline-block" value="Preview Image(s)" onclick="getImg();"/>
+							<input type="button" class="btn btn-xs ml-2 btn-warning ml-2 d-inline-block" onClick="clearInput();" value="Reset Form"/>
+						</div>
+					</div>
+
+					<div class="row">
+
+						<div class="col-3 mt-3 mx-auto">
+							<div id="images" class="d-inline"></div>
+						</div>
+
+					</div>
+				</div>
+			</form>
+		</div>	
+		<script>
+			function clearInput() {
+				document.getElementById("newMedia").reset();
+			}
+		</script>
+		<script>
+			function getImg(){
+				var url=document.getElementById('protocol').value;
+				url+=document.getElementById('hostname').value;
+				url+=document.getElementById('path').value;
+				url+=document.getElementById('filename').value;
+				var div=document.createElement('div');
+				div.className="imagewrapper text-center";
+				document.getElementById('images').appendChild(div);
+				var span=document.createElement('span');
+				span.className="close";
+				span.innerHTML="&times;";
+				document.getElementById('images').appendChild(span);
+				var img=document.createElement('img');
+				img.classList.add('imageFeatures');
+				img.src=url;
+				div.appendChild(span);
+				div.appendChild(img);
+				var p=document.createElement('p');
+				p.className="text-dark text-center";
+				p.innerHTML=document.getElementById('filename').value;
+				div.appendChild(p);
+				var button=document.createElement('button');
+				button.id="btn_link";
+				button.className="btn btn-xs btn-secondary";
+				button.type="submit";
+				button.onclick = function(){
+					window.location='https://mczbase-dev.rc.fas.harvard.edu/media/SharedDrive.cfm?action=newMedia';
+					return false;
+				};
+				button.innerHTML="Create Media Record";
+				div.appendChild(button);
+				span.addEventListener('click', () => {
+					//alert('Oh, you clicked me!');
+					let childDivs = document.querySelectorAll("div##images > .imagewrapper");
+					for(var i = 0; i < childDivs.length; i++){
+						childDivs[i].remove();
+					}
+				});
 				return false;
-			};
-			button.innerHTML="Create Media Record";
-			div.appendChild(button);
-			span.addEventListener('click', () => {
-				//alert('Oh, you clicked me!');
-				let childDivs = document.querySelectorAll("div##images > .imagewrapper");
-				for(var i = 0; i < childDivs.length; i++){
-					childDivs[i].remove();
-				}
-			});
-			return false;
-		}
-	</script>
+			}
+		</script>
 	</cfoutput>
 </cfif>
 <cfif action is 'newMedia'>
 	<cfoutput>
 		<div class="container">
 			<div class="row">
-				<div class="col-12">
+				<div class="col-12 mt-4">
 					Metadata form with the media ID and URL in place
 				</div>
 			</div>
@@ -331,7 +331,7 @@ limitations under the License.
 	<cfoutput>
 		<div class="container">
 			<div class="row">
-				<div class="col-12">
+				<div class="col-12 mt-4">
 					Metadata form with the media ID and URL in place and any other data that was filled out previously.
 				</div>
 			</div>
