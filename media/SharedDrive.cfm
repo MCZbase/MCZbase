@@ -184,7 +184,11 @@ limitations under the License.
 		<cfset media_relationship_id_1="">
 	</cfif>
 <!---------------------------------------------------------------------------------------------------->
+<!---
+1)  
 
+
+--->
 
 <cfif action is 'new'>
 	<cfoutput>
@@ -311,6 +315,25 @@ limitations under the License.
 				</div>
 			</form>
 		</div>	
+		<div class="col-12 px-0 my-0">
+			<table class="table table-responsive-sm mb-3 border-none small90">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col" style="width: 150px;">Label</th>
+						<th scope="col">Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><th scope="row">Media Type:</th><td></td></tr>
+					<tr><th scope="row">MIME Type:</th><td></td></tr>
+					<tr><th scope="row">Credit:</th><td></td></tr>
+					<tr><th scope="row">Copyright:</th><td></td></tr>
+					<tr><th scope="row">License:</th><td> <a href="" target="_blank" class="external"> </a></td></tr>
+					<tr><th scope="row">Keywords: </span></th><td> </td></tr>
+					<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href=""></a></td></tr>
+				</tbody>
+			</table>
+		</div>
 		<script>
 			function clearInput() {
 				document.getElementById("newMedia").reset();
@@ -336,7 +359,7 @@ limitations under the License.
 				div.appendChild(img);
 				var p=document.createElement('p');
 				p.className="text-dark text-center";
-				p.innerHTML=document.getElementById('filename').value;
+				p.innerHTML=document.getElementById('filename').value;<!------>
 				div.appendChild(p);
 				var button=document.createElement('button');
 				button.id="btn_link";
@@ -358,6 +381,8 @@ limitations under the License.
 				return false;
 			}
 		</script>
+											
+		
 	</cfoutput>
 </cfif>
 <cfif action is 'newMedia'>
