@@ -247,6 +247,25 @@ function getMediaMetadata(targetDiv, media_id) {
 	});
 };
 
+
+function getNewMediaMetadata(targetDiv, media_id) { 
+	console.log("Where is it? " + targetDiv);
+	jQuery.ajax({
+		url: "/media/component/function.cfc",
+		data : {
+			method : "createMedia",
+			media_id : media_id,
+	
+		},
+		success: function (result) {
+			$("#" + targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"retrieving metadata block");
+		},
+		dataType: "html"
+	});
+};
 /** load images into top position on MediaViewer.cfm from the zoom/related link on related thumbnails (media_widget on search.cfc)
  *  @param media_id for the media.
  *  not working now / not implemented because it wasn't working; problem with calling functon from function probably;
