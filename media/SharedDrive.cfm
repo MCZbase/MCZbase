@@ -28,7 +28,7 @@ limitations under the License.
 </cfif>
 <cfset pageTitle = "Shared Drive Media">
 <cfswitch expression="#action#">
-	<cfcase value="">
+	<cfcase value="new">
 		<cfset pageTitle = "New Shared Drive Media">
 	</cfcase>
 	<cfcase value="newMedia">
@@ -319,6 +319,9 @@ limitations under the License.
 		</script>
 	</cfif>
 	<cfif action is 'newMedia'>
+		Metadata form with the media ID and URL in place
+	</cfif>
+	<cfif action is 'edit'>
 		Metadata form with the media ID and URL in place
 	</cfif>
 	</cfoutput>
