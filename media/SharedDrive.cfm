@@ -325,7 +325,7 @@ limitations under the License.
 				div.appendChild(p);
 				var button=document.createElement('button');
 				button.id="btn_link";
-				button.className="btn btn-xs btn-secondary";
+				button.className="btn btn-xs btn-secondary col-2 mx-auto";
 				button.type="submit";
 				button.onclick = function(){
 					window.location='https://mczbase-test.rc.fas.harvard.edu/media.cfm?action=newMedia';
