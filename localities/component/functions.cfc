@@ -953,13 +953,15 @@ Delete an existing collecting event number record.
 			<cfif isDefined("geology_attribute_hierarchy_id") AND len(geology_attribute_hierarchy_id) GT 0>
 				<cfquery name="getGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
-						geology_attribute,
-						geo_att_value
+						attribute geology_attribute,
+						attribute_value geo_att_value
 					FROM
 						geology_attribute_hierarchy
 					WHERE 
 						geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
 				</cfquery>
+				<cfset geology_attribute = getGeoAttribute.geology_attribute>
+				<cfset geo_att_value = getGeoAttribute.geo_att_value>
 			<cfelse>
 				<cfquery name="getGeoAttributeId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
@@ -967,9 +969,9 @@ Delete an existing collecting event number record.
 					FROM
 						geology_attribute_hierarchy
 					WHERE 
-						geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geology_attribute#">
+						attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geology_attribute#">
 						AND
-						geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geo_att_value#">
+						attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geo_att_value#">
 				</cfquery>
 				<cfif getGeoAttributeId.recordcount NEQ 1>
 					<cfthrow message="Unable to insert, unable to find a geology_attribute_hierarchy record for the specified geology_attribute and geo_att_value">
