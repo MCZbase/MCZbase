@@ -325,8 +325,8 @@ limitations under the License.
 			<div class="row">
 				<div class="col-12 mt-4">
 					<h1>Create Media Record</h1>
-					<p>Metadata form with the media ID and URL in place.
-					#mid.nv#</p>
+					<p>Metadata form with the media ID and URL in place.</p>
+					<p>New Media ID = #mid.nv#</p>
 				</div>
 			</div>
 		</div>
