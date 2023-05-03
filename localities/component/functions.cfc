@@ -1042,7 +1042,7 @@ Delete an existing collecting event number record.
 						WHERE
 							geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
 						CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
-						ORDER BY level desc
+						ORDER BY level asc
 					) WHERE parentagelevel > 1
 				</cfquery>
 				<cfloop query="getParents">
