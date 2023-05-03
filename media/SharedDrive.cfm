@@ -343,6 +343,30 @@ limitations under the License.
 				p.className="text-dark text-center";
 				p.innerHTML=document.getElementById('filename').value;<!------>
 				div.appendChild(p);
+				var button=document.createElement('button');
+				button.id="btn_link";
+				button.className="btn btn-xs btn-secondary";
+				button.type="submit";
+				button.onclick = function getTable(){
+					//window.location='/media/SharedDrive.cfm?action=newMedia&media_id=#mid.nv#';
+					return false;
+				};
+				button.innerHTML="Create Media Records";
+				div.appendChild(button);
+				span.addEventListener('click', () => {
+					//alert('Oh, you clicked me!');
+					let childDivs = document.querySelectorAll("div##images > .imagewrapper");
+					for(var i = 0; i < childDivs.length; i++){
+						childDivs[i].remove();
+					}
+				});
+
+				return false;
+			}
+			
+			
+			
+			function getTable() {
 				var table=document.createElement('table');
 				table.innerHTML ='<table class="table table-responsive-sm mb-3 border-none small90">';
 				table += '<thead class="thead-dark">';
@@ -358,25 +382,6 @@ limitations under the License.
 				table += '<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href=""><input class="reqclr data-entry-input" value="">';
 				table += '</a></td></tr></tbody></table>';
 				table.appendChild(table);
-				var button=document.createElement('button');
-				button.id="btn_link";
-				button.className="btn btn-xs btn-secondary";
-				button.type="submit";
-				button.onclick = function(){
-					window.location='/media/SharedDrive.cfm?action=newMedia&media_id=#mid.nv#';
-					return false;
-				};
-				button.innerHTML="Create Media Records";
-				div.appendChild(button);
-				span.addEventListener('click', () => {
-					//alert('Oh, you clicked me!');
-					let childDivs = document.querySelectorAll("div##images > .imagewrapper");
-					for(var i = 0; i < childDivs.length; i++){
-						childDivs[i].remove();
-					}
-				});
-
-				return false;
 			}
 		</script>
 											
