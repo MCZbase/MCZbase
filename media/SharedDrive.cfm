@@ -24,24 +24,20 @@ limitations under the License.
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for media widget --->
 
 <cfif NOT isdefined("action")>
-	<cfset action = "new">
+	<cfset action="new">
+	<cfset pageTitle = "New Shared Drive Media">
 </cfif>
-<cfset pageTitle = "Shared Drive Media">
-<cfswitch expression="#action#">
-	<cfcase value="new">
-		<cfset pageTitle = "New Shared Drive Media">
-	</cfcase>
-	<cfcase value="newMedia">
-		<cfset pageTitle = "New Shared Drive Media Metadata">
-			<cflocation url="/media/SharedDrive.cfm?action=newMedia" addtoken="false">
-	</cfcase>
-	<cfcase value="edit">
-		<cfset pageTitle = "Edit Media Record">
-		<cfif NOT isDefined("media_id") OR len(media_id) EQ 0>
-			<cflocation url="/media/SharedDrive.cfm?action=edit" addtoken="false">
-		</cfif>
-	</cfcase>
-</cfswitch>
+<cfif isdefined("action") AND action EQ 'new'>
+	<cfset pageTitle = "New Shared Drive Media">
+</cfif>
+<cfif isdefined("action") AND action EQ 'newMedia'>
+	<cfset pageTitle = "New Shared Drive Media Metadata">
+</cfif>
+<cfif isdefined("action") AND action EQ 'edit'>
+	<cfset action="edit">
+	<cfset pageTitle = "Edit Media">
+</cfif>
+	
 
 <cfinclude template = "/shared/_header.cfm">
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
@@ -186,8 +182,9 @@ limitations under the License.
 	</cfif>
 <!---------------------------------------------------------------------------------------------------->
 
-	<cfoutput>
+
 	<cfif action is 'new'>
+		<cfoutput>
 		<section class="jumbotron pb-3 bg-white text-center">
 			<div class="container">
 				<h1 class="jumbotron-heading">Shared Drive</h1>
@@ -317,14 +314,19 @@ limitations under the License.
 				return false;
 			}
 		</script>
+		</cfoutput>
 	</cfif>
 	<cfif action is 'newMedia'>
+		<cfoutput>
 		Metadata form with the media ID and URL in place
+		</cfoutput>
 	</cfif>
 	<cfif action is 'edit'>
+		<cfoutput>
 		Metadata form with the media ID and URL in place
+		</cfoutput>
 	</cfif>
-	</cfoutput>
+
 
 
 <cfinclude template="/shared/_footer.cfm">
