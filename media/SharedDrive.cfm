@@ -310,11 +310,11 @@ limitations under the License.
 						<div class="col-3 mt-2 float-left">
 							<div id="images" class="d-inline"></div>
 						</div>
-						<div class="col-3 float-left px-0 my-0">
+						<div class="col-3 float-left mt-2 px-0 my-0">
 							<table class="table table-responsive-sm mb-3 border-none small90">
 								<thead class="thead-dark">
 									<tr>
-										<th scope="col" style="width: 150px;">Label</th>
+										<th scope="col" style="width: 120px;">Label</th>
 										<th scope="col">Value</th>
 									</tr>
 								</thead>
@@ -323,7 +323,7 @@ limitations under the License.
 									<tr><th scope="row">MIME Type:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
 									<tr><th scope="row">Credit:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
 									<tr><th scope="row">Copyright:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
-									<tr><th scope="row">License:</th><td><input class="reqclr data-entry-input" value=""> <a href="" target="_blank" class="external"> </a></td></tr>
+									<tr><th scope="row">License:</th><td><input class="reqclr data-entry-input" value="">  </a></td></tr>
 									<tr><th scope="row">Keywords: </span></th><td><input class="reqclr data-entry-input" value=""> </td></tr>
 									<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href=""><input class="reqclr data-entry-input" value=""></a></td></tr>
 								</tbody>
