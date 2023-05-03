@@ -330,6 +330,7 @@ limitations under the License.
 				button.type="submit";
 				button.onclick = function(){
 					alert("button is clicked");
+					return false;
 				};
 				button.innerHTML="Create Media Record";
 				div.appendChild(button);
