@@ -320,12 +320,12 @@ limitations under the License.
 								</thead>
 								<tbody>
 									<tr><th scope="row">Media Type:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
-									<tr><th scope="row">MIME Type:</th><td></td></tr>
-									<tr><th scope="row">Credit:</th><td></td></tr>
-									<tr><th scope="row">Copyright:</th><td></td></tr>
-									<tr><th scope="row">License:</th><td> <a href="" target="_blank" class="external"> </a></td></tr>
-									<tr><th scope="row">Keywords: </span></th><td> </td></tr>
-									<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href=""></a></td></tr>
+									<tr><th scope="row">MIME Type:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
+									<tr><th scope="row">Credit:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
+									<tr><th scope="row">Copyright:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
+									<tr><th scope="row">License:</th><td><input class="reqclr data-entry-input" value=""> <a href="" target="_blank" class="external"> </a></td></tr>
+									<tr><th scope="row">Keywords: </span></th><td><input class="reqclr data-entry-input" value=""> </td></tr>
+									<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href=""><input class="reqclr data-entry-input" value=""></a></td></tr>
 								</tbody>
 							</table>
 						</div>
