@@ -183,6 +183,7 @@ limitations under the License.
 <!---------------------------------------------------------------------------------------------------->
 
 	<cfoutput>
+	<cfif action = ''>
 		<section class="jumbotron pb-3 bg-white text-center">
 			<div class="container">
 				<h1 class="jumbotron-heading">Shared Drive</h1>
@@ -297,7 +298,7 @@ limitations under the License.
 				button.className="btn btn-xs btn-secondary";
 				button.type="submit";
 				button.onclick = function(){
-					window.location='https://mczbase-dev.rc.fas.harvard.edu/media.cfm?action=newMedia';
+					window.location='https://mczbase-dev.rc.fas.harvard.edu/media/SharedDrive.cfm?action=newMedia';
 					return false;
 				};
 				button.innerHTML="Create Media Record";
@@ -312,6 +313,10 @@ limitations under the License.
 				return false;
 			}
 		</script>
+	</cfif>
+	<cfif action = 'newMedia'>
+		Metadata form with the media ID and URL in place
+	</cfif>
 	</cfoutput>
 
 
