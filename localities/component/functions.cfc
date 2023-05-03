@@ -1242,7 +1242,7 @@ Delete an existing collecting event number record.
 							data : $('##addGeoAttForm').serialize(),
 							success : function (data) {
 								console.log(data);
-								$('##geoAttFeedback').html('Saved.' + data.values);
+								$('##geoAttFeedback').html('Saved.' + data[0].values);
 								$('##geoAttFeedback').addClass('text-success');
 								$('##geoAttFeedback').removeClass('text-danger');
 								$('##geoAttFeedback').removeClass('text-warning');
