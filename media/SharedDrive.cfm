@@ -304,8 +304,7 @@ limitations under the License.
 					<div class="row">
 
 						<div class="col-3 mt-2 mx-auto">
-						
-							<div id="images" class="d-inline"><cfif #extension# contains '.tif'><i class="fa-sharp fa-light fa-images-user"></i></cfif></div>
+							<div id="images" class="d-inline"></div>
 						</div>
 
 					</div>
@@ -338,6 +337,10 @@ limitations under the License.
 				var p=document.createElement('p');
 				p.className="text-dark text-center";
 				p.innerHTML=document.getElementById('filename').value;
+				const string=".tif";
+				if (filename.includes(string)){
+					filename = "Is a .tif";
+				}
 				div.appendChild(p);
 				var button=document.createElement('button');
 				button.id="btn_link";
