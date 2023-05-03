@@ -337,10 +337,6 @@ limitations under the License.
 				var p=document.createElement('p');
 				p.className="text-dark text-center";
 				p.innerHTML=document.getElementById('filename').value;
-				var string=".tif";
-				if (filename.includes(string)){
-					filename = "Is a .tif";
-				}
 				div.appendChild(p);
 				var button=document.createElement('button');
 				button.id="btn_link";
