@@ -333,7 +333,8 @@ limitations under the License.
 		<div class="container">
 			<div class="row">
 				<div class="col-12 mt-4">
-					Metadata form with the media ID and URL in place and any other data that was filled out previously.
+					<h1>Edit Media Record</h1>
+					<p>Metadata form with the media ID and URL in place and any other data that was filled out previously.</p>
 				</div>
 			</div>
 		</div>
