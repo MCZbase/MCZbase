@@ -1017,9 +1017,13 @@ Delete an existing collecting event number record.
 				<cfthrow message="Error inserting geology attribtue, insert would affect other than one row.">
 			</cfif>
 			<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPK_result">
-					select geology_attribute_id from geology_attributes
+					select geology_attribute_id 
+					from geology_attributes
 					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#addGeoAttribute_result.GENERATEDKEY#">
 			</cfquery>
+			<cfif getPK.recordcount NEQ 1>
+				<cfthrow message="Error inserting geology attribute, inserted row not found.">
+			</cfif>
 			<cfset values="#geology_attribute#:#geo_att_value#">
 			<cfset count=1>
 			<cfif isDefined("add_parents") AND ucase(add_parents) EQ "YES">
@@ -1087,7 +1091,7 @@ Delete an existing collecting event number record.
 			</cfif>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "added">
-			<cfset row["id"] = "#addGeoAttribute_result.GENERATEDKEY#">
+			<cfset row["id"] = "#getPK.geology_attribute_id#">
 			<cfset row["values"] = "#values#">
 			<cfset row["count"] = "#count#">
 			<cfset data[1] = row>
@@ -1237,7 +1241,8 @@ Delete an existing collecting event number record.
 							dataType : "json",
 							data : $('##addGeoAttForm').serialize(),
 							success : function (data) {
-								$('##geoAttFeedback').html('Saved.');
+								console.log(data);
+								$('##geoAttFeedback').html('Saved.' + data.values);
 								$('##geoAttFeedback').addClass('text-success');
 								$('##geoAttFeedback').removeClass('text-danger');
 								$('##geoAttFeedback').removeClass('text-warning');
