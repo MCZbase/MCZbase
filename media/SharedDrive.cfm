@@ -326,7 +326,7 @@ limitations under the License.
 				var button=document.createElement('button');
 				var url1="https://mczbase-test.rc.fas.harvard.edu/media.cfm?action=newMedia";
 				button.id="btn_link";
-				button.class="btn btn-xs btn-secondary";
+				button.className="btn btn-xs btn-secondary";
 				button.type="submit";
 				button.onclick = function(){
 					alert("button is clicked");
