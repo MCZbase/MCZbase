@@ -243,7 +243,7 @@ limitations under the License.
 							<div class="col-12 col-md-4 float-left">
 								<div class="form-group mb-2">
 									<label for="filename" class="data-entry-label mb-0">Filename (e.g., A139491_Bufo_fustiger_d_4.jpg ) <span></span></label>
-								<cfif filname contains '.tif'><i class="fa-sharp fa-light fa-images-user"></i><cfelse><input type="text" id="filename" name="filename" placeholder="name of file on the shared drive" class="data-entry-input" value="#encodeForHtml(filename)#"></cfif>
+								<cfif filename contains '.tif'><i class="fa-sharp fa-light fa-images-user"></i><cfelse><input type="text" id="filename" name="filename" placeholder="name of file on the shared drive" class="data-entry-input" value="#encodeForHtml(filename)#"></cfif>
 								</div>
 								<script>
 									$(document).ready(function() {
