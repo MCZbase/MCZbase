@@ -347,7 +347,7 @@ limitations under the License.
 				button.id="btn_link";
 				button.className="btn btn-xs btn-secondary";
 				button.type="submit";
-				button.onclick = function getTable() {
+				button.onclick = function() {
 				var table=document.createElement('table');
 				table.innerHTML ='<table class="table table-responsive-sm mb-3 border-none small90">';
 				table += '<thead class="thead-dark">';
