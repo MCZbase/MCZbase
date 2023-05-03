@@ -347,9 +347,9 @@ limitations under the License.
 				button.id="btn_link";
 				button.className="btn btn-xs btn-secondary";
 				button.type="submit";
-				button.onclick = function getTable(){
+				button.onclick = getTable(){
 					//window.location='/media/SharedDrive.cfm?action=newMedia&media_id=#mid.nv#';
-					return false;
+					//return false;
 				};
 				button.innerHTML="Create Media Records";
 				div.appendChild(button);
