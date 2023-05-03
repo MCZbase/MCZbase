@@ -950,7 +950,7 @@ Delete an existing collecting event number record.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfif isDefined("geology_attribute_hierarchy_id") AND len(geology_attribute_hierarchy_id) GT 0)>
+			<cfif isDefined("geology_attribute_hierarchy_id") AND len(geology_attribute_hierarchy_id) GT 0>
 				<cfquery name="getGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						geology_attribute,
