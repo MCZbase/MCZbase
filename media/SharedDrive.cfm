@@ -324,12 +324,11 @@ limitations under the License.
 				p.innerHTML=document.getElementById('filename').value;
 				div.appendChild(p);
 				var button=document.createElement('button');
-				var url1="https://mczbase-test.rc.fas.harvard.edu/media.cfm?action=newMedia";
 				button.id="btn_link";
 				button.className="btn btn-xs btn-secondary";
 				button.type="submit";
 				button.onclick = function(){
-					alert("button is clicked");
+					window.location='https://mczbase-test.rc.fas.harvard.edu/media.cfm?action=newMedia';
 					return false;
 				};
 				button.innerHTML="Create Media Record";
