@@ -1044,7 +1044,7 @@ Delete an existing collecting event number record.
 				<cfloop query="getParents">
 					<cfquery name="checkParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT count(*) ct 
-						FROM geology_attribute
+						FROM geology_attributes
 						WHERE
 							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 							and geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geology_attribute#">
