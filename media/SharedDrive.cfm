@@ -187,7 +187,7 @@ limitations under the License.
 <!---------------------------------------------------------------------------------------------------->
 
 	<cfoutput>
-	<cfif action is ''>
+	<cfif action is 'new'>
 		<section class="jumbotron pb-3 bg-white text-center">
 			<div class="container">
 				<h1 class="jumbotron-heading">Shared Drive</h1>
