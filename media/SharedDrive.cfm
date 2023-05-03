@@ -343,7 +343,7 @@ limitations under the License.
 				p.className="text-dark text-center";
 				p.innerHTML=document.getElementById('filename').value;<!------>
 				div.appendChild(p);
-				var div=document.createElement('table');
+				var table=document.createElement('table');
 				table.innerHTML ='<table class="table table-responsive-sm mb-3 border-none small90">';
 				table += '<thead class="thead-dark">';
 				table += '<tr><th scope="col" style="width: 120px;">Label</th>';	
@@ -357,7 +357,7 @@ limitations under the License.
 				table += '<tr><th scope="row">Keywords: </span></th><td><input class="reqclr data-entry-input" value=""></td></tr>';
 				table += '<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href=""><input class="reqclr data-entry-input" value="">';
 				table += '</a></td></tr></tbody></table>';
-				div.appendChild(table);
+				table.appendChild(table);
 				var button=document.createElement('button');
 				button.id="btn_link";
 				button.className="btn btn-xs btn-secondary";
