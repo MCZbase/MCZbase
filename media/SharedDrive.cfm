@@ -338,12 +338,11 @@ limitations under the License.
 						<tbody>
 							<tr><th scope="row">Media Type:</th><td></td></tr>
 							<tr><th scope="row">MIME Type:</th><td></td></tr>
-							<tr><th scope="row"><span class="text-capitalize"></span>:</th><td></td></tr>
 							<tr><th scope="row">Credit:</th><td></td></tr>
 							<tr><th scope="row">Copyright:</th><td></td></tr>
 							<tr><th scope="row">License:</th><td> <a href="" target="_blank" class="external"> </a></td></tr>
 							<tr><th scope="row">Keywords: </span></th><td> </td></tr>
-							<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href="#media.media_uri#"></a></td></tr>
+							<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href=""></a></td></tr>
 						</tbody>
 					</table>
 				</div>
