@@ -262,7 +262,7 @@ limitations under the License.
 
 					<div class="row">
 
-						<div class="col-3 my-3 mx-auto">
+						<div class="col-3 mt-2 mx-auto">
 							<div id="images" class="d-inline"></div>
 						</div>
 
@@ -282,7 +282,7 @@ limitations under the License.
 				url+=document.getElementById('path').value;
 				url+=document.getElementById('filename').value;
 				var div=document.createElement('div');
-				div.className="imagewrapper text-center";
+				div.className="imagewrapper text-center my-3";
 				document.getElementById('images').appendChild(div);
 				var span=document.createElement('span');
 				span.className="close";
