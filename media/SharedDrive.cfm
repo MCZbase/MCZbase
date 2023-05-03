@@ -306,31 +306,31 @@ limitations under the License.
 					</div>
 
 					<div class="row">
-
+						<cfif len(filename)gt 0 >
+							<div class="col-3 float-left mt-2">
+								<table class="table table-responsive-sm mb-3 border-none small90">
+									<thead class="thead-dark">
+										<tr>
+											<th scope="col" style="width: 120px;">Label</th>
+											<th scope="col">Value</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr><th scope="row">Media Type:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
+										<tr><th scope="row">MIME Type:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
+										<tr><th scope="row">Credit:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
+										<tr><th scope="row">Copyright:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
+										<tr><th scope="row">License:</th><td><input class="reqclr data-entry-input" value="">  </a></td></tr>
+										<tr><th scope="row">Keywords: </span></th><td><input class="reqclr data-entry-input" value=""> </td></tr>
+										<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href=""><input class="reqclr data-entry-input" value=""></a></td></tr>
+									</tbody>
+								</table>
+							</div>
+						</cfif>
 						<div class="col-3 mt-2 float-left">
 							<div id="images" class="d-inline"></div>
 						</div>
-						<cfif len(filename)gt 0 >
-						<div class="col-3 float-left mt-2">
-							<table class="table table-responsive-sm mb-3 border-none small90">
-								<thead class="thead-dark">
-									<tr>
-										<th scope="col" style="width: 120px;">Label</th>
-										<th scope="col">Value</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr><th scope="row">Media Type:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
-									<tr><th scope="row">MIME Type:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
-									<tr><th scope="row">Credit:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
-									<tr><th scope="row">Copyright:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
-									<tr><th scope="row">License:</th><td><input class="reqclr data-entry-input" value="">  </a></td></tr>
-									<tr><th scope="row">Keywords: </span></th><td><input class="reqclr data-entry-input" value=""> </td></tr>
-									<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href=""><input class="reqclr data-entry-input" value=""></a></td></tr>
-								</tbody>
-							</table>
-						</div>
-						</cfif>
+						
 					</div>
 				</div>
 			</form>
