@@ -1028,8 +1028,8 @@ Delete an existing collecting event number record.
 					SELECT * FROM (
 						SELECT 
 							level as parentagelevel,
-							connect_by_root attribute as attribute,
-							connect_by_root attribute_value as attribute_value,
+							connect_by_root attribute as geology_attribute,
+							connect_by_root attribute_value as geo_att_value,
 							connect_by_root geology_attribute_hierarchy_id as geology_attribute_hierarchy_id,
 							connect_by_root PARENT_ID as parent_id,
 							connect_by_root USABLE_VALUE_FG as USABLE_VALUE_FG,
