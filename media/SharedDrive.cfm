@@ -55,6 +55,9 @@ limitations under the License.
 <cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select mime_type from ctmime_type order by mime_type
 </cfquery>
+<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select sq_media_id.nextval nv from dual
+</cfquery>
 <!---<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select media_license_id,display media_license from ctmedia_license order by media_license_id
 </cfquery>--->
@@ -299,7 +302,7 @@ limitations under the License.
 				button.className="btn btn-xs btn-secondary";
 				button.type="submit";
 				button.onclick = function(){
-					window.location='/media/SharedDrive.cfm?action=newMedia';
+					window.location='/media/SharedDrive.cfm?action=newMedia&media_id=#mid.nv#';
 					return false;
 				};
 				button.innerHTML="Create Media Record";
@@ -322,7 +325,8 @@ limitations under the License.
 			<div class="row">
 				<div class="col-12 mt-4">
 					<h1>Create Media Record</h1>
-					<p>Metadata form with the media ID and URL in place.</p>
+					<p>Metadata form with the media ID and URL in place.
+					#mid.nv#</p>
 				</div>
 			</div>
 		</div>
