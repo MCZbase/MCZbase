@@ -347,23 +347,9 @@ limitations under the License.
 				button.id="btn_link";
 				button.className="btn btn-xs btn-secondary";
 				button.type="submit";
-				button.onclick = function() {
-				var table=document.createElement('table');
-				table.innerHTML ='<table class="table table-responsive-sm mb-3 border-none small90">';
-				table += '<thead class="thead-dark">';
-				table += '<tr><th scope="col" style="width: 120px;">Label</th>';	
-				table += '<th scope="col">Value</th></tr>';
-				table += '</thead><tbody>';
-				table += '<tr><th scope="row">Media Type:</th><td><input class="reqclr data-entry-input" value=""></td></tr>';
-				table += '<tr><th scope="row">MIME Type:</th><td><input class="reqclr data-entry-input" value=""></td></tr>';
-				table += '<tr><th scope="row">Credit:</th><td><input class="reqclr data-entry-input" value=""></td></tr>';
-				table += '<tr><th scope="row">Copyright:</th><td><input class="reqclr data-entry-input" value=""></td></tr>';				
-				table += '<tr><th scope="row">License:</th><td><input class="reqclr data-entry-input" value=""></a></td></tr>';
-				table += '<tr><th scope="row">Keywords: </span></th><td><input class="reqclr data-entry-input" value=""></td></tr>';
-				table += '<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href=""><input class="reqclr data-entry-input" value="">';
-				table += '</a></td></tr></tbody></table>';
-				table.appendChild(table);
-			}
+				button.onclick = function(){
+					window.location='/media/SharedDrive.cfm?action=newMedia&media_id=#mid.nv#';
+					return false;
 				};
 				button.innerHTML="Create Media Records";
 				div.appendChild(button);
@@ -380,7 +366,23 @@ limitations under the License.
 			
 			
 			
-			
+			function getTable() {
+				var table=document.createElement('table');
+				table.innerHTML ='<table class="table table-responsive-sm mb-3 border-none small90">';
+				table += '<thead class="thead-dark">';
+				table += '<tr><th scope="col" style="width: 120px;">Label</th>';	
+				table += '<th scope="col">Value</th></tr>';
+				table += '</thead><tbody>';
+				table += '<tr><th scope="row">Media Type:</th><td><input class="reqclr data-entry-input" value=""></td></tr>';
+				table += '<tr><th scope="row">MIME Type:</th><td><input class="reqclr data-entry-input" value=""></td></tr>';
+				table += '<tr><th scope="row">Credit:</th><td><input class="reqclr data-entry-input" value=""></td></tr>';
+				table += '<tr><th scope="row">Copyright:</th><td><input class="reqclr data-entry-input" value=""></td></tr>';				
+				table += '<tr><th scope="row">License:</th><td><input class="reqclr data-entry-input" value=""></a></td></tr>';
+				table += '<tr><th scope="row">Keywords: </span></th><td><input class="reqclr data-entry-input" value=""></td></tr>';
+				table += '<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href=""><input class="reqclr data-entry-input" value="">';
+				table += '</a></td></tr></tbody></table>';
+				table.appendChild(table);
+			}
 		</script>
 											
 		
