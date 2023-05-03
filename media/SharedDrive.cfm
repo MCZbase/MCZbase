@@ -256,38 +256,7 @@ limitations under the License.
 					</div>
 	
 					<div class="row">
-						<style>
-							.imageFeatures {
-								width: 100%;
-								border: 2px solid gray;
-							}
-							.imagewrapper {
-								position: relative;
-								display: inline-block;
-								font-size: 0;
-							}
 
-							.imagewrapper .close {
-								position: absolute;
-								top: 2px;
-								right: 3px;
-								z-index: 100;
-								background-color: ##FFF;
-								padding: 4px 2px 7px;
-								color: ##000;
-								font-weight: bold;
-								cursor: pointer;
-								opacity: .2;
-								text-align: center;
-								font-size: 22px;
-								line-height: 10px;
-								border-radius: 50%;
-							}
-
-							.imagewrapper:hover .close {
-								opacity: 1;
-							}
-						</style>
 						<div class="col-3 mt-3 mx-auto">
 							<div id="images" class="d-inline"></div>
 						</div>
