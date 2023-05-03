@@ -1153,6 +1153,7 @@ Delete an existing collecting event number record.
 			<cfoutput>
 				<form id="addGeoAttForm">
 					<input type="hidden" name="method" value="addGeologyAttribute">
+					<input type="hidden" name="locality_id" value="#locality_id#">
 					<h2 class="h3">Add a geological attribute for locality #encodeForHtml(getLabel.locality_label)#</h2>
 					<div class="form-row">
 						<div class="col-12 col-md-3">
