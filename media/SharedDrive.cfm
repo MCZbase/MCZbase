@@ -323,6 +323,10 @@ limitations under the License.
 				p.className="text-dark text-center";
 				p.innerHTML=document.getElementById('filename').value;
 				div.appendChild(p);
+				var button=document.createElement('button');
+				button.onclick="https://mczbase-test.rc.fas.harvard.edu/media.cfm?action=newMedia";
+				button.innerHTML="Create Media Record";
+				div.appendChild(button);
 				span.addEventListener('click', () => {
 					//alert('Oh, you clicked me!');
 					let childDivs = document.querySelectorAll("div##images > .imagewrapper");
