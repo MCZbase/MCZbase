@@ -324,7 +324,8 @@ limitations under the License.
 				p.innerHTML=document.getElementById('filename').value;
 				div.appendChild(p);
 				var button=document.createElement('button');
-				button.onclick="https://mczbase-test.rc.fas.harvard.edu/media.cfm?action=newMedia";
+				var url1="https://mczbase-test.rc.fas.harvard.edu/media.cfm?action=newMedia";
+				button.onclick=url1;
 				button.innerHTML="Create Media Record";
 				div.appendChild(button);
 				span.addEventListener('click', () => {
