@@ -310,6 +310,7 @@ limitations under the License.
 						<div class="col-3 mt-2 float-left">
 							<div id="images" class="d-inline"></div>
 						</div>
+						<cfif len(filename)gt 0 >
 						<div class="col-3 float-left mt-2">
 							<table class="table table-responsive-sm mb-3 border-none small90">
 								<thead class="thead-dark">
@@ -329,6 +330,7 @@ limitations under the License.
 								</tbody>
 							</table>
 						</div>
+						</cfif>
 					</div>
 				</div>
 			</form>
