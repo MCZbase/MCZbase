@@ -234,11 +234,11 @@ limitations under the License.
 									<label for="path" class="data-entry-label mb-0">Path<span class="text-italic"> (e.g., "/specimen_images/herpetology/large/")</span></label>
 									<input type="text" id="path" name="path" placeholder="/specimen_images/+collection+/+folder+/" class="data-entry-input" value="#encodeForHtml(path)#">
 								</div>
-								<!---<script>
+								<script>
 									$(document).ready(function() {
 										makeMediaURIPartAutocomplete("path","path");
 									});
-								</script>--->
+								</script>
 							</div>
 							<div class="col-12 col-md-4 float-left">
 								<div class="form-group mb-2">
@@ -262,7 +262,7 @@ limitations under the License.
 
 					<div class="row">
 
-						<div class="col-3 mt-3 mx-auto">
+						<div class="col-3 my-3 mx-auto">
 							<div id="images" class="d-inline"></div>
 						</div>
 
