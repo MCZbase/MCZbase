@@ -331,7 +331,7 @@ limitations under the License.
 					<table class="table table-responsive-sm mb-3 border-none small90">
 						<thead class="thead-dark">
 							<tr>
-								<th scope="col">Label</th>
+								<th scope="col" style="width: 150px;">Label</th>
 								<th scope="col">Value</th>
 							</tr>
 						</thead>
