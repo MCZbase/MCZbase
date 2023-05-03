@@ -187,7 +187,7 @@ limitations under the License.
 <!---------------------------------------------------------------------------------------------------->
 
 	<cfoutput>
-	<cfif action = ''>
+	<cfif action is ''>
 		<section class="jumbotron pb-3 bg-white text-center">
 			<div class="container">
 				<h1 class="jumbotron-heading">Shared Drive</h1>
@@ -318,7 +318,7 @@ limitations under the License.
 			}
 		</script>
 	</cfif>
-	<cfif action = 'newMedia'>
+	<cfif action is 'newMedia'>
 		Metadata form with the media ID and URL in place
 	</cfif>
 	</cfoutput>
