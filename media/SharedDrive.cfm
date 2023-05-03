@@ -304,6 +304,7 @@ limitations under the License.
 					<div class="row">
 
 						<div class="col-3 mt-2 mx-auto">
+							<cfif extension is '.tif'><i class="fa-sharp fa-light fa-images-user"></i></cfif>
 							<div id="images" class="d-inline"></div>
 						</div>
 
