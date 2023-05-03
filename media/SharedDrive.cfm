@@ -307,7 +307,7 @@ limitations under the License.
 
 					<div class="row">
 
-						<div class="col-3 mt-2 mx-auto">
+						<div class="col-3 mt-2 float-left">
 							<div id="images" class="d-inline"></div>
 						</div>
 						<div class="col-3 float-left px-0 my-0">
@@ -319,7 +319,7 @@ limitations under the License.
 									</tr>
 								</thead>
 								<tbody>
-									<tr><th scope="row">Media Type:</th><td></td></tr>
+									<tr><th scope="row">Media Type:</th><td><input class="reqclr data-entry-input" value=""></td></tr>
 									<tr><th scope="row">MIME Type:</th><td></td></tr>
 									<tr><th scope="row">Credit:</th><td></td></tr>
 									<tr><th scope="row">Copyright:</th><td></td></tr>
