@@ -243,13 +243,54 @@ limitations under the License.
 							<div class="col-12 col-md-4 float-left">
 								<div class="form-group mb-2">
 									<label for="filename" class="data-entry-label mb-0">Filename (e.g., A139491_Bufo_fustiger_d_4.jpg ) <span></span></label>
-								<cfif filename contains '.tif'><i class="fa-sharp fa-light fa-images-user"></i><cfelse><input type="text" id="filename" name="filename" placeholder="name of file on the shared drive" class="data-entry-input" value="#encodeForHtml(filename)#"></cfif>
+								<input type="text" id="filename" name="filename" placeholder="name of file on the shared drive" class="data-entry-input" value="#encodeForHtml(filename)#">
 								</div>
 								<script>
 									$(document).ready(function() {
 										makeMediaURIPartAutocomplete("filename","filename");
 									});
 								</script>
+							</div>
+							<div class=" float-left d-none">
+								<div class="form-group mb-2">
+									<label for="extension" class="data-entry-label mb-0">Extension<span></span></label>
+									<cfset selectedextensionlist = "">
+									<select id="extension" name="extension" class="data-entry-select" multiple="true">
+										<option></option>
+										<cfloop query="distinctExtensions">
+											<cfif listFind(in_extension, distinctExtensions.extension) GT 0>
+												<cfset selected="">
+												<cfset selectedextensionlist = listAppend(selectedextensionlist,'#distinctExtensions.extension#') >
+											<cfelse>
+												<cfset selected="">
+											</cfif>
+											<option value="#distinctExtensions.extension#" #selected#>#distinctExtensions.extension# (#distinctExtensions.ct#)</option>
+										</cfloop>
+										<option value="Select All">Select All</option>
+										<option value="NULL">NULL</option>
+										<option value="NOT NULL">NOT NULL</option>
+									</select>
+									<script>
+										$(document).ready(function () {
+											$("##extension").jqxComboBox({  multiSelect: false, width: '100%', enableBrowserBoundsDetection: true });  
+											<cfloop list="#selectedextensionlist#" index="ext">
+												$("##extension").jqxComboBox('selectItem', '#ext#');
+											</cfloop>
+											$("##extension").jqxComboBox().on('select', function (event) {
+												var args = event.args;
+												if (args) {
+													var item = args.item;
+													if (item.label == 'Select All') { 
+														for (i=0;i<args.index;i++) { 
+															$("##extension").jqxComboBox('selectIndex', i);
+														}
+														$("##extension").jqxComboBox('unselectIndex', args.index);
+													}
+												}
+											});
+										});
+									</script>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -305,7 +346,7 @@ limitations under the License.
 					window.location='/media/SharedDrive.cfm?action=newMedia&media_id=#mid.nv#';
 					return false;
 				};
-				button.innerHTML="Create Media Record";
+				button.innerHTML="Create Media Records";
 				div.appendChild(button);
 				span.addEventListener('click', () => {
 					//alert('Oh, you clicked me!');
