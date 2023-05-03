@@ -328,7 +328,7 @@ limitations under the License.
 				button.className="btn btn-xs btn-secondary";
 				button.type="submit";
 				button.onclick = function(){
-					window.location='https://mczbase-test.rc.fas.harvard.edu/media.cfm?action=newMedia';
+					window.location='https://mczbase-dev.rc.fas.harvard.edu/media.cfm?action=newMedia';
 					return false;
 				};
 				button.innerHTML="Create Media Record";
