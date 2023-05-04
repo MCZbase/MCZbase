@@ -837,7 +837,7 @@ Delete an existing collecting event number record.
 								#parentage#
 								<li>
 									#geology_attribute#:#geo_att_value# #determined_by# #determined_date# #determined_method#
-									<button type="button" class="btn btn-xs btn-secondary" onClick=" openEditGeologyDialog('#geology_attribute_id#','#locality_id#','editGeologyDialog','#callback_name#');">Edit</button>
+									<button type="button" class="btn btn-xs btn-secondary" onClick=" openEditGeologyDialog('#geology_attribute_id#','#locality_id#','editGeologyDialog',#callback_name#);">Edit</button>
 									<button type="button" 
 										class="btn btn-xs btn-warning" 
 										onClick=" confirmDialog('Remove #geology_attribute#:#geo_att_value# from this locality ?', 'Confirm Remove Geological Attribute', function() { removeGeologyAttribute('#geology_attribute_id#','#locality_id#',#callback_name#); } );">Remove</button>
@@ -851,11 +851,6 @@ Delete an existing collecting event number record.
 				</cfif>
 				<div id="editGeologyDialog"></div>
 				<div id="addGeologyDialog"></div>
-				<script>
-					function openEditGeologyDialog(geology_attribute_id, dialogDiv,callback) { 
-						console.log(geology_attribute_id);
-					}
-				</script>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
