@@ -213,6 +213,64 @@ function openAddGeologyDialog(locality_id, dialogid, callback) {
 		}
 	});
 }
+// Create and open a dialog to edit geological attributes for a locality
+// @param geology_attribute_id the geological attribute to edit
+// @param locality_id the locality to which to add geological attributes
+// @param dialogid the id of a div in the dom that is to be populated with
+//  the content of the dialog, without a leading #.
+// @param callback a function to invoke on closing the dialog.
+function openEditGeologyDialog(geology_attribute_id, locality_id, dialogid, callback) { 
+	var title = "Edit geological attribute of locality. ";
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	h = Math.floor(h *.5);
+	if (h < 500) { h = 500; }
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 600,
+		minHeight: 500,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() { 
+				$("#"+dialogid).dialog('close'); 
+			}
+		},
+		close: function(event,ui) { 
+			if (jQuery.type(callback)==='function') {
+				callback();
+	  		}
+			$("#"+dialogid+"_div").html("");
+			$("#"+dialogid).dialog('destroy'); 
+		} 
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/localities/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "geologyAttributeEditDialogHtml",
+			returnformat: "plain",
+			geology_attribute_id: geology_attribute_id,
+			locality_id: locality_id
+		}, 
+		success: function (data) { 
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading edit geology attribute dialog");
+		}
+	});
+}
 
 /** given a geology_attribute_id delete the geology attribute record 
   removingthe reference to a geological attribute from a locality.

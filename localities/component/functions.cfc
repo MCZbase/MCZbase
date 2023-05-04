@@ -837,7 +837,7 @@ Delete an existing collecting event number record.
 								#parentage#
 								<li>
 									#geology_attribute#:#geo_att_value# #determined_by# #determined_date# #determined_method#
-									<button type="button" class="btn btn-xs btn-secondary" onClick=" openEditGeologyDialog('#geology_attribute_id#','editGeologyDialog','#callback_name#');">Edit</button>
+									<button type="button" class="btn btn-xs btn-secondary" onClick=" openEditGeologyDialog('#geology_attribute_id#','#locality_id#','editGeologyDialog','#callback_name#');">Edit</button>
 									<button type="button" 
 										class="btn btn-xs btn-warning" 
 										onClick=" confirmDialog('Remove #geology_attribute#:#geo_att_value# from this locality ?', 'Confirm Remove Geological Attribute', function() { removeGeologyAttribute('#geology_attribute_id#','#locality_id#',#callback_name#); } );">Remove</button>
@@ -1108,6 +1108,203 @@ Delete an existing collecting event number record.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- update a geological attribute.
+  @param locality_id the locality the geology_attribute_id applies to.
+  @return json with status=added and id=inserted geology_attribute_id, or an http status 500.
+--->
+<cffunction name="updateGeologyAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="geology_attribute_id" type="string" required="yes">
+	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="geology_attribute" type="string" required="no">
+	<cfargument name="geo_att_value" type="string" required="no">
+	<cfargument name="geology_attribute_hierarchy_id" type="string" required="no">
+	<cfargument name="geo_att_determiner_id" type="string" required="yes">
+	<cfargument name="geo_att_determined_date" type="string" required="yes">
+	<cfargument name="geo_att_determined_method" type="string" required="yes">
+	<cfargument name="geo_att_remark" type="string" required="yes">
+	<cfargument name="add_parents" type="string" required="no">
+
+	<!--- either attribute+value or hierarchy_id are required to specify attribute --->
+	<cfif 
+		isDefined("geology_attribute_hierarchy_id") AND len(geology_attribute_hierarchy_id) GT 0
+		OR ( 
+			isDefined("geology_attribute") AND len(geology_attribute) GT 0
+			AND
+			isDefined("geo_att_value") AND len(geo_att_value) GT 0
+		)
+	> 
+		<!--- there is a value to insert, continue --->
+	<cfelse>
+		<cfthrow message="Unable to update. Either a geology_attribute_heirarchy_id or both geology_attribute and geo_att_value must be specified for the attribute to update.">
+	</cfif>
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfif isDefined("geology_attribute_hierarchy_id") AND len(geology_attribute_hierarchy_id) GT 0>
+				<cfquery name="getGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						attribute geology_attribute,
+						attribute_value geo_att_value
+					FROM
+						geology_attribute_hierarchy
+					WHERE 
+						geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+				</cfquery>
+				<cfset geology_attribute = getGeoAttribute.geology_attribute>
+				<cfset geo_att_value = getGeoAttribute.geo_att_value>
+			<cfelse>
+				<cfquery name="getGeoAttributeId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						geology_attribute_hierarchy_id id
+					FROM
+						geology_attribute_hierarchy
+					WHERE 
+						attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geology_attribute#">
+						AND
+						attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geo_att_value#">
+				</cfquery>
+				<cfif getGeoAttributeId.recordcount NEQ 1>
+					<cfthrow message="Unable to insert, unable to find a geology_attribute_hierarchy record for the specified geology_attribute and geo_att_value">
+				</cfif>
+				<cfset geology_attribute_hierarchy_id = getGeoAttributeId.id>
+			</cfif>
+			<cfquery name="addGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addGeoAttribute_result">
+				UPDATE geology_attributes 
+				SET
+					geology_attribute =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geology_attribute#">,
+					geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geo_att_value#">,
+					<cfif isDefined("geo_att_determiner_id")>
+						geo_att_determiner_id =
+						<cfif len(geo_att_determiner_id) GT 0>
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geo_att_determiner_id#">,
+						<cfelse>
+							NULL,
+						</cfif>
+					</cfif>
+					<cfif isDefined("geo_att_determined_date")>
+						geo_att_determined_date =
+						<cfif len(geo_att_determined_date) GT 0>
+							<cfqueryparam cfsqltype="CF_SQL_DATE" value="#geo_att_determined_date#">,
+						<cfelse>
+							NULL,
+						</cfif>
+					</cfif>
+					<cfif isDefined("geo_att_determined_method")>
+						geo_att_determined_method =
+						<cfif len(geo_att_determined_method) GT 0>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geo_att_determined_method#">,
+						<cfelse>
+							NULL,
+						</cfif>
+					</cfif>
+					<cfif isDefined("geo_att_remark") >
+						geo_att_remark = 
+						<cfif len(geo_att_remark) GT 0>
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geo_att_remark#">
+						<cfelse>
+							NULL
+						</cfif>
+					</cfif>
+				WHERE 
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					and 
+					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_id#">
+			</cfquery>
+			<cfif addGeoAttribute_result.recordcount NEQ 1>
+				<cfthrow message="Error inserting geology attribtue, insert would affect other than one row.">
+			</cfif>
+			<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPK_result">
+					select geology_attribute_id 
+					from geology_attributes
+					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#addGeoAttribute_result.GENERATEDKEY#">
+			</cfquery>
+			<cfif getPK.recordcount NEQ 1>
+				<cfthrow message="Error inserting geology attribute, inserted row not found.">
+			</cfif>
+			<cfset values="#geology_attribute#:#geo_att_value#">
+			<cfset count=1>
+			<cfif isDefined("add_parents") AND ucase(add_parents) EQ "YES">
+				<!--- add any parents of the inserted node that aren't already present --->
+				<cfquery name="getParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT * FROM (
+						SELECT 
+							level as parentagelevel,
+							connect_by_root attribute as geology_attribute,
+							connect_by_root attribute_value as geo_att_value,
+							connect_by_root geology_attribute_hierarchy_id as geology_attribute_hierarchy_id,
+							connect_by_root PARENT_ID as parent_id,
+							connect_by_root USABLE_VALUE_FG as USABLE_VALUE_FG,
+							connect_by_root DESCRIPTION as description
+						FROM geology_attribute_hierarchy 
+						WHERE
+							geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_hierarchy_id#">
+						CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id
+						ORDER BY level asc
+					) WHERE parentagelevel > 1
+				</cfquery>
+				<cfloop query="getParents">
+					<cfquery name="checkParents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT count(*) ct 
+						FROM geology_attributes
+						WHERE
+							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+							and geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geology_attribute#">
+							and geo_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geo_att_value#">
+					</cfquery>
+					<cfif checkParents.ct EQ 0>
+						<cfquery name="addGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addGeoAttribute_result">
+							INSERT INTO geology_attributes
+								( locality_id,
+									geology_attribute,
+									geo_att_value,
+									geo_att_determiner_id,
+									geo_att_determined_date,
+									geo_att_determined_method
+								) VALUES (
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geology_attribute#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParents.geo_att_value#">,
+									<cfif isDefined("geo_att_determiner_id") and len(geo_att_determiner_id) GT 0>
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geo_att_determiner_id#">,
+									<cfelse>
+										NULL,
+									</cfif>
+									<cfif isDefined("geo_att_determined_date") and len(geo_att_determined_date) GT 0>
+										<cfqueryparam cfsqltype="CF_SQL_DATE" value="#geo_att_determined_date#">,
+									<cfelse>
+										NULL,
+									</cfif>
+									<cfif isDefined("geo_att_determined_method") and len(geo_att_determined_method) GT 0>
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geo_att_determined_method#">
+									<cfelse>
+										NULL
+									</cfif>
+								)
+						</cfquery>
+						<cfset count= count + 1>
+						<cfset values="#getParents.geology_attribute#:#getParents.geo_att_value#; #values#">
+					</cfif>
+				</cfloop>
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "added">
+			<cfset row["id"] = "#getPK.geology_attribute_id#">
+			<cfset row["values"] = "#values#">
+			<cfset row["count"] = "#count#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 <!--- returns html to populate a dialog to add geological attributes to a locality 
 	@param locality_id the id of the locality for which to add geological attributes
 	@return html to populate a dialog, including save buttons.
@@ -1280,6 +1477,191 @@ Delete an existing collecting event number record.
 	</cfthread>
 	<cfthread action="join" name="getGeorefThread#tn#" />
 	<cfreturn cfthread["getGeorefThread#tn#"].output>
+</cffunction>
+
+
+<!--- returns html to populate a dialog to edit a geological attribute for a locality 
+	@param geology_attribute_id the pk value of the geological attribute to edit.
+	@param locality_id the id of the locality for which to add geological attributes
+	@return html to populate a dialog, including save buttons.
+--->
+<cffunction name="geologyAttributeEditDialogHtml" access="remote" returntype="string">
+	<cfargument name="geology_attribute_id" type="string" required="yes">
+	<cfargument name="locality_id" type="string" required="yes">
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="editGeoAtt#tn#">
+		<cftry>
+			<cfquery name="currentAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					geology_attribute_id, 
+					ctgeology_attribute.type,
+					geology_attribute,
+					geo_att_value,
+					geo_att_determiner_id,
+					agent_name determiner,
+					geo_att_determined_date,
+					geo_att_determined_method,
+					geo_att_remark
+				FROM
+					geology_attributes
+					left join preferred_agent_name on geo_att_determiner_id = preferred_agent_name.agent_id
+					join ctgeology_attribute on geology_attributes.geology_attribute = ctgeology_attribute.attribute
+				WHERE 
+					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
+			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					distinct type
+				FROM	
+					ctgeology_attribute
+				ORDER BY
+					type
+			</cfquery>
+			<cfquery name="getLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					nvl(spec_locality,'[No specific locality value]') locality_label
+				FROM locality
+				WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
+			<cfoutput>
+				<form id="addGeoAttForm">
+					<input type="hidden" name="method" value="updateGeologyAttribute">
+					<input type="hidden" name="locality_id" value="#locality_id#">
+					<input type="hidden" name="geology_attribute_id" value="#geology_attribute_id#">
+					<h2 class="h3">Edit geological attribute #currentAttributes:geo_att_value# (#currentAttributes.geology_attribute#) for locality #encodeForHtml(getLabel.locality_label)#</h2>
+					<div class="form-row">
+						<div class="col-12 col-md-3">
+							<label for="attribute_type" class="data-entry-label">Type</label>
+							<select id="attribute_type" name="attribute_type" class="data-entry-select reqdClr" onChange=" changeGeoAttType(); ">
+								<cfloop query="types">
+									<cfif types.type EQ currentAtributes.type><cfset selected="selected"><cfelse><selected = ""></cfif>
+									<option value="#types.type#" #selected#>#types.type#</option>
+									<cfset selected="">
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-md-3">
+							<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
+							<input type="text" id="geo_att_value" name="geo_att_value" class="data-entry-input" onFocusOut=" addParentsChange(); " value="#encodeForHtml(currentAtributes.geo_att_value)#">
+							<input type="hidden" id="geology_attribute" name="geology_attribute" value="#currentAttributes.geology_attribute#">
+							<input type="hidden" id="geology_attribute_hierarchy_id" name="geology_attribute_hierarchy_id" value="">
+						</div>
+						<div class="col-12 col-md-2">
+							<label for="add_parents" class="data-entry-label">Add Parents</label>
+							<select id="add_parents" name="add_parents" class="data-entry-select" onChange=" addParentsChange(); ">
+								<option value="no" selected>No</option>
+								<option value="yes">Yes</option>
+							</select>
+						</div>
+						<div class="col-12 col-md-4" id="parentsDiv">
+							<!--- Area to show parents of selected attribute value --->
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="determiner" class="data-entry-label">Determiner</label>
+							<input type="text" id="determiner" name="determiner" class="data-entry-input" value="#encodeForHtml(currentAttributes.determiner)#">
+							<input type="hidden" id="geo_att_determiner_id" name="geo_att_determiner_id" value="#currentAttributes.geo_att_determiner_id#">
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="geo_att_determined_date" class="data-entry-label">Date Determined</label>
+							<input type="text" name="geo_att_determined_date" id="geo_att_determined_date"
+								value="#dateformat(currentAttributes.geo_att_determined_date,"yyyy-mm-dd")#" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="geo_att_determined_method" class="data-entry-label">Determination Method</label>
+							<input type="text" id="geo_att_determined_method" name="geo_att_determined_method" class="data-entry-input" value="#encodeForHtml(currentAttributes.geo_att_determined_method)#">
+						</div>
+						<div class="col-12 col-md-12">
+							<label for="geo_att_remark" class="data-entry-label">Remarks (<span id="length_geo_att_remark">0 characters, 4000 left</span>)</label>
+							<textarea name="geo_att_remark" id="geo_att_remark" 
+								onkeyup="countCharsLeft('geo_att_remark', 4000, 'length_geo_att_remark');"
+								class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(currentAttributes.geo_att_remark)#</textarea>
+							<script>
+								// Bind textarea to autogrow function on key up
+								$(document).ready(function() { 
+									$("##geo_att_remark").keyup(autogrow);  
+								});
+							</script>
+						</div>
+						<div class="col-12 col-md-3">
+							<label class="data-entry-label">&nbsp;</label>
+							<button type="button" class="btn btn-xs btn-primary" onClick=" saveGeoAtt(); " >Save</button>
+						</div>
+						<div class="col-12 col-md-3">
+							<output id="geoAttFeedback"></output>
+						</div>
+					</div>
+				</form>
+				<script>
+					function handleChange(){
+						$('##geoAttFeedback').html('Unsaved changes.');
+						$('##geoAttFeedback').addClass('text-danger');
+						$('##geoAttFeedback').removeClass('text-success');
+						$('##geoAttFeedback').removeClass('text-warning');
+					};
+					$(document).ready(function() {
+						monitorForChanges('geoAttForm',handleChange);
+					});
+					function addParentsChange() { 
+						var selection = $('##add_parents').val();
+						if (selection=="yes") { 
+							lookupGeoAttParents($('##geology_attribute_hierarchy_id').val(),'parentsDiv');
+						} else { 
+							$('##parentsDiv').html("");
+						}
+					};
+					function saveGeoAtt(){ 
+						$('##geoAttFeedback').html('Saving....');
+						$('##geoAttFeedback').addClass('text-warning');
+						$('##geoAttFeedback').removeClass('text-success');
+						$('##geoAttFeedback').removeClass('text-danger');
+						jQuery.ajax({
+							url : "/localities/component/functions.cfc",
+							type : "post",
+							dataType : "json",
+							data : $('##addGeoAttForm').serialize(),
+							success : function (data) {
+								console.log(data);
+								$('##geoAttFeedback').html('Saved.' + data[0].values);
+								$('##geoAttFeedback').addClass('text-success');
+								$('##geoAttFeedback').removeClass('text-danger');
+								$('##geoAttFeedback').removeClass('text-warning');
+							},
+							error: function(jqXHR,textStatus,error){
+								$('##geoAttFeedback').html('Error.');
+								$('##geoAttFeedback').addClass('text-danger');
+								$('##geoAttFeedback').removeClass('text-success');
+								$('##geoAttFeedback').removeClass('text-warning');
+								handleFail(jqXHR,textStatus,error,'saving geological attribute for locality');
+							}
+						});
+					};
+					function changeGeoAttType() { 
+						$('##geology_attribute').val("");
+						$('##geo_att_value').val("");
+						makeGeologyAutocompleteMeta('geology_attribute', 'geo_att_value','geology_attribute_hierarchy_id','entry',$('##attribute_type').val());
+					} 
+					$(document).ready(function(){ 
+						makeGeologyAutocompleteMeta('geology_attribute', 'geo_att_value','geology_attribute_hierarchy_id','entry',$('##attribute_type').val());
+						makeAgentAutocompleteMeta('determiner', 'geo_att_determiner_id');
+						$("##geo_att_determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
+						lookupGeoAttParents($('##geology_attribute_hierarchy_id').val(),'parentsDiv');
+					});
+				</script>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="editGeoAtt#tn#" />
+	<cfreturn cfthread["editGeoAtt#tn#"].output>
 </cffunction>
 
 <!--- getCreateLocalityHtml returns html for a set of form inputs to create or clone a locality record, optionally with
