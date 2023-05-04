@@ -1541,7 +1541,7 @@ Delete an existing collecting event number record.
 					<cfelse>
 						<cfset accepted="</span>"><!--- " --->
 						<cfset spanClass="text-danger">
-					</cfelse>
+					</cfif>
 					<h2 class="h3">Edit geological attribute <span class="#spanClass#">#currentAttribute.geo_att_value# #accepted# (#currentAttribute.geology_attribute#) for locality #encodeForHtml(getLabel.locality_label)#</h2>
 					<div class="form-row">
 						<div class="col-12 col-md-3">
