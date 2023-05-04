@@ -1,4 +1,3 @@
-
 	<cfset pageTitle="User SQL">
 	<cfinclude template = "/shared/_header.cfm">
 		<cfif not isdefined("sql")>
@@ -13,6 +12,7 @@
 			<cfset format = "table">
 		</cfif>
 		<cfoutput>
+			<cfif #action# is "">
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
@@ -29,6 +29,7 @@
 					</div>
 				</div>
 			</div>
+			</cfif>
 			<cfif #action# is "run">
 				<hr>
 
