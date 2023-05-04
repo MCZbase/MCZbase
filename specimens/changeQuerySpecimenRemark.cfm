@@ -96,7 +96,7 @@
 										<cfset remarks = "">
 										<cfquery name="object_rem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
-												coll_object_remark.coll_object_remarks,
+												coll_object_remark.coll_object_remarks
 											FROM
 												cataloged_item
 												left join coll_object_remark on cataloged_item.collection_object_id = coll_object_remark.collection_object_id
