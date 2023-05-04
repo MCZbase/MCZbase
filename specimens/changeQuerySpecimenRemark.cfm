@@ -147,7 +147,7 @@
 						coll_object_remark 
 					WHERE
 						collection_object_id = <cfqueryparam value="#getRecords.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						and coll_object_remarks = <cfqueryparam value="#remark#" cfsqltype="CF_SQL_VARCHAR">,
+						and coll_object_remarks = <cfqueryparam value="#remark#" cfsqltype="CF_SQL_VARCHAR">
 				</cfquery>
 				<cfif countDuplicates.ct EQ 0> 
 					<cfquery name="addRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addRemark_result">
