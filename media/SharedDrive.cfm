@@ -373,6 +373,7 @@ limitations under the License.
 			function getTable() {
 				// creates a <table> element and a <tbody> element
 				const tbl = document.createElement("table");
+				
 				const tblHead = document.createElement("thead");
 				for (let i = 0; i < 2; i++) {
 					// creates a table row
@@ -387,11 +388,12 @@ limitations under the License.
 						row.appendChild(thcell2);
 
 					// add the row to the end of the table body
-					tblBody.appendChild(row);
+					tblHead.appendChild(row);
 				}
-
 				// put the <tbody> in the <table>
-				tbl.appendChild(tblBody);
+				tbl.appendChild(tblHead);
+				
+				
 				const tblBody = document.createElement("tbody");
 
 				// creating all cells
