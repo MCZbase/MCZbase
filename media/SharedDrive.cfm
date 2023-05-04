@@ -414,17 +414,20 @@ limitations under the License.
 						const cell4 = document.createElement("td");
 						const cellText4 = document.createElement("input");
 						cellText4.setAttribute("placeholder", "Media Type");
+						cellText4.className="w-100";
 						cell4.appendChild(cellText4);
 						row3.appendChild(cell4);
 						// add the row to the end of the table body
 						tblBody.appendChild(row3);
 					const row4 = document.createElement("tr");
 						const cell5 = document.createElement("td");
-						const cellText5 = document.createTextNode(`Name`);
+						const cellText5 = document.createTextNode(`License`);
 						cell5.appendChild(cellText5);
 						row4.appendChild(cell5);
 						const cell6 = document.createElement("td");
-						const cellText6 = document.createTextNode(`text`);
+						const cellText6 = document.createElement("select");
+						cellText6.setAttribute("placeholder", "Media Type");
+						cellText6.className="w-100";
 						cell6.appendChild(cellText6);
 						row4.appendChild(cell6);
 						// add the row to the end of the table body
