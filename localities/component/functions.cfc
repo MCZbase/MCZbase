@@ -1576,7 +1576,7 @@ Delete an existing collecting event number record.
 						</div>
 						<div class="col-12 col-md-3">
 							<label class="data-entry-label">&nbsp;</label>
-							<button type="button" class="btn btn-xs btn-primary" onClick=" saveGeoAtt(); " >Save</button>
+							<button type="button" class="btn btn-xs btn-primary" onClick=" saveGeoAttChanges(); " >Save</button>
 						</div>
 						<div class="col-12 col-md-3">
 							<output id="geoAttFeedback"></output>
@@ -1601,7 +1601,7 @@ Delete an existing collecting event number record.
 							$('##parentsDiv').html("");
 						}
 					};
-					function saveGeoAtt(){ 
+					function saveGeoAttChanges(){ 
 						$('##geoAttFeedback').html('Saving....');
 						$('##geoAttFeedback').addClass('text-warning');
 						$('##geoAttFeedback').removeClass('text-success');
@@ -1610,7 +1610,7 @@ Delete an existing collecting event number record.
 							url : "/localities/component/functions.cfc",
 							type : "post",
 							dataType : "json",
-							data : $('##addGeoAttForm').serialize(),
+							data : $('##editGeoAttForm').serialize(),
 							success : function (data) {
 								console.log(data);
 								$('##geoAttFeedback').html('Saved.' + data[0].values);
