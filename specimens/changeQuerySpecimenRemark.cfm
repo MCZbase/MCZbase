@@ -31,7 +31,7 @@
 				collecting_event.verbatim_date,
 				MCZBASE.GET_SCIENTIFIC_NAME_AUTHS(cataloged_item.collection_object_id) scientific_name,
 				collection.institution_acronym,
-				collection.collection,
+				collection.collection
 			FROM
 				user_search_table 
 				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id 
