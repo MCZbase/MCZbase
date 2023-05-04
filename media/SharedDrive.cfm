@@ -312,7 +312,7 @@ limitations under the License.
 						</div>
 						<div class="col-3 mt-2 float-left">
 							<div id="commonData" class="d-inline">
-								<form action="##" id="metatable" method="post">
+								<form action="/media/SharedDrive.cfm" id="metatable" method="post">
 									
 								
 								</form>
@@ -374,8 +374,9 @@ limitations under the License.
 			
 
 			function getTable() {
+				
 				var table=document.createElement('table');
-				document.getElementById('metatable').appendChild(table);
+				form.getElementById('metatable').appendChild(table);
 			}
 		</script>
 	</cfoutput>
