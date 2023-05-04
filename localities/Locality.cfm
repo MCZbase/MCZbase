@@ -103,9 +103,13 @@ limitations under the License.
 								function reloadLocalityBlocks() { 
 									updateLocalitySummary('#locality_id#','summary');	
 									reloadGeology();
+									reloadGeoreferences();
 									// TODO: Implmement
 								}
 								function reloadGeology()  {
+									loadGeologyHTML('#locality_id#','geologyDiv', 'reloadGeology');
+								}
+								function reloadGeoreferences()  {
 									// TODO: Implement
 								}
 								function saveEdits(){ 
