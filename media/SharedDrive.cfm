@@ -357,7 +357,7 @@ limitations under the License.
 			
 			
 			function getTable() {
-				const form = document.createElement("form");
+				const form = document.createElement("form")[0];
 				form.setAttribute("method", "post");
 				form.setAttribute("action", "submit");
 				form.id="commonMetaForm";
