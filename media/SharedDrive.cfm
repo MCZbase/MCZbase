@@ -408,6 +408,19 @@ limitations under the License.
 						row2.appendChild(cell2);
 					// add the row to the end of the table body
 					tblBody.appendChild(row2);
+				
+					const row3 = document.createElement("tr");
+						const cell1 = document.createElement("td");
+						const cellText1 = document.createTextNode(`Name`);
+						cell1.appendChild(cellText1);
+						row3.appendChild(cell1);
+						const cell2 = document.createElement("td");
+						const cellText2 = document.createTextNode(`text`);
+						cell2.appendChild(cellText2);
+						row3.appendChild(cell2);
+					// add the row to the end of the table body
+					tblBody.appendChild(row3);
+
 
 
 				// put the <tbody> in the <table>
