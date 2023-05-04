@@ -406,7 +406,7 @@ limitations under the License.
 						cell.appendChild(cellText1);
 						row.appendChild(cell1);
 						const cell2 = document.createElement("td");
-						const cellText2 = document.createTextNode('<input type="text" value="Name">');
+						const cellText2 = document.createElement('input');
 						cell.appendChild(cellText2);
 						row.appendChild(cell2);
 					// add the row to the end of the table body
