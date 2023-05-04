@@ -234,9 +234,6 @@ function removeGeologyAttribute(geology_attribute_id, locality_id, callback) {
 			if (jQuery.type(callback)==='function') {
 				callback();
 			}
-			if (result[0].status!='deleted') {
-				alert(result[0].MESSAGE);
-			}
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"deleting a geological attribute");
