@@ -454,6 +454,19 @@ limitations under the License.
 						row6.appendChild(cell10);
 						// add the row to the end of the table body
 						tblBody.appendChild(row6);
+					const row7 = document.createElement("tr");
+						const cell11 = document.createElement("td");
+						const cellText11 = document.createTextNode(`show Cataloged Items`);
+						cell11.appendChild(cellText11);
+						row7.appendChild(cell11);
+						const cell12 = document.createElement("td");
+						const cellText12 = document.createElement("input");
+						cellText12.setAttribute("placeholder", "cat_num");
+						cellText12.className="w-100";
+						cell12.appendChild(cellText12);
+						row7.appendChild(cell12);
+						// add the row to the end of the table body
+						tblBody.appendChild(row7);
 				// put the <tbody> in the <table>
 				tbl.appendChild(tblBody);
 				// appends <table> into <body>
