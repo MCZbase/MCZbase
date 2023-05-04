@@ -1503,7 +1503,7 @@ Delete an existing collecting event number record.
 					left join preferred_agent_name on geo_att_determiner_id = preferred_agent_name.agent_id
 					join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
 				WHERE 
-					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_id#">
 			</cfquery>
 			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
