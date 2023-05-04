@@ -372,13 +372,13 @@ limitations under the License.
 
 			function getTable() {
 				// creates a <table> element and a <tbody> element
-				let form = document.createElement("form");
+				const form = document.createElement("form");
 				form.setAttribute("method", "post");
 				form.setAttribute("action", "submit");
-				document.getElementById("commonData")[0].appendChild(form);
+				document.getElementById("commonData").appendChild("form");
 				const tbl = document.createElement("table");
 				tbl.className="table";
-				document.getElementsByTagName("table");
+				document.getElementsByTagName("table").appendChild("form");
 				const tblHead = document.createElement("thead");
 				tblHead.className="thead-light";
 					// creates a table row
