@@ -3147,7 +3147,7 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 	
 	<cfset retval = "">
 	<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupLocality_result">
-		SELECT
+		SELECT distinct
 			locality.locality_id,
 			spec_locality,
 			curated_fg,
