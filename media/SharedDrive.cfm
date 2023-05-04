@@ -381,7 +381,7 @@ limitations under the License.
 				table += '<tr><th scope="row">Keywords: </span></th><td><input class="reqclr data-entry-input" value=""></td></tr>';
 				table += '<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href=""><input class="reqclr data-entry-input" value="">';
 				table += '</a></td></tr></tbody></table>';
-				table.appendChild(table);
+				document.getElementById('images').appendChild(table);
 			}
 		</script>
 											
