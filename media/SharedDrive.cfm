@@ -344,16 +344,6 @@ limitations under the License.
 				p.className="text-dark text-center";
 				p.innerHTML=document.getElementById('filename').value;
 				div.appendChild(p);
-				var button=document.createElement('button');
-				button.id="btn_link";
-				button.className="btn btn-xs btn-secondary";
-				button.type="submit";
-				button.onclick = function(){
-					window.location='/media/SharedDrive.cfm?action=newMedia&media_id=#mid.nv#';
-					return false;
-				};
-				button.innerHTML="Create Media Records";
-				div.appendChild(button);
 				span.addEventListener('click', () => {
 					//alert('Oh, you clicked me!');
 					let childDivs = document.querySelectorAll("div##images > .imagewrapper");
@@ -439,6 +429,16 @@ limitations under the License.
 				// sets the border attribute of tbl to '2'
 				tbl.setAttribute("border", "2");
 				document.getElementById('commonMetaForm').appendChild(tbl);
+				var button=document.createElement('button');
+				button.id="btn_link";
+				button.className="btn btn-xs btn-secondary";
+				button.type="submit";
+				button.onclick = function(){
+					window.location='/media/SharedDrive.cfm?action=newMedia&media_id=#mid.nv#';
+					return false;
+				};
+				button.innerHTML="Create Media Records";
+				div.appendChild(button);
 			}
 		</script>
 	</cfoutput>
