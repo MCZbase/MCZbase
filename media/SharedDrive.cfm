@@ -300,7 +300,7 @@ limitations under the License.
 					</div>
 					<div class="row">
 						<div class="col-2 mx-auto">
-						<input id="Preview" type="button" class="btn btn-xs mr-2 btn-primary d-inline-block" value="Preview Image(s)" onclick="getImg();"/>
+						<input id="Preview" type="button" class="btn btn-xs mr-2 btn-primary d-inline-block" value="Preview Image(s)" onclick="getImg();getTable();"/>
 							<input type="button" class="btn btn-xs ml-2 btn-warning ml-2 d-inline-block" onClick="clearInput();" value="Reset Form"/>
 						</div>
 					</div>
@@ -341,7 +341,7 @@ limitations under the License.
 				div.appendChild(img);
 				var p=document.createElement('p');
 				p.className="text-dark text-center";
-				p.innerHTML=document.getElementById('filename').value;<!------>
+				p.innerHTML=document.getElementById('filename').value;
 				div.appendChild(p);
 				var button=document.createElement('button');
 				button.id="btn_link";
