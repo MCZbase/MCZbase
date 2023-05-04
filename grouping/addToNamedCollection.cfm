@@ -73,11 +73,11 @@ limitations under the License.
 					</cfif>
 				ORDER BY cataloged_item.collection_object_id
 			</cfquery>
-		    <div class="container mt-2 mb-3">
+			<div class="container mt-2 mb-3">
 				<div class="row">
 					<div class="col-12">
 						<div role="region" aria-labeled-by="formheading">
-							<h1 class="h2" id="formheading">Add all the items (#getItems.recordcount#) listed below to the selected named group of cataloged items.</h1>
+							<h1 class="h2 mt-3" id="formheading">Add all the items (#getItems.recordcount#) listed below to the selected named group of cataloged items.</h1>
 							<script>
 								function addItemsSubmitHandler() { 
 									if ($('##underscore_collection_id').val() == ''){ 
@@ -101,7 +101,7 @@ limitations under the License.
 								<div class="form-row mb-3">
 									<div class="col-12 col-sm-8">
 										<label for="underscore_collection">Select a Named Group</label>
-										<input type="text" name="collection_name" id="collection_name" class="form-control-sm reqdClr" required>
+										<input type="text" name="collection_name" id="collection_name" class="data-entry-input reqdClr" required>
 										<input type="hidden" name="underscore_collection_id" id="underscore_collection_id">
 										<script>
 											$(document).ready(function() {
@@ -109,8 +109,8 @@ limitations under the License.
 											});
 										</script>
 									</div>					
-									<div class="col-6 col-sm-2 mt-1 mt-sm-4">
-										<input type="button" id="add_button" value="Add Items" class="btn-sm btn-primary" onclick=" addItemsSubmitHandler(); ">
+									<div class="col-6 col-sm-2 mt-3" style="padding-top: 2px;">
+										<input type="button" id="add_button" value="Add Items" class="btn btn-xs btn-primary" onclick=" addItemsSubmitHandler(); ">
 									</div>
 									<div class="col-6 col-sm-2 mt-2 mt-sm-4">
 									<a href="/grouping/NamedCollection.cfm?action=new" target="_blank">Add new named group</a>
