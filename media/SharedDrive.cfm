@@ -396,6 +396,8 @@ limitations under the License.
 					const row2 = document.createElement("tr");
 						const cell1 = document.createElement("td");
 						const cellText1 = document.createTextNode(`Name`);
+						const lastName = document.createElement("input");
+						lastName.setAttribute("placeholder", "Last Name");
 						cell1.appendChild(cellText1);
 						row2.appendChild(cell1);
 						const cell2 = document.createElement("td");
@@ -418,7 +420,7 @@ limitations under the License.
 					const row4 = document.createElement("tr");
 						const cell5 = document.createElement("td");
 						const cellText5 = document.createTextNode(`Name`);
-						cell3.appendChild(cellText5);
+						cell5.appendChild(cellText5);
 						row4.appendChild(cell5);
 						const cell6 = document.createElement("td");
 						const cellText6 = document.createTextNode(`text`);
