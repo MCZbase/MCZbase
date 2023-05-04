@@ -837,11 +837,15 @@ Delete an existing collecting event number record.
 								</cfloop>
 								#parentage#
 								<li>
-									<cfif len(determined_method) GT 0>
-										<cfset determined_method = "Method: #determined_method#">
+									<cfif len(getGeologicalAttributes.determined_method) GT 0>
+										<cfset method = " Method: #getGeologicalAttributes.determined_method#">
+									<cfelse>
+										<cfset method = "">
 									</cfif>
-									<cfif len(geo_att_remark) GT 0>
-										<cfset geo_att_remark = "<span class='smaller-text'>Remarks: #geo_att_remark#</span>"><!--- " --->
+									<cfif len(getGeologicalAttributes.geo_att_remark) GT 0>
+										<cfset remarks = " <span class='smaller-text'>Remarks: #getGeologicalAttributes.geo_att_remark#</span>"><!--- " --->
+									<cfelse>
+										<cfset remarks="">
 									</cfif>
 									<cfif usable_value_fg EQ 1>
 										<cfset marker = "*">
@@ -850,7 +854,7 @@ Delete an existing collecting event number record.
 										<cfset marker = "*">
 										<cfset spanClass = "text-danger">
 									</cfif>
-									<span class="#spanClass#">#geo_att_value# #marker#</span> (#geology_attribute#) #determined_by# #determined_date# #determined_method# #geo_att_remark#
+									<span class="#spanClass#">#geo_att_value# #marker#</span> (#geology_attribute#) #determined_by# #determined_date##method##remarks#
 									<button type="button" class="btn btn-xs btn-secondary" onClick=" openEditGeologyDialog('#geology_attribute_id#','#locality_id#','editGeologyDialog',#callback_name#);">Edit</button>
 									<button type="button" 
 										class="btn btn-xs btn-warning" 
