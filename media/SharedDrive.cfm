@@ -310,8 +310,8 @@ limitations under the License.
 						<div class="col-3 mt-2 float-left">
 							<div id="images" class="d-inline"></div>
 						</div>
-						<div class="col-3 mt-2 float-left">
-							<div id="commonData" class="d-inline mt-3">
+						<div class="col-3 pt-4 float-left">
+							<div id="commonData" class="d-inline">
 					
 							</div>
 						</div>
@@ -373,7 +373,7 @@ limitations under the License.
 			function getTable() {
 				// creates a <table> element and a <tbody> element
 				const tbl = document.createElement("table");
-				
+				table.className="table";
 				const tblHead = document.createElement("thead");
 			
 					// creates a table row
