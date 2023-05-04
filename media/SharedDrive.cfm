@@ -431,7 +431,7 @@ limitations under the License.
 					const row5 = document.createElement("tr");
 						const cell7 = document.createElement("td");
 						const cellText7 = document.createTextNode(`Media Record Visibility`);
-						cell5.appendChild(cellText7);
+						cell7.appendChild(cellText7);
 						row5.appendChild(cell7);
 						const cell8 = document.createElement("td");
 						const cellText8 = document.createElement("select");
@@ -450,7 +450,7 @@ limitations under the License.
 						const cellText10 = document.createElement("select");
 						cellText10.setAttribute("placeholder", "Public");
 						cellText10.className="w-100";
-						cell6.appendChild(cellText10);
+						cell10.appendChild(cellText10);
 						row6.appendChild(cell10);
 						// add the row to the end of the table body
 						tblBody.appendChild(row6);
