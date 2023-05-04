@@ -1496,7 +1496,7 @@ Delete an existing collecting event number record.
 					left join preferred_agent_name on geo_att_determiner_id = preferred_agent_name.agent_id
 					join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
 					left join geology_attribute_hierarchy on geology_attributes.geology_attribute = geology_attribute_hierarchy.attribute 
-						AND geology_attributes.geo_att_value = geology_attribute_hierarchy.geo_att_value
+						AND geology_attributes.geo_att_value = geology_attribute_hierarchy.attribute_value
 				WHERE 
 					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_id#">
 			</cfquery>
