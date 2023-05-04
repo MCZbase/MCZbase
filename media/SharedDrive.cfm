@@ -371,8 +371,7 @@ limitations under the License.
 			
 
 			function getTable() {
-				var table=document.createElement('table');
-				document.getElementById('commonData').appendChild(table);
+			
 				
 								  // creates a <table> element and a <tbody> element
 				const tbl = document.createElement("table");
@@ -403,6 +402,7 @@ limitations under the License.
 				document.body.appendChild(tbl);
 				// sets the border attribute of tbl to '2'
 				tbl.setAttribute("border", "2");
+				document.getElementById('commonData').appendChild(table);
 			}
 		</script>
 	</cfoutput>
