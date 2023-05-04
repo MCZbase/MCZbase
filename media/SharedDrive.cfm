@@ -401,6 +401,7 @@ limitations under the License.
 						const cell2 = document.createElement("td");
 						const cellText2 = document.createElement("input");
 						cellText2.setAttribute("placeholder", "MIME Type");
+						cellText2.className("w-100");
 						cell2.appendChild(cellText2);
 						row2.appendChild(cell2);
 						// add the row to the end of the table body
