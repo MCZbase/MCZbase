@@ -1163,7 +1163,7 @@ Delete an existing collecting event number record.
 				</cfif>
 				<cfset geology_attribute_hierarchy_id = getGeoAttributeId.id>
 			</cfif>
-			<cfquery name="addGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addGeoAttribute_result">
+			<cfquery name="updateGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateGeoAttribute_result">
 				UPDATE geology_attributes 
 				SET
 					geology_attribute =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geology_attribute#">,
@@ -1205,18 +1205,10 @@ Delete an existing collecting event number record.
 					and 
 					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_id#">
 			</cfquery>
-			<cfif addGeoAttribute_result.recordcount NEQ 1>
-				<cfthrow message="Error inserting geology attribtue, insert would affect other than one row.">
+			<cfif updateGeoAttribute_result.recordcount NEQ 1>
+				<cfthrow message="Error updating geology attribtue, update would affect other than one row.">
 			</cfif>
-			<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPK_result">
-					select geology_attribute_id 
-					from geology_attributes
-					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#addGeoAttribute_result.GENERATEDKEY#">
-			</cfquery>
-			<cfif getPK.recordcount NEQ 1>
-				<cfthrow message="Error inserting geology attribute, inserted row not found.">
-			</cfif>
-			<cfset values="#geology_attribute#:#geo_att_value#">
+			<cfset values="[Updated: #geology_attribute#:#geo_att_value#]">
 			<cfset count=1>
 			<cfif isDefined("add_parents") AND ucase(add_parents) EQ "YES">
 				<!--- add any parents of the inserted node that aren't already present --->
@@ -1277,13 +1269,13 @@ Delete an existing collecting event number record.
 								)
 						</cfquery>
 						<cfset count= count + 1>
-						<cfset values="#getParents.geology_attribute#:#getParents.geo_att_value#; #values#">
+						<cfset values="(Added: #getParents.geology_attribute#:#getParents.geo_att_value#); #values#">
 					</cfif>
 				</cfloop>
 			</cfif>
 			<cfset row = StructNew()>
-			<cfset row["status"] = "added">
-			<cfset row["id"] = "#getPK.geology_attribute_id#">
+			<cfset row["status"] = "updated">
+			<cfset row["id"] = "#geology_attribute_id#">
 			<cfset row["values"] = "#values#">
 			<cfset row["count"] = "#count#">
 			<cfset data[1] = row>
@@ -1628,7 +1620,7 @@ Delete an existing collecting event number record.
 								$('##geoAttFeedback').addClass('text-danger');
 								$('##geoAttFeedback').removeClass('text-success');
 								$('##geoAttFeedback').removeClass('text-warning');
-								handleFail(jqXHR,textStatus,error,'saving geological attribute for locality');
+								handleFail(jqXHR,textStatus,error,'saving changes to geological attribute for locality');
 							}
 						});
 					};
