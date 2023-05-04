@@ -759,7 +759,7 @@ Delete an existing collecting event number record.
 
 <cffunction name="getLocalityGeologyHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="locality_id" type="string" required="yes">
-	<cfargument name="callbackName" type="string" required="yes">
+	<cfargument name="callback_name" type="string" required="yes">
 
 	<cfset variables.callbackName = arguments.callbackName>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >

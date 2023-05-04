@@ -53,13 +53,13 @@ function updateLocalitySummary(locality_id,pasteTarget) {
 };
 
 
-function loadGeologyHTML(locality_id,targetDivId, callbackName) { 
+function loadGeologyHTML(locality_id,targetDivId, callback_name) { 
 	jQuery.ajax({
 		url: "/localities/component/functions.cfc",
 		data : {
 			method : "getLocalityGeologyHtml",
 			locality_id: locality_id,
-			callback_name: callbackName
+			callback_name: callback_name
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);

@@ -128,7 +128,7 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div class="border rounded px-2 py-2">
-							<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#",callbackName='reloadGeology')>
+							<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#",callback_name='reloadGeology')>
 							<div id="geologyDiv">#geology#</div>
 						</div>
 						<div class="border rounded px-2 py-2">
