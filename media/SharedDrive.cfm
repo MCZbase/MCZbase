@@ -300,10 +300,18 @@ limitations under the License.
 							<input type="button" class="btn btn-xs ml-2 btn-warning ml-2 d-inline-block" onClick="clearInput();" value="Reset Form"/>
 						</div>
 					</div>
+
 					<div class="row">
+
 						<div class="col-3 mt-2 float-left">
 							<div id="images" class="d-inline"></div>
 						</div>
+						<div class="col-3 pt-4 float-left">
+							<div id="commonData" class="d-inline">
+					
+							</div>
+						</div>
+						
 					</div>
 				</div>
 			</form>
@@ -352,8 +360,8 @@ limitations under the License.
 				const form = document.createElement("form");
 				form.setAttribute("method", "post");
 				form.setAttribute("action", "submit");
-				form.className="commonMetaData";
-				document.getElementById('images').appendChild(form);
+				form.id="commonMetaForm";
+				document.getElementById('commonData').appendChild(form);
 				// creates a <table> element and a <tbody> element
 				const tbl = document.createElement("table");
 				tbl.className="table";
@@ -420,7 +428,7 @@ limitations under the License.
 				document.body.appendChild(tbl);
 				// sets the border attribute of tbl to '2'
 				tbl.setAttribute("border", "2");
-				//document.getElementsByClassName('commonMetaData').appendChild(tbl);
+				document.getElementById('commonMetaForm').appendChild(tbl);
 				var button=document.createElement('button');
 				button.id="btn_link";
 				button.className="btn btn-xs btn-secondary";
@@ -430,7 +438,7 @@ limitations under the License.
 					return false;
 				};
 				button.innerHTML="Create Media Records";
-				document.getElementById('images').appendChild(button);
+				document.getElementById('commonData').appendChild(button);
 			}
 		</script>
 	</cfoutput>
