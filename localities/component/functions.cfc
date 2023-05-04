@@ -1588,7 +1588,7 @@ Delete an existing collecting event number record.
 						$('##geoAttFeedback').removeClass('text-warning');
 					};
 					$(document).ready(function() {
-						monitorForChanges('geoAttForm',handleChange);
+						monitorForChangesGeneric('geoAttForm',handleChange);
 					});
 					function addParentsChange() { 
 						var selection = $('##add_parents').val();
