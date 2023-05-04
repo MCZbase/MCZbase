@@ -373,7 +373,7 @@ limitations under the License.
 			function getTable() {
 				// creates a <table> element and a <tbody> element
 				const tbl = document.createElement("table");
-				table.className="table";
+				tbl.className="table";
 				const tblHead = document.createElement("thead");
 			
 					// creates a table row
