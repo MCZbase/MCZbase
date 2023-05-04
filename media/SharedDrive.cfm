@@ -365,11 +365,8 @@ limitations under the License.
 						childDivs[i].remove();
 					}
 				});
-
 				return false;
 			}
-			
-
 			function getTable() {
 				const form = document.createElement("form");
 				form.setAttribute("method", "post");
@@ -400,7 +397,6 @@ limitations under the License.
 				
 				
 				const tblBody = document.createElement("tbody");
-
 					// creates a table row
 					const row2 = document.createElement("tr");
 						const cell1 = document.createElement("td");
@@ -411,9 +407,8 @@ limitations under the License.
 						const cellText2 = document.createTextNode(`text`);
 						cell2.appendChild(cellText2);
 						row2.appendChild(cell2);
-					// add the row to the end of the table body
-					tblBody.appendChild(row2);
-				
+						// add the row to the end of the table body
+						tblBody.appendChild(row2);
 					const row3 = document.createElement("tr");
 						const cell3 = document.createElement("td");
 						const cellText3 = document.createTextNode(`Name`);
@@ -423,11 +418,19 @@ limitations under the License.
 						const cellText4 = document.createTextNode(`text`);
 						cell4.appendChild(cellText4);
 						row3.appendChild(cell4);
-					// add the row to the end of the table body
-					tblBody.appendChild(row3);
-
-
-
+						// add the row to the end of the table body
+						tblBody.appendChild(row3);
+					const row4 = document.createElement("tr");
+						const cell5 = document.createElement("td");
+						const cellText5 = document.createTextNode(`Name`);
+						cell3.appendChild(cellText5);
+						row4.appendChild(cell5);
+						const cell6 = document.createElement("td");
+						const cellText6 = document.createTextNode(`text`);
+						cell6.appendChild(cellText6);
+						row4.appendChild(cell6);
+						// add the row to the end of the table body
+						tblBody.appendChild(row4);
 				// put the <tbody> in the <table>
 				tbl.appendChild(tblBody);
 				// appends <table> into <body>
