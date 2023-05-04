@@ -375,7 +375,7 @@ limitations under the License.
 				const tbl = document.createElement("table");
 				tbl.className="table";
 				const tblHead = document.createElement("thead");
-			
+				tblHead.className="thead-light";
 					// creates a table row
 					const row = document.createElement("tr");
 						const thcell = document.createElement("th");
