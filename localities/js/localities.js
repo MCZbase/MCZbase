@@ -300,3 +300,74 @@ function removeGeologyAttribute(geology_attribute_id, locality_id, callback) {
 	});
 };
 
+function geolocate() {
+	var guri="#Application.protocol#://www.geo-locate.org/web/WebGeoreflight.aspx?georef=run";
+	guri+="&state=" + $("##state_prov").val();
+	guri+="&country="+$("##country").val();
+	guri+="&county="+$("##county").val().replace(" County", "");
+	guri+="&locality="+$("##spec_locality").val();
+	var bgDiv = document.createElement('div');
+	bgDiv.id = 'bgDiv';
+	bgDiv.className = 'bgDiv';
+	bgDiv.setAttribute('onclick','closeGeoLocate("clicked closed")');
+	document.body.appendChild(bgDiv);
+	var popDiv=document.createElement('div');
+	popDiv.id = 'popDiv';
+	popDiv.className = 'editAppBox';
+	document.body.appendChild(popDiv);
+	var cDiv=document.createElement('div');
+	cDiv.className = 'fancybox-close';
+	cDiv.id='cDiv';
+	cDiv.setAttribute('onclick','closeGeoLocate("clicked closed")');
+	$("##popDiv").append(cDiv);
+	var hDiv=document.createElement('div');
+	hDiv.className = 'fancybox-help';
+	hDiv.id='hDiv';
+	hDiv.innerHTML='<a href="https://arctosdb.wordpress.com/how-to/create/data-entry/geolocate/" target="blank">[ help ]</a>';
+	$("##popDiv").append(hDiv);
+	$("##popDiv").append('<img src="/images/loadingAnimation.gif" class="centeredImage">');
+	var theFrame = document.createElement('iFrame');
+	theFrame.id='theFrame';
+	theFrame.className = 'editFrame';
+	theFrame.src=guri;
+	$("##popDiv").append(theFrame);
+}
+ 
+function getGeolocate(evt) {
+	if (evt.origin.includes("://mczbase") && evt.data == "") {
+		console.log(evt); // Chrome seems to include an extra invocation of getGeolocate from mczbase.
+	} else {
+		if (evt.origin !== "#Application.protocol#://www.geo-locate.org") {
+			console.log(evt);
+			alert( "MCZbase error: iframe url does not have permision to interact with me" );
+			closeGeoLocate('intruder alert');
+		} else {
+			var breakdown = evt.data.split("|");
+			if (breakdown.length == 4) {
+				var glat=breakdown[0];
+				var glon=breakdown[1];
+				var gerr=breakdown[2];
+				console.log(breakdown[3]);
+				if (breakdown[3]== "Unavailable")
+				{var gpoly='';}
+				else
+				{var gpoly=breakdown[3].replace(/([^,]*),([^,]*)[,]{0,1}/g,'$2 $1,');}
+				useGL(glat,glon,gerr,gpoly)
+			} else {
+				alert( "MCZbase error: Unable to parse geolocate data. data length=" +  breakdown.length);
+				closeGeoLocate('ERROR - breakdown length');
+			}
+		}
+	}
+}
+     
+function closeGeoLocate(msg) {
+	$('#bgDiv').remove();
+	$('#bgDiv', window.parent.document).remove();
+	$('#popDiv').remove();
+	$('#popDiv', window.parent.document).remove();
+	$('#cDiv').remove();
+	$('#cDiv', window.parent.document).remove();
+	$('#theFrame').remove();
+	$('#theFrame', window.parent.document).remove();
+}

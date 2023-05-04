@@ -2229,6 +2229,14 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				FROM ctlat_long_units
 				ORDER BY ORIG_LAT_LONG_UNITS
 			</cfquery>
+			<cfquery name="lookupForGeolocate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT country, state_prov, county
+					spec_locality
+				FROM locality
+					join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+				WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
 			<cfoutput>
 				<h2 class="h3">Add a georeference for locality #encodeForHtml(locality_label)#</h2>
 				<div>
@@ -2237,6 +2245,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<div class="tab-headers tabList px-0 px-md-3" role="tablist" aria-label="create georeference by">
 							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 active" id="manualTabButton" tabid="1" role="tab" aria-controls="manualPanel" aria-selected="true" tabindex="0" aria-label="Enter original coordinates">You have original coordinates: Enter manually</button>
 							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 " id="geolocateTabButton" tabid="2" role="tab" aria-controls="geolocatePanel" aria-selected="false" tabindex="-1" aria-label="Use geolocate to georeference specific locality">Use Geolocate with Specific Locality</button>
+							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 " id="cloneTabButton" tabid="2" role="tab" aria-controls="clonePanel" aria-selected="false" tabindex="-1" aria-label="Clone from another locality">Clone from another Locality</button>
 						</div>
 						<!-- Tab panes -->
 						<script>
@@ -2388,6 +2397,45 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							</div>
 							<div id="geolocatePanel" role="tabpanel" aria-labelledby="geolocateTabButton" tabindex="-1" class="col-12 px-0 mx-0 unfocus" hidden>
 								<h2 class="px-2 h3">Use Geolocate</h2>
+								<div class="form-row">
+									<div class="col-12">
+										<input type="button" value="GeoLocate" class="btn btn-xs btn-secondary" onClick=" geolocate(); ">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="country" class="data-entry-label">Country</label>
+										<input type="text" name="country" id="country" class="data-entry-input disabled" value="#lookupForGeolocate.country#">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="state_prov" class="data-entry-label">State/Province</label>
+										<input type="text" name="state_prov" id="state_prov" class="data-entry-input disabled" value="#lookupForGeolocate.state_prov#">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="county" class="data-entry-label">County</label>
+										<input type="text" name="county" id="county" class="data-entry-input disabled" value="#lookupForGeolocate.county#">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="gl_spec_locality" class="data-entry-label">Specific Locality</label>
+										<input type="text" name="gl_spec_locality" id="gl_spec_locality" class="data-entry-input disabled" value="#lookupForGeolocate.spec_locality#">
+									</div>
+									<div class="col-12">
+				         		   <div>Some fields will still need to be entered manually here after saving the georeference from the GeoLocate.</div>
+									</div>
+								</div>
+							</div>
+							<div id="clonePanel" role="tabpanel" aria-labelledby="cloneTabButton" tabindex="-1" class="col-12 px-0 mx-0 unfocus" hidden>
+								<h2 class="px-2 h3">Clone from another Locality</h2>
+								<div class="form-row">
+									<div class="col-12">
+										<label for="locality_text" class="data-entry-label">Locality</label>
+										<input type="hidden" name="selected_locality_id" id="selected_locality_id">
+										<input type="text" name="selected_locality_text" id="selected_locality_text" class="data-entry-input">
+										<script>
+											$(document).ready(function() { 
+												makeLocalityAutocompleteMeta("selected_locality_text", "selected_locality_id");
+											});
+										</script>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
