@@ -360,8 +360,8 @@ limitations under the License.
 				const form = document.createElement("form");
 				form.setAttribute("method", "post");
 				form.setAttribute("action", "submit");
-				form.id="commonMetaForm";
-				document.getElementById('commonData').appendChild(form);
+				form.id="images";
+				document.getElementById('images').appendChild(form);
 				// creates a <table> element and a <tbody> element
 				const tbl = document.createElement("table");
 				tbl.className="table";
@@ -429,7 +429,7 @@ limitations under the License.
 				// sets the border attribute of tbl to '2'
 				tbl.setAttribute("border", "2");
 				document.getElementById('commonMetaForm').appendChild(tbl);
-				var button=document.createElement('button')[0];
+				var button=document.createElement('button');
 				button.id="btn_link";
 				button.className="btn btn-xs btn-secondary";
 				button.type="submit";
@@ -438,7 +438,7 @@ limitations under the License.
 					return false;
 				};
 				button.innerHTML="Create Media Records";
-				document.getElementById('commonData').appendChild(button);
+				document.getElementById('images').appendChild(button);
 			}
 		</script>
 	</cfoutput>
