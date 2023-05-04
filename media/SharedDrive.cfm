@@ -438,7 +438,6 @@ limitations under the License.
 						cellText8.setAttribute("placeholder", "Public");
 						cellText8.className="w-100";
 						const cellText8 = document.createElement("option");
-						cellText8.value="";
 						cell8.appendChild(cellText8);
 						row5.appendChild(cell8);
 						// add the row to the end of the table body
