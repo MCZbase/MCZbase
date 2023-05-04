@@ -402,11 +402,11 @@ limitations under the License.
 					// node the contents of the <td>, and put the <td> at
 					// the end of the table row
 						const cell1 = document.createElement("td");
-						const cellText1 = document.createTextNode('Name');
+						const cellText1 = document.createTextNode(`Name`);
 						cell1.appendChild(cellText1);
 						row.appendChild(cell1);
 						const cell2 = document.createElement("td");
-						const cellText2 = document.createTextNode('text');
+						const cellText2 = document.createTextNode(`text`);
 						cell2.appendChild(cellText2);
 						row.appendChild(cell2);
 					// add the row to the end of the table body
