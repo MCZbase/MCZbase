@@ -1530,7 +1530,7 @@ Delete an existing collecting event number record.
 					<input type="hidden" name="method" value="updateGeologyAttribute">
 					<input type="hidden" name="locality_id" value="#locality_id#">
 					<input type="hidden" name="geology_attribute_id" value="#geology_attribute_id#">
-					<h2 class="h3">Edit geological attribute #currentAttributes:geo_att_value# (#currentAttributes.geology_attribute#) for locality #encodeForHtml(getLabel.locality_label)#</h2>
+					<h2 class="h3">Edit geological attribute #currentAttributes.geo_att_value# (#currentAttributes.geology_attribute#) for locality #encodeForHtml(getLabel.locality_label)#</h2>
 					<div class="form-row">
 						<div class="col-12 col-md-3">
 							<label for="attribute_type" class="data-entry-label">Type</label>
