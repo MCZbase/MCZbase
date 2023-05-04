@@ -395,12 +395,12 @@ limitations under the License.
 					// creates a table row
 					const row2 = document.createElement("tr");
 						const cell1 = document.createElement("td");
-						const cellText1 = document.createElement("input");
-						cellText1.setAttribute("placeholder", "Last Name");
+						const cellText1 = document.createTextNode(`Name`);
 						cell1.appendChild(cellText1);
 						row2.appendChild(cell1);
 						const cell2 = document.createElement("td");
-						const cellText2 = document.createTextNode(`text`);
+						const cellText2 = document.createElement("input");
+						cellText2.setAttribute("placeholder", "Last Name");
 						cell2.appendChild(cellText2);
 						row2.appendChild(cell2);
 						// add the row to the end of the table body
