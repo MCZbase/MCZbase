@@ -1,4 +1,6 @@
+<cfset pageTitle = "Run SQL">
 <cfinclude template = "/shared/_header.cfm">
+	
 	<cfset title="user SQL">
 		<cfif not isdefined("sql")>
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
