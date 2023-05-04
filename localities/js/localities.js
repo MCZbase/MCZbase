@@ -218,13 +218,16 @@ function openAddGeologyDialog(locality_id, dialogid, callback) {
   removingthe reference to a geological attribute from a locality.
  @param geology_attribute_id the primary key value for the geological 
   attribute to delete.
+ @param locality_id the locality from which to remove the geological
+  attribute as a crosscheck.
  @param callback a callback function to invoke on success.
 **/
-function removeGeologyAttribute(geology_attribute_id, callback) { 
+function removeGeologyAttribute(geology_attribute_id, locality_id, callback) { 
 	jQuery.ajax({
 		url: "/localities/component/functions.cfc",
 		data : {
 			method : "deleteGeologyAttribute",
+			locality_id: locality_id,
 			geology_attribute_id: geology_attribute_id
 		},
 		success: function (result) {
@@ -236,7 +239,7 @@ function removeGeologyAttribute(geology_attribute_id, callback) {
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"deleting a georeference");
+			handleFail(jqXHR,textStatus,error,"deleting a geological attribute");
 		},
 		dataType: "html"
 	});
