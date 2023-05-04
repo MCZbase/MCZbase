@@ -364,15 +364,16 @@ limitations under the License.
 				return false;
 			}
 			
-			
-			
+
 			function getTable() {
+				div.id="tablewrapper text-center my-3";
+				document.getElementById('images').appendChild(div);
+				form.className="commmonMeta my-3";
+				document.getElementById('tablewrapper').appendChild(div);
 				var table=document.createElement('table');
-				document.getElementById('images').appendChild(table);
+				document.getElementById('tablewrapper').appendChild(table);
 			}
 		</script>
-											
-		
 	</cfoutput>
 </cfif>
 <cfif action is 'newMedia'>
