@@ -403,11 +403,11 @@ limitations under the License.
 					// the end of the table row
 						const cell1 = document.createElement("td");
 						const cellText1 = document.createTextNode('Name');
-						cell.appendChild(cellText1);
+						cell1.appendChild(cellText1);
 						row.appendChild(cell1);
 						const cell2 = document.createElement("td");
-						const cellText2 = document.createElement('input');
-						cell.appendChild(cellText2);
+						const cellText2 = document.createTextNode('text');
+						cell2.appendChild(cellText2);
 						row.appendChild(cell2);
 					// add the row to the end of the table body
 					tblBody.appendChild(row);
