@@ -1479,12 +1479,13 @@ Delete an existing collecting event number record.
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="editGeoAtt#tn#">
 		<cftry>
-			<cfquery name="currentAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="currentAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					geology_attribute_id, 
 					ctgeology_attributes.type,
+					geology_attribute_hierarchy_id,
 					geology_attributes.geology_attribute,
-					geo_att_value,
+					geology_attributes.geo_att_value,
 					geo_att_determiner_id,
 					agent_name determiner,
 					geo_att_determined_date,
@@ -1494,6 +1495,8 @@ Delete an existing collecting event number record.
 					geology_attributes
 					left join preferred_agent_name on geo_att_determiner_id = preferred_agent_name.agent_id
 					join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
+					left join geology_attribute_hierarchy on geology_attributes.geology_attribute = geology_attribute_hierarchy.attribute 
+						AND geology_attributes.geo_att_value = geology_attribute_hierarchy.geo_att_value
 				WHERE 
 					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_id#">
 			</cfquery>
@@ -1513,17 +1516,17 @@ Delete an existing collecting event number record.
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
 			<cfoutput>
-				<form id="addGeoAttForm">
+				<form id="editGeoAttForm">
 					<input type="hidden" name="method" value="updateGeologyAttribute">
 					<input type="hidden" name="locality_id" value="#locality_id#">
 					<input type="hidden" name="geology_attribute_id" value="#geology_attribute_id#">
-					<h2 class="h3">Edit geological attribute #currentAttributes.geo_att_value# (#currentAttributes.geology_attribute#) for locality #encodeForHtml(getLabel.locality_label)#</h2>
+					<h2 class="h3">Edit geological attribute #currentAttribute.geo_att_value# (#currentAttribute.geology_attribute#) for locality #encodeForHtml(getLabel.locality_label)#</h2>
 					<div class="form-row">
 						<div class="col-12 col-md-3">
 							<label for="attribute_type" class="data-entry-label">Type</label>
 							<select id="attribute_type" name="attribute_type" class="data-entry-select reqdClr" onChange=" changeGeoAttType(); ">
 								<cfloop query="types">
-									<cfif types.type EQ currentAttributes.type><cfset selected="selected"><cfelse><cfset selected = ""></cfif>
+									<cfif types.type EQ currentAttribute.type><cfset selected="selected"><cfelse><cfset selected = ""></cfif>
 									<option value="#types.type#" #selected#>#types.type#</option>
 									<cfset selected="">
 								</cfloop>
@@ -1531,9 +1534,9 @@ Delete an existing collecting event number record.
 						</div>
 						<div class="col-12 col-md-3">
 							<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
-							<input type="text" id="geo_att_value" name="geo_att_value" class="data-entry-input" onFocusOut=" addParentsChange(); " value="#encodeForHtml(currentAttributes.geo_att_value)#">
-							<input type="hidden" id="geology_attribute" name="geology_attribute" value="#currentAttributes.geology_attribute#">
-							<input type="hidden" id="geology_attribute_hierarchy_id" name="geology_attribute_hierarchy_id" value="">
+							<input type="text" id="geo_att_value" name="geo_att_value" class="data-entry-input" onFocusOut=" addParentsChange(); " value="#encodeForHtml(currentAttribute.geo_att_value)#">
+							<input type="hidden" id="geology_attribute" name="geology_attribute" value="#currentAttribute.geology_attribute#">
+							<input type="hidden" id="geology_attribute_hierarchy_id" name="geology_attribute_hierarchy_id" value="#currentAttribute.geology_attribute_hierarchy_id#">
 						</div>
 						<div class="col-12 col-md-2">
 							<label for="add_parents" class="data-entry-label">Add Parents</label>
@@ -1547,23 +1550,23 @@ Delete an existing collecting event number record.
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="determiner" class="data-entry-label">Determiner</label>
-							<input type="text" id="determiner" name="determiner" class="data-entry-input" value="#encodeForHtml(currentAttributes.determiner)#">
-							<input type="hidden" id="geo_att_determiner_id" name="geo_att_determiner_id" value="#currentAttributes.geo_att_determiner_id#">
+							<input type="text" id="determiner" name="determiner" class="data-entry-input" value="#encodeForHtml(currentAttribute.determiner)#">
+							<input type="hidden" id="geo_att_determiner_id" name="geo_att_determiner_id" value="#currentAttribute.geo_att_determiner_id#">
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="geo_att_determined_date" class="data-entry-label">Date Determined</label>
 							<input type="text" name="geo_att_determined_date" id="geo_att_determined_date"
-								value="#dateformat(currentAttributes.geo_att_determined_date,"yyyy-mm-dd")#" class="data-entry-input">
+								value="#dateformat(currentAttribute.geo_att_determined_date,"yyyy-mm-dd")#" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="geo_att_determined_method" class="data-entry-label">Determination Method</label>
-							<input type="text" id="geo_att_determined_method" name="geo_att_determined_method" class="data-entry-input" value="#encodeForHtml(currentAttributes.geo_att_determined_method)#">
+							<input type="text" id="geo_att_determined_method" name="geo_att_determined_method" class="data-entry-input" value="#encodeForHtml(currentAttribute.geo_att_determined_method)#">
 						</div>
 						<div class="col-12 col-md-12">
 							<label for="geo_att_remark" class="data-entry-label">Remarks (<span id="length_geo_att_remark">0 characters, 4000 left</span>)</label>
 							<textarea name="geo_att_remark" id="geo_att_remark" 
 								onkeyup="countCharsLeft('geo_att_remark', 4000, 'length_geo_att_remark');"
-								class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(currentAttributes.geo_att_remark)#</textarea>
+								class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(currentAttribute.geo_att_remark)#</textarea>
 							<script>
 								// Bind textarea to autogrow function on key up
 								$(document).ready(function() { 
@@ -1588,7 +1591,7 @@ Delete an existing collecting event number record.
 						$('##geoAttFeedback').removeClass('text-warning');
 					};
 					$(document).ready(function() {
-						monitorForChangesGeneric('geoAttForm',handleChange);
+						monitorForChangesGeneric('editGeoAttForm',handleChange);
 					});
 					function addParentsChange() { 
 						var selection = $('##add_parents').val();
