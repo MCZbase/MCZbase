@@ -374,9 +374,8 @@ limitations under the License.
 			
 
 			function getTable() {
-				
 				var table=document.createElement('table');
-				form.getElementById('metatable').appendChild(table);
+				document.getElementById('commonData').appendChild(table);
 			}
 		</script>
 	</cfoutput>
