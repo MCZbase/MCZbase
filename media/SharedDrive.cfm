@@ -373,6 +373,25 @@ limitations under the License.
 			function getTable() {
 				// creates a <table> element and a <tbody> element
 				const tbl = document.createElement("table");
+				const tblHead = document.createElement("thead");
+				for (let i = 0; i < 2; i++) {
+					// creates a table row
+					const row = document.createElement("tr");
+						const thcell = document.createElement("th");
+						const cellLabel = document.createTextNode('Label');
+						thcell.appendChild(cellLabel);
+						row.appendChild(thcell);
+						const thcell2 = document.createElement("th");
+						const cellLabel2 = document.createTextNode('Value');
+						thcell2.appendChild(cellLabel2);
+						row.appendChild(thcell2);
+
+					// add the row to the end of the table body
+					tblBody.appendChild(row);
+				}
+
+				// put the <tbody> in the <table>
+				tbl.appendChild(tblBody);
 				const tblBody = document.createElement("tbody");
 
 				// creating all cells
