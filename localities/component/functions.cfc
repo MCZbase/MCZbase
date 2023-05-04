@@ -1531,7 +1531,7 @@ Delete an existing collecting event number record.
 							<label for="attribute_type" class="data-entry-label">Type</label>
 							<select id="attribute_type" name="attribute_type" class="data-entry-select reqdClr" onChange=" changeGeoAttType(); ">
 								<cfloop query="types">
-									<cfif types.type EQ currentAtributes.type><cfset selected="selected"><cfelse><selected = ""></cfif>
+									<cfif types.type EQ currentAttributes.type><cfset selected="selected"><cfelse><selected = ""></cfif>
 									<option value="#types.type#" #selected#>#types.type#</option>
 									<cfset selected="">
 								</cfloop>
