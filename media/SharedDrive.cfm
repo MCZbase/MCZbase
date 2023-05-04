@@ -443,12 +443,12 @@ limitations under the License.
 						tblBody.appendChild(row5);
 					const row6 = document.createElement("tr");
 						const cell9 = document.createElement("td");
-						const cellText9 = document.createTextNode(`Media Record Visibility`);
+						const cellText9 = document.createTextNode(`show Cataloged Items`);
 						cell9.appendChild(cellText9);
 						row6.appendChild(cell9);
 						const cell10 = document.createElement("td");
-						const cellText10 = document.createElement("select");
-						cellText10.setAttribute("placeholder", "Public");
+						const cellText10 = document.createElement("input");
+						cellText10.setAttribute("placeholder", "cat_num");
 						cellText10.className="w-100";
 						cell10.appendChild(cellText10);
 						row6.appendChild(cell10);
