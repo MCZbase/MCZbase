@@ -398,17 +398,14 @@ limitations under the License.
 
 					// creates a table row
 					const row2 = document.createElement("tr");
-					// Create a <td> element and a text node, make the text
-					// node the contents of the <td>, and put the <td> at
-					// the end of the table row
 						const cell1 = document.createElement("td");
 						const cellText1 = document.createTextNode(`Name`);
 						cell1.appendChild(cellText1);
-						row.appendChild(cell1);
+						row2.appendChild(cell1);
 						const cell2 = document.createElement("td");
 						const cellText2 = document.createTextNode(`text`);
 						cell2.appendChild(cellText2);
-						row.appendChild(cell2);
+						row2.appendChild(cell2);
 					// add the row to the end of the table body
 					tblBody.appendChild(row2);
 
