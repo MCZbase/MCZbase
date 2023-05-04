@@ -1490,8 +1490,8 @@ Delete an existing collecting event number record.
 			<cfquery name="currentAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					geology_attribute_id, 
-					ctgeology_attribute.type,
-					geology_attribute,
+					ctgeology_attributes.type,
+					geology_attributes.geology_attribute,
 					geo_att_value,
 					geo_att_determiner_id,
 					agent_name determiner,
@@ -1501,7 +1501,7 @@ Delete an existing collecting event number record.
 				FROM
 					geology_attributes
 					left join preferred_agent_name on geo_att_determiner_id = preferred_agent_name.agent_id
-					join ctgeology_attribute on geology_attributes.geology_attribute = ctgeology_attribute.attribute
+					join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
 				WHERE 
 					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
