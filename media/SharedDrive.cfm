@@ -395,23 +395,24 @@ limitations under the License.
 					// creates a table row
 					const row2 = document.createElement("tr");
 						const cell1 = document.createElement("td");
-						const cellText1 = document.createTextNode(`Name`);
+						const cellText1 = document.createTextNode(`MIME Type`);
 						cell1.appendChild(cellText1);
 						row2.appendChild(cell1);
 						const cell2 = document.createElement("td");
 						const cellText2 = document.createElement("input");
-						cellText2.setAttribute("placeholder", "Last Name");
+						cellText2.setAttribute("placeholder", "MIME Type");
 						cell2.appendChild(cellText2);
 						row2.appendChild(cell2);
 						// add the row to the end of the table body
 						tblBody.appendChild(row2);
 					const row3 = document.createElement("tr");
 						const cell3 = document.createElement("td");
-						const cellText3 = document.createTextNode(`Name`);
+						const cellText3 = document.createTextNode(`Media Type`);
 						cell3.appendChild(cellText3);
 						row3.appendChild(cell3);
 						const cell4 = document.createElement("td");
-						const cellText4 = document.createTextNode(`text`);
+						const cellText4 = document.createElement("input");
+						cellText4.setAttribute("placeholder", "Media Type");
 						cell4.appendChild(cellText4);
 						row3.appendChild(cell4);
 						// add the row to the end of the table body
