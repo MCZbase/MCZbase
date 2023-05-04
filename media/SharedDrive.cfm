@@ -311,7 +311,7 @@ limitations under the License.
 							<div id="images" class="d-inline"></div>
 						</div>
 						<div class="col-3 mt-2 float-left">
-							<div id="commonData" class="d-inline">
+							<div id="commonData" class="d-inline mt-3">
 					
 							</div>
 						</div>
@@ -396,24 +396,22 @@ limitations under the License.
 				
 				const tblBody = document.createElement("tbody");
 
-				// creating all cells
-				for (let i = 0; i < 2; i++) {
 					// creates a table row
 					const row = document.createElement("tr");
-
-					for (let j = 0; j < 2; j++) {
 					// Create a <td> element and a text node, make the text
 					// node the contents of the <td>, and put the <td> at
 					// the end of the table row
-						const cell = document.createElement("td");
-						const cellText = document.createTextNode(`cell in row ${i}, column ${j}`);
-						cell.appendChild(cellText);
-						row.appendChild(cell);
-					}
-
+						const cell1 = document.createElement("td");
+						const cellText1 = document.createTextNode('Name');
+						cell.appendChild(cellText1);
+						row.appendChild(cell1);
+						const cell2 = document.createElement("td");
+						const cellText2 = document.createTextNode('<input type="text" value="Name">');
+						cell.appendChild(cellText2);
+						row.appendChild(cell2);
 					// add the row to the end of the table body
 					tblBody.appendChild(row);
-				}
+
 
 				// put the <tbody> in the <table>
 				tbl.appendChild(tblBody);
