@@ -851,7 +851,7 @@ Delete an existing collecting event number record.
 										<cfset marker = "*">
 										<cfset spanClass = "">
 									<cfelse>
-										<cfset marker = "*">
+										<cfset marker = "">
 										<cfset spanClass = "text-danger">
 									</cfif>
 									<span class="#spanClass#">#geo_att_value# #marker#</span> (#geology_attribute#) #determined_by# #determined_date##method##remarks#
