@@ -102,7 +102,7 @@
 												left join coll_object_remark on cataloged_item.collection_object_id = coll_object_remark.collection_object_id
 											WHERE
 												cataloged_item.collection_object_id = <cfqueryparam value="#getItems.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-												and col_object_remarks is not null
+												and coll_object_remarks is not null
 										</cfquery>
 										<cfif object_rem.recordcount GT 0>
 											<cfset remarks = "<ul>"><!--- " --->
@@ -147,7 +147,7 @@
 						coll_object_remark 
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#getRecords.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						and col_object_remarks = <cfqueryparam value="#remark#" cfsqltype="CF_SQL_VARCHAR">,
+						and coll_object_remarks = <cfqueryparam value="#remark#" cfsqltype="CF_SQL_VARCHAR">,
 				</cfquery>
 				<cfif countDuplicates.ct EQ 0> 
 					<cfquery name="addRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addRemark_result">
