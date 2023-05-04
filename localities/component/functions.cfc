@@ -1173,7 +1173,7 @@ Delete an existing collecting event number record.
 						<div class="col-12 col-md-3">
 							<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
 							<input type="text" id="geo_att_value" name="geo_att_value" class="data-entry-input">
-							<input type="hidden" id="geology_attributes" name="geology_attributes">
+							<input type="hidden" id="geology_attribute" name="geology_attribute">
 							<input type="hidden" id="geology_attribute_hierarchy_id" name="geology_attribute_hierarchy_id">
 						</div>
 						<div class="col-12 col-md-2">
@@ -1257,12 +1257,12 @@ Delete an existing collecting event number record.
 						});
 					};
 					function changeGeoAttType() { 
-						$('##geology_attributes').val("");
+						$('##geology_attribute').val("");
 						$('##geo_att_value').val("");
-						makeGeologyAutocompleteMeta('geology_attributes', 'geo_att_value','entry',$('##attribute_type').val());
+						makeGeologyAutocompleteMeta('geology_attribute', 'geo_att_value','entry',$('##attribute_type').val());
 					} 
 					$(document).ready(function(){ 
-						makeGeologyAutocompleteMeta('geology_attributes', 'geo_att_value','geology_attribute_hierarchy_id','entry',$('##attribute_type').val());
+						makeGeologyAutocompleteMeta('geology_attribute', 'geo_att_value','geology_attribute_hierarchy_id','entry',$('##attribute_type').val());
 						makeAgentAutocompleteMeta('determiner', 'geo_att_determiner_id');
 						$("##geo_att_determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
 					});
