@@ -120,7 +120,7 @@ limitations under the License.
 						</div>
 		
 							<div class="form-row mb-5">
-								<table class="table table-responsive d-table-lg">
+								<table class="table table-responsive-sm">
 									<thead>
 									<tr>
 										<th>Cat Num</th>
