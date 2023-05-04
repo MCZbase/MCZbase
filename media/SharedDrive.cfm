@@ -312,7 +312,7 @@ limitations under the License.
 						</div>
 						<div class="col-3 mt-2 float-left">
 							<div id="commonData" class="d-inline">
-								<form action="##" id="matatable" method="post">
+								<form action="##" id="metatable" method="post">
 									
 								
 								</form>
