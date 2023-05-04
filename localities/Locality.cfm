@@ -103,9 +103,13 @@ limitations under the License.
 								function reloadLocalityBlocks() { 
 									updateLocalitySummary('#locality_id#','summary');	
 									reloadGeology();
+									reloadGeoreferences();
 									// TODO: Implmement
 								}
 								function reloadGeology()  {
+									loadGeologyHTML('#locality_id#','geologyDiv', 'reloadGeology');
+								}
+								function reloadGeoreferences()  {
 									// TODO: Implement
 								}
 								function saveEdits(){ 
@@ -124,7 +128,7 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div class="border rounded px-2 py-2">
-							<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#",callbackName='reloadGeology')>
+							<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#",callback_name='reloadGeology')>
 							<div id="geologyDiv">#geology#</div>
 						</div>
 						<div class="border rounded px-2 py-2">
