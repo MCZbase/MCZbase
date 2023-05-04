@@ -308,7 +308,9 @@ limitations under the License.
 						</div>
 						<div class="col-3 pt-4 float-left">
 							<div id="commonData" class="d-inline">
-								<input type="button" class="btn btn-xs btn-primary" onClick="getMeta()"
+								<input type="button" class="btn btn-xs btn-seconday" onClick="window.location='/media/SharedDrive.cfm?action=newMedia&media_id=1335'">
+		<!---	window.location='/media/SharedDrive.cfm?action=newMedia&media_id=#mid.nv#';--->
+				
 							</div>
 						</div>
 						
@@ -349,6 +351,10 @@ limitations under the License.
 					let childDivs = document.querySelectorAll("div##images > .imagewrapper");
 					for(var i = 0; i < childDivs.length; i++){
 						childDivs[i].remove();
+					};
+					let childDivs2 = document.querySelectorAll("div##images > table");
+					for(var i = 0; i < childDivs2.length; i++){
+						childDivs2[i].remove();
 					}
 				});
 				return false;
@@ -456,18 +462,7 @@ limitations under the License.
 				tbl.setAttribute("border", "2");
 				document.getElementById('commonMetaForm').appendChild(tbl);
 			}
-			function getMeta() {
-				var button=document.createElement('button');
-				button.id="btn_link";
-				button.className="btn btn-xs btn-secondary";
-				button.type="submit";
-				button.onclick = function(){
-					window.location='/media/SharedDrive.cfm?action=newMedia&media_id=#mid.nv#';
-					return false;
-				};
-				button.innerHTML="Create Media Records";
-				document.getElementById('commonData').appendChild(button);
-			}
+
 		</script>
 	</cfoutput>
 </cfif>
