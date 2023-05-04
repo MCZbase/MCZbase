@@ -363,6 +363,9 @@ limitations under the License.
 				});
 				return false;
 			}
+			
+			
+			
 			function getTable() {
 				const form = document.createElement("form");
 				form.setAttribute("method", "post");
@@ -384,14 +387,10 @@ limitations under the License.
 						const cellLabel2 = document.createTextNode('Value');
 						thcell2.appendChild(cellLabel2);
 						row.appendChild(thcell2);
-
 					// add the row to the end of the table body
 					tblHead.appendChild(row);
-				
 				// put the <tbody> in the <table>
 				tbl.appendChild(tblHead);
-				
-				
 				const tblBody = document.createElement("tbody");
 					// creates a table row
 					const row2 = document.createElement("tr");
