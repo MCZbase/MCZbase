@@ -778,7 +778,7 @@ Delete an existing collecting event number record.
 						geology_attributes.geo_att_determined_method determined_method,
 						geology_attributes.geo_att_remark,
 						geology_attributes.previous_values,
-						geology_attributes.usable_value_fg,
+						geology_attribute_hierarchy.usable_value_fg,
 						geology_attribute_hierarchy.geology_attribute_hierarchy_id
 					FROM
 						geology_attributes
