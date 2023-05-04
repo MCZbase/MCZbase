@@ -1259,7 +1259,7 @@ Delete an existing collecting event number record.
 					function changeGeoAttType() { 
 						$('##geology_attribute').val("");
 						$('##geo_att_value').val("");
-						makeGeologyAutocompleteMeta('geology_attribute', 'geo_att_value','entry',$('##attribute_type').val());
+						makeGeologyAutocompleteMeta('geology_attribute', 'geo_att_value','geology_attribute_hierarchy_id','entry',$('##attribute_type').val());
 					} 
 					$(document).ready(function(){ 
 						makeGeologyAutocompleteMeta('geology_attribute', 'geo_att_value','geology_attribute_hierarchy_id','entry',$('##attribute_type').val());
