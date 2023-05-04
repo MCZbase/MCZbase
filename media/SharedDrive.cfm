@@ -375,7 +375,7 @@ limitations under the License.
 				const tbl = document.createElement("table");
 				
 				const tblHead = document.createElement("thead");
-				for (let i = 0; i < 1; i++) {
+			
 					// creates a table row
 					const row = document.createElement("tr");
 						const thcell = document.createElement("th");
@@ -389,7 +389,7 @@ limitations under the License.
 
 					// add the row to the end of the table body
 					tblHead.appendChild(row);
-				}
+				
 				// put the <tbody> in the <table>
 				tbl.appendChild(tblHead);
 				
