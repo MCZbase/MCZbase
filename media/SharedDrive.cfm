@@ -438,7 +438,7 @@ limitations under the License.
 					return false;
 				};
 				button.innerHTML="Create Media Records";
-				div.appendChild(button);
+				document.getElementById('commonData').appendChild(button);
 			}
 		</script>
 	</cfoutput>
