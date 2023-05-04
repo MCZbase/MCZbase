@@ -100,7 +100,7 @@ limitations under the License.
 								</cfif>
 								<div class="form-row mb-3">
 									<div class="col-12 col-sm-8">
-										<label for="underscore_collection">Select a Named Group</label>
+										<label for="underscore_collection" class="px-2">Select a Named Group</label>
 										<input type="text" name="collection_name" id="collection_name" class="data-entry-input reqdClr" required>
 										<input type="hidden" name="underscore_collection_id" id="underscore_collection_id">
 										<script>
@@ -120,7 +120,7 @@ limitations under the License.
 						</div>
 		
 							<div class="form-row mb-5">
-								<table class="table table-responsive">
+								<table class="table table-responsive d-table-lg">
 									<thead>
 									<tr>
 										<th>Cat Num</th>
