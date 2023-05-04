@@ -231,11 +231,10 @@ function removeGeologyAttribute(geology_attribute_id, locality_id, callback) {
 			geology_attribute_id: geology_attribute_id
 		},
 		success: function (result) {
-			console.log(callback);
 			if (jQuery.type(callback)==='function') {
 				callback();
 			}
-			if (result[0].STATUS!='deleted') {
+			if (result[0].status!='deleted') {
 				alert(result[0].MESSAGE);
 			}
 		},
