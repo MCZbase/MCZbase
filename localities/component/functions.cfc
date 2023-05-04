@@ -774,10 +774,11 @@ Delete an existing collecting event number record.
 						geology_attributes.geo_att_value,
 						geology_attributes.geo_att_determiner_id,
 						agent_name determined_by,
-						geology_attributes.geo_att_determined_date determined_date,
+						to_char(geology_attributes.geo_att_determined_date,'yyyy-mm-dd') determined_date,
 						geology_attributes.geo_att_determined_method determined_method,
 						geology_attributes.geo_att_remark,
 						geology_attributes.previous_values,
+						geology_attributes.usable_value_fg,
 						geology_attribute_hierarchy.geology_attribute_hierarchy_id
 					FROM
 						geology_attributes
@@ -836,7 +837,20 @@ Delete an existing collecting event number record.
 								</cfloop>
 								#parentage#
 								<li>
-									#geology_attribute#:#geo_att_value# #determined_by# #determined_date# #determined_method#
+									<cfif len(detemined_method) GT 0>
+										<cfset determined_method = "Method: #determined_method#">
+									</cfif>
+									<cfif len(geo_att_remark) GT 0>
+										<cfset geo_att_remark = "<span class='smaller-text'>Remarks: #geo_att_remark#</span>"><!--- " --->
+									</cfif>
+									<cfif usable_value_fg EQ 1>
+										<cfset marker = "*">
+										<cfset spanClass = "">
+									<cfelse>
+										<cfset marker = "*">
+										<cfset spanClass = "text-danger">
+									</cfif>
+									<span class="#spanClass#">#geo_att_value# #marker#</span> (#geology_attribute#) #determined_by# #determined_date# #determined_method# #geo_att_remark#
 									<button type="button" class="btn btn-xs btn-secondary" onClick=" openEditGeologyDialog('#geology_attribute_id#','#locality_id#','editGeologyDialog',#callback_name#);">Edit</button>
 									<button type="button" 
 										class="btn btn-xs btn-warning" 
@@ -1484,11 +1498,12 @@ Delete an existing collecting event number record.
 					geology_attribute_id, 
 					ctgeology_attributes.type,
 					geology_attribute_hierarchy_id,
+					geology_attribute_hierarchy.usable_value_fg,
 					geology_attributes.geology_attribute,
 					geology_attributes.geo_att_value,
 					geo_att_determiner_id,
 					agent_name determiner,
-					geo_att_determined_date,
+					to_char(geo_att_determined_date,'yyyy-mm-dd') geo_att_determined_date,
 					geo_att_determined_method,
 					geo_att_remark
 				FROM
@@ -1520,7 +1535,14 @@ Delete an existing collecting event number record.
 					<input type="hidden" name="method" value="updateGeologyAttribute">
 					<input type="hidden" name="locality_id" value="#locality_id#">
 					<input type="hidden" name="geology_attribute_id" value="#geology_attribute_id#">
-					<h2 class="h3">Edit geological attribute #currentAttribute.geo_att_value# (#currentAttribute.geology_attribute#) for locality #encodeForHtml(getLabel.locality_label)#</h2>
+					<cfset spanClass="">
+					<cfif currentAttribute.usable_value_fg EQ 1>
+						<cfset accepted="<strong>*</strong></span>"><!---" --->
+					<cfelse>
+						<cfset accepted="</span>"><!--- " --->
+						<cfset spanClass="text-danger">
+					</cfelse>
+					<h2 class="h3">Edit geological attribute <span class="#spanClass#">#currentAttribute.geo_att_value# #accepted# (#currentAttribute.geology_attribute#) for locality #encodeForHtml(getLabel.locality_label)#</h2>
 					<div class="form-row">
 						<div class="col-12 col-md-3">
 							<label for="attribute_type" class="data-entry-label">Type</label>
