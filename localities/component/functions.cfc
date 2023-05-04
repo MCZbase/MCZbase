@@ -761,7 +761,7 @@ Delete an existing collecting event number record.
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="callback_name" type="string" required="yes">
 
-	<cfset variables.callbackName = arguments.callbackName>
+	<cfset variables.callback_name = arguments.callback_name>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityGeologyFormThread#tn#">
 		<cfoutput>
@@ -797,7 +797,7 @@ Delete an existing collecting event number record.
 						<ul>
 							<li>
 								Recent (no geological attributes) 
-								<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog','#callbackName#'); ">Add</button>
+								<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog','#callback_name#'); ">Add</button>
 							</li>
 						</ul>
 					</div>
@@ -837,14 +837,14 @@ Delete an existing collecting event number record.
 								#parentage#
 								<li>
 									#geology_attribute#:#geo_att_value# #determined_by# #determined_date# #determined_method#
-									<button type="button" class="btn btn-xs btn-secondary" onClick=" openEditGeologyDialog('#geology_attribute_id#','editGeologyDialog','#callbackName#');">Edit</button>
+									<button type="button" class="btn btn-xs btn-secondary" onClick=" openEditGeologyDialog('#geology_attribute_id#','editGeologyDialog','#callback_name#');">Edit</button>
 									<button type="button" 
 										class="btn btn-xs btn-warning" 
-										onClick=" confirmDialog('Remove #geology_attribute#:#geo_att_value# from this locality ?', 'Confirm Remove Geological Attribute', function() { removeGeologyAttribute('#geology_attribute_id#','#locality_id#',#callbackName#); } );">Remove</button>
+										onClick=" confirmDialog('Remove #geology_attribute#:#geo_att_value# from this locality ?', 'Confirm Remove Geological Attribute', function() { removeGeologyAttribute('#geology_attribute_id#','#locality_id#',#callback_name#); } );">Remove</button>
 								</li>
 							</cfloop>
 							<li>
-								<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog','#callbackName#'); ">Add</button>
+								<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog','#callback_name#'); ">Add</button>
 							</li>
 						</ul>
 					</div>
