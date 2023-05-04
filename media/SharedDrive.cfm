@@ -420,7 +420,7 @@ limitations under the License.
 				document.body.appendChild(tbl);
 				// sets the border attribute of tbl to '2'
 				tbl.setAttribute("border", "2");
-				document.getElementsByTagName('form').appendChild(tbl);
+				//document.getElementsByClassName('commonMetaData').appendChild(tbl);
 				var button=document.createElement('button');
 				button.id="btn_link";
 				button.className="btn btn-xs btn-secondary";
