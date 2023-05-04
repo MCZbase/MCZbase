@@ -837,7 +837,7 @@ Delete an existing collecting event number record.
 								</cfloop>
 								#parentage#
 								<li>
-									<cfif len(detemined_method) GT 0>
+									<cfif len(determined_method) GT 0>
 										<cfset determined_method = "Method: #determined_method#">
 									</cfif>
 									<cfif len(geo_att_remark) GT 0>
