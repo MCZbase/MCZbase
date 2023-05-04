@@ -397,7 +397,7 @@ limitations under the License.
 				const tblBody = document.createElement("tbody");
 
 					// creates a table row
-					const row = document.createElement("tr");
+					const row2 = document.createElement("tr");
 					// Create a <td> element and a text node, make the text
 					// node the contents of the <td>, and put the <td> at
 					// the end of the table row
@@ -410,7 +410,7 @@ limitations under the License.
 						cell2.appendChild(cellText2);
 						row.appendChild(cell2);
 					// add the row to the end of the table body
-					tblBody.appendChild(row);
+					tblBody.appendChild(row2);
 
 
 				// put the <tbody> in the <table>
