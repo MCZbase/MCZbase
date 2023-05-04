@@ -310,6 +310,14 @@ limitations under the License.
 						<div class="col-3 mt-2 float-left">
 							<div id="images" class="d-inline"></div>
 						</div>
+						<div class="col-3 mt-2 float-left">
+							<div id="commonData" class="d-inline">
+								<form action="##" id="matatable" method="post">
+									
+								
+								</form>
+							</div>
+						</div>
 						
 					</div>
 				</div>
@@ -366,12 +374,8 @@ limitations under the License.
 			
 
 			function getTable() {
-				div.id="tablewrapper text-center my-3";
-				document.getElementById('images').appendChild(div);
-				form.className="commmonMeta my-3";
-				document.getElementById('tablewrapper').appendChild(div);
 				var table=document.createElement('table');
-				document.getElementById('tablewrapper').appendChild(table);
+				document.getElementById('metatable').appendChild(table);
 			}
 		</script>
 	</cfoutput>
