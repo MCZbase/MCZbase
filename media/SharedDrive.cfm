@@ -352,7 +352,7 @@ limitations under the License.
 				const form = document.createElement("form");
 				form.setAttribute("method", "post");
 				form.setAttribute("action", "submit");
-				form.id="commonMetaData";
+				form.className="commonMetaData";
 				document.getElementById('images').appendChild(form);
 				// creates a <table> element and a <tbody> element
 				const tbl = document.createElement("table");
@@ -420,7 +420,7 @@ limitations under the License.
 				document.body.appendChild(tbl);
 				// sets the border attribute of tbl to '2'
 				tbl.setAttribute("border", "2");
-				document.getElementById('commonMetaData').appendChild(tbl);
+				document.getElementsByTagName('form').appendChild(tbl);
 				var button=document.createElement('button');
 				button.id="btn_link";
 				button.className="btn btn-xs btn-secondary";
