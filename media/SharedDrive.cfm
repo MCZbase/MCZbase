@@ -308,7 +308,7 @@ limitations under the License.
 						</div>
 						<div class="col-3 pt-4 float-left">
 							<div id="commonData" class="d-inline">
-								<input type="button" class="btn btn-xs btn-secondary" onClick="window.location='/media/SharedDrive.cfm?action=newMedia&media_id=1335'">
+								<input type="button" class="btn btn-xs btn-secondary" value="Create Media Records" onClick="window.location='/media/SharedDrive.cfm?action=newMedia&media_id=1335'">
 		<!---	window.location='/media/SharedDrive.cfm?action=newMedia&media_id=#mid.nv#';--->
 				
 							</div>
