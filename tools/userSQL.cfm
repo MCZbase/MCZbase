@@ -1,9 +1,6 @@
-<cfset pageTitle = "Run SQL">
-<cfinclude template = "/shared/_header.cfm">
-<cfif NOT isdefined("action")>
-	<cfset action="">
-</cfif>
-	<cfset title="user SQL">
+
+	<cfset pageTitle="User SQL">
+	<cfinclude template = "/shared/_header.cfm">
 		<cfif not isdefined("sql")>
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
@@ -21,11 +18,12 @@
 					<div class="col-12">
 						<form method="post" action="">
 							<input type="hidden" name="action" value="run">
-							<label for="sql" class="data_entry_label">SQL</label>
+							<h1>SQL</h1>
+							<label for="sql" class="data_entry_label d-none">SQL</label>
 							<textarea name="sql" id="sql" rows="10" cols="80" wrap="soft" class="form-control">#sql#</textarea>
-							<h2>Result: </h2>
-							<h2>Table<input type="radio" name="format" value="table" <cfif #format# is "table"> checked="checked" </cfif>></h2>
-							<h2>CSV:<input type="radio" name="format" value="csv" <cfif #format# is "csv"> checked="checked" </cfif>></h2>
+							<h2>Result: 
+							Table<input type="radio" name="format" value="table" <cfif #format# is "table"> checked="checked" </cfif>> &nbsp; &nbsp;
+							CSV<input type="radio" name="format" value="csv" <cfif #format# is "csv"> checked="checked" </cfif>>
 							<input type="submit" value="Run Query" class="btn btn-xs btn-primary">
 						</form>
 					</div>
