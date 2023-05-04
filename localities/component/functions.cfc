@@ -1539,7 +1539,7 @@ Delete an existing collecting event number record.
 						</div>
 						<div class="col-12 col-md-3">
 							<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
-							<input type="text" id="geo_att_value" name="geo_att_value" class="data-entry-input" onFocusOut=" addParentsChange(); " value="#encodeForHtml(currentAtributes.geo_att_value)#">
+							<input type="text" id="geo_att_value" name="geo_att_value" class="data-entry-input" onFocusOut=" addParentsChange(); " value="#encodeForHtml(currentAttributes.geo_att_value)#">
 							<input type="hidden" id="geology_attribute" name="geology_attribute" value="#currentAttributes.geology_attribute#">
 							<input type="hidden" id="geology_attribute_hierarchy_id" name="geology_attribute_hierarchy_id" value="">
 						</div>
