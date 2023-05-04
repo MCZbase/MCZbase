@@ -2230,7 +2230,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				ORDER BY ORIG_LAT_LONG_UNITS
 			</cfquery>
 			<cfquery name="lookupForGeolocate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT country, state_prov, county
+				SELECT 
+					country, state_prov, county,
 					spec_locality
 				FROM locality
 					join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
