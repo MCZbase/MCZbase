@@ -910,25 +910,29 @@ Function updateGeologicalAttribute update a record in the geology_attribute_heir
 					ORDER BY level desc
 				) WHERE parentagelevel > 1
 			</cfquery>
-			<cfset parentnesting = 0>
-			<cfloop query="parents">
-				<!--- parentage down to, but not including the current node, we'll get that from the children query --->
-				<ul>
-					<cfset parentnesting = parentnesting + 1>
-					<li>
-						<cfset nodeclass = "">
-						<cfset marker = "*">
-						<cfif parents.usable_value_fg is 0>
-							<cfset nodeclass="text-danger">
-							<cfset marker="">
-						</cfif>
-						<span class="#nodeclass#">#parents.attribute_value# (#parents.attribute#)#marker#</span>
-					</li>
-			</cfloop>
-			<cfloop from="1" to="#parentnesting#" index="i">
-				<!--- for parentage of current node to root --->
-				</ul>
-			</cfloop>
+			<cfif parents.recordcount EQ 0>
+				<ul><li>[None]</li></ul>
+			<cfelse> 
+				<cfset parentnesting = 0>
+				<cfloop query="parents">
+					<!--- parentage down to, but not including the current node, we'll get that from the children query --->
+					<ul>
+						<cfset parentnesting = parentnesting + 1>
+						<li>
+							<cfset nodeclass = "">
+							<cfset marker = "*">
+							<cfif parents.usable_value_fg is 0>
+								<cfset nodeclass="text-danger">
+								<cfset marker="">
+							</cfif>
+							<span class="#nodeclass#">#parents.attribute_value# (#parents.attribute#)#marker#</span>
+						</li>
+				</cfloop>
+				<cfloop from="1" to="#parentnesting#" index="i">
+					<!--- close tags for parentage of current node to root --->
+					</ul>
+				</cfloop>
+			</cfif>
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="listNodePathInGeoTreeThread" />
