@@ -184,11 +184,7 @@ limitations under the License.
 		<cfset media_relationship_id_1="">
 	</cfif>
 <!---------------------------------------------------------------------------------------------------->
-<!---
-1)  
 
-
---->
 
 <cfif action is 'new'>
 	<cfoutput>
