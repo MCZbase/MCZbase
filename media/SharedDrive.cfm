@@ -411,7 +411,7 @@ limitations under the License.
 				
 					const row3 = document.createElement("tr");
 						const cell1 = document.createElement("td");
-						const cellText1 = document.createTextNode(`Name`);
+						const cellText1 = document.innerHTML(`Name`);
 						cell1.appendChild(cellText1);
 						row3.appendChild(cell1);
 						const cell2 = document.createElement("td");
