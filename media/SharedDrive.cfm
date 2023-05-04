@@ -422,6 +422,32 @@ limitations under the License.
 						row4.appendChild(cell6);
 						// add the row to the end of the table body
 						tblBody.appendChild(row4);
+					const row5 = document.createElement("tr");
+						const cell7 = document.createElement("td");
+						const cellText7 = document.createTextNode(`Media Record Visibility`);
+						cell5.appendChild(cellText7);
+						row5.appendChild(cell7);
+						const cell8 = document.createElement("td");
+						const cellText8 = document.createElement("select");
+						cellText8.setAttribute("placeholder", "Public");
+						cellText8.className="w-100";
+						cell6.appendChild(cellText8);
+						row5.appendChild(cell8);
+						// add the row to the end of the table body
+						tblBody.appendChild(row5);
+					const row6 = document.createElement("tr");
+						const cell9 = document.createElement("td");
+						const cellText9 = document.createTextNode(`Media Record Visibility`);
+						cell9.appendChild(cellText9);
+						row6.appendChild(cell9);
+						const cell10 = document.createElement("td");
+						const cellText10 = document.createElement("select");
+						cellText10.setAttribute("placeholder", "Public");
+						cellText10.className="w-100";
+						cell6.appendChild(cellText10);
+						row6.appendChild(cell10);
+						// add the row to the end of the table body
+						tblBody.appendChild(row6);
 				// put the <tbody> in the <table>
 				tbl.appendChild(tblBody);
 				// appends <table> into <body>
