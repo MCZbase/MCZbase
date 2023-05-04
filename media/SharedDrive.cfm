@@ -300,18 +300,10 @@ limitations under the License.
 							<input type="button" class="btn btn-xs ml-2 btn-warning ml-2 d-inline-block" onClick="clearInput();" value="Reset Form"/>
 						</div>
 					</div>
-
 					<div class="row">
-
 						<div class="col-3 mt-2 float-left">
 							<div id="images" class="d-inline"></div>
 						</div>
-						<div class="col-3 pt-4 float-left">
-							<div id="commonData" class="d-inline">
-					
-							</div>
-						</div>
-						
 					</div>
 				</div>
 			</form>
