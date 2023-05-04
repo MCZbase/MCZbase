@@ -357,7 +357,7 @@ limitations under the License.
 			
 			
 			function getTable() {
-				const form = document.createElement("form")[1];
+				const form = document.createElement("form");
 				form.setAttribute("method", "post");
 				form.setAttribute("action", "submit");
 				form.id="commonMetaForm";
@@ -429,7 +429,7 @@ limitations under the License.
 				// sets the border attribute of tbl to '2'
 				tbl.setAttribute("border", "2");
 				document.getElementById('commonMetaForm').appendChild(tbl);
-				var button=document.createElement('button');
+				var button=document.createElement('button')[0];
 				button.id="btn_link";
 				button.className="btn btn-xs btn-secondary";
 				button.type="submit";
