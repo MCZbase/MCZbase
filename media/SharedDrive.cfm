@@ -308,7 +308,7 @@ limitations under the License.
 						</div>
 						<div class="col-3 pt-4 float-left">
 							<div id="commonData" class="d-inline">
-					
+								<input type="button" class="btn btn-xs btn-primary" onClick="getMeta()"
 							</div>
 						</div>
 						
@@ -455,6 +455,8 @@ limitations under the License.
 				// sets the border attribute of tbl to '2'
 				tbl.setAttribute("border", "2");
 				document.getElementById('commonMetaForm').appendChild(tbl);
+			}
+			function getMeta() {
 				var button=document.createElement('button');
 				button.id="btn_link";
 				button.className="btn btn-xs btn-secondary";
