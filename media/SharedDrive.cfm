@@ -443,7 +443,7 @@ limitations under the License.
 						tblBody.appendChild(row5);
 					const row6 = document.createElement("tr");
 						const cell9 = document.createElement("td");
-						const cellText9 = document.createTextNode(`show Cataloged Items`);
+						const cellText9 = document.createTextNode(`Show Cataloged Items`);
 						cell9.appendChild(cellText9);
 						row6.appendChild(cell9);
 						const cell10 = document.createElement("td");
@@ -456,12 +456,12 @@ limitations under the License.
 						tblBody.appendChild(row6);
 					const row7 = document.createElement("tr");
 						const cell11 = document.createElement("td");
-						const cellText11 = document.createTextNode(`show Cataloged Items`);
+						const cellText11 = document.createTextNode(`Description`);
 						cell11.appendChild(cellText11);
 						row7.appendChild(cell11);
 						const cell12 = document.createElement("td");
 						const cellText12 = document.createElement("input");
-						cellText12.setAttribute("placeholder", "cat_num");
+						cellText12.setAttribute("placeholder", "text");
 						cellText12.className="w-100";
 						cell12.appendChild(cellText12);
 						row7.appendChild(cell12);
