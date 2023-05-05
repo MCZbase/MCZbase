@@ -473,7 +473,7 @@ limitations under the License.
 				document.body.appendChild(tbl);
 				// sets the border attribute of tbl to '2'
 				tbl.setAttribute("border", "2");
-				document.getElementById('commonMetaForm').appendChild(tbl);
+				document.getElementById('images').appendChild(tbl);
 			}
 
 		</script>
