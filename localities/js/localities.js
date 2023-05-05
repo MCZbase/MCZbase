@@ -300,6 +300,10 @@ function removeGeologyAttribute(geology_attribute_id, locality_id, callback) {
 	});
 };
 
+/* function geolocate 
+  create an iframe in a dialog and open a link to geolocate's web application in it.
+  @param protocol http or https to request geolocate with the same protocol as the requesting page.
+*/
 function geolocate(protocol) {
 	var guri=protocol+"://www.geo-locate.org/web/WebGeoreflight.aspx?georef=run";
 	guri+="&state=" + $("#state_prov").val();
@@ -333,7 +337,8 @@ function geolocate(protocol) {
 	$("#popDiv").append(theFrame);
 }
  
-     
+/** close the geolocate dialog holding the iframe for geolocate 
+**/
 function closeGeoLocate(msg) {
 	$('#bgDiv').remove();
 	$('#bgDiv', window.parent.document).remove();
@@ -345,20 +350,3 @@ function closeGeoLocate(msg) {
 	$('#theFrame', window.parent.document).remove();
 }
 
-function useGL(glat,glon,gerr,gpoly){
-	if (gpoly=='')
-		{var gpoly_wkt='';}
-	else
-		{var gpoly_wkt='POLYGON ((' + gpoly.replace(/,$/,'') + '))';}
-	$("#MAX_ERROR_DISTANCE").val(gerr);
-	$("#MAX_ERROR_UNITS").val('m');
-	$("#DATUM").val('WGS84');
-	$("#georeference_source").val('GeoLocate');
-	$("#georeference_protocol").val('GeoLocate');
-	$("#georefMethod").val('GEOLocate');
-	$("#LAT_LONG_REF_SOURCE").val('GEOLocate');
-	$("#dec_lat").val(glat);
-	$("#dec_long").val(glon);
-	$("#errorPoly").val(gpoly_wkt);
-	closeGeoLocate();
-}

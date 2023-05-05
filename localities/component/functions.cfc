@@ -2397,6 +2397,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								</div>
 							</div>
 							<div id="geolocatePanel" role="tabpanel" aria-labelledby="geolocateTabButton" tabindex="-1" class="col-12 px-0 mx-0 unfocus" hidden>
+								<form id="geolocateForm">
 								<h2 class="px-2 h3">Use Geolocate</h2>
 								<div class="form-row">
 									<div class="col-12">
@@ -2404,64 +2405,121 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="country" class="data-entry-label">Country</label>
-										<input type="text" name="country" id="country" class="data-entry-input disabled" value="#lookupForGeolocate.country#">
+										<input type="text" name="country" id="country" class="data-entry-input" value="#lookupForGeolocate.country#" disabled readonly >
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="state_prov" class="data-entry-label">State/Province</label>
-										<input type="text" name="state_prov" id="state_prov" class="data-entry-input disabled" value="#lookupForGeolocate.state_prov#">
+										<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#lookupForGeolocate.state_prov#" disabled readonly >
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="county" class="data-entry-label">County</label>
-										<input type="text" name="county" id="county" class="data-entry-input disabled" value="#lookupForGeolocate.county#">
+										<input type="text" name="county" id="county" class="data-entry-input" value="#lookupForGeolocate.county#" disabled readonly >
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="gl_spec_locality" class="data-entry-label">Specific Locality</label>
-										<input type="text" name="gl_spec_locality" id="gl_spec_locality" class="data-entry-input disabled" value="#lookupForGeolocate.spec_locality#">
+										<input type="text" name="gl_spec_locality" id="gl_spec_locality" class="data-entry-input" value="#lookupForGeolocate.spec_locality#" disabled readonly>
 									</div>
-									<div class="col-12">
-				         		   <div>Some fields will still need to be entered manually here after saving the georeference from the GeoLocate.</div>
+									<div class="col-12 preGeoLocate">
+				         		   <div>Some fields will still need to be entered manually here after saving the georeference from GeoLocate.</div>
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="postGeolocate col-12 col-md-3">
 										<label for="dec_lat" class="data-entry-label">Latitude</label>
 										<input type="text" name="dec_lat" id="dec_lat" class="data-entry-input" value="">
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="postGeolocate col-12 col-md-3">
 										<label for="dec_long" class="data-entry-label">Longitude</label>
 										<input type="text" name="dec_long" id="dec_long" class="data-entry-input" value="">
 									</div>
-									<div class="col-12 col-md-3">
-										<label for="DATUM" class="data-entry-label">Geodetic Datum</label>
-										<input type="text" name="DATUM" id="DATUM" class="data-entry-input" value="">
+									<div class="postGeolocate col-12 col-md-3">
+										<label for="datum" class="data-entry-label">Geodetic Datum</label>
+										<input type="text" name="datum" id="datum" class="data-entry-input" value="">
 									</div>
-									<div class="col-12 col-md-2">
-										<label for="MAX_ERR_DISTANCE" class="data-entry-label">Error Radius</label>
-										<input type="text" name="MAX_ERR_DISTANCE" id="MAX_ERR_DISTANCE" class="data-entry-input" value="">
+									<div class="postGeolocate col-12 col-md-2">
+										<label for="max_error_distance" class="data-entry-label">Error Radius</label>
+										<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input" value="">
 									</div>
-									<div class="col-12 col-md-3">
-										<label for="MAX_ERR_UNITS" class="data-entry-label">Units</label>
-										<input type="text" name="MAX_ERR_UNITS" id="MAX_ERR_UNITS" class="data-entry-input" value="">
+									<div class="postGeolocate col-12 col-md-3">
+										<label for="max_error_units" class="data-entry-label">Units</label>
+										<input type="text" name="max_error_units" id="max_error_units" class="data-entry-input" value="">
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="postGeolocate col-12 col-md-3">
 										<label for="georeference_source" class="data-entry-label">Source</label>
 										<input type="text" name="georeference_source" id="georeference_source" class="data-entry-input" value="">
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="postGeolocate col-12 col-md-3">
 										<label for="georeference_protocol" class="data-entry-label">Protocol</label>
 										<input type="text" name="georeference_protocol" id="georeference_protocol" class="data-entry-input" value="">
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="postGeolocate col-12 col-md-3">
 										<label for="georefMethod" class="data-entry-label">Method</label>
 										<input type="text" name="georefMethod" id="georefMethod" class="data-entry-input" value="">
 									</div>
-									<div class="col-12 col-md-3">
-										<label for="LAT_LONG_REF_SOURCE" class="data-entry-label">Reference</label>
-										<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE" class="data-entry-input" value="">
+									<div class="postGeolocate col-12 col-md-3">
+										<label for="lat_long_ref_source" class="data-entry-label">Reference</label>
+										<input type="text" name="lat_long_ref_source" id="lat_long_ref_source" class="data-entry-input" value="">
 									</div>
-									<div class="col-12">
+									<div class="postGeolocate col-12">
 										<label for="errorPoly" class="data-entry-label">Uncertainty Polygon</label>
 										<input type="text" name="errorPoly" id="errorPoly" class="data-entry-input" value="">
 									</div>
+									<div class="postGeolocate col-12 col-md-3">
+										<label for="gl_accepted" class="data-entry-label">Accepted</label>
+										<select name="accepted_lat_long_fg" size="1" id="gl_accepted_lat_long_fg" class="data-entry-select reqdClr">
+											<option value="Yes" selected>Yes</option>
+											<option value="No">No</option>
+										</select>
+									</div>
+									<div class="postGeolocate col-12 col-md-3">
+										<label for="gl_determined_by_agent" class="data-entry-label">Determiner</label>
+										<input type="hidden" name="determined_by_agent_id" id="gl_determined_by_agent_id">
+										<input type="text" name="determined_by_agent" id="gl_determined_by_agent" class="data-entry-input reqdClr">
+										<script>
+											$(document).ready(function() { 
+												makeAgentAutocompleteMeta("gl_determined_by_agent", "gl_determined_by_agent_id");
+											});
+										</script>
+									</div>
+									<div class="postGeolocate col-12 col-md-3">
+										<label for="gl_determined_date" class="data-entry-label">Date Determined</label>
+										<input type="text" name="determined_date" id="gl_determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd">
+										<script>
+											$(document).ready(function() {
+												$("##gl_determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
+											});
+										</script>
+									</div>
+									<div class="postGeolocate col-12 col-md-3">
+										<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
+											onClick="if (checkFormValidity($('###geolocateForm')[0])) { saveGeolocate();  } " 
+											id="submitButton" >
+											<output id="geolocateFeedback" class="text-danger">&nbsp;</output>	
+									</div>
 									<script>
+										function saveGeolocate() { 
+											alert("TODO: implement");
+										}
+										/** populate form with data returned from geolocate. **/
+										function useGL(glat,glon,gerr,gpoly){
+											if (gpoly=='') {
+												var gpoly_wkt='';
+											} else {
+												var gpoly_wkt='POLYGON ((' + gpoly.replace(/,$/,'') + '))';
+											}
+											$("##max_error_distance").val(gerr);
+											$("##max_error_units").val('m');
+											$("##datum").val('WGS84');
+											$("##georeference_source").val('GeoLocate');
+											$("##georeference_protocol").val('GeoLocate');
+											$("##georefMethod").val('GEOLocate');
+											$("##lat_long_ref_source").val('GEOLocate');
+											$("##dec_lat").val(glat);
+											$("##dec_long").val(glon);
+											$("##errorPoly").val(gpoly_wkt);
+											closeGeoLocate();
+											$(".postGeolocate").show();
+											$(".preGeolocate").hide();
+										}
+										/** message handler for messages from geolocate iframe **/
 										function getGeolocate(evt) {
 											if (evt.origin.includes("://mczbase") && evt.data == "") {
 												console.log(evt); // Chrome seems to include an extra invocation of getGeolocate from mczbase.
@@ -2495,8 +2553,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											} else {
 												window.attachEvent("onmessage", getGeolocate);
 											}
+											$(".postGeolocate").hide();
 										});
 									</script>
+									</form>
 								</div>
 							</div>
 							<div id="clonePanel" role="tabpanel" aria-labelledby="cloneTabButton" tabindex="-1" class="col-12 px-0 mx-0 unfocus" hidden>
