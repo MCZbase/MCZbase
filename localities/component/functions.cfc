@@ -2421,7 +2421,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label class="data-entry-label" for="lat_long_remarks">Georeference Remarks (<span id="length_lat_long_remarks"></span>)</label>
 											<textarea name="lat_long_remarks" id="lat_long_remarks" 
 												onkeyup="countCharsLeft('lat_long_remarks', 4000, 'length_lat_long_remarks');"
-												class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(lat_long_remarks)#</textarea>
+												class="form-control form-control-sm w-100 autogrow mb-1" rows="2"></textarea>
 											<script>
 												// Bind input to autogrow function on key up, and trigger autogrow to fit text
 												$(document).ready(function() { 
@@ -2560,7 +2560,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label class="data-entry-label" for="gl_lat_long_remarks">Georeference Remarks (<span id="gl_length_lat_long_remarks"></span>)</label>
 											<textarea name="lat_long_remarks" id="gl_lat_long_remarks" 
 												onkeyup="countCharsLeft('gl_lat_long_remarks', 4000, 'gl_length_lat_long_remarks');"
-												class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(lat_long_remarks)#</textarea>
+												class="form-control form-control-sm w-100 autogrow mb-1" rows="2"></textarea>
 											<script>
 												// Bind input to autogrow function on key up, and trigger autogrow to fit text
 												$(document).ready(function() { 
