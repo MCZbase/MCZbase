@@ -53,14 +53,14 @@ limitations under the License.
 					<div class="row mx-0 mb-3">
 						<div class="search-box">
 							<div class="search-box-header">
-								<h1 class="h2 text-white" id="formheading">Provide Feedback</h1>
+								<h1 class="h2 text-white mb-1 pt-2" id="formheading">Provide Feedback</h1>
 							</div>
 							<div class="col-12 px-4 py-1">
-								<ul>
-									<li>Use this form to report problems you have encountered while using the database.</li>
-									<li>Use this form to make suggestions in relation to database function or data display.</li>
-									<li>To report problems or errors with specimen data, you may use this form, or if logged in, you may use the "Report Bad Data" link included on Search Results or Specimen Detail pages.</li>
-									<li>Include your email address if you wish to be contacted when the issue has been addressed. Your email address will <b>not</b> be released or publicly displayed on our site.</li>
+								<ul class="pt-3">
+									<li class="my-1">Use this form to report problems you have encountered while using the database.</li>
+									<li class="mb-1">Use this form to make suggestions in relation to database function or data display.</li>
+									<li class="mb-1">To report problems or errors with specimen data, you may use this form, or if logged in, you may use the "Report Bad Data" link included on Search Results or Specimen Detail pages.</li>
+									<li class="mb-1">Include your email address if you wish to be contacted when the issue has been addressed. Your email address will <b>not</b> be released or publicly displayed on our site.</li>
 								</ul>
 							</div>
 							<div class="col-12 px-4 py-1">
@@ -76,11 +76,11 @@ limitations under the License.
 											<input type="text" name="user_email" id="user_email" class="data-entry-input" value="#email#">
 										</div>
 										<div class="col-12">
-											<h3 class="h4 pt-2">Please provide as much detail as possible. We do not know what you see unless you write about it in the report.</h3>
+											<h3 class="h4 pt-3 px-1">Please provide as much detail as possible. We do not know what you see unless you write about it in the report.</h3>
 										</div>
 										<div class="col-12">
 											<label for="complaint" class="data-entry-label">Feedback</label>
-											<textarea name="complaint" id="complaint" rows="15"  class="data-entry-textarea reqdClr autogrow" placeholder="#FEEDBACK_INSTRUCTIONS#" required></textarea>
+											<textarea name="complaint" id="complaint" rows="15"  class="data-entry-textarea reqdClr autogrow" style = "min-height: 100px;" placeholder="#FEEDBACK_INSTRUCTIONS#" required></textarea>
 										</div>
 										<script>
 											// Make textarea with autogrow class be bound to the autogrow function on key up
@@ -89,7 +89,7 @@ limitations under the License.
 												$('textarea.autogrow').keyup();
 											});
 										</script>
-										<div class="col-12">
+										<div class="col-12 py-3">
 											<label for="user_priority" class="data-entry-label">Priority</label>
 											<select name="user_priority" size="1" class="data-entry-select">
 												<option value="0">Low Priority</option>
