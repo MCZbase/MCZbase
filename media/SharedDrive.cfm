@@ -309,7 +309,7 @@ limitations under the License.
 						<div class="col-3 pt-4 float-left">
 							<div id="commonData" class="d-inline">
 								<input type="button" class="btn btn-xs btn-secondary" style="display: none;" value="Create Media Records" onClick="window.location='/media/SharedDrive.cfm?action=newMedia&media_id=1335'">
-		<!---	window.location='/media/SharedDrive.cfm?action=newMedia&media_id=#mid.nv#';--->
+								<!---	window.location='/media/SharedDrive.cfm?action=newMedia&media_id=#mid.nv#';--->
 				
 							</div>
 						</div>
@@ -473,7 +473,7 @@ limitations under the License.
 				document.body.appendChild(tbl);
 				// sets the border attribute of tbl to '2'
 				tbl.setAttribute("border", "2");
-				document.getElementById('images').appendChild(tbl);
+				document.getElementById('commonMetaForm').appendChild(tbl);
 			}
 
 		</script>
