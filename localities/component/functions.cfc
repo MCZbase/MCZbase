@@ -2417,6 +2417,19 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												</cfloop>
 											</select>
 										</div>
+										<div class="col-12">
+											<label class="data-entry-label" for="lat_long_remarks">Georeference Remarks (<span id="length_lat_long_remarks"></span>)</label>
+											<textarea name="lat_long_remarks" id="lat_long_remarks" 
+												onkeyup="countCharsLeft('lat_long_remarks', 4000, 'length_lat_long_remarks');"
+												class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(lat_long_remarks)#</textarea>
+											<script>
+												// Bind input to autogrow function on key up, and trigger autogrow to fit text
+												$(document).ready(function() { 
+													$("##lat_long_remarks").keyup(autogrow);  
+													$('##lat_long_remarks').keyup();
+												});
+											</script>
+										</div>
 										<div class="col-12 col-md-3 pt-3">
 											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " 
@@ -2540,6 +2553,19 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<script>
 												$(document).ready(function() {
 													$("##gl_determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
+												});
+											</script>
+										</div>
+										<div class="postGeolocate col-12">
+											<label class="data-entry-label" for="gl_lat_long_remarks">Georeference Remarks (<span id="gl_length_lat_long_remarks"></span>)</label>
+											<textarea name="lat_long_remarks" id="gl_lat_long_remarks" 
+												onkeyup="countCharsLeft('gl_lat_long_remarks', 4000, 'gl_length_lat_long_remarks');"
+												class="form-control form-control-sm w-100 autogrow mb-1" rows="2">#encodeForHtml(lat_long_remarks)#</textarea>
+											<script>
+												// Bind input to autogrow function on key up, and trigger autogrow to fit text
+												$(document).ready(function() { 
+													$("##lat_long_remarks").keyup(autogrow);  
+													$('##lat_long_remarks').keyup();
 												});
 											</script>
 										</div>
@@ -2754,6 +2780,21 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 <cffunction name="addGeoreference" access="remote" returntype="any" returnformat="json">
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="accepted_lat_long_fg" type="string" required="yes">
+	<cfargument name="datum" type="string" required="yes">
+	<cfargument name="accepted_lat_long_fg" type="string" required="yes">
+	<cfargument name="lat_long_ref_source" type="string" required="no">
+	<cfargument name="determined_by_agent_id" type="string" required="yes">
+	<cfargument name="verified_by_agent_id" type="string" required="no">
+	<cfargument name="determined_date" type="string" required="no">
+	<cfargument name="georefmethod" type="string" required="no">
+	<cfargument name="verificationstatus" type="string" required="yes">
+	<cfargument name="extent" type="string" required="no">
+	<cfargument name="gpsaccuracy" type="string" required="no">
+	<cfargument name="max_error_distance" type="string" required="yes">
+	<cfargument name="max_error_units" type="string" required="yes">
+	<cfargument name="lat_long_remarks" type="string" required="no">
+	<cfargument name="dec_lat" type="string" required="no">
+	<cfargument name="dec_long" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
@@ -2790,8 +2831,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfif isDefined("gpsaccuracy") AND len(#gpsaccuracy#) gt 0>
 						,gpsaccuracy
 					</cfif>
-					<cfif len(#LAT_LONG_REMARKS#) gt 0>
-						,LAT_LONG_REMARKS
+					<cfif isDefined("lat_long_remarks") AND len(#lat_long_remarks#) gt 0>
+						,lat_long_remarks
 					</cfif>
 					<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
 						,MAX_ERROR_DISTANCE
@@ -2845,8 +2886,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfif isDefined("gpsaccuracy") AND len(#gpsaccuracy#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#gpsaccuracy#">
 					</cfif>
-					<cfif len(#LAT_LONG_REMARKS#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">
+					<cfif len(#lat_long_remarks#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lat_long_remarks#">
 					</cfif>
 					<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">
