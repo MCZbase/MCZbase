@@ -303,7 +303,7 @@ limitations under the License.
 
 					<div class="row">
 
-						<div class="col-7 mt-2 float-left">
+						<div class="col-9 mt-2 float-left">
 							<div id="images" class="d-inline"></div>
 						</div>
 						<div class="col-3 pt-4 float-left">
