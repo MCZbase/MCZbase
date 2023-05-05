@@ -2784,13 +2784,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfif isDefined("verified_by_agent_id") AND len(#verified_by_agent_id#) gt 0>
 						,verified_by_agent_id
 					</cfif>
-					<cfif len(#gpsaccuracy#) gt 0>
-						,gpsaccuracy
-					</cfif>
 					<cfif len(#extent#) gt 0>
 						,extent
 					</cfif>
-					<cfif len(#gpsaccuracy#) gt 0>
+					<cfif isDefined("gpsaccuracy") AND len(#gpsaccuracy#) gt 0>
 						,gpsaccuracy
 					</cfif>
 					<cfif len(#LAT_LONG_REMARKS#) gt 0>
@@ -2845,7 +2842,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfif len(#extent#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#extent#">
 					</cfif>
-					<cfif len(#gpsaccuracy#) gt 0>
+					<cfif isDefined("gpsaccuracy") AND len(#gpsaccuracy#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#gpsaccuracy#">
 					</cfif>
 					<cfif len(#LAT_LONG_REMARKS#) gt 0>
