@@ -303,9 +303,9 @@ limitations under the License.
 
 					<div class="row">
 
-						<div class="col-9 mt-2 float-left">
-							<div id="images" class="d-inline py-3"></div>
-						</div>
+					
+							<div id="images" class="col-9 float-left py-3"></div>
+				
 						<div class="col-3 pt-4 float-left">
 							<div id="commonData" class="d-inline">
 								<input type="button" class="btn btn-xs btn-secondary" style="display: none;" value="Create Media Records" onClick="window.location='/media/SharedDrive.cfm?action=newMedia&media_id=1335'">
@@ -370,7 +370,7 @@ limitations under the License.
 				document.getElementById('images').appendChild(form);
 				// creates a <table> element and a <tbody> element
 				const tbl = document.createElement("table");
-				tbl.className="table";
+				tbl.className="table float-left";
 				const tblHead = document.createElement("thead");
 				tblHead.className="thead-light";
 					// creates a table row
