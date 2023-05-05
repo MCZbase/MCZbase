@@ -2254,308 +2254,332 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						</script>
 						<div class="tab-content flex-wrap d-flex">
 							<div id="manualPanel" role="tabpanel" aria-labelledby="manualTabButton" tabindex="0" class="col-12 px-0 mx-0 active unfocus">
-								<h2 class="px-2 h3">Enter georeference</h2>
-								<div class="form-row">
-									<div class="col-12 col-md-3">
-										<label for="orig_lat_long_units" class="data-entry-label">Original Units</label>
-										<select id="orig_lat_long_units" class="data-entry-select reqdClr" onChange=" changeLatLongUnits(); ">
-											<option></option>
-											<option value="decimal degrees">decimal degrees</option>
-											<option value="degrees dec. minutes">degrees with decimal minutes</option>
-											<option value="deg. min. sec.">degrees, minutes and seconds</option>
-											<option value="UTM">Universal Transverse Mercator (UTM)</option>
-										</select>
-										<script>
-											function changeLatLongUnits(){ 
-												$(".latlong").prop('disabled', true);
-												$(".latlong").prop('required', false);
-												$(".latlong").removeClass('reqdClr');
-												$(".utm").removeClass('reqdClr');
-												$(".utm").prop('disabled', true);
-												$(".utm").prop('required', false);
-												var units = $("##orig_lat_long_units").val();
-												if (!units) { 
+								<form id="manualGeorefForm">
+									<input type="hidden" name="method" value="addGeoreference">
+									<h2 class="px-2 h3">Enter georeference</h2>
+									<div class="form-row">
+										<div class="col-12 col-md-3">
+											<label for="orig_lat_long_units" class="data-entry-label">Original Units</label>
+											<select id="orig_lat_long_units" class="data-entry-select reqdClr" onChange=" changeLatLongUnits(); ">
+												<option></option>
+												<option value="decimal degrees">decimal degrees</option>
+												<option value="degrees dec. minutes">degrees with decimal minutes</option>
+												<option value="deg. min. sec.">degrees, minutes and seconds</option>
+												<option value="UTM">Universal Transverse Mercator (UTM)</option>
+											</select>
+											<script>
+												function changeLatLongUnits(){ 
 													$(".latlong").prop('disabled', true);
+													$(".latlong").prop('required', false);
+													$(".latlong").removeClass('reqdClr');
+													$(".utm").removeClass('reqdClr');
 													$(".utm").prop('disabled', true);
-												} else if (units == 'decimal degrees') {
-													$("##lat_deg").prop('disabled', false);
-													$("##lat_deg").prop('required', true);
-													$("##lat_deg").addClass('reqdClr');
-													$("##long_deg").prop('disabled', false);
-													$("##long_deg").prop('required', true);
-													$("##long_deg").addClass('reqdClr');
-												} else if (units == 'degrees dec. minutes') {
-													$("##lat_deg").prop('disabled', false);
-													$("##lat_deg").prop('required', true);
-													$("##lat_deg").addClass('reqdClr');
-													$("##lat_min").prop('disabled', false);
-													$("##lat_min").prop('required', true);
-													$("##lat_min").addClass('reqdClr');
-													$("##lat_ns").prop('disabled', false);
-													$("##lat_ns").prop('required', true);
-													$("##lat_ns").addClass('reqdClr');
-													$("##long_deg").prop('disabled', false);
-													$("##long_deg").prop('required', true);
-													$("##long_deg").addClass('reqdClr');
-													$("##long_min").prop('disabled', false);
-													$("##long_mit").prop('required', true);
-													$("##long_min").addClass('reqdClr');
-													$("##long_ew").prop('disabled', false);
-													$("##long_ew").prop('required', true);
-													$("##long_ew").addClass('reqdClr');
-												} else if (units == 'deg. min. sec.') {
-													$(".latlong").prop('disabled', false);
-													$(".latlong").addClass('reqdClr');
-													$(".latlong").prop('required', true);
-												} else if (units == 'UTM') {
-													$(".utm").prop('disabled', false);
-													$(".utm").prop('required', true);
-													$(".utm").addClass('reqdClr');
-												}
-											} 
-											$(document).ready(changeLatLongUnits);
-										</script>
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="accepted" class="data-entry-label">Accepted</label>
-										<select name="accepted_lat_long_fg" size="1" id="accepted_lat_long_fg" class="data-entry-select reqdClr">
-											<option value="Yes" selected>Yes</option>
-											<option value="No">No</option>
-										</select>
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="determined_by_agent" class="data-entry-label">Determiner</label>
-										<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id">
-										<input type="text" name="determined_by_agent" id="determined_by_agent" class="data-entry-input reqdClr">
+													$(".utm").prop('required', false);
+													var units = $("##orig_lat_long_units").val();
+													if (!units) { 
+														$(".latlong").prop('disabled', true);
+														$(".utm").prop('disabled', true);
+													} else if (units == 'decimal degrees') {
+														$("##lat_deg").prop('disabled', false);
+														$("##lat_deg").prop('required', true);
+														$("##lat_deg").addClass('reqdClr');
+														$("##long_deg").prop('disabled', false);
+														$("##long_deg").prop('required', true);
+														$("##long_deg").addClass('reqdClr');
+													} else if (units == 'degrees dec. minutes') {
+														$("##lat_deg").prop('disabled', false);
+														$("##lat_deg").prop('required', true);
+														$("##lat_deg").addClass('reqdClr');
+														$("##lat_min").prop('disabled', false);
+														$("##lat_min").prop('required', true);
+														$("##lat_min").addClass('reqdClr');
+														$("##lat_ns").prop('disabled', false);
+														$("##lat_ns").prop('required', true);
+														$("##lat_ns").addClass('reqdClr');
+														$("##long_deg").prop('disabled', false);
+														$("##long_deg").prop('required', true);
+														$("##long_deg").addClass('reqdClr');
+														$("##long_min").prop('disabled', false);
+														$("##long_mit").prop('required', true);
+														$("##long_min").addClass('reqdClr');
+														$("##long_ew").prop('disabled', false);
+														$("##long_ew").prop('required', true);
+														$("##long_ew").addClass('reqdClr');
+													} else if (units == 'deg. min. sec.') {
+														$(".latlong").prop('disabled', false);
+														$(".latlong").addClass('reqdClr');
+														$(".latlong").prop('required', true);
+													} else if (units == 'UTM') {
+														$(".utm").prop('disabled', false);
+														$(".utm").prop('required', true);
+														$(".utm").addClass('reqdClr');
+													}
+												} 
+												$(document).ready(changeLatLongUnits);
+											</script>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="accepted" class="data-entry-label">Accepted</label>
+											<select name="accepted_lat_long_fg" size="1" id="accepted_lat_long_fg" class="data-entry-select reqdClr">
+												<option value="Yes" selected>Yes</option>
+												<option value="No">No</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="determined_by_agent" class="data-entry-label">Determiner</label>
+											<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id">
+											<input type="text" name="determined_by_agent" id="determined_by_agent" class="data-entry-input reqdClr">
+											<script>
+												$(document).ready(function() { 
+													makeAgentAutocompleteMeta("determined_by_agent", "determined_by_agent_id");
+												});
+											</script>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="determined_date" class="data-entry-label">Date Determined</label>
+											<input type="text" name="determined_date" id="determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd">
+											<script>
+												$(document).ready(function() {
+													$("##determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
+												});
+											</script>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="lat_deg" class="data-entry-label">Latitude Degrees</label>
+											<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input latlong">
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="lat_min" class="data-entry-label">Minutes</label>
+											<input type="text" name="lat_min" id="lat_min" class="data-entry-input latlong">
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="lat_sec" class="data-entry-label">Seconds</label>
+											<input type="text" name="lat_sec" id="lat_sec" class="data-entry-input latlong">
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="lat_ns" class="data-entry-label">Direction</label>
+											<select name="lat_ns" size="1" id="lat_ns" class="data-entry-select latlong">
+												<option value=""></option>
+												<option value="N">N</option>
+												<option value="S">S</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="long_deg" class="data-entry-label">Longitude Degrees</label>
+											<input type="text" name="long_deg" size="4" id="long_deg" class="data-entry-input latlong">
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="long_min" class="data-entry-label">Minutes</label>
+											<input type="text" name="long_min" size="4" id="long_min" class="data-entry-input latlong">
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="long_sec" class="data-entry-label">Seconds</label>
+											<input type="text" name="long_sec" size="4" id="long_sec" class="data-entry-input latlong">
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="long_ew" class="data-entry-label">Direction</label>
+											<select name="long_ew" size="1" id="long_ew" class="data-entry-select latlong">
+												<option value=""></option>
+												<option value="E">E</option>
+												<option value="W">W</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="utm_zone" class="data-entry-label">UTM Zone/Letter</label>
+											<input type="text" name="utm_zone" size="4" id="utm_zone" class="data-entry-input utm">
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="utm_ew" class="data-entry-label">Easting</label>
+											<input type="text" name="utm_ew" size="4" id="utm_ew" class="data-entry-input utm">
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="utm_ns" class="data-entry-label">Northing</label>
+											<input type="text" name="utm_ns" size="4" id="utm_ns" class="data-entry-input utm">
+										</div>
+										<div class="col-12 col-md-3 pt-3">
+											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
+												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " 
+												id="submitButton" >
+											<output id="manualFeedback" class="text-danger">&nbsp;</output>	
+										</div>
 										<script>
-											$(document).ready(function() { 
-												makeAgentAutocompleteMeta("determined_by_agent", "determined_by_agent_id");
-											});
+											function saveManualGeoref() { 
+												alert("TODO: implement");
+											}
 										</script>
 									</div>
-									<div class="col-12 col-md-3">
-										<label for="determined_date" class="data-entry-label">Date Determined</label>
-										<input type="text" name="determined_date" id="determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd">
-										<script>
-											$(document).ready(function() {
-												$("##determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
-											});
-										</script>
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="lat_deg" class="data-entry-label">Latitude Degrees</label>
-										<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input latlong">
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="lat_min" class="data-entry-label">Minutes</label>
-										<input type="text" name="lat_min" id="lat_min" class="data-entry-input latlong">
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="lat_sec" class="data-entry-label">Seconds</label>
-										<input type="text" name="lat_sec" id="lat_sec" class="data-entry-input latlong">
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="lat_ns" class="data-entry-label">Direction</label>
-										<select name="lat_ns" size="1" id="lat_ns" class="data-entry-select latlong">
-											<option value=""></option>
-											<option value="N">N</option>
-											<option value="S">S</option>
-										</select>
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="long_deg" class="data-entry-label">Longitude Degrees</label>
-										<input type="text" name="long_deg" size="4" id="long_deg" class="data-entry-input latlong">
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="long_min" class="data-entry-label">Minutes</label>
-										<input type="text" name="long_min" size="4" id="long_min" class="data-entry-input latlong">
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="long_sec" class="data-entry-label">Seconds</label>
-										<input type="text" name="long_sec" size="4" id="long_sec" class="data-entry-input latlong">
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="long_ew" class="data-entry-label">Direction</label>
-										<select name="long_ew" size="1" id="long_ew" class="data-entry-select latlong">
-											<option value=""></option>
-											<option value="E">E</option>
-											<option value="W">W</option>
-										</select>
-									</div>
-									<div class="col-12 col-md-4">
-										<label for="utm_zone" class="data-entry-label">UTM Zone/Letter</label>
-										<input type="text" name="utm_zone" size="4" id="utm_zone" class="data-entry-input utm">
-									</div>
-									<div class="col-12 col-md-4">
-										<label for="utm_ew" class="data-entry-label">Easting</label>
-										<input type="text" name="utm_ew" size="4" id="utm_ew" class="data-entry-input utm">
-									</div>
-									<div class="col-12 col-md-4">
-										<label for="utm_ns" class="data-entry-label">Northing</label>
-										<input type="text" name="utm_ns" size="4" id="utm_ns" class="data-entry-input utm">
-									</div>
-								</div>
+								</form>
 							</div>
 							<div id="geolocatePanel" role="tabpanel" aria-labelledby="geolocateTabButton" tabindex="-1" class="col-12 px-0 mx-0 unfocus" hidden>
 								<form id="geolocateForm">
-								<h2 class="px-2 h3">Use Geolocate</h2>
-								<div class="form-row">
-									<div class="col-12">
-										<input type="button" value="GeoLocate" class="btn btn-xs btn-secondary" onClick=" geolocate('#Application.protocol#'); ">
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="country" class="data-entry-label">Country</label>
-										<input type="text" name="country" id="country" class="data-entry-input" value="#lookupForGeolocate.country#" disabled readonly >
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="state_prov" class="data-entry-label">State/Province</label>
-										<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#lookupForGeolocate.state_prov#" disabled readonly >
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="county" class="data-entry-label">County</label>
-										<input type="text" name="county" id="county" class="data-entry-input" value="#lookupForGeolocate.county#" disabled readonly >
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="gl_spec_locality" class="data-entry-label">Specific Locality</label>
-										<input type="text" name="gl_spec_locality" id="gl_spec_locality" class="data-entry-input" value="#lookupForGeolocate.spec_locality#" disabled readonly>
-									</div>
-									<div class="col-12 preGeoLocate">
-				         		   <div>Some fields will still need to be entered manually here after saving the georeference from GeoLocate.</div>
-									</div>
-									<div class="postGeolocate col-12 col-md-3">
-										<label for="dec_lat" class="data-entry-label">Latitude</label>
-										<input type="text" name="dec_lat" id="dec_lat" class="data-entry-input" value="">
-									</div>
-									<div class="postGeolocate col-12 col-md-3">
-										<label for="dec_long" class="data-entry-label">Longitude</label>
-										<input type="text" name="dec_long" id="dec_long" class="data-entry-input" value="">
-									</div>
-									<div class="postGeolocate col-12 col-md-3">
-										<label for="datum" class="data-entry-label">Geodetic Datum</label>
-										<input type="text" name="datum" id="datum" class="data-entry-input" value="">
-									</div>
-									<div class="postGeolocate col-12 col-md-2">
-										<label for="max_error_distance" class="data-entry-label">Error Radius</label>
-										<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input" value="">
-									</div>
-									<div class="postGeolocate col-12 col-md-1">
-										<label for="max_error_units" class="data-entry-label">Units</label>
-										<input type="text" name="max_error_units" id="max_error_units" class="data-entry-input" value="">
-									</div>
-									<div class="postGeolocate col-12 col-md-3">
-										<label for="georeference_source" class="data-entry-label">Source</label>
-										<input type="text" name="georeference_source" id="georeference_source" class="data-entry-input" value="">
-									</div>
-									<div class="postGeolocate col-12 col-md-3">
-										<label for="georeference_protocol" class="data-entry-label">Protocol</label>
-										<input type="text" name="georeference_protocol" id="georeference_protocol" class="data-entry-input" value="">
-									</div>
-									<div class="postGeolocate col-12 col-md-3">
-										<label for="georefMethod" class="data-entry-label">Method</label>
-										<input type="text" name="georefMethod" id="georefMethod" class="data-entry-input" value="">
-									</div>
-									<div class="postGeolocate col-12 col-md-3">
-										<label for="lat_long_ref_source" class="data-entry-label">Reference</label>
-										<input type="text" name="lat_long_ref_source" id="lat_long_ref_source" class="data-entry-input" value="">
-									</div>
-									<div class="postGeolocate col-12">
-										<label for="errorPoly" class="data-entry-label">Uncertainty Polygon</label>
-										<input type="text" name="errorPoly" id="errorPoly" class="data-entry-input" value="">
-									</div>
-									<div class="postGeolocate col-12 col-md-3">
-										<label for="gl_accepted" class="data-entry-label">Accepted</label>
-										<select name="accepted_lat_long_fg" size="1" id="gl_accepted_lat_long_fg" class="data-entry-select reqdClr">
-											<option value="Yes" selected>Yes</option>
-											<option value="No">No</option>
-										</select>
-									</div>
-									<div class="postGeolocate col-12 col-md-3">
-										<label for="gl_determined_by_agent" class="data-entry-label">Determiner</label>
-										<input type="hidden" name="determined_by_agent_id" id="gl_determined_by_agent_id">
-										<input type="text" name="determined_by_agent" id="gl_determined_by_agent" class="data-entry-input reqdClr">
+									<input type="hidden" name="method" value="addGeoreference">
+									<h2 class="px-2 h3">Use Geolocate</h2>
+									<div class="form-row">
+										<div class="col-12">
+											<input type="button" value="GeoLocate" class="btn btn-xs btn-secondary" onClick=" geolocate('#Application.protocol#'); ">
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="country" class="data-entry-label">Country</label>
+											<input type="text" name="country" id="country" class="data-entry-input" value="#lookupForGeolocate.country#" disabled readonly >
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="state_prov" class="data-entry-label">State/Province</label>
+											<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#lookupForGeolocate.state_prov#" disabled readonly >
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="county" class="data-entry-label">County</label>
+											<input type="text" name="county" id="county" class="data-entry-input" value="#lookupForGeolocate.county#" disabled readonly >
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="gl_spec_locality" class="data-entry-label">Specific Locality</label>
+											<input type="text" name="gl_spec_locality" id="gl_spec_locality" class="data-entry-input" value="#lookupForGeolocate.spec_locality#" disabled readonly>
+										</div>
+										<div class="col-12 preGeoLocate">
+					         		   <div>Some fields will still need to be entered manually here after saving the georeference from GeoLocate.</div>
+										</div>
+										<div class="postGeolocate col-12 col-md-2">
+											<input type="hidden" name="ORIG_LAT_LONG_UNITS" value="decimal degrees">
+											<label for="orig_units" class="data-entry-label">Units</label>
+											<input type="text" name="orig_units" id="orig_units" class="data-entry-input" value="decimal degrees" disabled readonly>
+										</div>
+										<div class="postGeolocate col-12 col-md-2">
+											<label for="dec_lat" class="data-entry-label">Latitude</label>
+											<input type="text" name="dec_lat" id="dec_lat" class="data-entry-input reqdClr" value="" required>
+										</div>
+										<div class="postGeolocate col-12 col-md-2">
+											<label for="dec_long" class="data-entry-label">Longitude</label>
+											<input type="text" name="dec_long" id="dec_long" class="data-entry-input reqdClr" value="" required>
+										</div>
+										<div class="postGeolocate col-12 col-md-3">
+											<label for="datum" class="data-entry-label">Geodetic Datum</label>
+											<input type="text" name="datum" id="datum" class="data-entry-input reqdClr" value="" required>
+										</div>
+										<div class="postGeolocate col-12 col-md-2">
+											<label for="max_error_distance" class="data-entry-label">Error Radius</label>
+											<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input reqdClr" value="" required>
+										</div>
+										<div class="postGeolocate col-12 col-md-1">
+											<label for="max_error_units" class="data-entry-label">Units</label>
+											<input type="text" name="max_error_units" id="max_error_units" class="data-entry-input reqdClr" value="" required>
+										</div>
+										<div class="postGeolocate col-12 col-md-3">
+											<label for="georeference_source" class="data-entry-label">Source</label>
+											<input type="text" name="georeference_source" id="georeference_source" class="data-entry-input" value="">
+										</div>
+										<div class="postGeolocate col-12 col-md-3">
+											<label for="georeference_protocol" class="data-entry-label">Protocol</label>
+											<input type="text" name="georeference_protocol" id="georeference_protocol" class="data-entry-input" value="">
+										</div>
+										<div class="postGeolocate col-12 col-md-3">
+											<label for="georefMethod" class="data-entry-label">Method</label>
+											<input type="text" name="georefMethod" id="georefMethod" class="data-entry-input" value="">
+										</div>
+										<div class="postGeolocate col-12 col-md-3">
+											<label for="lat_long_ref_source" class="data-entry-label">Reference</label>
+											<input type="text" name="lat_long_ref_source" id="lat_long_ref_source" class="data-entry-input" value="">
+										</div>
+										<div class="postGeolocate col-12 col-md-3">
+											<label for="gl_extent" class="data-entry-label">Extent</label>
+											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
+										</div>
+										<div class="postGeolocate col-12">
+											<label for="errorPoly" class="data-entry-label">Uncertainty Polygon</label>
+											<input type="text" name="errorPoly" id="errorPoly" class="data-entry-input" value="">
+										</div>
+										<div class="postGeolocate col-12 col-md-3">
+											<label for="gl_accepted" class="data-entry-label">Accepted</label>
+											<select name="accepted_lat_long_fg" size="1" id="gl_accepted_lat_long_fg" class="data-entry-select reqdClr">
+												<option value="Yes" selected>Yes</option>
+												<option value="No">No</option>
+											</select>
+										</div>
+										<div class="postGeolocate col-12 col-md-3">
+											<label for="gl_determined_by_agent" class="data-entry-label">Determiner</label>
+											<input type="hidden" name="determined_by_agent_id" id="gl_determined_by_agent_id">
+											<input type="text" name="determined_by_agent" id="gl_determined_by_agent" class="data-entry-input reqdClr">
+											<script>
+												$(document).ready(function() { 
+													makeAgentAutocompleteMeta("gl_determined_by_agent", "gl_determined_by_agent_id");
+												});
+											</script>
+										</div>
+										<div class="postGeolocate col-12 col-md-3">
+											<label for="gl_determined_date" class="data-entry-label">Date Determined</label>
+											<input type="text" name="determined_date" id="gl_determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd">
+											<script>
+												$(document).ready(function() {
+													$("##gl_determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
+												});
+											</script>
+										</div>
+										<div class="postGeolocate col-12 col-md-3 pt-3">
+											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
+												onClick="if (checkFormValidity($('##geolocateForm')[0])) { saveGeolocate();  } " 
+												id="submitButton" >
+											<output id="geolocateFeedback" class="text-danger">&nbsp;</output>	
+										</div>
 										<script>
-											$(document).ready(function() { 
-												makeAgentAutocompleteMeta("gl_determined_by_agent", "gl_determined_by_agent_id");
-											});
-										</script>
-									</div>
-									<div class="postGeolocate col-12 col-md-3">
-										<label for="gl_determined_date" class="data-entry-label">Date Determined</label>
-										<input type="text" name="determined_date" id="gl_determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd">
-										<script>
-											$(document).ready(function() {
-												$("##gl_determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
-											});
-										</script>
-									</div>
-									<div class="postGeolocate col-12 col-md-3">
-										<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-											onClick="if (checkFormValidity($('##geolocateForm')[0])) { saveGeolocate();  } " 
-											id="submitButton" >
-										<output id="geolocateFeedback" class="text-danger">&nbsp;</output>	
-									</div>
-									<script>
-										function saveGeolocate() { 
-											alert("TODO: implement");
-										}
-										/** populate form with data returned from geolocate. **/
-										function useGL(glat,glon,gerr,gpoly){
-											if (gpoly=='') {
-												var gpoly_wkt='';
-											} else {
-												var gpoly_wkt='POLYGON ((' + gpoly.replace(/,$/,'') + '))';
+											function saveGeolocate() { 
+												alert("TODO: implement");
 											}
-											$("##max_error_distance").val(gerr);
-											$("##max_error_units").val('m');
-											$("##datum").val('WGS84');
-											$("##georeference_source").val('GeoLocate');
-											$("##georeference_protocol").val('GeoLocate');
-											$("##georefMethod").val('GEOLocate');
-											$("##lat_long_ref_source").val('GEOLocate');
-											$("##dec_lat").val(glat);
-											$("##dec_long").val(glon);
-											$("##errorPoly").val(gpoly_wkt);
-											closeGeoLocate();
-											$(".postGeolocate").show();
-											$(".preGeolocate").hide();
-										}
-										/** message handler for messages from geolocate iframe **/
-										function getGeolocate(evt) {
-											if (evt.origin.includes("://mczbase") && evt.data == "") {
-												console.log(evt); // Chrome seems to include an extra invocation of getGeolocate from mczbase.
-											} else {
-												if (evt.origin !== "#Application.protocol#://www.geo-locate.org") {
-													console.log(evt);
-													alert( "MCZbase error: iframe url does not have permision to interact with me" );
-													closeGeoLocate('intruder alert');
+											/** populate form with data returned from geolocate. **/
+											function useGL(glat,glon,gerr,gpoly){
+												if (gpoly=='') {
+													var gpoly_wkt='';
 												} else {
-													var breakdown = evt.data.split("|");
-													if (breakdown.length == 4) {
-														var glat=breakdown[0];
-														var glon=breakdown[1];
-														var gerr=breakdown[2];
-														console.log(breakdown[3]);
-														if (breakdown[3]== "Unavailable")
-														{var gpoly='';}
-														else
-														{var gpoly=breakdown[3].replace(/([^,]*),([^,]*)[,]{0,1}/g,'$2 $1,');}
-														useGL(glat,glon,gerr,gpoly)
+													var gpoly_wkt='POLYGON ((' + gpoly.replace(/,$/,'') + '))';
+												}
+												$("##max_error_distance").val(gerr);
+												$("##max_error_units").val('m');
+												$("##datum").val('WGS84');
+												$("##georeference_source").val('GeoLocate');
+												$("##georeference_protocol").val('GeoLocate');
+												$("##georefMethod").val('GEOLocate');
+												$("##lat_long_ref_source").val('GEOLocate');
+												$("##dec_lat").val(glat);
+												$("##dec_long").val(glon);
+												$("##errorPoly").val(gpoly_wkt);
+												closeGeoLocate();
+												$(".postGeolocate").show();
+												$(".preGeolocate").hide();
+											}
+											/** message handler for messages from geolocate iframe **/
+											function getGeolocate(evt) {
+												if (evt.origin.includes("://mczbase") && evt.data == "") {
+													console.log(evt); // Chrome seems to include an extra invocation of getGeolocate from mczbase.
+												} else {
+													if (evt.origin !== "#Application.protocol#://www.geo-locate.org") {
+														console.log(evt);
+														alert( "MCZbase error: iframe url does not have permision to interact with me" );
+														closeGeoLocate('intruder alert');
 													} else {
-														alert( "MCZbase error: Unable to parse geolocate data. data length=" +  breakdown.length);
-														closeGeoLocate('ERROR - breakdown length');
+														var breakdown = evt.data.split("|");
+														if (breakdown.length == 4) {
+															var glat=breakdown[0];
+															var glon=breakdown[1];
+															var gerr=breakdown[2];
+															console.log(breakdown[3]);
+															if (breakdown[3]== "Unavailable")
+															{var gpoly='';}
+															else
+															{var gpoly=breakdown[3].replace(/([^,]*),([^,]*)[,]{0,1}/g,'$2 $1,');}
+															useGL(glat,glon,gerr,gpoly)
+														} else {
+															alert( "MCZbase error: Unable to parse geolocate data. data length=" +  breakdown.length);
+															closeGeoLocate('ERROR - breakdown length');
+														}
 													}
 												}
 											}
-										}
-										$(document).ready(function() { 
-											if (window.addEventListener) {
-												window.addEventListener("message", getGeolocate, false);
-											} else {
-												window.attachEvent("onmessage", getGeolocate);
-											}
-											$(".postGeolocate").hide();
-										});
-									</script>
+											$(document).ready(function() { 
+												if (window.addEventListener) {
+													window.addEventListener("message", getGeolocate, false);
+												} else {
+													window.attachEvent("onmessage", getGeolocate);
+												}
+												$(".postGeolocate").hide();
+											});
+										</script>
 									</form>
 								</div>
 							</div>
@@ -2665,5 +2689,190 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfreturn cfthread["localityVerbatimThread#tn#"].output>
 </cffunction>
 
+<!--- add a georeference, inserting a value into lat_long.
+  @param locality_id the primary key value of the locality from which to add the lat_long
+  @param accepted_lat_long_fg 1 if new georeference is to be the accepted one for the locality.
+
+  @return json with status=added and lat_long_id for the new record in id, or an http status 500.
+--->
+<cffunction name="addGeoreference" access="remote" returntype="any" returnformat="json">
+	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="accepted_lat_long_fg" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfif accepted_lat_long_fg EQ 1>
+				<cfquery name="unacceptOthers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="unacceptOthers_result">
+					UPDATE lat_long 
+					SET accepted_lat_long_fg = 0 
+					WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+				</cfquery>
+			</cfif>
+			<cfquery name="getLatLongID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongID_result">
+				SELECT sq_lat_long_id.nextval latlongid 
+				FROM dual
+			</cfquery>
+			<cfquery name="insertLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertLatLong_result">
+				INSERT INTO lat_long (
+					LAT_LONG_ID
+					,LOCALITY_ID
+					,ACCEPTED_LAT_LONG_FG
+					,DATUM
+					,lat_long_ref_source
+					,determined_by_agent_id
+					,determined_date
+					,georefmethod
+					,verificationstatus
+					<cfif len(#verified_by_agent_id#) gt 0>
+						,verified_by_agent_id
+					</cfif>
+					<cfif len(#gpsaccuracy#) gt 0>
+						,gpsaccuracy
+					</cfif>
+					<cfif len(#extent#) gt 0>
+						,extent
+					</cfif>
+					<cfif len(#gpsaccuracy#) gt 0>
+						,gpsaccuracy
+					</cfif>
+					<cfif len(#LAT_LONG_REMARKS#) gt 0>
+						,LAT_LONG_REMARKS
+					</cfif>
+					<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
+						,MAX_ERROR_DISTANCE
+					</cfif>
+					<cfif len(#MAX_ERROR_UNITS#) gt 0>
+						,MAX_ERROR_UNITS
+					</cfif>
+					,ORIG_LAT_LONG_UNITS
+					<cfif #ORIG_LAT_LONG_UNITS# is "deg. min. sec.">
+						,LAT_DEG
+						,LAT_MIN
+						,LAT_SEC
+						,LAT_DIR
+						,LONG_DEG
+						,LONG_MIN
+						,LONG_SEC
+						,LONG_DIR
+					<cfelseif #ORIG_LAT_LONG_UNITS# is "degrees dec. minutes">
+						,LAT_DEG
+						,DEC_LAT_MIN
+						,LAT_DIR
+						,LONG_DEG
+						,DEC_LONG_MIN
+						,LONG_DIR
+					<cfelseif #ORIG_LAT_LONG_UNITS# is "decimal degrees">
+						,DEC_LAT
+						,DEC_LONG
+					<cfelseif #ORIG_LAT_LONG_UNITS# is "UTM">
+					 	,UTM_ZONE
+					 	,UTM_EW
+					 	,UTM_NS
+					<cfelse>
+						<cfthrow message = "Unsupported orig_lat_long_units [#encodeForHtml(orig_lat_long_units)#].">
+					</cfif>
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getLATLONGID.latlongid#">
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ACCEPTED_LAT_LONG_FG#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATUM#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lat_long_ref_source#">
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determined_by_agent_id#">
+					,<cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateformat(determined_date,'yyyy-mm-dd')#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#georefmethod#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verificationstatus#">
+					<cfif len(#verified_by_agent_id#) gt 0 and len(#verified_by# GT 0)>
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#verified_by_agent_id#">
+					</cfif>
+					<cfif len(#extent#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#extent#">
+					</cfif>
+					<cfif len(#gpsaccuracy#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#gpsaccuracy#">
+					</cfif>
+					<cfif len(#LAT_LONG_REMARKS#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_LONG_REMARKS#">
+					</cfif>
+					<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">
+					</cfif>
+					<cfif len(#MAX_ERROR_UNITS#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">
+					</cfif>
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">
+					<cfif #ORIG_LAT_LONG_UNITS# is "deg. min. sec.">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_DEG#">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_MIN#">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_SEC#" scale="4">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_DIR#">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_DEG#">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_MIN#">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_SEC#" scale="4">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LONG_DIR#">
+					<cfelseif #ORIG_LAT_LONG_UNITS# is "degrees dec. minutes">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_DEG#">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT_MIN#" scale="8">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_DIR#">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_DEG#">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG_MIN#" scale="8">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LONG_DIR#">
+					<cfelseif #ORIG_LAT_LONG_UNITS# is "decimal degrees">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT#" scale="10">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG#" scale="10">
+					<cfelseif #ORIG_LAT_LONG_UNITS# is "UTM">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#UTM_ZONE#">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_EW#">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_NS#">
+					</cfif>
+				)
+			</cfquery>
+			<cfif insertLatLong_result.recordcount NEQ 1>
+				<cfthrow message="Unable to insert, other than one row would be inserted.">
+			</cfif>
+			<cfif isDefined("errorPoly") AND len(#errorPoly#) gt 0>
+				<cfquery name="addErrorPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addErrorPolygon_result">
+					UPDATE 
+						lat_long 
+					SET
+						error_polygon = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#errorPoly#"> 
+					WHERE 
+						lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLATLONGID.latlongid#">
+				</cfquery>
+				<cfif addErrorPolygon_result.recordcount NEQ 1>
+					<cfthrow message="Unable to insert, other than one row would be changed when updating error polygon.">
+				</cfif>
+			</cfif>
+			<cfquery name="countAccepted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countAccepted_result">
+				SELECT count(*) ct
+				FROM lat_long
+				WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					and 
+					accepted_lat_long_fg = 1
+			</cfquery>
+			<cfset message = "">
+			<cfif countAccepted.ct EQ 0>
+				<!--- warning state, but not a failure case --->
+				<cfset message = "This locality has no accepted georeferences.">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "added">
+			<cfset row["id"] = "#getLATLONGID.latlongid#">
+			<cfset row["message"] = "#message#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 </cfcomponent>
