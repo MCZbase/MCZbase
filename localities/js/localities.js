@@ -109,6 +109,7 @@ function deleteGeoreference(locality_id, lat_long_id,callback) {
 function openAddGeoreferenceDialog(dialogid, locality_id, locality_label, okcallback) { 
 	var title = "Add a georeference for locality " + locality_label;
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	$("#georeferenceDialogFeedback").html('&nbsp;');
 	var h = $(window).height();
 	var w = $(window).width();
 	w = Math.floor(w *.9);

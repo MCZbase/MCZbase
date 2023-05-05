@@ -2116,6 +2116,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', '#callbackName#') " 
 									aria-label = "Add a georeference to this locality"
 								>Add</button>
+								<output id="georeferenceDialogFeedback">&nbsp;</output>	
 							</li>
 						</ul>
 					</div>
@@ -2520,7 +2521,32 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<script>
 											function saveGeolocate() { 
-												alert("TODO: implement");
+												$('##geolocateFeedback').html('Saving....');
+												$('##geolocateFeedback').addClass('text-warning');
+												$('##geolocateFeedback').removeClass('text-success');
+												$('##geolocateFeedback').removeClass('text-danger');
+												jQuery.ajax({
+													url : "/localities/component/functions.cfc",
+													type : "post",
+													dataType : "json",
+													data : $('##addGeoAttForm').serialize(),
+													success : function (data) {
+														console.log(data);
+														$('##geolocateFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
+														$('##georeferenceDialogFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
+														$('##geolocateFeedback').addClass('text-success');
+														$('##geolocateFeedback').removeClass('text-danger');
+														$('##geolocateFeedback').removeClass('text-warning');
+														$('##addGeorefDialog').dialog('close');
+													},
+													error: function(jqXHR,textStatus,error){
+														$('##geolocateFeedback').html('Error.');
+														$('##geolocateFeedback').addClass('text-danger');
+														$('##geolocateFeedback').removeClass('text-success');
+														$('##geolocateFeedback').removeClass('text-warning');
+														handleFail(jqXHR,textStatus,error,'saving geological attribute for locality');
+													}
+												});
 											}
 											/** populate form with data returned from geolocate. **/
 											function useGL(glat,glon,gerr,gpoly){
