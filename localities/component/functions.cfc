@@ -2781,7 +2781,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="accepted_lat_long_fg" type="string" required="yes">
 	<cfargument name="datum" type="string" required="yes">
-	<cfargument name="accepted_lat_long_fg" type="string" required="yes">
 	<cfargument name="lat_long_ref_source" type="string" required="no">
 	<cfargument name="determined_by_agent_id" type="string" required="yes">
 	<cfargument name="verified_by_agent_id" type="string" required="no">
@@ -2795,6 +2794,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="lat_long_remarks" type="string" required="no">
 	<cfargument name="dec_lat" type="string" required="no">
 	<cfargument name="dec_long" type="string" required="no">
+	<cfargument name="lat_deg" type="string" required="no">
+	<cfargument name="long_deg" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
