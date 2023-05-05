@@ -2421,6 +2421,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<div class="col-12">
 				         		   <div>Some fields will still need to be entered manually here after saving the georeference from the GeoLocate.</div>
 									</div>
+									<script>
+										$(document).ready(function() { 
+											if (window.addEventListener) {
+												window.addEventListener("message", getGeolocate, false);
+											} else {
+												window.attachEvent("onmessage", getGeolocate);
+											}
+										});
+									</script>
 								</div>
 							</div>
 							<div id="clonePanel" role="tabpanel" aria-labelledby="cloneTabButton" tabindex="-1" class="col-12 px-0 mx-0 unfocus" hidden>
