@@ -366,11 +366,11 @@ limitations under the License.
 				const form = document.createElement("form");
 				form.setAttribute("method", "post");
 				form.setAttribute("action", "submit");
-				form.id="commonMetaForm";
+				form.id="commonMetaForm float-left col-4";
 				document.getElementById('images').appendChild(form);
 				// creates a <table> element and a <tbody> element
 				const tbl = document.createElement("table");
-				tbl.className="table float-left col-4";
+				tbl.className="table";
 				const tblHead = document.createElement("thead");
 				tblHead.className="thead-light";
 					// creates a table row
