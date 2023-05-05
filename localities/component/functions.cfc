@@ -2438,7 +2438,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<label for="max_error_distance" class="data-entry-label">Error Radius</label>
 										<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input" value="">
 									</div>
-									<div class="postGeolocate col-12 col-md-3">
+									<div class="postGeolocate col-12 col-md-1">
 										<label for="max_error_units" class="data-entry-label">Units</label>
 										<input type="text" name="max_error_units" id="max_error_units" class="data-entry-input" value="">
 									</div>
