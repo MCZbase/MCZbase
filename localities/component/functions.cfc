@@ -2421,6 +2421,46 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<div class="col-12">
 				         		   <div>Some fields will still need to be entered manually here after saving the georeference from the GeoLocate.</div>
 									</div>
+									<div class="col-12 col-md-3">
+										<label for="dec_lat" class="data-entry-label">Latitude</label>
+										<input type="text" name="dec_lat" id="dec_lat" class="data-entry-input" value="">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="dec_long" class="data-entry-label">Longitude</label>
+										<input type="text" name="dec_long" id="dec_long" class="data-entry-input" value="">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="DATUM" class="data-entry-label">Geodetic Datum</label>
+										<input type="text" name="DATUM" id="DATUM" class="data-entry-input" value="">
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="MAX_ERR_DISTANCE" class="data-entry-label">Error Radius</label>
+										<input type="text" name="MAX_ERR_DISTANCE" id="MAX_ERR_DISTANCE" class="data-entry-input" value="">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="MAX_ERR_UNITS" class="data-entry-label">Units</label>
+										<input type="text" name="MAX_ERR_UNITS" id="MAX_ERR_UNITS" class="data-entry-input" value="">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="georeference_source" class="data-entry-label">Source</label>
+										<input type="text" name="georeference_source" id="georeference_source" class="data-entry-input" value="">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="georeference_protocol" class="data-entry-label">Protocol</label>
+										<input type="text" name="georeference_protocol" id="georeference_protocol" class="data-entry-input" value="">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="georefMethod" class="data-entry-label">Method</label>
+										<input type="text" name="georefMethod" id="georefMethod" class="data-entry-input" value="">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="LAT_LONG_REF_SOURCE" class="data-entry-label">Reference</label>
+										<input type="text" name="LAT_LONG_REF_SOURCE" id="LAT_LONG_REF_SOURCE" class="data-entry-input" value="">
+									</div>
+									<div class="col-12">
+										<label for="errorPoly" class="data-entry-label">Uncertainty Polygon</label>
+										<input type="text" name="errorPoly" id="errorPoly" class="data-entry-input" value="">
+									</div>
 									<script>
 										function getGeolocate(evt) {
 											if (evt.origin.includes("://mczbase") && evt.data == "") {
