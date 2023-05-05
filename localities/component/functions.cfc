@@ -2230,6 +2230,16 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				FROM ctlat_long_units
 				ORDER BY ORIG_LAT_LONG_UNITS
 			</cfquery>
+			<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT georefMethod 
+				FROM ctgeorefmethod
+				ORDER BY georefMethod
+			</cfquery>
+			<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT verificationStatus 
+				FROM ctVerificationStatus 
+				ORDER BY verificationStatus
+			</cfquery>
 			<cfquery name="lookupForGeolocate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
 					country, state_prov, county,
@@ -2321,7 +2331,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script>
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="accepted" class="data-entry-label">Accepted</label>
+											<label for="accepted_lat_long_fg" class="data-entry-label">Accepted</label>
 											<select name="accepted_lat_long_fg" size="1" id="accepted_lat_long_fg" class="data-entry-select reqdClr">
 												<option value="Yes" selected>Yes</option>
 												<option value="No">No</option>
@@ -2397,6 +2407,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<div class="col-12 col-md-4">
 											<label for="utm_ns" class="data-entry-label">Northing</label>
 											<input type="text" name="utm_ns" size="4" id="utm_ns" class="data-entry-input utm">
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="verificationstatus" class="data-entry-label">Accepted</label>
+											<select name="verificationstatus" size="1" id="verificationstatus" class="data-entry-select reqdClr">
+												<cfloop query="cfVerificationStatus">
+													<cfif cfVerificationStatus.verificationstatus EQ "unverified"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#cfVerificationStatus.verificationStatus#" #selected#>#cfVerificationStatus.verificationStatus#</option>
+												</cfloop>
+											</select>
 										</div>
 										<div class="col-12 col-md-3 pt-3">
 											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
@@ -2490,10 +2509,19 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="errorPoly" id="errorPoly" class="data-entry-input" value="">
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
-											<label for="gl_accepted" class="data-entry-label">Accepted</label>
+											<label for="gl_accepted_lat_long_fg" class="data-entry-label">Accepted</label>
 											<select name="accepted_lat_long_fg" size="1" id="gl_accepted_lat_long_fg" class="data-entry-select reqdClr">
 												<option value="Yes" selected>Yes</option>
 												<option value="No">No</option>
+											</select>
+										</div>
+										<div class="postGeolocate col-12 col-md-3">
+											<label for="gl_verificationstatus" class="data-entry-label">Verifed By</label>
+											<select name="verificationstatus" size="1" id="gl_verificationstatus" class="data-entry-select reqdClr">
+												<cfloop query="cfVerificationStatus">
+													<cfif cfVerificationStatus.verificationstatus EQ "unverified"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#cfVerificationStatus.verificationStatus#" #selected#>#cfVerificationStatus.verificationStatus#</option>
+												</cfloop>
 											</select>
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
@@ -2753,7 +2781,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					,determined_date
 					,georefmethod
 					,verificationstatus
-					<cfif len(#verified_by_agent_id#) gt 0>
+					<cfif isDefined("verified_by_agent_id") AND len(#verified_by_agent_id#) gt 0>
 						,verified_by_agent_id
 					</cfif>
 					<cfif len(#gpsaccuracy#) gt 0>
@@ -2811,7 +2839,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					,<cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateformat(determined_date,'yyyy-mm-dd')#">
 					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#georefmethod#">
 					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verificationstatus#">
-					<cfif len(#verified_by_agent_id#) gt 0 and len(#verified_by# GT 0)>
+					<cfif isDefined("verified_by_agent_id") AND len(#verified_by_agent_id#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#verified_by_agent_id#">
 					</cfif>
 					<cfif len(#extent#) gt 0>
