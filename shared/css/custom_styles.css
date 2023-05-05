@@ -3596,7 +3596,7 @@ and also iPads specifically.
 }
 /* end styles for locality maps */
 
-/* style for geolocate frame */
+/* styles for geolocate frame */
 .editFrame {
 	border-top: 1px solid gray;
 	position: fixed;
@@ -3606,3 +3606,21 @@ and also iPads specifically.
 	height: 90%;
 	z-index: 9998;
 }
+.popDiv {
+	border: 3px solid green;
+	z-index: 9999;
+	position: absolute;
+	background-color: white;
+	overflow: auto;
+}
+.fancybox-close {
+	background: url("/images/fancybox.png") repeat scroll -40px 0 transparent;
+	cursor: pointer;
+	height: 30px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 30px;
+	z-index: 10999;
+}
+/* end styles for geolocate frame */
