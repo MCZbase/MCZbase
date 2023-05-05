@@ -366,7 +366,6 @@ limitations under the License.
 				const form = document.createElement("form");
 				form.setAttribute("method", "post");
 				form.setAttribute("action", "submit");
-				form.id="commonMetaForm";
 				form.className = "metaform float-left col-4"
 				document.getElementById('images').appendChild(form);
 				// creates a <table> element and a <tbody> element
@@ -474,7 +473,7 @@ limitations under the License.
 				document.body.appendChild(tbl);
 				// sets the border attribute of tbl to '2'
 				tbl.setAttribute("border", "2");
-				document.getElementById('commonMetaForm').appendChild(tbl);
+				form.appendChild(tbl);
 			}
 
 		</script>
