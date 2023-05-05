@@ -370,7 +370,7 @@ limitations under the License.
 				document.getElementById('images').appendChild(form);
 				// creates a <table> element and a <tbody> element
 				const tbl = document.createElement("table");
-				tbl.className="table float-left col-3";
+				tbl.className="table float-left col-4";
 				const tblHead = document.createElement("thead");
 				tblHead.className="thead-light";
 					// creates a table row
