@@ -333,33 +333,6 @@ function geolocate(protocol) {
 	$("#popDiv").append(theFrame);
 }
  
-function getGeolocate(evt) {
-	if (evt.origin.includes("://mczbase") && evt.data == "") {
-		console.log(evt); // Chrome seems to include an extra invocation of getGeolocate from mczbase.
-	} else {
-		if (evt.origin !== "#Application.protocol#://www.geo-locate.org") {
-			console.log(evt);
-			alert( "MCZbase error: iframe url does not have permision to interact with me" );
-			closeGeoLocate('intruder alert');
-		} else {
-			var breakdown = evt.data.split("|");
-			if (breakdown.length == 4) {
-				var glat=breakdown[0];
-				var glon=breakdown[1];
-				var gerr=breakdown[2];
-				console.log(breakdown[3]);
-				if (breakdown[3]== "Unavailable")
-				{var gpoly='';}
-				else
-				{var gpoly=breakdown[3].replace(/([^,]*),([^,]*)[,]{0,1}/g,'$2 $1,');}
-				useGL(glat,glon,gerr,gpoly)
-			} else {
-				alert( "MCZbase error: Unable to parse geolocate data. data length=" +  breakdown.length);
-				closeGeoLocate('ERROR - breakdown length');
-			}
-		}
-	}
-}
      
 function closeGeoLocate(msg) {
 	$('#bgDiv').remove();
