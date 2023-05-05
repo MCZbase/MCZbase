@@ -2411,9 +2411,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<div class="col-12 col-md-3">
 											<label for="verificationstatus" class="data-entry-label">Accepted</label>
 											<select name="verificationstatus" size="1" id="verificationstatus" class="data-entry-select reqdClr">
-												<cfloop query="cfVerificationStatus">
-													<cfif cfVerificationStatus.verificationstatus EQ "unverified"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-													<option value="#cfVerificationStatus.verificationStatus#" #selected#>#cfVerificationStatus.verificationStatus#</option>
+												<cfloop query="ctVerificationStatus">
+													<cfif ctVerificationStatus.verificationstatus EQ "unverified"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#ctVerificationStatus.verificationStatus#" #selected#>#ctVerificationStatus.verificationStatus#</option>
 												</cfloop>
 											</select>
 										</div>
@@ -2518,9 +2518,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_verificationstatus" class="data-entry-label">Verifed By</label>
 											<select name="verificationstatus" size="1" id="gl_verificationstatus" class="data-entry-select reqdClr">
-												<cfloop query="cfVerificationStatus">
-													<cfif cfVerificationStatus.verificationstatus EQ "unverified"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-													<option value="#cfVerificationStatus.verificationStatus#" #selected#>#cfVerificationStatus.verificationStatus#</option>
+												<cfloop query="ctVerificationStatus">
+													<cfif ctVerificationStatus.verificationstatus EQ "unverified"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#ctVerificationStatus.verificationStatus#" #selected#>#ctVerificationStatus.verificationStatus#</option>
 												</cfloop>
 											</select>
 										</div>
