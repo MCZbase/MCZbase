@@ -2490,9 +2490,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									</div>
 									<div class="postGeolocate col-12 col-md-3">
 										<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-											onClick="if (checkFormValidity($('###geolocateForm')[0])) { saveGeolocate();  } " 
+											onClick="if (checkFormValidity($('##geolocateForm')[0])) { saveGeolocate();  } " 
 											id="submitButton" >
-											<output id="geolocateFeedback" class="text-danger">&nbsp;</output>	
+										<output id="geolocateFeedback" class="text-danger">&nbsp;</output>	
 									</div>
 									<script>
 										function saveGeolocate() { 
