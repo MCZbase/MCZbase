@@ -304,7 +304,7 @@ limitations under the License.
 					<div class="row">
 
 						<div class="col-9 mt-2 float-left">
-							<div id="images" class="d-inline"></div>
+							<div id="images" class="d-inline py-3"></div>
 						</div>
 						<div class="col-3 pt-4 float-left">
 							<div id="commonData" class="d-inline">
