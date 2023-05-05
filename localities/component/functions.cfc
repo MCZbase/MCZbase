@@ -2529,7 +2529,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													url : "/localities/component/functions.cfc",
 													type : "post",
 													dataType : "json",
-													data : $('##addGeoAttForm').serialize(),
+													data : $('##geolocateForm').serialize(),
 													success : function (data) {
 														console.log(data);
 														$('##geolocateFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
@@ -2544,7 +2544,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$('##geolocateFeedback').addClass('text-danger');
 														$('##geolocateFeedback').removeClass('text-success');
 														$('##geolocateFeedback').removeClass('text-warning');
-														handleFail(jqXHR,textStatus,error,'saving geological attribute for locality');
+														handleFail(jqXHR,textStatus,error,'saving georeference from geolocate for locality');
 													}
 												});
 											}
