@@ -371,3 +371,21 @@ function closeGeoLocate(msg) {
 	$('#theFrame').remove();
 	$('#theFrame', window.parent.document).remove();
 }
+
+function useGL(glat,glon,gerr,gpoly){
+	if (gpoly=='')
+		{var gpoly_wkt='';}
+	else
+		{var gpoly_wkt='POLYGON ((' + gpoly.replace(/,$/,'') + '))';}
+	$("##MAX_ERROR_DISTANCE").val(gerr);
+	$("##MAX_ERROR_UNITS").val('m');
+	$("##DATUM").val('WGS84');
+	$("##georeference_source").val('GeoLocate');
+	$("##georeference_protocol").val('GeoLocate');
+	$("##georefMethod").val('GEOLocate');
+	$("##LAT_LONG_REF_SOURCE").val('GEOLocate');
+	$("##dec_lat").val(glat);
+	$("##dec_long").val(glon);
+	$("##errorPoly").val(gpoly_wkt);
+	closeGeoLocate();
+}
