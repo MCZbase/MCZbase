@@ -2400,7 +2400,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								<h2 class="px-2 h3">Use Geolocate</h2>
 								<div class="form-row">
 									<div class="col-12">
-										<input type="button" value="GeoLocate" class="btn btn-xs btn-secondary" onClick=" geolocate(); ">
+										<input type="button" value="GeoLocate" class="btn btn-xs btn-secondary" onClick=" geolocate('#Application.protocol#'); ">
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="country" class="data-entry-label">Country</label>

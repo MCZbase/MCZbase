@@ -300,8 +300,8 @@ function removeGeologyAttribute(geology_attribute_id, locality_id, callback) {
 	});
 };
 
-function geolocate() {
-	var guri="#Application.protocol#://www.geo-locate.org/web/WebGeoreflight.aspx?georef=run";
+function geolocate(protocol) {
+	var guri=protocol+"://www.geo-locate.org/web/WebGeoreflight.aspx?georef=run";
 	guri+="&state=" + $("#state_prov").val();
 	guri+="&country="+$("#country").val();
 	guri+="&county="+$("#county").val().replace(" County", "");
