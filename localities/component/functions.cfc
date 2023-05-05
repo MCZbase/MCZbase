@@ -2257,6 +2257,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<div id="manualPanel" role="tabpanel" aria-labelledby="manualTabButton" tabindex="0" class="col-12 px-0 mx-0 active unfocus">
 								<form id="manualGeorefForm">
 									<input type="hidden" name="method" value="addGeoreference">
+									<input type="hidden" name="locality_id" value="#locality_id#">
 									<h2 class="px-2 h3">Enter georeference</h2>
 									<div class="form-row">
 										<div class="col-12 col-md-3">
@@ -2414,6 +2415,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<div id="geolocatePanel" role="tabpanel" aria-labelledby="geolocateTabButton" tabindex="-1" class="col-12 px-0 mx-0 unfocus" hidden>
 								<form id="geolocateForm">
 									<input type="hidden" name="method" value="addGeoreference">
+									<input type="hidden" name="locality_id" value="#locality_id#">
 									<h2 class="px-2 h3">Use Geolocate</h2>
 									<div class="form-row">
 										<div class="col-12">
