@@ -1465,7 +1465,7 @@ Delete an existing collecting event number record.
 					} 
 					$(document).ready(function(){ 
 						makeGeologyAutocompleteMeta('geology_attribute', 'geo_att_value','geology_attribute_hierarchy_id','entry',$('##attribute_type').val());
-						makeAgentAutocompleteMeta('determiner', 'geo_att_determiner_id');
+						makeAgentAutocompleteMeta('determiner', 'geo_att_determiner_id',true);
 						$("##geo_att_determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
 					});
 				</script>
@@ -1660,7 +1660,7 @@ Delete an existing collecting event number record.
 					} 
 					$(document).ready(function(){ 
 						makeGeologyAutocompleteMeta('geology_attribute', 'geo_att_value','geology_attribute_hierarchy_id','entry',$('##attribute_type').val());
-						makeAgentAutocompleteMeta('determiner', 'geo_att_determiner_id');
+						makeAgentAutocompleteMeta('determiner', 'geo_att_determiner_id',true);
 						$("##geo_att_determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
 						lookupGeoAttParents($('##geology_attribute_hierarchy_id').val(),'parentsDiv');
 					});
@@ -2246,6 +2246,18 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				WHERE
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
+			<cfquery name="getCurrentUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT agent_id, 
+						agent_name
+				FROM preferred_agent_name
+				WHERE
+					agent_id in (
+						SELECT agent_id 
+						FROM agent_name 
+						WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and agent_name_type = 'login'
+					)
+			</cfquery>
 			<cfoutput>
 				<h2 class="h3">Add a georeference for locality #encodeForHtml(locality_label)#</h2>
 				<div>
@@ -2415,7 +2427,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</select>
 										</div>
 										<div class="col-12">
-											<label class="data-entry-label" for="lat_long_remarks">Georeference Remarks (<span id="length_lat_long_remarks"></span>)</label>
+											<label class="data-entry-label" for="lat_long_remarks">Georeference Remarks (<span id="length_lat_long_remarks">0 of 4000 characters</span>)</label>
 											<textarea name="lat_long_remarks" id="lat_long_remarks" 
 												onkeyup="countCharsLeft('lat_long_remarks', 4000, 'length_lat_long_remarks');"
 												class="form-control form-control-sm w-100 autogrow mb-1" rows="2"></textarea>
@@ -2536,11 +2548,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_determined_by_agent" class="data-entry-label">Determiner</label>
-											<input type="hidden" name="determined_by_agent_id" id="gl_determined_by_agent_id">
-											<input type="text" name="determined_by_agent" id="gl_determined_by_agent" class="data-entry-input reqdClr">
+											<input type="hidden" name="determined_by_agent_id" id="gl_determined_by_agent_id" value="#getCurrentUser.agent_id#">
+											<input type="text" name="determined_by_agent" id="gl_determined_by_agent" class="data-entry-input reqdClr" value="#getCurrentUser.agent_name#">
 											<script>
 												$(document).ready(function() { 
-													makeAgentAutocompleteMeta("gl_determined_by_agent", "gl_determined_by_agent_id");
+													makeAgentAutocompleteMeta("gl_determined_by_agent", "gl_determined_by_agent_id", true);
 												});
 											</script>
 										</div>
@@ -2554,7 +2566,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script>
 										</div>
 										<div class="postGeolocate col-12">
-											<label class="data-entry-label" for="gl_lat_long_remarks">Georeference Remarks (<span id="gl_length_lat_long_remarks"></span>)</label>
+											<label class="data-entry-label" for="gl_lat_long_remarks">Georeference Remarks (<span id="gl_length_lat_long_remarks">0 of 4000 characters</span>)</label>
 											<textarea name="lat_long_remarks" id="gl_lat_long_remarks" 
 												onkeyup="countCharsLeft('gl_lat_long_remarks', 4000, 'gl_length_lat_long_remarks');"
 												class="form-control form-control-sm w-100 autogrow mb-1" rows="2"></textarea>

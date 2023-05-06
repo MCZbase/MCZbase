@@ -395,7 +395,7 @@ function pickedRelationship (id){
 		// do nothing, cleanup already happened
 	} else if (relatedTable=='agent'){
 		$('#'+dispInputName).attr("readonly", false);
-		makeAgentAutocompleteMeta(dispInputName, idInputName);
+		makeAgentAutocompleteMeta(dispInputName, idInputName, true);
 	} else if (relatedTable=='loan'){
 		$('#'+dispInputName).attr("readonly", false);
 		makeLoanPicker(dispInputName, idInputName);
