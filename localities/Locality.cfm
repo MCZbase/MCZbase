@@ -104,13 +104,16 @@ limitations under the License.
 									updateLocalitySummary('#locality_id#','summary');	
 									reloadGeology();
 									reloadGeoreferences();
-									// TODO: Implmement
 								}
 								function reloadGeology()  {
 									loadGeologyHTML('#locality_id#','geologyDiv', 'reloadGeology');
 								}
+								function reloadMap()  {
+									// TODO: Implmement
+								}
 								function reloadGeoreferences()  {
-									// TODO: Implement
+									loadGeoreferencesHTML('#locality_id#','georeferencesDiv', 'reloadGeoreferences');
+									reloadMap();
 								}
 								function saveEdits(){ 
 									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);

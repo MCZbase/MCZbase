@@ -71,6 +71,24 @@ function loadGeologyHTML(locality_id,targetDivId, callback_name) {
 	});
 };
 
+function loadGeoreferencesHTML(locality_id,targetDivId, callback_name) { 
+	jQuery.ajax({
+		url: "/localities/component/functions.cfc",
+		data : {
+			method : "getLocalityGeoreferencesHtml",
+			locality_id: locality_id,
+			callback_name: callback_name
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading georeferences for locality");
+		},
+		dataType: "html"
+	});
+};
+
 /** given a locality_id and lat_long_id, attempt to delete the georeference.
  @param locality_id the locality for the georeference to delete
  @param lat_long_id the primary key value for the georeference to delete
