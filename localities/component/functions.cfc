@@ -2428,15 +2428,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<script>
 												/* show/hide verified by agent controls depending on verification status */
 												function changeVerificationStatus() { 
-													var status = $('#verificationstatus').var();
+													var status = $('##verificationstatus').var();
 													if (status=='verified by MCZ collection' || status=='rejected by MCZ collection') {
-														$('#verified_by_agent').show();
-														$('#verified_by_agent_label').show();
+														$('##verified_by_agent').show();
+														$('##verified_by_agent_label').show();
 													} else { 
-														$('#verified_by_agent').hide();
-														$('#verified_by_agent_label').hide();
-														$('#verified_by_agent').val("");
-														$('#verified_by_agent_id').val("");
+														$('##verified_by_agent').hide();
+														$('##verified_by_agent_label').hide();
+														$('##verified_by_agent').val("");
+														$('##verified_by_agent_id').val("");
 													}
 												};
 											</script>
@@ -2606,15 +2606,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<script>
 												/* show/hide verified by agent controls depending on verification status */
 												function changeVerificationStatus() { 
-													var status = $('#gl_verificationstatus').var();
+													var status = $('##gl_verificationstatus').var();
 													if (status=='verified by MCZ collection' || status=='rejected by MCZ collection') {
-														$('#gl_verified_by_agent').show();
-														$('#gl_verified_by_agent_label').show();
+														$('##gl_verified_by_agent').show();
+														$('##gl_verified_by_agent_label').show();
 													} else { 
-														$('#gl_verified_by_agent').hide();
-														$('#gl_verified_by_agent_label').hide();
-														$('#gl_verified_by_agent').val("");
-														$('#gl_verified_by_agent_id').val("");
+														$('##gl_verified_by_agent').hide();
+														$('##gl_verified_by_agent_label').hide();
+														$('##gl_verified_by_agent').val("");
+														$('##gl_verified_by_agent_id').val("");
 													}
 												};
 											</script>
