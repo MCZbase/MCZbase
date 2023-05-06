@@ -2346,7 +2346,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="determined_date" class="data-entry-label">Date Determined</label>
-											<input type="text" name="determined_date" id="determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd">
+											<input type="text" name="determined_date" id="determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
 											<script>
 												$(document).ready(function() {
 													$("##determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
@@ -2546,7 +2546,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_determined_date" class="data-entry-label">Date Determined</label>
-											<input type="text" name="determined_date" id="gl_determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd">
+											<input type="text" name="determined_date" id="gl_determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
 											<script>
 												$(document).ready(function() {
 													$("##gl_determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
