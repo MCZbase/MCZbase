@@ -2281,7 +2281,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<div class="form-row">
 										<div class="col-12 col-md-3">
 											<label for="orig_lat_long_units" class="data-entry-label">Original Units</label>
-											<select id="orig_lat_long_units" class="data-entry-select reqdClr" onChange=" changeLatLongUnits(); ">
+											<select id="orig_lat_long_units" name="orig_lat_long_units" class="data-entry-select reqdClr" onChange=" changeLatLongUnits(); ">
 												<option></option>
 												<option value="decimal degrees">decimal degrees</option>
 												<option value="degrees dec. minutes">degrees with decimal minutes</option>
