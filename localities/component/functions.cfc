@@ -2418,13 +2418,61 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="utm_ns" size="4" id="utm_ns" class="data-entry-input utm">
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="datum" class="data-entry-label">Geodetic Datum</label>
+											<label for="datum" class="data-entry-label">
+												Geodetic Datum
+												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##datum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open geodetic datum pick list</span></a>
+											</label>
 											<input type="text" name="datum" id="datum" class="data-entry-input reqdClr" value="" required>
 											<script>
 												$(document).ready(function (){
 													makeCTAutocomplete('datum','datum');
 												});
 											</script> 
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="max_error_distance" class="data-entry-label">Error Radius</label>
+											<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input reqdClr" value="" required>
+										</div>
+										<div class="col-12 col-md-1">
+											<label for="max_error_units" class="data-entry-label">
+												Error Radius Units
+												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##max_error_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list for error radius units</span></a>
+											</label>
+											<input type="text" name="max_error_units" id="max_error_units" class="data-entry-input reqdClr" value="" required>
+											<script>
+												$(document).ready(function (){
+													makeCTAutocomplete('max_error_units','lat_long_error_units');
+												});
+											</script> 
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="gl_extent" class="data-entry-label">Extent</label>
+											<input type="text" name="extent" id="extent" class="data-entry-input" value="">
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="georeference_source" class="data-entry-label">Source</label>
+											<input type="text" name="georeference_source" id="georeference_source" class="data-entry-input" value="">
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="georeference_protocol" class="data-entry-label">Protocol</label>
+											<input type="text" name="georeference_protocol" id="georeference_protocol" class="data-entry-input" value="">
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="georefMethod" class="data-entry-label">
+												Method
+												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##georefMethod').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open georeference method pick list</span></a>
+											</label>
+											<input type="text" name="georefMethod" id="georefMethod" class="data-entry-input" value="">
+											<script>
+												$(document).ready(function (){
+													makeCTAutocomplete('georefMethod','georefMethod');
+												});
+											</script> 
+										</div>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="lat_long_ref_source" class="data-entry-label">Reference</label>
+											<input type="text" name="lat_long_ref_source" id="lat_long_ref_source" class="data-entry-input" value="">
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="verificationstatus" class="data-entry-label">Verification Status</label>
@@ -2571,36 +2619,46 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script> 
 										</div>
 										<div class="postGeolocate col-12 col-md-2">
-											<label for="max_error_distance" class="data-entry-label">Error Radius</label>
-											<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input reqdClr" value="" required>
+											<label for="gl_max_error_distance" class="data-entry-label">Error Radius</label>
+											<input type="text" name="max_error_distance" id="gl_max_error_distance" class="data-entry-input reqdClr" value="" required>
 										</div>
 										<div class="postGeolocate col-12 col-md-1">
-											<label for="max_error_units" class="data-entry-label">Units</label>
-											<input type="text" name="max_error_units" id="max_error_units" class="data-entry-input reqdClr" value="" required>
+											<label for="gl_max_error_units" class="data-entry-label">Units</label>
+											<input type="text" name="max_error_units" id="gl_max_error_units" class="data-entry-input reqdClr" value="" required>
+											<script>
+												$(document).ready(function (){
+													makeCTAutocomplete('gl_max_error_units','lat_long_error_units');
+												});
+											</script> 
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
-											<label for="georeference_source" class="data-entry-label">Source</label>
-											<input type="text" name="georeference_source" id="georeference_source" class="data-entry-input" value="">
+											<label for="gl_georeference_source" class="data-entry-label">Source</label>
+											<input type="text" name="georeference_source" id="gl_georeference_source" class="data-entry-input" value="">
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
-											<label for="georeference_protocol" class="data-entry-label">Protocol</label>
-											<input type="text" name="georeference_protocol" id="georeference_protocol" class="data-entry-input" value="">
+											<label for="gl_georeference_protocol" class="data-entry-label">Protocol</label>
+											<input type="text" name="georeference_protocol" id="gl_georeference_protocol" class="data-entry-input" value="">
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
-											<label for="georefMethod" class="data-entry-label">Method</label>
-											<input type="text" name="georefMethod" id="georefMethod" class="data-entry-input" value="">
+											<label for="gl_georefMethod" class="data-entry-label">Method</label>
+											<input type="text" name="georefMethod" id="gl_georefMethod" class="data-entry-input" value="">
+											<script>
+												$(document).ready(function (){
+													makeCTAutocomplete('gl_georefMethod','georefMethod');
+												});
+											</script> 
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
-											<label for="lat_long_ref_source" class="data-entry-label">Reference</label>
-											<input type="text" name="lat_long_ref_source" id="lat_long_ref_source" class="data-entry-input" value="">
+											<label for="gl_lat_long_ref_source" class="data-entry-label">Reference</label>
+											<input type="text" name="lat_long_ref_source" id="gl_lat_long_ref_source" class="data-entry-input" value="">
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_extent" class="data-entry-label">Extent</label>
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
 										</div>
 										<div class="postGeolocate col-12">
-											<label for="errorPoly" class="data-entry-label">Uncertainty Polygon</label>
-											<input type="text" name="errorPoly" id="errorPoly" class="data-entry-input" value="">
+											<label for="gl_errorPoly" class="data-entry-label">Uncertainty Polygon</label>
+											<input type="text" name="errorPoly" id="gl_errorPoly" class="data-entry-input" value="">
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_accepted_lat_long_fg" class="data-entry-label">Accepted</label>
