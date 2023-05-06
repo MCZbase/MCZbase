@@ -2113,7 +2113,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<li>None #noGeoRef#</li>
 							<li>
 								<button type="button" class="btn btn-xs btn-secondary" 
-									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', '#callback_name#') " 
+									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', #callback_name#) " 
 									aria-label = "Add a georeference to this locality"
 								>Add</button>
 								<output id="georeferenceDialogFeedback">&nbsp;</output>	
