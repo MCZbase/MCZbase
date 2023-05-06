@@ -2418,13 +2418,40 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="utm_ns" size="4" id="utm_ns" class="data-entry-input utm">
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="verificationstatus" class="data-entry-label">Accepted</label>
-											<select name="verificationstatus" size="1" id="verificationstatus" class="data-entry-select reqdClr">
+											<label for="verificationstatus" class="data-entry-label">Verification Status</label>
+											<select name="verificationstatus" size="1" id="verificationstatus" class="data-entry-select reqdClr" onChange="changeVerificationStatus();">
 												<cfloop query="ctVerificationStatus">
 													<cfif ctVerificationStatus.verificationstatus EQ "unverified"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 													<option value="#ctVerificationStatus.verificationStatus#" #selected#>#ctVerificationStatus.verificationStatus#</option>
 												</cfloop>
 											</select>
+											<script>
+												/* show/hide verified by agent controls depending on verification status */
+												function changeVerificationStatus() { 
+													var status = $('#verificationstatus').var();
+													if (status=='verified by MCZ collection' || status=='rejected by MCZ collection') {
+														$('#verified_by_agent').show();
+														$('#verified_by_agent_label').show();
+													} else { 
+														$('#verified_by_agent').hide();
+														$('#verified_by_agent_label').hide();
+														$('#verified_by_agent').val("");
+														$('#verified_by_agent_id').val("");
+													}
+												};
+											</script>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="verified_by_agent" class="data-entry-label" id="verified_by_agent_label">Verified by</label>
+											<input type="hidden" name="verified_by_agent_id" id="verified_by_agent_id">
+											<input type="text" name="verified_by_agent" id="verified_by_agent" class="data-entry-input reqdClr">
+											<script>
+												$(document).ready(function() { 
+													makeAgentAutocompleteMeta("verified_by_agent", "verified_by_agent_id");
+													$('verified_by_agent').hide();
+													$('verified_by_agent_label').hide();
+												});
+											</script>
 										</div>
 										<div class="col-12">
 											<label class="data-entry-label" for="lat_long_remarks">Georeference Remarks (<span id="length_lat_long_remarks">0 of 4000 characters</span>)</label>
@@ -2447,7 +2474,32 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<script>
 											function saveManualGeoref() { 
-												alert("TODO: implement");
+												$('##manualFeedback').html('Saving....');
+												$('##manualFeedback').addClass('text-warning');
+												$('##manualFeedback').removeClass('text-success');
+												$('##manualFeedback').removeClass('text-danger');
+												jQuery.ajax({
+													url : "/localities/component/functions.cfc",
+													type : "post",
+													dataType : "json",
+													data : $('##manualGeorefForm').serialize(),
+													success : function (data) {
+														console.log(data);
+														$('##manualFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
+														$('##georeferenceDialogFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
+														$('##manualFeedback').addClass('text-success');
+														$('##manualFeedback').removeClass('text-danger');
+														$('##manualFeedback').removeClass('text-warning');
+														$('##addGeorefDialog').dialog('close');
+													},
+													error: function(jqXHR,textStatus,error){
+														$('##manualFeedback').html('Error.');
+														$('##manualFeedback').addClass('text-danger');
+														$('##manualFeedback').removeClass('text-success');
+														$('##manualFeedback').removeClass('text-warning');
+														handleFail(jqXHR,textStatus,error,'saving manually entered georeference for locality');
+													}
+												});
 											}
 										</script>
 									</div>
@@ -2461,6 +2513,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<div class="form-row">
 										<div class="col-12">
 											<input type="button" value="GeoLocate" class="btn btn-xs btn-secondary" onClick=" geolocate('#Application.protocol#'); ">
+										</div>
+										<div class="col-12">
+					         		   <div class="h4">Values to send to GeoLocate to obtain a georeference:</div>
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="country" class="data-entry-label">Country</label>
@@ -2479,7 +2534,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="gl_spec_locality" id="gl_spec_locality" class="data-entry-input" value="#lookupForGeolocate.spec_locality#" disabled readonly>
 										</div>
 										<div class="col-12 preGeoLocate">
-					         		   <div>Some fields will still need to be entered manually here after saving the georeference from GeoLocate.</div>
+					         		   <div class="h4">Some fields will need to be entered manually here after obtaining the georeference from GeoLocate.</div>
+										</div>
+										<div class="col-12 postGeoLocate">
+					         		   <div class="h4">Results from GeoLocate, edit metadata as needed and save.</div>
 										</div>
 										<div class="postGeolocate col-12 col-md-2">
 											<input type="hidden" name="ORIG_LAT_LONG_UNITS" value="decimal degrees">
@@ -2538,13 +2596,40 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</select>
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
-											<label for="gl_verificationstatus" class="data-entry-label">Verifed By</label>
+											<label for="gl_verificationstatus" class="data-entry-label">Verification Status</label>
 											<select name="verificationstatus" size="1" id="gl_verificationstatus" class="data-entry-select reqdClr">
 												<cfloop query="ctVerificationStatus">
 													<cfif ctVerificationStatus.verificationstatus EQ "unverified"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 													<option value="#ctVerificationStatus.verificationStatus#" #selected#>#ctVerificationStatus.verificationStatus#</option>
 												</cfloop>
 											</select>
+											<script>
+												/* show/hide verified by agent controls depending on verification status */
+												function changeVerificationStatus() { 
+													var status = $('#gl_verificationstatus').var();
+													if (status=='verified by MCZ collection' || status=='rejected by MCZ collection') {
+														$('#gl_verified_by_agent').show();
+														$('#gl_verified_by_agent_label').show();
+													} else { 
+														$('#gl_verified_by_agent').hide();
+														$('#gl_verified_by_agent_label').hide();
+														$('#gl_verified_by_agent').val("");
+														$('#gl_verified_by_agent_id').val("");
+													}
+												};
+											</script>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="gl_verified_by_agent" class="data-entry-label" id="gl_verified_by_agent_label">Verified by</label>
+											<input type="hidden" name="verified_by_agent_id" id="gl_verified_by_agent_id">
+											<input type="text" name="verified_by_agent" id="gl_verified_by_agent" class="data-entry-input reqdClr">
+											<script>
+												$(document).ready(function() { 
+													makeAgentAutocompleteMeta("gl_verified_by_agent", "gl_verified_by_agent_id");
+													$('gl_verified_by_agent').hide();
+													$('gl_verified_by_agent_label').hide();
+												});
+											</script>
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_determined_by_agent" class="data-entry-label">Determiner</label>
