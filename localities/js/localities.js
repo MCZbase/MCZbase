@@ -88,9 +88,6 @@ function deleteGeoreference(locality_id, lat_long_id,callback) {
 			if (jQuery.type(callback)==='function') {
 				callback();
 			}
-			if (result[0].STATUS!=1) {
-				alert(result[0].MESSAGE);
-			}
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"deleting a georeference");
