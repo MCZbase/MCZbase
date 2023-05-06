@@ -2418,6 +2418,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="utm_ns" size="4" id="utm_ns" class="data-entry-input utm">
 										</div>
 										<div class="col-12 col-md-3">
+											<label for="datum" class="data-entry-label">Geodetic Datum</label>
+											<input type="text" name="datum" id="datum" class="data-entry-input reqdClr" value="" required>
+											<script>
+												$(document).ready(function (){
+													makeCTAutocomplete('datum','datum');
+												});
+											</script> 
+										</div>
+										<div class="col-12 col-md-3">
 											<label for="verificationstatus" class="data-entry-label">Verification Status</label>
 											<select name="verificationstatus" size="1" id="verificationstatus" class="data-entry-select reqdClr" onChange="changeVerificationStatus();">
 												<cfloop query="ctVerificationStatus">
@@ -2553,8 +2562,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="dec_long" id="dec_long" class="data-entry-input reqdClr" value="" required>
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
-											<label for="datum" class="data-entry-label">Geodetic Datum</label>
-											<input type="text" name="datum" id="datum" class="data-entry-input reqdClr" value="" required>
+											<label for="gl_datum" class="data-entry-label">Geodetic Datum</label>
+											<input type="text" name="datum" id="gl_datum" class="data-entry-input reqdClr" value="" required>
+											<script>
+												$(document).ready(function (){
+													makeCTAutocomplete('gl_datum','datum');
+												});
+											</script> 
 										</div>
 										<div class="postGeolocate col-12 col-md-2">
 											<label for="max_error_distance" class="data-entry-label">Error Radius</label>
