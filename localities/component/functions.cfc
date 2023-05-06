@@ -2435,7 +2435,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="col-12 col-md-1">
 											<label for="max_error_units" class="data-entry-label">
-												Error Radius Units
+												Units
 												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##max_error_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list for error radius units</span></a>
 											</label>
 											<input type="text" name="max_error_units" id="max_error_units" class="data-entry-input reqdClr" value="" required>
@@ -2468,7 +2468,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													makeCTAutocomplete('georefMethod','georefMethod');
 												});
 											</script> 
-										</div>
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="lat_long_ref_source" class="data-entry-label">Reference</label>
