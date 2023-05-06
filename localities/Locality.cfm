@@ -111,7 +111,7 @@ limitations under the License.
 								function reloadMap()  {
 									// TODO: Implmement
 								}
-								function reloadGeoreferences()  {
+								function reloadGeoreferences() {
 									loadGeoreferencesHTML('#locality_id#','georeferencesDiv', 'reloadGeoreferences');
 									reloadMap();
 								}
@@ -135,7 +135,7 @@ limitations under the License.
 							<div id="geologyDiv">#geology#</div>
 						</div>
 						<div class="border rounded px-2 py-2">
-							<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callbackName='reloadGeoreferences')>
+							<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callback_name='reloadGeoreferences')>
 							<div id="georeferencesDiv">#georeferences#</div>
 						</div>
 						<div class="p-3 border bg-light rounded mt-2">

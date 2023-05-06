@@ -2019,9 +2019,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 <cffunction name="getLocalityGeoreferencesHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="locality_id" type="string" required="yes">
-	<cfargument name="callbackName" type="string" required="yes">
+	<cfargument name="callback_name" type="string" required="yes">
 
-	<cfset variables.callbackName = arguments.callbackName>
+	<cfset variables.callback_name = arguments.callback_name>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityGeoRefFormThread#tn#">
 		<cfoutput>
@@ -2113,7 +2113,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<li>None #noGeoRef#</li>
 							<li>
 								<button type="button" class="btn btn-xs btn-secondary" 
-									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', '#callbackName#') " 
+									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', '#callback_name#') " 
 									aria-label = "Add a georeference to this locality"
 								>Add</button>
 								<output id="georeferenceDialogFeedback">&nbsp;</output>	
@@ -2173,11 +2173,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script>
 											<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
 											<button type="button" class="btn btn-xs btn-secondary" 
-												onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callbackName#');"
+												onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callback_name#');"
 												aria-label = "Edit this georeference"
 											>Edit</button>
 											<button type="button" class="btn btn-xs btn-warning" 
-												onClick=" deleteGeoreference('#locality_id#','#lat_long_id#',#callbackName#);"
+												onClick=" deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);"
 												aria-label = "Delete this georeference from this locality"
 											>Delete</button>
 										</li>
@@ -2186,7 +2186,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							</cfloop>
 							<li>
 								<button type="button" class="btn btn-xs btn-secondary" 
-									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', #callbackName#) " 
+									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', #callback_name#) " 
 									aria-label = "Add another georeference to this locality"
 								>Add</button>
 							</li>
