@@ -196,6 +196,8 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 					#getCTField.table_name#
 				WHERE
 					upper(#getCTField.column_name#) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+				ORDER BY
+					#getCTField.column_name#
 			</cfquery>
 			<cfset rows = search_result.recordcount>
 			<cfset i = 1>
