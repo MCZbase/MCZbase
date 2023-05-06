@@ -2177,7 +2177,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												aria-label = "Edit this georeference"
 											>Edit</button>
 											<button type="button" class="btn btn-xs btn-warning" 
-												onClick=" deleteGeoreference('#locality_id#','#lat_long_id#','#callbackName#');"
+												onClick=" deleteGeoreference('#locality_id#','#lat_long_id#',#callbackName#);"
 												aria-label = "Delete this georeference from this locality"
 											>Delete</button>
 										</li>
@@ -2197,9 +2197,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<div id="addGeorefDialog"></div>
 				<script>
 					function openEditGeorefDialog(lat_long_id, dialogDiv, callback) { 
-						console.log(geology_attribute_id);
-					}
-					function deleteGeoreference(locality_id,lat_long_id, callback) { 
 						console.log(geology_attribute_id);
 					}
 				</script>
