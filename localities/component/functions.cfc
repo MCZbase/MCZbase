@@ -3158,7 +3158,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			</cfquery>
 			<cfif accepted_lat_long_fg EQ "1" and countAcceptedPre.ct GT 0>
 				<cfquery name="turnOff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA DISABLE
+					ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA DISABLE
 				</cfquery>
 				<cfset triggerState = "off">
 				<cfquery name="unacceptOthers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="unacceptOthers_result">
@@ -3334,7 +3334,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 		<cffinally>
 			<cfif accepted_lat_long_fg EQ "1" AND triggerState EQ "off">
 				<cfquery name="turnOn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA ENABLE
+					ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA ENABLE
 				</cfquery>
 			</cfif>
 		</cffinally>
