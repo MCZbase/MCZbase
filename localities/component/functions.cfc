@@ -2733,7 +2733,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												};
 											</script>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_verified_by_agent" class="data-entry-label" id="gl_verified_by_agent_label">Verified by</label>
 											<input type="hidden" name="verified_by_agent_id" id="gl_verified_by_agent_id">
 											<input type="text" name="verified_by_agent" id="gl_verified_by_agent" class="data-entry-input reqdClr">
