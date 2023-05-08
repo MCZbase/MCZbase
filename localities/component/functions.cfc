@@ -2354,8 +2354,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<div class="col-12 col-md-3">
 											<label for="accepted_lat_long_fg" class="data-entry-label">Accepted</label>
 											<select name="accepted_lat_long_fg" size="1" id="accepted_lat_long_fg" class="data-entry-select reqdClr">
-												<option value="Yes" selected>Yes</option>
-												<option value="No">No</option>
+												<option value="1" selected>Yes</option>
+												<option value="0">No</option>
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
@@ -2705,8 +2705,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<div class="postGeolocate col-12 col-md-2">
 											<label for="gl_accepted_lat_long_fg" class="data-entry-label">Accepted</label>
 											<select name="accepted_lat_long_fg" size="1" id="gl_accepted_lat_long_fg" class="data-entry-select reqdClr">
-												<option value="Yes" selected>Yes</option>
-												<option value="No">No</option>
+												<option value="1" selected>Yes</option>
+												<option value="0">No</option>
 											</select>
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
@@ -3175,6 +3175,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfif isDefined("gpsaccuracy") AND len(#gpsaccuracy#) gt 0>
 						,gpsaccuracy
 					</cfif>
+					<cfif isDefined("coordinate_precision") AND len(#coordinate_precision#) gt 0>
+						,coordinate_precision
+					</cfif>
 					<cfif isDefined("lat_long_remarks") AND len(#lat_long_remarks#) gt 0>
 						,lat_long_remarks
 					</cfif>
@@ -3229,6 +3232,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</cfif>
 					<cfif isDefined("gpsaccuracy") AND len(#gpsaccuracy#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#gpsaccuracy#">
+					</cfif>
+					<cfif isDefined("coordinate_precision") AND len(#coordinate_precision#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coordinate_precision#">
 					</cfif>
 					<cfif len(#lat_long_remarks#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lat_long_remarks#">
