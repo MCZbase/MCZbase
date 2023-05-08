@@ -2042,8 +2042,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					SELECT
 						lat_long_id,
 						georefmethod,
-						dec_lat,
-						dec_long,
+						nvl2(coordinate_precision, round(dec_lat,coordinate_precision), round(dec_lat,5)) dec_lat,
+						dec_lat raw_dec_lat,
+						nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_long,5)) dec_long,
+						dec_long raw_dec_long,
 						max_error_distance,
 						max_error_units,
 						to_meters(lat_long.max_error_distance, lat_long.max_error_units) coordinateUncertaintyInMeters,
