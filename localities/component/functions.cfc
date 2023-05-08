@@ -3060,24 +3060,24 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 		// validate expectations
 		<cfswitch expression="#ORIG_LAT_LONG_UNITS#">
 			<cfcase value="deg. min. sec.">
-				<cfif isDefined("dec_lat_min") and len(dec_lat_min) GT 0)>
+				<cfif isDefined("dec_lat_min") and len(dec_lat_min) GT 0>
 					<cfthrow message = "A value was provided for dec_lat_min, but units are degrees, minutes, seconds. Unable to save.">
 				</cfif>
-				<cfif isDefined("dec_long_min") and len(dec_long_min) GT 0)>
+				<cfif isDefined("dec_long_min") and len(dec_long_min) GT 0>
 					<cfthrow message = "A value was provided for dec_long_min, but units are degrees, minutes, seconds. Unable to save.">
 				</cfif>
 			</cfcase>
 			<cfcase value="degrees dec. minutes">
-				<cfif isDefined("lat_min") and len(lat_min) GT 0)>
+				<cfif isDefined("lat_min") and len(lat_min) GT 0>
 					<cfthrow message = "A value was provided for lat_min, but units are degrees, decimal minutes, Unable to save.">
 				</cfif>
-				<cfif isDefined("long_min") and len(long_min) GT 0)>
+				<cfif isDefined("long_min") and len(long_min) GT 0>
 					<cfthrow message = "A value was provided for long_min, but units are degrees, decimal minutes. Unable to save.">
 				</cfif>
-				<cfif isDefined("lat_sec") and len(lat_sec) GT 0)>
+				<cfif isDefined("lat_sec") and len(lat_sec) GT 0>
 					<cfthrow message = "A value was provided for lat_sec, but units are degrees, decimal minutes, Unable to save.">
 				</cfif>
-				<cfif isDefined("long_sec") and len(long_sec) GT 0)>
+				<cfif isDefined("long_sec") and len(long_sec) GT 0>
 					<cfthrow message = "A value was provided for long_sec, but units are degrees, decimal minutes. Unable to save.">
 				</cfif>
 			</cfcase>
