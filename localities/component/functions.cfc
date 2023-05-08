@@ -2491,7 +2491,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												Method
 												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##georefMethod').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open georeference method pick list</span></a>
 											</label>
-											<input type="text" name="georefMethod" id="georefMethod" class="data-entry-input" value="">
+											<input type="text" name="georefMethod" id="georefMethod" class="data-entry-input reqdClr" value="" required>
 											<script>
 												$(document).ready(function (){
 													makeCTAutocomplete('georefMethod','georefMethod');
@@ -2673,28 +2673,28 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
 										</div>
-										<div class="postGeolocate col-12 col-md-3">
+										<div class="postGeolocate col-12 col-md-2">
 											<label for="gl_georeference_source" class="data-entry-label">Source</label>
 											<input type="text" name="georeference_source" id="gl_georeference_source" class="data-entry-input" value="">
 										</div>
-										<div class="postGeolocate col-12 col-md-3">
+										<div class="postGeolocate col-12 col-md-2">
 											<label for="gl_georeference_protocol" class="data-entry-label">Protocol</label>
 											<input type="text" name="georeference_protocol" id="gl_georeference_protocol" class="data-entry-input" value="">
 										</div>
-										<div class="postGeolocate col-12 col-md-3">
+										<div class="postGeolocate col-12 col-md-2">
 											<label for="gl_georefMethod" class="data-entry-label">Method</label>
-											<input type="text" name="georefMethod" id="gl_georefMethod" class="data-entry-input" value="">
+											<input type="text" name="georefMethod" id="gl_georefMethod" class="data-entry-input reqdClr" value="" required>
 											<script>
 												$(document).ready(function (){
 													makeCTAutocomplete('gl_georefMethod','georefMethod');
 												});
 											</script> 
 										</div>
-										<div class="postGeolocate col-12 col-md-3">
+										<div class="postGeolocate col-12 col-md-2">
 											<label for="gl_lat_long_ref_source" class="data-entry-label">Reference</label>
 											<input type="text" name="lat_long_ref_source" id="gl_lat_long_ref_source" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="postGeolocate col-12 col-md-3">
+										<div class="postGeolocate col-12 col-md-2">
 											<label for="gl_extent" class="data-entry-label">Extent</label>
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
 										</div>
