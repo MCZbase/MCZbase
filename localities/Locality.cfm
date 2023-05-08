@@ -109,7 +109,7 @@ limitations under the License.
 									loadGeologyHTML('#locality_id#','geologyDiv', 'reloadGeology');
 								}
 								function reloadMap()  {
-									// TODO: Implmement
+									loadLocalityMapHTML('#locality_id#','mapDiv');
 								}
 								function reloadGeoreferences() {
 									loadGeoreferencesHTML('#locality_id#','georeferencesDiv', 'reloadGeoreferences');

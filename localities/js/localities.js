@@ -52,7 +52,33 @@ function updateLocalitySummary(locality_id,pasteTarget) {
 	});
 };
 
+/** given a locality_id lookup the map for a locality and
+ set it as the content of a target div.
+ @param locality_id the locality to look up.
+*/
+function loadLocalityMapHTML(locality_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/localities/component/functions.cfc",
+		data : {
+			method : "getLocalityMapHtml",
+			locality_id: locality_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading map for locality");
+		},
+		dataType: "html"
+	});
+};
 
+/** given a locality_id lookup the geological attributes for a locality and
+ set the returned html as the content of a target div.
+ @param locality_id the locality to look up.
+ @param callback_name the name of a callback function that can be passed
+   to actions within the returned html.
+*/
 function loadGeologyHTML(locality_id,targetDivId, callback_name) { 
 	jQuery.ajax({
 		url: "/localities/component/functions.cfc",
@@ -71,6 +97,12 @@ function loadGeologyHTML(locality_id,targetDivId, callback_name) {
 	});
 };
 
+/** given a locality_id lookup the georeferences for a locality and
+ set the returned html as the content of a target div.
+ @param locality_id the locality to look up georeferences for.
+ @param callback_name the name of a callback function that can be passed
+   to actions within the returned html.
+*/
 function loadGeoreferencesHTML(locality_id,targetDivId, callback_name) { 
 	jQuery.ajax({
 		url: "/localities/component/functions.cfc",
