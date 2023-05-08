@@ -2904,6 +2904,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												locality_id: lookup_locality_id
 											},
 											success: function (result) {
+												result = JSON.parse(result);
 												console.log(result);
 												var orig_lat_long_units = result[0].ORIG_LAT_LONG_UNITS;
 												$("##orig_lat_long_units").val(orig_lat_long_units);
