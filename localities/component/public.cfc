@@ -34,7 +34,7 @@ limitations under the License.
 	<cfthread name="localityMapThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfif isDefined("reload") AND reload EQ "true")
+				<cfif isDefined("reload") AND reload EQ "true">
 					<!--- map section is being reloaded, api is already loaded on page --->
 				<cfelse>
 					<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
@@ -53,7 +53,7 @@ limitations under the License.
 					} 
 
 					// global scope varaiables available for referencing map objects.
-					<cfif isDefined("reload") AND reload EQ "true")
+					<cfif isDefined("reload") AND reload EQ "true">
 						<!--- map section is being reloaded globals and functions are already defined --->
 					<cfelse>
 					var map;
