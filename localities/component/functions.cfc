@@ -3144,8 +3144,23 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
+		<cfset triggerState = "on">
 		<cftry>
-			<cfif accepted_lat_long_fg EQ "1">
+			<!--- TR_LATLONG_ACCEPTED_BIUPA checks for only one accepted georeference, uses pragma autonomous_transaction, so 
+					adding a new accepted lat long when one already exists has to occur in more than one transaction or with the trigger disabled --->
+			<cfquery name="countAcceptedPre" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countAcceptedPre_result">
+				SELECT count(*) ct
+				FROM lat_long
+				WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					and 
+					accepted_lat_long_fg = 1
+			</cfquery>
+			<cfif accepted_lat_long_fg EQ "1" and countAcceptedPre.ct GT 0>
+				<cfquery name="turnOff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA DISABLE
+				</cfquery>
+				<cfset triggerState = "off">
 				<cfquery name="unacceptOthers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="unacceptOthers_result">
 					UPDATE lat_long 
 					SET accepted_lat_long_fg = 0 
@@ -3316,6 +3331,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
 		</cfcatch>
+		<cffinally>
+			<cfif accepted_lat_long_fg EQ "1" AND triggerState EQ "off">
+				<cfquery name="turnOn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					ALTER TRIGGER TR_LATLONG_ACCEPTED_BIUPA ENABLE
+				</cfquery>
+			</cfif>
+		</cffinally>
 		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
