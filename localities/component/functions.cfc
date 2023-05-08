@@ -3145,7 +3145,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfif accepted_lat_long_fg EQ 1>
+			<cfif accepted_lat_long_fg EQ "1">
 				<cfquery name="unacceptOthers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="unacceptOthers_result">
 					UPDATE lat_long 
 					SET accepted_lat_long_fg = 0 
