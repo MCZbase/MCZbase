@@ -3036,10 +3036,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 		<cfswitch expression="#ORIG_LAT_LONG_UNITS#">
 			<cfcase value="deg. min. sec.">
 				// validate expectations
-				<cfif isDefined("dec_lat_min") and len(dec_lat_min) GT 0)>
+				<cfif isDefined("dec_lat_min") and len(dec_lat_min) GT 0>
 					<cfthrow message = "A value was provided for dec_lat_min, but units are degrees, minutes, seconds. Unable to save.">
 				</cfif>
-				<cfif isDefined("dec_long_min") and len(dec_long_min) GT 0)>
+				<cfif isDefined("dec_long_min") and len(dec_long_min) GT 0>
 					<cfthrow message = "A value was provided for dec_long_min, but units are degrees, minutes, seconds. Unable to save.">
 				</cfif>
 			</cfcase>
