@@ -2597,7 +2597,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<input type="hidden" name="method" value="addGeoreference">
 									<input type="hidden" name="field_mapping" value="specific"> 
 									<input type="hidden" name="locality_id" value="#locality_id#">
-									<h2 class="px-2 h3">Use Geolocate</h2>
+									<h2 class="px-2 h3">Use GeoLocate</h2>
 									<div class="form-row">
 										<div class="col-12">
 											<input type="button" value="GeoLocate" class="btn btn-xs btn-secondary" onClick=" geolocate('#Application.protocol#'); ">
@@ -2890,62 +2890,32 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									</div>
 								</div>
 								<script>
-									$(document).ready(function() { 
-										$('##cloneIntoSection').hide();
-									});
 									function loadGeoreference() { 
 										// TODO: load from a backing method into target fields.
+										var lookup_locality_id = $('##selected_locality_id').val();
 										jQuery.ajax({
 											url: "/localities/component/functions.cfc",
 											data : {
 												method : "getGeoreference",
-												locality_id: '#locality_id#'
+												locality_id: lookup_locality_id
 											},
 											success: function (result) {
 												console.log(result);
-												$('##clone_determined_by_agent_id').val(result[0].determined_by_agent_id);
-												$('##clone_determined_by_agent').val(result[0].determined_by);
-												$('##clone_determined_date').val(result[0].determined_date);
+												$('##determined_by_agent_id').val(result[0].determined_by_agent_id);
+												$('##determined_by_agent').val(result[0].determined_by);
+												$('##determined_date').val(result[0].determined_date);
+												$("##orig_lat_long_units")val(result[0].orig_lat_long_units);
+												
+												$("##manualTabButton").click();
 											},
 											error: function (jqXHR, textStatus, error) {
-												handleFail(jqXHR,textStatus,error,"deleting a georeference");
+												handleFail(jqXHR,textStatus,error,"loading a georeference to clone");
 											},
 											dataType: "html"
 										});
 										$('##cloneIntoSection').show();
 									}
 								</script>
-								<section class="form-row" id="cloneIntoSection">
-									<form id="cloneGeorefForm">
-										<div class="col-12 col-md-3">
-											<label for="clone_accepted_lat_long_fg" class="data-entry-label">Accepted</label>
-											<select name="accepted_lat_long_fg" size="1" id="clone_accepted_lat_long_fg" class="data-entry-select reqdClr">
-												<option value="Yes" selected>Yes</option>
-												<option value="No">No</option>
-											</select>
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="clone_determined_by_agent" class="data-entry-label">Determiner</label>
-											<input type="hidden" name="determined_by_agent_id" id="clone_determined_by_agent_id">
-											<input type="text" name="determined_by_agent" id="clone_determined_by_agent" class="data-entry-input reqdClr">
-											<script>
-												$(document).ready(function() { 
-													makeAgentAutocompleteMeta("clone_determined_by_agent", "clone_determined_by_agent_id");
-												});
-											</script>
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="clone_determined_date" class="data-entry-label">Date Determined</label>
-											<input type="text" name="determined_date" id="clone_determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd" value="">
-											<script>
-												$(document).ready(function() {
-													$("##determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
-												});
-											</script>
-										</div>
-										<div class="col-12 col-md-3">
-									</form>
-								</section>
 							</div>
 						</div>
 					</div>
