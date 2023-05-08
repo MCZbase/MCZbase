@@ -2889,6 +2889,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</script>
 									</div>
 								</div>
+<!---
+ [{"DEC_LAT_MIN":"","UTM_NS":"","FIELD_VERIFIED_FG":"","LATITUDESTRING":"2d 9m 0s N","MAX_ERROR_DISTANCE":0,"GEOLOCATE_UNCERTAINTYPOLYGON":"","VERIFICATIONSTATUS":"unknown","GEOLOCATE_SCORE":"","RAW_DEC_LAT":2.1500000000,"DATUM":"unknown","ACCEPTED_LAT_LONG_FG":1,"UTM_EW":"","EXTENT":"","GEOLOCATE_PARSEPATTERN":"","LAT_LONG_ID":828612,"VERIFIED_BY":"","DEC_LAT":2.15,"VERIFIED_BY_AGENT_ID":"","LAT_SEC":0,"LAT_MIN":9,"GPSACCURACY":"","UTM_ZONE":"","DETERMINED_DATE":"December, 12 2010 00:00:00","GEOLOCATE_NUMRESULTS":"","DETERMINED_BY_AGENT_ID":0,"DEC_LONG":117.48333,"DEC_LONG_MIN":"","LAT_LONG_REMARKS":"","GEOLOCATE_PRECISION":"","ERROR_POLYGON":"","LONGITUDESTRING":"117d 29m 0s E","RAW_DEC_LONG":117.4833333333,"LAT_LONG_REF_SOURCE":"unknown","LAT_DEG":2,"NEAREST_NAMED_PLACE":"","LONG_DEG":117,"LAT_LONG_FOR_NNP_FG":"","LONG_SEC":0,"COORDINATEUNCERTAINTYINMETERS":0,"LONG_MIN":29,"MAX_ERROR_UNITS":"m","DETERMINED_BY":"[no agent data]","LAT_DIR":"N","LONG_DIR":"E","SPATIALFIT":"","GEOREFMETHOD":"unknown","ORIG_LAT_LONG_UNITS":"deg. min. sec."}]
+--->
 								<script>
 									function loadGeoreference() { 
 										var lookup_locality_id = $('##selected_locality_id').val();
@@ -2900,11 +2903,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											},
 											success: function (result) {
 												console.log(result);
+												var orig_lat_long_units = result[0].ORIG_LAT_LONG_UNITS;
+												$("##orig_lat_long_units").val(orig_lat_long_units);
+												consloe.log(orig_lat_long_units);
 												$('##determined_by_agent_id').val(result[0].DETERMINED_BY_AGENT_ID);
 												$('##determined_by_agent').val(result[0].DETERMINED_BY);
 												$('##determined_date').val(result[0].DETERMINED_DATE);
-												var orig_lat_long_units = result[0].ORIG_LAT_LONG_UNITS;
-												$("##orig_lat_long_units").val(orig_lat_long_units);
 												$("##georefmethod").val(result[0].GEOREFMETHOD);
 												
 												
@@ -3340,7 +3344,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				spatialfit,
 				determined_by_agent_id,
 				det_agent.agent_name determined_by,
-				determined_date,
+				to_char(determined_date,'yyyy-mm-dd') determined_date,
 				gpsaccuracy,
 				lat_long_ref_source,
 				nearest_named_place,
