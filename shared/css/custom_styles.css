@@ -94,6 +94,9 @@ table td .small {
 .bg-verylightgreen {
 	background-color: #EBFFEB !important;
 }
+.bg-lt-gray {
+	background-color: #F0F3F7 !important;
+}
 .border-white {
 	border: 1px solid white;
 }

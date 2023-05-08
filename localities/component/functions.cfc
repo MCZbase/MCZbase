@@ -2294,7 +2294,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													$(".latlong").prop('disabled', true);
 													$(".latlong").prop('required', false);
 													$(".latlong").removeClass('reqdClr');
+													$(".latlong").addClass('bg-lt-gray');
 													$(".utm").removeClass('reqdClr');
+													$(".utm").addClass('bg-lt-gray');
 													$(".utm").prop('disabled', true);
 													$(".utm").prop('required', false);
 													var units = $("##orig_lat_long_units").val();
@@ -2305,36 +2307,45 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$("##lat_deg").prop('disabled', false);
 														$("##lat_deg").prop('required', true);
 														$("##lat_deg").addClass('reqdClr');
+														$("##lat_deg").removeClass('bg-lt-grey');
 														$("##long_deg").prop('disabled', false);
 														$("##long_deg").prop('required', true);
 														$("##long_deg").addClass('reqdClr');
+														$("##long_deg").removeClass('bg-lt-grey');
 													} else if (units == 'degrees dec. minutes') {
 														$("##lat_deg").prop('disabled', false);
 														$("##lat_deg").prop('required', true);
 														$("##lat_deg").addClass('reqdClr');
+														$("##lat_deg").removeClass('bg-lt-grey');
 														$("##lat_min").prop('disabled', false);
 														$("##lat_min").prop('required', true);
 														$("##lat_min").addClass('reqdClr');
+														$("##lat_min").removeClass('bg-lt-grey');
 														$("##lat_ns").prop('disabled', false);
 														$("##lat_ns").prop('required', true);
 														$("##lat_ns").addClass('reqdClr');
 														$("##long_deg").prop('disabled', false);
 														$("##long_deg").prop('required', true);
 														$("##long_deg").addClass('reqdClr');
+														$("##long_deg").removeClass('bg-lt-grey');
 														$("##long_min").prop('disabled', false);
 														$("##long_mit").prop('required', true);
 														$("##long_min").addClass('reqdClr');
+														$("##long_min").removeClass('bg-lt-grey');
 														$("##long_ew").prop('disabled', false);
 														$("##long_ew").prop('required', true);
 														$("##long_ew").addClass('reqdClr');
+														$("##long_ew").removeClass('bg-lt-grey');
 													} else if (units == 'deg. min. sec.') {
 														$(".latlong").prop('disabled', false);
 														$(".latlong").addClass('reqdClr');
+														$(".latlong").removeClass('bg-lt-grey');
 														$(".latlong").prop('required', true);
 													} else if (units == 'UTM') {
 														$(".utm").prop('disabled', false);
 														$(".utm").prop('required', true);
 														$(".utm").addClass('reqdClr');
+														$(".utm").removeClass('bg-lt-grey');
 													}
 												} 
 												$(document).ready(changeLatLongUnits);
