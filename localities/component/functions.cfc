@@ -2514,7 +2514,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												/* show/hide verified by agent controls depending on verification status */
 												function changeVerificationStatus() { 
 													var status = $('##verificationstatus').val();
-													if (status=='verified by MCZ collection' || status=='rejected by MCZ collection') {
+													if (status=='verified by MCZ collection' || status=='rejected by MCZ collection' || status=='verified by collector') {
 														$('##verified_by_agent').show();
 														$('##verified_by_agent_label').show();
 													} else { 
@@ -2740,7 +2740,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												/* show/hide verified by agent controls depending on verification status */
 												function changeGLVerificationStatus() { 
 													var status = $('##gl_verificationstatus').val();
-													if (status=='verified by MCZ collection' || status=='rejected by MCZ collection') {
+													if (status=='verified by MCZ collection' || status=='rejected by MCZ collection' || status=='verified by collector') {
 														$('##gl_verified_by_agent').show();
 														$('##gl_verified_by_agent_label').show();
 													} else { 
