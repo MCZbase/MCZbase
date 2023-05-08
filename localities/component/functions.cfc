@@ -2900,10 +2900,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											},
 											success: function (result) {
 												console.log(result);
-												$('##determined_by_agent_id').val(result[0].determined_by_agent_id);
-												$('##determined_by_agent').val(result[0].determined_by);
-												$('##determined_date').val(result[0].determined_date);
-												$("##orig_lat_long_units").val(result[0].orig_lat_long_units);
+												$('##determined_by_agent_id').val(result[0].DETERMINED_BY_AGENT_ID);
+												$('##determined_by_agent').val(result[0].DETERMINED_BY);
+												$('##determined_date').val(result[0].DETERMINED_DATE);
+												var orig_lat_long_units = result[0].ORIG_LAT_LONG_UNITS;
+												$("##orig_lat_long_units").val(orig_lat_long_units);
+												$("##georefmethod").val(result[0].GEOREFMETHOD);
+												
 												
 												$("##manualTabButton").click();
 											},
