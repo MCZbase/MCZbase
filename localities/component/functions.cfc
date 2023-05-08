@@ -2533,8 +2533,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<script>
 												$(document).ready(function() { 
 													makeAgentAutocompleteMeta("verified_by_agent", "verified_by_agent_id");
-													$('verified_by_agent').hide();
-													$('verified_by_agent_label').hide();
+													$('##verified_by_agent').hide();
+													$('##verified_by_agent_label').hide();
 												});
 											</script>
 										</div>
@@ -2702,12 +2702,31 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_errorPoly" class="data-entry-label">Uncertainty Polygon</label>
 											<input type="text" name="errorPoly" id="gl_errorPoly" class="data-entry-input" value="">
 										</div>
-										<div class="postGeolocate col-12 col-md-3">
+										<div class="postGeolocate col-12 col-md-2">
 											<label for="gl_accepted_lat_long_fg" class="data-entry-label">Accepted</label>
 											<select name="accepted_lat_long_fg" size="1" id="gl_accepted_lat_long_fg" class="data-entry-select reqdClr">
 												<option value="Yes" selected>Yes</option>
 												<option value="No">No</option>
 											</select>
+										</div>
+										<div class="postGeolocate col-12 col-md-3">
+											<label for="gl_determined_by_agent" class="data-entry-label">Determiner</label>
+											<input type="hidden" name="determined_by_agent_id" id="gl_determined_by_agent_id" value="#getCurrentUser.agent_id#">
+											<input type="text" name="determined_by_agent" id="gl_determined_by_agent" class="data-entry-input reqdClr" value="#getCurrentUser.agent_name#">
+											<script>
+												$(document).ready(function() { 
+													makeAgentAutocompleteMeta("gl_determined_by_agent", "gl_determined_by_agent_id", true);
+												});
+											</script>
+										</div>
+										<div class="postGeolocate col-12 col-md-2">
+											<label for="gl_determined_date" class="data-entry-label">Date Determined</label>
+											<input type="text" name="determined_date" id="gl_determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
+											<script>
+												$(document).ready(function() {
+													$("##gl_determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
+												});
+											</script>
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_verificationstatus" class="data-entry-label">Verification Status</label>
@@ -2740,27 +2759,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<script>
 												$(document).ready(function() { 
 													makeAgentAutocompleteMeta("gl_verified_by_agent", "gl_verified_by_agent_id");
-													$('gl_verified_by_agent').hide();
-													$('gl_verified_by_agent_label').hide();
-												});
-											</script>
-										</div>
-										<div class="postGeolocate col-12 col-md-3">
-											<label for="gl_determined_by_agent" class="data-entry-label">Determiner</label>
-											<input type="hidden" name="determined_by_agent_id" id="gl_determined_by_agent_id" value="#getCurrentUser.agent_id#">
-											<input type="text" name="determined_by_agent" id="gl_determined_by_agent" class="data-entry-input reqdClr" value="#getCurrentUser.agent_name#">
-											<script>
-												$(document).ready(function() { 
-													makeAgentAutocompleteMeta("gl_determined_by_agent", "gl_determined_by_agent_id", true);
-												});
-											</script>
-										</div>
-										<div class="postGeolocate col-12 col-md-3">
-											<label for="gl_determined_date" class="data-entry-label">Date Determined</label>
-											<input type="text" name="determined_date" id="gl_determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
-											<script>
-												$(document).ready(function() {
-													$("##gl_determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
+													$('##gl_verified_by_agent').hide();
+													$('##gl_verified_by_agent_label').hide();
 												});
 											</script>
 										</div>
