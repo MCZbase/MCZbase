@@ -2429,7 +2429,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="utm_ns" class="data-entry-label">Northing</label>
 											<input type="text" name="utm_ns" size="4" id="utm_ns" class="data-entry-input utm">
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-2">
 											<label for="datum" class="data-entry-label">
 												Geodetic Datum
 												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##datum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open geodetic datum pick list</span></a>
@@ -2465,7 +2465,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
 											<input type="text" name="gpsaccuracy" id="gpsaccuracy" class="data-entry-input" value="">
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-3">
 											<label for="coordinate_precision" class="data-entry-label">Precision</label>
 											<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
 												<option value=""></option>
@@ -2660,7 +2660,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script> 
 										</div>
-										<div class="postGeolocate col-12 col-md-2">
+										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_coordinate_precision" class="data-entry-label">Precision</label>
 											<select name="coordinate_precision" id="gl_coordinate_precision" class="data-entry-select reqdClr" required>
 												<option value=""></option>
