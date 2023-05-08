@@ -2378,15 +2378,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script>
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="lat_deg" class="data-entry-label">Latitude Degrees</label>
+											<label for="lat_deg" class="data-entry-label">Latitude Degrees &##176;</label>
 											<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input latlong">
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="lat_min" class="data-entry-label">Minutes</label>
+											<label for="lat_min" class="data-entry-label">Minutes &apos;</label>
 											<input type="text" name="lat_min" id="lat_min" class="data-entry-input latlong">
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="lat_sec" class="data-entry-label">Seconds</label>
+											<label for="lat_sec" class="data-entry-label">Seconds &quot;</label>
 											<input type="text" name="lat_sec" id="lat_sec" class="data-entry-input latlong">
 										</div>
 										<div class="col-12 col-md-3">
@@ -2398,15 +2398,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="long_deg" class="data-entry-label">Longitude Degrees</label>
+											<label for="long_deg" class="data-entry-label">Longitude Degrees &##176;</label>
 											<input type="text" name="long_deg" size="4" id="long_deg" class="data-entry-input latlong">
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="long_min" class="data-entry-label">Minutes</label>
+											<label for="long_min" class="data-entry-label">Minutes &apos;</label>
 											<input type="text" name="long_min" size="4" id="long_min" class="data-entry-input latlong">
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="long_sec" class="data-entry-label">Seconds</label>
+											<label for="long_sec" class="data-entry-label">Seconds &quot;</label>
 											<input type="text" name="long_sec" size="4" id="long_sec" class="data-entry-input latlong">
 										</div>
 										<div class="col-12 col-md-3">
@@ -2469,13 +2469,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="coordinate_precision" class="data-entry-label">Precision</label>
 											<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
 												<option value=""></option>
-												<option value="0">Known to 1&##176;</option>
-												<option value="1">Known to 0.1&##176;</option>
-												<option value="2">Known to 0.01&##176;, use if known to 1&apos;, latitude known to 1,111 meters.</option>
-												<option value="3">Known to 0.001&##176;, latitude known to 111 meters.</option>
-												<option value="4">Known to 0.0001&##176;, use if known to 1&quot;, latitude known to 11 meters.</option>
-												<option value="5">Known to 0.00001&##176;, latitude known to 1 meter.</option>
-												<option value="6">Known to 0.000001&##176;, latitude known to 10 cm.</option>
+												<option value="0">Specified to 1&##176;</option>
+												<option value="1">Specified to 0.1&##176;. latitude known to 11 km.</option>
+												<option value="2">Specified to 0.01&##176;, use if known to 1&apos;, latitude known to 1,111 meters.</option>
+												<option value="3">Specified to 0.001&##176;, latitude known to 111 meters.</option>
+												<option value="4">Specified to 0.0001&##176;, use if known to 1&quot;, latitude known to 11 meters.</option>
+												<option value="5">Specified to 0.00001&##176;, latitude known to 1 meter.</option>
+												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
@@ -2664,13 +2664,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_coordinate_precision" class="data-entry-label">Precision</label>
 											<select name="coordinate_precision" id="gl_coordinate_precision" class="data-entry-select reqdClr" required>
 												<option value=""></option>
-												<option value="0">Known to 1&##176;</option>
-												<option value="1">Known to 0.1&##176;</option>
-												<option value="2">Known to 0.01&##176;, use if known to 1&apos;, latitude known to 1,111 meters.</option>
-												<option value="3">Known to 0.001&##176;, latitude known to 111 meters.</option>
-												<option value="4">Known to 0.0001&##176;, use if known to 1&quot;, latitude known to 11 meters.</option>
-												<option value="5" selected >Known to 0.00001&##176;, latitude known to 1 meter.</option>
-												<option value="6">Known to 0.000001&##176;, latitude known to 10 cm.</option>
+												<option value="0">Specified to 1&##176;</option>
+												<option value="1">Specified to 0.1&##176;, latitude known to 11 km.</option>
+												<option value="2">Specified to 0.01&##176;, use if known to 1&apos;, latitude known to 1,111 meters.</option>
+												<option value="3">Specified to 0.001&##176;, latitude known to 111 meters.</option>
+												<option value="4">Specified to 0.0001&##176;, use if known to 1&quot;, latitude known to 11 meters.</option>
+												<option value="5" selected >Specified to 0.00001&##176;, latitude known to 1 meter.</option>
+												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
