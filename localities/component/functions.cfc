@@ -2896,9 +2896,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									function loadGeoreference() { 
 										var lookup_locality_id = $('##selected_locality_id').val();
 										jQuery.ajax({
+											dataType: "json",
 											url: "/localities/component/functions.cfc",
 											data : {
 												method : "getGeoreference",
+												returnformat : "json",
 												locality_id: lookup_locality_id
 											},
 											success: function (result) {
