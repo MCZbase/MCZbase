@@ -2622,7 +2622,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<div class="col-12 preGeoLocate">
 					         		   <div class="h4">Some fields will need to be entered manually here after obtaining the georeference from GeoLocate.</div>
 										</div>
-										<div class="col-12 postGeoLocate">
+										<div class="col-12 postGeolocate">
 					         		   <div class="h4">Results from GeoLocate, edit metadata as needed and save.</div>
 										</div>
 										<div class="postGeolocate col-12 col-md-2">
