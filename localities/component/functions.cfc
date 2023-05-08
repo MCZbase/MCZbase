@@ -2457,9 +2457,26 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script> 
 										</div>
-										<div class="col-12 col-md-3">
-											<label for="gl_extent" class="data-entry-label">Extent</label>
+										<div class="col-12 col-md-2">
+											<label for="extent" class="data-entry-label">Extent</label>
 											<input type="text" name="extent" id="extent" class="data-entry-input" value="">
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
+											<input type="text" name="gpsaccuracy" id="gpsaccuracy" class="data-entry-input" value="">
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="coordinate_precision" class="data-entry-label">Precision</label>
+											<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
+												<option value=""></option>
+												<option value="0">Known to 1&#176;</option>
+												<option value="1">Known to 0.1&#176;</option>
+												<option value="2">Known to 0.01&#176;, use if known to 1&apos;, latitude known to 1,111 meters.</option>
+												<option value="3">Known to 0.001&#176;, latitude known to 111 meters.</option>
+												<option value="4">Known to 0.0001&#176;, use if known to 1&quot;, latitude known to 11 meters.</option>
+												<option value="5">Known to 0.00001&#176;, latitude known to 1 meter.</option>
+												<option value="6">Known to 0.000001&#176;, latitude known to 10 cm.</option>
+											</select>
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="georeference_source" class="data-entry-label">Source</label>
@@ -2483,7 +2500,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="lat_long_ref_source" class="data-entry-label">Reference</label>
-											<input type="text" name="lat_long_ref_source" id="lat_long_ref_source" class="data-entry-input" value="">
+											<input type="text" name="lat_long_ref_source" id="lat_long_ref_source" class="data-entry-input reqdClr" value="" required>
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="verificationstatus" class="data-entry-label">Verification Status</label>
@@ -2610,16 +2627,16 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="postGeolocate col-12 col-md-2">
 											<input type="hidden" name="ORIG_LAT_LONG_UNITS" value="decimal degrees">
-											<label for="orig_units" class="data-entry-label">Units</label>
-											<input type="text" name="orig_units" id="orig_units" class="data-entry-input" value="decimal degrees" disabled readonly>
+											<label for="gl_orig_units" class="data-entry-label">Units</label>
+											<input type="text" name="orig_units" id="gl_orig_units" class="data-entry-input" value="decimal degrees" disabled readonly>
 										</div>
 										<div class="postGeolocate col-12 col-md-2">
-											<label for="dec_lat" class="data-entry-label">Latitude</label>
-											<input type="text" name="dec_lat" id="dec_lat" class="data-entry-input reqdClr" value="" required>
+											<label for="gl_dec_lat" class="data-entry-label">Latitude</label>
+											<input type="text" name="dec_lat" id="gl_dec_lat" class="data-entry-input reqdClr" value="" required>
 										</div>
 										<div class="postGeolocate col-12 col-md-2">
-											<label for="dec_long" class="data-entry-label">Longitude</label>
-											<input type="text" name="dec_long" id="dec_long" class="data-entry-input reqdClr" value="" required>
+											<label for="gl_dec_long" class="data-entry-label">Longitude</label>
+											<input type="text" name="dec_long" id="gl_dec_long" class="data-entry-input reqdClr" value="" required>
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_datum" class="data-entry-label">Geodetic Datum</label>
@@ -2643,6 +2660,19 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script> 
 										</div>
+										<div class="postGeolocate col-12 col-md-2">
+											<label for="gl_coordinate_precision" class="data-entry-label">Precision</label>
+											<select name="coordinate_precision" id="gl_coordinate_precision" class="data-entry-select reqdClr" required>
+												<option value=""></option>
+												<option value="0">Known to 1&#176;</option>
+												<option value="1">Known to 0.1&#176;</option>
+												<option value="2">Known to 0.01&#176;, use if known to 1&apos;, latitude known to 1,111 meters.</option>
+												<option value="3">Known to 0.001&#176;, latitude known to 111 meters.</option>
+												<option value="4">Known to 0.0001&#176;, use if known to 1&quot;, latitude known to 11 meters.</option>
+												<option value="5" selected >Known to 0.00001&#176;, latitude known to 1 meter.</option>
+												<option value="6">Known to 0.000001&#176;, latitude known to 10 cm.</option>
+											</select>
+										</div>
 										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_georeference_source" class="data-entry-label">Source</label>
 											<input type="text" name="georeference_source" id="gl_georeference_source" class="data-entry-input" value="">
@@ -2662,7 +2692,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_lat_long_ref_source" class="data-entry-label">Reference</label>
-											<input type="text" name="lat_long_ref_source" id="gl_lat_long_ref_source" class="data-entry-input" value="">
+											<input type="text" name="lat_long_ref_source" id="gl_lat_long_ref_source" class="data-entry-input reqdClr" value="" required>
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_extent" class="data-entry-label">Extent</label>
@@ -2789,16 +2819,16 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												} else {
 													var gpoly_wkt='POLYGON ((' + gpoly.replace(/,$/,'') + '))';
 												}
-												$("##max_error_distance").val(gerr);
-												$("##max_error_units").val('m');
-												$("##datum").val('WGS84');
-												$("##georeference_source").val('GeoLocate');
-												$("##georeference_protocol").val('GeoLocate');
-												$("##georefMethod").val('GEOLocate');
-												$("##lat_long_ref_source").val('GEOLocate');
-												$("##dec_lat").val(glat);
-												$("##dec_long").val(glon);
-												$("##errorPoly").val(gpoly_wkt);
+												$("##gl_max_error_distance").val(gerr);
+												$("##gl_max_error_units").val('m');
+												$("##gl_datum").val('WGS84');
+												$("##gl_georeference_source").val('GeoLocate');
+												$("##gl_georeference_protocol").val('GeoLocate');
+												$("##gl_georefMethod").val('GEOLocate');
+												$("##gl_lat_long_ref_source").val('GEOLocate');
+												$("##gl_dec_lat").val(glat);
+												$("##gl_dec_long").val(glon);
+												$("##gl_errorPoly").val(gpoly_wkt);
 												closeGeoLocate();
 												$(".postGeolocate").show();
 												$(".preGeolocate").hide();
