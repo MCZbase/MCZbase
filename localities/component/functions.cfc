@@ -2891,7 +2891,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								</div>
 								<script>
 									function loadGeoreference() { 
-										// TODO: load from a backing method into target fields.
 										var lookup_locality_id = $('##selected_locality_id').val();
 										jQuery.ajax({
 											url: "/localities/component/functions.cfc",
@@ -2913,7 +2912,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											},
 											dataType: "html"
 										});
-										$('##cloneIntoSection').show();
 									}
 								</script>
 							</div>
