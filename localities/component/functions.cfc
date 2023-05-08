@@ -2469,13 +2469,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="coordinate_precision" class="data-entry-label">Precision</label>
 											<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
 												<option value=""></option>
-												<option value="0">Known to 1&#176;</option>
-												<option value="1">Known to 0.1&#176;</option>
-												<option value="2">Known to 0.01&#176;, use if known to 1&apos;, latitude known to 1,111 meters.</option>
-												<option value="3">Known to 0.001&#176;, latitude known to 111 meters.</option>
-												<option value="4">Known to 0.0001&#176;, use if known to 1&quot;, latitude known to 11 meters.</option>
-												<option value="5">Known to 0.00001&#176;, latitude known to 1 meter.</option>
-												<option value="6">Known to 0.000001&#176;, latitude known to 10 cm.</option>
+												<option value="0">Known to 1&##176;</option>
+												<option value="1">Known to 0.1&##176;</option>
+												<option value="2">Known to 0.01&##176;, use if known to 1&apos;, latitude known to 1,111 meters.</option>
+												<option value="3">Known to 0.001&##176;, latitude known to 111 meters.</option>
+												<option value="4">Known to 0.0001&##176;, use if known to 1&quot;, latitude known to 11 meters.</option>
+												<option value="5">Known to 0.00001&##176;, latitude known to 1 meter.</option>
+												<option value="6">Known to 0.000001&##176;, latitude known to 10 cm.</option>
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
@@ -2664,13 +2664,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_coordinate_precision" class="data-entry-label">Precision</label>
 											<select name="coordinate_precision" id="gl_coordinate_precision" class="data-entry-select reqdClr" required>
 												<option value=""></option>
-												<option value="0">Known to 1&#176;</option>
-												<option value="1">Known to 0.1&#176;</option>
-												<option value="2">Known to 0.01&#176;, use if known to 1&apos;, latitude known to 1,111 meters.</option>
-												<option value="3">Known to 0.001&#176;, latitude known to 111 meters.</option>
-												<option value="4">Known to 0.0001&#176;, use if known to 1&quot;, latitude known to 11 meters.</option>
-												<option value="5" selected >Known to 0.00001&#176;, latitude known to 1 meter.</option>
-												<option value="6">Known to 0.000001&#176;, latitude known to 10 cm.</option>
+												<option value="0">Known to 1&##176;</option>
+												<option value="1">Known to 0.1&##176;</option>
+												<option value="2">Known to 0.01&##176;, use if known to 1&apos;, latitude known to 1,111 meters.</option>
+												<option value="3">Known to 0.001&##176;, latitude known to 111 meters.</option>
+												<option value="4">Known to 0.0001&##176;, use if known to 1&quot;, latitude known to 11 meters.</option>
+												<option value="5" selected >Known to 0.00001&##176;, latitude known to 1 meter.</option>
+												<option value="6">Known to 0.000001&##176;, latitude known to 10 cm.</option>
 											</select>
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
