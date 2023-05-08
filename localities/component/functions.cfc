@@ -2730,7 +2730,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_verificationstatus" class="data-entry-label">Verification Status</label>
-											<select name="verificationstatus" size="1" id="gl_verificationstatus" class="data-entry-select reqdClr">
+											<select name="verificationstatus" size="1" id="gl_verificationstatus" class="data-entry-select reqdClr" onChange="changeGLVerificationStatus();">
 												<cfloop query="ctVerificationStatus">
 													<cfif ctVerificationStatus.verificationstatus EQ "unverified"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 													<option value="#ctVerificationStatus.verificationStatus#" #selected#>#ctVerificationStatus.verificationStatus#</option>
@@ -2738,7 +2738,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</select>
 											<script>
 												/* show/hide verified by agent controls depending on verification status */
-												function changeVerificationStatus() { 
+												function changeGLVerificationStatus() { 
 													var status = $('##gl_verificationstatus').val();
 													if (status=='verified by MCZ collection' || status=='rejected by MCZ collection') {
 														$('##gl_verified_by_agent').show();
