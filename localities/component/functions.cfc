@@ -2694,7 +2694,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_lat_long_ref_source" class="data-entry-label">Reference</label>
 											<input type="text" name="lat_long_ref_source" id="gl_lat_long_ref_source" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="postGeolocate col-12 col-md-2">
+										<div class="postGeolocate col-12 col-md-1">
 											<label for="gl_extent" class="data-entry-label">Extent</label>
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
 										</div>
@@ -2728,7 +2728,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script>
 										</div>
-										<div class="postGeolocate col-12 col-md-3">
+										<div class="postGeolocate col-12 col-md-2">
 											<label for="gl_verificationstatus" class="data-entry-label">Verification Status</label>
 											<select name="verificationstatus" size="1" id="gl_verificationstatus" class="data-entry-select reqdClr" onChange="changeGLVerificationStatus();">
 												<cfloop query="ctVerificationStatus">
