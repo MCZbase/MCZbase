@@ -2321,9 +2321,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$("##lat_min").prop('required', true);
 														$("##lat_min").addClass('reqdClr');
 														$("##lat_min").removeClass('bg-lt-grey');
-														$("##lat_ns").prop('disabled', false);
-														$("##lat_ns").prop('required', true);
-														$("##lat_ns").addClass('reqdClr');
+														$("##lat_dir").prop('disabled', false);
+														$("##lat_dir").prop('required', true);
+														$("##lat_dir").addClass('reqdClr');
 														$("##long_deg").prop('disabled', false);
 														$("##long_deg").prop('required', true);
 														$("##long_deg").addClass('reqdClr');
@@ -2332,10 +2332,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$("##long_mit").prop('required', true);
 														$("##long_min").addClass('reqdClr');
 														$("##long_min").removeClass('bg-lt-grey');
-														$("##long_ew").prop('disabled', false);
-														$("##long_ew").prop('required', true);
-														$("##long_ew").addClass('reqdClr');
-														$("##long_ew").removeClass('bg-lt-grey');
+														$("##long_dir").prop('disabled', false);
+														$("##long_dir").prop('required', true);
+														$("##long_dir").addClass('reqdClr');
+														$("##long_dir").removeClass('bg-lt-grey');
 													} else if (units == 'deg. min. sec.') {
 														$(".latlong").prop('disabled', false);
 														$(".latlong").addClass('reqdClr');
@@ -2390,8 +2390,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="lat_sec" id="lat_sec" class="data-entry-input latlong">
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="lat_ns" class="data-entry-label">Direction</label>
-											<select name="lat_ns" size="1" id="lat_ns" class="data-entry-select latlong">
+											<label for="lat_dir" class="data-entry-label">Direction</label>
+											<select name="lat_dir" size="1" id="lat_dir" class="data-entry-select latlong">
 												<option value=""></option>
 												<option value="N">N</option>
 												<option value="S">S</option>
@@ -2410,8 +2410,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="long_sec" size="4" id="long_sec" class="data-entry-input latlong">
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="long_ew" class="data-entry-label">Direction</label>
-											<select name="long_ew" size="1" id="long_ew" class="data-entry-select latlong">
+											<label for="long_dir" class="data-entry-label">Direction</label>
+											<select name="long_dir" size="1" id="long_dir" class="data-entry-select latlong">
 												<option value=""></option>
 												<option value="E">E</option>
 												<option value="W">W</option>
