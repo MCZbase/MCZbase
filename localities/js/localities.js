@@ -58,7 +58,7 @@ function updateLocalitySummary(locality_id,pasteTarget) {
 */
 function loadLocalityMapHTML(locality_id,targetDivId) { 
 	jQuery.ajax({
-		url: "/localities/component/functions.cfc",
+		url: "/localities/component/public.cfc",
 		data : {
 			method : "getLocalityMapHtml",
 			locality_id: locality_id
