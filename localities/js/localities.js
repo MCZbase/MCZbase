@@ -53,7 +53,8 @@ function updateLocalitySummary(locality_id,pasteTarget) {
 };
 
 /** given a locality_id lookup the map for a locality and
- set it as the content of a target div.
+ set it as the content of a target div, assumes reload of
+ existing map.
  @param locality_id the locality to look up.
 */
 function loadLocalityMapHTML(locality_id,targetDivId) { 
@@ -61,7 +62,8 @@ function loadLocalityMapHTML(locality_id,targetDivId) {
 		url: "/localities/component/public.cfc",
 		data : {
 			method : "getLocalityMapHtml",
-			locality_id: locality_id
+			locality_id: locality_id,
+			reload : "true"
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);
