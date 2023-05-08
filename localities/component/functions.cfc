@@ -3076,7 +3076,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 		<!--- map lat_deg/long_deg onto dec_lat/dec_long and lat_min/long_min onto dec_lat_min/dec_long_min if appropriate. --->
 		<cfswitch expression="#ORIG_LAT_LONG_UNITS#">
 			<cfcase value="deg. min. sec.">
-				// validate expectations
+				<!---  validate expectations --->
 				<cfif isDefined("dec_lat_min") and len(dec_lat_min) GT 0>
 					<cfthrow message = "A value was provided for dec_lat_min, but units are degrees, minutes, seconds. Unable to save.">
 				</cfif>
@@ -3098,7 +3098,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			</cfcase>
 		</cfswitch>
 	<cfelseif lcase(field_mapping) EQ "specific">
-		// validate expectations
+		<!---  validate expectations --->
 		<cfswitch expression="#ORIG_LAT_LONG_UNITS#">
 			<cfcase value="deg. min. sec.">
 				<cfif isDefined("dec_lat_min") and len(dec_lat_min) GT 0>
