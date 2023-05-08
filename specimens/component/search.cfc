@@ -1957,9 +1957,9 @@ Function getLocalityAutocompleteMeta.  Search for localities with a substring ma
 				locality.locality_id,
 				locality.spec_locality,
 				locality.curated_fg,
-				geog_auth_rec.higher_geog
+				geog_auth_rec.higher_geog,
 				nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_lat,accepted_lat_long.coordinate_precision), round(accepted_lat_long.dec_lat,5)) dec_lat,
-				nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_long,accepted_lat_long.coordinate_precision), round(accepted_lat_long.dec_long,5)) dec_long,
+				nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_long,accepted_lat_long.coordinate_precision), round(accepted_lat_long.dec_long,5)) dec_long
 			FROM
 				locality
 				join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
