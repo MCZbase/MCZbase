@@ -2276,6 +2276,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<div id="manualPanel" role="tabpanel" aria-labelledby="manualTabButton" tabindex="0" class="col-12 px-0 mx-0 active unfocus">
 								<form id="manualGeorefForm">
 									<input type="hidden" name="method" value="addGeoreference">
+									<input type="hidden" name="field_mapping" value="generic"> 
 									<input type="hidden" name="locality_id" value="#locality_id#">
 									<h2 class="px-2 h3">Enter georeference</h2>
 									<div class="form-row">
@@ -2564,6 +2565,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<div id="geolocatePanel" role="tabpanel" aria-labelledby="geolocateTabButton" tabindex="-1" class="col-12 px-0 mx-0 unfocus" hidden>
 								<form id="geolocateForm">
 									<input type="hidden" name="method" value="addGeoreference">
+									<input type="hidden" name="field_mapping" value="specific"> 
 									<input type="hidden" name="locality_id" value="#locality_id#">
 									<h2 class="px-2 h3">Use Geolocate</h2>
 									<div class="form-row">
@@ -2831,19 +2833,76 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								</div>
 							</div>
 							<div id="clonePanel" role="tabpanel" aria-labelledby="cloneTabButton" tabindex="-1" class="col-12 px-0 mx-0 unfocus" hidden>
-								<h2 class="px-2 h3">Clone from another Locality</h2>
+								<h2 class="px-2 h3">Clone accepted georeference from another Locality</h2>
 								<div class="form-row">
 									<div class="col-12">
 										<label for="locality_text" class="data-entry-label">Locality</label>
 										<input type="hidden" name="selected_locality_id" id="selected_locality_id">
-										<input type="text" name="selected_locality_text" id="selected_locality_text" class="data-entry-input">
-										<script>
+										<input type="text" name="selected_locality_text" id="selected_locality_text" class="data-entry-input" onSelect=" loadGeoreference(); ">
+										<script> 
 											$(document).ready(function() { 
 												makeLocalityAutocompleteMeta("selected_locality_text", "selected_locality_id");
 											});
 										</script>
 									</div>
 								</div>
+								<script>
+									$(document).ready(function() { 
+										$('##cloneIntoSection').hide();
+									});
+									function loadGeoreference() { 
+										// TODO: load from a backing method into target fields.
+										jQuery.ajax({
+											url: "/localities/component/functions.cfc",
+											data : {
+												method : "getGeoreference",
+												locality_id: '#locality_id#'
+											},
+											success: function (result) {
+												console.log(result);
+												$('##clone_determined_by_agent_id').val(result[0].determined_by_agent_id);
+												$('##clone_determined_by_agent').val(result[0].determined_by);
+												$('##clone_determined_date').val(result[0].determined_date);
+											},
+											error: function (jqXHR, textStatus, error) {
+												handleFail(jqXHR,textStatus,error,"deleting a georeference");
+											},
+											dataType: "html"
+										});
+										$('##cloneIntoSection').show();
+									}
+								</script>
+								<section class="form-row" id="cloneIntoSection">
+									<form id="cloneGeorefForm">
+										<div class="col-12 col-md-3">
+											<label for="clone_accepted_lat_long_fg" class="data-entry-label">Accepted</label>
+											<select name="accepted_lat_long_fg" size="1" id="clone_accepted_lat_long_fg" class="data-entry-select reqdClr">
+												<option value="Yes" selected>Yes</option>
+												<option value="No">No</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="clone_determined_by_agent" class="data-entry-label">Determiner</label>
+											<input type="hidden" name="determined_by_agent_id" id="clone_determined_by_agent_id">
+											<input type="text" name="determined_by_agent" id="clone_determined_by_agent" class="data-entry-input reqdClr">
+											<script>
+												$(document).ready(function() { 
+													makeAgentAutocompleteMeta("clone_determined_by_agent", "clone_determined_by_agent_id");
+												});
+											</script>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="clone_determined_date" class="data-entry-label">Date Determined</label>
+											<input type="text" name="determined_date" id="clone_determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd" value="">
+											<script>
+												$(document).ready(function() {
+													$("##determined_date").datepicker({ dateFormat: 'yy-mm-dd'});
+												});
+											</script>
+										</div>
+										<div class="col-12 col-md-3">
+									</form>
+								</section>
 							</div>
 						</div>
 					</div>
@@ -2938,13 +2997,23 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 <!--- add a georeference, inserting a value into lat_long.
   @param locality_id the primary key value of the locality from which to add the lat_long
+  @param field_mapping if generic, then use lat_deg, lat_min etc translating to target fields
+    based on value of orig_lat_long_units (for decimal degrees, map input lat_deg onto field dec_lat, for
+    decimal minutes, map input lat_min onto field dec_lat_min, if specific, then specific 
+    fields for the specified orig_lat_long units must be used (for decimal degrees, dec_lat must be
+    provided).  field_mapping=generic allows a form to use degrees, minutes, seconds, direction fields,
+    along with a units field to specify which fields apply, field_mapping=specific requires each 
+    unit type to have its own set of fields.
+  @param orig_lat_long_units the form of the georeference, dms, dm, d, or utm.
   @param accepted_lat_long_fg 1 if new georeference is to be the accepted one for the locality.
 
   @return json with status=added and lat_long_id for the new record in id, or an http status 500.
 --->
 <cffunction name="addGeoreference" access="remote" returntype="any" returnformat="json">
 	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="field_mapping" type="string" required="yes">
 	<cfargument name="accepted_lat_long_fg" type="string" required="yes">
+	<cfargument name="orig_lat_long_units" type="string" required="yes">
 	<cfargument name="datum" type="string" required="yes">
 	<cfargument name="lat_long_ref_source" type="string" required="no">
 	<cfargument name="determined_by_agent_id" type="string" required="yes">
@@ -2961,6 +3030,74 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="dec_long" type="string" required="no">
 	<cfargument name="lat_deg" type="string" required="no">
 	<cfargument name="long_deg" type="string" required="no">
+	
+	<cfif lcase(field_mapping) EQ "generic"> 
+		<!--- map lat_deg/long_deg onto dec_lat/dec_long and lat_min/long_min onto dec_lat_min/dec_long_min if appropriate. --->
+		<cfswitch expression="#ORIG_LAT_LONG_UNITS#">
+			<cfcase value="deg. min. sec.">
+				// validate expectations
+				<cfif isDefined("dec_lat_min") and len(dec_lat_min) GT 0)>
+					<cfthrow message = "A value was provided for dec_lat_min, but units are degrees, minutes, seconds. Unable to save.">
+				</cfif>
+				<cfif isDefined("dec_long_min") and len(dec_long_min) GT 0)>
+					<cfthrow message = "A value was provided for dec_long_min, but units are degrees, minutes, seconds. Unable to save.">
+				</cfif>
+			</cfcase>
+			<cfcase value="degrees dec. minutes">
+				<cfset dec_lat_min = lat_min>
+				<cfset dec_long_min = long_min>
+				<cfset lat_min= "">
+				<cfset long_min = "">
+			</cfcase>
+			<cfcase value="decimal degrees">
+				<cfset dec_lat = lat_deg>
+				<cfset dec_long = long_deg>
+				<cfset lat_deg = "">
+				<cfset long_deg = "">
+			</cfcase>
+		</cfswitch>
+	<cfelseif lcase(field_mapping) EQ "specific">
+		// validate expectations
+		<cfswitch expression="#ORIG_LAT_LONG_UNITS#">
+			<cfcase value="deg. min. sec.">
+				<cfif isDefined("dec_lat_min") and len(dec_lat_min) GT 0)>
+					<cfthrow message = "A value was provided for dec_lat_min, but units are degrees, minutes, seconds. Unable to save.">
+				</cfif>
+				<cfif isDefined("dec_long_min") and len(dec_long_min) GT 0)>
+					<cfthrow message = "A value was provided for dec_long_min, but units are degrees, minutes, seconds. Unable to save.">
+				</cfif>
+			</cfcase>
+			<cfcase value="degrees dec. minutes">
+				<cfif isDefined("lat_min") and len(lat_min) GT 0)>
+					<cfthrow message = "A value was provided for lat_min, but units are degrees, decimal minutes, Unable to save.">
+				</cfif>
+				<cfif isDefined("long_min") and len(long_min) GT 0)>
+					<cfthrow message = "A value was provided for long_min, but units are degrees, decimal minutes. Unable to save.">
+				</cfif>
+				<cfif isDefined("lat_sec") and len(lat_sec) GT 0)>
+					<cfthrow message = "A value was provided for lat_sec, but units are degrees, decimal minutes, Unable to save.">
+				</cfif>
+				<cfif isDefined("long_sec") and len(long_sec) GT 0)>
+					<cfthrow message = "A value was provided for long_sec, but units are degrees, decimal minutes. Unable to save.">
+				</cfif>
+			</cfcase>
+			<cfcase value="decimal degrees">
+			</cfcase>
+			<cfcase value="UTM">
+				<cfif not isDefined("utm_zone") OR len(utm_zone) EQ 0>
+					<cfthrow message = "A value was not provided for UTM Zone, but units are UTM. zone, easting, and northing are required. Unable to save.">
+				</cfif>
+				<cfif not isDefined("utm_ew") OR len(utm_ew) EQ 0>
+					<cfthrow message = "A value was not provided for UTM Easting, but units are UTM. zone, easting, and northing are required. Unable to save.">
+				</cfif>
+				<cfif not isDefined("utm_ns") OR len(utm_ns) EQ 0>
+					<cfthrow message = "A value was not provided for UTM Northing, but units are UTM. zone, easting, and northing are required. Unable to save.">
+				</cfif>
+			</cfcase>
+		</cfswitch>
+	<cfelse>
+		<cfthrow message="Unknown value for field_mapping [#encodeForHtml(field_mapping)#] must be 'generic' or 'specific' ">
+	</cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
@@ -3135,4 +3272,101 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- getGeoreference obtain json for the accepted georeference for a locality, if any.
+ @param locality_id the locality for which to obtain the georeference.
+--->
+<cffunction name="getGeoreference" returntype="any" access="remote" returnformat="json">
+	<cfargument name="locality_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="getGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				lat_long_id,
+				georefmethod,
+				dec_lat,
+				dec_long,
+				max_error_distance,
+				max_error_units,
+				to_meters(lat_long.max_error_distance, lat_long.max_error_units) coordinateUncertaintyInMeters,
+				error_polygon,
+				datum,
+				extent,
+				spatialfit,
+				determined_by_agent_id,
+				det_agent.agent_name determined_by,
+				determined_date,
+				gpsaccuracy,
+				lat_deg,
+				lat_min,
+				lat_sec,
+				lat_dir,
+				lat_dec_min,
+				long_deg,
+				long_min,
+				long_sec,
+				long_dir,
+				long_dec_min,
+				lat_long_ref_source,
+				nearest_named_place,
+				lat_long_for_nnp_fg,
+				verificationstatus,
+				field_verified_fg,
+				verified_by_agent_id,
+				ver_agent.agent_name verified_by,
+				orig_lat_long_units,
+				lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
+				long_deg, dec_long_min, long_min, long_sec, long_dir,
+				utm_zone, utm_ew, utm_ns,
+				CASE orig_lat_long_units
+					WHEN 'decimal degrees' THEN dec_lat || 'd'
+					WHEN 'deg. min. sec.' THEN lat_deg || 'd ' || lat_min || 'm ' || lat_sec || 's ' || lat_dir
+					WHEN 'degrees dec. minutes' THEN lat_deg || 'd ' || dec_lat_min || 'm ' || lat_dir
+				END as LatitudeString,
+				CASE orig_lat_long_units
+					WHEN 'decimal degrees' THEN dec_long || 'd'
+					WHEN'degrees dec. minutes' THEN long_deg || 'd ' || dec_long_min || 'm ' || long_dir
+					WHEN 'deg. min. sec.' THEN long_deg || 'd ' || long_min || 'm ' || long_sec || 's ' || long_dir
+				END as LongitudeString,
+				accepted_lat_long_fg,
+				geolocate_uncertaintypolygon,
+				geolocate_score,
+				geolocate_precision,
+				geolocate_numresults,
+				geolocate_parsepattern,
+				lat_long_remarks
+			FROM
+				lat_long
+				left join preferred_agent_name det_agent on lat_long.determined_by_agent_id = det_agent.agent_id
+				left join preferred_agent_name ver_agent on lat_long.verified_by_agent_id = ver_agent.agent_id
+			WHERE 
+				lat_long.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+				and 
+				accepted_lat_long_fg = 1
+				and
+				rownum < 2
+			ORDER BY
+				determined_date desc
+		</cfquery>
+		<cfloop query="getGeoreference">
+			<cfset row = StructNew()>
+			<cfset columnNames = ListToArray(getGeoreference.columnList)>
+			<cfloop array="#columnNames#" index="columnName">
+				<cfset row["#columnName#"] = "#getGeoreference[columnName][currentrow]#">
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+
+</cffunction>
 </cfcomponent>
