@@ -3319,7 +3319,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfset i = 0>
+		<cfset i = 1>
 		<cfquery name="getGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				lat_long_id,
@@ -3386,7 +3386,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfloop array="#columnNames#" index="columnName">
 				<cfset row["#columnName#"] = "#getGeoreference[columnName][currentrow]#">
 			</cfloop>
-			<cfset data[i]  = row>
+			<cfset data[i] = row>
 			<cfset i = i + 1>
 		</cfloop>
 	<cfcatch>
