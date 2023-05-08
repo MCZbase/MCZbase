@@ -1964,8 +1964,14 @@ Function getLocalityAutocompleteMeta.  Search for localities with a substring ma
 				locality
 				join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 				left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
-			WHERE
-				locality.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+			WHERE 
+				(
+					locality.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+					<cfif REFind("^[0-9]+$",term) GT 0>
+						OR
+						locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#term#">
+					</cfif>
+				)
 				<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
 					and locality_id in (
 						SELECT locality_id
