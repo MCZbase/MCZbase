@@ -336,17 +336,13 @@ limitations under the License.
 			}
 		</script>
 		<script>
-			function getCommonMeta() {
+		
 				$(document).ready(function() {
-					$("##hide").click(function() {
-						$("##commontable").css("display", "none");
-					});
 
 					$("##show").click(function() {
 						$("##commontable").css("display", "block");
 					});
 				});
-			}
 			
 			function getImg(){
 				var url=document.getElementById('protocol').value;
