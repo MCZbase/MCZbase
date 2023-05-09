@@ -3301,6 +3301,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</cfif>
 					<cfif isDefined("geolocate_uncertaintypolygon") AND len(geolocate_uncertaintypolygon) GT 0>
 						,geolocate_uncertaintypolygon
+					</cfif>
 					<cfif isDefined("geolocate_score") AND len(geolocate_score) GT 0>
 						,geolocate_score
 					</cfif>
