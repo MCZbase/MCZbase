@@ -302,7 +302,7 @@ limitations under the License.
 					</div>
 					<div class="row">
 						<div id="images" class="col-9 float-left py-3">
-							<form id="commontable" class="show hide commontable">
+							<form id="commontable" class="commontable" style="display: none;">
 								<table class="table">
 									<thead>
 										<tr>
@@ -338,11 +338,11 @@ limitations under the License.
 		<script>
 			function getCommonMeta() {
 				$(document).ready(function() {
-					$(".hide").click(function() {
+					$("##hide").click(function() {
 						$("##commontable").css("display", "none");
 					});
 
-					$(".show").click(function() {
+					$("##show").click(function() {
 						$("##commontable").css("display", "block");
 					});
 				});
