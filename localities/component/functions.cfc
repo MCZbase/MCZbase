@@ -2287,9 +2287,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<select id="orig_lat_long_units" name="orig_lat_long_units" class="data-entry-select reqdClr" onChange=" changeLatLongUnits(); ">
 												<option></option>
 												<option value="decimal degrees">decimal degrees</option>
-												<option value="degrees dec. minutes">degrees with decimal minutes</option>
-												<option value="deg. min. sec.">degrees, minutes and seconds</option>
-												<option value="UTM">Universal Transverse Mercator (UTM)</option>
+												<option value="degrees dec. minutes">degrees decimal minutes</option>
+												<option value="deg. min. sec.">deg. min. sec.</option>
+												<option value="UTM">UTM (Universal Transverse Mercator)</option>
 											</select>
 											<script>
 												function changeLatLongUnits(){ 
@@ -2557,6 +2557,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script>
 										</div>
+										<div class="col-12">
+											<label for="error_polygon" class="data-entry-label" id="error_polygon_label">Error Polygon</label>
+											<input type="text" name="error_polygon" id="error_polygon" class="data-entry-input reqdClr">
+										</div>
 										<div class="geolocateMetadata col-12">
 											<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">Verified by</label>
 											<input type="text" name="geolocate_uncertaintypolygon" id="geolocate_uncertaintypolygon" class="data-entry-input bg-lt-gray" readonly>
@@ -2577,6 +2581,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="geolocate_parsepattern" class="data-entry-label" id="geolocate_parsepattern_label">Verified by</label>
 											<input type="text" name="geolocate_parsepattern" id="geolocate_parsepattern" class="data-entry-input bg-lt-gray" readonly>
 										</div>
+										<script>
+											$(document).ready(function() { 
+												$('.geolocateMetadata').hide();
+											});
+										</script>
 										<div class="col-12 col-md-3 pt-3">
 											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " 
@@ -2912,13 +2921,17 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											});
 										</script>
 									</div>
+									<div class="col-12">
+										<output id="cloneFeedback"></output>
+									</div>
 								</div>
 <!---
- [{"DEC_LAT_MIN":"","UTM_NS":"","FIELD_VERIFIED_FG":"","LATITUDESTRING":"2d 9m 0s N","MAX_ERROR_DISTANCE":0,"GEOLOCATE_UNCERTAINTYPOLYGON":"","VERIFICATIONSTATUS":"unknown","GEOLOCATE_SCORE":"","RAW_DEC_LAT":2.1500000000,"DATUM":"unknown","ACCEPTED_LAT_LONG_FG":1,"UTM_EW":"","EXTENT":"","GEOLOCATE_PARSEPATTERN":"","LAT_LONG_ID":828612,"VERIFIED_BY":"","DEC_LAT":2.15,"VERIFIED_BY_AGENT_ID":"","LAT_SEC":0,"LAT_MIN":9,"GPSACCURACY":"","UTM_ZONE":"","DETERMINED_DATE":"December, 12 2010 00:00:00","GEOLOCATE_NUMRESULTS":"","DETERMINED_BY_AGENT_ID":0,"DEC_LONG":117.48333,"DEC_LONG_MIN":"","LAT_LONG_REMARKS":"","GEOLOCATE_PRECISION":"","ERROR_POLYGON":"","LONGITUDESTRING":"117d 29m 0s E","RAW_DEC_LONG":117.4833333333,"LAT_LONG_REF_SOURCE":"unknown","LAT_DEG":2,"NEAREST_NAMED_PLACE":"","LONG_DEG":117,"LAT_LONG_FOR_NNP_FG":"","LONG_SEC":0,"COORDINATEUNCERTAINTYINMETERS":0,"LONG_MIN":29,"MAX_ERROR_UNITS":"m","DETERMINED_BY":"[no agent data]","LAT_DIR":"N","LONG_DIR":"E","SPATIALFIT":"","GEOREFMETHOD":"unknown","ORIG_LAT_LONG_UNITS":"deg. min. sec."}]
+ [{,"FIELD_VERIFIED_FG":"","NEAREST_NAMED_PLACE":"","LAT_LONG_FOR_NNP_FG":"",}]
 --->
 								<script>
 									function loadGeoreference() { 
 										var lookup_locality_id = $('##selected_locality_id').val();
+										$('##cloneFeedback').html("Searching....");
 										jQuery.ajax({
 											dataType: "json",
 											url: "/localities/component/functions.cfc",
@@ -2928,20 +2941,67 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												locality_id: lookup_locality_id
 											},
 											success: function (result) {
+												$('##cloneFeedback').html("Found, loading data into form...");
 												result = JSON.parse(result);
 												console.log(result);
 												var orig_lat_long_units = result[0].ORIG_LAT_LONG_UNITS;
 												$("##orig_lat_long_units").val(orig_lat_long_units);
+												changeLatLongUnits();
 												console.log(orig_lat_long_units);
+												if (orig_lat_long_units == "decimal degrees") { 
+													$("##lat_deg").val(result[0].RAW_DEC_LAT);
+													$("##long_deg").val(result[0].RAW_DEC_LONG);
+												} else if (orig_lat_long_units == "degrees dec. minutes") { 
+													$("##lat_deg").val(result[0].LAT_DEG);
+													$("##long_deg").val(result[0].LONG_DEG);
+													$("##lat_min").val(result[0].DEC_LAT_MIN);
+													$("##long_min").val(result[0].DEC_LONG_MIN);
+													$("##lat_dir").val(result[0].LAT_DIR);
+													$("##long_dir").val(result[0].LONG_DIR);
+												} else if (orig_lat_long_units == "deg. min. sec.") { 
+													$("##lat_deg").val(result[0].LAT_DEG);
+													$("##long_deg").val(result[0].LONG_DEG);
+													$("##lat_min").val(result[0].LAT_MIN);
+													$("##long_min").val(result[0].LONG_MIN);
+													$("##lat_sec").val(result[0].LAT_SEC);
+													$("##long_sec").val(result[0].LONG_SEC);
+													$("##lat_dir").val(result[0].LAT_DIR);
+													$("##long_dir").val(result[0].LONG_DIR);
+												} else if (orig_lat_long_units == "UTM") { 
+													$("##utm_zone").val(result[0].UTM_ZONE);
+													$("##utm_ew").val(result[0].UTM_EW);
+													$("##utm_ns").val(result[0].UTM_NS);
+												}
+												$("##accepted_lat_long_fg").val(result[0].ACCEPTED_LAT_LONG_FG);
+												$("##georefmethod").val(result[0].GEOREFMETHOD);
+												$("##max_error_distance").val(result[0].MAX_ERROR_DISTANCE);
+												$("##max_error_units").val(result[0].MAX_ERROR_UNITS);
+												$("##datum").val(result[0].DATUM);
+												$("##extent").val(result[0].EXTENT);
+												$("##spatialfit").val(result[0].SPATIALFIT);
+												$("##gpsaccuracy").val(result[0].GPSACCURACY);
+												$("##geolocate_uncertaintypolygon").val(result[0].GEOLOCATE_UNCERTAINTYPOLYGON);
+												$("##error_polygon").val(result[0].ERROR_POLYGON);
 												$('##determined_by_agent_id').val(result[0].DETERMINED_BY_AGENT_ID);
 												$('##determined_by_agent').val(result[0].DETERMINED_BY);
 												$('##determined_date').val(result[0].DETERMINED_DATE);
-												$("##georefmethod").val(result[0].GEOREFMETHOD);
-												
-												
+												$('##verified_by_agent_id').val(result[0].VERIFIED_BY_AGENT_ID);
+												$('##verified_by_agent').val(result[0].VERIFIED_BY);
+												$("##verificationstatus").val(result[0].VERIFICATIONSTATUS);
+												$("##lat_long_remarks").val(result[0].LAT_LONG_REMARKS);
+												$("##lat_long_ref_source").val(result[0].LAT_LONG_REF_SOURCE);
+												var geolocate_score = result[0].GEOLOCATE_SCORE;
+												if (geolocate_score) { 
+													$("##geolocate_score").val(geolocate_score);
+													$("##geolocate_parsepattern").val(result[0].GEOLOCATE_PARSEPATTERN);
+													$("##geolocate_numresults").val(result[0].GEOLOCATE_NUMRESULTS);
+													$("##geolocate_precision").val(result[0].GEOLOCATE_PRECISION);
+													$('.geolocateMetadata').show();
+												} 
 												$("##manualTabButton").click();
 											},
 											error: function (jqXHR, textStatus, error) {
+												$('##cloneFeedback').html("Error.");
 												handleFail(jqXHR,textStatus,error,"loading a georeference to clone");
 											},
 											dataType: "html"
