@@ -3068,7 +3068,7 @@ Target JSON:
 				" <input type='hidden' value='"+uri+"' name='url'>" + 
 				" <div class='col-12 p-1'>" + 
 				"  <label for='search_name_input_"+whichGrid+"'>Search Name</label>" + 
-				"  <input type='text' id='search_name_input_"+whichGrid+"'  name='search_name' value='' class='data-entry-input reqdClr' pattern='Your name for this search' maxlenght='60' required>" + 
+				"  <input type='text' id='search_name_input_"+whichGrid+"'  name='search_name' value='' class='data-entry-input reqdClr' placeholder='Your name for this search' maxlength='60' required>" + 
 				" </div>" + 
 				" <div class='col-12'>" + 
 				"  <label for='execute_input_"+whichGrid+"'>Execute Immediately</label>"+

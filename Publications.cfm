@@ -741,7 +741,7 @@ limitations under the License.
 					" <input type='hidden' value='"+uri+"' name='url'>" + 
 					" <div class='col-12'>" + 
 					"  <label for='search_name_input'>Search Name</label>" + 
-					"  <input type='text' id='search_name_input'  name='search_name' value='' class='data-entry-input reqdClr' pattern='Your name for this search' maxlenght='60' required>" + 
+					"  <input type='text' id='search_name_input'  name='search_name' value='' class='data-entry-input reqdClr' placeholder='Your name for this search' maxlength='60' required>" + 
 					" </div>" + 
 					" <div class='col-12'>" + 
 					"  <label for='execute_input'>Execute Immediately</label>"+

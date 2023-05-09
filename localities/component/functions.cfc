@@ -2461,7 +2461,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="col-12 col-md-2">
 											<label for="extent" class="data-entry-label">Extent</label>
-											<input type="text" name="extent" id="extent" class="data-entry-input" value="">
+											<input type="text" name="extent" id="extent" class="data-entry-input" value="" >
 										</div>
 										<div class="col-12 col-md-2">
 											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
@@ -2479,6 +2479,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="5">Specified to 0.00001&##176;, latitude known to 1 meter.</option>
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="spatialfit" class="data-entry-label">Spatial Fit</label>
+											<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="">
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="georeference_source" class="data-entry-label">Source</label>
@@ -2553,6 +2557,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script>
 										</div>
+	"GEOLOCATE_UNCERTAINTYPOLYGON" VARCHAR2(4000), 
+	"GEOLOCATE_SCORE" NUMBER(3,0), 
+	"GEOLOCATE_PRECISION" VARCHAR2(25), 
+	"GEOLOCATE_NUMRESULTS" NUMBER(3,0), 
+	"GEOLOCATE_PARSEPATTERN" VARCHAR2(256), 
 										<div class="col-12 col-md-3 pt-3">
 											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " 
