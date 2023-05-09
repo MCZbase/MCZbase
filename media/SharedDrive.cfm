@@ -296,13 +296,13 @@ limitations under the License.
 					</div>
 					<div class="row">
 						<div class="col-2 mx-auto mb-2">
-							<input id="Preview" type="button" class="btn btn-xs mr-2 btn-primary d-inline-block" value="Preview Image(s)" onclick="getImg();getTable();getCommonData"/>
+							<input id="Preview" type="button" class="btn btn-xs mr-2 btn-primary d-inline-block" value="Preview Image(s)" onclick="getImg();getTable();"/>
 							<input type="button" class="btn btn-xs ml-2 btn-warning ml-2 d-inline-block" onClick="clearInput();" value="Reset Form"/>
 						</div>
 					</div>
 					<div class="row">
 						<div id="images" class="col-9 float-left py-3">
-							<form id="commontable" class="commontable" style="display: none;">
+							<form id="commontable" style="display: none;">
 								<table class="table">
 									<thead>
 										<tr>
@@ -339,7 +339,7 @@ limitations under the License.
 		
 				$(document).ready(function() {
 
-					$("##show").click(function() {
+					$("##Preview").click(function() {
 						$("##commontable").css("display", "block");
 					});
 				});
