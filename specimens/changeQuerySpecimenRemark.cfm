@@ -132,34 +132,99 @@
 		<cfif not isDefined("remark") or len(remark) EQ 0>
 			<cfthrow message="No Remark specified, no update to make to specimens">
 		</cfif>
+		<!---
+		   @param multiplicity, if one, use one coll_object_remarks to one coll_object, current required default
+         to support old edit cataloged item page, appending remarks to the current text of 
+			coll_object_remark.coll_object_remarks.
+			If many, then support one to many coll_object_remarks to one collection_object
+         and write the remark into a new coll_object_remarks record.
+		--->
+		<cfif not isDefined("multiplicity") or len(multiplicity) EQ 0>
+			<cfset multiplicity = "one">
+		</cfif>
 		<cftransaction>
 			<cfquery name="getRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRecords_result">
-						SELECT collection_object_id 
-						FROM user_search_table
-						WHERE
-							result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				SELECT user_search_table.collection_object_id, guid 
+				FROM user_search_table
+					left join FLAT on user_search_table.collection_object_id = flat.collection_object_id
+				WHERE
+					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 			<cfloop query="getRecords">
-				<cfquery name="countDuplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						count(*) ct
-					FROM
-						coll_object_remark 
-					WHERE
-						collection_object_id = <cfqueryparam value="#getRecords.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						and coll_object_remarks = <cfqueryparam value="#remark#" cfsqltype="CF_SQL_VARCHAR">
-				</cfquery>
-				<cfif countDuplicates.ct EQ 0> 
-					<cfquery name="addRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addRemark_result">
-						INSERT INTO coll_object_remark
-						(
-							coll_object_remarks,
-							collection_object_id 
-						) values (
-							<cfqueryparam value="#remark#" cfsqltype="CF_SQL_VARCHAR">,
-							<cfqueryparam value="#getRecords.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						)
+				<cfif multiplicity EQ "many">
+					<cfquery name="countDuplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							count(*) ct
+						FROM
+							coll_object_remark 
+						WHERE
+							collection_object_id = <cfqueryparam value="#getRecords.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							and coll_object_remarks = <cfqueryparam value="#remark#" cfsqltype="CF_SQL_VARCHAR">
 					</cfquery>
+					<cfif countDuplicates.ct EQ 0> 
+						<cfquery name="addRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addRemark_result">
+							INSERT INTO coll_object_remark
+							(
+								coll_object_remarks,
+								collection_object_id 
+							) values (
+								<cfqueryparam value="#remark#" cfsqltype="CF_SQL_VARCHAR">,
+								<cfqueryparam value="#getRecords.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							)
+						</cfquery>
+					</cfif>
+				<cfelse>
+					<cfquery name="countDuplicates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							count(*) ct
+						FROM
+							coll_object_remark 
+						WHERE
+							collection_object_id = <cfqueryparam value="#getRecords.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							and coll_object_remarks like <cfqueryparam value="%#remark#%" cfsqltype="CF_SQL_VARCHAR">
+					</cfquery>
+					<cfif countDuplicates.ct EQ 0> 
+						<cfquery name="remarksExist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT count(*) ct
+							FROM coll_object_remark 
+							WHERE
+								collection_object_id = <cfqueryparam value="#getRecords.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						</cfquery>
+						<cfif remarksExist.ct EQ 0>
+							<!--- no coll_object_remark record, insert one. --->
+							<cfquery name="addRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addRemark_result">
+								INSERT INTO coll_object_remark
+								(
+									coll_object_remarks,
+									collection_object_id 
+								) values (
+									<cfqueryparam value="#remark#" cfsqltype="CF_SQL_VARCHAR">,
+									<cfqueryparam value="#getRecords.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								)
+							</cfquery>
+						<cfelseif remarksExist.ct EQ 1>
+							<!--- one coll_object_remark record exists, append remark text  --->
+							<cfquery name="checkLength" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT coll_object_remarks
+								FROM coll_object_remark 
+								WHERE
+									collection_object_id = <cfqueryparam value="#getRecords.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							</cfquery>
+							<cfif len(checkLength.coll_object_remarks) + len(remark) GT 4000>
+								<cfthrow message="Unable to append, length of collection object remarks would exceed 4000 for #guid# collection_object_id=[#getRecords.collection_object_id#]">
+							</cfif>
+							<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								UPDATE
+									coll_object_remark 
+								SET 
+									coll_object_remarks = coll_object_remarks || ' | ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">
+								WHERE
+									collection_object_id = <cfqueryparam value="#getRecords.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							</cfquery>
+						<cfelse>
+							<cfthrow message="Error: More than one coll_object_remark record exists for #guid# collection_object_id=[#getRecords.collection_object_id#] contact a database administrator. ">
+						</cfif>
+					<cfif>					
 				</cfif>
 			</cfloop>
 			<cftransaction action="commit">
