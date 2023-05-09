@@ -251,7 +251,7 @@ limitations under the License.
 									});
 								</script>
 							</div>
-							<div class=" float-left d-none">
+							<div class="float-left d-none">
 								<div class="form-group mb-2">
 									<label for="extension" class="data-entry-label mb-0">Extension<span></span></label>
 									<cfset selectedextensionlist = "">
@@ -296,24 +296,35 @@ limitations under the License.
 					</div>
 					<div class="row">
 						<div class="col-2 mx-auto mb-2">
-						<input id="Preview" type="button" class="btn btn-xs mr-2 btn-primary d-inline-block" value="Preview Image(s)" onclick="getImg();getTable();"/>
+							<input id="Preview" type="button" class="btn btn-xs mr-2 btn-primary d-inline-block" value="Preview Image(s)" onclick="getImg();getTable();getCommonData"/>
 							<input type="button" class="btn btn-xs ml-2 btn-warning ml-2 d-inline-block" onClick="clearInput();" value="Reset Form"/>
 						</div>
 					</div>
-
 					<div class="row">
-
-					
-							<div id="images" class="col-9 float-left py-3"></div>
-				
+						<div id="images" class="col-9 float-left py-3">
+							<form id="commontable" class="show hide commontable">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>Label</th>
+											<th>Value</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>MIME Type</td>
+											<td>jpg</td>
+										</tr>
+									</tbody>
+								</table>
+							</form>
+						</div>
 						<div class="col-3 pt-4 float-left">
 							<div id="commonData" class="d-inline">
 								<input type="button" class="btn btn-xs btn-secondary" style="display: none;" value="Create Media Records" onClick="window.location='/media/SharedDrive.cfm?action=newMedia&media_id=1335'">
 								<!---	window.location='/media/SharedDrive.cfm?action=newMedia&media_id=#mid.nv#';--->
-				
 							</div>
 						</div>
-						
 					</div>
 				</div>
 			</form>
@@ -325,6 +336,18 @@ limitations under the License.
 			}
 		</script>
 		<script>
+			function getCommonMeta() {
+				$(document).ready(function() {
+					$("#hide").click(function() {
+						$("##commontable").css("display", "none");
+					});
+
+					$(".show").click(function() {
+						$("##commontable").css("display", "block");
+					});
+				});
+			}
+			
 			function getImg(){
 				var url=document.getElementById('protocol').value;
 				url+=document.getElementById('hostname').value;
