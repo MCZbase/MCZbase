@@ -2461,7 +2461,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="col-12 col-md-2">
 											<label for="extent" class="data-entry-label">Extent</label>
-											<input type="text" name="extent" id="extent" class="data-entry-input" value="" >
+											<input type="text" name="extent" id="extent" class="data-entry-input" value="" pattern="^(1|0*\.[0-9]+)$" >
 										</div>
 										<div class="col-12 col-md-2">
 											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
@@ -2557,11 +2557,26 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script>
 										</div>
-	"GEOLOCATE_UNCERTAINTYPOLYGON" VARCHAR2(4000), 
-	"GEOLOCATE_SCORE" NUMBER(3,0), 
-	"GEOLOCATE_PRECISION" VARCHAR2(25), 
-	"GEOLOCATE_NUMRESULTS" NUMBER(3,0), 
-	"GEOLOCATE_PARSEPATTERN" VARCHAR2(256), 
+										<div class="geolocateMetadata col-12">
+											<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">Verified by</label>
+											<input type="text" name="geolocate_uncertaintypolygon" id="geolocate_uncertaintypolygon" class="data-entry-input bg-lt-gray" readonly>
+										</div>
+										<div class="geolocateMetadata col-12 col-md-3">
+											<label for="geolocate_score" class="data-entry-label" id="geolocate_score_label">Verified by</label>
+											<input type="text" name="geolocate_score" id="geolocate_score" class="data-entry-input bg-lt-gray" readonly>
+										</div>
+										<div class="geolocateMetadata col-12 col-md-3">
+											<label for="geolocate_precision" class="data-entry-label" id="geolocate_precision_label">Verified by</label>
+											<input type="text" name="geolocate_precision" id="geolocate_precision" class="data-entry-input bg-lt-gray" readonly>
+										</div>
+										<div class="geolocateMetadata col-12 col-md-3">
+											<label for="geolocate_numresults" class="data-entry-label" id="geolocate_numresults_label">Verified by</label>
+											<input type="text" name="geolocate_numresults" id="geolocate_numresults" class="data-entry-input bg-lt-gray" readonly>
+										</div>
+										<div class="geolocateMetadata col-12 col-md-3">
+											<label for="geolocate_parsepattern" class="data-entry-label" id="geolocate_parsepattern_label">Verified by</label>
+											<input type="text" name="geolocate_parsepattern" id="geolocate_parsepattern" class="data-entry-input bg-lt-gray" readonly>
+										</div>
 										<div class="col-12 col-md-3 pt-3">
 											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " 
@@ -3052,6 +3067,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="georefmethod" type="string" required="no">
 	<cfargument name="verificationstatus" type="string" required="yes">
 	<cfargument name="extent" type="string" required="no">
+	<cfargument name="spatialfit" type="string" required="no">
 	<cfargument name="gpsaccuracy" type="string" required="no">
 	<cfargument name="max_error_distance" type="string" required="yes">
 	<cfargument name="max_error_units" type="string" required="yes">
@@ -3060,6 +3076,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="dec_long" type="string" required="no">
 	<cfargument name="lat_deg" type="string" required="no">
 	<cfargument name="long_deg" type="string" required="no">
+	"GEOLOCATE_UNCERTAINTYPOLYGON" VARCHAR2(4000), 
+	"GEOLOCATE_SCORE" NUMBER(3,0), 
+	"GEOLOCATE_PRECISION" VARCHAR2(25), 
+	"GEOLOCATE_NUMRESULTS" NUMBER(3,0), 
+	"GEOLOCATE_PARSEPATTERN" VARCHAR2(256), 
 	
 	<cfif lcase(field_mapping) EQ "generic"> 
 		<!--- map lat_deg/long_deg onto dec_lat/dec_long and lat_min/long_min onto dec_lat_min/dec_long_min if appropriate. --->
@@ -3218,6 +3239,23 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfelse>
 						<cfthrow message = "Unsupported orig_lat_long_units [#encodeForHtml(orig_lat_long_units)#].">
 					</cfif>
+					<cfif isDefined("geolocate_uncertaintypolygon") AND len(geolocate_uncertaintypolygon) GT 0>
+						,geolocate_uncertaintypolygon
+					<cfif isDefined("geolocate_score") AND len(geolocate_score) GT 0>
+						,geolocate_score
+					</cfif>
+					<cfif isDefined("geolocate_precision") AND len(geolocate_precision) GT 0>
+						,geolocate_precision
+					</cfif>
+					<cfif isDefined("geolocate_numresults") AND len(geolocate_numresults) GT 0>
+						,geolocate_numresults
+					</cfif>
+					<cfif isDefined("geolocate_parsepattern") AND len(geolocate_parsepattern) GT 0>
+						,geolocate_parsepattern
+					</cfif>
+					<cfif isDefined("spatialfit") AND len(spatialfit) GT 0>
+						,spatialfit
+					</cfif>
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getLATLONGID.latlongid#">
 					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">
@@ -3273,6 +3311,24 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#UTM_ZONE#">
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_EW#">
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_NS#">
+					</cfif>
+					<cfif isDefined("geolocate_uncertaintypolygon") AND len(geolocate_uncertaintypolygon) GT 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geolocate_uncertaintypolygon#">
+					</cfif>
+					<cfif isDefined("geolocate_score") AND len(geolocate_score) GT 0>
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score#">
+					</cfif>
+					<cfif isDefined("geolocate_precision") AND len(geolocate_precision) GT 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geolocate_precision#">
+					</cfif>
+					<cfif isDefined("geolocate_numresults") AND len(geolocate_numresults) GT 0>
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_numresults#">
+					</cfif>
+					<cfif isDefined("geolocate_parsepattern") AND len(geolocate_parsepattern) GT 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geolocate_parsepattern#">
+					</cfif>
+					<cfif isDefined("spatialfit") AND len(spatialfit) GT 0>
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spatialfit#" scale="3"> 
 					</cfif>
 				)
 			</cfquery>
