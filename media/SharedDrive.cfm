@@ -338,7 +338,7 @@ limitations under the License.
 		<script>
 			function getCommonMeta() {
 				$(document).ready(function() {
-					$("#hide").click(function() {
+					$(".hide").click(function() {
 						$("##commontable").css("display", "none");
 					});
 
