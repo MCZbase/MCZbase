@@ -2733,6 +2733,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_extent" class="data-entry-label">Extent</label>
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
 										</div>
+										<div class="postGeolocate col-12 col-md-2">
+											<label for="gl_spatialfit" class="data-entry-label">Spatial Fit</label>
+											<input type="text" name="spatialfit" id="gl_spatialfit" class="data-entry-input" value="">
+										</div>
 										<div class="postGeolocate col-12">
 											<label for="gl_errorPoly" class="data-entry-label">Uncertainty Polygon</label>
 											<input type="text" name="errorPoly" id="gl_errorPoly" class="data-entry-input" value="">
