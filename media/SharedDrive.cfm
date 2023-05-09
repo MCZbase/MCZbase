@@ -302,8 +302,8 @@ limitations under the License.
 					</div>
 					<div class="row">
 						<div id="images" class="col-9 float-left py-3">
-							<form id="commontable" style="display: none;">
-								<table class="table">
+							<form >
+								<table class="table" id="commontable" style="display: none;">
 									<thead>
 										<tr>
 											<th>Label</th>
@@ -340,7 +340,7 @@ limitations under the License.
 				$(document).ready(function() {
 
 					$("##Preview").click(function() {
-						$("##commontable").css("display", "block");
+						$("form##commontable.table").css("display", "block");
 					});
 				});
 			
