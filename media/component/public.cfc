@@ -380,7 +380,7 @@ include this function and use it.
 					<!--- prepare output --->
 
 					<cfset output='#output#<div class="media_widget p-1" style="#minheight#">'>
-					<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
+					<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. ' --->
 					<cfif #captionAs# EQ "textNone">
 						<cfset linkTarget = "/media/#media.media_id#">
 					<cfelse>
@@ -394,8 +394,15 @@ include this function and use it.
 					<cfset output='#output#<a href="#linkTarget#" class="d-block mb-1 w-100 active text-center" title="click to access media">'>
 					<cfset output='#output#<img id="#elementID#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
-					<!--- multizoom library for zoom on hover --->
+					<!--- multizoom library for zoom on hover ' --->
 					<cfif isDisplayable>
+						<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF AND isDefined("iiifFull") AND len(iiifFull) GT 0>
+							<cfset displayTarget = iiifFull>
+							<cfset squareDisplayTarget = iiifSquare>
+						<cfelse>
+							<cfset displayTarget = "#media.media_uri#">
+							<cfset squareDisplayTarget = "#media.media_uri#">
+						</cfif>
 						<cfset minzoom="2">
 						<cfif displayAs EQ "thumb">
 							<!--- probably uses default size value of 600, but want larger zoom --->
@@ -408,9 +415,9 @@ include this function and use it.
 							<cfset minzoom="5">
 						</cfif>
 						<cfif #displayAs# EQ "fixedSmallThumb">
-							<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("###elementId#").addimagezoom("###elementId#",{zoomrange: [#minzoom#,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifSquare#"})})</script>'>
+							<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("###elementId#").addimagezoom("###elementId#",{zoomrange: [#minzoom#,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#squareDisplayTarget#"})})</script>'>
 						<cfelse>
-							<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("###elementId#").addimagezoom("###elementId#",{zoomrange: [#minzoom#,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'>
+							<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("###elementId#").addimagezoom("###elementId#",{zoomrange: [#minzoom#,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#displayTarget#"})})</script>'>
 						</cfif>
 					</cfif>
 					<cfif #captionAs# EQ "textNone">
