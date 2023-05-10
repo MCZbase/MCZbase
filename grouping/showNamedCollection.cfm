@@ -448,7 +448,7 @@ limitations under the License.
 														returnformat : "json"
 													},
 													function (result) {
-														specimenImageSetMetadata = JSON.parse(result);
+														specimenImageSetMetadata = result;
 														$inputSpec.addEventListener('change', function (e) {
 															goSpecimen()
 														}, false)
