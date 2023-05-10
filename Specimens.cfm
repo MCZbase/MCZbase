@@ -2307,7 +2307,7 @@ Target JSON:
 			var fixed_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties { 
 			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
 			return '+rowData['GUID']+';
-
+			};
 			var keyword_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['GUID'] +'</a></span>';
