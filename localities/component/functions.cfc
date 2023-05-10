@@ -2460,8 +2460,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script> 
 										</div>
 										<div class="col-12 col-md-2">
-											<label for="extent" class="data-entry-label">Point Radius Spatial Fit</label>
-											<input type="text" name="extent" id="extent" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
+											<label for="spatialfit" class="data-entry-label">Point Radius Spatial Fit</label>
+											<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="extent" class="data-entry-label">Extent (km)</label>
+											<input type="text" name="extent" id="extent" class="data-entry-input" value="" pattern="^[0-9.]*$" >
 										</div>
 										<div class="col-12 col-md-2">
 											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
@@ -2478,6 +2482,17 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="4">Specified to 0.0001&##176;, use if known to 1&quot;, latitude known to 11 meters.</option>
 												<option value="5">Specified to 0.00001&##176;, latitude known to 1 meter.</option>
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="nearest_named_place" class="data-entry-label">Nearest Named Place</label>
+											<input type="text" name="nearest_named_place" id="nearest_named_place" class="data-entry-input" value="">
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="lat_long_for_nnp_fg" class="data-entry-label">Georeference is of Nearest Named Place</label>
+											<select name="lat_long_for_nnp_fg" id="lat_long_for_nnp_fg" class="data-entry-select reqdClr" required>
+												<option value="0" selected>No</option>
+												<option value="1">Yes</option>
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
@@ -2554,31 +2569,34 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script>
 										</div>
 										<div class="col-10">
-											<label for="error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon</label>
+											<label for="error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon (WKT)</label>
 											<input type="text" name="error_polygon" id="error_polygon" class="data-entry-input reqdClr">
 										</div>
 										<div class="col-12 col-md-2">
-											<label for="spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
-											<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
+											<label for="footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
+											<input type="text" name="footprint_spatialfit" id="footprint_spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
 										<div class="geolocateMetadata col-12">
-											<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">Verified by</label>
+											<h3 class="h4">Batch GeoLocate Georeference Metadata</h3>
+										</div>
+										<div class="geolocateMetadata col-12">
+											<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">GeoLocate Uncertanty Polygon</label>
 											<input type="text" name="geolocate_uncertaintypolygon" id="geolocate_uncertaintypolygon" class="data-entry-input bg-lt-gray" readonly>
 										</div>
 										<div class="geolocateMetadata col-12 col-md-3">
-											<label for="geolocate_score" class="data-entry-label" id="geolocate_score_label">Verified by</label>
+											<label for="geolocate_score" class="data-entry-label" id="geolocate_score_label">GeoLocate Score</label>
 											<input type="text" name="geolocate_score" id="geolocate_score" class="data-entry-input bg-lt-gray" readonly>
 										</div>
 										<div class="geolocateMetadata col-12 col-md-3">
-											<label for="geolocate_precision" class="data-entry-label" id="geolocate_precision_label">Verified by</label>
+											<label for="geolocate_precision" class="data-entry-label" id="geolocate_precision_label">GeoLocate Precision</label>
 											<input type="text" name="geolocate_precision" id="geolocate_precision" class="data-entry-input bg-lt-gray" readonly>
 										</div>
 										<div class="geolocateMetadata col-12 col-md-3">
-											<label for="geolocate_numresults" class="data-entry-label" id="geolocate_numresults_label">Verified by</label>
+											<label for="geolocate_numresults" class="data-entry-label" id="geolocate_numresults_label">Number of Matches</label>
 											<input type="text" name="geolocate_numresults" id="geolocate_numresults" class="data-entry-input bg-lt-gray" readonly>
 										</div>
 										<div class="geolocateMetadata col-12 col-md-3">
-											<label for="geolocate_parsepattern" class="data-entry-label" id="geolocate_parsepattern_label">Verified by</label>
+											<label for="geolocate_parsepattern" class="data-entry-label" id="geolocate_parsepattern_label">Parse Pattern</label>
 											<input type="text" name="geolocate_parsepattern" id="geolocate_parsepattern" class="data-entry-input bg-lt-gray" readonly>
 										</div>
 										<script>
@@ -2686,6 +2704,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_max_error_distance" class="data-entry-label">Error Radius</label>
 											<input type="text" name="max_error_distance" id="gl_max_error_distance" class="data-entry-input reqdClr" value="" required>
 										</div>
+										<div class="postGeolocate col-12 col-md-2">
+											<label for="gl_spatialfit" class="data-entry-label">Point-Radius Spatial Fit</label>
+											<input type="text" name="spatialfit" id="gl_spatialfit" class="data-entry-input" value="">
+										</div>
 										<div class="postGeolocate col-12 col-md-1">
 											<label for="gl_max_error_units" class="data-entry-label">Units</label>
 											<input type="text" name="max_error_units" id="gl_max_error_units" class="data-entry-input reqdClr" value="" required>
@@ -2729,13 +2751,20 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_lat_long_ref_source" class="data-entry-label">Reference</label>
 											<input type="text" name="lat_long_ref_source" id="gl_lat_long_ref_source" class="data-entry-input reqdClr" value="" required>
 										</div>
+										<div class="col-12 col-md-4">
+											<label for="gl_nearest_named_place" class="data-entry-label">Nearest Named Place</label>
+											<input type="text" name="nearest_named_place" id="gl_nearest_named_place" class="data-entry-input" value="">
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="gl_lat_long_for_nnp_fg" class="data-entry-label">Georeference is of Nearest Named Place</label>
+											<select name="lat_long_for_nnp_fg" id="gl_lat_long_for_nnp_fg" class="data-entry-select reqdClr" required>
+												<option value="0" selected>No</option>
+												<option value="1">Yes</option>
+											</select>
+										</div>
 										<div class="postGeolocate col-12 col-md-1">
 											<label for="gl_extent" class="data-entry-label">Extent</label>
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
-										</div>
-										<div class="postGeolocate col-12 col-md-2">
-											<label for="gl_spatialfit" class="data-entry-label">Spatial Fit</label>
-											<input type="text" name="spatialfit" id="gl_spatialfit" class="data-entry-input" value="">
 										</div>
 										<div class="postGeolocate col-12">
 											<label for="gl_errorPoly" class="data-entry-label">Uncertainty Polygon</label>
@@ -2929,9 +2958,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<output id="cloneFeedback"></output>
 									</div>
 								</div>
-<!---
- [{,"FIELD_VERIFIED_FG":"","NEAREST_NAMED_PLACE":"","LAT_LONG_FOR_NNP_FG":"",}]
---->
 								<script>
 									function loadGeoreference() { 
 										var lookup_locality_id = $('##selected_locality_id').val();
@@ -2986,6 +3012,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$("##gpsaccuracy").val(result[0].GPSACCURACY);
 												$("##geolocate_uncertaintypolygon").val(result[0].GEOLOCATE_UNCERTAINTYPOLYGON);
 												$("##error_polygon").val(result[0].ERROR_POLYGON);
+												$("##footprint_spatialfit").val(result[0].FOOTPRINT_SPATIALFIT);
 												$('##determined_by_agent_id').val(result[0].DETERMINED_BY_AGENT_ID);
 												$('##determined_by_agent').val(result[0].DETERMINED_BY);
 												$('##determined_date').val(result[0].DETERMINED_DATE);
@@ -2994,6 +3021,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$("##verificationstatus").val(result[0].VERIFICATIONSTATUS);
 												$("##lat_long_remarks").val(result[0].LAT_LONG_REMARKS);
 												$("##lat_long_ref_source").val(result[0].LAT_LONG_REF_SOURCE);
+												$("##nearest_named_place").val(result[0].NEAREST_NAMED_PLACE);
+												$("##lat_long_for_nnp_fg").val(result[0].LAT_LONG_FOR_NNP_FG);
 												var geolocate_score = result[0].GEOLOCATE_SCORE;
 												if (geolocate_score) { 
 													$("##geolocate_score").val(geolocate_score);
@@ -3140,12 +3169,17 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="dec_long" type="string" required="no">
 	<cfargument name="lat_deg" type="string" required="no">
 	<cfargument name="long_deg" type="string" required="no">
-	"GEOLOCATE_UNCERTAINTYPOLYGON" VARCHAR2(4000), 
-	"GEOLOCATE_SCORE" NUMBER(3,0), 
-	"GEOLOCATE_PRECISION" VARCHAR2(25), 
-	"GEOLOCATE_NUMRESULTS" NUMBER(3,0), 
-	"GEOLOCATE_PARSEPATTERN" VARCHAR2(256), 
+	<cfargument name="geolocate_uncertaintypolygon" type="string" required="no">
+	<cfargument name="geolocate_score" type="string" required="no">
+	<cfargument name="geolocate_precision" type="string" required="no">
+	<cfargument name="geolocate_num_results" type="string" required="no">
+	<cfargument name="geolocate_parsepattern" type="string" required="no">
+	<cfargument name="nearest_named_place" type="string" required="no">
+	<cfargument name="lat_long_for_nnp_fg" type="string" required="no">
+	<cfargument name="footprint_spatialfit" type="string" required="no">
 	
+	<!--- field_verified_fg unused and deprecated --->
+
 	<cfif lcase(field_mapping) EQ "generic"> 
 		<!--- map lat_deg/long_deg onto dec_lat/dec_long and lat_min/long_min onto dec_lat_min/dec_long_min if appropriate. --->
 		<cfswitch expression="#ORIG_LAT_LONG_UNITS#">
@@ -3270,6 +3304,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfif isDefined("lat_long_remarks") AND len(#lat_long_remarks#) gt 0>
 						,lat_long_remarks
 					</cfif>
+					<cfif isDefined("lat_long_remarks") AND len(#lat_long_ref_source#) gt 0>
+						,lat_long_ref_source
+					</cfif>
 					<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
 						,MAX_ERROR_DISTANCE
 					</cfif>
@@ -3321,6 +3358,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfif isDefined("spatialfit") AND len(spatialfit) GT 0>
 						,spatialfit
 					</cfif>
+					<cfif isDefined("footprint_spatialfit") AND len(footprint_spatialfit) GT 0>
+						,footprint_spatialfit
+					</cfif>
+					<cfif isDefined("nearest_named_place") AND len(nearest_named_place) GT 0>
+						,nearest_named_place
+					</cfif>
+					<cfif isDefined("lat_long_for_nnp_fg") AND len(lat_long_for_nnp_fg) GT 0>
+						,lat_long_for_nnp_fg
+					</cfif>
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getLATLONGID.latlongid#">
 					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">
@@ -3335,16 +3381,19 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#verified_by_agent_id#">
 					</cfif>
 					<cfif len(#extent#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#extent#">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#extent#" scale="5">
 					</cfif>
 					<cfif isDefined("gpsaccuracy") AND len(#gpsaccuracy#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#gpsaccuracy#">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#gpsaccuracy#" scale="3">
 					</cfif>
 					<cfif isDefined("coordinate_precision") AND len(#coordinate_precision#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coordinate_precision#">
 					</cfif>
 					<cfif len(#lat_long_remarks#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lat_long_remarks#">
+					</cfif>
+					<cfif isDefined("lat_long_remarks") AND len(#lat_long_ref_source#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lat_long_ref_source#">
 					</cfif>
 					<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">
@@ -3356,15 +3405,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfif #ORIG_LAT_LONG_UNITS# is "deg. min. sec.">
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_DEG#">
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_MIN#">
-						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_SEC#" scale="4">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_SEC#" scale="6">
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_DIR#">
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_DEG#">
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_MIN#">
-						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_SEC#" scale="4">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_SEC#" scale="6">
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LONG_DIR#">
 					<cfelseif #ORIG_LAT_LONG_UNITS# is "degrees dec. minutes">
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_DEG#">
-						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT_MIN#" scale="8">
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT_MIN#" scale="6">
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_DIR#">
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_DEG#">
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG_MIN#" scale="8">
@@ -3394,6 +3443,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</cfif>
 					<cfif isDefined("spatialfit") AND len(spatialfit) GT 0>
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spatialfit#" scale="3"> 
+					</cfif>
+					<cfif isDefined("footprint_spatialfit") AND len(footprint_spatialfit) GT 0>
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#footprint_spatialfit#" scale="3"> 
+					</cfif>
+					<cfif isDefined("nearest_named_place") AND len(nearest_named_place) GT 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nearest_named_place#"> 
+					</cfif>
+					<cfif isDefined("lat_long_for_nnp_fg") AND len(lat_long_for_nnp_fg) GT 0>
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_for_nnp_fg#"> 
 					</cfif>
 				)
 			</cfquery>
