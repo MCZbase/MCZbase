@@ -2751,11 +2751,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_lat_long_ref_source" class="data-entry-label">Reference</label>
 											<input type="text" name="lat_long_ref_source" id="gl_lat_long_ref_source" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="postGeolocate col-12 col-md-4">
 											<label for="gl_nearest_named_place" class="data-entry-label">Nearest Named Place</label>
 											<input type="text" name="nearest_named_place" id="gl_nearest_named_place" class="data-entry-input" value="">
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="postGeolocate col-12 col-md-4">
 											<label for="gl_lat_long_for_nnp_fg" class="data-entry-label">Georeference is of Nearest Named Place</label>
 											<select name="lat_long_for_nnp_fg" id="gl_lat_long_for_nnp_fg" class="data-entry-select reqdClr" required>
 												<option value="0" selected>No</option>
@@ -3022,7 +3022,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$("##lat_long_remarks").val(result[0].LAT_LONG_REMARKS);
 												$("##lat_long_ref_source").val(result[0].LAT_LONG_REF_SOURCE);
 												$("##nearest_named_place").val(result[0].NEAREST_NAMED_PLACE);
-												$("##lat_long_for_nnp_fg").val(result[0].LAT_LONG_FOR_NNP_FG);
+												var lat_long_for_nnp_fg = result[0].LAT_LONG_FOR_NNP_FG;
+												if (lat_long_for_nnp_fg == "") { lat_long_for_nnp_fg = 0; } 
+												$("##lat_long_for_nnp_fg").val(lat_long_for_nnp_fg);
 												var geolocate_score = result[0].GEOLOCATE_SCORE;
 												if (geolocate_score) { 
 													$("##geolocate_score").val(geolocate_score);
