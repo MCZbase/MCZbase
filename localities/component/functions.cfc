@@ -2230,9 +2230,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				ORDER BY ORIG_LAT_LONG_UNITS
 			</cfquery>
 			<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT georefMethod 
+				SELECT georefmethod 
 				FROM ctgeorefmethod
-				ORDER BY georefMethod
+				ORDER BY georefmethod
 			</cfquery>
 			<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT verificationStatus 
@@ -2283,7 +2283,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<h2 class="px-2 h3">Enter georeference</h2>
 									<div class="form-row">
 										<div class="col-12 col-md-3">
-											<label for="orig_lat_long_units" class="data-entry-label">Original Units</label>
+											<label for="orig_lat_long_units" class="data-entry-label">Coordinate Format</label>
 											<select id="orig_lat_long_units" name="orig_lat_long_units" class="data-entry-select reqdClr" onChange=" changeLatLongUnits(); ">
 												<option></option>
 												<option value="decimal degrees">decimal degrees</option>
@@ -2460,8 +2460,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script> 
 										</div>
 										<div class="col-12 col-md-2">
-											<label for="extent" class="data-entry-label">Extent</label>
-											<input type="text" name="extent" id="extent" class="data-entry-input" value="" pattern="^(1|0*\.[0-9]+)$" >
+											<label for="extent" class="data-entry-label">Point Radius Spatial Fit</label>
+											<input type="text" name="extent" id="extent" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
 										<div class="col-12 col-md-2">
 											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
@@ -2480,10 +2480,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
 										</div>
-										<div class="col-12 col-md-2">
-											<label for="spatialfit" class="data-entry-label">Spatial Fit</label>
-											<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="">
-										</div>
 										<div class="col-12 col-md-3">
 											<label for="georeference_source" class="data-entry-label">Source</label>
 											<input type="text" name="georeference_source" id="georeference_source" class="data-entry-input" value="">
@@ -2493,14 +2489,14 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="georeference_protocol" id="georeference_protocol" class="data-entry-input" value="">
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="georefMethod" class="data-entry-label">
+											<label for="georefmethod" class="data-entry-label">
 												Method
-												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##georefMethod').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open georeference method pick list</span></a>
+												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##georefmethod').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open georeference method pick list</span></a>
 											</label>
-											<input type="text" name="georefMethod" id="georefMethod" class="data-entry-input reqdClr" value="" required>
+											<input type="text" name="georefmethod" id="georefmethod" class="data-entry-input reqdClr" value="" required>
 											<script>
 												$(document).ready(function (){
-													makeCTAutocomplete('georefMethod','georefMethod');
+													makeCTAutocomplete('georefmethod','georefmethod');
 												});
 											</script> 
 										</div>
@@ -2557,9 +2553,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script>
 										</div>
-										<div class="col-12">
-											<label for="error_polygon" class="data-entry-label" id="error_polygon_label">Error Polygon</label>
+										<div class="col-10">
+											<label for="error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon</label>
 											<input type="text" name="error_polygon" id="error_polygon" class="data-entry-input reqdClr">
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
+											<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
 										<div class="geolocateMetadata col-12">
 											<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">Verified by</label>
@@ -2662,7 +2662,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="postGeolocate col-12 col-md-2">
 											<input type="hidden" name="ORIG_LAT_LONG_UNITS" value="decimal degrees">
-											<label for="gl_orig_units" class="data-entry-label">Units</label>
+											<label for="gl_orig_units" class="data-entry-label">Coordinate Format</label>
 											<input type="text" name="orig_units" id="gl_orig_units" class="data-entry-input" value="decimal degrees" disabled readonly>
 										</div>
 										<div class="postGeolocate col-12 col-md-2">
@@ -2717,11 +2717,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="georeference_protocol" id="gl_georeference_protocol" class="data-entry-input" value="">
 										</div>
 										<div class="postGeolocate col-12 col-md-2">
-											<label for="gl_georefMethod" class="data-entry-label">Method</label>
-											<input type="text" name="georefMethod" id="gl_georefMethod" class="data-entry-input reqdClr" value="" required>
+											<label for="gl_georefmethod" class="data-entry-label">Method</label>
+											<input type="text" name="georefmethod" id="gl_georefmethod" class="data-entry-input reqdClr" value="" required>
 											<script>
 												$(document).ready(function (){
-													makeCTAutocomplete('gl_georefMethod','georefMethod');
+													makeCTAutocomplete('gl_georefmethod','georefmethod');
 												});
 											</script> 
 										</div>
@@ -2732,6 +2732,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<div class="postGeolocate col-12 col-md-1">
 											<label for="gl_extent" class="data-entry-label">Extent</label>
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
+										</div>
+										<div class="postGeolocate col-12 col-md-2">
+											<label for="gl_spatialfit" class="data-entry-label">Spatial Fit</label>
+											<input type="text" name="spatialfit" id="gl_spatialfit" class="data-entry-input" value="">
 										</div>
 										<div class="postGeolocate col-12">
 											<label for="gl_errorPoly" class="data-entry-label">Uncertainty Polygon</label>
@@ -2859,7 +2863,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$("##gl_datum").val('WGS84');
 												$("##gl_georeference_source").val('GeoLocate');
 												$("##gl_georeference_protocol").val('GeoLocate');
-												$("##gl_georefMethod").val('GEOLocate');
+												$("##gl_georefmethod").val('GEOLocate');
 												$("##gl_lat_long_ref_source").val('GEOLocate');
 												$("##gl_dec_lat").val(glat);
 												$("##gl_dec_long").val(glon);
@@ -3301,6 +3305,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</cfif>
 					<cfif isDefined("geolocate_uncertaintypolygon") AND len(geolocate_uncertaintypolygon) GT 0>
 						,geolocate_uncertaintypolygon
+					</cfif>
 					<cfif isDefined("geolocate_score") AND len(geolocate_score) GT 0>
 						,geolocate_score
 					</cfif>
