@@ -2570,7 +2570,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="col-10">
 											<label for="error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon (WKT)</label>
-											<input type="text" name="error_polygon" id="error_polygon" class="data-entry-input reqdClr">
+											<input type="text" name="error_polygon" id="error_polygon" class="data-entry-input">
 										</div>
 										<div class="col-12 col-md-2">
 											<label for="footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
