@@ -3304,9 +3304,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfif isDefined("lat_long_remarks") AND len(#lat_long_remarks#) gt 0>
 						,lat_long_remarks
 					</cfif>
-					<cfif isDefined("lat_long_remarks") AND len(#lat_long_ref_source#) gt 0>
-						,lat_long_ref_source
-					</cfif>
 					<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
 						,MAX_ERROR_DISTANCE
 					</cfif>
@@ -3391,9 +3388,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</cfif>
 					<cfif len(#lat_long_remarks#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lat_long_remarks#">
-					</cfif>
-					<cfif isDefined("lat_long_remarks") AND len(#lat_long_ref_source#) gt 0>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lat_long_ref_source#">
 					</cfif>
 					<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">
