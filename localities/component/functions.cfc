@@ -2230,9 +2230,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				ORDER BY ORIG_LAT_LONG_UNITS
 			</cfquery>
 			<cfquery name="ctGeorefMethod" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT georefMethod 
+				SELECT georefmethod 
 				FROM ctgeorefmethod
-				ORDER BY georefMethod
+				ORDER BY georefmethod
 			</cfquery>
 			<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT verificationStatus 
@@ -2493,14 +2493,14 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="georeference_protocol" id="georeference_protocol" class="data-entry-input" value="">
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="georefMethod" class="data-entry-label">
+											<label for="georefmethod" class="data-entry-label">
 												Method
-												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##georefMethod').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open georeference method pick list</span></a>
+												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##georefmethod').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open georeference method pick list</span></a>
 											</label>
-											<input type="text" name="georefMethod" id="georefMethod" class="data-entry-input reqdClr" value="" required>
+											<input type="text" name="georefmethod" id="georefmethod" class="data-entry-input reqdClr" value="" required>
 											<script>
 												$(document).ready(function (){
-													makeCTAutocomplete('georefMethod','georefMethod');
+													makeCTAutocomplete('georefmethod','georefmethod');
 												});
 											</script> 
 										</div>
@@ -2717,11 +2717,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="georeference_protocol" id="gl_georeference_protocol" class="data-entry-input" value="">
 										</div>
 										<div class="postGeolocate col-12 col-md-2">
-											<label for="gl_georefMethod" class="data-entry-label">Method</label>
-											<input type="text" name="georefMethod" id="gl_georefMethod" class="data-entry-input reqdClr" value="" required>
+											<label for="gl_georefmethod" class="data-entry-label">Method</label>
+											<input type="text" name="georefmethod" id="gl_georefmethod" class="data-entry-input reqdClr" value="" required>
 											<script>
 												$(document).ready(function (){
-													makeCTAutocomplete('gl_georefMethod','georefMethod');
+													makeCTAutocomplete('gl_georefmethod','georefmethod');
 												});
 											</script> 
 										</div>
@@ -2863,7 +2863,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$("##gl_datum").val('WGS84');
 												$("##gl_georeference_source").val('GeoLocate');
 												$("##gl_georeference_protocol").val('GeoLocate');
-												$("##gl_georefMethod").val('GEOLocate');
+												$("##gl_georefmethod").val('GEOLocate');
 												$("##gl_lat_long_ref_source").val('GEOLocate');
 												$("##gl_dec_lat").val(glat);
 												$("##gl_dec_long").val(glon);
