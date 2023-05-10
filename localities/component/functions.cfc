@@ -2691,7 +2691,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_dec_long" class="data-entry-label">Longitude</label>
 											<input type="text" name="dec_long" id="gl_dec_long" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="postGeolocate col-12 col-md-3">
+										<div class="postGeolocate col-12 col-md-2">
 											<label for="gl_datum" class="data-entry-label">Geodetic Datum</label>
 											<input type="text" name="datum" id="gl_datum" class="data-entry-input reqdClr" value="" required>
 											<script>
@@ -2704,10 +2704,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_max_error_distance" class="data-entry-label">Error Radius</label>
 											<input type="text" name="max_error_distance" id="gl_max_error_distance" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="postGeolocate col-12 col-md-2">
-											<label for="gl_spatialfit" class="data-entry-label">Point-Radius Spatial Fit</label>
-											<input type="text" name="spatialfit" id="gl_spatialfit" class="data-entry-input" value="">
-										</div>
 										<div class="postGeolocate col-12 col-md-1">
 											<label for="gl_max_error_units" class="data-entry-label">Units</label>
 											<input type="text" name="max_error_units" id="gl_max_error_units" class="data-entry-input reqdClr" value="" required>
@@ -2716,6 +2712,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													makeCTAutocomplete('gl_max_error_units','lat_long_error_units');
 												});
 											</script> 
+										</div>
+										<div class="postGeolocate col-12 col-md-2">
+											<label for="gl_spatialfit" class="data-entry-label">Point-Radius Spatial Fit</label>
+											<input type="text" name="spatialfit" id="gl_spatialfit" class="data-entry-input" value="">
 										</div>
 										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_coordinate_precision" class="data-entry-label">Precision</label>
