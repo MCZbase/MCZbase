@@ -536,6 +536,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 		<cfif getNamedGroup.mask_fg EQ 1 AND (NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0)>
 			<!--- return no records --->
 		<cfelse> 
+			<cfset displayed_media_id = getNamedGroup.displayed_media_id>
 			<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenMedia_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
 				<cfif len(displayed_media_id) GT 0>
 				SELECT distinct media.media_id, 
