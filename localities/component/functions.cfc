@@ -2431,7 +2431,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="utm_ns" class="data-entry-label">Northing</label>
 											<input type="text" name="utm_ns" size="4" id="utm_ns" class="data-entry-input utm">
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-3">
 											<label for="datum" class="data-entry-label">
 												Geodetic Datum
 												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##datum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open geodetic datum pick list</span></a>
