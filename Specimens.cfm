@@ -2306,7 +2306,7 @@ Target JSON:
 //			};
 			var fixed_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties { 
 			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
-			return ''rowData['GUID']'';
+			return '+rowData['GUID']+';
 
 			var keyword_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
