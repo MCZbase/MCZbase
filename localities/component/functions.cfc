@@ -2283,7 +2283,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<h2 class="px-2 h3">Enter georeference</h2>
 									<div class="form-row">
 										<div class="col-12 col-md-3">
-											<label for="orig_lat_long_units" class="data-entry-label">Original Units</label>
+											<label for="orig_lat_long_units" class="data-entry-label">Coordinate Format</label>
 											<select id="orig_lat_long_units" name="orig_lat_long_units" class="data-entry-select reqdClr" onChange=" changeLatLongUnits(); ">
 												<option></option>
 												<option value="decimal degrees">decimal degrees</option>
@@ -2460,8 +2460,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script> 
 										</div>
 										<div class="col-12 col-md-2">
-											<label for="extent" class="data-entry-label">Extent</label>
-											<input type="text" name="extent" id="extent" class="data-entry-input" value="" pattern="^(1|0*\.[0-9]+)$" >
+											<label for="extent" class="data-entry-label">Point Radius Spatial Fit</label>
+											<input type="text" name="extent" id="extent" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
 										<div class="col-12 col-md-2">
 											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
@@ -2479,10 +2479,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="5">Specified to 0.00001&##176;, latitude known to 1 meter.</option>
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
-										</div>
-										<div class="col-12 col-md-2">
-											<label for="spatialfit" class="data-entry-label">Spatial Fit</label>
-											<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="">
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="georeference_source" class="data-entry-label">Source</label>
@@ -2557,9 +2553,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script>
 										</div>
-										<div class="col-12">
-											<label for="error_polygon" class="data-entry-label" id="error_polygon_label">Error Polygon</label>
+										<div class="col-10">
+											<label for="error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon</label>
 											<input type="text" name="error_polygon" id="error_polygon" class="data-entry-input reqdClr">
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
+											<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
 										<div class="geolocateMetadata col-12">
 											<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">Verified by</label>
@@ -2662,7 +2662,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="postGeolocate col-12 col-md-2">
 											<input type="hidden" name="ORIG_LAT_LONG_UNITS" value="decimal degrees">
-											<label for="gl_orig_units" class="data-entry-label">Units</label>
+											<label for="gl_orig_units" class="data-entry-label">Coordinate Format</label>
 											<input type="text" name="orig_units" id="gl_orig_units" class="data-entry-input" value="decimal degrees" disabled readonly>
 										</div>
 										<div class="postGeolocate col-12 col-md-2">
