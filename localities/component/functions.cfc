@@ -2963,7 +2963,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								<script>
 									function loadGeoreference() { 
 										var lookup_locality_id = $('##selected_locality_id').val();
-										if lookup_locality_id = "" { 
+										if (lookup_locality_id = "") { 
 											$('##cloneFeedback').html("No locality selected");
 										} else { 
 											$('##cloneFeedback').html("Searching....");
