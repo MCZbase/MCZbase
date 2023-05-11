@@ -2603,7 +2603,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 																$("##error_polygon").val(e.target.result);
 																$("##wktReplaceFeedback").html("Polygon loaded. This will not be saved to the database until you Save Changes");
 															} else {
-																$("##wktReplaceFeedback")("This file does not contain a valid WKT polygon.");
+																$("##wktReplaceFeedback").html("This file does not contain a valid WKT polygon.");
 																$("##wktFile").val('');
 																return(false);
 															}
