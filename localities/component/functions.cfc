@@ -2625,16 +2625,21 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="copyFootprintFrom" class="data-entry-label" >Copy Polygon from locality_id</label>
+											<input type="hidden" name="copyFootprintFrom_id" id="copyFootprintFrom_id" value="">
 											<input type="text" name="copyFootprintFrom" id="copyFootprintFrom" value="" class="data-entry-input">
-											<script>
+											<script> 
+												$(document).ready(function() { 
+													makeLocalityAutocompleteMeta("copyFootPrintFrom", "copyFootprintFrom_id");
+												});
 												function copyWKTFromLocality() { 
+													var lookup_locality_id = $("##copyFootprintFrom_id").val();
 													jQuery.ajax({
 														url: "/localities/component/georefUtilities.cfc",
 														type: "get",
 														data: {
 															method: "getGeoreferenceErrorWKT",
 															returnformat: "plain",
-															locality_id: locality_id
+															locality_id: lookup_locality_id
 														}, 
 														success: function (data) { 
 															$("##error_polygon").val(data);
@@ -2654,6 +2659,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script>
 										</div>
 										<div class="col-12 col-md-2">
+											<label class="data-entry-label">&nbsp;</label>
 											<input type="button" value="Copy" class="btn btn-xs btn-secondary" onClick=" confirmCopyWKTFromLocality(); ">
 										</div>
 										<div class="col-12 col-md-2">
