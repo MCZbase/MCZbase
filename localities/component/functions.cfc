@@ -2598,17 +2598,20 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													if ($("##wktFile").prop('files') && $("##wktFile").prop('files')[0]&& (ext == "wkt")) {
 														var reader = new FileReader();
 														reader.onload = function (e) {
-														var matchWKT = new RegExp(/POLYGON\s*\(\s*(\(\s*(?<X>\-?\d+(:?\.\d+)?)\s+(?<Y>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<X>\s+\k<Y>\s*\))(\s*,\s*\(\s*(?<XH>\-?\d+(:?\.\d+)?)\s+(?<YH>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<XH>\s+\k<YH>\s*\))*\s*\)/);
-														if (matchWKT.test(e.target.result) == true){
-															$("##error_polygon").val(e.target.result);
-															$("##wktReplaceFeedback").html("Polygon loaded. This will not be saved to the database until you Save Changes");
+															var matchWKT = new RegExp(/POLYGON\s*\(\s*(\(\s*(?<X>\-?\d+(:?\.\d+)?)\s+(?<Y>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<X>\s+\k<Y>\s*\))(\s*,\s*\(\s*(?<XH>\-?\d+(:?\.\d+)?)\s+(?<YH>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<XH>\s+\k<YH>\s*\))*\s*\)/);
+															if (matchWKT.test(e.target.result) == true){
+																$("##error_polygon").val(e.target.result);
+																$("##wktReplaceFeedback").html("Polygon loaded. This will not be saved to the database until you Save Changes");
+															} else {
+																$("##wktReplaceFeedback")("This file does not contain a valid WKT polygon.");
+																$("##wktFile").val('');
+																return(false);
+															}
+															reader.readAsText($(##wktFile).prop('files')[0]);
 														} else {
-															$("##wktReplaceFeedback")("This file does not contain a valid WKT polygon.");
 															$("##wktFile").val('');
+															return(false);
 														}
-														reader.readAsText($(##wktFile).prop('files')[0]);
-													} else {
-														$("##wktFile").val('');
 													}
 												}
 											</script>
