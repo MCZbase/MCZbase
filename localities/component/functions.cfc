@@ -2949,10 +2949,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<div class="col-12">
 										<label for="locality_text" class="data-entry-label">Locality</label>
 										<input type="hidden" name="selected_locality_id" id="selected_locality_id">
-										<input type="text" name="selected_locality_text" id="selected_locality_text" class="data-entry-input" onChange=" loadGeoreference(); ">
+										<input type="text" name="selected_locality_text" id="selected_locality_text" class="data-entry-input">
 										<script> 
 											$(document).ready(function() { 
-												makeLocalityAutocompleteMeta("selected_locality_text", "selected_locality_id");
+												makeLocalityAutocompleteMeta("selected_locality_text", "selected_locality_id", loadGeoreference);
 											});
 										</script>
 									</div>
@@ -2963,86 +2963,90 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								<script>
 									function loadGeoreference() { 
 										var lookup_locality_id = $('##selected_locality_id').val();
-										$('##cloneFeedback').html("Searching....");
-										jQuery.ajax({
-											dataType: "json",
-											url: "/localities/component/functions.cfc",
-											data : {
-												method : "getGeoreference",
-												returnformat : "json",
-												locality_id: lookup_locality_id
-											},
-											success: function (result) {
-												$('##cloneFeedback').html("Found, loading data into form...");
-												result = JSON.parse(result);
-												console.log(result);
-												var orig_lat_long_units = result[0].ORIG_LAT_LONG_UNITS;
-												$("##orig_lat_long_units").val(orig_lat_long_units);
-												changeLatLongUnits();
-												console.log(orig_lat_long_units);
-												if (orig_lat_long_units == "decimal degrees") { 
-													$("##lat_deg").val(result[0].RAW_DEC_LAT);
-													$("##long_deg").val(result[0].RAW_DEC_LONG);
-												} else if (orig_lat_long_units == "degrees dec. minutes") { 
-													$("##lat_deg").val(result[0].LAT_DEG);
-													$("##long_deg").val(result[0].LONG_DEG);
-													$("##lat_min").val(result[0].DEC_LAT_MIN);
-													$("##long_min").val(result[0].DEC_LONG_MIN);
-													$("##lat_dir").val(result[0].LAT_DIR);
-													$("##long_dir").val(result[0].LONG_DIR);
-												} else if (orig_lat_long_units == "deg. min. sec.") { 
-													$("##lat_deg").val(result[0].LAT_DEG);
-													$("##long_deg").val(result[0].LONG_DEG);
-													$("##lat_min").val(result[0].LAT_MIN);
-													$("##long_min").val(result[0].LONG_MIN);
-													$("##lat_sec").val(result[0].LAT_SEC);
-													$("##long_sec").val(result[0].LONG_SEC);
-													$("##lat_dir").val(result[0].LAT_DIR);
-													$("##long_dir").val(result[0].LONG_DIR);
-												} else if (orig_lat_long_units == "UTM") { 
-													$("##utm_zone").val(result[0].UTM_ZONE);
-													$("##utm_ew").val(result[0].UTM_EW);
-													$("##utm_ns").val(result[0].UTM_NS);
-												}
-												$("##accepted_lat_long_fg").val(result[0].ACCEPTED_LAT_LONG_FG);
-												$("##georefmethod").val(result[0].GEOREFMETHOD);
-												$("##max_error_distance").val(result[0].MAX_ERROR_DISTANCE);
-												$("##max_error_units").val(result[0].MAX_ERROR_UNITS);
-												$("##datum").val(result[0].DATUM);
-												$("##extent").val(result[0].EXTENT);
-												$("##spatialfit").val(result[0].SPATIALFIT);
-												$("##gpsaccuracy").val(result[0].GPSACCURACY);
-												$("##geolocate_uncertaintypolygon").val(result[0].GEOLOCATE_UNCERTAINTYPOLYGON);
-												$("##error_polygon").val(result[0].ERROR_POLYGON);
-												$("##footprint_spatialfit").val(result[0].FOOTPRINT_SPATIALFIT);
-												$('##determined_by_agent_id').val(result[0].DETERMINED_BY_AGENT_ID);
-												$('##determined_by_agent').val(result[0].DETERMINED_BY);
-												$('##determined_date').val(result[0].DETERMINED_DATE);
-												$('##verified_by_agent_id').val(result[0].VERIFIED_BY_AGENT_ID);
-												$('##verified_by_agent').val(result[0].VERIFIED_BY);
-												$("##verificationstatus").val(result[0].VERIFICATIONSTATUS);
-												$("##lat_long_remarks").val(result[0].LAT_LONG_REMARKS);
-												$("##lat_long_ref_source").val(result[0].LAT_LONG_REF_SOURCE);
-												$("##nearest_named_place").val(result[0].NEAREST_NAMED_PLACE);
-												var lat_long_for_nnp_fg = result[0].LAT_LONG_FOR_NNP_FG;
-												if (lat_long_for_nnp_fg == "") { lat_long_for_nnp_fg = 0; } 
-												$("##lat_long_for_nnp_fg").val(lat_long_for_nnp_fg);
-												var geolocate_score = result[0].GEOLOCATE_SCORE;
-												if (geolocate_score) { 
-													$("##geolocate_score").val(geolocate_score);
-													$("##geolocate_parsepattern").val(result[0].GEOLOCATE_PARSEPATTERN);
-													$("##geolocate_numresults").val(result[0].GEOLOCATE_NUMRESULTS);
-													$("##geolocate_precision").val(result[0].GEOLOCATE_PRECISION);
-													$('.geolocateMetadata').show();
-												} 
-												$("##manualTabButton").click();
-											},
-											error: function (jqXHR, textStatus, error) {
-												$('##cloneFeedback').html("Error.");
-												handleFail(jqXHR,textStatus,error,"loading a georeference to clone");
-											},
-											dataType: "html"
-										});
+										if lookup_locality_id = "" { 
+											$('##cloneFeedback').html("No locality selected");
+										} else { 
+											$('##cloneFeedback').html("Searching....");
+											jQuery.ajax({
+												dataType: "json",
+												url: "/localities/component/functions.cfc",
+												data : {
+													method : "getGeoreference",
+													returnformat : "json",
+													locality_id: lookup_locality_id
+												},
+												success: function (result) {
+													$('##cloneFeedback').html("Found, loading data into form...");
+													result = JSON.parse(result);
+													console.log(result);
+													var orig_lat_long_units = result[0].ORIG_LAT_LONG_UNITS;
+													$("##orig_lat_long_units").val(orig_lat_long_units);
+													changeLatLongUnits();
+													console.log(orig_lat_long_units);
+													if (orig_lat_long_units == "decimal degrees") { 
+														$("##lat_deg").val(result[0].RAW_DEC_LAT);
+														$("##long_deg").val(result[0].RAW_DEC_LONG);
+													} else if (orig_lat_long_units == "degrees dec. minutes") { 
+														$("##lat_deg").val(result[0].LAT_DEG);
+														$("##long_deg").val(result[0].LONG_DEG);
+														$("##lat_min").val(result[0].DEC_LAT_MIN);
+														$("##long_min").val(result[0].DEC_LONG_MIN);
+														$("##lat_dir").val(result[0].LAT_DIR);
+														$("##long_dir").val(result[0].LONG_DIR);
+													} else if (orig_lat_long_units == "deg. min. sec.") { 
+														$("##lat_deg").val(result[0].LAT_DEG);
+														$("##long_deg").val(result[0].LONG_DEG);
+														$("##lat_min").val(result[0].LAT_MIN);
+														$("##long_min").val(result[0].LONG_MIN);
+														$("##lat_sec").val(result[0].LAT_SEC);
+														$("##long_sec").val(result[0].LONG_SEC);
+														$("##lat_dir").val(result[0].LAT_DIR);
+														$("##long_dir").val(result[0].LONG_DIR);
+													} else if (orig_lat_long_units == "UTM") { 
+														$("##utm_zone").val(result[0].UTM_ZONE);
+														$("##utm_ew").val(result[0].UTM_EW);
+														$("##utm_ns").val(result[0].UTM_NS);
+													}
+													$("##accepted_lat_long_fg").val(result[0].ACCEPTED_LAT_LONG_FG);
+													$("##georefmethod").val(result[0].GEOREFMETHOD);
+													$("##max_error_distance").val(result[0].MAX_ERROR_DISTANCE);
+													$("##max_error_units").val(result[0].MAX_ERROR_UNITS);
+													$("##datum").val(result[0].DATUM);
+													$("##extent").val(result[0].EXTENT);
+													$("##spatialfit").val(result[0].SPATIALFIT);
+													$("##gpsaccuracy").val(result[0].GPSACCURACY);
+													$("##geolocate_uncertaintypolygon").val(result[0].GEOLOCATE_UNCERTAINTYPOLYGON);
+													$("##error_polygon").val(result[0].ERROR_POLYGON);
+													$("##footprint_spatialfit").val(result[0].FOOTPRINT_SPATIALFIT);
+													$('##determined_by_agent_id').val(result[0].DETERMINED_BY_AGENT_ID);
+													$('##determined_by_agent').val(result[0].DETERMINED_BY);
+													$('##determined_date').val(result[0].DETERMINED_DATE);
+													$('##verified_by_agent_id').val(result[0].VERIFIED_BY_AGENT_ID);
+													$('##verified_by_agent').val(result[0].VERIFIED_BY);
+													$("##verificationstatus").val(result[0].VERIFICATIONSTATUS);
+													$("##lat_long_remarks").val(result[0].LAT_LONG_REMARKS);
+													$("##lat_long_ref_source").val(result[0].LAT_LONG_REF_SOURCE);
+													$("##nearest_named_place").val(result[0].NEAREST_NAMED_PLACE);
+													var lat_long_for_nnp_fg = result[0].LAT_LONG_FOR_NNP_FG;
+													if (lat_long_for_nnp_fg == "") { lat_long_for_nnp_fg = 0; } 
+													$("##lat_long_for_nnp_fg").val(lat_long_for_nnp_fg);
+													var geolocate_score = result[0].GEOLOCATE_SCORE;
+													if (geolocate_score) { 
+														$("##geolocate_score").val(geolocate_score);
+														$("##geolocate_parsepattern").val(result[0].GEOLOCATE_PARSEPATTERN);
+														$("##geolocate_numresults").val(result[0].GEOLOCATE_NUMRESULTS);
+														$("##geolocate_precision").val(result[0].GEOLOCATE_PRECISION);
+														$('.geolocateMetadata').show();
+													} 
+													$("##manualTabButton").click();
+												},
+												error: function (jqXHR, textStatus, error) {
+													$('##cloneFeedback').html("Error.");
+													handleFail(jqXHR,textStatus,error,"loading a georeference to clone");
+												},
+												dataType: "html"
+											});
+										}
 									}
 								</script>
 							</div>
