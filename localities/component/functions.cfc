@@ -2465,7 +2465,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
 										<div class="col-12 col-md-3">
-											<label for="extent" class="data-entry-label">Extent (km)</label>
+											<label for="extent" class="data-entry-label">Radial of Feature [Extent] (km)</label>
 											<input type="text" name="extent" id="extent" class="data-entry-input" value="" pattern="^[0-9.]*$" >
 										</div>
 										<div class="col-12 col-md-3">
@@ -2764,7 +2764,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</select>
 										</div>
 										<div class="postGeolocate col-12 col-md-1">
-											<label for="gl_extent" class="data-entry-label">Extent</label>
+											<label for="gl_extent" class="data-entry-label">Radial of Feature [Extent] (km)</label>
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
 										</div>
 										<div class="postGeolocate col-12">
