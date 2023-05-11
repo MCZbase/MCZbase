@@ -2263,6 +2263,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			</cfquery>
 			<cfoutput>
 				<h2 class="h3">Add a georeference for locality #encodeForHtml(locality_label)#</h2>
+				<p>See: Chapman A.D. &amp; Wieczorek J.R. 2020, Georeferencing Best Practices. Copenhagen: GBIF Secretariat. <a href="https://doi.org/10.15468/doc-gg7h-s853" target="_blank">DOI:10.15468/doc-gg7h-s853</a>.</p>
 				<div>
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<!-- Nav tabs -->
