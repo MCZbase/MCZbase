@@ -2578,9 +2578,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
 											<input type="text" name="footprint_spatialfit" id="footprint_spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-3">
 											<label for="wktFile" class="data-entry-label">Load Footprint Polygon from WKT file</label>
-											<input type="file" id="wktFile" name="wktFile" accept=".wkt">
+											<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100">
 											<script>
 												$(document).ready(function() { 
 													$("##wktFile").change(confirmLoadWKTFromFile);
@@ -2612,8 +2612,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 																return(false);
 															}
 														}
-														reader.readAsText($("##wktFile").prop('files')[0]);
-														$("##wktReplaceFeedback").html("Loaded.");
+														reader.readAsText($("##wktFile").prop('files')[0]); // triggers load event
 													} else {
 														$("##wktFile").val('');
 														return(false);
@@ -2621,17 +2620,44 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												}
 											</script>
 										</div>
-										<div class="col-12 col-md-4">
-											<input type="button" value="Copy Polygon from locality_id" class="btn btn-xs btn-secondary" onClick=" copyWKTFromLocality(); ">
-											<input type="text" name="copyPolyFrom" value="" class="data-entry-input">
+										<div class="col-12 col-md-2">
+											<output id="wktReplaceFeedback"></output>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="copyFootprintFrom" class="data-entry-label" >Copy Polygon from locality_id</label>
+											<input type="text" name="copyFootprintFrom" id="copyFootprintFrom" value="" class="data-entry-input">
 											<script>
 												function copyWKTFromLocality() { 
-													// TODO: Implement
+													jQuery.ajax({
+														url: "/localities/component/georefUtilities.cfc",
+														type: "get",
+														data: {
+															method: "getGeoreferenceErrorWKT",
+															returnformat: "plain",
+															locality_id: locality_id
+														}, 
+														success: function (data) { 
+															$("##error_polygon").val(data);
+														}, 
+														error: function (jqXHR, textStatus, error) {
+															handleFail(jqXHR,textStatus,error,"looking up wkt for accepted lat_long for locality");
+														}
+													});
 												} 
+												function confirmCopyWKTFromLocality(){
+													if ($("##error_polygon").val().length > 1) {
+														confirmDialog('This Georeference has a Footprint Polygon, do you wish to overwrite it?','Confirm overwrite Footprint WKT', copyWKTFromLocality);
+													} else {
+														copyWKTFromLocality();
+													}
+												}
 											</script>
 										</div>
-										<div class="col-12 col-md-4">
-											<output id="wktReplaceFeedback"></output>
+										<div class="col-12 col-md-2">
+											<input type="button" value="Copy" class="btn btn-xs btn-secondary" onClick=" confirmCopyWKTFromLocality(); ">
+										</div>
+										<div class="col-12 col-md-2">
+											<output id="wktLocReplaceFeedback"></output>
 										</div>
 										<div class="geolocateMetadata col-12">
 											<h3 class="h4">Batch GeoLocate Georeference Metadata</h3>
