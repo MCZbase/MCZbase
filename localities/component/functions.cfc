@@ -2629,7 +2629,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="copyFootprintFrom" id="copyFootprintFrom" value="" class="data-entry-input">
 											<script> 
 												$(document).ready(function() { 
-													makeLocalityAutocompleteMeta("copyFootPrintFrom", "copyFootprintFrom_id");
+													makeLocalityAutocompleteMeta("copyFootprintFrom", "copyFootprintFrom_id");
 												});
 												function copyWKTFromLocality() { 
 													var lookup_locality_id = $("##copyFootprintFrom_id").val();
