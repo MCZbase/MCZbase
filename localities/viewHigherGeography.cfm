@@ -128,7 +128,7 @@ limitations under the License.
 <cfoutput>
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
-			<div class="col-12 col-md-6 row">
+			<div class="col-12 col-md-6 mt-4">
 				<cfloop query="getGeography">
 					<h1 class="h2 mr-2">#getGeography.higher_geog#</h1>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
@@ -147,8 +147,8 @@ limitations under the License.
 								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.ocean_region#</li>
 							</cfif>
 							<cfif len(getGeography.ocean_subregion) gt 0>
-								<li class="list-group-item col-5 px-0 font-weight-lessbold">Ocean Subregion:</li>
-								<li class="list-group-item col-7 px-0">#getGeography.ocean_subregion#</li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Ocean Subregion:</li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#getGeography.ocean_subregion#</li>
 							</cfif>
 							<cfif len(getGeography.sea) gt 0>
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Sea:</li>
@@ -463,11 +463,12 @@ limitations under the License.
 					</cfquery>
 					<li>
 						<cfif hasHigherPolygon.ct GT 0>
-							<span class="h3">Higher Geography mappable</span> 
-							<a class="btn btn-xs btn-powder-blue" onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a> 
-							<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
+							<div class="h3 my-1">Higher Geography mappable
+							<a role="button" class="btn btn-xs btn-powder-blue" onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a> 
+							<a role="button" class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
+							</div>
 						<cfelse>
-							<span class="h3">Higher geography not mappable</span>
+							<div class="h3 my-1">Higher geography not mappable</div>
 						</cfif>
 					</li>
 					<cfquery name="hasGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
@@ -482,11 +483,13 @@ limitations under the License.
 					</cfquery>
 					<cfif hasGeorefs.ct GT 0>
 						<li>
-							<span class="h3">#hasGeorefs.ct# georeferenced localities.</span>
-							<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
+							<div class="h3 my-1">#hasGeorefs.ct# georeferenced localities.
+								<a role="button" class="btn btn-xs btn-powder-blue" onclick="map.fitBounds(georefsBounds); ">zoom to</a>
+							</div>
+							
 						</li>
 						<li>
-							<div id="selectedMarkerDiv">Click on a marker for locality details.</div>
+							<div id="selectedMarkerDiv" class="h3 my-1">Click on a marker for locality details.</div>
 						</li>
 					</cfif>
 				</ul>
