@@ -94,6 +94,9 @@ table td .small {
 .bg-verylightgreen {
 	background-color: #EBFFEB !important;
 }
+.bg-lt-gray {
+	background-color: #F0F3F7 !important;
+}
 .border-white {
 	border: 1px solid white;
 }
@@ -3627,3 +3630,51 @@ and also iPads specifically.
 		padding:1em;
 }
 /* end styles for locality maps */
+
+/* styles for geolocate frame */
+.editAppBox {
+	border: 1px solid gray;
+	z-index: 9998;
+	position: fixed;
+	top: 1%;
+	left: 2%;
+	width: 95%;
+	height: 96%;
+	background-color: lightgray;
+	overflow: auto;
+}
+.editFrame {
+	border-top: 1px solid gray;
+	position: fixed;
+	top: 40px;
+	left: 2%;
+	width: 95%;
+	height: 90%;
+	z-index: 9998;
+}
+.popDiv {
+	border: 3px solid green;
+	z-index: 9999;
+	position: absolute;
+	background-color: white;
+	overflow: auto;
+}
+.fancybox-close {
+	background: url("/images/fancybox.png") repeat scroll -40px 0 transparent;
+	cursor: pointer;
+	height: 30px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 30px;
+	z-index: 10999;
+}
+.centeredImage {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -25px;
+	margin-left: -100px;
+	border: 1px solid white;
+}
+/* end styles for geolocate frame */

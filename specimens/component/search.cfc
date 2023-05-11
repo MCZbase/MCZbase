@@ -1954,21 +1954,40 @@ Function getLocalityAutocompleteMeta.  Search for localities with a substring ma
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT distinct
-				f.locality_id,
-				f.spec_locality,
-				f.higher_geog
+				locality.locality_id,
+				locality.spec_locality,
+				locality.curated_fg,
+				geog_auth_rec.higher_geog,
+				nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_lat,accepted_lat_long.coordinate_precision), round(accepted_lat_long.dec_lat,5)) dec_lat,
+				nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_long,accepted_lat_long.coordinate_precision), round(accepted_lat_long.dec_long,5)) dec_long
 			FROM
-				#session.flatTableName# f
-			WHERE
-				f.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+				locality
+				join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+				left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
+			WHERE 
+				(
+					locality.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+					<cfif REFind("^[0-9]+$",term) GT 0>
+						OR
+						locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#term#">
+					</cfif>
+				)
+				<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
+					and locality_id in (
+						SELECT locality_id
+						FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+					)
+				</cfif>
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.locality_id#">
-			<cfset row["value"] = "#search.spec_locality# (#search.locality_id#)" >
-			<cfset row["meta"] = "#search.spec_locality# #search.higher_geog# (#search.locality_id#)" >
+			<cfif search.curated_fg EQ "1"><cfset vetted="*"><cfelse><cfset vetted=""></cfif>
+			<cfif len(search.dec_lat) GT 0 ><cfset georef=" #search.dec_lat#,#search.dec_long# "><cfelse><cfset georef=" "></cfif>
+			<cfset row["value"] = "#search.spec_locality# (#search.locality_id#)#vetted#" >
+			<cfset row["meta"] = "#search.spec_locality##georef##search.higher_geog# (#search.locality_id#)#vetted#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>

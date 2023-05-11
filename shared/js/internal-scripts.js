@@ -395,7 +395,7 @@ function pickedRelationship (id){
 		// do nothing, cleanup already happened
 	} else if (relatedTable=='agent'){
 		$('#'+dispInputName).attr("readonly", false);
-		makeAgentAutocompleteMeta(dispInputName, idInputName);
+		makeAgentAutocompleteMeta(dispInputName, idInputName, true);
 	} else if (relatedTable=='loan'){
 		$('#'+dispInputName).attr("readonly", false);
 		makeLoanPicker(dispInputName, idInputName);
@@ -583,3 +583,42 @@ function loadNamedGroupActivityTable(underscore_collection_id, start_date, end_d
       handleFail(jqXHR,textStatus,error,"obtaining activity information for a named group.");
    });
 }
+
+/** makeCTAutocomplete make an input control into a picker for a code table 
+ *  where the code table name matches the field name. 
+ *  Intended as a picker for code table controled data entry inputs, clears
+ *  the input if the selected value is edited to one not on the list.
+ * @param fieldId the id for the input without a leading # selector.
+ * @param codetable the name of the codetable and field without a leading CT.
+**/
+function makeCTAutocomplete(fieldId,codetable) { 
+	jQuery("#"+fieldId).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/vocabularies/component/search.cfc",
+				data: { 
+					term: request.term, 
+					codetable: codetable, 
+					method: 'getCTAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a code table search autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+fieldId).val(result.item.value);
+		},
+		change: function(event,ui) { 
+			if(!ui.item){
+				// handle a change that isn't a selection from the pick list, clear the input
+				$('#'+fieldId).val("");
+			}
+		},
+		minLength: 1
+	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		return $("<li>").append( "<span>" + item.value + "</span>").appendTo( ul );
+	};
+};

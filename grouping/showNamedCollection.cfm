@@ -122,20 +122,11 @@ limitations under the License.
 				AND media_type <> 'image' AND NOT (mime_type = 'image/jpeg' OR mime_type = 'image/png')
 			ORDER BY media_id
 		</cfquery>
-		<cfset imageSetMetadata = "[]">
 		<cfif specimenImagesForCarousel.recordcount GT 0>
 			<cfset otherImageTypes = 0>
-			<cfset imageSetMetadata = "[">
-			<cfset comma = "">
-			<cfloop query="specimenImagesForCarousel">
-				<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
-				<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#altEscaped#"}'>
-				<cfset comma = ",">
-			</cfloop>
-			<cfset imageSetMetadata = "#imageSetMetadata#]">
 		</cfif>
 		<script>
-			var specimenImageSetMetadata = JSON.parse('#imageSetMetadata#');
+			var specimenImageSetMetadata = JSON.parse('[]');
 			var currentSpecimenImage = 1;
 		</script>
 		<cfquery name="agentImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#">
@@ -449,24 +440,41 @@ limitations under the License.
 												currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											$(document).ready(function () {
-												$inputSpec.addEventListener('change', function (e) {
-													goSpecimen()
-												}, false)
-												$prevSpec.addEventListener('click', function (e) {
-													goPreviousSpecimen()
-												}, false)
-												$nextSpec.addEventListener('click', function (e) {
-													goNextSpecimen()
-												}, false)
-												
-												$("##specimen_media_img").scrollTop(function (event) {
-													event.preventDefault();
-													var ys = event.scrollTop;
-													if (ys > $nextSpec) { 
-														currentSpecimenImage = 0;
-													} else { 
-														goPreviousSpecimen();
+												$('##previous_specimen_image').hide();
+												$('##next_specimen_image').hide();
+												$.getJSON("/grouping/component/search.cfc",
+	     											{
+     													method : "getSpecimenImageMetadata",
+														underscore_collection_id : "#underscore_collection_id#",
+														returnformat : "json"
+													},
+													function (result) {
+														specimenImageSetMetadata = result;
+														$inputSpec.addEventListener('change', function (e) {
+															goSpecimen()
+														}, false)
+														$prevSpec.addEventListener('click', function (e) {
+															goPreviousSpecimen()
+														}, false)
+														$nextSpec.addEventListener('click', function (e) {
+															goNextSpecimen()
+														}, false)
+														$('##previous_specimen_image').show();
+														$('##next_specimen_image').show();
+														$("##specimen_media_img").scrollTop(function (event) {
+															try {
+																event.preventDefault();
+															} catch { }
+															var ys = event.scrollTop;
+															if (ys > $nextSpec) { 
+																currentSpecimenImage = 0;
+															} else { 
+																goPreviousSpecimen();
+															}
+														});
 													}
+												).fail(function(jqXHR,textStatus,error){
+													handleFail(jqXHR,textStatus,error,"loading list of specimen images in group");
 												});
 											});
 										</script>
@@ -661,7 +669,9 @@ limitations under the License.
 																goNextAgent()
 															}, false)
 															$("##agent_media_img").scrollTop(function (event) {
-																event.preventDefault();
+																try {
+																	event.preventDefault();
+																} catch { }
 																var ya = event.scrollTop;
 																if (ya > $nextAgent) { 
 																	currentAgentImage = 0;
@@ -729,7 +739,9 @@ limitations under the License.
 																goNextCollecting()
 															}, false)
 															$("##collecting_media_img").scrollTop(function (event) {
-																event.preventDefault();
+																try {
+																	event.preventDefault();
+																} catch { }
 																var yc = event.scrollTop;
 																if (yc > $nextCollecting) { 
 																	currentCollectingImage = 0;

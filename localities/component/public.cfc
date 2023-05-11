@@ -23,16 +23,22 @@ limitations under the License.
 <!--- function getLocalityMapHtml return a block of html with a map for a locality. 
 
    @param locality_id the primary key value for the locality for which to return a map.
+   @param reload if true, is a reload of the map, don't include google maps api library again.
    @return block of html.
 --->
 <cffunction name="getLocalityMapHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="reload" type="string" required="no">
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityMapThread#tn#">
 		<cfoutput>
 			<cftry>
-				<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
+				<cfif isDefined("reload") AND reload EQ "true">
+					<!--- map section is being reloaded, api is already loaded on page --->
+				<cfelse>
+					<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
+				</cfif>
 				</script>
 				<script>
 					// utility function to support fitting bounds of map to data
@@ -47,6 +53,9 @@ limitations under the License.
 					} 
 
 					// global scope varaiables available for referencing map objects.
+					<cfif isDefined("reload") AND reload EQ "true">
+						<!--- map section is being reloaded globals and functions are already defined --->
+					<cfelse>
 					var map;
 					var enclosingpoly;
 					var georefs;
@@ -289,6 +298,7 @@ limitations under the License.
 							map.fitBounds(bounds);
 						});
 					}
+					</cfif>
 					$(document).ready(function() {
 						setupMap(#locality_id#);
 					});

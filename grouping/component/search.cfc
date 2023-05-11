@@ -521,4 +521,87 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 <cfoutput>#retval#</cfoutput>
 </cffunction>
 
+<cffunction name="getSpecimenImageMetadata" access="remote" returntype="any" returnformat="json">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result" timeout="#Application.short_timeout#">
+			SELECT underscore_collection_id, collection_name, description, html_description,
+				mask_fg,
+				displayed_media_id
+			FROM underscore_collection
+			WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+		</cfquery>
+		<cfif getNamedGroup.mask_fg EQ 1 AND (NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0)>
+			<!--- return no records --->
+		<cfelse> 
+			<cfset displayed_media_id = getNamedGroup.displayed_media_id>
+			<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenMedia_raw_result" cachedwithin="#CreateTimespan(0,24,0,0)#" timeout="#Application.query_timeout#" >
+				<cfif len(displayed_media_id) GT 0>
+				SELECT distinct media.media_id, 
+					media.media_uri, 
+					MCZBASE.get_media_descriptor(media.media_id) as alt,
+					MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+					media.media_type,
+					media.mime_type,
+					1 as topsort
+				FROM media
+				WHERE
+					media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#displayed_media_id#">
+				UNION
+				</cfif>
+				SELECT distinct media.media_id, 
+					media.media_uri, 
+					MCZBASE.get_media_descriptor(media.media_id) as alt,
+					MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+					media.media_type,
+					media.mime_type,
+					2 as topsort
+				FROM
+					underscore_collection
+					left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+						on underscore_relation.collection_object_id = flat.collection_object_id
+					left join media_relations
+						on media_relations.related_primary_key = underscore_relation.collection_object_id
+					left join media on media_relations.media_id = media.media_id							
+				WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+					AND media_relations.media_relationship = 'shows cataloged_item'
+					AND flat.guid is not null
+				<cfif len(displayed_media_id) GT 0>
+					AND media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#displayed_media_id#">
+				</cfif>
+			</cfquery>
+			<cfquery name="specimenImagesForCarousel" dbtype="query">
+				SELECT * 
+				FROM specimenMedia_raw 
+				WHERE encumb < 1
+					AND media_type = 'image'
+					AND (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+				ORDER BY topsort asc, media_id
+			</cfquery>
+			<cfif specimenImagesForCarousel.recordcount GT 0>
+				<cfset i = 1>
+				<cfloop query="specimenImagesForCarousel">
+					<cfset row = StructNew()>
+					<cfset row["media_id"] = "#media_id#">
+					<cfset row["media_uri"] = "#media_uri#">
+					<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
+					<cfset row["alt"] = "#altEscaped#">
+					<cfset data[i]  = row>
+					<cfset i = i + 1>
+				</cfloop>
+			</cfif>
+		</cfif>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>

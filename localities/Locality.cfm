@@ -104,13 +104,16 @@ limitations under the License.
 									updateLocalitySummary('#locality_id#','summary');	
 									reloadGeology();
 									reloadGeoreferences();
-									// TODO: Implmement
 								}
 								function reloadGeology()  {
 									loadGeologyHTML('#locality_id#','geologyDiv', 'reloadGeology');
 								}
-								function reloadGeoreferences()  {
-									// TODO: Implement
+								function reloadMap()  {
+									loadLocalityMapHTML('#locality_id#','mapDiv');
+								}
+								function reloadGeoreferences() {
+									loadGeoreferencesHTML('#locality_id#','georeferencesDiv', 'reloadGeoreferences');
+									reloadMap();
 								}
 								function saveEdits(){ 
 									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
@@ -132,7 +135,7 @@ limitations under the License.
 							<div id="geologyDiv">#geology#</div>
 						</div>
 						<div class="border rounded px-2 py-2">
-							<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callbackName='reloadGeoreferences')>
+							<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callback_name='reloadGeoreferences')>
 							<div id="georeferencesDiv">#georeferences#</div>
 						</div>
 						<div class="p-3 border bg-light rounded mt-2">

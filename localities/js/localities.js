@@ -52,7 +52,35 @@ function updateLocalitySummary(locality_id,pasteTarget) {
 	});
 };
 
+/** given a locality_id lookup the map for a locality and
+ set it as the content of a target div, assumes reload of
+ existing map.
+ @param locality_id the locality to look up.
+*/
+function loadLocalityMapHTML(locality_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/localities/component/public.cfc",
+		data : {
+			method : "getLocalityMapHtml",
+			locality_id: locality_id,
+			reload : "true"
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading map for locality");
+		},
+		dataType: "html"
+	});
+};
 
+/** given a locality_id lookup the geological attributes for a locality and
+ set the returned html as the content of a target div.
+ @param locality_id the locality to look up.
+ @param callback_name the name of a callback function that can be passed
+   to actions within the returned html.
+*/
 function loadGeologyHTML(locality_id,targetDivId, callback_name) { 
 	jQuery.ajax({
 		url: "/localities/component/functions.cfc",
@@ -66,6 +94,30 @@ function loadGeologyHTML(locality_id,targetDivId, callback_name) {
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"loading geological attributes for locality");
+		},
+		dataType: "html"
+	});
+};
+
+/** given a locality_id lookup the georeferences for a locality and
+ set the returned html as the content of a target div.
+ @param locality_id the locality to look up georeferences for.
+ @param callback_name the name of a callback function that can be passed
+   to actions within the returned html.
+*/
+function loadGeoreferencesHTML(locality_id,targetDivId, callback_name) { 
+	jQuery.ajax({
+		url: "/localities/component/functions.cfc",
+		data : {
+			method : "getLocalityGeoreferencesHtml",
+			locality_id: locality_id,
+			callback_name: callback_name
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading georeferences for locality");
 		},
 		dataType: "html"
 	});
@@ -88,9 +140,6 @@ function deleteGeoreference(locality_id, lat_long_id,callback) {
 			if (jQuery.type(callback)==='function') {
 				callback();
 			}
-			if (result[0].STATUS!=1) {
-				alert(result[0].MESSAGE);
-			}
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"deleting a georeference");
@@ -109,6 +158,7 @@ function deleteGeoreference(locality_id, lat_long_id,callback) {
 function openAddGeoreferenceDialog(dialogid, locality_id, locality_label, okcallback) { 
 	var title = "Add a georeference for locality " + locality_label;
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	$("#georeferenceDialogFeedback").html('&nbsp;');
 	var h = $(window).height();
 	var w = $(window).width();
 	w = Math.floor(w *.9);
@@ -299,4 +349,54 @@ function removeGeologyAttribute(geology_attribute_id, locality_id, callback) {
 		dataType: "html"
 	});
 };
+
+/* function geolocate 
+  create an iframe in a dialog and open a link to geolocate's web application in it.
+  @param protocol http or https to request geolocate with the same protocol as the requesting page.
+*/
+function geolocate(protocol) {
+	var guri=protocol+"://www.geo-locate.org/web/WebGeoreflight.aspx?georef=run";
+	guri+="&state=" + $("#state_prov").val();
+	guri+="&country="+$("#country").val();
+	guri+="&county="+$("#county").val().replace(" County", "");
+	guri+="&locality="+$("#spec_locality").val();
+	var bgDiv = document.createElement('div');
+	bgDiv.id = 'bgDiv';
+	bgDiv.className = 'bgDiv';
+	bgDiv.setAttribute('onclick','closeGeoLocate("clicked closed")');
+	document.body.appendChild(bgDiv);
+	var popDiv=document.createElement('div');
+	popDiv.id = 'popDiv';
+	popDiv.className = 'editAppBox';
+	document.body.appendChild(popDiv);
+	var cDiv=document.createElement('div');
+	cDiv.className = 'fancybox-close';
+	cDiv.id='cDiv';
+	cDiv.setAttribute('onclick','closeGeoLocate("clicked closed")');
+	$("#popDiv").append(cDiv);
+	var hDiv=document.createElement('div');
+	hDiv.className = 'fancybox-help';
+	hDiv.id='hDiv';
+	hDiv.innerHTML='<a href="https://arctosdb.wordpress.com/how-to/create/data-entry/geolocate/" target="blank">[ help ]</a>';
+	$("#popDiv").append(hDiv);
+	$("#popDiv").append('<img src="/images/loadingAnimation.gif" class="centeredImage">');
+	var theFrame = document.createElement('iFrame');
+	theFrame.id='theFrame';
+	theFrame.className = 'editFrame';
+	theFrame.src=guri;
+	$("#popDiv").append(theFrame);
+}
+ 
+/** close the geolocate dialog holding the iframe for geolocate 
+**/
+function closeGeoLocate(msg) {
+	$('#bgDiv').remove();
+	$('#bgDiv', window.parent.document).remove();
+	$('#popDiv').remove();
+	$('#popDiv', window.parent.document).remove();
+	$('#cDiv').remove();
+	$('#cDiv', window.parent.document).remove();
+	$('#theFrame').remove();
+	$('#theFrame', window.parent.document).remove();
+}
 
