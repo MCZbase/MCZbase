@@ -2607,7 +2607,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 																$("##wktFile").val('');
 																return(false);
 															}
-															reader.readAsText($(##wktFile).prop('files')[0]);
+															reader.readAsText($("##wktFile").prop('files')[0]);
 														} else {
 															$("##wktFile").val('');
 															return(false);
