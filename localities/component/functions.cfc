@@ -2618,11 +2618,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="col-12 col-md-4">
 											<input type="button" value="Copy Polygon from locality_id" class="btn btn-xs btn-secondary" onClick=" copyWKTFromLocality(); ">
+											<input type="text" name="copyPolyFrom" value="" class="data-entry-input">
 											<script>
 												function copyWKTFromLocality() { 
 													// TODO: Implement
 												} 
-											<input type="text" name="copyPolyFrom" value="" class="data-entry-input">
+											</script>
 										</div>
 										<div class="col-12 col-md-4">
 											<output id="wktReplaceFeedback"></output>
