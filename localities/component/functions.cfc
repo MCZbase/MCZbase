@@ -2578,6 +2578,52 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
 											<input type="text" name="footprint_spatialfit" id="footprint_spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
+										<div class="col-12 col-md-4">
+											<label for="wktFile" class="data-entry-label">Load Footprint Polygon from WKT file</label>
+											<input type="file" id="wktFile" name="wktFile" accept=".wkt">
+											<script>
+												$(document).ready(function() { 
+													$("##wktFile").change(confirmLoadWKTFromFile);
+												});
+												function confirmLoadWKTFromFile(){
+													if ($("##error_polygon").val().length > 1) {
+														confirmDialog('This Georeference has a Footprint Polygon, do you wish to overwrite it?','Confirm overwrite Footprint WKT', loadWKTFromFile);
+													} else {
+														loadWKTFromFile();
+													}
+												}
+												function loadWKTFromFile() { 
+													var url = $("##wktFile").val();
+													var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+													if ($("##wktFile").prop('files') && $("##wktFile").prop('files')[0]&& (ext == "wkt")) {
+														var reader = new FileReader();
+														reader.onload = function (e) {
+														var matchWKT = new RegExp(/POLYGON\s*\(\s*(\(\s*(?<X>\-?\d+(:?\.\d+)?)\s+(?<Y>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<X>\s+\k<Y>\s*\))(\s*,\s*\(\s*(?<XH>\-?\d+(:?\.\d+)?)\s+(?<YH>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<XH>\s+\k<YH>\s*\))*\s*\)/);
+														if (matchWKT.test(e.target.result) == true){
+															$("##error_polygon").val(e.target.result);
+															$("##wktReplaceFeedback").html("Polygon loaded. This will not be saved to the database until you Save Changes");
+														} else {
+															$("##wktReplaceFeedback")("This file does not contain a valid WKT polygon.");
+															$("##wktFile").val('');
+														}
+														reader.readAsText($(##wktFile).prop('files')[0]);
+													} else {
+														$("##wktFile").val('');
+													}
+												}
+											</script>
+										</div>
+										<div class="col-12 col-md-4">
+											<input type="button" value="Copy Polygon from locality_id" class="btn btn-xs btn-secondary" onClick=" copyWKTFromLocality(); ">
+											<script>
+												function copyWKTFromLocality() { 
+													// TODO: Implement
+												} 
+											<input type="text" name="copyPolyFrom" value="" class="data-entry-input">
+										</div>
+										<div class="col-12 col-md-4">
+											<output id="wktReplaceFeedback"></output>
+										</div>
 										<div class="geolocateMetadata col-12">
 											<h3 class="h4">Batch GeoLocate Georeference Metadata</h3>
 										</div>
