@@ -418,7 +418,6 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="custom-nav text-center small mb-0 bg-white pt-0 pb-1">
-													<!---  TODO:  navigation buttons intial state disabled --->
 													<button type="button" class="border-0 btn-outline-primary rounded" id="previous_specimen_image" >&lt;&nbsp;prev </button>
 													<input type="number" id="specimen_image_number" class="custom-input border data-entry-input d-inline border-light" value="1">
 													<button type="button" class="border-0 btn-outline-primary rounded" id="next_specimen_image"> next&nbsp;&gt;</button>
@@ -441,6 +440,8 @@ limitations under the License.
 												currentSpecimenImage = goImageByNumber(currentSpecimenImage, specimenImageSetMetadata, "specimen_media_img", "specimen_media_desc", "specimen_detail_a", "specimen_media_a", "specimen_image_number","#sizeType#"); 
 											}
 											$(document).ready(function () {
+												$('##previous_specimen_image').hide();
+												$('##next_specimen_image').hide();
 												$.getJSON("/grouping/component/search.cfc",
 	     											{
      													method : "getSpecimenImageMetadata",
@@ -458,6 +459,8 @@ limitations under the License.
 														$nextSpec.addEventListener('click', function (e) {
 															goNextSpecimen()
 														}, false)
+														$('##previous_specimen_image').show();
+														$('##next_specimen_image').show();
 														$("##specimen_media_img").scrollTop(function (event) {
 															try {
 																event.preventDefault();
@@ -469,7 +472,6 @@ limitations under the License.
 																goPreviousSpecimen();
 															}
 														});
-														// TODO: enable navigation buttons
 													}
 												).fail(function(jqXHR,textStatus,error){
 													handleFail(jqXHR,textStatus,error,"loading list of specimen images in group");

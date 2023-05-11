@@ -224,7 +224,7 @@
 						<cfelse>
 							<cfthrow message="Error: More than one coll_object_remark record exists for #guid# collection_object_id=[#getRecords.collection_object_id#] contact a database administrator. ">
 						</cfif>
-					<cfif>					
+					</cfif>					
 				</cfif>
 			</cfloop>
 			<cftransaction action="commit">
