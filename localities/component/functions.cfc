@@ -2605,7 +2605,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 															var matchWKT = new RegExp(/POLYGON\s*\(\s*(\(\s*(?<X>\-?\d+(:?\.\d+)?)\s+(?<Y>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<X>\s+\k<Y>\s*\))(\s*,\s*\(\s*(?<XH>\-?\d+(:?\.\d+)?)\s+(?<YH>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<XH>\s+\k<YH>\s*\))*\s*\)/);
 															if (matchWKT.test(e.target.result) == true){
 																$("##wktReplaceFeedback").html("Polygon loaded. This will not be saved to the database until you Save Changes");
-																reader.readAsText($("##wktFile").prop('files')[0]);
 																$("##error_polygon").val(reader.result);
 															} else {
 																$("##wktReplaceFeedback").html("This file does not contain a valid WKT polygon.");
@@ -2613,6 +2612,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 																return(false);
 															}
 														}
+														reader.readAsText($("##wktFile").prop('files')[0]);
+														$("##wktReplaceFeedback").html("Loaded.");
 													} else {
 														$("##wktFile").val('');
 														return(false);
