@@ -213,14 +213,25 @@
 							<cfif len(checkLength.coll_object_remarks) + len(remark) GT 4000>
 								<cfthrow message="Unable to append, length of collection object remarks would exceed 4000 for #guid# collection_object_id=[#getRecords.collection_object_id#]">
 							</cfif>
-							<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								UPDATE
-									coll_object_remark 
-								SET 
-									coll_object_remarks = coll_object_remarks || ' | ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">
-								WHERE
-									collection_object_id = <cfqueryparam value="#getRecords.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-							</cfquery>
+							<cfif len(checkLength.coll_object_remarks) EQ 0>
+								<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									UPDATE
+										coll_object_remark 
+									SET 
+										coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">
+									WHERE
+										collection_object_id = <cfqueryparam value="#getRecords.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								</cfquery>
+							<cfelse>
+								<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									UPDATE
+										coll_object_remark 
+									SET 
+										coll_object_remarks = coll_object_remarks || ' | ' || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">
+									WHERE
+										collection_object_id = <cfqueryparam value="#getRecords.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								</cfquery>
+							</cfif>
 						<cfelse>
 							<cfthrow message="Error: More than one coll_object_remark record exists for #guid# collection_object_id=[#getRecords.collection_object_id#] contact a database administrator. ">
 						</cfif>
