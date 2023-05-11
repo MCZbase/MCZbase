@@ -2580,7 +2580,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="wktFile" class="data-entry-label">Load Footprint Polygon from WKT file</label>
-											<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100">
+											<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100 p-0">
 											<script>
 												$(document).ready(function() { 
 													$("##wktFile").change(confirmLoadWKTFromFile);
@@ -2633,21 +2633,28 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 												function copyWKTFromLocality() { 
 													var lookup_locality_id = $("##copyFootprintFrom_id").val();
-													jQuery.ajax({
-														url: "/localities/component/georefUtilities.cfc",
-														type: "get",
-														data: {
-															method: "getGeoreferenceErrorWKT",
-															returnformat: "plain",
-															locality_id: lookup_locality_id
-														}, 
-														success: function (data) { 
-															$("##error_polygon").val(data);
-														}, 
-														error: function (jqXHR, textStatus, error) {
-															handleFail(jqXHR,textStatus,error,"looking up wkt for accepted lat_long for locality");
-														}
-													});
+													if (lookup_locality_id=="") {
+														$("##wktLocReplaceFeedback").html("No locality selected to look up.");
+													} else {  
+														$("##wktLocReplaceFeedback").html("Loading...");
+														jQuery.ajax({
+															url: "/localities/component/georefUtilities.cfc",
+															type: "get",
+															data: {
+																method: "getGeoreferenceErrorWKT",
+																returnformat: "plain",
+																locality_id: lookup_locality_id
+															}, 
+															success: function (data) { 
+																$("##error_polygon").val(data);
+																$("##wktLocReplaceFeedback").html("Loaded.");
+															}, 
+															error: function (jqXHR, textStatus, error) {
+																$("##wktLocReplaceFeedback").html("Error looking up polygon WKT.");
+																handleFail(jqXHR,textStatus,error,"looking up wkt for accepted lat_long for locality");
+															}
+														});
+													} 
 												} 
 												function confirmCopyWKTFromLocality(){
 													if ($("##error_polygon").val().length > 1) {
