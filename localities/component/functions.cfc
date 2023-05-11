@@ -2038,6 +2038,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfthrow message="Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#]">
 				</cfif>
 				<cfset localityLabel = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
+				<cfset localityLabel = replace(localityLabel,'"',"&quot;","all")>
 				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						lat_long_id,
