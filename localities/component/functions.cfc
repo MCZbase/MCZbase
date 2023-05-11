@@ -2460,17 +2460,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script> 
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-3">
 											<label for="spatialfit" class="data-entry-label">Point Radius Spatial Fit</label>
 											<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-3">
 											<label for="extent" class="data-entry-label">Extent (km)</label>
 											<input type="text" name="extent" id="extent" class="data-entry-input" value="" pattern="^[0-9.]*$" >
-										</div>
-										<div class="col-12 col-md-2">
-											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
-											<input type="text" name="gpsaccuracy" id="gpsaccuracy" class="data-entry-input" value="">
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="coordinate_precision" class="data-entry-label">Precision</label>
@@ -2485,11 +2481,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-3">
+											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
+											<input type="text" name="gpsaccuracy" id="gpsaccuracy" class="data-entry-input" value="">
+										</div>
+										<div class="col-12 col-md-3">
 											<label for="nearest_named_place" class="data-entry-label">Nearest Named Place</label>
 											<input type="text" name="nearest_named_place" id="nearest_named_place" class="data-entry-input" value="">
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-3">
 											<label for="lat_long_for_nnp_fg" class="data-entry-label">Georeference is of Nearest Named Place</label>
 											<select name="lat_long_for_nnp_fg" id="lat_long_for_nnp_fg" class="data-entry-select reqdClr" required>
 												<option value="0" selected>No</option>
@@ -2659,19 +2659,19 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="country" class="data-entry-label">Country</label>
-											<input type="text" name="country" id="country" class="data-entry-input" value="#lookupForGeolocate.country#" disabled readonly >
+											<input type="text" name="country" id="country" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.country)#" disabled readonly >
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="state_prov" class="data-entry-label">State/Province</label>
-											<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#lookupForGeolocate.state_prov#" disabled readonly >
+											<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.state_prov)#" disabled readonly >
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="county" class="data-entry-label">County</label>
-											<input type="text" name="county" id="county" class="data-entry-input" value="#lookupForGeolocate.county#" disabled readonly >
+											<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.county)#" disabled readonly >
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="gl_spec_locality" class="data-entry-label">Specific Locality</label>
-											<input type="text" name="gl_spec_locality" id="gl_spec_locality" class="data-entry-input" value="#lookupForGeolocate.spec_locality#" disabled readonly>
+											<input type="text" name="gl_spec_locality" id="gl_spec_locality" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.spec_locality)#" disabled readonly>
 										</div>
 										<div class="col-12 preGeoLocate">
 					         		   <div class="h4">Some fields will need to be entered manually here after obtaining the georeference from GeoLocate.</div>
