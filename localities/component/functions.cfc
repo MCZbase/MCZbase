@@ -2608,10 +2608,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 																return(false);
 															}
 															reader.readAsText($("##wktFile").prop('files')[0]);
-														} else {
-															$("##wktFile").val('');
-															return(false);
 														}
+													} else {
+														$("##wktFile").val('');
+														return(false);
 													}
 												}
 											</script>
