@@ -98,7 +98,7 @@ limitations under the License.
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00000011_Cicindela_cyanella_hed.jpg" class="w-100 pr-md-1 pl-md-1 pl-xl-1 pr-xl-2 pl-1 pr-2"/>
 								</div>
 								<div class="grid-item-2 col-3 px-0" style="clear: both;">
-									<img src="https://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ3723_Pandion_haliaetus_4.jpg" class="w-100"/>
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/birds%20on%20book.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/vertpaleo/large/MCZ_VPF-5318_Lepidosteus_simplex_skel.jpg" class="w-100"/>
