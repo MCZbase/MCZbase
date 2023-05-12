@@ -134,6 +134,9 @@ limitations under the License.
 								<div class="grid-item-2 col-5 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/58012_Canis_familiaris_hl2.jpg" class="w-100"/>
 								</div>
+								<div class="grid-item-2 col-5 px-0">
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ3723_Pandion_haliaetus_4.jpg" class="w-100"/>
+								</div>
 							</div>
 							<div class="card-body bg-white p-4">
 								<p class="card-text">The shared drive is where MCZ files are stored. It located in a facility managed by Harvard. Map to the drive or use Filezilla to transfer files to the shared drive.</p>
