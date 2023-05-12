@@ -327,7 +327,7 @@ limitations under the License.
 				url+=document.getElementById('path').value;
 				url+=document.getElementById('filename').value;
 				var div=document.createElement('div');
-				div.className="imagewrapper float-left col-4 text-center my-0";
+				div.className="imagewrapper float-left clearfix col-4 text-center my-0";
 				document.getElementById('images').appendChild(div);
 				var span=document.createElement('span');
 				span.className="close";
@@ -358,7 +358,7 @@ limitations under the License.
 				const form = document.createElement("form");
 				form.setAttribute("method", "post");
 				form.setAttribute("action", "submit");
-				form.className = "metaform float-left col-6"
+				form.className = "metaform float-left col-6 clearfix"
 				document.getElementById('images').appendChild(form);
 				// creates a <table> element and a <tbody> element
 				const tbl = document.createElement("table");
