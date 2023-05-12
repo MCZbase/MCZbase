@@ -4273,4 +4273,311 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfthread action="join" name="getGeorefThread#tn#" />
 	<cfreturn cfthread["getGeorefThread#tn#"].output>
 </cffunction>
+
+
+<cffunction name="updateGeoreference" access="remote" returntype="any" returnformat="json">
+	<cfargument name="lat_long_id" type="string" required="yes">
+	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="field_mapping" type="string" required="yes">
+	<cfargument name="accepted_lat_long_fg" type="string" required="yes">
+	<cfargument name="orig_lat_long_units" type="string" required="yes">
+	<cfargument name="datum" type="string" required="yes">
+	<cfargument name="lat_long_ref_source" type="string" required="no">
+	<cfargument name="determined_by_agent_id" type="string" required="yes">
+	<cfargument name="verified_by_agent_id" type="string" required="no">
+	<cfargument name="determined_date" type="string" required="no">
+	<cfargument name="georefmethod" type="string" required="no">
+	<cfargument name="verificationstatus" type="string" required="yes">
+	<cfargument name="extent" type="string" required="no">
+	<cfargument name="spatialfit" type="string" required="no">
+	<cfargument name="gpsaccuracy" type="string" required="no">
+	<cfargument name="max_error_distance" type="string" required="yes">
+	<cfargument name="max_error_units" type="string" required="yes">
+	<cfargument name="lat_long_remarks" type="string" required="no">
+	<cfargument name="dec_lat" type="string" required="no">
+	<cfargument name="dec_long" type="string" required="no">
+	<cfargument name="lat_deg" type="string" required="no">
+	<cfargument name="long_deg" type="string" required="no">
+	<cfargument name="geolocate_uncertaintypolygon" type="string" required="no">
+	<cfargument name="geolocate_score" type="string" required="no">
+	<cfargument name="geolocate_precision" type="string" required="no">
+	<cfargument name="geolocate_num_results" type="string" required="no">
+	<cfargument name="geolocate_parsepattern" type="string" required="no">
+	<cfargument name="nearest_named_place" type="string" required="no">
+	<cfargument name="lat_long_for_nnp_fg" type="string" required="no">
+	<cfargument name="footprint_spatialfit" type="string" required="no">
+	
+	<!--- field_verified_fg unused and deprecated --->
+
+	<cfif lcase(field_mapping) EQ "generic"> 
+		<!--- map lat_deg/long_deg onto dec_lat/dec_long and lat_min/long_min onto dec_lat_min/dec_long_min if appropriate. --->
+		<cfswitch expression="#ORIG_LAT_LONG_UNITS#">
+			<cfcase value="deg. min. sec.">
+				<!---  validate expectations --->
+				<cfif isDefined("dec_lat_min") and len(dec_lat_min) GT 0>
+					<cfthrow message = "A value was provided for dec_lat_min, but units are degrees, minutes, seconds. Unable to save.">
+				</cfif>
+				<cfif isDefined("dec_long_min") and len(dec_long_min) GT 0>
+					<cfthrow message = "A value was provided for dec_long_min, but units are degrees, minutes, seconds. Unable to save.">
+				</cfif>
+			</cfcase>
+			<cfcase value="degrees dec. minutes">
+				<cfset dec_lat_min = lat_min>
+				<cfset dec_long_min = long_min>
+				<cfset lat_min= "">
+				<cfset long_min = "">
+			</cfcase>
+			<cfcase value="decimal degrees">
+				<cfset dec_lat = lat_deg>
+				<cfset dec_long = long_deg>
+				<cfset lat_deg = "">
+				<cfset long_deg = "">
+			</cfcase>
+		</cfswitch>
+	<cfelseif lcase(field_mapping) EQ "specific">
+		<!---  validate expectations --->
+		<cfswitch expression="#ORIG_LAT_LONG_UNITS#">
+			<cfcase value="deg. min. sec.">
+				<cfif isDefined("dec_lat_min") and len(dec_lat_min) GT 0>
+					<cfthrow message = "A value was provided for dec_lat_min, but units are degrees, minutes, seconds. Unable to save.">
+				</cfif>
+				<cfif isDefined("dec_long_min") and len(dec_long_min) GT 0>
+					<cfthrow message = "A value was provided for dec_long_min, but units are degrees, minutes, seconds. Unable to save.">
+				</cfif>
+			</cfcase>
+			<cfcase value="degrees dec. minutes">
+				<cfif isDefined("lat_min") and len(lat_min) GT 0>
+					<cfthrow message = "A value was provided for lat_min, but units are degrees, decimal minutes, Unable to save.">
+				</cfif>
+				<cfif isDefined("long_min") and len(long_min) GT 0>
+					<cfthrow message = "A value was provided for long_min, but units are degrees, decimal minutes. Unable to save.">
+				</cfif>
+				<cfif isDefined("lat_sec") and len(lat_sec) GT 0>
+					<cfthrow message = "A value was provided for lat_sec, but units are degrees, decimal minutes, Unable to save.">
+				</cfif>
+				<cfif isDefined("long_sec") and len(long_sec) GT 0>
+					<cfthrow message = "A value was provided for long_sec, but units are degrees, decimal minutes. Unable to save.">
+				</cfif>
+			</cfcase>
+			<cfcase value="decimal degrees">
+			</cfcase>
+			<cfcase value="UTM">
+				<cfif not isDefined("utm_zone") OR len(utm_zone) EQ 0>
+					<cfthrow message = "A value was not provided for UTM Zone, but units are UTM. zone, easting, and northing are required. Unable to save.">
+				</cfif>
+				<cfif not isDefined("utm_ew") OR len(utm_ew) EQ 0>
+					<cfthrow message = "A value was not provided for UTM Easting, but units are UTM. zone, easting, and northing are required. Unable to save.">
+				</cfif>
+				<cfif not isDefined("utm_ns") OR len(utm_ns) EQ 0>
+					<cfthrow message = "A value was not provided for UTM Northing, but units are UTM. zone, easting, and northing are required. Unable to save.">
+				</cfif>
+			</cfcase>
+		</cfswitch>
+	<cfelse>
+		<cfthrow message="Unknown value for field_mapping [#encodeForHtml(field_mapping)#] must be 'generic' or 'specific' ">
+	</cfif>
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cfset triggerState = "on">
+		<cftry>
+			<!--- TR_LATLONG_ACCEPTED_BIUPA checks for only one accepted georeference, uses pragma autonomous_transaction, so 
+					updating a lat lont to accepted when one already exists has to occur in more than one transaction or with the trigger disabled --->
+			<cfquery name="countAcceptedPre" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countAcceptedPre_result">
+				SELECT count(*) ct
+				FROM lat_long
+				WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					and 
+					accepted_lat_long_fg = 1
+					and
+					lat_long_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
+			</cfquery>
+			<cfif accepted_lat_long_fg EQ "1" and countAcceptedPre.ct GT 0>
+				<cfquery name="turnOff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA DISABLE
+				</cfquery>
+				<cfset triggerState = "off">
+				<cfquery name="unacceptOthers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="unacceptOthers_result">
+					UPDATE lat_long 
+					SET accepted_lat_long_fg = 0 
+					WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					and
+					lat_long_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
+				</cfquery>
+			</cfif>
+			<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateLatLong_result">
+				UPDATE
+					lat_long 
+				SET 
+					LOCALITY_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">
+					,ACCEPTED_LAT_LONG_FG = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ACCEPTED_LAT_LONG_FG#">
+					,DATUM = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATUM#">
+					,lat_long_ref_source = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lat_long_ref_source#">
+					,determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determined_by_agent_id#">
+					,determined_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateformat(determined_date,'yyyy-mm-dd')#">
+					,georefmethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#georefmethod#">
+					,verificationstatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verificationstatus#">
+					<cfif isDefined("verified_by_agent_id") AND len(#verified_by_agent_id#) gt 0>
+						,verified_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#verified_by_agent_id#">
+					<cfelse>
+						,verified by agent_id = null
+					</cfif>
+					<cfif len(#extent#) gt 0>
+						,extent = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#extent#" scale="5">
+					<cfelse>
+						,extent = null
+					</cfif>
+					<cfif isDefined("gpsaccuracy") AND len(#gpsaccuracy#) gt 0>
+						,gpsaccuracy = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#gpsaccuracy#" scale="3">
+					<cfelse>
+						,gpsaccuracy = null
+					</cfif>
+					<cfif isDefined("coordinate_precision") AND len(#coordinate_precision#) gt 0>
+						,coordinate_precision = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coordinate_precision#">
+					<cfelse>
+						,coordinate_precision = null
+					</cfif>
+					<cfif isDefined("lat_long_remarks") AND len(#lat_long_remarks#) gt 0>
+						,lat_long_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lat_long_remarks#">
+					<cfelse>
+						,lat_long_remarks = null
+					</cfif>
+					<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
+						,MAX_ERROR_DISTANCE = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">
+					<cfelse>
+						,MAX_ERROR_DISTANCE = null
+					</cfif>
+					<cfif len(#MAX_ERROR_UNITS#) gt 0>
+						,MAX_ERROR_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">
+					<cfelse>
+						,MAX_ERROR_UNITS = null
+					</cfif>
+					,ORIG_LAT_LONG_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">
+					<cfif #ORIG_LAT_LONG_UNITS# is "deg. min. sec.">
+						,LAT_DEG =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_DEG#">
+						,LAT_MIN =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_MIN#">
+						,LAT_SEC =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_SEC#" scale="6">
+						,LAT_DIR =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_DIR#">
+						,LONG_DEG =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_DEG#">
+						,LONG_MIN =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_MIN#">
+						,LONG_SEC =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_SEC#" scale="6">
+						,LONG_DIR =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LONG_DIR#">
+						,dec_lat_min = null
+						,dec_long_min = null
+					<cfelseif #ORIG_LAT_LONG_UNITS# is "degrees dec. minutes">
+						,LAT_DEG =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_DEG#">
+						,DEC_LAT_MIN =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT_MIN#" scale="6">
+						,LAT_DIR =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_DIR#">
+						,LONG_DEG =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_DEG#">
+						,DEC_LONG_MIN =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG_MIN#" scale="8">
+						,LONG_DIR =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LONG_DIR#">
+						,lat_min = null
+						,lat_sec = null
+						,long_min = null
+						,long_sec = null
+					<cfelseif #ORIG_LAT_LONG_UNITS# is "decimal degrees">
+						,DEC_LAT = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT#" scale="10">
+						,DEC_LONG = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG#" scale="10">
+						,lat_deg = null
+						,lat_min = null
+						,lat_sec = null
+						,dec_lat_min = null
+						,long_deg = null
+						,long_min = null
+						,long_sec = null
+						,dec_long_min = null
+					<cfelseif #ORIG_LAT_LONG_UNITS# is "UTM">
+					 	,UTM_ZONE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#UTM_ZONE#">
+					 	,UTM_EW = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_EW#">
+					 	,UTM_NS = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_NS#">
+						,lat_deg = null
+						,lat_min = null
+						,lat_sec = null
+						,dec_lat_min = null
+						,long_deg = null
+						,long_min = null
+						,long_sec = null
+						,dec_long_min = null
+					<cfelse>
+						<cfthrow message = "Unsupported orig_lat_long_units [#encodeForHtml(orig_lat_long_units)#].">
+					</cfif>
+					<cfif isDefined("spatialfit") AND len(spatialfit) GT 0>
+						,spatialfit = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spatialfit#" scale="3"> 
+					<cfelse>
+						,spatialfit = null
+					</cfif>
+					<cfif isDefined("footprint_spatialfit") AND len(footprint_spatialfit) GT 0>
+						,footprint_spatialfit = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#footprint_spatialfit#" scale="3"> 
+					<cfelse>
+						,footprint_spatialfit = null
+					</cfif>
+					<cfif isDefined("nearest_named_place") AND len(nearest_named_place) GT 0>
+						,nearest_named_place = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nearest_named_place#"> 
+					<cfelse>
+						,nearest_named_place = null
+					</cfif>
+					<cfif isDefined("lat_long_for_nnp_fg") AND len(lat_long_for_nnp_fg) GT 0>
+						,lat_long_for_nnp_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_for_nnp_fg#"> 
+					<cfelse>
+						,lat_long_for_nnp_fg = null
+					</cfif>
+				WHERE
+					lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
+			</cfquery>
+			<cfif updateLatLong_result.recordcount NEQ 1>
+				<cfthrow message="Unable to update, other than one row would be affected.">
+			</cfif>
+			<cfif isDefined("error_polygon") AND len(#error_polygon#) gt 0>
+				<cfquery name="addErrorPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addErrorPolygon_result">
+					UPDATE 
+						lat_long 
+					SET
+						error_polygon = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#error_polygon#"> 
+					WHERE 
+						lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLATLONGID.latlongid#">
+				</cfquery>
+				<cfif addErrorPolygon_result.recordcount NEQ 1>
+					<cfthrow message="Unable to insert, other than one row would be changed when updating error polygon.">
+				</cfif>
+			</cfif>
+			<cfquery name="countAccepted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countAccepted_result">
+				SELECT count(*) ct
+				FROM lat_long
+				WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					and 
+					accepted_lat_long_fg = 1
+			</cfquery>
+			<cfset message = "">
+			<cfif countAccepted.ct EQ 0>
+				<!--- warning state, but not a failure case --->
+				<cfset message = "This locality has no accepted georeferences.">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "updated">
+			<cfset row["id"] = "#lat_long_id#">
+			<cfset row["message"] = "#message#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		<cffinally>
+			<cfif accepted_lat_long_fg EQ "1" AND triggerState EQ "off">
+				<cfquery name="turnOn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA ENABLE
+				</cfquery>
+			</cfif>
+		</cffinally>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
