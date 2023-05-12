@@ -2680,6 +2680,35 @@ tr.line-top-sd {
 .imagewrapper:hover .close {
 	opacity: 1;
 }
+.grider:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+.grid-item-1 {
+	height: auto;
+	float: left;
+	background: #a19d9e;
+	border: 1px solid #333;
+	border-color: hsla(0, 0%, 0%, 0.5);
+	border-radius: 5px;
+}
+.grid-item-2 {
+	height: auto;
+	float: left;
+	background: #a19d9e;
+	border: 1px solid #333;
+	border-color: hsla(0, 0%, 0%, 0.5);
+	border-radius: 5px;
+}
+.grid-item-3 {
+	height: auto;
+	float: left;
+	background: #a19d9e;
+	border: 1px solid #333;
+	border-color: hsla(0, 0%, 0%, 0.5);
+	border-radius: 5px;
+}
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
