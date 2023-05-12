@@ -88,7 +88,7 @@ limitations under the License.
 								border-color: hsla(0, 0%, 0%, 0.5);
 								border-radius: 5px;
 							}
-							.grid-item--2 {
+							.grid-item--width2 {
 								height: 150px;
 								float: left;
 								background: ##D26;
@@ -96,7 +96,7 @@ limitations under the License.
 								border-color: hsla(0, 0%, 0%, 0.5);
 								border-radius: 5px;
 							}
-							.grid-item--3 {
+							.grid-item--width3 {
 								height: 200px;
 								float: left;
 								background: ##D26;
