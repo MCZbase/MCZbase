@@ -2180,10 +2180,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callback_name#');"
 												aria-label = "Edit this georeference"
 											>Edit</button>
-											<button type="button" class="btn btn-xs btn-warning" 
-												onClick=" deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);"
-												aria-label = "Delete this georeference from this locality"
-											>Delete</button>
+											<cfif len(geolocate_score) EQ 0) OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin"))>
+												<!--- prevent users from deleting automated georeferences --->
+												<button type="button" class="btn btn-xs btn-warning" 
+													onClick=" deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);"
+													aria-label = "Delete this georeference from this locality"
+												>Delete</button>
+											</cfif>
 										</li>
 									</ul>
 								</li>
@@ -2199,11 +2202,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				</cfif>
 				<div id="editGeorefDialog"></div>
 				<div id="addGeorefDialog"></div>
-				<script>
-					function openEditGeorefDialog(lat_long_id, dialogDiv, callback) { 
-						console.log(geology_attribute_id);
-					}
-				</script>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
