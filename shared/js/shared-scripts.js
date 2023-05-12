@@ -1157,7 +1157,7 @@ function makeCatalogedItemAutocompleteMeta(valueControl, idControl) {
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected collection_object_id (without a leading # selector).
  */
-function makeLocalityAutocompleteMeta(valueControl, idControl) { 
+function makeLocalityAutocompleteMeta(valueControl, idControl, selectCallback=null) { 
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
@@ -1172,6 +1172,9 @@ function makeLocalityAutocompleteMeta(valueControl, idControl) {
 		},
 		select: function (event, result) {
 			$('#'+idControl).val(result.item.id);
+			if (jQuery.type(selectCallback)==='function') {
+				selectCallback();
+			}
 		},
 		minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 

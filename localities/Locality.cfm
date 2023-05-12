@@ -37,6 +37,9 @@ limitations under the License.
 	<cfcase value="makenewLocality">
 		<cfset pageTitle="Creating New Locality">
 	</cfcase>
+	<cfcase value="delete">
+		<cfset pageTitle="Deleting Locality">
+	</cfcase>
 	<cfdefaultcase>
 		<cfthrow message="Error: Unknown Action">
 	</cfdefaultcase>
@@ -72,6 +75,13 @@ limitations under the License.
 					related_primary_key =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 					AND
 					media_relationship like '%locality'
+				UNION
+				SELECT
+					count(*) ct
+				FROM 
+					lat_long	
+				WHERE
+					locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			)
 		</cfquery>
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
@@ -339,11 +349,15 @@ limitations under the License.
 			</cfquery>
 			<cfif #cloneCoords# is "yes">
 				<cfquery name="cloneCoordinates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select * from lat_long
-					where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					SELECT * 
+					FROM
+						 lat_long
+					WHERE
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_locality_id#">
+						and
+						accepted_lat_long_fg = 1
 				</cfquery>
 				<cfloop query="cloneCoordinates">
-					<cfset thisLatLongId = #llID.mLatLongId# + 1>
 					<cfquery name="newLL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						INSERT INTO lat_long (
 							LAT_LONG_ID,
