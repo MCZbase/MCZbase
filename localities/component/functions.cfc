@@ -1745,7 +1745,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					curated_fg, locality_remarks
 				FROM locality
 				WHERE 
-					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_locality_id#">
 			</cfquery>
 			<!--- by design, overwrite any other provided value --->
 			<cfloop query="lookupLocality">
