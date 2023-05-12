@@ -2846,8 +2846,16 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
 										</div>
 										<div class="postGeolocate col-12">
-											<label for="gl_errorPoly" class="data-entry-label">Uncertainty Polygon</label>
+											<label for="gl_errorPoly" class="data-entry-label">Geolocate Uncertainty Polygon</label>
 											<input type="text" name="errorPoly" id="gl_errorPoly" class="data-entry-input" value="">
+										</div>
+										<div class="col-10">
+											<label for="gl_error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon (WKT)</label>
+											<input type="text" name="error_polygon" id="gl_error_polygon" class="data-entry-input">
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="gl_footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
+											<input type="text" name="footprint_spatialfit" id="gl_footprint_spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
 										<div class="postGeolocate col-12 col-md-2">
 											<label for="gl_accepted_lat_long_fg" class="data-entry-label">Accepted</label>
