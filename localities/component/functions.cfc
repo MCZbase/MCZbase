@@ -3788,13 +3788,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfset locality_label = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
 					<h2 class="h3">Edit georeference #latitudeString#, #longitudeString# for locality #encodeForHtml(locality_label)#</h2>
 					<p>See: Chapman A.D. &amp; Wieczorek J.R. 2020, Georeferencing Best Practices. Copenhagen: GBIF Secretariat. <a href="https://doi.org/10.15468/doc-gg7h-s853" target="_blank">DOI:10.15468/doc-gg7h-s853</a>.</p>
-					<div id="manualPanel" role="tabpanel" aria-labelledby="manualTabButton" tabindex="0" class="col-12 px-0 mx-0 active unfocus">
-						<form id="manualGeorefForm">
+					<div id="editEnclosingDiv" class="col-12 px-0 mx-0 active unfocus">
+						<form id="editGeorefForm">
 							<input type="hidden" name="method" value="updateGeoreference">
 							<input type="hidden" name="field_mapping" value="generic"> 
 							<input type="hidden" name="locality_id" value="#locality_id#">
 							<input type="hidden" name="lat_long_id" value="#lat_long_id#">
-							<h2 class="px-2 h3">Enter georeference</h2>
+							<h2 class="px-2 h3">Edit georeference</h2>
 							<div class="form-row">
 								<div class="col-12 col-md-3">
 									<label for="orig_lat_long_units" class="data-entry-label">Coordinate Format</label>
@@ -4221,16 +4221,16 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								</script>
 								<div class="col-12 col-md-3 pt-3">
 									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-										onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " 
+										onClick="if (checkFormValidity($('##editGeorefForm')[0])) { saveGeorefUpdate();  } " 
 										id="submitButton" >
-									<output id="manualFeedback" class="text-danger">&nbsp;</output>	
+									<output id="georefEditFeedback" class="text-danger">&nbsp;</output>	
 								</div>
 								<script>
-									function saveManualGeoref() { 
-										$('##manualFeedback').html('Saving....');
-										$('##manualFeedback').addClass('text-warning');
-										$('##manualFeedback').removeClass('text-success');
-										$('##manualFeedback').removeClass('text-danger');
+									function saveGeorefUpdate() { 
+										$('##georefEditFeedback').html('Saving....');
+										$('##georefEditFeedback').addClass('text-warning');
+										$('##georefEditFeedback').removeClass('text-success');
+										$('##georefEditFeedback').removeClass('text-danger');
 										jQuery.ajax({
 											url : "/localities/component/functions.cfc",
 											type : "post",
@@ -4238,19 +4238,19 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											data : $('##manualGeorefForm').serialize(),
 											success : function (data) {
 												console.log(data);
-												$('##manualFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
+												$('##georefEditFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
 												$('##georeferenceDialogFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
-												$('##manualFeedback').addClass('text-success');
-												$('##manualFeedback').removeClass('text-danger');
-												$('##manualFeedback').removeClass('text-warning');
+												$('##georefEditFeedback').addClass('text-success');
+												$('##georefEditFeedback').removeClass('text-danger');
+												$('##georefEditFeedback').removeClass('text-warning');
 												$('##addGeorefDialog').dialog('close');
 											},
 											error: function(jqXHR,textStatus,error){
-												$('##manualFeedback').html('Error.');
-												$('##manualFeedback').addClass('text-danger');
-												$('##manualFeedback').removeClass('text-success');
-												$('##manualFeedback').removeClass('text-warning');
-												handleFail(jqXHR,textStatus,error,'saving manually entered georeference for locality');
+												$('##georefEditFeedback').html('Error.');
+												$('##georefEditFeedback').addClass('text-danger');
+												$('##georefEditFeedback').removeClass('text-success');
+												$('##georefEditFeedback').removeClass('text-warning');
+												handleFail(jqXHR,textStatus,error,'updating georeference for locality');
 											}
 										});
 									}
@@ -4258,7 +4258,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							</div>
 						</form>
 					</div>
-
 				</cfloop>
 			</cfoutput>
 		<cfcatch>
