@@ -81,8 +81,8 @@ limitations under the License.
 							<div class="grider col-12 px-0">
 								<div class="grid-item-2 col-6 px-0">
 									<!---<img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/large/393717_Haliotis_ovina_05.JPG" class="w-100"/>--->
-										<cfset mediablock= getMediaBlockHtml(media_id="393717",captionAs="textNone")>
-										<div id="mediaBlock393717"> #mediablock# </div>
+										<cfset mediablock= getMediaBlockHtml(media_id="3815012",captionAs="textNone")>
+										<div id="mediaBlock3815012"> #mediablock# </div>
 								</div>
 								<div class="grid-item-2 col-6 px-0">
 						<!---			<img src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/SC10_P_griseum_book-2015_03.jpg" class="w-100"/>--->
