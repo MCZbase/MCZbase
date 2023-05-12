@@ -1816,21 +1816,21 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						});
 					</script>
 				</div>
-				<div class="col-12 col-md-2 mb-1 mb-md-0">
+				<div class="col-12 col-md-2 mb-0 mb-md-0">
 					<label class="data-entry-label text-white" for="details_button">Higher Geography</label>
 					<cfset otherClass="">
 					<cfif isdefined("geog_auth_rec_id") and len(geog_auth_rec_id) GT 0>
 						<cfset otherClass="disabled">
 					</cfif>
-					<input type="button" value="Details" id="details_button" class="btn btn-xs btn-info #otherClass#"
+					<input type="button" value="Details" id="details_button" class="mb-1 mb-md-0 btn btn-xs btn-info #otherClass#"
 						onclick="document.location='Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
 				</div>
-				<div class="col-12  mb-1 mb-md-0">
+				<div class="col-12 mb-2 mb-md-0">
 					<label class="data-entry-label" for="spec_locality">Specific Locality</label>
 					<cfif NOT isdefined("spec_locality")><cfset spec_locality=""></cfif>
 					<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(spec_locality)#" required>
 				</div>
-				<div class="col-12 col-md-4  mb-1 mb-md-0">
+				<div class="col-12 col-md-4 mb-2 mb-md-0">
 					<cfif NOT isdefined("sovereign_nation")><cfset sovereign_nation=""></cfif>
 					<label class="data-entry-label" for="sovereign_nation">
 						Sovereign Nation
@@ -1843,7 +1843,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						});
 					</script>
 				</div>
-				<div class="col-12 col-md-2 mb-1 mb-md-0">
+				<div class="col-12 col-md-2 mb-2 mb-md-0">
 					<label class="data-entry-label" for="curated_fg">Vetted</label>
 					<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select reqdClr">
 						<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
