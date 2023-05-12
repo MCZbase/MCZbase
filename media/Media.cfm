@@ -71,7 +71,7 @@ limitations under the License.
 		<div class="album pb-5 bg-light">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-4 px-5 pb-5">
+					<div class="col-md-4 px-xl-5 pb-5">
 						<h2 class="text-center pt-3">Shared Drive</h2>
 						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray ">
 <!---							<img class="card-img-top mx-auto" data-src="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg" alt="placeholder thumbnail" style="width: 93.5%; display: block;" src="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg" data-holder-rendered="true">--->
