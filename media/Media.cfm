@@ -85,7 +85,7 @@ body { font-family: sans-serif; }
 
 .grid {
   background: #EEE;
-  max-width: 1200px;
+  max-width: 600px;
 }
 
 /* clearfix */
