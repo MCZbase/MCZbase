@@ -288,7 +288,13 @@ limitations under the License.
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowData) {
 							var id = encodeURIComponent(rowData['LOCALITY_ID']);
-							return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/editLocality.cfm?locality_id=' + id + '">Edit</a>';
+							<cfif findNoCase('master',Session.gitBranch) NEQ 0>
+								<!--- on production, link to the old edit locality page. --->
+								<cfset locEditTarget = "/editLocality.cfm">
+							<cfelse>
+								<cfset locEditTarget = "/localities/Locality.cfm">
+							</cfif>
+							return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="#locEditTarget#?locality_id=' + id + '">Edit</a>';
 						};
 					</cfif>
 

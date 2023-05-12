@@ -148,6 +148,62 @@ function deleteGeoreference(locality_id, lat_long_id,callback) {
 	});
 };
 
+// Create and open a dialog to edit a georeference for a locality
+// @param dialogid the id of a div in the dom that is to be populated with
+//  the content of the dialog, without a leading #.
+// @param lat_long_id the lat_long to edit.
+// @param callback a function to invoke on closing the dialog.
+function openEditGeorefDialog(lat_long_id, dialogid, callback) { 
+	var title = "Edit georeference for locality";
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	$("#georeferenceDialogFeedback").html('&nbsp;');
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 600,
+		minHeight: 500,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() { 
+				$("#"+dialogid).dialog('close'); 
+			}
+		},
+		close: function(event,ui) { 
+			if (jQuery.type(callback)==='function') {
+				callback();
+	  		}
+			$("#"+dialogid+"_div").html("");
+			$("#"+dialogid).dialog('destroy'); 
+		} 
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/localities/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "editGeoreferenceDialogHtml",
+			returnformat: "plain",
+			lat_long_id: lat_long_id
+		}, 
+		success: function (data) { 
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading edit georeference dialog");
+		}
+	});
+}
+
 // Create and open a dialog to georeference a locality
 // @param dialogid the id of a div in the dom that is to be populated with
 //  the content of the dialog, without a leading #.
