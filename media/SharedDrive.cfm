@@ -361,7 +361,7 @@ limitations under the License.
 				div.appendChild(p);
 				span.addEventListener('click', () => {
 					//alert('Oh, you clicked me!');
-					let childDivs = document.querySelectorAll("div##images > div.imagewrapper");
+					let childDivs = document.querySelectorAll("div##images > .imagewrapper");
 					for(var i = 0; i < childDivs.length; i++){
 						childDivs[i].remove();
 					};
