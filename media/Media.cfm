@@ -107,12 +107,12 @@ body { font-family: sans-serif; }
   border-radius: 5px;
 }
 
-.grid-item--width2 { width: 320px; }
-.grid-item--width3 { width: 480px; }
+.grid-item--width2 { width: 280px; }
+.grid-item--width3 { width: 120px; }
 .grid-item--width4 { width: 640px; }
 
-.grid-item--height2 { height: 200px; }
-.grid-item--height3 { height: 260px; }
+.grid-item--height2 { height: 120px; }
+.grid-item--height3 { height: 240px; }
 .grid-item--height4 { height: 360px; }
 							</style>
 							<div class="grid">
@@ -122,23 +122,7 @@ body { font-family: sans-serif; }
 								<div class="grid-item grid-item--height2"></div>
 								<div class="grid-item grid-item--width3"></div>
 								<div class="grid-item"></div>
-								<div class="grid-item"></div>
-								<div class="grid-item grid-item--height2"></div>
-								<div class="grid-item grid-item--width2 grid-item--height3"></div>
-								<div class="grid-item"></div>
-								<div class="grid-item grid-item--height2"></div>
-								<div class="grid-item"></div>
-								<div class="grid-item grid-item--width2 grid-item--height2"></div>
-								<div class="grid-item grid-item--width2"></div>
-								<div class="grid-item"></div>
-								<div class="grid-item grid-item--height2"></div>
-								<div class="grid-item"></div>
-								<div class="grid-item"></div>
-								<div class="grid-item grid-item--height3"></div>
-								<div class="grid-item grid-item--height2"></div>
-								<div class="grid-item"></div>
-								<div class="grid-item"></div>
-								<div class="grid-item grid-item--height2"></div>
+								<div class="grid-item grid-item--width3"></div>
 							</div>
 							<div class="card-body bg-white p-4">
 								<p class="card-text">The shared drive is where MCZ files are stored. It located in a facility managed by Harvard. Map to the drive or use Filezilla to transfer files to the shared drive.</p>
