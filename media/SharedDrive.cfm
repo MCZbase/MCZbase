@@ -302,7 +302,7 @@ limitations under the License.
 					</div>
 					<div class="row">
 						<div id="images" class="col-9 float-left py-3">
-						<div>
+						<div class="d-inline imagewrapper">
 							<form >
 								<table class="table" id="commontable" style="display: none;">
 									<thead>
