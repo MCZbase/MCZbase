@@ -56,7 +56,7 @@ limitations under the License.
 	select media_license_id,display media_license from ctmedia_license order by media_license_id
 </cfquery>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select auto_protocol, auto_host, auto_path from media where media_id = any(3815012,393717,287808,6520,8085,1336734,171526,229213,1360339,3804325)
+	select auto_protocol, auto_host, auto_path from media where media_id = any(3815012,287808,6520,8085,1336734,171526,229213,1360339,3804325)
 </cfquery>
 <!---------------------------------------------------------------------------------------------------->
 
@@ -81,7 +81,7 @@ limitations under the License.
 						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray ">
 							<div class="grider col-12 px-0">
 								<div class="grid-item-2 col-6 px-0">
-									<img src="#media.auto_protocol#://#media.auto_host##media.auto_path#393717_Haliotis_ovina_05.JPG" class="w-100"/>
+									<img src="#media.auto_protocol#://#media.auto_host##media.auto_path#media.media_uri#" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-6 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/SC10_P_griseum_book-2015_03.jpg" class="w-100"/>
