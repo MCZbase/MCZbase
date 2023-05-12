@@ -98,7 +98,7 @@ body { font-family: sans-serif; }
 /* ---- grid-item ---- */
 
 .grid-item {
-  width: 160px;
+  width: 161px;
   height: 116px;
   float: left;
   background: ##D26;
@@ -108,7 +108,7 @@ body { font-family: sans-serif; }
 }
 
 .grid-item--width2 { width: 280px; }
-.grid-item--width3 { width: 120px; }
+.grid-item--width3 { width: 119px; }
 .grid-item--width4 { width: 640px; }
 
 .grid-item--height2 { height: 116px; }
