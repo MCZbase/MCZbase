@@ -90,7 +90,7 @@ limitations under the License.
 /* ---- grid-item ---- */
 
 .grid-item {
-  height: 238px;
+  height: 230px;
   float: left;
   background: ##D26;
   border: 1px solid ##333;
@@ -108,12 +108,12 @@ limitations under the License.
 
 </style>
 							<div class="grid col-12 px-0">
-								<div class="grid-item col-4 px-0"></div>
-								<div class="grid-item col-8 px-0"></div>
-								<div class="grid-item-2 col-2 px-0"></div>
-								<div class="grid-item-2 col-4 px-0"></div>
-								<div class="grid-item-2 col-3 px-0"></div>
-								<div class="grid-item-2 col-3 px-0"></div>
+								<div class="grid-item col-4 px-0"><img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/S119_Myliobatis_goodei.jpg"/></div>
+								<div class="grid-item col-8 px-0"><img src="https://iiif.mcz.harvard.edu/iiif/3/775350/full/max/0/default.jpg"/></div>
+								<div class="grid-item-2 col-2 px-0"><img src="https://iiif.mcz.harvard.edu/iiif/3/833/full/max/0/default.jpg"/></div>
+								<div class="grid-item-2 col-4 px-0"><img src="https://iiif.mcz.harvard.edu/iiif/3/833/full/max/0/default.jpg"/></div>
+								<div class="grid-item-2 col-3 px-0"><img src="https://iiif.mcz.harvard.edu/iiif/3/833/full/max/0/default.jpg"/></div>
+								<div class="grid-item-2 col-3 px-0"><img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg"/></div>
 							</div>
 							<div class="card-body bg-white p-4">
 								<p class="card-text">The shared drive is where MCZ files are stored. It located in a facility managed by Harvard. Map to the drive or use Filezilla to transfer files to the shared drive.</p>
