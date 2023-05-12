@@ -302,24 +302,7 @@ limitations under the License.
 					</div>
 					<div class="row">
 						<div id="images" class="col-9 float-left py-3">
-						<div class="d-inline imagewrapper">
-							<form>
-								<table class="table" id="commontable" style="display: none;">
-									<thead>
-										<tr>
-											<th>Label</th>
-											<th>Value</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>MIME Type</td>
-											<td>jpg</td>
-										</tr>
-									</tbody>
-								</table>
-							</form>
-						</div>
+	
 						<div class="col-3 pt-4 float-left">
 							<div id="commonData" class="d-inline">
 								<input type="button" class="btn btn-xs btn-secondary" style="display: none;" value="Create Media Records" onClick="window.location='/media/SharedDrive.cfm?action=newMedia&media_id=1335'">
