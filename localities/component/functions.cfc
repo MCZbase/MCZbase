@@ -4028,7 +4028,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										Method
 										<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##georefmethod').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open georeference method pick list</span></a>
 									</label>
-									<input type="text" name="georefmethod" id="georefmethod" class="data-entry-input reqdClr" value="#encodeForHtml(georef_method)#" required>
+									<input type="text" name="georefmethod" id="georefmethod" class="data-entry-input reqdClr" value="#encodeForHtml(georefmethod)#" required>
 									<script>
 										$(document).ready(function (){
 											makeCTAutocomplete('georefmethod','georefmethod');
