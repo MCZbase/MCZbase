@@ -2845,10 +2845,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_extent" class="data-entry-label">Radial of Feature [Extent] (km)</label>
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
 										</div>
-										<div class="postGeolocate col-12">
-											<label for="gl_errorPoly" class="data-entry-label">Geolocate Uncertainty Polygon</label>
-											<input type="text" name="errorPoly" id="gl_errorPoly" class="data-entry-input" value="">
-										</div>
 										<div class="col-10">
 											<label for="gl_error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon (WKT)</label>
 											<input type="text" name="error_polygon" id="gl_error_polygon" class="data-entry-input">
@@ -2981,7 +2977,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$("##gl_lat_long_ref_source").val('GEOLocate');
 												$("##gl_dec_lat").val(glat);
 												$("##gl_dec_long").val(glon);
-												$("##gl_errorPoly").val(gpoly_wkt);
+												$("##gl_error_polygon").val(gpoly_wkt);
 												closeGeoLocate();
 												$(".postGeolocate").show();
 												$(".preGeolocate").hide();
@@ -3544,12 +3540,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfif insertLatLong_result.recordcount NEQ 1>
 				<cfthrow message="Unable to insert, other than one row would be inserted.">
 			</cfif>
-			<cfif isDefined("errorPoly") AND len(#errorPoly#) gt 0>
+			<cfif isDefined("error_polygon") AND len(#error_polygon#) gt 0>
 				<cfquery name="addErrorPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addErrorPolygon_result">
 					UPDATE 
 						lat_long 
 					SET
-						error_polygon = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#errorPoly#"> 
+						error_polygon = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#error_polygon#"> 
 					WHERE 
 						lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLATLONGID.latlongid#">
 				</cfquery>
