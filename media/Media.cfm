@@ -62,10 +62,7 @@ limitations under the License.
 
 
 		<cfoutput>
-			<cfloop query="media">
-				<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="300",captionAs="textNone")>
-				<div class="col-3 h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
-			</cfloop>
+
 		
 			
 		<section class="jumbotron pb-3 bg-white text-center">
