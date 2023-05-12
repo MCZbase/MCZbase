@@ -4538,7 +4538,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					SET
 						error_polygon = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#error_polygon#"> 
 					WHERE 
-						lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLATLONGID.latlongid#">
+						lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
 				</cfquery>
 				<cfif addErrorPolygon_result.recordcount NEQ 1>
 					<cfthrow message="Unable to insert, other than one row would be changed when updating error polygon.">
