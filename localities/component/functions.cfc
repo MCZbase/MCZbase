@@ -1923,7 +1923,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				</div>
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("range_direction")><cfset range_direction=""></cfif>
-					<label class="data-entry-label" for="range_direction">Range <span class="d-md-block">Dir<span class="d-none">ection</span></span></label>
+					<label class="data-entry-label" for="range_direction">Range Direction</label>
 					<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
 				</div>
 			</div>
