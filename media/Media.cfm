@@ -90,7 +90,15 @@ limitations under the License.
 /* ---- grid-item ---- */
 
 .grid-item {
-  height: 116px;
+  height: 240px;
+  float: left;
+  background: ##D26;
+  border: 1px solid ##333;
+  border-color: hsla(0, 0%, 0%, 0.5);
+  border-radius: 5px;
+}
+.grid-item-2 {
+  height: 120px;
   float: left;
   background: ##D26;
   border: 1px solid ##333;
@@ -100,11 +108,11 @@ limitations under the License.
 
 </style>
 							<div class="grid col-12 px-0">
-								<div class="grid-item col-3 px-0"></div>
-								<div class="grid-item col-9 px-0"></div>
-								<div class="grid-item col-2 px-0"></div>
 								<div class="grid-item col-4 px-0"></div>
-								<div class="grid-item col-3 px-0"></div>
+								<div class="grid-item col-8 px-0"></div>
+								<div class="grid-item-2 col-2 px-0"></div>
+								<div class="grid-item-2 col-4 px-0"></div>
+								<div class="grid-item-2 col-3 px-0"></div>
 								<div class="grid-item col-3 px-0"></div>
 							</div>
 							<div class="card-body bg-white p-4">
