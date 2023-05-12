@@ -63,7 +63,7 @@ limitations under the License.
 
 		<cfoutput>
 			<cfloop query="media">
-			#media.media_uri#
+				<p>#media.media_uri#</p>
 			</cfloop>
 			
 		<section class="jumbotron pb-3 bg-white text-center">
