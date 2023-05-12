@@ -75,6 +75,13 @@ limitations under the License.
 					related_primary_key =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 					AND
 					media_relationship like '%locality'
+				UNION
+				SELECT
+					count(*) ct
+				FROM 
+					lat_long	
+				WHERE
+					locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			)
 		</cfquery>
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
