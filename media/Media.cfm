@@ -84,10 +84,20 @@ limitations under the License.
 						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray ">
 							<div class="grider col-12 px-0">
 								<div class="grid-item-2 col-6 px-0">
-									<img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/large/393717_Haliotis_ovina_05.JPG" class="w-100"/>
+									<!---<img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/large/393717_Haliotis_ovina_05.JPG" class="w-100"/>--->
+									<cfloop query="media">
+										<cfset media_id = "3815012">
+										<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="300",captionAs="textNone")>
+										<div class="col-3 h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+									</cfloop>
 								</div>
 								<div class="grid-item-2 col-6 px-0">
-									<img src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/SC10_P_griseum_book-2015_03.jpg" class="w-100"/>
+						<!---			<img src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/SC10_P_griseum_book-2015_03.jpg" class="w-100"/>--->
+									<cfloop query="media">
+										<cfset media_id = "287808">
+										<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="300",captionAs="textNone")>
+										<div class="col-3 h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+									</cfloop>
 								</div>
 								<div class="grid-item-1 col-3 px-0" style="clear:both;">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/390_Orthopristis_duplex_ST.jpg" class="w-100"/>
