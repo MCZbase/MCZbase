@@ -4310,6 +4310,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	
 	<!--- field_verified_fg unused and deprecated --->
 
+	<!--- currently, not allowing updates to geolocate batch georeferencing metadata fields --->
+
 	<cfif lcase(field_mapping) EQ "generic"> 
 		<!--- map lat_deg/long_deg onto dec_lat/dec_long and lat_min/long_min onto dec_lat_min/dec_long_min if appropriate. --->
 		<cfswitch expression="#ORIG_LAT_LONG_UNITS#">
@@ -4423,7 +4425,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfif isDefined("verified_by_agent_id") AND len(#verified_by_agent_id#) gt 0>
 						, verified_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#verified_by_agent_id#">
 					<cfelse>
-						, verified by agent_id = null
+						, verified_by_agent_id = null
 					</cfif>
 					<cfif len(#extent#) gt 0>
 						, extent = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#extent#" scale="5">
