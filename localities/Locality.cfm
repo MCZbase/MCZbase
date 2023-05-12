@@ -37,6 +37,9 @@ limitations under the License.
 	<cfcase value="makenewLocality">
 		<cfset pageTitle="Creating New Locality">
 	</cfcase>
+	<cfcase value="delete">
+		<cfset pageTitle="Deleting Locality">
+	</cfcase>
 	<cfdefaultcase>
 		<cfthrow message="Error: Unknown Action">
 	</cfdefaultcase>
