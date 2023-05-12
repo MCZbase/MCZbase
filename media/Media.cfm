@@ -84,7 +84,7 @@ body { font-family: sans-serif; }
 /* ---- grid ---- */
 
 .grid {
-  background: #EEE;
+  background: ##EEE;
   max-width: 600px;
 }
 
@@ -101,8 +101,8 @@ body { font-family: sans-serif; }
   width: 160px;
   height: 120px;
   float: left;
-  background: #D26;
-  border: 2px solid #333;
+  background: ##D26;
+  border: 2px solid ##333;
   border-color: hsla(0, 0%, 0%, 0.5);
   border-radius: 5px;
 }
