@@ -107,8 +107,8 @@ limitations under the License.
 							</style>
 							<div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 100 }'>
 								<div class="grid-item"></div>
-								<div class="grid-item--2"></div>
-								<div class="grid-item--3"></div>
+								<div class="grid-item--width2"></div>
+								<div class="grid-item--width3"></div>
 								<div class="grid-item"></div>
 								<div class="grid-item"></div>
 								<div class="grid-item"></div>
