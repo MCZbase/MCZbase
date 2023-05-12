@@ -2177,7 +2177,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script>
 											<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
 											<button type="button" class="btn btn-xs btn-secondary" 
-												onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog','#callback_name#');"
+												onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog',#callback_name#);"
 												aria-label = "Edit this georeference"
 											>Edit</button>
 											<cfif len(geolocate_score) EQ 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin"))>
