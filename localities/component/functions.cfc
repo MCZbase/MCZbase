@@ -1874,7 +1874,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						</cfloop>
 					</select>
 				</div>
-							<div class="border p-2 m-1">
+						
 				<div class="col-12 col-md-2 mb-1 mb-md-2">
 					<cfif NOT isdefined("min_depth")><cfset min_depth=""></cfif> 
 					<label class="data-entry-label" for="min_depth"><strong>Depth</strong>: Minimum</label>
@@ -1895,7 +1895,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						</cfloop>
 					</select>
 				</div>
-							</div>
+					
 			</div>
 			<div class="form-row border rounded mx-1 px-1 mt-1 mb-2 pt-2 pb-1">
 				<div class="col-12 col-md-2 mb-1 mb-md-2">
