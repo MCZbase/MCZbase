@@ -337,13 +337,6 @@ limitations under the License.
 			}
 		</script>
 		<script>
-		
-				$(document).ready(function() {
-
-					$("##Preview").click(function() {
-						$("form##commontable.table").css("display", "block");
-					});
-				});
 			
 			function getImg(){
 				var url=document.getElementById('protocol').value;
@@ -486,7 +479,7 @@ limitations under the License.
 					const row8 = document.createElement("tr");
 						const cell13 = document.createElement("td");
 						const cellText13 = document.createTextNode(`Description`);
-						cell11.appendChild(cellText13);
+						cell13.appendChild(cellText13);
 						row8.appendChild(cell13);
 						const cell14 = document.createElement("td");
 						const cellText14 = document.createElement("input");
