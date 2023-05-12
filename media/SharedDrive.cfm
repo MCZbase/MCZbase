@@ -332,7 +332,7 @@ limitations under the License.
 		
 		<script>
 			function clearInput() {
-				document.getElementById("newMedia").reset();
+				document.getElementById("Images").reset();
 			}
 		</script>
 		<script>
