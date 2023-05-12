@@ -621,7 +621,7 @@ Delete an existing collecting event number record.
 					<cfif NOT isdefined("nogeorefbecause")><cfset nogeorefbecause=""></cfif>
 					<label class="data-entry-label" for="nogeorefbecause">
 						No Georeference Because
-						<i class="fas fa-info-circle" onClick="getMCZDocs('Not_Georeferenced_Because')" aria-label="help link with suggested entries for why no georeference was added">
+						<i class="fas fa-info-circle" onClick="getMCZDocs('Not_Georeferenced_Because')" aria-label="help link with suggested entries for why no georeference was added"></i>
 					</label>
 					<input type="text" name="nogeorefbecause" id="nogeorefbecause" class="data-entry-input" value="#encodeForHTML(nogeorefbecause)#" >
 				</div>
