@@ -1790,7 +1790,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<cfset geog_auth_rec_id = "">
 			</cfif>
 			<div class="form-row mx-0">
-				<div class="col-12 col-md-10 mb-1 mb-md-2">
+				<div class="col-12 col-md-10 mb-2">
 					<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#geog_auth_rec_id#">
 					<label class="data-entry-label" for="higher_geog">Higher Geography:</label>
 					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input reqdClr" value = "#encodeForHTML(higher_geog)#" required>
@@ -1816,8 +1816,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						});
 					</script>
 				</div>
-				<div class="col-12 col-md-2 mb-0 mb-md-2">
-					<label class="data-entry-label text-white" for="details_button">Higher Geography</label>
+				<div class="col-12 col-md-2 mb-2 mb-md-2">
+					<label class="data-entry-label text-white sr-only" for="details_button">Higher Geography</label>
 					<cfset otherClass="">
 					<cfif isdefined("geog_auth_rec_id") and len(geog_auth_rec_id) GT 0>
 						<cfset otherClass="disabled">
