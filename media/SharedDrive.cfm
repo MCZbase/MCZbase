@@ -332,7 +332,7 @@ limitations under the License.
 		
 		<script>
 			function clearInput() {
-				document.getElementById("Images").reset();
+				document.getElementById("newMedia").reset();
 			}
 		</script>
 		<script>
@@ -367,14 +367,10 @@ limitations under the License.
 				div.appendChild(p);
 				span.addEventListener('click', () => {
 					//alert('Oh, you clicked me!');
-					let childDivs = document.querySelectorAll("div##images > .imagewrapper");
+					let childDivs = document.querySelectorAll("div##images");
 					for(var i = 0; i < childDivs.length; i++){
 						childDivs[i].remove();
 					};
-					let childDivs2 = document.querySelectorAll("div##images > table");
-					for(var i = 0; i < childDivs2.length; i++){
-						childDivs2[i].remove();
-					}
 				});
 				return false;
 			}
