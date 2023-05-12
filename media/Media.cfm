@@ -90,7 +90,7 @@ limitations under the License.
 /* ---- grid-item ---- */
 
 .grid-item {
-  height: 200px;
+  height: auto;
   float: left;
   background: ##D26;
   border: 1px solid ##333;
@@ -98,7 +98,7 @@ limitations under the License.
   border-radius: 5px;
 }
 .grid-item-2 {
-  height: 110px;
+  height: auto;
   float: left;
   background: ##a19d9e;
   border: 1px solid ##333;
@@ -106,7 +106,7 @@ limitations under the License.
   border-radius: 5px;
 }
 .grid-item-3 {
-  height: 110px;
+  height: auto;
   float: left;
   background: ##a19d9e;
   border: 1px solid ##333;
