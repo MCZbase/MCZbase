@@ -119,8 +119,6 @@ limitations under the License.
 								</div>
 								<div class="grid-item col-3 px-0" style="clear:both;">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/S119_Myliobatis_goodei.jpg" style="width: 97%"/>
-								</div>
-								<div class="grid-item-2 col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-5 px-0" style="height: ">
@@ -135,7 +133,7 @@ limitations under the License.
 								</div>
 								<div class="grid-item-2 col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/vertpaleo/large/MCZ_VPF-5318_Lepidosteus_simplex_skel.jpg" class="w-100"/>
-									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/S-401_Scoliodon_vagatus_HT.jpg" class="w-100"/>
+									
 								</div>
 								<div class="grid-item-2 col-3 px-0">
 									<img src="https://iiif.mcz.harvard.edu/iiif/3/1360339/full/!2000,2000/0/default.jpg" class="w-100"/>
