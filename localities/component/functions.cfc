@@ -3703,6 +3703,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 		<cftry>
 			<cfquery name="getGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
+					locality_id,
 					lat_long_id,
 					accepted_lat_long_fg,
 					decode(accepted_lat_long_fg,1,'Accepted','') accepted_lat_long,
