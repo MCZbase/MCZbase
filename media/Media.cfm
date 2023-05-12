@@ -74,50 +74,14 @@ limitations under the License.
 					<div class="col-md-4 px-xl-5 pb-5">
 						<h2 class="text-center pt-3">Shared Drive</h2>
 						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray ">
-<!---							<img class="card-img-top mx-auto" data-src="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg" alt="placeholder thumbnail" style="width: 93.5%; display: block;" src="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg" data-holder-rendered="true">--->
-		
-							<style>
-
-
-
-.grid:after {
-  content: '';
-  display: block;
-  clear: both;
-}
-.grid-item {
-  height: auto;
-  float: left;
-  background: ##D26;
-  border: 1px solid ##333;
-  border-color: hsla(0, 0%, 0%, 0.5);
-  border-radius: 5px;
-}
-.grid-item-2 {
-  height: auto;
-  float: left;
-  background: ##a19d9e;
-  border: 1px solid ##333;
-  border-color: hsla(0, 0%, 0%, 0.5);
-  border-radius: 5px;
-}
-.grid-item-3 {
-  height: auto;
-  float: left;
-  background: ##a19d9e;
-  border: 1px solid ##333;
-  border-color: hsla(0, 0%, 0%, 0.5);
-  border-radius: 5px;
-}
-</style>
-							<div class="grid col-12 px-0">
+							<div class="grider col-12 px-0">
 								<div class="grid-item-2 col-6 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/large/393717_Haliotis_ovina_05.JPG" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-6 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/SC10_P_griseum_book-2015_03.jpg" class="w-100"/>
 								</div>
-								<div class="grid-item col-3 px-0" style="clear:both;">
+								<div class="grid-item-1 col-3 px-0" style="clear:both;">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/390_Orthopristis_duplex_ST.jpg" class="w-100"/>
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>
 								</div>
@@ -129,7 +93,6 @@ limitations under the License.
 								</div>
 								<div class="grid-item-2 col-3 px-0" style="clear: both;">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ3723_Pandion_haliaetus_4.jpg" class="w-100"/>
-									
 								</div>
 								<div class="grid-item-2 col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/vertpaleo/large/MCZ_VPF-5318_Lepidosteus_simplex_skel.jpg" class="w-100"/>
