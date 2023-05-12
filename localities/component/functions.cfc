@@ -4413,116 +4413,116 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					lat_long 
 				SET 
 					LOCALITY_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">
-					,ACCEPTED_LAT_LONG_FG = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ACCEPTED_LAT_LONG_FG#">
-					,DATUM = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATUM#">
-					,lat_long_ref_source = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lat_long_ref_source#">
-					,determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determined_by_agent_id#">
-					,determined_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateformat(determined_date,'yyyy-mm-dd')#">
-					,georefmethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#georefmethod#">
-					,verificationstatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verificationstatus#">
+					, ACCEPTED_LAT_LONG_FG = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ACCEPTED_LAT_LONG_FG#">
+					, DATUM = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATUM#">
+					, lat_long_ref_source = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lat_long_ref_source#">
+					, determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determined_by_agent_id#">
+					, determined_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateformat(determined_date,'yyyy-mm-dd')#">
+					, georefmethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#georefmethod#">
+					, verificationstatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verificationstatus#">
 					<cfif isDefined("verified_by_agent_id") AND len(#verified_by_agent_id#) gt 0>
-						,verified_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#verified_by_agent_id#">
+						, verified_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#verified_by_agent_id#">
 					<cfelse>
-						,verified by agent_id = null
+						, verified by agent_id = null
 					</cfif>
 					<cfif len(#extent#) gt 0>
-						,extent = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#extent#" scale="5">
+						, extent = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#extent#" scale="5">
 					<cfelse>
-						,extent = null
+						, extent = null
 					</cfif>
 					<cfif isDefined("gpsaccuracy") AND len(#gpsaccuracy#) gt 0>
-						,gpsaccuracy = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#gpsaccuracy#" scale="3">
+						, gpsaccuracy = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#gpsaccuracy#" scale="3">
 					<cfelse>
-						,gpsaccuracy = null
+						, gpsaccuracy = null
 					</cfif>
 					<cfif isDefined("coordinate_precision") AND len(#coordinate_precision#) gt 0>
-						,coordinate_precision = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coordinate_precision#">
+						, coordinate_precision = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coordinate_precision#">
 					<cfelse>
-						,coordinate_precision = null
+						, coordinate_precision = null
 					</cfif>
 					<cfif isDefined("lat_long_remarks") AND len(#lat_long_remarks#) gt 0>
-						,lat_long_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lat_long_remarks#">
+						, lat_long_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lat_long_remarks#">
 					<cfelse>
-						,lat_long_remarks = null
+						, lat_long_remarks = null
 					</cfif>
 					<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
-						,MAX_ERROR_DISTANCE = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">
+						, MAX_ERROR_DISTANCE = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">
 					<cfelse>
-						,MAX_ERROR_DISTANCE = null
+						, MAX_ERROR_DISTANCE = null
 					</cfif>
 					<cfif len(#MAX_ERROR_UNITS#) gt 0>
-						,MAX_ERROR_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">
+						, MAX_ERROR_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">
 					<cfelse>
-						,MAX_ERROR_UNITS = null
+						, MAX_ERROR_UNITS = null
 					</cfif>
-					,ORIG_LAT_LONG_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">
+					, ORIG_LAT_LONG_UNITS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">
 					<cfif #ORIG_LAT_LONG_UNITS# is "deg. min. sec.">
-						,LAT_DEG =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_DEG#">
-						,LAT_MIN =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_MIN#">
-						,LAT_SEC =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_SEC#" scale="6">
-						,LAT_DIR =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_DIR#">
-						,LONG_DEG =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_DEG#">
-						,LONG_MIN =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_MIN#">
-						,LONG_SEC =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_SEC#" scale="6">
-						,LONG_DIR =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LONG_DIR#">
-						,dec_lat_min = null
-						,dec_long_min = null
+						, LAT_DEG =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_DEG#">
+						, LAT_MIN =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_MIN#">
+						, LAT_SEC =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_SEC#" scale="6">
+						, LAT_DIR =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_DIR#">
+						, LONG_DEG =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_DEG#">
+						, LONG_MIN =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_MIN#">
+						, LONG_SEC =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_SEC#" scale="6">
+						, LONG_DIR =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LONG_DIR#">
+						, dec_lat_min = null
+						, dec_long_min = null
 					<cfelseif #ORIG_LAT_LONG_UNITS# is "degrees dec. minutes">
-						,LAT_DEG =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_DEG#">
-						,DEC_LAT_MIN =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT_MIN#" scale="6">
-						,LAT_DIR =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_DIR#">
-						,LONG_DEG =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_DEG#">
-						,DEC_LONG_MIN =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG_MIN#" scale="8">
-						,LONG_DIR =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LONG_DIR#">
-						,lat_min = null
-						,lat_sec = null
-						,long_min = null
-						,long_sec = null
+						, LAT_DEG =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_DEG#">
+						, DEC_LAT_MIN =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT_MIN#" scale="6">
+						, LAT_DIR =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_DIR#">
+						, LONG_DEG =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LONG_DEG#">
+						, DEC_LONG_MIN =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG_MIN#" scale="8">
+						, LONG_DIR =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LONG_DIR#">
+						, lat_min = null
+						, lat_sec = null
+						, long_min = null
+						, long_sec = null
 					<cfelseif #ORIG_LAT_LONG_UNITS# is "decimal degrees">
-						,DEC_LAT = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT#" scale="10">
-						,DEC_LONG = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG#" scale="10">
-						,lat_deg = null
-						,lat_min = null
-						,lat_sec = null
-						,dec_lat_min = null
-						,long_deg = null
-						,long_min = null
-						,long_sec = null
-						,dec_long_min = null
+						, DEC_LAT = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT#" scale="10">
+						, DEC_LONG = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG#" scale="10">
+						, lat_deg = null
+						, lat_min = null
+						, lat_sec = null
+						, dec_lat_min = null
+						, long_deg = null
+						, long_min = null
+						, long_sec = null
+						, dec_long_min = null
 					<cfelseif #ORIG_LAT_LONG_UNITS# is "UTM">
-					 	,UTM_ZONE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#UTM_ZONE#">
-					 	,UTM_EW = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_EW#">
-					 	,UTM_NS = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_NS#">
-						,lat_deg = null
-						,lat_min = null
-						,lat_sec = null
-						,dec_lat_min = null
-						,long_deg = null
-						,long_min = null
-						,long_sec = null
-						,dec_long_min = null
+					 	, UTM_ZONE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#UTM_ZONE#">
+					 	, UTM_EW = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_EW#">
+					 	, UTM_NS = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#UTM_NS#">
+						, lat_deg = null
+						, lat_min = null
+						, lat_sec = null
+						, dec_lat_min = null
+						, long_deg = null
+						, long_min = null
+						, long_sec = null
+						, dec_long_min = null
 					<cfelse>
 						<cfthrow message = "Unsupported orig_lat_long_units [#encodeForHtml(orig_lat_long_units)#].">
 					</cfif>
 					<cfif isDefined("spatialfit") AND len(spatialfit) GT 0>
-						,spatialfit = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spatialfit#" scale="3"> 
+						, spatialfit = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spatialfit#" scale="3"> 
 					<cfelse>
-						,spatialfit = null
+						, spatialfit = null
 					</cfif>
 					<cfif isDefined("footprint_spatialfit") AND len(footprint_spatialfit) GT 0>
-						,footprint_spatialfit = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#footprint_spatialfit#" scale="3"> 
+						, footprint_spatialfit = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#footprint_spatialfit#" scale="3"> 
 					<cfelse>
-						,footprint_spatialfit = null
+						, footprint_spatialfit = null
 					</cfif>
 					<cfif isDefined("nearest_named_place") AND len(nearest_named_place) GT 0>
-						,nearest_named_place = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nearest_named_place#"> 
+						, nearest_named_place = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nearest_named_place#"> 
 					<cfelse>
-						,nearest_named_place = null
+						, nearest_named_place = null
 					</cfif>
 					<cfif isDefined("lat_long_for_nnp_fg") AND len(lat_long_for_nnp_fg) GT 0>
-						,lat_long_for_nnp_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_for_nnp_fg#"> 
+						, lat_long_for_nnp_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_for_nnp_fg#"> 
 					<cfelse>
-						,lat_long_for_nnp_fg = null
+						, lat_long_for_nnp_fg = null
 					</cfif>
 				WHERE
 					lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
