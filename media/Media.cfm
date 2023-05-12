@@ -74,7 +74,29 @@ limitations under the License.
 					<div class="col-md-4 px-5 pb-5">
 						<h2 class="text-center pt-3">Shared Drive</h2>
 						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray ">
-							<img class="card-img-top mx-auto" data-src="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg" alt="placeholder thumbnail" style="width: 93.5%; display: block;" src="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg" data-holder-rendered="true">
+<!---							<img class="card-img-top mx-auto" data-src="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg" alt="placeholder thumbnail" style="width: 93.5%; display: block;" src="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg" data-holder-rendered="true">--->
+							<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script><!---Temporary test--->
+							<style>
+							.grid-item { width: 100px; }
+							.grid-item--width2 { width: 200px; }
+							.grid-item {
+								width: 160px;
+								height: 120px;
+								float: left;
+								background: #D26;
+								border: 2px solid #333;
+								border-color: hsla(0, 0%, 0%, 0.5);
+								border-radius: 5px;
+							}
+							</style>
+							<div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 100 }'>
+								<div class="grid-item"></div>
+								<div class="grid-item"></div>
+								<div class="grid-item"></div>
+								<div class="grid-item"></div>
+								<div class="grid-item"></div>
+								<div class="grid-item"></div>
+							</div>
 							<div class="card-body bg-white p-4">
 								<p class="card-text">The shared drive is where MCZ files are stored. It located in a facility managed by Harvard. Map to the drive or use Filezilla to transfer files to the shared drive.</p>
 								<div class="d-flex justify-content-between align-items-center">
