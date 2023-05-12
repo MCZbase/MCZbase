@@ -88,7 +88,7 @@ limitations under the License.
 									<cfloop query="media">
 										<cfset media_id = "3815012">
 										<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="300",captionAs="textNone")>
-										<div class="col-3 h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+										<div id="mediaBlock#media.media_id#"> #mediablock# </div>
 									</cfloop>
 								</div>
 								<div class="grid-item-2 col-6 px-0">
@@ -96,7 +96,7 @@ limitations under the License.
 									<cfloop query="media">
 										<cfset media_id = "287808">
 										<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="300",captionAs="textNone")>
-										<div class="col-3 h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+										<div id="mediaBlock#media.media_id#"> #mediablock# </div>
 									</cfloop>
 								</div>
 								<div class="grid-item-1 col-3 px-0" style="clear:both;">
