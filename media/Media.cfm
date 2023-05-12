@@ -56,7 +56,7 @@ limitations under the License.
 	select media_license_id,display media_license from ctmedia_license order by media_license_id
 </cfquery>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select media_id from media where media_id = any(3815012,287808,6520,8085,1336734,171526,229213,1360339,3804325)
+	select media_id from media where media_id = any(393717,3815012,287808,6520,8085,1336734,171526,229213,1360339,3804325)
 </cfquery>
 <!---------------------------------------------------------------------------------------------------->
 
@@ -81,8 +81,8 @@ limitations under the License.
 							<div class="grider col-12 px-0">
 								<div class="grid-item-2 col-6 px-0">
 									<!---<img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/large/393717_Haliotis_ovina_05.JPG" class="w-100"/>--->
-										<cfset mediablock= getMediaBlockHtml(media_id="3815012",captionAs="textNone")>
-										<div id="mediaBlock3815012"> #mediablock# </div>
+										<cfset mediablock= getMediaBlockHtml(media_id="393717",captionAs="textNone")>
+										<div id="mediaBlock393717"> #mediablock# </div>
 								</div>
 								<div class="grid-item-2 col-6 px-0">
 						<!---			<img src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/SC10_P_griseum_book-2015_03.jpg" class="w-100"/>--->
