@@ -358,7 +358,7 @@ limitations under the License.
 				const form = document.createElement("form");
 				form.setAttribute("method", "post");
 				form.setAttribute("action", "submit");
-				form.className = "metaform float-left col-8"
+				form.className = "metaform float-left col-6"
 				document.getElementById('images').appendChild(form);
 				// creates a <table> element and a <tbody> element
 				const tbl = document.createElement("table");
