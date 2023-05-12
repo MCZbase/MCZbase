@@ -127,18 +127,18 @@ limitations under the License.
 								<div class="grid-item col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/S119_Myliobatis_goodei.jpg" class="w-100"/>
 								</div>
-								<div class="grid-item-2 col-3 px-0">
-									<img src="https://mczbase.mcz.harvard.edu/specimen_images/invertebrates/large/1344_Nesopachylus_monoceros_1.jpg" class="w-100"/>
-									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>
-								</div>
+				
 								<div class="grid-item-2 col-5 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/58012_Canis_familiaris_hl2.jpg" class="w-100"/>
+								</div>
+								<div class="grid-item-2 col-3 px-0">
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/invertebrates/large/1344_Nesopachylus_monoceros_1.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-5 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ3723_Pandion_haliaetus_4.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-3 px-0">
-									<img src="https://mczbase.mcz.harvard.edu/specimen_images/vertpaleo/large/MCZ_VPF-5070_Caranx_primaevus_exhibit-A7.jpg" class="w-100"/>
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/vertpaleo/large/MCZ_VPF-5318_Lepidosteus_simplex_skel.jpg" class="w-100"/>
 								</div>
 							</div>
 							<div class="card-body bg-white p-4">
