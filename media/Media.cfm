@@ -62,7 +62,7 @@ limitations under the License.
 
 
 		<cfoutput>
-<cfloop query="media">#media_id#,</cfloop>
+<cfloop query="media">#media.media_id#,</cfloop>
 			
 		<section class="jumbotron pb-3 bg-white text-center">
 			<div class="container">
@@ -81,6 +81,7 @@ limitations under the License.
 							<div class="grider col-12 px-0">
 								<div class="grid-item-2 col-6 px-0">
 									<!---<img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/large/393717_Haliotis_ovina_05.JPG" class="w-100"/>--->
+									
 										<cfset mediablock= getMediaBlockHtml(media_id="3815012",captionAs="textNone")>
 										<div id="mediaBlock3815012"> #mediablock# </div>
 								</div>
