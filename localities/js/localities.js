@@ -153,7 +153,7 @@ function deleteGeoreference(locality_id, lat_long_id,callback) {
 //  the content of the dialog, without a leading #.
 // @param lat_long_id the lat_long to edit.
 // @param callback a function to invoke on closing the dialog.
-function openEditGeorefDialog(lat_long_id, dialogDiv, callback) { 
+function openEditGeorefDialog(lat_long_id, dialogid, callback) { 
 	var title = "Edit georeference for locality";
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	$("#georeferenceDialogFeedback").html('&nbsp;');
