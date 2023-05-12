@@ -3569,6 +3569,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfset row = StructNew()>
 			<cfset row["status"] = "added">
 			<cfset row["id"] = "#getLATLONGID.latlongid#">
+			<cfset row["values"] = "#getLATLONGID.latlongid#">
 			<cfset row["message"] = "#message#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
@@ -4552,14 +4553,25 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					and 
 					accepted_lat_long_fg = 1
 			</cfquery>
-			<cfset message = "">
 			<cfif countAccepted.ct EQ 0>
 				<!--- warning state, but not a failure case --->
 				<cfset message = "This locality has no accepted georeferences.">
 			</cfif>
+			<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="summary_result">
+				SELECT 
+					nvl2(coordinate_precision, round(dec_lat,coordinate_precision), round(dec_lat,5)) dec_lat,
+					nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_long,5)) dec_long,
+					decode(accepted_lat_long_fg,1,'Accepted','') accepted_lat_long,
+				FROM
+					lat_long
+				WHERE
+					lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
+			</cfquery>		
+			<cfset message = "">
 			<cfset row = StructNew()>
 			<cfset row["status"] = "updated">
 			<cfset row["id"] = "#lat_long_id#">
+			<cfset row["values"] = "#summary.dec_lat#,#summary.dec_long# #summary.accepted_lat_long#">
 			<cfset row["message"] = "#message#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
