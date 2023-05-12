@@ -3720,7 +3720,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					to_meters(lat_long.max_error_distance, lat_long.max_error_units) coordinateUncertaintyInMeters,
 					spatialfit,
 					error_polygon,
-					footprint_spatial_fit,
+					footprint_spatialfit,
 					datum,
 					extent,
 					determined_by_agent_id,
