@@ -100,7 +100,7 @@ limitations under the License.
 .grid-item-2 {
   height: 110px;
   float: left;
-  background: ##D26;
+  background: ##a19d9e;
   border: 1px solid ##333;
   border-color: hsla(0, 0%, 0%, 0.5);
   border-radius: 5px;
@@ -108,7 +108,7 @@ limitations under the License.
 
 </style>
 							<div class="grid col-12 px-0">
-								<div class="grid-item col-2 px-0">
+								<div class="grid-item col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/S119_Myliobatis_goodei.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item col-3 px-0">
@@ -116,9 +116,13 @@ limitations under the License.
 								</div>
 								<div class="grid-item-2 col-2 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/58012_Canis_familiaris_hl2.jpg" class="w-100"/>
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/58012_Canis_familiaris_hl2.jpg" class="w-100"/>
+								</div>
+								<div class="grid-item-2 col-3 px-0">
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-4 px-0">
-									<img src="https://iiif.mcz.harvard.edu/iiif/3/833/full/max/0/default.jpg" class="w-100"/>
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-3 px-0">
 									<img src="https://iiif.mcz.harvard.edu/iiif/3/833/full/max/0/default.jpg" class="w-100"/>
