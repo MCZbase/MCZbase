@@ -557,7 +557,7 @@ Delete an existing collecting event number record.
 				</cfif>
 				<div class="col-12 col-md-10 mt-0">
 					<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#geog_auth_rec_id#">
-					<label class="data-entry-label" for="higher_geog">Higher Geography:</label>
+					<label class="data-entry-label" for="higher_geog">Higher Geography:-</label>
 					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input reqdClr" value = "#encodeForHTML(higher_geog)#" required>
 					<script>
 						function setSovereignNation(){
