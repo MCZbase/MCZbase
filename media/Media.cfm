@@ -75,18 +75,10 @@ limitations under the License.
 						<h2 class="text-center pt-3">Shared Drive</h2>
 						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray ">
 <!---							<img class="card-img-top mx-auto" data-src="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg" alt="placeholder thumbnail" style="width: 93.5%; display: block;" src="https://iiif.mcz.harvard.edu/iiif/3/1400828/full/max/0/default.jpg" data-holder-rendered="true">--->
-							<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script><!---Temporary test--->
+		
 							<style>
-* { box-sizing: border-box; }
 
-body { font-family: sans-serif; }
 
-/* ---- grid ---- */
-
-.grid {
-  background: ##EEE;
-  max-width: 600px;
-}
 
 /* clearfix */
 .grid:after {
@@ -98,7 +90,6 @@ body { font-family: sans-serif; }
 /* ---- grid-item ---- */
 
 .grid-item {
-  width: 161px;
   height: 116px;
   float: left;
   background: ##D26;
@@ -107,22 +98,14 @@ body { font-family: sans-serif; }
   border-radius: 5px;
 }
 
-.grid-item--width2 { width: 280px; }
-.grid-item--width3 { width: 119px; }
-.grid-item--width4 { width: 640px; }
-
-.grid-item--height2 { height: 116px; }
-.grid-item--height3 { height: 232px; }
-.grid-item--height4 { height: 360px; }
-							</style>
-							<div class="grid">
-								<div class="grid-item"></div>
-								<div class="grid-item grid-item--width2 grid-item--height2"></div>
-								<div class="grid-item grid-item--height3"></div>
-								<div class="grid-item grid-item--height2"></div>
-								<div class="grid-item grid-item--width3"></div>
-								<div class="grid-item"></div>
-								<div class="grid-item grid-item--width3"></div>
+</style>
+							<div class="grid col-12 px-0">
+								<div class="grid-item col-3 px-0"></div>
+								<div class="grid-item col-9 px-0"></div>
+								<div class="grid-item col-2 px-0"></div>
+								<div class="grid-item col-4 px-0"></div>
+								<div class="grid-item col-3 px-0"></div>
+								<div class="grid-item col-3 px-0"></div>
 							</div>
 							<div class="card-body bg-white p-4">
 								<p class="card-text">The shared drive is where MCZ files are stored. It located in a facility managed by Harvard. Map to the drive or use Filezilla to transfer files to the shared drive.</p>
