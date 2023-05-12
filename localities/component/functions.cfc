@@ -4573,7 +4573,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				SELECT 
 					nvl2(coordinate_precision, round(dec_lat,coordinate_precision), round(dec_lat,5)) dec_lat,
 					nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_long,5)) dec_long,
-					decode(accepted_lat_long_fg,1,'Accepted','') accepted_lat_long,
+					decode(accepted_lat_long_fg,1,'Accepted','') accepted_lat_long
 				FROM
 					lat_long
 				WHERE
