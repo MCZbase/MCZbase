@@ -2821,7 +2821,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_lat_long_ref_source" class="data-entry-label">Reference</label>
 											<input type="text" name="lat_long_ref_source" id="gl_lat_long_ref_source" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="postGeolocate col-12 col-md-2">
+										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_georefmethod" class="data-entry-label">Method</label>
 											<input type="text" name="georefmethod" id="gl_georefmethod" class="data-entry-input reqdClr" value="" required>
 											<script>
@@ -2841,7 +2841,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="1">Yes</option>
 											</select>
 										</div>
-										<div class="postGeolocate col-12 col-md-1">
+										<div class="postGeolocate col-12 col-md-3">
 											<label for="gl_extent" class="data-entry-label">Radial of Feature [Extent] (km)</label>
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
 										</div>
