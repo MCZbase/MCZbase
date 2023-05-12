@@ -56,15 +56,17 @@ limitations under the License.
 	select media_license_id,display media_license from ctmedia_license order by media_license_id
 </cfquery>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select media_uri from media where media_id = any(3815012,287808,6520,8085,1336734,171526,229213,1360339,3804325)
+	select media_id from media where media_id = any(3815012,287808,6520,8085,1336734,171526,229213,1360339,3804325)
 </cfquery>
 <!---------------------------------------------------------------------------------------------------->
 
 
 		<cfoutput>
 			<cfloop query="media">
-				<p>#media.media_uri#</p>
+				<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textNone")>
+				<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 			</cfloop>
+		
 			
 		<section class="jumbotron pb-3 bg-white text-center">
 			<div class="container">
