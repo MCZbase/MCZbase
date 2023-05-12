@@ -90,7 +90,7 @@ limitations under the License.
 /* ---- grid-item ---- */
 
 .grid-item {
-  height: 240px;
+  height: 238px;
   float: left;
   background: ##D26;
   border: 1px solid ##333;
@@ -113,7 +113,7 @@ limitations under the License.
 								<div class="grid-item-2 col-2 px-0"></div>
 								<div class="grid-item-2 col-4 px-0"></div>
 								<div class="grid-item-2 col-3 px-0"></div>
-								<div class="grid-item col-3 px-0"></div>
+								<div class="grid-item-2 col-3 px-0"></div>
 							</div>
 							<div class="card-body bg-white p-4">
 								<p class="card-text">The shared drive is where MCZ files are stored. It located in a facility managed by Harvard. Map to the drive or use Filezilla to transfer files to the shared drive.</p>
