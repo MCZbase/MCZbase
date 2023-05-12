@@ -3882,7 +3882,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<cfif accepted_lat_long_fg EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 										<option value="1" #selected#>Yes</option>
 										<cfif accepted_lat_long_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="0">No</option>
+										<option value="0" #selected#>No</option>
 									</select>
 								</div>
 								<div class="col-12 col-md-3">
