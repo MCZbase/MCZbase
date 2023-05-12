@@ -2501,10 +2501,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="lat_long_ref_source" id="lat_long_ref_source" class="data-entry-input reqdClr" value="" required>
 										</div>
 										<div class="col-12 col-md-4">
-											<label for="georeference_protocol" class="data-entry-label">Protocol</label>
-											<input type="text" name="georeference_protocol" id="georeference_protocol" class="data-entry-input" value="">
-										</div>
-										<div class="col-12 col-md-4">
 											<label for="georefmethod" class="data-entry-label">
 												Method
 												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##georefmethod').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open georeference method pick list</span></a>
@@ -2825,10 +2821,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_lat_long_ref_source" class="data-entry-label">Reference</label>
 											<input type="text" name="lat_long_ref_source" id="gl_lat_long_ref_source" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="postGeolocate col-12 col-md-3">
-											<label for="gl_georeference_protocol" class="data-entry-label">Protocol</label>
-											<input type="text" name="georeference_protocol" id="gl_georeference_protocol" class="data-entry-input" value="">
-										</div>
 										<div class="postGeolocate col-12 col-md-2">
 											<label for="gl_georefmethod" class="data-entry-label">Method</label>
 											<input type="text" name="georefmethod" id="gl_georefmethod" class="data-entry-input reqdClr" value="" required>
@@ -2977,7 +2969,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$("##gl_max_error_distance").val(gerr);
 												$("##gl_max_error_units").val('m');
 												$("##gl_datum").val('WGS84');
-												$("##gl_georeference_protocol").val('GeoLocate');
 												$("##gl_georefmethod").val('GEOLocate');
 												$("##gl_lat_long_ref_source").val('GEOLocate');
 												$("##gl_dec_lat").val(glat);
@@ -4031,10 +4022,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								<div class="col-12 col-md-4">
 									<label for="lat_long_ref_source" class="data-entry-label">Reference</label>
 									<input type="text" name="lat_long_ref_source" id="lat_long_ref_source" class="data-entry-input reqdClr" value="#encodeForHtml(lat_long_ref_source)#" required>
-								</div>
-								<div class="col-12 col-md-4">
-									<label for="georeference_protocol" class="data-entry-label">Protocol</label>
-									<input type="text" name="georeference_protocol" id="georeference_protocol" class="data-entry-input" value="#encodeForHtml(georeference_protocol)#">
 								</div>
 								<div class="col-12 col-md-4">
 									<label for="georefmethod" class="data-entry-label">
