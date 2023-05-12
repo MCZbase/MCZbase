@@ -79,8 +79,9 @@ limitations under the License.
 							<style>
 							.grid-item { width: 100px; }
 							.grid-item--width2 { width: 200px; }
+							.grid-item--width3 { width: 300px; }
 							.grid-item {
-								width: 160px;
+								width: 100px;
 								height: 120px;
 								float: left;
 								background: ##D26;
@@ -91,8 +92,8 @@ limitations under the License.
 							</style>
 							<div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 100 }'>
 								<div class="grid-item"></div>
-								<div class="grid-item"></div>
-								<div class="grid-item"></div>
+								<div class="grid-item--2"></div>
+								<div class="grid-item--3"></div>
 								<div class="grid-item"></div>
 								<div class="grid-item"></div>
 								<div class="grid-item"></div>
