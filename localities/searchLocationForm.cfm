@@ -111,7 +111,7 @@ Typical use:
 
 <cfoutput>
 	<div class="row mx-0 mb-2">
-		<div class="search-box mt-0 pb-3"><!--- start teal search-box --->
+		<div class="search-box mt-0 pb-2"><!--- start teal search-box --->
 			
 			<!--------------------------------------- Higher Geography ----------------------------------------------------------->
 			<div class="row mx-0 mb-0">
@@ -416,446 +416,446 @@ Typical use:
 									</select>
 								</div>
 							</div>
-						<div class="form-row mx-0 my-1">
-							<div class="form-row mx-0 my-1 col-12 col-lg-6">
-								<div class="col-5 col-md-2 px-3 pl-md-3 pr-md-2 py-1">
-									<cfif isDefined("orig_elev_units")><cfset orig_elev_units_val="#orig_elev_units#"><cfelse><cfset orig_elev_units_val=""></cfif>
-									<label for="orig_elev_units" class="data-entry-label">Orig. Elev. Units</label>
-									<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select" style="min-width: 100px;">
-										<option value=""></option>
-										<cfloop query="ctElevUnit">
-											<cfif ctElevUnit.orig_elev_units EQ orig_elev_units_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value="#ctElevUnit.orig_elev_units#" #selected#>#ctElevUnit.orig_elev_units#</option>
-										</cfloop>
-									</select>
-								</div>
-								<div class="col-12 col-md-5 px-3 pl-md-3 pr-md-0 py-1">
-									<label for="maximum_elevation" class="data-entry-label mb-0">Minimum Elevation <span class="small">(Original Units)</span></label>
-									<cfif not isDefined("MinElevOper")><cfset MinElevOper="="></cfif>
-									<cfif MinElevOper IS "!"><cfset MinElevOper="<>"></cfif>
-									<label for="MinElevOper" class="data-entry-label text-white sr-only">(operator)</label>
-									<select name="MinElevOper" id="MinElevOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
-										<cfif MinElevOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="=" #selected#>is</option>
-										<cfif MinElevOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<>" #selected#>is not</option><!--- " --->
-										<cfif MinElevOper IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value=">" #selected#>more than</option><!--- " --->
-										<cfif MinElevOper IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<" #selected#>less than</option>
-									</select>
-									<cfif not isDefined("minimum_elevation")><cfset minimum_elevation=""></cfif>
-									<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input w-100 d-inline-block col-12 col-md-8" value="#encodeForHtml(minimum_elevation)#">
-								</div>
-								<div class="col-12 col-md-5 px-3 pr-md-3 pl-md-0 py-1">
-									<label for="MaxElevOper" class="data-entry-label mb-0">Maximum Elevation <span class="small">(Original Units)</span></label>
-									<cfif not isDefined("MaxElevOper")><cfset MaxElevOper="="></cfif>
-									<cfif MaxElevOper IS "!"><cfset MaxElevOper="<>"></cfif>
-									<select name="MaxElevOper" id="MaxElevOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
-										<cfif MaxElevOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="=" #selected#>is</option>
-										<cfif MaxElevOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<>" #selected#>is not</option><!--- " --->
-										<cfif MaxElevOper IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value=">" #selected#>more than</option><!--- " --->
-										<cfif MaxElevOper IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<" #selected#>less than</option>
-									</select>
-									<cfif not isDefined("maximum_elevation")><cfset maximum_elevation=""></cfif>
-									<label for="maximum_elevation" class="data-entry-label text-white sr-only">Elevation</label>
-									<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(maximum_elevation)#">
-								</div>
-							</div>
-							<div class="form-row mx-0 my-1 col-12 col-lg-6">
-								<div class="col-12 col-md-6 px-3 pr-md-0 py-2">
-									<label for="MinElevOperM" class="data-entry-label">Minimum Elevation <span class="small">(in meters)</span></label>
-									<cfif not isDefined("MinElevOperM")><cfset MinElevOperM="="></cfif>
-									<cfif MinElevOperM IS "!"><cfset MinElevOperM="<>"></cfif>
-									<select name="MinElevOperM" id="MinElevOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
-										<cfif MinElevOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="=" #selected#>is</option>
-										<cfif MinElevOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<>" #selected#>is not</option><!--- " --->
-										<cfif MinElevOperM IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value=">" #selected#>more than</option><!--- " --->
-										<cfif MinElevOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<" #selected#>less than</option>
-									</select>
-									<cfif not isDefined("minimum_elevation_m")><cfset minimum_elevation_m=""></cfif>
-									<label for="minimum_elevation_m" class="data-entry-label sr-only text-light">Minimum</label>
-									<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input w-100 d-inline-block col-12 col-md-8" value="#encodeForHtml(minimum_elevation_m)#">
-								</div>
-								<div class="col-12 col-md-6 px-3 pl-md-0 py-2">
-									<label for="MaxElevOperM" class="data-entry-label">Maximum Elevation <span class="small">(in meters)</span></label>
-									<cfif not isDefined("MaxElevOperM")><cfset MaxElevOperM="="></cfif>
-									<cfif MaxElevOperM IS "!"><cfset MaxElevOperM="<>"></cfif>
-									<select name="MaxElevOperM" id="MaxElevOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
-										<cfif MaxElevOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="=" #selected#>is</option>
-										<cfif MaxElevOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<>" #selected#>is not</option><!--- " --->
-										<cfif MaxElevOperM IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value=">" #selected#>more than</option><!--- " --->
-										<cfif MaxElevOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<" #selected#>less than</option>
-									</select>
-									<cfif not isDefined("maximum_elevation_m")><cfset maximum_elevation_m=""></cfif>
-									<label for="maximum_elevation_m" class="data-entry-label sr-only text-light">Maximum</label>
-									<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="data-entry-input w-100 d-inline-block col-12 col-md-8" value="#encodeForHtml(maximum_elevation_m)#">
-								</div>
-							</div>
-						</div>
-						<div class="form-row mx-0 my-1">
-							<div class="form-row mx-0 my-1 col-12 col-lg-6">
-								<div class="col-5 col-md-2 px-3 pl-md-3 pr-md-2 py-1">
-									<cfif isDefined("depth_units")><cfset depth_units_val="#depth_units#"><cfelse><cfset depth_units_val=""></cfif>
-									<label for="depth_units" class="data-entry-label">Orig. Depth Units</label>
-									<select name="depth_units" id="depth_units" size="1" class="data-entry-select"  style="min-width: 100px;">
-										<option value=""></option>
-										<cfloop query="ctDepthUnit">
-											<cfif ctDepthUnit.Depth_units EQ depth_units_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value="#ctDepthUnit.Depth_units#" #selected#>#ctDepthUnit.Depth_units#</option>
-										</cfloop>
-									</select>
-								</div>
-								<div class="col-12 col-md-5 px-3 pl-md-3 pr-md-0 py-1">
-									<label class="data-entry-label">Minimum Depth <span class="small">(Original Units)</span></label>
-									<cfif not isDefined("minDepthOper")><cfset minDepthOper="="></cfif>
-									<label for="minDepthOper" class="data-entry-label sr-only">Operator</label>
-									<select name="minDepthOper" id="MinDepthOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
-										<cfif minDepthOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="=">is</option>
-										<cfif minDepthOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<>">is not</option><!--- " --->
-										<cfif minDepthOper IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value=">">more than</option><!--- " --->
-										<cfif minDepthOper IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<">less than</option>
-									</select>
-									<cfif not isDefined("min_depth")><cfset min_depth=""></cfif>
-									<label for="min_depth" class="data-entry-label text-light sr-only">Minimum Depth</label>
-									<input type="text" name="min_depth" id="min_depth" class="data-entry-input w-100 d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth)#">
-								</div>
-								<div class="col-12 col-md-5 px-3 pr-md-3 pl-md-0 py-1">
-									<label for="max_depth" class="data-entry-label mb-0">Maximum Depth <span class="small">(Original Units)</span></label>
-									<cfif isDefined("MaxDepthOper")><cfset MaxDepthOper="#MaxDepthOper#"><cfelse><cfset MaxDepthOper=""></cfif>
-									<label for="MaxDepthOper" class="data-entry-label text-light sr-only">operator</label>
-									<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
-										<cfif MaxDepthOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="=" #selected#>is</option>
-										<cfif MaxDepthOper EQ "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<>" #selected#>is not</option><!--- " --->
-										<cfif MaxDepthOper EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value=">" #selected#>more than</option><!--- " --->
-										<cfif MaxDepthOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<" #selected#>less than</option>
-									</select>
-									<cfif not isDefined("max_depth")><cfset max_depth=""></cfif>
-									<input type="text" name="max_depth" id="max_depth" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(max_depth)#">
-								</div>
-							</div>
-							<div class="form-row mx-0 my-1 col-12 col-lg-6">
-								<div class="col-12 col-md-6 pr-md-0 px-3 pr-md-0 py-2">
-									<cfif not isDefined("minDepthOperM")><cfset minDepthOperM="="></cfif>
-									<label for="minDepthOperM" class="data-entry-label">Minimum Depth <span class="small">(in meters)</span></label>
-									<select name="minDepthOperM" id="MinDepthOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
-										<cfif minDepthOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="=" #selected#>is</option>
-										<cfif minDepthOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<>" #selected#>is not</option><!--- " --->
-										<cfif minDepthOperM IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value=">" #selected#>more than</option><!--- " --->
-										<cfif minDepthOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<" #selected#>less than</option>
-									</select>
-									<cfif not isDefined("min_depth_m")><cfset min_depth_m=""></cfif>
-									<label for="min_depth_m" class="data-entry-label sr-only text-light">Mimimum</label>
-									<input type="text" name="min_depth_m" id="min_depth_m" class="data-entry-input w-100 d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth_m)#">
-								</div>
-								<div class="col-12 col-md-6 px-3 pl-md-0 py-2">
-									<cfif not isDefined("MaxDepthOperM")><cfset MaxDepthOperM="="></cfif>
-									<label for="MaxDepthOperM" class="data-entry-label">Maximum Depth <span class="small">(in meters)</span></label>
-									<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
-										<cfif MaxDepthOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="=" #selected#>is</option>
-										<cfif MaxDepthOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<>" #selected#>is not</option><!--- " --->
-										<cfif MaxDepthOperM IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value=">" #selected#>more than</option><!--- " --->
-										<cfif MaxDepthOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<" #selected#>less than</option>
-									</select>
-									<cfif not isDefined("max_depth_m")><cfset max_depth_m=""></cfif>
-									<label for="max_depth_m" class="data-entry-label text-light sr-only">Maximum</label>
-									<input type="text" name="max_depth_m" id="max_depth_m" class="data-entry-input w-100 d-inline-block col-12 col-md-8" value="#encodeForHtml(max_depth_m)#">
-								</div>
-							</div>
-						</div>
-						<cfif #showExtraFields# IS 1>
 							<div class="form-row mx-0 my-1">
-								<div class="col-12 col-md-2 px-3 pl-md-3 pr-md-0 py-2">
-									<cfif not isDefined("section_part")><cfset section_part=""></cfif>
-									<label for="section_part" class="data-entry-label">PLSS Section Part</label>
-									<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHtml(section_part)#">
-								</div>
-								<div class="col-12 col-md-2 px-3 px-md-2 py-2">
-									<cfif not isDefined("section")><cfset section=""></cfif>
-									<label for="section" class="data-entry-label">PLSS Section</label>
-									<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHtml(section)#">
-								</div>
-								<div class="col-12 col-md-2 px-3 px-md-0 py-2">
-									<cfif not isDefined("township")><cfset township=""></cfif>
-									<label for="township" class="data-entry-label">PLSS Township</label>
-									<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHtml(township)#">
-								</div>
-								<div class="col-12 col-md-2 px-3 px-md-2 py-2">
-									<cfif not isDefined("township_direction")><cfset township_direction=""></cfif>
-									<label for="township_direction" class="data-entry-label">Township Dir.</label>
-									<select name="township_direction" id="" size="1" class="data-entry-select">
-										<cfif len(township_direction) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="" #selected#></option>
-										<cfif ucase(township_direction) EQ "N"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="N" #selected#>N</option>
-										<cfif ucase(township_direction) EQ "S"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="S" #selected#>S</option>
-									</select>
-								</div>
-								<div class="col-12 col-md-2 px-3 px-md-0 py-2">
-									<cfif not isDefined("range")><cfset range=""></cfif>
-									<label for="range" class="data-entry-label">PLSS Range</label>
-									<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHtml(range)#">
-								</div>
-								<div class="col-12 col-md-2 px-3 pr-md-3 pl-md-2 py-2">
-									<cfif not isDefined("range_direction")><cfset range_direction=""></cfif>
-									<label for="range_direction" class="data-entry-label">Range Dir.</label>
-									<select name="range_direction" id="" size="1" class="data-entry-select">
-										<cfif len(range_direction) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="" #selected#></option>
-										<cfif ucase(range_direction) EQ "N"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="N" #selected#>N</option>
-										<cfif ucase(range_direction) EQ "S"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="S" #selected#>S</option>
-									</select>
-								</div>
-							</div>
-						</cfif>
-						<div class="form-row mx-0 my-1">
-							<div class="col-12 col-md-3 px-3 py-2 py-md-0 pl-md-3 pr-md-0">
-								<cfif isDefined("geology_attribute")><cfset geology_attribute_val="#geology_attribute#"><cfelse><cfset geology_attribute_val=""></cfif>
-								<label for="geology_attribute" class="data-entry-label">Geology Attribute</label>
-								<select name="geology_attribute" id="geology_attribute" class="data-entry-select">
-									<option value=""></option>
-									<cfloop query="ctgeology_attribute">
-										<cfif ctgeology_attribute.geology_attribute EQ geology_attribute_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value = "#ctgeology_attribute.geology_attribute#" #selected#>#ctgeology_attribute.geology_attribute#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-3 px-3 py-md-0 px-md-2 py-2">
-								<cfif not isDefined("geo_att_value")><cfset geo_att_value=""></cfif>
-								<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
-								<input type="text" name="geo_att_value" class="data-entry-input" value="#encodeForHtml(geo_att_value)#">
-							</div>
-							<div class="col-12 col-md-3 px-3 py-2 py-md-0 pr-md-3 pl-md-0">
-								<cfif isDefined("geology_attribute_hier") and len(geology_attribute_hier) GT 0 ><cfset geology_attribute_hierValue="#geology_attribute_hier#"><cfelse><cfset geology_attribute_hierValue=""></cfif>
-								<label for="geology_attribute_hier" class="data-entry-label">Traverse Hierarchies?</label>
-								<select name="geology_attribute_hier" id="geology_attribute_hier" class="data-entry-select">
-									<cfif len(geology_attribute_hierValue) EQ 0 or geology_attribute_hierValue EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-									<option value="0" #selected#>No</option>
-									<cfif geology_attribute_hierValue EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-									<option value="1" #selected#>Yes</option>
-								</select>
-							</div>
-							<cfif listFind(searchPrefList,"GeorefDetail") EQ 0>
-								<cfset georefDetailStyle="display:none;">
-								<cfset toggleTo = "1">
-								<cfset georefButton = "Show Georef Fields">
-							<cfelse>
-								<cfset georefDetailStyle="">
-								<cfset toggleTo = "0">
-								<cfset georefButton = "Hide Georef Fields">
-							</cfif> 
-							<div class="col-12 col-md-3 px-3 pt-2 pt-md-3 pb-md-2 pb-3">
-								<label for="georefDetailCtl" class="data-entry-label text-light sr-only">Georeference</label>
-								<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</button>
-							</div>
-						</div>
-						<div id="georefDetail" class="border my-2 mx-3 rounded p-1" style="#georefDetailStyle#">
-							<cfif #showExtraFields# IS 1>
-								<div class="form-row px-2 mx-0 my-1">
-									<div class="col-12 col-md-2">
-										<cfif not isDefined("dec_lat")><cfset dec_lat=""></cfif>
-										<label for="dec_lat" class="data-entry-label">Latitude</label>
-										<input type="text" name="dec_lat" class="data-entry-input" value="#encodeForHtml(dec_lat)#">
-									</div>
-									<div class="col-12 col-md-2 py-2">
-										<cfif not isDefined("dec_long")><cfset dec_long=""></cfif>
-										<label for="dec_long" class="data-entry-label">Longitude</label>
-										<input type="text" name="dec_long" class="data-entry-input" value="#encodeForHtml(dec_long)#">
-									</div>
-									<div class="col-12 col-md-2 py-2">
-										<cfquery name="ctDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
-											select datum from ctdatum order by datum
-										</cfquery>
-										<cfif isDefined("datum")><cfset datum_val="#datum#"><cfelse><cfset datum_val=""></cfif>
-										<label for="datum" class="data-entry-label">Datum</label>
-										<select name="datum" id="datum" size="1" class="data-entry-select">
+								<div class="form-row mx-0 my-1 col-12 col-lg-6">
+									<div class="col-5 col-md-2 px-3 pl-md-3 pr-md-2 py-1">
+										<cfif isDefined("orig_elev_units")><cfset orig_elev_units_val="#orig_elev_units#"><cfelse><cfset orig_elev_units_val=""></cfif>
+										<label for="orig_elev_units" class="data-entry-label">Orig. Elev. Units</label>
+										<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select" style="min-width: 100px;">
 											<option value=""></option>
-											<cfloop query="ctDatum">
-												<cfif ctDatum.datum EQ datum_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-												<option value="#ctDatum.datum#" #selected#>#ctDatum.datum#</option>
+											<cfloop query="ctElevUnit">
+												<cfif ctElevUnit.orig_elev_units EQ orig_elev_units_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option value="#ctElevUnit.orig_elev_units#" #selected#>#ctElevUnit.orig_elev_units#</option>
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-2 py-2">
-										<cfif not isDefined("max_error_distance")><cfset max_error_distance=""></cfif>
-										<label for="max_error_distance" class="data-entry-label">Coordinate Uncertainty</label>
-										<input type="text" name="max_error_distance" class="data-entry-input" value="#encodeForHtml(max_error_distance)#">
+									<div class="col-12 col-md-5 px-3 pl-md-3 pr-md-0 py-1">
+										<label for="maximum_elevation" class="data-entry-label mb-0">Minimum Elevation <span class="small">(Original Units)</span></label>
+										<cfif not isDefined("MinElevOper")><cfset MinElevOper="="></cfif>
+										<cfif MinElevOper IS "!"><cfset MinElevOper="<>"></cfif>
+										<label for="MinElevOper" class="data-entry-label text-white sr-only">(operator)</label>
+										<select name="MinElevOper" id="MinElevOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
+											<cfif MinElevOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="=" #selected#>is</option>
+											<cfif MinElevOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<>" #selected#>is not</option><!--- " --->
+											<cfif MinElevOper IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value=">" #selected#>more than</option><!--- " --->
+											<cfif MinElevOper IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<" #selected#>less than</option>
+										</select>
+										<cfif not isDefined("minimum_elevation")><cfset minimum_elevation=""></cfif>
+										<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input w-100 d-inline-block col-12 col-md-8" value="#encodeForHtml(minimum_elevation)#">
 									</div>
-									<div class="col-12 col-md-3 py-2">
-										<cfif NOT isDefined("georeference_verified_by") ><cfset georeference_verified_by=""></cfif>
-										<cfif NOT isDefined("georeference_verified_by_id") ><cfset georeference_verified_by_id=""></cfif>
-										<label for="georeference_verified_by" class="data-entry-label">Georeference verified by</label>
-										<input type="text" name="georeference_verified_by" id="georeference_verified_by" class="data-entry-input" value="#encodeForHtml(georeference_verified_by)#">
-										<input type="hidden" name="georeference_verified_by_id" id="georeference_verified_by_id" value="#encodeForHtml(georeference_verified_by_id)#">
-										<script>
-											jQuery(document).ready(function() {
-												makeConstrainedAgentPicker('georeference_verified_by', 'georeference_verified_by_id','georeference_verifier');
-											});
-										</script>
+									<div class="col-12 col-md-5 px-3 pr-md-3 pl-md-0 py-1">
+										<label for="MaxElevOper" class="data-entry-label mb-0">Maximum Elevation <span class="small">(Original Units)</span></label>
+										<cfif not isDefined("MaxElevOper")><cfset MaxElevOper="="></cfif>
+										<cfif MaxElevOper IS "!"><cfset MaxElevOper="<>"></cfif>
+										<select name="MaxElevOper" id="MaxElevOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
+											<cfif MaxElevOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="=" #selected#>is</option>
+											<cfif MaxElevOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<>" #selected#>is not</option><!--- " --->
+											<cfif MaxElevOper IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value=">" #selected#>more than</option><!--- " --->
+											<cfif MaxElevOper IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<" #selected#>less than</option>
+										</select>
+										<cfif not isDefined("maximum_elevation")><cfset maximum_elevation=""></cfif>
+										<label for="maximum_elevation" class="data-entry-label text-white sr-only">Elevation</label>
+										<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(maximum_elevation)#">
+									</div>
+								</div>
+								<div class="form-row mx-0 my-1 col-12 col-lg-6">
+									<div class="col-12 col-md-6 px-3 pr-md-0 py-2">
+										<label for="MinElevOperM" class="data-entry-label">Minimum Elevation <span class="small">(in meters)</span></label>
+										<cfif not isDefined("MinElevOperM")><cfset MinElevOperM="="></cfif>
+										<cfif MinElevOperM IS "!"><cfset MinElevOperM="<>"></cfif>
+										<select name="MinElevOperM" id="MinElevOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
+											<cfif MinElevOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="=" #selected#>is</option>
+											<cfif MinElevOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<>" #selected#>is not</option><!--- " --->
+											<cfif MinElevOperM IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value=">" #selected#>more than</option><!--- " --->
+											<cfif MinElevOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<" #selected#>less than</option>
+										</select>
+										<cfif not isDefined("minimum_elevation_m")><cfset minimum_elevation_m=""></cfif>
+										<label for="minimum_elevation_m" class="data-entry-label sr-only text-light">Minimum</label>
+										<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input w-100 d-inline-block col-12 col-md-8" value="#encodeForHtml(minimum_elevation_m)#">
+									</div>
+									<div class="col-12 col-md-6 px-3 pl-md-0 py-2">
+										<label for="MaxElevOperM" class="data-entry-label">Maximum Elevation <span class="small">(in meters)</span></label>
+										<cfif not isDefined("MaxElevOperM")><cfset MaxElevOperM="="></cfif>
+										<cfif MaxElevOperM IS "!"><cfset MaxElevOperM="<>"></cfif>
+										<select name="MaxElevOperM" id="MaxElevOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
+											<cfif MaxElevOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="=" #selected#>is</option>
+											<cfif MaxElevOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<>" #selected#>is not</option><!--- " --->
+											<cfif MaxElevOperM IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value=">" #selected#>more than</option><!--- " --->
+											<cfif MaxElevOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<" #selected#>less than</option>
+										</select>
+										<cfif not isDefined("maximum_elevation_m")><cfset maximum_elevation_m=""></cfif>
+										<label for="maximum_elevation_m" class="data-entry-label sr-only text-light">Maximum</label>
+										<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="data-entry-input w-100 d-inline-block col-12 col-md-8" value="#encodeForHtml(maximum_elevation_m)#">
+									</div>
+								</div>
+							</div>
+							<div class="form-row mx-0 my-1">
+								<div class="form-row mx-0 my-1 col-12 col-lg-6">
+									<div class="col-5 col-md-2 px-3 pl-md-3 pr-md-2 py-1">
+										<cfif isDefined("depth_units")><cfset depth_units_val="#depth_units#"><cfelse><cfset depth_units_val=""></cfif>
+										<label for="depth_units" class="data-entry-label">Orig. Depth Units</label>
+										<select name="depth_units" id="depth_units" size="1" class="data-entry-select"  style="min-width: 100px;">
+											<option value=""></option>
+											<cfloop query="ctDepthUnit">
+												<cfif ctDepthUnit.Depth_units EQ depth_units_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option value="#ctDepthUnit.Depth_units#" #selected#>#ctDepthUnit.Depth_units#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-5 px-3 pl-md-3 pr-md-0 py-1">
+										<label class="data-entry-label">Minimum Depth <span class="small">(Original Units)</span></label>
+										<cfif not isDefined("minDepthOper")><cfset minDepthOper="="></cfif>
+										<label for="minDepthOper" class="data-entry-label sr-only">Operator</label>
+										<select name="minDepthOper" id="MinDepthOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
+											<cfif minDepthOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="=">is</option>
+											<cfif minDepthOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<>">is not</option><!--- " --->
+											<cfif minDepthOper IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value=">">more than</option><!--- " --->
+											<cfif minDepthOper IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<">less than</option>
+										</select>
+										<cfif not isDefined("min_depth")><cfset min_depth=""></cfif>
+										<label for="min_depth" class="data-entry-label text-light sr-only">Minimum Depth</label>
+										<input type="text" name="min_depth" id="min_depth" class="data-entry-input w-100 d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth)#">
+									</div>
+									<div class="col-12 col-md-5 px-3 pr-md-3 pl-md-0 py-1">
+										<label for="max_depth" class="data-entry-label mb-0">Maximum Depth <span class="small">(Original Units)</span></label>
+										<cfif isDefined("MaxDepthOper")><cfset MaxDepthOper="#MaxDepthOper#"><cfelse><cfset MaxDepthOper=""></cfif>
+										<label for="MaxDepthOper" class="data-entry-label text-light sr-only">operator</label>
+										<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
+											<cfif MaxDepthOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="=" #selected#>is</option>
+											<cfif MaxDepthOper EQ "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<>" #selected#>is not</option><!--- " --->
+											<cfif MaxDepthOper EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value=">" #selected#>more than</option><!--- " --->
+											<cfif MaxDepthOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<" #selected#>less than</option>
+										</select>
+										<cfif not isDefined("max_depth")><cfset max_depth=""></cfif>
+										<input type="text" name="max_depth" id="max_depth" class="data-entry-input w-auto d-inline-block col-12 col-md-8" value="#encodeForHtml(max_depth)#">
+									</div>
+								</div>
+								<div class="form-row mx-0 my-1 col-12 col-lg-6">
+									<div class="col-12 col-md-6 pr-md-0 px-3 pr-md-0 py-2">
+										<cfif not isDefined("minDepthOperM")><cfset minDepthOperM="="></cfif>
+										<label for="minDepthOperM" class="data-entry-label">Minimum Depth <span class="small">(in meters)</span></label>
+										<select name="minDepthOperM" id="MinDepthOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
+											<cfif minDepthOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="=" #selected#>is</option>
+											<cfif minDepthOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<>" #selected#>is not</option><!--- " --->
+											<cfif minDepthOperM IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value=">" #selected#>more than</option><!--- " --->
+											<cfif minDepthOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<" #selected#>less than</option>
+										</select>
+										<cfif not isDefined("min_depth_m")><cfset min_depth_m=""></cfif>
+										<label for="min_depth_m" class="data-entry-label sr-only text-light">Mimimum</label>
+										<input type="text" name="min_depth_m" id="min_depth_m" class="data-entry-input w-100 d-inline-block col-12 col-md-8" value="#encodeForHtml(min_depth_m)#">
+									</div>
+									<div class="col-12 col-md-6 px-3 pl-md-0 py-2">
+										<cfif not isDefined("MaxDepthOperM")><cfset MaxDepthOperM="="></cfif>
+										<label for="MaxDepthOperM" class="data-entry-label">Maximum Depth <span class="small">(in meters)</span></label>
+										<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-select w-auto d-inline-block col-12 col-md-4">
+											<cfif MaxDepthOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="=" #selected#>is</option>
+											<cfif MaxDepthOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<>" #selected#>is not</option><!--- " --->
+											<cfif MaxDepthOperM IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value=">" #selected#>more than</option><!--- " --->
+											<cfif MaxDepthOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<" #selected#>less than</option>
+										</select>
+										<cfif not isDefined("max_depth_m")><cfset max_depth_m=""></cfif>
+										<label for="max_depth_m" class="data-entry-label text-light sr-only">Maximum</label>
+										<input type="text" name="max_depth_m" id="max_depth_m" class="data-entry-input w-100 d-inline-block col-12 col-md-8" value="#encodeForHtml(max_depth_m)#">
+									</div>
+								</div>
+							</div>
+							<cfif #showExtraFields# IS 1>
+								<div class="form-row mx-0 my-1">
+									<div class="col-12 col-md-2 px-3 pl-md-3 pr-md-0 py-2">
+										<cfif not isDefined("section_part")><cfset section_part=""></cfif>
+										<label for="section_part" class="data-entry-label">PLSS Section Part</label>
+										<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHtml(section_part)#">
+									</div>
+									<div class="col-12 col-md-2 px-3 px-md-2 py-2">
+										<cfif not isDefined("section")><cfset section=""></cfif>
+										<label for="section" class="data-entry-label">PLSS Section</label>
+										<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHtml(section)#">
+									</div>
+									<div class="col-12 col-md-2 px-3 px-md-0 py-2">
+										<cfif not isDefined("township")><cfset township=""></cfif>
+										<label for="township" class="data-entry-label">PLSS Township</label>
+										<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHtml(township)#">
+									</div>
+									<div class="col-12 col-md-2 px-3 px-md-2 py-2">
+										<cfif not isDefined("township_direction")><cfset township_direction=""></cfif>
+										<label for="township_direction" class="data-entry-label">Township Dir.</label>
+										<select name="township_direction" id="" size="1" class="data-entry-select">
+											<cfif len(township_direction) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="" #selected#></option>
+											<cfif ucase(township_direction) EQ "N"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="N" #selected#>N</option>
+											<cfif ucase(township_direction) EQ "S"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="S" #selected#>S</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-2 px-3 px-md-0 py-2">
+										<cfif not isDefined("range")><cfset range=""></cfif>
+										<label for="range" class="data-entry-label">PLSS Range</label>
+										<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHtml(range)#">
+									</div>
+									<div class="col-12 col-md-2 px-3 pr-md-3 pl-md-2 py-2">
+										<cfif not isDefined("range_direction")><cfset range_direction=""></cfif>
+										<label for="range_direction" class="data-entry-label">Range Dir.</label>
+										<select name="range_direction" id="" size="1" class="data-entry-select">
+											<cfif len(range_direction) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="" #selected#></option>
+											<cfif ucase(range_direction) EQ "N"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="N" #selected#>N</option>
+											<cfif ucase(range_direction) EQ "S"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="S" #selected#>S</option>
+										</select>
 									</div>
 								</div>
 							</cfif>
-							<div class="form-row mx-0 px-2 my-1">
-								<div class="col-12 col-md-2 px-4 py-2 float-left">
-									<div class="form-check">
-										<cfif isDefined("findNoGeoRef") AND findNoGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
-										<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="form-check-input" #checked#>
-										<label for="findNoGeoRef" class="form-check-label mt3px small95">No Georeferences</label>
-									</div>
-								</div>
-								<div class="col-12 col-md-2 px-4 float-left py-2">
-									<div class="form-check">
-										<cfif isDefined("findHasGeoRef") AND findHasGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
-										<input class="form-check-input" name="findHasGeoRef" id="findHasGeoRef" value="1" type="checkbox" #checked#>
-										<label class="form-check-label mt3px small95" for="findHasGeoRef">Has Georeferences</label>
-									</div>
-								</div>
-								<div class="col-12 col-md-3 px-4 py-2 float-left">
-									<div class="form-check">
-										<cfif isDefined("findNoAccGeoRef") AND findNoAccGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
-										<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="form-check-input" #checked#>
-										<label for="findNoAccGeoRef" class="form-check-label mt3px small95">No Accepted Georeferences</label>
-									</div>
-								</div>
-								<div class="col-12 col-md-4 col-xl-3 pr-3 pl-0 py-2">
-									<div class="form-check">
-										<cfif isDefined("NoGeorefBecause") AND NoGeorefBecause EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
-										<label for="NoGeorefBecause" class="data-entry-label">No Georeferece Because</label>
-										<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input" #checked#>
-									</div>
-								</div>
-							</div>
-							<div class="form-row mx-0 px-2 my-1">
-								<div class="col-12 col-md-2 px-4 py-2 float-left">
-									<div class="form-check">
-										<cfif isDefined("isIncomplete") AND isIncomplete EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
-										<input type="checkbox" name="isIncomplete" id="isIncomplete" class="form-check-input" #checked#>
-										<label for="isIncomplete" class="form-check-label mt3px small95">Is Incomplete</label>
-									</div>
-								</div>
-								<div class="col-12 col-md-2 px-4 py-2 float-left">
-									<div class="form-check">
-										<cfif isDefined("nullNoGeorefBecause") AND nullNoGeorefBecause EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
-										<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="form-check-input" #checked#>
-										<label for="nullNoGeorefBecause" class="form-check-label mt3px small95">NULL, No Georef. Because</label>
-									</div>
-								</div>
-								<div class="col-12 col-md-2 px-2 py-2">
-									<cfif isDefined("VerificationStatus") and len(VerificationStatus) GT 0 ><cfset VerificationStatusValue="#VerificationStatus#"><cfelse><cfset VerificationStatusValue=""></cfif>
-									<label for="VerificationStatus" class="data-entry-label">VerificationStatus</label>
-									<select name="VerificationStatus" id="VerificationStatus" size="1" class="data-entry-select">
+							<div class="form-row mx-0 my-1">
+								<div class="col-12 col-md-3 px-3 py-2 py-md-0 pl-md-3 pr-md-0">
+									<cfif isDefined("geology_attribute")><cfset geology_attribute_val="#geology_attribute#"><cfelse><cfset geology_attribute_val=""></cfif>
+									<label for="geology_attribute" class="data-entry-label">Geology Attribute</label>
+									<select name="geology_attribute" id="geology_attribute" class="data-entry-select">
 										<option value=""></option>
-										<cfloop query="ctVerificationStatus">
-											<cfif verificationStatusValue EQ VerificationStatus><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value="#VerificationStatus#" #selected#>#VerificationStatus#</option>
+										<cfloop query="ctgeology_attribute">
+											<cfif ctgeology_attribute.geology_attribute EQ geology_attribute_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value = "#ctgeology_attribute.geology_attribute#" #selected#>#ctgeology_attribute.geology_attribute#</option>
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-2 px-4 px-md-5 mt-xl-3 py-2">
-									<div class="form-check">
-										<input type="checkbox" name="onlyShared" id="onlyShared" class="form-check-input">
-										<label for="onlyShared" class="form-check-label mt3px small95">Shared Localities Only</label>
+								<div class="col-12 col-md-3 px-3 py-md-0 px-md-2 py-2">
+									<cfif not isDefined("geo_att_value")><cfset geo_att_value=""></cfif>
+									<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
+									<input type="text" name="geo_att_value" class="data-entry-input" value="#encodeForHtml(geo_att_value)#">
+								</div>
+								<div class="col-12 col-md-3 px-3 py-2 py-md-0 pr-md-3 pl-md-0">
+									<cfif isDefined("geology_attribute_hier") and len(geology_attribute_hier) GT 0 ><cfset geology_attribute_hierValue="#geology_attribute_hier#"><cfelse><cfset geology_attribute_hierValue=""></cfif>
+									<label for="geology_attribute_hier" class="data-entry-label">Traverse Hierarchies?</label>
+									<select name="geology_attribute_hier" id="geology_attribute_hier" class="data-entry-select">
+										<cfif len(geology_attribute_hierValue) EQ 0 or geology_attribute_hierValue EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="0" #selected#>No</option>
+										<cfif geology_attribute_hierValue EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="1" #selected#>Yes</option>
+									</select>
+								</div>
+								<cfif listFind(searchPrefList,"GeorefDetail") EQ 0>
+									<cfset georefDetailStyle="display:none;">
+									<cfset toggleTo = "1">
+									<cfset georefButton = "Show Georef Fields">
+								<cfelse>
+									<cfset georefDetailStyle="">
+									<cfset toggleTo = "0">
+									<cfset georefButton = "Hide Georef Fields">
+								</cfif> 
+								<div class="col-12 col-md-3 px-3 pt-2 pt-md-3 pb-md-2 pb-3">
+									<label for="georefDetailCtl" class="data-entry-label text-light sr-only">Georeference</label>
+									<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</button>
+								</div>
+							</div>
+							<div id="georefDetail" class="border my-2 mx-3 rounded p-1" style="#georefDetailStyle#">
+								<cfif #showExtraFields# IS 1>
+									<div class="form-row px-2 mx-0 my-1">
+										<div class="col-12 col-md-2">
+											<cfif not isDefined("dec_lat")><cfset dec_lat=""></cfif>
+											<label for="dec_lat" class="data-entry-label">Latitude</label>
+											<input type="text" name="dec_lat" class="data-entry-input" value="#encodeForHtml(dec_lat)#">
+										</div>
+										<div class="col-12 col-md-2 py-2">
+											<cfif not isDefined("dec_long")><cfset dec_long=""></cfif>
+											<label for="dec_long" class="data-entry-label">Longitude</label>
+											<input type="text" name="dec_long" class="data-entry-input" value="#encodeForHtml(dec_long)#">
+										</div>
+										<div class="col-12 col-md-2 py-2">
+											<cfquery name="ctDatum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+												select datum from ctdatum order by datum
+											</cfquery>
+											<cfif isDefined("datum")><cfset datum_val="#datum#"><cfelse><cfset datum_val=""></cfif>
+											<label for="datum" class="data-entry-label">Datum</label>
+											<select name="datum" id="datum" size="1" class="data-entry-select">
+												<option value=""></option>
+												<cfloop query="ctDatum">
+													<cfif ctDatum.datum EQ datum_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#ctDatum.datum#" #selected#>#ctDatum.datum#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-2 py-2">
+											<cfif not isDefined("max_error_distance")><cfset max_error_distance=""></cfif>
+											<label for="max_error_distance" class="data-entry-label">Coordinate Uncertainty</label>
+											<input type="text" name="max_error_distance" class="data-entry-input" value="#encodeForHtml(max_error_distance)#">
+										</div>
+										<div class="col-12 col-md-3 py-2">
+											<cfif NOT isDefined("georeference_verified_by") ><cfset georeference_verified_by=""></cfif>
+											<cfif NOT isDefined("georeference_verified_by_id") ><cfset georeference_verified_by_id=""></cfif>
+											<label for="georeference_verified_by" class="data-entry-label">Georeference verified by</label>
+											<input type="text" name="georeference_verified_by" id="georeference_verified_by" class="data-entry-input" value="#encodeForHtml(georeference_verified_by)#">
+											<input type="hidden" name="georeference_verified_by_id" id="georeference_verified_by_id" value="#encodeForHtml(georeference_verified_by_id)#">
+											<script>
+												jQuery(document).ready(function() {
+													makeConstrainedAgentPicker('georeference_verified_by', 'georeference_verified_by_id','georeference_verifier');
+												});
+											</script>
+										</div>
+									</div>
+								</cfif>
+								<div class="form-row mx-0 px-2 my-1">
+									<div class="col-12 col-md-2 px-4 py-2 float-left">
+										<div class="form-check">
+											<cfif isDefined("findNoGeoRef") AND findNoGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
+											<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="form-check-input" #checked#>
+											<label for="findNoGeoRef" class="form-check-label mt3px small95">No Georeferences</label>
+										</div>
+									</div>
+									<div class="col-12 col-md-2 px-4 float-left py-2">
+										<div class="form-check">
+											<cfif isDefined("findHasGeoRef") AND findHasGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
+											<input class="form-check-input" name="findHasGeoRef" id="findHasGeoRef" value="1" type="checkbox" #checked#>
+											<label class="form-check-label mt3px small95" for="findHasGeoRef">Has Georeferences</label>
+										</div>
+									</div>
+									<div class="col-12 col-md-3 px-4 py-2 float-left">
+										<div class="form-check">
+											<cfif isDefined("findNoAccGeoRef") AND findNoAccGeoRef EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
+											<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="form-check-input" #checked#>
+											<label for="findNoAccGeoRef" class="form-check-label mt3px small95">No Accepted Georeferences</label>
+										</div>
+									</div>
+									<div class="col-12 col-md-4 col-xl-3 pr-3 pl-0 py-2">
+										<div class="form-check">
+											<cfif isDefined("NoGeorefBecause") AND NoGeorefBecause EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
+											<label for="NoGeorefBecause" class="data-entry-label">No Georeferece Because</label>
+											<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input" #checked#>
+										</div>
 									</div>
 								</div>
-								<div class="col-12 col-md-3 px-2 my-1">
-									<cfif isDefined("GeorefMethod") and len(GeorefMethod) GT 0 ><cfset GeorefMethodValue="#GeorefMethod#"><cfelse><cfset GeorefMethodValue=""></cfif>
-									<label for="GeorefMethod" class="data-entry-label">GeorefMethod</label>
-									<select name="GeorefMethod" id="GeorefMethod" size="1" class="data-entry-select">
-										<option value=""></option>
-										<cfloop query="ctGeorefMethod">
-											<cfif verificationStatusValue EQ GeorefMethod><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value="#GeorefMethod#" #selected#>#GeorefMethod#</option>
-										</cfloop>
-									</select>
+								<div class="form-row mx-0 px-2 my-1">
+									<div class="col-12 col-md-2 px-4 py-2 float-left">
+										<div class="form-check">
+											<cfif isDefined("isIncomplete") AND isIncomplete EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
+											<input type="checkbox" name="isIncomplete" id="isIncomplete" class="form-check-input" #checked#>
+											<label for="isIncomplete" class="form-check-label mt3px small95">Is Incomplete</label>
+										</div>
+									</div>
+									<div class="col-12 col-md-2 px-4 py-2 float-left">
+										<div class="form-check">
+											<cfif isDefined("nullNoGeorefBecause") AND nullNoGeorefBecause EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
+											<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="form-check-input" #checked#>
+											<label for="nullNoGeorefBecause" class="form-check-label mt3px small95">NULL, No Georef. Because</label>
+										</div>
+									</div>
+									<div class="col-12 col-md-2 px-2 py-2">
+										<cfif isDefined("VerificationStatus") and len(VerificationStatus) GT 0 ><cfset VerificationStatusValue="#VerificationStatus#"><cfelse><cfset VerificationStatusValue=""></cfif>
+										<label for="VerificationStatus" class="data-entry-label">VerificationStatus</label>
+										<select name="VerificationStatus" id="VerificationStatus" size="1" class="data-entry-select">
+											<option value=""></option>
+											<cfloop query="ctVerificationStatus">
+												<cfif verificationStatusValue EQ VerificationStatus><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option value="#VerificationStatus#" #selected#>#VerificationStatus#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-2 px-4 px-md-5 mt-xl-3 py-2">
+										<div class="form-check">
+											<input type="checkbox" name="onlyShared" id="onlyShared" class="form-check-input">
+											<label for="onlyShared" class="form-check-label mt3px small95">Shared Localities Only</label>
+										</div>
+									</div>
+									<div class="col-12 col-md-3 px-2 my-1">
+										<cfif isDefined("GeorefMethod") and len(GeorefMethod) GT 0 ><cfset GeorefMethodValue="#GeorefMethod#"><cfelse><cfset GeorefMethodValue=""></cfif>
+										<label for="GeorefMethod" class="data-entry-label">GeorefMethod</label>
+										<select name="GeorefMethod" id="GeorefMethod" size="1" class="data-entry-select">
+											<option value=""></option>
+											<cfloop query="ctGeorefMethod">
+												<cfif verificationStatusValue EQ GeorefMethod><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<option value="#GeorefMethod#" #selected#>#GeorefMethod#</option>
+											</cfloop>
+										</select>
+									</div>
+
 								</div>
-	
-							</div>
-							<div class="form-row mx-0 px-2 my-1">
-								<div class="col-12 col-md-2 px-2 py-2">
-									<label class="data-entry-label">Geolocate Precision</label>
-									<cfif isDefined("geolocate_precision") and len(geolocate_precision) GT 0 ><cfset geolocate_precisionValue="#geolocate_precision#"><cfelse><cfset geolocate_precisionValue=""></cfif>
-									<select name="geolocate_precision" id="geolocate_precision" size="1" class="data-entry-select">
-										<cfif geolocate_precisionValue EQ ""><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="" #selected#></option>
-										<cfif geolocate_precisionValue EQ "high"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="high" #selected#>high</option>
-										<cfif geolocate_precisionValue EQ "medium"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="medium" #selected#>medium</option>
-										<cfif geolocate_precisionValue EQ "low"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="low" #selected#>low</option>
-									</select>
+								<div class="form-row mx-0 px-2 my-1">
+									<div class="col-12 col-md-2 px-2 py-2">
+										<label class="data-entry-label">Geolocate Precision</label>
+										<cfif isDefined("geolocate_precision") and len(geolocate_precision) GT 0 ><cfset geolocate_precisionValue="#geolocate_precision#"><cfelse><cfset geolocate_precisionValue=""></cfif>
+										<select name="geolocate_precision" id="geolocate_precision" size="1" class="data-entry-select">
+											<cfif geolocate_precisionValue EQ ""><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="" #selected#></option>
+											<cfif geolocate_precisionValue EQ "high"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="high" #selected#>high</option>
+											<cfif geolocate_precisionValue EQ "medium"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="medium" #selected#>medium</option>
+											<cfif geolocate_precisionValue EQ "low"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="low" #selected#>low</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-2 px-2 py-2">
+										<cfif NOT isDefined("coordinateDeterminer") ><cfset coordinateDeterminer=""></cfif>
+										<cfif NOT isDefined("georeference_determined_by_id") ><cfset georeference_determined_by_id=""></cfif>
+										<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
+										<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-input" value="#encodeForHtml(coordinateDeterminer)#">
+										<cfif #showExtraFields# IS 1>
+											<input type="hidden" name="georeference_determined_by_id" id="georeference_determined_by_id" value="#encodeForHtml(georeference_determined_by_id)#">
+											<script>
+												jQuery(document).ready(function() {
+													makeConstrainedAgentPicker('coordinateDeterminer', 'georeference_determined_by_id','georeference_determiner');
+												});
+											</script>
+										</cfif>
+									</div>
+									<div class="col-12 col-md-2 px-2 py-2">
+										<cfif isDefined("gs_comparator") and len(gs_comparator) GT 0 ><cfset gs_comparatorValue="#gs_comparator#"><cfelse><cfset gs_comparatorValue=""></cfif>
+										<label class="data-entry-label">Geolocate Score</label>
+										<select name="gs_comparator" id="gs_comparator" size="1" class="data-entry-select">
+											<cfif gs_comparatorValue EQ "=" or len(gs_comparatorValue) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="=" #selected#>=</option>
+											<cfif gs_comparatorValue EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="<" #selected#><</option>
+											<cfif gs_comparatorValue EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value=">" #selected#>></option>
+											<cfif gs_comparatorValue EQ "between"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="between" #selected#>between</option><!--- " --->
+										</select>
+									</div>
+									<div class="col-12 col-md-2 px-2 py-2">
+										<cfif not isDefined("geolocate_score")><cfset geolocate_score=""></cfif>
+										<label class="data-entry-label">Min (#geolocate_score_range.min_score#)</label>
+										<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="data-entry-input" value="#encodeForHtml(geolocate_score)#">
+									</div>
+									<div class="col-12 col-md-2 px-2 py-2">
+										<cfif not isDefined("geolocate_score2")><cfset geolocate_score2=""></cfif>
+										<label class="data-entry-label">Max (#geolocate_score_range.max_score#)</label>
+										<input type="text" name="geolocate_score2" size="3" id="geolocate_score2" class="data-entry-input" value="#encodeForHtml(geolocate_score2)#">
+									</div>
 								</div>
-								<div class="col-12 col-md-2 px-2 py-2">
-									<cfif NOT isDefined("coordinateDeterminer") ><cfset coordinateDeterminer=""></cfif>
-									<cfif NOT isDefined("georeference_determined_by_id") ><cfset georeference_determined_by_id=""></cfif>
-									<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
-									<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-input" value="#encodeForHtml(coordinateDeterminer)#">
-									<cfif #showExtraFields# IS 1>
-										<input type="hidden" name="georeference_determined_by_id" id="georeference_determined_by_id" value="#encodeForHtml(georeference_determined_by_id)#">
-										<script>
-											jQuery(document).ready(function() {
-												makeConstrainedAgentPicker('coordinateDeterminer', 'georeference_determined_by_id','georeference_determiner');
-											});
-										</script>
-									</cfif>
-								</div>
-								<div class="col-12 col-md-2 px-2 py-2">
-									<cfif isDefined("gs_comparator") and len(gs_comparator) GT 0 ><cfset gs_comparatorValue="#gs_comparator#"><cfelse><cfset gs_comparatorValue=""></cfif>
-									<label class="data-entry-label">Geolocate Score</label>
-									<select name="gs_comparator" id="gs_comparator" size="1" class="data-entry-select">
-										<cfif gs_comparatorValue EQ "=" or len(gs_comparatorValue) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="=" #selected#>=</option>
-										<cfif gs_comparatorValue EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="<" #selected#><</option>
-										<cfif gs_comparatorValue EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value=">" #selected#>></option>
-										<cfif gs_comparatorValue EQ "between"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-										<option value="between" #selected#>between</option><!--- " --->
-									</select>
-								</div>
-								<div class="col-12 col-md-2 px-2 py-2">
-									<cfif not isDefined("geolocate_score")><cfset geolocate_score=""></cfif>
-									<label class="data-entry-label">Min (#geolocate_score_range.min_score#)</label>
-									<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="data-entry-input" value="#encodeForHtml(geolocate_score)#">
-								</div>
-								<div class="col-12 col-md-2 px-2 py-2">
-									<cfif not isDefined("geolocate_score2")><cfset geolocate_score2=""></cfif>
-									<label class="data-entry-label">Max (#geolocate_score_range.max_score#)</label>
-									<input type="text" name="geolocate_score2" size="3" id="geolocate_score2" class="data-entry-input" value="#encodeForHtml(geolocate_score2)#">
-								</div>
-							</div>
-						</div><!--- end georefDetail --->
+							</div><!--- end georefDetail --->
 						</div><!--- end locDetail --->
 					</div>
 				</div>

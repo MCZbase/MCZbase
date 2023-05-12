@@ -1789,7 +1789,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfelse> 
 				<cfset geog_auth_rec_id = "">
 			</cfif>
-			<div class="form-row mx-0 mb-0">
+			<div class="form-row mx-0 mb-2">
 				<div class="col-12 col-md-10 mt-0">
 					<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#geog_auth_rec_id#">
 					<label class="data-entry-label" for="higher_geog">Higher Geography:</label>
@@ -1817,7 +1817,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</script>
 				</div>
 				<div class="col-12 col-md-2 mt-0">
-					<label class="data-entry-label" for="details_button">Higher Geography</label>
+					<label class="data-entry-label text-white" for="details_button">Higher Geography</label>
 					<cfset otherClass="">
 					<cfif isdefined("geog_auth_rec_id") and len(geog_auth_rec_id) GT 0>
 						<cfset otherClass="disabled">
@@ -1853,7 +1853,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</select>
 				</div>
 			</div>
-			<div class="form-row mx-0 mb-0">
+			<div class="form-row mx-0 mb-2">
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
 					<label class="data-entry-label" for="minimum_elevation"><strong>Elevation</strong>: Minimum</label>
@@ -1895,7 +1895,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</select>
 				</div>
 			</div>
-			<div class="form-row border m-1 p-1 pb-2">
+			<div class="form-row border rounded m-1 px-1 py-2">
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
 					<label class="data-entry-label" for="section_part"><strong>PLSS</strong> Section Part</label>
