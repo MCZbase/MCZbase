@@ -1853,7 +1853,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</select>
 				</div>
 			</div>
-			<div class="form-row mx-0 mb-2">
+			<div class="form-row mx-0 mb-1">
 				<div class="col-12 col-md-2 mb-1 mb-md-2">
 					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
 					<label class="data-entry-label" for="minimum_elevation"><strong>Elevation</strong>: Minimum</label>
