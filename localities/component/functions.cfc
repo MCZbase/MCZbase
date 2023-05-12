@@ -1727,64 +1727,64 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="createLocalityFormThread#tn#">
-		<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-			SELECT orig_elev_units 
-			FROM ctorig_elev_units 
-			ORDER BY orig_elev_units
-		</cfquery>
-		<cfquery name="ctDepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-			SELECT depth_units as unit
-			FROM ctdepth_units 
-			ORDER BY depth_units
-		</cfquery>
-		<cfif isdefined('clone_from_locality_id') AND len(clone_from_locality_id) GT 0>
-			<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT geog_auth_rec_id, spec_locality, sovereign_nation, 
-					minimum_elevation, maximum_elevation, orig_elev_units, 
-					min_depth, max_depth, depth_units,
-					curated_fg, locality_remarks
-				FROM locality
-				WHERE 
-					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_locality_id#">
-			</cfquery>
-			<!--- by design, overwrite any other provided value --->
-			<cfloop query="lookupLocality">
-				<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
-				<cfset spec_locality = "#lookupLocality.spec_locality#">
-				<cfset sovereign_nation = "#lookupLocality.sovereign_nation#">
-				<cfset minimum_elevation = "#lookupLocality.minimum_elevation#">
-				<cfset maximum_elevation = "#lookupLocality.maximum_elevation#">
-				<cfset orig_elev_units = "#lookupLocality.orig_elev_units#">
-				<cfset min_depth = "#lookupLocality.min_depth#">
-				<cfset max_depth = "#lookupLocality.max_depth#">
-				<cfset section_part = "#lookupLocality.section_part#">
-				<cfset section = "#lookupLocality.section#">
-				<cfset township = "#lookupLocality.township#">
-				<cfset township_direction = "#lookupLocality.township_direction#">
-				<cfset range = "#lookupLocality.range#">
-				<cfset range_direction = "#lookupLocality.range_direction#">
-				<cfset depth_units = "#lookupLocality.depth_units#">
-				<cfset curated_fg = "#lookupLocality.curated_fg#">
-				<cfset locality_remarks = "#lookupLocality.locality_remarks#">
-			</cfloop>
-		<cfelse> 
-			<cfset clone_from_locality_id = "">
-		</cfif>
-		<cfset higher_geog = "">
-		<cfif isdefined('geog_auth_rec_id') AND len(geog_auth_rec_id) GT 0>
-			<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT higher_geog
-				FROM geog_auth_rec
-				WHERE 
-					geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
-			</cfquery>
-			<cfloop query="lookupHigherGeog">
-				<cfset higher_geog = "#lookupHigherGeog.higher_geog#">
-			</cfloop>
-		<cfelse> 
-			<cfset geog_auth_rec_id = "">
-		</cfif>
 		<cfoutput>
+			<cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				SELECT orig_elev_units 
+				FROM ctorig_elev_units 
+				ORDER BY orig_elev_units
+			</cfquery>
+			<cfquery name="ctDepthUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				SELECT depth_units as unit
+				FROM ctdepth_units 
+				ORDER BY depth_units
+			</cfquery>
+			<cfif isdefined('clone_from_locality_id') AND len(clone_from_locality_id) GT 0>
+				<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT geog_auth_rec_id, spec_locality, sovereign_nation, 
+						minimum_elevation, maximum_elevation, orig_elev_units, 
+						min_depth, max_depth, depth_units,
+						curated_fg, locality_remarks
+					FROM locality
+					WHERE 
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_locality_id#">
+				</cfquery>
+				<!--- by design, overwrite any other provided value --->
+				<cfloop query="lookupLocality">
+					<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
+					<cfset spec_locality = "#lookupLocality.spec_locality#">
+					<cfset sovereign_nation = "#lookupLocality.sovereign_nation#">
+					<cfset minimum_elevation = "#lookupLocality.minimum_elevation#">
+					<cfset maximum_elevation = "#lookupLocality.maximum_elevation#">
+					<cfset orig_elev_units = "#lookupLocality.orig_elev_units#">
+					<cfset min_depth = "#lookupLocality.min_depth#">
+					<cfset max_depth = "#lookupLocality.max_depth#">
+					<cfset section_part = "#lookupLocality.section_part#">
+					<cfset section = "#lookupLocality.section#">
+					<cfset township = "#lookupLocality.township#">
+					<cfset township_direction = "#lookupLocality.township_direction#">
+					<cfset range = "#lookupLocality.range#">
+					<cfset range_direction = "#lookupLocality.range_direction#">
+					<cfset depth_units = "#lookupLocality.depth_units#">
+					<cfset curated_fg = "#lookupLocality.curated_fg#">
+					<cfset locality_remarks = "#lookupLocality.locality_remarks#">
+				</cfloop>
+			<cfelse> 
+				<cfset clone_from_locality_id = "">
+			</cfif>
+			<cfset higher_geog = "">
+			<cfif isdefined('geog_auth_rec_id') AND len(geog_auth_rec_id) GT 0>
+				<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT higher_geog
+					FROM geog_auth_rec
+					WHERE 
+						geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+				</cfquery>
+				<cfloop query="lookupHigherGeog">
+					<cfset higher_geog = "#lookupHigherGeog.higher_geog#">
+				</cfloop>
+			<cfelse> 
+				<cfset geog_auth_rec_id = "">
+			</cfif>
 			<div class="form-row mx-0 mb-0">
 				<div class="col-12 col-md-10 mt-0">
 					<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#geog_auth_rec_id#">
