@@ -81,7 +81,7 @@ limitations under the License.
 						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray ">
 							<div class="grider col-12 px-0">
 								<div class="grid-item-2 col-6 px-0">
-									<img src="#media.auto_protocol##media.auto_host##media.auto_path#393717_Haliotis_ovina_05.JPG" class="w-100"/>
+									<img src="#media.auto_protocol#://#media.auto_host##media.auto_path#393717_Haliotis_ovina_05.JPG" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-6 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/SC10_P_griseum_book-2015_03.jpg" class="w-100"/>
