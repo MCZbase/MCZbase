@@ -179,8 +179,8 @@ function openEditGeorefDialog(lat_long_id, dialogid, callback) {
 			}
 		},
 		close: function(event,ui) { 
-			if (jQuery.type(okcallback)==='function') {
-				okcallback();
+			if (jQuery.type(callback)==='function') {
+				callback();
 	  		}
 			$("#"+dialogid+"_div").html("");
 			$("#"+dialogid).dialog('destroy'); 
