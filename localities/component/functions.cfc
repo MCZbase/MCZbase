@@ -1825,12 +1825,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<input type="button" value="Details" id="details_button" class="btn btn-xs btn-info #otherClass#"
 						onclick="document.location='Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
 				</div>
-				<div class="col-12 pb-2">
+				<div class="col-12 pb-1">
 					<label class="data-entry-label" for="spec_locality">Specific Locality</label>
 					<cfif NOT isdefined("spec_locality")><cfset spec_locality=""></cfif>
 					<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(spec_locality)#" required>
 				</div>
-				<div class="col-12 col-md-4">
+				<div class="col-12 col-md-4 pb-2">
 					<cfif NOT isdefined("sovereign_nation")><cfset sovereign_nation=""></cfif>
 					<label class="data-entry-label" for="sovereign_nation">
 						Sovereign Nation
