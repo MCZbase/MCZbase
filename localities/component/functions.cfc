@@ -4235,7 +4235,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											url : "/localities/component/functions.cfc",
 											type : "post",
 											dataType : "json",
-											data : $('##manualGeorefForm').serialize(),
+											data : $('##editGeorefForm').serialize(),
 											success : function (data) {
 												console.log(data);
 												$('##georefEditFeedback').html('Saved.' + data[0].values + ' <span class="text-danger">' + data[0].message + '</span>');
