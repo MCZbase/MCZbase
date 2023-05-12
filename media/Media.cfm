@@ -55,16 +55,11 @@ limitations under the License.
 <cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select media_license_id,display media_license from ctmedia_license order by media_license_id
 </cfquery>
-<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select auto_protocol, auto_host, auto_path,media_uri from media where media_id = any(3815012,287808,6520,8085,1336734,171526,229213,1360339,3804325)
-</cfquery>
+
 <!---------------------------------------------------------------------------------------------------->
 
 
-		<cfoutput>
-
-		
-			
+	<cfoutput>
 		<section class="jumbotron pb-3 bg-white text-center">
 			<div class="container">
 				<h1 class="jumbotron-heading">Create Media Records</h1>
