@@ -152,7 +152,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-md-4 px-5 pb-5">
+					<div class="col-md-4 px-xl-5 pb-5">
 						<h2 class="text-center pt-3">External Link</h2>
 						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray">
 							<img class="card-img-top" data-src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/mcz_newsletter_BHL.jpg" alt="external file placeholder image" style="width: 100%; display: block;" src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/mcz_newsletter_BHL.jpg" data-holder-rendered="true">
@@ -166,7 +166,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-md-4 px-5 pb-5">
+					<div class="col-md-4 px-xl-5 pb-5">
 						<h2 class="text-center pt-3">Submit to DSpace</h2>
 						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray">
 							<img class="card-img-top" data-src="https://iiif.mcz.harvard.edu/iiif/3/3823370/full/max/0/default.jpg" alt="DSpace logo" style="width: 100%; display: block;" src="https://iiif.mcz.harvard.edu/iiif/3/3823370/full/max/0/default.jpg" data-holder-rendered="true">
