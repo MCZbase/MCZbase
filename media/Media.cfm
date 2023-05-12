@@ -115,7 +115,7 @@ limitations under the License.
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/large/393717_Haliotis_ovina_05.JPG" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-6 px-0">
-									<img src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/SC26_A_albida_book-2015_03.jpg" class="w-100"/>
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/SC10_P_griseum_book-2015_03.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item col-3 px-0" style="clear:both;">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/S119_Myliobatis_goodei.jpg" class="w-100"/>
