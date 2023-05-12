@@ -56,13 +56,17 @@ limitations under the License.
 	select media_license_id,display media_license from ctmedia_license order by media_license_id
 </cfquery>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select media_id from media where media_id = any(393717,3815012,287808,6520,8085,1336734,171526,229213,1360339,3804325)
+	select auto_protocol, auto_host, auto_path from media where media_id = any(3815012,287808,6520,8085,1336734,171526,229213,1360339,3804325)
 </cfquery>
 <!---------------------------------------------------------------------------------------------------->
 
 
 		<cfoutput>
-<cfloop query="media">#media.media_id#,</cfloop>
+			<cfloop query="media">
+				<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="300",captionAs="textNone")>
+				<div class="col-3 h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+			</cfloop>
+		
 			
 		<section class="jumbotron pb-3 bg-white text-center">
 			<div class="container">
@@ -80,24 +84,14 @@ limitations under the License.
 						<div class="card mb-4 box-shadow bg-lt-gray border-lt-gray ">
 							<div class="grider col-12 px-0">
 								<div class="grid-item-2 col-6 px-0">
-									<!---<img src="https://mczbase.mcz.harvard.edu/specimen_images/malacology/large/393717_Haliotis_ovina_05.JPG" class="w-100"/>--->
-									<cfloop query="media">
-										<div class="grid-item-2 col-6 px-0">
-											<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",captionAs="textNone")>
-											<div id="mediaBlock#media.media_id#"> #mediablock# </div>
-										</div>
-									</cfloop>
+									<img src="#media.auto_protocol##media.auto_host##auto_path#393717_Haliotis_ovina_05.JPG" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-6 px-0">
-						<!---			<img src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/SC10_P_griseum_book-2015_03.jpg" class="w-100"/>--->
-										<cfset mediablock= getMediaBlockHtml(media_id="287808",captionAs="textNone")>
-										<div id="mediaBlock287808"> #mediablock# </div>
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/SC10_P_griseum_book-2015_03.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item-1 col-3 px-0" style="clear:both;">
-								<!---	<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/390_Orthopristis_duplex_ST.jpg" class="w-100"/>
-									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>--->
-											<cfset mediablock= getMediaBlockHtml(media_id="287808",captionAs="textNone")>
-										<div id="mediaBlock287808"> #mediablock# </div>
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/390_Orthopristis_duplex_ST.jpg" class="w-100"/>
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-5 px-0" style="height: ">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/58012_Canis_familiaris_hl2.jpg" class="w-100 pr-1 pl-0"/>
