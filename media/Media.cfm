@@ -88,7 +88,7 @@ limitations under the License.
 								<div class="grid-item-2 col-6 px-0">
 						<!---			<img src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/SC10_P_griseum_book-2015_03.jpg" class="w-100"/>--->
 										<cfset media_id = "287808">
-										<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",captionAs="textNone")>
+										<cfset mediablock= getMediaBlockHtml(media_id="287808",captionAs="textNone")>
 										<div id="mediaBlock#media.media_id#"> #mediablock# </div>
 								</div>
 								<div class="grid-item-1 col-3 px-0" style="clear:both;">
