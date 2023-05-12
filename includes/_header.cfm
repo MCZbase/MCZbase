@@ -224,7 +224,11 @@
 											<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newHG">Geography</a>
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-											<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newLocality">Locality</a>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newLocality">Locality</a>
+											<cfelse>
+												<a class="dropdown-item" target="_top" href="/localities/Locality.cfm?action=new">Locality</a>
+											</cfif>
 										</cfif>
 										<a class="dropdown-item" target="_top" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
