@@ -3793,6 +3793,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<input type="hidden" name="method" value="updateGeoreference">
 							<input type="hidden" name="field_mapping" value="generic"> 
 							<input type="hidden" name="locality_id" value="#locality_id#">
+							<input type="hidden" name="lat_long_id" value="#lat_long_id#">
 							<h2 class="px-2 h3">Enter georeference</h2>
 							<div class="form-row">
 								<div class="col-12 col-md-3">
