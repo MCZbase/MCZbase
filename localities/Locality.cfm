@@ -88,15 +88,15 @@ limitations under the License.
 			<cfthrow message="Error: unable to edit locality, no locality_id specified.">
 		</cfif>
 		<cfoutput>
-		   <main class="container-float mt-3" id="content">
+			<main class="container-float my-2" id="content">
 				<section class="row mx-1">
 					<div class="col-12 col-md-9">
-      				<h1 class="h2 mt-3 mb-0 px-4">Edit Locality [#encodeForHtml(locality_id)#]</h1>
-						<div class="border rounded px-2 py-2">
+						<h1 class="h2 mt-3 mb-0 px-4">Edit Locality [#encodeForHtml(locality_id)#]</h1>
+						<div class="border rounded px-2 my-2 py-3">
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 							<div id="relatedTo">#blockRelated#</div>
 						</div>
-						<div class="border rounded px-2 py-2">
+						<div class="border rounded px-2 my-2 py-3">
 							<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
 							<div id="summary">#summary#</div>
 						</div>
@@ -200,13 +200,13 @@ limitations under the License.
 			<cfelse>
 				<cfset blockform = getCreateLocalityHtml()>
 			</cfif>
-		   <main class="container mt-3" id="content">
+			<main class="container my-2" id="content">
 				<section class="row">
 					<div class="col-12">
-		      		<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
-						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
-			     			<form name="createLocality" method="post" action="/localities/Locality.cfm">
-         			   	<input type="hidden" name="Action" value="makenewLocality">
+					<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
+						<div class="border rounded px-2 my-2 py-3" arial-labeledby="formheading">
+							<form name="createLocality" method="post" action="/localities/Locality.cfm">
+								<input type="hidden" name="Action" value="makenewLocality">
 								#blockform#
 							</form>
 						</div>
