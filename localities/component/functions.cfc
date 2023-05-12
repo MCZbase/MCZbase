@@ -1895,7 +1895,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</select>
 				</div>
 			</div>
-			<div class="form-row border rounded m-1 px-1 py-2">
+			<div class="form-row border rounded mx-1 px-1 my-2 py-2">
 				<div class="col-12 col-md-2">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
 					<label class="data-entry-label" for="section_part"><strong>PLSS</strong> Section Part</label>
