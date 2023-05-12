@@ -63,8 +63,8 @@ limitations under the License.
 
 		<cfoutput>
 			<cfloop query="media">
-				<cfset mediablock1= getMediaBlockHtml(media_id="3815012",size="auto",captionAs="textNone")>
-				 #mediablock1# 
+				<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",captionAs="textNone")>
+				<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 			</cfloop>
 		
 			
