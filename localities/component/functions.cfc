@@ -3703,6 +3703,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					long_deg, dec_long_min, long_min, long_sec, long_dir,
 					utm_zone, utm_ew, utm_ns,
 					georefmethod,
+					coordinate_precision,
 					nvl2(coordinate_precision, round(dec_lat,coordinate_precision), round(dec_lat,5)) dec_lat,
 					dec_lat raw_dec_lat,
 					nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_long,5)) dec_long,
