@@ -1743,6 +1743,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					SELECT geog_auth_rec_id, spec_locality, sovereign_nation, 
 						minimum_elevation, maximum_elevation, orig_elev_units, 
 						min_depth, max_depth, depth_units,
+						section_part, section, township, township_direction, range, range_direction,
 						curated_fg, locality_remarks
 					FROM locality
 					WHERE 
@@ -1758,13 +1759,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfset orig_elev_units = "#lookupLocality.orig_elev_units#">
 					<cfset min_depth = "#lookupLocality.min_depth#">
 					<cfset max_depth = "#lookupLocality.max_depth#">
+					<cfset depth_units = "#lookupLocality.depth_units#">
 					<cfset section_part = "#lookupLocality.section_part#">
 					<cfset section = "#lookupLocality.section#">
 					<cfset township = "#lookupLocality.township#">
 					<cfset township_direction = "#lookupLocality.township_direction#">
 					<cfset range = "#lookupLocality.range#">
 					<cfset range_direction = "#lookupLocality.range_direction#">
-					<cfset depth_units = "#lookupLocality.depth_units#">
 					<cfset curated_fg = "#lookupLocality.curated_fg#">
 					<cfset locality_remarks = "#lookupLocality.locality_remarks#">
 				</cfloop>
