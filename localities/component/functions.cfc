@@ -3682,6 +3682,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 </cffunction>
 
+<!--- given a lat_long_id, return html to populate a dialog to edit the specified georeferenced.
+  @param lat_long_id the pk value of the georeference to edit.
+  @return html to populate a dialog.
+--->
 <cffunction name="editGeoreferenceDialogHtml" access="remote" returntype="string">
 	<cfargument name="lat_long_id" type="string" required="yes">
 
@@ -4000,14 +4004,22 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								<div class="col-12 col-md-3">
 									<label for="coordinate_precision" class="data-entry-label">Precision</label>
 									<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
-										<option value=""></option>
-										<option value="0">Specified to 1&##176;</option>
-										<option value="1">Specified to 0.1&##176;. latitude known to 11 km.</option>
-										<option value="2">Specified to 0.01&##176;, use if known to 1&apos;, latitude known to 1,111 meters.</option>
-										<option value="3">Specified to 0.001&##176;, latitude known to 111 meters.</option>
-										<option value="4">Specified to 0.0001&##176;, use if known to 1&quot;, latitude known to 11 meters.</option>
-										<option value="5">Specified to 0.00001&##176;, latitude known to 1 meter.</option>
-										<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
+										<cfif len(coordinate_precision) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="" #selected#></option>
+										<cfif coordinate_precision EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="0" #selected#>Specified to 1&##176;</option>
+										<cfif coordinate_precision EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="1" #selected#>Specified to 0.1&##176;. latitude known to 11 km.</option>
+										<cfif coordinate_precision EQ "2"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="2" #selected#>Specified to 0.01&##176;, use if known to 1&apos;, latitude known to 1,111 meters.</option>
+										<cfif coordinate_precision EQ "3"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="3" #selected#>Specified to 0.001&##176;, latitude known to 111 meters.</option>
+										<cfif coordinate_precision EQ "4"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="4" #selected#>Specified to 0.0001&##176;, use if known to 1&quot;, latitude known to 11 meters.</option>
+										<cfif coordinate_precision EQ "5"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="5" #selected#>Specified to 0.00001&##176;, latitude known to 1 meter.</option>
+										<cfif coordinate_precision EQ "6"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="6" #selected#>Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 									</select>
 								</div>
 								<div class="col-12 col-md-3">
@@ -4021,8 +4033,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								<div class="col-12 col-md-3">
 									<label for="lat_long_for_nnp_fg" class="data-entry-label">Georeference is of Nearest Named Place</label>
 									<select name="lat_long_for_nnp_fg" id="lat_long_for_nnp_fg" class="data-entry-select reqdClr" required>
-										<option value="0" selected>No</option>
-										<option value="1">Yes</option>
+										<cfif lat_long_for_nnp_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="0" #selected#>No</option>
+										<cfif lat_long_for_nnp_fg EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="1" #selected#>Yes</option>
 									</select>
 								</div>
 								<div class="col-12 col-md-3">
@@ -4192,34 +4206,31 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								<div class="col-12 col-md-2">
 									<output id="wktLocReplaceFeedback"></output>
 								</div>
-								<div class="geolocateMetadata col-12">
-									<h3 class="h4">Batch GeoLocate Georeference Metadata</h3>
-								</div>
-								<div class="geolocateMetadata col-12">
-									<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">GeoLocate Uncertanty Polygon</label>
-									<input type="text" name="geolocate_uncertaintypolygon" id="geolocate_uncertaintypolygon" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_uncertaintypolygon)#"  readonly>
-								</div>
-								<div class="geolocateMetadata col-12 col-md-3">
-									<label for="geolocate_score" class="data-entry-label" id="geolocate_score_label">GeoLocate Score</label>
-									<input type="text" name="geolocate_score" id="geolocate_score" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_score)#" readonly>
-								</div>
-								<div class="geolocateMetadata col-12 col-md-3">
-									<label for="geolocate_precision" class="data-entry-label" id="geolocate_precision_label">GeoLocate Precision</label>
-									<input type="text" name="geolocate_precision" id="geolocate_precision" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_precision)#" readonly>
-								</div>
-								<div class="geolocateMetadata col-12 col-md-3">
-									<label for="geolocate_numresults" class="data-entry-label" id="geolocate_numresults_label">Number of Matches</label>
-									<input type="text" name="geolocate_numresults" id="geolocate_numresults" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_numresults)#" readonly>
-								</div>
-								<div class="geolocateMetadata col-12 col-md-3">
-									<label for="geolocate_parsepattern" class="data-entry-label" id="geolocate_parsepattern_label">Parse Pattern</label>
-									<input type="text" name="geolocate_parsepattern" id="geolocate_parsepattern" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_parsepattern)#" readonly>
-								</div>
-								<script>
-									$(document).ready(function() { 
-										$('.geolocateMetadata').hide();
-									});
-								</script>
+								<cfif len(geolocate_score) GT 0>
+									<div class="geolocateMetadata col-12">
+										<h3 class="h4">Batch GeoLocate Georeference Metadata</h3>
+									</div>
+									<div class="geolocateMetadata col-12">
+										<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">GeoLocate Uncertanty Polygon</label>
+										<input type="text" name="geolocate_uncertaintypolygon" id="geolocate_uncertaintypolygon" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_uncertaintypolygon)#"  readonly>
+									</div>
+									<div class="geolocateMetadata col-12 col-md-3">
+										<label for="geolocate_score" class="data-entry-label" id="geolocate_score_label">GeoLocate Score</label>
+										<input type="text" name="geolocate_score" id="geolocate_score" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_score)#" readonly>
+									</div>
+									<div class="geolocateMetadata col-12 col-md-3">
+										<label for="geolocate_precision" class="data-entry-label" id="geolocate_precision_label">GeoLocate Precision</label>
+										<input type="text" name="geolocate_precision" id="geolocate_precision" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_precision)#" readonly>
+									</div>
+									<div class="geolocateMetadata col-12 col-md-3">
+										<label for="geolocate_numresults" class="data-entry-label" id="geolocate_numresults_label">Number of Matches</label>
+										<input type="text" name="geolocate_numresults" id="geolocate_numresults" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_numresults)#" readonly>
+									</div>
+									<div class="geolocateMetadata col-12 col-md-3">
+										<label for="geolocate_parsepattern" class="data-entry-label" id="geolocate_parsepattern_label">Parse Pattern</label>
+										<input type="text" name="geolocate_parsepattern" id="geolocate_parsepattern" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_parsepattern)#" readonly>
+									</div>
+								</cfif>
 								<div class="col-12 col-md-3 pt-3">
 									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 										onClick="if (checkFormValidity($('##editGeorefForm')[0])) { saveGeorefUpdate();  } " 
