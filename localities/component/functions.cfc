@@ -1789,8 +1789,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfelse> 
 				<cfset geog_auth_rec_id = "">
 			</cfif>
-			<div class="form-row mx-0 mb-2">
-				<div class="col-12 col-md-10 mt-0">
+			<div class="form-row mx-0">
+				<div class="col-12 col-md-10 mt-0 pb-2">
 					<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#geog_auth_rec_id#">
 					<label class="data-entry-label" for="higher_geog">Higher Geography:</label>
 					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input reqdClr" value = "#encodeForHTML(higher_geog)#" required>
@@ -1816,7 +1816,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						});
 					</script>
 				</div>
-				<div class="col-12 col-md-2 mt-0">
+				<div class="col-12 col-md-2 mt-0 pb-2">
 					<label class="data-entry-label text-white" for="details_button">Higher Geography</label>
 					<cfset otherClass="">
 					<cfif isdefined("geog_auth_rec_id") and len(geog_auth_rec_id) GT 0>
@@ -1825,7 +1825,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<input type="button" value="Details" id="details_button" class="btn btn-xs btn-info #otherClass#"
 						onclick="document.location='Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
 				</div>
-				<div class="col-12 mb-2">
+				<div class="col-12 mb-2 pb-2">
 					<label class="data-entry-label" for="spec_locality">Specific Locality</label>
 					<cfif NOT isdefined("spec_locality")><cfset spec_locality=""></cfif>
 					<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(spec_locality)#" required>
