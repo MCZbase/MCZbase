@@ -81,8 +81,23 @@ limitations under the License.
 							.grid-item--width2 { width: 200px; }
 							.grid-item--width3 { width: 300px; }
 							.grid-item {
-								width: 100px;
-								height: 120px;
+								height: 100px;
+								float: left;
+								background: ##D26;
+								border: 2px solid ##333;
+								border-color: hsla(0, 0%, 0%, 0.5);
+								border-radius: 5px;
+							}
+							.grid-item--2 {
+								height: 150px;
+								float: left;
+								background: ##D26;
+								border: 2px solid ##333;
+								border-color: hsla(0, 0%, 0%, 0.5);
+								border-radius: 5px;
+							}
+							.grid-item--3 {
+								height: 200px;
 								float: left;
 								background: ##D26;
 								border: 2px solid ##333;
