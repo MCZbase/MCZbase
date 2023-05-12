@@ -303,12 +303,12 @@ limitations under the License.
 					<div class="row">
 						<div id="images" class="col-9 float-left py-3">
 	
-						<div class="col-3 pt-4 float-left">
+<!---						<div class="col-3 pt-4 float-left">
 							<div id="commonData" class="d-inline">
 								<input type="button" class="btn btn-xs btn-secondary" style="display: none;" value="Create Media Records" onClick="window.location='/media/SharedDrive.cfm?action=newMedia&media_id=1335'">
-								<!---	window.location='/media/SharedDrive.cfm?action=newMedia&media_id=#mid.nv#';--->
+			
 							</div>
-						</div>
+						</div>--->
 					</div>
 				</div>
 			</form>
