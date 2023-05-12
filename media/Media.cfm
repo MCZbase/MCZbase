@@ -86,7 +86,7 @@ limitations under the License.
 								<div class="grid-item-2 col-6 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/specialcollections/large/SC10_P_griseum_book-2015_03.jpg" class="w-100"/>
 								</div>
-								<div class="grid-item-1 col-3 px-0 py-2 bg-black" style="clear:both;">
+								<div class="grid-item-1 col-3 px-0 py-1 bg-black" style="clear:both;">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/11399_Paralichthys_patagonius_blind_LT.jpg" class="w-100"/>
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/OBS38_L_lunatus_lunatus_1of1.jpg" class="w-100"/>
 								</div>
