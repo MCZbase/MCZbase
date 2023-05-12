@@ -55,11 +55,14 @@ limitations under the License.
 <cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select media_license_id,display media_license from ctmedia_license order by media_license_id
 </cfquery>
-
+<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_uri from media where media_id = any(3815012,287808,6520,8085,1336734,171526,229213,1360339,3804325)
+</cfquery>
 <!---------------------------------------------------------------------------------------------------->
 
 
 		<cfoutput>
+			#media.media_uri#
 		<section class="jumbotron pb-3 bg-white text-center">
 			<div class="container">
 				<h1 class="jumbotron-heading">Create Media Records</h1>
@@ -96,7 +99,6 @@ limitations under the License.
 								</div>
 								<div class="grid-item-2 col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/vertpaleo/large/MCZ_VPF-5318_Lepidosteus_simplex_skel.jpg" class="w-100"/>
-									
 								</div>
 								<div class="grid-item-2 col-3 px-0">
 									<img src="https://iiif.mcz.harvard.edu/iiif/3/1360339/full/!2000,2000/0/default.jpg" class="w-100"/>
