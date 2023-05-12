@@ -62,7 +62,10 @@ limitations under the License.
 
 
 		<cfoutput>
+			<cfloop query="media">
 			#media.media_uri#
+			</cfloop>
+			
 		<section class="jumbotron pb-3 bg-white text-center">
 			<div class="container">
 				<h1 class="jumbotron-heading">Create Media Records</h1>
