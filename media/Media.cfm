@@ -80,15 +80,11 @@ limitations under the License.
 
 
 
-/* clearfix */
 .grid:after {
   content: '';
   display: block;
   clear: both;
 }
-
-/* ---- grid-item ---- */
-
 .grid-item {
   height: auto;
   float: left;
@@ -138,9 +134,9 @@ limitations under the License.
 								<div class="grid-item-2 col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/vertpaleo/large/MCZ_VPF-5318_Lepidosteus_simplex_skel.jpg" class="w-100"/>
 								</div>
-								<div class="grid-item-2 col-3 px-0">
+					<!---			<div class="grid-item-2 col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>
-								</div>
+								</div>--->
 								<div class="grid-item-2 col-3 px-0">
 									<img src="https://iiif.mcz.harvard.edu/iiif/3/1360339/full/!2000,2000/0/default.jpg" class="w-100"/>
 								</div>
