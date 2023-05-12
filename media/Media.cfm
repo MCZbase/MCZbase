@@ -122,10 +122,10 @@ limitations under the License.
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-5 px-0" style="height: ">
-									<img src="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/58012_Canis_familiaris_hl2.jpg" class="w-100"/>
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/58012_Canis_familiaris_hl2.jpg" class="w-100 pr-1 pl-0"/>
 								</div>
 								<div class="grid-item-2 col-4 px-0">
-									<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00000011_Cicindela_cyanella_hed.jpg" class="w-100"/>
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00000011_Cicindela_cyanella_hed.jpg" class="w-100 pr-2 pl-1"/>
 								</div>
 								<div class="grid-item-2 col-3 px-0" style="clear: both;">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ3723_Pandion_haliaetus_4.jpg" class="w-100"/>
