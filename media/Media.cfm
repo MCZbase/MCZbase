@@ -125,9 +125,7 @@ limitations under the License.
 								<div class="grid-item col-3 px-0">
 									<img src="https://iiif.mcz.harvard.edu/iiif/3/775350/full/max/0/default.jpg" class="w-100"/>
 								</div>
-								<div class="grid-item-2 col-3 px-0">
-									<img src="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/58012_Canis_familiaris_hl2.jpg" class="w-100"/>
-								</div>
+							
 								<div class="grid-item-2 col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>
 								</div>
@@ -138,11 +136,14 @@ limitations under the License.
 								<div class="grid-item-2 col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>
 								</div>
-								<div class="grid-item-2 col-6 px-0">
+								<div class="grid-item-2 col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/invertebrates/large/1344_Nesopachylus_monoceros_1.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>
+								</div>
+								<div class="grid-item-2 col-6 px-0">
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/58012_Canis_familiaris_hl2.jpg" class="w-100"/>
 								</div>
 							</div>
 							<div class="card-body bg-white p-4">
