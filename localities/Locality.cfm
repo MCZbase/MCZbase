@@ -339,8 +339,13 @@ limitations under the License.
 			</cfquery>
 			<cfif #cloneCoords# is "yes">
 				<cfquery name="cloneCoordinates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select * from lat_long
-					where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					SELECT * 
+					FROM
+						 lat_long
+					WHERE
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_locality_id#">
+						and
+						accepted_lat_long_fg = 1
 				</cfquery>
 				<cfloop query="cloneCoordinates">
 					<cfset thisLatLongId = #llID.mLatLongId# + 1>
