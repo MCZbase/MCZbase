@@ -348,7 +348,6 @@ limitations under the License.
 						accepted_lat_long_fg = 1
 				</cfquery>
 				<cfloop query="cloneCoordinates">
-					<cfset thisLatLongId = #llID.mLatLongId# + 1>
 					<cfquery name="newLL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						INSERT INTO lat_long (
 							LAT_LONG_ID,
