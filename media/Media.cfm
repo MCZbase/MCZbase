@@ -129,6 +129,12 @@ limitations under the License.
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-6 px-0">
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-75"/>
+								</div>
+								<div class="grid-item-2 col-3 px-0">
+									<img src="https://iiif.mcz.harvard.edu/iiif/3/833/full/max/0/default.jpg" class="w-75"/>
+								</div>
+								<div class="grid-item-2 col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-3 px-0">
