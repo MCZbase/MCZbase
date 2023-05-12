@@ -123,7 +123,7 @@ limitations under the License.
 								</div>
 								<div class="grid-item-2 col-2 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/58012_Canis_familiaris_hl2.jpg" class="w-100"/>
-									<img src="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/58012_Canis_familiaris_hl2.jpg" class="w-100"/>
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/58012_Canis_familiaris_f.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>
@@ -132,7 +132,7 @@ limitations under the License.
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-75"/>
 								</div>
 								<div class="grid-item-2 col-3 px-0">
-									<img src="https://iiif.mcz.harvard.edu/iiif/3/833/full/max/0/default.jpg" class="w-75"/>
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00011217_Cloe_Ephemeridae_vicina_fwg.jpg" class="w-75"/>
 								</div>
 								<div class="grid-item-2 col-3 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/35215_Antennarius_radiosus_LT.jpg" class="w-100"/>
