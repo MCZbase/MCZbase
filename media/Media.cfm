@@ -125,7 +125,7 @@ limitations under the License.
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/58012_Canis_familiaris_hl2.jpg" class="w-100 pr-1 pl-0"/>
 								</div>
 								<div class="grid-item-2 col-4 px-0">
-									<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00000011_Cicindela_cyanella_hed.jpg" class="w-100 pr-2 pl-1"/>
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/entomology/large/MCZ-ENT00000011_Cicindela_cyanella_hed.jpg" class="w-100 pr-md-1 pl-md-0 pl-xl-1 pr-xl-2 pl-1 pr-2"/>
 								</div>
 								<div class="grid-item-2 col-3 px-0" style="clear: both;">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/MCZ3723_Pandion_haliaetus_4.jpg" class="w-100"/>
