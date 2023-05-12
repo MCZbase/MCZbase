@@ -88,7 +88,7 @@ limitations under the License.
 								</div>
 								<div class="grid-item-1 col-3 px-0" style="clear:both;">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/fish/large/10430_Xenichthys_agassizii_ST.jpg" class="w-100"/>
-									<img src="https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/OBS38_L_lunatus_lunatus_1of1.jpg" class="w-100"/>
+									<img src="https://mczbase.mcz.harvard.edu/specimen_images/ornithology/large/birds%20on%20book.jpg" class="w-100"/>
 								</div>
 								<div class="grid-item-2 col-5 px-0">
 									<img src="https://mczbase.mcz.harvard.edu/specimen_images/mammalogy/large/58012_Canis_familiaris_hl2.jpg" class="w-100 pr-1 pl-0"/>
