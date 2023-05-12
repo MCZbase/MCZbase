@@ -302,6 +302,7 @@ limitations under the License.
 					</div>
 					<div class="row">
 						<div id="images" class="col-9 float-left py-3">
+						<div>
 							<form >
 								<table class="table" id="commontable" style="display: none;">
 									<thead>
@@ -367,7 +368,7 @@ limitations under the License.
 				div.appendChild(p);
 				span.addEventListener('click', () => {
 					//alert('Oh, you clicked me!');
-					let childDivs = document.querySelectorAll("div##images");
+					let childDivs = document.querySelectorAll("div##images > div");
 					for(var i = 0; i < childDivs.length; i++){
 						childDivs[i].remove();
 					};
