@@ -91,14 +91,14 @@ limitations under the License.
 			<main class="container-fluid my-2" id="content">
 				<section class="row mx-0">
 					<div class="col-12 col-md-9">
-						<h1 class="h2 mt-3 mb-0 px-4">Edit Locality [#encodeForHtml(locality_id)#]</h1>
+						<h1 class="h2 mt-3 mb-0 px-3">Edit Locality [#encodeForHtml(locality_id)#]</h1>
 						<div class="border rounded px-2 my-2 py-3">
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 							<div id="relatedTo">#blockRelated#</div>
 						</div>
 						<div class="border rounded px-2 my-2 py-3">
 							<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
-							<div id="summary">#summary#</div>
+							<div id="summary" class="h4 px-2">#summary#</div>
 						</div>
 						<div class="border rounded px-2 my-2 py-3" arial-labeledby="formheading">
 							<cfset formId = "editLocalityForm">

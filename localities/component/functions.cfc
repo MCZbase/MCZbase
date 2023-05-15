@@ -311,7 +311,7 @@ Delete an existing collecting event number record.
 		<cfoutput>
 			<cftry>
 				<cfquery name="localityUses" datasource="uam_god">
-			  		SELECT
+					SELECT
 						count(cataloged_item.cat_num) numOfSpecs,
 						count(distinct collecting_event.collecting_event_id) numOfCollEvents,
 						collection.collection,
@@ -352,7 +352,7 @@ Delete an existing collecting event number record.
 							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#totalEvents# collecting events</a>:
 						</h2>
 						<div>
-							<ul class="px-4">
+							<ul>
 								<cfloop query="localityUses">
 									<li>
 										<cfif numOfSpecs GT 0>
