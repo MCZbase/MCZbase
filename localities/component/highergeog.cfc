@@ -22,7 +22,6 @@ Functions supporting editing higher geographies.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cf_rolecheck>
 
-<cfset blockRelated = getGeographyUsesHtml(geog_auth_rec_id = "#geog_auth_rec_id#")>
 <cffunction name="getGeographyUsesHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="geog_auth_rec_id" type="string" required="yes">
 	
