@@ -582,7 +582,7 @@ Delete an existing collecting event number record.
 					</script>
 				</div>
 				<div class="col-12 col-md-2 mt-0 mb-2">
-					<label class="data-entry-label" for="details_button" class="sr-only mt-3">Higher Geography</label>
+					<label class="data-entry-label sr-only mt-3 text-white" for="details_button">Higher Geography</label>
 					<cfset otherClass="">
 					<cfif NOT isdefined("geog_auth_rec_id") or len(geog_auth_rec_id) EQ 0>
 						<cfset otherClass="disabled">
