@@ -141,13 +141,13 @@ limitations under the License.
 							</cfif>
 						</div>
 					
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-6 px-0 float-left">
 						<div class="border rounded px-3 my-2 py-3">
 							<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#",callback_name='reloadGeology')>
 							<div id="geologyDiv" class="col-6">#geology#</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-6 float-left">
 						<div class="border rounded px-3 my-2 py-3">
 							<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callback_name='reloadGeoreferences')>
 							<div id="georeferencesDiv" class="col-6">#georeferences#</div>
