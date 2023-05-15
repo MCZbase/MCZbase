@@ -2149,7 +2149,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<cfset spanClass="font-weight-bold">
 									</cfif>
 									<span class="#spanClass#">#dec_lat#, #dec_long# #datum# ±#coordinateUncertaintyInMeters#m</span>
-									<ul class="">
+									<ul class="mb-2">
 										<li>
 											#original# <span class="#spanClass#">#accepted_lat_long#</span>
 										</li>
