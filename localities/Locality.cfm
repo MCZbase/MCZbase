@@ -89,7 +89,8 @@ limitations under the License.
 		</cfif>
 		<cfoutput>
 			<main class="container-fluid my-2" id="content">
-				<section class="row mx-0 col-12 col-md-9">
+				<div class="row">
+				<section class="col-12 col-md-9">
 					<div class="col-12">
 						<h1 class="h2 mt-3 mb-0 px-3">Edit Locality [#encodeForHtml(locality_id)#]</h1>
 						<div class="border-top border-right border-left border-bottom border-success rounded px-2 my-3 py-3">
@@ -170,7 +171,7 @@ limitations under the License.
 						</div>
 					</div>
 				</section>
-				<section class="mt-2 float-left col-12 col-md-3 px-0">
+				<section class="mt-2 col-12 col-md-3 px-0">
 						<!--- map --->
 						<div class="col-12">
 							<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
@@ -183,6 +184,7 @@ limitations under the License.
 							<div id="verbatimDiv">#verbatim#</div>
 						</div>
 				</section>
+				</div>
 			</main>
 		</cfoutput>
 	</cfcase>
