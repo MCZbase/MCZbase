@@ -233,7 +233,7 @@ limitations under the License.
 									bounds.extend(extendPoint1);
 									bounds.extend(extendPoint2);
 								}
-								if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < 89) { 
+								if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < -89) { 
 									bounds = google.maps.LatLngBounds.MAX_BOUNDS;
 								} 
 								map.fitBounds(bounds);
@@ -305,7 +305,7 @@ limitations under the License.
 									}
 								}
 							}
-							if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < 89) { 
+							if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < -89) { 
 								bounds = google.maps.LatLngBounds.MAX_BOUNDS;
 							} 
 							map.fitBounds(bounds);
