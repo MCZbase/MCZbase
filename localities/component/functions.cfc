@@ -647,17 +647,17 @@ Delete an existing collecting event number record.
 						</cfloop>
 					</select>
 				</div>
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("min_depth")><cfset min_depth=""></cfif> 
 					<label class="data-entry-label" for="min_depth"><strong>Depth</strong>: Minimum</label>
 					<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(min_depth)#" >
 				</div>
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("max_depth")><cfset max_depth=""></cfif>
 					<label class="data-entry-label" for="max_depth">Maximum Depth</label>
 					<input type="text" name="max_depth" id="max_depth" class="data-entry-input" value="#encodeForHTML(max_depth)#" >
 				</div>
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-2 py-2">
 					<label class="data-entry-label" for="depth_units">Depth Units</label>
 					<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
 						<option value=""></option>
@@ -668,8 +668,8 @@ Delete an existing collecting event number record.
 					</select>
 				</div>
 			</div>
-			<div class="form-row border m-1 p-1 pb-2">
-				<div class="col-12 col-md-2 my-2 py-2">
+			<div class="form-row border m-1 p-1">
+				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
 					<label class="data-entry-label" for="section_part"><strong>PLSS</strong> Section Part</label>
 					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" placeholder="NE 1/4" >
