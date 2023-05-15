@@ -127,13 +127,15 @@ limitations under the License.
 </cfquery>
 <cfoutput>
 	<main class="container-xl px-0" id="content">
+		<h1 class="h2 mr-2 mt-4 pt-1 pb-3 border-bottom border-dark">#getGeography.higher_geog# 	
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+				<a role="button" href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#getGeography.geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+			</cfif>
+		</h1>
+		
 		<div class="row mx-0">
-			<div class="col-12 col-md-6 mt-4">
+			<div class="col-12 col-md-6 mt-1">
 				<cfloop query="getGeography">
-					<h1 class="h2 mr-2">#getGeography.higher_geog#</h1>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
-						<span><a href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a></span>
-					</cfif>
 					<div class="col-12">
 						<ul class="sd list-unstyled row mx-0 px-2 py-1 mb-0">
 							<cfif len(valid_catalog_term_fg) EQ 1><cfset valid="*"><cfelse><cfset valid=""></cfif>
@@ -272,7 +274,7 @@ limitations under the License.
 					</ul>
 				</div>
 			</div>
-			<div class="col-12 col-md-6 pt-5">
+			<div class="col-12 col-md-6 pt-2">
 				<!--- map --->
 				<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
 				</script>
