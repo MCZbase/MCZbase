@@ -164,12 +164,12 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-3 pt-5">
 						<!--- map --->
-						<div class="border rounded p-1 w-100">
+						<div class="col-12">
 							<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
 							<div id="mapDiv">#map#</div>
 						</div>
 						<!--- verbatim values --->
-						<div class="border rounded p-1 w-100">
+						<div class="col-12">
 							<h2 class="h4">Verbatim localities (from associated collecting events)</h2>
 							<cfset verbatim = getLocalityVerbatimHtml(locality_id="#locality_id#")>
 							<div id="verbatimDiv">#verbatim#</div>
