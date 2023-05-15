@@ -140,14 +140,19 @@ limitations under the License.
 								</button>
 							</cfif>
 						</div>
+					
+					<div class="col-12 col-md-6">
 						<div class="border rounded px-3 my-2 py-3">
 							<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#",callback_name='reloadGeology')>
 							<div id="geologyDiv" class="col-6">#geology#</div>
 						</div>
+					</div>
+					<div class="col-12 col-md-6">
 						<div class="border rounded px-3 my-2 py-3">
 							<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callback_name='reloadGeoreferences')>
 							<div id="georeferencesDiv" class="col-6">#georeferences#</div>
 						</div>
+					</div>
 						<div class="p-3 border bg-light rounded my-2">
 							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
 							<script>
@@ -160,6 +165,7 @@ limitations under the License.
 							<!---  Space tests --->
 							<div id="SpaceDQDiv"></div>
 						</div>
+				
 					<section class="mt-2 float-left col-12 px-0">
 					</div>
 					<div class="col-12 col-md-3 pt-5">
