@@ -89,8 +89,8 @@ limitations under the License.
 		</cfif>
 		<cfoutput>
 			<main class="container-fluid my-2" id="content">
-				<section class="row mx-0">
-					<div class="col-12 col-md-9">
+				<section class="row mx-0 col-12 col-md-9">
+					<div class="col-12">
 						<h1 class="h2 mt-3 mb-0 px-3">Edit Locality [#encodeForHtml(locality_id)#]</h1>
 						<div class="border-top border-right border-left border-bottom border-success rounded px-2 my-3 py-3">
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
@@ -141,7 +141,7 @@ limitations under the License.
 							</cfif>
 						</div>
 					</div>	
-					<div class="col-12 col-md-9">
+					<div class="col-12">
 						<div class="col-12 col-md-6 px-0 float-left">
 						<div class="border rounded px-3 my-2 py-3">
 							<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#",callback_name='reloadGeology')>
@@ -155,7 +155,7 @@ limitations under the License.
 						</div>
 					</div>
 					</div>
-					<div class="col-12 col-md-9">
+					<div class="col-12">
 						<div class="border bg-light rounded p-3 my-2">
 							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
 							<script>
@@ -170,7 +170,7 @@ limitations under the License.
 						</div>
 					</div>
 				</section>
-				<section class="mt-2 float-left col-12 col-12 col-md-3 px-0">
+				<section class="mt-2 float-left col-12 col-md-3 px-0">
 						<!--- map --->
 						<div class="col-12">
 							<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
