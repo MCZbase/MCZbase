@@ -46,7 +46,7 @@ limitations under the License.
 						var bounds = new google.maps.LatLngBounds();
 						latLongs.getArray().forEach(function(path){ 
 							path.getArray().forEach(function(latlong){ 
-								if (latlong.lat < 89 & latlong.lat > -89) { 
+								if (latlong.lat() < 89 & latlong.lat() > -89) { 
 									bounds.extend(latlong)
 								}
 							});
@@ -233,7 +233,7 @@ limitations under the License.
 									bounds.extend(extendPoint1);
 									bounds.extend(extendPoint2);
 								}
-								if (bounds.getNorthEast().lat > 89 || bounds.getSouthWest().lat < 89) { 
+								if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < 89) { 
 									bounds = google.maps.LatLngBounds.MAX_BOUNDS;
 								} 
 								map.fitBounds(bounds);
@@ -300,7 +300,7 @@ limitations under the License.
 									$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
 								}
 							}
-							if (bounds.getNorthEast().lat > 89 || bounds.getSouthWest().lat < 89) { 
+							if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < 89) { 
 								bounds = google.maps.LatLngBounds.MAX_BOUNDS;
 							} 
 							map.fitBounds(bounds);
