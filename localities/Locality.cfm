@@ -88,8 +88,8 @@ limitations under the License.
 			<cfthrow message="Error: unable to edit locality, no locality_id specified.">
 		</cfif>
 		<cfoutput>
-			<main class="container-float my-2" id="content">
-				<section class="row mx-1">
+			<main class="container-fluid my-2" id="content">
+				<section class="row mx-0">
 					<div class="col-12 col-md-9">
 						<h1 class="h2 mt-3 mb-0 px-4">Edit Locality [#encodeForHtml(locality_id)#]</h1>
 						<div class="border rounded px-2 my-2 py-3">
@@ -100,7 +100,7 @@ limitations under the License.
 							<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
 							<div id="summary">#summary#</div>
 						</div>
-						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
+						<div class="border rounded px-2 my-2 py-3" arial-labeledby="formheading">
 							<cfset formId = "editLocalityForm">
 							<cfset outputDiv="saveResultsDiv">
  			    			<form name="editLocality" id="#formId#">
@@ -130,7 +130,7 @@ limitations under the License.
 								};
 							</script>
 						</div>
-						<div class="border rounded px-2 py-2">
+						<div class="border rounded px-2 my-2 py-3">
 							<button type="button" class="btn btn-xs btn-secondary" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
 							<cfif countUses.total_uses EQ "0">
 								<button type="button" 
@@ -140,15 +140,15 @@ limitations under the License.
 								</button>
 							</cfif>
 						</div>
-						<div class="border rounded px-2 py-2">
+						<div class="border rounded px-2 my-2 py-3">
 							<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#",callback_name='reloadGeology')>
 							<div id="geologyDiv">#geology#</div>
 						</div>
-						<div class="border rounded px-2 py-2">
+						<div class="border rounded px-2 my-2 py-3">
 							<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callback_name='reloadGeoreferences')>
 							<div id="georeferencesDiv">#georeferences#</div>
 						</div>
-						<div class="p-3 border bg-light rounded mt-2">
+						<div class="p-3 border bg-light rounded my-2">
 							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
 							<script>
 								function runTests() {
