@@ -2674,7 +2674,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<h3 class="h4">Batch GeoLocate Georeference Metadata</h3>
 										</div>
 										<div class="geolocateMetadata col-12">
-											<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">GeoLocate Uncertanty Polygon</label>
+											<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">GeoLocate Uncertainty Polygon</label>
 											<input type="text" name="geolocate_uncertaintypolygon" id="geolocate_uncertaintypolygon" class="data-entry-input bg-lt-gray" readonly>
 										</div>
 										<div class="geolocateMetadata col-12 col-md-3">
@@ -4219,7 +4219,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<h3 class="h4">Batch GeoLocate Georeference Metadata</h3>
 									</div>
 									<div class="geolocateMetadata col-12">
-										<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">GeoLocate Uncertanty Polygon</label>
+										<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">GeoLocate Uncertainty Polygon</label>
 										<input type="text" name="geolocate_uncertaintypolygon" id="geolocate_uncertaintypolygon" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_uncertaintypolygon)#"  readonly>
 									</div>
 									<div class="geolocateMetadata col-12 col-md-3">
