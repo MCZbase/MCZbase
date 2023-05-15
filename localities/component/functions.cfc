@@ -4410,21 +4410,18 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 					and 
 					accepted_lat_long_fg = 1
-					and
-					lat_long_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
 			</cfquery>
 			<cfif accepted_lat_long_fg EQ "1" and countAcceptedPre.ct GT 0>
 				<cfquery name="turnOff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA DISABLE
 				</cfquery>
 				<cfset triggerState = "off">
+				<!--- tr_latlong_accepted_biupa doesn't distinguish between current record and other records, it prevents an update when an accepted georeference exists --->
 				<cfquery name="unacceptOthers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="unacceptOthers_result">
 					UPDATE lat_long 
 					SET accepted_lat_long_fg = 0 
 					WHERE
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-					and
-					lat_long_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
 				</cfquery>
 			</cfif>
 			<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateLatLong_result">
