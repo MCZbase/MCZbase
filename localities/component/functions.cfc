@@ -649,7 +649,7 @@ Delete an existing collecting event number record.
 				</div>
 				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("min_depth")><cfset min_depth=""></cfif> 
-					<label class="data-entry-label font-weight-lessbold" for="min_depth">Depth: <span class="font-weight-normal">Minimum</span></label>
+					<label class="data-entry-label" for="min_depth"><span class="font-weight-lessbold">Depth:</span> Minimum</label>
 					<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(min_depth)#" >
 				</div>
 				<div class="col-12 col-md-2 py-2">
@@ -671,7 +671,7 @@ Delete an existing collecting event number record.
 			<div class="form-row border rounded mx-2 my-1 p-1">
 				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
-					<label class="data-entry-label font-weight-lessbold" for="section_part">PLSS <span class="font-weight-normal">Section Part</span></label>
+					<label class="data-entry-label" for="section_part"><span class="font-weight-lessbold">PLSS</span> Section Part</label>
 					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" placeholder="NE 1/4" >
 				</div>
 				<div class="col-12 col-md-2 py-2">
