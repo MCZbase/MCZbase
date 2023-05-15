@@ -126,8 +126,8 @@ limitations under the License.
 		flat.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 </cfquery>
 <cfoutput>
-	<main class="container-xl px-0" id="content">
-		<h1 class="h2 mr-2 mt-4 pt-1 pb-3 border-bottom border-dark">#getGeography.higher_geog# 	
+	<main class="container-xl" id="content">
+		<h1 class="h2 mx-3 mt-4 pt-1 pb-3 border-bottom border-dark">#getGeography.higher_geog# 	
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
 				<a role="button" href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#getGeography.geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a>
 			</cfif>
