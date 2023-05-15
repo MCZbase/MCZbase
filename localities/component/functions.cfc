@@ -805,6 +805,7 @@ Delete an existing collecting event number record.
 						</ul>
 						<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog',#callback_name#); ">Add</button>
 				<cfelse>
+					<h3>Geological Attributes</h3>
 						<ul>
 							<cfset valList = "">
 							<cfset shownParentsList = "">
