@@ -2118,14 +2118,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<div>
 						<ul>
 							<li>None #noGeoRef#</li>
-							<li>
-								<button type="button" class="btn btn-xs btn-secondary" 
+						</ul>
+							<button type="button" class="btn btn-xs btn-secondary" 
 									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', #callback_name#) " 
 									aria-label = "Add a georeference to this locality"
 								>Add</button>
 								<output id="georeferenceDialogFeedback">&nbsp;</output>	
-							</li>
-						</ul>
 					</div>
 				<cfelse>
 					<div>
@@ -2178,29 +2176,31 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													}
 												};
 											</script>
-											<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
-											<button type="button" class="btn btn-xs btn-secondary" 
-												onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog',#callback_name#);"
-												aria-label = "Edit this georeference"
-											>Edit</button>
-											<cfif len(geolocate_score) EQ 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin"))>
-												<!--- prevent users from deleting automated georeferences --->
-												<button type="button" class="btn btn-xs btn-warning" 
-													onClick=" deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);"
-													aria-label = "Delete this georeference from this locality"
-												>Delete</button>
-											</cfif>
+							
 										</li>
 									</ul>
+									<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
+									<button type="button" class="btn btn-xs btn-secondary" 
+										onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog',#callback_name#);"
+										aria-label = "Edit this georeference"
+									>Edit</button>
+									<cfif len(geolocate_score) EQ 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin"))>
+										<!--- prevent users from deleting automated georeferences --->
+										<button type="button" class="btn btn-xs btn-warning" 
+											onClick=" deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);"
+											aria-label = "Delete this georeference from this locality"
+										>Delete</button>
+									</cfif>
 								</li>
 							</cfloop>
 							<li>
-								<button type="button" class="btn btn-xs btn-secondary" 
-									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', #callback_name#) " 
-									aria-label = "Add another georeference to this locality"
-								>Add</button>
+					
 							</li>
 						</ul>
+						<button type="button" class="btn btn-xs btn-secondary" 
+						onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', #callback_name#) " 
+						aria-label = "Add another georeference to this locality"
+						>Add</button>
 					</div>
 				</cfif>
 				<div id="editGeorefDialog"></div>
