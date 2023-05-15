@@ -170,8 +170,7 @@ limitations under the License.
 						</div>
 					</div>
 				</section>
-				<section class="mt-2 float-left col-12 px-0">
-					<div class="col-12 col-md-3 pt-5">
+				<section class="mt-2 float-left col-12 col-12 col-md-3 px-0">
 						<!--- map --->
 						<div class="col-12">
 							<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
@@ -183,7 +182,6 @@ limitations under the License.
 							<cfset verbatim = getLocalityVerbatimHtml(locality_id="#locality_id#")>
 							<div id="verbatimDiv">#verbatim#</div>
 						</div>
-					</div>
 				</section>
 			</main>
 		</cfoutput>
