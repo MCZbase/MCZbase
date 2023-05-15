@@ -165,6 +165,7 @@ limitations under the License.
 							<!---  Space tests --->
 							<div id="SpaceDQDiv"></div>
 						</div>
+					</div>
 				</section>
 				<section class="mt-2 float-left col-12 px-0">
 					<div class="col-12 col-md-3 pt-5">
