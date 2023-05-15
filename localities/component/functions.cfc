@@ -629,7 +629,7 @@ Delete an existing collecting event number record.
 			<div class="form-row mx-0 mb-0">
 				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
-					<label class="data-entry-label font-weight-lessbold" for="minimum_elevation">Elevation: Minimum</label>
+					<label class="data-entry-label" for="minimum_elevation"><span class="font-weight-lessbold">Elevation:</span> Minimum</label>
 					<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(minimum_elevation)#" >
 				</div>
 				<div class="col-12 col-md-2 py-2">
