@@ -649,7 +649,7 @@ Delete an existing collecting event number record.
 				</div>
 				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("min_depth")><cfset min_depth=""></cfif> 
-					<label class="data-entry-label font-weight-lessbold" for="min_depth">Depth: <span class="font-weight-lessbold">Minimum</span></label>
+					<label class="data-entry-label font-weight-lessbold" for="min_depth">Depth: <span class="font-weight-normal">Minimum</span></label>
 					<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(min_depth)#" >
 				</div>
 				<div class="col-12 col-md-2 py-2">
