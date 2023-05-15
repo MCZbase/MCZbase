@@ -627,17 +627,17 @@ Delete an existing collecting event number record.
 				</div>
 			</div>
 			<div class="form-row mx-0 mb-0">
-				<div class="col-12 col-md-2 py-2">
+				<div class="col-12 col-md-2 py-2 mt-1">
 					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
 					<label class="data-entry-label" for="minimum_elevation"><span class="font-weight-lessbold">Elevation:</span> Minimum</label>
 					<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(minimum_elevation)#" >
 				</div>
-				<div class="col-12 col-md-2 py-2">
+				<div class="col-12 col-md-2 py-2 mt-1">
 					<cfif NOT isdefined("maximum_elevation")><cfset maximum_elevation=""></cfif>
 					<label class="data-entry-label" for="maximum_elevation">Maximum Elevation</label>
 					<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input" value="#encodeForHTML(maximum_elevation)#" >
 				</div>
-				<div class="col-12 col-md-2 py-2">
+				<div class="col-12 col-md-2 py-2 mt-1">
 					<label class="data-entry-label" for="orig_elev_units">Elevation Units</label>
 					<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
 						<option value=""></option>
@@ -647,17 +647,17 @@ Delete an existing collecting event number record.
 						</cfloop>
 					</select>
 				</div>
-				<div class="col-12 col-md-2 py-2">
+				<div class="col-12 col-md-2 py-2 mt-1">
 					<cfif NOT isdefined("min_depth")><cfset min_depth=""></cfif> 
 					<label class="data-entry-label" for="min_depth"><span class="font-weight-lessbold">Depth:</span> Minimum</label>
 					<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(min_depth)#" >
 				</div>
-				<div class="col-12 col-md-2 py-2">
+				<div class="col-12 col-md-2 py-2 mt-1">
 					<cfif NOT isdefined("max_depth")><cfset max_depth=""></cfif>
 					<label class="data-entry-label" for="max_depth">Maximum Depth</label>
 					<input type="text" name="max_depth" id="max_depth" class="data-entry-input" value="#encodeForHTML(max_depth)#" >
 				</div>
-				<div class="col-12 col-md-2 py-2">
+				<div class="col-12 col-md-2 py-2 mt-1">
 					<label class="data-entry-label" for="depth_units">Depth Units</label>
 					<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
 						<option value=""></option>
@@ -671,7 +671,7 @@ Delete an existing collecting event number record.
 			<div class="form-row border rounded mx-2 my-1 p-1">
 				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
-					<label class="data-entry-label" for="section_part"><span class="font-weight-lessbold">PLSS</span> Section Part</label>
+					<label class="data-entry-label" for="section_part"><span class="font-weight-lessbold">PLSS: </span> Section Part</label>
 					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" placeholder="NE 1/4" >
 				</div>
 				<div class="col-12 col-md-2 py-2">
