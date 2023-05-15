@@ -2126,75 +2126,75 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								<output id="georeferenceDialogFeedback">&nbsp;</output>	
 					</div>
 				<cfelse>
-					<div>
-				
-							<cfloop query="getGeoreferences">
-									<cfset original="">
-									<cfset det = "">
-									<cfset ver = "">
-									<cfif len(determined_by) GT 0>
-										<cfset det = " Determiner: #determined_by#. ">
-									</cfif>
-									<cfif len(verified_by) GT 0>
-										<cfset ver = " Verified by: #verified_by#. ">
-									</cfif>
-									<cfif len(utm_zone) GT 0>
-										<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
-									<cfelse>
-										<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
-									</cfif>
-									<cfset spanClass="">
-									<cfif accepted_lat_long EQ "Accepted">
-										<cfset spanClass="font-weight-bold">
-									</cfif>
-									<span class="#spanClass#">#dec_lat#, #dec_long# #datum# ±#coordinateUncertaintyInMeters#m</span>
-									<ul class="mb-2">
+					<div class="float-left w-auto">
+						<cfloop query="getGeoreferences">
+								<cfset original="">
+								<cfset det = "">
+								<cfset ver = "">
+								<cfif len(determined_by) GT 0>
+									<cfset det = " Determiner: #determined_by#. ">
+								</cfif>
+								<cfif len(verified_by) GT 0>
+									<cfset ver = " Verified by: #verified_by#. ">
+								</cfif>
+								<cfif len(utm_zone) GT 0>
+									<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
+								<cfelse>
+									<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
+								</cfif>
+								<cfset spanClass="">
+								<cfif accepted_lat_long EQ "Accepted">
+									<cfset spanClass="font-weight-bold">
+								</cfif>
+								<span class="#spanClass#">#dec_lat#, #dec_long# #datum# ±#coordinateUncertaintyInMeters#m</span>
+								<ul class="mb-2">
+									<li>
+										#original# <span class="#spanClass#">#accepted_lat_long#</span>
+									</li>
+									<li>
+										Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
+									</li>
+									<cfif len(geolocate_score) GT 0>
 										<li>
-											#original# <span class="#spanClass#">#accepted_lat_long#</span>
+											GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
 										</li>
-										<li>
-											Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
-										</li>
-										<cfif len(geolocate_score) GT 0>
-											<li>
-												GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
-											</li>
-										
-										</cfif>
-									</ul>
-									<script>
-										var bouncing#lat_long_id# = false;
-										function toggleBounce#lat_long_id#() { 
-											if (bouncing#lat_long_id#==true) { 
-												bouncing#lat_long_id# = false;
-												map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
-												$('##toggleButton#lat_long_id#').html("Highlight on map");
-											} else { 
-												bouncing#lat_long_id# = true;
-												map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
-												$('##toggleButton#lat_long_id#').html("Stop bouncing");
-											}
-										};
-									</script>
-									<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
-									<button type="button" class="btn btn-xs btn-secondary" 
-										onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog',#callback_name#);"
-										aria-label = "Edit this georeference"
-									>Edit</button>
-									<cfif len(geolocate_score) EQ 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin"))>
-										<!--- prevent users from deleting automated georeferences --->
-										<button type="button" class="btn btn-xs btn-warning" 
-											onClick=" deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);"
-											aria-label = "Delete this georeference from this locality"
-										>Delete</button>
+
 									</cfif>
-									
-								</cfloop>
-						<button type="button" class="btn btn-xs btn-secondary" 
+								</ul>
+								<script>
+									var bouncing#lat_long_id# = false;
+									function toggleBounce#lat_long_id#() { 
+										if (bouncing#lat_long_id#==true) { 
+											bouncing#lat_long_id# = false;
+											map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
+											$('##toggleButton#lat_long_id#').html("Highlight on map");
+										} else { 
+											bouncing#lat_long_id# = true;
+											map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
+											$('##toggleButton#lat_long_id#').html("Stop bouncing");
+										}
+									};
+								</script>
+								<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
+								<button type="button" class="btn btn-xs btn-secondary" 
+									onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog',#callback_name#);"
+									aria-label = "Edit this georeference"
+								>Edit</button>
+								<cfif len(geolocate_score) EQ 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin"))>
+									<!--- prevent users from deleting automated georeferences --->
+									<button type="button" class="btn btn-xs btn-warning" 
+										onClick=" deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);"
+										aria-label = "Delete this georeference from this locality"
+									>Delete</button>
+								</cfif>
+
+							</cfloop>
+						</div>
+						<button type="button" class="btn btn-xs float-left btn-secondary" 
 						onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', #callback_name#) " 
 						aria-label = "Add another georeference to this locality"
 						>Add</button>
-					</div>
+					
 				</cfif>
 				<div id="editGeorefDialog"></div>
 				<div id="addGeorefDialog"></div>
