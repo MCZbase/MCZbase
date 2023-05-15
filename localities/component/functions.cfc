@@ -797,6 +797,7 @@ Delete an existing collecting event number record.
 						ctgeology_attribute.ordinal
 				</cfquery>
 				<cfif getGeologicalAttributes.recordcount EQ 0>
+					<h3>Geological Attributes</h3>
 						<ul>
 							<li>
 								Recent (no geological attributes) 
