@@ -2190,7 +2190,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 							</cfloop>
 						</div>
-						<button type="button" class="btn btn-xs btn-secondary" 
+						<button type="button" class="btn btn-xs btn-secondary mt-3" 
 						onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', #callback_name#) " 
 						aria-label = "Add another georeference to this locality"
 						>Add</button>
