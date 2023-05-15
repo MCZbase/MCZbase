@@ -233,6 +233,9 @@ limitations under the License.
 									bounds.extend(extendPoint1);
 									bounds.extend(extendPoint2);
 								}
+								if (bounds.getNorthEast().lat > 89 || bounds.getSouthWest().lat < 89) { 
+									bounds = google.maps.LatLng.MAX_BOUNDS;
+								} 
 								map.fitBounds(bounds);
 								for(var a=0; a<uncertaintyPolygonArray.length; a++){
 									if (! google.maps.geometry.poly.containsLocation(center, uncertaintyPolygonArray[a]) ) {
