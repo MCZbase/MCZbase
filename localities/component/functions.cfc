@@ -700,13 +700,13 @@ Delete an existing collecting event number record.
 					<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
 				</div>
 			</div>
-			<div class="form-row mx-0 mb-1">
+			<div class="form-row mx-0 m-1 p-1">
 				<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
 					<cfset remarksClass = "col-md-9">
 				<cfelse>
 					<cfset remarksClass = "">
 				</cfif>
-				<div class="col-12 #remarksClass#">
+				<div class="col-12 py-2 #remarksClass#">
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
 					<label class="data-entry-label" for="locality_remarks">Locality Remarks (<span id="length_locality_remarks"></span>)</label>
 					<textarea name="locality_remarks" id="locality_remarks" 
