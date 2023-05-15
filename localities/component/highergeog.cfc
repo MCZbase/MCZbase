@@ -145,7 +145,9 @@ Functions supporting editing higher geographies.
 				<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						higher_geog, 
-						continent_ocean
+						continent_ocean,
+						ocean_region, ocean_subregion, sea,
+						country, state_province, county,
 					FROM geog_auth_rec
 					WHERE 
 						geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_geog_auth_rec_id#">
@@ -180,8 +182,87 @@ Functions supporting editing higher geographies.
 						$(document).ready(() => makeGeogAutocomplete('ocean_subregion','ocean_subregion'));
 					</script>
 				</div>
+				<div class="col-12 col-md-3">
+					<label class="data-entry-label" for="water_feature">Water Feature</label>
+					<cfif NOT isdefined("water_feature")><cfset water_feature=""></cfif>
+					<input type="text" name="water_feature" id="water_feature" class="data-entry-input reqdClr" value="#encodeForHTML(water_feature)#" required>
+					<script>
+						$(document).ready(() => makeGeogAutocomplete('water_feature','water_feature'));
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<label class="data-entry-label" for="sea">Sea</label>
+					<cfif NOT isdefined("sea")><cfset sea=""></cfif>
+					<input type="text" name="sea" id="sea" class="data-entry-input reqdClr" value="#encodeForHTML(sea)#" required>
+					<script>
+						$(document).ready(() => makeGeogAutocomplete('sea','sea'));
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<label class="data-entry-label" for="country">Country</label>
+					<cfif NOT isdefined("country")><cfset country=""></cfif>
+					<input type="text" name="country" id="country" class="data-entry-input reqdClr" value="#encodeForHTML(country)#" required>
+					<script>
+						$(document).ready(() => makeGeogAutocomplete('country','country'));
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<label class="data-entry-label" for="state_province">State/Province</label>
+					<cfif NOT isdefined("state_province")><cfset state_province=""></cfif>
+					<input type="text" name="state_province" id="state_province" class="data-entry-input reqdClr" value="#encodeForHTML(state_province)#" required>
+					<script>
+						$(document).ready(() => makeGeogAutocomplete('state_province','state_province'));
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<label class="data-entry-label" for="county">County</label>
+					<cfif NOT isdefined("county")><cfset county=""></cfif>
+					<input type="text" name="county" id="county" class="data-entry-input reqdClr" value="#encodeForHTML(county)#" required>
+					<script>
+						$(document).ready(() => makeGeogAutocomplete('county','county'));
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<label class="data-entry-label" for="quad">Quadrangle</label>
+					<cfif NOT isdefined("quad")><cfset quad=""></cfif>
+					<input type="text" name="quad" id="quad" class="data-entry-input reqdClr" value="#encodeForHTML(quad)#" required>
+					<script>
+						$(document).ready(() => makeGeogAutocomplete('quad','quad'));
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<label class="data-entry-label" for="feature">Feature</label>
+					<cfif NOT isdefined("feature")><cfset feature=""></cfif>
+					<input type="text" name="feature" id="feature" class="data-entry-input reqdClr" value="#encodeForHTML(feature)#" required>
+					<script>
+						$(document).ready(() => makeGeogAutocomplete('feature','feature'));
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<label class="data-entry-label" for="island_group">Island Group</label>
+					<cfif NOT isdefined("island_group")><cfset island_group=""></cfif>
+					<input type="text" name="island_group" id="island_group" class="data-entry-input reqdClr" value="#encodeForHTML(island_group)#" required>
+					<script>
+						$(document).ready(() => makeGeogAutocomplete('island_group','island_group'));
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<label class="data-entry-label" for="island">Island</label>
+					<cfif NOT isdefined("island")><cfset island=""></cfif>
+					<input type="text" name="island" id="island" class="data-entry-input reqdClr" value="#encodeForHTML(island)#" required>
+					<script>
+						$(document).ready(() => makeGeogAutocomplete('island','island'));
+					</script>
+				</div>
 			
 				TODO: Complete implementation
+<!---
+				 geog_auth_rec.valid_catalog_term_fg,
+				 geog_auth_rec.source_authority,
+				 geog_auth_rec.wkt_polygon,
+				 geog_auth_rec.highergeographyid_guid_type,
+				 geog_auth_rec.highergeographyid,
+--->
 
 
 				<div class="col-12 mt-1">
