@@ -46,7 +46,9 @@ limitations under the License.
 						var bounds = new google.maps.LatLngBounds();
 						latLongs.getArray().forEach(function(path){ 
 							path.getArray().forEach(function(latlong){ 
-								bounds.extend(latlong)
+								if (latlong.lat < 89 & latlong.lat > -89) { 
+									bounds.extend(latlong)
+								}
 							});
 						}); 
 						return bounds;
