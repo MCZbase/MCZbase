@@ -2126,7 +2126,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								<output id="georeferenceDialogFeedback">&nbsp;</output>	
 					</div>
 				<cfelse>
-					<div class="float-left w-auto">
+					<div class="w-100">
 						<cfloop query="getGeoreferences">
 								<cfset original="">
 								<cfset det = "">
@@ -2190,7 +2190,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 							</cfloop>
 						</div>
-						<button type="button" class="btn btn-xs float-left btn-secondary" 
+						<button type="button" class="btn btn-xs btn-secondary" 
 						onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', #callback_name#) " 
 						aria-label = "Add another georeference to this locality"
 						>Add</button>
