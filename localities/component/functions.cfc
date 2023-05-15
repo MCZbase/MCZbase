@@ -581,7 +581,7 @@ Delete an existing collecting event number record.
 						});
 					</script>
 				</div>
-				<div class="col-12 col-md-2 mt-0">
+				<div class="col-12 col-md-2 mt-0 mb-2">
 					<label class="data-entry-label" for="details_button" class="sr-only mt-3">Higher Geography</label>
 					<cfset otherClass="">
 					<cfif NOT isdefined("geog_auth_rec_id") or len(geog_auth_rec_id) EQ 0>
@@ -590,12 +590,12 @@ Delete an existing collecting event number record.
 					<a id="details_button" role="button" class="btn btn-xs btn-info #otherClass#" href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank"
 >Details</a>
 				</div>
-				<div class="col-12">
+				<div class="col-12 mb-2">
 					<label class="data-entry-label" for="spec_locality">Specific Locality</label>
 					<cfif NOT isdefined("spec_locality")><cfset spec_locality=""></cfif>
 					<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(spec_locality)#" required>
 				</div>
-				<div class="col-12 col-md-4">
+				<div class="col-12 col-md-4 mb-2">
 					<cfif NOT isdefined("sovereign_nation")><cfset sovereign_nation=""></cfif>
 					<label class="data-entry-label" for="sovereign_nation">
 						Sovereign Nation
@@ -608,7 +608,7 @@ Delete an existing collecting event number record.
 						});
 					</script>
 				</div>
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-2 mb-2">
 					<label class="data-entry-label" for="curated_fg">Vetted</label>
 					<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select reqdClr">
 						<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -617,7 +617,7 @@ Delete an existing collecting event number record.
 						<option value="1" #selected#>Yes (*)</option>
 					</select>
 				</div>
-				<div class="col-12 col-md-6">
+				<div class="col-12 col-md-6 mb-2">
 					<cfif NOT isdefined("nogeorefbecause")><cfset nogeorefbecause=""></cfif>
 					<label class="data-entry-label" for="nogeorefbecause">
 						No Georeference Because
@@ -637,7 +637,7 @@ Delete an existing collecting event number record.
 					<label class="data-entry-label" for="maximum_elevation">Maximum Elevation</label>
 					<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input" value="#encodeForHTML(maximum_elevation)#" >
 				</div>
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-2 py-2">
 					<label class="data-entry-label" for="orig_elev_units">Elevation Units</label>
 					<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
 						<option value=""></option>
