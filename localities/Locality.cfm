@@ -92,15 +92,14 @@ limitations under the License.
 				<section class="row mx-0">
 					<div class="col-12 col-md-9">
 						<h1 class="h2 mt-3 mb-0 px-3">Edit Locality [#encodeForHtml(locality_id)#]</h1>
-						<div class="border rounded px-2 my-2 py-3">
+						<div class="border-top border-right border-left border-bottom border-success rounded px-2 my-2 py-3">
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 							<div id="relatedTo">#blockRelated#</div>
-						</div>
-						<h2 class="h4 mt-2 mb-0">Locality Summary</h2>
-						<div class="border-top border-right border-left border-bottom border-success rounded px-2 mt-0 mb-2 py-3">
+							<h2 class="h4 mt-3 mb-0">Locality Summary</h2>
 							<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
-							<div id="summary" class="h4 px-2">#summary#</div>
+							<div id="summary" class="h4 px-2 pb-2">#summary#</div>
 						</div>
+						
 						<div class="border rounded px-2 my-2 py-3" arial-labeledby="formheading">
 							<cfset formId = "editLocalityForm">
 							<cfset outputDiv="saveResultsDiv">
