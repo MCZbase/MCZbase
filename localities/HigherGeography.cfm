@@ -131,7 +131,7 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 	<cfcase value="new">
-		<cfinclude template="/localities/component/functions.cfc" runOnce="true">
+		<cfinclude template="/localities/component/highergeog.cfc" runOnce="true">
 		<cfoutput>
 			<cfset extra = "">
 			<cfset blockform = getCreateHigherGeographyHtml()>
