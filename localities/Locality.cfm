@@ -89,7 +89,7 @@ limitations under the License.
 		</cfif>
 		<cfoutput>
 			<main class="container-fluid my-2" id="content">
-				<div class="row">
+				<div class="row mx-0">
 				<section class="col-12 col-md-9">
 					<div class="col-12">
 						<h1 class="h2 mt-3 mb-0 px-3">Edit Locality [#encodeForHtml(locality_id)#]</h1>
@@ -142,7 +142,7 @@ limitations under the License.
 							</cfif>
 						</div>
 					</div>	
-					<div class="row">
+					<div class="row mx-0">
 						<div class="col-12 col-md-6 px-0">
 							<div class="border rounded px-3 my-2 py-3">
 								<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#",callback_name='reloadGeology')>
