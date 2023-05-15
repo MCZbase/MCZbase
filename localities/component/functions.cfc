@@ -668,7 +668,7 @@ Delete an existing collecting event number record.
 					</select>
 				</div>
 			</div>
-			<div class="form-row border m-1 p-1">
+			<div class="form-row border rounded mx-2 my-1 p-1">
 				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
 					<label class="data-entry-label" for="section_part"><strong>PLSS</strong> Section Part</label>
@@ -700,7 +700,7 @@ Delete an existing collecting event number record.
 					<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
 				</div>
 			</div>
-			<div class="form-row mx-0 m-1 p-1">
+			<div class="form-row m-1">
 				<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
 					<cfset remarksClass = "col-md-9">
 				<cfelse>
