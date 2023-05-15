@@ -622,3 +622,33 @@ function makeCTAutocomplete(fieldId,codetable) {
 		return $("<li>").append( "<span>" + item.value + "</span>").appendTo( ul );
 	};
 };
+
+/** makeGeogAutocomplete make an input control into a picker for a geog_auth_rec field of arbitrary rank.
+ *  This version of the function returns the value selected from the picklist, and is
+ *  intended as a picker for higher geography data entry, it will include meta in the list of options to
+ *  pick, but not the selected value.
+ * @param fieldId the id for the input without a leading # selector.
+ * @param targetRank the geographic rank (field in geog_auth_rec) to bind the autocomplete to.  
+**/
+function makeGeogAutocomplete(fieldId, targetRank) { 
+	jQuery("#"+fieldId).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/localities/component/search.cfc",
+				data: { term: request.term, method: 'getGeogAutocomplete', rank: targetRank },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a geography search autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+fieldId).val(result.item.value);
+		},
+		minLength: 3
+	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+	};
+};
