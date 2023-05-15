@@ -2161,7 +2161,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
 											</li>
 										</cfif>
-										<li>
 											<script>
 												var bouncing#lat_long_id# = false;
 												function toggleBounce#lat_long_id#() { 
@@ -2176,8 +2175,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													}
 												};
 											</script>
-							
-										</li>
 									</ul>
 									<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
 									<button type="button" class="btn btn-xs btn-secondary" 
