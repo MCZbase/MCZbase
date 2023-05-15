@@ -46,7 +46,9 @@ limitations under the License.
 						var bounds = new google.maps.LatLngBounds();
 						latLongs.getArray().forEach(function(path){ 
 							path.getArray().forEach(function(latlong){ 
-								bounds.extend(latlong)
+								if (latlong.lat() < 89.5 & latlong.lat() > -89.5) { 
+									bounds.extend(latlong)
+								}
 							});
 						}); 
 						return bounds;
@@ -231,6 +233,9 @@ limitations under the License.
 									bounds.extend(extendPoint1);
 									bounds.extend(extendPoint2);
 								}
+								if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < -89) { 
+									bounds = google.maps.LatLngBounds.MAX_BOUNDS;
+								} 
 								map.fitBounds(bounds);
 								for(var a=0; a<uncertaintyPolygonArray.length; a++){
 									if (! google.maps.geometry.poly.containsLocation(center, uncertaintyPolygonArray[a]) ) {
@@ -286,15 +291,23 @@ limitations under the License.
 								var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
 								bounds.extend(extendPoint1);
 								bounds.extend(extendPoint2);
-							}
+							}		
 							map.fitBounds(bounds);
 							for(var a=0; a<enclosingPolygonArray.length; a++){
-								if (! google.maps.geometry.poly.containsLocation(georefs, enclosingPolygonArray[a]) ) {
-									$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
-								} else {
-									$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
+								if (georefs) { 
+									// style map depending on overlap of georeference and enclosing polygon.
+									if (! google.maps.geometry.poly.containsLocation(georefs, enclosingPolygonArray[a]) ) {
+										$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
+										// accessible information
+										$("##mapMetadataUL").append("<li>Georeference for locality is outside of enclosing higher geography.</li>");
+									} else {
+										$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
+									}
 								}
 							}
+							if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < -89) { 
+								bounds = google.maps.LatLngBounds.MAX_BOUNDS;
+							} 
 							map.fitBounds(bounds);
 						});
 					}
@@ -340,7 +353,7 @@ limitations under the License.
 					<div id="mapdiv_#REReplace(locality_id,'[^0-9]','','All')#" style="width:100%; height:100%;"></div>
 				</div>
 				<div class="mb-2 w-100">
-					<ul>
+					<ul id="mapMetadataUL">
 						<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 							SELECT count(*) ct 
 							FROM 
