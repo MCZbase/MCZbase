@@ -294,10 +294,15 @@ limitations under the License.
 							}		
 							map.fitBounds(bounds);
 							for(var a=0; a<enclosingPolygonArray.length; a++){
-								if (! google.maps.geometry.poly.containsLocation(georefs, enclosingPolygonArray[a]) ) {
-									$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
-								} else {
-									$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
+								if (georefs) { 
+									// style map depending on overlap of georeference and enclosing polygon.
+									if (! google.maps.geometry.poly.containsLocation(georefs, enclosingPolygonArray[a]) ) {
+										$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
+										// accessible information
+										$("##mapMetadataUL").append("<li>Georeference for locality is outside of enclosing higher geography.</li>");
+									} else {
+										$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
+									}
 								}
 							}
 							if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < 89) { 
@@ -348,7 +353,7 @@ limitations under the License.
 					<div id="mapdiv_#REReplace(locality_id,'[^0-9]','','All')#" style="width:100%; height:100%;"></div>
 				</div>
 				<div class="mb-2 w-100">
-					<ul>
+					<ul id="mapMetadataUL">
 						<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 							SELECT count(*) ct 
 							FROM 
