@@ -2115,7 +2115,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfelse> 
 						<cfset noGeoRef = " (#checkNoGeorefBecause.nogeorefbecause#)">
 					</cfif>
-					<div>
+					<div class="w-100">
 						<ul>
 							<li>None #noGeoRef#</li>
 						</ul>
@@ -2189,7 +2189,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								</cfif>
 
 							</cfloop>
-						</div>
+					</div>
 						<button type="button" class="btn btn-xs btn-secondary mt-3" 
 						onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', #callback_name#) " 
 						aria-label = "Add another georeference to this locality"

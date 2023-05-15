@@ -142,11 +142,11 @@ limitations under the License.
 						</div>
 						<div class="border rounded px-3 my-2 py-3">
 							<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#",callback_name='reloadGeology')>
-							<div id="geologyDiv">#geology#</div>
+							<div id="geologyDiv" class="col-6">#geology#</div>
 						</div>
 						<div class="border rounded px-3 my-2 py-3">
 							<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callback_name='reloadGeoreferences')>
-							<div id="georeferencesDiv">#georeferences#</div>
+							<div id="georeferencesDiv" class="col-6">#georeferences#</div>
 						</div>
 						<div class="p-3 border bg-light rounded my-2">
 							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
