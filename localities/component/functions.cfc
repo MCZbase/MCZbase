@@ -557,7 +557,7 @@ Delete an existing collecting event number record.
 				</cfif>
 				<div class="col-12 col-md-10 mt-0">
 					<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#geog_auth_rec_id#">
-					<label class="data-entry-label" for="higher_geog">Higher Geography:-</label>
+					<label class="data-entry-label" for="higher_geog">Higher Geography: </label>
 					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input reqdClr" value = "#encodeForHTML(higher_geog)#" required>
 					<script>
 						function setSovereignNation(){
@@ -582,12 +582,12 @@ Delete an existing collecting event number record.
 					</script>
 				</div>
 				<div class="col-12 col-md-2 mt-0">
-					<label class="data-entry-label" for="details_button">Higher Geography</label>
+					<label class="data-entry-label" for="details_button" class="sr-only mt-3">Higher Geography</label>
 					<cfset otherClass="">
 					<cfif NOT isdefined("geog_auth_rec_id") or len(geog_auth_rec_id) EQ 0>
 						<cfset otherClass="disabled">
 					</cfif>
-					<a id="details_button" class="btn btn-xs btn-info #otherClass#" href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank"
+					<a id="details_button" role="button" class="btn btn-xs btn-info #otherClass#" href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank"
 >Details</a>
 				</div>
 				<div class="col-12">
@@ -627,12 +627,12 @@ Delete an existing collecting event number record.
 				</div>
 			</div>
 			<div class="form-row mx-0 mb-0">
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
 					<label class="data-entry-label" for="minimum_elevation"><strong>Elevation</strong>: Minimum</label>
 					<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(minimum_elevation)#" >
 				</div>
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("maximum_elevation")><cfset maximum_elevation=""></cfif>
 					<label class="data-entry-label" for="maximum_elevation">Maximum Elevation</label>
 					<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input" value="#encodeForHTML(maximum_elevation)#" >
@@ -669,32 +669,32 @@ Delete an existing collecting event number record.
 				</div>
 			</div>
 			<div class="form-row border m-1 p-1 pb-2">
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-2 my-2 py-2">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
 					<label class="data-entry-label" for="section_part"><strong>PLSS</strong> Section Part</label>
 					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" placeholder="NE 1/4" >
 				</div>
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("section")><cfset section=""></cfif>
 					<label class="data-entry-label" for="section">Section</label>
 					<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHTML(section)#" pattern="[0-3]{0,1}[0-9]{0,1}" >
 				</div>
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("township")><cfset township=""></cfif>
 					<label class="data-entry-label" for="township">Township</label>
 					<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHTML(township)#" pattern="[0-9]+" >
 				</div>
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("township_direction")><cfset township_direction=""></cfif>
 					<label class="data-entry-label" for="township_direction">Township Direction</label>
 					<input type="text" name="township_direction" id="township_direction" class="data-entry-input" value="#encodeForHTML(township_direction)#" >
 				</div>
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("range")><cfset range=""></cfif>
 					<label class="data-entry-label" for="range">Range</label>
 					<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHTML(range)#" pattern="[0-9]+">
 				</div>
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("range_direction")><cfset range_direction=""></cfif>
 					<label class="data-entry-label" for="range_direction">Range Direction</label>
 					<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
