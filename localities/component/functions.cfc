@@ -861,10 +861,8 @@ Delete an existing collecting event number record.
 										onClick=" confirmDialog('Remove #geology_attribute#:#geo_att_value# from this locality ?', 'Confirm Remove Geological Attribute', function() { removeGeologyAttribute('#geology_attribute_id#','#locality_id#',#callback_name#); } );">Remove</button>
 								</li>
 							</cfloop>
-							<li>
-								<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog',#callback_name#); ">Add</button>
-							</li>
 						</ul>
+						<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog',#callback_name#); ">Add</button>
 				</cfif>
 				<div id="editGeologyDialog"></div>
 				<div id="addGeologyDialog"></div>
