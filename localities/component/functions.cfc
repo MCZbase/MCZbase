@@ -797,16 +797,13 @@ Delete an existing collecting event number record.
 						ctgeology_attribute.ordinal
 				</cfquery>
 				<cfif getGeologicalAttributes.recordcount EQ 0>
-					<div>
 						<ul>
 							<li>
 								Recent (no geological attributes) 
-								<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog',#callback_name#); ">Add</button>
 							</li>
 						</ul>
-					</div>
+						<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog',#callback_name#); ">Add</button>
 				<cfelse>
-					<div>
 						<ul>
 							<cfset valList = "">
 							<cfset shownParentsList = "">
@@ -868,7 +865,6 @@ Delete an existing collecting event number record.
 								<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog',#callback_name#); ">Add</button>
 							</li>
 						</ul>
-					</div>
 				</cfif>
 				<div id="editGeologyDialog"></div>
 				<div id="addGeologyDialog"></div>
