@@ -153,7 +153,7 @@ limitations under the License.
 							<div id="georeferencesDiv">#georeferences#</div>
 						</div>
 					</div>
-						<div class="border bg-light rounded p-3 my-2">
+						<div class="w-100 border bg-light rounded p-3 my-2">
 							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
 							<script>
 								function runTests() {
