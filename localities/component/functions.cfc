@@ -557,7 +557,7 @@ Delete an existing collecting event number record.
 				</cfif>
 				<div class="col-12 col-md-10 mt-0">
 					<input type="hidden" name="geog_auth_rec_id" id="geog_auth_rec_id" value="#geog_auth_rec_id#">
-					<label class="data-entry-label" for="higher_geog">Higher Geography: </label>
+					<label class="data-entry-label" for="higher_geog">Higher Geography </label>
 					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input reqdClr" value = "#encodeForHTML(higher_geog)#" required>
 					<script>
 						function setSovereignNation(){
@@ -629,7 +629,7 @@ Delete an existing collecting event number record.
 			<div class="form-row mx-0 mb-0">
 				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
-					<label class="data-entry-label" for="minimum_elevation"><strong>Elevation</strong>: Minimum</label>
+					<label class="data-entry-label font-weight-lessbold" for="minimum_elevation">Elevation: Minimum</label>
 					<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(minimum_elevation)#" >
 				</div>
 				<div class="col-12 col-md-2 py-2">
@@ -649,7 +649,7 @@ Delete an existing collecting event number record.
 				</div>
 				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("min_depth")><cfset min_depth=""></cfif> 
-					<label class="data-entry-label" for="min_depth"><strong>Depth</strong>: Minimum</label>
+					<label class="data-entry-label font-weight-lessbold" for="min_depth">Depth: <span class="font-weight-lessbold">Minimum</span></label>
 					<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(min_depth)#" >
 				</div>
 				<div class="col-12 col-md-2 py-2">
@@ -671,7 +671,7 @@ Delete an existing collecting event number record.
 			<div class="form-row border rounded mx-2 my-1 p-1">
 				<div class="col-12 col-md-2 py-2">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
-					<label class="data-entry-label" for="section_part"><strong>PLSS</strong> Section Part</label>
+					<label class="data-entry-label font-weight-lessbold" for="section_part">PLSS <span class="font-weight-normal">Section Part</span></label>
 					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" placeholder="NE 1/4" >
 				</div>
 				<div class="col-12 col-md-2 py-2">
