@@ -2190,8 +2190,8 @@ limitations under the License.
 						FROM agent_name
 						WHERE
 							agent_name_type = 'aka'
-							and agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
-							and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#">,
+							and agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+							and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#">
 					</cfquery>
 					<cfif checkForName.ct EQ 0>
 						<cfquery name="addName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addName_result">
