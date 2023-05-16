@@ -90,7 +90,7 @@ limitations under the License.
 		<cfoutput>
 			<main class="container-fluid my-2" id="content">
 				<div class="row mx-0">
-				<section class="col-12 col-md-9">
+				<section class="col-12 col-md-9 px-xl-0">
 					<div class="col-12">
 						<h1 class="h2 mt-3 mb-0 px-3">Edit Locality [#encodeForHtml(locality_id)#]</h1>
 						<div class="border-top border-right border-left border-bottom border-success rounded px-2 my-3 py-3">
@@ -130,8 +130,6 @@ limitations under the License.
 									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
 								};
 							</script>
-						</div>
-						<div class="border rounded px-3 my-2 py-3">
 							<button type="button" class="btn btn-xs btn-secondary" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
 							<cfif countUses.total_uses EQ "0">
 								<button type="button" 
@@ -141,6 +139,9 @@ limitations under the License.
 								</button>
 							</cfif>
 						</div>
+<!---						<div class="border rounded px-3 my-2 py-3">
+		
+						</div>--->
 					</div>	
 					<div class="row mx-0">
 						<div class="col-12 col-md-6">
@@ -171,7 +172,7 @@ limitations under the License.
 						</div>
 					</div>
 				</section>
-				<section class="mt-4 col-12 col-md-3 px-0">
+				<section class="mt-4 col-12 col-md-3 pl-xl-0">
 						<!--- map --->
 						<div class="col-12 px-0">
 							<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
