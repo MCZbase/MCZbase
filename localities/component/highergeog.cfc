@@ -155,7 +155,8 @@ Functions supporting editing higher geographies.
 						country, state_province, county,
 						quad, feature,
 						island_group, island,
-						valid_catalog_term_fg, source_authority,
+						valid_catalog_term_fg, source_authority, 
+						wkt_polygon,
 						highergeographyid, highergeographyid_guid_type
 					FROM geog_auth_rec
 					WHERE 
@@ -266,7 +267,7 @@ Functions supporting editing higher geographies.
 			
 				<div class="col-12 col-md-6">
 					<label for = "wktPolygon" class="data-entry-label">Polygon<label>
-					<input type="text" name="wktPolygon" value="#WKT_POLYGON#" id = "wktPolygon" class="data-entry-input">
+					<input type="text" name="wktPolygon" value="#wkt_polygon#" id = "wktPolygon" class="data-entry-input">
 				</div>
 				<div class="col-12 col-md-3">
 					<label for="wktFile" class="data-entry-label">Load Polygon from WKT file</label>
