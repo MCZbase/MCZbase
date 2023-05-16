@@ -349,11 +349,12 @@ Functions supporting editing higher geographies.
 				<div class="col-12 col-md-4">
 					<label class="data-entry-label">&nbsp;</label>
 					<cfif isDefined("lookupHigherGeog")><cfset hgeogid = lookupHigherGeog.highergeographyid><cfelse><cfset hgeogid=""></cfif>
+					<cfif NOT isDefined("regex")><cfset regex=""></cfif>
 					<input name="highergeographyid" id="highergeographyid" value="#hgeogid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
 					<cfif len(regex) GT 0 >
-						<cfset link = REReplace(lookupHigherGeog.highergeographyid,regex,replacement)>
+						<cfset link = REReplace(hgeogid,regex,replacement)>
 					<cfelse>
-						<cfset link = lookupHigherGeog.highergeographyid>
+						<cfset link = hgeogid>
 					</cfif>
 					<a id="highergeographyid_link" href="#link#" target="_blank" class="hints">#hgeogid#</a>
 					<script>
