@@ -2082,13 +2082,13 @@ limitations under the License.
 				<cfset updateAgent = true>
 				<cfset updatePerson = false>
 				<cfset insertPerson = true>
-			<cfelseif lookupType.existing_agent_type IS NOT "person" and provided_agent_type IS "person">
-				<!--- TODO: Support changing a person to a non-person --->
-				<cfthrow message="conversion of a non-person agent to a person is not supported yet">
+			<cfelseif lookupType.existing_agent_type IS "person" and provided_agent_type IS NOT "person">
 				<cfset updateAgent = true>
 				<cfset updatePerson = true>
 				<cfset convertFromPerson = true>
 				<cfset removePerson = true>
+				<cfif not isDefined("start_date")><cfset start_date=""></cfif>
+				<cfif not isDefined("end_date")><cfset end_date=""></cfif>
 			<cfelse>
 				<!--- Catch errors --->
 				<cfthrow message="unknown/unsupported conversion types">
@@ -2187,8 +2187,8 @@ limitations under the License.
 						FROM agent_name
 						WHERE
 							agent_name_type = 'aka'
-							and agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
-							and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#">,
+							and agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+							and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#">
 					</cfquery>
 					<cfif checkForName.ct EQ 0>
 						<cfquery name="addName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addName_result">

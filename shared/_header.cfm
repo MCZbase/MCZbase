@@ -197,6 +197,10 @@ limitations under the License.
 <cfif CGI.script_name CONTAINS "/localities/">
 	<script type="text/javascript" src="/localities/js/localities.js"></script>
 </cfif>
+<cfif CGI.script_name IS "/localities/HigherGeography.cfm">
+	<script type="text/javascript" src="/localities/js/highergeography.js"></script> 
+</cfif>
+
 <cfif not isdefined("session.header_color")>
 	<cfif NOT isDefined('setDbUser')>
 		<cfinclude template="/shared/loginFunctions.cfm">

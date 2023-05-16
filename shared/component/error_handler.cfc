@@ -50,6 +50,14 @@ limitations under the License.
 			<cfset errorDetail ="">
 			<cfif isDefined("cfcatchcopy.queryError") ><cfset queryError=cfcatchcopy.queryError><cfelse><cfset queryError = ''></cfif>
 			<cftry>
+				<cfif structKeyExists(cfcatchcopy,"TagContext")>
+					<cfset errorLine = errorLine & "See #cfcatchcopy.tagcontext[1].template#">
+					<cfset errorLine = errorLine & " line #cfcatchcopy.tagcontext[1].line#.">
+				</cfif>
+			<cfcatch>
+			</cfcatch>
+			</cftry>
+			<cftry>
 				<cfif structKeyExists(cfcatchcopy,"Cause") AND structKeyExists(cfcatchcopy.cause,"TagContext")>
 					<cfset errorLine = errorLine & "See #cfcatchcopy.cause.tagcontext[1].template#">
 					<cfset errorLine = errorLine & " line #cfcatchcopy.cause.tagcontext[1].line#.">
