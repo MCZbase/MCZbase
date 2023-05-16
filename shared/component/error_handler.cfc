@@ -56,6 +56,7 @@ limitations under the License.
 				</cfif>
 			<cfcatch>
 			</cfcatch>
+			</cftry>
 			<cftry>
 				<cfif structKeyExists(cfcatchcopy,"Cause") AND structKeyExists(cfcatchcopy.cause,"TagContext")>
 					<cfset errorLine = errorLine & "See #cfcatchcopy.cause.tagcontext[1].template#">
