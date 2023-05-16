@@ -2589,30 +2589,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 													}
 												}
 												function loadWKTFromFile() { 
-													$("##wktReplaceFeedback").html("Preparing to load...");
-													var url = $("##wktFile").val();
-													var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-													if ($("##wktFile").prop('files') && $("##wktFile").prop('files')[0]&& (ext == "wkt")) {
-														$("##wktReplaceFeedback").html("File has .wkt extension, reading...");
-														var reader = new FileReader();
-														reader.onload = function (e) {
-															console.log(e);
-															$("##wktReplaceFeedback").html("Loading...");
-															var matchWKT = new RegExp(/POLYGON\s*\(\s*(\(\s*(?<X>\-?\d+(:?\.\d+)?)\s+(?<Y>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<X>\s+\k<Y>\s*\))(\s*,\s*\(\s*(?<XH>\-?\d+(:?\.\d+)?)\s+(?<YH>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<XH>\s+\k<YH>\s*\))*\s*\)/);
-															if (matchWKT.test(e.target.result) == true){
-																$("##wktReplaceFeedback").html("Polygon loaded. This will not be saved to the database until you Save Changes");
-																$("##error_polygon").val(reader.result);
-															} else {
-																$("##wktReplaceFeedback").html("This file does not contain a valid WKT polygon.");
-																$("##wktFile").val('');
-																return(false);
-															}
-														}
-														reader.readAsText($("##wktFile").prop('files')[0]); // triggers load event
-													} else {
-														$("##wktFile").val('');
-														return(false);
-													}
+													loadPolygonWKTFromFile('wktFile', 'error_polygon', 'wktReplaceFeedback');
 												}
 											</script>
 										</div>
@@ -4133,30 +4110,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											}
 										}
 										function loadWKTFromFile() { 
-											$("##wktReplaceFeedback").html("Preparing to load...");
-											var url = $("##wktFile").val();
-											var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-											if ($("##wktFile").prop('files') && $("##wktFile").prop('files')[0]&& (ext == "wkt")) {
-												$("##wktReplaceFeedback").html("File has .wkt extension, reading...");
-												var reader = new FileReader();
-												reader.onload = function (e) {
-													console.log(e);
-													$("##wktReplaceFeedback").html("Loading...");
-													var matchWKT = new RegExp(/POLYGON\s*\(\s*(\(\s*(?<X>\-?\d+(:?\.\d+)?)\s+(?<Y>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<X>\s+\k<Y>\s*\))(\s*,\s*\(\s*(?<XH>\-?\d+(:?\.\d+)?)\s+(?<YH>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<XH>\s+\k<YH>\s*\))*\s*\)/);
-													if (matchWKT.test(e.target.result) == true){
-														$("##wktReplaceFeedback").html("Polygon loaded. This will not be saved to the database until you Save Changes");
-														$("##error_polygon").val(reader.result);
-													} else {
-														$("##wktReplaceFeedback").html("This file does not contain a valid WKT polygon.");
-														$("##wktFile").val('');
-														return(false);
-													}
-												}
-												reader.readAsText($("##wktFile").prop('files')[0]); // triggers load event
-											} else {
-												$("##wktFile").val('');
-												return(false);
-											}
+											loadPolygonWKTFromFile('wktFile', 'error_polygon', 'wktReplaceFeedback');
 										}
 									</script>
 								</div>
