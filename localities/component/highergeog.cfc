@@ -152,7 +152,7 @@ Functions supporting editing higher geographies.
 						higher_geog, 
 						continent_ocean,
 						ocean_region, ocean_subregion, sea, water_feature
-						country, state_province, county,
+						country, state_prov, county,
 						quad, feature,
 						island_group, island,
 						valid_catalog_term_fg, source_authority, 
@@ -217,11 +217,11 @@ Functions supporting editing higher geographies.
 					</script>
 				</div>
 				<div class="col-12 col-md-3">
-					<label class="data-entry-label" for="state_province">State/Province</label>
-					<cfif NOT isdefined("state_province")><cfset state_province=""></cfif>
-					<input type="text" name="state_province" id="state_province" class="data-entry-input" value="#encodeForHTML(state_province)#" required>
+					<label class="data-entry-label" for="state_prov">State/Province</label>
+					<cfif NOT isdefined("state_prov")><cfset state_prov=""></cfif>
+					<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#encodeForHTML(state_prov)#" required>
 					<script>
-						$(document).ready(() => makeGeogAutocomplete('state_province','state_province'));
+						$(document).ready(() => makeGeogAutocomplete('state_prov','state_prov'));
 					</script>
 				</div>
 				<div class="col-12 col-md-3">
