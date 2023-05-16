@@ -370,10 +370,10 @@ limitations under the License.
 						<li>
 							<cfif hasHigherPolygon.ct GT 0>
 								<span class="h4">Higher Geography mappable</span> 
-								<a role="button" class="btn btn-xs btn-powder-blue font-weight-bold"  onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a>
+								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold"  onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a>
 								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
 							<cfelse>
-								<span class="h4 font-weight-bold">Higher geography not mappable</span>
+								<span class="h4">Higher geography not mappable</span>
 							</cfif>
 						</li>
 						<cfquery name="hasUncertantyPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
