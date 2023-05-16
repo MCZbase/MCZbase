@@ -2083,8 +2083,9 @@ limitations under the License.
 				<cfset updatePerson = false>
 				<cfset insertPerson = true>
 			<cfelseif lookupType.existing_agent_type IS NOT "person" and provided_agent_type IS "person">
-				<!--- TODO: Support changing a person to a non-person --->
+				<!--- TODO: Support changing a person to a non-person 
 				<cfthrow message="conversion of a non-person agent to a person is not supported yet">
+				--->
 				<cfset updateAgent = true>
 				<cfset updatePerson = true>
 				<cfset convertFromPerson = true>
