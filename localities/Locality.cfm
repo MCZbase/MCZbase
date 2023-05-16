@@ -91,7 +91,7 @@ limitations under the License.
 			<main class="container-fluid my-2" id="content">
 				<div class="row mx-0">
 				<section class="col-12 col-md-9 px-xl-0">
-					<div class="col-12">
+					<div class="col-12 px-0">
 						<h1 class="h2 mt-3 mb-0 px-3">Edit Locality [#encodeForHtml(locality_id)#]</h1>
 						<div class="border-top border-right border-left border-bottom border-success rounded px-2 my-3 py-3">
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
