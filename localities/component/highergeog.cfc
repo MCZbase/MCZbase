@@ -313,7 +313,7 @@ Functions supporting editing higher geographies.
 					<cfset searchtext = "" >
 					<cfset searchclass = "" >
 					<cfloop query="ctguid_type_highergeography">
-						<cfif lookupHigherGeog.highergeographyid_guid_type is ctguid_type_highergeography.guid_type OR ctguid_type_highergeography.recordcount EQ 1 >
+						<cfif (isDefined("lookupHigherGeog") AND lookupHigherGeog.highergeographyid_guid_type is ctguid_type_highergeography.guid_type) OR ctguid_type_highergeography.recordcount EQ 1 >
 							<cfset searchlink = ctguid_type_highergeography.search_uri & lookupHigherGeog.higher_geog >
 							<cfif len(lookupHigherGeog.highergeographyid) GT 0>
 								<cfset searchtext = "Edit" >
@@ -330,7 +330,7 @@ Functions supporting editing higher geographies.
 						</cfif>
 						<cfloop query="ctguid_type_highergeography">
 							<cfset sel="">
-		 						<cfif lookupHigherGeog.highergeographyid_guid_type is ctguid_type_highergeography.guid_type OR ctguid_type_highergeography.recordcount EQ 1 >
+		 						<cfif (isDefined("lookupHigherGeog") AND lookupHigherGeog.highergeographyid_guid_type is ctguid_type_highergeography.guid_type) OR ctguid_type_highergeography.recordcount EQ 1 >
 									<cfset sel="selected='selected'">
 									<cfset placeholder = "#ctguid_type_highergeography.placeholder#">
 									<cfset pattern = "#ctguid_type_highergeography.pattern_regex#">
