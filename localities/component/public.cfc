@@ -345,7 +345,7 @@ limitations under the License.
 					WHERE accepted_lat_long_fg=1
 				</cfquery>
 				<cfif len(getAcceptedGeoref.dec_lat) gt 0 and len(getAcceptedGeoref.dec_long) gt 0 and (getAcceptedGeoref.dec_lat is not 0 and getAcceptedGeoref.dec_long is not 0)>
-					<div class="h3">Map of Georeferences</div>
+					<div class="h3 px-2">Map of Georeferences</div>
 				<cfelse>
 					<div class="h3 text-danger">No accepted georeferences</div>
 				</cfif>
