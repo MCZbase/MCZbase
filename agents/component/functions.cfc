@@ -2090,6 +2090,8 @@ limitations under the License.
 				<cfset updatePerson = true>
 				<cfset convertFromPerson = true>
 				<cfset removePerson = true>
+				<cfif not isDefined("start_date")><cfset start_date=""></cfif>
+				<cfif not isDefined("end_date")><cfset end_date=""></cfif>
 			<cfelse>
 				<!--- Catch errors --->
 				<cfthrow message="unknown/unsupported conversion types">
