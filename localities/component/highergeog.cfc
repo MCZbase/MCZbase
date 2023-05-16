@@ -76,70 +76,49 @@ Functions supporting editing higher geographies.
 </cffunction>
 		
 
-<!--- getEditGeographyHtml returns html for a form to edit an existing geog_auth_rec record 
 
-@param geog_auth_rec_id_id the primary key value for the higher geography to edit.
-@param formId the id in the dom for the form that encloses the inputs returned from this function.
-@param outputDiv the id in the dom for an output element where feedback from form submission actions 
+<!--- getHigherGeographyFormHtml returns html for a form to create a new geog_auth_rec 
+  record or to edit an existing geog_auth_rec record.
+
+@param mode if new will produce a new higher geography form, optionaly loading cloned data from
+ a specified higher geography, if edit will 
+@param clone_from_geog_auth_rec_id applies to mode=new, populate the form with data from the 
+ specified record.
+@param geog_auth_rec_id applies to mode=edit the primary key value for the higher geography to edit.
+@param formId applies to mode=edit the id in the dom for the form that encloses the inputs returned from this function.
+@param outputDiv applies to mode=edit the id in the dom for an output element where feedback from form submission actions 
   is placed.
-@param saveButtonFunction the name of a javascript function that is to be invoked when the save
+@param saveButtonFunction applies to mode=edit the name of a javascript function that is to be invoked when the save
   button is clicked, just the name without trailing parenthesies.
 --->
-<cffunction name="getEditGeographyHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="geog_auth_rec_id" type="string" required="yes">
+<cffunction name="getHigherGeographyFormHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="mode" type="string" required="yes">
+	<cfargument name="clone_from_geog_auth_rec_id" type="string" required="no">
+	<cfargument name="geog_auth_rec_id" type="string" required="no">
 	<cfargument name="formId" type="string" required="yes">
 	<cfargument name="outputDiv" type="string" required="yes">
 	<cfargument name="saveButtonFunction" type="string" required="yes">
 
-	<cfset variables.formId = arguments.formId>
-	<cfset variables.outputDiv = arguments.outputDiv>
-	<cfset variables.saveButtonFunction = arguments.saveButtonFunction>
-	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-	<cfthread name="editGeogFormThread#tn#">
-		<cfoutput>
-			<cftry>
-				<div class="form-row mx-0 mb-0">
-				
-					TODO: Implement
+	<cfif mode EQ "new">
+		<!--- optional parameter to clone from --->
+		<cfset variables.clone_from_geog_auth_rec_id = arguments.clone_from_geog_auth_rec_id>
+	<cfelseif mode EQ "edit">
+		<cfif not isDefined("geog_auth_rec_id") or len(geog_auth_rec_id) EQ 0>
+			<cfthrow message="geog_auth_rec_id is a required parameter, you must specify the higher geography to edit.">
+		</cfif>
+		<cfif not isDefined("formId") or len(formId) EQ 0><cfthrow message="formId is a required parameter"></cfif>
+		<cfif not isDefined("outputDiv") or len(outputDiv) EQ 0><cfthrow message="outputDiv is a required parameter"></cfif>
+		<cfif not isDefined("saveButtonFunction") or len(saveButtonFunction) EQ 0><cfthrow message="saveButtonFunction is a required parameter"></cfif>
+		<cfset variables.geog_auth_rec_id = arguments.geog_auth_rec_id>
+		<cfset variables.formId = arguments.formId>
+		<cfset variables.outputDiv = arguments.outputDiv>
+		<cfset variables.saveButtonFunction = arguments.saveButtonFunction>
+	<cfelse>
+		<cfthrow message="unknown mode [#encodeForHtml(mode)#] allowed values are new and edit">
+	</cfif>
 
-					<div class="col-12 mt-1">
-						<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-							onClick="if (checkFormValidity($('###formId#')[0])) { #saveButtonFunction#();  } " 
-							id="submitButton" >
-						<output id="#outputDiv#" class="text-danger">&nbsp;</output>	
-					</div>
-				</div>
-
-				<script>
-					function handleChange(){
-						$('###outputDiv#').html('Unsaved changes.');
-						$('###outputDiv#').addClass('text-danger');
-						$('###outputDiv#').removeClass('text-success');
-						$('###outputDiv#').removeClass('text-warning');
-					};
-					$(document).ready(function() {
-						monitorForChangesGeneric('#formId#',handleChange);
-					});
-				</script>
-			<cfcatch>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
-				<div>#cfcatch.detail#</div>
-			</cfcatch>
-			</cftry>
-		</cfoutput>
-	</cfthread>
-	<cfthread action="join" name="editGeogFormThread#tn#" />
-
-	<cfreturn cfthread["editGeogFormThread#tn#"].output>
-</cffunction>
-
-
-<cffunction name="getCreateHigherGeographyHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="clone_from_geog_auth_rec_id" type="string" required="no">
-	<cfargument name="geog_auth_rec_id" type="string" required="no">
-
-	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-	<cfthread name="createGeogFormThread#tn#">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all" >
+	<cfthread name="editCreateGeogFormThread#tn#">
 		<cfoutput>
 			<cfquery name="ctguid_type_highergeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
@@ -166,6 +145,26 @@ Functions supporting editing higher geographies.
 					<cfset higher_geog = "#lookupHigherGeog.higher_geog#">
 					<cfset continent_ocean = "#lookupHigherGeog.continent_ocean#">
 				</cfloop>
+			<cfelseif mode EQ "edit">
+				<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						geog_auth_rec_id,
+						higher_geog, 
+						continent_ocean,
+						ocean_region, ocean_subregion, sea, water_feature
+						country, state_prov, county,
+						quad, feature,
+						island_group, island,
+						valid_catalog_term_fg, source_authority, 
+						wkt_polygon,
+						highergeographyid, highergeographyid_guid_type
+					FROM geog_auth_rec
+					WHERE 
+						geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_geog_auth_rec_id#">
+				</cfquery>
+			</cfif>
+			<cfif mode EQ "edit">
+				<input type="hidden" name="geog_auth_rec_id" value="#lookupHigherGeog.geog_auth_rec_id#">
 			</cfif>
 			<div class="form-row mx-0 mb-0">
 				<div class="col-12 col-md-3">
@@ -386,14 +385,34 @@ Functions supporting editing higher geographies.
 			</div>
 			<div class="form-row my-1 mx-0">
 				<div class="col-12 mt-1">
-					<input type="submit" value="Save" class="btn btn-xs btn-primary">
+					<cfif mode EQ "new">
+						<input type="submit" value="Save" class="btn btn-xs btn-primary">
+					<cfelseif mode EQ "edit">
+						<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
+							onClick="if (checkFormValidity($('###formId#')[0])) { #saveButtonFunction#();  } " 
+							id="submitButton" >
+						<output id="#outputDiv#" class="text-danger">&nbsp;</output>
+					</cfif>
 				</div>
 			</div>
+			<cfif mode EQ "edit">
+				<script>
+					function handleChange(){
+						$('###outputDiv#').html('Unsaved changes.');
+						$('###outputDiv#').addClass('text-danger');
+						$('###outputDiv#').removeClass('text-success');
+						$('###outputDiv#').removeClass('text-warning');
+					};
+					$(document).ready(function() {
+						monitorForChangesGeneric('#formId#',handleChange);
+					});
+				</script>
+			</cfif>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="createGeogFormThread#tn#" />
+	<cfthread action="join" name="editCreateGeogFormThread#tn#" />
 
-	<cfreturn cfthread["createGeogFormThread#tn#"].output>
+	<cfreturn cfthread["editCreateGeogFormThread#tn#"].output>
 
 </cffunction>
 

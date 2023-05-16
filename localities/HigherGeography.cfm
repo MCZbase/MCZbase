@@ -93,7 +93,7 @@ limitations under the License.
  			    			<form name="editHigherGeography" id="#formId#">
 								<input type="hidden" id="geog_auth_rec_id" name="geog_auth_rec_id" value="#geog_auth_rec_id#">
 								<input type="hidden" name="method" value="updateHigherGeography">
-								<cfset blockEditForm = getEditGeographyHtml(geog_auth_rec_id = "#geog_auth_rec_id#", formId="#formId#", outputDiv="#outputDiv#", saveButtonFunction="saveEdits")>
+								<cfset blockEditForm = getHigherGeographyFormHtml(mode="edit",geog_auth_rec_id = "#geog_auth_rec_id#", formId="#formId#", outputDiv="#outputDiv#", saveButtonFunction="saveEdits">
 								#blockEditForm#
 							</form>
 							<script>
@@ -134,7 +134,7 @@ limitations under the License.
 		<cfinclude template="/localities/component/highergeog.cfc" runOnce="true">
 		<cfoutput>
 			<cfset extra = "">
-			<cfset blockform = getCreateHigherGeographyHtml()>
+			<cfset blockform = getHigherGeographyFormHtml(mode="new")>
 		   <main class="container mt-3" id="content">
 				<section class="row">
 					<div class="col-12">
