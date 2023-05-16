@@ -326,7 +326,7 @@ Functions supporting editing higher geographies.
 							</cfif>
 						</cfif>
 					</cfloop>
-					<select name="highergeographyid_guid_type" id="highergeographyid_guid_type" size="1">
+					<select name="highergeographyid_guid_type" id="highergeographyid_guid_type" class="data-entry-select">
 						<cfif searchtext EQ "">
 							<option value=""></option>
 						</cfif>
@@ -347,6 +347,7 @@ Functions supporting editing higher geographies.
 					<a href="#searchlink#" id="highergeographyid_search" target="_blank" #searchclass# >#searchtext#</a>
 				</div>
 				<div class="col-12 col-md-4">
+					<label class="data-entry-label">&nbsp;</label>
 					<input name="highergeographyid" id="highergeographyid" value="#lookupHigherGeog.highergeographyid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
 					<cfif len(regex) GT 0 >
 						<cfset link = REReplace(lookupHigherGeog.highergeographyid,regex,replacement)>
