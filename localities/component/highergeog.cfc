@@ -267,7 +267,8 @@ Functions supporting editing higher geographies.
 			
 				<div class="col-12 col-md-6">
 					<label for = "wktPolygon" class="data-entry-label">Polygon<label>
-					<input type="text" name="wktPolygon" value="#wkt_polygon#" id = "wktPolygon" class="data-entry-input">
+					<cfif NOT isdefined("wkt_polygon")><cfset wkt_polygon=""></cfif>
+					<input type="text" name="wktPolygon" value="#wkt_polygon#"id="wktPolygon" class="data-entry-input">
 				</div>
 				<div class="col-12 col-md-3">
 					<label for="wktFile" class="data-entry-label">Load Polygon from WKT file</label>
@@ -344,13 +345,13 @@ Functions supporting editing higher geographies.
 					<a href="#searchlink#" id="highergeographyid_search" target="_blank" #searchclass# >#searchtext#</a>
 				</div>
 				<div class="col-12 col-md-4">
-					<input name="highergeographyid" id="highergeographyid" value="#geogDetails.highergeographyid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
+					<input name="highergeographyid" id="highergeographyid" value="#lookupHigherGeog.highergeographyid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
 					<cfif len(regex) GT 0 >
-						<cfset link = REReplace(geogDetails.highergeographyid,regex,replacement)>
+						<cfset link = REReplace(lookupHigherGeog.highergeographyid,regex,replacement)>
 					<cfelse>
-						<cfset link = geogDetails.highergeographyid>
+						<cfset link = lookupHigherGeog.highergeographyid>
 					</cfif>
-					<a id="highergeographyid_link" href="#link#" target="_blank" class="hints">#geogDetails.highergeographyid#</a>
+					<a id="highergeographyid_link" href="#link#" target="_blank" class="hints">#lookupHigherGeog.highergeographyid#</a>
 					<script>
 						$(document).ready(function () {
 							if ($('##highergeographyid').val().length > 0) {
