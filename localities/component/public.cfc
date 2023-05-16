@@ -369,11 +369,11 @@ limitations under the License.
 						</cfquery>
 						<li>
 							<cfif hasHigherPolygon.ct GT 0>
-								<span class="h4">Higher Geography mappable</span> 
+								<span class="h5">Higher Geography mappable</span> 
 								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold"  onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a>
 								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
 							<cfelse>
-								<span class="h4">Higher geography not mappable</span>
+								<span class="h5">Higher geography not mappable</span>
 							</cfif>
 						</li>
 						<cfquery name="hasUncertantyPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
@@ -388,30 +388,30 @@ limitations under the License.
 						</cfquery>
 						<li>
 							<cfif hasUncertantyPolygon.ct GT 0>
-								<span class="h4">Georeference has uncertanty polygon</span>
+								<span class="h5">Georeference has uncertanty polygon</span>
 								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" uncertaintypoly.setVisible(!uncertaintypoly.getVisible()); ">hide/show</a> 
 								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" map.fitBounds(findBounds(uncertaintypoly.latLngs));">zoom to</a>
 							<cfelse>
-								<span class="h4">No polygon with georeference</span>
+								<span class="h5">No polygon with georeference</span>
 							</cfif>
 						</li>
 						<li>
 							<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS GT 0>
-								<span class="h4">Coordinate uncertanty in meters = #getAcceptedGeoref.coordinateuncertaintyinmeters#</span> 
+								<span class="h5">Coordinate uncertanty in meters = #getAcceptedGeoref.coordinateuncertaintyinmeters#</span> 
 								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" errorcircle.setVisible(!errorcircle.getVisible()); ">hide/show</a> 
 								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" map.fitBounds(errorcircle.getBounds());">zoom to</a>
 							<cfelse>
-								<span class="h4">No error radius.</span>
+								<span class="h5">No error radius.</span>
 							</cfif>
 						</li>
 						<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS EQ "301">
 							<li>
-								<span class="h4 text-danger">Coordinate uncertanty of 301 is suspect, geolocate assigns this value when unable to calculate an error radius.<span>
+								<span class="h5 text-danger">Coordinate uncertanty of 301 is suspect, geolocate assigns this value when unable to calculate an error radius.<span>
 							</li>
 						</cfif>
 						<cfif getGeoreferences.recordcount GT 1>
 							<li>
-								<span class="h4">#getGeoreferences.recordcount# georeferences, including unaccepted.</span> 
+								<span class="h5">#getGeoreferences.recordcount# georeferences, including unaccepted.</span> 
 								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
 							</li>
 						</cfif>
