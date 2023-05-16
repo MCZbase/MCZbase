@@ -288,7 +288,7 @@ Functions supporting editing higher geographies.
 
 				<div class="col-12 col-md-3">
 					<label for="valid_catalog_term_fg" class="data-entry-label">Valid for data entry?</label>
-					<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr">
+					<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="data-entry-select reqdClr">
 						<cfif not isDefined("valid_calalog_term_fg") OR len(valid_catalog_term_fg) EQ 0 OR valid_catalog_term_fg is "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 						<option value="1" #selected#>Yes</option>
 						<cfif isDefined("valid_calalog_term_fg") AND valid_catalog_term_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -303,6 +303,8 @@ Functions supporting editing higher geographies.
 						$(document).ready(() => makeGeogAutocomplete('source_authority','source_authority'));
 					</script>
 				</div>
+			</div>
+			<div class="form-row m-1 border">
 				<div class="col-12 col-md-4">
 					<label for="highergeographyid" class="data-entry-label">GUID for Higher Geography(dwc:highergeographyID)</label>
 					<cfset pattern = "">
@@ -378,7 +380,8 @@ Functions supporting editing higher geographies.
 						});
 					</script>
 				</div>
-
+			</div>
+			<div class="form-row my-1 mx-0">
 				<div class="col-12 mt-1">
 					<input type="submit" value="Save" class="btn btn-xs btn-primary">
 				</div>
