@@ -151,8 +151,12 @@ Functions supporting editing higher geographies.
 					SELECT 
 						higher_geog, 
 						continent_ocean,
-						ocean_region, ocean_subregion, sea,
+						ocean_region, ocean_subregion, sea, water_feature
 						country, state_province, county,
+						quad, feature,
+						island_group, island,
+						valid_catalog_term_fg, source_authority,
+						highergeographyid, highergeographyid_guid_type
 					FROM geog_auth_rec
 					WHERE 
 						geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_geog_auth_rec_id#">
