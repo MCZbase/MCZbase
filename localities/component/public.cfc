@@ -345,11 +345,11 @@ limitations under the License.
 					WHERE accepted_lat_long_fg=1
 				</cfquery>
 				<cfif len(getAcceptedGeoref.dec_lat) gt 0 and len(getAcceptedGeoref.dec_long) gt 0 and (getAcceptedGeoref.dec_lat is not 0 and getAcceptedGeoref.dec_long is not 0)>
-					<div class="h3">Map of georeferences</div>
+					<div class="h3">Map of Georeferences</div>
 				<cfelse>
 					<div class="h3 text-danger">No accepted georeferences</div>
 				</cfif>
-			   <div class="mb-2 w-100" style="height: 360px;">
+				<div class="mb-2 w-100" style="height: 360px;">
 					<div id="mapdiv_#REReplace(locality_id,'[^0-9]','','All')#" style="width:100%; height:100%;"></div>
 				</div>
 				<div class="mb-2 w-100">
@@ -369,11 +369,11 @@ limitations under the License.
 						</cfquery>
 						<li>
 							<cfif hasHigherPolygon.ct GT 0>
-								<span class="h3">Higher Geography mappable</span> 
-								<a class="btn btn-xs btn-powder-blue"  onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a>
-								<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
+								<span class="h4">Higher Geography mappable</span> 
+								<a role="button" class="btn btn-xs btn-powder-blue font-weight-bold"  onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a>
+								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
 							<cfelse>
-								<span class="h3">Higher geography not mappable</span>
+								<span class="h4 font-weight-bold">Higher geography not mappable</span>
 							</cfif>
 						</li>
 						<cfquery name="hasUncertantyPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
@@ -388,20 +388,20 @@ limitations under the License.
 						</cfquery>
 						<li>
 							<cfif hasUncertantyPolygon.ct GT 0>
-								<span class="h3">Georeference has uncertanty polygon</span>
-								<a class="btn btn-xs btn-powder-blue" onclick=" uncertaintypoly.setVisible(!uncertaintypoly.getVisible()); ">hide/show</a> 
-								<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(findBounds(uncertaintypoly.latLngs));">zoom to</a>
+								<span class="h4">Georeference has uncertanty polygon</span>
+								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" uncertaintypoly.setVisible(!uncertaintypoly.getVisible()); ">hide/show</a> 
+								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" map.fitBounds(findBounds(uncertaintypoly.latLngs));">zoom to</a>
 							<cfelse>
-								<span class="h3">No polygon with georeference</span>
+								<span class="h4">No polygon with georeference</span>
 							</cfif>
 						</li>
 						<li>
 							<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS GT 0>
-								<span class="h3">Coordinate uncertanty in meters = #getAcceptedGeoref.coordinateuncertaintyinmeters#</span> 
-								<a class="btn btn-xs btn-powder-blue" onclick=" errorcircle.setVisible(!errorcircle.getVisible()); ">hide/show</a> 
-								<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(errorcircle.getBounds());">zoom to</a>
+								<span class="h4">Coordinate uncertanty in meters = #getAcceptedGeoref.coordinateuncertaintyinmeters#</span> 
+								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" errorcircle.setVisible(!errorcircle.getVisible()); ">hide/show</a> 
+								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" map.fitBounds(errorcircle.getBounds());">zoom to</a>
 							<cfelse>
-								<span class="h3">No error radius.</span>
+								<span class="h4">No error radius.</span>
 							</cfif>
 						</li>
 						<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS EQ "301">
@@ -411,8 +411,8 @@ limitations under the License.
 						</cfif>
 						<cfif getGeoreferences.recordcount GT 1>
 							<li>
-								<span class="h3">#getGeoreferences.recordcount# georeferences, including unaccepted.</span> 
-								<a class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
+								<span class="h4">#getGeoreferences.recordcount# georeferences, including unaccepted.</span> 
+								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
 							</li>
 						</cfif>
 					</ul>
