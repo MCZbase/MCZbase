@@ -130,7 +130,7 @@ limitations under the License.
 									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
 								};
 							</script>
-							<button type="button" class="btn btn-xs btn-secondary" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
+							<button type="button" class="btn btn-xs btn-secondary" style="position:absolute;left: 6rem; margin-top: -1.9rem;" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
 							<cfif countUses.total_uses EQ "0">
 								<button type="button" 
 									onClick="confirmDialog('Delete this Locality?', 'Confirm Delete Locality', function() { location.assign('/localities/Locality.cfm?action=delete&locality_id=#encodeForUrl(locality_id)#'); } );" 
@@ -172,7 +172,7 @@ limitations under the License.
 						</div>
 					</div>
 				</section>
-				<section class="mt-4 col-12 col-md-3 pl-xl-0">
+				<section class="mt-4 col-12 col-md-3 px-0 pl-xl-0">
 						<!--- map --->
 						<div class="col-12 px-0">
 							<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
