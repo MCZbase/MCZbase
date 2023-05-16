@@ -663,28 +663,28 @@ function makeGeogAutocomplete(fieldId, targetRank) {
    concerning the load process, without a leading # selector.
 **/
 function loadPolygonWKTFromFile(fileControlId, polygonControlId, feedbackId) { 
-	$("#feedbackId").html("Preparing to load...");
-	var url = $("#fileControlId").val();
+	$("#"+feedbackId).html("Preparing to load...");
+	var url = $("#"+fileControlId).val();
 	var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-	if ($("#fileControlId").prop('files') && $("#fileControlId").prop('files')[0]&& (ext == "wkt")) {
-		$("#feedbackId").html("File has .wkt extension, reading...");
+	if ($("#"+fileControlId).prop('files') && $("#"+fileControlId).prop('files')[0]&& (ext == "wkt")) {
+		$("#"+feedbackId).html("File has .wkt extension, reading...");
 		var reader = new FileReader();
 		reader.onload = function (e) {
 			console.log(e);
-			$("#feedbackId").html("Loading...");
+			$("#"+feedbackId).html("Loading...");
 			var matchWKT = new RegExp(/POLYGON\s*\(\s*(\(\s*(?<X>\-?\d+(:?\.\d+)?)\s+(?<Y>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<X>\s+\k<Y>\s*\))(\s*,\s*\(\s*(?<XH>\-?\d+(:?\.\d+)?)\s+(?<YH>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<XH>\s+\k<YH>\s*\))*\s*\)/);
 			if (matchWKT.test(e.target.result) == true){
-				$("#feedbackId").html("Polygon loaded. This will not be saved to the database until you Save Changes");
-				$("#polygonControlId").val(reader.result);
+				$("#"+feedbackId).html("Polygon loaded. This will not be saved to the database until you Save Changes");
+				$("#"+polygonControlId).val(reader.result);
 			} else {
-				$("#feedbackId").html("This file does not contain a valid WKT polygon.");
-				$("#fileControlId").val('');
+				$("#"+feedbackId).html("This file does not contain a valid WKT polygon.");
+				$("#"+fileControlId).val('');
 				return(false);
 			}
 		}
-		reader.readAsText($("#fileControlId").prop('files')[0]); // triggers load event
+		reader.readAsText($("#"+fileControlId).prop('files')[0]); // triggers load event
 	} else {
-		$("#fileControlId").val('');
+		$("#"+fileControlId).val('');
 		return(false);
 	}
 }
