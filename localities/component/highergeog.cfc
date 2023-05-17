@@ -230,6 +230,27 @@ Functions supporting editing higher geographies.
 					<script>
 						$(document).ready(() => makeGeogAutocomplete('county','county'));
 					</script>
+					<cfif mode EQ "new">
+						<script>
+							// if empty, and unique, fill in higher terms from value of county
+							function lookupAboveCounty() { 
+							$.ajax({
+								url: "/localities/component/search.cfc",
+								data : {
+									method : "getHigherTermsForCounty",
+									county: $('##county').val()
+								},
+								success: function (result) {
+									
+								},
+								error: function (jqXHR, textStatus, error) {
+									handleFail(jqXHR,textStatus,error,"loading higher geography for county");
+								},
+								dataType: "json"
+							});
+							}
+						</script>
+					</cfif>
 				</div>
 				<div class="col-12 col-md-3">
 					<label class="data-entry-label" for="quad">Quadrangle</label>
