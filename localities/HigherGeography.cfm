@@ -161,6 +161,8 @@ limitations under the License.
 			<cfquery name="newHigherGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO geog_auth_rec (
 					GEOG_AUTH_REC_ID
+					,valid_catalog_term_fg
+					,source_authority
 					,continent_ocean
 					,ocean_region
 					,ocean_subregion
@@ -170,8 +172,16 @@ limitations under the License.
 					,state_prov
 					,county
 					,feature
+					,quad
+					,island_group
+					,island
+					,highergeographyid_guid_type
+					,highergeographyid
+					,wkt_polygon
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextLoc.nextLoc#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#source_authority#">,
 					<cfif len(#continent_ocean#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continent_ocean#">,
 					<cfelse>
@@ -184,6 +194,66 @@ limitations under the License.
 					</cfif>
 					<cfif len(#ocean_subregion#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ocean_subregion#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#sea#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sea#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#water_feature#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#water_feature#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#country#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#country#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#state_prov#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#state_prov#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#county#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#county#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#feature#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#feature#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#quad#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#quad#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#island_group#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_group#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#island#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#highergeographyid_guid_type#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid_guid_type#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#highergeographyid#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#wkt_polygon#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#wkt_polygon#">,
 					<cfelse>
 						NULL,
 					</cfif>
