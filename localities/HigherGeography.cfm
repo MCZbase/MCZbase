@@ -253,9 +253,9 @@ limitations under the License.
 						NULL,
 					</cfif>
 					<cfif len(#wkt_polygon#) gt 0>
-						<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#wkt_polygon#">,
+						<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#wkt_polygon#">
 					<cfelse>
-						NULL,
+						NULL
 					</cfif>
 				)
 			</cfquery>
