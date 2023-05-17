@@ -146,6 +146,21 @@ Functions supporting editing higher geographies.
 					<cfloop query="lookupHigherGeog">
 						<cfset higher_geog = "#lookupHigherGeog.higher_geog#">
 						<cfset continent_ocean = "#lookupHigherGeog.continent_ocean#">
+						<cfset continent_ocean = "#lookupHigherGeog.continent_ocean#">
+						<cfset ocean_region  = "#lookupHigherGeog.ocean_region #">
+						<cfset ocean_subregion  = "#lookupHigherGeog.ocean_subregion #">
+						<cfset sea  = "#lookupHigherGeog.sea #">
+						<cfset water_feature = "#lookupHigherGeog.water_feature#">
+						<cfset country  = "#lookupHigherGeog.country #">
+						<cfset state_prov  = "#lookupHigherGeog.state_prov #">
+						<cfset county = "#lookupHigherGeog.county#">
+						<cfset quad  = "#lookupHigherGeog.quad #">
+						<cfset feature = "#lookupHigherGeog.feature#">
+						<cfset island_group  = "#lookupHigherGeog.island_group #">
+						<cfset island = "#lookupHigherGeog.island#">
+						<cfset valid_catalog_term_fg  = "#lookupHigherGeog.valid_catalog_term_fg #">
+						<cfset source_authority  = "#lookupHigherGeog.source_authority #">
+						<cfset wkt_polygon = "#lookupHigherGeog.wkt_polygon#">
 					</cfloop>
 				<cfelseif mode EQ "edit">
 					<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -164,6 +179,25 @@ Functions supporting editing higher geographies.
 						WHERE 
 							geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 					</cfquery>
+					<cfloop query="lookupHigherGeog">
+						<cfset higher_geog = "#lookupHigherGeog.higher_geog#">
+						<cfset continent_ocean = "#lookupHigherGeog.continent_ocean#">
+						<cfset continent_ocean = "#lookupHigherGeog.continent_ocean#">
+						<cfset ocean_region  = "#lookupHigherGeog.ocean_region#">
+						<cfset ocean_subregion  = "#lookupHigherGeog.ocean_subregion#">
+						<cfset sea  = "#lookupHigherGeog.sea#">
+						<cfset water_feature = "#lookupHigherGeog.water_feature#">
+						<cfset country  = "#lookupHigherGeog.country#">
+						<cfset state_prov  = "#lookupHigherGeog.state_prov#">
+						<cfset county = "#lookupHigherGeog.county#">
+						<cfset quad  = "#lookupHigherGeog.quad#">
+						<cfset feature = "#lookupHigherGeog.feature#">
+						<cfset island_group  = "#lookupHigherGeog.island_group#">
+						<cfset island = "#lookupHigherGeog.island#">
+						<cfset valid_catalog_term_fg  = "#lookupHigherGeog.valid_catalog_term_fg#">
+						<cfset source_authority  = "#lookupHigherGeog.source_authority#">
+						<cfset wkt_polygon = "#lookupHigherGeog.wkt_polygon#">
+					</cfloop>
 				</cfif>
 				<cfif mode EQ "edit">
 					<input type="hidden" name="geog_auth_rec_id" value="#lookupHigherGeog.geog_auth_rec_id#">
