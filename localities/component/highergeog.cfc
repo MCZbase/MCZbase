@@ -172,7 +172,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="continent_ocean">Continent/Ocean</label>
 						<cfif NOT isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
-						<input type="text" name="continent_ocean" id="continent_ocean" class="data-entry-input" value="#encodeForHTML(continent_ocean)#" required>
+						<input type="text" name="continent_ocean" id="continent_ocean" class="data-entry-input" value="#encodeForHTML(continent_ocean)#">
 						<script>
 							$(document).ready(() => makeCTAutocomplete('continent_ocean','continent_ocean') );
 						</script>
@@ -180,7 +180,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="ocean_region">Ocean Region</label>
 						<cfif NOT isdefined("ocean_region")><cfset ocean_region=""></cfif>
-						<input type="text" name="ocean_region" id="ocean_region" class="data-entry-input" value="#encodeForHTML(ocean_region)#" required>
+						<input type="text" name="ocean_region" id="ocean_region" class="data-entry-input" value="#encodeForHTML(ocean_region)#">
 						<script>
 							$(document).ready(() => makeCTAutocomplete('ocean_region','ocean_region') );
 						</script>
@@ -188,7 +188,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="ocean_subregion">Ocean Subregion</label>
 						<cfif NOT isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
-						<input type="text" name="ocean_subregion" id="ocean_subregion" class="data-entry-input" value="#encodeForHTML(ocean_subregion)#" required>
+						<input type="text" name="ocean_subregion" id="ocean_subregion" class="data-entry-input" value="#encodeForHTML(ocean_subregion)#">
 						<script>
 							$(document).ready(() => makeGeogAutocomplete('ocean_subregion','ocean_subregion'));
 						</script>
@@ -224,7 +224,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="sea">Sea</label>
 						<cfif NOT isdefined("sea")><cfset sea=""></cfif>
-						<input type="text" name="sea" id="sea" class="data-entry-input" value="#encodeForHTML(sea)#" required>
+						<input type="text" name="sea" id="sea" class="data-entry-input" value="#encodeForHTML(sea)#">
 						<script>
 							$(document).ready(() => makeGeogAutocomplete('sea','sea'));
 						</script>
@@ -232,7 +232,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="water_feature">Water Feature</label>
 						<cfif NOT isdefined("water_feature")><cfset water_feature=""></cfif>
-						<input type="text" name="water_feature" id="water_feature" class="data-entry-input" value="#encodeForHTML(water_feature)#" required>
+						<input type="text" name="water_feature" id="water_feature" class="data-entry-input" value="#encodeForHTML(water_feature)#">
 						<script>
 							$(document).ready(() => makeCTAutocomplete('water_feature','water_feature') );
 						</script>
@@ -240,7 +240,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="country">Country</label>
 						<cfif NOT isdefined("country")><cfset country=""></cfif>
-						<input type="text" name="country" id="country" class="data-entry-input" value="#encodeForHTML(country)#" required>
+						<input type="text" name="country" id="country" class="data-entry-input" value="#encodeForHTML(country)#">
 						<script>
 							$(document).ready(() => makeGeogAutocomplete('country','country'));
 						</script>
@@ -248,7 +248,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="state_prov">State/Province</label>
 						<cfif NOT isdefined("state_prov")><cfset state_prov=""></cfif>
-						<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#encodeForHTML(state_prov)#" required>
+						<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#encodeForHTML(state_prov)#">
 						<script>
 							$(document).ready(() => makeGeogAutocomplete('state_prov','state_prov'));
 						</script>
@@ -284,7 +284,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="county">County</label>
 						<cfif NOT isdefined("county")><cfset county=""></cfif>
-						<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHTML(county)#" required>
+						<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHTML(county)#">
 						<script>
 							$(document).ready(() => makeGeogAutocomplete('county','county'));
 						</script>
@@ -321,7 +321,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="quad">Quadrangle</label>
 						<cfif NOT isdefined("quad")><cfset quad=""></cfif>
-						<input type="text" name="quad" id="quad" class="data-entry-input" value="#encodeForHTML(quad)#" required>
+						<input type="text" name="quad" id="quad" class="data-entry-input" value="#encodeForHTML(quad)#">
 						<script>
 							$(document).ready(() => makeGeogAutocomplete('quad','quad'));
 						</script>
@@ -329,7 +329,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="feature">Feature</label>
 						<cfif NOT isdefined("feature")><cfset feature=""></cfif>
-						<input type="text" name="feature" id="feature" class="data-entry-input" value="#encodeForHTML(feature)#" required>
+						<input type="text" name="feature" id="feature" class="data-entry-input" value="#encodeForHTML(feature)#">
 						<script>
 							$(document).ready(() => makeCTAutocomplete('feature','feature'));
 						</script>
@@ -337,7 +337,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="island_group">Island Group</label>
 						<cfif NOT isdefined("island_group")><cfset island_group=""></cfif>
-						<input type="text" name="island_group" id="island_group" class="data-entry-input" value="#encodeForHTML(island_group)#" required>
+						<input type="text" name="island_group" id="island_group" class="data-entry-input" value="#encodeForHTML(island_group)#">
 						<script>
 							$(document).ready(() => makeCTAutocomplete('island_group','island_group'));
 						</script>
@@ -345,7 +345,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="island">Island</label>
 						<cfif NOT isdefined("island")><cfset island=""></cfif>
-						<input type="text" name="island" id="island" class="data-entry-input" value="#encodeForHTML(island)#" required>
+						<input type="text" name="island" id="island" class="data-entry-input" value="#encodeForHTML(island)#">
 						<script>
 							$(document).ready(() => makeGeogAutocomplete('island','island'));
 						</script>
@@ -384,7 +384,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="source_authority">Source Authority</label>
 						<cfif NOT isdefined("source_authority")><cfset source_authority=""></cfif>
-						<input type="text" name="source_authority" id="source_authority" class="data-entry-input" value="#encodeForHTML(source_authority)#" required>
+						<input type="text" name="source_authority" id="source_authority" class="data-entry-input reqdClr" value="#encodeForHTML(source_authority)#" required>
 						<script>
 							$(document).ready(() => makeGeogAutocomplete('source_authority','source_authority'));
 						</script>
