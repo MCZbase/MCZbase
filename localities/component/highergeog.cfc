@@ -243,7 +243,10 @@ Functions supporting editing higher geographies.
 										county: $('##county').val()
 									},
 									success: function (result) {
-										
+										console.log(result);
+										if ($('##country').val()=="") {
+											$('##country').val(result.country);
+										}
 									},
 									error: function (jqXHR, textStatus, error) {
 										handleFail(jqXHR,textStatus,error,"loading higher geography for county");
