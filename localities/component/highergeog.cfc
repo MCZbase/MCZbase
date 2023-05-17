@@ -162,7 +162,7 @@ Functions supporting editing higher geographies.
 							highergeographyid, highergeographyid_guid_type
 						FROM geog_auth_rec
 						WHERE 
-							geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_geog_auth_rec_id#">
+							geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 					</cfquery>
 				</cfif>
 				<cfif mode EQ "edit">
