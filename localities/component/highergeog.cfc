@@ -95,9 +95,9 @@ Functions supporting editing higher geographies.
 	<cfargument name="mode" type="string" required="yes">
 	<cfargument name="clone_from_geog_auth_rec_id" type="string" required="no">
 	<cfargument name="geog_auth_rec_id" type="string" required="no">
-	<cfargument name="formId" type="string" required="yes">
-	<cfargument name="outputDiv" type="string" required="yes">
-	<cfargument name="saveButtonFunction" type="string" required="yes">
+	<cfargument name="formId" type="string" required="no">
+	<cfargument name="outputDiv" type="string" required="no">
+	<cfargument name="saveButtonFunction" type="string" required="no">
 
 	<cfif mode EQ "new">
 		<!--- optional parameter to clone from --->
