@@ -621,6 +621,11 @@ Functions supporting editing higher geographies.
 				<cfelse>
 					sea = null,
 				</cfif>
+				<cfif len(#water_feature#) GT 0>
+					water_feature = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#water_feature#">,
+				<cfelse>
+					water_feature = null,
+				</cfif>
 				<cfif len(#island_group#) GT 0>
 					island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_group#">,
 				<cfelse>
