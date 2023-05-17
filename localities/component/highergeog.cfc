@@ -358,7 +358,7 @@ Functions supporting editing higher geographies.
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="wktFile" class="data-entry-label">Load Polygon from WKT file</label>
-						<input type="file" id="wktFile" name="wktFile" accept=".wkt" >
+						<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100 p-0">
 						<script>
 							$(document).ready(function() { 
 								$("##wktFile").change(loadWKTFromFile);
