@@ -92,7 +92,6 @@ limitations under the License.
 							<cfset formId = "editHigherGeographyForm">
 							<cfset outputDiv="saveResultsDiv">
  			    			<form name="editHigherGeography" id="#formId#">
-								<input type="hidden" id="geog_auth_rec_id" name="geog_auth_rec_id" value="#geog_auth_rec_id#">
 								<input type="hidden" name="method" value="updateHigherGeography">
 								<cfset blockEditForm = getHigherGeographyFormHtml(mode="edit", geog_auth_rec_id = "#geog_auth_rec_id#", formId="#formId#", outputDiv="#outputDiv#", saveButtonFunction="saveEdits")>
 								#blockEditForm#
