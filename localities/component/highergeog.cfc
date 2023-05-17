@@ -398,7 +398,7 @@ Functions supporting editing higher geographies.
 						<cfset regex = "">
 						<cfset replacement = "">
 						<cfset searchlink = "" >
-						<cfset searchtext = "Pick a guid authority" >
+						<cfset searchtext = "" >
 						<cfset searchclass = "" >
 						<cfloop query="ctguid_type_highergeography">
 							<cfif (isDefined("lookupHigherGeog") AND lookupHigherGeog.highergeographyid_guid_type is ctguid_type_highergeography.guid_type) OR ctguid_type_highergeography.recordcount EQ 1 >
