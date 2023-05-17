@@ -586,11 +586,6 @@ Functions supporting editing higher geographies.
 				<cfelse>
 					country = null,
 				</cfif>
-				<cfif len(#country#) GT 0>
-					country = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#country#">,
-				<cfelse>
-					country = null,
-				</cfif>
 				<cfif len(#state_prov#) GT 0>
 					state_prov = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#state_prov#">,
 				<cfelse>
