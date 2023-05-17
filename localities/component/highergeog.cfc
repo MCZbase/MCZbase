@@ -132,7 +132,7 @@ Functions supporting editing higher geographies.
 						SELECT 
 							higher_geog, 
 							continent_ocean,
-							ocean_region, ocean_subregion, sea, water_feature
+							ocean_region, ocean_subregion, sea, water_feature,
 							country, state_prov, county,
 							quad, feature,
 							island_group, island,
@@ -168,7 +168,7 @@ Functions supporting editing higher geographies.
 							geog_auth_rec_id,
 							higher_geog, 
 							continent_ocean,
-							ocean_region, ocean_subregion, sea, water_feature
+							ocean_region, ocean_subregion, sea, water_feature,
 							country, state_prov, county,
 							quad, feature,
 							island_group, island,
