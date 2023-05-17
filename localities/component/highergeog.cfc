@@ -647,9 +647,9 @@ Functions supporting editing higher geographies.
 					highergeographyid_guid_type = null,
 				</cfif>
 				<cfif len(#highergeographyid#) GT 0>
-					highergeographyid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid#">,
+					highergeographyid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid#">
 				<cfelse>
-					highergeographyid = null,
+					highergeographyid = null
 				</cfif>
 				WHERE 
 					geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
