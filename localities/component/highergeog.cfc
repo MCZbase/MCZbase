@@ -256,9 +256,9 @@ Functions supporting editing higher geographies.
 							<script>
 								// if empty, and unique, fill in higher terms from value of state_prov
 								$(document).ready(function() { 
-									$('##state_prov').on('change',lookupAboveCounty);
+									$('##state_prov').on('change',lookupAboveStateProv);
 								});
-								function lookupAboveCounty() { 
+								function lookupAboveStateProv() { 
 								$.ajax({
 									url: "/localities/component/search.cfc",
 									data : {
@@ -430,6 +430,7 @@ Functions supporting editing higher geographies.
 						</select>
 					</div>
 					<div class="col-12 col-md-4">
+						<label for="highergeographyid" class="data-entry-label">External Lookup</label>
 						<a href="#searchlink#" id="highergeographyid_search" target="_blank" #searchclass# >#searchtext#</a>
 					</div>
 					<div class="col-12 col-md-4">
