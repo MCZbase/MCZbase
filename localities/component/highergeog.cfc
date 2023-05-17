@@ -194,19 +194,19 @@ Functions supporting editing higher geographies.
 						</script>
 					</div>
 					<div class="col-12 col-md-3">
-						<label class="data-entry-label" for="water_feature">Water Feature</label>
-						<cfif NOT isdefined("water_feature")><cfset water_feature=""></cfif>
-						<input type="text" name="water_feature" id="water_feature" class="data-entry-input" value="#encodeForHTML(water_feature)#" required>
-						<script>
-							$(document).ready(() => makeCTAutocomplete('water_feature','water_feature') );
-						</script>
-					</div>
-					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="sea">Sea</label>
 						<cfif NOT isdefined("sea")><cfset sea=""></cfif>
 						<input type="text" name="sea" id="sea" class="data-entry-input" value="#encodeForHTML(sea)#" required>
 						<script>
 							$(document).ready(() => makeGeogAutocomplete('sea','sea'));
+						</script>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="water_feature">Water Feature</label>
+						<cfif NOT isdefined("water_feature")><cfset water_feature=""></cfif>
+						<input type="text" name="water_feature" id="water_feature" class="data-entry-input" value="#encodeForHTML(water_feature)#" required>
+						<script>
+							$(document).ready(() => makeCTAutocomplete('water_feature','water_feature') );
 						</script>
 					</div>
 					<div class="col-12 col-md-3">
@@ -228,13 +228,16 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="county">County</label>
 						<cfif NOT isdefined("county")><cfset county=""></cfif>
-						<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHTML(county)#" onChange=" lookupAboveCounty(); " required>
+						<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHTML(county)#" required>
 						<script>
 							$(document).ready(() => makeGeogAutocomplete('county','county'));
 						</script>
 						<cfif mode EQ "new">
 							<script>
 								// if empty, and unique, fill in higher terms from value of county
+								$(document).ready(function() { 
+									$('##county').on('change',lookupAboveCounty);
+								});
 								function lookupAboveCounty() { 
 								$.ajax({
 									url: "/localities/component/search.cfc",
