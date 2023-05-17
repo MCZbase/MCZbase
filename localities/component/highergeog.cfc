@@ -38,9 +38,33 @@ Functions supporting editing higher geographies.
 						geog_auth_rec_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 				</cfquery>
 				<h2 class="h3">Used for #countUses.ct# Localities</h3>
-		
-				TODO: Implement.
-
+				<cfif countUses.ct GT 0>
+					<cfquery name="localityUses" datasource="uam_god">
+				  		SELECT
+							count(cataloged_item.cat_num) numOfSpecs,
+							count(distinct collecting_event.collecting_event_id) numOfCollEvents,
+							count(distinct locality.locality_id) numOfLocalities,
+							collection.collection,
+							collection.collection_cde,
+							collection.collection_id
+						from
+							locality
+							left join collecting_event on locality.locality_id = collecting_event.locality_id 
+							left join cataloged_item on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
+							left join collection on cataloged_item.collection_id = collection.collection_id
+						WHERE
+							locality.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+						GROUP BY
+							collection.collection,
+							collection.collection_cde,
+							collection.collection_id
+				  	</cfquery>
+					<ul>
+						<cfloop query="localityUses">
+							<li>#collection#: #numOfSpecs# specimens in #numOfCollEvents# collecting events in #numOfLocalities# localities</li>			
+						</cfloop>
+					</ul>
+				</cfif>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
