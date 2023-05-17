@@ -120,315 +120,321 @@ Functions supporting editing higher geographies.
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="editCreateGeogFormThread#tn#">
 		<cfoutput>
-			<cfquery name="ctguid_type_highergeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-			   FROM ctguid_type
-			   WHERE applies_to like '%geog_auth_rec.highergeographyid%'
-			</cfquery>
-			<cfif isdefined('clone_from_geog_auth_rec_id') AND len(clone_from_geog_auth_rec_id) GT 0>
-				<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
-						higher_geog, 
-						continent_ocean,
-						ocean_region, ocean_subregion, sea, water_feature
-						country, state_prov, county,
-						quad, feature,
-						island_group, island,
-						valid_catalog_term_fg, source_authority, 
-						wkt_polygon,
-						highergeographyid, highergeographyid_guid_type
-					FROM geog_auth_rec
-					WHERE 
-						geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_geog_auth_rec_id#">
+			<cftry>
+				<cfquery name="ctguid_type_highergeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
+				   FROM ctguid_type
+				   WHERE applies_to like '%geog_auth_rec.highergeographyid%'
 				</cfquery>
-				<cfloop query="lookupHigherGeog">
-					<cfset higher_geog = "#lookupHigherGeog.higher_geog#">
-					<cfset continent_ocean = "#lookupHigherGeog.continent_ocean#">
-				</cfloop>
-			<cfelseif mode EQ "edit">
-				<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
-						geog_auth_rec_id,
-						higher_geog, 
-						continent_ocean,
-						ocean_region, ocean_subregion, sea, water_feature
-						country, state_prov, county,
-						quad, feature,
-						island_group, island,
-						valid_catalog_term_fg, source_authority, 
-						wkt_polygon,
-						highergeographyid, highergeographyid_guid_type
-					FROM geog_auth_rec
-					WHERE 
-						geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_geog_auth_rec_id#">
-				</cfquery>
-			</cfif>
-			<cfif mode EQ "edit">
-				<input type="hidden" name="geog_auth_rec_id" value="#lookupHigherGeog.geog_auth_rec_id#">
-			</cfif>
-			<div class="form-row mx-0 mb-0">
-				<div class="col-12 col-md-3">
-					<label class="data-entry-label" for="continent_ocean">Continent/Ocean</label>
-					<cfif NOT isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
-					<input type="text" name="continent_ocean" id="continent_ocean" class="data-entry-input" value="#encodeForHTML(continent_ocean)#" required>
-					<script>
-						$(document).ready(() => makeCTAutocomplete('continent_ocean','continentocean') );
-					</script>
-				</div>
-				<div class="col-12 col-md-3">
-					<label class="data-entry-label" for="ocean_region">Ocean Region</label>
-					<cfif NOT isdefined("ocean_region")><cfset ocean_region=""></cfif>
-					<input type="text" name="ocean_region" id="ocean_region" class="data-entry-input" value="#encodeForHTML(ocean_region)#" required>
-					<script>
-						$(document).ready(() => makeCTAutocomplete('ocean_region','ocean_region') );
-					</script>
-				</div>
-				<div class="col-12 col-md-3">
-					<label class="data-entry-label" for="ocean_subregion">Ocean Subregion</label>
-					<cfif NOT isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
-					<input type="text" name="ocean_subregion" id="ocean_subregion" class="data-entry-input" value="#encodeForHTML(ocean_subregion)#" required>
-					<script>
-						$(document).ready(() => makeGeogAutocomplete('ocean_subregion','ocean_subregion'));
-					</script>
-				</div>
-				<div class="col-12 col-md-3">
-					<label class="data-entry-label" for="water_feature">Water Feature</label>
-					<cfif NOT isdefined("water_feature")><cfset water_feature=""></cfif>
-					<input type="text" name="water_feature" id="water_feature" class="data-entry-input" value="#encodeForHTML(water_feature)#" required>
-					<script>
-						$(document).ready(() => makeCTAutocomplete('water_feature','water_feature') );
-					</script>
-				</div>
-				<div class="col-12 col-md-3">
-					<label class="data-entry-label" for="sea">Sea</label>
-					<cfif NOT isdefined("sea")><cfset sea=""></cfif>
-					<input type="text" name="sea" id="sea" class="data-entry-input" value="#encodeForHTML(sea)#" required>
-					<script>
-						$(document).ready(() => makeGeogAutocomplete('sea','sea'));
-					</script>
-				</div>
-				<div class="col-12 col-md-3">
-					<label class="data-entry-label" for="country">Country</label>
-					<cfif NOT isdefined("country")><cfset country=""></cfif>
-					<input type="text" name="country" id="country" class="data-entry-input" value="#encodeForHTML(country)#" required>
-					<script>
-						$(document).ready(() => makeGeogAutocomplete('country','country'));
-					</script>
-				</div>
-				<div class="col-12 col-md-3">
-					<label class="data-entry-label" for="state_prov">State/Province</label>
-					<cfif NOT isdefined("state_prov")><cfset state_prov=""></cfif>
-					<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#encodeForHTML(state_prov)#" required>
-					<script>
-						$(document).ready(() => makeGeogAutocomplete('state_prov','state_prov'));
-					</script>
-				</div>
-				<div class="col-12 col-md-3">
-					<label class="data-entry-label" for="county">County</label>
-					<cfif NOT isdefined("county")><cfset county=""></cfif>
-					<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHTML(county)#" required>
-					<script>
-						$(document).ready(() => makeGeogAutocomplete('county','county'));
-					</script>
-					<cfif mode EQ "new">
+				<cfif isdefined('clone_from_geog_auth_rec_id') AND len(clone_from_geog_auth_rec_id) GT 0>
+					<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT 
+							higher_geog, 
+							continent_ocean,
+							ocean_region, ocean_subregion, sea, water_feature
+							country, state_prov, county,
+							quad, feature,
+							island_group, island,
+							valid_catalog_term_fg, source_authority, 
+							wkt_polygon,
+							highergeographyid, highergeographyid_guid_type
+						FROM geog_auth_rec
+						WHERE 
+							geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_geog_auth_rec_id#">
+					</cfquery>
+					<cfloop query="lookupHigherGeog">
+						<cfset higher_geog = "#lookupHigherGeog.higher_geog#">
+						<cfset continent_ocean = "#lookupHigherGeog.continent_ocean#">
+					</cfloop>
+				<cfelseif mode EQ "edit">
+					<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT 
+							geog_auth_rec_id,
+							higher_geog, 
+							continent_ocean,
+							ocean_region, ocean_subregion, sea, water_feature
+							country, state_prov, county,
+							quad, feature,
+							island_group, island,
+							valid_catalog_term_fg, source_authority, 
+							wkt_polygon,
+							highergeographyid, highergeographyid_guid_type
+						FROM geog_auth_rec
+						WHERE 
+							geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_geog_auth_rec_id#">
+					</cfquery>
+				</cfif>
+				<cfif mode EQ "edit">
+					<input type="hidden" name="geog_auth_rec_id" value="#lookupHigherGeog.geog_auth_rec_id#">
+				</cfif>
+				<div class="form-row mx-0 mb-0">
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="continent_ocean">Continent/Ocean</label>
+						<cfif NOT isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
+						<input type="text" name="continent_ocean" id="continent_ocean" class="data-entry-input" value="#encodeForHTML(continent_ocean)#" required>
 						<script>
-							// if empty, and unique, fill in higher terms from value of county
-							function lookupAboveCounty() { 
-							$.ajax({
-								url: "/localities/component/search.cfc",
-								data : {
-									method : "getHigherTermsForCounty",
-									county: $('##county').val()
-								},
-								success: function (result) {
-									
-								},
-								error: function (jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error,"loading higher geography for county");
-								},
-								dataType: "json"
+							$(document).ready(() => makeCTAutocomplete('continent_ocean','continentocean') );
+						</script>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="ocean_region">Ocean Region</label>
+						<cfif NOT isdefined("ocean_region")><cfset ocean_region=""></cfif>
+						<input type="text" name="ocean_region" id="ocean_region" class="data-entry-input" value="#encodeForHTML(ocean_region)#" required>
+						<script>
+							$(document).ready(() => makeCTAutocomplete('ocean_region','ocean_region') );
+						</script>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="ocean_subregion">Ocean Subregion</label>
+						<cfif NOT isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
+						<input type="text" name="ocean_subregion" id="ocean_subregion" class="data-entry-input" value="#encodeForHTML(ocean_subregion)#" required>
+						<script>
+							$(document).ready(() => makeGeogAutocomplete('ocean_subregion','ocean_subregion'));
+						</script>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="water_feature">Water Feature</label>
+						<cfif NOT isdefined("water_feature")><cfset water_feature=""></cfif>
+						<input type="text" name="water_feature" id="water_feature" class="data-entry-input" value="#encodeForHTML(water_feature)#" required>
+						<script>
+							$(document).ready(() => makeCTAutocomplete('water_feature','water_feature') );
+						</script>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="sea">Sea</label>
+						<cfif NOT isdefined("sea")><cfset sea=""></cfif>
+						<input type="text" name="sea" id="sea" class="data-entry-input" value="#encodeForHTML(sea)#" required>
+						<script>
+							$(document).ready(() => makeGeogAutocomplete('sea','sea'));
+						</script>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="country">Country</label>
+						<cfif NOT isdefined("country")><cfset country=""></cfif>
+						<input type="text" name="country" id="country" class="data-entry-input" value="#encodeForHTML(country)#" required>
+						<script>
+							$(document).ready(() => makeGeogAutocomplete('country','country'));
+						</script>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="state_prov">State/Province</label>
+						<cfif NOT isdefined("state_prov")><cfset state_prov=""></cfif>
+						<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#encodeForHTML(state_prov)#" required>
+						<script>
+							$(document).ready(() => makeGeogAutocomplete('state_prov','state_prov'));
+						</script>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="county">County</label>
+						<cfif NOT isdefined("county")><cfset county=""></cfif>
+						<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHTML(county)#" required>
+						<script>
+							$(document).ready(() => makeGeogAutocomplete('county','county'));
+						</script>
+						<cfif mode EQ "new">
+							<script>
+								// if empty, and unique, fill in higher terms from value of county
+								function lookupAboveCounty() { 
+								$.ajax({
+									url: "/localities/component/search.cfc",
+									data : {
+										method : "getHigherTermsForCounty",
+										county: $('##county').val()
+									},
+									success: function (result) {
+										
+									},
+									error: function (jqXHR, textStatus, error) {
+										handleFail(jqXHR,textStatus,error,"loading higher geography for county");
+									},
+									dataType: "json"
+								});
+								}
+							</script>
+						</cfif>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="quad">Quadrangle</label>
+						<cfif NOT isdefined("quad")><cfset quad=""></cfif>
+						<input type="text" name="quad" id="quad" class="data-entry-input" value="#encodeForHTML(quad)#" required>
+						<script>
+							$(document).ready(() => makeGeogAutocomplete('quad','quad'));
+						</script>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="feature">Feature</label>
+						<cfif NOT isdefined("feature")><cfset feature=""></cfif>
+						<input type="text" name="feature" id="feature" class="data-entry-input" value="#encodeForHTML(feature)#" required>
+						<script>
+							$(document).ready(() => makeCTAutocomplete('feature','feature'));
+						</script>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="island_group">Island Group</label>
+						<cfif NOT isdefined("island_group")><cfset island_group=""></cfif>
+						<input type="text" name="island_group" id="island_group" class="data-entry-input" value="#encodeForHTML(island_group)#" required>
+						<script>
+							$(document).ready(() => makeCTAutocomplete('island_group','island_group'));
+						</script>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="island">Island</label>
+						<cfif NOT isdefined("island")><cfset island=""></cfif>
+						<input type="text" name="island" id="island" class="data-entry-input" value="#encodeForHTML(island)#" required>
+						<script>
+							$(document).ready(() => makeGeogAutocomplete('island','island'));
+						</script>
+					</div>
+				
+					<div class="col-12 col-md-6">
+						<label for = "wktPolygon" class="data-entry-label">Polygon</label>
+						<cfif NOT isdefined("wkt_polygon")><cfset wkt_polygon=""></cfif>
+						<input type="text" name="wktPolygon" value="#wkt_polygon#"id="wktPolygon" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="wktFile" class="data-entry-label">Load Polygon from WKT file</label>
+						<input type="file" id="wktFile" name="wktFile" accept=".wkt" >
+						<script>
+							$(document).ready(function() { 
+								$("##wktFile").change(loadWKTFromFile);
 							});
+							function loadWKTFromFile() { 
+								loadPolygonWKTFromFile('wktFile', 'wktPolygon', 'wktLoadFeedback');
 							}
 						</script>
-					</cfif>
+					</div>
+					<div class="col-12 col-md-3">
+						<output id="wktLoadFeedback"></output>
+					</div>
+	
+					<div class="col-12 col-md-3">
+						<label for="valid_catalog_term_fg" class="data-entry-label">Valid for data entry?</label>
+						<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="data-entry-select reqdClr">
+							<cfif not isDefined("valid_calalog_term_fg") OR len(valid_catalog_term_fg) EQ 0 OR valid_catalog_term_fg is "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="1" #selected#>Yes</option>
+							<cfif isDefined("valid_calalog_term_fg") AND valid_catalog_term_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="0" #selected#>No</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="source_authority">Source Authority</label>
+						<cfif NOT isdefined("source_authority")><cfset source_authority=""></cfif>
+						<input type="text" name="source_authority" id="source_authority" class="data-entry-input" value="#encodeForHTML(source_authority)#" required>
+						<script>
+							$(document).ready(() => makeGeogAutocomplete('source_authority','source_authority'));
+						</script>
+					</div>
 				</div>
-				<div class="col-12 col-md-3">
-					<label class="data-entry-label" for="quad">Quadrangle</label>
-					<cfif NOT isdefined("quad")><cfset quad=""></cfif>
-					<input type="text" name="quad" id="quad" class="data-entry-input" value="#encodeForHTML(quad)#" required>
-					<script>
-						$(document).ready(() => makeGeogAutocomplete('quad','quad'));
-					</script>
-				</div>
-				<div class="col-12 col-md-3">
-					<label class="data-entry-label" for="feature">Feature</label>
-					<cfif NOT isdefined("feature")><cfset feature=""></cfif>
-					<input type="text" name="feature" id="feature" class="data-entry-input" value="#encodeForHTML(feature)#" required>
-					<script>
-						$(document).ready(() => makeCTAutocomplete('feature','feature'));
-					</script>
-				</div>
-				<div class="col-12 col-md-3">
-					<label class="data-entry-label" for="island_group">Island Group</label>
-					<cfif NOT isdefined("island_group")><cfset island_group=""></cfif>
-					<input type="text" name="island_group" id="island_group" class="data-entry-input" value="#encodeForHTML(island_group)#" required>
-					<script>
-						$(document).ready(() => makeCTAutocomplete('island_group','island_group'));
-					</script>
-				</div>
-				<div class="col-12 col-md-3">
-					<label class="data-entry-label" for="island">Island</label>
-					<cfif NOT isdefined("island")><cfset island=""></cfif>
-					<input type="text" name="island" id="island" class="data-entry-input" value="#encodeForHTML(island)#" required>
-					<script>
-						$(document).ready(() => makeGeogAutocomplete('island','island'));
-					</script>
-				</div>
-			
-				<div class="col-12 col-md-6">
-					<label for = "wktPolygon" class="data-entry-label">Polygon</label>
-					<cfif NOT isdefined("wkt_polygon")><cfset wkt_polygon=""></cfif>
-					<input type="text" name="wktPolygon" value="#wkt_polygon#"id="wktPolygon" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-3">
-					<label for="wktFile" class="data-entry-label">Load Polygon from WKT file</label>
-					<input type="file" id="wktFile" name="wktFile" accept=".wkt" >
-					<script>
-						$(document).ready(function() { 
-							$("##wktFile").change(loadWKTFromFile);
-						});
-						function loadWKTFromFile() { 
-							loadPolygonWKTFromFile('wktFile', 'wktPolygon', 'wktLoadFeedback');
-						}
-					</script>
-				</div>
-				<div class="col-12 col-md-3">
-					<output id="wktLoadFeedback"></output>
-				</div>
-
-				<div class="col-12 col-md-3">
-					<label for="valid_catalog_term_fg" class="data-entry-label">Valid for data entry?</label>
-					<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="data-entry-select reqdClr">
-						<cfif not isDefined("valid_calalog_term_fg") OR len(valid_catalog_term_fg) EQ 0 OR valid_catalog_term_fg is "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-						<option value="1" #selected#>Yes</option>
-						<cfif isDefined("valid_calalog_term_fg") AND valid_catalog_term_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-						<option value="0" #selected#>No</option>
-					</select>
-				</div>
-				<div class="col-12 col-md-3">
-					<label class="data-entry-label" for="source_authority">Source Authority</label>
-					<cfif NOT isdefined("source_authority")><cfset source_authority=""></cfif>
-					<input type="text" name="source_authority" id="source_authority" class="data-entry-input" value="#encodeForHTML(source_authority)#" required>
-					<script>
-						$(document).ready(() => makeGeogAutocomplete('source_authority','source_authority'));
-					</script>
-				</div>
-			</div>
-			<div class="form-row m-1 border">
-				<div class="col-12 col-md-4">
-					<label for="highergeographyid" class="data-entry-label">GUID for Higher Geography(dwc:highergeographyID)</label>
-					<cfset pattern = "">
-					<cfset placeholder = "">
-					<cfset regex = "">
-					<cfset replacement = "">
-					<cfset searchlink = "" >
-					<cfset searchtext = "" >
-					<cfset searchclass = "" >
-					<cfloop query="ctguid_type_highergeography">
-						<cfif (isDefined("lookupHigherGeog") AND lookupHigherGeog.highergeographyid_guid_type is ctguid_type_highergeography.guid_type) OR ctguid_type_highergeography.recordcount EQ 1 >
-							<cfset searchlink = ctguid_type_highergeography.search_uri & lookupHigherGeog.higher_geog >
-							<cfif len(lookupHigherGeog.highergeographyid) GT 0>
-								<cfset searchtext = "Edit" >
-								<cfset searchclass = 'class="btn btn-xs btn-secondary editGuidButton"' >
-							<cfelse>
-								<cfset searchtext = "Find GUID" >
-								<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
-							</cfif>
-						</cfif>
-					</cfloop>
-					<select name="highergeographyid_guid_type" id="highergeographyid_guid_type" class="data-entry-select">
-						<cfif searchtext EQ "">
-							<option value=""></option>
-						</cfif>
+				<div class="form-row m-1 border">
+					<div class="col-12 col-md-4">
+						<label for="highergeographyid" class="data-entry-label">GUID for Higher Geography(dwc:highergeographyID)</label>
+						<cfset pattern = "">
+						<cfset placeholder = "">
+						<cfset regex = "">
+						<cfset replacement = "">
+						<cfset searchlink = "" >
+						<cfset searchtext = "" >
+						<cfset searchclass = "" >
 						<cfloop query="ctguid_type_highergeography">
-							<cfset sel="">
-		 						<cfif (isDefined("lookupHigherGeog") AND lookupHigherGeog.highergeographyid_guid_type is ctguid_type_highergeography.guid_type) OR ctguid_type_highergeography.recordcount EQ 1 >
-									<cfset sel="selected='selected'">
-									<cfset placeholder = "#ctguid_type_highergeography.placeholder#">
-									<cfset pattern = "#ctguid_type_highergeography.pattern_regex#">
-									<cfset regex = "#ctguid_type_highergeography.resolver_regex#">
-									<cfset replacement = "#ctguid_type_highergeography.resolver_replacement#">
+							<cfif (isDefined("lookupHigherGeog") AND lookupHigherGeog.highergeographyid_guid_type is ctguid_type_highergeography.guid_type) OR ctguid_type_highergeography.recordcount EQ 1 >
+								<cfset searchlink = ctguid_type_highergeography.search_uri & lookupHigherGeog.higher_geog >
+								<cfif len(lookupHigherGeog.highergeographyid) GT 0>
+									<cfset searchtext = "Edit" >
+									<cfset searchclass = 'class="btn btn-xs btn-secondary editGuidButton"' >
+								<cfelse>
+									<cfset searchtext = "Find GUID" >
+									<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
 								</cfif>
-							<option #sel# value="#ctguid_type_highergeography.guid_type#">#ctguid_type_highergeography.guid_type#</option>
+							</cfif>
 						</cfloop>
-					</select>
+						<select name="highergeographyid_guid_type" id="highergeographyid_guid_type" class="data-entry-select">
+							<cfif searchtext EQ "">
+								<option value=""></option>
+							</cfif>
+							<cfloop query="ctguid_type_highergeography">
+								<cfset sel="">
+			 						<cfif (isDefined("lookupHigherGeog") AND lookupHigherGeog.highergeographyid_guid_type is ctguid_type_highergeography.guid_type) OR ctguid_type_highergeography.recordcount EQ 1 >
+										<cfset sel="selected='selected'">
+										<cfset placeholder = "#ctguid_type_highergeography.placeholder#">
+										<cfset pattern = "#ctguid_type_highergeography.pattern_regex#">
+										<cfset regex = "#ctguid_type_highergeography.resolver_regex#">
+										<cfset replacement = "#ctguid_type_highergeography.resolver_replacement#">
+									</cfif>
+								<option #sel# value="#ctguid_type_highergeography.guid_type#">#ctguid_type_highergeography.guid_type#</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="col-12 col-md-4">
+						<a href="#searchlink#" id="highergeographyid_search" target="_blank" #searchclass# >#searchtext#</a>
+					</div>
+					<div class="col-12 col-md-4">
+						<label class="data-entry-label">&nbsp;</label>
+						<cfif isDefined("lookupHigherGeog")><cfset hgeogid = lookupHigherGeog.highergeographyid><cfelse><cfset hgeogid=""></cfif>
+						<cfif NOT isDefined("regex")><cfset regex=""></cfif>
+						<input name="highergeographyid" id="highergeographyid" value="#hgeogid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
+						<cfif len(regex) GT 0 >
+							<cfset link = REReplace(hgeogid,regex,replacement)>
+						<cfelse>
+							<cfset link = hgeogid>
+						</cfif>
+						<a id="highergeographyid_link" href="#link#" target="_blank" class="hints">#hgeogid#</a>
+						<script>
+							$(document).ready(function () {
+								if ($('##highergeographyid').val().length > 0) {
+									$('##highergeographyid').hide();
+								}
+								$('##highergeographyid_search').click(function (evt) {
+									switchGuidEditToFind('highergeographyid','highergeographyid_search','highergeographyid_link',evt);
+								});
+								$('##highergeographyid_guid_type').change(function () {
+									// On selecting a guid_type, remove an existing guid value.
+									$('##highergeographyid').val("");
+									$('##highergeographyid').show();
+									// On selecting a guid_type, change the pattern.
+									getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
+								});
+								$('##highergeographyid').blur( function () {
+									// On loss of focus for input, validate against the regex, update link
+									getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
+								});
+								$('.geoginput').change(function () {
+									// On changing any geography inptu field name, update search.
+									getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
+								});
+							});
+						</script>
+					</div>
 				</div>
-				<div class="col-12 col-md-4">
-					<a href="#searchlink#" id="highergeographyid_search" target="_blank" #searchclass# >#searchtext#</a>
+				<div class="form-row my-1 mx-0">
+					<div class="col-12 mt-1">
+						<cfif mode EQ "new">
+							<input type="submit" value="Save" class="btn btn-xs btn-primary">
+						<cfelseif mode EQ "edit">
+							<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
+								onClick="if (checkFormValidity($('###formId#')[0])) { #saveButtonFunction#();  } " 
+								id="submitButton" >
+							<output id="#outputDiv#" class="text-danger">&nbsp;</output>
+						</cfif>
+					</div>
 				</div>
-				<div class="col-12 col-md-4">
-					<label class="data-entry-label">&nbsp;</label>
-					<cfif isDefined("lookupHigherGeog")><cfset hgeogid = lookupHigherGeog.highergeographyid><cfelse><cfset hgeogid=""></cfif>
-					<cfif NOT isDefined("regex")><cfset regex=""></cfif>
-					<input name="highergeographyid" id="highergeographyid" value="#hgeogid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
-					<cfif len(regex) GT 0 >
-						<cfset link = REReplace(hgeogid,regex,replacement)>
-					<cfelse>
-						<cfset link = hgeogid>
-					</cfif>
-					<a id="highergeographyid_link" href="#link#" target="_blank" class="hints">#hgeogid#</a>
+				<cfif mode EQ "edit">
 					<script>
-						$(document).ready(function () {
-							if ($('##highergeographyid').val().length > 0) {
-								$('##highergeographyid').hide();
-							}
-							$('##highergeographyid_search').click(function (evt) {
-								switchGuidEditToFind('highergeographyid','highergeographyid_search','highergeographyid_link',evt);
-							});
-							$('##highergeographyid_guid_type').change(function () {
-								// On selecting a guid_type, remove an existing guid value.
-								$('##highergeographyid').val("");
-								$('##highergeographyid').show();
-								// On selecting a guid_type, change the pattern.
-								getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
-							});
-							$('##highergeographyid').blur( function () {
-								// On loss of focus for input, validate against the regex, update link
-								getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
-							});
-							$('.geoginput').change(function () {
-								// On changing any geography inptu field name, update search.
-								getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
-							});
+						function handleChange(){
+							$('###outputDiv#').html('Unsaved changes.');
+							$('###outputDiv#').addClass('text-danger');
+							$('###outputDiv#').removeClass('text-success');
+							$('###outputDiv#').removeClass('text-warning');
+						};
+						$(document).ready(function() {
+							monitorForChangesGeneric('#formId#',handleChange);
 						});
 					</script>
-				</div>
-			</div>
-			<div class="form-row my-1 mx-0">
-				<div class="col-12 mt-1">
-					<cfif mode EQ "new">
-						<input type="submit" value="Save" class="btn btn-xs btn-primary">
-					<cfelseif mode EQ "edit">
-						<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-							onClick="if (checkFormValidity($('###formId#')[0])) { #saveButtonFunction#();  } " 
-							id="submitButton" >
-						<output id="#outputDiv#" class="text-danger">&nbsp;</output>
-					</cfif>
-				</div>
-			</div>
-			<cfif mode EQ "edit">
-				<script>
-					function handleChange(){
-						$('###outputDiv#').html('Unsaved changes.');
-						$('###outputDiv#').addClass('text-danger');
-						$('###outputDiv#').removeClass('text-success');
-						$('###outputDiv#').removeClass('text-warning');
-					};
-					$(document).ready(function() {
-						monitorForChangesGeneric('#formId#',handleChange);
-					});
-				</script>
-			</cfif>
+				</cfif>
+			<cfcatch>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="editCreateGeogFormThread#tn#" />
