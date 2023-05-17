@@ -50,6 +50,7 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfinclude template="/localities/component/highergeog.cfc" runOnce="true">
+		<cfinclude template="/localities/component/public.cfc" runOnce="true">
 		<cfquery name="countUses" datasource="uam_god">
 			SELECT 
 				sum(ct) total_uses
