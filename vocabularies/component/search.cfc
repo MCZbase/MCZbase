@@ -150,6 +150,7 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 	<cfset name = "%#term#%"> 
 
 	<!--- handle special cases where controled vocabulary field is not the same as the table name --->
+	<cfset codetable = ucase(codetable)>
 	<cfset fieldname = codetable>
 	<cfif codetable EQ "COLL_OTHER_ID_TYPE">
 		<cfset fieldname = "OTHER_ID_TYPE">
@@ -162,6 +163,10 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 		<cfset codetable = "CT#codetable#">
 	<cfelseif codetable EQ "SPECPART_ATTRIBUTE_TYPE">
 		<cfset fieldname = "ATTRIBUTE_TYPE">
+		<cfset codetable = "CT#codetable#">
+	<cfelseif codetable EQ "CONTINENT_OCEAN">
+		<cfset codtable = "CONTINENT">
+		<cfset fieldname = "CONTINENT_OCEAN">
 		<cfset codetable = "CT#codetable#">
 	<cfelse>
 		<cfset codetable = "CT#codetable#">

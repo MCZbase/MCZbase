@@ -174,7 +174,7 @@ Functions supporting editing higher geographies.
 						<cfif NOT isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
 						<input type="text" name="continent_ocean" id="continent_ocean" class="data-entry-input" value="#encodeForHTML(continent_ocean)#" required>
 						<script>
-							$(document).ready(() => makeCTAutocomplete('continent_ocean','continentocean') );
+							$(document).ready(() => makeCTAutocomplete('continent_ocean','continent_ocean') );
 						</script>
 					</div>
 					<div class="col-12 col-md-3">
@@ -390,8 +390,8 @@ Functions supporting editing higher geographies.
 						</script>
 					</div>
 				</div>
-				<div class="form-row m-1 border">
-					<div class="col-12 col-md-4">
+				<div class="form-row m-1 border pb-1">
+					<div class="col-12 col-md-4" >
 						<label for="highergeographyid" class="data-entry-label">GUID for Higher Geography(dwc:highergeographyID)</label>
 						<cfset pattern = "">
 						<cfset placeholder = "">
