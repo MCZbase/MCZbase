@@ -245,7 +245,7 @@ Functions supporting editing higher geographies.
 									success: function (result) {
 										console.log(result);
 										if ($('##country').val()=="") {
-											$('##country').val(result.country);
+											$('##country').val(result[0].country);
 										}
 									},
 									error: function (jqXHR, textStatus, error) {
