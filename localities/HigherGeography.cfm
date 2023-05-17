@@ -181,7 +181,7 @@ limitations under the License.
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextLoc.nextLoc#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#source_authority#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">,
 					<cfif len(#continent_ocean#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continent_ocean#">,
 					<cfelse>
