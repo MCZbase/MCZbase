@@ -3270,4 +3270,88 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- getHigherTermsForStateProv given a state_prov name, if that state_prov name is unique to a combination of 
+  continent_ocean, and country return that unique combination.
+ @param state_prov the state_prov to search for.
+ @return a json array containing an object with properties continent_ocean and country if there is a match, otherwise
+  an empty json array, or an http 500 on an error.
+--->
+<cffunction name="getHigherTermsForStateProv" access="remote" returntype="any" returnformat="json">
+	<cfargument name="state_prov" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT 
+				distinct 
+				continent_ocean, country
+			FROM 
+				geog_auth_rec
+			WHERE
+				state_prov = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#state_prov#">
+		</cfquery>
+		<cfif search.recordcount EQ 1>
+			<cfset i = 1>
+			<cfloop query="search">
+				<cfset row = StructNew()>
+				<cfset row["continent_ocean"] = "#search.continent_ocean#">
+				<cfset row["country"] = "#search.country#">
+				<cfset data[i]  = row>
+				<cfset i = i + 1>
+			</cfloop>
+		</cfif>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- getHigherTermsForOceanSubregion given a ocean_subregion name, if that ocean_subregion name is unique to a combination of 
+  continent_ocean, and ocean_region, return that unique combination.
+ @param ocean_subregion the ocean_subregion to search for.
+ @return a json array containing an object with properties continent_ocean, country, and state_prov if there is a match, otherwise
+  an empty json array, or an http 500 on an error.
+--->
+<cffunction name="getHigherTermsForOceanSubregion" access="remote" returntype="any" returnformat="json">
+	<cfargument name="ocean_subregion" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT 
+				distinct 
+				continent_ocean, ocean_region
+			FROM 
+				geog_auth_rec
+			WHERE
+				ocean_subregion = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ocean_subregion#">
+		</cfquery>
+		<cfif search.recordcount EQ 1>
+			<cfset i = 1>
+			<cfloop query="search">
+				<cfset row = StructNew()>
+				<cfset row["continent_ocean"] = "#search.continent_ocean#">
+				<cfset row["country"] = "#search.ocean_region#">
+				<cfset data[i]  = row>
+				<cfset i = i + 1>
+			</cfloop>
+		</cfif>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>

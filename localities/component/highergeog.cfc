@@ -192,6 +192,34 @@ Functions supporting editing higher geographies.
 						<script>
 							$(document).ready(() => makeGeogAutocomplete('ocean_subregion','ocean_subregion'));
 						</script>
+						<cfif mode EQ "new">
+							<script>
+								// if empty, and unique, fill in higher terms from value of ocean_subregion
+								$(document).ready(function() { 
+									$('##ocean_subregion').on('change',lookupAboveOceanSubregion);
+								});
+								function lookupAboveOceanSubregion() { 
+								$.ajax({
+									url: "/localities/component/search.cfc",
+									data : {
+										method : "getHigherTermsForOceanSubregion",
+										ocean_subregion: $('##ocean_subregion').val()
+									},
+									success: function (result) {
+										console.log(result);
+										if ($('##continent_ocean').val()=="" && $('##ocean_region').val()=="") {
+											$('##continent_ocean').val(result[0].continent_ocean);
+											$('##ocean_region').val(result[0].ocean_region);
+										}
+									},
+									error: function (jqXHR, textStatus, error) {
+										handleFail(jqXHR,textStatus,error,"loading higher geography for ocean_subregion");
+									},
+									dataType: "json"
+								});
+								}
+							</script>
+						</cfif>
 					</div>
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="sea">Sea</label>
@@ -224,6 +252,34 @@ Functions supporting editing higher geographies.
 						<script>
 							$(document).ready(() => makeGeogAutocomplete('state_prov','state_prov'));
 						</script>
+						<cfif mode EQ "new">
+							<script>
+								// if empty, and unique, fill in higher terms from value of state_prov
+								$(document).ready(function() { 
+									$('##state_prov').on('change',lookupAboveCounty);
+								});
+								function lookupAboveCounty() { 
+								$.ajax({
+									url: "/localities/component/search.cfc",
+									data : {
+										method : "getHigherTermsForStateProv",
+										state_prov: $('##state_prov').val()
+									},
+									success: function (result) {
+										console.log(result);
+										if ($('##continent_ocean').val()=="" && $('##country').val()=="") {
+											$('##continent_ocean').val(result[0].continent_ocean);
+											$('##country').val(result[0].country);
+										}
+									},
+									error: function (jqXHR, textStatus, error) {
+										handleFail(jqXHR,textStatus,error,"loading higher geography for state_prov");
+									},
+									dataType: "json"
+								});
+								}
+							</script>
+						</cfif>
 					</div>
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="county">County</label>
