@@ -543,4 +543,132 @@ Functions supporting editing higher geographies.
 
 </cffunction>
 
+<!--- function updateHigherGeography update a geog_auth_red
+  @param geog_auth_rec_id the pk of the higher geography to update 
+  @return json structure with status=updated and id=geog_auth_rec_id of the geog_auth_red, 
+   or http 500 status on an error.
+--->
+<cffunction name="updateHigherGeography" access="remote" returntype="any" returnformat="json">
+	<cfargument name="geog_auth_rec_id" type="string" required="no">
+	<cfargument name="valid_catalog_term_fg" type="string" required="yes">
+	<cfargument name="source_authority" type="string" required="yes">
+	<cfargument name="continent_ocean" type="string" required="no">
+	<cfargument name="country" type="string" required="no">
+	<cfargument name="state_prov" type="string" required="no">
+	<cfargument name="county" type="string" required="no">
+	<cfargument name="quad" type="string" required="no">
+	<cfargument name="feature" type="string" required="no">
+	<cfargument name="ocean_region" type="string" required="no">
+	<cfargument name="ocean_subregion" type="string" required="no">
+	<cfargument name="sea" type="string" required="no">
+	<cfargument name="water_feature" type="string" required="no">
+	<cfargument name="island_group" type="string" required="no">
+	<cfargument name="island" type="string" required="no">
+	<cfargument name="wkt_polygon" type="string" required="no">
+	<cfargument name="highergeographyid_guid_type" type="string" required="no">
+	<cfargument name="highergeographyid" type="string" required="no">
+
+	<cfset data = ArrayNew(1)>
+
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateGeog_result">
+				UPDATE geog_auth_rec SET
+				valid_catalog_term_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">,
+				source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">,
+				<cfif len(#continent_ocean#) GT 0>
+					continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continent_ocean#">,
+				<cfelse>
+					continent_ocean = null,
+				</cfif>
+				<cfif len(#country#) GT 0>
+					country = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#country#">,
+				<cfelse>
+					country = null,
+				</cfif>
+				<cfif len(#country#) GT 0>
+					country = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#country#">,
+				<cfelse>
+					country = null,
+				</cfif>
+				<cfif len(#state_prov#) GT 0>
+					state_prov = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#state_prov#">,
+				<cfelse>
+					state_prov = null,
+				</cfif>
+				<cfif len(#county#) GT 0>
+					county = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#county#">,
+				<cfelse>
+					county = null,
+				</cfif>
+				<cfif len(#quad#) GT 0>
+					quad = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#quad#">,
+				<cfelse>
+					quad = null,
+				</cfif>
+				<cfif len(#feature#) GT 0>
+					feature = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#feature#">,
+				<cfelse>
+					feature = null,
+				</cfif>
+				<cfif len(#ocean_region#) GT 0>
+					ocean_region = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ocean_region#">,
+				<cfelse>
+					ocean_region = null,
+				</cfif>
+				<cfif len(#ocean_subregion#) GT 0>
+					ocean_subregion = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ocean_subregion#">,
+				<cfelse>
+					ocean_subregion = null,
+				</cfif>
+				<cfif len(#sea#) GT 0>
+					sea = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sea#">,
+				<cfelse>
+					sea = null,
+				</cfif>
+				<cfif len(#island_group#) GT 0>
+					island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_group#">,
+				<cfelse>
+					island_group = null,
+				</cfif>
+				<cfif len(#island_subgroup#) GT 0>
+					island_subgroup = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_subgroup#">,
+				<cfelse>
+					island_subgroup = null,
+				</cfif>
+				<cfif len(#wkt_polygon#) GT 0>
+					wkt_polygon = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#wkt_polygon#">,
+				<cfelse>
+					wkt_polygon = null,
+				</cfif>
+				<cfif len(#highergeographyid_guid_type#) GT 0>
+					highergeographyid_guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid_guid_type#">,
+				<cfelse>
+					highergeographyid_guid_type = null,
+				</cfif>
+				<cfif len(#highergeographyid#) GT 0>
+					highergeographyid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid#">,
+				<cfelse>
+					highergeographyid = null,
+				</cfif>
+				WHERE 
+					geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+			</cfquery>
+
+			<cfset row = StructNew()>
+			<cfset row["status"] = "updated">
+			<cfset row["id"] = "#encodeForHtml(geog_auth_rec_id)#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 </cfcomponent>
