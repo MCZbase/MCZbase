@@ -117,7 +117,7 @@ Functions supporting editing higher geographies.
 		<cfthrow message="unknown mode [#encodeForHtml(mode)#] allowed values are new and edit">
 	</cfif>
 
-	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all" >
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="editCreateGeogFormThread#tn#">
 		<cfoutput>
 			<cfquery name="ctguid_type_highergeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
