@@ -631,10 +631,10 @@ Functions supporting editing higher geographies.
 				<cfelse>
 					island_group = null,
 				</cfif>
-				<cfif len(#island_subgroup#) GT 0>
-					island_subgroup = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_subgroup#">,
+				<cfif len(#island#) GT 0>
+					island = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island#">,
 				<cfelse>
-					island_subgroup = null,
+					island = null,
 				</cfif>
 				<cfif len(#wkt_polygon#) GT 0>
 					wkt_polygon = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#wkt_polygon#">,
