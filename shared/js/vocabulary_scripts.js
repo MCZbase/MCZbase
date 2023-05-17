@@ -73,28 +73,30 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 		success : function (data) {
 			console.log(data);
 			var guid = $('#'+inputControl).val();
-			$('#'+inputControl).attr("pattern",data[0].pattern_regex);
-			$('#'+inputControl).attr("placeholder",data[0].placeholder);
-			$('#'+inputControl).attr("title","Enter a guid in the form " +  data[0].placeholder);
-			var valid = false;
-			if (guid != "") { 
-				// validate input control content against the regex
-				valid = $('#'+inputControl).get(0).reportValidity();
-			};
-			var regex = new RegExp(data[0].resolver_regex);
-			var replacement = data[0].resolver_replacement; 
-			var newlink = guid.replace(regex,replacement);
-			console.log(regex);
-			console.log(newlink);
-			if (valid===true) { 
-				// update link
-				$('#'+linkControl).show(); 
-				$('#'+linkControl).attr("href",newlink); 
-				$('#'+linkControl).html(guid); 
-				// hide input
-				$('#'+inputControl).hide();
-			} 
-			$('#'+searchControl).attr("href",data[0].search_uri + encodeURIComponent(searchText)); 
+			if ($.isArray(data) && data.length > 0) {
+				$('#'+inputControl).attr("pattern",data[0].pattern_regex);
+				$('#'+inputControl).attr("placeholder",data[0].placeholder);
+				$('#'+inputControl).attr("title","Enter a guid in the form " +  data[0].placeholder);
+				var valid = false;
+				if (guid != "") { 
+					// validate input control content against the regex
+					valid = $('#'+inputControl).get(0).reportValidity();
+				};
+				var regex = new RegExp(data[0].resolver_regex);
+				var replacement = data[0].resolver_replacement; 
+				var newlink = guid.replace(regex,replacement);
+				console.log(regex);
+				console.log(newlink);
+				if (valid===true) { 
+					// update link
+					$('#'+linkControl).show(); 
+					$('#'+linkControl).attr("href",newlink); 
+					$('#'+linkControl).html(guid); 
+					// hide input
+					$('#'+inputControl).hide();
+				} 
+				$('#'+searchControl).attr("href",data[0].search_uri + encodeURIComponent(searchText)); 
+			}
 			if (searchText && searchText.length > 0) { 
 				if (guid.length > 0) { 
 					$('#'+searchControl).html("Edit"); 
