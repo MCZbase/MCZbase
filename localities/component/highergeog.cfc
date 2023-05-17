@@ -228,7 +228,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="county">County</label>
 						<cfif NOT isdefined("county")><cfset county=""></cfif>
-						<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHTML(county)#" onChange=" lookupAboveCountry(); " required>
+						<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHTML(county)#" onChange=" lookupAboveCounty(); " required>
 						<script>
 							$(document).ready(() => makeGeogAutocomplete('county','county'));
 						</script>
