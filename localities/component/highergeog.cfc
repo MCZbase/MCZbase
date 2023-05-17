@@ -116,6 +116,7 @@ Functions supporting editing higher geographies.
 	<cfelse>
 		<cfthrow message="unknown mode [#encodeForHtml(mode)#] allowed values are new and edit">
 	</cfif>
+	<cfset variables.mode = arguments.mode>
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="editCreateGeogFormThread#tn#">
