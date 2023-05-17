@@ -20,6 +20,31 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cf_rolecheck>
 
+<cfset map = getHigherGeographyMapHtml(geog_auth_rec_id="#geog_auth_rec_id#")>
+<cffunction name="getHigherGeographyMapHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="geog_auth_rec_id" type="string" required="yes">
+	<cfargument name="reload" type="string" required="no">
+	
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="geogMapThread#tn#">
+		<cfoutput>
+			<cftry>
+				<!--- TODO: Move implementation from view page to here --->
+				<h2>Not yet implemented</h2>
+
+			<cfcatch>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="geogMapThread#tn#" />
+
+	<cfreturn cfthread["geogMapThread#tn#"].output>
+</cffunction>
+
+
 <!--- function getLocalityMapHtml return a block of html with a map for a locality. 
 
    @param locality_id the primary key value for the locality for which to return a map.
