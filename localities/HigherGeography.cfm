@@ -34,7 +34,7 @@ limitations under the License.
 	<cfcase value="new">
 		<cfset pageTitle="New Higher Geography">
 	</cfcase>
-	<cfcase value="makenewHigher Geography">
+	<cfcase value="makenewHigherGeography">
 		<cfset pageTitle="Creating New Higher Geography">
 	</cfcase>
 	<cfcase value="delete">
