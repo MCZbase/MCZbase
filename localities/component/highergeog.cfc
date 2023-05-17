@@ -93,11 +93,11 @@ Functions supporting editing higher geographies.
 --->
 <cffunction name="getHigherGeographyFormHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="mode" type="string" required="yes">
-	<cfargument name="clone_from_geog_auth_rec_id" type="string" required="no">
-	<cfargument name="geog_auth_rec_id" type="string" required="no">
-	<cfargument name="formId" type="string" required="no">
-	<cfargument name="outputDiv" type="string" required="no">
-	<cfargument name="saveButtonFunction" type="string" required="no">
+	<cfargument name="clone_from_geog_auth_rec_id" type="string" required="no" default="">
+	<cfargument name="geog_auth_rec_id" type="string" required="no" default="">
+	<cfargument name="formId" type="string" required="no" default="">
+	<cfargument name="outputDiv" type="string" required="no" default="">
+	<cfargument name="saveButtonFunction" type="string" required="no" default="">
 
 	<cfif mode EQ "new">
 		<!--- optional parameter to clone from --->
