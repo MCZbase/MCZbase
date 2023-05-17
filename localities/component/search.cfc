@@ -3247,8 +3247,6 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 				geog_auth_rec
 			WHERE
 				county = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#county#">
-			ORDER BY
-				higher_geog
 		</cfquery>
 		<cfif search.recordcount EQ 1>
 			<cfset i = 1>
