@@ -3247,6 +3247,8 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 				geog_auth_rec
 			WHERE
 				county = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#county#">
+				and
+				continent_ocean NOT like '% Ocean%'
 		</cfquery>
 		<cfif search.recordcount EQ 1>
 			<cfset i = 1>
@@ -3290,6 +3292,8 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 				geog_auth_rec
 			WHERE
 				state_prov = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#state_prov#">
+				and
+				continent_ocean NOT like '% Ocean%'
 		</cfquery>
 		<cfif search.recordcount EQ 1>
 			<cfset i = 1>
