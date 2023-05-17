@@ -354,7 +354,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-6">
 						<label for = "wktPolygon" class="data-entry-label">Polygon</label>
 						<cfif NOT isdefined("wkt_polygon")><cfset wkt_polygon=""></cfif>
-						<input type="text" name="wktPolygon" value="#wkt_polygon#"id="wktPolygon" class="data-entry-input">
+						<input type="text" name="wkt_polygon" value="#wkt_polygon#"id="wktPolygon" class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="wktFile" class="data-entry-label">Load Polygon from WKT file</label>
