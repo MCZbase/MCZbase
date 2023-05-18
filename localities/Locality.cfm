@@ -104,6 +104,7 @@ limitations under the License.
 						<div class="border rounded px-3 my-2 py-3" arial-labeledby="formheading">
 							<cfset formId = "editLocalityForm">
 							<cfset outputDiv="saveResultsDiv">
+							<div class="row mx-0">
 							<form name="editLocality" id="#formId#">
 								<input type="hidden" id="locality_id" name="locality_id" value="#locality_id#">
 								<input type="hidden" name="method" value="updateLocality">
@@ -130,7 +131,7 @@ limitations under the License.
 									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
 								};
 							</script>
-							<div class="row mx-0">
+							
 							<cfif countUses.total_uses GT "0">
 								<button type="button" class="btn btn-xs btn-secondary" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
 							</cfif>
@@ -147,13 +148,13 @@ limitations under the License.
 					</div>	
 					<div class="row mx-0">
 						<div class="col-12 col-md-6">
-							<div class="border rounded px-3 my-2 pt-2 pb-3">
+							<div class="border rounded px-3 my-2 py-3">
 								<cfset geology = getLocalityGeologyHtml(locality_id="#locality_id#",callback_name='reloadGeology')>
 								<div id="geologyDiv">#geology#</div>
 							</div>
 						</div>
 						<div class="col-12 pl-md-0 col-md-6">
-							<div class="border rounded px-3 my-2 pt-2 pb-3">
+							<div class="border rounded px-3 my-2 py-3">
 								<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callback_name='reloadGeoreferences')>
 								<div id="georeferencesDiv">#georeferences#</div>
 							</div>
