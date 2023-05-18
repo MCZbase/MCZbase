@@ -26,6 +26,7 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template = "/localities/component/search.cfc" runOnce="true"><!--- for getLocalitySummary() --->
 <cfinclude template = "/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
+<cfinclude template = "/localities/component/public.cfc" runOnce="true"><!--- for  getHigherGeographyMapHtml() --->
 
 <cfif findNoCase('master',Session.gitBranch) EQ 0>
 	<cfset editLocalityLinkTarget = "/localities/Locality.cfm?locality_id=">
