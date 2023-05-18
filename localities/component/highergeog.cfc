@@ -37,8 +37,19 @@ Functions supporting editing higher geographies.
 					WHERE
 						geog_auth_rec_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 				</cfquery>
-				<h2 class="h3">Used for #countUses.ct# Localities</h3>
 				<cfif countUses.ct GT 0>
+					<h2 class="h3">This higher geography record is in use.  Altering this record will update: </h2>
+					<cfquery name="ceCount" datasource="uam_god">
+						SELECT
+							count(collecting_event_id) ct
+						FROM 
+							locality 
+							join collecting_event on locality.locality_id = collecting_event.locality_id
+						WHERE
+							geog_auth_rec_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+					</cfquery>
+					<h3 class="h4">Used for #countUses.ct# Localities</h3>
+					<h3 class="h4">Used for #ceCoount.ct# Collecting Events</h3>
 					<cfquery name="localityUses" datasource="uam_god">
 				  		SELECT
 							count(cataloged_item.cat_num) numOfSpecs,
@@ -64,6 +75,8 @@ Functions supporting editing higher geographies.
 							<li>#collection#: #numOfSpecs# specimens in #numOfCollEvents# collecting events in #numOfLocalities# localities</li>			
 						</cfloop>
 					</ul>
+				<cfelse>
+					<h2 class="h3">This higher geography is not used in any localities.</h2>
 				</cfif>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
