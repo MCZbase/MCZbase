@@ -332,13 +332,13 @@ Delete an existing collecting event number record.
 					<cfif #localityUses.recordcount# is 0>
 						<div>This Locality (#locality_id#) contains no specimens. Please delete it if you don&apos;t have plans for it!</div>
 					<cfelseif #localityUses.recordcount# is 1>
-						<div>
+						<h2 class="h4 px-2">
 							This Locality (#locality_id#) contains 
 							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#">
 								#localityUses.numOfSpecs# #localityUses.collection_cde# specimens
 							</a>
 							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#localityUses.numOfCollEvents# collecting events</a>.
-						</div>
+						</h2>
 					<cfelse>
 						<cfset totalEvents=0>
 						<cfset totalSpecimens=0>
@@ -346,7 +346,7 @@ Delete an existing collecting event number record.
 							<cfset totalEvents=totalEvents+localityUses.numOfCollEvents>
 							<cfset totalSpecimens=totalSpecimens+localityUses.numOfSpecs>
 						</cfloop>
-						<h2 class="h4 px-4">
+						<h2 class="h4 px-2">
 							This Locality (#locality_id#)
 							contains the following <a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#">#totalSpecimens# specimens</a>
 							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#totalEvents# collecting events</a>:
