@@ -432,11 +432,10 @@ Delete an existing collecting event number record.
 												<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventSharedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
 													#numShared# shared collecting event#plural# (#collection_cde# shared with #sharedNames#)
 												</a>
-												All 
+												&mdash;All 
 												<cfif numShared + numSole EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 												<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
-													#numSole+numShared# #collection_cde# collecting event#plural#
-												</a>.
+													#numSole+numShared# #collection_cde# collecting event#plural#</a>.
 										</cfif>
 									</cfif>
 								</li>
