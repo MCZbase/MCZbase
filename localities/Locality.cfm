@@ -136,7 +136,7 @@ limitations under the License.
 								<div class="col-12 px-0"><button type="button" class="btn btn-xs btn-secondary" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button></div>
 							</cfif>
 							<cfif countUses.total_uses EQ "0">
-							<div class="col-12">
+							<div class="col-12 px-0">
 								<button type="button" 
 									onClick="confirmDialog('Delete this Locality?', 'Confirm Delete Locality', function() { location.assign('/localities/Locality.cfm?action=delete&locality_id=#encodeForUrl(locality_id)#'); } );" 
 									class="btn btn-xs btn-danger" >
