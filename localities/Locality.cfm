@@ -85,7 +85,7 @@ limitations under the License.
 			)
 		</cfquery>
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
-			<cfthrow message="<h2 class='h4 text-danger'>Error: unable to edit locality, no locality_id specified.</h2>">
+			<cfthrow message="<h3 class='h4 text-danger'>Error: unable to edit locality, no locality_id specified.</h3>">
 		</cfif>
 		<cfoutput>
 			<main class="container-fluid my-2" id="content">
