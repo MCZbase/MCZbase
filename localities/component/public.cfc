@@ -29,9 +29,226 @@ limitations under the License.
 	<cfthread name="geogMapThread#tn#">
 		<cfoutput>
 			<cftry>
-				<!--- TODO: Move implementation from view page to here --->
-				<h2>Not yet implemented</h2>
+				<!--- map --->
+				<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
+				</script>
+				<script>
+					function findBounds(latLongs) { 
+						var bounds = new google.maps.LatLngBounds();
+						latLongs.getArray().forEach(function(path){ 
+							path.getArray().forEach(function(latlong){ 
+								bounds.extend(latlong)
+							});
+						}); 
+						return bounds;
+					} 
+					var map;
+					var enclosingpoly;
+					var georefs;
+					var georefsBounds = new google.maps.LatLngBounds();
+					function setupMap(geog_auth_rec_id){
+						var coords="0.0,0.0";
+						var bounds = new google.maps.LatLngBounds();
+						var polygonArray = [];
+						var ptsArray=[];
+						var lat=coords.split(',')[0];
+						var lng=coords.split(',')[1];
+						var center = new google.maps.LatLng(0, 0);
 
+						// start with world map
+						var mapOptions = {
+							zoom: 1,
+							center: new google.maps.LatLng(0, 0),
+							mapTypeId: google.maps.MapTypeId.ROADMAP,
+							panControl: false,
+							scaleControl: true,
+							fullscreenControl: true,
+							zoomControl: true
+						};
+						map = new google.maps.Map(document.getElementById("mapdiv_" + geog_auth_rec_id), mapOptions);
+
+						// obtain georeferences 
+						$.getJSON("/localities/component/georefUtilities.cfc",
+							{
+								method : "getLocalityGeorefsGeoJSON",
+								geog_auth_rec_id: #geog_auth_rec_id#,
+								returnformat : "json"
+							},
+							function (result) {
+								console.log(result);
+								if (result) {
+									map.data.addGeoJson(result, { idPropertyName: "id" } );
+									map.data.setStyle(function(feature) {
+										var accepted = feature.getProperty('accepted');
+										var determiner = feature.getProperty('determiner');
+										var loc = feature.getProperty('spec_locality');
+										var opacity = 1.0;
+										var title = '';
+										if (accepted=='Yes') { 
+											label = '';
+											zindex = 15;
+											opacity = 1.0;
+											title='Accepted.'
+										} else {
+											label = { text: 'n' };
+											icon = '/shared/images/map_pin_grey.png';
+											opacity = 0.6;
+											zindex = 3;
+											title='Not Accepted.'
+										}
+										title = title + ' ' + loc + ' ' + ' Determiner: ' + determiner;
+										if (accepted=='Yes') { 
+											return {
+												zIndex: zindex,
+												opacity: opacity,
+												label: label,
+												title: title
+											};
+										} else {
+											return {
+												zIndex: zindex,
+												opacity: opacity,
+												label: label,
+												icon: icon,
+												title: title
+											};
+										} 
+									});
+									// fit the map bounds to the loaded features
+									var gbounds = new google.maps.LatLngBounds(); 
+									map.data.forEach(function(feature){
+										feature.getGeometry().forEachLatLng(function(latlng){
+											gbounds.extend(latlng);
+										});
+									});
+									map.fitBounds(gbounds.union(bounds));
+									georefsBounds = gbounds;
+									center = map.getCenter();
+									map.data.addListener('click',
+										function(event) { 
+											var f = event.feature;
+											var id = f.getProperty("id");
+											var locality_id = f.getProperty("locality_id");
+											var spec_locality = f.getProperty("spec_locality");
+											if (!spec_locality) { spec_locality = "[no specific locality text]"; } 
+											var contentText = "<a href='#editLocalityLinkTarget#"+locality_id+"' target='_blank'>" + spec_locality + "</a> (" + locality_id + ")."
+											$("##selectedMarkerDiv").html("Click on a marker for details: " + contentText + "");
+											var infoWindow = new google.maps.InfoWindow({
+												content: contentText,
+												ariaLabel: spec_locality
+											});
+											map.data.getFeatureById(id).getGeometry().forEachLatLng(function(ll){ infoWindow.setPosition(ll);});
+											infoWindow.open({ map: map, shouldFocus: true },);
+										}
+									); 
+								}
+							}
+						).fail(function(jqXHR,textStatus,error){
+							handleFail(jqXHR,textStatus,error,"looking up georeferences for localities in higher geography");
+						});
+
+						// Polygon for higher geography
+						$.get( "/localities/component/georefUtilities.cfc?returnformat=plain&method=getGeographyWKT&geog_auth_rec_id=" + #geog_auth_rec_id#, function( wkt ) {
+							if (wkt.length>0){
+								var regex = /\(([^()]+)\)/g;
+								var Rings = [];
+								var results;
+								while( results = regex.exec(wkt) ) {
+									Rings.push( results[1] );
+								}
+								for(var i=0;i<Rings.length;i++){
+									// for every polygon in the WKT, create an array
+									var lary=[];
+									var da=Rings[i].split(",");
+									for(var j=0;j<da.length;j++){
+										// push the coordinate pairs to the array as LatLngs
+										var xy = da[j].trim().split(" ");
+										var pt=new google.maps.LatLng(xy[1],xy[0]);
+										lary.push(pt);
+										// console.log(lary);
+										bounds.extend(pt);
+									}
+									// now push the single-polygon array to the array of arrays (of polygons)
+									ptsArray.push(lary);
+								}
+								enclosingpoly = new google.maps.Polygon({
+									paths: ptsArray,
+									strokeColor: '##1E90FF',
+									strokeOpacity: 0.8,
+									strokeWeight: 2,
+									fillColor: '##1E90FF',
+									fillOpacity: 0.25
+								});
+								enclosingpoly.setMap(map);
+								polygonArray.push(enclosingpoly);
+							} else {
+								$("##mapdiv_" + geog_auth_rec_id).addClass('noWKT');
+							}
+							if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+								var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+								var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+								bounds.extend(extendPoint1);
+								bounds.extend(extendPoint2);
+							}
+							map.fitBounds(bounds.union(georefsBounds));
+							for(var a=0; a<polygonArray.length; a++){
+								if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
+									$("##mapdiv_" + geog_auth_rec_id).addClass('uglyGeoSPatData');
+								} else {
+									$("##mapdiv_" + geog_auth_rec_id).addClass('niceGeoSPatData');
+								}
+							}
+						});
+						map.fitBounds(bounds.union(georefsBounds));
+					};
+					$(document).ready(function() {
+						setupMap(#geog_auth_rec_id#);
+					});
+				</script>
+				<div class="mb-2 w-100" style="height: 600px;">
+					<div id="mapdiv_#geog_auth_rec_id#" style="width:100%; height:100%;"></div>
+				</div>
+				<ul>
+					<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+						SELECT count(*) ct 
+						FROM 
+							geog_auth_rec 
+						WHERE
+							wkt_polygon is not null
+							AND geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+					</cfquery>
+					<li>
+						<cfif hasHigherPolygon.ct GT 0>
+							<div class="h4 my-2">Higher Geography mappable
+							<a role="button" class="btn btn-xs btn-powder-blue" onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a> 
+							<a role="button" class="btn btn-xs btn-powder-blue" onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
+							</div>
+						<cfelse>
+							<div class="h4 my-2">Higher geography not mappable</div>
+						</cfif>
+					</li>
+					<cfquery name="hasGeorefs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
+						SELECT count(*) ct 
+						FROM 
+							lat_long
+							join locality on lat_long.locality_id = locality.locality_id
+						WHERE
+							dec_lat is not null and dec_long is not null
+							AND accepted_lat_long_fg = 1
+							AND geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+					</cfquery>
+					<cfif hasGeorefs.ct GT 0>
+						<li>
+							<div class="h4 my-2">#hasGeorefs.ct# georeferenced localities.
+								<a role="button" class="btn btn-xs btn-powder-blue" onclick="map.fitBounds(georefsBounds); ">zoom to</a>
+							</div>
+							
+						</li>
+						<li>
+							<div id="selectedMarkerDiv" class="h4 my-2">Click on a marker for locality details.</div>
+						</li>
+					</cfif>
+				</ul>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
