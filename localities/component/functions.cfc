@@ -1982,7 +1982,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					accepted_lat_long_fg desc
 			</cfquery>
 			<cfif getGeoreference.recordcount NEQ "1">
-				<cfthrow message="Unable to delete. Found other than one georefrence for lat_long_id and locality_id provided.">
+				<cfthrow message="<p class='text-danger'>Unable to delete. Found other than one georefrence for lat_long_id and locality_id provided.</p>">
 			</cfif>
 			<cfquery name="deleteGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
 				DELETE FROM lat_long
@@ -1990,7 +1990,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
 			</cfquery>
 			<cfif delete_result.recordcount NEQ 1>
-				<cfthrow message="Error deleteing georeference, provided lat_long_id matched other than one record.">
+				<cfthrow message="<p class='text-danger'>Error deleteing georeference, provided lat_long_id matched other than one record.</p>">
 			</cfif>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "deleted">
