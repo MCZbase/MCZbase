@@ -787,7 +787,7 @@ Delete an existing collecting event number record.
 						ctgeology_attribute.ordinal
 				</cfquery>
 				<cfif getGeologicalAttributes.recordcount EQ 0>
-					<h3>Geological Attributes</h3>
+					<h3 class="h4">Geological Attributes</h3>
 						<ul>
 							<li>
 								Recent (no geological attributes) 
@@ -795,7 +795,7 @@ Delete an existing collecting event number record.
 						</ul>
 						<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog',#callback_name#); ">Add</button>
 				<cfelse>
-					<h3>Geological Attributes</h3>
+					<h3 class="h4">Geological Attributes</h3>
 						<ul>
 							<cfset valList = "">
 							<cfset shownParentsList = "">
@@ -2090,7 +2090,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					ORDER BY
 						accepted_lat_long_fg desc
 				</cfquery>
-				<h3>Georeferences (#getGeoreferences.recordcount#)</h3>
+				<h3 class="h4">Georeferences (#getGeoreferences.recordcount#)</h3>
 				<cfif getGeoreferences.recordcount EQ 0>
 					<cfquery name="checkNoGeorefBecause" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
