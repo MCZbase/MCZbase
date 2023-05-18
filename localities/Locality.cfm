@@ -96,7 +96,7 @@ limitations under the License.
 						<div class="border-top border-right border-left border-bottom border-success rounded px-2 my-3 py-3">
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 							<div id="relatedTo">#blockRelated#</div>
-								<cfif len(countUses.total_uses) gt 0><h2 class="h4 mt-3 mb-0 px-2">Locality Summary</h2></cfif>
+								<h2 class="h4 mt-3 mb-0 px-2">Locality Summary</h2>
 							<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
 							<div id="summary" class="small95 px-2 pb-2">#summary#</div>
 						</div>
@@ -130,7 +130,8 @@ limitations under the License.
 									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
 								};
 							</script>
-							<button type="button" class="btn btn-xs btn-secondary" style="position:absolute;left: 18rem; margin-top: -1.9rem;" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
+							<div class="row mx-0">
+							<button type="button" class="btn btn-xs btn-secondary" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
 							<cfif countUses.total_uses EQ "0">
 								<button type="button" 
 									onClick="confirmDialog('Delete this Locality?', 'Confirm Delete Locality', function() { location.assign('/localities/Locality.cfm?action=delete&locality_id=#encodeForUrl(locality_id)#'); } );" 
@@ -138,10 +139,9 @@ limitations under the License.
 										Delete Locality
 								</button>
 							</cfif>
+							</div>
 						</div>
-<!---						<div class="border rounded px-3 my-2 py-3">
-		
-						</div>--->
+
 					</div>	
 					<div class="row mx-0">
 						<div class="col-12 col-md-6">
