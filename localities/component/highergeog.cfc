@@ -49,7 +49,7 @@ Functions supporting editing higher geographies.
 							geog_auth_rec_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 					</cfquery>
 					<h3 class="h4">Used for #countUses.ct# Localities</h3>
-					<h3 class="h4">Used for #ceCoount.ct# Collecting Events</h3>
+					<h3 class="h4">Used for #ceCount.ct# Collecting Events</h3>
 					<cfquery name="localityUses" datasource="uam_god">
 				  		SELECT
 							count(cataloged_item.cat_num) numOfSpecs,
