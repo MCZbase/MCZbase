@@ -576,11 +576,17 @@ limitations under the License.
 							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 				</cfquery>
 				<cfoutput>
-					<h1 class="h2 mt-5 mx-5">Locality successfully deleted.</h1>
-					<ul class="px-4">
-						<li><a href="/localities/Localities.cfm">Search for Localities</a>.</li>
-						<li><a href="/localities/Locality.cfm?action=new">Create a new Locality</a>.</li>
-					</ul>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12">
+								<h1 class="h2 mt-5">Locality successfully deleted.</h1>
+								<ul>
+									<li><a href="/localities/Localities.cfm">Search for Localities</a>.</li>
+									<li><a href="/localities/Locality.cfm?action=new">Create a new Locality</a>.</li>
+								</ul>
+							</div>
+						</div>
+					</div>
 				</cfoutput>
 			<cfcatch>
 				<cfthrow type="Application" message="Error deleting Locality (<a href='/localities/Locality.cfm?locality_id=#encodeForUrl(locality_id)#'>#encodeForHtml(locality_id)#</a>): #cfcatch.Message# #cfcatch.Detail#"><!--- " --->
