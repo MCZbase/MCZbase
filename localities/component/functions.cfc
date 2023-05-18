@@ -859,7 +859,7 @@ Delete an existing collecting event number record.
 				<div id="editGeologyDialog"></div>
 				<div id="addGeologyDialog"></div>
 			<cfcatch>
-				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<h3 class="h4 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
 			</cfcatch>
 			</cftry>
@@ -1016,7 +1016,7 @@ Delete an existing collecting event number record.
 					)
 			</cfquery>
 			<cfif addGeoAttribute_result.recordcount NEQ 1>
-				<cfthrow message="Error inserting geology attribtue, insert would affect other than one row.">
+				<cfthrow message="<h3 class='h4'>Error inserting geology attribtue, insert would affect other than one row.</h3>">
 			</cfif>
 			<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPK_result">
 					select geology_attribute_id 
@@ -1024,7 +1024,7 @@ Delete an existing collecting event number record.
 					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#addGeoAttribute_result.GENERATEDKEY#">
 			</cfquery>
 			<cfif getPK.recordcount NEQ 1>
-				<cfthrow message="Error inserting geology attribute, inserted row not found.">
+				<cfthrow message="<h3 class='h4'>Error inserting geology attribute, inserted row not found.</h3>">
 			</cfif>
 			<cfset values="#geology_attribute#:#geo_att_value#">
 			<cfset count=1>
@@ -1166,7 +1166,7 @@ Delete an existing collecting event number record.
 						attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geo_att_value#">
 				</cfquery>
 				<cfif getGeoAttributeId.recordcount NEQ 1>
-					<cfthrow message="Unable to insert, unable to find a geology_attribute_hierarchy record for the specified geology_attribute and geo_att_value">
+					<cfthrow message="<p class='text-danger'>Unable to insert, unable to find a geology_attribute_hierarchy record for the specified geology_attribute and geo_att_value</p>">
 				</cfif>
 				<cfset geology_attribute_hierarchy_id = getGeoAttributeId.id>
 			</cfif>
@@ -1213,7 +1213,7 @@ Delete an existing collecting event number record.
 					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_id#">
 			</cfquery>
 			<cfif updateGeoAttribute_result.recordcount NEQ 1>
-				<cfthrow message="Error updating geology attribtue, update would affect other than one row.">
+				<cfthrow message="<p class='text-danger'>Error updating geology attribtue, update would affect other than one row.</p>">
 			</cfif>
 			<cfset values="[Updated: #geology_attribute#:#geo_att_value#]">
 			<cfset count=1>
@@ -1463,7 +1463,7 @@ Delete an existing collecting event number record.
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2 class="h3">Error in #function_called#:</h2>
+				<h3 class="h4">Error in #function_called#:</h2>
 				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
@@ -1659,7 +1659,7 @@ Delete an existing collecting event number record.
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2 class="h3">Error in #function_called#:</h2>
+				<h3 class="h4">Error in #function_called#:</h2>
 				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
@@ -2189,7 +2189,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<div id="editGeorefDialog"></div>
 				<div id="addGeorefDialog"></div>
 			<cfcatch>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<h3 class="h4">Error: #cfcatch.type# #cfcatch.message#</h3> 
 				<div>#cfcatch.detail#</div>
 				<cfif isDefined("cfcatch.cause.tagcontext")>
 					<div>Line #cfcatch.cause.tagcontext[1].line# of #replace(cfcatch.cause.tagcontext[1].template,Application.webdirectory,'')#</div>
@@ -3101,7 +3101,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>
-				<h2 class="h3">Error in #function_called#:</h2>
+				<h3 class="h4">Error in #function_called#:</h3>
 				<div>#error_message#</div>
 			</cfoutput>
 		</cfcatch>
