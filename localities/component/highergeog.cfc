@@ -26,6 +26,9 @@ Functions supporting editing higher geographies.
 	<cfargument name="geog_auth_rec_id" type="string" required="yes">
 	<cfargument name="containingDiv" type="string" required="yes">
 	
+	<cfset variables.containingDiv = arguments.containingDiv>
+	<cfset variables.geog_auth_rec_id = arguments.geog_auth_rec_id>
+
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="geogUsesThread#tn#">
 		<cfoutput>
