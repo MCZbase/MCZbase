@@ -444,7 +444,7 @@ Delete an existing collecting event number record.
 					</cfif>
 				</div>
 			<cfcatch>
-				<h2 class="text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
 			</cfcatch>
 			</cftry>
