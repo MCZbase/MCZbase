@@ -136,7 +136,7 @@ limitations under the License.
 			</div>
 			<div class="col-12 col-md-6 pt-2 pb-3">
 				<cfloop query="getGeography">
-					<div class="col-12 px-0">
+					<div class="col-12 px-0 pb-3">
 						<ul class="sd list-unstyled row mx-0 px-0 py-1 mb-0">
 							<cfif len(valid_catalog_term_fg) EQ 1><cfset valid="*"><cfelse><cfset valid=""></cfif>
 							<cfif len(getGeography.continent_ocean) gt 0>
