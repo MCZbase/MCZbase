@@ -3173,7 +3173,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</ul>
 				</cfif>
 			<cfcatch>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<h3 class="h4 text-danger">Error: #cfcatch.type# #cfcatch.message#</h3> 
 				<div>#cfcatch.detail#</div>
 			</cfcatch>
 			</cftry>
