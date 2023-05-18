@@ -299,7 +299,7 @@ limitations under the License.
 									if (! google.maps.geometry.poly.containsLocation(georefs, enclosingPolygonArray[a]) ) {
 										$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
 										// accessible information
-										$("##mapMetadataUL").append("<li class='list-style-disc'>Georeference for locality is outside of enclosing higher geography.</li>");
+										$("##mapMetadataUL").append("<li class='list-style-circle'>Georeference for locality is outside of enclosing higher geography.</li>");
 									} else {
 										$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
 									}
