@@ -179,7 +179,7 @@ limitations under the License.
 				</section>
 				<section class="mt-4 col-12 px-md-0 col-md-3 col-xl-4">
 						<!--- map --->
-						<div class="col-12 px-0 bg-light pt-2 pb-1 border rounded">
+						<div class="col-12 px-0 bg-light pt-2 pb-1 mb-2 border rounded">
 							<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
 							<div id="mapDiv">#map#</div>
 						</div>
