@@ -506,7 +506,7 @@ Delete an existing collecting event number record.
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
 			<cfif lookupLocality.recordcount NEQ 1>
-				<cfthrow message="<p class='text-danger'>Found other than one locality with specified locality_id [#encodeForHtml(locality_id)#]</p>">
+				<cfthrow message="<p class='text-danger'>Nothing found other than one locality with specified locality_id [#encodeForHtml(locality_id)#]</p>">
 			</cfif>
 			<cfloop query="lookupLocality">
 				<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
@@ -1982,7 +1982,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					accepted_lat_long_fg desc
 			</cfquery>
 			<cfif getGeoreference.recordcount NEQ "1">
-				<cfthrow message="<p class='text-danger'>Unable to delete. Found other than one georefrence for lat_long_id and locality_id provided.</p>">
+				<cfthrow message="<p class='text-danger'>Unable to delete. Found more than one georefrence for lat_long_id and locality_id provided.</p>">
 			</cfif>
 			<cfquery name="deleteGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
 				DELETE FROM lat_long
