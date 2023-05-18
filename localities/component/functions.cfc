@@ -4504,7 +4504,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			</cfquery>
 			<cfif countAccepted.ct EQ 0>
 				<!--- warning state, but not a failure case --->
-				<cfset message = "This locality has no accepted georeferences.">
+				<cfset message = "<p class='text-danger'>This locality has no accepted georeferences.</p>">
 			</cfif>
 			<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="summary_result">
 				SELECT 

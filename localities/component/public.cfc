@@ -347,7 +347,7 @@ limitations under the License.
 				<cfif len(getAcceptedGeoref.dec_lat) gt 0 and len(getAcceptedGeoref.dec_long) gt 0 and (getAcceptedGeoref.dec_lat is not 0 and getAcceptedGeoref.dec_long is not 0)>
 					<div class="h3 px-2">Map of Georeferences</div>
 				<cfelse>
-					<div class="h3 text-danger">No accepted georeferences</div>
+					<div class="h3 text-danger px-2">No accepted georeferences</div>
 				</cfif>
 				<div class="mb-2 col-12 px-0" style="height: 360px;">
 					<div id="mapdiv_#REReplace(locality_id,'[^0-9]','','All')#" style="height:100%;"></div>
