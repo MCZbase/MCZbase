@@ -2189,7 +2189,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<div id="editGeorefDialog"></div>
 				<div id="addGeorefDialog"></div>
 			<cfcatch>
-				<h3 class="h4">Error: #cfcatch.type# #cfcatch.message#</h3> 
+				<h3 class="h4 text-danger">Error: #cfcatch.type# #cfcatch.message#</h3> 
 				<div>#cfcatch.detail#</div>
 				<cfif isDefined("cfcatch.cause.tagcontext")>
 					<div>Line #cfcatch.cause.tagcontext[1].line# of #replace(cfcatch.cause.tagcontext[1].template,Application.webdirectory,'')#</div>
