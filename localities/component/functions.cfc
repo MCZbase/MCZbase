@@ -352,7 +352,7 @@ Delete an existing collecting event number record.
 							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#totalEvents# collecting events</a>:
 						</h2>
 						<div>
-							<ul>
+							<ul class="px-4">
 								<cfloop query="localityUses">
 									<li>
 										<cfif numOfSpecs GT 0>

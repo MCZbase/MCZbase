@@ -90,7 +90,7 @@ limitations under the License.
 		<cfoutput>
 			<main class="container-fluid my-2" id="content">
 				<div class="row mx-0">
-				<section class="col-12 col-md-9 col-xl-8 px-xl-0">
+				<section class="col-12 col-md-9 px-md-0 col-xl-8 px-xl-0">
 					<div class="col-12 px-0 px-md-3">
 						<h1 class="h2 mt-3 mb-0 px-3">Edit Locality [#encodeForHtml(locality_id)#]</h1>
 						<div class="border-top border-right border-left border-bottom border-success rounded px-2 my-3 py-3">
@@ -172,7 +172,7 @@ limitations under the License.
 						</div>
 					</div>
 				</section>
-				<section class="mt-4 col-12 col-md-4">
+				<section class="mt-4 col-12 px-md-0 col-md-3 col-xl-4">
 						<!--- map --->
 						<div class="col-12 px-0">
 							<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
