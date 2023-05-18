@@ -128,7 +128,7 @@ limitations under the License.
 <cfoutput>
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
-			<div class="col-12 mt-2 pb-4 border-bottom border-dark">
+			<div class="col-12 mt-4 pb-4 border-bottom border-dark">
 				<h1 class="h2 mr-2 w-100">#getGeography.higher_geog#</h1>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
 					<span>
@@ -136,7 +136,7 @@ limitations under the License.
 					</span>
 				</cfif>
 			</div>
-			<div class="col-12 col-md-6 mt-2">
+			<div class="col-12 col-md-6 pt-3">
 				<cfloop query="getGeography">
 					<div class="col-12">
 						<ul class="sd list-unstyled row mx-0 px-2 py-1 mb-0">
@@ -276,7 +276,7 @@ limitations under the License.
 					</ul>
 				</div>
 			</div>
-			<div class="col-12 col-md-6 pt-5">
+			<div class="col-12 col-md-6 pt-3">
 				<!--- map --->
 				<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
 				</script>
