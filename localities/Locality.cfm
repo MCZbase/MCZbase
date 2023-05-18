@@ -217,7 +217,7 @@ limitations under the License.
 			</cfif>
 			<main class="container my-2" id="content">
 				<section class="row">
-					<div class="col-12">
+					<div class="col-12 mt-2 mb-3">
 					<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
 						<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
 							<form name="createLocality" method="post" action="/localities/Locality.cfm">
