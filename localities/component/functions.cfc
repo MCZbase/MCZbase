@@ -3501,7 +3501,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				)
 			</cfquery>
 			<cfif insertLatLong_result.recordcount NEQ 1>
-				<cfthrow message="Unable to insert, other than one row would be inserted.">
+				<cfthrow message="<p class='text-danger'>Unable to insert, other than one row would be inserted.</p>">
 			</cfif>
 			<cfif isDefined("error_polygon") AND len(#error_polygon#) gt 0>
 				<cfquery name="addErrorPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addErrorPolygon_result">
@@ -3513,7 +3513,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLATLONGID.latlongid#">
 				</cfquery>
 				<cfif addErrorPolygon_result.recordcount NEQ 1>
-					<cfthrow message="Unable to insert, other than one row would be changed when updating error polygon.">
+					<cfthrow message="<p class='text-danger'>Unable to insert, other than one row would be changed when updating error polygon.</p>">
 				</cfif>
 			</cfif>
 			<cfquery name="countAccepted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countAccepted_result">
@@ -3527,7 +3527,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfset message = "">
 			<cfif countAccepted.ct EQ 0>
 				<!--- warning state, but not a failure case --->
-				<cfset message = "This locality has no accepted georeferences.">
+				<cfset message = "<p class='text-danger'>This locality has no accepted georeferences.</p>">
 			</cfif>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "added">
@@ -3714,7 +3714,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
 			</cfquery>
 			<cfif getGeoref.recordcount NEQ 1>
-				<cfthrow message="Error: lat_long record not found for provided lat_long_id [#encodeForHtml(lat_long_id)#].">
+				<cfthrow message="<p class='text-danger'>Error: lat_long record not found for provided lat_long_id [#encodeForHtml(lat_long_id)#].</p>">
 			</cfif>
 			<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT ORIG_LAT_LONG_UNITS 
