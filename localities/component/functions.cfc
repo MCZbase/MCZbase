@@ -110,8 +110,8 @@ Delete an existing collecting event number record.
 				<div class="row">
 					<div class="alert alert-danger" role="alert">
 						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-						<h2>Internal Server Error.</h2>
-						<p>#message#</p>
+						<h2 class="h4">Internal Server Error.</h2>
+						<p class="text-danger">#message#</p>
 						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 					</div>
 				</div>
@@ -330,7 +330,7 @@ Delete an existing collecting event number record.
 			  	</cfquery>
 				<div>
 					<cfif #localityUses.recordcount# is 0>
-						<div>This Locality (#locality_id#) contains no specimens. Please delete it if you don&apos;t have plans for it!</div>
+						<h2 class="h4 px-2">This Locality (#locality_id#) contains no specimens. Please delete it if you don&apos;t have plans for it!</h2>
 					<cfelseif #localityUses.recordcount# is 1>
 						<h2 class="h4 px-2">
 							This Locality (#locality_id#) contains 
