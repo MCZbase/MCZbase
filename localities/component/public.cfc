@@ -352,7 +352,7 @@ limitations under the License.
 				<div class="mb-2 col-12 px-0" style="height: 360px;">
 					<div id="mapdiv_#REReplace(locality_id,'[^0-9]','','All')#" style="height:100%;"></div>
 				</div>
-				<div class="mb-2 col-12 px-1 ">
+				<div class="mb-2 col-12 px-1 px-md-3 ">
 					<ul id="mapMetadataUL">
 						<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 							SELECT count(*) ct 
@@ -367,7 +367,7 @@ limitations under the License.
 										locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 								)
 						</cfquery>
-						<li class="my-1">
+						<li class="my-1 list-style-circle">
 							<cfif hasHigherPolygon.ct GT 0>
 								<span class="h5">Higher Geography mappable</span> 
 								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold"  onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a>
@@ -386,7 +386,7 @@ limitations under the License.
 								AND
 								locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 						</cfquery>
-						<li class="my-1">
+						<li class="my-1 list-style-circle">
 							<cfif hasUncertantyPolygon.ct GT 0>
 								<span class="h5">Georeference has uncertanty polygon</span>
 								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" uncertaintypoly.setVisible(!uncertaintypoly.getVisible()); ">hide/show</a> 
@@ -395,7 +395,7 @@ limitations under the License.
 								<span class="h5">No polygon with georeference</span>
 							</cfif>
 						</li>
-						<li class="my-1">
+						<li class="my-1 list-style-circle">
 							<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS GT 0>
 								<span class="h5">Coordinate uncertanty in meters = #getAcceptedGeoref.coordinateuncertaintyinmeters#</span> 
 								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" errorcircle.setVisible(!errorcircle.getVisible()); ">hide/show</a> 
@@ -405,12 +405,12 @@ limitations under the License.
 							</cfif>
 						</li>
 						<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS EQ "301">
-							<li class="my-1">
+							<li class="my-1 list-style-circle">
 								<span class="h5 text-danger">Coordinate uncertanty of 301 is suspect, geolocate assigns this value when unable to calculate an error radius.<span>
 							</li>
 						</cfif>
 						<cfif getGeoreferences.recordcount GT 1>
-							<li class="my-1">
+							<li class="my-1 list-style-circle">
 								<span class="h5">#getGeoreferences.recordcount# georeferences, including unaccepted.</span> 
 								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
 							</li>
