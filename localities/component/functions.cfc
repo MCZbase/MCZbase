@@ -3165,7 +3165,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<div class="h4">No verbatim coordinates</div>
 				<cfelse>
 					<div class="h4">Verbatim coordinate values</div>
-					<ul class="px-3 mx-2">
+					<ul class="px-2 mx-2">
 						<cfloop query="getVerbatimGeoref">
 							<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
 							<li>#verbatimcoordinatesystem# #verbatimcoordinates# #verbatimlatitude# #verbatimlongitude# #verbatimsrs# #counts#</li>
