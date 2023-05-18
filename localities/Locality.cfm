@@ -101,7 +101,7 @@ limitations under the License.
 							<div id="summary" class="small95 px-2 pb-2">#summary#</div>
 						</div>
 						
-						<div class="border rounded px-2 my-2 py-3" arial-labeledby="formheading">
+						<div class="border rounded px-3 my-2 py-3" arial-labeledby="formheading">
 							<cfset formId = "editLocalityForm">
 							<cfset outputDiv="saveResultsDiv">
 							<form name="editLocality" id="#formId#">
