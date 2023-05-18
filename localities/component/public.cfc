@@ -349,7 +349,7 @@ limitations under the License.
 				<cfelse>
 					<div class="h3 text-danger">No accepted georeferences</div>
 				</cfif>
-				<div class="mb-2 w-100" style="height: 360px;">
+				<div class="mb-2 col-12 px-0" style="height: 360px;">
 					<div id="mapdiv_#REReplace(locality_id,'[^0-9]','','All')#" style="width:100%; height:100%;"></div>
 				</div>
 				<div class="mb-2 w-100">
