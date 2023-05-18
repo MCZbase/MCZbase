@@ -2028,7 +2028,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 				</cfquery>
 				<cfif getLocalityMetadata.recordcount NEQ 1>
-					<cfthrow message="Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#]">
+					<p class="text-danger"><cfthrow message="Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#]"></p>
 				</cfif>
 				<cfset localityLabel = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
 				<cfset localityLabel = replace(localityLabel,'"',"&quot;","all")>
