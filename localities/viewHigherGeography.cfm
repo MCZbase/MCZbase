@@ -131,7 +131,7 @@ limitations under the License.
 			<div class="col-12 mt-4 pb-4 border-bottom border-dark">
 				<h1 class="h2 mr-2 col-10 px-0 float-left">#getGeography.higher_geog#</h1>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
-					<a role="button" href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary col-auto px-0 btn-xs float-right">Edit</a>
+					<a role="button" href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary px-0 btn-xs float-right">Edit</a>
 				</cfif>
 			</div>
 			<div class="col-12 col-md-6 pt-3">
