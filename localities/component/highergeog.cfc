@@ -24,7 +24,7 @@ Functions supporting editing higher geographies.
 
 <cffunction name="getGeographyUsesHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="geog_auth_rec_id" type="string" required="yes">
-	<cfargument name="containgDiv" type="string" required="yes">
+	<cfargument name="containingDiv" type="string" required="yes">
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="geogUsesThread#tn#">
