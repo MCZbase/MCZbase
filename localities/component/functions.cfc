@@ -506,7 +506,7 @@ Delete an existing collecting event number record.
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
 			<cfif lookupLocality.recordcount NEQ 1>
-				<cfthrow message="Found other than one locality with specified locality_id [#encodeForHtml(locality_id)#]">
+				<cfthrow message="<p class='text-danger'>Found other than one locality with specified locality_id [#encodeForHtml(locality_id)#]</p>">
 			</cfif>
 			<cfloop query="lookupLocality">
 				<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
