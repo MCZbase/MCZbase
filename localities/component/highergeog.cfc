@@ -24,6 +24,7 @@ Functions supporting editing higher geographies.
 
 <cffunction name="getGeographyUsesHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="geog_auth_rec_id" type="string" required="yes">
+	<cfargument name="containgDiv" type="string" required="yes">
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="geogUsesThread#tn#">
@@ -38,6 +39,12 @@ Functions supporting editing higher geographies.
 						geog_auth_rec_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 				</cfquery>
 				<cfif countUses.ct GT 0>
+					<script>
+						$(document).ready(function() { 
+							$('###containingDiv#').('bg-danger');
+							$('###containingDiv#').('text-light');
+						});
+					</script>
 					<h2 class="h3">This higher geography record is in use.  Altering this record will update: </h2>
 					<cfquery name="ceCount" datasource="uam_god">
 						SELECT
@@ -48,8 +55,19 @@ Functions supporting editing higher geographies.
 						WHERE
 							geog_auth_rec_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 					</cfquery>
-					<h3 class="h4">Used for #countUses.ct# Localities</h3>
-					<h3 class="h4">Used for #ceCount.ct# Collecting Events</h3>
+					<cfquery name="specCount" datasource="uam_god">
+						SELECT
+							count(collection_object_id) ct
+						FROM 
+							locality 
+							join collecting_event on locality.locality_id = collecting_event.locality_id
+							join cataloged_item on collecting_event.collecting_event_id = cataloged_item.collecting_event_id
+						WHERE
+							geog_auth_rec_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+					</cfquery>
+					<h3 class="h4">#countUses.ct# Localities</h3>
+					<h3 class="h4">#ceCount.ct# Collecting Events</h3>
+					<h3 class="h4">#specCount.ct# Cataloged Items</h3>
 					<cfquery name="localityUses" datasource="uam_god">
 				  		SELECT
 							count(cataloged_item.cat_num) numOfSpecs,
