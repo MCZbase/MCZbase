@@ -134,7 +134,7 @@ limitations under the License.
 					<a role="button" href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit Higher Geography</a>
 				</cfif>
 			</div>
-			<div class="col-12 col-md-6 pt-2 pb-3">
+			<div class="col-12 col-md-6 pr-md-0 pt-2 pb-3">
 				<cfloop query="getGeography">
 					<div class="col-12 px-0 pb-3">
 						<ul class="sd list-unstyled row mx-0 px-0 py-1 mb-0">
