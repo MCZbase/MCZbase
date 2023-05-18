@@ -739,7 +739,7 @@ Delete an existing collecting event number record.
 			</script>
 
 			<cfcatch>
-				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<h2 class="h3 text-danger mt-0">Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
 			</cfcatch>
 			</cftry>
