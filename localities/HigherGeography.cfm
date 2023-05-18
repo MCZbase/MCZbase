@@ -34,7 +34,7 @@ limitations under the License.
 	<cfcase value="new">
 		<cfset pageTitle="New Higher Geography">
 	</cfcase>
-	<cfcase value="makenewHigher Geography">
+	<cfcase value="makenewHigherGeography">
 		<cfset pageTitle="Creating New Higher Geography">
 	</cfcase>
 	<cfcase value="delete">
@@ -50,6 +50,7 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfinclude template="/localities/component/highergeog.cfc" runOnce="true">
+		<cfinclude template="/localities/component/public.cfc" runOnce="true">
 		<cfquery name="countUses" datasource="uam_god">
 			SELECT 
 				sum(ct) total_uses
@@ -78,22 +79,21 @@ limitations under the License.
 		   <main class="container-float mt-3" id="content">
 				<section class="row mx-1">
 					<div class="col-12 col-md-9">
-      				<h1 class="h2 mt-3 mb-0 px-4">Edit Higher Geography [#encodeForHtml(geog_auth_rec_id)#]</h1>
-						<div class="border rounded px-2 py-2">
-							<cfset blockRelated = getGeographyUsesHtml(geog_auth_rec_id = "#geog_auth_rec_id#")>
+      				<h1 class="h2 mt-3 mb-0 px-4">Edit Higher Geography <a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#encodeForUrl(geog_auth_rec_id)#" target="_blank">[#encodeForHtml(geog_auth_rec_id)#]</a></h1>
+						<div class="border rounded px-2 py-2" id="usesContainingDiv">
+							<cfset blockRelated = getGeographyUsesHtml(geog_auth_rec_id = "#geog_auth_rec_id#", containingDiv="usesContainingDiv")>
 							<div id="relatedTo">#blockRelated#</div>
 						</div>
 						<div class="border rounded px-2 py-2">
 							<cfset summary = getGeographySummary(geog_auth_rec_id="#geog_auth_rec_id#")>
-							<div id="summary">#summary#</div>
+							<div id="summary" class="h1 mb-0">#summary#</div>
 						</div>
 						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
 							<cfset formId = "editHigherGeographyForm">
 							<cfset outputDiv="saveResultsDiv">
  			    			<form name="editHigherGeography" id="#formId#">
-								<input type="hidden" id="geog_auth_rec_id" name="geog_auth_rec_id" value="#geog_auth_rec_id#">
 								<input type="hidden" name="method" value="updateHigherGeography">
-								<cfset blockEditForm = getEditGeographyHtml(geog_auth_rec_id = "#geog_auth_rec_id#", formId="#formId#", outputDiv="#outputDiv#", saveButtonFunction="saveEdits")>
+								<cfset blockEditForm = getHigherGeographyFormHtml(mode="edit", geog_auth_rec_id = "#geog_auth_rec_id#", formId="#formId#", outputDiv="#outputDiv#", saveButtonFunction="saveEdits")>
 								#blockEditForm#
 							</form>
 							<script>
@@ -108,16 +108,15 @@ limitations under the License.
 								};
 							</script>
 						</div>
-						<div class="border rounded px-2 py-2">
-							<cfif countUses.total_uses EQ "0">
+						<cfif countUses.total_uses EQ "0">
+							<div class="border rounded px-2 py-2">
 								<button type="button" 
 									onClick="confirmDialog('Delete this Higher Geography?', 'Confirm Delete Higher Geography', function() { location.assign('/localities/HigherGeography.cfm?action=delete&geog_auth_rec_id=#encodeForUrl(geog_auth_rec_id)#'); } );" 
 									class="btn btn-xs btn-danger" >
 										Delete HigherGeography
 								</button>
-							</cfif>
-						</div>
-					<section class="mt-2 float-left col-12 px-0">
+							</div>
+						</cfif>
 					</div>
 					<div class="col-12 col-md-3 pt-5">
 						<!--- map --->
@@ -134,7 +133,7 @@ limitations under the License.
 		<cfinclude template="/localities/component/highergeog.cfc" runOnce="true">
 		<cfoutput>
 			<cfset extra = "">
-			<cfset blockform = getCreateHigherGeographyHtml()>
+			<cfset blockform = getHigherGeographyFormHtml(mode="new")>
 		   <main class="container mt-3" id="content">
 				<section class="row">
 					<div class="col-12">
@@ -161,6 +160,8 @@ limitations under the License.
 			<cfquery name="newHigherGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO geog_auth_rec (
 					GEOG_AUTH_REC_ID
+					,valid_catalog_term_fg
+					,source_authority
 					,continent_ocean
 					,ocean_region
 					,ocean_subregion
@@ -170,8 +171,16 @@ limitations under the License.
 					,state_prov
 					,county
 					,feature
+					,quad
+					,island_group
+					,island
+					,highergeographyid_guid_type
+					,highergeographyid
+					,wkt_polygon
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextLoc.nextLoc#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">,
 					<cfif len(#continent_ocean#) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continent_ocean#">,
 					<cfelse>
@@ -186,6 +195,66 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ocean_subregion#">,
 					<cfelse>
 						NULL,
+					</cfif>
+					<cfif len(#sea#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sea#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#water_feature#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#water_feature#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#country#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#country#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#state_prov#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#state_prov#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#county#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#county#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#feature#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#feature#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#quad#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#quad#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#island_group#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_group#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#island#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#highergeographyid_guid_type#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid_guid_type#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#highergeographyid#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#wkt_polygon#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#wkt_polygon#">
+					<cfelse>
+						NULL
 					</cfif>
 				)
 			</cfquery>

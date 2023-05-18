@@ -59,8 +59,12 @@ limitations under the License.
 			</cftry>
 			<cftry>
 				<cfif structKeyExists(cfcatchcopy,"Cause") AND structKeyExists(cfcatchcopy.cause,"TagContext")>
-					<cfset errorLine = errorLine & "See #cfcatchcopy.cause.tagcontext[1].template#">
-					<cfset errorLine = errorLine & " line #cfcatchcopy.cause.tagcontext[1].line#.">
+					<cfset tempErrorLine = "See #cfcatchcopy.cause.tagcontext[1].template#">
+					<cfset tempErrorLine = tempErrorLine & " line #cfcatchcopy.cause.tagcontext[1].line#.">
+					<!--- prevent addition of a duplicate file/line message --->
+					<cfif errorLine NEQ tempErrorLine>
+						<cfset errorLine = errorLine & " " & tempErrorLine >
+					</cfif>
 				</cfif>
 			<cfcatch>
 			</cfcatch>
