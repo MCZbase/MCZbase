@@ -133,7 +133,7 @@ limitations under the License.
 							</script>
 							
 							<cfif countUses.total_uses GT "0">
-								<button type="button" class="btn btn-xs btn-secondary" style="left: 6rem; margin-top:-1.9rem; position: absolute;" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
+								<button type="button" class="btn btn-xs btn-secondary" style="left: 22rem;margin-top: 24.3rem;position: absolute;" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
 							</cfif>
 							<cfif countUses.total_uses EQ "0">
 							<div class="col-12 px-0">
@@ -177,7 +177,7 @@ limitations under the License.
 						</div>
 					</div>
 				</section>
-				<section class="mt-4 col-12 px-md-0 col-md-3 col-xl-4">
+				<section class="mt-5 col-12 px-md-0 col-md-3 col-xl-4">
 						<!--- map --->
 						<div class="col-12 px-0 bg-light pt-2 pb-1 mb-2 border rounded">
 							<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
