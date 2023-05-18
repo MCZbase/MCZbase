@@ -88,7 +88,7 @@ limitations under the License.
 			<cfthrow message="<h3 class='h4 text-danger'>Error: unable to edit locality, no locality_id specified.</h3>">
 		</cfif>
 		<cfoutput>
-			<main class="container-fluid my-2" id="content">
+			<main class="container-fluid mt-3 pb-5 mb-5" id="content">
 				<div class="row mx-0">
 				<section class="col-12 col-md-9 px-md-0 col-xl-8 px-xl-0">
 					<div class="col-12 px-0 pl-md-0 pr-md-3">
