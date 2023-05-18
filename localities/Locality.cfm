@@ -576,8 +576,8 @@ limitations under the License.
 							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 				</cfquery>
 				<cfoutput>
-					<div class="container-fluid">
-						<div class="row">
+					<div class="container">
+						<div class="row mx-0">
 							<div class="col-12">
 								<h1 class="h2 mt-5">Locality successfully deleted.</h1>
 								<ul>
