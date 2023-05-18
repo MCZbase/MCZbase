@@ -41,7 +41,7 @@ limitations under the License.
 		<cfset pageTitle="Deleting Locality">
 	</cfcase>
 	<cfdefaultcase>
-		<cfthrow message="<h2 class='h4 text-danger'>Error: Unknown Action</h2">
+		<cfthrow message="<h3 class='h4 text-danger'>Error: Unknown Action</h3">
 	</cfdefaultcase>
 </cfswitch>
 <cfset pageHasTabs="true">

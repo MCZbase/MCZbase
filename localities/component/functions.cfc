@@ -330,7 +330,7 @@ Delete an existing collecting event number record.
 			  	</cfquery>
 				<div>
 					<cfif #localityUses.recordcount# is 0>
-						<h2 class="h4 px-2">This Locality (#locality_id#) contains no specimens. Please delete it if you don&apos;t have plans for it!</h2>
+						<h2 class="h4 px-2 text-primary">This Locality (#locality_id#) contains no specimens. Please delete it if you don&apos;t have plans for it!</h2>
 					<cfelseif #localityUses.recordcount# is 1>
 						<h2 class="h4 px-2">
 							This Locality (#locality_id#) contains 
