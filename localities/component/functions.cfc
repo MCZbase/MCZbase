@@ -739,7 +739,7 @@ Delete an existing collecting event number record.
 			</script>
 
 			<cfcatch>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
 			</cfcatch>
 			</cftry>
@@ -859,7 +859,7 @@ Delete an existing collecting event number record.
 				<div id="editGeologyDialog"></div>
 				<div id="addGeologyDialog"></div>
 			<cfcatch>
-				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
 			</cfcatch>
 			</cftry>
@@ -894,7 +894,7 @@ Delete an existing collecting event number record.
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
 			<cfif getGeoAttribute.recordcount NEQ "1">
-				<cfthrow message="Unable to delete. Found other than one attribute for the geology_attribute_id [#encodeForHtml(geology_attribute_id)#] and locality_id [#encodeForHtml(locality_id)#] provided.">
+				<cfthrow message="<p class='text-danger'>Unable to delete. Found other than one attribute for the geology_attribute_id [#encodeForHtml(geology_attribute_id)#] and locality_id [#encodeForHtml(locality_id)#] provided.</p>">
 			</cfif>
 			<cfquery name="deleteGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteGeoAttribute_result">
 				DELETE FROM geology_attributes
@@ -902,7 +902,7 @@ Delete an existing collecting event number record.
 					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_id#">
 			</cfquery>
 			<cfif deleteGeoAttribute_result.recordcount NEQ 1>
-				<cfthrow message="Error deleteing geology_attribute, provided geology_attribute_id matched other than one record.">
+				<cfthrow message="<p class='text-danger'>Error deleteing geology_attribute, provided geology_attribute_id matched other than one record.</p>">
 			</cfif>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "deleted">
