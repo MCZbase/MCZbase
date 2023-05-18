@@ -162,7 +162,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="col-12 pr-md-3 pl-md-0 ">
+					<div class="col-12 px-0 pr-md-3 pl-md-0 ">
 						<div class="border bg-light rounded p-3 my-2">
 							<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
 							<script>
