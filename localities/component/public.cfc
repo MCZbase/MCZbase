@@ -20,7 +20,6 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cf_rolecheck>
 
-<cfset map = getHigherGeographyMapHtml(geog_auth_rec_id="#geog_auth_rec_id#")>
 <cffunction name="getHigherGeographyMapHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="geog_auth_rec_id" type="string" required="yes">
 	<cfargument name="reload" type="string" required="no">
