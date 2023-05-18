@@ -3261,42 +3261,42 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 		<cfswitch expression="#ORIG_LAT_LONG_UNITS#">
 			<cfcase value="deg. min. sec.">
 				<cfif isDefined("dec_lat_min") and len(dec_lat_min) GT 0>
-					<cfthrow message = "A value was provided for dec_lat_min, but units are degrees, minutes, seconds. Unable to save.">
+					<cfthrow message = "<p class='text-danger'>A value was provided for dec_lat_min, but units are degrees, minutes, seconds. Unable to save.</p>">
 				</cfif>
 				<cfif isDefined("dec_long_min") and len(dec_long_min) GT 0>
-					<cfthrow message = "A value was provided for dec_long_min, but units are degrees, minutes, seconds. Unable to save.">
+					<cfthrow message = "<p class='text-danger'>A value was provided for dec_long_min, but units are degrees, minutes, seconds. Unable to save.</p>">
 				</cfif>
 			</cfcase>
 			<cfcase value="degrees dec. minutes">
 				<cfif isDefined("lat_min") and len(lat_min) GT 0>
-					<cfthrow message = "A value was provided for lat_min, but units are degrees, decimal minutes, Unable to save.">
+					<cfthrow message = "<p class='text-danger'>A value was provided for lat_min, but units are degrees, decimal minutes, Unable to save.</p>">
 				</cfif>
 				<cfif isDefined("long_min") and len(long_min) GT 0>
-					<cfthrow message = "A value was provided for long_min, but units are degrees, decimal minutes. Unable to save.">
+					<cfthrow message = "<p class='text-danger'>A value was provided for long_min, but units are degrees, decimal minutes. Unable to save.</p>">
 				</cfif>
 				<cfif isDefined("lat_sec") and len(lat_sec) GT 0>
-					<cfthrow message = "A value was provided for lat_sec, but units are degrees, decimal minutes, Unable to save.">
+					<cfthrow message = "<p class='text-danger'>A value was provided for lat_sec, but units are degrees, decimal minutes, Unable to save.</p>">
 				</cfif>
 				<cfif isDefined("long_sec") and len(long_sec) GT 0>
-					<cfthrow message = "A value was provided for long_sec, but units are degrees, decimal minutes. Unable to save.">
+					<cfthrow message = "<p class='text-danger'>A value was provided for long_sec, but units are degrees, decimal minutes. Unable to save.</p>">
 				</cfif>
 			</cfcase>
 			<cfcase value="decimal degrees">
 			</cfcase>
 			<cfcase value="UTM">
 				<cfif not isDefined("utm_zone") OR len(utm_zone) EQ 0>
-					<cfthrow message = "A value was not provided for UTM Zone, but units are UTM. zone, easting, and northing are required. Unable to save.">
+					<cfthrow message = "<p class='text-danger'>A value was not provided for UTM Zone, but units are UTM. zone, easting, and northing are required. Unable to save.</p>">
 				</cfif>
 				<cfif not isDefined("utm_ew") OR len(utm_ew) EQ 0>
-					<cfthrow message = "A value was not provided for UTM Easting, but units are UTM. zone, easting, and northing are required. Unable to save.">
+					<cfthrow message = "<p class='text-danger'>A value was not provided for UTM Easting, but units are UTM. zone, easting, and northing are required. Unable to save.</p>">
 				</cfif>
 				<cfif not isDefined("utm_ns") OR len(utm_ns) EQ 0>
-					<cfthrow message = "A value was not provided for UTM Northing, but units are UTM. zone, easting, and northing are required. Unable to save.">
+					<cfthrow message = "<p class='text-danger'>A value was not provided for UTM Northing, but units are UTM. zone, easting, and northing are required. Unable to save.</p>">
 				</cfif>
 			</cfcase>
 		</cfswitch>
 	<cfelse>
-		<cfthrow message="Unknown value for field_mapping [#encodeForHtml(field_mapping)#] must be 'generic' or 'specific' ">
+		<cfthrow message="<p class='text-danger'>Unknown value for field_mapping [#encodeForHtml(field_mapping)#] must be 'generic' or 'specific'</p> ">
 	</cfif>
 
 	<cfset data = ArrayNew(1)>
