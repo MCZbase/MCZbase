@@ -44,8 +44,8 @@ Functions supporting editing higher geographies.
 				<cfif countUses.ct GT 0>
 					<script>
 						$(document).ready(function() { 
-							$('###containingDiv#').('bg-danger');
-							$('###containingDiv#').('text-light');
+							$('###containingDiv#').addClass('bg-danger');
+							$('###containingDiv#').addClass('text-light');
 						});
 					</script>
 					<h2 class="h3">This higher geography record is in use.  Altering this record will update: </h2>
