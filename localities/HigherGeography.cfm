@@ -80,7 +80,7 @@ limitations under the License.
 				<section class="row mx-1">
 					<div class="col-12 col-md-9">
       				<h1 class="h2 mt-3 mb-0 px-4">Edit Higher Geography [#encodeForHtml(geog_auth_rec_id)#]</h1>
-						<div class="border rounded px-2 py-2" id="usesContaningDiv">
+						<div class="border rounded px-2 py-2" id="usesContainingDiv">
 							<cfset blockRelated = getGeographyUsesHtml(geog_auth_rec_id = "#geog_auth_rec_id#", containingDiv="usesContainingDiv")>
 							<div id="relatedTo">#blockRelated#</div>
 						</div>
