@@ -1936,7 +1936,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</script>
 				</div>
 				<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
-					<div class="col-12 col-md-3 mb-2 px-0">
+					<div class="col-12 col-md-3 my-3 px-1">
 						<input type="hidden" name="clone_from_locality_id" value="#clone_from_locality_id#" />
 						<h2 class="h4 w-100" for="">Include accepted georeference from <a href="/editLocality.cfm?locality_id=#clone_from_locality_id#" target="_blank">#clone_from_locality_id#</a>?</h2>
 						<div class="input-group-prepend col-6 float-left rounded">
