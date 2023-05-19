@@ -1944,7 +1944,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						N<input type="radio" name="cloneCoords" value="no" checked="checked" />
 					</div>
 		 		</cfif>
-				<div class="col-12 mt-1">
+				<div class="col-6 mt-1">
 					<input type="submit" value="Save" class="btn btn-xs btn-primary">
 				</div>
 			</div>
