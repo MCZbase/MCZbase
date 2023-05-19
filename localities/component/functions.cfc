@@ -1938,14 +1938,14 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
 					<div class="col-12 col-md-3 mb-2">
 						<input type="hidden" name="clone_from_locality_id" value="#clone_from_locality_id#" />
-						<label class="data-entry-label h4" for="">Include accepted georeference from <a href="/editLocality.cfm?locality_id=#clone_from_locality_id#" target="_blank">#clone_from_locality_id#</a>?</label>
-						<div class="input-group-prepend rounded">
+						<label class="h4" for="">Include accepted georeference from <a href="/editLocality.cfm?locality_id=#clone_from_locality_id#" target="_blank">#clone_from_locality_id#</a>?</label>
+						<div class="input-group-prepend col-4 float-left rounded">
 							<span class="px-2">Yes</span>
 							<div class="input-group-text">
 								<input type="radio" name="cloneCoords" value="yes" />
 							</div>
 						</div>
-						<div class="input-group-prepend rounded">
+						<div class="input-group-prepend col-4 float-left rounded">
 							<span class="px-2">No</span>
 							<div class="input-group-text">
 								<input type="radio" name="cloneCoords" value="no" checked="checked" />
