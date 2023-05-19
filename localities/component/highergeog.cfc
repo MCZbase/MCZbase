@@ -444,9 +444,10 @@ Functions supporting editing higher geographies.
 					</div>
 				
 					<div class="col-12 col-md-6">
-						<label for = "wktPolygon" class="data-entry-label">Polygon</label>
 						<cfif NOT isdefined("wkt_polygon")><cfset wkt_polygon=""></cfif>
-						<input type="text" name="wkt_polygon" value="#wkt_polygon#"id="wktPolygon" class="data-entry-input">
+						<cfif len(wkt_polygon) GT 0><cfset labelText = " (Present)"><cfelse><cfset labelText=""></cfif>
+						<label for = "wktPolygon" class="data-entry-label">Polygon#labelText#</label>
+						<input type="text" name="wkt_polygon" value=""id="wktPolygon" class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="wktFile" class="data-entry-label">Load Polygon from WKT file</label>
@@ -696,8 +697,6 @@ Functions supporting editing higher geographies.
 				</cfif>
 				<cfif len(#wkt_polygon#) GT 0>
 					wkt_polygon = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#wkt_polygon#">,
-				<cfelse>
-					wkt_polygon = null,
 				</cfif>
 				<cfif len(#highergeographyid_guid_type#) GT 0>
 					highergeographyid_guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid_guid_type#">,
