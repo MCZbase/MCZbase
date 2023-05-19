@@ -3775,15 +3775,15 @@ TODO:
 							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getGeoref.locality_id#">
 					</cfquery>
 					<cfset locality_label = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
-					<h2 class="h3">Edit georeference #latitudeString#, #longitudeString# for locality #encodeForHtml(locality_label)#</h2>
-					<p>See: Chapman A.D. &amp; Wieczorek J.R. 2020, Georeferencing Best Practices. Copenhagen: GBIF Secretariat. <a href="https://doi.org/10.15468/doc-gg7h-s853" target="_blank">DOI:10.15468/doc-gg7h-s853</a>.</p>
+					<h2 class="h3 font-weight-bold">Edit georeference #latitudeString#, #longitudeString# for locality #encodeForHtml(locality_label)#</h2>
+					<p class="px-3">See: Chapman A.D. &amp; Wieczorek J.R. 2020, Georeferencing Best Practices. Copenhagen: GBIF Secretariat. <a href="https://doi.org/10.15468/doc-gg7h-s853" target="_blank">DOI:10.15468/doc-gg7h-s853</a>.</p>
 					<div id="editEnclosingDiv" class="col-12 px-0 mx-0 active unfocus">
 						<form id="editGeorefForm">
 							<input type="hidden" name="method" value="updateGeoreference">
 							<input type="hidden" name="field_mapping" value="generic"> 
 							<input type="hidden" name="locality_id" value="#locality_id#">
 							<input type="hidden" name="lat_long_id" value="#lat_long_id#">
-							<h2 class="px-2 h3">Edit georeference</h2>
+							<!---<h2 class="px-2 h3">Edit georeference</h2>--->
 							<div class="form-row">
 								<div class="col-12 col-md-3">
 									<label for="orig_lat_long_units" class="data-entry-label">Coordinate Format</label>
