@@ -133,7 +133,7 @@ limitations under the License.
 							</script>
 							
 							<cfif countUses.total_uses GT "0">
-								<button type="button" class="btn btn-xs btn-secondary" style="left: 195px;margin-top: -1.75rem;position: relative;" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
+								<button type="button" class="btn btn-xs btn-secondary ml-auto" style="margin-top: -1.75rem" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
 							</cfif>
 							<cfif countUses.total_uses EQ "0">
 							<div class="col-12 px-0">
