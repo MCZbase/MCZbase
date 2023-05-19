@@ -1822,8 +1822,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfif isdefined("geog_auth_rec_id") and len(geog_auth_rec_id) GT 0>
 						<cfset otherClass="disabled">
 					</cfif>
-					<input type="button" value="Details" id="details_button" class="btn btn-xs btn-info #otherClass#"
-						onclick="document.location='Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
+					<a value="Details" id="details_button" class="btn btn-xs btn-info #otherClass#"
+						href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">Details</a>
 				</div>
 				<div class="col-12">
 					<label class="data-entry-label" for="spec_locality">Specific Locality</label>
