@@ -1824,6 +1824,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</cfif>
 					<a value="Details" id="details_button" class="btn btn-xs btn-info #otherClass#"
 						href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">Details</a>
+					<script>
+						$(document).ready( function() { 
+							$('##details_button').on('click', function(e) {
+								if($('##details_button').hasClass('disabled')) {
+									e.preventDefault();
+								} 
+							});
+						});
+					</script>
 				</div>
 				<div class="col-12">
 					<label class="data-entry-label" for="spec_locality">Specific Locality</label>
