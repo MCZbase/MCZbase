@@ -1818,9 +1818,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				</div>
 				<div class="col-12 col-md-2 mt-0">
 					<label class="data-entry-label" for="details_button">Higher Geography</label>
-					<cfset otherClass="">
+					<cfset otherClass="disabled">
 					<cfif isdefined("geog_auth_rec_id") and len(geog_auth_rec_id) GT 0>
-						<cfset otherClass="disabled">
+						<cfset otherClass="">
 					</cfif>
 					<a value="Details" id="details_button" class="btn btn-xs btn-info #otherClass#"
 						href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">Details</a>
