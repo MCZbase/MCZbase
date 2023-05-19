@@ -129,14 +129,18 @@ limitations under the License.
 <cfoutput>
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
+			<cfloop query="getGeography">
+				<div class="col-12 mt-4 pb-2 border-bottom border-dark">
+					<h1 class="h2 mr-2 col-10 px-0 float-left">#getGeography.higher_geog#</h1>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+						<a role="button" href="/Locality.cfm?action=editGeog&geog_auth_rec_id=#getGeography.geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit Higher Geography</a>
+					</cfif>
+				</div>
+			<cfloop>
 			<div class="col-12 col-md-6 mt-4">
 				<cfloop query="getGeography">
-					<h1 class="h2 mr-2">#getGeography.higher_geog#</h1>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
-						<span><a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-primary btn-xs float-right">Edit</a></span>
-					</cfif>
-					<div class="col-12">
-						<ul class="sd list-unstyled row mx-0 px-2 py-1 mb-0">
+					<div class="col-12 px-0 pb-3">
+						<ul class="sd list-unstyled row mx-0 px-0 py-1 mb-0">
 							<cfif len(valid_catalog_term_fg) EQ 1><cfset valid="*"><cfelse><cfset valid=""></cfif>
 							<cfif len(getGeography.continent_ocean) gt 0>
 								<cfif find('Ocean',getGeography.continent_ocean) GT 0><cfset colabel="Ocean"><cfelse><cfset colabel="Continent"></cfif>
