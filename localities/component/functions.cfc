@@ -2157,7 +2157,7 @@ TODO:
 								<cfelse>
 									<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
 								</cfif>
-								<cfset divClass="small90 mt-1 w-100">
+								<cfset divClass="small90 my-1 w-100">
 								<cfif accepted_lat_long EQ "Accepted">
 									<cfset divClass="small90 font-weight-bold my-1 w-100">
 								</cfif>
