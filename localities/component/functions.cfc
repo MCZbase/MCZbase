@@ -2090,7 +2090,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					ORDER BY
 						accepted_lat_long_fg desc
 				</cfquery>
-				<h3 class="h4">Georeferences (#getGeoreferences.recordcount#)</h3>
+				<h3 class="h4 w-100">Georeferences (#getGeoreferences.recordcount#)</h3>
 				<cfif getGeoreferences.recordcount EQ 0>
 					<cfquery name="checkNoGeorefBecause" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
