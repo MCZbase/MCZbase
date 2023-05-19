@@ -445,7 +445,7 @@ Functions supporting editing higher geographies.
 				
 					<div class="col-12 col-md-6">
 						<cfif NOT isdefined("wkt_polygon")><cfset wkt_polygon=""></cfif>
-						<cfif len(wkt_polygon) GT 0)><cfset labelText = " (Present)"><cfelse><cfset labelText=""></cfif>
+						<cfif len(wkt_polygon) GT 0><cfset labelText = " (Present)"><cfelse><cfset labelText=""></cfif>
 						<label for = "wktPolygon" class="data-entry-label">Polygon#labelText#</label>
 						<input type="text" name="wkt_polygon" value=""id="wktPolygon" class="data-entry-input">
 					</div>
