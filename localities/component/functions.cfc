@@ -719,7 +719,7 @@ Delete an existing collecting event number record.
 						N<input type="radio" name="cloneCoords" value="no" checked="checked" />
 					</div>
 		 		</cfif>
-				<div class="col-12 mt-1">
+				<div class="col-6 mt-1">
 					<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 						onClick="if (checkFormValidity($('###formId#')[0])) { #saveButtonFunction#();  } " 
 						id="submitButton" >
