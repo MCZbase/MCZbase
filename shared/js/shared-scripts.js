@@ -1183,6 +1183,42 @@ function makeLocalityAutocompleteMeta(valueControl, idControl, selectCallback=nu
 	};
 };
 
+/** Make a paired hidden id and text name control into an autocomplete locality picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected collection_object_id (without a leading # selector).
+ *  @param limitType limitation to apply to the matches
+ */
+function makeLocalityAutocompleteMetaLimited(valueControl, idControl, limitType, selectCallback=null) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/specimens/component/search.cfc",
+				data: { 
+					term: request.term, 
+					limitType: limitType,
+					method: 'getLocalityAutocompleteMeta'
+				 },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up localities for a locality picker");
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+			if (jQuery.type(selectCallback)==='function') {
+				selectCallback();
+			}
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+
 /** Make a paired hidden id and text name control into an autocomplete collecting event picker.
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).

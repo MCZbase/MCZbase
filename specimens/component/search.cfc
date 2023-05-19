@@ -1945,10 +1945,12 @@ Function getLocalityAutocompleteMeta.  Search for localities with a substring ma
  with a _renderItem overriden to display more detail on the picklist, and just spec_locality and locality id as the selected value.
 
 @param term information to search for.
+@limitType restriction describing a limitation to impose on the search, supported: has_accepted_georeference, has_footprint
 @return a json structure containing id and value, with spec_locality and locality_id in value and locality_id in id, and more data in meta.
 --->
 <cffunction name="getLocalityAutocompleteMeta" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
+	<cfargument name="limitType" type="string" required="no" default="">
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
@@ -1972,6 +1974,14 @@ Function getLocalityAutocompleteMeta.  Search for localities with a substring ma
 						locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#term#">
 					</cfif>
 				)
+				<cfif isdefined("limitType") AND limitType EQ "has_accepted_georeference" >
+					and locality id in (
+						select locality_id from accepted_lat_long
+					)
+				</cfif>
+				<cfif isdefined("limitType") AND limitType EQ "has_footprint" >
+					and error_polygon IS NOT NULL
+				</cfif>
 				<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
 					and locality_id in (
 						SELECT locality_id
