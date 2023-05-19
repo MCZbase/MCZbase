@@ -1809,6 +1809,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								setSovereignNation();
 								if ($("##higher_geog").val()) { 
 									$("##details_button").removeClass("disabled");
+									$("##details_button").attr("href","/localities/viewHigherGeography.cfm?geog_auth_rec_id="+$("##geog_auth_rec_id").val());
 								} else { 
 									$("##details_button").addClass("disabled");
 								}
