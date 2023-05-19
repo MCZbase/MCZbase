@@ -1965,7 +1965,11 @@ Function getLocalityAutocompleteMeta.  Search for localities with a substring ma
 			FROM
 				locality
 				join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-				left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
+				<cfif isdefined("limitType") AND limitType EQ "has_accepted_georeference" >
+					join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
+				<cfelse>
+					left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
+				</cfif>
 			WHERE 
 				(
 					locality.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
@@ -1974,13 +1978,8 @@ Function getLocalityAutocompleteMeta.  Search for localities with a substring ma
 						locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#term#">
 					</cfif>
 				)
-				<cfif isdefined("limitType") AND limitType EQ "has_accepted_georeference" >
-					and locality_id in (
-						select locality_id from accepted_lat_long
-					)
-				</cfif>
 				<cfif isdefined("limitType") AND limitType EQ "has_footprint" >
-					and error_polygon IS NOT NULL
+					and locality.error_polygon IS NOT NULL
 				</cfif>
 				<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
 					and locality_id in (
