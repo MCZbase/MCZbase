@@ -599,7 +599,7 @@ limitations under the License.
 					<div id="mapdiv_#REReplace(locality_id,'[^0-9]','','All')#" style="height:100%;"></div>
 				</div>
 				<div class="mb-2 col-12 px-1 px-md-3 ">
-					<ul id="mapMetadataUL">
+					<ul id="mapMetadataUL" class="px-4">
 						<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 							SELECT count(*) ct 
 							FROM 
