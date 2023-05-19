@@ -2132,9 +2132,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								<cfelse>
 									<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
 								</cfif>
-								<cfset spanClass="">
+								<cfset spanClass="small95">
 								<cfif accepted_lat_long EQ "Accepted">
-									<cfset spanClass="h5">
+									<cfset spanClass="h5 w-100">
 								</cfif>
 								<span class="#spanClass#">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</span>
 								<ul class="mb-2">
