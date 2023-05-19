@@ -1975,7 +1975,7 @@ Function getLocalityAutocompleteMeta.  Search for localities with a substring ma
 					</cfif>
 				)
 				<cfif isdefined("limitType") AND limitType EQ "has_accepted_georeference" >
-					and locality id in (
+					and locality_id in (
 						select locality_id from accepted_lat_long
 					)
 				</cfif>
