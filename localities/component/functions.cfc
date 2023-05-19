@@ -2189,14 +2189,14 @@ TODO:
 										}
 									};
 								</script>
-								<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
-								<button type="button" class="btn btn-xs btn-secondary" 
+								<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info mb-1" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
+								<button type="button" class="btn btn-xs btn-secondary mb-1" 
 									onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog',#callback_name#);"
 									aria-label = "Edit this georeference"
 								>Edit</button>
 								<cfif len(geolocate_score) EQ 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin"))>
 									<!--- prevent users from deleting automated georeferences --->
-									<button type="button" class="btn btn-xs btn-warning" 
+									<button type="button" class="btn btn-xs btn-warning mb-1" 
 										onClick=" confirmDialog('Delete this georeference?  Georeferences should not normally be deleted.  In most cases, a new accepted georeference should be added instead.','Confirm Delete Georeference', doDeleteGeoref ); "
 										aria-label = "Delete this georeference from this locality"
 									>Delete</button>
