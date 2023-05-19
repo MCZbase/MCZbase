@@ -1795,6 +1795,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								setSovereignNation();
 								if ($("##higher_geog").val()) { 
 									$("##details_button").removeClass("disabled");
+									$("##details_button").attr("href","/localities/viewHigherGeography.cfm?geog_auth_rec_id="+$("##geog_auth_rec_id").val());
 								} else { 
 									$("##details_button").addClass("disabled");
 								}
@@ -1804,12 +1805,21 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				</div>
 				<div class="col-12 col-md-2 mb-2 mt-md-3 mb-md-2">
 					<label class="data-entry-label text-white sr-only" for="details_button">Higher Geography</label>
-					<cfset otherClass="">
+					<cfset otherClass="disabled">
 					<cfif isdefined("geog_auth_rec_id") and len(geog_auth_rec_id) GT 0>
-						<cfset otherClass="disabled">
+						<cfset otherClass="">
 					</cfif>
-					<input type="button" value="Details" id="details_button" class="mb-1 mb-md-0 btn btn-xs btn-info #otherClass#"
-						onclick="document.location='Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
+					<a value="Details" id="details_button" class="btn btn-xs btn-info #otherClass# mb-1 mb-md-0"
+						href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">Details</a>
+					<script>
+						$(document).ready( function() { 
+							$('##details_button').on('click', function(e) {
+								if($('##details_button').hasClass('disabled')) {
+									e.preventDefault();
+								} 
+							});
+						});
+					</script>
 				</div>
 				<div class="col-12 mb-2 mb-md-2">
 					<label class="data-entry-label" for="spec_locality">Specific Locality</label>
@@ -2028,8 +2038,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 TODO: 
 
 1.5. I don't seem to have the ability to delete georeferences that other people created? Not sure if that's intentional, but it does seem like something one might need to do from time to time.
-
-2. In the Clone from Another Locality form, if you choose a locality that doesn't have a georeference, it just says "Found, loading data into form..." rather than giving any sort of error that there's nothing to copy from.
 
 3. I tried to add a Geolocate georeference to a locality that already had one, and got the message Error processing addGeoreference: Error Executing Database Query. [Macromedia][Oracle JDBC Driver][Oracle]ORA-01031: insufficient privileges [Macromedia][Oracle JDBC Driver][Oracle]ORA-01031: insufficient privileges See //localities/component/functions.cfc line 3336.
 [User can't run ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA DISABLE, need to use different data sourc for that query]
@@ -2612,7 +2620,7 @@ TODO:
 											<input type="text" name="copyFootprintFrom" id="copyFootprintFrom" value="" class="data-entry-input">
 											<script> 
 												$(document).ready(function() { 
-													makeLocalityAutocompleteMeta("copyFootprintFrom", "copyFootprintFrom_id");
+													makeLocalityAutocompleteMeta("copyFootprintFrom", "copyFootprintFrom_id","has_footprint");
 												});
 												function copyWKTFromLocality() { 
 													var lookup_locality_id = $("##copyFootprintFrom_id").val();
@@ -3024,7 +3032,7 @@ TODO:
 										<input type="text" name="selected_locality_text" id="selected_locality_text" class="data-entry-input">
 										<script> 
 											$(document).ready(function() { 
-												makeLocalityAutocompleteMeta("selected_locality_text", "selected_locality_id", loadGeoreference);
+												makeLocalityAutocompleteMetaLimited("selected_locality_text", "selected_locality_id", "has_accepted_georeference", loadGeoreference);
 											});
 										</script>
 									</div>
@@ -3051,66 +3059,70 @@ TODO:
 													$('##cloneFeedback').html("Found, loading data into form...");
 													result = JSON.parse(result);
 													console.log(result);
-													var orig_lat_long_units = result[0].ORIG_LAT_LONG_UNITS;
-													$("##orig_lat_long_units").val(orig_lat_long_units);
-													changeLatLongUnits();
-													console.log(orig_lat_long_units);
-													if (orig_lat_long_units == "decimal degrees") { 
-														$("##lat_deg").val(result[0].RAW_DEC_LAT);
-														$("##long_deg").val(result[0].RAW_DEC_LONG);
-													} else if (orig_lat_long_units == "degrees dec. minutes") { 
-														$("##lat_deg").val(result[0].LAT_DEG);
-														$("##long_deg").val(result[0].LONG_DEG);
-														$("##lat_min").val(result[0].DEC_LAT_MIN);
-														$("##long_min").val(result[0].DEC_LONG_MIN);
-														$("##lat_dir").val(result[0].LAT_DIR);
-														$("##long_dir").val(result[0].LONG_DIR);
-													} else if (orig_lat_long_units == "deg. min. sec.") { 
-														$("##lat_deg").val(result[0].LAT_DEG);
-														$("##long_deg").val(result[0].LONG_DEG);
-														$("##lat_min").val(result[0].LAT_MIN);
-														$("##long_min").val(result[0].LONG_MIN);
-														$("##lat_sec").val(result[0].LAT_SEC);
-														$("##long_sec").val(result[0].LONG_SEC);
-														$("##lat_dir").val(result[0].LAT_DIR);
-														$("##long_dir").val(result[0].LONG_DIR);
-													} else if (orig_lat_long_units == "UTM") { 
-														$("##utm_zone").val(result[0].UTM_ZONE);
-														$("##utm_ew").val(result[0].UTM_EW);
-														$("##utm_ns").val(result[0].UTM_NS);
-													}
-													$("##accepted_lat_long_fg").val(result[0].ACCEPTED_LAT_LONG_FG);
-													$("##georefmethod").val(result[0].GEOREFMETHOD);
-													$("##max_error_distance").val(result[0].MAX_ERROR_DISTANCE);
-													$("##max_error_units").val(result[0].MAX_ERROR_UNITS);
-													$("##datum").val(result[0].DATUM);
-													$("##extent").val(result[0].EXTENT);
-													$("##spatialfit").val(result[0].SPATIALFIT);
-													$("##gpsaccuracy").val(result[0].GPSACCURACY);
-													$("##geolocate_uncertaintypolygon").val(result[0].GEOLOCATE_UNCERTAINTYPOLYGON);
-													$("##error_polygon").val(result[0].ERROR_POLYGON);
-													$("##footprint_spatialfit").val(result[0].FOOTPRINT_SPATIALFIT);
-													$('##determined_by_agent_id').val(result[0].DETERMINED_BY_AGENT_ID);
-													$('##determined_by_agent').val(result[0].DETERMINED_BY);
-													$('##determined_date').val(result[0].DETERMINED_DATE);
-													$('##verified_by_agent_id').val(result[0].VERIFIED_BY_AGENT_ID);
-													$('##verified_by_agent').val(result[0].VERIFIED_BY);
-													$("##verificationstatus").val(result[0].VERIFICATIONSTATUS);
-													$("##lat_long_remarks").val(result[0].LAT_LONG_REMARKS);
-													$("##lat_long_ref_source").val(result[0].LAT_LONG_REF_SOURCE);
-													$("##nearest_named_place").val(result[0].NEAREST_NAMED_PLACE);
-													var lat_long_for_nnp_fg = result[0].LAT_LONG_FOR_NNP_FG;
-													if (lat_long_for_nnp_fg == "") { lat_long_for_nnp_fg = 0; } 
-													$("##lat_long_for_nnp_fg").val(lat_long_for_nnp_fg);
-													var geolocate_score = result[0].GEOLOCATE_SCORE;
-													if (geolocate_score) { 
-														$("##geolocate_score").val(geolocate_score);
-														$("##geolocate_parsepattern").val(result[0].GEOLOCATE_PARSEPATTERN);
-														$("##geolocate_numresults").val(result[0].GEOLOCATE_NUMRESULTS);
-														$("##geolocate_precision").val(result[0].GEOLOCATE_PRECISION);
-														$('.geolocateMetadata').show();
+													if (jQuery.isArray(result) && result.length > 0) { 
+														var orig_lat_long_units = result[0].ORIG_LAT_LONG_UNITS;
+														$("##orig_lat_long_units").val(orig_lat_long_units);
+														changeLatLongUnits();
+														console.log(orig_lat_long_units);
+														if (orig_lat_long_units == "decimal degrees") { 
+															$("##lat_deg").val(result[0].RAW_DEC_LAT);
+															$("##long_deg").val(result[0].RAW_DEC_LONG);
+														} else if (orig_lat_long_units == "degrees dec. minutes") { 
+															$("##lat_deg").val(result[0].LAT_DEG);
+															$("##long_deg").val(result[0].LONG_DEG);
+															$("##lat_min").val(result[0].DEC_LAT_MIN);
+															$("##long_min").val(result[0].DEC_LONG_MIN);
+															$("##lat_dir").val(result[0].LAT_DIR);
+															$("##long_dir").val(result[0].LONG_DIR);
+														} else if (orig_lat_long_units == "deg. min. sec.") { 
+															$("##lat_deg").val(result[0].LAT_DEG);
+															$("##long_deg").val(result[0].LONG_DEG);
+															$("##lat_min").val(result[0].LAT_MIN);
+															$("##long_min").val(result[0].LONG_MIN);
+															$("##lat_sec").val(result[0].LAT_SEC);
+															$("##long_sec").val(result[0].LONG_SEC);
+															$("##lat_dir").val(result[0].LAT_DIR);
+															$("##long_dir").val(result[0].LONG_DIR);
+														} else if (orig_lat_long_units == "UTM") { 
+															$("##utm_zone").val(result[0].UTM_ZONE);
+															$("##utm_ew").val(result[0].UTM_EW);
+															$("##utm_ns").val(result[0].UTM_NS);
+														}
+														$("##accepted_lat_long_fg").val(result[0].ACCEPTED_LAT_LONG_FG);
+														$("##georefmethod").val(result[0].GEOREFMETHOD);
+														$("##max_error_distance").val(result[0].MAX_ERROR_DISTANCE);
+														$("##max_error_units").val(result[0].MAX_ERROR_UNITS);
+														$("##datum").val(result[0].DATUM);
+														$("##extent").val(result[0].EXTENT);
+														$("##spatialfit").val(result[0].SPATIALFIT);
+														$("##gpsaccuracy").val(result[0].GPSACCURACY);
+														$("##geolocate_uncertaintypolygon").val(result[0].GEOLOCATE_UNCERTAINTYPOLYGON);
+														$("##error_polygon").val(result[0].ERROR_POLYGON);
+														$("##footprint_spatialfit").val(result[0].FOOTPRINT_SPATIALFIT);
+														$('##determined_by_agent_id').val(result[0].DETERMINED_BY_AGENT_ID);
+														$('##determined_by_agent').val(result[0].DETERMINED_BY);
+														$('##determined_date').val(result[0].DETERMINED_DATE);
+														$('##verified_by_agent_id').val(result[0].VERIFIED_BY_AGENT_ID);
+														$('##verified_by_agent').val(result[0].VERIFIED_BY);
+														$("##verificationstatus").val(result[0].VERIFICATIONSTATUS);
+														$("##lat_long_remarks").val(result[0].LAT_LONG_REMARKS);
+														$("##lat_long_ref_source").val(result[0].LAT_LONG_REF_SOURCE);
+														$("##nearest_named_place").val(result[0].NEAREST_NAMED_PLACE);
+														var lat_long_for_nnp_fg = result[0].LAT_LONG_FOR_NNP_FG;
+														if (lat_long_for_nnp_fg == "") { lat_long_for_nnp_fg = 0; } 
+														$("##lat_long_for_nnp_fg").val(lat_long_for_nnp_fg);
+														var geolocate_score = result[0].GEOLOCATE_SCORE;
+														if (geolocate_score) { 
+															$("##geolocate_score").val(geolocate_score);
+															$("##geolocate_parsepattern").val(result[0].GEOLOCATE_PARSEPATTERN);
+															$("##geolocate_numresults").val(result[0].GEOLOCATE_NUMRESULTS);
+															$("##geolocate_precision").val(result[0].GEOLOCATE_PRECISION);
+															$('.geolocateMetadata').show();
+														} 
+														$("##manualTabButton").click();
+													} else {
+														$('##cloneFeedback').html("No Georeference to Clone.");
 													} 
-													$("##manualTabButton").click();
 												},
 												error: function (jqXHR, textStatus, error) {
 													$('##cloneFeedback').html("Error.");
@@ -4133,7 +4145,7 @@ TODO:
 									<input type="text" name="copyFootprintFrom" id="copyFootprintFrom" value="" class="data-entry-input">
 									<script> 
 										$(document).ready(function() { 
-											makeLocalityAutocompleteMeta("copyFootprintFrom", "copyFootprintFrom_id");
+											makeLocalityAutocompleteMeta("copyFootprintFrom", "copyFootprintFrom_id","has_footprint");
 										});
 										function copyWKTFromLocality() { 
 											var lookup_locality_id = $("##copyFootprintFrom_id").val();

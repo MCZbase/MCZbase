@@ -24,6 +24,7 @@ limitations under the License.
 	<cfset This.SessionManagement="True" />
 	<cfset This.ClientManagement="true" />
 	<cfset This.ClientStorage="Cookie" />
+	<cfset This.sessionTimeout=#CreateTimeSpan(0,3,0,0)# />
 
 	<cffunction name="onMissingTemplate" returnType="boolean" output="false">
 		<cfargument name="thePage" type="string" required="true" />
