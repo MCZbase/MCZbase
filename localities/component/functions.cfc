@@ -2013,6 +2013,22 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="callback_name" type="string" required="yes">
 
+
+<!--- 
+
+TODO: 
+
+1.5. I don't seem to have the ability to delete georeferences that other people created? Not sure if that's intentional, but it does seem like something one might need to do from time to time.
+
+2. In the Clone from Another Locality form, if you choose a locality that doesn't have a georeference, it just says "Found, loading data into form..." rather than giving any sort of error that there's nothing to copy from.
+
+3. I tried to add a Geolocate georeference to a locality that already had one, and got the message Error processing addGeoreference: Error Executing Database Query. [Macromedia][Oracle JDBC Driver][Oracle]ORA-01031: insufficient privileges [Macromedia][Oracle JDBC Driver][Oracle]ORA-01031: insufficient privileges See //localities/component/functions.cfc line 3336.
+[User can't run ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA DISABLE, need to use different data sourc for that query]
+
+4. I tried to edit an existing Geolocate georeference, and can mark it accepted or not accepted but can't seem to make other changes, including marking it verified or rejected.
+
+--->
+
 	<cfset variables.callback_name = arguments.callback_name>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityGeoRefFormThread#tn#">
@@ -2148,7 +2164,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<li>
 											GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
 										</li>
-
 									</cfif>
 								</ul>
 								<script>
@@ -2173,9 +2188,14 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								<cfif len(geolocate_score) EQ 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin"))>
 									<!--- prevent users from deleting automated georeferences --->
 									<button type="button" class="btn btn-xs btn-warning" 
-										onClick=" deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);"
+										onClick=" confirmDialog('Delete this georeference?  Georeferences should not normally be deleted.  In most cases, a new accepted georeference should be added instead.','Confirm Delete Georeference', doDeleteGeoref ); "
 										aria-label = "Delete this georeference from this locality"
 									>Delete</button>
+									<script>
+										function doDeleteGeoref() { 
+											deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);
+										};
+									</script>
 								</cfif>
 
 							</cfloop>
