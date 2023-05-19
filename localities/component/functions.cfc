@@ -2030,8 +2030,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 TODO: 
 
-1. If I add a georeference, I can then delete it without getting any sort of "are you sure you want to do that?" message, which I don't love.
-
 1.5. I don't seem to have the ability to delete georeferences that other people created? Not sure if that's intentional, but it does seem like something one might need to do from time to time.
 
 2. In the Clone from Another Locality form, if you choose a locality that doesn't have a georeference, it just says "Found, loading data into form..." rather than giving any sort of error that there's nothing to copy from.
@@ -2206,9 +2204,14 @@ TODO:
 											<cfif len(geolocate_score) EQ 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin"))>
 												<!--- prevent users from deleting automated georeferences --->
 												<button type="button" class="btn btn-xs btn-warning" 
-													onClick=" deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);"
+													onClick=" confirmDialog('Delete this georeference?  Georeferences should not normally be deleted.  In most cases, a new accepted georeference should be added instead.','Confirm Delete Georeference', doDeleteGeoref ); "
 													aria-label = "Delete this georeference from this locality"
 												>Delete</button>
+												<script>
+													function doDeleteGeoref() { 
+														deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);
+													};
+												</script>
 											</cfif>
 										</li>
 									</ul>
