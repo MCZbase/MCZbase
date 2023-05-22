@@ -3694,7 +3694,7 @@ TODO:
 
 </cffunction>
 
-<!--- given a lat_long_id, return html to populate a dialog to edit the specified georeferenced.
+<!--- given a lat_long_id, return html to populate a dialog to edit the specified georeference.
   @param lat_long_id the pk value of the georeference to edit.
   @return html to populate a dialog.
 --->
@@ -4412,6 +4412,7 @@ TODO:
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
 		</cfcatch>
+		</cftry>
 	</cftransaction>
 
 	<cfset data = ArrayNew(1)>
