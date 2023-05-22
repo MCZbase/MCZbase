@@ -215,7 +215,7 @@ limitations under the License.
 			<cfelse>
 				<cfset blockform = getCreateLocalityHtml()>
 			</cfif>
-			<main class="container my-2" id="content">
+			<main class="container-fluid container-xl my-2" id="content">
 				<section class="row">
 					<div class="col-12 mt-2 mb-5">
 					<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Locality#extra#</h1>
