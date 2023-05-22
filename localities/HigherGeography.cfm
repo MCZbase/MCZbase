@@ -80,55 +80,57 @@ limitations under the License.
 				<div class="row mx-0">
 					<section class="col-12 col-md-9 px-md-0 col-xl-8">
 						<div class="col-12 px-0 pl-md-0 pr-md-3">
-						<h1 class="h2 mt-3 mb-0 px-3">Edit Higher Geography 
-							<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#encodeForUrl(geog_auth_rec_id)#" target="_blank">[#encodeForHtml(geog_auth_rec_id)#]</a>
-						</h1>
-						<div class="border-top border-right border-left border-bottom border-success rounded px-2 my-3 py-2" id="usesContainingDiv">
-							<cfset blockRelated = getGeographyUsesHtml(geog_auth_rec_id = "#geog_auth_rec_id#", containingDiv="usesContainingDiv")>
-							<div id="relatedTo">#blockRelated#</div>
-						</div>
-						<div class="border rounded px-2 my-2 py-2">
-							<cfset summary = getGeographySummary(geog_auth_rec_id="#geog_auth_rec_id#")>
-							<div id="summary" class="h1 mb-0">#summary#</div>
-						</div>
-						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
-							<cfset formId = "editHigherGeographyForm">
-							<cfset outputDiv="saveResultsDiv">
- 			    			<form name="editHigherGeography" id="#formId#">
-								<input type="hidden" name="method" value="updateHigherGeography">
-								<cfset blockEditForm = getHigherGeographyFormHtml(mode="edit", geog_auth_rec_id = "#geog_auth_rec_id#", formId="#formId#", outputDiv="#outputDiv#", saveButtonFunction="saveEdits")>
-								#blockEditForm#
-							</form>
-							<script>
-								function reloadHigherGeographyBlocks() { 
-									updateHigherGeographySummary('#geog_auth_rec_id#','summary');	
-								}
-								function reloadMap()  {
-									loadHigherGeographyMapHTML('#geog_auth_rec_id#','mapDiv');
-								}
-								function saveEdits(){ 
-									saveEditsFromFormCallback("#formId#","/localities/component/highergeog.cfc","#outputDiv#","saving higher geography record",reloadHigherGeographyBlocks);
-								};
-							</script>
-						</div>
-						<cfif countUses.total_uses EQ "0">
-							<div class="border rounded px-2 py-2">
-								<button type="button" 
-									onClick="confirmDialog('Delete this Higher Geography?', 'Confirm Delete Higher Geography', function() { location.assign('/localities/HigherGeography.cfm?action=delete&geog_auth_rec_id=#encodeForUrl(geog_auth_rec_id)#'); } );" 
-									class="btn btn-xs btn-danger" >
-										Delete HigherGeography
-								</button>
+							<h1 class="h2 mt-3 mb-0 px-3">Edit Higher Geography 
+								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#encodeForUrl(geog_auth_rec_id)#" target="_blank">[#encodeForHtml(geog_auth_rec_id)#]</a>
+							</h1>
+							<div class="border-top border-right border-left border-bottom border-success rounded px-2 my-3 py-2" id="usesContainingDiv">
+								<cfset blockRelated = getGeographyUsesHtml(geog_auth_rec_id = "#geog_auth_rec_id#", containingDiv="usesContainingDiv")>
+								<div id="relatedTo">#blockRelated#</div>
 							</div>
-						</cfif>
-					</div>
-					<div class="col-12 col-md-3 pt-5">
-						<!--- map --->
-						<div class="border rounded p-1 w-100">
-							<cfset map = getHigherGeographyMapHtml(geog_auth_rec_id="#geog_auth_rec_id#")>
-							<div id="mapDiv">#map#</div>
+							<div class="border rounded px-2 my-2 py-2">
+								<cfset summary = getGeographySummary(geog_auth_rec_id="#geog_auth_rec_id#")>
+								<div id="summary" class="h1 mb-0">#summary#</div>
+							</div>
+							<div class="border rounded px-2 py-2" arial-labeledby="formheading">
+								<cfset formId = "editHigherGeographyForm">
+								<cfset outputDiv="saveResultsDiv">
+								<form name="editHigherGeography" id="#formId#">
+									<input type="hidden" name="method" value="updateHigherGeography">
+									<cfset blockEditForm = getHigherGeographyFormHtml(mode="edit", geog_auth_rec_id = "#geog_auth_rec_id#", formId="#formId#", outputDiv="#outputDiv#", saveButtonFunction="saveEdits")>
+									#blockEditForm#
+								</form>
+								<script>
+									function reloadHigherGeographyBlocks() { 
+										updateHigherGeographySummary('#geog_auth_rec_id#','summary');	
+									}
+									function reloadMap()  {
+										loadHigherGeographyMapHTML('#geog_auth_rec_id#','mapDiv');
+									}
+									function saveEdits(){ 
+										saveEditsFromFormCallback("#formId#","/localities/component/highergeog.cfc","#outputDiv#","saving higher geography record",reloadHigherGeographyBlocks);
+									};
+								</script>
+							</div>
+							<cfif countUses.total_uses EQ "0">
+								<div class="border rounded px-2 py-2">
+									<button type="button" 
+										onClick="confirmDialog('Delete this Higher Geography?', 'Confirm Delete Higher Geography', function() { location.assign('/localities/HigherGeography.cfm?action=delete&geog_auth_rec_id=#encodeForUrl(geog_auth_rec_id)#'); } );" 
+										class="btn btn-xs btn-danger" >
+											Delete HigherGeography
+									</button>
+								</div>
+							</cfif>
 						</div>
-					</div>
-				</section>
+					</section>
+					<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-3 col-xl-4">
+						<div class="col-12 px-0 bg-light pt-2 pb-1 mt-2 mb-2 border rounded">
+						<!--- map --->
+							<div class="border rounded p-1 w-100">
+								<cfset map = getHigherGeographyMapHtml(geog_auth_rec_id="#geog_auth_rec_id#")>
+								<div id="mapDiv">#map#</div>
+							</div>
+						</div>
+					</section>
 				</div>
 			</main>
 		</cfoutput>
@@ -138,13 +140,13 @@ limitations under the License.
 		<cfoutput>
 			<cfset extra = "">
 			<cfset blockform = getHigherGeographyFormHtml(mode="new")>
-		   <main class="container mt-3" id="content">
+			<main class="container mt-3" id="content">
 				<section class="row">
 					<div class="col-12">
-		      		<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New HigherGeography#extra#</h1>
+						<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New HigherGeography#extra#</h1>
 						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
-			     			<form name="createHigherGeography" method="post" action="/localities/HigherGeography.cfm">
-         			   	<input type="hidden" name="Action" value="makenewHigherGeography">
+							<form name="createHigherGeography" method="post" action="/localities/HigherGeography.cfm">
+								<input type="hidden" name="Action" value="makenewHigherGeography">
 								#blockform#
 							</form>
 						</div>
