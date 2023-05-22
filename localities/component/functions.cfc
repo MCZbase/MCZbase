@@ -2306,7 +2306,7 @@ TODO:
 									<input type="hidden" name="locality_id" value="#locality_id#">
 									<h2 class="px-2 h3">Enter georeference</h2>
 									<div class="form-row">
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="orig_lat_long_units" class="data-entry-label">Coordinate Format</label>
 											<select id="orig_lat_long_units" name="orig_lat_long_units" class="data-entry-select reqdClr" onChange=" changeLatLongUnits(); ">
 												<option></option>
@@ -2377,14 +2377,14 @@ TODO:
 												$(document).ready(changeLatLongUnits);
 											</script>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="accepted_lat_long_fg" class="data-entry-label">Accepted</label>
 											<select name="accepted_lat_long_fg" size="1" id="accepted_lat_long_fg" class="data-entry-select reqdClr">
 												<option value="1" selected>Yes</option>
 												<option value="0">No</option>
 											</select>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="determined_by_agent" class="data-entry-label">Determiner</label>
 											<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id">
 											<input type="text" name="determined_by_agent" id="determined_by_agent" class="data-entry-input reqdClr">
@@ -2394,7 +2394,7 @@ TODO:
 												});
 											</script>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="determined_date" class="data-entry-label">Date Determined</label>
 											<input type="text" name="determined_date" id="determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
 											<script>
@@ -2403,19 +2403,19 @@ TODO:
 												});
 											</script>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="lat_deg" class="data-entry-label">Latitude Degrees &##176;</label>
 											<input type="text" name="lat_deg" id="lat_deg" class="data-entry-input latlong">
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="lat_min" class="data-entry-label">Minutes &apos;</label>
 											<input type="text" name="lat_min" id="lat_min" class="data-entry-input latlong">
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="lat_sec" class="data-entry-label">Seconds &quot;</label>
 											<input type="text" name="lat_sec" id="lat_sec" class="data-entry-input latlong">
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="lat_dir" class="data-entry-label">Direction</label>
 											<select name="lat_dir" size="1" id="lat_dir" class="data-entry-select latlong">
 												<option value=""></option>
@@ -2423,19 +2423,19 @@ TODO:
 												<option value="S">S</option>
 											</select>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="long_deg" class="data-entry-label">Longitude Degrees &##176;</label>
 											<input type="text" name="long_deg" size="4" id="long_deg" class="data-entry-input latlong">
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="long_min" class="data-entry-label">Minutes &apos;</label>
 											<input type="text" name="long_min" size="4" id="long_min" class="data-entry-input latlong">
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="long_sec" class="data-entry-label">Seconds &quot;</label>
 											<input type="text" name="long_sec" size="4" id="long_sec" class="data-entry-input latlong">
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="long_dir" class="data-entry-label">Direction</label>
 											<select name="long_dir" size="1" id="long_dir" class="data-entry-select latlong">
 												<option value=""></option>
@@ -2443,19 +2443,19 @@ TODO:
 												<option value="W">W</option>
 											</select>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-4 mb-2">
 											<label for="utm_zone" class="data-entry-label">UTM Zone/Letter</label>
 											<input type="text" name="utm_zone" size="4" id="utm_zone" class="data-entry-input utm">
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-4 mb-2">
 											<label for="utm_ew" class="data-entry-label">Easting</label>
 											<input type="text" name="utm_ew" size="4" id="utm_ew" class="data-entry-input utm">
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-4 mb-2">
 											<label for="utm_ns" class="data-entry-label">Northing</label>
 											<input type="text" name="utm_ns" size="4" id="utm_ns" class="data-entry-input utm">
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="datum" class="data-entry-label">
 												Geodetic Datum
 												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##datum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open geodetic datum pick list</span></a>
@@ -2467,11 +2467,11 @@ TODO:
 												});
 											</script> 
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-2 mb-2">
 											<label for="max_error_distance" class="data-entry-label">Error Radius</label>
 											<input type="text" name="max_error_distance" id="max_error_distance" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="col-12 col-md-1">
+										<div class="col-12 col-md-1 mb-2">
 											<label for="max_error_units" class="data-entry-label">
 												Units
 												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##max_error_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list for error radius units</span></a>
@@ -2483,15 +2483,15 @@ TODO:
 												});
 											</script> 
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="spatialfit" class="data-entry-label">Point Radius Spatial Fit</label>
 											<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="extent" class="data-entry-label">Radial of Feature [Extent] (km)</label>
 											<input type="text" name="extent" id="extent" class="data-entry-input" value="" pattern="^[0-9.]*$" >
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="coordinate_precision" class="data-entry-label">Precision</label>
 											<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
 												<option value=""></option>
@@ -2504,26 +2504,26 @@ TODO:
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="gpsaccuracy" class="data-entry-label">GPS Accuracy</label>
 											<input type="text" name="gpsaccuracy" id="gpsaccuracy" class="data-entry-input" value="">
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="nearest_named_place" class="data-entry-label">Nearest Named Place</label>
 											<input type="text" name="nearest_named_place" id="nearest_named_place" class="data-entry-input" value="">
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="lat_long_for_nnp_fg" class="data-entry-label">Georeference is of Nearest Named Place</label>
 											<select name="lat_long_for_nnp_fg" id="lat_long_for_nnp_fg" class="data-entry-select reqdClr" required>
 												<option value="0" selected>No</option>
 												<option value="1">Yes</option>
 											</select>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="lat_long_ref_source" class="data-entry-label">Reference</label>
 											<input type="text" name="lat_long_ref_source" id="lat_long_ref_source" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="georefmethod" class="data-entry-label">
 												Method
 												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##georefmethod').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open georeference method pick list</span></a>
@@ -2535,7 +2535,7 @@ TODO:
 												});
 											</script> 
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="verificationstatus" class="data-entry-label">Verification Status</label>
 											<select name="verificationstatus" size="1" id="verificationstatus" class="data-entry-select reqdClr" onChange="changeVerificationStatus();">
 												<cfloop query="ctVerificationStatus">
@@ -2559,7 +2559,7 @@ TODO:
 												};
 											</script>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="verified_by_agent" class="data-entry-label" id="verified_by_agent_label">Verified by</label>
 											<input type="hidden" name="verified_by_agent_id" id="verified_by_agent_id">
 											<input type="text" name="verified_by_agent" id="verified_by_agent" class="data-entry-input reqdClr">
@@ -2571,7 +2571,7 @@ TODO:
 												});
 											</script>
 										</div>
-										<div class="col-12">
+										<div class="col-12 mb-2">
 											<label class="data-entry-label" for="lat_long_remarks">Georeference Remarks (<span id="length_lat_long_remarks">0 of 4000 characters</span>)</label>
 											<textarea name="lat_long_remarks" id="lat_long_remarks" 
 												onkeyup="countCharsLeft('lat_long_remarks', 4000, 'length_lat_long_remarks');"
@@ -2584,15 +2584,15 @@ TODO:
 												});
 											</script>
 										</div>
-										<div class="col-10">
+										<div class="col-10 mb-2">
 											<label for="error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon (WKT)</label>
 											<input type="text" name="error_polygon" id="error_polygon" class="data-entry-input">
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-2 mb-2">
 											<label for="footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
 											<input type="text" name="footprint_spatialfit" id="footprint_spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="wktFile" class="data-entry-label">Load Footprint Polygon from WKT file</label>
 											<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100 p-0">
 											<script>
@@ -2611,10 +2611,10 @@ TODO:
 												}
 											</script>
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-2 mb-2">
 											<output id="wktReplaceFeedback"></output>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 mb-2">
 											<label for="copyFootprintFrom" class="data-entry-label" >Copy Polygon from locality_id</label>
 											<input type="hidden" name="copyFootprintFrom_id" id="copyFootprintFrom_id" value="">
 											<input type="text" name="copyFootprintFrom" id="copyFootprintFrom" value="" class="data-entry-input">
@@ -2656,33 +2656,33 @@ TODO:
 												}
 											</script>
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-2 mb-2">
 											<label class="data-entry-label">&nbsp;</label>
 											<input type="button" value="Copy" class="btn btn-xs btn-secondary" onClick=" confirmCopyWKTFromLocality(); ">
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-2 mb-2">
 											<output id="wktLocReplaceFeedback"></output>
 										</div>
-										<div class="geolocateMetadata col-12">
+										<div class="geolocateMetadata col-12 mb-2">
 											<h3 class="h4">Batch GeoLocate Georeference Metadata</h3>
 										</div>
-										<div class="geolocateMetadata col-12">
+										<div class="geolocateMetadata col-12 mb-2">
 											<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">GeoLocate Uncertainty Polygon</label>
 											<input type="text" name="geolocate_uncertaintypolygon" id="geolocate_uncertaintypolygon" class="data-entry-input bg-lt-gray" readonly>
 										</div>
-										<div class="geolocateMetadata col-12 col-md-3">
+										<div class="geolocateMetadata col-12 col-md-3 mb-2">
 											<label for="geolocate_score" class="data-entry-label" id="geolocate_score_label">GeoLocate Score</label>
 											<input type="text" name="geolocate_score" id="geolocate_score" class="data-entry-input bg-lt-gray" readonly>
 										</div>
-										<div class="geolocateMetadata col-12 col-md-3">
+										<div class="geolocateMetadata col-12 col-md-3 mb-2">
 											<label for="geolocate_precision" class="data-entry-label" id="geolocate_precision_label">GeoLocate Precision</label>
 											<input type="text" name="geolocate_precision" id="geolocate_precision" class="data-entry-input bg-lt-gray" readonly>
 										</div>
-										<div class="geolocateMetadata col-12 col-md-3">
+										<div class="geolocateMetadata col-12 col-md-3 mb-2">
 											<label for="geolocate_numresults" class="data-entry-label" id="geolocate_numresults_label">Number of Matches</label>
 											<input type="text" name="geolocate_numresults" id="geolocate_numresults" class="data-entry-input bg-lt-gray" readonly>
 										</div>
-										<div class="geolocateMetadata col-12 col-md-3">
+										<div class="geolocateMetadata col-12 col-md-3 mb-2">
 											<label for="geolocate_parsepattern" class="data-entry-label" id="geolocate_parsepattern_label">Parse Pattern</label>
 											<input type="text" name="geolocate_parsepattern" id="geolocate_parsepattern" class="data-entry-input bg-lt-gray" readonly>
 										</div>
