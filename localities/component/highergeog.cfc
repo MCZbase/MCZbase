@@ -534,7 +534,7 @@ Functions supporting editing higher geographies.
 						<cfelse>
 							<cfset link = hgeogid>
 						</cfif>
-						<a id="highergeographyid_link" href="#link#" target="_blank" class="border rounded pl-2 mt3px pr-5 pb-1 hints small95">#hgeogid#</a>
+						<a id="highergeographyid_link" href="#link#" target="_blank" class="pl-2 mt3px pr-5 pb-1 hints small95">#hgeogid#</a>
 						<script>
 							$(document).ready(function () {
 								if ($('##highergeographyid').val().length > 0) {
