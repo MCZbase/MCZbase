@@ -2755,7 +2755,7 @@ TODO:
 											<label for="gl_spec_locality" class="data-entry-label">Specific Locality</label>
 											<input type="text" name="gl_spec_locality" id="gl_spec_locality" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.spec_locality)#" disabled readonly>
 										</div>
-										<div class="col-12 px-1 mb-2 preGeoLocate float-left">
+										<div class="col-12 px-1 my-2 preGeoLocate float-left">
 											<div class="h4">Some fields will need to be entered manually here after obtaining the georeference from GeoLocate.</div>
 										</div>
 										<div class="col-12 mb-2 postGeolocate float-left">
