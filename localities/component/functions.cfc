@@ -2736,32 +2736,32 @@ TODO:
 									<input type="hidden" name="field_mapping" value="specific"> 
 									<input type="hidden" name="locality_id" value="#locality_id#">
 									<h2 class="px-1 h3">Use GeoLocate: <input type="button" value="GeoLocate" class="btn btn-xs btn-secondary" onClick=" geolocate('#Application.protocol#'); "></h2>
-										<div class="col-12">
-										<div class="h4">Values to send to GeoLocate to obtain a georeference:</div>
+										<div class="col-12 px-0 mb-2">
+											<div class="h4">Values to send to GeoLocate to obtain a georeference:</div>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 px-0 mb-2">
 											<label for="country" class="data-entry-label">Country</label>
 											<input type="text" name="country" id="country" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.country)#" disabled readonly >
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 px-0 mb-2">
 											<label for="state_prov" class="data-entry-label">State/Province</label>
 											<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.state_prov)#" disabled readonly >
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 px-0 mb-2">
 											<label for="county" class="data-entry-label">County</label>
 											<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.county)#" disabled readonly >
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 px-0 mb-2">
 											<label for="gl_spec_locality" class="data-entry-label">Specific Locality</label>
 											<input type="text" name="gl_spec_locality" id="gl_spec_locality" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.spec_locality)#" disabled readonly>
 										</div>
-										<div class="col-12 preGeoLocate">
-					         		   <div class="h4">Some fields will need to be entered manually here after obtaining the georeference from GeoLocate.</div>
+										<div class="col-12 mb-2 px-0 preGeoLocate">
+											<div class="h4">Some fields will need to be entered manually here after obtaining the georeference from GeoLocate.</div>
 										</div>
-										<div class="col-12 postGeolocate">
-					         		   <div class="h4">Results from GeoLocate, edit metadata as needed and save.</div>
+										<div class="col-12 mb-2 px-0 postGeolocate">
+											<div class="h4">Results from GeoLocate, edit metadata as needed and save.</div>
 										</div>
-										<div class="postGeolocate col-12 col-md-2">
+										<div class="postGeolocate col-12 col-md-2 mb-2 px-0">
 											<input type="hidden" name="ORIG_LAT_LONG_UNITS" value="decimal degrees">
 											<label for="gl_orig_units" class="data-entry-label">Coordinate Format</label>
 											<input type="text" name="orig_units" id="gl_orig_units" class="data-entry-input" value="decimal degrees" disabled readonly>
