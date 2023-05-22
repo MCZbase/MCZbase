@@ -1351,7 +1351,7 @@ Delete an existing collecting event number record.
 					<input type="hidden" name="locality_id" value="#locality_id#">
 					<h2 class="h3">Add a geological attribute for locality #encodeForHtml(getLabel.locality_label)#</h2>
 					<div class="form-row">
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 mb-2">
 							<label for="attribute_type" class="data-entry-label">Type</label>
 							<select id="attribute_type" name="attribute_type" class="data-entry-select reqdClr" onChange=" changeGeoAttType(); ">
 								<cfset selected="selected">
@@ -1361,37 +1361,37 @@ Delete an existing collecting event number record.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 mb-2">
 							<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
 							<input type="text" id="geo_att_value" name="geo_att_value" class="data-entry-input" onFocusOut=" addParentsChange(); ">
 							<input type="hidden" id="geology_attribute" name="geology_attribute">
 							<input type="hidden" id="geology_attribute_hierarchy_id" name="geology_attribute_hierarchy_id">
 						</div>
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-2 mb-2">
 							<label for="add_parents" class="data-entry-label">Add Parents</label>
 							<select id="add_parents" name="add_parents" class="data-entry-select" onChange=" addParentsChange(); ">
 								<option value="no" selected>No</option>
 								<option value="yes">Yes</option>
 							</select>
 						</div>
-						<div class="col-12 col-md-4" id="parentsDiv">
+						<div class="col-12 col-md-4 mb-2" id="parentsDiv">
 							<!--- Area to show parents of selected attribute value --->
 						</div>
-						<div class="col-12 col-md-4">
+						<div class="col-12 col-md-4 mb-2">
 							<label for="determiner" class="data-entry-label">Determiner</label>
 							<input type="text" id="determiner" name="determiner" class="data-entry-input">
 							<input type="hidden" id="geo_att_determiner_id" name="geo_att_determiner_id">
 						</div>
-						<div class="col-12 col-md-4">
+						<div class="col-12 col-md-4 mb-2">
 							<label for="geo_att_determined_date" class="data-entry-label">Date Determined</label>
 							<input type="text" name="geo_att_determined_date" id="geo_att_determined_date"
 								value="#dateformat(now(),"yyyy-mm-dd")#" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-4">
+						<div class="col-12 col-md-4 mb-2">
 							<label for="geo_att_determined_method" class="data-entry-label">Determination Method</label>
 							<input type="text" id="geo_att_determined_method" name="geo_att_determined_method" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-12">
+						<div class="col-12 col-md-12 mb-2">
 							<label for="geo_att_remark" class="data-entry-label">Remarks (<span id="length_geo_att_remark">0 characters, 4000 left</span>)</label>
 							<textarea name="geo_att_remark" id="geo_att_remark" 
 								onkeyup="countCharsLeft('geo_att_remark', 4000, 'length_geo_att_remark');"
@@ -1403,11 +1403,11 @@ Delete an existing collecting event number record.
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 mb-2">
 							<label class="data-entry-label">&nbsp;</label>
 							<button type="button" class="btn btn-xs btn-primary" onClick=" saveGeoAtt(); " >Add</button>
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 mb-2">
 							<output id="geoAttFeedback"></output>
 						</div>
 					</div>
