@@ -516,7 +516,7 @@ Delete an existing collecting event number record.
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
 			<cfif lookupLocality.recordcount NEQ 1>
-				<cfthrow message="Found other than one locality with specified locality_id [#encodeForHtml(locality_id)#]">
+				<cfthrow message="Found other than one locality with specified locality_id [#encodeForHtml(locality_id)#].  Locality may be used only by a department for which you do not have access.">
 			</cfif>
 			<cfloop query="lookupLocality">
 				<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
@@ -2061,7 +2061,7 @@ TODO:
 						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 				</cfquery>
 				<cfif getLocalityMetadata.recordcount NEQ 1>
-					<cfthrow message="Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#]">
+					<cfthrow message="Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#].  Locality may be used only by a department for which you do not have access.">
 				</cfif>
 				<cfset localityLabel = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
 				<cfset localityLabel = replace(localityLabel,'"',"&quot;","all")>
