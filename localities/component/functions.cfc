@@ -2575,7 +2575,7 @@ TODO:
 											<label class="data-entry-label" for="lat_long_remarks">Georeference Remarks (<span id="length_lat_long_remarks">0 of 4000 characters</span>)</label>
 											<textarea name="lat_long_remarks" id="lat_long_remarks" 
 												onkeyup="countCharsLeft('lat_long_remarks', 4000, 'length_lat_long_remarks');"
-												class="form-control form-control-sm w-100 autogrow mb-1" rows="2"></textarea>
+												class="form-control form-control-sm w-100 autogrow mb-1" rows="2" style="min-height: 100px;"></textarea>
 											<script>
 												// Bind input to autogrow function on key up, and trigger autogrow to fit text
 												$(document).ready(function() { 
