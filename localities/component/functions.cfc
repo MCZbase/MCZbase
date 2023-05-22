@@ -2042,9 +2042,6 @@ TODO:
 
 1.5. I don't seem to have the ability to delete georeferences that other people created? Not sure if that's intentional, but it does seem like something one might need to do from time to time.
 
-3. I tried to add a Geolocate georeference to a locality that already had one, and got the message Error processing addGeoreference: Error Executing Database Query. [Macromedia][Oracle JDBC Driver][Oracle]ORA-01031: insufficient privileges [Macromedia][Oracle JDBC Driver][Oracle]ORA-01031: insufficient privileges See //localities/component/functions.cfc line 3336.
-[User can't run ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA DISABLE, need to use different data sourc for that query]
-
 4. I tried to edit an existing Geolocate georeference, and can mark it accepted or not accepted but can't seem to make other changes, including marking it verified or rejected.
 
 --->
@@ -4383,6 +4380,39 @@ TODO:
 	<cfelse>
 		<cfthrow message="Unknown value for field_mapping [#encodeForHtml(field_mapping)#] must be 'generic' or 'specific' ">
 	</cfif>
+	
+	<!--- as trigger needs to be disabled, and user_login probably does not have rights to do so, queries are run under a more priviliged user,
+         but within a transaction, so all queries in the transaction need to use the same data source, so check if user has rights to update lat_long 
+         table before performing actual update.  
+	--->
+	<cftransaction>
+		<cftry>
+			<cfquery name="confirmRead" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="confirmRead_result">
+				SELECT 
+					accepted_lat_long_fg 
+				FROM lat_long 
+				WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
+			<cfquery name="confirmUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="confirmUpdate_result">
+				UPDATE lat_long 
+				SET 
+					accepted_lat_long_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmRead.accepted_lat_long_fg#">
+				WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
+			<cfif confirmUpdate_result.recordcount NEQ 1>
+				<cfthrow message="Unable to update lat_long table, privilige check failed.">
+			</cfif>
+			<cftransaction action="rollback">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+	</cftransaction>
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
@@ -4390,7 +4420,7 @@ TODO:
 		<cftry>
 			<!--- TR_LATLONG_ACCEPTED_BIUPA checks for only one accepted georeference, uses pragma autonomous_transaction, so 
 					updating a lat lont to accepted when one already exists has to occur in more than one transaction or with the trigger disabled --->
-			<cfquery name="countAcceptedPre" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countAcceptedPre_result">
+			<cfquery name="countAcceptedPre" datasource="uam_god" result="countAcceptedPre_result">
 				SELECT count(*) ct
 				FROM lat_long
 				WHERE
@@ -4399,19 +4429,19 @@ TODO:
 					accepted_lat_long_fg = 1
 			</cfquery>
 			<cfif accepted_lat_long_fg EQ "1" and countAcceptedPre.ct GT 0>
-				<cfquery name="turnOff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="turnOff" datasource="uam_god">
 					ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA DISABLE
 				</cfquery>
 				<cfset triggerState = "off">
 				<!--- tr_latlong_accepted_biupa doesn't distinguish between current record and other records, it prevents an update when an accepted georeference exists --->
-				<cfquery name="unacceptOthers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="unacceptOthers_result">
+				<cfquery name="unacceptOthers" datasource="uam_god" result="unacceptOthers_result">
 					UPDATE lat_long 
 					SET accepted_lat_long_fg = 0 
 					WHERE
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 				</cfquery>
 			</cfif>
-			<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateLatLong_result">
+			<cfquery name="updateLatLong" datasource="uam_god" result="updateLatLong_result">
 				UPDATE
 					lat_long 
 				SET 
@@ -4534,7 +4564,7 @@ TODO:
 				<cfthrow message="Unable to update, other than one row would be affected.">
 			</cfif>
 			<cfif isDefined("error_polygon") AND len(#error_polygon#) gt 0>
-				<cfquery name="addErrorPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addErrorPolygon_result">
+				<cfquery name="addErrorPolygon" datasource="uam_god" result="addErrorPolygon_result">
 					UPDATE 
 						lat_long 
 					SET
@@ -4546,7 +4576,7 @@ TODO:
 					<cfthrow message="Unable to insert, other than one row would be changed when updating error polygon.">
 				</cfif>
 			</cfif>
-			<cfquery name="countAccepted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countAccepted_result">
+			<cfquery name="countAccepted" datasource="uam_god" result="countAccepted_result">
 				SELECT count(*) ct
 				FROM lat_long
 				WHERE
@@ -4558,7 +4588,7 @@ TODO:
 				<!--- warning state, but not a failure case --->
 				<cfset message = "This locality has no accepted georeferences.">
 			</cfif>
-			<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="summary_result">
+			<cfquery name="summary" datasource="uam_god" result="summary_result">
 				SELECT 
 					nvl2(coordinate_precision, round(dec_lat,coordinate_precision), round(dec_lat,5)) dec_lat,
 					nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_long,5)) dec_long,
