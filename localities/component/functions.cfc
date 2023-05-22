@@ -4137,7 +4137,7 @@ TODO:
 								<div class="col-12 col-md-3 mb-2">
 									<label for="copyFootprintFrom" class="data-entry-label" >Copy Polygon from locality_id</label>
 									<input type="hidden" name="copyFootprintFrom_id" id="copyFootprintFrom_id" value="">
-									<input type="text" name="copyFootprintFrom" id="copyFootprintFrom" value="" class="data-entry-input border-info">
+									<input type="text" name="copyFootprintFrom" id="copyFootprintFrom" value="" class="data-entry-input">
 									<script> 
 										$(document).ready(function() { 
 											makeLocalityAutocompleteMeta("copyFootprintFrom", "copyFootprintFrom_id","has_footprint");
