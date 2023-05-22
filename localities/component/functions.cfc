@@ -2735,7 +2735,7 @@ TODO:
 									<input type="hidden" name="method" value="addGeoreference">
 									<input type="hidden" name="field_mapping" value="specific"> 
 									<input type="hidden" name="locality_id" value="#locality_id#">
-									<h2 class="px-1 h3">Use GeoLocate: <input type="button" value="GeoLocate" class="btn btn-xs btn-warning" onClick=" geolocate('#Application.protocol#'); "></h2>
+									<h2 class="px-1 h3">Use GeoLocate: <input type="button" value="GeoLocate" class="btn btn-xs btn-warning" style="opacity: .5;" onClick=" geolocate('#Application.protocol#'); "></h2>
 										<div class="col-12 px-1 mb-2">
 											<div class="h4">Values to send to GeoLocate to obtain a georeference:</div>
 										</div>
