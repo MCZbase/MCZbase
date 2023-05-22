@@ -3018,10 +3018,10 @@ TODO:
 									</form>
 								</div>
 							<div id="clonePanel" role="tabpanel" aria-labelledby="cloneTabButton" tabindex="-1" class="col-12 px-0 mx-0 unfocus" hidden>
-								<h2 class="px-2 h3">Clone accepted georeference from another Locality</h2>
+								<h2 class="px-1 h3">Clone accepted georeference from another Locality</h2>
 								<p>Type text from the specific locality or enter a locality_id and select from the pick list. The accepted georeference for the selected locality will be pasted into the edit form to allow you to add it to this locality.  Use this only in exceptional cases such as multiple localities at different depths at the same location.  </p>
-								<div class="form-row">
-									<div class="col-12">
+								<div class="form-row mx-0">
+									<div class="col-12 px-1">
 										<label for="locality_text" class="data-entry-label">Locality</label>
 										<input type="hidden" name="selected_locality_id" id="selected_locality_id">
 										<input type="text" name="selected_locality_text" id="selected_locality_text" class="data-entry-input">
@@ -3031,7 +3031,7 @@ TODO:
 											});
 										</script>
 									</div>
-									<div class="col-12">
+									<div class="col-12 px-1">
 										<output id="cloneFeedback"></output>
 									</div>
 								</div>
