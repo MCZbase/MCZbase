@@ -2736,8 +2736,8 @@ TODO:
 									<input type="hidden" name="field_mapping" value="specific"> 
 									<input type="hidden" name="locality_id" value="#locality_id#">
 									<h2 class="px-1 h3">Use GeoLocate: <input type="button" value="GeoLocate" class="btn btn-xs btn-secondary" onClick=" geolocate('#Application.protocol#'); "></h2>
-										<div class="col-12 mb-2">
-											<div class="h4 px-1">Values to send to GeoLocate to obtain a georeference:</div>
+										<div class="col-12 px-1 mb-2">
+											<div class="h4">Values to send to GeoLocate to obtain a georeference:</div>
 										</div>
 										<div class="col-12 col-md-3 mb-2 px-1 float-left">
 											<label for="country" class="data-entry-label">Country</label>
@@ -2755,8 +2755,8 @@ TODO:
 											<label for="gl_spec_locality" class="data-entry-label">Specific Locality</label>
 											<input type="text" name="gl_spec_locality" id="gl_spec_locality" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.spec_locality)#" disabled readonly>
 										</div>
-										<div class="col-12 mb-2 preGeoLocate float-left">
-											<div class="h4 px-1">Some fields will need to be entered manually here after obtaining the georeference from GeoLocate.</div>
+										<div class="col-12 px-1 mb-2 preGeoLocate float-left">
+											<div class="h4">Some fields will need to be entered manually here after obtaining the georeference from GeoLocate.</div>
 										</div>
 										<div class="col-12 mb-2 postGeolocate float-left">
 											<div class="h4">Results from GeoLocate, edit metadata as needed and save.</div>
