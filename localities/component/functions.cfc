@@ -2663,8 +2663,8 @@ TODO:
 										<div class="col-12 col-md-2 mb-2">
 											<output id="wktLocReplaceFeedback"></output>
 										</div>
-										<div class="geolocateMetadata col-12 mt-4">
-											<h3 class="h4">Batch GeoLocate Georeference Metadata</h3>
+										<div class="geolocateMetadata col-12">
+											<h3 class="h4 mt-4">Batch GeoLocate Georeference Metadata</h3>
 										</div>
 										<div class="geolocateMetadata col-12 mb-2">
 											<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">GeoLocate Uncertainty Polygon</label>
