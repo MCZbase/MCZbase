@@ -32,7 +32,7 @@ limitations under the License.
 
 	<cfset retval = "">
 	<cfif isdefined("session.username") and len(#session.username#) gt 0>
-	   <cfthread name="saveLocSrchThread" >
+		<cfthread name="saveLocSrchThread" >
 			<cfoutput>
 			<cftransaction>
 			<cftry>

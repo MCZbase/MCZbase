@@ -210,7 +210,7 @@ limitations under the License.
 					});
 				</script>
 				<div class="mb-2 w-100" style="height: 600px;">
-					<div id="mapdiv_#geog_auth_rec_id#" style="width:100%; height:100%;"></div>
+					<div id="mapdiv_#geog_auth_rec_id#" style="height:100%;"></div>
 				</div>
 				<ul>
 					<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
