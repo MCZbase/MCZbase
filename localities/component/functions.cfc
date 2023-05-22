@@ -2736,29 +2736,29 @@ TODO:
 									<input type="hidden" name="field_mapping" value="specific"> 
 									<input type="hidden" name="locality_id" value="#locality_id#">
 									<h2 class="px-1 h3">Use GeoLocate: <input type="button" value="GeoLocate" class="btn btn-xs btn-secondary" onClick=" geolocate('#Application.protocol#'); "></h2>
-										<div class="col-12 px-0 mb-2">
+										<div class="col-12 mb-2">
 											<div class="h4">Values to send to GeoLocate to obtain a georeference:</div>
 										</div>
-										<div class="col-12 col-md-3 px-0 mb-2 float-left">
+										<div class="col-12 col-md-2 mb-2 float-left">
 											<label for="country" class="data-entry-label">Country</label>
 											<input type="text" name="country" id="country" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.country)#" disabled readonly >
 										</div>
-										<div class="col-12 col-md-3 px-0 mb-2 float-left">
+										<div class="col-12 col-md-2 mb-2 float-left">
 											<label for="state_prov" class="data-entry-label">State/Province</label>
 											<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.state_prov)#" disabled readonly >
 										</div>
-										<div class="col-12 col-md-3 px-0 mb-2 float-left">
+										<div class="col-12 col-md-2 mb-2 float-left">
 											<label for="county" class="data-entry-label">County</label>
 											<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.county)#" disabled readonly >
 										</div>
-										<div class="col-12 col-md-3 px-0 mb-2 float-left">
+										<div class="col-12 col-md-4 mb-2 float-left">
 											<label for="gl_spec_locality" class="data-entry-label">Specific Locality</label>
 											<input type="text" name="gl_spec_locality" id="gl_spec_locality" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.spec_locality)#" disabled readonly>
 										</div>
-										<div class="col-12 mb-2 px-0 preGeoLocate float-left">
+										<div class="col-12 mb-2 preGeoLocate float-left">
 											<div class="h4">Some fields will need to be entered manually here after obtaining the georeference from GeoLocate.</div>
 										</div>
-										<div class="col-12 mb-2 px-0 postGeolocate float-left">
+										<div class="col-12 mb-2 postGeolocate float-left">
 											<div class="h4">Results from GeoLocate, edit metadata as needed and save.</div>
 										</div>
 										<div class="postGeolocate col-12 col-md-2 mb-2 px-0 float-left">
