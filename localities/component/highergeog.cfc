@@ -48,7 +48,7 @@ Functions supporting editing higher geographies.
 							$('###containingDiv#').addClass('text-light');
 						});
 					</script>
-					<h2 class="h3">This higher geography record is in use.  Altering this record will update: </h2>
+					<h2 class="h3 px-4">This higher geography record is in use.  Altering this record will update: </h2>
 					<cfquery name="ceCount" datasource="uam_god">
 						SELECT
 							count(collecting_event_id) ct
@@ -68,11 +68,11 @@ Functions supporting editing higher geographies.
 						WHERE
 							geog_auth_rec_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 					</cfquery>
-					<h3 class="h4">#countUses.ct# Localities</h3>
-					<h3 class="h4">#ceCount.ct# Collecting Events</h3>
-					<h3 class="h4">#specCount.ct# Cataloged Items</h3>
+					<h3 class="h4 px-5">#countUses.ct# Localities</h3>
+					<h3 class="h4 px-5">#ceCount.ct# Collecting Events</h3>
+					<h3 class="h4 px-5">#specCount.ct# Cataloged Items</h3>
 					<cfquery name="localityUses" datasource="uam_god">
-				  		SELECT
+						SELECT
 							count(cataloged_item.cat_num) numOfSpecs,
 							count(distinct collecting_event.collecting_event_id) numOfCollEvents,
 							count(distinct locality.locality_id) numOfLocalities,
@@ -90,7 +90,7 @@ Functions supporting editing higher geographies.
 							collection.collection,
 							collection.collection_cde,
 							collection.collection_id
-				  	</cfquery>
+					</cfquery>
 					<ul>
 						<cfloop query="localityUses">
 							<li>#collection#: #numOfSpecs# specimens in #numOfCollEvents# collecting events in #numOfLocalities# localities</li>			
