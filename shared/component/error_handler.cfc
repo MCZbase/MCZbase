@@ -32,7 +32,7 @@ limitations under the License.
 				<div class="alert alert-danger" role="alert">
 					<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
 					<h2>Internal Server Error.</h2>
-					<p>#message#</p>
+					<p class='text-danger'>#message#</p>
 					<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 				</div>
 			</div>
