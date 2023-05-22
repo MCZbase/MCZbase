@@ -2035,17 +2035,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="callback_name" type="string" required="yes">
 
-
-<!--- 
-
-TODO: 
-
-1.5. I don't seem to have the ability to delete georeferences that other people created? Not sure if that's intentional, but it does seem like something one might need to do from time to time.
-
-4. I tried to edit an existing Geolocate georeference, and can mark it accepted or not accepted but can't seem to make other changes, including marking it verified or rejected.
-
---->
-
 	<cfset variables.callback_name = arguments.callback_name>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityGeoRefFormThread#tn#">
