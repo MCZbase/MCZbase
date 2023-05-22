@@ -4381,44 +4381,18 @@ TODO:
 		<cfthrow message="Unknown value for field_mapping [#encodeForHtml(field_mapping)#] must be 'generic' or 'specific' ">
 	</cfif>
 	
-	<!--- as trigger needs to be disabled, and user_login probably does not have rights to do so, queries are run under a more priviliged user,
-         but within a transaction, so all queries in the transaction need to use the same data source, so check if user has rights to update lat_long 
-         table before performing actual update.  
-	--->
-	<cftransaction>
-		<cftry>
-			<cfquery name="confirmRead" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="confirmRead_result">
-				SELECT 
-					accepted_lat_long_fg 
-				FROM lat_long 
-				WHERE
-					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-			</cfquery>
-			<cfquery name="confirmUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="confirmUpdate_result">
-				UPDATE lat_long 
-				SET 
-					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-				WHERE
-					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-			</cfquery>
-			<cfif confirmUpdate_result.recordcount NEQ 1>
-				<cfthrow message="Unable to update lat_long table, privilige check failed.">
-			</cfif>
-			<cftransaction action="rollback">
-		<cfcatch>
-			<cftransaction action="rollback">
-			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-			<cfabort>
-		</cfcatch>
-		</cftry>
-	</cftransaction>
-
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cfset triggerState = "on">
 		<cftry>
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
+				<!--- as trigger needs to be disabled, and user_login probably does not have rights to do so, queries are run under a more priviliged user,
+        			but within a transaction, so all queries in the transaction need to use the same data source, so check if user has rights to update lat_long 
+        			table before performing actual update.  
+				--->
+			<cfelse>
+				<cfthrow message="Unable to update lat_long table, current user does not have adequate rights.">
+			</cfif>
 			<!--- TR_LATLONG_ACCEPTED_BIUPA checks for only one accepted georeference, uses pragma autonomous_transaction, so 
 					updating a lat lont to accepted when one already exists has to occur in more than one transaction or with the trigger disabled --->
 			<cfquery name="countAcceptedPre" datasource="uam_god" result="countAcceptedPre_result">
