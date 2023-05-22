@@ -2304,7 +2304,7 @@ TODO:
 									<input type="hidden" name="method" value="addGeoreference">
 									<input type="hidden" name="field_mapping" value="generic"> 
 									<input type="hidden" name="locality_id" value="#locality_id#">
-									<h2 class="px-2 h3">Enter georeference</h2>
+									<h2 class="px-1 h3">Enter georeference</h2>
 									<div class="form-row">
 										<div class="col-12 col-md-3 mb-2">
 											<label for="orig_lat_long_units" class="data-entry-label">Coordinate Format</label>
@@ -2735,13 +2735,9 @@ TODO:
 									<input type="hidden" name="method" value="addGeoreference">
 									<input type="hidden" name="field_mapping" value="specific"> 
 									<input type="hidden" name="locality_id" value="#locality_id#">
-									<h2 class="px-2 h3">Use GeoLocate</h2>
-									<div class="form-row">
+									<h2 class="px-1 h3">Use GeoLocate: <input type="button" value="GeoLocate" class="btn btn-xs btn-secondary" onClick=" geolocate('#Application.protocol#'); "></h2>
 										<div class="col-12">
-											<input type="button" value="GeoLocate" class="btn btn-xs btn-secondary" onClick=" geolocate('#Application.protocol#'); ">
-										</div>
-										<div class="col-12">
-					         		   <div class="h4">Values to send to GeoLocate to obtain a georeference:</div>
+										<div class="h4">Values to send to GeoLocate to obtain a georeference:</div>
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="country" class="data-entry-label">Country</label>
