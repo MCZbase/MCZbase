@@ -287,7 +287,7 @@ function openAddGeologyDialog(locality_id, dialogid, callback) {
 		height: h,
 		width: w,
 		minWidth: 600,
-		minHeight: 500,
+		minHeight: 300,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() { 
