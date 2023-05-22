@@ -2739,42 +2739,42 @@ TODO:
 										<div class="col-12 px-0 mb-2">
 											<div class="h4">Values to send to GeoLocate to obtain a georeference:</div>
 										</div>
-										<div class="col-12 col-md-3 px-0 mb-2">
+										<div class="col-12 col-md-3 px-0 mb-2 float-left">
 											<label for="country" class="data-entry-label">Country</label>
 											<input type="text" name="country" id="country" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.country)#" disabled readonly >
 										</div>
-										<div class="col-12 col-md-3 px-0 mb-2">
+										<div class="col-12 col-md-3 px-0 mb-2 float-left">
 											<label for="state_prov" class="data-entry-label">State/Province</label>
 											<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.state_prov)#" disabled readonly >
 										</div>
-										<div class="col-12 col-md-3 px-0 mb-2">
+										<div class="col-12 col-md-3 px-0 mb-2 float-left">
 											<label for="county" class="data-entry-label">County</label>
 											<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.county)#" disabled readonly >
 										</div>
-										<div class="col-12 col-md-3 px-0 mb-2">
+										<div class="col-12 col-md-3 px-0 mb-2 float-left">
 											<label for="gl_spec_locality" class="data-entry-label">Specific Locality</label>
 											<input type="text" name="gl_spec_locality" id="gl_spec_locality" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.spec_locality)#" disabled readonly>
 										</div>
-										<div class="col-12 mb-2 px-0 preGeoLocate">
+										<div class="col-12 mb-2 px-0 preGeoLocate float-left">
 											<div class="h4">Some fields will need to be entered manually here after obtaining the georeference from GeoLocate.</div>
 										</div>
-										<div class="col-12 mb-2 px-0 postGeolocate">
+										<div class="col-12 mb-2 px-0 postGeolocate float-left">
 											<div class="h4">Results from GeoLocate, edit metadata as needed and save.</div>
 										</div>
-										<div class="postGeolocate col-12 col-md-2 mb-2 px-0">
+										<div class="postGeolocate col-12 col-md-2 mb-2 px-0 float-left">
 											<input type="hidden" name="ORIG_LAT_LONG_UNITS" value="decimal degrees">
 											<label for="gl_orig_units" class="data-entry-label">Coordinate Format</label>
 											<input type="text" name="orig_units" id="gl_orig_units" class="data-entry-input" value="decimal degrees" disabled readonly>
 										</div>
-										<div class="postGeolocate col-12 col-md-2">
+										<div class="postGeolocate col-12 col-md-2 px-0 float-left mb-2">
 											<label for="gl_dec_lat" class="data-entry-label">Latitude</label>
 											<input type="text" name="dec_lat" id="gl_dec_lat" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="postGeolocate col-12 col-md-2">
+										<div class="postGeolocate col-12 col-md-2 px-0 float-left mb-2">
 											<label for="gl_dec_long" class="data-entry-label">Longitude</label>
 											<input type="text" name="dec_long" id="gl_dec_long" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="postGeolocate col-12 col-md-2">
+										<div class="postGeolocate col-12 col-md-2 px-0 float-left mb-2">
 											<label for="gl_datum" class="data-entry-label">Geodetic Datum</label>
 											<input type="text" name="datum" id="gl_datum" class="data-entry-input reqdClr" value="" required>
 											<script>
@@ -2783,11 +2783,11 @@ TODO:
 												});
 											</script> 
 										</div>
-										<div class="postGeolocate col-12 col-md-2">
+										<div class="postGeolocate col-12 col-md-2 float-left px-0 mb-2">
 											<label for="gl_max_error_distance" class="data-entry-label">Error Radius</label>
 											<input type="text" name="max_error_distance" id="gl_max_error_distance" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="postGeolocate col-12 col-md-1">
+										<div class="postGeolocate col-12 col-md-1 float-left px-0 mb-2">
 											<label for="gl_max_error_units" class="data-entry-label">Units</label>
 											<input type="text" name="max_error_units" id="gl_max_error_units" class="data-entry-input reqdClr" value="" required>
 											<script>
@@ -2796,11 +2796,11 @@ TODO:
 												});
 											</script> 
 										</div>
-										<div class="postGeolocate col-12 col-md-2">
+										<div class="postGeolocate col-12 col-md-2 float-left px-0 mb-2">
 											<label for="gl_spatialfit" class="data-entry-label">Point-Radius Spatial Fit</label>
 											<input type="text" name="spatialfit" id="gl_spatialfit" class="data-entry-input" value="">
 										</div>
-										<div class="postGeolocate col-12 col-md-3">
+										<div class="postGeolocate col-12 col-md-3 float-left px-0 mb-2">
 											<label for="gl_coordinate_precision" class="data-entry-label">Precision</label>
 											<select name="coordinate_precision" id="gl_coordinate_precision" class="data-entry-select reqdClr" required>
 												<option value=""></option>
@@ -2813,11 +2813,11 @@ TODO:
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
 										</div>
-										<div class="postGeolocate col-12 col-md-3">
+										<div class="postGeolocate col-12 col-md-3 float-left px-0 mb-2">
 											<label for="gl_lat_long_ref_source" class="data-entry-label">Reference</label>
 											<input type="text" name="lat_long_ref_source" id="gl_lat_long_ref_source" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="postGeolocate col-12 col-md-3">
+										<div class="postGeolocate col-12 col-md-3 float-left px-0 mb-2">
 											<label for="gl_georefmethod" class="data-entry-label">Method</label>
 											<input type="text" name="georefmethod" id="gl_georefmethod" class="data-entry-input reqdClr" value="" required>
 											<script>
@@ -2826,7 +2826,7 @@ TODO:
 												});
 											</script> 
 										</div>
-										<div class="postGeolocate col-12 col-md-4">
+										<div class="postGeolocate col-12 col-md-4 float-left px-0 mb-2">
 											<label for="gl_nearest_named_place" class="data-entry-label">Nearest Named Place</label>
 											<input type="text" name="nearest_named_place" id="gl_nearest_named_place" class="data-entry-input" value="">
 										</div>
@@ -2837,26 +2837,26 @@ TODO:
 												<option value="1">Yes</option>
 											</select>
 										</div>
-										<div class="postGeolocate col-12 col-md-3">
+										<div class="postGeolocate col-12 col-md-3 float-left px-0 mb-2">
 											<label for="gl_extent" class="data-entry-label">Radial of Feature [Extent] (km)</label>
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
 										</div>
-										<div class="col-10">
+										<div class="col-10 float-left px-0 mb-2">
 											<label for="gl_error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon (WKT)</label>
 											<input type="text" name="error_polygon" id="gl_error_polygon" class="data-entry-input">
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-2 float-left px-0 mb-2">
 											<label for="gl_footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
 											<input type="text" name="footprint_spatialfit" id="gl_footprint_spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
-										<div class="postGeolocate col-12 col-md-2">
+										<div class="postGeolocate col-12 col-md-2 float-left px-0 mb-2">
 											<label for="gl_accepted_lat_long_fg" class="data-entry-label">Accepted</label>
 											<select name="accepted_lat_long_fg" size="1" id="gl_accepted_lat_long_fg" class="data-entry-select reqdClr">
 												<option value="1" selected>Yes</option>
 												<option value="0">No</option>
 											</select>
 										</div>
-										<div class="postGeolocate col-12 col-md-3">
+										<div class="postGeolocate col-12 col-md-3 float-left px-0 mb-2">
 											<label for="gl_determined_by_agent" class="data-entry-label">Determiner</label>
 											<input type="hidden" name="determined_by_agent_id" id="gl_determined_by_agent_id" value="#getCurrentUser.agent_id#">
 											<input type="text" name="determined_by_agent" id="gl_determined_by_agent" class="data-entry-input reqdClr" value="#getCurrentUser.agent_name#">
@@ -2866,7 +2866,7 @@ TODO:
 												});
 											</script>
 										</div>
-										<div class="postGeolocate col-12 col-md-2">
+										<div class="postGeolocate col-12 col-md-2 float-left px-0 mb-2">
 											<label for="gl_determined_date" class="data-entry-label">Date Determined</label>
 											<input type="text" name="determined_date" id="gl_determined_date" class="data-entry-input reqdClr" placeholder="yyyy-mm-dd" value="#dateformat(now(),"yyyy-mm-dd")#">
 											<script>
@@ -2875,7 +2875,7 @@ TODO:
 												});
 											</script>
 										</div>
-										<div class="postGeolocate col-12 col-md-2">
+										<div class="postGeolocate col-12 col-md-2 float-left px-0 mb-2">
 											<label for="gl_verificationstatus" class="data-entry-label">Verification Status</label>
 											<select name="verificationstatus" size="1" id="gl_verificationstatus" class="data-entry-select reqdClr" onChange="changeGLVerificationStatus();">
 												<cfloop query="ctVerificationStatus">
@@ -2899,7 +2899,7 @@ TODO:
 												};
 											</script>
 										</div>
-										<div class="postGeolocate col-12 col-md-3">
+										<div class="postGeolocate col-12 col-md-3 float-left px-0 mb-2">
 											<label for="gl_verified_by_agent" class="data-entry-label" id="gl_verified_by_agent_label">Verified by</label>
 											<input type="hidden" name="verified_by_agent_id" id="gl_verified_by_agent_id">
 											<input type="text" name="verified_by_agent" id="gl_verified_by_agent" class="data-entry-input reqdClr">
@@ -2911,7 +2911,7 @@ TODO:
 												});
 											</script>
 										</div>
-										<div class="postGeolocate col-12">
+										<div class="postGeolocate col-12 float-left px-0 mb-2">
 											<label class="data-entry-label" for="gl_lat_long_remarks">Georeference Remarks (<span id="gl_length_lat_long_remarks">0 of 4000 characters</span>)</label>
 											<textarea name="lat_long_remarks" id="gl_lat_long_remarks" 
 												onkeyup="countCharsLeft('gl_lat_long_remarks', 4000, 'gl_length_lat_long_remarks');"
