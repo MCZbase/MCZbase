@@ -93,6 +93,7 @@ limitations under the License.
 				<section class="col-12 col-md-9 px-md-0 col-xl-8 px-xl-0">
 					<div class="col-12 px-0 pl-md-0 pr-md-3">
 						<h1 class="h2 mt-3 mb-0 px-3">Edit Locality [#encodeForHtml(locality_id)#]</h1>
+						<!--- TODO: View link --->
 						<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 							<div id="relatedTo">#blockRelated#</div>

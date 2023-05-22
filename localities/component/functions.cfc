@@ -106,16 +106,11 @@ Delete an existing collecting event number record.
 		<cfset message = trim("Error processing deleteCollEventNumber: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 		<cfheader statusCode="500" statusText="#message#">
 		<cfoutput>
-			<div class="container">
-				<div class="row">
-					<div class="alert alert-danger" role="alert">
-						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-						<h2 class="h4">Internal Server Error.</h2>
-						<p class="text-danger">#message#</p>
-						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-					</div>
-				</div>
-			</div>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
 		</cfoutput>
 		<cfabort>
 	</cfcatch>
@@ -506,7 +501,7 @@ Delete an existing collecting event number record.
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
 			<cfif lookupLocality.recordcount NEQ 1>
-				<cfthrow message="<p class='text-danger'>Nothing found other than one locality with specified locality_id [#encodeForHtml(locality_id)#]</p>">
+				<cfthrow message="Found other than one locality with specified locality_id [#encodeForHtml(locality_id)#].  Locality may be used only by a department for which you do not have access.">
 			</cfif>
 			<cfloop query="lookupLocality">
 				<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
@@ -894,7 +889,7 @@ Delete an existing collecting event number record.
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
 			<cfif getGeoAttribute.recordcount NEQ "1">
-				<cfthrow message="<p class='text-danger'>Unable to delete. Found other than one attribute for the geology_attribute_id [#encodeForHtml(geology_attribute_id)#] and locality_id [#encodeForHtml(locality_id)#] provided.</p>">
+				<cfthrow message="Unable to delete. Found other than one attribute for the geology_attribute_id [#encodeForHtml(geology_attribute_id)#] and locality_id [#encodeForHtml(locality_id)#] provided.">
 			</cfif>
 			<cfquery name="deleteGeoAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteGeoAttribute_result">
 				DELETE FROM geology_attributes
@@ -902,7 +897,7 @@ Delete an existing collecting event number record.
 					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_id#">
 			</cfquery>
 			<cfif deleteGeoAttribute_result.recordcount NEQ 1>
-				<cfthrow message="<p class='text-danger'>Error deleteing geology_attribute, provided geology_attribute_id matched other than one record.</p>">
+				<cfthrow message="Error deleteing geology_attribute, provided geology_attribute_id matched other than one record.">
 			</cfif>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "deleted">
@@ -1166,7 +1161,7 @@ Delete an existing collecting event number record.
 						attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geo_att_value#">
 				</cfquery>
 				<cfif getGeoAttributeId.recordcount NEQ 1>
-					<cfthrow message="<p class='text-danger'>Unable to insert, unable to find a geology_attribute_hierarchy record for the specified geology_attribute and geo_att_value</p>">
+					<cfthrow message="Unable to insert, unable to find a geology_attribute_hierarchy record for the specified geology_attribute and geo_att_value">
 				</cfif>
 				<cfset geology_attribute_hierarchy_id = getGeoAttributeId.id>
 			</cfif>
@@ -1213,7 +1208,7 @@ Delete an existing collecting event number record.
 					geology_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geology_attribute_id#">
 			</cfquery>
 			<cfif updateGeoAttribute_result.recordcount NEQ 1>
-				<cfthrow message="<p class='text-danger'>Error updating geology attribtue, update would affect other than one row.</p>">
+				<cfthrow message="Error updating geology attribtue, update would affect other than one row.">
 			</cfif>
 			<cfset values="[Updated: #geology_attribute#:#geo_att_value#]">
 			<cfset count=1>
@@ -2001,7 +1996,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					accepted_lat_long_fg desc
 			</cfquery>
 			<cfif getGeoreference.recordcount NEQ "1">
-				<cfthrow message="<p class='text-danger'>Unable to delete. Found more than one georefrence for lat_long_id and locality_id provided.</p>">
+				<cfthrow message="Unable to delete. Found more than one georefrence for lat_long_id and locality_id provided.">
 			</cfif>
 			<cfquery name="deleteGeoreference" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
 				DELETE FROM lat_long
@@ -2009,7 +2004,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
 			</cfquery>
 			<cfif delete_result.recordcount NEQ 1>
-				<cfthrow message="<p class='text-danger'>Error deleteing georeference, provided lat_long_id matched other than one record.</p>">
+				<cfthrow message="Error deleteing georeference, provided lat_long_id matched other than one record.">
 			</cfif>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "deleted">
@@ -2032,20 +2027,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="callback_name" type="string" required="yes">
 
-
-<!--- 
-
-TODO: 
-
-1.5. I don't seem to have the ability to delete georeferences that other people created? Not sure if that's intentional, but it does seem like something one might need to do from time to time.
-
-3. I tried to add a Geolocate georeference to a locality that already had one, and got the message Error processing addGeoreference: Error Executing Database Query. [Macromedia][Oracle JDBC Driver][Oracle]ORA-01031: insufficient privileges [Macromedia][Oracle JDBC Driver][Oracle]ORA-01031: insufficient privileges See //localities/component/functions.cfc line 3336.
-[User can't run ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA DISABLE, need to use different data sourc for that query]
-
-4. I tried to edit an existing Geolocate georeference, and can mark it accepted or not accepted but can't seem to make other changes, including marking it verified or rejected.
-
---->
-
 	<cfset variables.callback_name = arguments.callback_name>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityGeoRefFormThread#tn#">
@@ -2061,7 +2042,7 @@ TODO:
 						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 				</cfquery>
 				<cfif getLocalityMetadata.recordcount NEQ 1>
-					<cfthrow message="<p class='text-danger'>Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#]</p>">
+					<cfthrow message="Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#].  Locality may be used only by a department for which you do not have access.">
 				</cfif>
 				<cfset localityLabel = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
 				<cfset localityLabel = replace(localityLabel,'"',"&quot;","all")>
@@ -3273,10 +3254,10 @@ TODO:
 			<cfcase value="deg. min. sec.">
 				<!---  validate expectations --->
 				<cfif isDefined("dec_lat_min") and len(dec_lat_min) GT 0>
-					<cfthrow message = "<p class='text-danger'>A value was provided for dec_lat_min, but units are degrees, minutes, seconds. Unable to save.</p>">
+					<cfthrow message = "A value was provided for dec_lat_min, but units are degrees, minutes, seconds. Unable to save.">
 				</cfif>
 				<cfif isDefined("dec_long_min") and len(dec_long_min) GT 0>
-					<cfthrow message = "<p class='text-danger'>A value was provided for dec_long_min, but units are degrees, minutes, seconds. Unable to save.</p>">
+					<cfthrow message = "A value was provided for dec_long_min, but units are degrees, minutes, seconds. Unable to save.">
 				</cfif>
 			</cfcase>
 			<cfcase value="degrees dec. minutes">
@@ -3297,51 +3278,59 @@ TODO:
 		<cfswitch expression="#ORIG_LAT_LONG_UNITS#">
 			<cfcase value="deg. min. sec.">
 				<cfif isDefined("dec_lat_min") and len(dec_lat_min) GT 0>
-					<cfthrow message = "<p class='text-danger'>A value was provided for dec_lat_min, but units are degrees, minutes, seconds. Unable to save.</p>">
+					<cfthrow message = "A value was provided for dec_lat_min, but units are degrees, minutes, seconds. Unable to save.">
 				</cfif>
 				<cfif isDefined("dec_long_min") and len(dec_long_min) GT 0>
-					<cfthrow message = "<p class='text-danger'>A value was provided for dec_long_min, but units are degrees, minutes, seconds. Unable to save.</p>">
+					<cfthrow message = "A value was provided for dec_long_min, but units are degrees, minutes, seconds. Unable to save.">
 				</cfif>
 			</cfcase>
 			<cfcase value="degrees dec. minutes">
 				<cfif isDefined("lat_min") and len(lat_min) GT 0>
-					<cfthrow message = "<p class='text-danger'>A value was provided for lat_min, but units are degrees, decimal minutes, Unable to save.</p>">
+					<cfthrow message = "A value was provided for lat_min, but units are degrees, decimal minutes, Unable to save.">
 				</cfif>
 				<cfif isDefined("long_min") and len(long_min) GT 0>
-					<cfthrow message = "<p class='text-danger'>A value was provided for long_min, but units are degrees, decimal minutes. Unable to save.</p>">
+					<cfthrow message = "A value was provided for long_min, but units are degrees, decimal minutes. Unable to save.">
 				</cfif>
 				<cfif isDefined("lat_sec") and len(lat_sec) GT 0>
-					<cfthrow message = "<p class='text-danger'>A value was provided for lat_sec, but units are degrees, decimal minutes, Unable to save.</p>">
+					<cfthrow message = "A value was provided for lat_sec, but units are degrees, decimal minutes, Unable to save.">
 				</cfif>
 				<cfif isDefined("long_sec") and len(long_sec) GT 0>
-					<cfthrow message = "<p class='text-danger'>A value was provided for long_sec, but units are degrees, decimal minutes. Unable to save.</p>">
+					<cfthrow message = "A value was provided for long_sec, but units are degrees, decimal minutes. Unable to save.">
 				</cfif>
 			</cfcase>
 			<cfcase value="decimal degrees">
 			</cfcase>
 			<cfcase value="UTM">
 				<cfif not isDefined("utm_zone") OR len(utm_zone) EQ 0>
-					<cfthrow message = "<p class='text-danger'>A value was not provided for UTM Zone, but units are UTM. zone, easting, and northing are required. Unable to save.</p>">
+					<cfthrow message = "A value was not provided for UTM Zone, but units are UTM. zone, easting, and northing are required. Unable to save.">
 				</cfif>
 				<cfif not isDefined("utm_ew") OR len(utm_ew) EQ 0>
-					<cfthrow message = "<p class='text-danger'>A value was not provided for UTM Easting, but units are UTM. zone, easting, and northing are required. Unable to save.</p>">
+					<cfthrow message = "A value was not provided for UTM Easting, but units are UTM. zone, easting, and northing are required. Unable to save.">
 				</cfif>
 				<cfif not isDefined("utm_ns") OR len(utm_ns) EQ 0>
-					<cfthrow message = "<p class='text-danger'>A value was not provided for UTM Northing, but units are UTM. zone, easting, and northing are required. Unable to save.</p>">
+					<cfthrow message = "A value was not provided for UTM Northing, but units are UTM. zone, easting, and northing are required. Unable to save.">
 				</cfif>
 			</cfcase>
 		</cfswitch>
 	<cfelse>
-		<cfthrow message="<p class='text-danger'>Unknown value for field_mapping [#encodeForHtml(field_mapping)#] must be 'generic' or 'specific'</p> ">
+		<cfthrow message="Unknown value for field_mapping [#encodeForHtml(field_mapping)#] must be 'generic' or 'specific'.">
 	</cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cfset triggerState = "on">
 		<cftry>
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
+				<!--- as trigger needs to be disabled, and user_login probably does not have rights to do so, queries are run under a more priviliged user,
+        			but within a transaction, so all queries in the transaction need to use the same data source, so check if user has rights to update lat_long 
+        			table before performing actual update (unaccept others) and insert.  
+				--->
+			<cfelse>
+				<cfthrow message="Unable to insert into lat_long table, current user does not have adequate rights.">
+			</cfif>
 			<!--- TR_LATLONG_ACCEPTED_BIUPA checks for only one accepted georeference, uses pragma autonomous_transaction, so 
 					adding a new accepted lat long when one already exists has to occur in more than one transaction or with the trigger disabled --->
-			<cfquery name="countAcceptedPre" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countAcceptedPre_result">
+			<cfquery name="countAcceptedPre" datasource="uam_god" result="countAcceptedPre_result">
 				SELECT count(*) ct
 				FROM lat_long
 				WHERE
@@ -3350,22 +3339,22 @@ TODO:
 					accepted_lat_long_fg = 1
 			</cfquery>
 			<cfif accepted_lat_long_fg EQ "1" and countAcceptedPre.ct GT 0>
-				<cfquery name="turnOff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="turnOff" datasource="uam_god">
 					ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA DISABLE
 				</cfquery>
 				<cfset triggerState = "off">
-				<cfquery name="unacceptOthers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="unacceptOthers_result">
+				<cfquery name="unacceptOthers" datasource="uam_god" result="unacceptOthers_result">
 					UPDATE lat_long 
 					SET accepted_lat_long_fg = 0 
 					WHERE
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 				</cfquery>
 			</cfif>
-			<cfquery name="getLatLongID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongID_result">
+			<cfquery name="getLatLongID" datasource="uam_god" result="getLatLongID_result">
 				SELECT sq_lat_long_id.nextval latlongid 
 				FROM dual
 			</cfquery>
-			<cfquery name="insertLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertLatLong_result">
+			<cfquery name="insertLatLong" datasource="uam_god" result="insertLatLong_result">
 				INSERT INTO lat_long (
 					LAT_LONG_ID
 					,LOCALITY_ID
@@ -3537,10 +3526,10 @@ TODO:
 				)
 			</cfquery>
 			<cfif insertLatLong_result.recordcount NEQ 1>
-				<cfthrow message="<p class='text-danger'>Unable to insert, other than one row would be inserted.</p>">
+				<cfthrow message="Unable to insert, other than one row would be inserted.">
 			</cfif>
 			<cfif isDefined("error_polygon") AND len(#error_polygon#) gt 0>
-				<cfquery name="addErrorPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addErrorPolygon_result">
+				<cfquery name="addErrorPolygon" datasource="uam_god" result="addErrorPolygon_result">
 					UPDATE 
 						lat_long 
 					SET
@@ -3549,10 +3538,10 @@ TODO:
 						lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLATLONGID.latlongid#">
 				</cfquery>
 				<cfif addErrorPolygon_result.recordcount NEQ 1>
-					<cfthrow message="<p class='text-danger'>Unable to insert, other than one row would be changed when updating error polygon.</p>">
+					<cfthrow message="Unable to insert, other than one row would be changed when updating error polygon.">
 				</cfif>
 			</cfif>
-			<cfquery name="countAccepted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countAccepted_result">
+			<cfquery name="countAccepted" datasource="uam_god" result="countAccepted_result">
 				SELECT count(*) ct
 				FROM lat_long
 				WHERE
@@ -3563,7 +3552,7 @@ TODO:
 			<cfset message = "">
 			<cfif countAccepted.ct EQ 0>
 				<!--- warning state, but not a failure case --->
-				<cfset message = "<p class='text-danger'>This locality has no accepted georeferences.</p>">
+				<cfset message = "This locality has no accepted georeferences.">
 			</cfif>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "added">
@@ -3581,7 +3570,7 @@ TODO:
 		</cfcatch>
 		<cffinally>
 			<cfif accepted_lat_long_fg EQ "1" AND triggerState EQ "off">
-				<cfquery name="turnOn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="turnOn" datasource="uam_god">
 					ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA ENABLE
 				</cfquery>
 			</cfif>
@@ -3681,7 +3670,7 @@ TODO:
 
 </cffunction>
 
-<!--- given a lat_long_id, return html to populate a dialog to edit the specified georeferenced.
+<!--- given a lat_long_id, return html to populate a dialog to edit the specified georeference.
   @param lat_long_id the pk value of the georeference to edit.
   @return html to populate a dialog.
 --->
@@ -3750,7 +3739,7 @@ TODO:
 					lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
 			</cfquery>
 			<cfif getGeoref.recordcount NEQ 1>
-				<cfthrow message="<p class='text-danger'>Error: lat_long record not found for provided lat_long_id [#encodeForHtml(lat_long_id)#].</p>">
+				<cfthrow message="Error: lat_long record not found for provided lat_long_id [#encodeForHtml(lat_long_id)#].">
 			</cfif>
 			<cfquery name="ctunits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT ORIG_LAT_LONG_UNITS 
@@ -4367,14 +4356,22 @@ TODO:
 	<cfelse>
 		<cfthrow message="Unknown value for field_mapping [#encodeForHtml(field_mapping)#] must be 'generic' or 'specific' ">
 	</cfif>
-
+	
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cfset triggerState = "on">
 		<cftry>
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
+				<!--- as trigger needs to be disabled, and user_login probably does not have rights to do so, queries are run under a more priviliged user,
+        			but within a transaction, so all queries in the transaction need to use the same data source, so check if user has rights to update lat_long 
+        			table before performing actual update.  
+				--->
+			<cfelse>
+				<cfthrow message="Unable to update lat_long table, current user does not have adequate rights.">
+			</cfif>
 			<!--- TR_LATLONG_ACCEPTED_BIUPA checks for only one accepted georeference, uses pragma autonomous_transaction, so 
 					updating a lat lont to accepted when one already exists has to occur in more than one transaction or with the trigger disabled --->
-			<cfquery name="countAcceptedPre" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countAcceptedPre_result">
+			<cfquery name="countAcceptedPre" datasource="uam_god" result="countAcceptedPre_result">
 				SELECT count(*) ct
 				FROM lat_long
 				WHERE
@@ -4383,19 +4380,19 @@ TODO:
 					accepted_lat_long_fg = 1
 			</cfquery>
 			<cfif accepted_lat_long_fg EQ "1" and countAcceptedPre.ct GT 0>
-				<cfquery name="turnOff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="turnOff" datasource="uam_god">
 					ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA DISABLE
 				</cfquery>
 				<cfset triggerState = "off">
 				<!--- tr_latlong_accepted_biupa doesn't distinguish between current record and other records, it prevents an update when an accepted georeference exists --->
-				<cfquery name="unacceptOthers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="unacceptOthers_result">
+				<cfquery name="unacceptOthers" datasource="uam_god" result="unacceptOthers_result">
 					UPDATE lat_long 
 					SET accepted_lat_long_fg = 0 
 					WHERE
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 				</cfquery>
 			</cfif>
-			<cfquery name="updateLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateLatLong_result">
+			<cfquery name="updateLatLong" datasource="uam_god" result="updateLatLong_result">
 				UPDATE
 					lat_long 
 				SET 
@@ -4518,7 +4515,7 @@ TODO:
 				<cfthrow message="Unable to update, other than one row would be affected.">
 			</cfif>
 			<cfif isDefined("error_polygon") AND len(#error_polygon#) gt 0>
-				<cfquery name="addErrorPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addErrorPolygon_result">
+				<cfquery name="addErrorPolygon" datasource="uam_god" result="addErrorPolygon_result">
 					UPDATE 
 						lat_long 
 					SET
@@ -4530,7 +4527,7 @@ TODO:
 					<cfthrow message="Unable to insert, other than one row would be changed when updating error polygon.">
 				</cfif>
 			</cfif>
-			<cfquery name="countAccepted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countAccepted_result">
+			<cfquery name="countAccepted" datasource="uam_god" result="countAccepted_result">
 				SELECT count(*) ct
 				FROM lat_long
 				WHERE
@@ -4540,9 +4537,9 @@ TODO:
 			</cfquery>
 			<cfif countAccepted.ct EQ 0>
 				<!--- warning state, but not a failure case --->
-				<cfset message = "<p class='text-danger'>This locality has no accepted georeferences.</p>">
+				<cfset message = "This locality has no accepted georeferences.">
 			</cfif>
-			<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="summary_result">
+			<cfquery name="summary" datasource="uam_god" result="summary_result">
 				SELECT 
 					nvl2(coordinate_precision, round(dec_lat,coordinate_precision), round(dec_lat,5)) dec_lat,
 					nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_long,5)) dec_long,
@@ -4569,7 +4566,7 @@ TODO:
 		</cfcatch>
 		<cffinally>
 			<cfif accepted_lat_long_fg EQ "1" AND triggerState EQ "off">
-				<cfquery name="turnOn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="turnOn" datasource="uam_god">
 					ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA ENABLE
 				</cfquery>
 			</cfif>
