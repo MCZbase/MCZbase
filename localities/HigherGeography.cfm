@@ -76,15 +76,18 @@ limitations under the License.
 			<cfthrow message="Error: unable to edit higher geography, no geog_auth_rec_id specified.">
 		</cfif>
 		<cfoutput>
-		   <main class="container-float mt-3" id="content">
-				<section class="row mx-1">
-					<div class="col-12 col-md-9">
-      				<h1 class="h2 mt-3 mb-0 px-4">Edit Higher Geography <a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#encodeForUrl(geog_auth_rec_id)#" target="_blank">[#encodeForHtml(geog_auth_rec_id)#]</a></h1>
-						<div class="border rounded px-2 py-2" id="usesContainingDiv">
+			<main class="container-fluid mt-3 mb-5 pb-5" id="content">
+				<div class="row mx-0">
+					<section class="col-12 col-md-9 px-md-0 col-xl-8">
+						<div class="col-12 px-0 pl-md-0 pr-md-3">
+						<h1 class="h2 mt-3 mb-0 px-3">Edit Higher Geography 
+							<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#encodeForUrl(geog_auth_rec_id)#" target="_blank">[#encodeForHtml(geog_auth_rec_id)#]</a>
+						</h1>
+						<div class="border-top border-right border-left border-bottom border-success rounded px-2 my-3 py-2" id="usesContainingDiv">
 							<cfset blockRelated = getGeographyUsesHtml(geog_auth_rec_id = "#geog_auth_rec_id#", containingDiv="usesContainingDiv")>
 							<div id="relatedTo">#blockRelated#</div>
 						</div>
-						<div class="border rounded px-2 py-2">
+						<div class="border rounded px-2 my-2 py-2">
 							<cfset summary = getGeographySummary(geog_auth_rec_id="#geog_auth_rec_id#")>
 							<div id="summary" class="h1 mb-0">#summary#</div>
 						</div>
@@ -126,6 +129,7 @@ limitations under the License.
 						</div>
 					</div>
 				</section>
+				</div>
 			</main>
 		</cfoutput>
 	</cfcase>
