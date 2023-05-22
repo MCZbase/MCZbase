@@ -4397,7 +4397,7 @@ TODO:
 			<cfquery name="confirmUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="confirmUpdate_result">
 				UPDATE lat_long 
 				SET 
-					accepted_lat_long_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#confirmRead.accepted_lat_long_fg#">
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 				WHERE
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
