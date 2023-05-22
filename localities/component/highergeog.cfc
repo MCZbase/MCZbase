@@ -261,7 +261,7 @@ Functions supporting editing higher geographies.
 					<input type="hidden" name="geog_auth_rec_id" value="#lookupHigherGeog.geog_auth_rec_id#">
 				</cfif>
 				<div class="form-row mx-0 mb-0">
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label class="data-entry-label" for="continent_ocean">Continent/Ocean</label>
 						<cfif NOT isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
 						<input type="text" name="continent_ocean" id="continent_ocean" class="data-entry-input" value="#encodeForHTML(continent_ocean)#">
@@ -269,7 +269,7 @@ Functions supporting editing higher geographies.
 							$(document).ready(() => makeCTAutocomplete('continent_ocean','continent_ocean') );
 						</script>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label class="data-entry-label" for="ocean_region">Ocean Region</label>
 						<cfif NOT isdefined("ocean_region")><cfset ocean_region=""></cfif>
 						<input type="text" name="ocean_region" id="ocean_region" class="data-entry-input" value="#encodeForHTML(ocean_region)#">
@@ -277,7 +277,7 @@ Functions supporting editing higher geographies.
 							$(document).ready(() => makeCTAutocomplete('ocean_region','ocean_region') );
 						</script>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label class="data-entry-label" for="ocean_subregion">Ocean Subregion</label>
 						<cfif NOT isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
 						<input type="text" name="ocean_subregion" id="ocean_subregion" class="data-entry-input" value="#encodeForHTML(ocean_subregion)#">
@@ -313,7 +313,7 @@ Functions supporting editing higher geographies.
 							</script>
 						</cfif>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label class="data-entry-label" for="sea">Sea</label>
 						<cfif NOT isdefined("sea")><cfset sea=""></cfif>
 						<input type="text" name="sea" id="sea" class="data-entry-input" value="#encodeForHTML(sea)#">
@@ -321,7 +321,7 @@ Functions supporting editing higher geographies.
 							$(document).ready(() => makeGeogAutocomplete('sea','sea'));
 						</script>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label class="data-entry-label" for="water_feature">Water Feature</label>
 						<cfif NOT isdefined("water_feature")><cfset water_feature=""></cfif>
 						<input type="text" name="water_feature" id="water_feature" class="data-entry-input" value="#encodeForHTML(water_feature)#">
@@ -329,7 +329,7 @@ Functions supporting editing higher geographies.
 							$(document).ready(() => makeCTAutocomplete('water_feature','water_feature') );
 						</script>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label class="data-entry-label" for="country">Country</label>
 						<cfif NOT isdefined("country")><cfset country=""></cfif>
 						<input type="text" name="country" id="country" class="data-entry-input" value="#encodeForHTML(country)#">
@@ -337,7 +337,7 @@ Functions supporting editing higher geographies.
 							$(document).ready(() => makeGeogAutocomplete('country','country'));
 						</script>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label class="data-entry-label" for="state_prov">State/Province</label>
 						<cfif NOT isdefined("state_prov")><cfset state_prov=""></cfif>
 						<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#encodeForHTML(state_prov)#">
@@ -373,7 +373,7 @@ Functions supporting editing higher geographies.
 							</script>
 						</cfif>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label class="data-entry-label" for="county">County</label>
 						<cfif NOT isdefined("county")><cfset county=""></cfif>
 						<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHTML(county)#">
@@ -410,7 +410,7 @@ Functions supporting editing higher geographies.
 							</script>
 						</cfif>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label class="data-entry-label" for="quad">Quadrangle</label>
 						<cfif NOT isdefined("quad")><cfset quad=""></cfif>
 						<input type="text" name="quad" id="quad" class="data-entry-input" value="#encodeForHTML(quad)#">
@@ -418,7 +418,7 @@ Functions supporting editing higher geographies.
 							$(document).ready(() => makeGeogAutocomplete('quad','quad'));
 						</script>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label class="data-entry-label" for="feature">Feature</label>
 						<cfif NOT isdefined("feature")><cfset feature=""></cfif>
 						<input type="text" name="feature" id="feature" class="data-entry-input" value="#encodeForHTML(feature)#">
@@ -426,7 +426,7 @@ Functions supporting editing higher geographies.
 							$(document).ready(() => makeCTAutocomplete('feature','feature'));
 						</script>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label class="data-entry-label" for="island_group">Island Group</label>
 						<cfif NOT isdefined("island_group")><cfset island_group=""></cfif>
 						<input type="text" name="island_group" id="island_group" class="data-entry-input" value="#encodeForHTML(island_group)#">
@@ -434,7 +434,7 @@ Functions supporting editing higher geographies.
 							$(document).ready(() => makeCTAutocomplete('island_group','island_group'));
 						</script>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label class="data-entry-label" for="island">Island</label>
 						<cfif NOT isdefined("island")><cfset island=""></cfif>
 						<input type="text" name="island" id="island" class="data-entry-input" value="#encodeForHTML(island)#">
@@ -443,13 +443,13 @@ Functions supporting editing higher geographies.
 						</script>
 					</div>
 				
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-6 mb-2">
 						<cfif NOT isdefined("wkt_polygon")><cfset wkt_polygon=""></cfif>
 						<cfif len(wkt_polygon) GT 0><cfset labelText = " (Present)"><cfelse><cfset labelText=""></cfif>
 						<label for = "wktPolygon" class="data-entry-label">Polygon#labelText#</label>
 						<input type="text" name="wkt_polygon" value=""id="wktPolygon" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label for="wktFile" class="data-entry-label">Load Polygon from WKT file</label>
 						<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100 p-0">
 						<script>
@@ -461,11 +461,11 @@ Functions supporting editing higher geographies.
 							}
 						</script>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<output id="wktLoadFeedback"></output>
 					</div>
 	
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label for="valid_catalog_term_fg" class="data-entry-label">Valid for data entry?</label>
 						<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="data-entry-select reqdClr">
 							<cfif not isDefined("valid_calalog_term_fg") OR len(valid_catalog_term_fg) EQ 0 OR valid_catalog_term_fg is "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -474,7 +474,7 @@ Functions supporting editing higher geographies.
 							<option value="0" #selected#>No</option>
 						</select>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label class="data-entry-label" for="source_authority">Source Authority</label>
 						<cfif NOT isdefined("source_authority")><cfset source_authority=""></cfif>
 						<input type="text" name="source_authority" id="source_authority" class="data-entry-input reqdClr" value="#encodeForHTML(source_authority)#" required>
@@ -483,8 +483,8 @@ Functions supporting editing higher geographies.
 						</script>
 					</div>
 				</div>
-				<div class="form-row m-1 border pb-1">
-					<div class="col-12 col-md-4" >
+				<div class="form-row mx-1 border my-2">
+					<div class="col-12 col-md-4 mb-2" >
 						<label for="highergeographyid" class="data-entry-label">Authority for GUID for Higher Geography</label>
 						<cfset pattern = "">
 						<cfset placeholder = "">
@@ -522,11 +522,11 @@ Functions supporting editing higher geographies.
 							</cfloop>
 						</select>
 					</div>
-					<div class="col-12 col-md-4">
+					<div class="col-12 col-md-4 mb-2">
 						<label for="highergeographyid" class="data-entry-label">Action</label>
 						<a href="#searchlink#" id="highergeographyid_search" target="_blank" #searchclass# >#searchtext#</a>
 					</div>
-					<div class="col-12 col-md-4">
+					<div class="col-12 col-md-4 mb-2">
 						<label class="data-entry-label">dwc:highergeographyID</label>
 						<cfif isDefined("lookupHigherGeog")><cfset hgeogid = lookupHigherGeog.highergeographyid><cfelse><cfset hgeogid=""></cfif>
 						<cfif NOT isDefined("regex")><cfset regex=""></cfif>
