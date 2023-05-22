@@ -485,7 +485,7 @@ Functions supporting editing higher geographies.
 				</div>
 				<div class="form-row mx-1 border pt-2 my-2">
 					<div class="col-12 col-md-4 mb-2" >
-						<label for="highergeographyid" class="data-entry-label">Authority for GUID for Higher Geography</label>
+						<label for="highergeographyid" class="data-entry-label" style="margin-bottom: 1px;">Authority for GUID for Higher Geography</label>
 						<cfset pattern = "">
 						<cfset placeholder = "">
 						<cfset regex = "">
@@ -527,7 +527,7 @@ Functions supporting editing higher geographies.
 						<a href="#searchlink#" id="highergeographyid_search" target="_blank" #searchclass# >#searchtext#</a>
 					</div>
 					<div class="col-12 col-md-4 mb-2">
-						<label class="data-entry-label">dwc:highergeographyID</label>
+						<label class="data-entry-label" style="margin-bottom: 1px;">dwc:highergeographyID</label>
 						<cfif isDefined("lookupHigherGeog")><cfset hgeogid = lookupHigherGeog.highergeographyid><cfelse><cfset hgeogid=""></cfif>
 						<cfif NOT isDefined("regex")><cfset regex=""></cfif>
 						<input name="highergeographyid" id="highergeographyid" value="#hgeogid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
