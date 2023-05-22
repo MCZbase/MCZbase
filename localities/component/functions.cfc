@@ -3352,9 +3352,17 @@ TODO:
 	<cftransaction>
 		<cfset triggerState = "on">
 		<cftry>
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
+				<!--- as trigger needs to be disabled, and user_login probably does not have rights to do so, queries are run under a more priviliged user,
+        			but within a transaction, so all queries in the transaction need to use the same data source, so check if user has rights to update lat_long 
+        			table before performing actual update (unaccept others) and insert.  
+				--->
+			<cfelse>
+				<cfthrow message="Unable to insert into lat_long table, current user does not have adequate rights.">
+			</cfif>
 			<!--- TR_LATLONG_ACCEPTED_BIUPA checks for only one accepted georeference, uses pragma autonomous_transaction, so 
 					adding a new accepted lat long when one already exists has to occur in more than one transaction or with the trigger disabled --->
-			<cfquery name="countAcceptedPre" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countAcceptedPre_result">
+			<cfquery name="countAcceptedPre" datasource="uam_god" result="countAcceptedPre_result">
 				SELECT count(*) ct
 				FROM lat_long
 				WHERE
@@ -3363,22 +3371,22 @@ TODO:
 					accepted_lat_long_fg = 1
 			</cfquery>
 			<cfif accepted_lat_long_fg EQ "1" and countAcceptedPre.ct GT 0>
-				<cfquery name="turnOff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="turnOff" datasource="uam_god">
 					ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA DISABLE
 				</cfquery>
 				<cfset triggerState = "off">
-				<cfquery name="unacceptOthers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="unacceptOthers_result">
+				<cfquery name="unacceptOthers" datasource="uam_god" result="unacceptOthers_result">
 					UPDATE lat_long 
 					SET accepted_lat_long_fg = 0 
 					WHERE
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 				</cfquery>
 			</cfif>
-			<cfquery name="getLatLongID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLatLongID_result">
+			<cfquery name="getLatLongID" datasource="uam_god" result="getLatLongID_result">
 				SELECT sq_lat_long_id.nextval latlongid 
 				FROM dual
 			</cfquery>
-			<cfquery name="insertLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertLatLong_result">
+			<cfquery name="insertLatLong" datasource="uam_god" result="insertLatLong_result">
 				INSERT INTO lat_long (
 					LAT_LONG_ID
 					,LOCALITY_ID
@@ -3553,7 +3561,7 @@ TODO:
 				<cfthrow message="Unable to insert, other than one row would be inserted.">
 			</cfif>
 			<cfif isDefined("error_polygon") AND len(#error_polygon#) gt 0>
-				<cfquery name="addErrorPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addErrorPolygon_result">
+				<cfquery name="addErrorPolygon" datasource="uam_god" result="addErrorPolygon_result">
 					UPDATE 
 						lat_long 
 					SET
@@ -3565,7 +3573,7 @@ TODO:
 					<cfthrow message="Unable to insert, other than one row would be changed when updating error polygon.">
 				</cfif>
 			</cfif>
-			<cfquery name="countAccepted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countAccepted_result">
+			<cfquery name="countAccepted" datasource="uam_god" result="countAccepted_result">
 				SELECT count(*) ct
 				FROM lat_long
 				WHERE
@@ -3594,7 +3602,7 @@ TODO:
 		</cfcatch>
 		<cffinally>
 			<cfif accepted_lat_long_fg EQ "1" AND triggerState EQ "off">
-				<cfquery name="turnOn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="turnOn" datasource="uam_god">
 					ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA ENABLE
 				</cfquery>
 			</cfif>
@@ -4590,7 +4598,7 @@ TODO:
 		</cfcatch>
 		<cffinally>
 			<cfif accepted_lat_long_fg EQ "1" AND triggerState EQ "off">
-				<cfquery name="turnOn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="turnOn" datasource="uam_god">
 					ALTER TRIGGER MCZBASE.TR_LATLONG_ACCEPTED_BIUPA ENABLE
 				</cfquery>
 			</cfif>
