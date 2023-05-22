@@ -92,7 +92,7 @@ Functions supporting editing higher geographies.
 					<div class="px-3">
 						<ul class="mx-2">
 							<cfloop query="localityUses">
-								<li class="mx-2 small95"><cfif len(collection) gt 0>#collection# #numOfSpecs# specimens in <cfelse>No Specimens associated with </cfif> #numOfCollEvents# collecting events in #numOfLocalities# localities</li>			
+								<li class="mx-2 small95"><cfif len(collection) gt 0>#collection# #numOfSpecs# specimens in <cfelse>No Specimens associated with </cfif> #numOfCollEvents# collecting events in #numOfLocalities# localities</li>
 							</cfloop>
 						</ul>
 					</div>

@@ -89,7 +89,7 @@ limitations under the License.
 							</div>
 							<div class="border rounded px-2 my-2 py-2">
 								<cfset summary = getGeographySummary(geog_auth_rec_id="#geog_auth_rec_id#")>
-								<div id="summary" class="h1 mb-0">#summary#</div>
+								<div id="summary" class="h1 mb-0 px-2">#summary#</div>
 							</div>
 							<div class="border rounded px-2 py-2" arial-labeledby="formheading">
 								<cfset formId = "editHigherGeographyForm">
