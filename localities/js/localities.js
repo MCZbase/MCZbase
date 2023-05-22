@@ -275,7 +275,7 @@ function openAddGeologyDialog(locality_id, dialogid, callback) {
 	var w = $(window).width();
 	w = Math.floor(w *.9);
 	h = Math.floor(h *.5);
-	if (h < 500) { h = 500; }
+	if (h < 400) { h = 400; }
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
