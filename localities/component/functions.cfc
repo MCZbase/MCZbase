@@ -4105,15 +4105,15 @@ TODO:
 									</script>
 								</div>
 								<div class="col-10 mb-2">
-									<label for="error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon (WKT)</label>
+									<label for="error_polygon" class="data-entry-label border-info" id="error_polygon_label">Footprint Polygon (WKT)</label>
 									<input type="text" name="error_polygon" id="error_polygon" class="data-entry-input" value="#encodeForHtml(error_polygon)#">
 								</div>
 								<div class="col-12 col-md-2 mb-2">
-									<label for="footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
+									<label for="footprint_spatialfit" class="data-entry-label border-info">Footprint Spatial Fit</label>
 									<input type="text" name="footprint_spatialfit" id="footprint_spatialfit" class="data-entry-input" value="#footprint_spatialfit#" pattern="^(0|1(\.[0-9]+){0,1})$" >
 								</div>
 								<div class="col-12 col-md-3 mb-2">
-									<label for="wktFile" class="data-entry-label">Load Footprint Polygon from WKT file</label>
+									<label for="wktFile" class="data-entry-label border-info">Load Footprint Polygon from WKT file</label>
 									<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100 p-0">
 									<script>
 										$(document).ready(function() { 
