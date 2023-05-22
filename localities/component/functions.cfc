@@ -3175,7 +3175,7 @@ TODO:
 				<cfif getVerbatim.recordcount EQ 0>
 					<div class="h4 px-4">No verbatim locality values</div>
 				<cfelse>
-					<ul class="px-3 mx-2">
+					<ul>
 						<cfloop query="getVerbatim">
 							<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
 							<li>#verbatim_locality##counts#</li>
