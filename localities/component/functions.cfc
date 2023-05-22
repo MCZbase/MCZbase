@@ -2737,11 +2737,11 @@ TODO:
 									<input type="hidden" name="locality_id" value="#locality_id#">
 									<h2 class="px-1 h3">Use GeoLocate: <input type="button" value="GeoLocate" class="btn btn-xs btn-warning" onClick=" geolocate('#Application.protocol#'); "></h2>
 										<div class="col-12 px-1 mb-2">
-											<div class="h4">Values to send to GeoLocate to obtain a georeference:</div>
+											<div class="h4">Values from Locality to send to GeoLocate to obtain a georeference:</div>
 										</div>
 										<div class="col-12 col-md-3 mb-2 px-1 float-left">
 											<label for="country" class="data-entry-label">Country</label>
-											<input type="text" name="country" id="country" class="data-entry-input" value="#encodeForHtml(lookupForGeolocate.country)#" disabled readonly >
+											<input type="text" name="country" id="country" class="border-white data-entry-input" value="#encodeForHtml(lookupForGeolocate.country)#" disabled readonly >
 										</div>
 										<div class="col-12 col-md-2 mb-2 px-1 float-left">
 											<label for="state_prov" class="data-entry-label">State/Province</label>
