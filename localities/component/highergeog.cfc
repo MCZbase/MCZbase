@@ -260,7 +260,7 @@ Functions supporting editing higher geographies.
 				<cfif mode EQ "edit">
 					<input type="hidden" name="geog_auth_rec_id" value="#lookupHigherGeog.geog_auth_rec_id#">
 				</cfif>
-				<div class="form-row mx-0 mb-0">
+				<div class="form-row mx-0 pt-1 mb-0">
 					<div class="col-12 col-md-3 mb-2">
 						<label class="data-entry-label" for="continent_ocean">Continent/Ocean</label>
 						<cfif NOT isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
@@ -442,7 +442,6 @@ Functions supporting editing higher geographies.
 							$(document).ready(() => makeGeogAutocomplete('island','island'));
 						</script>
 					</div>
-				
 					<div class="col-12 col-md-6 mb-2">
 						<cfif NOT isdefined("wkt_polygon")><cfset wkt_polygon=""></cfif>
 						<cfif len(wkt_polygon) GT 0><cfset labelText = " (Present)"><cfelse><cfset labelText=""></cfif>
@@ -464,7 +463,6 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3 mb-2">
 						<output id="wktLoadFeedback"></output>
 					</div>
-	
 					<div class="col-12 col-md-3 mb-2">
 						<label for="valid_catalog_term_fg" class="data-entry-label">Valid for data entry?</label>
 						<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="data-entry-select reqdClr">
@@ -483,7 +481,7 @@ Functions supporting editing higher geographies.
 						</script>
 					</div>
 				</div>
-				<div class="form-row mx-1 border pt-2 my-2">
+				<div class="form-row mx-1 border rounded pt-2 my-2">
 					<div class="col-12 col-md-4 mb-2" >
 						<label for="highergeographyid" class="data-entry-label" style="margin-bottom: 1px;">Authority for GUID for Higher Geography</label>
 						<cfset pattern = "">
