@@ -168,7 +168,7 @@ function openEditGeorefDialog(lat_long_id, dialogid, callback) {
 		modal: true,
 		stack: true,
 		zindex: 2000,
-		height: 665,
+		height: 675,
 		width: w,
 		minWidth: 600,
 		minHeight: 500,
