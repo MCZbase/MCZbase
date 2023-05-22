@@ -542,7 +542,7 @@ Delete an existing collecting event number record.
 			<div class="form-row mx-0 mb-0">
 				<cfif lookupLocality.curated_fg EQ 1 >
 				<div class="col-12 mt-0">
-					<h2 class="h3">This locality record has been vetted. Please do not edit (or delete).</h3>
+					<h2 class="h3 mb-2">This locality record has been vetted. Please do not edit (or delete).</h3>
 				</div>
 				</cfif>
 				<div class="col-12 col-md-10 mt-0">
