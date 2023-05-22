@@ -125,10 +125,8 @@ limitations under the License.
 					<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-3 col-xl-4">
 						<div class="col-12 px-0 bg-light pt-2 pb-1 mt-2 mb-2 border rounded">
 						<!--- map --->
-							<div class="border rounded p-1 w-100">
-								<cfset map = getHigherGeographyMapHtml(geog_auth_rec_id="#geog_auth_rec_id#")>
-								<div id="mapDiv">#map#</div>
-							</div>
+							<cfset map = getHigherGeographyMapHtml(geog_auth_rec_id="#geog_auth_rec_id#")>
+							<div id="mapDiv">#map#</div>
 						</div>
 					</section>
 				</div>
