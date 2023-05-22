@@ -89,12 +89,12 @@ Functions supporting editing higher geographies.
 							collection.collection_cde,
 							collection.collection_id
 					</cfquery>
-					<div class="px-3"></div>
-					<ul class="px-2">
-						<cfloop query="localityUses">
-							<li class="px-2"><cfif len(collection) gt 0>#collection# #numOfSpecs# specimens in <cfelse>No Specimens associated with </cfif> #numOfCollEvents# collecting events in #numOfLocalities# localities</li>			
-						</cfloop>
-					</ul>
+					<div class="px-3">
+						<ul class="mx-2">
+							<cfloop query="localityUses">
+								<li class="mx-2"><cfif len(collection) gt 0>#collection# #numOfSpecs# specimens in <cfelse>No Specimens associated with </cfif> #numOfCollEvents# collecting events in #numOfLocalities# localities</li>			
+							</cfloop>
+						</ul>
 					</div>
 				<cfelse>
 					<h2 class="h3">This higher geography is not used in any localities.</h2>
