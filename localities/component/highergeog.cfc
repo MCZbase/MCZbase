@@ -91,7 +91,7 @@ Functions supporting editing higher geographies.
 					</cfquery>
 					<ul class="px-5">
 						<cfloop query="localityUses">
-							<li><cfif len(collection) gt 0>#collection#<cfelse>No Specimens associated with </cfif> #numOfSpecs# specimens in #numOfCollEvents# collecting events in #numOfLocalities# localities</li>			
+							<li><cfif len(collection) gt 0>#collection# #numOfSpecs# specimens in <cfelse>No Specimens associated with </cfif> #numOfCollEvents# collecting events in #numOfLocalities# localities</li>			
 						</cfloop>
 					</ul>
 				<cfelse>
