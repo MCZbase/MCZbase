@@ -78,7 +78,7 @@ limitations under the License.
 		<cfoutput>
 			<main class="container-fluid mt-3 mb-5 pb-5" id="content">
 				<div class="row mx-0">
-					<section class="col-12 col-md-9 px-md-0 col-xl-8">
+					<section class="col-12 col-md-8 px-md-0">
 						<div class="col-12 px-0 pl-md-0 pr-md-3">
 							<h1 class="h2 mt-3 mb-0 px-3">Edit Higher Geography 
 								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#encodeForUrl(geog_auth_rec_id)#" target="_blank">[#encodeForHtml(geog_auth_rec_id)#]</a>
@@ -122,7 +122,7 @@ limitations under the License.
 							</cfif>
 						</div>
 					</section>
-					<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-3 col-xl-4">
+					<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-4">
 						<div class="col-12 px-0 bg-light pt-2 pb-1 mt-2 mb-2 border rounded">
 						<!--- map --->
 							<cfset map = getHigherGeographyMapHtml(geog_auth_rec_id="#geog_auth_rec_id#")>
