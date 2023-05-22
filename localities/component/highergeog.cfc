@@ -450,7 +450,7 @@ Functions supporting editing higher geographies.
 						<input type="text" name="wkt_polygon" value=""id="wktPolygon" class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-3 mb-2">
-						<label for="wktFile" class="data-entry-label">Load Polygon from WKT file</label>
+						<label for="wktFile" class="data-entry-label" style="margin-bottom: 1px;">Load Polygon from WKT file</label>
 						<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100 p-0">
 						<script>
 							$(document).ready(function() { 
@@ -483,7 +483,7 @@ Functions supporting editing higher geographies.
 						</script>
 					</div>
 				</div>
-				<div class="form-row mx-1 border my-2">
+				<div class="form-row mx-1 border pt-2 my-2">
 					<div class="col-12 col-md-4 mb-2" >
 						<label for="highergeographyid" class="data-entry-label">Authority for GUID for Higher Geography</label>
 						<cfset pattern = "">
