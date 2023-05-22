@@ -2842,11 +2842,11 @@ TODO:
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
 										</div>
 										<div class="col-10 float-left px-1 mb-2">
-											<label for="gl_error_polygon" class="data-entry-label border-info" id="error_polygon_label">Footprint Polygon (WKT)</label>
+											<label for="gl_error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon (WKT)</label>
 											<input type="text" name="error_polygon" id="gl_error_polygon" class="data-entry-input">
 										</div>
 										<div class="col-12 col-md-2 float-left px-1 mb-2">
-											<label for="gl_footprint_spatialfit" class="data-entry-label border-info">Footprint Spatial Fit</label>
+											<label for="gl_footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
 											<input type="text" name="footprint_spatialfit" id="gl_footprint_spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
 										<div class="postGeolocate col-12 col-md-2 float-left px-1 mb-2">
@@ -4110,11 +4110,11 @@ TODO:
 								</div>
 								<div class="col-12 col-md-2 mb-2">
 									<label for="footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
-									<input type="text" name="footprint_spatialfit" id="footprint_spatialfit" class="data-entry-input border-info" value="#footprint_spatialfit#" pattern="^(0|1(\.[0-9]+){0,1})$" >
+									<input type="text" name="footprint_spatialfit" id="footprint_spatialfit" class="data-entry-input" value="#footprint_spatialfit#" pattern="^(0|1(\.[0-9]+){0,1})$" >
 								</div>
 								<div class="col-12 col-md-3 mb-2">
 									<label for="wktFile" class="data-entry-label">Load Footprint Polygon from WKT file</label>
-									<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100 p-0 border-info">
+									<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100 p-0">
 									<script>
 										$(document).ready(function() { 
 											$("##wktFile").change(confirmLoadWKTFromFile);
