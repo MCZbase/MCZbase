@@ -4135,9 +4135,9 @@ TODO:
 									<output id="wktReplaceFeedback"></output>
 								</div>
 								<div class="col-12 col-md-3 mb-2">
-									<label for="copyFootprintFrom" class="data-entry-label" >Copy Polygon from locality_id</label>
+									<label for="copyFootprintFrom" class="data-entry-label border-info" >Copy Polygon from locality_id</label>
 									<input type="hidden" name="copyFootprintFrom_id" id="copyFootprintFrom_id" value="">
-									<input type="text" name="copyFootprintFrom" id="copyFootprintFrom" value="" class="data-entry-input">
+									<input type="text" name="copyFootprintFrom" id="copyFootprintFrom" value="" class="data-entry-input border-info">
 									<script> 
 										$(document).ready(function() { 
 											makeLocalityAutocompleteMeta("copyFootprintFrom", "copyFootprintFrom_id","has_footprint");
