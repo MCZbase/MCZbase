@@ -3017,7 +3017,6 @@ TODO:
 										</script>
 									</form>
 								</div>
-							</div>
 							<div id="clonePanel" role="tabpanel" aria-labelledby="cloneTabButton" tabindex="-1" class="col-12 px-0 mx-0 unfocus" hidden>
 								<h2 class="px-2 h3">Clone accepted georeference from another Locality</h2>
 								<p>Type text from the specific locality or enter a locality_id and select from the pick list. The accepted georeference for the selected locality will be pasted into the edit form to allow you to add it to this locality.  Use this only in exceptional cases such as multiple localities at different depths at the same location.  </p>
