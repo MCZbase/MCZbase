@@ -286,7 +286,7 @@ function openAddGeologyDialog(locality_id, dialogid, callback) {
 		zindex: 2000,
 		height: h,
 		width: w,
-		minWidth: 600,
+		minWidth: 300,
 		minHeight: 300,
 		draggable:true,
 		buttons: {
@@ -343,7 +343,7 @@ function openEditGeologyDialog(geology_attribute_id, locality_id, dialogid, call
 		zindex: 2000,
 		height: h,
 		width: w,
-		minWidth: 600,
+		minWidth: 300,
 		minHeight: 500,
 		draggable:true,
 		buttons: {
