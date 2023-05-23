@@ -1017,7 +1017,7 @@ Delete an existing collecting event number record.
 					)
 			</cfquery>
 			<cfif addGeoAttribute_result.recordcount NEQ 1>
-				<cfthrow message="<h3 class='h4'>Error inserting geology attribtue, insert would affect other than one row.</h3>">
+				<cfthrow message="Error inserting geology attribtue, insert would affect other than one row.">
 			</cfif>
 			<cfquery name="getPK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPK_result">
 					select geology_attribute_id 
@@ -1025,7 +1025,7 @@ Delete an existing collecting event number record.
 					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#addGeoAttribute_result.GENERATEDKEY#">
 			</cfquery>
 			<cfif getPK.recordcount NEQ 1>
-				<cfthrow message="<h3 class='h4'>Error inserting geology attribute, inserted row not found.</h3>">
+				<cfthrow message="Error inserting geology attribute, inserted row not found.">
 			</cfif>
 			<cfset values="#geology_attribute#:#geo_att_value#">
 			<cfset count=1>
