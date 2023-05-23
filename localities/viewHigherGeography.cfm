@@ -127,7 +127,7 @@ limitations under the License.
 		flat.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 </cfquery>
 <cfoutput>
-	<main class="container-xl px-5" id="content">
+	<main class="container-xl px-5 px-md-2" id="content">
 		<div class="row mx-0">
 			<cfloop query="getGeography">
 				<div class="col-12 mt-4 pb-2 border-bottom border-dark">
