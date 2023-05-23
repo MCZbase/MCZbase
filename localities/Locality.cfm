@@ -177,6 +177,13 @@ limitations under the License.
 							<div id="SpaceDQDiv"></div>
 						</div>
 					</div>
+					<div class="col-12 px-0 pr-md-3 pl-md-0 ">
+						<div class="border bg-light rounded p-3 my-2">
+							<cfset media = getLocalityMediaHtml(locality_id="#locality_id#")>
+							<div id="mediaDiv">#media#</div>
+						</div>
+						<!--- TODO: Add media --->
+					</div>
 				</section>
 				<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-3 col-xl-4">
 						<!--- map --->

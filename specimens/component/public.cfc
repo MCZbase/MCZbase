@@ -2665,8 +2665,9 @@ limitations under the License.
 					from
 						media_relations
 					where
-						RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#"> and
-						MEDIA_RELATIONSHIP like '% locality'
+						RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#">
+						AND MEDIA_RELATIONSHIP like '% locality'
+						AND MCZBASE.is_media_encumbered(media_id) < 1 
 				</cfquery>
 				<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
@@ -2674,8 +2675,9 @@ limitations under the License.
 					from
 						media_relations
 					where
-						RELATED_PRIMARY_KEY=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.collecting_event_id#"> and
-						MEDIA_RELATIONSHIP like '% collecting_event'
+						RELATED_PRIMARY_KEY=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.collecting_event_id#">
+						AND MEDIA_RELATIONSHIP like '% collecting_event'
+						AND MCZBASE.is_media_encumbered(media_id) < 1 
 				</cfquery>
 				<cfif localityMedia.recordcount gt 0>
 					<cfset mediaType1 = "Locality">
