@@ -877,7 +877,6 @@ limitations under the License.
 								Recent (no geological attributes) 
 							</li>
 						</ul>
-						<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog',#callback_name#); ">Add</button>
 				<cfelse>
 					<h3 class="h4">Geological Attributes</h3>
 						<ul>
