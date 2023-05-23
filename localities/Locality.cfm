@@ -41,7 +41,7 @@ limitations under the License.
 		<cfset pageTitle="Deleting Locality">
 	</cfcase>
 	<cfdefaultcase>
-		<cfthrow message="<h3 class='h4 text-danger'>Error: Unknown Action</h3>">
+		<cfthrow message="Error: Unknown Action">
 	</cfdefaultcase>
 </cfswitch>
 <cfset pageHasTabs="true">
@@ -85,7 +85,7 @@ limitations under the License.
 			)
 		</cfquery>
 		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
-			<cfthrow message="<h3 class='h4 text-danger'>Error: unable to edit locality, no locality_id specified.</h3>">
+			<cfthrow message="Error: unable to edit locality, no locality_id specified.">
 		</cfif>
 		<cfoutput>
 			<main class="container-fluid mt-3 pb-5 mb-5" id="content">
