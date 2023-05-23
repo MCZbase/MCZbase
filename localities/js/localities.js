@@ -344,7 +344,7 @@ function openEditGeologyDialog(geology_attribute_id, locality_id, dialogid, call
 		height: h,
 		width: w,
 		minWidth: 300,
-		minHeight: 500,
+		minHeight: 600,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() { 
