@@ -228,7 +228,7 @@ function openAddGeoreferenceDialog(dialogid, locality_id, locality_label, okcall
 		zindex: 2000,
 		height: h,
 		width: w,
-		minWidth: 650,
+		minWidth: 300,
 		minHeight: 500,
 		draggable:true,
 		buttons: {
