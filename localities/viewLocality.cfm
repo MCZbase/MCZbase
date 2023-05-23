@@ -74,44 +74,79 @@ limitations under the License.
 					<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 					<div id="relatedTo">#blockRelated#</div>
 				</div>
-				<!--- TODO: list dates, collectors, collecting events, etc. --->
+				<cfquery name="collectors"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct
+						preferred_agent_name.agent_id, 
+						preferred_agent_name.agent_name
+					FROM
+						<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+						join collector on flatTableName.collection_object_id = collector.collection_object_id
+						join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
+					WHERE
+						flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+				</cfquery>
+				<cfif collectors.recordcount GT 0>
+					<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
+						<h3 class="h4">Collectors at this locality</h3>
+						<ul class="list-group list-group-horizontal flex-wrap rounded-0">
+							<cfloop query="collectors">
+								<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+									<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
+								</li>
+							</cfloop>
+						</ul>
+					</div>
+				</cfif>
+				<!--- join through flat/filtered flat to prevent inclusion of encumbered cataloged item records --->
+				<cfquery name="years"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						count(flatTableName.collection_object_id) ct,
+						to_char(collecting_event.date_began_date,'yyyy') year
+					FROM
+						<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+						join collecting_event on flatTableName.collecting_event_id = collecting_event.collecting_event_id
+					WHERE
+						flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						and
+						to_char(collecting_event.date_began_date,'yyyy') = to_char(collecting_event.date_ended_date,'yyyy')
+					GROUP BY
+						to_char(collecting_event.date_began_date,'yyyy') year
+					ORDER BY 
+						to_char(collecting_event.date_began_date,'yyyy') asc
+				</cfquery>
+				<cfif collectors.recordcount GT 0>
+					<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
+						<h3 class="h4">Known Years Collected at this locality</h3>
+						<ul class="list-group list-group-horizontal flex-wrap rounded-0">
+							<cfloop query="years">
+								<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+									<a class="h4" href="/?=#locality_id#=#years.year#">#years.year# </a> 
+								</li>
+							</cfloop>
+						</ul>
+					</div>
+				</cfif>
+				<!--- TODO: list collecting events, etc. --->
 			</div>
 			<div class="row mx-0">
 				<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
-					<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT
-							media_id
-						FROM
-							media_relations
-						WHERE
-							media_relationship like '% locality'
-							and
-							related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#"> 
-					</cfquery>
-					<cfif localityMedia.recordcount gt 0>
-						<cfloop query="localityMedia">
-							<div class="col-6 px-1 col-sm-3 col-lg-3 col-xl-3 mb-1 px-md-2 pt-1 float-left"> 
-								<div id='locMediaBlock#localityMedia.media_id#'>
-									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#localityMedia.media_id#",size="350",captionAs="textShort")>
-								</div>
-							</div>
-						</cfloop>
-					</cfif>
+					<cfset media = getLocalityMediaHtml(locality_id="#locality_id#")>
+					<div id="mediaDiv">#media#</div>
 				</div>
 			</div>
 		</section>
 		<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-3 col-xl-4">
-				<!--- map --->
-				<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
-					<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
-					<div id="mapDiv">#map#</div>
-				</div>
-				<!--- verbatim values --->
-				<div class="col-12 pt-2">
-					<h2 class="h4">Verbatim localities (from associated collecting events)</h2>
-					<cfset verbatim = getLocalityVerbatimHtml(locality_id="#locality_id#")>
-					<div id="verbatimDiv">#verbatim#</div>
-				</div>
+			<!--- map --->
+			<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+				<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
+				<div id="mapDiv">#map#</div>
+			</div>
+			<!--- verbatim values --->
+			<div class="col-12 pt-2">
+				<h2 class="h4">Verbatim localities (from associated collecting events)</h2>
+				<cfset verbatim = getLocalityVerbatimHtml(locality_id="#locality_id#")>
+				<div id="verbatimDiv">#verbatim#</div>
+			</div>
 		</section>
 		</div>
 	</main>

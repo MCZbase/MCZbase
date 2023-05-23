@@ -1285,6 +1285,50 @@ limitations under the License.
 	<cfreturn cfthread["localityUsesThread#tn#"].output>
 </cffunction>
 
+<!--- function getLocalityMediaHtml return a block of html with media associated with a locality. 
+
+   @param locality_id the primary key value for the locality for which to return media.
+   @return block of html.
+--->
+<cffunction name="getLocalityMediaHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="locality_id" type="string" required="yes">
+	
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="localityMediaThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						media_id
+					FROM
+						media_relations
+					WHERE
+						media_relationship like '% locality'
+						and
+						related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#"> 
+						and 
+						MCZBASE.is_media_encumbered(media_id) < 1 
+				</cfquery>
+				<cfif localityMedia.recordcount gt 0>
+					<cfloop query="localityMedia">
+						<div class="col-6 px-1 col-sm-3 col-lg-3 col-xl-3 mb-1 px-md-2 pt-1 float-left"> 
+							<div id='locMediaBlock#localityMedia.media_id#'>
+								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#localityMedia.media_id#",size="350",captionAs="textShort")>
+							</div>
+						</div>
+					</cfloop>
+				</cfif>
+			<cfcatch>
+				<h3 class="h4 text-danger">Error: #cfcatch.type# #cfcatch.message#</h3> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="localityMediaThread#tn#" />
+
+	<cfreturn cfthread["localityMediaThread#tn#"].output>
+</cffunction>
 
 <!--- function getLocalityVerbatimHtml return a block of html with verbatim data from
  collecting events associated with a locality. 
