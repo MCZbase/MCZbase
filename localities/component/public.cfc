@@ -678,4 +678,455 @@ limitations under the License.
 
 
 
+<!--- getLocalityHtml returns html showing locality details
+
+@param locality_id the primary key value for the locality o display.
+--->
+<cffunction name="getLocalityHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="locality_id" type="string" required="yes">
+	
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="localityDetailsThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						geog_auth_rec_id, spec_locality, sovereign_nation,
+						minimum_elevation, maximum_elevation, orig_elev_units,
+						to_meters(maximum_elevation, orig_elev_units) max_elev_in_m,
+						to_meters(minimum_elevation, orig_elev_units) min_elev_in_m,
+						min_depth, max_depth, depth_units,
+						to_meters(max_depth, depth_units) max_depth_in_m,
+						to_meters(min_depth, depth_units) min_depth_in_m,
+						section_part, section, township, township_direction, range, range_direction,
+						trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
+						nogeorefbecause, georef_updated_date, georef_by,
+						curated_fg, locality_remarks
+					FROM locality
+					WHERE 
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+				</cfquery>
+				<cfif lookupLocality.recordcount NEQ 1>
+					<cfthrow message="Found other than one locality with specified locality_id [#encodeForHtml(locality_id)#].  Locality may be used only by a department for which you do not have access.">
+				</cfif>
+				<ul class="list-group pl-0 py-1">
+					<cfloop query="lookupLocality">
+						<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
+						<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT higher_geog
+							FROM geog_auth_rec
+							WHERE 
+								geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+						</cfquery>
+						<li class="list-group-item py-0">
+							<span class="float-left font-weight-lessbold">Higher Geography</span>
+							<span class="float-left pl-1 mb-0"> #lookupHigherGeog.higher_geog#</span>
+						</li>
+						<li class="list-group-item py-0">
+							<span class="float-left font-weight-lessbold">Sovereign Nation</span>
+							<span class="float-left pl-1 mb-0"> #lookupLocality.sovereign_nation#</span>
+						</li>
+						<cfset curated_fg = "#lookupLocality.curated_fg#">
+						<li class="list-group-item py-0">
+							<span class="float-left font-weight-lessbold">Vetted</span>
+							<cfif curated_fg EQ 1><cfset vetted="Yes"><cfelse><cfset vetted="No"></cfif>
+							<span class="float-left pl-1 mb-0"> #vetted#</span>
+						</li>
+						<li class="list-group-item py-0">
+							<span class="float-left font-weight-lessbold">Specific Locality</span>
+							<span class="float-left pl-1 mb-0"> #lookupLocality.spec_locality#</span>
+						</li>
+						<cfset minimum_elevation = "#lookupLocality.minimum_elevation#">
+						<cfif len(minimum_elevation) GT 0>
+							<cfset maximum_elevation = "#lookupLocality.maximum_elevation#">
+							<cfset orig_elev_units = "#lookupLocality.orig_elev_units#">
+							<li class="list-group-item py-0">
+								<span class="float-left font-weight-lessbold">Elevation</span>
+								<cfif len(maximum_elevation) GT 0 AND minimum_elevation NEQ maximum_elevation>
+									<cfset elev = "#minimum_elevation#-#maximum_elevation# #orig_elev_units#">
+								<cfelse>
+									<cfset elev = "#minimum_elevation# #orig_elev_units#">
+								</cfif>
+								<span class="float-left pl-1 mb-0"> #elev#</span>
+							</li>
+							<cfset max_elev_in_m = "#lookupLocality.max_elev_in_m#">
+							<cfset orig_elev_units = "#lookupLocality.orig_elev_units#">
+							<li class="list-group-item py-0">
+								<span class="float-left font-weight-lessbold">Elevation in Meters</span>
+								<cfif len(max_elev_in_m) GT 0 AND min_elev_in_m NEQ max_elev_in_m>
+									<cfset elev = "#min_elev_in_m#-#max_elev_in_m# m">
+								<cfelse>
+									<cfset elev = "#min_elev_in_m# m">
+								</cfif>
+								<span class="float-left pl-1 mb-0"> #elev#</span>
+							</li>
+						</cfif>
+						<cfset min_depth = "#lookupLocality.min_depth#">
+						<cfif len(min_depth) GT 0>
+							<cfset max_depth = "#lookupLocality.max_depth#">
+							<cfset depth_units = "#lookupLocality.depth_units#">
+							<li class="list-group-item py-0">
+								<span class="float-left font-weight-lessbold">Depth</span>
+								<cfif len(max_depth) GT 0 AND min_depth NEQ max_depth>
+									<cfset depth = "#min_depth#-#max_depth# #depth_units#">
+								<cfelse>
+									<cfset depth = "#min_depth# #depth_units#">
+								</cfif>
+								<span class="float-left pl-1 mb-0"> #depth#</span>
+							</li>
+							<cfset max_depth_in_m = "#lookupLocality.max_depth_in_m#">
+							<cfset depth_units = "#lookupLocality.depth_units#">
+							<li class="list-group-item py-0">
+								<span class="float-left font-weight-lessbold">Depth in Meters</span>
+								<cfif len(max_depth_in_m) GT 0 AND min_depth_in_m NEQ max_depth_in_m>
+									<cfset depth = "#min_depth_in_m#-#max_depth_in_m# m">
+								<cfelse>
+									<cfset depth = "#min_depth_in_m# m">
+								</cfif>
+								<span class="float-left pl-1 mb-0"> #depth#</span>
+							</li>
+						</cfif> 
+						<cfif len(lookupLocality.section) GT 0>
+							<cfset plss = "#lookupLocality.plss#">
+							<li class="list-group-item py-0">
+								<span class="float-left font-weight-lessbold">PLSS</span>
+								<span class="float-left pl-1 mb-0"> #plss#</span>
+							</li>
+						</cfif>
+						<cfif len(lookupLocality.nogeorefbecause) GT 0>
+							<li class="list-group-item py-0">
+								<span class="float-left font-weight-lessbold">Not Georeferenced Because</span>
+								<span class="float-left pl-1 mb-0"> #lookupLocality.nogeorefbecause#</span>
+							</li>
+						</cfif>
+						<cfif len(lookupLocality.georef_by) GT 0>
+							<li class="list-group-item py-0">
+								<span class="float-left font-weight-lessbold">Georeferenced By</span>
+								<span class="float-left pl-1 mb-0"> #lookupLocality.georef_by#</span>
+							</li>
+						</cfif>
+						<cfif len(lookupLocality.georef_updated_date) GT 0>
+							<li class="list-group-item py-0">
+								<span class="float-left font-weight-lessbold">Georeference Updated</span>
+								<span class="float-left pl-1 mb-0"> #lookupLocality.georef_updated_date#</span>
+							</li>
+						</cfif>
+						<cfif len(lookupLocality.locality_remarks) GT 0>
+							<li class="list-group-item py-0">
+								<span class="float-left font-weight-lessbold">Locality Remarks</span>
+								<span class="float-left pl-1 mb-0"> #lookupLocality.locality_remarks#</span>
+							</li>
+						</cfif>
+					</cfloop>
+				</ul>
+
+			<cfcatch>
+				<h2 class="h3 text-danger mt-0">Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="localityDetailsThread#tn#" />
+
+	<cfreturn cfthread["localityDetailsThread#tn#"].output>
+</cffunction>
+
+<!--- given a locality id, return a block of html with a list of geological attributes.
+  @param locality_id the locality for which to lookup the geology.
+  @return block of html containing a list of geological attribtues, or an error message.
+--->
+<cffunction name="getLocalityGeologyDetailsHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="locality_id" type="string" required="yes">
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="localityGeologyDetailsThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getGeologicalAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+					SELECT
+						geology_attribute_id,
+						ctgeology_attribute.type,
+						geology_attributes.geology_attribute,
+						geology_attributes.geo_att_value,
+						geology_attributes.geo_att_determiner_id,
+						agent_name determined_by,
+						to_char(geology_attributes.geo_att_determined_date,'yyyy-mm-dd') determined_date,
+						geology_attributes.geo_att_determined_method determined_method,
+						geology_attributes.geo_att_remark,
+						geology_attributes.previous_values,
+						geology_attribute_hierarchy.usable_value_fg,
+						geology_attribute_hierarchy.geology_attribute_hierarchy_id
+					FROM
+						geology_attributes
+						join ctgeology_attribute on geology_attributes.geology_attribute = ctgeology_attribute.geology_attribute
+						left join preferred_agent_name on geo_att_determiner_id = agent_id
+						left join geology_attribute_hierarchy 
+							on geology_attributes.geo_att_value = geology_attribute_hierarchy.attribute_value 
+								and
+								geology_attributes.geology_attribute = geology_attribute_hierarchy.attribute
+					WHERE 
+						geology_attributes.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					ORDER BY
+						ctgeology_attribute.ordinal
+				</cfquery>
+				<cfif getGeologicalAttributes.recordcount EQ 0>
+					<h3 class="h4">Geological Attributes</h3>
+						<ul>
+							<li>
+								Recent (no geological attributes) 
+							</li>
+						</ul>
+						<button type="button" class="btn btn-xs btn-secondary" onClick=" openAddGeologyDialog('#locality_id#','addGeologyDialog',#callback_name#); ">Add</button>
+				<cfelse>
+					<h3 class="h4">Geological Attributes</h3>
+						<ul>
+							<cfset valList = "">
+							<cfset shownParentsList = "">
+							<cfset separator = "">
+							<cfset separator2 = "">
+							<cfloop query="getGeologicalAttributes">
+								<cfset valList = "#valList##separator##getGeologicalAttributes.geo_att_value#">
+								<cfset separator = "|">
+							</cfloop>
+							<cfloop query="getGeologicalAttributes">
+								<cfquery name="getParentage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.query_timeout#">
+									SELECT distinct
+									  connect_by_root geology_attribute_hierarchy.attribute parent_attribute,
+									  connect_by_root attribute_value parent_attribute_value,
+									  connect_by_root usable_value_fg
+									FROM geology_attribute_hierarchy
+									  left join geology_attributes on
+									     geology_attribute_hierarchy.attribute = geology_attributes.geology_attribute
+									     and
+							   		  geology_attribute_hierarchy.attribute_value = geology_attributes.geo_att_value
+									WHERE geology_attribute_hierarchy_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getGeologicalAttributes.geology_attribute_hierarchy_id#">
+									CONNECT BY nocycle PRIOR geology_attribute_hierarchy_id = parent_id
+								</cfquery>
+								<cfset parentage="">
+								<cfloop query="getParentage">
+									<cfif ListContains(valList,getParentage.parent_attribute_value,"|") EQ 0 AND  ListContains(shownParentsList,getParentage.parent_attribute_value,"|") EQ 0 >
+										<cfset parentage="#parentage#<li><span class='text-secondary'>#getParentage.parent_attribute#:#getParentage.parent_attribute_value#</span></li>" > <!--- " --->
+										<cfset shownParentsList = "#shownParentsList##separator2##getParentage.parent_attribute_value#">
+										<cfset separator2 = "|">
+									</cfif>
+								</cfloop>
+								#parentage#
+								<li>
+									<cfif len(getGeologicalAttributes.determined_method) GT 0>
+										<cfset method = " Method: #getGeologicalAttributes.determined_method#">
+									<cfelse>
+										<cfset method = "">
+									</cfif>
+									<cfif len(getGeologicalAttributes.geo_att_remark) GT 0>
+										<cfset remarks = " <span class='smaller-text'>Remarks: #getGeologicalAttributes.geo_att_remark#</span>"><!--- " --->
+									<cfelse>
+										<cfset remarks="">
+									</cfif>
+									<cfif usable_value_fg EQ 1>
+										<cfset marker = "*">
+										<cfset spanClass = "">
+									<cfelse>
+										<cfset marker = "">
+										<cfset spanClass = "text-danger">
+									</cfif>
+									<span class="#spanClass#">#geo_att_value# #marker#</span> (#geology_attribute#) #determined_by# #determined_date##method##remarks#
+								</li>
+							</cfloop>
+						</ul>
+				</cfif>
+			<cfcatch>
+				<h3 class="h4 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="localityGeologyDetailsThread#tn#" />
+
+	<cfreturn cfthread["localityGeologyDetailsThread#tn#"].output>
+</cffunction>
+
+<!--- given a locality_id list the georeferences for the locality, with a button that crosslinks to a locality map.
+  to integrate with map, assumes that map is a global javascript variable holding a google maps object, and that
+  features in the map have an id equal to the lat_long_id, so that the test  if (feature.getId() == "#lat_long_id#") 
+  can be performed on the features and that the georeferenced points will be features on the map.
+
+  @param locality_id the locality for which to display georeferences.
+--->
+<cffunction name="getLocalityGeoreferenceDetailsHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="locality_id" type="string" required="yes">
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="localityGeoRefDetailsThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getLocalityMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						nvl(spec_locality,'[No specific locality value]') spec_locality, 
+						locality_id, 
+						decode(curated_fg,1,' *','') curated
+					FROM locality
+					WHERE
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+				</cfquery>
+				<cfif getLocalityMetadata.recordcount NEQ 1>
+					<cfthrow message="Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#].  Locality may be used only by a department for which you do not have access.">
+				</cfif>
+				<cfset localityLabel = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
+				<cfset localityLabel = replace(localityLabel,'"',"&quot;","all")>
+				<cfset localityLabel = replace(localityLabel,"'","\'","all")>
+				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						lat_long_id,
+						georefmethod,
+						nvl2(coordinate_precision, round(dec_lat,coordinate_precision), round(dec_lat,5)) dec_lat,
+						dec_lat raw_dec_lat,
+						nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_long,5)) dec_long,
+						dec_long raw_dec_long,
+						max_error_distance,
+						max_error_units,
+						to_meters(lat_long.max_error_distance, lat_long.max_error_units) coordinateUncertaintyInMeters,
+						error_polygon,
+						datum,
+						extent,
+						spatialfit,
+						determined_by_agent_id,
+						det_agent.agent_name determined_by,
+						determined_date,
+						gpsaccuracy,
+						lat_long_ref_source,
+						nearest_named_place,
+						lat_long_for_nnp_fg,
+						verificationstatus,
+						field_verified_fg,
+						verified_by_agent_id,
+						ver_agent.agent_name verified_by,
+						orig_lat_long_units,
+						lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
+						long_deg, dec_long_min, long_min, long_sec, long_dir,
+						utm_zone, utm_ew, utm_ns,
+						CASE orig_lat_long_units
+							WHEN 'decimal degrees' THEN dec_lat || '&##176;'
+							WHEN 'deg. min. sec.' THEN lat_deg || '&##176; ' || lat_min || '&apos; ' || lat_sec || '&quot; ' || lat_dir
+							WHEN 'degrees dec. minutes' THEN lat_deg || '&##176; ' || dec_lat_min || '&apos; ' || lat_dir
+						END as LatitudeString,
+						CASE orig_lat_long_units
+							WHEN 'decimal degrees' THEN dec_long || '&##176;'
+							WHEN'degrees dec. minutes' THEN long_deg || '&##176; ' || dec_long_min || '&apos; ' || long_dir
+							WHEN 'deg. min. sec.' THEN long_deg || '&##176; ' || long_min || '&apos; ' || long_sec || '&quot ' || long_dir
+						END as LongitudeString,
+						accepted_lat_long_fg,
+						decode(accepted_lat_long_fg,1,'Accepted','') accepted_lat_long,
+						geolocate_uncertaintypolygon,
+						geolocate_score,
+						geolocate_precision,
+						geolocate_numresults,
+						geolocate_parsepattern,
+						lat_long_remarks
+					FROM
+						lat_long
+						left join preferred_agent_name det_agent on lat_long.determined_by_agent_id = det_agent.agent_id
+						left join preferred_agent_name ver_agent on lat_long.verified_by_agent_id = ver_agent.agent_id
+					WHERE 
+						lat_long.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					ORDER BY
+						accepted_lat_long_fg desc
+				</cfquery>
+				<h3 class="h4 w-100">Georeferences (#getGeoreferences.recordcount#)</h3>
+				<cfif getGeoreferences.recordcount EQ 0>
+					<cfquery name="checkNoGeorefBecause" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							nogeorefbecause
+						FROM
+							locality
+						WHERE
+							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					</cfquery>
+					<cfif len(checkNoGeorefBecause.nogeorefbecause) EQ 0 >
+						<cfset noGeoRef = "<span class='text-warning'>Add a georeference or put a value in Not Georeferenced Because.</span>"><!--- " --->
+					<cfelse> 
+						<cfset noGeoRef = " (#checkNoGeorefBecause.nogeorefbecause#)">
+					</cfif>
+					<div class="w-100">
+						<ul>
+							<li>None #noGeoRef#</li>
+						</ul>
+							<button type="button" class="btn btn-xs btn-secondary" 
+									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', #callback_name#) " 
+									aria-label = "Add a georeference to this locality"
+								>Add</button>
+								<output id="georeferenceDialogFeedback">&nbsp;</output>	
+					</div>
+				<cfelse>
+					<div class="w-100">
+						<cfloop query="getGeoreferences">
+								<cfset original="">
+								<cfset det = "">
+								<cfset ver = "">
+								<cfif len(determined_by) GT 0>
+									<cfset det = " Determiner: #determined_by#. ">
+								</cfif>
+								<cfif len(verified_by) GT 0>
+									<cfset ver = " Verified by: #verified_by#. ">
+								</cfif>
+								<cfif len(utm_zone) GT 0>
+									<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
+								<cfelse>
+									<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
+								</cfif>
+								<cfset divClass="small90 my-1 w-100">
+								<cfif accepted_lat_long EQ "Accepted">
+									<cfset divClass="small90 font-weight-bold my-1 w-100">
+								</cfif>
+								<div class="#divClass#">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
+								<ul class="mb-2">
+									<li>
+										#original# <span class="#divClass#">#accepted_lat_long#</span>
+									</li>
+									<li>
+										Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
+									</li>
+									<cfif len(geolocate_score) GT 0>
+										<li>
+											GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
+										</li>
+									</cfif>
+								</ul>
+								<script>
+									var bouncing#lat_long_id# = false;
+									function toggleBounce#lat_long_id#() { 
+										if (bouncing#lat_long_id#==true) { 
+											bouncing#lat_long_id# = false;
+											map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
+											$('##toggleButton#lat_long_id#').html("Highlight on map");
+										} else { 
+											bouncing#lat_long_id# = true;
+											map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
+											$('##toggleButton#lat_long_id#').html("Stop bouncing");
+										}
+									};
+								</script>
+								<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info mb-1" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
+
+							</cfloop>
+					</div>
+					
+				</cfif>
+			<cfcatch>
+				<h3 class="h4 text-danger">Error: #cfcatch.type# #cfcatch.message#</h3> 
+				<div>#cfcatch.detail#</div>
+				<cfif isDefined("cfcatch.cause.tagcontext")>
+					<div>Line #cfcatch.cause.tagcontext[1].line# of #replace(cfcatch.cause.tagcontext[1].template,Application.webdirectory,'')#</div>
+				</cfif>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="localityGeoRefDetailsThread#tn#" />
+
+	<cfreturn cfthread["localityGeoRefDetailsThread#tn#"].output>
+</cffunction>
+
+
 </cfcomponent>

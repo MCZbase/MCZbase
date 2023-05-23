@@ -745,6 +745,12 @@ Delete an existing collecting event number record.
 	<cfreturn cfthread["editLocalityFormThread#tn#"].output>
 </cffunction>
 
+<!--- given a locality id, return a block of html with an editable list of geological attributes.
+  @param locality_id the locality for which to lookup the geology.
+  @param callback_name the name of a callback function that can be passed on to action buttons for
+   changing the geological attributes.
+  @return block of html containing a list of geological attribtues, or an error message.
+--->
 <cffunction name="getLocalityGeologyHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="callback_name" type="string" required="yes">
@@ -2216,9 +2222,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="localityGeorefFormThread#tn#" />
+	<cfthread action="join" name="localityGeoRefFormThread#tn#" />
 
-	<cfreturn cfthread["localityGeorefFormThread#tn#"].output>
+	<cfreturn cfthread["localityGeoRefFormThread#tn#"].output>
 </cffunction>
 
 <cffunction name="georeferenceDialogHtml" access="remote" returntype="string">
