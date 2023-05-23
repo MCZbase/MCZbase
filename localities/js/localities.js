@@ -332,7 +332,7 @@ function openEditGeologyDialog(geology_attribute_id, locality_id, dialogid, call
 	var w = $(window).width();
 	w = Math.floor(w *.9);
 	h = Math.floor(h *.5);
-	if (h < 500) { h = 580; }
+	if (h < 500) { h = 590; }
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
