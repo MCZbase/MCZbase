@@ -580,7 +580,7 @@ Functions supporting editing higher geographies.
 							$('###outputDiv#').html('Unsaved changes.');
 							$('###outputDiv#').addClass('text-danger');
 							$('###outputDiv#').removeClass('text-success');
-							$('###outputDiv#').removeClass('text-warning');
+							$('###outputDiv#').removeClass('text-secondary');
 						};
 						$(document).ready(function() {
 							monitorForChangesGeneric('#formId#',handleChange);
