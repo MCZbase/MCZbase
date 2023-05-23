@@ -275,7 +275,7 @@ function openAddGeologyDialog(locality_id, dialogid, callback) {
 	var w = $(window).width();
 	w = Math.floor(w *.9);
 	h = Math.floor(h *.5);
-	if (h < 350) { h = 300; }
+	if (h < 350) { h = 500; }
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
@@ -287,7 +287,7 @@ function openAddGeologyDialog(locality_id, dialogid, callback) {
 		height: h,
 		width: w,
 		minWidth: 300,
-		minHeight: 300,
+		minHeight: 500,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() { 
