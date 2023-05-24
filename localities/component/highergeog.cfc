@@ -442,13 +442,13 @@ Functions supporting editing higher geographies.
 							$(document).ready(() => makeGeogAutocomplete('island','island'));
 						</script>
 					</div>
-					<div class="col-12 col-md-6 mb-2">
+					<div class="col-12 col-xl-6 mb-2">
 						<cfif NOT isdefined("wkt_polygon")><cfset wkt_polygon=""></cfif>
 						<cfif len(wkt_polygon) GT 0><cfset labelText = " (Present)"><cfelse><cfset labelText=""></cfif>
 						<label for = "wktPolygon" class="data-entry-label">Polygon#labelText#</label>
 						<input type="text" name="wkt_polygon" value=""id="wktPolygon" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-3 mb-2">
+					<div class="col-12 col-xl-6 mb-2">
 						<label for="wktFile" class="data-entry-label" style="margin-bottom: 1px;">Load Polygon from WKT file</label>
 						<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100 p-0">
 						<script>
@@ -460,7 +460,7 @@ Functions supporting editing higher geographies.
 							}
 						</script>
 					</div>
-					<div class="col-12 col-md-3 mb-2">
+					<div class="col-12 col-xl-6 mb-2">
 						<output id="wktLoadFeedback"></output>
 					</div>
 					<div class="col-12 col-md-3 mb-2">
