@@ -1044,7 +1044,7 @@ limitations under the License.
 							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 					</cfquery>
 					<cfif len(checkNoGeorefBecause.nogeorefbecause) EQ 0 >
-						<cfset noGeoRef = "<span class='text-warning'>Add a georeference or put a value in Not Georeferenced Because.</span>"><!--- " --->
+						<cfset noGeoRef = "">
 					<cfelse> 
 						<cfset noGeoRef = " (#checkNoGeorefBecause.nogeorefbecause#)">
 					</cfif>
