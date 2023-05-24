@@ -161,7 +161,7 @@ limitations under the License.
 								<div id="geologyDiv">#geology#</div>
 							</div>
 						</div>
-						<div class="col-12 px-0 pl-md-1 pr-md-0 col-md-6">
+						<div class="col-12 px-0 pl-md-0 pr-md-3 col-md-6">
 							<div class="border rounded px-3 my-2 py-3">
 								<cfset georeferences = getLocalityGeoreferencesHtml(locality_id="#locality_id#",callback_name='reloadGeoreferences')>
 								<div id="georeferencesDiv">#georeferences#</div>
@@ -189,8 +189,8 @@ limitations under the License.
 							<div id="addMediaDiv">
 								<cfset relations="shows locality,documents locality">
 								<cfloop list="#relations#" index="relation">
-									<input type="button" value="Link Existing Media as #relation#" class="btn btn-xs btn-secondary my-1" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relation#', reloadMedia); ">
-									<input type="button" value="Add New Media as #relation#" class="btn btn-xs btn-secondary my-1" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relation#', reloadMedia); ">
+									<input type="button" value="Link Existing Media as #relation#" class="btn btn-xs btn-secondary" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relation#', reloadMedia); ">
+									<input type="button" value="Add New Media as #relation#" class="btn btn-xs btn-secondary" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relation#', reloadMedia); ">
 								</cfloop>
 							</div>
 							<div id="mediaDialogDiv"></div>
