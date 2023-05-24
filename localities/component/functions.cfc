@@ -3974,7 +3974,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<input type="text" name="geolocate_parsepattern" id="geolocate_parsepattern" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_parsepattern)#" readonly>
 									</div>
 								</cfif>
-								<div class="col-12 col-md-3 pt-2 mb-2">
+								<div class="col-12 col-md-3 mb-2">
 									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 										onClick="if (checkFormValidity($('##editGeorefForm')[0])) { saveGeorefUpdate();  } " 
 										id="submitButton" >
