@@ -28,6 +28,17 @@ limitations under the License.
 
 <cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
 	<cfthrow message="Error: unable to view locality, no locality_id specified.">
+<cfelse>
+	<cfquery name="locality"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT locality_id
+		FROM locality
+		WHERE
+			locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+	</cfquery>
+	<cfif locality.recordcount NEQ 1>
+		<cfinclude template="/errors/404.cfm">
+		<cfabort>
+	</cfif>
 </cfif>
 
 <cfinclude template="/localities/component/public.cfc" runOnce="true"><!--- for getLocalityMap() --->
@@ -38,7 +49,10 @@ limitations under the License.
 		<div class="row mx-0">
 		<section class="col-12 col-md-9 px-md-0 col-xl-8 px-xl-0">
 			<div class="col-12 px-0 pl-md-0 pr-md-3">
-				<h1 class="h2 mt-3 mb-0 px-3">Locality [#encodeForHtml(locality_id)#]</h1>
+				<h1 class="h2 mt-3 mb-0 px-3">Locality [#encodeForHtml(locality.locality_id)#]</h1>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+					<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+				</cfif>
 				<!--- TODO: Edit button --->
 				<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 					<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
