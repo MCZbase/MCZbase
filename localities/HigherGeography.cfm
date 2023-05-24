@@ -83,11 +83,11 @@ limitations under the License.
 							<h1 class="h2 mt-3 mb-0 px-3">Edit Higher Geography 
 								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#encodeForUrl(geog_auth_rec_id)#" target="_blank">[#encodeForHtml(geog_auth_rec_id)#]</a>
 							</h1>
-							<div class="border-top border-right border-left border-bottom border-success rounded px-2 my-3 py-2" id="usesContainingDiv">
+							<div class="border-top border-right border-left border-bottom border-success rounded px-2 my-2 py-2" id="usesContainingDiv">
 								<cfset blockRelated = getGeographyUsesHtml(geog_auth_rec_id = "#geog_auth_rec_id#", containingDiv="usesContainingDiv")>
 								<div id="relatedTo">#blockRelated#</div>
 							</div>
-							<div class="border rounded px-2 my-2 py-2">
+							<div class="border rounded px-2 my-xl-3 my-2 py-2">
 								<cfset summary = getGeographySummary(geog_auth_rec_id="#geog_auth_rec_id#")>
 								<div id="summary" class="h1 mb-0 px-2">#summary#</div>
 							</div>
@@ -123,7 +123,7 @@ limitations under the License.
 						</div>
 					</section>
 					<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-4">
-						<div class="col-12 px-0 bg-light pt-2 pb-1 mt-2 mb-2 border rounded">
+						<div class="col-12 px-0 bg-light pt-2 pb-1 mt-0 mb-2 border rounded">
 						<!--- map --->
 							<cfset map = getHigherGeographyMapHtml(geog_auth_rec_id="#geog_auth_rec_id#")>
 							<div id="mapDiv">#map#</div>
