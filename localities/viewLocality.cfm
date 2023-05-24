@@ -142,7 +142,7 @@ limitations under the License.
 			<div class="row mx-0">
 				<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
 					<cfset media = getLocalityMediaHtml(locality_id="#locality_id#")>
-					<div id="mediaDiv">#media#</div>
+					<div id="mediaDiv" class="row">#media#</div>
 				</div>
 			</div>
 		</section>

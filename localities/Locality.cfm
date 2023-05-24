@@ -196,10 +196,11 @@ limitations under the License.
 					<div class="col-12 px-0 pr-md-3 pl-md-0 ">
 						<div class="border bg-light rounded p-3 my-2">
 							<cfset media = getLocalityMediaHtml(locality_id="#locality_id#")>
-							<div id="mediaDiv">#media#</div>
+							<div id="mediaDiv" class="row">#media#</div>
 							<div id="addMediaDiv">
 								<cfset relations="shows locality,documents locality">
 								<cfloop list="#relations#" index="relation">
+									<cfset summary = encodeForHtml(replace(replace(summary,'"','','All'),"'",""."All"))>
 									<input type="button" value="Link Existing Media as #relation#" class="btn btn-xs btn-secondary" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relation#', reloadMedia); ">
 									<input type="button" value="Add New Media as #relation#" class="btn btn-xs btn-secondary" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relation#', reloadMedia); ">
 								</cfloop>
