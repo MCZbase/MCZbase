@@ -105,7 +105,7 @@ limitations under the License.
 						<div class="border rounded px-3 my-2 pt-2 pb-3" arial-labeledby="formheading">
 							<cfset formId = "editLocalityForm">
 							<cfset outputDiv="saveResultsDiv">
-							<div class="row mx-0">
+				<!---			<div class="row mx-0">--->
 							<form name="editLocality" id="#formId#">
 								<input type="hidden" id="locality_id" name="locality_id" value="#locality_id#">
 								<input type="hidden" name="method" value="updateLocality">
@@ -134,23 +134,26 @@ limitations under the License.
 								function saveEdits(){ 
 									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
 								};
-							</script>
-							
+							</script>			
 							<cfif countUses.total_uses GT "0">
-								<button type="button" class="btn btn-xs btn-secondary ml-auto" style="width: 130px;margin-top: -1.75rem" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
-							</cfif>
-							<cfif countUses.total_uses EQ "0">
-							<div class="col-12 px-0">
-								<button type="button" 
-									onClick="confirmDialog('Delete this Locality?', 'Confirm Delete Locality', function() { location.assign('/localities/Locality.cfm?action=delete&locality_id=#encodeForUrl(locality_id)#'); } );" 
-									class="btn btn-xs btn-danger" >
-										Delete Locality
-								</button>
+								<div class="row mx-0">
+									<div class="col-12 px-1">
+										<button type="button" class="btn btn-xs btn-secondary float-right" style="margin-top: -1.8rem" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
+									</div>
 								</div>
 							</cfif>
-							</div>
+							<cfif countUses.total_uses EQ "0">
+								<div class="row mx-0">
+									<div class="col-12 px-1">
+										<button type="button" 
+										onClick="confirmDialog('Delete this Locality?', 'Confirm Delete Locality', function() { location.assign('/localities/Locality.cfm?action=delete&locality_id=#encodeForUrl(locality_id)#'); } );" 
+										class="btn btn-xs btn-danger" >
+										Delete Locality
+										</button>
+									</div>
+								</div>
+							</cfif>
 						</div>
-
 					</div>	
 					<div class="row mx-0">
 						<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
