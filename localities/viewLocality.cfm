@@ -52,7 +52,7 @@ limitations under the License.
 					<div class="col-12 mt-4 pb-2 border-bottom border-dark">
 						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">Locality [#encodeForHtml(locality.locality_id)#]</h1>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
-							<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right mr-1">Edit</a>
+							<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right mr-1">Edit Locality</a>
 						</cfif>
 					</div>
 				</div>
