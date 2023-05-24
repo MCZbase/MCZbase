@@ -47,7 +47,7 @@ limitations under the License.
 <cfoutput>
 	<main class="container-xl mt-3 pb-5 mb-5" id="content">
 		<div class="row mx-0">
-			<div class="col-12">
+			<div class="col-12 px-0">
 				<div class="row mx-0">
 					<div class="col-12 mt-4 pb-2 border-bottom border-dark">
 						<h1 class="h2 mr-2 col-10 px-0 mt-0 float-left">Locality [#encodeForHtml(locality.locality_id)#]</h1>
@@ -56,19 +56,17 @@ limitations under the License.
 						</cfif>
 					</div>
 				</div>
-				<section class="col-12 col-md-9 col-xl-8 float-left">
-						<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
+				<section class="col-12 col-md-9 col-xl-8 pl-md-0 float-left">
+					<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 							<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
 							<div id="summary" class="h3 px-2 mb-0">#summary#</div>
 						</div>
-
-						<div class="border rounded px-3 my-2 pt-2 pb-3" arial-labeledby="formheading">
+					<div class="border rounded px-3 my-2 pt-2 pb-3" arial-labeledby="formheading">
 							<div class="row mx-0">
 							<cfset blockDetails = getLocalityHtml(locality_id = "#locality_id#")>
 							#blockDetails#
 						</div>
 					</div>	
-
 					<div class="row mx-0">
 						<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-2">
 							<div class="border rounded px-3 my-2 py-3">
@@ -149,7 +147,7 @@ limitations under the License.
 						</div>
 					</div>
 				</section>
-				<section class="mt-3 mt-md-2 col-12 pl-md-0 col-md-3 col-xl-4 float-left">
+				<section class="mt-3 mt-md-2 col-12 px-md-0 col-md-3 col-xl-4 float-left">
 					<!--- map --->
 					<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 						<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
