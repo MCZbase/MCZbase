@@ -493,7 +493,7 @@ limitations under the License.
 					<cfif hasGeorefs.ct GT 0>
 						<li>
 							<div class="h4 my-2">#hasGeorefs.ct# georeferenced localities.
-								<button role="button" class="btn btn-xs btn-powder-blue font-weight-bold" onclick="map.fitBounds(georefsBounds); ">zoom to</button>
+								<button type="button" class="btn btn-xs btn-powder-blue font-weight-bold" onclick="map.fitBounds(georefsBounds); ">zoom to</button>
 							</div>
 							
 						</li>
