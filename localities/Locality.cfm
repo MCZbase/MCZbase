@@ -127,6 +127,9 @@ limitations under the License.
 									loadGeoreferencesHTML('#locality_id#','georeferencesDiv', 'reloadGeoreferences');
 									reloadMap();
 								}
+								function reloadMedia()  {
+									loadLocalityMediaHTML('#locality_id#','mediaDiv');
+								}
 								function saveEdits(){ 
 									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
 								};
@@ -183,8 +186,15 @@ limitations under the License.
 						<div class="border bg-light rounded p-3 my-2">
 							<cfset media = getLocalityMediaHtml(locality_id="#locality_id#")>
 							<div id="mediaDiv">#media#</div>
+							<div id="addMediaDiv">
+								<cfset relations="shows locality,documents locality">
+								<cfloop list="#relations#" index="relation">
+									<input type="button" value="Link Existing Media as #relation#" class="btn btn-xs btn-secondary" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relation#', reloadMedia); ">
+									<input type="button" value="Add New Media as #relation#" class="btn btn-xs btn-secondary" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relation#', reloadMedia); ">
+								</cfloop>
+							</div>
+							<div id="mediaDialogDiv"></div>
 						</div>
-						<!--- TODO: Add media --->
 					</div>
 				</section>
 				<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-3 col-xl-4">

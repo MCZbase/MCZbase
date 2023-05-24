@@ -52,6 +52,27 @@ function updateLocalitySummary(locality_id,pasteTarget) {
 	});
 };
 
+/** given a locality_id lookup the media for a locality and
+ set the returned html as the content of a target div.
+ @param locality_id the locality to look up the media for.
+*/
+function loadLocalityMediaHTML(locality_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/localities/component/public.cfc",
+		data : {
+			method : "getLocalityMediaHtml",
+			locality_id: locality_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading media for locality");
+		},
+		dataType: "html"
+	});
+};
+
 /** given a locality_id lookup the map for a locality and
  set it as the content of a target div, assumes reload of
  existing map.
