@@ -277,11 +277,10 @@ limitations under the License.
 					</ul>
 				</div>
 			</div>
-<<<<<<< HEAD
 			<div class="col-12 col-md-6 pt-3">
 				<cfset map = getHigherGeographyMapHtml(geog_auth_rec_id="#geog_auth_rec_id#")>
 				<div id="mapDiv">#map#</div>
-=======
+			</div>
 			<div class="col-12 col-md-6 pt-2">
 				<!--- map --->
 				<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
@@ -503,7 +502,6 @@ limitations under the License.
 						</li>
 					</cfif>
 				</ul>
->>>>>>> master
 			</div>
 		</div>
 	</main>
