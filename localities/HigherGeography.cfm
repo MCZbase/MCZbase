@@ -112,11 +112,11 @@ limitations under the License.
 								</script>
 							</div>
 							<cfif countUses.total_uses EQ "0">
-								<div class="border rounded px-2 py-2">
+								<div class="border rounded px-2 py-2 my-2">
 									<button type="button" 
 										onClick="confirmDialog('Delete this Higher Geography?', 'Confirm Delete Higher Geography', function() { location.assign('/localities/HigherGeography.cfm?action=delete&geog_auth_rec_id=#encodeForUrl(geog_auth_rec_id)#'); } );" 
 										class="btn btn-xs btn-danger" >
-											Delete HigherGeography
+											Delete Higher Geography
 									</button>
 								</div>
 							</cfif>
