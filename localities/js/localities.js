@@ -160,6 +160,8 @@ function openEditGeorefDialog(lat_long_id, dialogid, callback) {
 	var h = $(window).height();
 	var w = $(window).width();
 	w = Math.floor(w *.9);
+	h = Math.floor(h *.9);
+	if (h<750) { h = 750; }
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
@@ -168,10 +170,10 @@ function openEditGeorefDialog(lat_long_id, dialogid, callback) {
 		modal: true,
 		stack: true,
 		zindex: 2000,
-		height: 705,
+		height: h,
 		width: w,
 		minWidth: 300,
-		minHeight: 500,
+		minHeight: 750,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() { 
@@ -218,6 +220,8 @@ function openAddGeoreferenceDialog(dialogid, locality_id, locality_label, okcall
 	var h = $(window).height();
 	var w = $(window).width();
 	w = Math.floor(w *.9);
+	h = Math.floor(h *.9);
+	if (h<750) { h=750; }
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
@@ -229,7 +233,7 @@ function openAddGeoreferenceDialog(dialogid, locality_id, locality_label, okcall
 		height: h,
 		width: w,
 		minWidth: 300,
-		minHeight: 500,
+		minHeight: 750,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() { 
@@ -275,7 +279,7 @@ function openAddGeologyDialog(locality_id, dialogid, callback) {
 	var w = $(window).width();
 	w = Math.floor(w *.9);
 	h = Math.floor(h *.5);
-	if (h < 500) { h = 600; }
+	if (h < 600) { h = 600; }
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
@@ -332,7 +336,7 @@ function openEditGeologyDialog(geology_attribute_id, locality_id, dialogid, call
 	var w = $(window).width();
 	w = Math.floor(w *.9);
 	h = Math.floor(h *.5);
-	if (h < 500) { h = 590; }
+	if (h < 600) { h = 600; }
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
@@ -344,7 +348,7 @@ function openEditGeologyDialog(geology_attribute_id, locality_id, dialogid, call
 		height: h,
 		width: w,
 		minWidth: 300,
-		minHeight: 700,
+		minHeight: 600,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() { 
