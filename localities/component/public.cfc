@@ -1052,11 +1052,6 @@ limitations under the License.
 						<ul>
 							<li>None #noGeoRef#</li>
 						</ul>
-							<button type="button" class="btn btn-xs btn-secondary" 
-									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', #callback_name#) " 
-									aria-label = "Add a georeference to this locality"
-								>Add</button>
-								<output id="georeferenceDialogFeedback">&nbsp;</output>	
 					</div>
 				<cfelse>
 					<div class="w-100">
