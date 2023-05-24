@@ -87,7 +87,7 @@ limitations under the License.
 								<cfset blockRelated = getGeographyUsesHtml(geog_auth_rec_id = "#geog_auth_rec_id#", containingDiv="usesContainingDiv")>
 								<div id="relatedTo">#blockRelated#</div>
 							</div>
-							<div class="border rounded px-2 my-xl-3 my-2 py-2">
+							<div class="border rounded px-2 mt-xl-3 mb-xl-2 my-2 py-2">
 								<cfset summary = getGeographySummary(geog_auth_rec_id="#geog_auth_rec_id#")>
 								<div id="summary" class="h1 mb-0 px-2">#summary#</div>
 							</div>
