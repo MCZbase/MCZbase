@@ -647,4 +647,37 @@ limitations under the License.
 	<cfreturn returnValue>
 </cffunction>
 
+<!--- given a table and field return a comment on the field from the schema.
+
+ @param table the name of the table the field is in 
+ @param column the field for which to lookup a comment.
+ @return the comment or an empty string.
+--->
+<cffunction name="getCommentForField" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="table" type="string" required="no">
+	<cfargument name="column" type="string" required="no">
+
+	<cfset returnValue = "">
+	<cftry>
+		<cfquery name="getComment" datasource="uam_god">
+			SELECT all_tab_columns.column_name, comments
+			FROM all_tab_columns
+				left join all_col_comments 
+					on all_tab_columns.table_name = all_col_comments.table_name
+					and all_tab_columns.column_name = all_col_comments.column_name
+					and all_col_comments.owner = 'MCZBASE'
+			WHERE all_tab_columns.table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#table#"> 
+				AND all_tab_columns.owner='MCZBASE'
+				and all_tab_columns.column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#column#">
+			ORDER BY column_id
+		</cfquery>
+		<cfloop query="getComment">
+			<cfset returnValue = "#getComment.comments#">
+		</cfloop>
+	<cfcatch>
+	</cfcatch>
+	</cftry>
+	<cfreturn returnValue>
+</cffunction>
+
 </cfcomponent>

@@ -2284,3 +2284,27 @@ function lookupGeoAttParents(geology_attribute_hierarchy_id,targetDiv) {
 		}
 	});
 };
+
+/** given a table and column retrieve a comment on the column from the schema 
+ * @param table the table for the column
+ * @param column for which to obtain any comment
+ * @param targetId the id for a element in the dom the html of which to replace with
+ * the returned comment.
+ */
+function lookupComment(table, column ,targetID) { 
+	$.ajax({
+		url: "/shared/component/functions.cfc",
+		data: { 
+			table: table,
+			column: column,
+			method: 'getCommentForField'
+		},
+		dataType: 'html',
+		success : function (result) { 
+			$('#'+targetID).html(result)
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error, "Error looking up metadata for column "); 
+		}
+	});
+};
