@@ -48,11 +48,13 @@ limitations under the License.
 	<main class="container-fluid mt-3 pb-5 mb-5" id="content">
 		<div class="row mx-0">
 		<section class="col-12 col-md-9 px-md-0 col-xl-8 px-xl-0">
-			<div class="col-12 px-0 pl-md-0 pr-md-3">
-				<h1 class="h2 mt-3 mb-0 px-3">Locality [#encodeForHtml(locality.locality_id)#]</h1>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
-					<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right">Edit</a>
-				</cfif>
+			<div class="row mx-0">
+				<div class="col-12 mt-4 pb-2 border-bottom border-dark">
+					<h1 class="h2 mr-2 col-10 px-0 float-left">Locality [#encodeForHtml(locality.locality_id)#]</h1>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+						<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right">Edit Locality</a>
+					</cfif>
+				</div>
 				<!--- TODO: Edit button --->
 				<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 					<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
@@ -65,7 +67,7 @@ limitations under the License.
 					#blockDetails#
 				</div>
 			</div>	
-
+			</div>
 			<div class="row mx-0">
 				<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-2">
 					<div class="border rounded px-3 my-2 py-3">
