@@ -29,7 +29,7 @@ limitations under the License.
 <cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
 	<cfthrow message="Error: unable to view locality, no locality_id specified.">
 <cfelse>
-	<cfquery name="locality"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="locality" datasource="uam_god">
 		SELECT locality_id
 		FROM locality
 		WHERE

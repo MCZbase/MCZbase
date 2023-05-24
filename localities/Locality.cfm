@@ -53,6 +53,20 @@ limitations under the License.
 
 <cfswitch expression="#action#">
 	<cfcase value="edit">
+		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
+			<cfthrow message="Error: unable to edit locality, no locality_id specified.">
+		<cfelse>
+			<cfquery name="localityExists" datasource="uam_god">
+				SELECT locality_id
+				FROM locality
+				WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
+			<cfif localityExists.recordcount NEQ 1>
+				<cfinclude template="/errors/404.cfm">
+				<cfabort>
+			</cfif>
+		</cfif>
 		<cfinclude template="/localities/component/functions.cfc" runOnce="true">
 		<cfinclude template="/localities/component/public.cfc" runOnce="true"><!--- for getLocalityMap() --->
 		<cfinclude template="/localities/component/search.cfc" runOnce="true"><!--- for getLocalitySummary() --->
@@ -84,9 +98,6 @@ limitations under the License.
 					locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			)
 		</cfquery>
-		<cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
-			<cfthrow message="Error: unable to edit locality, no locality_id specified.">
-		</cfif>
 		<cfoutput>
 			<main class="container-fluid mt-3 pb-5 mb-5" id="content">
 				<div class="row mx-0">
