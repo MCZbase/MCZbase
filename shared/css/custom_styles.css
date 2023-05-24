@@ -2583,6 +2583,9 @@ input[disabled] {
 .mt5px {
 	margin-top: 5px!important;
 }
+.mb1px {
+	margin-bottom: 1px!important;
+}
 .fixedResults {
 	animation-duration: .5s;
 	animation-name: slideup;
