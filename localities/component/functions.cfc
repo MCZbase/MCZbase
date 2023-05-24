@@ -2134,7 +2134,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<input type="hidden" name="method" value="addGeoreference">
 									<input type="hidden" name="field_mapping" value="generic"> 
 									<input type="hidden" name="locality_id" value="#locality_id#">
-									<h2 class="px-1 h3 mt-0">Enter georeference</h2>
+									<h2 class="px-1 h3">Enter georeference</h2>
 									<div class="form-row">
 										<div class="col-12 col-md-3 mb-2">
 											<label for="orig_lat_long_units" class="data-entry-label">Coordinate Format</label>
