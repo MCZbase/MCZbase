@@ -67,7 +67,7 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="row mx-0">
-				<div class="col-12 col-md-6 px-0 pl-md-3 pr-md-3">
+				<div class="col-12 col-md-6 px-0 px-md-2">
 					<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 					<div id="relatedTo">#blockRelated#</div>
 				</div>
