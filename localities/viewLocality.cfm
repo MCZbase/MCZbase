@@ -42,7 +42,7 @@ limitations under the License.
 				<!--- TODO: Edit button --->
 				<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 					<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
-					<div id="summary" class="h4 px-2 pb-2">#summary#</div>
+					<div id="summary" class="h3 px-2 mb-0">#summary#</div>
 				</div>
 				
 				<div class="border rounded px-3 my-2 pt-2 pb-3" arial-labeledby="formheading">
