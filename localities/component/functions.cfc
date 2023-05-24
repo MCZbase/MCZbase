@@ -528,7 +528,7 @@ Delete an existing collecting event number record.
 					<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
 				</div>
 			</div>
-			<div class="form-row my-1">
+			<div class="form-row mx-0 my-1">
 				<cfif isdefined("clone_from_locality_id") and len(clone_from_locality_id) gt 0>
 					<cfset remarksClass = "col-md-9">
 				<cfelse>

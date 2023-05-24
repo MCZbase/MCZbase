@@ -132,10 +132,11 @@ limitations under the License.
 									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
 								};
 							</script>
-							
+							<div class="row mx-0">
 							<cfif countUses.total_uses GT "0">
 								<button type="button" class="btn btn-xs btn-secondary ml-auto" style="width: 130px;margin-top: -1.75rem" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
 							</cfif>
+							</div>
 							<cfif countUses.total_uses EQ "0">
 							<div class="col-12 px-0">
 								<button type="button" 
