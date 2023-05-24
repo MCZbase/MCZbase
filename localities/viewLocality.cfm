@@ -56,7 +56,7 @@ limitations under the License.
 				<!--- TODO: Edit button --->
 				<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 					<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
-					<div id="summary" class="h4 px-2 pb-2">#summary#</div>
+					<div id="summary" class="h3 px-2 mb-0">#summary#</div>
 				</div>
 				
 				<div class="border rounded px-3 my-2 pt-2 pb-3" arial-labeledby="formheading">
@@ -67,7 +67,7 @@ limitations under the License.
 			</div>	
 
 			<div class="row mx-0">
-				<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-1">
+				<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-2">
 					<div class="border rounded px-3 my-2 py-3">
 						<cfset geology = getLocalityGeologyDetailsHtml(locality_id="#locality_id#")>
 						<div id="geologyDiv">#geology#</div>
@@ -81,7 +81,7 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="row mx-0">
-				<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
+				<div class="col-12 col-md-6 px-0 px-md-2">
 					<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 					<div id="relatedTo">#blockRelated#</div>
 				</div>
