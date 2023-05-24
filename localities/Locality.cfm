@@ -105,7 +105,6 @@ limitations under the License.
 						<div class="border rounded px-3 my-2 pt-2 pb-3" arial-labeledby="formheading">
 							<cfset formId = "editLocalityForm">
 							<cfset outputDiv="saveResultsDiv">
-				<!---			<div class="row mx-0">--->
 							<form name="editLocality" id="#formId#">
 								<input type="hidden" id="locality_id" name="locality_id" value="#locality_id#">
 								<input type="hidden" name="method" value="updateLocality">

@@ -2120,9 +2120,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<!-- Nav tabs -->
 						<div class="tab-headers tabList px-0 px-md-3" role="tablist" aria-label="create georeference by">
-							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 active" id="manualTabButton" tabid="1" role="tab" aria-controls="manualPanel" aria-selected="true" tabindex="0" aria-label="Enter original coordinates">You have original coordinates: Enter manually</button>
-							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 " id="geolocateTabButton" tabid="2" role="tab" aria-controls="geolocatePanel" aria-selected="false" tabindex="-1" aria-label="Use geolocate to georeference specific locality">Use Geolocate with Specific Locality</button>
-							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 " id="cloneTabButton" tabid="2" role="tab" aria-controls="clonePanel" aria-selected="false" tabindex="-1" aria-label="Clone from another locality">Clone from another Locality</button>
+							<button class="col-12 px-1 px-sm-2 col-xl-auto px-xl-5 my-1 active" id="manualTabButton" tabid="1" role="tab" aria-controls="manualPanel" aria-selected="true" tabindex="0" aria-label="Enter original coordinates">You have original coordinates: Enter manually</button>
+							<button class="col-12 px-1 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate" id="geolocateTabButton" tabid="2" role="tab" aria-controls="geolocatePanel" aria-selected="false" tabindex="-1" aria-label="Use geolocate to georeference specific locality">Use Geolocate with Specific Locality</button>
+							<button class="col-12 px-1 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate" id="cloneTabButton" tabid="2" role="tab" aria-controls="clonePanel" aria-selected="false" tabindex="-1" aria-label="Clone from another locality">Clone from another Locality</button>
 						</div>
 						<!-- Tab panes -->
 						<script>
