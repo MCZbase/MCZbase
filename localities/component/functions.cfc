@@ -2114,8 +2114,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					)
 			</cfquery>
 			<cfoutput>
-				<h2 class="h3">Add a georeference for locality #encodeForHtml(locality_label)#</h2>
-				<p>See: Chapman A.D. &amp; Wieczorek J.R. 2020, Georeferencing Best Practices. Copenhagen: GBIF Secretariat. <a href="https://doi.org/10.15468/doc-gg7h-s853" target="_blank">DOI:10.15468/doc-gg7h-s853</a>.</p>
+				<h2 class="h3">Add a georeference for locality #encodeForHtml(locality_label)# 
+				<span class="px-2 small">See: Chapman A.D. &amp; Wieczorek J.R. 2020, Georeferencing Best Practices. Copenhagen: GBIF Secretariat. <a href="https://doi.org/10.15468/doc-gg7h-s853" target="_blank">DOI:10.15468/doc-gg7h-s853</a>.</span></h2>
 				<div>
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<!-- Nav tabs -->
@@ -2128,7 +2128,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<script>
 							$(document).ready(loadTabs);
 						</script>
-						<div class="tab-content flex-wrap d-flex">
+						<div class="tab-content  pt-1 flex-wrap d-flex">
 							<div id="manualPanel" role="tabpanel" aria-labelledby="manualTabButton" tabindex="0" class="col-12 px-0 mx-0 active unfocus">
 								<form id="manualGeorefForm">
 									<input type="hidden" name="method" value="addGeoreference">
