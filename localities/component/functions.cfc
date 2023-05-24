@@ -2114,7 +2114,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					)
 			</cfquery>
 			<cfoutput>
-				<h2 class="h3">Add a georeference for locality: <span class="font-weight-bold">#encodeForHtml(locality_label)#</span>
+				<h2 class="h3 mt-1">Add a georeference for locality: <span class="font-weight-bold">#encodeForHtml(locality_label)#</span>
 				<span class="px-2 small">See: Chapman A.D. &amp; Wieczorek J.R. 2020, Georeferencing Best Practices. Copenhagen: GBIF Secretariat. <a href="https://doi.org/10.15468/doc-gg7h-s853" target="_blank">DOI:10.15468/doc-gg7h-s853</a>.</span></h2>
 				<div>
 					<div class="tabs card-header tab-card-header px-2 pt-3">
