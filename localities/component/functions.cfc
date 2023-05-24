@@ -3951,7 +3951,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								</div>
 								<cfif len(geolocate_score) GT 0>
 									<div class="geolocateMetadata col-12 mb-1">
-										<h3 class="h4 mt-1 px-1">Batch GeoLocate Georeference Metadata</h3>
+										<h3 class="h4 my-1 px-1">Batch GeoLocate Georeference Metadata</h3>
 									</div>
 									<div class="geolocateMetadata col-12 mb-0">
 										<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">GeoLocate Uncertainty Polygon</label>
@@ -3974,7 +3974,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<input type="text" name="geolocate_parsepattern" id="geolocate_parsepattern" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_parsepattern)#" readonly>
 									</div>
 								</cfif>
-								<div class="col-12 col-md-3 pt-1 mb-2">
+								<div class="col-12 col-md-3 pt-2 mb-2">
 									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 										onClick="if (checkFormValidity($('##editGeorefForm')[0])) { saveGeorefUpdate();  } " 
 										id="submitButton" >
