@@ -52,15 +52,14 @@ limitations under the License.
 				<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right">Edit Locality</a>
 			</cfif>
 		</div>
-		<div class="row mx-0">
-			<section class="col-12 col-md-9 px-md-0 col-xl-8 px-xl-0">
-				<!--- TODO: Edit button --->
-				<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
+
+		<section class="col-12 col-md-9 px-md-0 col-xl-8 px-xl-0">
+			<!--- TODO: Edit button --->
+			<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 					<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
 					<div id="summary" class="h3 px-2 mb-0">#summary#</div>
 				</div>
-				
-				<div class="border rounded px-3 my-2 pt-2 pb-3" arial-labeledby="formheading">
+			<div class="border rounded px-3 my-2 pt-2 pb-3" arial-labeledby="formheading">
 					<div class="row mx-0">
 					<cfset blockDetails = getLocalityHtml(locality_id = "#locality_id#")>
 					#blockDetails#
@@ -159,7 +158,7 @@ limitations under the License.
 				<div id="verbatimDiv">#verbatim#</div>
 			</div>
 		</section>
-		</div>
+	
 	</main>
 </cfoutput>
 
