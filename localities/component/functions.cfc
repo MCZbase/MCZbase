@@ -2441,7 +2441,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												}
 											</script>
 										</div>
-										<div class="col-12 col-md-2 mb-2">
+										<div class="col-12 col-md-6 col-xl-3 mb-2">
 											<output id="wktReplaceFeedback"></output>
 										</div>
 										<div class="col-12 col-md-6 col-xl-3 mb-2">
@@ -2486,11 +2486,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												}
 											</script>
 										</div>
-										<div class="col-12 col-md-2 mb-2">
+										<div class="col-12 col-md-6 col-xl-3 mb-2">
 											<label class="data-entry-label d-none d-md-block">&nbsp;</label>
 											<input type="button" value="Copy" class="btn btn-xs btn-secondary" onClick=" confirmCopyWKTFromLocality(); ">
 										</div>
-										<div class="col-12 col-md-2 mb-2">
+										<div class="col-12 col-md-6 col-xl-3 mb-2">
 											<output id="wktLocReplaceFeedback"></output>
 										</div>
 										<div class="geolocateMetadata col-12">
