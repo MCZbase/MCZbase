@@ -97,7 +97,7 @@ Functions supporting editing higher geographies.
 						</ul>
 					</div>
 				<cfelse>
-					<h2 class="h3">This higher geography is not used in any localities.</h2>
+					<h2 class="h3 px-1">This higher geography is not used in any localities.</h2>
 				</cfif>
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
