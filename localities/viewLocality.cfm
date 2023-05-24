@@ -110,7 +110,7 @@ limitations under the License.
 						and
 						to_char(collecting_event.date_began_date,'yyyy') = to_char(collecting_event.date_ended_date,'yyyy')
 					GROUP BY
-						to_char(collecting_event.date_began_date,'yyyy') year
+						to_char(collecting_event.date_began_date,'yyyy')
 					ORDER BY 
 						to_char(collecting_event.date_began_date,'yyyy') asc
 				</cfquery>
