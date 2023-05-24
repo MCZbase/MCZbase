@@ -2073,7 +2073,7 @@
 				description
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#label#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			)
 		</cfquery>
