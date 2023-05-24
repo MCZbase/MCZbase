@@ -53,7 +53,7 @@ limitations under the License.
 			</div>	
 
 			<div class="row mx-0">
-				<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-1">
+				<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-2">
 					<div class="border rounded px-3 my-2 py-3">
 						<cfset geology = getLocalityGeologyDetailsHtml(locality_id="#locality_id#")>
 						<div id="geologyDiv">#geology#</div>
