@@ -3557,7 +3557,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getGeoref.locality_id#">
 					</cfquery>
 					<cfset locality_label = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
-					<h2 class="h3 px-1 font-weight-bold">Edit Georeference:  #latitudeString#, #longitudeString# for locality #encodeForHtml(locality_label)#</h2>
+					<h2 class="h3 mt-0 px-1 font-weight-bold">Edit Georeference:  #latitudeString#, #longitudeString# for locality #encodeForHtml(locality_label)#</h2>
 					<p class="px-3">See: Chapman A.D. &amp; Wieczorek J.R. 2020, Georeferencing Best Practices. Copenhagen: GBIF Secretariat. <a href="https://doi.org/10.15468/doc-gg7h-s853" target="_blank">DOI:10.15468/doc-gg7h-s853</a>.</p>
 					<div id="editEnclosingDiv" class="col-12 px-0 mx-0 active unfocus">
 						<form id="editGeorefForm">
@@ -3950,31 +3950,31 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<output id="wktLocReplaceFeedback"></output>
 								</div>
 								<cfif len(geolocate_score) GT 0>
-									<div class="geolocateMetadata col-12 mb-2">
-										<h3 class="h4 mt-4 px-1">Batch GeoLocate Georeference Metadata</h3>
+									<div class="geolocateMetadata col-12 mb-1">
+										<h3 class="h4 mt-1 px-1">Batch GeoLocate Georeference Metadata</h3>
 									</div>
-									<div class="geolocateMetadata col-12 mb-2">
+									<div class="geolocateMetadata col-12 mb-0">
 										<label for="geolocate_uncertaintypolygon" class="data-entry-label" id="geolocate_uncertaintypolygon_label">GeoLocate Uncertainty Polygon</label>
 										<input type="text" name="geolocate_uncertaintypolygon" id="geolocate_uncertaintypolygon" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_uncertaintypolygon)#"  readonly>
 									</div>
-									<div class="geolocateMetadata col-12 col-md-3 mb-2">
+									<div class="geolocateMetadata col-12 col-md-3 mb-0">
 										<label for="geolocate_score" class="data-entry-label" id="geolocate_score_label">GeoLocate Score</label>
 										<input type="text" name="geolocate_score" id="geolocate_score" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_score)#" readonly>
 									</div>
-									<div class="geolocateMetadata col-12 col-md-3 mb-2">
+									<div class="geolocateMetadata col-12 col-md-3 mb-0">
 										<label for="geolocate_precision" class="data-entry-label" id="geolocate_precision_label">GeoLocate Precision</label>
 										<input type="text" name="geolocate_precision" id="geolocate_precision" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_precision)#" readonly>
 									</div>
-									<div class="geolocateMetadata col-12 col-md-3 mb-2">
+									<div class="geolocateMetadata col-12 col-md-3 mb-0">
 										<label for="geolocate_numresults" class="data-entry-label" id="geolocate_numresults_label">Number of Matches</label>
 										<input type="text" name="geolocate_numresults" id="geolocate_numresults" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_numresults)#" readonly>
 									</div>
-									<div class="geolocateMetadata col-12 col-md-3 mb-2">
+									<div class="geolocateMetadata col-12 col-md-3 mb-0">
 										<label for="geolocate_parsepattern" class="data-entry-label" id="geolocate_parsepattern_label">Parse Pattern</label>
 										<input type="text" name="geolocate_parsepattern" id="geolocate_parsepattern" class="data-entry-input bg-lt-gray" value="#encodeForHtml(geolocate_parsepattern)#" readonly>
 									</div>
 								</cfif>
-								<div class="col-12 col-md-3 pt-3 mb-2">
+								<div class="col-12 col-md-3 pt-1 mb-2">
 									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 										onClick="if (checkFormValidity($('##editGeorefForm')[0])) { saveGeorefUpdate();  } " 
 										id="submitButton" >
