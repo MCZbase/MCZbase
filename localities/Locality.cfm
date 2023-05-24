@@ -189,8 +189,8 @@ limitations under the License.
 							<div id="addMediaDiv">
 								<cfset relations="shows locality,documents locality">
 								<cfloop list="#relations#" index="relation">
-									<input type="button" value="Link Existing Media as #relation#" class="btn btn-xs btn-secondary" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relation#', reloadMedia); ">
-									<input type="button" value="Add New Media as #relation#" class="btn btn-xs btn-secondary" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relation#', reloadMedia); ">
+									<input type="button" value="Link Existing Media as #relation#" class="btn btn-xs btn-secondary my-1" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relation#', reloadMedia); ">
+									<input type="button" value="Add New Media as #relation#" class="btn btn-xs btn-secondary my-1" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relation#', reloadMedia); ">
 								</cfloop>
 							</div>
 							<div id="mediaDialogDiv"></div>
