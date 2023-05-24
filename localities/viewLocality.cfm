@@ -114,7 +114,7 @@ limitations under the License.
 					ORDER BY 
 						to_char(collecting_event.date_began_date,'yyyy') asc
 				</cfquery>
-				<cfif collectors.recordcount GT 0>
+				<cfif years.recordcount GT 0>
 					<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
 						<h3 class="h4">Known Years Collected at this locality</h3>
 						<ul class="list-group list-group-horizontal flex-wrap rounded-0">
