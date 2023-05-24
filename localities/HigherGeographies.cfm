@@ -137,7 +137,7 @@ limitations under the License.
 						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowData) {
 							<!--- Link edit Higher Geography --->
 							var id = encodeURIComponent(rowData['GEOG_AUTH_REC_ID']);
-							return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/Locality.cfm?action=editGeog&geog_auth_rec_id=' + id + '">Edit</a>';
+							return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/localities/HigherGeography.cfm?geog_auth_rec_id=' + id + '">Edit</a>';
 						};
 					</cfif>
 
