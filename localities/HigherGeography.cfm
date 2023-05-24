@@ -79,7 +79,7 @@ limitations under the License.
 			<main class="container-fluid mt-3 mb-5 pb-5" id="content">
 				<div class="row mx-0">
 					<section class="col-12 col-md-8 px-md-0">
-						<div class="col-12 pt-2 px-0 pl-md-0 pr-md-3">
+						<div class="col-12 px-0 pl-md-0 pr-md-3">
 							<h1 class="h2 mt-3 mb-0 px-3">Edit Higher Geography 
 								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#encodeForUrl(geog_auth_rec_id)#" target="_blank">[#encodeForHtml(geog_auth_rec_id)#]</a>
 							</h1>
