@@ -46,13 +46,14 @@ limitations under the License.
 
 <cfoutput>
 	<main class="container-fluid mt-3 pb-5 mb-5" id="content">
-		<div class="col-12">
-			<h1 class="h2 mt-3 mb-0 px-3">Locality [#encodeForHtml(locality.locality_id)#]</h1>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
-				<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right">Edit</a>
-			</cfif>
-		</div>
 		<div class="row mx-0">
+			<div class="col-12">
+				<h1 class="h2 mt-3 mb-0 px-3">Locality [#encodeForHtml(locality.locality_id)#]</h1>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+					<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+				</cfif>
+			</div>
+
 		<section class="col-12 col-md-9 px-md-0 col-xl-8 px-xl-0">
 				<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 					<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
