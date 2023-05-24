@@ -137,7 +137,7 @@ limitations under the License.
 					</cfif>
 				</div>
 			</cfloop>
-			<div class="col-12 col-md-6 pr-md-0 pt-2 pb-3">
+			<div class="col-12 col-md-6 pr-md-0 pt-2 pb-2">
 				<cfloop query="getGeography">
 					<div class="col-12 px-0 pb-2">
 						<ul class="sd list-unstyled row mx-0 px-0 py-1 mb-0">
