@@ -2671,11 +2671,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_extent" class="data-entry-label">Radial of Feature [Extent] (km)</label>
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
 										</div>
-										<div class="col-10 float-left px-1 mb-2">
+										<div class="col-10 col-md-9 float-left px-1 mb-2">
 											<label for="gl_error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon (WKT)</label>
 											<input type="text" name="error_polygon" id="gl_error_polygon" class="data-entry-input">
 										</div>
-										<div class="col-12 col-md-2 float-left px-1 mb-2">
+										<div class="col-12 col-md-3 float-left px-1 mb-2">
 											<label for="gl_footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
 											<input type="text" name="footprint_spatialfit" id="gl_footprint_spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
@@ -3870,15 +3870,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										});
 									</script>
 								</div>
-								<div class="col-10 mb-2">
+								<div class="col-12 col-md-9 mb-2">
 									<label for="error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon (WKT)</label>
 									<input type="text" name="error_polygon" id="error_polygon" class="data-entry-input" value="#encodeForHtml(error_polygon)#">
 								</div>
-								<div class="col-12 col-md-2 mb-2">
+								<div class="col-12 col-md-3 mb-2">
 									<label for="footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
 									<input type="text" name="footprint_spatialfit" id="footprint_spatialfit" class="data-entry-input" value="#footprint_spatialfit#" pattern="^(0|1(\.[0-9]+){0,1})$" >
 								</div>
-								<div class="col-12 col-md-3 mb-2">
+								<div class="col-12 col-md-6 col-xl-3 mb-2">
 									<label for="wktFile" class="data-entry-label">Load Footprint Polygon from WKT file</label>
 									<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100 p-0">
 									<script>
@@ -3897,10 +3897,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										}
 									</script>
 								</div>
-								<div class="col-12 col-md-2 mb-2">
+								<div class="col-12 col-md-6 col-xl-3 mb-2">
 									<output id="wktReplaceFeedback"></output>
 								</div>
-								<div class="col-12 col-md-3 mb-2">
+								<div class="col-12 col-md-6 col-xl-3 mb-2">
 									<label for="copyFootprintFrom" class="data-entry-label" >Copy Polygon from locality_id</label>
 									<input type="hidden" name="copyFootprintFrom_id" id="copyFootprintFrom_id" value="">
 									<input type="text" name="copyFootprintFrom" id="copyFootprintFrom" value="" class="data-entry-input">
@@ -3942,11 +3942,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										}
 									</script>
 								</div>
-								<div class="col-12 col-md-2 mb-2">
+								<div class="col-2 col-md-2 mb-2">
 									<label class="data-entry-label">&nbsp;</label>
 									<input type="button" value="Copy" class="btn btn-xs btn-secondary" onClick=" confirmCopyWKTFromLocality(); ">
 								</div>
-								<div class="col-12 col-md-2 mb-2">
+								<div class="col-12 col-md-4 mb-2">
 									<output id="wktLocReplaceFeedback"></output>
 								</div>
 								<cfif len(geolocate_score) GT 0>
