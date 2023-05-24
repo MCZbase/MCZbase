@@ -449,7 +449,7 @@ Functions supporting editing higher geographies.
 						<input type="text" name="wkt_polygon" value=""id="wktPolygon" class="data-entry-input">
 					</div>
 					<div class="col-12 col-xl-6 mb-2">
-						<label for="wktFile" class="data-entry-label" style="margin-bottom: 1px;">Load Polygon from WKT file</label>
+						<label for="wktFile" class="data-entry-label mb1px">Load Polygon from WKT file</label>
 						<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100 p-0 data-entry-input">
 						<script>
 							$(document).ready(function() { 
@@ -483,7 +483,7 @@ Functions supporting editing higher geographies.
 				</div>
 				<div class="form-row mx-1 border rounded pt-2 my-2">
 					<div class="col-12 col-md-5 mb-2" >
-						<label for="highergeographyid" class="data-entry-label" style="margin-bottom: 1px;">Authority for GUID for Higher Geography</label>
+						<label for="highergeographyid" class="data-entry-label mb1px">Authority for GUID for Higher Geography</label>
 						<cfset pattern = "">
 						<cfset placeholder = "">
 						<cfset regex = "">
@@ -525,7 +525,7 @@ Functions supporting editing higher geographies.
 						<a href="#searchlink#" id="highergeographyid_search" target="_blank" #searchclass# >#searchtext#</a>
 					</div>
 					<div class="col-12 col-md-5 mb-2">
-						<label class="data-entry-label" style="margin-bottom: 1px;">dwc:highergeographyID</label>
+						<label class="data-entry-label mb1px">dwc:highergeographyID</label>
 						<cfif isDefined("lookupHigherGeog")><cfset hgeogid = lookupHigherGeog.highergeographyid><cfelse><cfset hgeogid=""></cfif>
 						<cfif NOT isDefined("regex")><cfset regex=""></cfif>
 						<input name="highergeographyid" id="highergeographyid" value="#hgeogid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
