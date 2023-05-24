@@ -48,11 +48,13 @@ limitations under the License.
 	<main class="container-xl mt-3 pb-5 mb-5" id="content">
 		<div class="row mx-0">
 			<div class="col-12">
-				<div class="col-12 mt-4 pb-2 border-bottom border-dark">
-					<h1 class="h2 mr-2 col-10 px-0 mt-0 float-left">Locality [#encodeForHtml(locality.locality_id)#]</h1>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
-						<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right">Edit</a>
-					</cfif>
+				<div class="row mx-0">
+					<div class="col-12 mt-4 pb-2 border-bottom border-dark">
+						<h1 class="h2 mr-2 col-10 px-0 mt-0 float-left">Locality [#encodeForHtml(locality.locality_id)#]</h1>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+							<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+						</cfif>
+					</div>
 				</div>
 				<section class="col-12 col-md-9 px-md-0 col-xl-8 px-xl-0">
 						<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
