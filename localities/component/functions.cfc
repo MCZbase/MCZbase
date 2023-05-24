@@ -2414,15 +2414,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script>
 										</div>
-										<div class="col-10 mb-2">
+										<div class="col-12 col-md-9 col-xl-10 mb-2">
 											<label for="error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon (WKT)</label>
 											<input type="text" name="error_polygon" id="error_polygon" class="data-entry-input">
 										</div>
-										<div class="col-12 col-md-2 mb-2">
+										<div class="col-12 col-md-3 col-xl-2 mb-2">
 											<label for="footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
 											<input type="text" name="footprint_spatialfit" id="footprint_spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
-										<div class="col-12 col-md-3 mb-2">
+										<div class="col-12 col-md-6 col-xl-3 mb-2">
 											<label for="wktFile" class="data-entry-label">Load Footprint Polygon from WKT file</label>
 											<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100 p-0">
 											<script>
@@ -2444,7 +2444,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<div class="col-12 col-md-2 mb-2">
 											<output id="wktReplaceFeedback"></output>
 										</div>
-										<div class="col-12 col-md-3 mb-2">
+										<div class="col-12 col-md-6 col-xl-3 mb-2">
 											<label for="copyFootprintFrom" class="data-entry-label" >Copy Polygon from locality_id</label>
 											<input type="hidden" name="copyFootprintFrom_id" id="copyFootprintFrom_id" value="">
 											<input type="text" name="copyFootprintFrom" id="copyFootprintFrom" value="" class="data-entry-input">
