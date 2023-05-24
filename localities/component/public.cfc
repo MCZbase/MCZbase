@@ -636,8 +636,8 @@ limitations under the License.
 						<li class="my-1 list-style-circle">
 							<cfif hasUncertantyPolygon.ct GT 0>
 								<span class="h5">Georeference has uncertanty polygon</span>
-								<a role="button" class="btn btn-xs btn-powder-blue font-weight-bold" onclick=" uncertaintypoly.setVisible(!uncertaintypoly.getVisible()); ">hide/show</a> 
-								<a role="button" class="btn btn-xs btn-powder-blue font-weight-bold" onclick=" map.fitBounds(findBounds(uncertaintypoly.latLngs));">zoom to</a>
+								<button type="button" class="btn btn-xs btn-powder-blue mx-1 font-weight-bold" onclick=" uncertaintypoly.setVisible(!uncertaintypoly.getVisible()); ">hide/show</button> 
+								<button type="button" class="btn btn-xs btn-powder-blue font-weight-bold" onclick=" map.fitBounds(findBounds(uncertaintypoly.latLngs));">zoom to</button>
 							<cfelse>
 								<span class="h5">No polygon with georeference</span>
 							</cfif>
@@ -645,8 +645,8 @@ limitations under the License.
 						<li class="my-1 list-style-circle">
 							<cfif getAcceptedGeoref.recordcount GT 0 AND getAcceptedGeoref.COORDINATEUNCERTAINTYINMETERS GT 0>
 								<span class="h5">Coordinate uncertanty in meters = #getAcceptedGeoref.coordinateuncertaintyinmeters#</span> 
-								<a role="button" class="btn btn-xs btn-powder-blue font-weight-bold" onclick=" errorcircle.setVisible(!errorcircle.getVisible()); ">hide/show</a> 
-								<a role="button" class="btn btn-xs btn-powder-blue font-weight-bold" onclick=" map.fitBounds(errorcircle.getBounds());">zoom to</a>
+								<button type="button" class="btn btn-xs btn-powder-blue font-weight-bold" onclick=" errorcircle.setVisible(!errorcircle.getVisible()); ">hide/show</button> 
+								<button type="button" class="btn btn-xs btn-powder-blue font-weight-bold" onclick=" map.fitBounds(errorcircle.getBounds());">zoom to</a>
 							<cfelse>
 								<span class="h5">No error radius.</span>
 							</cfif>
