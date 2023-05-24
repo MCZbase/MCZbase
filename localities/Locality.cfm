@@ -132,23 +132,26 @@ limitations under the License.
 									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
 								};
 							</script>
-							<div class="row mx-0">
+						
 							<cfif countUses.total_uses GT "0">
-								<button type="button" class="btn btn-xs btn-secondary ml-auto" style="width: 130px;margin-top: -1.75rem" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
-							</cfif>
-							</div>
-							<cfif countUses.total_uses EQ "0">
-							<div class="col-12 px-0">
-								<button type="button" 
-									onClick="confirmDialog('Delete this Locality?', 'Confirm Delete Locality', function() { location.assign('/localities/Locality.cfm?action=delete&locality_id=#encodeForUrl(locality_id)#'); } );" 
-									class="btn btn-xs btn-danger" >
-										Delete Locality
-								</button>
+								<div class="row mx-0">
+									<div class="col-12 px-1">
+										<button type="button" class="btn btn-xs btn-secondary float-right" style="margin-top: -1.8rem" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
+									</div>
 								</div>
 							</cfif>
-							</div>
+							<cfif countUses.total_uses EQ "0">
+								<div class="row mx-0">
+									<div class="col-12 px-1">
+										<button type="button" 
+										onClick="confirmDialog('Delete this Locality?', 'Confirm Delete Locality', function() { location.assign('/localities/Locality.cfm?action=delete&locality_id=#encodeForUrl(locality_id)#'); } );" 
+										class="btn btn-xs btn-danger" >
+										Delete Locality
+										</button>
+									</div>
+								</div>
+							</cfif>
 						</div>
-
 					</div>	
 					<div class="row mx-0">
 						<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
