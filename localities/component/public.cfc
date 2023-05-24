@@ -659,7 +659,7 @@ limitations under the License.
 						<cfif getGeoreferences.recordcount GT 1>
 							<li class="my-1 list-style-circle">
 								<span class="h5">#getGeoreferences.recordcount# georeferences, including unaccepted.</span> 
-								<a role="button" class="btn btn-xs btn-powder-blue font-weight-lessbold" onclick=" map.fitBounds(georefsBounds); ">zoom to</a>
+								<button type="button" class="btn btn-xs btn-powder-blue font-weight-bold" onclick=" map.fitBounds(georefsBounds); ">zoom to</button>
 							</li>
 						</cfif>
 					</ul>
