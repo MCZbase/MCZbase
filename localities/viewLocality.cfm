@@ -56,7 +56,7 @@ limitations under the License.
 						</cfif>
 					</div>
 				</div>
-				<section class="col-12 col-md-9 col-xl-8">
+				<section class="col-12 col-md-9 col-xl-8 float-left">
 						<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 							<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
 							<div id="summary" class="h3 px-2 mb-0">#summary#</div>
