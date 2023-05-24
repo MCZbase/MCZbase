@@ -277,7 +277,7 @@ limitations under the License.
 					</ul>
 				</div>
 			</div>
-			<div class="col-12 col-md-6 pt-3">
+			<div class="col-12 col-md-6 pt-2">
 				<cfset map = getHigherGeographyMapHtml(geog_auth_rec_id="#geog_auth_rec_id#")>
 				<div id="mapDiv">#map#</div>
 			</div>
