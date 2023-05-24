@@ -18,6 +18,7 @@ limitations under the License.
 --->
 <cfcomponent>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtmlUnthreaded --->
 <cf_rolecheck>
 
 <cffunction name="getHigherGeographyMapHtml" returntype="string" access="remote" returnformat="plain">
