@@ -245,7 +245,7 @@ limitations under the License.
 					<cfif hasGeorefs.ct GT 0>
 						<li>
 							<div class="h4 my-2">#hasGeorefs.ct# georeferenced localities.
-								<a role="button" class="btn btn-xs btn-powder-blue" onclick="map.fitBounds(georefsBounds); ">zoom to</a>
+								<button type="button" class="btn btn-xs btn-powder-blue mx-1" onclick="map.fitBounds(georefsBounds); ">zoom to</button>
 							</div>
 							
 						</li>
@@ -617,8 +617,8 @@ limitations under the License.
 						<li class="my-1 list-style-circle">
 							<cfif hasHigherPolygon.ct GT 0>
 								<span class="h5">Higher Geography mappable</span> 
-								<a role="button" class="btn btn-xs btn-powder-blue font-weight-bold"  onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</a>
-								<a role="button" class="btn btn-xs btn-powder-blue font-weight-bold" onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</a>
+								<button type="button" class="btn btn-xs btn-powder-blue mx-1 font-weight-bold"  onclick=" enclosingpoly.setVisible(!enclosingpoly.getVisible()); ">hide/show</button>
+								<button type="button" class="btn btn-xs btn-powder-blue mx-1 font-weight-bold" onclick=" map.fitBounds(findBounds(enclosingpoly.latLngs));">zoom to</button>
 							<cfelse>
 								<span class="h5">Higher geography not mappable</span>
 							</cfif>
