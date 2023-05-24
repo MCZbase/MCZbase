@@ -727,7 +727,7 @@
 						<input type="hidden" name="action" value="">
 						<input type="hidden" name="tbl" value="#tbl#">
 						<!---  Need to pass current value as it is the PK for the code table --->
-						<input type="hidden" name="origData" value="#type_status#">
+						<input type="hidden" name="origData" value="#media_relationship#">
 						<td>
 							<input type="text" name="media_relationship" value="#media_relationship#">
 						</td>
