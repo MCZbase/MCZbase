@@ -154,8 +154,7 @@ limitations under the License.
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="taxa">
 										<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-<!--- TODO: Search builder URI --->
-											<a class="h4" href="/?=#locality_id#=#taxa.family#=#taxa.genus#">#taxa.family#:#taxa.genus#</a> 
+											<a class="h4" href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=TAXONOMY%3AFAMILY&searchText2=%3D#taxa.family#&nestdepth3=3&JoinOperator3=and&field3=TAXONOMY%3AGENUS&searchText3=%3D#taxa.genus#">#taxa.family#:#taxa.genus#</a>  
 										</li>
 									</cfloop>
 								</ul>
