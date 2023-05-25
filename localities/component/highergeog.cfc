@@ -463,7 +463,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-xl-6 mb-2">
 						<output id="wktLoadFeedback">Test of feedback from Load Polygon</output>
 					</div>
-					<div class="col-12 col-md-3 mb-2">
+					<div class="col-12 col-md-6 col-xl-3 mb-2">
 						<label for="valid_catalog_term_fg" class="data-entry-label">Valid for data entry?</label>
 						<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="data-entry-select reqdClr">
 							<cfif not isDefined("valid_calalog_term_fg") OR len(valid_catalog_term_fg) EQ 0 OR valid_catalog_term_fg is "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -472,7 +472,7 @@ Functions supporting editing higher geographies.
 							<option value="0" #selected#>No</option>
 						</select>
 					</div>
-					<div class="col-12 col-md-3 mb-2">
+					<div class="col-12 col-md-6 col-xl-3 mb-2">
 						<label class="data-entry-label" for="source_authority">Source Authority</label>
 						<cfif NOT isdefined("source_authority")><cfset source_authority=""></cfif>
 						<input type="text" name="source_authority" id="source_authority" class="data-entry-input reqdClr" value="#encodeForHTML(source_authority)#" required>
