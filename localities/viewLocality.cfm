@@ -78,7 +78,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row mx-0">
-						<div class="col-12 col-md-6 px-0 px-md-2">
+						<div class="col-12 col-md-6 px-0 px-md-2 border rounded">
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 							<div id="relatedTo">#blockRelated#</div>
 						</div>
@@ -94,11 +94,11 @@ limitations under the License.
 								flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 						</cfquery>
 						<cfif collectors.recordcount GT 0>
-							<div class="col-12 col-md-6 px-0 pl-md-3 pr-md-3">
+							<div class="col-12 col-md-6 px-0 pl-md-3 pr-md-3 border rounded">
 								<h3 class="h4 px-2 mt-2">Collectors at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="collectors">
-										<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+										<li class="list-group-item float-left"> 
 											<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
 										</li>
 									</cfloop>
@@ -123,11 +123,11 @@ limitations under the License.
 								to_char(collecting_event.date_began_date,'yyyy') asc
 						</cfquery>
 						<cfif years.recordcount GT 0>
-							<div class="col-12 col-md-6 px-0 pl-md-2 pr-md-3">
+							<div class="col-12 col-md-6 px-0 pl-md-2 pr-md-3 border rounded">
 								<h3 class="h4 px-2">Known Years Collected at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="years">
-										<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+										<li class="list-group-item float-left"> 
 											<a class="h4" href="/Specimens.cfm?execute=true&builderMaxRows=4&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=COLLECTING_EVENT%3ABEGAN_DATE&searchText2=#year#&nestdepth4=1&JoinOperator4=and&field4=COLLECTING_EVENT%3ADATE_ENDED_DATE&searchText4=#year#">#years.year# </a> 
 										</li>
 									</cfloop>
@@ -148,18 +148,18 @@ limitations under the License.
 								family, genus
 						</cfquery>
 						<cfif taxa.recordcount GT 0>
-							<div class="col-12 col-md-6 px-0 pl-md-2 pr-md-3">
+							<div class="col-12 col-md-6 px-0 pl-md-2 pr-md-3 border rounded">
 								<h3 class="h4 px-2">Taxa Collected at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="taxa">
-										<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+										<li class="list-group-item float-left"> 
 											<a class="h4" href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=TAXONOMY%3AFAMILY&searchText2=%3D#taxa.family#&nestdepth3=3&JoinOperator3=and&field3=TAXONOMY%3AGENUS&searchText3=%3D#taxa.genus#">#taxa.family#:#taxa.genus#</a>  
 										</li>
 									</cfloop>
 								</ul>
 							</div>
 						</cfif>
-						<!--- TODO: list collecting events, etc. --->
+						<!--- TODO: list collecting events linking out to collecting event details. --->
 					</div>
 					<div class="row mx-0">
 						<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
