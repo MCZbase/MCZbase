@@ -82,29 +82,6 @@ limitations under the License.
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 							<div id="relatedTo">#blockRelated#</div>
 						</div>
-						<cfquery name="collectors"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT distinct
-								preferred_agent_name.agent_id, 
-								preferred_agent_name.agent_name
-							FROM
-								<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-								join collector on flatTableName.collection_object_id = collector.collection_object_id
-								join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
-							WHERE
-								flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-						</cfquery>
-						<cfif collectors.recordcount GT 0>
-							<div class="col-12 col-md-6 px-0 pl-md-3 pr-md-3 border rounded">
-								<h3 class="h4 px-2 mt-2">Collectors at this locality</h3>
-								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
-									<cfloop query="collectors">
-										<li class="list-group-item float-left"> 
-											<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
-										</li>
-									</cfloop>
-								</ul>
-							</div>
-						</cfif>
 						<!--- join through flat/filtered flat to prevent inclusion of encumbered cataloged item records --->
 						<cfquery name="years"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
@@ -129,6 +106,29 @@ limitations under the License.
 									<cfloop query="years">
 										<li class="list-group-item float-left"> 
 											<a class="h4" href="/Specimens.cfm?execute=true&builderMaxRows=4&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=COLLECTING_EVENT%3ABEGAN_DATE&searchText2=#year#&nestdepth4=1&JoinOperator4=and&field4=COLLECTING_EVENT%3ADATE_ENDED_DATE&searchText4=#year#">#years.year# </a> 
+										</li>
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
+						<cfquery name="collectors"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT distinct
+								preferred_agent_name.agent_id, 
+								preferred_agent_name.agent_name
+							FROM
+								<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+								join collector on flatTableName.collection_object_id = collector.collection_object_id
+								join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
+							WHERE
+								flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						</cfquery>
+						<cfif collectors.recordcount GT 0>
+							<div class="col-12 col-md-6 px-0 pl-md-3 pr-md-3 border rounded">
+								<h3 class="h4 px-2 mt-2">Collectors at this locality</h3>
+								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
+									<cfloop query="collectors">
+										<li class="list-group-item float-left"> 
+											<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
 										</li>
 									</cfloop>
 								</ul>
