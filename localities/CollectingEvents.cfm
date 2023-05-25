@@ -499,6 +499,7 @@ limitations under the License.
 										{text: 'Edit', datafield: 'LOCALITY_ID_1', width:60, hideable: false, cellsrenderer: editLocCellRenderer},
 										{text: 'Edit', datafield: 'COLLECTING_EVENT_ID_1', width:60, hideable: false, cellsrenderer: editEventCellRenderer},
 									<cfelse>
+										<!--- TODO: collecting event details page --->
 										{text: 'Loc.', datafield: 'LOCALITY_ID_1', width:60, hideable: false, cellsrenderer: linkIdCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
