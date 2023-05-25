@@ -1072,7 +1072,7 @@ limitations under the License.
 								<cfset divClass="small90 font-weight-lessbold my-1 w-100">
 							</cfif>
 							<div class="#divClass#">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
-							<ul class="mb-2 pl-2 pl-xl-4">
+							<ul class="mb-2 pl-2 pl-xl-4 ml-xl-1">
 								<li>
 									#original# <span class="#divClass#">#accepted_lat_long#</span>
 								</li>
