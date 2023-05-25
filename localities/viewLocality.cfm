@@ -75,7 +75,7 @@ limitations under the License.
 							</div>
 					</div>
 					<div class="row mx-0 border-bottom-grey">
-						<div class="col-12 col-md-6 px-0">
+						<div class="col-12 col-md-6 px-2 pt-3 pb-2">
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 							<div id="relatedTo">#blockRelated#</div>
 						</div>
@@ -99,7 +99,7 @@ limitations under the License.
 						<span class="border-bottom-grey d-block d-md-none w-100"></span>
 						<cfif years.recordcount GT 0>
 							<div class="col-12 col-md-6 p-3">
-								<h3 class="h4 px-2">Known Years Collected at this locality</h3>
+								<h3 class="h4">Known Years Collected at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="years">
 										<li class="list-group-item float-left"> 
@@ -125,8 +125,8 @@ limitations under the License.
 						</cfquery>
 					<div class="row mx-0">
 						<cfif collectors.recordcount GT 0>
-							<div class="col-12 col-md-6 px-0 py-3 px-md-2">
-								<h3 class="h4 px-2">Collectors at this locality</h3>
+							<div class="col-12 col-md-6 p-3">
+								<h3 class="h4">Collectors at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="collectors">
 										<li class="list-group-item float-left"> 
