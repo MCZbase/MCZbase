@@ -100,6 +100,7 @@ limitations under the License.
 							ORDER BY 
 								to_char(collecting_event.date_began_date,'yyyy') asc
 						</cfquery>
+						<span class="border-bottom-grey d-block d-md-none w-100"></span>
 						<cfif years.recordcount GT 0>
 							<div class="col-12 col-md-6 px-0 py-2 pl-md-2 pr-md-3">
 								<h3 class="h4 px-2">Known Years Collected at this locality</h3>
@@ -112,6 +113,8 @@ limitations under the License.
 								</ul>
 							</div>
 						</cfif>
+					</div>
+					<div class="row mx-0 border-bottom-grey">
 						<cfquery name="collectors"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT distinct
 								preferred_agent_name.agent_id, 
@@ -123,8 +126,9 @@ limitations under the License.
 							WHERE
 								flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 						</cfquery>
+						<div class="row mx-0 border-bottom-grey">
 						<cfif collectors.recordcount GT 0>
-							<div class="col-12 col-md-6 px-0 pl-md-3 pr-md-3 border rounded">
+							<div class="col-12 col-md-6 px-0 py-2 pl-md-3 pr-md-3 border rounded">
 								<h3 class="h4 px-2 mt-2">Collectors at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="collectors">
@@ -135,6 +139,7 @@ limitations under the License.
 								</ul>
 							</div>
 						</cfif>
+						<span class="border-bottom-grey d-block d-md-none w-100"></span>
 						<cfquery name="taxa"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
 								count(flatTableName.collection_object_id) ct,
@@ -149,7 +154,7 @@ limitations under the License.
 								family, genus
 						</cfquery>
 						<cfif taxa.recordcount GT 0>
-							<div class="col-12 col-md-6 px-0 pl-md-2 pr-md-3 border rounded">
+							<div class="col-12 col-md-6 px-0 pl-md-2 py-2 pr-md-3">
 								<h3 class="h4 px-2">Taxa Collected at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="taxa">
@@ -160,8 +165,9 @@ limitations under the License.
 								</ul>
 							</div>
 						</cfif>
+						</div>
 						<!--- TODO: list collecting events linking out to collecting event details. --->
-					</div>
+							</div></div>
 					<div class="row mx-0">
 						<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
 							<cfset media = getLocalityMediaHtml(locality_id="#locality_id#")>
