@@ -103,7 +103,7 @@ limitations under the License.
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="years">
 										<li class="list-group-item float-left"> 
-											<a class="h5" href="/Specimens.cfm?execute=true&builderMaxRows=4&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=COLLECTING_EVENT%3ABEGAN_DATE&searchText2=#year#&nestdepth4=1&JoinOperator4=and&field4=COLLECTING_EVENT%3ADATE_ENDED_DATE&searchText4=#year#">#years.year# </a> 
+											<a class="small95" href="/Specimens.cfm?execute=true&builderMaxRows=4&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=COLLECTING_EVENT%3ABEGAN_DATE&searchText2=#year#&nestdepth4=1&JoinOperator4=and&field4=COLLECTING_EVENT%3ADATE_ENDED_DATE&searchText4=#year#">#years.year# </a> 
 										</li>
 									</cfloop>
 								</ul>
@@ -133,7 +133,7 @@ limitations under the License.
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="collectors">
 										<li class="list-group-item float-left"> 
-											<a class="h5" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&collector=#encodeForURL(collectors.agent_name)#&collector_agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
+											<a class="small95" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&collector=#encodeForURL(collectors.agent_name)#&collector_agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
 											<span class="bg-lightgreen">
 												<a class="p-1" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">
 													<i class="fa fa-user" aria-hidden="true"></i>
@@ -168,7 +168,7 @@ limitations under the License.
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="taxa">
 										<li class="list-group-item float-left"> 
-											<a class="h5" href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=TAXONOMY%3AFAMILY&searchText2=%3D#taxa.family#&nestdepth3=3&JoinOperator3=and&field3=TAXONOMY%3AGENUS&searchText3=%3D#taxa.genus#">#taxa.family#:&##8201;#taxa.genus#</a>  
+											<a class="small95" href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=TAXONOMY%3AFAMILY&searchText2=%3D#taxa.family#&nestdepth3=3&JoinOperator3=and&field3=TAXONOMY%3AGENUS&searchText3=%3D#taxa.genus#">#taxa.family#:&##8201;#taxa.genus#</a>  
 										</li>
 									</cfloop>
 								</ul>
