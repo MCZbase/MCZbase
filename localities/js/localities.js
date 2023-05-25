@@ -294,7 +294,7 @@ function openAddGeoreferenceDialog(dialogid, locality_id, locality_label, okcall
 //  the content of the dialog, without a leading #.
 // @param callback a function to invoke on closing the dialog.
 function openAddGeologyDialog(locality_id, dialogid, callback) { 
-	var title = "Add geological attributes to locality. ";
+	var title = "Add geological attributes to locality ";
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
 	var w = $(window).width();
@@ -351,7 +351,7 @@ function openAddGeologyDialog(locality_id, dialogid, callback) {
 //  the content of the dialog, without a leading #.
 // @param callback a function to invoke on closing the dialog.
 function openEditGeologyDialog(geology_attribute_id, locality_id, dialogid, callback) { 
-	var title = "Edit geological attribute of locality. ";
+	var title = "Edit geological attribute of locality";
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
 	var w = $(window).width();
