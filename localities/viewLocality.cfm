@@ -64,18 +64,18 @@ limitations under the License.
 						</div>
 					</div>	
 					<div class="row mx-0 border-bottom-grey">
-						<div class="col-12 col-md-6 p-3">
+						<div class="col-12 col-md-6 px-3 pt-3 pb-0">
 							<cfset geology = getLocalityGeologyDetailsHtml(locality_id="#locality_id#")>
 							<div id="geologyDiv">#geology#</div>
 						</div>
 						<span class="border-bottom-grey d-block d-md-none w-100"></span>
-							<div class="col-12 col-md-6 p-3">
+							<div class="col-12 col-md-6 px-3 pt-3 pb-0">
 								<cfset georeferences = getLocalityGeoreferenceDetailsHtml(locality_id="#locality_id#")>
 								<div id="georeferencesDiv">#georeferences#</div>
 							</div>
 					</div>
 					<div class="row mx-0 border-bottom-grey">
-						<div class="col-12 col-md-6 p-3">
+						<div class="col-12 col-md-6 px-0">
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 							<div id="relatedTo">#blockRelated#</div>
 						</div>
