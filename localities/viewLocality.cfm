@@ -155,7 +155,7 @@ limitations under the License.
 								family, genus
 						</cfquery>
 						<cfif taxa.recordcount GT 0>
-							<div class="col-12 col-md-6 px-0 pl-md-2 py-3 pr-md-3">
+							<div class="col-12 col-md-6 px-0 px-md-2 py-3 ">
 								<h3 class="h4 px-2">Taxa Collected at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="taxa">
