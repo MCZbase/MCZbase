@@ -197,11 +197,17 @@ limitations under the License.
 							<cfset media = getLocalityMediaHtml(locality_id="#locality_id#")>
 							<div id="mediaDiv" class="row">#media#</div>
 							<div id="addMediaDiv">
+								<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT media_relationship as relation 
+									FROM ctmedia_relationship 
+									WHERE media_relationship like '% locality'
+									ORDER BY media_relationship
+								</cfquery>
 								<cfset relations="shows locality,documents locality">
-								<cfloop list="#relations#" index="relation">
+								<cfloop query="relations">
 									<cfset summary = encodeForHtml(replace(replace(summary,'"','','all'),"'","","all"))>
-									<input type="button" value="Link Existing Media as #relation#" class="btn btn-xs btn-secondary" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relation#', reloadMedia); ">
-									<input type="button" value="Add New Media as #relation#" class="btn btn-xs btn-secondary" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relation#', reloadMedia); ">
+									<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
+									<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
 								</cfloop>
 							</div>
 							<div id="mediaDialogDiv"></div>
