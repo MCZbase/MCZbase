@@ -29,11 +29,7 @@ limitations under the License.
 	<cfthread name="geogMapThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfif findNoCase('master',Session.gitBranch) EQ 0>
-					<cfset editLocalityLinkTarget = "/localities/Locality.cfm?locality_id=">
-				<cfelse>
-					<cfset editLocalityLinkTarget = "/editLocality.cfm?locality_id=">
-				</cfif>
+				<cfset editLocalityLinkTarget = "/localities/Locality.cfm?locality_id=">
 				<!--- map --->
 				<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript">
 				</script>

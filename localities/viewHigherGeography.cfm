@@ -28,11 +28,7 @@ limitations under the License.
 <cfinclude template = "/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
 <cfinclude template = "/localities/component/public.cfc" runOnce="true"><!--- for  getHigherGeographyMapHtml() --->
 
-<cfif findNoCase('master',Session.gitBranch) EQ 0>
-	<cfset editLocalityLinkTarget = "/localities/Locality.cfm?locality_id=">
-<cfelse>
-	<cfset editLocalityLinkTarget = "/editLocality.cfm?locality_id=">
-</cfif>
+<cfset editLocalityLinkTarget = "/localities/Locality.cfm?locality_id=">
 
 <cfquery name="getGeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 

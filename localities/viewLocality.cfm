@@ -21,10 +21,6 @@ limitations under the License.
 
 <cfset pageTitle="Locality Details">
 <cfinclude template = "/shared/_header.cfm">
-<cfif findNoCase('master',Session.gitBranch) NEQ 0>
-	<!--- not ready for production use, prevent access from production, redirect to locality search --->
-	<cflocation url="/localities/Localities.cfm" addtoken="false">
-</cfif>
 
 <cfif not isDefined("locality_id") OR len(locality_id) EQ 0>
 	<cfthrow message="Error: unable to view locality, no locality_id specified.">
