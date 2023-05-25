@@ -1053,55 +1053,54 @@ limitations under the License.
 				<cfelse>
 					<div class="w-100">
 						<cfloop query="getGeoreferences">
-								<cfset original="">
-								<cfset det = "">
-								<cfset ver = "">
-								<cfif len(determined_by) GT 0>
-									<cfset det = " Determiner: #determined_by#. ">
-								</cfif>
-								<cfif len(verified_by) GT 0>
-									<cfset ver = " Verified by: #verified_by#. ">
-								</cfif>
-								<cfif len(utm_zone) GT 0>
-									<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
-								<cfelse>
-									<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
-								</cfif>
-								<cfset divClass="small90 my-1 w-100">
-								<cfif accepted_lat_long EQ "Accepted">
-									<cfset divClass="small90 font-weight-lessbold my-1 w-100">
-								</cfif>
-								<div class="#divClass#">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
-								<ul class="mb-2">
+							<cfset original="">
+							<cfset det = "">
+							<cfset ver = "">
+							<cfif len(determined_by) GT 0>
+								<cfset det = " Determiner: #determined_by#. ">
+							</cfif>
+							<cfif len(verified_by) GT 0>
+								<cfset ver = " Verified by: #verified_by#. ">
+							</cfif>
+							<cfif len(utm_zone) GT 0>
+								<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
+							<cfelse>
+								<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
+							</cfif>
+							<cfset divClass="small90 my-1 w-100">
+							<cfif accepted_lat_long EQ "Accepted">
+								<cfset divClass="small90 font-weight-lessbold my-1 w-100">
+							</cfif>
+							<div class="#divClass#">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
+							<ul class="mb-2 pl-2 pl-xl-4">
+								<li>
+									#original# <span class="#divClass#">#accepted_lat_long#</span>
+								</li>
+								<li>
+									Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
+								</li>
+								<cfif len(geolocate_score) GT 0>
 									<li>
-										#original# <span class="#divClass#">#accepted_lat_long#</span>
+										GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
 									</li>
-									<li>
-										Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
-									</li>
-									<cfif len(geolocate_score) GT 0>
-										<li>
-											GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
-										</li>
-									</cfif>
-								</ul>
-								<script>
-									var bouncing#lat_long_id# = false;
-									function toggleBounce#lat_long_id#() { 
-										if (bouncing#lat_long_id#==true) { 
-											bouncing#lat_long_id# = false;
-											map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
-											$('##toggleButton#lat_long_id#').html("Highlight on map");
-										} else { 
-											bouncing#lat_long_id# = true;
-											map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
-											$('##toggleButton#lat_long_id#').html("Stop bouncing");
-										}
-									};
-								</script>
-								<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info mb-2" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
-
-							</cfloop>
+								</cfif>
+							</ul>
+							<script>
+								var bouncing#lat_long_id# = false;
+								function toggleBounce#lat_long_id#() { 
+									if (bouncing#lat_long_id#==true) { 
+										bouncing#lat_long_id# = false;
+										map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
+										$('##toggleButton#lat_long_id#').html("Highlight on map");
+									} else { 
+										bouncing#lat_long_id# = true;
+										map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
+										$('##toggleButton#lat_long_id#').html("Stop bouncing");
+									}
+								};
+							</script>
+							<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info mb-2" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
+						</cfloop>
 					</div>
 					
 				</cfif>
