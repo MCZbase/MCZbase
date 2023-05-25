@@ -116,7 +116,8 @@ function openlinkmediadialog(dialogid, related_value, related_id, relationship, 
 			returnformat: "plain",
 			relationship: relationship,
 			related_value: related_value,
-			related_id: related_id
+			related_id: related_id,
+			callback: okcallback
 		},
 		success: function (data) {
 			$("#"+dialogid+"_div").html(data);

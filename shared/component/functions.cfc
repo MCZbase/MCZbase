@@ -29,6 +29,7 @@ limitations under the License.
 	<cfargument name="relationship" type="string" required="yes">
 	<cfargument name="related_value" type="string" required="yes">
 	<cfargument name="related_id" type="string" required="yes">
+	<cfargument name="callback" type="string" required="no" default="reloadTransMedia">
 
 	<cfset target_id = related_id>
 	<cfset target_relation = relationship>
@@ -96,7 +97,7 @@ limitations under the License.
 					</div>
 					<div class='ml-5'>
 						<span ><input type='reset' value='Clear' class='btn-warning mb-2 mt-2 mt-sm-0 mr-1'>
-							<input type='button' onClick=""opencreatemediadialog('newMediaDlg1_#target_id#','#target_label#','#target_id#','#relationship#',reloadTransMedia);"" 
+							<input type='button' onClick=""opencreatemediadialog('newMediaDlg1_#target_id#','#target_label#','#target_id#','#relationship#',#callback#);"" 
 								value='Create Media' class='btn-secondary mb-2 mt-2 mt-sm-0' >&nbsp;
 						</span>
 					</div>
