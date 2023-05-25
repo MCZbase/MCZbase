@@ -64,14 +64,14 @@ limitations under the License.
 						</div>
 					</div>	
 					<div class="row mx-0 border-bottom-grey">
-						<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-2">
+						<div class="col-12 col-md-6 px-0 px-md-2">
 							<div class="p-3 mb-2">
 								<cfset geology = getLocalityGeologyDetailsHtml(locality_id="#locality_id#")>
 								<div id="geologyDiv">#geology#</div>
 							</div>
 						</div>
 						<span class="border-bottom-grey d-block d-md-none w-100"></span>
-						<div class="col-12 px-0 pl-md-2 col-md-6">
+						<div class="col-12 px-0 px-md-2 col-md-6">
 							<div class="p-3 mb-2">
 								<cfset georeferences = getLocalityGeoreferenceDetailsHtml(locality_id="#locality_id#")>
 								<div id="georeferencesDiv">#georeferences#</div>
@@ -102,7 +102,7 @@ limitations under the License.
 						</cfquery>
 						<span class="border-bottom-grey d-block d-md-none w-100"></span>
 						<cfif years.recordcount GT 0>
-							<div class="col-12 col-md-6 px-0 py-3 pl-md-2 pr-md-3">
+							<div class="col-12 col-md-6 px-0 py-3 px-md-2">
 								<h3 class="h4 px-2">Known Years Collected at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="years">
