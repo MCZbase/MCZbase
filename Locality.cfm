@@ -512,317 +512,7 @@ You do not have permission to create Higher Geographies
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "editGeog">
-<cfset title = "Edit Geography">
-	<cfoutput>
-   <div style="margin:0 auto; padding: 1em 1em 3em 1em;">
-	<h2 class="wikilink">Edit Higher Geography:</h2>
-		<cfquery name="geogDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select * from geog_auth_rec
-			where geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
-		</cfquery>
-
-		<cfquery name="localities" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select count(*) c from locality
-			where geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
-		</cfquery>
-		<cfquery name="collecting_events" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select count(*) c from locality,collecting_event
-			where
-			locality.locality_id = collecting_event.locality_id AND
-			geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
-		</cfquery>
-		<cfquery name="specimen" datasource="uam_god">
-			select
-				collection.collection_id,
-				collection.collection,
-				count(*) c
-			from
-				locality,
-				collecting_event,
-				cataloged_item,
-				collection
-			where
-				locality.locality_id = collecting_event.locality_id AND
-				collecting_event.collecting_event_id = cataloged_item.collecting_event_id AND
-			 	cataloged_item.collection_id=collection.collection_id AND
-				geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
-			 group by
-			 	collection.collection_id,
-				collection.collection
-			order by
-				collection.collection
-		</cfquery>
-		<div style="border:2px solid blue; background-color:red;padding: 10px 20px;">
-			Altering this record will update:
-			<ul class="bulletlist">
-				<li>#localities.c# localities</li>
-				<li>#collecting_events.c# collecting events</li>
-				<cfloop query="specimen">
-					<li>
-						<a href="/SpecimenResults.cfm?geog_auth_rec_id=#geog_auth_rec_id#&collection_id=#specimen.collection_id#">
-							#specimen.c# #collection# specimens
-						</a>
-					</li>
-				</cfloop>
-			</ul>
-		</div>
-    </cfoutput>
-	<cfoutput query="geogDetails">
-		<h3 class="wikilink"><em>#higher_geog#</h3>
-        <cfform name="getHG" method="post" action="Locality.cfm">
-	        <input name="Action" type="hidden" value="saveGeogEdits">
-            <input type="hidden" name="geog_auth_rec_id" value="#geog_auth_rec_id#">
-            <table>
-				<tr>
-	                <td>
-						<label for="continent_ocean" class="likeLink" onClick="getDocs('higher_geography','continent_ocean')">
-							Continent or Ocean
-						</label>
-				<select name="continent_ocean" style="width: 15em;" id="continent_ocean" class="geoginput" >
-				<cfif isdefined("continent_ocean")>
-                                     <cfif continent_ocean is not ''>
-					<option value="#continent_ocean#" selected="selected">#continent_ocean#</option>
-                                     </cfif>
-				</cfif>
-					<option value=""></option>
-						<cfloop query="ctContinentOcean">
-							<option value = "#ctContinentOcean.continent_ocean#">#ctContinentOcean.continent_ocean#</option>
-						</cfloop>
-				</select>
-                                        </td>
-					<td>
-						<label for="ocean_region" class="likeLink"  onClick="getMCZbaseDocs('Ocean_Regions_%26_Subregions','')" >
-                                                       Ocean Region:
-						</label>
-				<select name="ocean_region" style="width: 15em;" id="ocean_region" class="geoginput">
-				<cfif isdefined("ocean_region")>
-                                     <cfif ocean_region is not ''>
-					<option value="#ocean_region#" selected="selected">#ocean_region#</option>
-                                     </cfif>
-				</cfif>
-					<option value=""></option>
-						<cfloop query="ctOceanRegion">
-							<option value = "#ctOceanRegion.ocean_region#">#ctOceanRegion.ocean_region#</option>
-						</cfloop>
-				</select>
-                                        </td>
-					<td>
-						<label for="ocean_subregion">
-							Ocean Subregion
-						</label>
-						<input type="text" name="ocean_subregion" id="ocean_subregion" value="#ocean_subregion#" class="geoginput">
-					</td>
-					<td>
-						<label for="sea" class="likeLink" onClick="getDocs('higher_geography','sea')">
-							Sea
-						</label>
-						<input type="text" name="sea" id="sea" value="#sea#" class="geoginput">
-					</td>
-					<td>
-						<cfif isdefined("water_feature")>
-							<cfset thisWater_Feature = water_feature>
-						<cfelse>
-							<cfset thisWater_Feature = "">
-						</cfif>
-						<label for="water_feature" class="likeLink" onClick="getDocs('higher_geography','water_feature')">
-							Water Feature
-						</label>
-						<select name="water_feature" id="water_feature" style="width: 15em;" class="geoginput">
-							<option value=""></option>
-							<cfloop query="ctWater_Feature">
-								<option	<cfif thisWater_Feature is ctWater_Feature.water_feature> selected="selected" </cfif>
-									value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
-							</cfloop>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="country" class="likeLink" onClick="getDocs('higher_geography','country')">
-							Country
-						</label>
-						<input type="text" name="country" id="country" value="#country#" class="geoginput">
-					</td>
-					<td>
-						<label for="state_prov" class="likeLink" onClick="getDocs('higher_geography','state_province')">
-							State/Province
-						</label>
-						<input type="text" name="state_prov" id="state_prov" value="#state_prov#" class="geoginput">
-					</td>
-					<td>
-						<label for="county" class="likeLink" onClick="getDocs('higher_geography','county')">
-							County
-						</label>
-						<input type="text" name="county" id="county" value="#county#" class="geoginput">
-					</td>
-                	<td>
-						<label for="quad" class="likeLink" onClick="getDocs('higher_geography','map_name')">
-							Quad
-						</label>
-						<input type="text" name="quad" id="quad" value="#quad#" class="geoginput">
-					</td>
-					<td>
-						<cfif isdefined("feature")>
-							<cfset thisFeature = feature>
-						<cfelse>
-							<cfset thisFeature = "">
-						</cfif>
-						<label for="feature" class="likeLink" onClick="getDocs('higher_geography','feature')">
-						Land Feature
-						</label>
-						<select name="feature" id="feature" class="geoginput">
-							<option value=""></option>
-							<cfloop query="ctFeature">
-								<option	<cfif thisFeature is ctFeature.feature> selected="selected" </cfif>
-									value = "#ctFeature.feature#">#ctFeature.feature#</option>
-							</cfloop>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<label for="island_group" class="likeLink" onClick="getDocs('higher_geography','island_group')">
-							Island Group
-						</label>
-						<select name="island_group" id="island_group" size="1" style="width: 28em;" class="geoginput">
-		                	<option value=""></option>
-		                    <cfloop query="ctIslandGroup">
-		                      <option
-							<cfif geogdetails.island_group is ctislandgroup.island_group> selected="selected" </cfif>value="#ctIslandGroup.island_group#">#ctIslandGroup.island_group#</option>
-		                    </cfloop>
-		                  </select>
-					</td>
-					<td colspan="2">
-						<label for="island" class="likeLink" onClick="getDocs('higher_geography','island')">
-							Island
-						</label>
-						<input type="text" name="island" id="island" value="#island#" size="50" class="geoginput">
-					</td>
-	            <td>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<label for = "wktPolygon">Polygon<label>
-						<input type="text" name="wktPolygon" value="#WKT_POLYGON#" id = "wktPolygon" size="100" readonly>
-					</td>
-					<td colspan="1">
-						<label for="wktFile">Load Polygon from WKT file</label>
-						<input type="file"
-								id="wktFile"
-								name="wktFile"
-								accept=".wkt"
-								>
-					</td>
-				</tr>
-				<tr>
-	                <td colspan="2">
-						<label for="source_authority">
-							Authority
-						</label>
-						<input name="source_authority" id="source_authority" class="reqdClr" size="45" style="margin-right: 10px;" value="#source_authority#">
-					</td>
-	                <td>
-						<label for="valid_catalog_term_fg">
-							Valid?
-						</label>
-						<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr">
-		                    <option value=""></option>
-		                    <option <cfif geogdetails.valid_catalog_term_fg is "1"> selected="selected" </cfif>value="1">yes</option>
-		                    <option <cfif geogdetails.valid_catalog_term_fg is "0"> selected="selected" </cfif>value="0">no</option>
-		                  </select>
-					</td>
-					<td colspan="2" class="detailCell">
-						<label for="highergeographyid">GUID for Higher Geography(dwc:highergeographyID)</label>
-						<cfset pattern = "">
-						<cfset placeholder = "">
-						<cfset regex = "">
-						<cfset replacement = "">
-						<cfset searchlink = "" >
-						<cfset searchtext = "" >
-						<cfset searchclass = "" >
-						<cfloop query="ctguid_type_highergeography">
-		 					<cfif geogDetails.highergeographyid_guid_type is ctguid_type_highergeography.guid_type OR ctguid_type_highergeography.recordcount EQ 1 >
-								<cfset searchlink = ctguid_type_highergeography.search_uri & geogDetails.higher_geog >
-								<cfif len(geogDetails.highergeographyid) GT 0>
-									<cfset searchtext = "Edit" >
-									<cfset searchclass = 'class="smallBtn editGuidButton"' >
-								<cfelse>
-									<cfset searchtext = "Find GUID" >
-									<cfset searchclass = 'class="smallBtn findGuidButton external"' >
-								</cfif>
-							</cfif>
-						</cfloop>
-						<select name="highergeographyid_guid_type" id="highergeographyid_guid_type" size="1">
-							<cfif searchtext EQ "">
-								<option value=""></option>
-							</cfif>
-							<cfloop query="ctguid_type_highergeography">
-								<cfset sel="">
-		 							<cfif geogDetails.highergeographyid_guid_type is ctguid_type_highergeography.guid_type OR ctguid_type_highergeography.recordcount EQ 1 >
-										<cfset sel="selected='selected'">
-										<cfset placeholder = "#ctguid_type_highergeography.placeholder#">
-										<cfset pattern = "#ctguid_type_highergeography.pattern_regex#">
-										<cfset regex = "#ctguid_type_highergeography.resolver_regex#">
-										<cfset replacement = "#ctguid_type_highergeography.resolver_replacement#">
-									</cfif>
-								<option #sel# value="#ctguid_type_highergeography.guid_type#">#ctguid_type_highergeography.guid_type#</option>
-							</cfloop>
-						</select>
-						<a href="#searchlink#" id="highergeographyid_search" target="_blank" #searchclass# >#searchtext#</a>
-						<input size="48" name="highergeographyid" id="highergeographyid" value="#geogDetails.highergeographyid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-						<cfif len(regex) GT 0 >
-							<cfset link = REReplace(geogDetails.highergeographyid,regex,replacement)>
-						<cfelse>
-							<cfset link = geogDetails.highergeographyid>
-						</cfif>
-						<a id="highergeographyid_link" href="#link#" target="_blank" class="hints">#geogDetails.highergeographyid#</a>
-						<script>
-							$(document).ready(function () {
-								if ($('##highergeographyid').val().length > 0) {
-									$('##highergeographyid').hide();
-								}
-								$('##highergeographyid_search').click(function (evt) {
-									switchGuidEditToFind('highergeographyid','highergeographyid_search','highergeographyid_link',evt);
-								});
-								$('##highergeographyid_guid_type').change(function () {
-									// On selecting a guid_type, remove an existing guid value.
-									$('##highergeographyid').val("");
-									$('##highergeographyid').show();
-									// On selecting a guid_type, change the pattern.
-									getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
-								});
-								$('##highergeographyid').blur( function () {
-									// On loss of focus for input, validate against the regex, update link
-									getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
-								});
-								$('.geoginput').change(function () {
-									// On changing any geography inptu field name, update search.
-									getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
-								});
-							});
-						</script>
-					</td>
-				</tr>
-				<tr>
-	                <td colspan="4" nowrap style="padding-top: 1em;">
-						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-						<input type="submit" value="Save Edits"	class="savBtn">&nbsp;
-						<input type="button" value="Delete" class="delBtn"
-							onClick="document.location='Locality.cfm?Action=deleteGeog&geog_auth_rec_id=#geog_auth_rec_id#';">&nbsp;
-						</cfif>
-						<input type="button" value="See Localities" class="lnkBtn"
-							onClick="document.location='Locality.cfm?Action=findLocality&geog_auth_rec_id=#geog_auth_rec_id#';">&nbsp;
-						<cfset dloc="Locality.cfm?action=newHG&continent_ocean=#continent_ocean#&ocean_region=#ocean_region#&ocean_subregion=#ocean_subregion#&country=#country#&state_prov=#state_prov#&county=#county#&quad=#quad#&feature=#feature#&water_feature=#water_feature#&island_group=#island_group#&island=#island#&sea=#sea#">
-						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-						<input type="button" value="Create Clone" class="insBtn" onclick="document.location='#dloc#';">
-						</cfif>
-					</td>
-				</tr>
-			</table>
-		</cfform>
-        </div>
-	</cfoutput>
+	<cflocation url="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#">
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "editCollEvnt">
@@ -1446,7 +1136,7 @@ You do not have permission to create Higher Geographies
 				onclick="GeogPick('geog_auth_rec_id','higher_geog','geog'); return false;">
    			<cfif isdefined("geog_auth_rec_id")>
 				<input type="button" value="Details" class="lnkBtn"
-					onclick="document.location='Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
+					onclick="document.location='/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#'">
          	</cfif>
            <label for="sovereign_nation">Sovereign Nation</label>
 		   <select name="sovereign_nation" id="sovereign_nation" size="1">
@@ -1503,7 +1193,7 @@ You do not have permission to create Higher Geographies
 	</cfquery>
 <cfif len(#isLocality.geog_auth_rec_id#) gt 0>
 	There are active localities for this Geog. It cannot be deleted.
-	<br><a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">Return</a> to editing.
+	<br><a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#">Return</a> to editing.
 	<cfabort>
 <cfelseif len(#isLocality.geog_auth_rec_id#) is 0>
 	<cfquery name="deleGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1751,7 +1441,7 @@ You deleted a collecting event.
 	</cfif>
 		where geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 	</cfquery>
-	<cflocation addtoken="no" url="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">
+	<cflocation addtoken="no" url="/localities/HigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#">
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -1860,11 +1550,7 @@ You deleted a collecting event.
 		)
 	</cfquery>
 </cftransaction>
-<cfif FIND("?", #cgi.HTTP_REFERER#) EQ 0>
-<cflocation addtoken="no" url="#cgi.HTTP_REFERER#?Action=editGeog&geog_auth_rec_id=#nextGEO.nextid#">
-<cfelse>
-<cflocation addtoken="no" url="#cgi.HTTP_REFERER#&Action=editGeog&geog_auth_rec_id=#nextGEO.nextid#">
-</cfif>
+<cflocation addtoken="no" url="/localities/HigherGeography.cfm?geog_auth_rec_id=#nextGEO.nextid#">
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -2285,7 +1971,7 @@ You deleted a collecting event.
 		<input type="hidden" name="collecting_event_id" value="#collecting_event_id#" />
 		<tr>
 			<td> <div class="smaller">#higher_geog#
-				(<a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a>)
+				(<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a>)
 				</div>
 			</td>
 			<td>
@@ -2519,7 +2205,7 @@ You deleted a collecting event.
 	<cfloop query="localityResults">
 		<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
 			<td rowspan="2">
-				<a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a>
+				<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a>
 			</td>
 			<td rowspan="2">
 				<span><a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a><cfif curated_fg EQ 1>*</cfif></span>
@@ -2587,7 +2273,13 @@ You deleted a collecting event.
 		</tr>
 		<cfloop query="localityResults2">
 			<tr>
-				<td><a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
+				<td>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+						<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a>
+					<cfelse>
+						<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a>
+					</cfif>
+				</td>
 				<td>
 					<input style="border:none;" value="#higher_geog#" size="80" readonly/>
 				</td>

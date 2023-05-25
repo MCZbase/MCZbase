@@ -63,7 +63,7 @@
 			<td rowspan="3"> 
 				<font size="-2">
 					#higher_geog# 
-					(<a href="/Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#" 
+					(<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" 
 						target="_blank">#geog_auth_rec_id#</a>)
 				</font></td>
 			<td rowspan="3">

@@ -463,18 +463,10 @@ limitations under the License.
 									
 											<div class="h5 dropdown-header px-4 text-danger">Create</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
-												<cfif targetMenu EQ "production">
-													<a class="dropdown-item" href="/Locality.cfm?action=newHG">Geography</a> 
-												<cfelse>
-													<a class="dropdown-item bg-warning" href="">Geography</a> 
-												</cfif>
+												<a class="dropdown-item" href="/localities/HigherGeography.cfm?action=new">Geography</a> 
 											</cfif>		
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-												<cfif findNoCase('master',Session.gitBranch) GT 0>
-													<a class="dropdown-item" href="/Locality.cfm?action=newLocality">Locality</a> 
-												<cfelse>
-													<a class="dropdown-item" href="/localities/Locality.cfm?action=new">Locality</a> 
-												</cfif>
+												<a class="dropdown-item" href="/localities/Locality.cfm?action=new">Locality</a> 
 											</cfif>
 									
 											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 

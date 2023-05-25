@@ -298,7 +298,13 @@ limitations under the License.
 								<cfset georeference="#LatitudeString# #LongitudeString#">
 							</cfif>
 							<tr>
-								<td> <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
+								<td> 
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+										<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">#geog_auth_rec_id#</a>
+									<cfelse>
+										<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">#geog_auth_rec_id#</a>
+									</cfif>
+								</td>
 								<td><a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a></td>
 								<td>
 									<form name="coll#i#" method="post" action="/specimens/changeQueryCollEvent.cfm">

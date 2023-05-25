@@ -171,8 +171,10 @@ content: ": ";
 			<cfloop query="geog">
 				<div class="title">
 					Geography&nbsp;
-                                        <cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-                                            <a href='Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#' target='_blank' rel='noopener noreferrer' >[Edit]</a>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+						<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">[Edit]</a>
+					<cfelse>
+						<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">[View]</a>
 					</cfif>
 				</div>
 				<cfif len(CONTINENT_OCEAN) gt 0>

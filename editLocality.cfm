@@ -631,10 +631,15 @@
 							onmouseover="this.className='savBtn btnhov'"
 							onmouseout="this.className='savBtn'">
 						<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-						<input type="button" value="Edit" class="lnkBtn"
-							onmouseover="this.className='lnkBtn btnhov'"
-							onmouseout="this.className='lnkBtn'"
-							onClick="document.location='Locality.cfm?action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
+							<input type="button" value="Edit" class="lnkBtn"
+								onmouseover="this.className='lnkBtn btnhov'"
+								onmouseout="this.className='lnkBtn'"
+								onClick="document.location='/localities/HigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#'">
+						<cfelse>
+							<input type="button" value="View" class="lnkBtn"
+								onmouseover="this.className='lnkBtn btnhov'"
+								onmouseout="this.className='lnkBtn'"
+								onClick="document.location='/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#'">
 						</cfif>
 				</td>
 			</tr>
