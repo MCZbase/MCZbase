@@ -877,7 +877,7 @@ limitations under the License.
 						</ul>
 				<cfelse>
 					<h3 class="h4">Geological Attributes</h3>
-						<ul>
+						<ul class="mb-2 pl-2 pl-xl-4 ml-xl-1">
 							<cfset valList = "">
 							<cfset shownParentsList = "">
 							<cfset separator = "">
