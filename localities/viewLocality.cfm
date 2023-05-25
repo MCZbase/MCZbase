@@ -55,7 +55,7 @@ limitations under the License.
 				<section class="col-12 col-md-9 col-xl-8 float-left">
 					<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 							<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
-							<div id="summary" class="h3 px-2 mb-0">#summary#</div>
+							<div id="summary" class="h4 px-2 mb-0"><span class="small95">#summary#</span></div>
 						</div>
 					<div class="border rounded px-3 mt-2 pt-2 pb-3" arial-labeledby="formheading">
 							<div class="row mx-0">
@@ -160,7 +160,7 @@ limitations under the License.
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="taxa">
 										<li class="list-group-item float-left"> 
-											<a class="h4" href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=TAXONOMY%3AFAMILY&searchText2=%3D#taxa.family#&nestdepth3=3&JoinOperator3=and&field3=TAXONOMY%3AGENUS&searchText3=%3D#taxa.genus#">#taxa.family#: #taxa.genus#</a>  
+											<a class="h5" href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=TAXONOMY%3AFAMILY&searchText2=%3D#taxa.family#&nestdepth3=3&JoinOperator3=and&field3=TAXONOMY%3AGENUS&searchText3=%3D#taxa.genus#">#taxa.family#: #taxa.genus#</a>  
 										</li>
 									</cfloop>
 								</ul>
