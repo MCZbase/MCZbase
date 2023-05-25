@@ -134,9 +134,11 @@ limitations under the License.
 									<cfloop query="collectors">
 										<li class="list-group-item float-left"> 
 											<a class="h5" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&collector=#encodeForURL(collectors.agent_name)#&collector_agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
-											<a class="h5" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">
-												<span class="input-group-text smaller bg-lightgreen" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-											</a> 
+											<span class="bg-lightgreen">
+												<a class="h5" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">
+													<i class="fa fa-user" aria-hidden="true"></i>
+												</a> 
+											</span> 
 											<cfif len(collectors.agentguid) gt 0>
 												<cfset link = getGuidLink(guid=#collectors.agentguid#,guid_type=#collectors.agentguid_guid_type#)>
 												<span>#link#</span>
