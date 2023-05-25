@@ -129,6 +129,35 @@ limitations under the License.
 									<cfloop query="years">
 										<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
 											<a class="h4" href="/?=#locality_id#=#years.year#">#years.year# </a> 
+<!--- TODO: Search builder URI --->
+										</li>
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
+						<cfquery name="taxa"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT 
+								count(flatTableName.collection_object_id) ct,
+								flatTableName.genus, flatTableName.family
+							FROM
+								<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+								join collecting_event on flatTableName.collecting_event_id = collecting_event.collecting_event_id
+							WHERE
+								flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+								and
+							GROUP BY
+								family, genus
+							ORDER BY 
+								family, genus
+						</cfquery>
+						<cfif taxa.recordcount GT 0>
+							<div class="col-12 col-md-6 px-0 pl-md-2 pr-md-3">
+								<h3 class="h4 px-2">Taxa Collected at this locality</h3>
+								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
+									<cfloop query="years">
+										<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+<!--- TODO: Search builder URI --->
+											<a class="h4" href="/?=#locality_id#=#taxa.family#=#taxagenus#">#taxa.family#:#taxa.genus#</a> 
 										</li>
 									</cfloop>
 								</ul>
