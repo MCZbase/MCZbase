@@ -52,7 +52,7 @@ limitations under the License.
 						</cfif>
 					</div>
 				</div>
-				<section class="col-12 col-md-9 col-xl-8  float-left">
+				<section class="col-12 col-md-9 col-xl-8 float-left">
 					<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 							<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
 							<div id="summary" class="h3 px-2 mb-0">#summary#</div>
@@ -65,21 +65,21 @@ limitations under the License.
 					</div>	
 					<div class="row mx-0 border-bottom-grey">
 						<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-2">
-							<div class="px-3 my-2 py-3">
+							<div class="p-3 mb-2">
 								<cfset geology = getLocalityGeologyDetailsHtml(locality_id="#locality_id#")>
 								<div id="geologyDiv">#geology#</div>
 							</div>
 						</div>
 						<span class="border-bottom-grey d-block d-md-none w-100"></span>
 						<div class="col-12 px-0 pl-md-2 col-md-6">
-							<div class="px-3 my-2 py-3">
+							<div class="p-3 mb-2">
 								<cfset georeferences = getLocalityGeoreferenceDetailsHtml(locality_id="#locality_id#")>
 								<div id="georeferencesDiv">#georeferences#</div>
 							</div>
 						</div>
 					</div>
 					<div class="row mx-0 border-bottom-grey">
-						<div class="col-12 col-md-6 px-0 py-2 px-md-2">
+						<div class="col-12 col-md-6 px-0 py-3 px-md-2">
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 							<div id="relatedTo">#blockRelated#</div>
 						</div>
@@ -100,8 +100,9 @@ limitations under the License.
 							ORDER BY 
 								to_char(collecting_event.date_began_date,'yyyy') asc
 						</cfquery>
+						<span class="border-bottom-grey d-block d-md-none w-100"></span>
 						<cfif years.recordcount GT 0>
-							<div class="col-12 col-md-6 px-0 py-2 pl-md-2 pr-md-3">
+							<div class="col-12 col-md-6 px-0 py-3 pl-md-2 pr-md-3">
 								<h3 class="h4 px-2">Known Years Collected at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="years">
@@ -112,7 +113,8 @@ limitations under the License.
 								</ul>
 							</div>
 						</cfif>
-						<cfquery name="collectors"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					</div>
+					<cfquery name="collectors"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT distinct
 								preferred_agent_name.agent_id, 
 								preferred_agent_name.agent_name
@@ -122,9 +124,12 @@ limitations under the License.
 								join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
 							WHERE
 								flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+							ORDER BY
+								preferred_agent_name.agent_name
 						</cfquery>
+					<div class="row mx-0">
 						<cfif collectors.recordcount GT 0>
-							<div class="col-12 col-md-6 px-0 pl-md-3 pr-md-3 border rounded">
+							<div class="col-12 col-md-6 px-0 py-3 pl-md-3 pr-md-3">
 								<h3 class="h4 px-2 mt-2">Collectors at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="collectors">
@@ -135,6 +140,7 @@ limitations under the License.
 								</ul>
 							</div>
 						</cfif>
+						<span class="border-bottom-grey d-block d-md-none w-100"></span>
 						<cfquery name="taxa"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
 								count(flatTableName.collection_object_id) ct,
@@ -149,19 +155,20 @@ limitations under the License.
 								family, genus
 						</cfquery>
 						<cfif taxa.recordcount GT 0>
-							<div class="col-12 col-md-6 px-0 pl-md-2 pr-md-3 border rounded">
+							<div class="col-12 col-md-6 px-0 pl-md-2 py-3 pr-md-3">
 								<h3 class="h4 px-2">Taxa Collected at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="taxa">
 										<li class="list-group-item float-left"> 
-											<a class="h4" href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=TAXONOMY%3AFAMILY&searchText2=%3D#taxa.family#&nestdepth3=3&JoinOperator3=and&field3=TAXONOMY%3AGENUS&searchText3=%3D#taxa.genus#">#taxa.family#:#taxa.genus#</a>  
+											<a class="h4" href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=TAXONOMY%3AFAMILY&searchText2=%3D#taxa.family#&nestdepth3=3&JoinOperator3=and&field3=TAXONOMY%3AGENUS&searchText3=%3D#taxa.genus#">#taxa.family#: #taxa.genus#</a>  
 										</li>
 									</cfloop>
 								</ul>
 							</div>
 						</cfif>
-						<!--- TODO: list collecting events linking out to collecting event details. --->
 					</div>
+						<!--- TODO: list collecting events linking out to collecting event details. --->
+					
 					<div class="row mx-0">
 						<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
 							<cfset media = getLocalityMediaHtml(locality_id="#locality_id#")>
