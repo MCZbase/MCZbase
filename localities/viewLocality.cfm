@@ -57,7 +57,7 @@ limitations under the License.
 							<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
 							<div id="summary" class="h3 px-2 mb-0">#summary#</div>
 						</div>
-					<div class="border rounded px-3 my-2 pt-2 pb-3" arial-labeledby="formheading">
+					<div class="border rounded px-3 mt-2 pt-2 pb-3" arial-labeledby="formheading">
 							<div class="row mx-0">
 							<cfset blockDetails = getLocalityHtml(locality_id = "#locality_id#")>
 							#blockDetails#
