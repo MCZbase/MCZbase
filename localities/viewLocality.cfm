@@ -70,6 +70,7 @@ limitations under the License.
 								<div id="geologyDiv">#geology#</div>
 							</div>
 						</div>
+						<span class="border-bottom-grey d-block d-md-none w-100"></span>
 						<div class="col-12 px-0 pl-md-2 col-md-6">
 							<div class="px-3 my-2 py-3">
 								<cfset georeferences = getLocalityGeoreferenceDetailsHtml(locality_id="#locality_id#")>
