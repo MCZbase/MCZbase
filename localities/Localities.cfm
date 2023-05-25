@@ -258,9 +258,8 @@ limitations under the License.
 					</cfif>
 
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						<!--- TODO: Locality Details Page --->
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/editLocality.cfm?locality_id=' + rowData['LOCALITY_ID'] + '" target="_blank">'+value+'</a></span>';
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/localities/Locality.cfm?locality_id=' + rowData['LOCALITY_ID'] + '" target="_blank">'+value+'</a></span>';
 					};
 					var summaryCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -425,6 +424,8 @@ limitations under the License.
 								columns: [
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 										{text: 'Edit', datafield: 'LOCALITY_ID_1', width:60, hideable: false, cellsrenderer: editCellRenderer},
+									<cfelse>
+										{text: 'View', datafield: 'LOCALITY_ID_1', width:60, hideable: false, cellsrenderer: linkIdCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
 									{ text: 'Coll Events', datafield: 'COLLECTING_EVENT_COUNT',width: 100, hideabel: true, hidden: getColHidProp('COLLECTING_EVENT_COUNT',false), cellsrenderer: collectingEventCellRenderer  },
