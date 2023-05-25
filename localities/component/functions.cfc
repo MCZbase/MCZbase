@@ -1997,12 +1997,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								</cfif>
 								<cfset divClass="small90 my-1 w-100">
 								<cfif accepted_lat_long EQ "Accepted">
-									<cfset divClass="small90 font-weight-bold my-1 w-100">
+									<cfset divClass="h5 my-1 w-100">
 								</cfif>
 								<div class="#divClass#">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
 								<ul class="mb-2">
 									<li>
-										#original# <span class="#divClass#">#accepted_lat_long#</span>
+										#original# <span class="font-weight-bold">#accepted_lat_long#</span>
 									</li>
 									<li>
 										Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
