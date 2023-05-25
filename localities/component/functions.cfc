@@ -1193,7 +1193,7 @@ Delete an existing collecting event number record.
 				<form id="addGeoAttForm">
 					<input type="hidden" name="method" value="addGeologyAttribute">
 					<input type="hidden" name="locality_id" value="#locality_id#">
-					<h2 class="small95">#encodeForHtml(getLabel.locality_label)#</h2>
+					<h2 class="small95 mb-3">#encodeForHtml(getLabel.locality_label)#</h2>
 					<div class="form-row">
 						<div class="col-12 col-md-3 mb-2">
 							<label for="attribute_type" class="data-entry-label">Type</label>
