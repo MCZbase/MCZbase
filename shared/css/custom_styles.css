@@ -115,6 +115,9 @@ table td .small {
 .border-wide-grey {
 	border: 2px solid darkgrey !important;
 }
+.border-bottom-grey {
+	border: 2px solid #bac5c6 !important;
+}
 .border-wide-ltgrey {
 	border: 2px solid #dbe0e1 !important;
 }
