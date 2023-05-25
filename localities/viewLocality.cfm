@@ -124,6 +124,8 @@ limitations under the License.
 								join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
 							WHERE
 								flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+							ORDER BY
+								preferred_agent_name.agent_name
 						</cfquery>
 					<div class="row mx-0 border-bottom-grey">
 						<cfif collectors.recordcount GT 0>
