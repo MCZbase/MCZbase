@@ -1069,7 +1069,7 @@ limitations under the License.
 								</cfif>
 								<cfset divClass="small90 my-1 w-100">
 								<cfif accepted_lat_long EQ "Accepted">
-									<cfset divClass="small90 font-weight-bold my-1 w-100">
+									<cfset divClass="small90 font-weight-lessbold my-1 w-100">
 								</cfif>
 								<div class="#divClass#">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
 								<ul class="mb-2">
