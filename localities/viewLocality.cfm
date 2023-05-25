@@ -107,7 +107,7 @@ limitations under the License.
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="years">
 										<li class="list-group-item float-left"> 
-											<a class="h4" href="/Specimens.cfm?execute=true&builderMaxRows=4&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=COLLECTING_EVENT%3ABEGAN_DATE&searchText2=#year#&nestdepth4=1&JoinOperator4=and&field4=COLLECTING_EVENT%3ADATE_ENDED_DATE&searchText4=#year#">#years.year# </a> 
+											<a class="h5" href="/Specimens.cfm?execute=true&builderMaxRows=4&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=COLLECTING_EVENT%3ABEGAN_DATE&searchText2=#year#&nestdepth4=1&JoinOperator4=and&field4=COLLECTING_EVENT%3ADATE_ENDED_DATE&searchText4=#year#">#years.year# </a> 
 										</li>
 									</cfloop>
 								</ul>
@@ -130,11 +130,11 @@ limitations under the License.
 					<div class="row mx-0">
 						<cfif collectors.recordcount GT 0>
 							<div class="col-12 col-md-6 px-0 py-3 pl-md-3 pr-md-3">
-								<h3 class="h4 px-2 mt-2">Collectors at this locality</h3>
+								<h3 class="h4 px-2">Collectors at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="collectors">
 										<li class="list-group-item float-left"> 
-											<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
+											<a class="h5" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
 										</li>
 									</cfloop>
 								</ul>
@@ -160,7 +160,7 @@ limitations under the License.
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="taxa">
 										<li class="list-group-item float-left"> 
-											<a class="h5" href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=TAXONOMY%3AFAMILY&searchText2=%3D#taxa.family#&nestdepth3=3&JoinOperator3=and&field3=TAXONOMY%3AGENUS&searchText3=%3D#taxa.genus#">#taxa.family#: #taxa.genus#</a>  
+											<a class="h5" href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=TAXONOMY%3AFAMILY&searchText2=%3D#taxa.family#&nestdepth3=3&JoinOperator3=and&field3=TAXONOMY%3AGENUS&searchText3=%3D#taxa.genus#">#taxa.family#:&##8201;#taxa.genus#</a>  
 										</li>
 									</cfloop>
 								</ul>
