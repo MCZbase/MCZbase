@@ -141,10 +141,8 @@ limitations under the License.
 								flatTableName.genus, flatTableName.family
 							FROM
 								<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-								join collecting_event on flatTableName.collecting_event_id = collecting_event.collecting_event_id
 							WHERE
 								flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-								and
 							GROUP BY
 								family, genus
 							ORDER BY 
