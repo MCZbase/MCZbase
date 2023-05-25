@@ -1350,7 +1350,7 @@ limitations under the License.
 				<cfif getVerbatim.recordcount EQ 0>
 					<div class="h4 px-4">No verbatim locality values</div>
 				<cfelse>
-					<ul>
+					<ul class="px-2 pl-xl-4 ml-xl-1">
 						<cfloop query="getVerbatim">
 							<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
 							<li>#verbatim_locality##counts#</li>
