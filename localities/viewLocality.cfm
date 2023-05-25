@@ -123,7 +123,7 @@ limitations under the License.
 							ORDER BY
 								preferred_agent_name.agent_name
 						</cfquery>
-					<div class="row mx-0">
+					<div class="row mx-0 border-bottom-grey">
 						<cfif collectors.recordcount GT 0>
 							<div class="col-12 col-md-6 p-3">
 								<h3 class="h4">Collectors at this locality</h3>
