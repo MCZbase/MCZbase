@@ -1893,9 +1893,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<cfif getLocalityMetadata.recordcount NEQ 1>
 					<cfthrow message="Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#].  Locality may be used only by a department for which you do not have access.">
 				</cfif>
-				<cfset localityLabel = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
-				<cfset localityLabel = replace(localityLabel,'"',"&quot;","all")>
-				<cfset localityLabel = replace(localityLabel,"'","\'","all")>
 				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						lat_long_id,
@@ -1973,7 +1970,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<li>None #noGeoRef#</li>
 						</ul>
 							<button type="button" class="btn btn-xs btn-secondary" 
-									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', #callback_name#) " 
+									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', #callback_name#) " 
 									aria-label = "Add a georeference to this locality"
 								>Add</button>
 								<output id="georeferenceDialogFeedback">&nbsp;</output>	
@@ -2048,7 +2045,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							</cfloop>
 					</div>
 						<button type="button" class="btn btn-xs btn-secondary mt-3" 
-						onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', '#localityLabel#', #callback_name#) " 
+						onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', #callback_name#) " 
 						aria-label = "Add another georeference to this locality"
 						>Add</button>
 					
@@ -2070,9 +2067,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfreturn cfthread["localityGeoRefFormThread#tn#"].output>
 </cffunction>
 
+<!--- given a locality_id create the html for a dialog to add a georeference to the locality
+  @param locality_id the locality to which to add the georeference.
+  @return html for a dialog, or html with an error message.
+--->
 <cffunction name="georeferenceDialogHtml" access="remote" returntype="string">
 	<cfargument name="locality_id" type="string" required="yes">
-	<cfargument name="locality_label" type="string" required="yes">
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getGeorefThread#tn#">
@@ -2113,6 +2113,19 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							and agent_name_type = 'login'
 					)
 			</cfquery>
+			<cfquery name="getLocalityMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					nvl(spec_locality,'[No specific locality value]') spec_locality, 
+					locality_id, 
+					decode(curated_fg,1,' *','') curated
+				FROM locality
+				WHERE
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			</cfquery>
+			<cfif getLocalityMetadata.recordcount NEQ 1>
+				<cfthrow message="Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#].  Locality may be used only by a department for which you do not have access.">
+			</cfif>
+			<cfset locality_label = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
 			<cfoutput>
 				<p class="font-weight-lessbold">#encodeForHtml(locality_label)#</p>
 				<p class="small90 col-12 d-block px-0 pb-0 mb-0">See: Chapman A.D. &amp; Wieczorek J.R. 2020, Georeferencing Best Practices. Copenhagen: GBIF Secretariat. <a href="https://doi.org/10.15468/doc-gg7h-s853" target="_blank">DOI:10.15468/doc-gg7h-s853</a>.</p>

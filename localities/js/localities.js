@@ -231,11 +231,9 @@ function openEditGeorefDialog(lat_long_id, dialogid, callback) {
 // @param dialogid the id of a div in the dom that is to be populated with
 //  the content of the dialog, without a leading #.
 // @param locality_id the locality to which to add a georeference
-// @param locality_label a label for the locality to include in the dialog 
-//  header and content
 // @param callback a function to invoke on closing the dialog.
-function openAddGeoreferenceDialog(dialogid, locality_id, locality_label, okcallback) { 
-	var title = "Add a georeference for locality "; // + locality_label;
+function openAddGeoreferenceDialog(dialogid, locality_id, okcallback) { 
+	var title = "Add a georeference for locality";
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	$("#georeferenceDialogFeedback").html('&nbsp;');
 	var h = $(window).height();
@@ -276,8 +274,7 @@ function openAddGeoreferenceDialog(dialogid, locality_id, locality_label, okcall
 		data: {
 			method: "georeferenceDialogHtml",
 			returnformat: "plain",
-			locality_id: locality_id,
-			locality_label: locality_label
+			locality_id: locality_id
 		}, 
 		success: function (data) { 
 			$("#"+dialogid+"_div").html(data);
