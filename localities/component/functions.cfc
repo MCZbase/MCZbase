@@ -2569,19 +2569,19 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										<div class="col-12 px-1 mb-2">
 											<div class="h4">Values from Locality to send to GeoLocate to obtain a georeference:</div>
 										</div>
-										<div class="col-12 col-md-3 mb-2 px-1 float-left">
+										<div class="col-12 col-md-4 mb-2 px-1 float-left">
 											<label for="country" class="data-entry-label">Country</label>
 											<input type="text" name="country" id="country" class="border-info data-entry-input" value="#encodeForHtml(lookupForGeolocate.country)#" disabled readonly >
 										</div>
-										<div class="col-12 col-md-2 mb-2 px-1 float-left">
+										<div class="col-12 col-md-4 mb-2 px-1 float-left">
 											<label for="state_prov" class="data-entry-label">State/Province</label>
 											<input type="text" name="state_prov" id="state_prov" class="border-info data-entry-input" value="#encodeForHtml(lookupForGeolocate.state_prov)#" disabled readonly >
 										</div>
-										<div class="col-12 col-md-2 mb-2 px-1 float-left">
+										<div class="col-12 col-md-4 mb-2 px-1 float-left">
 											<label for="county" class="data-entry-label">County</label>
 											<input type="text" name="county" id="county" class="data-entry-input border-info" value="#encodeForHtml(lookupForGeolocate.county)#" disabled readonly >
 										</div>
-										<div class="col-12 col-md-5 mb-2 px-1 float-left">
+										<div class="col-12 mb-2 px-1 float-left">
 											<label for="gl_spec_locality" class="data-entry-label">Specific Locality</label>
 											<input type="text" name="gl_spec_locality" id="gl_spec_locality" class="border-info data-entry-input" value="#encodeForHtml(lookupForGeolocate.spec_locality)#" disabled readonly>
 										</div>
