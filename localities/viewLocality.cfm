@@ -64,12 +64,12 @@ limitations under the License.
 						</div>
 					</div>	
 					<div class="row mx-0 border-bottom-grey">
-						<div class="col-12 col-md-6 p-3 mb-2 px-md-3">
+						<div class="col-12 col-md-6 p-3 px-md-3">
 							<cfset geology = getLocalityGeologyDetailsHtml(locality_id="#locality_id#")>
 							<div id="geologyDiv">#geology#</div>
 						</div>
 						<span class="border-bottom-grey d-block d-md-none w-100"></span>
-							<div class="col-12 p-3 px-md-2 mb-2 col-md-6">
+							<div class="col-12 p-3 px-md-2 col-md-6">
 								<cfset georeferences = getLocalityGeoreferenceDetailsHtml(locality_id="#locality_id#")>
 								<div id="georeferencesDiv">#georeferences#</div>
 							</div>
