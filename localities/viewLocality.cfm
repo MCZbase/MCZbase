@@ -166,7 +166,7 @@ limitations under the License.
 						<!--- TODO: list collecting events linking out to collecting event details. --->
 					
 					<div class="row mx-0">
-						<div class="col-12 col-md-6 py-3">
+						<div class="col-12 col-md-6 px-2 py-3">
 							<cfset media = getLocalityMediaHtml(locality_id="#locality_id#")>
 							<div id="mediaDiv" class="row mx-0">#media#</div>
 						</div>
