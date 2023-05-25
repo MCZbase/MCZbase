@@ -335,7 +335,7 @@ limitations under the License.
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 						var editLocCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowData) {
 							var id = encodeURIComponent(rowData['LOCALITY_ID']);
-							return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/editLocality.cfm?locality_id=' + id + '">Loc.</a>';
+							return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/localities/Locality.cfm?locality_id=' + id + '">Loc.</a>';
 						};
 						var editEventCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowData) {
 							var id = encodeURIComponent(rowData['COLLECTING_EVENT_ID']);
