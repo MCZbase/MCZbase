@@ -127,7 +127,7 @@ limitations under the License.
 							ORDER BY
 								preferred_agent_name.agent_name
 						</cfquery>
-					<div class="row mx-0 border-bottom-grey">
+					<div class="row mx-0">
 						<cfif collectors.recordcount GT 0>
 							<div class="col-12 col-md-6 px-0 py-3 pl-md-3 pr-md-3">
 								<h3 class="h4 px-2 mt-2">Collectors at this locality</h3>
@@ -160,7 +160,7 @@ limitations under the License.
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="taxa">
 										<li class="list-group-item float-left"> 
-											<a class="h4" href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=TAXONOMY%3AFAMILY&searchText2=%3D#taxa.family#&nestdepth3=3&JoinOperator3=and&field3=TAXONOMY%3AGENUS&searchText3=%3D#taxa.genus#">#taxa.family#:#taxa.genus#</a>  
+											<a class="h4" href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=TAXONOMY%3AFAMILY&searchText2=%3D#taxa.family#&nestdepth3=3&JoinOperator3=and&field3=TAXONOMY%3AGENUS&searchText3=%3D#taxa.genus#">#taxa.family#: #taxa.genus#</a>  
 										</li>
 									</cfloop>
 								</ul>
