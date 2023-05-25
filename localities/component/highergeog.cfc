@@ -482,7 +482,7 @@ Functions supporting editing higher geographies.
 					</div>
 				</div>
 				<div class="form-row mx-1 px-1 border rounded pt-1 my-2">
-					<div class="col-12 col-md-8 col-xl-4 my-2" >
+					<div class="col-9 col-md-8 col-xl-4 my-2" >
 						<label for="highergeographyid" class="data-entry-label mb1px">Authority for Higher Geography GUID</label>
 						<cfset pattern = "">
 						<cfset placeholder = "">
