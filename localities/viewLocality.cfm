@@ -135,7 +135,7 @@ limitations under the License.
 										<li class="list-group-item float-left"> 
 											<a class="h5" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&collector=#encodeForURL(collectors.agent_name)#&collector_agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
 											<span class="bg-lightgreen">
-												<a class="h5" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">
+												<a class="p-1" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">
 													<i class="fa fa-user" aria-hidden="true"></i>
 												</a> 
 											</span> 
