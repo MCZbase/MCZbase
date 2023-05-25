@@ -287,9 +287,9 @@
           		<td>
 						<label for="higher_geog"> Higher Geography
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
-								<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#l.geog_auth_rec_id#">Edit</a>
+								<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#l.geog_auth_rec_id#" target="_blank">Edit</a>
 							<cfelse>
-								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#l.geog_auth_rec_id#">View</a>
+								<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#l.geog_auth_rec_id#" target="_blank">View</a>
 							</cfif>
                	 </label>
                 	<input type="text" id="higher_geog" name="higher_geog" size="75" value="#l.higher_geog#" class="reqdClr"
