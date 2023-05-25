@@ -1360,10 +1360,10 @@ limitations under the License.
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Keyword Search Help</h2>
 											<p>
-												This help applies only the keyword search, behavior and operators for other searches are different
+												This help applies only the keyword search, behavior and operators for other searches are different.
 												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")> 
-													(see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Search_Operators" target="_blank">Search Operators</a>). For more examples, see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Keyword_Search" target="_blank">Keyword Search</a>
-												</cfif>.
+													(See: <a href="https://code.mcz.harvard.edu/wiki/index.php/Search_Operators" target="_blank">Search Operators</a>). For more examples, see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Keyword_Search" target="_blank">Keyword Search</a>.
+												</cfif>
 											</p>
 											<dl class="mb-0"> 
 												<dt><span class="text-info font-weight-bold">&nbsp;</span></dt>
