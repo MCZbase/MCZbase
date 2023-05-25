@@ -78,7 +78,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row mx-0 border-bottom-grey">
-						<div class="col-12 col-md-6 px-0 px-md-2 border rounded">
+						<div class="col-12 col-md-6 px-0 py-2 px-md-2">
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 							<div id="relatedTo">#blockRelated#</div>
 						</div>
@@ -100,7 +100,7 @@ limitations under the License.
 								to_char(collecting_event.date_began_date,'yyyy') asc
 						</cfquery>
 						<cfif years.recordcount GT 0>
-							<div class="col-12 col-md-6 px-0 pl-md-2 pr-md-3 border rounded">
+							<div class="col-12 col-md-6 px-0 py-2 pl-md-2 pr-md-3">
 								<h3 class="h4 px-2">Known Years Collected at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="years">
