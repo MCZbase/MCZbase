@@ -2521,7 +2521,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$('.geolocateMetadata').hide();
 											});
 										</script>
-										<div class="col-12 col-md-3 pt-3">
+										<div class="col-12 col-md-3 pt-2">
 											<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 												onClick="if (checkFormValidity($('##manualGeorefForm')[0])) { saveManualGeoref();  } " 
 												id="submitButton" >
