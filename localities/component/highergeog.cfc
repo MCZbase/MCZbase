@@ -461,7 +461,7 @@ Functions supporting editing higher geographies.
 						</script>
 					</div>
 					<div class="col-12 col-xl-6 mb-2">
-						<output id="wktLoadFeedback"></output>
+						<output id="wktLoadFeedback">Test of feedback from Load Polygon</output>
 					</div>
 					<div class="col-12 col-md-3 mb-2">
 						<label for="valid_catalog_term_fg" class="data-entry-label">Valid for data entry?</label>
