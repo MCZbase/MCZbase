@@ -39,6 +39,7 @@ limitations under the License.
 
 <cfinclude template="/localities/component/public.cfc" runOnce="true"><!--- for getLocalityMap() --->
 <cfinclude template="/localities/component/search.cfc" runOnce="true"><!--- for getLocalitySummary() --->
+<cfinclude template="/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
 
 <cfoutput>
 	<main class="container-xl mt-3 pb-5 mb-5" id="content">
