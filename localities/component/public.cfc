@@ -426,6 +426,7 @@ limitations under the License.
 											};
 											errorcircle = new google.maps.Circle(circleoptn);
 											bounds.union(errorcircle.getBounds());
+											map.fitBounds(bounds);
 										}
 									}
 								}
