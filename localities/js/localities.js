@@ -235,7 +235,7 @@ function openEditGeorefDialog(lat_long_id, dialogid, callback) {
 //  header and content
 // @param callback a function to invoke on closing the dialog.
 function openAddGeoreferenceDialog(dialogid, locality_id, locality_label, okcallback) { 
-	var title = "Add a georeference for locality " + locality_label;
+	var title = "Add a georeference for locality "; // + locality_label;
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	$("#georeferenceDialogFeedback").html('&nbsp;');
 	var h = $(window).height();
