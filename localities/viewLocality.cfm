@@ -155,7 +155,7 @@ limitations under the License.
 									<cfloop query="years">
 										<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
 <!--- TODO: Search builder URI --->
-											<a class="h4" href="/?=#locality_id#=#taxa.family#=#taxagenus#">#taxa.family#:#taxa.genus#</a> 
+											<a class="h4" href="/?=#locality_id#=#taxa.family#=#taxa.genus#">#taxa.family#:#taxa.genus#</a> 
 										</li>
 									</cfloop>
 								</ul>
