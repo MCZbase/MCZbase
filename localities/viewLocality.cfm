@@ -130,7 +130,7 @@ limitations under the License.
 					<div class="row mx-0">
 						<cfif collectors.recordcount GT 0>
 							<div class="col-12 col-md-6 px-0 py-3 pl-md-3 pr-md-3">
-								<h3 class="h4 px-2 mt-2">Collectors at this locality</h3>
+								<h3 class="h4 px-2">Collectors at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="collectors">
 										<li class="list-group-item float-left"> 
