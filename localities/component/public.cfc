@@ -1174,7 +1174,7 @@ limitations under the License.
 							contains the following <a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#">#totalSpecimens# specimens</a>
 							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#totalEvents# collecting events</a>:
 						</h2>
-						<ul class="px-3 px-md-4 ml-md-1">
+						<ul class="px-2 pl-xl-4 ml-xl-1">
 							<cfloop query="localityUses">
 								<li>
 									<cfif numOfSpecs GT 0>
