@@ -200,7 +200,7 @@ limitations under the License.
 									ORDER BY media_relationship
 								</cfquery>
 								<cfloop query="relations">
-									<cfset summary = encodeForHtml(replace(replace(summary,'"','','all'),"'","","all"))>
+									<cfset summary = replace(replace(summary,'"','','all'),"'","","all")>
 									<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
 									<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
 								</cfloop>
