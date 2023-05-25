@@ -128,8 +128,7 @@ limitations under the License.
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="years">
 										<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-											<a class="h4" href="/?=#locality_id#=#years.year#">#years.year# </a> 
-<!--- TODO: Search builder URI --->
+											<a class="h4" href="/Specimens.cfm?execute=true&builderMaxRows=4&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#&nestdepth2=2&JoinOperator2=and&field2=COLLECTING_EVENT%3ABEGAN_DATE&searchText2=#year#&nestdepth4=1&JoinOperator4=and&field4=COLLECTING_EVENT%3ADATE_ENDED_DATE&searchText4=#year#">#years.year# </a> 
 										</li>
 									</cfloop>
 								</ul>
