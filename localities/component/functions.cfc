@@ -3897,7 +3897,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										}
 									</script>
 								</div>
-								<div class="col-12 col-md-6 col-xl-2 mb-2">
+								<div class="col-12 col-md-6 col-xl-2 mt-3 mb-2">
 									<output id="wktReplaceFeedback"></output>
 								</div>
 								<div class="col-12 col-md-6 col-xl-3 mb-2">
