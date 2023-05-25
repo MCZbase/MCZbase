@@ -298,7 +298,7 @@
             </tr>
             <tr>
               <td><label for="spec_locality"> Specific Locality
-                  &nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Locality</a>
+                  &nbsp;&nbsp; <a href="/localities/Locality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Locality</a>
                   <cfif loccount.ct eq 1>(unique to this specimen)<cfelse>(shared with #loccount.ct# specimens)</cfif>
                   </label>
                 <cfinput type="text"
