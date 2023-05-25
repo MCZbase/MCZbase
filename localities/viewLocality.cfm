@@ -113,11 +113,14 @@ limitations under the License.
 					<cfquery name="collectors"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT distinct
 								preferred_agent_name.agent_id, 
-								preferred_agent_name.agent_name
+								preferred_agent_name.agent_name,
+								agent.agentguid,
+								agent.agentguid_guid_type
 							FROM
 								<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 								join collector on flatTableName.collection_object_id = collector.collection_object_id
 								join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
+								join agent on collector.agent_id = agent.agent_id
 							WHERE
 								flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 							ORDER BY
@@ -130,7 +133,16 @@ limitations under the License.
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="collectors">
 										<li class="list-group-item float-left"> 
-											<a class="h5" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
+											<a class="h5" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&collector=#encodeForURL(collectors.agent_name)#&collector_agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
+											<span class="bg-lightgreen">
+												<a class="p-1" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">
+													<i class="fa fa-user" aria-hidden="true"></i>
+												</a> 
+											</span> 
+											<cfif len(collectors.agentguid) gt 0>
+												<cfset link = getGuidLink(guid=#collectors.agentguid#,guid_type=#collectors.agentguid_guid_type#)>
+												<span>#link#</span>
+											</cfif>
 										</li>
 									</cfloop>
 								</ul>
