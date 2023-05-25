@@ -1099,7 +1099,7 @@ limitations under the License.
 										}
 									};
 								</script>
-								<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info mb-1" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
+								<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info mb-2" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
 
 							</cfloop>
 					</div>
