@@ -461,7 +461,7 @@ Functions supporting editing higher geographies.
 						</script>
 					</div>
 					<div class="col-12 col-xl-6 mb-2">
-						<output id="wktLoadFeedback">This locality already has a polygon. Do you wish to overwrite it.</output>
+						<output id="wktLoadFeedback"></output>
 					</div>
 					<div class="col-12 col-md-6 col-xl-3 mb-2">
 						<label for="valid_catalog_term_fg" class="data-entry-label">Valid for data entry?</label>
