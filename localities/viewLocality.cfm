@@ -152,7 +152,7 @@ limitations under the License.
 							<div class="col-12 col-md-6 px-0 pl-md-2 pr-md-3">
 								<h3 class="h4 px-2">Taxa Collected at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
-									<cfloop query="years">
+									<cfloop query="taxa">
 										<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
 <!--- TODO: Search builder URI --->
 											<a class="h4" href="/?=#locality_id#=#taxa.family#=#taxa.genus#">#taxa.family#:#taxa.genus#</a> 
