@@ -302,7 +302,7 @@ limitations under the License.
 									<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">#geog_auth_rec_id#</a>
 								</td>
 								<td>
-									<a href="/localities/viewLocality.cfm?locality_id=#locality_id#">#locality_id#</a>
+									<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" target="_blank">#locality_id#</a>
 								</td>
 								<td>
 									<form name="coll#i#" method="post" action="/specimens/changeQueryCollEvent.cfm">
