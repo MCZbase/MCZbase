@@ -186,10 +186,12 @@
 			</form>
 		</td>
 		<td>
-			<form name="nothing" method="post" action="Locality.cfm">
-				<input type="hidden" name="Action" value="newHG">
-				<input type="submit" value="New Higher Geog" class="insBtn">
-			</form>
+			<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
+				<form name="nothing" method="post" action="Locality.cfm">
+					<input type="hidden" name="Action" value="newHG">
+					<input type="submit" value="New Higher Geog" class="insBtn">
+				</form>
+			</cfif>
 		</td>
 		<td>
 			<!---<a href="javascript:void(0);" onClick="getDocs('higher_geography')"><img src="/images/what.gif" border="0"></a>--->
@@ -205,10 +207,12 @@
 			</form>
 		</td>
 		<td>
-			<form name="nothing" method="post" action="/localities/Locality.cfm">
-				<input type="hidden" name="Action" value="new">
-				<input type="submit" value="New Locality" class="insBtn">
-			</form>
+			<cfif len(session.roles) gt 0 and FindNoCase("manage_locality",session.roles) NEQ 0>
+				<form name="nothing" method="post" action="/localities/Locality.cfm">
+					<input type="hidden" name="Action" value="new">
+					<input type="submit" value="New Locality" class="insBtn">
+				</form>
+			</cfif>
 		</td>
 		<td>
 			<span class="infoLink" onclick="getDocs('locality');">Define</span>
