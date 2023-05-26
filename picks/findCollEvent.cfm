@@ -61,7 +61,7 @@
 			<td rowspan="3">
 				<font size="-2">
 					#spec_locality#
-					(<a href="/Locality.cfm?Action=editLocality&locality_id=#locality_id#"
+					(<a href="/localities/viewLocality.cfm?locality_id=#locality_id#"
 						target="_blank">#locality_id#</a>)
 				</font>
 </td>

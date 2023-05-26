@@ -70,7 +70,7 @@
 				<font size="-2">
 					#spec_locality# 
 					<cfif len(geolAtts) gt 0>[#geolAtts#]</cfif>
-					(<a href="/Locality.cfm?Action=editLocality&locality_id=#locality_id#" 
+					(<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" 
 						target="_blank">#locality_id#</a>)
 				</font>
 </td>
