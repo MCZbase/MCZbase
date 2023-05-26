@@ -127,7 +127,7 @@ limitations under the License.
 		<div class="row mx-0">
 			<cfloop query="getGeography">
 				<div class="col-12 pt-2 mt-4 pb-2 border-bottom border-dark">
-					<h1 class="h2 mr-2 col-10 px-0 float-left px-1">#getGeography.higher_geog#</h1>
+					<h1 class="h2 mr-2 mb-0 col-10 px-0 float-left px-1">#getGeography.higher_geog#</h1>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
 						<a role="button" href="/localities/HigherGeography.cfm?geog_auth_rec_id=#getGeography.geog_auth_rec_id#" class="btn btn-primary btn-xs mr-1 float-right">Edit Higher Geography</a>
 					</cfif>
