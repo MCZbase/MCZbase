@@ -136,7 +136,7 @@ limitations under the License.
 			<div class="col-12 col-md-6 pr-md-0 py-2">
 				<cfloop query="getGeography">
 					<div class="col-12 px-0 pb-1">
-						<ul class="sd list-unstyled row mx-0 px-0 py-1 mb-0">
+						<ul class="list-unstyled list-group small95 mx-0 px-0 py-1 mb-0">
 							<cfif len(valid_catalog_term_fg) EQ 1><cfset valid="*"><cfelse><cfset valid=""></cfif>
 							<cfif len(getGeography.continent_ocean) gt 0>
 								<cfif find('Ocean',getGeography.continent_ocean) GT 0><cfset colabel="Ocean"><cfelse><cfset colabel="Continent"></cfif>
@@ -215,7 +215,7 @@ limitations under the License.
 				</cfloop>
 				<h2 class="h3 mt-2">Localities (<a href="/localities/Localities.cfm?action=search&execute=true&method=getLocalities&geog_auth_rec_id=#geog_auth_rec_id#">#getLocalities.recordcount#</a>)</h2>
 				<div class="col-12">
-					<ul>
+					<ul class="px-4 small95">
 						<cfif getLocalities.recordcount LT 11>
 							<cfloop query="getLocalities">
 								<li>
@@ -247,7 +247,7 @@ limitations under the License.
 				<cfif len(parent) GT 0>
 					<h2 class="h3">Contained in Geography</h2>
 					<div class="col-12">
-						<ul>
+						<ul class="px-4 small95">
 							<cfloop query="getParent">
 								<li>
 									<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#getParent.geog_auth_rec_id#">#getParent.higher_geog#</a> 
