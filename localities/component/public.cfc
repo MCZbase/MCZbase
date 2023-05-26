@@ -707,7 +707,7 @@ limitations under the License.
 				<cfif lookupLocality.recordcount NEQ 1>
 					<cfthrow message="Found other than one locality with specified locality_id [#encodeForHtml(locality_id)#].  Locality may be used only by a department for which you do not have access.">
 				</cfif>
-				<ul class="list-group list-unstyled mt-1 py-1">
+				<ul class="list-group list-unstyled small95 mt-1 py-1">
 					<cfloop query="lookupLocality">
 						<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
 						<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
