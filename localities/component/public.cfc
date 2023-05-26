@@ -1046,7 +1046,7 @@ limitations under the License.
 						<cfset noGeoRef = " (#checkNoGeorefBecause.nogeorefbecause#)">
 					</cfif>
 					<div class="w-100">
-						<ul>
+						<ul class="small95">
 							<li>None #noGeoRef#</li>
 						</ul>
 					</div>
@@ -1072,7 +1072,7 @@ limitations under the License.
 								<cfset divClass="small90 font-weight-lessbold my-1 w-100">
 							</cfif>
 							<div class="#divClass# px-2">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
-							<ul class="mb-2 pl-2 pl-xl-4 ml-xl-1">
+							<ul class="mb-2 pl-2 pl-xl-4 ml-xl-1 small95">
 								<li>
 									#original# <span class="#divClass#">#accepted_lat_long#</span>
 								</li>
@@ -1173,7 +1173,7 @@ limitations under the License.
 							contains the following <a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#">#totalSpecimens# specimens</a>
 							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#totalEvents# collecting events</a>:
 						</h2>
-						<ul class="px-2 pl-xl-4 ml-xl-1">
+						<ul class="px-2 pl-xl-4 ml-xl-1 small95">
 							<cfloop query="localityUses">
 								<li>
 									<cfif numOfSpecs GT 0>
