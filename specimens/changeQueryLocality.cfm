@@ -279,8 +279,8 @@ limitations under the License.
 					<thead class="thead-light">
 						<tr>
 							<th>Geog ID</th>
-							<th>&nbsp;</th>
 							<th>Locality ID</th>
+							<th>&nbsp;</th>
 							<th>Spec Locality</th>
 							<th>Geog</th>
 							<th>Depth/Elevation</th>
