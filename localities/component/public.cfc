@@ -1353,7 +1353,11 @@ limitations under the License.
 					<ul class="px-2 pl-xl-4 ml-xl-1">
 						<cfloop query="getVerbatim">
 							<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
-							<li>#verbatim_locality##counts#</li>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
+								<li><a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&verbatim_locality=%3D#encodeForUrl(verbatim_locality)#&begDateOper=%3D&endDateOper=%3D&accentInsensitive=1&include_counts=0">#verbatim_locality#</a>#counts#</li>
+							<cfelse>
+								<li>#verbatim_locality##counts#</li>
+							</cfif>
 						</cfloop>
 					</ul>
 				</cfif>
