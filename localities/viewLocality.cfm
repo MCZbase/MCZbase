@@ -138,7 +138,7 @@ limitations under the License.
 												<a class="small95" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&collector=#encodeForURL(collectors.agent_name)#&collector_agent_id=#collectors.agent_id#">#collectors.agent_name#&thinsp; </a> 
 												<span class="input-group-append">
 													<span class="bg-lightgreen">
-														<a class="p-1" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">
+														<a class="p-1" aria-label='link to agent record' href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">
 															<i class="fa fa-user" aria-hidden="true"></i>
 														</a>
 													</span>
