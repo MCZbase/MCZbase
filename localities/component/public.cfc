@@ -1030,7 +1030,7 @@ limitations under the License.
 					ORDER BY
 						accepted_lat_long_fg desc
 				</cfquery>
-				<h3 class="h4 w-100">Georeferences (#getGeoreferences.recordcount#)</h3>
+				<h3 class="h4 px-2 w-100">Georeferences (#getGeoreferences.recordcount#)</h3>
 				<cfif getGeoreferences.recordcount EQ 0>
 					<cfquery name="checkNoGeorefBecause" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
@@ -1071,7 +1071,7 @@ limitations under the License.
 							<cfif accepted_lat_long EQ "Accepted">
 								<cfset divClass="small90 font-weight-lessbold my-1 w-100">
 							</cfif>
-							<div class="#divClass#">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
+							<div class="#divClass# px-2">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
 							<ul class="mb-2 pl-2 pl-xl-4 ml-xl-1">
 								<li>
 									#original# <span class="#divClass#">#accepted_lat_long#</span>

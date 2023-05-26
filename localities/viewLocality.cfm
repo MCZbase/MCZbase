@@ -100,7 +100,7 @@ limitations under the License.
 						<span class="border-bottom-grey d-block d-md-none w-100"></span>
 						<cfif years.recordcount GT 0>
 							<div class="col-12 col-md-6 p-3">
-								<h3 class="h4">Known Years Collected at this locality</h3>
+								<h3 class="h4 px-2">Known Years Collected at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="years">
 										<li class="list-group-item float-left"> 
@@ -130,7 +130,7 @@ limitations under the License.
 					<div class="row mx-0 border-bottom-grey">
 						<cfif collectors.recordcount GT 0>
 							<div class="col-12 col-md-6 p-3">
-								<h3 class="h4">Collectors at this locality</h3>
+								<h3 class="h4 px-2">Collectors at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="collectors">
 										<li class="list-group-item float-left"> 
@@ -169,7 +169,7 @@ limitations under the License.
 						</cfquery>
 						<cfif taxa.recordcount GT 0>
 							<div class="col-12 col-md-6 p-3">
-								<h3 class="h4">Taxa Collected at this locality</h3>
+								<h3 class="h4 px-2">Taxa Collected at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="taxa">
 										<li class="list-group-item float-left"> 
@@ -197,7 +197,7 @@ limitations under the License.
 					</div>
 					<!--- verbatim values --->
 					<div class="col-12 pt-2">
-						<h2 class="h4">Verbatim localities (from associated collecting events)</h2>
+						<h2 class="h4 px-2">Verbatim localities (from associated collecting events)</h2>
 						<cfset verbatim = getLocalityVerbatimHtml(locality_id="#locality_id#")>
 						<div id="verbatimDiv">#verbatim#</div>
 					</div>
