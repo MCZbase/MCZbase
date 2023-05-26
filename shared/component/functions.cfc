@@ -658,6 +658,9 @@ limitations under the License.
 	<cfargument name="table" type="string" required="no">
 	<cfargument name="column" type="string" required="no">
 
+	<cfset table = ucase(table)>
+	<cfset column = ucase(column)>
+
 	<cfset returnValue = "">
 	<cftry>
 		<cfquery name="getComment" datasource="uam_god">
