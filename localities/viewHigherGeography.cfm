@@ -258,7 +258,7 @@ limitations under the License.
 				</cfif>
 				<h2 class="h3">Contained Geographies (#getChildren.recordcount#)</h2>
 				<div class="col-12">
-					<ul>
+					<ul class="px-4 small95">
 						<cfif getChildren.recordcount EQ 0>
 							<li>None</li>
 						</cfif>
