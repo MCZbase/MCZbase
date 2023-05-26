@@ -100,7 +100,7 @@ limitations under the License.
 						<span class="border-bottom-grey d-block d-md-none w-100"></span>
 						<cfif years.recordcount GT 0>
 							<div class="col-12 col-md-6 p-3">
-								<h3 class="h4">Known Years Collected at this locality</h3>
+								<h3 class="h4 px-2">Known Years Collected at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="years">
 										<li class="list-group-item float-left"> 
@@ -130,20 +130,24 @@ limitations under the License.
 					<div class="row mx-0 border-bottom-grey">
 						<cfif collectors.recordcount GT 0>
 							<div class="col-12 col-md-6 p-3">
-								<h3 class="h4">Collectors at this locality</h3>
+								<h3 class="h4 px-2">Collectors at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="collectors">
 										<li class="list-group-item float-left"> 
-											<a class="small95" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&collector=#encodeForURL(collectors.agent_name)#&collector_agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
-											<span class="bg-lightgreen">
-												<a class="p-1" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">
-													<i class="fa fa-user" aria-hidden="true"></i>
-												</a> 
-											</span> 
-											<cfif len(collectors.agentguid) gt 0>
-												<cfset link = getGuidLink(guid=#collectors.agentguid#,guid_type=#collectors.agentguid_guid_type#)>
-												<span>#link#</span>
-											</cfif>
+											<span class="input-group">
+												<a class="small95" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&collector=#encodeForURL(collectors.agent_name)#&collector_agent_id=#collectors.agent_id#">#collectors.agent_name#&thinsp; </a> 
+												<span class="input-group-append">
+													<span class="bg-lightgreen">
+														<a class="p-1" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">
+															<i class="fa fa-user" aria-hidden="true"></i>
+														</a>
+													</span>
+													<cfif len(collectors.agentguid) gt 0>
+														<cfset link = getGuidLink(guid=#collectors.agentguid#,guid_type=#collectors.agentguid_guid_type#)>
+														#link#
+													</cfif>
+												</span>
+											</span>
 										</li>
 									</cfloop>
 								</ul>
@@ -165,7 +169,7 @@ limitations under the License.
 						</cfquery>
 						<cfif taxa.recordcount GT 0>
 							<div class="col-12 col-md-6 p-3">
-								<h3 class="h4">Taxa Collected at this locality</h3>
+								<h3 class="h4 px-2">Taxa Collected at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
 									<cfloop query="taxa">
 										<li class="list-group-item float-left"> 
