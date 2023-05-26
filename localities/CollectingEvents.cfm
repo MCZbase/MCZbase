@@ -257,8 +257,12 @@ limitations under the License.
 						for (i = 1; i < columns.length; i++) {
 							var text = columns[i].text;
 							var datafield = columns[i].datafield;
-							if (datafield == 'LOCALITY_ID') { 
-					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/editLocality.cfm?locality_id="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+							if (datafield == 'LOCALITY_ID') { 	
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+					 				content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/localities/Locality.cfm?locality_id="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+								<cfelse>
+					 				content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/localities/viewLocality.cfm?locality_id="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+								</cfif>
 							} else if (datafield == 'COLLECTING_EVENT_ID') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?Action=editCollEvnt&collecting_event_id="+collecting_event_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'HIGHER_GEOG') { 

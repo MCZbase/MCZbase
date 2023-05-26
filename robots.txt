@@ -84,7 +84,8 @@ Disallow: /editColls.cfm
 Disallow: /editContainer.cfm
 Disallow: /editIdentification.cfm
 Disallow: /editIdentifiers.cfm
-Disallow: /editLocality.cfm
+Disallow: /localities/Locality.cfm
+Disallow: /localities/HigherGeography.cfm
 Disallow: /editParts.cfm
 Disallow: /editRelationship.cfm
 Disallow: /Encumbrances.cfm

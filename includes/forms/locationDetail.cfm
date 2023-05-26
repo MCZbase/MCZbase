@@ -270,9 +270,9 @@ content: ": ";
 				<cfloop query="locality">
 					<div class="title">
 						Locality 
-                                                <cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-                                                   <a href='editLocality.cfm?locality_id=#LOCALITY_ID#' target='_blank' rel='noopener noreferrer' >[Edit]</a>
-                                                </cfif>
+						<cfif len(session.roles) gt 0 and FindNoCase("manage_locality",session.roles) NEQ 0>
+							<a href='/localities/Locality.cfm?locality_id=#LOCALITY_ID#' target='_blank' rel='noopener noreferrer' >[Edit]</a>
+						</cfif>
 					</div>
 					<cfif len(SPEC_LOCALITY) gt 0>
 						<div class="pair">

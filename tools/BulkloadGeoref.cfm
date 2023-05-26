@@ -295,7 +295,7 @@ sho err
 	variables.joFileWriter.writeLine(kml);
 </cfscript>
 <cfloop query="df">
-	<cfset cdata='<![CDATA[Datum: #datum#<br/>Error: #max_error_distance# #max_error_units#<br/><p><a href="#Application.ServerRootUrl#/editLocality.cfm?locality_id=#locality_id#">Edit Locality</a></p>]]>'>
+	<cfset cdata='<![CDATA[Datum: #datum#<br/>Error: #max_error_distance# #max_error_units#<br/><p><a href="#Application.ServerRootUrl#/localities/Locality.cfm?locality_id=#locality_id#">Edit Locality</a></p>]]>'>
 	<cfscript>
 		kml='<Placemark>'  & chr(10) &
 			chr(9) & '<name>#HigherGeography#: #replace(SpecLocality,"&","&amp;","all")#</name>' & chr(10) &

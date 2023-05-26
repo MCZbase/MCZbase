@@ -319,7 +319,13 @@ limitations under the License.
 										<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">#geog_auth_rec_id#</a>
 									</cfif>
 								</td>
-								<td><a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a></td>
+								<td>
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+										<a href="/localities/Locality.cfm?locality_id=#locality_id#">#locality_id#</a>
+									<cfelse>
+										<a href="/localities/viewLocality.cfm?locality_id=#locality_id#">#locality_id#</a>
+									</cfif>
+								</td>
 								<td>
 									<form name="coll#i#" method="post" action="/specimens/changeQueryLocality.cfm">
 										<input type="hidden" name="result_id" value="#result_id#">

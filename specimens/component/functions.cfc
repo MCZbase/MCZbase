@@ -3864,7 +3864,7 @@ limitations under the License.
 							<ul class="list-unstyled bg-light row mx-0 px-3 pt-2 pb-2 mb-0 border">
 								<li class="col-12 col-md-12 px-0 pt-1">
 									<label for="spec_locality" class="data-entry-label pt-1"> Specific Locality
-										&nbsp;&nbsp; <a href="editLocality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Shared Specific Locality</a>
+										&nbsp;&nbsp; <a href="/localities/Locality.cfm?locality_id=#l.locality_id#" target="_blank"> Edit Shared Specific Locality</a>
 										<cfif loccount.ct eq 1>
 											(unique to this specimen)
 											<cfelse>

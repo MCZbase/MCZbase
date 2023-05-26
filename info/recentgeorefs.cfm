@@ -158,7 +158,7 @@ li.fontLocHG{
             </ul>
             <div class="whiteBox">
               <ul class="locLabel fontLoc">
-                <li> <a href="../editLocality.cfm?locality_id=#locality_id#" target="_blank">#locality_id#</a> </li>
+                <li> <a href="/localities/Locality.cfm?locality_id=#locality_id#" target="_blank">#locality_id#</a> </li>
                 <li>#GEOREF_UPDATED_DATE#</li>
                 <li class="wide"><cfif len(spec_locality) is 0>&nbsp;<cfelse>#spec_locality#</cfif></li>
                 <li class="notSoWide fontLocHG">#higher_geog#</li>
