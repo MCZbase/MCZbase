@@ -42,7 +42,7 @@ limitations under the License.
 <cfinclude template="/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
 
 <cfoutput>
-	<main class="container-xl pb-5 mb-5" id="content">
+	<main class="container-xl pt-2 pb-5 mb-5" id="content">
 		<div class="row mx-0">
 			<div class="col-12 px-0">
 				<div class="row mx-0">
