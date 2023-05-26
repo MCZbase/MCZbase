@@ -197,7 +197,7 @@ limitations under the License.
 					</div>
 					<!--- verbatim values --->
 					<div class="col-12 pt-2">
-						<h2 class="h4 px-2">Verbatim localities (from associated collecting events)</h2>
+						<h2 class="h4">Verbatim localities (from associated collecting events)</h2>
 						<cfset verbatim = getLocalityVerbatimHtml(locality_id="#locality_id#")>
 						<div id="verbatimDiv">#verbatim#</div>
 					</div>
