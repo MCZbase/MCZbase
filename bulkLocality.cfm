@@ -122,13 +122,11 @@
 	<cfloop query="localityResults">
 		<tr>
 			<td> 
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
-					<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a>
-				<cfelse>
-					<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a>
-				</cfif>
+				<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a>
 			</td>
-			<td><a href="/localities/Locality.cfm?locality_id=#locality_id#">#locality_id#</a></td>
+			<td>
+				<a href="/localities/viewLocality.cfm?locality_id=#locality_id#">#locality_id#</a>
+			</td>
 			<td>
 			<form name="coll#i#" method="post" action="bulkLocality.cfm">
 				<input type="hidden" name="table_name" value="#table_name#">
