@@ -869,7 +869,7 @@ limitations under the License.
 						ctgeology_attribute.ordinal
 				</cfquery>
 				<cfif getGeologicalAttributes.recordcount EQ 0>
-					<h3 class="h4">Geological Attributes</h3>
+					<h3 class="h4 px-2">Geological Attributes</h3>
 						<ul class="mb-2 pl-2 pl-xl-4 ml-xl-1">
 							<li>
 								Recent (no geological attributes) 
