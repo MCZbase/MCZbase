@@ -233,16 +233,7 @@
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findHG">
-	<cfoutput>
-        <div style="width: 52em; margin:0 auto; padding: 1em 0 3em 0;">
-            <cfset title="Find Geography">
-		<h2 class="wikilink">Find Higher Geography:</h2>
-		<form name="getCol" method="post" action="Locality.cfm">
-		    <input type="hidden" name="Action" value="findGeog">
-			<cfinclude template="/includes/frmFindLocation_guts.cfm">
-		</form>
-            </div>
-	</cfoutput>
+	<cflocation url="/localities/HigherGeographies.cfm">
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newHG">
@@ -484,17 +475,7 @@ You do not have permission to create Higher Geographies
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findLO">
-	<cfoutput>
-           <div style="width: 52em; margin:0 auto; padding: 1em 0 3em 0;">
-		<cfset title="Find Locality">
-		<cfset showLocality=1>
-		  <h2 class="wikilink">Search Locality <img src="/images/info_i_2.gif" onClick="getMCZDocs('Searching_for_Localities')" class="likeLink" alt="[help]"/></h2>
-	    <form name="getCol" method="post" action="Locality.cfm">
-			<input type="hidden" name="Action" value="findLocality">
-			<cfinclude template="/includes/frmFindLocation_guts.cfm">
-	     </form>
-            </div>
-	</cfoutput>
+	<cflocation url="/localities/Localities.cfm">
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findCO">

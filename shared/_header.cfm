@@ -440,9 +440,7 @@ limitations under the License.
 									<div>
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-											<a class="dropdown-item" href="/Locality.cfm?action=findHG">Geography (old)</a> 
 											<a class="dropdown-item" href="/localities/HigherGeographies.cfm">Geography</a> 
-											<a class="dropdown-item" href="/Locality.cfm?action=findLO">Localities (old)</a> 
 											<a class="dropdown-item" href="/localities/Localities.cfm">Localities</a> 
 											<a class="dropdown-item" href="/Locality.cfm?action=findCO">Collecting Events (old)</a> 
 											<a class="dropdown-item" href="/localities/CollectingEvents.cfm">Collecting Events</a> 
