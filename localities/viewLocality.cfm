@@ -56,7 +56,7 @@ limitations under the License.
 				<section class="col-12 col-md-9 col-xl-8 float-left">
 					<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 							<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
-							<div id="summary" class="h4 px-2 mb-0"><span class="small95">#summary#</span></div>
+							<div id="summary" class="small95 px-2 mb-0">#summary#</div>
 						</div>
 					<div class="border rounded px-3 mt-2 pt-2 pb-3" arial-labeledby="formheading">
 							<div class="row mx-0">
