@@ -174,7 +174,9 @@ content: ": ";
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
 						<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">[Edit]</a>
 					<cfelse>
-						<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">[View]</a>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">[View]</a>
+						</cfif>
 					</cfif>
 				</div>
 				<cfif len(CONTINENT_OCEAN) gt 0>
@@ -272,6 +274,10 @@ content: ": ";
 						Locality 
 						<cfif len(session.roles) gt 0 and FindNoCase("manage_locality",session.roles) NEQ 0>
 							<a href='/localities/Locality.cfm?locality_id=#LOCALITY_ID#' target='_blank' rel='noopener noreferrer' >[Edit]</a>
+						<cfelse>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								<a href='/localities/viewLocality.cfm?locality_id=#LOCALITY_ID#' target='_blank' rel='noopener noreferrer' >[View]</a>
+							</cfif>
 						</cfif>
 					</div>
 					<cfif len(SPEC_LOCALITY) gt 0>
