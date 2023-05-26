@@ -299,18 +299,10 @@ limitations under the License.
 							</cfif>
 							<tr>
 								<td> 
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
-										<a href="/localities/HigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">#geog_auth_rec_id#</a>
-									<cfelse>
-										<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">#geog_auth_rec_id#</a>
-									</cfif>
+									<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">#geog_auth_rec_id#</a>
 								</td>
 								<td>
-									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
-										<a href="/localities/Locality.cfm?locality_id=#locality_id#">#locality_id#</a>
-									<cfelse>
-										<a href="/localities/viewLocality.cfm?locality_id=#locality_id#">#locality_id#</a>
-									</cfif>
+									<a href="/localities/viewLocality.cfm?locality_id=#locality_id#">#locality_id#</a>
 								</td>
 								<td>
 									<form name="coll#i#" method="post" action="/specimens/changeQueryCollEvent.cfm">
