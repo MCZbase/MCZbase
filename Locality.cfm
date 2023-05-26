@@ -180,36 +180,33 @@
 	<tr>
 		<td>Higher Geography</td>
 		<td>
-			<form name="nothing" method="post" action="Locality.cfm">
-				<input type="hidden" name="Action" value="findHG">
+			<form name="nothing" method="get" action="/localities/HigherGeographies.cfm">
 				<input type="submit" value="Find" class="lnkBtn">
 			</form>
 		</td>
 		<td>
 			<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-				<form name="nothing" method="post" action="Locality.cfm">
-					<input type="hidden" name="Action" value="newHG">
+				<form name="nothing" method="get" action="/localities/HigherGeography.cfm">
+					<input type="hidden" name="action" value="new">
 					<input type="submit" value="New Higher Geog" class="insBtn">
 				</form>
 			</cfif>
 		</td>
 		<td>
-			<!---<a href="javascript:void(0);" onClick="getDocs('higher_geography')"><img src="/images/what.gif" border="0"></a>--->
 			<span class="infoLink" onclick="getDocs('higher_geography');">Define</span>
 		</td>
 	</tr>
 	<tr>
 		<td>Localities</td>
 		<td>
-			<form name="nothing" method="post" action="Locality.cfm">
-				<input type="hidden" name="Action" value="findLO">
+			<form name="nothing" method="get" action="/localities/Localities.cfm">
 				<input type="submit" value="Find" class="lnkBtn">
 			</form>
 		</td>
 		<td>
 			<cfif len(session.roles) gt 0 and FindNoCase("manage_locality",session.roles) NEQ 0>
-				<form name="nothing" method="post" action="/localities/Locality.cfm">
-					<input type="hidden" name="Action" value="new">
+				<form name="nothing" method="get" action="/localities/Locality.cfm">
+					<input type="hidden" name="action" value="new">
 					<input type="submit" value="New Locality" class="insBtn">
 				</form>
 			</cfif>
