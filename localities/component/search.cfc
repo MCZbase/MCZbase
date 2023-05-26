@@ -1509,10 +1509,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					AND upper(NoGeorefBecause) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(NoGeorefBecause)#%">
 				</cfif>
 				<cfif isdefined("VerificationStatus") AND len(#VerificationStatus#) gt 0>
-					AND VerificationStatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VerificationStatus#">
+					AND accepted_lat_long.verificationstatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verificationstatus#">
 				</cfif>
-				<cfif isdefined("GeorefMethod") AND len(#GeorefMethod#) gt 0>
-					AND GeorefMethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GeorefMethod#">
+				<cfif isdefined("georefmethod") AND len(#georefmethod#) gt 0>
+					AND accpted_lat_long.georefmethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#georefmethod#">
 				</cfif>
 				<cfif isdefined("nullNoGeorefBecause") and len(#nullNoGeorefBecause#) gt 0>
 					AND NoGeorefBecause IS NULL
@@ -2502,10 +2502,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					AND upper(NoGeorefBecause) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(NoGeorefBecause)#%">
 				</cfif>
 				<cfif isdefined("VerificationStatus") AND len(#VerificationStatus#) gt 0>
-					AND VerificationStatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VerificationStatus#">
+					AND accepted_lat_long.verificationstatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VerificationStatus#">
 				</cfif>
-				<cfif isdefined("GeorefMethod") AND len(#GeorefMethod#) gt 0>
-					AND GeorefMethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GeorefMethod#">
+				<cfif isdefined("georefmethod") AND len(#georefmethod#) gt 0>
+					AND accepted_lat_long.georefmethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#georefmethod#">
 				</cfif>
 				<cfif isdefined("nullNoGeorefBecause") and len(#nullNoGeorefBecause#) gt 0>
 					AND NoGeorefBecause IS NULL
