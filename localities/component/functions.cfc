@@ -17,8 +17,7 @@ limitations under the License.
 
 --->
 <cfcomponent>
-<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
-<cfinclude template="/shared/component/functions.cfc" runOnce="true"><!--- For getCommentForField --->
+<cfinclude template="/shared/component/functions.cfc" runOnce="true"><!--- For getCommentForField, reportError --->
 <cf_rolecheck>
 
 <!--- Save preferences for open/closed sections of geography/locality/collecting event 
@@ -3577,7 +3576,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getGeoref.locality_id#">
 					</cfquery>
 					<cfset locality_label = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
-					<h2 class="h3 mt-0 px-1 font-weight-bold">Edit Georeference:  #latitudeString#, #longitudeString# for locality #encodeForHtml(locality_label)#</h2>
+					<h2 class="h3 mt-0 px-1 font-weight-bold">
+						Edit Georeference: 
+						<i class="fas fa-info-circle" onClick="getMCZDocs('Georeferencing')" aria-label="georeferencing help link"></i>
+						#latitudeString#, #longitudeString# for locality #encodeForHtml(locality_label)#
+					</h2>
 					<p class="px-3">See: Chapman A.D. &amp; Wieczorek J.R. 2020, Georeferencing Best Practices. Copenhagen: GBIF Secretariat. <a href="https://doi.org/10.15468/doc-gg7h-s853" target="_blank">DOI:10.15468/doc-gg7h-s853</a>.</p>
 					<div id="editEnclosingDiv" class="col-12 px-0 mx-0 active unfocus">
 						<form id="editGeorefForm">
