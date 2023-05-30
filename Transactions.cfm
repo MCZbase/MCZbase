@@ -3376,8 +3376,6 @@ $(document).ready(function() {
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findAccessions&execute=true&' + $('##accnSearchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 			gridLoaded('searchResultsGrid','accn');
 
-// TODO: Find number of objects in results, display link to those through specimen search: 
-// TODO: e.g. "View 13769 items in these 5 Accessions" https://mczbase-test.rc.fas.harvard.edu/SpecimenResults.cfm?accn_trans_id=497052,497061,497072,497073,497177 invocation of accn_trans_id search on specimens in accession search results found on current editAccn.cfm search results list.
 
 		});
 		$('##searchResultsGrid').on('rowexpand', function (event) {
@@ -3839,6 +3837,7 @@ function gridLoaded(gridId, searchType) {
 	var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 	var rowcount = datainformation.rowscount;
 	var items = "";
+	// TODO: Find number of objects in results, display link to those through specimen search: 
 	if (searchType == 'accn') { 
 		item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
 		if (item_summary['sum']==1){ 
@@ -3846,6 +3845,9 @@ function gridLoaded(gridId, searchType) {
 		} else {
 			items = ' ' + item_summary['sum'] + ' cataloged_items';
 		}
+		// TODO: e.g. "View 13769 items in these 5 Accessions" https://mczbase-test.rc.fas.harvard.edu/SpecimenResults.cfm?accn_trans_id=497052,497061,497072,497073,497177 invocation of accn_trans_id search on specimens in accession search results found on current editAccn.cfm search results list.
+		// /Specimens.cfm?accn_number={list of numbers}&execute=true&action=fixedSearch
+		// $('##specimensLink').html('<a href="/Specimens.cfm?action=fixedSearch&execute=true&accn_number='+ +'">View ' + items +  ' in these '+ rowcount + 'Accessions</a>');
 	}
 	if (searchType == 'deacc') { 
 		item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
