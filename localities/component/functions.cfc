@@ -2673,15 +2673,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_orig_units" class="data-entry-label">Coordinate Format</label>
 											<input type="text" name="orig_units" id="gl_orig_units" class="data-entry-input" value="decimal degrees" disabled readonly>
 										</div>
-										<div class="postGeolocate col-12 col-md-2 px-1 float-left mb-2">
+										<div class="postGeolocate col-12 col-md-1 px-1 float-left mb-2">
 											<label for="gl_dec_lat" class="data-entry-label">Latitude</label>
 											<input type="text" name="dec_lat" id="gl_dec_lat" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="postGeolocate col-12 col-md-2 px-1 float-left mb-2">
+										<div class="postGeolocate col-12 col-md-1 px-1 float-left mb-2">
 											<label for="gl_dec_long" class="data-entry-label">Longitude</label>
 											<input type="text" name="dec_long" id="gl_dec_long" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="postGeolocate col-12 col-md-2 px-1 float-left mb-2">
+										<div class="postGeolocate col-12 col-md-1 px-1 float-left mb-2">
 											<label for="gl_datum" class="data-entry-label">Geodetic Datum</label>
 											<input type="text" name="datum" id="gl_datum" class="data-entry-input reqdClr" value="" required>
 											<script>
@@ -2720,11 +2720,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
 										</div>
-										<div class="postGeolocate col-12 col-md-3 float-left px-1 mb-2">
+										<div class="postGeolocate col-12 col-md-2 float-left px-1 mb-2">
 											<label for="gl_lat_long_ref_source" class="data-entry-label">Reference</label>
 											<input type="text" name="lat_long_ref_source" id="gl_lat_long_ref_source" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="postGeolocate col-12 col-md-3 float-left px-1 mb-2">
+										<div class="postGeolocate col-12 col-md-2 float-left px-1 mb-2">
 											<label for="gl_georefmethod" class="data-entry-label">Method</label>
 											<input type="text" name="georefmethod" id="gl_georefmethod" class="data-entry-input reqdClr" value="" required>
 											<script>
@@ -2733,11 +2733,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script> 
 										</div>
-										<div class="postGeolocate col-12 col-md-4 float-left px-1 mb-2">
+										<div class="postGeolocate col-12 col-md-3 float-left px-1 mb-2">
 											<label for="gl_nearest_named_place" class="data-entry-label">Nearest Named Place</label>
 											<input type="text" name="nearest_named_place" id="gl_nearest_named_place" class="data-entry-input" value="">
 										</div>
-										<div class="postGeolocate col-12 col-md-4 px-1 float-left mb-2">
+										<div class="postGeolocate col-12 col-md-3 px-1 float-left mb-2">
 											<label for="gl_lat_long_for_nnp_fg" class="data-entry-label">Georeference is of Nearest Named Place</label>
 											<select name="lat_long_for_nnp_fg" id="gl_lat_long_for_nnp_fg" class="data-entry-select reqdClr" required>
 												<option value="0" selected>No</option>
