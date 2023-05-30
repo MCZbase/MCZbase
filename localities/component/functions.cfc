@@ -2379,7 +2379,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="col-12 col-md-3 mb-2">
 											<label for="spatialfit" class="data-entry-label">Point Radius Spatial Fit</label>
-											<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
+											<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+|[1-9][0-9.]{0,5]){0,1})$" >
 										</div>
 										<div class="col-12 col-md-2 mb-2">
 											<label for="extent" class="data-entry-label">Radial of Feature [Extent]</label>
@@ -2497,7 +2497,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="col-12 col-md-3 col-xl-2 mb-2">
 											<label for="footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
-											<input type="text" name="footprint_spatialfit" id="footprint_spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
+											<input type="text" name="footprint_spatialfit" id="footprint_spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+|[1-9][0-9.]{0,5])){0,1})$" >
 										</div>
 										<div class="col-12 col-md-6 col-xl-3 mb-2">
 											<label for="wktFile" class="data-entry-label">Load Footprint Polygon from WKT file</label>
@@ -2708,7 +2708,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="postGeolocate col-12 col-md-3 float-left px-1 mb-2">
 											<label for="gl_spatialfit" class="data-entry-label">Point-Radius Spatial Fit</label>
-											<input type="text" name="spatialfit" id="gl_spatialfit" class="data-entry-input" value="">
+											<input type="text" name="spatialfit" id="gl_spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+|[1-9][0-9.]{0,5])){0,1})$">
 										</div>
 										<div class="postGeolocate col-12 col-md-4 float-left px-1 mb-2">
 											<label for="gl_coordinate_precision" class="data-entry-label">Precision</label>
@@ -2769,7 +2769,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 										</div>
 										<div class="postGeolocate col-12 col-md-2 float-left px-1 mb-2">
 											<label for="gl_footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
-											<input type="text" name="footprint_spatialfit" id="gl_footprint_spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
+											<input type="text" name="footprint_spatialfit" id="gl_footprint_spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+|[1-9][0-9.]{0,5])){0,1})$" >
 										</div>
 										<div class="postGeolocate col-12 col-md-2 float-left px-1 mb-2">
 											<label for="gl_accepted_lat_long_fg" class="data-entry-label">Accepted</label>
@@ -3867,7 +3867,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								</div>
 								<div class="col-12 col-md-3 mb-2">
 									<label for="spatialfit" class="data-entry-label">Point Radius Spatial Fit</label>
-									<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="#spatialfit#" pattern="^(0|1(\.[0-9]+){0,1})$" >
+									<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="#spatialfit#" pattern="^(0|1(\.[0-9]+|[1-9][0-9.]{0,5])){0,1})$" >
 								</div>
 								<div class="col-12 col-md-2 mb-2">
 									<label for="extent" class="data-entry-label">Radial of Feature [Extent]</label>
@@ -4002,7 +4002,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								</div>
 								<div class="col-12 col-md-3 mb-2">
 									<label for="footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
-									<input type="text" name="footprint_spatialfit" id="footprint_spatialfit" class="data-entry-input" value="#footprint_spatialfit#" pattern="^(0|1(\.[0-9]+){0,1})$" >
+									<input type="text" name="footprint_spatialfit" id="footprint_spatialfit" class="data-entry-input" value="#footprint_spatialfit#" pattern="^(0|1(\.[0-9]+|[1-9][0-9.]{0,5])){0,1})$" >
 								</div>
 								<div class="col-12 col-md-6 col-xl-3 mb-2">
 									<label for="wktFile" class="data-entry-label">Load Footprint Polygon from WKT file</label>
