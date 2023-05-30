@@ -2753,7 +2753,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												Units
 												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##gl_extent_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list for radial of feature (extent) units</span></a>
 											</label>
-											<input type="text" name="extent_units" id="gl_extent_units" class="data-entry-input">
+											<input type="text" name="extent_units" id="gl_extent_units" class="data-entry-input" value="">
 											<script>
 												$(document).ready(function (){
 													makeCTAutocomplete('gl_extent_units','lat_long_error_units');
