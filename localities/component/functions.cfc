@@ -2020,7 +2020,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<cfelse>
 												<cfset spatialfit_interp = ":1 (ratio of point-radius to actual locality)">
 											</cfif>
-											Point Radius Spatial Fit: #spatalfit##spatialfit_interp#
+											Point Radius Spatial Fit: #spatialfit##spatialfit_interp#
 										</li>
 									</cfif>
 									<cfif len(error_polygon) GT 0>
@@ -2032,7 +2032,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<cfelse>
 												<cfset spatialfit_interp = ":1 (ratio of footprint to actual locality)">
 											</cfif>
-											Footprint Spatial Fit: #spatalfit##spatialfit_interp#
+											Footprint Spatial Fit: #footprint_spatialfit##spatialfit_interp#
 										</li>
 									</cfif>
 									<cfif len(geolocate_score) GT 0>
