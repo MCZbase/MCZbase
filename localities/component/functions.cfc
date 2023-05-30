@@ -2681,7 +2681,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_dec_long" class="data-entry-label">Longitude</label>
 											<input type="text" name="dec_long" id="gl_dec_long" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="postGeolocate col-12 col-md-1 px-1 float-left mb-2">
+										<div class="postGeolocate col-12 col-md-2 px-1 float-left mb-2">
 											<label for="gl_datum" class="data-entry-label">Geodetic Datum</label>
 											<input type="text" name="datum" id="gl_datum" class="data-entry-input reqdClr" value="" required>
 											<script>
@@ -2695,7 +2695,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="max_error_distance" id="gl_max_error_distance" class="data-entry-input reqdClr" value="" required>
 										</div>
 										<div class="postGeolocate col-12 col-md-1 float-left px-1 mb-2">
-											<label for="gl_max_error_units" class="data-entry-label">Units</label>
+											<label for="gl_max_error_units" class="data-entry-label">
+												Units
+												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##gl_max_error_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list for error radius units</span></a>
+											</label>
 											<input type="text" name="max_error_units" id="gl_max_error_units" class="data-entry-input reqdClr" value="" required>
 											<script>
 												$(document).ready(function (){
@@ -2703,11 +2706,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script> 
 										</div>
-										<div class="postGeolocate col-12 col-md-2 float-left px-1 mb-2">
+										<div class="postGeolocate col-12 col-md-3 float-left px-1 mb-2">
 											<label for="gl_spatialfit" class="data-entry-label">Point-Radius Spatial Fit</label>
 											<input type="text" name="spatialfit" id="gl_spatialfit" class="data-entry-input" value="">
 										</div>
-										<div class="postGeolocate col-12 col-md-3 float-left px-1 mb-2">
+										<div class="postGeolocate col-12 col-md-4 float-left px-1 mb-2">
 											<label for="gl_coordinate_precision" class="data-entry-label">Precision</label>
 											<select name="coordinate_precision" id="gl_coordinate_precision" class="data-entry-select reqdClr" required>
 												<option value=""></option>
@@ -2720,11 +2723,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="6">Specified to 0.000001&##176;, latitude known to 11 cm.</option>
 											</select>
 										</div>
-										<div class="postGeolocate col-12 col-md-2 float-left px-1 mb-2">
+										<div class="postGeolocate col-12 col-md-1 float-left px-1 mb-2">
 											<label for="gl_lat_long_ref_source" class="data-entry-label">Reference</label>
 											<input type="text" name="lat_long_ref_source" id="gl_lat_long_ref_source" class="data-entry-input reqdClr" value="" required>
 										</div>
-										<div class="postGeolocate col-12 col-md-2 float-left px-1 mb-2">
+										<div class="postGeolocate col-12 col-md-1 float-left px-1 mb-2">
 											<label for="gl_georefmethod" class="data-entry-label">Method</label>
 											<input type="text" name="georefmethod" id="gl_georefmethod" class="data-entry-input reqdClr" value="" required>
 											<script>
@@ -2760,11 +2763,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script>
 										</div>
-										<div class="postGeolocate col-10 col-md-9 float-left px-1 mb-2">
+										<div class="postGeolocate col-10 col-md-7 float-left px-1 mb-2">
 											<label for="gl_error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon (WKT)</label>
 											<input type="text" name="error_polygon" id="gl_error_polygon" class="data-entry-input">
 										</div>
-										<div class="postGeolocate col-12 col-md-3 float-left px-1 mb-2">
+										<div class="postGeolocate col-12 col-md-2 float-left px-1 mb-2">
 											<label for="gl_footprint_spatialfit" class="data-entry-label">Footprint Spatial Fit</label>
 											<input type="text" name="footprint_spatialfit" id="gl_footprint_spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
