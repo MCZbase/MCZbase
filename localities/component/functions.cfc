@@ -2131,7 +2131,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			</cfif>
 			<cfset locality_label = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
 			<cfoutput>
-				<p class="font-weight-lessbold">#encodeForHtml(locality_label)#</p>
+				<h2 class="h3 mt-0 px-1 font-weight-bold">
+					New Georeference
+					<i class="fas fa-info-circle" onClick="getMCZDocs('Georeferencing')" aria-label="georeferencing help link"></i>
+					For Locality:
+					#encodeForHtml(locality_label)#</p>
+				</h2>
 				<p class="small95 col-12 d-block px-0 pb-0 mb-0">See: Chapman A.D. &amp; Wieczorek J.R. 2020, Georeferencing Best Practices. Copenhagen: GBIF Secretariat. <a href="https://doi.org/10.15468/doc-gg7h-s853" target="_blank">DOI:10.15468/doc-gg7h-s853</a>.</p>
 				<div>
 					<div class="tabs card-header tab-card-header px-2 pt-3">
