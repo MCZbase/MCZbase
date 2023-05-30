@@ -110,7 +110,7 @@ limitations under the License.
 	<cfset title="New Accession">
 	<cfoutput>
 		<main class="container py-3" id="content">
-			<h1 class="h2" id="newAccnFormSectionLabel" >Create New Accession <i class="fas fa-info-circle" onClick="getMCZDocs('Accession)" aria-label="help link"></i></h1>
+			<h1 class="h2" id="newAccnFormSectionLabel" >Create New Accession <i class="fas fa-info-circle" onClick="getMCZDocs('Create_Accession')" aria-label="help link"></i></h1>
 			<div class="row border rounded bg-light mt-2 mb-4 p-2">
 				<section class="col-12" title="next available accession number"> 
 					<div id="nextNumDiv">
