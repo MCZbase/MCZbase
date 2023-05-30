@@ -1156,7 +1156,7 @@ Delete an existing collecting event number record.
 	<cfargument name="locality_id" type="string" required="yes">
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-	<cfthread name="getGeorefThread#tn#">
+	<cfthread name="getGeolAttDialThread#tn#">
 		<cftry>
 			<cfquery name="currentAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
@@ -1318,8 +1318,8 @@ Delete an existing collecting event number record.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getGeorefThread#tn#" />
-	<cfreturn cfthread["getGeorefThread#tn#"].output>
+	<cfthread action="join" name="getGeolAttDialThread#tn#" />
+	<cfreturn cfthread["getGeolAttDialThread#tn#"].output>
 </cffunction>
 
 
@@ -2339,6 +2339,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="extent" class="data-entry-label">Radial of Feature [Extent] (km)</label>
 											<input type="text" name="extent" id="extent" class="data-entry-input" value="" pattern="^[0-9.]*$" >
 										</div>
+<!--- TODO: Units for radial of feature --->
 										<div class="col-12 col-md-3 mb-2">
 											<label for="coordinate_precision" class="data-entry-label">Precision</label>
 											<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
@@ -2689,6 +2690,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_extent" class="data-entry-label">Radial of Feature [Extent] (km)</label>
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
 										</div>
+<!--- TODO: Units for radial of feature --->
 										<div class="col-10 col-md-9 float-left px-1 mb-2">
 											<label for="gl_error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon (WKT)</label>
 											<input type="text" name="error_polygon" id="gl_error_polygon" class="data-entry-input">
