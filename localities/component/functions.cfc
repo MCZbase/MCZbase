@@ -1911,6 +1911,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						error_polygon,
 						datum,
 						extent,
+						extent_units,
 						spatialfit,
 						determined_by_agent_id,
 						det_agent.agent_name determined_by,
@@ -2339,9 +2340,21 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="spatialfit" class="data-entry-label">Point Radius Spatial Fit</label>
 											<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="" pattern="^(0|1(\.[0-9]+){0,1})$" >
 										</div>
-										<div class="col-12 col-md-3 mb-2">
-											<label for="extent" class="data-entry-label">Radial of Feature [Extent] (km)</label>
+										<div class="col-12 col-md-2 mb-2">
+											<label for="extent" class="data-entry-label">Radial of Feature [Extent]</label>
 											<input type="text" name="extent" id="extent" class="data-entry-input" value="" pattern="^[0-9.]*$" >
+										</div>
+										<div class="col-12 col-md-1 mb-2">
+											<label for="extent_units" class="data-entry-label">
+												Units
+												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##extent_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list for radial of feature (extent) units</span></a>
+											</label>
+											<input type="text" name="extent_units" id="extent_units" class="data-entry-input" value="" >
+											<script>
+												$(document).ready(function (){
+													makeCTAutocomplete('extent_units','lat_long_error_units');
+												});
+											</script> 
 										</div>
 <!--- TODO: Units for radial of feature --->
 										<div class="col-12 col-md-3 mb-2">
@@ -2690,9 +2703,21 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												<option value="1">Yes</option>
 											</select>
 										</div>
-										<div class="postGeolocate col-12 col-md-3 float-left px-1 mb-2">
-											<label for="gl_extent" class="data-entry-label">Radial of Feature [Extent] (km)</label>
+										<div class="postGeolocate col-12 col-md-2 float-left px-1 mb-2">
+											<label for="gl_extent" class="data-entry-label">Radial of Feature [Extent]</label>
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
+										</div>
+										<div class="col-12 col-md-1 mb-2">
+											<label for="gl_extent_units" class="data-entry-label">
+												Units
+												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##gl_extent_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list for radial of feature (extent) units</span></a>
+											</label>
+											<input type="text" name="extent_units" id="gl_extent_units" class="data-entry-input">
+											<script>
+												$(document).ready(function (){
+													makeCTAutocomplete('gl_extent_units','lat_long_error_units');
+												});
+											</script> 
 										</div>
 <!--- TODO: Units for radial of feature --->
 										<div class="col-10 col-md-9 float-left px-1 mb-2">
@@ -2943,6 +2968,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 														$("##max_error_units").val(result[0].MAX_ERROR_UNITS);
 														$("##datum").val(result[0].DATUM);
 														$("##extent").val(result[0].EXTENT);
+														$("##extent_units").val(result[0].EXTENT_UNITS);
 														$("##spatialfit").val(result[0].SPATIALFIT);
 														$("##gpsaccuracy").val(result[0].GPSACCURACY);
 														$("##geolocate_uncertaintypolygon").val(result[0].GEOLOCATE_UNCERTAINTYPOLYGON);
@@ -3029,6 +3055,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="georefmethod" type="string" required="no">
 	<cfargument name="verificationstatus" type="string" required="yes">
 	<cfargument name="extent" type="string" required="no">
+	<cfargument name="extent_units" type="string" required="no">
 	<cfargument name="spatialfit" type="string" required="no">
 	<cfargument name="gpsaccuracy" type="string" required="no">
 	<cfargument name="max_error_distance" type="string" required="yes">
@@ -3172,6 +3199,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfif len(#extent#) gt 0>
 						,extent
 					</cfif>
+					<cfif len(#extent_units#) gt 0>
+						,extent_units
+					</cfif>
 					<cfif isDefined("gpsaccuracy") AND len(#gpsaccuracy#) gt 0>
 						,gpsaccuracy
 					</cfif>
@@ -3256,6 +3286,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</cfif>
 					<cfif len(#extent#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#extent#" scale="5">
+					</cfif>
+					<cfif len(#extent_units#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#extent_units#">
 					</cfif>
 					<cfif isDefined("gpsaccuracy") AND len(#gpsaccuracy#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#gpsaccuracy#" scale="3">
@@ -3404,6 +3437,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				error_polygon,
 				datum,
 				extent,
+				extent_units,
 				spatialfit,
 				determined_by_agent_id,
 				det_agent.agent_name determined_by,
@@ -3505,6 +3539,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					footprint_spatialfit,
 					datum,
 					extent,
+					extent_units,
 					determined_by_agent_id,
 					det_agent.agent_name determined_by,
 					to_char(determined_date,'yyyy-mm-dd') determined_date,
@@ -3791,9 +3826,29 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<label for="spatialfit" class="data-entry-label">Point Radius Spatial Fit</label>
 									<input type="text" name="spatialfit" id="spatialfit" class="data-entry-input" value="#spatialfit#" pattern="^(0|1(\.[0-9]+){0,1})$" >
 								</div>
-								<div class="col-12 col-md-3 mb-2">
-									<label for="extent" class="data-entry-label">Radial of Feature [Extent] (km)</label>
+								<div class="col-12 col-md-2 mb-2">
+									<label for="extent" class="data-entry-label">Radial of Feature [Extent]</label>
 									<input type="text" name="extent" id="extent" class="data-entry-input" value="#extent#" pattern="^[0-9.]*$" >
+								</div>
+								<div class="col-12 col-md-1 mb-2">
+									<cfif len(extent) GT 0 AND len(extent_units EQ 0)>
+										<!--- if extent has a value and units do not, force user to set units on the extent when editing the georeference --->
+										<cfset reqExtentUnits="required">
+										<cfset reqdClrEU="reqdClr">
+									<cfelse>
+										<cfset reqExtentUnits="">
+										<cfset reqdClrEU="">
+									</cfif>
+									<label for="extent_units" class="data-entry-label">
+										Units
+										<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##extent_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list for radial of feature (extent) units</span></a>
+									</label>
+									<input type="text" name="extent_units" id="extent_units" class="data-entry-input #reqdClrEU#" value="#encodeForHtml(extent_units)#" #reqExtentUnits#>
+									<script>
+										$(document).ready(function (){
+											makeCTAutocomplete('extent_units','lat_long_error_units');
+										});
+									</script> 
 								</div>
 								<div class="col-12 col-md-3 mb-2">
 									<label for="coordinate_precision" class="data-entry-label">Precision</label>
@@ -4072,6 +4127,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="georefmethod" type="string" required="no">
 	<cfargument name="verificationstatus" type="string" required="yes">
 	<cfargument name="extent" type="string" required="no">
+	<cfargument name="extent_units" type="string" required="no">
 	<cfargument name="spatialfit" type="string" required="no">
 	<cfargument name="gpsaccuracy" type="string" required="no">
 	<cfargument name="max_error_distance" type="string" required="yes">
@@ -4218,6 +4274,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						, extent = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#extent#" scale="5">
 					<cfelse>
 						, extent = null
+					</cfif>
+					<cfif len(#extent_units#) gt 0>
+						, extent_units = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#extent_units#" scale="5">
+					<cfelse>
+						, extent_units = null
 					</cfif>
 					<cfif isDefined("gpsaccuracy") AND len(#gpsaccuracy#) gt 0>
 						, gpsaccuracy = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#gpsaccuracy#" scale="3">
