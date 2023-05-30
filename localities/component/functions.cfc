@@ -1912,7 +1912,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						datum,
 						extent,
 						extent_units,
+						to_meters(lat_long.extent, lat_long.extent_units) extentInMeters,
 						spatialfit,
+						footprint_spatialfit,
 						determined_by_agent_id,
 						det_agent.agent_name determined_by,
 						determined_date,
@@ -2009,9 +2011,48 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<li>
 										Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
 									</li>
+									<cfif len(spatialfit) GT 0>
+										<li>
+											<cfif spatialfit EQ 0>
+												<cfset spatialfit_interp = " Actual locality larger than point-radius.">
+											<cfelseif spatialfit EQ 1>
+												<cfset spatialfit_interp = " Actual locality is the same as the point-radius">
+											<cfelse>
+												<cfset spatialfit_interp = ":1 (ratio of point-radius to actual locality)">
+											</cfif>
+											Point Radius Spatial Fit: #spatalfit##spatialfit_interp#
+										</li>
+									</cfif>
+									<cfif len(error_polygon) GT 0>
+										<li>Has Footprint.
+											<cfif footprint_spatialfit EQ 0>
+												<cfset spatialfit_interp = " Actual locality larger than footprint.">
+											<cfelseif spatialfit EQ 1>
+												<cfset spatialfit_interp = " Actual locality is the same as the footprint">
+											<cfelse>
+												<cfset spatialfit_interp = ":1 (ratio of footprint to actual locality)">
+											</cfif>
+											Footprint Spatial Fit: #spatalfit##spatialfit_interp#
+										</li>
+									</cfif>
 									<cfif len(geolocate_score) GT 0>
 										<li>
 											GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
+										</li>
+									</cfif>
+									<cfif len(extent) GT 0>
+										<li>
+											Radial of feature: #extentInMeters# m
+										</li>
+									</cfif>
+									<cfif len(nearest_named_place) GT 0>
+										<cfif lat_long_for_nnp_fg EQ 1>
+											<cfset label = "Georefrence is for Nearest Named Place:">
+										<cfelse>
+											<cfset label = "Nearest Named Place is ">
+										</cfif>
+										<li>
+											#label##nearest_named_place#
 										</li>
 									</cfif>
 								</ul>
