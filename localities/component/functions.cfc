@@ -2748,17 +2748,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<label for="gl_extent" class="data-entry-label">Radial of Feature [Extent]</label>
 											<input type="text" name="extent" id="gl_extent" class="data-entry-input" value="">
 										</div>
-										<div class="postGeolocate col-12 col-md-1 mb-2">
-											<label for="gl_extent_units" class="data-entry-label">
-												Units
-												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##gl_extent_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list for radial of feature (extent) units</span></a>
-											</label>
+										<div class="postGeolocate col-12 col-md-1 mb-2" >
+											<label for="gl_extent_units" class="data-entry-label">Units <a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##gl_extent_units').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list for radial of feature (extent) units</span></a></label>
 											<input type="text" name="extent_units" id="gl_extent_units" class="data-entry-input" value="">
-											<script>
-												$(document).ready(function (){
-													makeCTAutocomplete('gl_extent_units','lat_long_error_units');
-												});
-											</script> 
+											<script>$(document).ready(function (){ makeCTAutocomplete('gl_extent_units','lat_long_error_units'); });</script>
 										</div>
 										<div class="postGeolocate col-10 col-md-9 float-left px-1 mb-2">
 											<label for="gl_error_polygon" class="data-entry-label" id="error_polygon_label">Footprint Polygon (WKT)</label>
