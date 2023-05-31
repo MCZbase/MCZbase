@@ -53,7 +53,7 @@ limitations under the License.
 			<cfthrow message="Error: unable to edit locality, no locality_id specified.">
 		<cfelse>
 			<cfquery name="localityExists" datasource="uam_god">
-				SELECT locality_id
+				SELECT locality_id, geog_auth_rec_id
 				FROM locality
 				WHERE
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
@@ -156,6 +156,7 @@ limitations under the License.
 							<cfif countUses.total_uses GT "0">
 								<div class="row mx-0">
 									<div class="col-12 px-1">
+										<button type="button" class="btn btn-xs btn-secondary float-right" style="margin-top: -1.8rem" onClick=" location.assign('/localities/Locality.cfm?action=new&geog_auth_rec_id=#encodeForUrl(localityUses.geog_auth_rec_id)#');" >New Locality in same higher geography</button>
 										<button type="button" class="btn btn-xs btn-secondary float-right" style="margin-top: -1.8rem" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
 									</div>
 								</div>
