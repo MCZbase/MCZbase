@@ -577,7 +577,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				geog_auth_rec.ocean_region,
 				geog_auth_rec.ocean_subregion,
 				geog_auth_rec.water_feature,
-				<cfifreturn_wkt EQ "true">
+				<cfif return_wkt EQ "true">
 					geog_auth_rec.wkt_polygon,
 				<cfelse>
 					nvl2(geog_auth_rec.wkt_polygon,'Yes','No') as wkt_polygon,
