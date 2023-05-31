@@ -1979,7 +1979,7 @@ Function getLocalityAutocompleteMeta.  Search for localities with a substring ma
 					</cfif>
 				)
 				<cfif isdefined("limitType") AND limitType EQ "has_footprint" >
-					and acceepted_lat_long.error_polygon IS NOT NULL
+					and locality_id in (select locality_id from lat_long where error_polygon IS NOT NULL and accepted_lat_long_fg = 1)
 				</cfif>
 				<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
 					and locality_id in (
