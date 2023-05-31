@@ -108,7 +108,7 @@ limitations under the License.
 							<cfset blockRelated = getLocalityUsesHtml(locality_id = "#locality_id#")>
 							<div id="relatedTo">#blockRelated#</div>
 							<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
-							<div id="summary" class="small95 px-2 pb-2">#summary#</div>
+							<div id="summary" class="small95 px-2 pb-2"><span class="sr-only">Summary: </span>#summary#</div>
 						</div>
 						
 						<div class="border rounded px-3 my-2 pt-2 pb-3" arial-labeledby="formheading">
