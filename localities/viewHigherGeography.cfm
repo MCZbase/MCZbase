@@ -244,7 +244,7 @@ limitations under the License.
 						</cfif>
 					</ul>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
-						<a class="btn btn-xs btn-secondary" href="/localities/Locality.cfm?action=new&geog_auth_rec_id=#encodeForUrl(.geog_auth_rec_id)#'" >Add</a>
+						<a class="btn btn-xs btn-secondary" href="/localities/Locality.cfm?action=new&geog_auth_rec_id=#encodeForUrl(geog_auth_rec_id)#">Add</a>
 					</cfif>
 				</div>
 				<cfif len(parent) GT 0>
