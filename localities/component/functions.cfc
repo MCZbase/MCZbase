@@ -4319,7 +4319,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						, extent = null
 					</cfif>
 					<cfif len(#extent_units#) gt 0>
-						, extent_units = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#extent_units#" scale="5">
+						, extent_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#extent_units#">
 					<cfelse>
 						, extent_units = null
 					</cfif>
