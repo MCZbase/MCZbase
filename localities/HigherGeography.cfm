@@ -89,11 +89,13 @@ limitations under the License.
 							</div>
 							<div class="border rounded px-2 mt-xl-3 mb-xl-2 my-2 py-2">
 								<cfset summary = getGeographySummary(geog_auth_rec_id="#geog_auth_rec_id#")>
+								<h2 class="sr-only">Summary</h2>
 								<div id="summary" class="h1 mb-0 px-2">#summary#</div>
 							</div>
 							<div class="border rounded px-2 py-2" arial-labeledby="formheading">
 								<cfset formId = "editHigherGeographyForm">
 								<cfset outputDiv="saveResultsDiv">
+								<h2 class="sr-only">Higher Geography Form</h2>
 								<form name="editHigherGeography" id="#formId#">
 									<input type="hidden" name="method" value="updateHigherGeography">
 									<cfset blockEditForm = getHigherGeographyFormHtml(mode="edit", geog_auth_rec_id = "#geog_auth_rec_id#", formId="#formId#", outputDiv="#outputDiv#", saveButtonFunction="saveEdits")>
