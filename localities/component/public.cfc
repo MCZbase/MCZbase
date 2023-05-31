@@ -707,7 +707,7 @@ limitations under the License.
 				<cfif lookupLocality.recordcount NEQ 1>
 					<cfthrow message="Found other than one locality with specified locality_id [#encodeForHtml(locality_id)#].  Locality may be used only by a department for which you do not have access.">
 				</cfif>
-				<ul class="list-group list-unstyled small95 mt-1 py-1">
+				<ul class="list-group list-unstyled mt-1 py-1">
 					<cfloop query="lookupLocality">
 						<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
 						<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -717,46 +717,46 @@ limitations under the License.
 								geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 						</cfquery>
 						<li class="list-group-item py-0">
-							<span class="float-left font-weight-lessbold">Higher Geography</span>
-							<span class="float-left pl-1 mb-0"> #lookupHigherGeog.higher_geog#</span>
+							<span class="float-left h4 mb-0">Higher Geography</span>
+							<span class="float-left small95 pl-1 mb-0"> #lookupHigherGeog.higher_geog#</span>
 						</li>
 						<li class="list-group-item py-0">
-							<span class="float-left font-weight-lessbold">Sovereign Nation</span>
-							<span class="float-left pl-1 mb-0"> #lookupLocality.sovereign_nation#</span>
+							<span class="float-left h4 mb-0">Sovereign Nation</span>
+							<span class="float-left small95 pl-1 mb-0"> #lookupLocality.sovereign_nation#</span>
 						</li>
 						<cfset curated_fg = "#lookupLocality.curated_fg#">
 						<li class="list-group-item py-0">
-							<span class="float-left font-weight-lessbold">Vetted</span>
+							<span class="float-left h4 mb-0">Vetted</span>
 							<cfif curated_fg EQ 1><cfset vetted="Yes"><cfelse><cfset vetted="No"></cfif>
-							<span class="float-left pl-1 mb-0"> #vetted#</span>
+							<span class="float-left small95 pl-1 mb-0"> #vetted#</span>
 						</li>
 						<li class="list-group-item py-0">
-							<span class="float-left font-weight-lessbold">Specific Locality</span>
-							<span class="float-left pl-1 mb-0"> #lookupLocality.spec_locality#</span>
+							<span class="float-left h4 mb-0">Specific Locality</span>
+							<span class="float-left small95 pl-1 mb-0"> #lookupLocality.spec_locality#</span>
 						</li>
 						<cfset minimum_elevation = "#lookupLocality.minimum_elevation#">
 						<cfif len(minimum_elevation) GT 0>
 							<cfset maximum_elevation = "#lookupLocality.maximum_elevation#">
 							<cfset orig_elev_units = "#lookupLocality.orig_elev_units#">
 							<li class="list-group-item py-0">
-								<span class="float-left font-weight-lessbold">Elevation</span>
+								<span class="float-left h4 mb-0">Elevation</span>
 								<cfif len(maximum_elevation) GT 0 AND minimum_elevation NEQ maximum_elevation>
 									<cfset elev = "#minimum_elevation#-#maximum_elevation# #orig_elev_units#">
 								<cfelse>
 									<cfset elev = "#minimum_elevation# #orig_elev_units#">
 								</cfif>
-								<span class="float-left pl-1 mb-0"> #elev#</span>
+								<span class="float-left small95 pl-1 mb-0"> #elev#</span>
 							</li>
 							<cfset max_elev_in_m = "#lookupLocality.max_elev_in_m#">
 							<cfset orig_elev_units = "#lookupLocality.orig_elev_units#">
 							<li class="list-group-item py-0">
-								<span class="float-left font-weight-lessbold">Elevation in Meters</span>
+								<span class="float-left h4 mb-0">Elevation in Meters</span>
 								<cfif len(max_elev_in_m) GT 0 AND min_elev_in_m NEQ max_elev_in_m>
 									<cfset elev = "#min_elev_in_m#-#max_elev_in_m# m">
 								<cfelse>
 									<cfset elev = "#min_elev_in_m# m">
 								</cfif>
-								<span class="float-left pl-1 mb-0"> #elev#</span>
+								<span class="float-left small95 pl-1 mb-0"> #elev#</span>
 							</li>
 						</cfif>
 						<cfset min_depth = "#lookupLocality.min_depth#">
@@ -764,55 +764,55 @@ limitations under the License.
 							<cfset max_depth = "#lookupLocality.max_depth#">
 							<cfset depth_units = "#lookupLocality.depth_units#">
 							<li class="list-group-item py-0">
-								<span class="float-left font-weight-lessbold">Depth</span>
+								<span class="float-left h4 mb-0">Depth</span>
 								<cfif len(max_depth) GT 0 AND min_depth NEQ max_depth>
 									<cfset depth = "#min_depth#-#max_depth# #depth_units#">
 								<cfelse>
 									<cfset depth = "#min_depth# #depth_units#">
 								</cfif>
-								<span class="float-left pl-1 mb-0"> #depth#</span>
+								<span class="float-left small95 pl-1 mb-0"> #depth#</span>
 							</li>
 							<cfset max_depth_in_m = "#lookupLocality.max_depth_in_m#">
 							<cfset depth_units = "#lookupLocality.depth_units#">
 							<li class="list-group-item py-0">
-								<span class="float-left font-weight-lessbold">Depth in Meters</span>
+								<span class="float-left h4 mb-0">Depth in Meters</span>
 								<cfif len(max_depth_in_m) GT 0 AND min_depth_in_m NEQ max_depth_in_m>
 									<cfset depth = "#min_depth_in_m#-#max_depth_in_m# m">
 								<cfelse>
 									<cfset depth = "#min_depth_in_m# m">
 								</cfif>
-								<span class="float-left pl-1 mb-0"> #depth#</span>
+								<span class="float-left small95 pl-1 mb-0"> #depth#</span>
 							</li>
 						</cfif> 
 						<cfif len(lookupLocality.section) GT 0>
 							<cfset plss = "#lookupLocality.plss#">
 							<li class="list-group-item py-0">
-								<span class="float-left font-weight-lessbold">PLSS</span>
-								<span class="float-left pl-1 mb-0"> #plss#</span>
+								<span class="float-left h4 mb-0">PLSS</span>
+								<span class="float-left small95 pl-1 mb-0"> #plss#</span>
 							</li>
 						</cfif>
 						<cfif len(lookupLocality.nogeorefbecause) GT 0>
 							<li class="list-group-item py-0">
-								<span class="float-left font-weight-lessbold">Not Georeferenced Because</span>
-								<span class="float-left pl-1 mb-0"> #lookupLocality.nogeorefbecause#</span>
+								<span class="float-left h4 mb-0">Not Georeferenced Because</span>
+								<span class="float-left small95 pl-1 mb-0"> #lookupLocality.nogeorefbecause#</span>
 							</li>
 						</cfif>
 						<cfif len(lookupLocality.georef_by) GT 0>
 							<li class="list-group-item py-0">
-								<span class="float-left font-weight-lessbold">Georeferenced By</span>
-								<span class="float-left pl-1 mb-0"> #lookupLocality.georef_by#</span>
+								<span class="float-left h4 mb-0 ">Georeferenced By</span>
+								<span class="float-left small95 pl-1 mb-0"> #lookupLocality.georef_by#</span>
 							</li>
 						</cfif>
 						<cfif len(lookupLocality.georef_updated_date) GT 0>
 							<li class="list-group-item py-0">
-								<span class="float-left font-weight-lessbold">Georeference Updated</span>
+								<span class="float-left h4 mb-0">Georeference Updated</span>
 								<span class="float-left pl-1 mb-0"> #lookupLocality.georef_updated_date#</span>
 							</li>
 						</cfif>
 						<cfif len(lookupLocality.locality_remarks) GT 0>
 							<li class="list-group-item py-0">
-								<span class="float-left font-weight-lessbold">Locality Remarks</span>
-								<span class="float-left pl-1 mb-0"> #lookupLocality.locality_remarks#</span>
+								<span class="float-left h4 mb-0">Locality Remarks</span>
+								<span class="float-left small95 pl-1 mb-0"> #lookupLocality.locality_remarks#</span>
 							</li>
 						</cfif>
 					</cfloop>
@@ -869,14 +869,14 @@ limitations under the License.
 						ctgeology_attribute.ordinal
 				</cfquery>
 				<cfif getGeologicalAttributes.recordcount EQ 0>
-					<h3 class="h4 px-2">Geological Attributes</h3>
+					<h2 class="h4 px-2">Geological Attributes</h2>
 						<ul class="mb-2 pl-2 pl-xl-4 ml-xl-1">
 							<li>
 								Recent (no geological attributes) 
 							</li>
 						</ul>
 				<cfelse>
-					<h3 class="h4">Geological Attributes</h3>
+					<h2 class="h4">Geological Attributes</h2>
 						<ul class="mb-2 pl-2 pl-xl-4 ml-xl-1">
 							<cfset valList = "">
 							<cfset shownParentsList = "">
