@@ -3227,11 +3227,7 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 			<cfset coordinates = " #nogeorefbecause# ">
 		</cfif>
 		<cfif len(sovereign_nation) GT 0>
-			<cfif find("[",left(sovereign_nation,1)) GT 0>
-				<cfset sovereignNation = " Sovereign Nation: #sovereign_nation# ">
-			<cfelse>
-				<cfset sovereignNation = " #sovereign_nation# ">
-			</cfif>
+			<cfset sovereignNation = " Sovereign Nation: #sovereign_nation# ">
 		</cfif>
 		<cfif len(geolatts) GT 0><cfset geology = " [#geolatts#] "><cfelse><cfset geology = ""></cfif>
 		<cfif len(trim(plss)) GT 0><cfset plss = " #plss# "></cfif> 
