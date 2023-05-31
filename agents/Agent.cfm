@@ -143,7 +143,30 @@ limitations under the License.
 							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<cfif oneOfUs EQ 1><cfset agent_id_bit = " [Agent ID: #getAgent.agent_id#]"><cfelse><cfset agent_id_bit=""></cfif>
-							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0"> #dates# #agent_type# #agent_id_bit#</span> 
+							<cfset rankBit ="">
+ 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
+								<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT count(*) || ' ' || agent_rank agent_rank
+									FROM agent_rank
+									WHERE agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									group by agent_rank
+								</cfquery>
+								<cfif rank.recordcount gt 0>
+									<cfset rankBit= ' <span id="agentRankSummary" style="font-size: 13px;margin: 1em 0;">'><!--- ' --->
+									<cfset rankBit = '#rankBit#Ranking: #valuelist(rank.agent_rank,"; ")#'>
+									<cfif #valuelist(rank.agent_rank,"; ")# contains 'F'>
+										<cfset rankBit = "#rankBit#<img src='/agents/images/flag-red.svg.png' width='16'>"><!--- " --->
+									<cfelseif #valuelist(rank.agent_rank,"; ")# contains 'D'>
+										<cfset rankBit = "#rankBit#<img src='/agents/images/flag-yellow.svg.png' width='16'>"><!--- " --->
+									<cfelseif #valuelist(rank.agent_rank,"; ")# contains 'C'>
+										<cfset rankBit = "#rankBit#<img src='/agents/images/flag-yellow.svg.png' width='16'>"><!--- " --->
+									<cfelseif #valuelist(rank.agent_rank,"; ")# contains 'B'>
+										<cfset rankBit = "#rankBit#<img src='/agents/images/flag-yellow.svg.png' width='16'>"><!--- " --->
+									</cfif>
+									<cfset rankBit = '#rankBit#</span>'><!--- ' --->
+								</cfif>
+							</cfif>
+							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0"> #dates# #agent_type# #agent_id_bit##rankBit#</span> 
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
 								</cfif>
