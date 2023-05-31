@@ -19,7 +19,7 @@ Functions supporting editing higher geographies.
 
 --->
 <cfcomponent>
-<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/shared/component/functions.cfc" runOnce="true"><!--- For getCommentForField, reportError --->
 <cf_rolecheck>
 
 <cffunction name="getGeographyUsesHtml" returntype="string" access="remote" returnformat="plain">
@@ -270,7 +270,9 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-3 mb-2">
 						<label class="data-entry-label" for="continent_ocean">Continent/Ocean</label>
 						<cfif NOT isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
-						<input type="text" name="continent_ocean" id="continent_ocean" class="data-entry-input" value="#encodeForHTML(continent_ocean)#">
+						<cfset hint = getCommentForField(table='geog_auth_rec',column='continent_ocean') >
+						<cfif len(hint) GT 0><cfset title = 'title="#hint#"' ><cfelse><cfset title=""></cfif>
+						<input type="text" name="continent_ocean" id="continent_ocean" class="data-entry-input" value="#encodeForHTML(continent_ocean)#" #title#>
 						<script>
 							$(document).ready(() => makeCTAutocomplete('continent_ocean','continent_ocean') );
 						</script>

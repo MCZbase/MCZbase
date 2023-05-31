@@ -421,9 +421,7 @@ Delete an existing collecting event number record.
 				<div class="col-12 mb-2 mt-1">
 					<label class="data-entry-label" for="spec_locality">Specific Locality</label>
 					<cfif NOT isdefined("spec_locality")><cfset spec_locality=""></cfif>
-					<cfset hint = getCommentForField(table='locality',column='spec_locality') >
-					<cfif len(hint) GT 0><cfset title = 'title="#hint#"' ><cfelse><cfset title=""></cfif>
-					<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(spec_locality)#" required #title#>
+					<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(spec_locality)#" required>
 				</div>
 				<div class="col-12 col-md-4 mb-2 mt-1">
 					<cfif NOT isdefined("sovereign_nation")><cfset sovereign_nation=""></cfif>
@@ -453,9 +451,7 @@ Delete an existing collecting event number record.
 						No Georeference Because
 						<i class="fas fa-info-circle" onClick="getMCZDocs('Not_Georeferenced_Because')" aria-label="help link with suggested entries for why no georeference was added"></i>
 					</label>
-					<cfset hint = getCommentForField(table='locality',column='nogeorefbecause') >
-					<cfif len(hint) GT 0><cfset title = 'title="#hint#"' ><cfelse><cfset title=""></cfif>
-					<input type="text" name="nogeorefbecause" id="nogeorefbecause" class="data-entry-input" value="#encodeForHTML(nogeorefbecause)#" #title# >
+					<input type="text" name="nogeorefbecause" id="nogeorefbecause" class="data-entry-input" value="#encodeForHTML(nogeorefbecause)#">
 				</div>
 			</div>
 			<div class="form-row mx-0 mb-0">
