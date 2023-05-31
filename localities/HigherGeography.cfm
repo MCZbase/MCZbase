@@ -181,6 +181,8 @@ limitations under the License.
 					,highergeographyid_guid_type
 					,highergeographyid
 					,wkt_polygon
+					,curated_fg
+					,management_remarks
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextLoc.nextLoc#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">,
@@ -256,7 +258,17 @@ limitations under the License.
 						NULL,
 					</cfif>
 					<cfif len(#wkt_polygon#) gt 0>
-						<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#wkt_polygon#">
+						<cfqueryparam cfsqltype="CF_SQL_CLOB" value="#wkt_polygon#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfif len(#curated_fg#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">,
+					<cfelse>
+						0,
+					</cfif>
+					<cfif len(#management_remarks#) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#management_remarks#">
 					<cfelse>
 						NULL
 					</cfif>

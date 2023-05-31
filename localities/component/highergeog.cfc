@@ -196,7 +196,8 @@ Functions supporting editing higher geographies.
 							island_group, island,
 							valid_catalog_term_fg, source_authority, 
 							wkt_polygon,
-							highergeographyid, highergeographyid_guid_type
+							highergeographyid, highergeographyid_guid_type,
+							curated_fg, management_remarks
 						FROM geog_auth_rec
 						WHERE 
 							geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_geog_auth_rec_id#">
@@ -219,6 +220,8 @@ Functions supporting editing higher geographies.
 						<cfset valid_catalog_term_fg  = "#lookupHigherGeog.valid_catalog_term_fg #">
 						<cfset source_authority  = "#lookupHigherGeog.source_authority #">
 						<cfset wkt_polygon = "#lookupHigherGeog.wkt_polygon#">
+						<cfset curated_fg = "#lookupHigherGeog.curated_fg#">
+						<cfset management_remarks = "#lookupHigherGeog.management_remarks#">
 					</cfloop>
 				<cfelseif mode EQ "edit">
 					<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -232,7 +235,8 @@ Functions supporting editing higher geographies.
 							island_group, island,
 							valid_catalog_term_fg, source_authority, 
 							wkt_polygon,
-							highergeographyid, highergeographyid_guid_type
+							highergeographyid, highergeographyid_guid_type,
+							curated_fg, management_remarks
 						FROM geog_auth_rec
 						WHERE 
 							geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
@@ -255,6 +259,8 @@ Functions supporting editing higher geographies.
 						<cfset valid_catalog_term_fg  = "#lookupHigherGeog.valid_catalog_term_fg#">
 						<cfset source_authority  = "#lookupHigherGeog.source_authority#">
 						<cfset wkt_polygon = "#lookupHigherGeog.wkt_polygon#">
+						<cfset curated_fg = "#lookupHigherGeog.curated_fg#">
+						<cfset management_remarks = "#lookupHigherGeog.management_remarks#">
 					</cfloop>
 				</cfif>
 				<cfif mode EQ "edit">
@@ -442,13 +448,13 @@ Functions supporting editing higher geographies.
 							$(document).ready(() => makeGeogAutocomplete('island','island'));
 						</script>
 					</div>
-					<div class="col-12 col-xl-6 mb-2">
+					<div class="col-12 col-md-3 col-xl-4 mb-2">
 						<cfif NOT isdefined("wkt_polygon")><cfset wkt_polygon=""></cfif>
 						<cfif len(wkt_polygon) GT 0><cfset labelText = " (Present)"><cfelse><cfset labelText=""></cfif>
 						<label for = "wktPolygon" class="data-entry-label">Polygon#labelText#</label>
 						<input type="text" name="wkt_polygon" value=""id="wktPolygon" class="data-entry-input">
 					</div>
-					<div class="col-12 col-xl-6 mb-2">
+					<div class="col-12 col-md-6 col-xl-4 mb-2">
 						<label for="wktFile" class="data-entry-label mb1px">Load Polygon from WKT file</label>
 						<input type="file" id="wktFile" name="wktFile" accept=".wkt" class="w-100 p-0 data-entry-input">
 						<script>
@@ -460,10 +466,10 @@ Functions supporting editing higher geographies.
 							}
 						</script>
 					</div>
-					<div class="col-12 col-xl-6 mb-2">
+					<div class="col-12 col-md-3 col-xl-4 mb-2">
 						<output id="wktLoadFeedback"></output>
 					</div>
-					<div class="col-12 col-md-6 col-xl-3 mb-2">
+					<div class="col-12 col-md-6 col-xl-4 mb-2">
 						<label for="valid_catalog_term_fg" class="data-entry-label">Valid for data entry?</label>
 						<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="data-entry-select reqdClr">
 							<cfif not isDefined("valid_calalog_term_fg") OR len(valid_catalog_term_fg) EQ 0 OR valid_catalog_term_fg is "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -472,13 +478,28 @@ Functions supporting editing higher geographies.
 							<option value="0" #selected#>No</option>
 						</select>
 					</div>
-					<div class="col-12 col-md-6 col-xl-3 mb-2">
+					<div class="col-12 col-md-6 col-xl-4 mb-2">
 						<label class="data-entry-label" for="source_authority">Source Authority</label>
 						<cfif NOT isdefined("source_authority")><cfset source_authority=""></cfif>
 						<input type="text" name="source_authority" id="source_authority" class="data-entry-input reqdClr" value="#encodeForHTML(source_authority)#" required>
 						<script>
 							$(document).ready(() => makeGeogAutocomplete('source_authority','source_authority'));
 						</script>
+					</div>
+					<div class="col-12 col-md-6 col-xl-4 mb-2">
+						<label class="data-entry-label" for="curated_fg">Vetted (manage only)</label>
+						<cfif NOT isdefined("curated_fg")><cfset curated_fg=""></cfif>
+						<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select reqdClr">
+							<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="0" #selected#>No</option>
+							<cfif isdefined("curated_fg") AND curated_fg EQ 1 ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="1" #selected#>Yes (*)</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-6 col-xl-12 mb-2">
+						<label class="data-entry-label" for="management_remarks">Management Remarks (manage only)</label>
+						<cfif NOT isdefined("management_remarks")><cfset management_remarks=""></cfif>
+						<input type="text" name="management_remarks" id="management_remarks" class="data-entry-input reqdClr" value="#encodeForHTML(management_remarks)#" required>
 					</div>
 				</div>
 				<div class="form-row mx-1 px-1 border rounded pt-1 my-2">
@@ -624,6 +645,8 @@ Functions supporting editing higher geographies.
 	<cfargument name="wkt_polygon" type="string" required="no">
 	<cfargument name="highergeographyid_guid_type" type="string" required="no">
 	<cfargument name="highergeographyid" type="string" required="no">
+	<cfargument name="curated_fg" type="string" required="no">
+	<cfargument name="management_remarks" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 
@@ -705,6 +728,14 @@ Functions supporting editing higher geographies.
 					highergeographyid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid#">
 				<cfelse>
 					highergeographyid = null
+				</cfif>
+				<cfif len(#curated_fg#) GT 0>
+					curated_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">
+				</cfif>
+				<cfif len(#management_remarks#) GT 0>
+					management_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#management_remarks#">
+				<cfelse>
+					management_remarks = null
 				</cfif>
 				WHERE 
 					geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
