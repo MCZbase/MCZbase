@@ -3230,8 +3230,9 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 			<cfset sovereignNation = " Sovereign Nation: #sovereign_nation# ">
 		</cfif>
 		<cfif len(geolatts) GT 0><cfset geology = " [#geolatts#] "><cfelse><cfset geology = ""></cfif>
-		<cfif len(trim(plss)) GT 0><cfset plss = " #plss# "></cfif> 
-		<cfset retval = trim("#retval# #spec_locality##geology##elevation##depthval##sovereignNation##plss##coordinates##remarks# (#id#) #curated#")>
+		<cfif len(trim(plss)) GT 0><cfset plss = " #plss# "></cfif>
+		<cfif right(spec_locality,1) EQ "."><cfset spec_locality_disp = " #spec_locality# "><cfelse><cfset spec_locality_display="#spec_locality#."</cfif>
+		<cfset retval = trim("#retval# #spec_locality_display##geology##elevation##depthval##sovereignNation##plss##coordinates##remarks# (#id#) #curated#")>
 		<cfset retval = replace(retval,"  "," ","All")>
 	</cfloop>
 	<cfreturn retval>
