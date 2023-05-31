@@ -3222,12 +3222,14 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 			</cfif>
 		</cfif>
 		<cfif len(dec_lat) GT 0>
-			<cfset coordinates = " Georeference: #dec_lat#, #dec_long# <span class='sr-only'>Datum </span>#datum# <span class='sr-only'>Point-Radius Uncertainty </span>±#max_error_distance# #max_error_units# #verificationstatus# "><!--- " --->
+			<cfset coordinates = " Georeference: #dec_lat#, #dec_long# <span class='sr-only'>Datum </span>#datum# <span class='sr-only'>Point-Radius Uncertainty </span>±#max_error_distance# #max_error_units# #verificationstatus#"><!--- " --->
+			<cfif right(verificationstatus,1) NEQ "."><cfset coordinates="#coordinates#. "><cfelse><cfset coordinates="#coordinates# "></cfif>
 		<cfelse> 
-			<cfset coordinates = " Not Georeferenced: #nogeorefbecause# ">
+			<cfset coordinates = " Not Georeferenced: #nogeorefbecause#">
+			<cfif right(nogeorefbecause,1) NEQ "."><cfset coordinates="#coordinates#. "><cfelse><cfset coordinates="#coordinates# "></cfif>
 		</cfif>
 		<cfif len(sovereign_nation) GT 0>
-			<cfset sovereignNation = " Sovereign Nation: #sovereign_nation# ">
+			<cfset sovereignNation = " Sovereign Nation: #sovereign_nation#. ">
 		</cfif>
 		<cfif len(geolatts) GT 0><cfset geology = " [#geolatts#] "><cfelse><cfset geology = ""></cfif>
 		<cfif len(trim(plss)) GT 0><cfset plss = " #plss# "></cfif>
