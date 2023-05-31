@@ -1976,7 +1976,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', #callback_name#) " 
 									aria-label = "Add a georeference to this locality"
 							>Add</button>
-							<button type="button" class="btn btn-xs btn-secondary mt-3" 
+							<button type="button" class="btn btn-xs btn-secondary" 
 								onClick=" openAddGeoreferenceDialog('addGeorefDialog1', '#locality_id#', #callback_name#, 'yes') " 
 								aria-label = "Add another georeference to this locality going straight to GeoLocate"
 							>Add using GeoLocate</button>
