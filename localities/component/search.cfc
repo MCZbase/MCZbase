@@ -1526,7 +1526,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					AND accepted_lat_long.verificationstatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verificationstatus#">
 				</cfif>
 				<cfif isdefined("georefmethod") AND len(#georefmethod#) gt 0>
-					AND accpted_lat_long.georefmethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#georefmethod#">
+					AND accepted_lat_long.georefmethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#georefmethod#">
 				</cfif>
 				<cfif isdefined("nullNoGeorefBecause") and len(#nullNoGeorefBecause#) gt 0>
 					AND NoGeorefBecause IS NULL
@@ -2530,7 +2530,12 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					AND NoGeorefBecause IS NULL
 				</cfif>
 				<cfif isdefined("isIncomplete") AND len(#isIncomplete#) gt 0>
-					AND ( (GPSACCURACY IS NULL AND EXTENT IS NULL) OR MAX_ERROR_DISTANCE = 0 or MAX_ERROR_DISTANCE IS NULL or datum IS NULL or coordinate_precision IS NULL )
+					AND ( (accepted_lat_long.GPSACCURACY IS NULL AND accepted_lat_long.EXTENT IS NULL) 
+							OR accepted_lat_long.MAX_ERROR_DISTANCE = 0 
+							OR accepted_lat_long.MAX_ERROR_DISTANCE IS NULL 
+							OR accepted_lat_long.datum IS NULL 
+							OR accepted_lat_long.coordinate_precision IS NULL 
+					)
 				</cfif>
 				<cfif isdefined("findNoAccGeoRef") and len(#findNoAccGeoRef#) gt 0>
 					AND locality.locality_id IN (select locality_id from lat_long)
