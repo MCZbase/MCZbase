@@ -2397,7 +2397,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												});
 											</script> 
 										</div>
-<!--- TODO: Units for radial of feature --->
 										<div class="col-12 col-md-3 mb-2">
 											<label for="coordinate_precision" class="data-entry-label">Precision</label>
 											<select name="coordinate_precision" id="coordinate_precision" class="data-entry-select reqdClr" required>
