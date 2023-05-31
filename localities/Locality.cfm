@@ -150,17 +150,19 @@ limitations under the License.
 									</div>
 								</div>
 							</cfif>
-							<cfif countUses.total_uses EQ "0">
-								<div class="row mx-0">
-									<div class="col-12 px-1">
+							<div class="row mx-0">
+								<div class="col-12 px-1">
+									<cfif countUses.total_uses EQ "0">
 										<button type="button" 
 										onClick="confirmDialog('Delete this Locality?', 'Confirm Delete Locality', function() { location.assign('/localities/Locality.cfm?action=delete&locality_id=#encodeForUrl(locality_id)#'); } );" 
 										class="btn btn-xs btn-danger" >
 										Delete Locality
 										</button>
-									</div>
+									<cfelse>
+										<span class="small85 text-dark-gray">Localities with collecting events, media, or georeferences can not be deleted.</span>
+									</cfif>
 								</div>
-							</cfif>
+							</div>
 						</div>
 					</div>	
 					<div class="row mx-0">
