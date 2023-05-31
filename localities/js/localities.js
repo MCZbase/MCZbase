@@ -276,7 +276,7 @@ function openAddGeoreferenceDialog(dialogid, locality_id, okcallback, geolocateI
 			method: "georeferenceDialogHtml",
 			returnformat: "plain",
 			locality_id: locality_id,
-			geolocateImmedate: geolocateImmediate
+			geolocateImmediate: geolocateImmediate
 		}, 
 		success: function (data) { 
 			$("#"+dialogid+"_div").html(data);
