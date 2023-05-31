@@ -499,7 +499,7 @@ Functions supporting editing higher geographies.
 					<div class="col-12 col-md-6 col-xl-12 mb-2">
 						<label class="data-entry-label" for="management_remarks">Management Remarks (manage only)</label>
 						<cfif NOT isdefined("management_remarks")><cfset management_remarks=""></cfif>
-						<input type="text" name="management_remarks" id="management_remarks" class="data-entry-input reqdClr" value="#encodeForHTML(management_remarks)#" required>
+						<input type="text" name="management_remarks" id="management_remarks" class="data-entry-input" value="#encodeForHTML(management_remarks)#">
 					</div>
 				</div>
 				<div class="form-row mx-1 px-1 border rounded pt-1 my-2">
