@@ -1980,7 +1980,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								onClick=" openAddGeoreferenceDialog('addGeorefDialog1', '#locality_id#', #callback_name#, 'yes') " 
 								aria-label = "Add another georeference to this locality going straight to GeoLocate"
 							>Add using GeoLocate</button>
-geolocateImmediate
 					</div>
 				<cfelse>
 					<div class="w-100">
