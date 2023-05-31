@@ -1975,8 +1975,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<button type="button" class="btn btn-xs btn-secondary" 
 									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', #callback_name#) " 
 									aria-label = "Add a georeference to this locality"
-								>Add</button>
-								<output id="georeferenceDialogFeedback">&nbsp;</output>	
+							>Add</button>
+							<button type="button" class="btn btn-xs btn-secondary mt-3" 
+								onClick=" openAddGeoreferenceDialog('addGeorefDialog1', '#locality_id#', #callback_name#, 'yes') " 
+								aria-label = "Add another georeference to this locality going straight to GeoLocate"
+							>Add using GeoLocate</button>
+geolocateImmediate
 					</div>
 				<cfelse>
 					<div class="w-100">
@@ -2087,13 +2091,18 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							</cfloop>
 					</div>
 						<button type="button" class="btn btn-xs btn-secondary mt-3" 
-						onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', #callback_name#) " 
-						aria-label = "Add another georeference to this locality"
+							onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', #callback_name#) " 
+							aria-label = "Add another georeference to this locality"
 						>Add</button>
-					
+						<button type="button" class="btn btn-xs btn-secondary mt-3" 
+							onClick=" openAddGeoreferenceDialog('addGeorefDialog1', '#locality_id#', #callback_name#, 'yes') " 
+							aria-label = "Add another georeference to this locality going straight to GeoLocate"
+						>Add using GeoLocate</button>
 				</cfif>
 				<div id="editGeorefDialog"></div>
 				<div id="addGeorefDialog"></div>
+				<div id="addGeorefDialog1"></div>
+				<output id="georeferenceDialogFeedback">&nbsp;</output>	
 			<cfcatch>
 				<h3 class="h4 text-danger">Error: #cfcatch.type# #cfcatch.message#</h3> 
 				<div>#cfcatch.detail#</div>
@@ -2111,10 +2120,14 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 <!--- given a locality_id create the html for a dialog to add a georeference to the locality
   @param locality_id the locality to which to add the georeference.
+  @param geolocateImmediate optional, if yes, then immediately invoke geolocate on opening the dialog.
   @return html for a dialog, or html with an error message.
 --->
 <cffunction name="georeferenceDialogHtml" access="remote" returntype="string">
 	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="geolocateImmediate" type="string" required="no" default="no">
+
+	<cfset variables.geolocateImmediate = arguments.geolocateImmediate>
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getGeorefThread#tn#">
@@ -3059,6 +3072,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						</div>
 					</div>
 				</div>
+				<cfif isDefined("geolocateImmediate") AND geolocateImmediate EQ "yes">
+					<!--- switch to the geolocatePanel and invoke geolocate --->
+					<script>
+						$(document).ready(function() { 
+							$("##geolocateTabButton").click();
+							geolocate('#Application.protocol#');
+						});
+					</script>
+				</cfif>
 			</cfoutput>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
