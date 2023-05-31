@@ -307,6 +307,32 @@ Typical use:
 										});
 									</script>
 								</div>
+								<cfif showLocality EQ 0 and showEvent EQ 0 AND isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+									<div class="col-12 col-md-4 col-xl-2 my-1">
+										<cfif not isDefined("curated_fg")><cfset curated_fg=""></cfif>
+										<label for="curated_fg" class="data-entry-label">Vetted (manage only)</label>
+										<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select">
+											<cfif len(curated_fg) EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="" #selected#>Any</option>
+											<cfif ucase(curated_fg) EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="0" #selected#>No</option>
+											<cfif ucase(curated_fg) EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="1" #selected#>Yes</option>
+										</select>
+									</div>
+								</cfif>
+								<div class="col-12 col-md-4 col-xl-2 my-1">
+									<cfif not isDefined("valid_catalog_term_fg")><cfset valid_catalog_term_fg=""></cfif>
+									<label for="valid_catalog_term_fg" class="data-entry-label">Valid for data entry</label>
+									<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" size="1" class="data-entry-select">
+										<cfif len(valid_catalog_term_fg) EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="" #selected#>Any</option>
+										<cfif ucase(valid_catalog_term_fg) EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="1" #selected#>Yes</option>
+										<cfif ucase(valid_catalog_term_fg) EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="0" #selected#>No</option>
+									</select>
+								</div>
 							</cfif>
 						</div>
 					</div>
