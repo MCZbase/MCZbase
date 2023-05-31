@@ -2275,7 +2275,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</select>
 										</div>
 										<div class="col-12 col-md-3 mb-2">
-											<label for="determined_by_agent" class="data-entry-label">Determiner</label>
+											<label for="determined_by_agent" class="data-entry-label">
+												Determiner
+												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##determined_by_agent_id').val('#getCurrentUser.agent_id#');  $('##determined_by_agent').val('#encodeForHtml(getCurrentUser.agent_name)#'); return false;" > (me) <span class="sr-only">Fill in determined by with #encodeForHtml(getCurrentUser.agent_name)#</span></a>
+											</label>
 											<input type="hidden" name="determined_by_agent_id" id="determined_by_agent_id">
 											<input type="text" name="determined_by_agent" id="determined_by_agent" class="data-entry-input reqdClr">
 											<script>
