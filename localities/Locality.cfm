@@ -69,7 +69,7 @@ limitations under the License.
 		<!--- ask question used to determine if "please delete me" message is shown in summary --->
 		<cfquery name="localityUses" datasource="uam_god">
 			SELECT
-				count(distinct collecting_event.collecting_event_id) numOfCollEvents,
+				count(distinct collecting_event.collecting_event_id) numOfCollEvents
 			from
 				collecting_event
 			WHERE
