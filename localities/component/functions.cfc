@@ -2527,7 +2527,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											<input type="text" name="copyFootprintFrom" id="copyFootprintFrom" value="" class="data-entry-input">
 											<script> 
 												$(document).ready(function() { 
-													makeLocalityAutocompleteMeta("copyFootprintFrom", "copyFootprintFrom_id","has_footprint");
+													makeLocalityAutocompleteMetaLimited("copyFootprintFrom", "copyFootprintFrom_id","has_footprint");
 												});
 												function copyWKTFromLocality() { 
 													var lookup_locality_id = $("##copyFootprintFrom_id").val();
@@ -4032,7 +4032,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<input type="text" name="copyFootprintFrom" id="copyFootprintFrom" value="" class="data-entry-input">
 									<script> 
 										$(document).ready(function() { 
-											makeLocalityAutocompleteMeta("copyFootprintFrom", "copyFootprintFrom_id","has_footprint");
+											makeLocalityAutocompleteMetaLimited("copyFootprintFrom", "copyFootprintFrom_id","has_footprint");
 										});
 										function copyWKTFromLocality() { 
 											var lookup_locality_id = $("##copyFootprintFrom_id").val();
