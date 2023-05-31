@@ -2151,7 +2151,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					agent_id in (
 						SELECT agent_id 
 						FROM agent_name 
-						WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						WHERE upper(agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
 							and agent_name_type = 'login'
 					)
 			</cfquery>
@@ -2462,7 +2462,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script>
 										</div>
 										<div class="col-12 col-md-3 mb-2">
-											<label for="verified_by_agent" class="data-entry-label" id="verified_by_agent_label">Verified by</label>
+											<label for="verified_by_agent" class="data-entry-label" id="verified_by_agent_label">
+												Verified by
+												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##verified_by_agent_id').val('#getCurrentUser.agent_id#');  $('##verified_by_agent').val('#encodeForHtml(getCurrentUser.agent_name)#'); return false;" > (me) <span class="sr-only">Fill in verified by with #encodeForHtml(getCurrentUser.agent_name)#</span></a>
+											</label>
 											<input type="hidden" name="verified_by_agent_id" id="verified_by_agent_id">
 											<input type="text" name="verified_by_agent" id="verified_by_agent" class="data-entry-input reqdClr">
 											<script>
@@ -2817,7 +2820,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											</script>
 										</div>
 										<div class="postGeolocate col-12 col-md-3 float-left px-1 mb-2">
-											<label for="gl_verified_by_agent" class="data-entry-label" id="gl_verified_by_agent_label">Verified by</label>
+											<label for="gl_verified_by_agent" class="data-entry-label" id="gl_verified_by_agent_label">
+												Verified by
+												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##gl_verified_by_agent_id').val('#getCurrentUser.agent_id#');  $('##gl_verified_by_agent').val('#encodeForHtml(getCurrentUser.agent_name)#'); return false;" > (me) <span class="sr-only">Fill in verified by with #encodeForHtml(getCurrentUser.agent_name)#</span></a>
+</label>
 											<input type="hidden" name="verified_by_agent_id" id="gl_verified_by_agent_id">
 											<input type="text" name="verified_by_agent" id="gl_verified_by_agent" class="data-entry-input reqdClr">
 											<script>
@@ -3638,7 +3644,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					agent_id in (
 						SELECT agent_id 
 						FROM agent_name 
-						WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						WHERE upper(agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
 							and agent_name_type = 'login'
 					)
 			</cfquery>
@@ -3967,7 +3973,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									</script>
 								</div>
 								<div class="col-12 col-md-3 mb-2">
-									<label for="verified_by_agent" class="data-entry-label" id="verified_by_agent_label">Verified by</label>
+									<label for="verified_by_agent" class="data-entry-label" id="verified_by_agent_label" >
+										Verified by
+										<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##verified_by_agent_id').val('#getCurrentUser.agent_id#');  $('##verified_by_agent').val('#encodeForHtml(getCurrentUser.agent_name)#'); return false;" > (me) <span class="sr-only">Fill in verified by with #encodeForHtml(getCurrentUser.agent_name)#</span></a>
+									</label>
 									<input type="hidden" name="verified_by_agent_id" id="verified_by_agent_id" value="#verified_by_agent_id#">
 									<input type="text" name="verified_by_agent" id="verified_by_agent" class="data-entry-input reqdClr" value="#verified_by#">
 									<script>
