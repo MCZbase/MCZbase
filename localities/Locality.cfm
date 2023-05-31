@@ -66,6 +66,16 @@ limitations under the License.
 		<cfinclude template="/localities/component/functions.cfc" runOnce="true">
 		<cfinclude template="/localities/component/public.cfc" runOnce="true"><!--- for getLocalityMap() --->
 		<cfinclude template="/localities/component/search.cfc" runOnce="true"><!--- for getLocalitySummary() --->
+		<!--- ask question used to determine if "please delete me" message is shown in summary --->
+		<cfquery name="localityUses" datasource="uam_god">
+			SELECT
+				count(distinct collecting_event.collecting_event_id) numOfCollEvents,
+			from
+				collecting_event
+			WHERE
+				collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+		</cfquery>
+		<!--- find out if delete can be allowed by policy --->
 		<cfquery name="countUses" datasource="uam_god">
 			SELECT 
 				sum(ct) total_uses
@@ -158,7 +168,8 @@ limitations under the License.
 										class="btn btn-xs btn-danger" >
 										Delete Locality
 										</button>
-									<cfelse>
+									<cfelseif localityUses.numOfCollEvents EQ 0>
+										<!--- please delete me message is shown, but delete button is not enabled --->
 										<span class="small85 text-dark-gray">Localities with collecting events, media, or georeferences can not be deleted.</span>
 									</cfif>
 								</div>
