@@ -170,6 +170,9 @@ limitations under the License.
 									{ name: 'ISLAND_GROUP', type: 'string' },
 									{ name: 'SEA', type: 'string' },
 									{ name: 'VALID_CATALOG_TERM_FG', type: 'string' },
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+										{ name: 'CURATED_FG', type: 'string' },
+									</cfif>
 									{ name: 'SOURCE_AUTHORITY', type: 'string' },
 									{ name: 'HIGHER_GEOG', type: 'string' },
 									{ name: 'OCEAN_REGION', type: 'string' },
@@ -233,6 +236,9 @@ limitations under the License.
 										{text: 'Edit', datafield: 'GEOG_AUTH_REC_ID_1', width:60, hideable: false, cellsrenderer: editCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+										{ text: 'Vetted', datafield: 'CURATED_FG',width: 100, hideabel: true, hidden: getColHidProp('CURATED_FG',false)  },
+									</cfif>
 									{ text: 'Continent/Ocean', datafield: 'CONTINENT_OCEAN',width: 100, hideabel: true, hidden: getColHidProp('CONTINENT_OCEAN',true)  },
 									{ text: 'Ocean Region', datafield: 'OCEAN_REGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_REGION',true)  },
 									{ text: 'Ocean Subregion', datafield: 'OCEAN_SUBREGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_SUBREGION',true)  },

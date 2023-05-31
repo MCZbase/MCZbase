@@ -532,6 +532,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="source_authority" type="string" required="no">
 	<cfargument name="return_wkt" type="string" required="no">
 	<cfargument name="show_unused" type="string" required="no">
+	<cfargument name="curated_fg" type="string" required="no">
 
 	<cfif NOT isDefined("return_wkt")><cfset return_wkt=""></cfif>
 	<cfset linguisticFlag = false>
@@ -556,31 +557,34 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 			</cfquery>
 		</cfif>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT 
-				 geog_auth_rec.geog_auth_rec_id,
-				 geog_auth_rec.continent_ocean,
-				 geog_auth_rec.country,
-				 geog_auth_rec.state_prov,
-				 geog_auth_rec.county,
-				 geog_auth_rec.quad,
-				 geog_auth_rec.feature,
-				 geog_auth_rec.island,
-				 geog_auth_rec.island_group,
-				 geog_auth_rec.sea,
-				 geog_auth_rec.valid_catalog_term_fg,
-				 geog_auth_rec.source_authority,
-				 geog_auth_rec.higher_geog,
-				 geog_auth_rec.ocean_region,
-				 geog_auth_rec.ocean_subregion,
-				 geog_auth_rec.water_feature,
-				<cfif return_wkt EQ "true">
-					 geog_auth_rec.wkt_polygon,
-				<cfelse>
-					 nvl2(geog_auth_rec.wkt_polygon,'Yes','No') as wkt_polygon,
+			SELECT
+				geog_auth_rec.geog_auth_rec_id,
+				geog_auth_rec.continent_ocean,
+				geog_auth_rec.country,
+				geog_auth_rec.state_prov,
+				geog_auth_rec.county,
+				geog_auth_rec.quad,
+				geog_auth_rec.feature,
+				geog_auth_rec.island,
+				geog_auth_rec.island_group,
+				geog_auth_rec.sea,
+				geog_auth_rec.valid_catalog_term_fg,
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+					geog_auth_rec.curated_fg,
 				</cfif>
-				 geog_auth_rec.highergeographyid_guid_type,
-				 geog_auth_rec.highergeographyid,
-				 count(flatTableName.collection_object_id) as specimen_count
+				geog_auth_rec.source_authority,
+				geog_auth_rec.higher_geog,
+				geog_auth_rec.ocean_region,
+				geog_auth_rec.ocean_subregion,
+				geog_auth_rec.water_feature,
+				<cfifreturn_wkt EQ "true">
+					geog_auth_rec.wkt_polygon,
+				<cfelse>
+					nvl2(geog_auth_rec.wkt_polygon,'Yes','No') as wkt_polygon,
+				</cfif>
+				geog_auth_rec.highergeographyid_guid_type,
+				geog_auth_rec.highergeographyid,
+				count(flatTableName.collection_object_id) as specimen_count
 			FROM 
 				geog_auth_rec
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName on geog_auth_rec.geog_auth_rec_id=flatTableName.geog_auth_rec_id
@@ -730,6 +734,13 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						and geog_auth_rec.wkt_polygon IS NOT NULL
 					</cfif>
 				</cfif>
+				<cfif isdefined("curated_fg") AND len(curated_fg) gt 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"manage_geography")>
+					<cfif curated_fg EQ "1">
+						and geog_auth_rec.curated_fg = 1
+					<cfelseif curated_fg EQ "0">
+						and geog_auth_rec.curated_fg = 0
+					</cfif>
+				</cfif>
 			GROUP BY
 				 geog_auth_rec.geog_auth_rec_id,
 				 geog_auth_rec.continent_ocean,
@@ -742,6 +753,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				 geog_auth_rec.island_group,
 				 geog_auth_rec.sea,
 				 geog_auth_rec.valid_catalog_term_fg,
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_geography")>
+					 geog_auth_rec.curated_fg,
+				</cfif>
 				 geog_auth_rec.source_authority,
 				 geog_auth_rec.higher_geog,
 				 geog_auth_rec.ocean_region,
