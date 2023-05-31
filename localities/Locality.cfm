@@ -156,8 +156,10 @@ limitations under the License.
 							<cfif countUses.total_uses GT "0">
 								<div class="row mx-0">
 									<div class="col-12 px-1">
-										<button type="button" class="btn btn-xs btn-secondary float-right" style="margin-top: -1.8rem" onClick=" location.assign('/localities/Locality.cfm?action=new&geog_auth_rec_id=#encodeForUrl(localityExists.geog_auth_rec_id)#');" >New Locality in same higher geography</button>
-										<button type="button" class="btn btn-xs btn-secondary float-right" style="margin-top: -1.8rem" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
+										<span class="float-right">
+											<button type="button" class="btn btn-xs btn-secondary" style="margin-top: -1.8rem" onClick=" location.assign('/localities/Locality.cfm?action=new&geog_auth_rec_id=#encodeForUrl(localityExists.geog_auth_rec_id)#');" >New Locality in same higher geography</button>
+											<button type="button" class="btn btn-xs btn-secondary" style="margin-top: -1.8rem" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
+										</span>
 									</div>
 								</div>
 							</cfif>
