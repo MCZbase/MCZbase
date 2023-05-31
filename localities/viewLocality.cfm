@@ -54,7 +54,7 @@ limitations under the License.
 					</div>
 				</div>
 				<section class="col-12 col-md-9 col-xl-8 float-left">
-					<h2 class="sr-only">Locality Details</h2>
+					
 					<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 							<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
 							<div id="summary" class="small95 px-2 mb-0"><span class="sr-only">Summary: </span>#summary#</div>
@@ -66,6 +66,7 @@ limitations under the License.
 						</div>
 					</div>	
 					<div class="row mx-0 border-bottom-grey">
+						<h2 class="sr-only">Parsed By Locality Form Field: </h2>
 						<div class="col-12 col-md-6 px-3 pt-3 pb-0">
 							<cfset geology = getLocalityGeologyDetailsHtml(locality_id="#locality_id#")>
 							<div id="geologyDiv">#geology#</div>
