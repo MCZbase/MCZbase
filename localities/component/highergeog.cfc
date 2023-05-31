@@ -725,12 +725,12 @@ Functions supporting editing higher geographies.
 					highergeographyid_guid_type = null,
 				</cfif>
 				<cfif len(#highergeographyid#) GT 0>
-					highergeographyid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid#">
+					highergeographyid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid#">,
 				<cfelse>
-					highergeographyid = null
+					highergeographyid = null,
 				</cfif>
 				<cfif len(#curated_fg#) GT 0>
-					curated_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">
+					curated_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">,
 				</cfif>
 				<cfif len(#management_remarks#) GT 0>
 					management_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#management_remarks#">
