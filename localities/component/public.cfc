@@ -1156,9 +1156,13 @@ limitations under the License.
 					<cfelseif #localityUses.recordcount# is 1>
 						<h2 class="h4 px-2">
 							This Locality (#locality_id#) contains 
-							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#">
-								#localityUses.numOfSpecs# #localityUses.collection_cde# specimens
-							</a>
+							<cfif localityUses.numOfSpecs is 0>
+								no specimens
+							<cfelse>
+								<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#">
+									#localityUses.numOfSpecs# #localityUses.collection_cde# specimens
+								</a>
+							</cfif>
 							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#localityUses.numOfCollEvents# collecting events</a>.
 						</h2>
 					<cfelse>
@@ -1212,11 +1216,14 @@ limitations under the License.
 									</cfif>
 									<cfif numShared EQ 0 and numSole GT 0>
 										<cfif numSole EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-										<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
+										<a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
 											#numSole# #collection_cde# only collecting event#plural#
 										</a>
 									<cfelseif numShared EQ 0 AND numSole EQ 0>
+										<a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#locality_id#&show_unused=unused_only&include_counts=true&include_ce_counts=true">
+											
 											#localityUses.numOfCollEvents# unused collecting events
+										</a>
 									<cfelse>
 										<cfquery name="sharedWith" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT DISTINCT collection_cde 
