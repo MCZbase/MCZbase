@@ -2562,6 +2562,7 @@ Target JSON:
 				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 					var details = $($(parentElement).children()[0]);
+					console.log(index);
 					details.html("<div id='fixedrowDetailsTarget" + index + "'></div>");
 					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,index);
 					// Workaround, expansion sits below row in zindex.
@@ -2662,6 +2663,7 @@ Target JSON:
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
+					console.log(rowIndex);
 					createSpecimenRowDetailsDialog('fixedsearchResultsGrid','fixedrowDetailsTarget',datarecord,rowIndex);
 				});
 				$('##fixedsearchResultsGrid').on('rowcollapse', function (event) {
@@ -2747,6 +2749,7 @@ Target JSON:
 				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 					var details = $($(parentElement).children()[0]);
+					console.log(index);
 					details.html("<div id='keywordrowDetailsTarget" + index + "'></div>");
 					createSpecimenRowDetailsDialog('keywordsearchResultsGrid','keywordrowDetailsTarget',datarecord,index);
 					// Workaround, expansion sits below row in zindex.
@@ -2839,6 +2842,7 @@ Target JSON:
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
+					console.log(rowIndex);
 					createSpecimenRowDetailsDialog('keywordsearchResultsGrid','keywordrowDetailsTarget',datarecord,rowIndex);
 				});
 				$('##keywordsearchResultsGrid').on('rowcollapse', function (event) {
@@ -2921,6 +2925,7 @@ Target JSON:
 				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 					var details = $($(parentElement).children()[0]);
+					console.log(index);
 					details.html("<div id='builderrowDetailsTarget" + index + "'></div>");
 					createSpecimenRowDetailsDialog('buildersearchResultsGrid','builderrowDetailsTarget',datarecord,index);
 					// Workaround, expansion sits below row in zindex.
@@ -3012,6 +3017,7 @@ Target JSON:
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
+					console.log(rowIndex);
 					createSpecimenRowDetailsDialog('buildersearchResultsGrid','builderrowDetailsTarget',datarecord,rowIndex);
 				});
 				$('##buildersearchResultsGrid').on('rowcollapse', function (event) {

@@ -14,6 +14,8 @@
  * @see createRowDetailsDialog for invocation details.
  */
 function createSpecimenRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,rowIndex) {
+	console.log(rowIndex);
+	console.log(datarecord);
 	var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
 	var columns = $('#' + gridId).jqxGrid('columns').records;
 	var gridWidth = $('#' + gridId).width();
