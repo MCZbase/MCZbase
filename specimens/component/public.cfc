@@ -2114,8 +2114,8 @@ limitations under the License.
 						<cfelse>
 							lat_long_id,
 							accepted_lat_long_fg,
-							nvl2(coordinate_precision, round(dec_lat,coordinate_precision), round(dec_lat,5)) dec_lat,
-							nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_long,5)) dec_long,
+							to_char(dec_lat, '99' || rpad('.',nvl(coordinate_precision,5) + 1, '0')) lat, dec_lat,
+							to_char(dec_long, '999' || rpad('.',nvl(coordinate_precision,5) + 1, '0')) lng, dec_long,
 							coordinate_precision,
 							datum,
 							max_error_distance,
