@@ -220,8 +220,8 @@ limitations under the License.
 								</cfquery>
 								<cfloop query="relations">
 									<cfset summary = replace(replace(summary,'"','','all'),"'","","all")>
-									<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
-									<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
+									<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-md-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
+									<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-md-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
 								</cfloop>
 							</div>
 							<div id="mediaDialogDiv"></div>
