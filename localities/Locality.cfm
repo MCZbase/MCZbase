@@ -155,10 +155,10 @@ limitations under the License.
 							</script>			
 							<cfif countUses.total_uses GT "0">
 								<div class="row mx-0">
-									<div class="col-12 px-1 mt-2 mt-md-0">
+									<div class="col-12 px-1 mt-2 mt-xl-0">
 										<button type="button" class="btn btn-xs btn-secondary" onClick=" location.assign('/localities/Locality.cfm?action=new&geog_auth_rec_id=#encodeForUrl(localityExists.geog_auth_rec_id)#');" >New Locality in same higher geography</button>
 									</div>
-									<div class="col-12 px-1 mt-2 mt-md-0">
+									<div class="col-12 px-1 mt-2 mt-xl-0">
 										<button type="button" class="btn btn-xs btn-secondary" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
 									</div>
 								</div>
@@ -220,8 +220,8 @@ limitations under the License.
 								</cfquery>
 								<cfloop query="relations">
 									<cfset summary = replace(replace(summary,'"','','all'),"'","","all")>
-									<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-md-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
-									<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-md-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
+									<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
+									<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
 								</cfloop>
 							</div>
 							<div id="mediaDialogDiv"></div>
