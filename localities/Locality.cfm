@@ -162,7 +162,7 @@ limitations under the License.
 								</div>
 							</cfif>
 							<div class="row mx-0">
-								<div class="col-12 px-1 mt-2 mt-md-0">
+								<div class="col-12 px-1 mt-1">
 									<cfif countUses.total_uses EQ "0">
 										<button type="button" 
 										onClick="confirmDialog('Delete this Locality?', 'Confirm Delete Locality', function() { location.assign('/localities/Locality.cfm?action=delete&locality_id=#encodeForUrl(locality_id)#'); } );" 
