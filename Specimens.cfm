@@ -2839,7 +2839,7 @@ Target JSON:
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
-					createSpecimenRowDetailsDialog('keywordsearchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+					createSpecimenRowDetailsDialog('keywordsearchResultsGrid','keywordrowDetailsTarget',datarecord,rowIndex);
 				});
 				$('##keywordsearchResultsGrid').on('rowcollapse', function (event) {
 					// remove the dialog holding the row details
@@ -3012,7 +3012,7 @@ Target JSON:
 					var args = event.args;
 					var rowIndex = args.rowindex;
 					var datarecord = args.owner.source.records[rowIndex];
-					createSpecimenRowDetailsDialog('buildersearchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+					createSpecimenRowDetailsDialog('buildersearchResultsGrid','builderrowDetailsTarget',datarecord,rowIndex);
 				});
 				$('##buildersearchResultsGrid').on('rowcollapse', function (event) {
 					// remove the dialog holding the row details
