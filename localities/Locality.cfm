@@ -456,7 +456,8 @@ limitations under the License.
 							,EXTENT
 							,GPSACCURACY
 							,GEOREFMETHOD
-							,VERIFICATIONSTATUS)
+							,VERIFICATIONSTATUS
+							,verified_by_agent_id)
 						VALUES (
 							sq_lat_long_id.nextval,
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextLoc.nextLoc#">
@@ -583,6 +584,11 @@ limitations under the License.
 							</cfif>
 							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">
 							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFICATIONSTATUS#">
+							<cfif len(#verified_by_agent_id#) gt 0>
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#verified_by_agent_id#">
+							<cfelse>
+								,NULL
+							</cfif>
 						)
 					</cfquery>
 				</cfloop>
