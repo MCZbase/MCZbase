@@ -977,9 +977,9 @@ limitations under the License.
 					SELECT
 						lat_long_id,
 						georefmethod,
-						nvl2(coordinate_precision, round(dec_lat,coordinate_precision), round(dec_lat,5)) dec_lat,
+						to_char(dec_lat, '99' || rpad('.',nvl(coordinate_precision,5) + 1, '0')) dec_lat,
 						dec_lat raw_dec_lat,
-						nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_long,5)) dec_long,
+						to_char(dec_long, '999' || rpad('.',nvl(coordinate_precision,5) + 1, '0')) dec_long,
 						dec_long raw_dec_long,
 						max_error_distance,
 						max_error_units,
