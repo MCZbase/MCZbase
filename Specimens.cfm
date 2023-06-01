@@ -2988,7 +2988,7 @@ Target JSON:
 					],
 					rowdetails: true,
 					rowdetailstemplate: {
-						rowdetails: "Row Details",
+						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
 						rowdetailsheight:  1 // row details will be placed in popup dialog
 					},
 					initrowdetails: initRowDetails
