@@ -125,7 +125,7 @@ Delete an existing collecting event number record.
 --->
 <cffunction name="updateLocality" access="remote" returntype="any" returnformat="json">
 	<cfargument name="locality_id" type="string" required="yes">
-	<cfargument name="geog_auth_rec_id" type="string" required="no">
+	<cfargument name="geog_auth_rec_id" type="string" required="yes">
 	<cfargument name="spec_locality" type="string" required="no">
 	<cfargument name="sovereign_nation" type="string" required="no">
 	<cfargument name="minimum_elevation" type="string" required="no">
@@ -189,6 +189,7 @@ Delete an existing collecting event number record.
 
 			<cfquery name="updateLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateLocality_result">
 				UPDATE locality SET
+				geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">,
 				<cfif len(#spec_locality#) GT 0>
 					spec_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec_locality#">,
 			  <cfelse>
