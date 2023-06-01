@@ -1216,7 +1216,7 @@ limitations under the License.
 									</cfif>
 									<cfif numShared EQ 0 and numSole GT 0>
 										<cfif numSole EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-										<a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
+										<a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#locality_id#&collnEvOper=eventUsedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
 											#numSole# #collection_cde# only collecting event#plural#
 										</a>
 									<cfelseif numShared EQ 0 AND numSole EQ 0>

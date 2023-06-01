@@ -1794,6 +1794,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="accentInsenstive" type="string" required="no">
 	<cfargument name="collection_id" type="string" required="no">
 	<cfargument name="collnOper" type="string" required="no">
+	<cfargument name="collnEvOper" type="string" required="no">
 	<cfargument name="include_counts" type="string" required="no"><!--- locality counts by collection --->
 	<cfargument name="township" type="string" required="no">
 	<cfargument name="range" type="string" required="no">
@@ -1861,6 +1862,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<!--- strip extraneous characters out of geog_auth_rec_id (ignores = operator) --->
 		<cfset geog_auth_rec_id = rereplace(geog_auth_rec_id,"[^0-9,]","","all")>
 	</cfif>
+	<cfif NOT isDefined("collnEvOper")><cfset collnEvOper=""></cfif>
 
 	<!--- convert min/max ElevOper variables to operators as leading characters of min/max elevation --->
 	<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
@@ -2449,7 +2451,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfelseif collnOper is "notUsedBy">
 						AND locality.locality_id  not in
 							(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
-					<cfelseif collnOper is "eventUsedOnlyBy">
+					<cfelseif collnOper is "eventUsedOnlyBy"><!--- event..By terms from old API --->
 						AND collecting_event.collecting_event_id in
 								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 						AND collecting_event.collecting_event_id not in
@@ -2458,6 +2460,21 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND collecting_event.collecting_event_id in
 								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 					<cfelseif collnOper is "eventSharedOnlyBy">
+						AND collecting_event.collecting_event_id in
+								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+						AND collecting_event.collecting_event_id in
+								(select collecting_event_id from cataloged_item where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
+					</cfif>
+					<!--- collnEvOper from new API for event...By terms --->
+					<cfif collnEvOper IS "eventUsedOnlyBy">
+						AND collecting_event.collecting_event_id in
+								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+						AND collecting_event.collecting_event_id not in
+								(select collecting_event_id from cataloged_item where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
+					<cfelseif collnEvOper IS "eventUsedBy">
+						AND collecting_event.collecting_event_id in
+								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+					<cfelseif collnEvOper IS "eventSharedOnlyBy">
 						AND collecting_event.collecting_event_id in
 								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 						AND collecting_event.collecting_event_id in
