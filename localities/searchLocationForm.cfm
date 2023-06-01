@@ -375,6 +375,14 @@ Typical use:
 							</cfif>
 							<div class="col-12 col-md-1 px-3 px-md-2 py-1">
 								<cfif not isDefined("collnOper")><cfset collnOper=""></cfif>
+								<cfif not isDefined("collnEvOper")><cfset collnEvOper=""></cfif>
+								<cfif #showExtraFields# IS 1>
+									<!--- collnOper is split into two controls in new API, collnEvOper for event and collnOper for locality --->
+									<cfif collnEvOper NEQ "" AND left(collnOper,2) EQ "ev">
+										<cfset collnEvOper = collnOper>
+										<cfset collnOper = "">
+									</cfif> 
+								</cfif>
 								<label for="collnOper" class="data-entry-label">Use</label>
 								<select name="collnOper" id="collnOper" size="1" class="data-entry-select">
 									<cfif len(collnOper) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -385,6 +393,14 @@ Typical use:
 									<option value="usedBy" #selected#>used by</option>
 									<cfif collnOper EQ "notUsedBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 									<option value="notUsedBy" #selected#>not used by</option>
+									<cfif #showExtraFields# NEQ 1>
+										<cfif collnOper EQ "eventUsedOnlyBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="eventUsedOnlyBy" #selected#>event used only by</option>
+										<cfif collnOper EQ "eventUsedBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="eventUsedBy" #selected#>event used by</option>
+										<cfif collnOper EQ "eventSharedOnlyBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+										<option value="eventSharedOnlyBy" #selected#>event shared only by</option>
+									</cfif>
 								</select>
 							</div>
 							<div class="col-12 col-md-2 px-3 px-md-0 py-1">
