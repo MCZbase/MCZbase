@@ -154,17 +154,17 @@ limitations under the License.
 								};
 							</script>			
 							<cfif countUses.total_uses GT "0">
-								<div class="row mx-0 float-right">
-									<div class="col-12 px-1">
-										<span class="float-right">
-											<button type="button" class="btn btn-xs btn-secondary" style="margin-top: -1.8rem" onClick=" location.assign('/localities/Locality.cfm?action=new&geog_auth_rec_id=#encodeForUrl(localityExists.geog_auth_rec_id)#');" >New Locality in same higher geography</button>
-											<button type="button" class="btn btn-xs btn-secondary" style="margin-top: -1.8rem" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
-										</span>
+								<div class="row mx-0">
+									<div class="col-12 px-1 mt-2 mt-md-0">
+										<button type="button" class="btn btn-xs btn-secondary" onClick=" location.assign('/localities/Locality.cfm?action=new&geog_auth_rec_id=#encodeForUrl(localityExists.geog_auth_rec_id)#');" >New Locality in same higher geography</button>
+									</div>
+									<div class="col-12 px-1 mt-2 mt-md-0">
+										<button type="button" class="btn btn-xs btn-secondary" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
 									</div>
 								</div>
 							</cfif>
 							<div class="row mx-0">
-								<div class="col-12 px-1">
+								<div class="col-12 px-1 mt-2 mt-md-0">
 									<cfif countUses.total_uses EQ "0">
 										<button type="button" 
 										onClick="confirmDialog('Delete this Locality?', 'Confirm Delete Locality', function() { location.assign('/localities/Locality.cfm?action=delete&locality_id=#encodeForUrl(locality_id)#'); } );" 
