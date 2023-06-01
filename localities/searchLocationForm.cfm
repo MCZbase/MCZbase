@@ -1123,18 +1123,18 @@ Typical use:
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-1 px-3 px-md-2 py-1">
+									<div class="col-12 col-md-3 px-3 px-md-2 py-1">
 										<cfif not isDefined("collnEvOper")><cfset collnEvOper=""></cfif>
-										<label for="collnEvOper" class="data-entry-label">Use</label>
+										<label for="collnEvOper" class="data-entry-label">Event Use</label>
 										<select name="collnEvOper" id="collnEvOper" size="1" class="data-entry-select">
 											<cfif len(collnEvOper) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 											<option value="" #selected#></option>
 											<cfif collnEvOper EQ "eventUsedOnlyBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value="eventUsedOnlyBy" #selected#>used only by</option>
+											<option value="eventUsedOnlyBy" #selected#>used only by (pick collection above)</option>
 											<cfif collnEvOper EQ "eventUsedBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value="eventUsedBy" #selected#>used by</option>
+											<option value="eventUsedBy" #selected#>used by (pick collection above)</option>
 											<cfif collnEvOper EQ "eventSharedOnlyBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-											<option value="eventSharedOnlyBy" #selected#>shared by</option>
+											<option value="eventSharedOnlyBy" #selected#>shared only including (pick collection above)</option>
 										</select>
 									</div>
 								</cfif>
