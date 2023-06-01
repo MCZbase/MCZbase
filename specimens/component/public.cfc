@@ -2400,7 +2400,11 @@ limitations under the License.
 								<cfset georef_source = " (Source: #georef_source#)">
 							</cfif>
 							<li class="list-group-item col-7 col-xl-8 px-0">
-								#dla#, #dlo# 
+								<cfif dla EQ "[Masked]">
+									#dla#
+								<cfelse>
+									#dla#&##176;, #dlo#&##176; 
+								</cfif>
 								<cfif dla EQ "[Masked]">
 									<!--- don't display Not Specified for error radius --->
 								<cfelseif coordlookup.max_error_distance EQ "0">
