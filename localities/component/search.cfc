@@ -3249,7 +3249,7 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 			</cfif>
 		</cfif>
 		<cfif len(dec_lat) GT 0>
-			<cfset coordinates = " Georeference: #dec_lat#, #dec_long# <span class='sr-only'>Datum </span>#datum# <span class='sr-only'>Point-Radius Uncertainty </span>±#max_error_distance# #max_error_units# #verificationstatus#"><!--- " --->
+			<cfset coordinates = " Georeference: #dec_lat#&##176;, #dec_long#&##176; <span class='sr-only'>Datum </span>#datum# <span class='sr-only'>Point-Radius Uncertainty </span>±#max_error_distance# #max_error_units# #verificationstatus#"><!--- " --->
 			<cfif right(verificationstatus,1) NEQ "."><cfset coordinates="#coordinates#. "><cfelse><cfset coordinates="#coordinates# "></cfif>
 		<cfelse> 
 			<cfset coordinates = " Not Georeferenced: #nogeorefbecause#">
