@@ -2072,6 +2072,7 @@ limitations under the License.
 							'' as accepted_lat_long_fg,
 							'[Masked]' as dec_lat,
 							'[Masked]' as dec_long,
+							'' as coordinate_precision,
 							'' as datum,
 							'' as max_error_distance,
 							'' as max_error_units,
@@ -2108,12 +2109,14 @@ limitations under the License.
 							'' as geolocate_precision,
 							'' as geolocate_numresults,
 							'' as geolocate_parsepattern,
-							'' as error_polygon
+							'' as error_polygon,
+							'' as footprint_spatialfit
 						<cfelse>
 							lat_long_id,
 							accepted_lat_long_fg,
-							dec_lat,
-							dec_long,
+							nvl2(coordinate_precision, round(dec_lat,coordinate_precision), round(dec_lat,5)) dec_lat,
+							nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_long,5)) dec_long,
+							coordinate_precision,
 							datum,
 							max_error_distance,
 							max_error_units,
@@ -2149,7 +2152,7 @@ limitations under the License.
 							nearest_named_place,
 							lat_long_for_nnp_fg,
 							field_verified_fg,
-							extent,
+							to_meters(extent, nvl(extent_units,'km')) extent,
 							gpsaccuracy,
 							georefmethod,
 							verificationstatus,
@@ -2158,7 +2161,8 @@ limitations under the License.
 							geolocate_precision,
 							geolocate_numresults,
 							geolocate_parsepattern,
-							error_polygon
+							error_polygon,
+							footprint_spatialfit
 						</cfif>
 					FROM
 						lat_long
@@ -2373,6 +2377,7 @@ limitations under the License.
 						<cfif len(coordlookup.dec_lat) gt 0>
 							<!--- georeference and metadata --->
 							<cfset dateDet = coordlookup.determined_date>
+							<!--- TODO: zero pad to coordinate_precision --->
 							<cfset dla = left(#coordlookup.dec_lat#,10)>
 							<cfset dlo = left(#coordlookup.dec_long#,10)>
 							<cfset warn301="">
@@ -2419,15 +2424,15 @@ limitations under the License.
 							</cfif>
 
 							<cfif len(coordlookup.extent) GT 0>
-								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Extent: </li>
-								<li class="list-group-item col-7 col-xl-8 px-0">#coordlookup.extent#</li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Radial of Feature: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#coordlookup.extent# m</li>
 							</cfif>
 							<cfif len(coordlookup.gpsaccuracy) GT 0>
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">GNSS/GPS Accuracy: </li>
 								<li class="list-group-item col-7 col-xl-8 px-0">#coordlookup.gpsaccuracy#</li>
 							</cfif>
 							<cfif len(coordlookup.spatialfit) GT 0>
-								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Spatial Fit: </li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Point-Radius Spatial Fit: </li>
 								<li class="list-group-item col-7 col-xl-8 px-0">#coordlookup.spatialfit#</li>
 							</cfif>
 
@@ -2460,8 +2465,12 @@ limitations under the License.
 	
 							<cfif oneOfUs EQ 1>
 								<cfif len(coordlookup.error_polygon) GT 0>
-									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Has Error Polygon: </li>
+									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Has Footprint: </li>
 									<li class="list-group-item col-7 col-xl-8 px-0">Yes (see map)</li>
+									<cfif len(coordlookup.footprint_spatialfit) GT 0>
+										<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Footprint Spatial Fit: </li>
+										<li class="list-group-item col-7 col-xl-8 px-0">#coordLookup.footprint_spatialfit#</li>
+									</cfif>
 								</cfif>
 								<cfif len(coordlookup.verificationstatus) GT 0>
 									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Georeference Verification Status: </li>
