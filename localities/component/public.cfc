@@ -1163,7 +1163,7 @@ limitations under the License.
 									#localityUses.numOfSpecs# #localityUses.collection_cde# specimens
 								</a>
 							</cfif>
-							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#localityUses.numOfCollEvents# collecting events</a>.
+							from <a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#localityUses.numOfCollEvents# collecting events</a>.
 						</h2>
 					<cfelse>
 						<cfset totalEvents=0>
@@ -1175,7 +1175,7 @@ limitations under the License.
 						<h2 class="h4 px-2">
 							This Locality (#locality_id#)
 							contains the following <a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#">#totalSpecimens# specimens</a>
-							from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#totalEvents# collecting events</a>:
+							from <a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#totalEvents# collecting events</a>:
 						</h2>
 						<ul class="px-2 pl-xl-4 ml-xl-1 small95">
 							<cfloop query="localityUses">
@@ -1248,22 +1248,22 @@ limitations under the License.
 										</cfloop>
 										<cfif numSole EQ 0>
 											<cfif numShared EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-											<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventSharedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
+											<a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#locality_id#&collnEvOper=eventSharedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
 												#numShared# shared collecting event#plural# (#collection_cde# shared with #sharedNames#)
 											</a>
 										<cfelse>
 												<cfif numSole EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-												<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
+												<a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#locality_id#&collnEvOper=eventUsedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
 													#numSole# #collection_cde# only collecting event#plural#
 												</a>
 												 and 
 												<cfif numShared EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-												<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventSharedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
+												<a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#locality_id#&collnEvOper=eventSharedOnlyBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
 													#numShared# shared collecting event#plural# (#collection_cde# shared with #sharedNames#)
 												</a>
 												&mdash;All 
 												<cfif numShared + numSole EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-												<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
+												<a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#locality_id#&collnEvOper=eventUsedBy&collection_id=#localityUses.collection_id#&include_counts=true&include_ce_counts=true">
 													#numSole+numShared# #collection_cde# collecting event#plural#</a>.
 										</cfif>
 									</cfif>
