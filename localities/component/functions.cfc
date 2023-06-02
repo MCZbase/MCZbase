@@ -2047,7 +2047,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									</cfif>
 									<cfif len(nearest_named_place) GT 0>
 										<cfif lat_long_for_nnp_fg EQ 1>
-											<cfset label = "Georefrence is for Nearest Named Place:">
+											<cfset label = "Georefrence is for Nearest Named Place: ">
 										<cfelse>
 											<cfset label = "Nearest Named Place is ">
 										</cfif>
