@@ -686,7 +686,7 @@
 		</cfquery>
 		<h3>Create Collecting Event</h3>
                 <br>Higher Geography: #getGeo.higher_geog#
-                <br>Spec Locality: #getLoc.spec_locality#
+			<br>Spec Locality: <a href="/localities/Locality.cfm?locality_id=#locality_id#">#getLoc.spec_locality#</a>
 	    <form name="newCollEvnt" action="Locality.cfm" method="post">
 	    	<input type="hidden" name="Action" value="newColl">
 	     	<input type="hidden" name="locality_id" value="#locality_id#">
