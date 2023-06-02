@@ -1446,6 +1446,7 @@ limitations under the License.
 								#date# #verbatim_locality##verbatim_coordinates# [<a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#getEventList.collecting_event_id#">#getEventList.collecting_event_id#</a>]
 							</li>
 						</cfloop>
+					</ul>
 					</cfif>
 				</cfif>
 				<cfif isDefined("context") and context EQ "edit" and isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
