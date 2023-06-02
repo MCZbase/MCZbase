@@ -1453,7 +1453,7 @@ limitations under the License.
 						<input type="hidden" name="action" value="newCollEvent">
 						<input type="hidden" name="locality_id" value="#locality_id#">
 					</form>
-					<input type="button" class="btn btn-secondary btn-xs" onClick=" $('##createNewCollEventForm').submit(); ">Add a Collecting Event to this Locality</button>
+					<input type="button" class="btn btn-secondary btn-xs" onClick=" $('##createNewCollEventForm').submit(); " value="Add a Collecting Event to this Locality">
 				</cfif>
 			<cfcatch>
 				<h3 class="h4 text-danger">Error: #cfcatch.type# #cfcatch.message#</h3> 
