@@ -1418,7 +1418,7 @@ limitations under the License.
 							<li>
 								<cfif getEventList.began_date EQ getEventList.ended_date>
 									<cfset date=getEventList.began_date>
-								<cfelseif len(getEventList.began_date) GT 0) AND len(getEventList.began_date) GT 0>
+								<cfelseif len(getEventList.began_date) GT 0 AND len(getEventList.began_date) GT 0>
 									<cfset date="#getEventList.began_date#/#getEventList.ended_date#">
 								<cfelse>
 									<cfset date=getEventList.began_date>
@@ -1436,7 +1436,7 @@ limitations under the License.
 						<input type="hidden" name="action" value="newCollEvent">
 						<input type="hidden" name="locality_id" value="#locality_id#">
 					</form>
-					<input type="button" class="btn btn-primary btn-xs" onClick=" $('##createNewCollEventForm').submit(); "> Add a Collecting Event to this Locality</a>
+					<input type="button" class="btn btn-secondary btn-xs" onClick=" $('##createNewCollEventForm').submit(); "> Add a Collecting Event to this Locality</a>
 				</cfif>
 			<cfcatch>
 				<h3 class="h4 text-danger">Error: #cfcatch.type# #cfcatch.message#</h3> 
