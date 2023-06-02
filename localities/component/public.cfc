@@ -1423,7 +1423,7 @@ limitations under the License.
 								<cfelse>
 									<cfset date=getEventList.began_date>
 								</cfif>
-								<cfif len(getEventList.verbatim_date) GT 0)>
+								<cfif len(getEventList.verbatim_date) GT 0>
 									<cfset date="#date# [#getEventList.verbatim_date#]">
 								</cfif>
 								#date# #verbatim_locality# #verbatim_coordinates# [<a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#getEventList.collecting_event_id#">]
