@@ -785,7 +785,7 @@
 			<tr>
 				<td style="padding-right: 1.5em;">
 
-						<label for="began_date">Began Date</label>
+						<label for="began_date" class="reqdClr">Began Date</label>
 				      	<input type="text" name="began_date" id="began_date"
 						  	<cfif isdefined("began_date")>
 								value="#encodeForHTML(began_date)#"
@@ -794,7 +794,7 @@
 			       </td>
 				<td>
 
-				        <label for="ended_date">Ended Date</label>
+				        <label for="ended_date" class="reqdClr">Ended Date</label>
 				        <input type="text" name="ended_date" id="ended_date"
 							<cfif isdefined("ended_date")>
 								value="#encodeForHTML(ended_date)#"
