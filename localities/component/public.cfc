@@ -1411,8 +1411,11 @@ limitations under the License.
 					<cfquery name="getEventList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEventList_result">
 						SELECT 
 							collecting_event_id,
-							verbatim_locality, verbatim_coordinates,
-							began_date, ended_date, verbatim_date
+							began_date, ended_date, verbatim_date,
+							verbatim_locality, 
+							verbatimcoordinates,
+							verbatimlatitude, verbatimlongitude,
+							verbatimcoordinatesystem, verbatimsrs
 						FROM collecting_event
 						WHERE
 							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
@@ -1433,7 +1436,14 @@ limitations under the License.
 								<cfif len(getEventList.verbatim_date) GT 0>
 									<cfset date="#date# [#getEventList.verbatim_date#]">
 								</cfif>
-								#date# #verbatim_locality# #verbatim_coordinates# [<a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#getEventList.collecting_event_id#">]
+								<cfif len(getEventList.verbatimcoordinates) GT 0>
+									<cfset verbatim_coordinates=" #verbatimcoordinates# #verbatimsrs#">
+								<cfelseif len(getEventList.verbatimlatitude) GT 0>
+									<cfset verbatim_coordinates=" #verbatimlatitude#, #verbatimlongitude# #verbatimsrs#">
+								<cfelse>
+									<cfset verbatim_coordinates="">
+								</cfif>
+								#date# #verbatim_locality##verbatim_coordinates# [<a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#getEventList.collecting_event_id#">]
 							</li>
 						</cfloop>
 					</cfif>
