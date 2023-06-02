@@ -182,7 +182,18 @@ limitations under the License.
 							</div>
 						</cfif>
 					</div>
-						<!--- TODO: list collecting events linking out to collecting event details. --->
+					<div class="row mx-0">
+						<div class="col-12 col-md-6 px-2 py-3">
+							<!--- TODO: list collecting events linking out to collecting event details. --->
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+								<form name="createNewCollEventForm" id="createNewCollEventForm" method="post" action="/Locality.cfm">
+									<input type="hidden" name="action" value="newCollEvent">
+									<input type="hidden" name="locality_id" value="#locality_id#">
+								</form>
+								<input type="button" class="btn btn-primary btn-xs" onClick=" $('##createNewCollEventForm').submit(); "> Add a Collecting Event to this Locality</a>
+							</cfif>
+						</div>
+					</div>
 					
 					<div class="row mx-0">
 						<div class="col-12 col-md-6 px-2 py-3">
@@ -200,7 +211,7 @@ limitations under the License.
 					<!--- verbatim values --->
 					<div class="col-12 pt-2">
 						<h2 class="h4">Verbatim localities (from associated collecting events)</h2>
-						<cfset verbatim = getLocalityVerbatimHtml(locality_id="#locality_id#")>
+						<cfset verbatim = getLocalityVerbatimHtml(locality_id="#locality_id#", context="view")>
 						<div id="verbatimDiv">#verbatim#</div>
 					</div>
 				</section>

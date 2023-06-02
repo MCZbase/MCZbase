@@ -1338,6 +1338,7 @@ limitations under the License.
 --->
 <cffunction name="getLocalityVerbatimHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="context" type="string" required="no" default="view">
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityVerbatimThread#tn#">
@@ -1398,6 +1399,44 @@ limitations under the License.
 							</li>
 						</cfloop>
 					</ul>
+				</cfif>
+				<cfif isDefined("context") and context EQ "edit" AND getVerbatim.recordcount LT 21 >
+					<cfquery name="getEventList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEventList_result">
+						SELECT 
+							collecting_event_id,
+							verbatim_locality, verbatim_coordinates,
+							began_date, ended_date, verbatim_date
+						FROM collecting_event
+						WHERE
+							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+							and verbatim_locality is not null
+					</cfquery>
+					<cfif getEventList.recordcount GT 0>
+					<div class="h4">Collecting Events</div>
+					<ul class="px-2 pl-xl-4 ml-xl-1">
+						<cfloop query="getEventList">
+							<li>
+								<cfif getEventList.began_date EQ getEventList.ended_date>
+									<cfset date=getEventList.began_date>
+								<cfelseif len(getEventList.began_date) GT 0) AND len(getEventList.began_date) GT 0>
+									<cfset date="#getEventList.began_date#/#getEventList.ended_date#">
+								<cfelse>
+									<cfset date=getEventList.began_date>
+								</cfif>
+								<cfif len(getEventList.verbatim_date) GT 0)>
+									<cfset date="#date# [#getEventList.verbatim_date#]">
+								</cfif>
+								#date# #verbatim_locality# #verbatim_coordinates# [<a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#getEventList.collecting_event_id#">]
+							</li>
+						</cfloop>
+					</cfif>
+				</cfif>
+				<cfif isDefined("context") and context EQ "edit" and isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+					<form name="createNewCollEventForm" id="createNewCollEventForm" method="post" action="/Locality.cfm">
+						<input type="hidden" name="action" value="newCollEvent">
+						<input type="hidden" name="locality_id" value="#locality_id#">
+					</form>
+					<input type="button" class="btn btn-primary btn-xs" onClick=" $('##createNewCollEventForm').submit(); "> Add a Collecting Event to this Locality</a>
 				</cfif>
 			<cfcatch>
 				<h3 class="h4 text-danger">Error: #cfcatch.type# #cfcatch.message#</h3> 
