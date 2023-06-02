@@ -1339,6 +1339,13 @@ limitations under the License.
 <cffunction name="getLocalityVerbatimHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="context" type="string" required="no" default="view">
+
+	<!---
+	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
+	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
+   	scope issues related to cfthread 
+	--->
+	<cfset variables.context = arguments.context>
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityVerbatimThread#tn#">
