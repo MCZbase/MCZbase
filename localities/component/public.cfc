@@ -1443,7 +1443,7 @@ limitations under the License.
 								<cfelse>
 									<cfset verbatim_coordinates="">
 								</cfif>
-								#date# #verbatim_locality##verbatim_coordinates# [<a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#getEventList.collecting_event_id#">]
+								#date# #verbatim_locality##verbatim_coordinates# [<a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#getEventList.collecting_event_id#">#getEventList.collectingEventID#</a>]
 							</li>
 						</cfloop>
 					</cfif>
@@ -1453,7 +1453,7 @@ limitations under the License.
 						<input type="hidden" name="action" value="newCollEvent">
 						<input type="hidden" name="locality_id" value="#locality_id#">
 					</form>
-					<input type="button" class="btn btn-secondary btn-xs" onClick=" $('##createNewCollEventForm').submit(); "> Add a Collecting Event to this Locality</a>
+					<input type="button" class="btn btn-secondary btn-xs" onClick=" $('##createNewCollEventForm').submit(); ">Add a Collecting Event to this Locality</button>
 				</cfif>
 			<cfcatch>
 				<h3 class="h4 text-danger">Error: #cfcatch.type# #cfcatch.message#</h3> 
