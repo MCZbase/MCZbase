@@ -597,7 +597,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			<div class="detailCell">
 				<div class="detailLabel">
 					<cfif oneOfUs is 1>
-						<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_localities")>
+						<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_locality")>
 							<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#one.geog_auth_rec_id#">Geography</a>
 							<a href="/localities/viewLocality.cfm?locality_id=#one.locality_id#">Locality</a>
 						<cfelse> 
