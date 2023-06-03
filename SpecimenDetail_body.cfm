@@ -20,7 +20,7 @@
 		<cfheader name="Location" value="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
 	</cfif>
 </cfoutput>
-<cfset detSelect = "
+<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
@@ -120,6 +120,8 @@
 		latLongAgnt.agent_name latLongDeterminer,
 		geog_auth_rec.geog_auth_rec_id,
 		geog_auth_rec.continent_ocean,
+		geog_auth_rec.ocean_region,
+		geog_auth_rec.ocean_subregion,
 		geog_auth_rec.country,
 		geog_auth_rec.state_prov,
 		geog_auth_rec.quad,
@@ -210,11 +212,7 @@
 		coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
 		cataloged_item.accn_id =  accn.transaction_id  AND
 		accn.transaction_id = trans.transaction_id(+) AND
-	cataloged_item.collection_object_id = #collection_object_id#
-	">
-<cfset checkSql(detSelect)>
-<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	#preservesinglequotes(detSelect)#
+		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
 <cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
 	Record masked.<cfabort>
@@ -597,9 +595,18 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			</cfif>
 <!------------------------------------ locality ---------------------------------------------->
 			<div class="detailCell">
-				<div class="detailLabel">Locality and Collecting Event Details
+				<div class="detailLabel">
 					<cfif oneOfUs is 1>
+						<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_localities")>
+							<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#one.geog_auth_rec_id#">Geography</a>
+							<a href="/localities/viewLocality.cfm?locality_id=#one.locality_id#">Locality</a>
+						<cfelse> 
+							Locality
+						</cfif>
+ 						and Collecting Event Details
 						<span class="detailEditCell" onclick="window.parent.loadEditApp('specLocality');">Edit</span>
+					<cfelse>
+						Locality and Collecting Event Details
 					</cfif>
 				</div>
 				<table id="SD">
@@ -607,6 +614,12 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 						<tr class="detailData">
 								<td id="SDCellLeft" class="innerDetailLabel">Continent/Ocean:</td>
 								<td id="SDCellRight">#one.continent_ocean#</td>
+						</tr>
+					</cfif>
+					<cfif len(one.ocean_region) gt 0>
+						<tr class="detailData">
+							<td id="SDCellLeft" class="innerDetailLabel">Ocean Region:</td>
+							<td id="SDCellRight">#one.ocean_region# #one.ocean_subregion#</td>
 						</tr>
 					</cfif>
 					<cfif len(one.sea) gt 0>
