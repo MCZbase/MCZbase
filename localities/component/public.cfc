@@ -25,6 +25,8 @@ limitations under the License.
 	<cfargument name="geog_auth_rec_id" type="string" required="yes">
 	<cfargument name="reload" type="string" required="no">
 	
+	<!--- TODO: Check for encumbrances --->
+
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="geogMapThread#tn#">
 		<cfoutput>
@@ -273,6 +275,8 @@ limitations under the License.
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="reload" type="string" required="no">
 	
+	<!--- TODO: Check for encumbrances --->
+
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityMapThread#tn#">
 		<cfoutput>
@@ -687,6 +691,22 @@ limitations under the License.
 	<cfthread name="localityDetailsThread#tn#">
 		<cfoutput>
 			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+					<cfset encumber = "">
+				<cfelse> 
+					<cfquery name="checkForEncumbrances" datasource="uam_god">
+						SELECT encumbrance_action 
+						FROM 
+							collecting_event 
+				 			join cataloged_item on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
+				 			join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+							join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+						WHERE
+							collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					</cfquery>
+					<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
+					<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number. --->
+				</cfif>
 				<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						geog_auth_rec_id, spec_locality, sovereign_nation,
@@ -696,8 +716,14 @@ limitations under the License.
 						min_depth, max_depth, depth_units,
 						to_meters(max_depth, depth_units) max_depth_in_m,
 						to_meters(min_depth, depth_units) min_depth_in_m,
-						section_part, section, township, township_direction, range, range_direction,
-						trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
+						<cfif ListContains(encumber,"mask coordinates")>
+							'[Masked]' as section_part, 
+							'' as section, '' as township, '' as township_direction, '' as range, '' as range_direction,
+							'[Masked]' as plss,
+						<cfelse>
+							section_part, section, township, township_direction, range, range_direction,
+							trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
+						</cfif>
 						nogeorefbecause, georef_updated_date, georef_by,
 						curated_fg, locality_remarks
 					FROM locality
@@ -970,140 +996,164 @@ limitations under the License.
 				<cfif getLocalityMetadata.recordcount NEQ 1>
 					<cfthrow message="Other than one locality found for the specified locality_id [#encodeForHtml(locality_id)#].  Locality may be used only by a department for which you do not have access.">
 				</cfif>
-				<cfset localityLabel = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
-				<cfset localityLabel = replace(localityLabel,'"',"&quot;","all")>
-				<cfset localityLabel = replace(localityLabel,"'","\'","all")>
-				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						lat_long_id,
-						georefmethod,
-						to_char(dec_lat, '99' || rpad('.',nvl(coordinate_precision,5) + 1, '0')) dec_lat,
-						dec_lat raw_dec_lat,
-						to_char(dec_long, '999' || rpad('.',nvl(coordinate_precision,5) + 1, '0')) dec_long,
-						dec_long raw_dec_long,
-						max_error_distance,
-						max_error_units,
-						to_meters(lat_long.max_error_distance, lat_long.max_error_units) coordinateUncertaintyInMeters,
-						error_polygon,
-						datum,
-						extent,
-						spatialfit,
-						determined_by_agent_id,
-						det_agent.agent_name determined_by,
-						determined_date,
-						gpsaccuracy,
-						lat_long_ref_source,
-						nearest_named_place,
-						lat_long_for_nnp_fg,
-						verificationstatus,
-						field_verified_fg,
-						verified_by_agent_id,
-						ver_agent.agent_name verified_by,
-						orig_lat_long_units,
-						lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
-						long_deg, dec_long_min, long_min, long_sec, long_dir,
-						utm_zone, utm_ew, utm_ns,
-						CASE orig_lat_long_units
-							WHEN 'decimal degrees' THEN dec_lat || '&##176;'
-							WHEN 'deg. min. sec.' THEN lat_deg || '&##176; ' || lat_min || '&apos; ' || lat_sec || '&quot; ' || lat_dir
-							WHEN 'degrees dec. minutes' THEN lat_deg || '&##176; ' || dec_lat_min || '&apos; ' || lat_dir
-						END as LatitudeString,
-						CASE orig_lat_long_units
-							WHEN 'decimal degrees' THEN dec_long || '&##176;'
-							WHEN'degrees dec. minutes' THEN long_deg || '&##176; ' || dec_long_min || '&apos; ' || long_dir
-							WHEN 'deg. min. sec.' THEN long_deg || '&##176; ' || long_min || '&apos; ' || long_sec || '&quot ' || long_dir
-						END as LongitudeString,
-						accepted_lat_long_fg,
-						decode(accepted_lat_long_fg,1,'Accepted','') accepted_lat_long,
-						geolocate_uncertaintypolygon,
-						geolocate_score,
-						geolocate_precision,
-						geolocate_numresults,
-						geolocate_parsepattern,
-						lat_long_remarks
-					FROM
-						lat_long
-						left join preferred_agent_name det_agent on lat_long.determined_by_agent_id = det_agent.agent_id
-						left join preferred_agent_name ver_agent on lat_long.verified_by_agent_id = ver_agent.agent_id
-					WHERE 
-						lat_long.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-					ORDER BY
-						accepted_lat_long_fg desc
-				</cfquery>
-				<h3 class="h4 px-2 w-100">Georeferences (#getGeoreferences.recordcount#)</h3>
-				<cfif getGeoreferences.recordcount EQ 0>
-					<cfquery name="checkNoGeorefBecause" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT
-							nogeorefbecause
-						FROM
-							locality
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+					<cfset encumber = "">
+				<cfelse> 
+					<cfquery name="checkForEncumbrances" datasource="uam_god">
+						SELECT encumbrance_action 
+						FROM 
+							collecting_event 
+				 			join cataloged_item on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
+				 			join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+							join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
 						WHERE
-							locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+							collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 					</cfquery>
-					<cfif len(checkNoGeorefBecause.nogeorefbecause) EQ 0 >
-						<cfset noGeoRef = "">
-					<cfelse> 
-						<cfset noGeoRef = " (#checkNoGeorefBecause.nogeorefbecause#)">
-					</cfif>
+					<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
+					<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number. --->
+				</cfif>
+				<cfif ListContains(encumber,"mask coordinates")>
 					<div class="w-100">
 						<ul class="small95">
-							<li>None #noGeoRef#</li>
+							<li>[Masked]</li>
 						</ul>
 					</div>
 				<cfelse>
-					<div class="w-100">
-						<cfloop query="getGeoreferences">
-							<cfset original="">
-							<cfset det = "">
-							<cfset ver = "">
-							<cfif len(determined_by) GT 0>
-								<cfset det = " Determiner: #determined_by#. ">
-							</cfif>
-							<cfif len(verified_by) GT 0>
-								<cfset ver = " Verified by: #verified_by#. ">
-							</cfif>
-							<cfif len(utm_zone) GT 0>
-								<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
-							<cfelse>
-								<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
-							</cfif>
-							<cfset divClass="small90 my-1 w-100">
-							<cfif accepted_lat_long EQ "Accepted">
-								<cfset divClass="small90 font-weight-lessbold my-1 w-100">
-							</cfif>
-							<div class="#divClass# px-2">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
-							<ul class="mb-2 pl-2 pl-xl-4 ml-xl-1 small95">
-								<li>
-									#original# <span class="#divClass#">#accepted_lat_long#</span>
-								</li>
-								<li>
-									Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
-								</li>
-								<cfif len(geolocate_score) GT 0>
-									<li>
-										GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
-									</li>
-								</cfif>
+					<cfset localityLabel = "#getLocalityMetadata.spec_locality##getLocalityMetadata.curated#">
+					<cfset localityLabel = replace(localityLabel,'"',"&quot;","all")>
+					<cfset localityLabel = replace(localityLabel,"'","\'","all")>
+					<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							lat_long_id,
+							georefmethod,
+							to_char(dec_lat, '99' || rpad('.',nvl(coordinate_precision,5) + 1, '0')) dec_lat,
+							dec_lat raw_dec_lat,
+							to_char(dec_long, '999' || rpad('.',nvl(coordinate_precision,5) + 1, '0')) dec_long,
+							dec_long raw_dec_long,
+							max_error_distance,
+							max_error_units,
+							to_meters(lat_long.max_error_distance, lat_long.max_error_units) coordinateUncertaintyInMeters,
+							error_polygon,
+							datum,
+							extent,
+							spatialfit,
+							determined_by_agent_id,
+							det_agent.agent_name determined_by,
+							determined_date,
+							gpsaccuracy,
+							lat_long_ref_source,
+							nearest_named_place,
+							lat_long_for_nnp_fg,
+							verificationstatus,
+							field_verified_fg,
+							verified_by_agent_id,
+							ver_agent.agent_name verified_by,
+							orig_lat_long_units,
+							lat_deg, dec_lat_min, lat_min, lat_sec, lat_dir,
+							long_deg, dec_long_min, long_min, long_sec, long_dir,
+							utm_zone, utm_ew, utm_ns,
+							CASE orig_lat_long_units
+								WHEN 'decimal degrees' THEN dec_lat || '&##176;'
+								WHEN 'deg. min. sec.' THEN lat_deg || '&##176; ' || lat_min || '&apos; ' || lat_sec || '&quot; ' || lat_dir
+								WHEN 'degrees dec. minutes' THEN lat_deg || '&##176; ' || dec_lat_min || '&apos; ' || lat_dir
+							END as LatitudeString,
+							CASE orig_lat_long_units
+								WHEN 'decimal degrees' THEN dec_long || '&##176;'
+								WHEN'degrees dec. minutes' THEN long_deg || '&##176; ' || dec_long_min || '&apos; ' || long_dir
+								WHEN 'deg. min. sec.' THEN long_deg || '&##176; ' || long_min || '&apos; ' || long_sec || '&quot ' || long_dir
+							END as LongitudeString,
+							accepted_lat_long_fg,
+							decode(accepted_lat_long_fg,1,'Accepted','') accepted_lat_long,
+							geolocate_uncertaintypolygon,
+							geolocate_score,
+							geolocate_precision,
+							geolocate_numresults,
+							geolocate_parsepattern,
+							lat_long_remarks
+						FROM
+							lat_long
+							left join preferred_agent_name det_agent on lat_long.determined_by_agent_id = det_agent.agent_id
+							left join preferred_agent_name ver_agent on lat_long.verified_by_agent_id = ver_agent.agent_id
+						WHERE 
+							lat_long.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						ORDER BY
+							accepted_lat_long_fg desc
+					</cfquery>
+					<h3 class="h4 px-2 w-100">Georeferences (#getGeoreferences.recordcount#)</h3>
+					<cfif getGeoreferences.recordcount EQ 0>
+						<cfquery name="checkNoGeorefBecause" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT
+								nogeorefbecause
+							FROM
+								locality
+							WHERE
+								locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						</cfquery>
+						<cfif len(checkNoGeorefBecause.nogeorefbecause) EQ 0 >
+							<cfset noGeoRef = "">
+						<cfelse> 
+							<cfset noGeoRef = " (#checkNoGeorefBecause.nogeorefbecause#)">
+						</cfif>
+						<div class="w-100">
+							<ul class="small95">
+								<li>None #noGeoRef#</li>
 							</ul>
-							<script>
-								var bouncing#lat_long_id# = false;
-								function toggleBounce#lat_long_id#() { 
-									if (bouncing#lat_long_id#==true) { 
-										bouncing#lat_long_id# = false;
-										map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
-										$('##toggleButton#lat_long_id#').html("Highlight on map");
-									} else { 
-										bouncing#lat_long_id# = true;
-										map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
-										$('##toggleButton#lat_long_id#').html("Stop bouncing");
-									}
-								};
-							</script>
-							<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info mb-2 mx-2" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
-						</cfloop>
-					</div>
-					
-				</cfif>
+						</div>
+					<cfelse>
+						<div class="w-100">
+							<cfloop query="getGeoreferences">
+								<cfset original="">
+								<cfset det = "">
+								<cfset ver = "">
+								<cfif len(determined_by) GT 0>
+									<cfset det = " Determiner: #determined_by#. ">
+								</cfif>
+								<cfif len(verified_by) GT 0>
+									<cfset ver = " Verified by: #verified_by#. ">
+								</cfif>
+								<cfif len(utm_zone) GT 0>
+									<cfset original = "(as: #utm_zone# #utm_ew# #utm_ns#)">
+								<cfelse>
+									<cfset original = "(as: #LatitudeString#,#LongitudeString#)">
+								</cfif>
+								<cfset divClass="small90 my-1 w-100">
+								<cfif accepted_lat_long EQ "Accepted">
+									<cfset divClass="small90 font-weight-lessbold my-1 w-100">
+								</cfif>
+								<div class="#divClass# px-2">#dec_lat#, #dec_long# &nbsp; #datum# ±#coordinateUncertaintyInMeters#m</div>
+								<ul class="mb-2 pl-2 pl-xl-4 ml-xl-1 small95">
+									<li>
+										#original# <span class="#divClass#">#accepted_lat_long#</span>
+									</li>
+									<li>
+										Method: #georefmethod# #det# Verification: #verificationstatus# #ver#
+									</li>
+									<cfif len(geolocate_score) GT 0>
+										<li>
+											GeoLocate: score=#geolocate_score# precision=#geolocate_precision# results=#geolocate_numresults# pattern=#geolocate_parsepattern#
+										</li>
+									</cfif>
+								</ul>
+								<script>
+									var bouncing#lat_long_id# = false;
+									function toggleBounce#lat_long_id#() { 
+										if (bouncing#lat_long_id#==true) { 
+											bouncing#lat_long_id# = false;
+											map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: null });  } }); 
+											$('##toggleButton#lat_long_id#').html("Highlight on map");
+										} else { 
+											bouncing#lat_long_id# = true;
+											map.data.forEach(function (feature) { console.log(feature.getId()); if (feature.getId() == "#lat_long_id#") { map.data.overrideStyle(feature, { animation: google.maps.Animation.BOUNCE});  } }); 
+											$('##toggleButton#lat_long_id#').html("Stop bouncing");
+										}
+									};
+								</script>
+								<button type="button" id="toggleButton#lat_long_id#" class="btn btn-xs btn-info mb-2 mx-2" onClick=" toggleBounce#lat_long_id#(); ">Highlight on map</button>
+							</cfloop>
+						</div>
+						
+					</cfif><!--- has georeferences --->
+				</cfif><!--- mask check --->
 			<cfcatch>
 				<h3 class="h4 text-danger">Error: #cfcatch.type# #cfcatch.message#</h3> 
 				<div>#cfcatch.detail#</div>
@@ -1346,6 +1396,8 @@ limitations under the License.
    	scope issues related to cfthread 
 	--->
 	<cfset variables.context = arguments.context>
+
+	<!--- TODO: Check for encumbrances --->
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityVerbatimThread#tn#">

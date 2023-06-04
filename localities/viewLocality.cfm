@@ -41,6 +41,23 @@ limitations under the License.
 <cfinclude template="/localities/component/search.cfc" runOnce="true"><!--- for getLocalitySummary() --->
 <cfinclude template="/shared/component/functions.cfc" runOnce="true"><!--- for getGuidLink() --->
 
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+	<cfset encumber = "">
+<cfelse> 
+	<cfquery name="checkForEncumbrances" datasource="uam_god">
+		SELECT encumbrance_action 
+		FROM 
+			collecting_event 
+ 			join cataloged_item on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
+ 			join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+			join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+		WHERE
+			collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+	</cfquery>
+	<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
+	<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number. --->
+</cfif>
+
 <cfoutput>
 	<main class="container-xl pt-2 pb-5 mb-5" id="content">
 		<div class="row mx-0">
@@ -73,8 +90,12 @@ limitations under the License.
 						</div>
 						<span class="border-bottom-grey d-block d-md-none w-100"></span>
 							<div class="col-12 col-md-6 px-3 pt-3 pb-2">
-								<cfset georeferences = getLocalityGeoreferenceDetailsHtml(locality_id="#locality_id#")>
-								<div id="georeferencesDiv">#georeferences#</div>
+								<cfif ListContains(encumber,"mask coordinates") GT 0>
+									[Masked]
+								<cfelse>
+									<cfset georeferences = getLocalityGeoreferenceDetailsHtml(locality_id="#locality_id#")>
+									<div id="georeferencesDiv">#georeferences#</div>
+								</cfif>
 							</div>
 					</div>
 					<div class="row mx-0 border-bottom-grey">
@@ -134,24 +155,28 @@ limitations under the License.
 							<div class="col-12 col-md-6 p-3">
 								<h3 class="h4 px-2">Collectors at this locality</h3>
 								<ul class="list-group list-group-horizontal flex-wrap rounded-0">
-									<cfloop query="collectors">
-										<li class="list-group-item float-left"> 
-											<span class="input-group">
-												<a class="small95" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&collector=#encodeForURL(collectors.agent_name)#&collector_agent_id=#collectors.agent_id#">#collectors.agent_name#&thinsp;<span class="sr-only">link to collector's specimen records </span> </a> 
-												<span class="input-group-append">
-													<span class="bg-lightgreen">
-														<a class="p-1" aria-label='link to agent record' href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">
-															<i class="fa fa-user" aria-hidden="true"></i>
-														</a>
+									<cfif ListContains(encumber,"mask collector") GT 0>
+										<li class="list-group-item float-left">[Masked]</li>
+									<cfelse>
+										<cfloop query="collectors">
+											<li class="list-group-item float-left"> 
+												<span class="input-group">
+													<a class="small95" href="/Specimens.cfm?execute=true&action=fixedSearch&current_id_only=any&collector=#encodeForURL(collectors.agent_name)#&collector_agent_id=#collectors.agent_id#">#collectors.agent_name#&thinsp;<span class="sr-only">link to collector's specimen records </span> </a> 
+													<span class="input-group-append">
+														<span class="bg-lightgreen">
+															<a class="p-1" aria-label='link to agent record' href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">
+																<i class="fa fa-user" aria-hidden="true"></i>
+															</a>
+														</span>
+														<cfif len(collectors.agentguid) gt 0>
+															<cfset link = getGuidLink(guid=#collectors.agentguid#,guid_type=#collectors.agentguid_guid_type#)>
+															#link#
+														</cfif>
 													</span>
-													<cfif len(collectors.agentguid) gt 0>
-														<cfset link = getGuidLink(guid=#collectors.agentguid#,guid_type=#collectors.agentguid_guid_type#)>
-														#link#
-													</cfif>
 												</span>
-											</span>
-										</li>
-									</cfloop>
+											</li>
+										</cfloop>
+									</cfif>
 								</ul>
 							</div>
 						</cfif>
@@ -184,7 +209,11 @@ limitations under the License.
 					</div>
 					<div class="row mx-0">
 						<div class="col-12 col-md-6 px-2 py-3">
-							<!--- TODO: list collecting events linking out to collecting event details. --->
+							<cfif ListContains(encumber,"mask coordinates") GT 0>
+								[Masked]
+							<cfelse>
+								<!--- TODO: list collecting events linking out to collecting event details. --->
+							</cfif>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
 								<form name="createNewCollEventForm" id="createNewCollEventForm" method="post" action="/Locality.cfm">
 									<input type="hidden" name="action" value="newCollEvent">
@@ -203,17 +232,23 @@ limitations under the License.
 					</div>
 				</section>
 				<section class="mt-3 mt-md-2 col-12 col-md-3 col-xl-4 pl-md-0 float-left">
-					<!--- map --->
-					<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
-						<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
-						<div id="mapDiv">#map#</div>
-					</div>
-					<!--- verbatim values --->
-					<div class="col-12 pt-2">
-						<h2 class="h4">Verbatim localities (from associated collecting events)</h2>
-						<cfset verbatim = getLocalityVerbatimHtml(locality_id="#locality_id#", context="view")>
-						<div id="verbatimDiv">#verbatim#</div>
-					</div>
+					<cfif ListContains(encumber,"mask coordinates") GT 0>
+						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+							[Masked]
+						</div>
+					<cfelse>
+						<!--- map --->
+						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+							<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
+							<div id="mapDiv">#map#</div>
+						</div>
+						<!--- verbatim values --->
+						<div class="col-12 pt-2">
+							<h2 class="h4">Verbatim localities (from associated collecting events)</h2>
+							<cfset verbatim = getLocalityVerbatimHtml(locality_id="#locality_id#", context="view")>
+							<div id="verbatimDiv">#verbatim#</div>
+						</div>
+					</cfif>
 				</section>
 			</div>
 		</div>

@@ -3186,6 +3186,23 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 <cffunction name="getLocalitySummary" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="locality_id" type="string" required="yes">
 	
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+		<cfset encumber = "">
+	<cfelse> 
+		<cfquery name="checkForEncumbrances" datasource="uam_god">
+			SELECT encumbrance_action 
+			FROM 
+				collecting_event 
+	 			join cataloged_item on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
+	 			join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+				join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+			WHERE
+				collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+		</cfquery>
+		<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
+		<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number. --->
+	</cfif>
+
 	<cfset retval = "">
 	<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupLocality_result">
 		SELECT distinct
@@ -3199,13 +3216,23 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 			min_depth,
 			max_Depth,
 			depth_units,
-			trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
+			<cfif ListContains(encumber,'mask coordinates') GT 0>
+				'[Masked]' as plss,
+			<cfelse>
+				trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
+			</cfif>
 			listagg(geology_attributes.geology_attribute || nvl2(geology_attributes.geology_attribute, ':', '') || geo_att_value,'; ') within group (order by geo_att_value) over (partition by locality.locality_id) geolAtts,
 			nogeorefbecause,
 			locality_remarks,
-  			accepted_lat_long.LAT_LONG_ID,
-			to_char(accepted_lat_long.dec_lat, '99' || rpad('.',nvl(accepted_lat_long.coordinate_precision,5) + 1, '0')) dec_lat,
-			to_char(accepted_lat_long.dec_long, '999' || rpad('.',nvl(accepted_lat_long.coordinate_precision,5) + 1, '0')) dec_long,
+			<cfif ListContains(encumber,'mask coordinates') GT 0>
+				'' as lat_long_id,
+				'[Masked]' as dec_lat,
+				'[Masked]' as dec_long,
+			<cfelse>
+	  			accepted_lat_long.LAT_LONG_ID,
+				to_char(accepted_lat_long.dec_lat, '99' || rpad('.',nvl(accepted_lat_long.coordinate_precision,5) + 1, '0')) dec_lat,
+				to_char(accepted_lat_long.dec_long, '999' || rpad('.',nvl(accepted_lat_long.coordinate_precision,5) + 1, '0')) dec_long,
+			</cfif>
 			accepted_lat_long.datum,
 			accepted_lat_long.max_error_distance,
 			accepted_lat_long.max_error_units,
