@@ -685,7 +685,7 @@ function loadPolygonWKTFromFile(fileControlId, polygonControlId, feedbackId) {
 				}
 			} catch (exception) {
 				console.log(exception);
-				if (exception instance of SyntaxError) { 
+				if (exception instanceof SyntaxError) { 
 					$("#"+feedbackId).html("Unable to validate polygon, browser can't parse the RexExp");
 				} else { 
 					throw exception;
