@@ -673,15 +673,23 @@ function loadPolygonWKTFromFile(fileControlId, polygonControlId, feedbackId) {
 		reader.onload = function (e) {
 			console.log(e);
 			$("#"+feedbackId).html("Loading...");
-			var matchWKT = new RegExp(/POLYGON\s*\(\s*(\(\s*(?<X>\-?\d+(:?\.\d+)?)\s+(?<Y>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<X>\s+\k<Y>\s*\))(\s*,\s*\(\s*(?<XH>\-?\d+(:?\.\d+)?)\s+(?<YH>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<XH>\s+\k<YH>\s*\))*\s*\)/);
-			if (matchWKT.test(e.target.result) == true){
-				$("#"+feedbackId).html("Polygon loaded. This will not be saved to the database until you Save Changes");
-				$("#"+polygonControlId).val(reader.result);
-			} else {
-				$("#"+feedbackId).html("This file does not contain a valid WKT polygon.");
-				$("#"+fileControlId).val('');
-				return(false);
-			}
+			try { 
+				var matchWKT = new RegExp(/POLYGON\s*\(\s*(\(\s*(?<X>\-?\d+(:?\.\d+)?)\s+(?<Y>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<X>\s+\k<Y>\s*\))(\s*,\s*\(\s*(?<XH>\-?\d+(:?\.\d+)?)\s+(?<YH>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<XH>\s+\k<YH>\s*\))*\s*\)/);
+				if (matchWKT.test(e.target.result) == true){
+					$("#"+feedbackId).html("Polygon loaded. This will not be saved to the database until you Save Changes");
+					$("#"+polygonControlId).val(reader.result);
+				} else {
+					$("#"+feedbackId).html("This file does not contain a valid WKT polygon.");
+					$("#"+fileControlId).val('');
+					return(false);
+				}
+			} catch (exception) {
+				if (exception instance of SyntaxError) { 
+					$("#"+feedbackId).html("Unable to validate polygon, browser can't parse the RexExp");
+				} else { 
+					throw exception;
+				}
+			} 
 		}
 		reader.readAsText($("#"+fileControlId).prop('files')[0]); // triggers load event
 	} else {
