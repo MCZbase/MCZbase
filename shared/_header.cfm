@@ -196,6 +196,8 @@ limitations under the License.
 </cfif>
 <cfif CGI.script_name CONTAINS "/localities/">
 	<script type="text/javascript" src="/localities/js/localities.js"></script>
+	<!--- loadPolygonWKTFromFile isolated in wkt_tools --->
+	<script type="text/javascript" src="/localities/js/wkt_tools.js"></script>
 </cfif>
 <cfif CGI.script_name IS "/localities/HigherGeography.cfm">
 	<script type="text/javascript" src="/localities/js/highergeography.js"></script> 
