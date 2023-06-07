@@ -57,7 +57,7 @@ transaction_id number
 	<li style="color: red;">Part_Name (required)</li>
 	<li>Item_Description</li>
 	<li>Item_Remarks</li>
-	<li>Barcode</li>
+	<li style="color: red;">>Barcode (required) a.k.a. Container Unique ID</li>
 	<li style="color: red;">subsample (required. "yes" creates a new part subsample. "no" puts the entire part on loan)</li>
 	<li style="color: red;">Loan_Number (required)</li>
 </ul>
