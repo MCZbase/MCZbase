@@ -162,7 +162,13 @@ limitations under the License.
 	<cfcase value="clone">
 		<cfinclude template="/localities/component/highergeog.cfc" runOnce="true">
 		<cfoutput>
-			<cfset extra = "">
+			<cfquery name="getSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getSource_result">
+				SELECT higher_geog
+				FROM geog_auth_rec
+				WHERE
+					geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_geog_auth_rec_id#">
+			</cfquery>
+			<cfset extra = ". Cloning from: #getSource.higher_geog#">
 			<cfset blockform = getHigherGeographyFormHtml(mode="new",clone_from_geog_auth_rec_id="#clone_from_geog_auth_rec_id#" )>
 			<main class="container mt-3" id="content">
 				<section class="row">
