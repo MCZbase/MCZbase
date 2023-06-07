@@ -34,6 +34,9 @@ limitations under the License.
 	<cfcase value="new">
 		<cfset pageTitle="New Higher Geography">
 	</cfcase>
+	<cfcase value="clone">
+		<cfset pageTitle="Clone Higher Geography">
+	</cfcase>
 	<cfcase value="makenewHigherGeography">
 		<cfset pageTitle="Creating New Higher Geography">
 	</cfcase>
@@ -113,15 +116,16 @@ limitations under the License.
 									};
 								</script>
 							</div>
-							<cfif countUses.total_uses EQ "0">
-								<div class="border rounded px-2 py-2 my-2">
+							<div class="border rounded px-2 py-2 my-2">
+								<a href="/localities/HigherGeography.cfm?action=clone&clone_from_geog_auth_rec_id=#encodeForUrl(geog_auth_rec_id)#" class="btn btn-xs btn-secondary">Clone into new Higher Geography</a>
+								<cfif countUses.total_uses EQ "0">
 									<button type="button" 
 										onClick="confirmDialog('Delete this Higher Geography?', 'Confirm Delete Higher Geography', function() { location.assign('/localities/HigherGeography.cfm?action=delete&geog_auth_rec_id=#encodeForUrl(geog_auth_rec_id)#'); } );" 
 										class="btn btn-xs btn-danger" >
 											Delete Higher Geography
 									</button>
-								</div>
-							</cfif>
+								</cfif>
+							</div>
 						</div>
 					</section>
 					<section class="mt-2 mt-md-5 col-12 px-md-0 col-md-4">
@@ -140,6 +144,26 @@ limitations under the License.
 		<cfoutput>
 			<cfset extra = "">
 			<cfset blockform = getHigherGeographyFormHtml(mode="new")>
+			<main class="container mt-3" id="content">
+				<section class="row">
+					<div class="col-12">
+						<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New HigherGeography#extra#</h1>
+						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
+							<form name="createHigherGeography" method="post" action="/localities/HigherGeography.cfm">
+								<input type="hidden" name="Action" value="makenewHigherGeography">
+								#blockform#
+							</form>
+						</div>
+					</div>
+				</section>
+			</main>
+		</cfoutput>
+	</cfcase>
+	<cfcase value="clone">
+		<cfinclude template="/localities/component/highergeog.cfc" runOnce="true">
+		<cfoutput>
+			<cfset extra = "">
+			<cfset blockform = getHigherGeographyFormHtml(mode="new",clone_from_geog_auth_rec_id="#clone_from_geog_auth_rec_id#" )>
 			<main class="container mt-3" id="content">
 				<section class="row">
 					<div class="col-12">
