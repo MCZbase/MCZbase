@@ -222,7 +222,10 @@ limitations under the License.
 											<li class="list-inline-item">
 												#prefName# is a #getDupAgentRel.agent_relationship# 
 												<a href="/agents/Agent.cfm?agent_id=#getDupAgentRel.related_agent_id#">#getDupAgentRel.related_name#</a>
-												set to merge: #dateformat(date_to_merge,"yyyy-mm-dd")# #hold# #held_by#
+												<cfif len(date_to_merge) GT 0>
+													set to merge: #dateformat(date_to_merge,"yyyy-mm-dd")#
+												</cfif>
+												#hold# #held_by#
 											</li>
 										</cfloop>
 									</ul>
@@ -234,7 +237,10 @@ limitations under the License.
 											<li class="list-inline-item">
 												<a href="/agents/Agent.cfm?agent_id=#getDupAgentRelRev.related_agent_id#">#getDupAgentRelRev.related_name#</a>
 												is a #getDupAgentRelRev.agent_relationship# #prefName#
-												set to merge into this record: #dateformat(date_to_merge,"yyyy-mm-dd")# #hold# #held_by#
+												<cfif len(date_to_merge) GT 0>
+													set to merge into this record: #dateformat(date_to_merge,"yyyy-mm-dd")# 
+												</cfif>
+												#hold# #held_by#
 											</li>
 										</cfloop>
 									</ul>
