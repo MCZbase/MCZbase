@@ -1606,6 +1606,25 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 						<span class="detailData">
 							<cfif oneOfUs is 1>
 								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a> #accnDept#
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+									<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT
+											accn.accn_number,
+											accn_type,
+											accn_status,
+											to_char(received_date,'yyyy-mm-dd') received_date,
+											concattransagent(trans.transaction_id,'received from') received_from
+										FROM
+											cataloged_item
+											left join accn on cataloged_item.accn_id =  accn.transaction_id
+											left join trans on accn.transaction_id = trans.transaction_id
+										WHERE
+											cataloged_item.collection_object_id = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+									</cfquery>
+									<cfif lookupAccn.recordcount EQ 1>
+										Received from #lookupAccn.received_from# #lookupAccn.received_date# #lookupAccn.accn_type# #lookupAccn.accn_status#
+									</cfif>
+								</cfif>
 								<cfif accnLimitations.recordcount GT 0>
 									<h3 class="detailLabel">Restrictions on use</h3>
 									<cfloop query=accnLimitations>
