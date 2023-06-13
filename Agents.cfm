@@ -426,7 +426,10 @@ limitations under the License.
 										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new agent search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Agents.cfm';" >New Search</button>
 
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-											<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new agent" href="#Application.serverRootUrl#/agents/editAgent.cfm?action=new">Create New Agent</a>
+											<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new agent" href="/agents/editAgent.cfm?action=new">Create New Agent</a>
+										</cfif>
+										<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
+											<a class="btn btn-xs btn-secondary my-2 text-decoration-none" aria-label="Review pending merges of agent records" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
 										</cfif>
 									</div>
 								</div>

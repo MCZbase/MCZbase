@@ -66,7 +66,7 @@ limitations under the License.
 		<cfinclude template="/localities/component/functions.cfc" runOnce="true">
 		<cfinclude template="/localities/component/public.cfc" runOnce="true"><!--- for getLocalityMap() --->
 		<cfinclude template="/localities/component/search.cfc" runOnce="true"><!--- for getLocalitySummary() --->
-		<!--- ask question used to determine if "please delete me" message is shown in summary --->
+		<!--- ask question used to determine if "please delete me" message is shown in summary and if link to collecting events should be shown --->
 		<cfquery name="localityUses" datasource="uam_god">
 			SELECT
 				count(distinct collecting_event.collecting_event_id) numOfCollEvents
@@ -156,8 +156,22 @@ limitations under the License.
 							<cfif countUses.total_uses GT "0">
 								<div class="row">
 									<div class="col-12 px-3">
-										<button type="button" class="btn btn-xs btn-secondary float-right mx-1 mt-2 mt-md-0" onClick=" location.assign('/localities/Locality.cfm?action=new&geog_auth_rec_id=#encodeForUrl(localityExists.geog_auth_rec_id)#');" >New Locality in same higher geography</button>
-										<button type="button" class="btn btn-xs btn-secondary float-right mx-1 mt-2 mt-md-0" onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" >Clone Locality</button>
+										<button type="button" class="btn btn-xs btn-secondary float-right mx-1 mt-2 mt-md-0" 
+											onClick=" location.assign('/localities/Locality.cfm?action=new&geog_auth_rec_id=#encodeForUrl(localityExists.geog_auth_rec_id)#');" 
+										>
+											New Locality in same higher geography</button>
+										<button type="button" class="btn btn-xs btn-secondary float-right mx-1 mt-2 mt-md-0" 
+											onClick=" location.assign('/localities/Locality.cfm?action=new&clone_from_locality_id=#encodeForUrl(locality_id)#');" 
+										>
+											Clone Locality
+										</button>
+										<cfif localityUses.numOfCollEvents GT "0">
+											<button type="button" class="btn btn-xs btn-warning float-right mx-1 mt-2 mt-md-0"
+												 onClick="location.assign('/Locality.cfm?Action=findCollEvent&locality_id=#encodeForUrl(locality_id)#');"
+											>
+												Move Collecting Events
+											</button>
+										</cfif>
 									</div>
 								</div>
 							</cfif>
