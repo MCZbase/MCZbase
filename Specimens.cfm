@@ -1064,7 +1064,7 @@ limitations under the License.
 															<label class="data-entry-label small" for="debug1">Debug JSON</label>
 															<select title="debug1" name="debug1" id="dbug1" class="data-entry-select smaller inputHeight">
 																<option value=""></option>
-																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+																<cfif isdefined("debug1") AND len(debug1) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
 															</select>
 														</div>
@@ -1442,9 +1442,9 @@ limitations under the License.
 												<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 													<div class="col-12 col-sm-2 col-md-2 col-xl-2  mt-1 mt-sm-0 pr-2">
 														<label class="data-entry-label" for="debug2">Debug</label>
-														<select title="debug" name="debug" id="dbug2" class="data-entry-select inputHeight">
+														<select title="debug2" name="debug2" id="dbug2" class="data-entry-select inputHeight">
 															<option value=""></option>
-															<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+															<cfif isdefined("debug2") AND len(debug2) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 															<option value="true" #selected#>Debug JSON</option>
 														</select>
 													</div>
@@ -1824,10 +1824,10 @@ Target JSON:
 													</div>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 														<div class="col-12 col-md-1">
-															<label class="data-entry-label" for="debug3">Debug</label>
-															<select title="debug" name="debug" id="dbug3" class="data-entry-select">
+															<label title="debug search builder" class="data-entry-label" for="debug3">Debug Search Builder</label>
+															<select title="debug3" name="debug" id="dbug3" class="data-entry-select">
 																<option value=""></option>
-																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+																<cfif isdefined("debug3") AND len(debug3) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
 															</select>
 														</div>
@@ -2707,8 +2707,8 @@ Target JSON:
 				$('##keywordsaveDialogButton').html('');
 				$('##keywordactionFeedback').html('');
 				$('##keywordselectModeContainer').hide();
-				var debug = $("##keywordSearchForm").serialize();
-				console.log(debug);
+				var debug2 = $("##keywordSearchForm").serialize();
+				console.log(debug2);
 		
 				var search =
 				{
@@ -2884,8 +2884,8 @@ Target JSON:
 				$('##buildersaveDialogButton').html('');
 				$('##builderactionFeedback').html('');
 				$('##builderselectModeContainer').hide();
-				var debug = $("##builderSearchForm").serialize();
-				console.log(debug);
+				var debug3 = $("##builderSearchForm").serialize();
+				console.log(debug3);
 				var search =
 				{
 					datatype: "json",
