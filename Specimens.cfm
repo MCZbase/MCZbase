@@ -274,7 +274,7 @@ limitations under the License.
 							<!---Fixed Search tab panel--->
 							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
 								<div class="col-9 float-right px-0"> 
-									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
+									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapse" aria-expanded="false" aria-controls="collapseFixed">
 										Search Help
 									</button>
 									<aside class="collapse collapseStyle" id="collapseFixed">
@@ -1061,8 +1061,8 @@ limitations under the License.
 													</div>
 													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<div class="col-12 mb-1 col-md-2">
-															<label class="data-entry-label small" for="debug">Debug JSON</label>
-															<select title="debug" name="debug" id="dbug" class="data-entry-select smaller inputHeight">
+															<label class="data-entry-label small" for="debug1">Debug JSON</label>
+															<select title="debug" name="debug" id="dbug1" class="data-entry-select smaller inputHeight">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
@@ -1441,8 +1441,8 @@ limitations under the License.
 												</div>
 												<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 													<div class="col-12 col-sm-2 col-md-2 col-xl-2  mt-1 mt-sm-0 pr-2">
-														<label class="data-entry-label" for="debug">Debug</label>
-														<select title="debug" name="debug" id="dbug" class="data-entry-select inputHeight">
+														<label class="data-entry-label" for="debug2">Debug</label>
+														<select title="debug" name="debug" id="dbug2" class="data-entry-select inputHeight">
 															<option value=""></option>
 															<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 															<option value="true" #selected#>Debug JSON</option>
@@ -1824,8 +1824,8 @@ Target JSON:
 													</div>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 														<div class="col-12 col-md-1">
-															<label class="data-entry-label" for="debug">Debug</label>
-															<select title="debug" name="debug" id="dbug" class="data-entry-select">
+															<label class="data-entry-label" for="debug3">Debug</label>
+															<select title="debug" name="debug" id="dbug3" class="data-entry-select">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
