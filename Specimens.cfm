@@ -1062,7 +1062,7 @@ limitations under the License.
 													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<div class="col-12 mb-1 col-md-2">
 															<label class="data-entry-label small" for="debug1">Debug JSON</label>
-															<select title="debug" name="debug" id="dbug1" class="data-entry-select smaller inputHeight">
+															<select name="debug" id="dbug1" class="data-entry-select smaller inputHeight">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
