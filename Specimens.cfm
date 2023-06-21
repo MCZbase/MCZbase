@@ -274,10 +274,10 @@ limitations under the License.
 							<!---Fixed Search tab panel--->
 							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
 								<div class="col-9 float-right px-0"> 
-									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target=".collapse1" aria-expanded="false" aria-controls="collapseFixed">
+									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
 										Search Help
 									</button>
-									<aside class="collapse1 collapseStyle" id="collapseFixed">
+									<aside class="collapse collapseStyle" id="collapseFixed">
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Basic Search Help</h2>
 											<p>
@@ -390,7 +390,7 @@ limitations under the License.
 																		<cfset comma=",">
 																	</cfloop>
 																];
-																$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
+																$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", id:"fixedCollection",valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
 																setFixedCollectionValues();
 															});
 														</script> 
