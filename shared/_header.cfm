@@ -242,7 +242,7 @@ limitations under the License.
 <!--- End workaround ---> 
 
 <a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
-<header id="header" role="heading" aria-level="1" class="border-bottom">
+<header id="header" aria-level="1" class="border-bottom">
 	<div class="branding clearfix bg-black">
 		<div class="branding-left justify-content-start"> <a href="http://www.harvard.edu/" aria-label="link to Harvard website"> <img class="shield" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield"> <span class="d-inline-block parent">Harvard University</span> </a> </div>
 		<div class="branding-right justify-content-end"> <a href="https://www.harvard.edu/about-harvard" class="font-weight-bold" aria-label="link to Harvard website">HARVARD.EDU</a> </div>
@@ -275,9 +275,9 @@ limitations under the License.
 						<input type="hidden" name="action" value="signIn">
 						<div class="login-form" id="header_login_form_div">
 							<label for="username" class="sr-only"> Username:</label>
-							<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
+							<input type="text" name="username" id="username" placeholder="username" autocomplete="username" class="loginButtons" style="width:100px;">
 							<label for="password" class="mr-1 sr-only"> Password:</label>
-							<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
+							<input type="password" id="password" name="password" autocomplete="off" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
 							<input type="submit" value="Log In" id="login" class="btn-primary loginButtons" aria-label="click to login">
 						</div>
 					</form>
@@ -540,7 +540,7 @@ limitations under the License.
 						<!--- TODO: Review roles and permissions --->
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="curationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Curation</a>
-		              		<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">		
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">		
 								<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
