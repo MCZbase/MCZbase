@@ -390,7 +390,7 @@ limitations under the License.
 																		<cfset comma=",">
 																	</cfloop>
 																];
-																$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", id:"fixedCollection",valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
+																$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
 																setFixedCollectionValues();
 															});
 														</script> 
