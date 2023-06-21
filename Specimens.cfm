@@ -1547,10 +1547,10 @@ Target JSON:
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search">
 									<div class="col-3 float-right px-3"> 
-									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
+									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed1" aria-expanded="false" aria-controls="collapseFixed1">
 										Search Help
 									</button>
-									<aside class="collapse collapseStyle" id="collapseFixed">
+									<aside class="collapse collapseStyle" id="collapseFixed1">
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Search Builder Search Help</h2>
 											<p>Construct searches on arbitrary sets of fields.  Click the <i>Add</i> button to add a clause to the search, select a field to search, and specify a value to search for.  Search terms can be connected with either <i>and</i> or <i>or</i>. but not (yet) both in the same search.
