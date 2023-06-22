@@ -245,8 +245,8 @@ limitations under the License.
 <header id="header" class="border-bottom">
 	<div class="branding clearfix bg-black">
 		<a href="http://www.harvard.edu/" aria-label="link to Harvard website">
-			<span class="branding-left justify-content-start"><img class="shield" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield"><span class="d-inline-block parent">Harvard University</span></span>
-			<span class="branding-right justify-content-end"> HARVARD.EDU</span>
+			<span class="branding-left justify-content-start"><img class="shield pr-1" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield"><span class="d-inline-block parent">Harvard University</span></span>
+			<span class="branding-right justify-content-end font-weight-bold"> HARVARD.EDU</span>
 		</a>
 <!---		<div class="branding-left justify-content-start"> <a href="http://www.harvard.edu/" aria-label="link to Harvard website"> <img class="shield" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield"> <span class="d-inline-block parent">Harvard University</span> </a> </div>
 		<div class="branding-right justify-content-end"> <a href="https://www.harvard.edu/about-harvard" class="font-weight-bold" aria-label="link to Harvard website">HARVARD.EDU</a> </div>--->
