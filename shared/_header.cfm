@@ -212,9 +212,10 @@ limitations under the License.
 </head>
 <body class="default">
 	
-<cfset header_color = Application.header_color>
-<cfset collection_link_color = Application.collectionlinkcolor>
-<cfif not isdefined("Session.gitBranch")>
+<header id="header" class="border-bottom">
+	<cfset header_color = Application.header_color>
+	<cfset collection_link_color = Application.collectionlinkcolor>
+	<cfif not isdefined("Session.gitBranch")>
 <!--- determine which git branch is currently checked out --->
 <!--- TODO: Move to initSession --->
 	<cftry>
@@ -242,7 +243,7 @@ limitations under the License.
 <!--- End workaround ---> 
 
 <a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
-<header id="header" class="border-bottom">
+	
 	<div class="branding clearfix bg-black">
 		<a href="http://www.harvard.edu/" aria-label="link to Harvard website">
 			<span class="branding-left justify-content-start"><img class="shield mr-1" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield"><span class="d-inline-block parent">Harvard University</span></span>
