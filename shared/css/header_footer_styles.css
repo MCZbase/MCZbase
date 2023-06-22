@@ -111,7 +111,7 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 	border-bottom: 1px dotted white;
 }
 .branding a span {
-	padding-top: 4px;
+	padding-top: 2px;
 	display: inline-block;
 }
 img.shield {
