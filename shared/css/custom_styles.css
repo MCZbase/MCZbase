@@ -2138,6 +2138,9 @@ a.btn-outline-primary:hover, a.btn-outline-primary:not(:disabled):not(.disabled)
 	padding-bottom: .05rem;
 	font-size: .785rem;
 }
+a.btn-outline-primary:visited {
+	color:#6c0ea0;
+}
 .btn-outline-primary:focus {
 	box-shadow: 0 0 0 0.2rem rgb(0 123 255 /25%);
 }
