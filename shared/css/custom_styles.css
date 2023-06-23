@@ -278,8 +278,7 @@ div:focus, div > span:focus {
 	overflow: hidden;
 }
 a {
-	color: #0027ff;
-	color: #15569c;
+	color: #0251a5
 }
 a:hover {
 	color: #6c0ea0;
@@ -288,8 +287,7 @@ a:visited{
 	color: #6c0ea0;
 }
 .link-color {
-	color: #0027ff;
-	color: #15569c;
+	color: #0251a5
 }
 .link-color:hover {
 	color: #6c0ea0;
@@ -394,7 +392,7 @@ button#showRelatedDataBtn.btn-xs {
 	line-height: 1.15rem;
 	border-radius: .2rem;
 	color: #006ee3;
-	color: #15569c;
+	color: #0251a5
 }
 .btn-outline-primary {
 	background-color: white;
@@ -2129,12 +2127,12 @@ div[aria-hidden='false'] {
 a.btn-outline-primary {
 	background-color: white;
 	padding-bottom: .05rem;
-	color: #006ee3;
+	color: #0251a5;
 	text-decoration: none;
 	font-size: .785rem;
 }
 a.btn-outline-primary:hover, a.btn-outline-primary:not(:disabled):not(.disabled):active {
-	background-color: #006ee3;
+	background-color: #0251a5;
 	text-decoration: none;
 	color: white !important;
 	padding-bottom: .05rem;
