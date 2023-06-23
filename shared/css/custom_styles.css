@@ -48,10 +48,6 @@ table#t {
 a {
 	cursor: pointer;
 }
-a:visited {
-	color: #6c0ea0;
-	color: #8428b6;
-}
 .blueFocus a:focus {
 	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 20%);
 } 
@@ -75,7 +71,6 @@ a.external:visited:after {
 a.external:hover:visited:after {
 	text-decoration: none !important;
 	content: "\a0"url(/shared/images/linkOutHover.gif);
-	color: #8428b6;
 }
 .imgsize {
 	width: 31.15%;
@@ -218,6 +213,7 @@ h1.h4 {
 	color: #524e4e;
 }
 .btn-link, .helpText, .fas-info {
+	color: #036ee0;
 	color: #0251a5 !important;
 }
 span.caps {
@@ -279,22 +275,11 @@ div:focus, div > span:focus {
 	overflow: hidden;
 }
 a {
-	color: #0251a5
-}
-a:hover {
-	color: #8428b6;
-}
-a:visited{
-	color: #8428b6;
+	color:#006ee3;/*not working for accessibility*/
+	color: #0460c1;
 }
 .link-color {
-	color: #0251a5
-}
-.link-color:hover {
-	color: #8428b6;
-}
-.link-color:visited {
-	color: #8428b6;
+	color: #006ee3;
 }
 .brackets {
 	width: 5px;
@@ -393,7 +378,6 @@ button#showRelatedDataBtn.btn-xs {
 	line-height: 1.15rem;
 	border-radius: .2rem;
 	color: #006ee3;
-	color: #0251a5
 }
 .btn-outline-primary {
 	background-color: white;
@@ -544,6 +528,7 @@ span.data-entry-addon {
 	box-shadow: none;
 }
 .text-success {
+	color: #1e5d16 !important;
 	color: #18780b !important;
 }
 
@@ -1287,6 +1272,10 @@ table.inputTable tr {
 }
 .jqx-grid-cell-selected-light a:focus, .jqx-fill-state-pressed a {
 	color: blue !important; /*changed from white*/
+	text-decoration: underline;
+}
+.jqx-grid-cell-selected-light a:visited {
+	color: purple !important; /*changed from white*/
 	text-decoration: underline;
 }
 input[type="button"]#delPOIbutton {
@@ -2128,19 +2117,16 @@ div[aria-hidden='false'] {
 a.btn-outline-primary {
 	background-color: white;
 	padding-bottom: .05rem;
-	color: #0251a5;
+	color: #006ee3;
 	text-decoration: none;
 	font-size: .785rem;
 }
 a.btn-outline-primary:hover, a.btn-outline-primary:not(:disabled):not(.disabled):active {
-	background-color: #0251a5;
+	background-color: #006ee3;
 	text-decoration: none;
 	color: white !important;
 	padding-bottom: .05rem;
 	font-size: .785rem;
-}
-a.btn-outline-primary:visited {
-	color: #8428b6;
 }
 .btn-outline-primary:focus {
 	box-shadow: 0 0 0 0.2rem rgb(0 123 255 /25%);
