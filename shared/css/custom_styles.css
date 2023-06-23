@@ -279,11 +279,16 @@ div:focus, div > span:focus {
 	overflow: hidden;
 }
 a {
-	color:#006ee3;/*not working for accessibility*/
-	color: #0460c1;
+	color: #0027ff;
+}
+a:visited{
+	color: #8307F5;
 }
 .link-color {
-	color: #006ee3;
+	color: #0027ff;
+}
+.link-color:visited {
+	color: #8307F5;
 }
 .brackets {
 	width: 5px;
@@ -532,7 +537,6 @@ span.data-entry-addon {
 	box-shadow: none;
 }
 .text-success {
-	color: #1e5d16 !important;
 	color: #18780b !important;
 }
 
