@@ -50,6 +50,7 @@ a {
 }
 a:visited {
 	color: #3f0773;
+	color: #4d1d7a;
 }
 .blueFocus a:focus {
 	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 20%);
@@ -75,6 +76,7 @@ a.external:hover:visited:after {
 	text-decoration: none !important;
 	content: "\a0"url(/shared/images/linkOutHover.gif);
 	color: #3f0773;
+	color: #4d1d7a;
 }
 .imgsize {
 	width: 31.15%;
