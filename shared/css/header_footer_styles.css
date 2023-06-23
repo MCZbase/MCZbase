@@ -109,10 +109,17 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 .branding a:hover {
 	text-decoration: none;
 	border-bottom: 1px dotted white;
+	color: white;
+}
+.branding a:visited {
+	text-decoration: none;
+	border-bottom: 1px dotted white;
+	color: antiquewhite;
 }
 .branding a span {
 	padding-top: 2px;
 	display: inline-block;
+	color: white;
 }
 img.shield {
 	width: 19px;
