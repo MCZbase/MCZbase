@@ -50,7 +50,7 @@ a {
 }
 a:visited {
 	color: #6c0ea0;
-	color: #630B94;
+	color: #8428b6;
 }
 .blueFocus a:focus {
 	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 20%);
@@ -75,7 +75,7 @@ a.external:visited:after {
 a.external:hover:visited:after {
 	text-decoration: none !important;
 	content: "\a0"url(/shared/images/linkOutHover.gif);
-	color: #6c0ea0;
+	color: #8428b6;
 }
 .imgsize {
 	width: 31.15%;
@@ -282,19 +282,19 @@ a {
 	color: #0251a5
 }
 a:hover {
-	color: #6c0ea0;
+	color: #8428b6;
 }
 a:visited{
-	color: #6c0ea0;
+	color: #8428b6;
 }
 .link-color {
 	color: #0251a5
 }
 .link-color:hover {
-	color: #6c0ea0;
+	color: #8428b6;
 }
 .link-color:visited {
-	color: #6c0ea0;
+	color: #8428b6;
 }
 .brackets {
 	width: 5px;
@@ -2140,7 +2140,7 @@ a.btn-outline-primary:hover, a.btn-outline-primary:not(:disabled):not(.disabled)
 	font-size: .785rem;
 }
 a.btn-outline-primary:visited {
-	color:#6c0ea0;
+	color: #8428b6;
 }
 .btn-outline-primary:focus {
 	box-shadow: 0 0 0 0.2rem rgb(0 123 255 /25%);
