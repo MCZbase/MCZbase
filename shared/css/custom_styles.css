@@ -50,6 +50,7 @@ a {
 }
 a:visited {
 	color: #6c0ea0;
+	color: #630B94;
 }
 .blueFocus a:focus {
 	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 20%);
