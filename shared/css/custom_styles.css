@@ -217,7 +217,6 @@ h1.h4 {
 	color: #524e4e;
 }
 .btn-link, .helpText, .fas-info {
-	color: #036ee0;
 	color: #0251a5 !important;
 }
 span.caps {
@@ -280,6 +279,7 @@ div:focus, div > span:focus {
 }
 a {
 	color: #0027ff;
+	color: #15569c;
 }
 a:hover {
 	color: #6c0ea0;
@@ -289,6 +289,10 @@ a:visited{
 }
 .link-color {
 	color: #0027ff;
+	color: #15569c;
+}
+.link-color:hover {
+	color: #6c0ea0;
 }
 .link-color:visited {
 	color: #6c0ea0;
@@ -390,6 +394,7 @@ button#showRelatedDataBtn.btn-xs {
 	line-height: 1.15rem;
 	border-radius: .2rem;
 	color: #006ee3;
+	color: #15569c;
 }
 .btn-outline-primary {
 	background-color: white;
