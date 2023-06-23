@@ -281,6 +281,9 @@ div:focus, div > span:focus {
 a {
 	color: #0027ff;
 }
+a:hover {
+	color: #6c0ea0;
+}
 a:visited{
 	color: #6c0ea0;
 }
