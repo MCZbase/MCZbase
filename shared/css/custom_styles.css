@@ -49,7 +49,7 @@ a {
 	cursor: pointer;
 }
 a:visited {
-	color: #671bad;
+	color: #6c0ea0;
 }
 .blueFocus a:focus {
 	box-shadow: 0 0 0 0.18rem rgb(0 123 255 / 20%);
@@ -74,7 +74,7 @@ a.external:visited:after {
 a.external:hover:visited:after {
 	text-decoration: none !important;
 	content: "\a0"url(/shared/images/linkOutHover.gif);
-	color: #671bad;
+	color: #6c0ea0;
 }
 .imgsize {
 	width: 31.15%;
@@ -282,13 +282,13 @@ a {
 	color: #0027ff;
 }
 a:visited{
-	color: #8307F5;
+	color: #6c0ea0;
 }
 .link-color {
 	color: #0027ff;
 }
 .link-color:visited {
-	color: #8307F5;
+	color: #6c0ea0;
 }
 .brackets {
 	width: 5px;
