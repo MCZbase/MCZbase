@@ -2303,15 +2303,15 @@ Target JSON:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
 			var fixed_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['GUID'] +'</a></span>';
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a class="celllink" target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['GUID'] +'</a></span>';
 			};
 			var keyword_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['GUID'] +'</a></span>';
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a class="celllink" target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['GUID'] +'</a></span>';
 			};
 			var builder_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['GUID'] +'</a></span>';
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a class="celllink" target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['GUID'] +'</a></span>';
 			};
 		</cfif>
 		// media cell renderers, use _mediaCellRenderer in cf_spec_res_cols_r.cellsrenderer 
@@ -2319,28 +2319,28 @@ Target JSON:
 		// to findMedia.cfm, but findMedia can handle this case.
 		var fixed_mediaCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['MEDIA'] +'</a></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a class="celllink" target="_blank" href="/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['MEDIA'] +'</a></span>';
 		};
 		var keyword_mediaCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['MEDIA'] +'</a></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a class="celllink" target="_blank" href="/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['MEDIA'] +'</a></span>';
 		};
 		var builder_mediaCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['MEDIA'] +'</a></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a class="celllink" target="_blank" href="/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['MEDIA'] +'</a></span>';
 		};
 		// scientific name (with authorship, etc) cell renderers, use _sciNameCellRenderer in cf_spec_res_cols_r.cellsrenderer 
 		var fixed_sciNameCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/name/'+ rowData['SCIENTIFIC_NAME'] +'">'+ value +'</a></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a class="celllink" target="_blank" href="/name/'+ rowData['SCIENTIFIC_NAME'] +'">'+ value +'</a></span>';
 		};
 		var keyword_sciNameCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/name/'+ rowData['SCIENTIFIC_NAME'] +'">'+ value +'</a></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a class="celllink" target="_blank" href="/name/'+ rowData['SCIENTIFIC_NAME'] +'">'+ value +'</a></span>';
 		};
 		var builder_sciNameCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/name/'+ rowData['SCIENTIFIC_NAME'] +'">'+ value +'</a></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a class="celllink" target="_blank" href="/name/'+ rowData['SCIENTIFIC_NAME'] +'">'+ value +'</a></span>';
 		};
 		// guid with marker for specimen images 
 		var fixed_GuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
