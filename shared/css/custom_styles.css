@@ -540,28 +540,28 @@ span.data-entry-addon {
 	border-width: 0px 1px 1px 1px;
 	border-color: buttonface;
 }
-.jqx-item a {
+.jqx-widget a {
 	margin-left: .2rem;
 	margin-right: .2rem;
 	color: #0460c1;
 }
-.jqx-item a:link, .jqx-item a.link {
+.jqx-widget a:link, .jqx-widget a.link {
 	color: #0460c1;
 }
-.jqx-item a:visited,.jqx-item a.visited {
+.jqx-widget a:visited,.jqx-widget a.visited {
 	color: purple;
 }
-.jqx-item a:hover,.jqx-item a.hover {
+.jqx-widget a:hover,.jqx-widget a.hover {
 	color: #02458c;
 	text-decoration: underline;
 }
-.jqx-item a.focus, .jqx-item a:focus {
+.jqx-widget a.focus, .jqx-widget a:focus {
 	text-decoration: underline;
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 	color: #0b5aaf;
 }
-.jqx-item a:active {
+.jqx-widget a:active {
 	color: #0460c1;
 }
 .text-success {
