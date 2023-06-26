@@ -4,11 +4,12 @@ body, html {
 	line-height: 1.15rem;
 	font-size: 15px;
 }
-a {
+/*a {
 	color: #0460c1;
-}
+}*/
 a:link {
 	color: #0460c1;
+	cursor: pointer;
 }
 a:visited {
 	color: purple;
@@ -68,9 +69,6 @@ input.goodPick, select.goodPick, textarea.goodPick {
 	color: #6a737b!important;
 }
 table#t {
-	cursor: pointer;
-}
-a {
 	cursor: pointer;
 }
 .blueFocus a:focus {
