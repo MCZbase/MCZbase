@@ -275,7 +275,7 @@ div:focus, div > span:focus {
 	overflow: hidden;
 }
 a:link {
-	color: #0253a9;
+	color: #02458c;
 }
 a:visited {
 	color: purple;
@@ -285,13 +285,13 @@ a:hover {
 	text-decoration: underline;
 }
 a:focus { 
-	color: #0253a9;
+	color: #02458c;
 }
 a:active {
-	color: #0253a9;
+	color: #02458c;
 }
 .link-color {
-	color: #0253a9;
+	color: #02458c;
 }
 .brackets {
 	width: 5px;
