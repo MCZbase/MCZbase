@@ -563,6 +563,9 @@ span.data-entry-addon {
 .jqx-widget a:active {
 	color: #0460c1;
 }*/
+.jqx-item {
+	color: transparent;
+}
 .text-success {
 	/*color: #1e5d16 !important;*/
 	color: #18780b !important;
