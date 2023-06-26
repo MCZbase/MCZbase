@@ -56,7 +56,7 @@ limitations under the License.
 			<!--- Search Form --->
 			<cfoutput>
 				<main  id="content">
-					<section class="container-fluid container-xl mt-3" role="search">
+					<section class="container-fluid" role="search">
 						<div class="row mx-0 mb-3">
 							<div class="search-box">
 								<div class="search-box-header">
@@ -373,7 +373,7 @@ limitations under the License.
 	<cfcase value="new">
 		<!---  Add a new collecting event number series, link to agent --->
 		<cfoutput>
-			<main class="container mt-3" id="content">
+			<main class="container-fluid container-xl mt-3" id="content">
 				<section class="row" aria-labelledby="formheading">
 					<div class="col-12">
 						<h1 class="h2 pl-3 ml-2" id="formheading">New Collecting Event Number Series</h1>
