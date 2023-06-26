@@ -543,6 +543,7 @@ span.data-entry-addon {
 }
 .jqx-grid-cell a {
 	margin-left: .2rem;
+	margin-right: .2rem;
 	color: #02458c;
 }
 .jqx-grid-cell a:link, .jqx-grid-cell a.link {
