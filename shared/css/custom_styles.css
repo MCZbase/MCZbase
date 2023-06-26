@@ -521,21 +521,23 @@ span.data-entry-addon {
 }
 .jqx-grid-cell a {
 	padding-left: .3rem;
+	color: #064e9b;
+}
+.jqx-grid-cell a:visited {
+	color: purple;
+}
+.jqx-grid-cell a:hover {
+	color: #0460c1;
 }
 .jqx-grid-cell a.focus, .jqx-grid-cell a:focus {
 	text-decoration: underline;
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
-.jqx-grid-cell a:visited {
-	padding-left: .3rem;
-	color: purple;
-}
 .text-success {
-	color: #1e5d16 !important;
+	/*color: #1e5d16 !important;*/
 	color: #18780b !important;
 }
-
 .btn-danger {
 	background-color: #f8d7da;
 	background: #f8d7da;
