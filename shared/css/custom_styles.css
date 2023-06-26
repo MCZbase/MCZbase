@@ -540,7 +540,7 @@ span.data-entry-addon {
 	border-width: 0px 1px 1px 1px;
 	border-color: buttonface;
 }
-.jqx-widget a {
+/*.jqx-widget a {
 	margin-left: .2rem;
 	margin-right: .2rem;
 	color: #0460c1;
@@ -563,7 +563,7 @@ span.data-entry-addon {
 }
 .jqx-widget a:active {
 	color: #0460c1;
-}
+}*/
 .text-success {
 	/*color: #1e5d16 !important;*/
 	color: #18780b !important;
