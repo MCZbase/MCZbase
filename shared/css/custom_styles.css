@@ -544,16 +544,16 @@ span.data-entry-addon {
 .jqx-item a {
 	margin-left: .2rem;
 	margin-right: .2rem;
-	color: #02458c;
+	color: #0368d3;
 }
 .jqx-item a:link, .jqx-item a.link {
-	color: #02458c;
+	color: #0368d3;
 }
 .jqx-item a:visited,.jqx-item a.visited {
 	color: purple;
 }
 .jqx-item a:hover,.jqx-item a.hover {
-	color: #0460c1;
+	color: #02458c;
 	text-decoration: underline;
 }
 .jqx-item a.focus, .jqx-item a:focus {
@@ -563,7 +563,7 @@ span.data-entry-addon {
 	color: #02458c;
 }
 .jqx-item a:active {
-	color: #02458c;
+	color: #0368d3;
 }
 .text-success {
 	/*color: #1e5d16 !important;*/
