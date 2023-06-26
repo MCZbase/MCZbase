@@ -538,7 +538,7 @@ span.data-entry-addon {
 	border-width: 0px 1px 1px 1px;
 	border-color: buttonface;
 }
-.jqx-widget a {
+.jqx-grid-cell a {
 	margin-left: .2rem;
 	margin-right: .2rem;
 }
