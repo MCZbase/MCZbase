@@ -19,7 +19,7 @@ a:hover {
 	text-decoration: underline;
 }
 a:focus { 
-	color: #094DD7;
+	color: purple;
 	text-decoration: underline;
 }
 a:active {
