@@ -534,6 +534,9 @@ span.data-entry-addon {
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
+.jqx-grid-cell a:active {
+	color: #0460c1;
+}
 .text-success {
 	/*color: #1e5d16 !important;*/
 	color: #18780b !important;
