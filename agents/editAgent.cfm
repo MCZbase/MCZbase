@@ -713,7 +713,7 @@ limitations under the License.
 				return result;
 			}
 		</script>
-		<main id="content" class="pb-5">
+		<main id="content">
 <!---		<div class="container-fluid container-xl my-2">
 				
 					<div class="col-12 mt-2">
@@ -721,7 +721,7 @@ limitations under the License.
 					</div>
 				</div>
 			</div>--->
-			<section class="container-fluid container-xl my-2 py-3">
+			<section class="container-fluid container-xl mt-2">
 				<div class="row">
 					<div class="col-12">
 						<cfif isdefined("agent_type") and len(agent_type) GT 0>
