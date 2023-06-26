@@ -729,7 +729,7 @@ limitations under the License.
 						<cfelse>
 							<h1 class="h2 pl-1 ml-2 mt-3">Create New <span id="headingTypeSpan"></span> Agent</h2>
 						</cfif>
-						<div class="border rounded px-4 py-2">
+						<div class="border rounded px-3 py-3">
 							<form id="newAgentForm" name="newAgentForm" method="post" action="/agents/editAgent.cfm">
 							<input type="hidden" name="action" value="createAgent">
 							<div class="form-row mb-1">
