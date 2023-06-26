@@ -23,8 +23,11 @@ a:focus {
 a:active {
 	color: #02458c;
 }
-a.btn {
+a.btn-info {
 	color: white;
+}
+a.btn-secondary, a.btn-warning, a.btn-primary {
+	color: #212529;
 }
 /** Styling of Required fields on forms **/
 input.reqdClr, select.reqdClr, textarea.reqdClr {
