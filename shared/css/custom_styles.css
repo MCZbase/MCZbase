@@ -541,28 +541,28 @@ span.data-entry-addon {
 	border-width: 0px 1px 1px 1px;
 	border-color: buttonface;
 }
-.jqx-grid-cell a {
+.jqx-item a {
 	margin-left: .2rem;
 	margin-right: .2rem;
 	color: #02458c;
 }
-.jqx-grid-cell a:link, .jqx-grid-cell a.link {
+.jqx-item a:link, .jqx-item a.link {
 	color: #02458c;
 }
-.jqx-grid-cell a:visited,.jqx-grid-cell a.visited {
+.jqx-item a:visited,.jqx-item a.visited {
 	color: purple;
 }
-.jqx-grid-cell a:hover,.jqx-grid-cell a.hover {
+.jqx-item a:hover,.jqx-item a.hover {
 	color: #0460c1;
 	text-decoration: underline;
 }
-.jqx-grid-cell a.focus, .jqx-grid-cell a:focus {
+.jqx-item a.focus, .jqx-item a:focus {
 	text-decoration: underline;
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 	color: #02458c;
 }
-.jqx-grid-cell a:active {
+.jqx-item a:active {
 	color: #02458c;
 }
 .text-success {
