@@ -2303,7 +2303,7 @@ Target JSON:
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"DATA_ENTRY")>
 			var fixed_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
-				return '<span style="margin-top: 9px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['GUID'] +'</a></span>';
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['GUID'] +'</a></span>';
 			};
 			var keyword_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
@@ -2375,17 +2375,17 @@ Target JSON:
 	
 		// cell renderer to link out to specimen details page by guid, when value is guid.
 		var linkGuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '">'+value+'</a></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a class="celllink" target="_blank" href="/guid/' + value + '">'+value+'</a></span>';
 		};
 		// cell renderer to link out to taxon page by scientific name, when value is scientific name.
 		var linkTaxonCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-			return '<a class="celllink" target="_blank" href="/name/' + value + '">'+value+'</a>';
+			return '<a target="_blank" href="/name/' + value + '">'+value+'</a>';
 		};
 		// cell renderer to display yes or blank for a 1/0 flag field.
 		var yesBlankFlagRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var displayValue = "";
 			if (value==1) {
-            displayValue = "Yes";
+				displayValue = "Yes";
 			}
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+displayValue+'</span>';
 		};
