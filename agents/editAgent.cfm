@@ -725,7 +725,7 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			<section class="container border rounded my-2 py-3">
+			<section class="container-fluid container-xl border rounded my-2 py-3">
 				<form id="newAgentForm" name="newAgentForm" method="post" action="/agents/editAgent.cfm">
 					<input type="hidden" name="action" value="createAgent">
 					<div class="form-row mb-1">
