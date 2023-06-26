@@ -4,6 +4,25 @@ body, html {
 	line-height: 1.15rem;
 	font-size: 15px;
 }
+a {
+	color: #02458c;
+}
+a:link {
+	color: #02458c;
+}
+a:visited {
+	color: purple;
+}
+a:hover {
+	color: #0460c1;
+	text-decoration: underline;
+}
+a:focus { 
+	color: #02458c;
+}
+a:active {
+	color: #02458c;
+}
 /** Styling of Required fields on forms **/
 input.reqdClr, select.reqdClr, textarea.reqdClr {
 	background-color: #E4E476 !important;
@@ -274,25 +293,7 @@ div:focus, div > span:focus {
 	width: 0;
 	overflow: hidden;
 }
-a {
-	color: #02458c;
-}
-a:link {
-	color: #02458c;
-}
-a:visited {
-	color: purple;
-}
-a:hover {
-	color: #0460c1;
-	text-decoration: underline;
-}
-a:focus { 
-	color: #02458c;
-}
-a:active {
-	color: #02458c;
-}
+
 .link-color {
 	color: #02458c;
 }
