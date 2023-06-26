@@ -535,26 +535,28 @@ span.data-entry-addon {
 	border-color: buttonface;
 }
 .jqx-grid-cell a {
-	padding-left: .3rem;
+	margin-left: .35rem;
+	color: #02458c;
 }
-/*.jqx-grid-cell a:link {
-	padding-left: .3rem;
-	color: #07417e;
+.jqx-grid-cell a:link, .jqx-grid-cell a.link {
+	color: #02458c;
 }
-.jqx-grid-cell a:visited {
+.jqx-grid-cell a:visited,.jqx-grid-cell a.visited {
 	color: purple;
 }
-.jqx-grid-cell a:hover {
+.jqx-grid-cell a:hover,.jqx-grid-cell a.hover {
 	color: #0460c1;
+	text-decoration: underline;
 }
 .jqx-grid-cell a.focus, .jqx-grid-cell a:focus {
 	text-decoration: underline;
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
+	color: #02458c;
 }
 .jqx-grid-cell a:active {
-	color: #0460c1;
-}*/
+	color: #02458c;
+}
 .text-success {
 	/*color: #1e5d16 !important;*/
 	color: #18780b !important;
