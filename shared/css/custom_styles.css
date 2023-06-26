@@ -544,10 +544,10 @@ span.data-entry-addon {
 .jqx-item a {
 	margin-left: .2rem;
 	margin-right: .2rem;
-	color: #0363c9;
+	color: #0356af;
 }
 .jqx-item a:link, .jqx-item a.link {
-	color: #0363c9;
+	color: #0356af;
 }
 .jqx-item a:visited,.jqx-item a.visited {
 	color: purple;
@@ -563,7 +563,7 @@ span.data-entry-addon {
 	color: #02458c;
 }
 .jqx-item a:active {
-	color: #0363c9;
+	color: #0356af;
 }
 .text-success {
 	/*color: #1e5d16 !important;*/
