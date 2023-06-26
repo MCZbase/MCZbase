@@ -5,23 +5,23 @@ body, html {
 	font-size: 15px;
 }
 a {
-	color: #02458c;
+	color: #034893;
 }
 a:link {
-	color: #02458c;
+	color: #034893;
 }
 a:visited {
 	color: purple;
 }
 a:hover {
-	color: #0460c1;
+	color: #034893;
 	text-decoration: underline;
 }
 a:focus { 
-	color: #02458c;
+	color: #034893;
 }
 a:active {
-	color: #02458c;
+	color: #034893;
 }
 a.btn-info {
 	color: white;
@@ -544,10 +544,10 @@ span.data-entry-addon {
 .jqx-item a {
 	margin-left: .2rem;
 	margin-right: .2rem;
-	color: #0356af;
+	color: #034893;
 }
 .jqx-item a:link, .jqx-item a.link {
-	color: #0356af;
+	color: #034893;
 }
 .jqx-item a:visited,.jqx-item a.visited {
 	color: purple;
@@ -560,10 +560,10 @@ span.data-entry-addon {
 	text-decoration: underline;
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
-	color: #02458c;
+	color: #0b5aaf;
 }
 .jqx-item a:active {
-	color: #0356af;
+	color: #034893;
 }
 .text-success {
 	/*color: #1e5d16 !important;*/
