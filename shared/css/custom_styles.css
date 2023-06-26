@@ -14,11 +14,11 @@ a:visited {
 	color: purple;
 }
 a:hover {
-	color: #034893;
+	color: #0460c1;
 	text-decoration: underline;
 }
 a:focus { 
-	color: #034893;
+	color: #0460c1;
 }
 a:active {
 	color: #0460c1;
