@@ -274,6 +274,9 @@ div:focus, div > span:focus {
 	width: 0;
 	overflow: hidden;
 }
+a {
+	color: #02458c;
+}
 a:link {
 	color: #02458c;
 }
