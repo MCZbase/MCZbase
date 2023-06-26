@@ -725,12 +725,12 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12">
 						<cfif isdefined("agent_type") and len(agent_type) GT 0>
-							<h1 class="h2 mb-0 mt-3 pl-1 ml-2">Create New <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent</h2>
+							<h1 class="h2 mt-3 pl-1 ml-2">Create New <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent</h2>
 						<cfelse>
-							<h1 class="h2 mb-0 pl-1 ml-2 mt-3">Create New <span id="headingTypeSpan"></span> Agent</h2>
+							<h1 class="h2 pl-1 ml-2 mt-3">Create New <span id="headingTypeSpan"></span> Agent</h2>
 						</cfif>
-				
-						<form class="border p-2 rounded" id="newAgentForm" name="newAgentForm" method="post" action="/agents/editAgent.cfm">
+						<div class="border rounded px-2 py-2">
+							<form id="newAgentForm" name="newAgentForm" method="post" action="/agents/editAgent.cfm">
 							<input type="hidden" name="action" value="createAgent">
 							<div class="form-row mb-1">
 								<div class="col-12 col-md-4">
@@ -974,6 +974,7 @@ limitations under the License.
 								</script>
 							</cfif>
 						</form>
+						</div>
 					</div>
 				</div>
 			</section>
