@@ -559,7 +559,7 @@ span.data-entry-addon {
 	text-decoration: underline;
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
-	color: #0b5aaf;
+	color: purple;
 }
 .jqx-widget a:active {
 	color: #0460c1;
