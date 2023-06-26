@@ -144,10 +144,10 @@ limitations under the License.
 		<cfoutput>
 			<cfset extra = "">
 			<cfset blockform = getHigherGeographyFormHtml(mode="new")>
-			<main class="container mt-3" id="content">
+			<main class="container-fluid container-xl mt-3" id="content">
 				<section class="row">
 					<div class="col-12">
-						<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New HigherGeography#extra#</h1>
+						<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Higher Geography#extra#</h1>
 						<div class="border rounded px-2 py-2" arial-labeledby="formheading">
 							<form name="createHigherGeography" method="post" action="/localities/HigherGeography.cfm">
 								<input type="hidden" name="Action" value="makenewHigherGeography">

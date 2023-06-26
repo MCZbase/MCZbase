@@ -56,7 +56,7 @@ limitations under the License.
 			<!--- Search Form --->
 			<cfoutput>
 				<main  id="content">
-					<section class="container-fluid" role="search">
+					<section class="container-fluid container-xl mt-3" role="search">
 						<div class="row mx-0 mb-3">
 							<div class="search-box">
 								<div class="search-box-header">
