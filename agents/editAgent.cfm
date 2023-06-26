@@ -721,7 +721,7 @@ limitations under the License.
 					</div>
 				</div>
 			</div>--->
-			<section class="container-fluid container-xl border rounded my-2 py-3">
+			<section class="container-fluid container-xl my-2 py-3">
 				<div class="row">
 					<div class="col-12">
 						<cfif isdefined("agent_type") and len(agent_type) GT 0>
