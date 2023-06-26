@@ -274,12 +274,24 @@ div:focus, div > span:focus {
 	width: 0;
 	overflow: hidden;
 }
-a {
-	color:#006ee3;/*not working for accessibility*/
+a:link {
+	color: #0253a9;
+}
+a:visited {
+	color: purple;
+}
+a:hover {
 	color: #0460c1;
+	text-decoration: underline;
+}
+a:focus { 
+	color: #0253a9;
+}
+a:active {
+	color: #0253a9;
 }
 .link-color {
-	color: #006ee3;
+	color: #0253a9;
 }
 .brackets {
 	width: 5px;
@@ -519,7 +531,10 @@ span.data-entry-addon {
 	border-width: 0px 1px 1px 1px;
 	border-color: buttonface;
 }
-.jqx-grid-cell a:link {
+.jqx-grid-cell a {
+	padding-left: .3rem;
+}
+/*.jqx-grid-cell a:link {
 	padding-left: .3rem;
 	color: #07417e;
 }
@@ -536,7 +551,7 @@ span.data-entry-addon {
 }
 .jqx-grid-cell a:active {
 	color: #0460c1;
-}
+}*/
 .text-success {
 	/*color: #1e5d16 !important;*/
 	color: #18780b !important;
