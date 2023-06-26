@@ -714,13 +714,13 @@ limitations under the License.
 			}
 		</script>
 		<main id="content" class="pb-5">
-			<div class="container">
-				<div class="form-row">
-					<div class="col-12">
+			<div class="container-fluid container-xl my-2">
+				<div class="row">
+					<div class="col-12 mt-2">
 						<cfif isdefined("agent_type") and len(agent_type) GT 0>
-							<h1 class="h2 mb-0 mt-3">Create New <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent</h2>
+							<h1 class="h2 mb-0 mt-3 pl-1 ml-2">Create New <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent</h2>
 						<cfelse>
-							<h1 class="h2 mb-0 mt-3">Create New <span id="headingTypeSpan"></span> Agent</h2>
+							<h1 class="h2 mb-0 pl-1 ml-2 mt-3">Create New <span id="headingTypeSpan"></span> Agent</h2>
 						</cfif>
 					</div>
 				</div>
