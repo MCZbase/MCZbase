@@ -519,7 +519,7 @@ span.data-entry-addon {
 	border-width: 0px 1px 1px 1px;
 	border-color: buttonface;
 }
-.jqx-grid-cell a {
+.jqx-grid-cell a:link {
 	padding-left: .3rem;
 	color: #07417e;
 }
