@@ -715,262 +715,267 @@ limitations under the License.
 		</script>
 		<main id="content" class="pb-5">
 <!---		<div class="container-fluid container-xl my-2">
-				<div class="row">
+				
 					<div class="col-12 mt-2">
 						
 					</div>
 				</div>
 			</div>--->
 			<section class="container-fluid container-xl border rounded my-2 py-3">
-				<cfif isdefined("agent_type") and len(agent_type) GT 0>
-						<h1 class="h2 mb-0 mt-3 pl-1 ml-2">Create New <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent</h2>
-					<cfelse>
-						<h1 class="h2 mb-0 pl-1 ml-2 mt-3">Create New <span id="headingTypeSpan"></span> Agent</h2>
-					</cfif>
-				<form id="newAgentForm" name="newAgentForm" method="post" action="/agents/editAgent.cfm">
-					<input type="hidden" name="action" value="createAgent">
-					<div class="form-row mb-1">
-						<div class="col-12 col-md-4">
-							<script>
-								function changeType() { 
-									var selectedType = $('##agent_type').val();
-									if (selectedType == 'person') { 
-										$('##personRow').show();
-										$('##headingTypeSpan').html("Person");
-										$('##last_name').prop('required',true);
-										$('##start_date_label').html("Date of Birth");
-										$('##end_date_label').html("Date of Death");
-										$('##start_date').prop('disabled', false);
-										$('##end_date').prop('disabled', false);
-									} else { 
-										$('##personRow').hide();
-										$('##headingTypeSpan').html(selectedType);
-										$('##last_name').removeAttr('required');
-										$('##start_date_label').html("Start Date");
-										$('##end_date_label').html("End Date");
-										$('##start_date').prop('disabled', true);
-										$('##end_date').prop('disabled', true);
-									}
-								}
-							</script>
-							<label for="agent_type" class="data-entry-label">Type of Agent</label>
-							<select name="agent_type" id="agent_type" size="1" onChange=" changeType(); " class="data-entry-select reqdClr" required>
-								<cfloop query="ctAgentType">
-									<cfif isdefined("curAgentType") and len(curAgentType) GT 0 and curAgentType IS ctAgentType.agent_type>
-										<cfset selected = "selected='selected'">
-									<cfelse>
-										<cfset selected = "">
-									</cfif>
-									<option value="#ctAgentType.agent_type#" #selected#>#ctAgentType.agent_type#</option>
-								</cfloop>
-							</select>
-						</div>
-						<div class="col-12 col-md-1">
-							<label for="vetted" class="data-entry-label">Vetted</label>
-							<select name="vetted" size="1" id="vetted" class="data-entry-select" required>
-								<option value=0 selected >no</option>
-								<option value=1 >yes *</option>
-							</select>
-						</div>
-						<div class="col-12 col-md-5">
-							<label for="pref_name" class="data-entry-label">Preferred Name</label>
-							<input type="text" name="pref_name" id="pref_name" class="data-entry-input reqdClr" required>
-							<script>
-								$(document).ready(function () {
-									$('##pref_name').change(function () {
-										checkNameExists($('##pref_name').val(),'name_matches',false);
-									});
-								});
-							</script>
-						</div>
-						<div class="col-12 col-md-2">
-							<label for="name_matches" class="data-entry-label">Duplicate check</label>
-							<output id="name_matches" class="text-success font-weight-lessbold p-1"></output>
-						</div>
-					</div>
-					<div id="personRow" class="form-row mb-1">
-						<!--- we'll load the page as if for a new person, and if not a new person, will hide this row. --->
-						<div class="col-12 col-md-2">
-							<label for="prefix" class="data-entry-label">Prefix</label>
-							<select name="prefix" id="prefix" size="1" class="data-entry-select">
-								<option value=""></option>
-								<cfloop query="ctprefix">
-									<option value="#prefix#">#prefix#</option>
-								</cfloop>
-							</select>
-						</div>
-						<div class="col-12 col-md-2">
-							<label for="first_name"class="data-entry-label">First Name</label>
-							<input type="text" name="first_name" id="first_name"class="data-entry-input">
-						</div>
-						<div class="col-12 col-md-2">
-							<label for="middle_name" class="data-entry-label">Middle Name</label>
-							<input type="text" name="middle_name" id="middle_name"class="data-entry-input">
-						</div>
-						<div class="col-12 col-md-2">
-							<cfif curAgentType EQ "person"><cfset req="required"><cfelse><cfset req=""></cfif>
-							<label for="last_name"class="data-entry-label">Last Name</label>
-							<input type="text" name="last_name" id="last_name" class="data-entry-input reqdClr" #req#>
-						</div>
-						<div class="col-12 col-md-2">
-							<label for="suffix"class="data-entry-label">Suffix</label>
-							<select name="suffix" size="1" id="suffix" class="data-entry-select">
-								<option value=""></option>
-								<cfloop query="ctsuffix">
-									<option value="#suffix#">#suffix#</option>
-								</cfloop>
-							</select>
-						</div>
-						<div class="col-12 col-md-2">
-							<label for="paste_to_preferred"class="data-entry-label">Copy to preferred name</label>
-							<input type="button" id="paste_to_preferred" class="btn btn-secondary btn-xs" value="Copy" onclick="pasteFMLtoPreferred();">
-						</div>
-						<script>
-							function pasteFMLtoPreferred() {
-								if ($('##pref_name').val()=='') { 
-									var fml = $('##prefix option:selected').text() + " " + $('##first_name').val() + " " + $('##middle_name').val() + " " + $('##last_name').val() + " " +  $('##suffix option:selected').text();
-									$('##pref_name').val(fml.trim().replace("  "," "));
-								} else { 
-									messageDialog("You must edit an existing preferred name by hand.");
-								} 
-							}
-						</script>
-					</div>
-					<div class="form-row mb-1">
-						<div class="col-12 col-md-6">
-							<label for="agentguid"class="data-entry-label">GUID for Agent</label>
-							<cfset pattern = "">
-							<cfset placeholder = "">
-							<cfset regex = "">
-							<cfset replacement = "">
-							<cfset searchlink = "" >
-							<cfset searchtext = "" >
-							<div class="col-6 col-md-3 col-xl-3 px-0 float-left">
-								<select name="agentguid_guid_type" id="agentguid_guid_type" size="1" class="data-entry-select">
-									<cfif searchtext EQ "">
+				<div class="row">
+					<div class="col-12">
+						<cfif isdefined("agent_type") and len(agent_type) GT 0>
+							<h1 class="h2 mb-0 mt-3 pl-1 ml-2">Create New <span id="headingTypeSpan">#encodeForHtml(agent_type)#</span> Agent</h2>
+						<cfelse>
+							<h1 class="h2 mb-0 pl-1 ml-2 mt-3">Create New <span id="headingTypeSpan"></span> Agent</h2>
+						</cfif>
+				
+						<form class="border p-2 rounded" id="newAgentForm" name="newAgentForm" method="post" action="/agents/editAgent.cfm">
+							<input type="hidden" name="action" value="createAgent">
+							<div class="form-row mb-1">
+								<div class="col-12 col-md-4">
+									<script>
+										function changeType() { 
+											var selectedType = $('##agent_type').val();
+											if (selectedType == 'person') { 
+												$('##personRow').show();
+												$('##headingTypeSpan').html("Person");
+												$('##last_name').prop('required',true);
+												$('##start_date_label').html("Date of Birth");
+												$('##end_date_label').html("Date of Death");
+												$('##start_date').prop('disabled', false);
+												$('##end_date').prop('disabled', false);
+											} else { 
+												$('##personRow').hide();
+												$('##headingTypeSpan').html(selectedType);
+												$('##last_name').removeAttr('required');
+												$('##start_date_label').html("Start Date");
+												$('##end_date_label').html("End Date");
+												$('##start_date').prop('disabled', true);
+												$('##end_date').prop('disabled', true);
+											}
+										}
+									</script>
+									<label for="agent_type" class="data-entry-label">Type of Agent</label>
+									<select name="agent_type" id="agent_type" size="1" onChange=" changeType(); " class="data-entry-select reqdClr" required>
+										<cfloop query="ctAgentType">
+											<cfif isdefined("curAgentType") and len(curAgentType) GT 0 and curAgentType IS ctAgentType.agent_type>
+												<cfset selected = "selected='selected'">
+											<cfelse>
+												<cfset selected = "">
+											</cfif>
+											<option value="#ctAgentType.agent_type#" #selected#>#ctAgentType.agent_type#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-1">
+									<label for="vetted" class="data-entry-label">Vetted</label>
+									<select name="vetted" size="1" id="vetted" class="data-entry-select" required>
+										<option value=0 selected >no</option>
+										<option value=1 >yes *</option>
+									</select>
+								</div>
+								<div class="col-12 col-md-5">
+									<label for="pref_name" class="data-entry-label">Preferred Name</label>
+									<input type="text" name="pref_name" id="pref_name" class="data-entry-input reqdClr" required>
+									<script>
+										$(document).ready(function () {
+											$('##pref_name').change(function () {
+												checkNameExists($('##pref_name').val(),'name_matches',false);
+											});
+										});
+									</script>
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="name_matches" class="data-entry-label">Duplicate check</label>
+									<output id="name_matches" class="text-success font-weight-lessbold p-1"></output>
+								</div>
+							</div>
+							<div id="personRow" class="form-row mb-1">
+								<!--- we'll load the page as if for a new person, and if not a new person, will hide this row. --->
+								<div class="col-12 col-md-2">
+									<label for="prefix" class="data-entry-label">Prefix</label>
+									<select name="prefix" id="prefix" size="1" class="data-entry-select">
 										<option value=""></option>
-									</cfif>
-									<cfloop query="ctguid_type_agent">
-										<cfset sel="">
-										<cfif ctguid_type_agent.recordcount EQ 1 >
-											<cfset sel="selected='selected'">
-											<cfset placeholder = "#ctguid_type_agent.placeholder#">
-											<cfset pattern = "#ctguid_type_agent.pattern_regex#">
-											<cfset regex = "#ctguid_type_agent.resolver_regex#">
-											<cfset replacement = "#ctguid_type_agent.resolver_replacement#">
-										</cfif>
-										<option #sel# value="#ctguid_type_agent.guid_type#">#ctguid_type_agent.guid_type#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-6 col-md-7 col-xl-3 w-100 px-0 float-left"> 
-								<a href="#searchlink#" id="agentguid_search" target="_blank" class="small90">#searchtext#</a>
-							</div>
-							<div class="col-12 col-md-7 col-xl-6 pl-0 float-left">
-								<input class="data-entry-input" name="agentguid" id="agentguid" 
-									value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-								<a id="agentguid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1 small90"></a> 
-							</div>
-							<script>
-								$(document).ready(function () {
-									if ($('##agentguid').val().length > 0) {
-										$('##agentguid').hide();
+										<cfloop query="ctprefix">
+											<option value="#prefix#">#prefix#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="first_name"class="data-entry-label">First Name</label>
+									<input type="text" name="first_name" id="first_name"class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="middle_name" class="data-entry-label">Middle Name</label>
+									<input type="text" name="middle_name" id="middle_name"class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-2">
+									<cfif curAgentType EQ "person"><cfset req="required"><cfelse><cfset req=""></cfif>
+									<label for="last_name"class="data-entry-label">Last Name</label>
+									<input type="text" name="last_name" id="last_name" class="data-entry-input reqdClr" #req#>
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="suffix"class="data-entry-label">Suffix</label>
+									<select name="suffix" size="1" id="suffix" class="data-entry-select">
+										<option value=""></option>
+										<cfloop query="ctsuffix">
+											<option value="#suffix#">#suffix#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-2">
+									<label for="paste_to_preferred"class="data-entry-label">Copy to preferred name</label>
+									<input type="button" id="paste_to_preferred" class="btn btn-secondary btn-xs" value="Copy" onclick="pasteFMLtoPreferred();">
+								</div>
+								<script>
+									function pasteFMLtoPreferred() {
+										if ($('##pref_name').val()=='') { 
+											var fml = $('##prefix option:selected').text() + " " + $('##first_name').val() + " " + $('##middle_name').val() + " " + $('##last_name').val() + " " +  $('##suffix option:selected').text();
+											$('##pref_name').val(fml.trim().replace("  "," "));
+										} else { 
+											messageDialog("You must edit an existing preferred name by hand.");
+										} 
 									}
-									$('##agentguid_search').click(function (evt) {
-										switchGuidEditToFind('agentguid','agentguid_search','agentguid_link',evt);
+								</script>
+							</div>
+							<div class="form-row mb-1">
+								<div class="col-12 col-md-6">
+									<label for="agentguid"class="data-entry-label">GUID for Agent</label>
+									<cfset pattern = "">
+									<cfset placeholder = "">
+									<cfset regex = "">
+									<cfset replacement = "">
+									<cfset searchlink = "" >
+									<cfset searchtext = "" >
+									<div class="col-6 col-md-3 col-xl-3 px-0 float-left">
+										<select name="agentguid_guid_type" id="agentguid_guid_type" size="1" class="data-entry-select">
+											<cfif searchtext EQ "">
+												<option value=""></option>
+											</cfif>
+											<cfloop query="ctguid_type_agent">
+												<cfset sel="">
+												<cfif ctguid_type_agent.recordcount EQ 1 >
+													<cfset sel="selected='selected'">
+													<cfset placeholder = "#ctguid_type_agent.placeholder#">
+													<cfset pattern = "#ctguid_type_agent.pattern_regex#">
+													<cfset regex = "#ctguid_type_agent.resolver_regex#">
+													<cfset replacement = "#ctguid_type_agent.resolver_replacement#">
+												</cfif>
+												<option #sel# value="#ctguid_type_agent.guid_type#">#ctguid_type_agent.guid_type#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-6 col-md-7 col-xl-3 w-100 px-0 float-left"> 
+										<a href="#searchlink#" id="agentguid_search" target="_blank" class="small90">#searchtext#</a>
+									</div>
+									<div class="col-12 col-md-7 col-xl-6 pl-0 float-left">
+										<input class="data-entry-input" name="agentguid" id="agentguid" 
+											value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
+										<a id="agentguid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1 small90"></a> 
+									</div>
+									<script>
+										$(document).ready(function () {
+											if ($('##agentguid').val().length > 0) {
+												$('##agentguid').hide();
+											}
+											$('##agentguid_search').click(function (evt) {
+												switchGuidEditToFind('agentguid','agentguid_search','agentguid_link',evt);
+											});
+											$('##agentguid_guid_type').change(function () {
+												// On selecting a guid_type, remove an existing guid value.
+												$('##agentguid').val("");
+												// On selecting a guid_type, change the pattern.
+												getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+											});
+											$('##agentguid').blur( function () {
+												// On loss of focus for input, validate against the regex, update link
+												getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+											});
+											$('##first_name').change(function () {
+												// On changing prefered name, update search.
+												getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+											});
+											$('##middle_name').change(function () {
+												// On changing prefered name, update search.
+												getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+											});
+											$('##last_name').change(function () {
+												// On changing prefered name, update search.
+												getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+											});
+											$('##pref_name').change(function () {
+												// On changing prefered name, update search.
+												getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
+											});
+										});
+									</script>
+								</div>
+								<div class="col-12 col-md-3">
+									<cfif curAgentType EQ "person">
+										<cfset label="Date of Birth">
+									<cfelse>
+										<cfset label="Start Date">
+									</cfif>
+									<label id="start_date_label" for="start_date" class="data-entry-label">#label#</label>
+									<input type="text" name="start_date" id="start_date" class="data-entry-input" placeholder="yyyy, yyyy-mm-dd, or yyyy-mm">
+								</div>
+								<div class="col-12 col-md-3">
+									<cfif curAgentType EQ "person">
+										<cfset label="Date of Death">
+									<cfelse>
+										<cfset label="End Date">
+									</cfif>
+									<label id="end_date_label" for="end_date" class="data-entry-label">#label#</label>
+									<input type="text" name="end_date" id="end_date" class="data-entry-input" placeholder="yyyy, yyyy-mm-dd, or yyyy-mm">
+								</div>
+								<script>
+									$(document).ready(function() {
+										$("##start_date").datepicker({ dateFormat: 'yy-mm-dd'});
+										$("##end_date").datepicker({ dateFormat: 'yy-mm-dd'});
 									});
-									$('##agentguid_guid_type').change(function () {
-										// On selecting a guid_type, remove an existing guid value.
-										$('##agentguid').val("");
-										// On selecting a guid_type, change the pattern.
-										getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
-									});
-									$('##agentguid').blur( function () {
-										// On loss of focus for input, validate against the regex, update link
-										getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
-									});
-									$('##first_name').change(function () {
-										// On changing prefered name, update search.
-										getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
-									});
-									$('##middle_name').change(function () {
-										// On changing prefered name, update search.
-										getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
-									});
-									$('##last_name').change(function () {
-										// On changing prefered name, update search.
-										getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
-									});
-									$('##pref_name').change(function () {
-										// On changing prefered name, update search.
-										getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
-									});
-								});
-							</script>
-						</div>
-						<div class="col-12 col-md-3">
-							<cfif curAgentType EQ "person">
-								<cfset label="Date of Birth">
+								</script>
+							</div>
+							<div class="form-row mb-1">
+								<div class="col-12">
+									<label for="biography" class="data-entry-label">Public Biography</label>
+									<textarea name="biography" id="biography" class="w-100"></textarea>
+									<script>
+										$(document).ready(function () {
+											$('##biography').jqxEditor({width:'auto',height: '223px'});
+										});
+									</script>
+								</div>
+							</div>
+							<div class="form-row mb-1">
+								<div class="col-12">
+									<label for="agent_remarks" class="data-entry-label">Internal Remarks</label>
+									<textarea name="agent_remarks" id="agent_remarks" class="w-100"></textarea>
+									<script>
+										$(document).ready(function () {
+											$('##agent_remarks').jqxEditor({width:'auto',height: '223px'});
+										});
+									</script>
+								</div>
+							</div>
+							<div class="form-row mt-2">
+								<div class="col-12 col-md-3">
+									<input type="submit" value="Add New Agent" class="btn btn-xs btn-primary">
+								</div>
+							</div>
+							<cfif isdefined("curAgentType") and len(curAgentType) GT 0 and curAgentType IS "person">
+								<!--- no action needed, this is the default load state for this form --->
 							<cfelse>
-								<cfset label="Start Date">
+								<!--- change elements appropriately --->
+								<script>
+									$(document).ready(function () {
+										changeType();
+									});
+								</script>
 							</cfif>
-							<label id="start_date_label" for="start_date" class="data-entry-label">#label#</label>
-							<input type="text" name="start_date" id="start_date" class="data-entry-input" placeholder="yyyy, yyyy-mm-dd, or yyyy-mm">
-						</div>
-						<div class="col-12 col-md-3">
-							<cfif curAgentType EQ "person">
-								<cfset label="Date of Death">
-							<cfelse>
-								<cfset label="End Date">
-							</cfif>
-							<label id="end_date_label" for="end_date" class="data-entry-label">#label#</label>
-							<input type="text" name="end_date" id="end_date" class="data-entry-input" placeholder="yyyy, yyyy-mm-dd, or yyyy-mm">
-						</div>
-						<script>
-							$(document).ready(function() {
-								$("##start_date").datepicker({ dateFormat: 'yy-mm-dd'});
-								$("##end_date").datepicker({ dateFormat: 'yy-mm-dd'});
-							});
-						</script>
+						</form>
 					</div>
-					<div class="form-row mb-1">
-						<div class="col-12">
-							<label for="biography" class="data-entry-label">Public Biography</label>
-							<textarea name="biography" id="biography" class="w-100"></textarea>
-							<script>
-								$(document).ready(function () {
-									$('##biography').jqxEditor({width:'auto',height: '223px'});
-								});
-							</script>
-						</div>
-					</div>
-					<div class="form-row mb-1">
-						<div class="col-12">
-							<label for="agent_remarks" class="data-entry-label">Internal Remarks</label>
-							<textarea name="agent_remarks" id="agent_remarks" class="w-100"></textarea>
-							<script>
-								$(document).ready(function () {
-									$('##agent_remarks').jqxEditor({width:'auto',height: '223px'});
-								});
-							</script>
-						</div>
-					</div>
-					<div class="form-row mt-2">
-						<div class="col-12 col-md-3">
-							<input type="submit" value="Add New Agent" class="btn btn-xs btn-primary">
-						</div>
-					</div>
-					<cfif isdefined("curAgentType") and len(curAgentType) GT 0 and curAgentType IS "person">
-						<!--- no action needed, this is the default load state for this form --->
-					<cfelse>
-						<!--- change elements appropriately --->
-						<script>
-							$(document).ready(function () {
-								changeType();
-							});
-						</script>
-					</cfif>
-				</form>
+				</div>
 			</section>
 		</main>
 	</cfoutput>
