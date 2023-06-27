@@ -457,12 +457,12 @@ limitations under the License.
 					<div class="border rounded px-3 py-3">
 						<form name="newPubForm" id="newPubForm" method="post" action="/publications/Publication.cfm">
 							<input type="hidden" name="action" value="createPub">
-							<div class="form-row pb-1">
-								<div class="col-12 col-md-11 mb-2">
+							<div class="form-row">
+								<div class="col-12 col-md-11 mb-0 mb-md-2">
 									<label for="publication_title" class="data-entry-label">Publication Title <span class="small">(#help_publication_title#)</span></label>
 									<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required></textarea>
 								</div>
-								<div class="col-12 col-md-1 ml-0 row">
+								<div class="col-12 col-md-1 ml-0">
 									<div class="col-6 ml-0 mr-0 px-0">
 										<ul class="list-group pt-3">
 											<li class="list-group-item px-0 pb-0">
