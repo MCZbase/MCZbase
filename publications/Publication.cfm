@@ -464,7 +464,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-md-1 px-md-0 ml-0 row mb-0">
 									<div class="col-2 col-md-6 ml-0 mr-0 px-0 my-0 mt-md-2 mt-xl-0 mb-md-2">
-										<ul class="list-group pt-0 px-1 px-md-0 mt-md-3 mt-xl-1">
+										<ul class="list-group pt-0 px-1 px-md-0 mt-md-3 mt-xl-2">
 											<li class="list-group-item mx-1 pl-0 pr-1 mt-1 mb-0">
 												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','i')" aria-label="italicize selected text"><i>i</i></button>
 											</li>
@@ -473,8 +473,8 @@ limitations under the License.
 											</li>
 										</ul>
 									</div>
-									<div class="col-2 col-md-6 ml-0 px-0 my-0 mt-md-2 mb-md-2">
-										<ul class="list-group pt-0 px-1 px-md-0 mt-md-3">
+									<div class="col-2 col-md-6 ml-0 px-0 my-0 mt-md-2 mb-md-2 mt-xl-0">
+										<ul class="list-group pt-0 px-1 px-md-0 mt-md-3 mt-xl-2">
 											<li class="list-group-item pr-0 pl-1 mx-1 mt-1 mb-0">
 												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sub')" aria-label="make text subscript">A<sub>2</sub></button>
 											</li>
