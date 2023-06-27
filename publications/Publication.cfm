@@ -454,7 +454,7 @@ limitations under the License.
 					<h1 class="h2 mt-3 pl-1 ml-2">Create New Publication
 						<img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 					</h1>
-					<div class="border rounded px-2 py-2">
+					<div class="border rounded px-3 py-2">
 						<form name="newPubForm" id="newPubForm" method="post" action="/publications/Publication.cfm">
 							<input type="hidden" name="action" value="createPub">
 							<div class="form-row pb-1">
