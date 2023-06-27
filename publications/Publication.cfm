@@ -448,144 +448,148 @@ limitations under the License.
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
 	<cfoutput>
-		<main class="container py-3" id="content" >
-			<section class="row border rounded my-2 p-1">
-				<h1 class="h2">
+		<main class="container-fluid container-xl py-3" id="content" >
+			<section class="row my-2 p-1">
+				<h1 class="h2 mt-3 pl-1 ml-2">
 					Create New Publication
 					<img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 				</h1>
-				<form name="newPubForm" id="newPubForm" method="post" action="/publications/Publication.cfm">
-					<input type="hidden" name="action" value="createPub">
-					<div class="col-12 form-row pb-1">
-						<div class="col-12 col-md-11">
-							<label for="publication_title" class="data-entry-label">Publication Title <span class="small">#help_publication_title#</span></label>
-							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required></textarea>
-						</div>
-						<div class="col-12 col-md-1 ml-0 row">
-							<div class="col-6 ml-0 mr-0 px-0">
-								<ul class="list-group pt-3">
-									<li class="list-group-item px-0 pb-0">
-										<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','i')" aria-label="italicize selected text"><i>i</i></button>
-									</li>
-									<li class="list-group-item px-0 pt-0">
-										<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','b')" aria-label="make selected text bold"><strong>B</strong></button>
-									</li>
-								</ul>
+				<div class="col-12">
+					<div class="border rounded px-2 py-2">
+						<form name="newPubForm" id="newPubForm" method="post" action="/publications/Publication.cfm">
+							<input type="hidden" name="action" value="createPub">
+							<div class="col-12 form-row pb-1">
+								<div class="col-12 col-md-11">
+									<label for="publication_title" class="data-entry-label">Publication Title <span class="small">#help_publication_title#</span></label>
+									<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required></textarea>
+								</div>
+								<div class="col-12 col-md-1 ml-0 row">
+									<div class="col-6 ml-0 mr-0 px-0">
+										<ul class="list-group pt-3">
+											<li class="list-group-item px-0 pb-0">
+												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','i')" aria-label="italicize selected text"><i>i</i></button>
+											</li>
+											<li class="list-group-item px-0 pt-0">
+												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','b')" aria-label="make selected text bold"><strong>B</strong></button>
+											</li>
+										</ul>
+									</div>
+									<div class="col-6 ml-0 px-0">
+										<ul class="list-group pt-3">
+											<li class="list-group-item px-0 pb-0">
+												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sub')" aria-label="make text subscript">A<sub>2</sub></button>
+											</li>
+											<li class="list-group-item px-0 pt-0">
+												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sup')" aria-label="make selected text superscript">A<sup>2</sup></button>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div class="col-12 col-md-3">
+									<label for="publication_type" class="data-entry-label">Publication Type</label>
+									<select name="publication_type" id="publication_type" class="reqdClr data-entry-select" 
+										onChange="handlePublicationTypeChange();"
+										required>
+										<option value=""></option>
+										<cfloop query="ctpublication_type">
+											<option value="#publication_type#">#publication_type#</option>
+										</cfloop>
+									</select>
+								<script>
+									function handlePublicationTypeChange() { 
+										loadAttributeControlsForNew($('##publication_type').val(),'attributesBlock');
+										if ($("##publication_type").val()=="journal article") { 
+											$("##addEditorButton").button("disable");			
+										} else { 
+											$("##addEditorButton").button("enable");			
+										}
+									};
+								</script>
+								</div>
+								<div class="col-12 col-md-3">
+									<label for="published_year" class="data-entry-label">Published Year (yyyy only)</label>
+									<input type="text" name="published_year" id="published_year" class="data-entry-input" placeholder="yyyy" pattern="[0-9]{4}" title="numeric four digit year of publication, for ranges of years, after saving record, add and use the published year range attribute.">
+								</div>
+								<div class="col-12 col-md-3">
+									<label for="doi" class="data-entry-label">Digital Object Identifier (<a target="_blank" href="https://dx.doi.org/" >DOI</a>)</label>
+									<input type="text" name="doi" id="doi" class="data-entry-input" placeholder="10.1000/xyz123">
+								</div>
+								<div class="col-12 col-md-3">
+									<label for="publication_loc" class="data-entry-label">Storage Location</label>
+									<input type="text" name="publication_loc" id="publication_loc" class="data-entry-input">
+								</div>
+								<div class="col-12 col-md-9">
+									<label for="publication_remarks" class="data-entry-label">Remark</label>
+									<input type="text" name="publication_remarks" id="publication_remarks" class="data-entry-input">
+								</div>	
+								<div class="col-12 col-md-3">
+									<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed?</label>
+									<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="data-entry-select" >
+										<option value="1">yes</option>
+										<option value="0">no</option>
+									</select>
+								</div>
+								<!--- authors/editors --->
+								<div class="col-12 form-row">
+									<input type="hidden" name="author_count" id="author_count" value="0">
+									<input type="hidden" name="editor_count" id="editor_count" value="0">
+									<script>
+										function launchAddAuthorDialog(author_count) { 
+											console.log(author_count);
+											openAddAuthorEditorDialogForNew('addAuthorEditorDialogDiv', author_count, 'authors');
+										}
+										function launchAddEditorDialog(editor_count) { 
+											console.log(editor_count);
+											openAddAuthorEditorDialogForNew('addAuthorEditorDialogDiv', editor_count, 'editors');
+										}
+										function addAuthorRow() { 
+											var author_count = parseInt($('##author_count').val());
+											author_count = author_count + 1;
+											$('##author_count').val(author_count);
+											$('##authorList').append(
+												'<li>'+
+												'	<input type="hidden" id="author_name_id_'+author_count+'" name="author_name_id_'+author_count+'" >'+
+												'	<input type="text" class="btn btn-xs btn-light" id="author_name_'+author_count+'" name="author_name_'+author_count+'" onClick=" launchAddAuthorDialog('+author_count+');">'+
+												'</li>'
+												);
+										};
+										function addEditorRow() { 
+											var editor_count = parseInt($('##editor_count').val());
+											editor_count = editor_count + 1;
+											$('##editor_count').val(editor_count);
+											$('##editorList').append(
+												'<li>'+
+												'	<input type="hidden" id="editor_name_id_'+editor_count+'" name="editor_name_id_'+editor_count+'" >'+
+												'	<input type="text" class="btn btn-xs btn-light" id="editor_name_'+editor_count+'" name="editor_name_'+editor_count+'" onClick=" launchAddEditorDialog('+editor_count+');">'+
+												'</li>'
+												);
+										};
+									</script>
+									<div class="col-12 col-md-6">
+										<h2 class="h3" >Authors</h2> 
+										<button type="button" class="btn btn-xs btn-secondary" onclick=" addAuthorRow(); ">Add Author</button>
+										<ol id="authorList"></ol>
+									</div>
+									<div class="col-12 col-md-6">
+										<h2 class="h3" >Editors</h2> 
+										<button type="button" class="btn btn-xs btn-secondary" onclick=" addEditorRow(); " id="addEditorButton">Add Editor</button>
+										<ol id="editorList"></ol>
+									</div>
+									<div id="addAuthorEditorDialogDiv"></div>
+								</div>
+								<!--- attributes populated when publication type is selected --->
+								<div class="col-12" id="attributesBlock"></div>
+								<div class="col-12 col-md-3">
+									<input type="button" class="btn btn-xs btn-primary" value="Create" 
+										onClick="if (checkFormValidity($('##newPubForm')[0])) { submit();  } ">
+								</div>
+								<div class="col-12 col-md-9">
+									Add additional attributes, media, or lookup DOI after saving.
+								</div>
 							</div>
-							<div class="col-6 ml-0 px-0">
-								<ul class="list-group pt-3">
-									<li class="list-group-item px-0 pb-0">
-										<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sub')" aria-label="make text subscript">A<sub>2</sub></button>
-									</li>
-									<li class="list-group-item px-0 pt-0">
-										<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sup')" aria-label="make selected text superscript">A<sup>2</sup></button>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<div class="col-12 col-md-3">
-							<label for="publication_type" class="data-entry-label">Publication Type</label>
-							<select name="publication_type" id="publication_type" class="reqdClr data-entry-select" 
-								onChange="handlePublicationTypeChange();"
-								required>
-								<option value=""></option>
-								<cfloop query="ctpublication_type">
-									<option value="#publication_type#">#publication_type#</option>
-								</cfloop>
-							</select>
-						<script>
-							function handlePublicationTypeChange() { 
-								loadAttributeControlsForNew($('##publication_type').val(),'attributesBlock');
-								if ($("##publication_type").val()=="journal article") { 
-									$("##addEditorButton").button("disable");			
-								} else { 
-									$("##addEditorButton").button("enable");			
-								}
-							};
-						</script>
-						</div>
-						<div class="col-12 col-md-3">
-							<label for="published_year" class="data-entry-label">Published Year (yyyy only)</label>
-							<input type="text" name="published_year" id="published_year" class="data-entry-input" placeholder="yyyy" pattern="[0-9]{4}" title="numeric four digit year of publication, for ranges of years, after saving record, add and use the published year range attribute.">
-						</div>
-						<div class="col-12 col-md-3">
-							<label for="doi" class="data-entry-label">Digital Object Identifier (<a target="_blank" href="https://dx.doi.org/" >DOI</a>)</label>
-							<input type="text" name="doi" id="doi" class="data-entry-input" placeholder="10.1000/xyz123">
-						</div>
-						<div class="col-12 col-md-3">
-							<label for="publication_loc" class="data-entry-label">Storage Location</label>
-							<input type="text" name="publication_loc" id="publication_loc" class="data-entry-input">
-						</div>
-						<div class="col-12 col-md-9">
-							<label for="publication_remarks" class="data-entry-label">Remark</label>
-							<input type="text" name="publication_remarks" id="publication_remarks" class="data-entry-input">
-						</div>	
-						<div class="col-12 col-md-3">
-							<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed?</label>
-							<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="data-entry-select" >
-								<option value="1">yes</option>
-								<option value="0">no</option>
-							</select>
-						</div>
-						<!--- authors/editors --->
-						<div class="col-12 form-row">
-							<input type="hidden" name="author_count" id="author_count" value="0">
-							<input type="hidden" name="editor_count" id="editor_count" value="0">
-							<script>
-								function launchAddAuthorDialog(author_count) { 
-									console.log(author_count);
-									openAddAuthorEditorDialogForNew('addAuthorEditorDialogDiv', author_count, 'authors');
-								}
-								function launchAddEditorDialog(editor_count) { 
-									console.log(editor_count);
-									openAddAuthorEditorDialogForNew('addAuthorEditorDialogDiv', editor_count, 'editors');
-								}
-								function addAuthorRow() { 
-									var author_count = parseInt($('##author_count').val());
-									author_count = author_count + 1;
-									$('##author_count').val(author_count);
-									$('##authorList').append(
-										'<li>'+
-										'	<input type="hidden" id="author_name_id_'+author_count+'" name="author_name_id_'+author_count+'" >'+
-										'	<input type="text" class="btn btn-xs btn-light" id="author_name_'+author_count+'" name="author_name_'+author_count+'" onClick=" launchAddAuthorDialog('+author_count+');">'+
-										'</li>'
-										);
-								};
-								function addEditorRow() { 
-									var editor_count = parseInt($('##editor_count').val());
-									editor_count = editor_count + 1;
-									$('##editor_count').val(editor_count);
-									$('##editorList').append(
-										'<li>'+
-										'	<input type="hidden" id="editor_name_id_'+editor_count+'" name="editor_name_id_'+editor_count+'" >'+
-										'	<input type="text" class="btn btn-xs btn-light" id="editor_name_'+editor_count+'" name="editor_name_'+editor_count+'" onClick=" launchAddEditorDialog('+editor_count+');">'+
-										'</li>'
-										);
-								};
-							</script>
-							<div class="col-12 col-md-6">
-								<h2 class="h3" >Authors</h2> 
-								<button type="button" class="btn btn-xs btn-primary" onclick=" addAuthorRow(); ">Add Author</button>
-								<ol id="authorList"></ol>
-							</div>
-							<div class="col-12 col-md-6">
-								<h2 class="h3" >Editors</h2> 
-								<button type="button" class="btn btn-xs btn-primary" onclick=" addEditorRow(); " id="addEditorButton">Add Editor</button>
-								<ol id="editorList"></ol>
-							</div>
-							<div id="addAuthorEditorDialogDiv"></div>
-						</div>
-						<!--- attributes populated when publication type is selected --->
-						<div class="col-12" id="attributesBlock"></div>
-						<div class="col-12 col-md-3">
-							<input type="button" class="btn btn-xs btn-primary" value="Create" 
-								onClick="if (checkFormValidity($('##newPubForm')[0])) { submit();  } ">
-						</div>
-						<div class="col-12 col-md-9">
-							Add additional attributes, media, or lookup DOI after saving.
-						</div>
+						</form>
 					</div>
-				</form>
+				</div>
 			</section>
 		</main>
 	</cfoutput>
