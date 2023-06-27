@@ -473,7 +473,7 @@ limitations under the License.
 											</li>
 										</ul>
 									</div>
-									<div class="col-6 ml-0 px-0">
+									<div class="col-6 ml-0 px-0 mb-2">
 										<ul class="list-group pt-3">
 											<li class="list-group-item px-0 pb-0">
 												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sub')" aria-label="make text subscript">A<sub>2</sub></button>
@@ -484,7 +484,7 @@ limitations under the License.
 										</ul>
 									</div>
 								</div>
-								<div class="col-12 col-md-3">
+								<div class="col-12 col-md-3 mb-2">
 									<label for="publication_type" class="data-entry-label">Publication Type</label>
 									<select name="publication_type" id="publication_type" class="reqdClr data-entry-select" 
 										onChange="handlePublicationTypeChange();"
@@ -505,23 +505,23 @@ limitations under the License.
 									};
 								</script>
 								</div>
-								<div class="col-12 col-md-3">
+								<div class="col-12 col-md-3 mb-2">
 									<label for="published_year" class="data-entry-label">Published Year (yyyy only)</label>
 									<input type="text" name="published_year" id="published_year" class="data-entry-input" placeholder="yyyy" pattern="[0-9]{4}" title="numeric four digit year of publication, for ranges of years, after saving record, add and use the published year range attribute.">
 								</div>
-								<div class="col-12 col-md-3">
+								<div class="col-12 col-md-3 mb-2">
 									<label for="doi" class="data-entry-label">Digital Object Identifier (<a target="_blank" href="https://dx.doi.org/" >DOI</a>)</label>
 									<input type="text" name="doi" id="doi" class="data-entry-input" placeholder="10.1000/xyz123">
 								</div>
-								<div class="col-12 col-md-3">
+								<div class="col-12 col-md-3 mb-2">
 									<label for="publication_loc" class="data-entry-label">Storage Location</label>
 									<input type="text" name="publication_loc" id="publication_loc" class="data-entry-input">
 								</div>
-								<div class="col-12 col-md-9">
+								<div class="col-12 col-md-9 mb-2">
 									<label for="publication_remarks" class="data-entry-label">Remark</label>
 									<input type="text" name="publication_remarks" id="publication_remarks" class="data-entry-input">
 								</div>	
-								<div class="col-12 col-md-3">
+								<div class="col-12 col-md-3 mb-2">
 									<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed?</label>
 									<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="data-entry-select" >
 										<option value="1">yes</option>
@@ -529,7 +529,7 @@ limitations under the License.
 									</select>
 								</div>
 								<!--- authors/editors --->
-								<div class="col-12 form-row">
+								<div class="col-12 form-row mb-3">
 									<input type="hidden" name="author_count" id="author_count" value="0">
 									<input type="hidden" name="editor_count" id="editor_count" value="0">
 									<script>
