@@ -449,7 +449,7 @@ limitations under the License.
 	</cfquery>
 	<cfoutput>
 		<main class="container-fluid container-xl py-3" id="content" >
-			<section class="row my-2 p-1">
+			<section class="row">
 				<h1 class="h2 mt-3 pl-1 ml-2">
 					Create New Publication
 					<img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">

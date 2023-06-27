@@ -170,7 +170,7 @@ limitations under the License.
 			</cfquery>
 			<cfset extra = ". Cloning from: #getSource.higher_geog#">
 			<cfset blockform = getHigherGeographyFormHtml(mode="new",clone_from_geog_auth_rec_id="#clone_from_geog_auth_rec_id#" )>
-			<main class="container mt-3" id="content">
+			<main class="container-fluid container-xl mt-3" id="content">
 				<section class="row">
 					<div class="col-12">
 						<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New HigherGeography#extra#</h1>
