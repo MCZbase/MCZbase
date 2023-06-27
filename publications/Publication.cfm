@@ -565,12 +565,12 @@ limitations under the License.
 										};
 									</script>
 									<div class="col-12 col-md-6">
-										<h2 class="h4 px-1 mb-0">Authors</h2> 
+										<h2 class="h4 px-1 mb-1">Authors</h2> 
 										<button type="button" class="btn btn-xs btn-secondary" onclick=" addAuthorRow(); ">Add Author</button>
 										<ol id="authorList"></ol>
 									</div>
 									<div class="col-12 col-md-6">
-										<h2 class="h4 px-1 mb-0">Editors</h2> 
+										<h2 class="h4 px-1 mb-1">Editors</h2> 
 										<button type="button" class="btn btn-xs btn-secondary" onclick=" addEditorRow(); " id="addEditorButton">Add Editor</button>
 										<ol id="editorList"></ol>
 									</div>
