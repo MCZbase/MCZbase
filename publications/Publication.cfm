@@ -465,7 +465,7 @@ limitations under the License.
 								<div class="col-12 col-md-1 px-md-0 ml-0 row mb-0">
 									<div class="col-2 col-md-6 ml-0 mr-0 px-0 my-0 mt-md-2 mb-md-2">
 										<ul class="list-group pt-0 px-2 px-md-0 mt-md-3">
-											<li class="list-group-item m-1">
+											<li class="list-group-item mx-1 mt-1 mb-0">
 												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','i')" aria-label="italicize selected text"><i>i</i></button>
 											</li>
 											<li class="list-group-item mx-1 mt-1 mb-0">
