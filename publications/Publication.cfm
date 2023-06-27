@@ -452,7 +452,7 @@ limitations under the License.
 			<section class="row">
 				<div class="col-12">
 					<h1 class="h2 mt-3 pl-1 ml-2">Create New Publication
-						<img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
+						<i class="fas fa-info-circle" onClick="getMCZDocs('Publication-Data Entry')" aria-label="help link"></i>
 					</h1>
 					<div class="border rounded px-3 py-3">
 						<form name="newPubForm" id="newPubForm" method="post" action="/publications/Publication.cfm">
