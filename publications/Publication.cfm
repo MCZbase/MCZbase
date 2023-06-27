@@ -463,7 +463,7 @@ limitations under the License.
 									<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required></textarea>
 								</div>
 								<div class="col-12 col-md-1 ml-0 row mb-0">
-									<div class="col-6 ml-0 mr-0 px-0 my-0 mt-md-4 mb-md-2">
+									<div class="col-2 col-md-6 ml-0 mr-0 px-0 my-0 mt-md-4 mb-md-2">
 										<ul class="list-group pt-0 px-3 mt-md-3">
 											<li class="list-group-item m-1">
 												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','i')" aria-label="italicize selected text"><i>i</i></button>
