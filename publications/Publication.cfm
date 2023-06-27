@@ -474,11 +474,11 @@ limitations under the License.
 										</ul>
 									</div>
 									<div class="col-2 col-md-6 ml-0 px-0 my-0 mt-md-2 mb-md-2">
-										<ul class="list-group pt-0 px-2 px-md-0 pt-md-3">
-											<li class="list-group-item m-1">
+										<ul class="list-group pt-0 px-2 px-md-0 mt-md-3">
+											<li class="list-group-item mx-1 mt-1 mb-0">
 												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sub')" aria-label="make text subscript">A<sub>2</sub></button>
 											</li>
-											<li class="list-group-item m-1">
+											<li class="list-group-item mx-1 mt-1 mb-0">
 												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sup')" aria-label="make selected text superscript">A<sup>2</sup></button>
 											</li>
 										</ul>
