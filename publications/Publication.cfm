@@ -462,8 +462,8 @@ limitations under the License.
 									<label for="publication_title" class="data-entry-label">Publication Title <span class="small">(#help_publication_title#)</span></label>
 									<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required></textarea>
 								</div>
-								<div class="col-12 col-md-1 ml-0">
-									<div class="col-6 ml-0 mr-0 px-0">
+								<div class="col-12 col-md-1 ml-0 row mb-0">
+									<div class="col-6 ml-0 mr-0 px-0 my-0 mt-md-4 mb-md-2">
 										<ul class="list-group pt-3">
 											<li class="list-group-item px-0 pb-0">
 												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','i')" aria-label="italicize selected text"><i>i</i></button>
@@ -473,7 +473,7 @@ limitations under the License.
 											</li>
 										</ul>
 									</div>
-									<div class="col-6 ml-0 px-0 mb-2">
+									<div class="col-6 ml-0 px-0 my-0 mt-md-4 mb-md-2">
 										<ul class="list-group pt-3">
 											<li class="list-group-item px-0 pb-0">
 												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sub')" aria-label="make text subscript">A<sub>2</sub></button>
