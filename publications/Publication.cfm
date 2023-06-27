@@ -468,7 +468,7 @@ limitations under the License.
 											<li class="list-group-item mx-1 mt-1 mb-0">
 												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','i')" aria-label="italicize selected text"><i>i</i></button>
 											</li>
-											<li class="list-group-item mx-1 mt-1 mb-0">
+											<li class="list-group-item mx-1 mt-0 mb-0">
 												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','b')" aria-label="make selected text bold"><strong>B</strong></button>
 											</li>
 										</ul>
@@ -478,7 +478,7 @@ limitations under the License.
 											<li class="list-group-item mx-1 mt-1 mb-0">
 												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sub')" aria-label="make text subscript">A<sub>2</sub></button>
 											</li>
-											<li class="list-group-item mx-1 mt-1 mb-0">
+											<li class="list-group-item mx-1 mt-0 mb-0">
 												<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sup')" aria-label="make selected text superscript">A<sup>2</sup></button>
 											</li>
 										</ul>
