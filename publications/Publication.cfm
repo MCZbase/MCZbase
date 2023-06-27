@@ -459,7 +459,7 @@ limitations under the License.
 							<input type="hidden" name="action" value="createPub">
 							<div class="form-row pb-1">
 								<div class="col-12 col-md-11">
-									<label for="publication_title" class="data-entry-label">Publication Title <span class="small">#help_publication_title#</span></label>
+									<label for="publication_title" class="data-entry-label">Publication Title <span class="small">(#help_publication_title#)</span></label>
 									<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required></textarea>
 								</div>
 								<div class="col-12 col-md-1 ml-0 row">
