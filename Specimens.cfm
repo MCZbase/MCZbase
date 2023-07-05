@@ -1061,8 +1061,8 @@ limitations under the License.
 													</div>
 													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<div class="col-12 mb-1 col-md-2">
-															<label class="data-entry-label small" for="debug">Debug JSON</label>
-															<select title="debug" name="debug" id="dbug" class="data-entry-select smaller inputHeight">
+															<label class="data-entry-label small" for="dbug1">Debug JSON</label>
+															<select title="debug" name="debug" id="dbug1" class="data-entry-select smaller inputHeight">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
@@ -1441,8 +1441,8 @@ limitations under the License.
 												</div>
 												<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 													<div class="col-12 col-sm-2 col-md-2 col-xl-2  mt-1 mt-sm-0 pr-2">
-														<label class="data-entry-label" for="debug">Debug</label>
-														<select title="debug" name="debug" id="dbug" class="data-entry-select inputHeight">
+														<label class="data-entry-label" for="dbug2">Debug</label>
+														<select title="debug" name="debug" id="dbug2" class="data-entry-select inputHeight">
 															<option value=""></option>
 															<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 															<option value="true" #selected#>Debug JSON</option>
@@ -1547,10 +1547,10 @@ Target JSON:
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search">
 									<div class="col-3 float-right px-3"> 
-									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
+									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed1" aria-expanded="false" aria-controls="collapseFixed1">
 										Search Help
 									</button>
-									<aside class="collapse collapseStyle" id="collapseFixed">
+									<aside class="collapse collapseStyle" id="collapseFixed1">
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Search Builder Search Help</h2>
 											<p>Construct searches on arbitrary sets of fields.  Click the <i>Add</i> button to add a clause to the search, select a field to search, and specify a value to search for.  Search terms can be connected with either <i>and</i> or <i>or</i>. but not (yet) both in the same search.
@@ -1824,8 +1824,8 @@ Target JSON:
 													</div>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 														<div class="col-12 col-md-1">
-															<label class="data-entry-label" for="debug">Debug</label>
-															<select title="debug" name="debug" id="dbug" class="data-entry-select">
+															<label class="data-entry-label" for="dbug3">Debug</label>
+															<select title="debug" name="debug" id="dbug3" class="data-entry-select">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
@@ -2064,7 +2064,7 @@ Target JSON:
 
 								</div>
 								<!--- results for search builder search --->
-								<div class="container-fluid" id="builderSearchResultsSection">
+								<div class="container-fluid" id="builderSearchResultsSection" aria-live="polite">
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
@@ -2375,7 +2375,7 @@ Target JSON:
 	
 		// cell renderer to link out to specimen details page by guid, when value is guid.
 		var linkGuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '">'+value+'</a></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a class="celllink" target="_blank" href="/guid/' + value + '">'+value+'</a></span>';
 		};
 		// cell renderer to link out to taxon page by scientific name, when value is scientific name.
 		var linkTaxonCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -2385,7 +2385,7 @@ Target JSON:
 		var yesBlankFlagRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var displayValue = "";
 			if (value==1) {
-            displayValue = "Yes";
+				displayValue = "Yes";
 			}
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+displayValue+'</span>';
 		};

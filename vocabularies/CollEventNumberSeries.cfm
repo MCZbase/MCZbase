@@ -373,10 +373,10 @@ limitations under the License.
 	<cfcase value="new">
 		<!---  Add a new collecting event number series, link to agent --->
 		<cfoutput>
-			<main class="container mt-3" id="content">
+			<main class="container-fluid container-xl mt-3" id="content">
 				<section class="row" aria-labelledby="formheading">
 					<div class="col-12">
-						<h1 class="h2 pl-3 ml-2" id="formheading">New Collecting Event Number Series</h1>
+						<h1 class="h2 pl-1 ml-2 mt-3" id="formheading">New Collecting Event Number Series</h1>
 						<div class="border rounded px-3 py-2">
 							<form name="newNumSeries" id="newNumSeries" action="/vocabularies/CollEventNumberSeries.cfm" method="post"> 
 								<input type="hidden" id="action" name="action" value="saveNew" >
