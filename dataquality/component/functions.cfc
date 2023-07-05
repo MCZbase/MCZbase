@@ -738,6 +738,7 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCOtherDateDQ" name="dwcOtherDateQC">
 			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventDQ" name="dwcEventDQ">
+			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventDQDefaults" name="dwcEventDQDefaults">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Provides" name="Provides">
 			<!--- Obtain mechanism from annotation on class --->
@@ -777,7 +778,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("66269bdd-9271-4e76-b25c-7ab81eebe1d8") --->
-			<cfset dqResponse = dwcOtherDateQC.validationDateidentifiedNotstandard(dateIdentified) >
+			<cfset dqResponse = dwcOtherDateQC.validationDateidentifiedStandard(dateIdentified) >
 			<cfset r.label = "dwc:dateIdentified in standard format" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -787,7 +788,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("dc8aae4b-134f-4d75-8a71-c4186239178e") --->
-			<cfset dqResponse = dwcOtherDateQC.validationDateidentifiedOutofrange(dateIdentified, eventDate)>
+			<cfset dqResponse = dwcOtherDateQC.validationDateidentifiedInrange(dateIdentified, eventDate)>
 			<cfset r.label = "dwc:dateIdentified in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -797,7 +798,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!---  @Provides("47ff73ba-0028-4f79-9ce1-ee7008d66498") --->
-			<cfset dqResponse =  dwcEventDQ.validationDayNotstandard(day) >
+			<cfset dqResponse =  dwcEventDQ.validationDayStandard(day) >
 			<cfset r.label = "dwc:day in standard format" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -807,7 +808,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f") --->
-			<cfset dqResponse = dwcEventDQ.validationDayOutofrange(year, month, day) >
+			<cfset dqResponse = dwcEventDQ.validationDayInrange(year, month, day) >
 			<cfset r.label = "dwc:day in range for month and year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -817,7 +818,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!---  @Provides("9a39d88c-7eee-46df-b32a-c109f9f81fb8") --->
-			<cfset dqResponse =dwcEventDQ.validationEnddayofyearOutofrange(endDayOfYear, eventDate) >
+			<cfset dqResponse =dwcEventDQ.validationEnddayofyearInrange(endDayOfYear, eventDate) >
 			<cfset r.label = "dwc:endDayOfYear in range for year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -827,7 +828,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!---  @Provides("41267642-60ff-4116-90eb-499fee2cd83f") --->
-			<cfset dqResponse = dwcEventDQ.validationEventTemporalEmpty(eventDate,verbatimEventDate,year,month,day,startDayOfYear,endDayOfYear) >
+			<cfset dqResponse = dwcEventDQ.validationEventTemporalNotEmpty(eventDate,verbatimEventDate,year,month,day,startDayOfYear,endDayOfYear) >
 			<cfset r.label = "dwc:Event terms contain some value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -837,7 +838,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f")  --->
-			<cfset dqResponse = dwcEventDQ.validationEventInconsistent(eventDate,year,month,day,startDayOfYear,endDayOfYear) >
+			<cfset dqResponse = dwcEventDQ.validationEventConsistent(eventDate,year,month,day,startDayOfYear,endDayOfYear) >
 			<cfset r.label = "dwc:Event terms are consistent" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -847,7 +848,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("f51e15a6-a67d-4729-9c28-3766299d2985") --->
-			<cfset dqResponse = dwcEventDQ.validationEventdateEmpty(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateNotEmpty(eventDate) >
 			<cfset r.label = "dwc:eventDate contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -857,7 +858,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!---  @Provides("4f2bf8fd-fc5c-493f-a44c-e7b16153c803") --->
-			<cfset dqResponse = dwcEventDQ.validationEventdateNotstandard(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateStandard(eventDate) >
 			<cfset r.label = "dwc:eventDate is in standard form" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -867,7 +868,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("3cff4dc4-72e9-4abe-9bf3-8a30f1618432") --->
-			<cfset dqResponse = dwcEventDQ.validationEventdateOutofrange(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateInrange(eventDate) >
 			<cfset r.label = "dwc:eventDate is in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -877,7 +878,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("01c6dafa-0886-4b7e-9881-2c3018c98bdc") --->
-			<cfset dqResponse = dwcEventDQ.validationMonthNotstandard(month) >
+			<cfset dqResponse = dwcEventDQ.validationMonthStandard(month) >
 			<cfset r.label = "dwc:month is in standard form" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -887,7 +888,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("85803c7e-2a5a-42e1-b8d3-299a44cafc46") --->
-			<cfset dqResponse = dwcEventDQ.validationStartdayofyearOutofrange(startDayOfYear,eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationStartdayofyearInrange(startDayOfYear,eventDate) >
 			<cfset r.label = "dwc:startDayOfYear is in range for year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -897,14 +898,23 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("c09ecbf9-34e3-4f3e-b74a-8796af15e59f") --->
-			<cfset dqResponse = dwcEventDQ.validationYearEmpty(year) >
-			<cfset r.label = "dwc:startDayOfYear is in range for year" >
+			<cfset dqResponse = dwcEventDQ.validationYearNotEmpty(year) >
+			<cfset r.label = "dwc:Year contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["c09ecbf9-34e3-4f3e-b74a-8796af15e59f"] = r >
 			<cfset r=structNew()>
+
+			<!--- @Provides("ad0c8855-de69-4843-a80c-a5387d20fbc8") --->
+			<cfset dqResponse = dwcEventDQDefaults.validationYearInrange(year) >
+			<cfset r.label = "dwc:Year is in range" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["ad0c8855-de69-4843-a80c-a5387d20fbc8"] = r >
 
 			<!--- amendment phase --->
 
@@ -1054,7 +1064,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("66269bdd-9271-4e76-b25c-7ab81eebe1d8") --->
-			<cfset dqResponse = dwcOtherDateQC.validationDateidentifiedNotstandard(dateIdentified) >
+			<cfset dqResponse = dwcOtherDateQC.validationDateidentifiedStandard(dateIdentified) >
 			<cfset r.label = "dwc:dateIdentified in standard format" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -1064,7 +1074,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("dc8aae4b-134f-4d75-8a71-c4186239178e") --->
-			<cfset dqResponse = dwcOtherDateQC.validationDateidentifiedOutofrange(dateIdentified, eventDate)>
+			<cfset dqResponse = dwcOtherDateQC.validationDateidentifiedInrange(dateIdentified, eventDate)>
 			<cfset r.label = "dwc:dateIdentified in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -1074,7 +1084,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!---  @Provides("47ff73ba-0028-4f79-9ce1-ee7008d66498") --->
-			<cfset dqResponse =  dwcEventDQ.validationDayNotstandard(day) >
+			<cfset dqResponse =  dwcEventDQ.validationDayStandard(day) >
 			<cfset r.label = "dwc:day in standard format" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -1084,7 +1094,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f") --->
-			<cfset dqResponse = dwcEventDQ.validationDayOutofrange(year, month, day) >
+			<cfset dqResponse = dwcEventDQ.validationDayInrange(year, month, day) >
 			<cfset r.label = "dwc:day in range for month and year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -1094,7 +1104,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!---  @Provides("9a39d88c-7eee-46df-b32a-c109f9f81fb8") --->
-			<cfset dqResponse =dwcEventDQ.validationEnddayofyearOutofrange(endDayOfYear, eventDate) >
+			<cfset dqResponse =dwcEventDQ.validationEnddayofyearInrange(endDayOfYear, eventDate) >
 			<cfset r.label = "dwc:endDayOfYear in range for year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -1104,7 +1114,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!---  @Provides("41267642-60ff-4116-90eb-499fee2cd83f") --->
-			<cfset dqResponse = dwcEventDQ.validationEventTemporalEmpty(eventDate,verbatimEventDate,year,month,day,startDayOfYear, endDayOfYear) >
+			<cfset dqResponse = dwcEventDQ.validationEventTemporalNotEmpty(eventDate,verbatimEventDate,year,month,day,startDayOfYear, endDayOfYear) >
 			<cfset r.label = "dwc:Event terms contain some value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -1114,7 +1124,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f")  --->
-			<cfset dqResponse = dwcEventDQ.validationEventInconsistent(eventDate,year,month,day,startDayOfYear, endDayOfYear) >
+			<cfset dqResponse = dwcEventDQ.validationEventConsistent(eventDate,year,month,day,startDayOfYear, endDayOfYear) >
 			<cfset r.label = "dwc:Event terms are consistent" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -1124,7 +1134,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("f51e15a6-a67d-4729-9c28-3766299d2985") --->
-			<cfset dqResponse = dwcEventDQ.validationEventdateEmpty(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateNotEmpty(eventDate) >
 			<cfset r.label = "dwc:eventDate contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -1134,7 +1144,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!---  @Provides("4f2bf8fd-fc5c-493f-a44c-e7b16153c803") --->
-			<cfset dqResponse = dwcEventDQ.validationEventdateNotstandard(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateStandard(eventDate) >
 			<cfset r.label = "dwc:eventDate is in standard form" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -1144,7 +1154,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("3cff4dc4-72e9-4abe-9bf3-8a30f1618432") --->
-			<cfset dqResponse = dwcEventDQ.validationEventdateOutofrange(eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationEventdateInrange(eventDate) >
 			<cfset r.label = "dwc:eventDate is in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -1154,7 +1164,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("01c6dafa-0886-4b7e-9881-2c3018c98bdc") --->
-			<cfset dqResponse = dwcEventDQ.validationMonthNotstandard(month) >
+			<cfset dqResponse = dwcEventDQ.validationMonthStandard(month) >
 			<cfset r.label = "dwc:month is in standard form" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -1164,7 +1174,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("85803c7e-2a5a-42e1-b8d3-299a44cafc46") --->
-			<cfset dqResponse = dwcEventDQ.validationStartdayofyearOutofrange(startDayOfYear,eventDate) >
+			<cfset dqResponse = dwcEventDQ.validationStartdayofyearInrange(startDayOfYear,eventDate) >
 			<cfset r.label = "dwc:startDayOfYear is in range for year" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -1174,13 +1184,23 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("c09ecbf9-34e3-4f3e-b74a-8796af15e59f") --->
-			<cfset dqResponse = dwcEventDQ.validationYearEmpty(year) >
-			<cfset r.label = "dwc:startDayOfYear is in range for year" >
+			<cfset dqResponse = dwcEventDQ.validationYearNotEmpty(year) >
+			<cfset r.label = "dwc:Year contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["c09ecbf9-34e3-4f3e-b74a-8796af15e59f"] = r >
+
+			<!--- @Provides("ad0c8855-de69-4843-a80c-a5387d20fbc8") --->
+			<cfset dqResponse = dwcEventDQDefaults.validationYearInrange(year) >
+			<cfset r.label = "dwc:Year is in range" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["ad0c8855-de69-4843-a80c-a5387d20fbc8"] = r >
+
 			<cfset r=structNew()>
 
 			<!--- Add results from phases to result to return --->
