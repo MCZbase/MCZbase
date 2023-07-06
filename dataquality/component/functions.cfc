@@ -934,7 +934,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "standardize dwc:dateIdentified" >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "CHANGED">
+			<cfif r.status eq "AMENDED">
 				<cfset dateIdentified = dqResponse.getValue().getObject().get("dwc:dateIdentified") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
 			<cfelse>
@@ -949,7 +949,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "standardize dwc:day" >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "CHANGED">
+			<cfif r.status eq "AMENDED">
 				<cfset day = dqResponse.getValue().getObject().get("dwc:day") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
 			<cfelse>
@@ -964,7 +964,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "standardize dwc:month" >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "CHANGED">
+			<cfif r.status eq "AMENDED">
 				<cfset month = dqResponse.getValue().getObject().get("dwc:month") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
 			<cfelse>
@@ -994,7 +994,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "fill in dwc:eventDate from dwc:year, dwc:startDayOfYear and dwc:endDayOfYear" >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "CHANGED">
+			<cfif r.status eq "AMENDED">
 				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
 			<cfelse>
@@ -1024,7 +1024,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "standardize dwc:eventDate " >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "CHANGED">
+			<cfif r.status eq "AMENDED">
 				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
 			<cfelse>
