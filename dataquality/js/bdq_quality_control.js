@@ -228,16 +228,16 @@ function displayQCResult(data,category,targetDivId) {
 	var amendmentCount = 0;
 	for (var k in amend) { 
 		var key = amend[k];
-		if (key.status == 'AMENDED') {
+		if (key.status == 'AMENDED' || key.status=='FILLED_IN') {
 			var commentbit = key.comment;
 			commentbit = commentbit.toUpperCase();
-			if (commentbit.includes('FILLED IN')) {   		
+			if (key.status == 'FILLED IN') {   		
   					cs="<span style='color: blue;'><strong>"; ce="</strong></span>";
 			} else { 		
   					cs="<span style='color: red;'><strong>"; ce="</strong></span>";
 			}
 		} else { 
-  				cs=""; ce="";
+  				cs="<span class='text-muted'>"; ce="</span>";
 		}
 		displayamendments = displayamendments + "<li><span>" + key.label + " " + key.status + " " + cs + key.value + ce + " " + key.comment + "</span></li>";
 		amendmentCount++;
