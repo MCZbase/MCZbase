@@ -308,6 +308,7 @@ libraries found in github.com/filteredpush/ repositories.
 
 				<!--- lookup in GBIF Backbone --->
 				<cfset gbifAuthority = gbifService.init()>
+				<cfset r=structNew()>
 				<cftry>
 					<cfset returnName = gbifAuthority.validate(lookupName)>
 				<cfcatch>
@@ -319,7 +320,6 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset r.habitatFlags = "">
 				</cfcatch>
 				</cftry>
-				<cfset r=structNew()>
 				<cfif isDefined("returnName")>
 					<cfset r.matchDescription = returnName.getMatchDescription()>
 					<cfset r.scientificName = returnName.getScientificName()>
