@@ -925,6 +925,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["ad0c8855-de69-4843-a80c-a5387d20fbc8"] = r >
+			<cfset r=structNew()>
 
 			<!--- amendment phase --->
 
@@ -1201,6 +1202,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["c09ecbf9-34e3-4f3e-b74a-8796af15e59f"] = r >
+			<cfset r=structNew()>
 
 			<!--- @Provides("ad0c8855-de69-4843-a80c-a5387d20fbc8") --->
 			<cfset dqResponse = dwcEventDQDefaults.validationYearInrange(year) >
@@ -1210,6 +1212,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["ad0c8855-de69-4843-a80c-a5387d20fbc8"] = r >
+			<cfset r=structNew()>
 
 			<cfset r=structNew()>
 
