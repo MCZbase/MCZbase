@@ -868,7 +868,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("3cff4dc4-72e9-4abe-9bf3-8a30f1618432") --->
-			<cfset dqResponse = dwcEventDQ.validationEventdateInrange(eventDate) >
+			<cfset dqResponse = dwcEventDQDefaults.validationEventdateInrange(eventDate) >
 			<cfset r.label = "dwc:eventDate is in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -1154,7 +1154,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("3cff4dc4-72e9-4abe-9bf3-8a30f1618432") --->
-			<cfset dqResponse = dwcEventDQ.validationEventdateInrange(eventDate) >
+			<cfset dqResponse = dwcEventDQDefaults.validationEventdateInrange(eventDate) >
 			<cfset r.label = "dwc:eventDate is in range" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
