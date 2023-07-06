@@ -281,7 +281,7 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset lookupName.setFamily(queryrow.family)>
 				</cfif>
 				<cfif len(queryrow.kingdom) GT 0>
-					<cfset lookupName.setFamily(queryrow.kingdom)>
+					<cfset lookupName.setKingdom(queryrow.kingdom)>
 				</cfif>
 				
 				<!--- lookup in WoRMS --->
@@ -749,19 +749,19 @@ libraries found in github.com/filteredpush/ repositories.
 			<!--- @Provides("56b6c695-adf1-418e-95d2-da04cad7be53") --->
 			<!--- TODO: Provide metadata from annotations --->
 			<!---
-			dwcEventDQ.getClass().getMethod('measureEventdatePrecisioninseconds',String.class).getAnnotation(Provides.getClass()).label();
+			dwcEventDQ.getClass().getMethod('measureEventdateDurationinseconds',String.class).getAnnotation(Provides.getClass()).label();
 
 			<cfset methodArray = dwcEventDQ.getClass().getMethods() >
 
 			<cfloop from="0" to="#arraylen(methodArray)#" index="i">
 				<cfset method = methodArray[i]>
-				<cfset provides = method.getAnnotation(.getClass()).label() >
+				<cfset provides = method.getAnnotation(Provides.getClass()).label() >
 
 			</cfloop>
 
 			--->
 
-			<cfset dqResponse = dwcEventDQ.measureEventdatePrecisioninseconds(eventDate) >
+			<cfset dqResponse = dwcEventDQ.measureEventdateDurationinseconds(eventDate) >
 			<cfset r.label = "dwc:eventDate precision in seconds" >
 			<cfset r.type = "MEASURE" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -1047,7 +1047,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<!--- post-amendment phase --->
 
 			<!--- @Provides("56b6c695-adf1-418e-95d2-da04cad7be53") --->
-			<cfset dqResponse = dwcEventDQ.measureEventdatePrecisioninseconds(eventDate) >
+			<cfset dqResponse = dwcEventDQ.measureEventdateDurationinseconds(eventDate) >
 			<cfset r.label = "dwc:eventDate precision in seconds" >
 			<cfset r.type = "MEASURE" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
