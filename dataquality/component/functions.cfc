@@ -308,7 +308,17 @@ libraries found in github.com/filteredpush/ repositories.
 
 				<!--- lookup in GBIF Backbone --->
 				<cfset gbifAuthority = gbifService.init()>
-				<cfset returnName = gbifAuthority.validate(lookupName)>
+				<cftry>
+					<cfset returnName = gbifAuthority.validate(lookupName)>
+				<cfcatch>
+					<cfset r.matchDescription = "Error">
+					<cfset r.scientificName = "">
+					<cfset r.authorship = "">
+					<cfset r.guid = "">
+					<cfset r.authorStringDistance = "">
+					<cfset r.habitatFlags = "">
+				</cfcatch>
+				</cftry>
 				<cfset r=structNew()>
 				<cfif isDefined("returnName")>
 					<cfset r.matchDescription = returnName.getMatchDescription()>
