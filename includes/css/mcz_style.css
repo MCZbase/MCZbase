@@ -2,6 +2,9 @@
 /*CSS STYLES -- MCZ on All Servers */
 /*\/\/\/\/\*/
 /*
+.text-muted { 
+   color: #6a737b!important;
+}
 .ac_results {
 	border: 1px solid gray;
 	background-color: white;
