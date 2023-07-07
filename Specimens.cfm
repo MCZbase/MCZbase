@@ -1061,8 +1061,8 @@ limitations under the License.
 													</div>
 													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<div class="col-12 mb-1 col-md-2">
-															<label class="data-entry-label small" for="dbug1">Debug JSON</label>
-															<select title="debug" name="debug" id="dbug1" class="data-entry-select smaller inputHeight">
+															<label class="data-entry-label small" for="debug1">Debug JSON</label>
+															<select title="debug" name="debug" id="debug1" class="data-entry-select smaller inputHeight">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
@@ -1441,8 +1441,8 @@ limitations under the License.
 												</div>
 												<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 													<div class="col-12 col-sm-2 col-md-2 col-xl-2  mt-1 mt-sm-0 pr-2">
-														<label class="data-entry-label" for="dbug2">Debug</label>
-														<select title="debug" name="debug" id="dbug2" class="data-entry-select inputHeight">
+														<label class="data-entry-label" for="debug2">Debug</label>
+														<select title="debug" name="debug" id="debug2" class="data-entry-select inputHeight">
 															<option value=""></option>
 															<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 															<option value="true" #selected#>Debug JSON</option>
@@ -1824,8 +1824,8 @@ Target JSON:
 													</div>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 														<div class="col-12 col-md-1">
-															<label class="data-entry-label" for="dbug3">Debug</label>
-															<select title="debug" name="debug" id="dbug3" class="data-entry-select">
+															<label class="data-entry-label" for="debug3">Debug</label>
+															<select title="debug" name="debug" id="debug3" class="data-entry-select">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
