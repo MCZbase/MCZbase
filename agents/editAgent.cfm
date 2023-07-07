@@ -714,13 +714,6 @@ limitations under the License.
 			}
 		</script>
 		<main id="content">
-<!---		<div class="container-fluid container-xl my-2">
-				
-					<div class="col-12 mt-2">
-						
-					</div>
-				</div>
-			</div>--->
 			<section class="container-fluid container-xl mt-2">
 				<div class="row">
 					<div class="col-12 mt-2 mb-3">

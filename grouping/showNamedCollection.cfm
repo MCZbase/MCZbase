@@ -15,7 +15,7 @@ limitations under the License.
 --->
 <cfset pageTitle = "Named Group">
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-	<cfset oneOfUs = 1>co
+	<cfset oneOfUs = 1>
 <cfelse>
 	<cfset oneOfUs = 0>
 </cfif>

@@ -212,12 +212,11 @@ limitations under the License.
 </head>
 <body class="default">
 	
-<header id="header" class="border-bottom">
-	<cfset header_color = Application.header_color>
-	<cfset collection_link_color = Application.collectionlinkcolor>
-	<cfif not isdefined("Session.gitBranch")>
-<!--- determine which git branch is currently checked out --->
-<!--- TODO: Move to initSession --->
+<cfset header_color = Application.header_color>
+<cfset collection_link_color = Application.collectionlinkcolor>
+<cfif not isdefined("Session.gitBranch")>
+	<!--- determine which git branch is currently checked out --->
+	<!--- TODO: Move to initSession --->
 	<cftry>
 		<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
 		<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
@@ -242,7 +241,8 @@ limitations under the License.
 </cfif>
 <!--- End workaround ---> 
 
-<a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
+<header id="header" class="border-bottom">
+	<a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
 	
 	<div class="branding clearfix bg-black">
 		<a href="http://www.harvard.edu/" aria-label="link to Harvard website">

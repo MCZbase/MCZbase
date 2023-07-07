@@ -451,7 +451,8 @@ limitations under the License.
 		<main class="container-fluid container-xl py-3" id="content" >
 			<section class="row">
 				<div class="col-12">
-					<h1 class="h2 mt-3 pl-1 ml-2">Create New Publication
+					<h1 class="h2 mt-3 pl-1 ml-2">
+						Create New Publication
 						<i class="fas fa-info-circle" onClick="getMCZDocs('Publication-Data Entry')" aria-label="help link"></i>
 					</h1>
 					<div class="border rounded px-3 py-3">
