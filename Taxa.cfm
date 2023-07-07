@@ -167,7 +167,10 @@ limitations under the License.
 								<input type="hidden" name="action" value="search">
 								<div class="col-12 col-xl-3">
 									<div id="searchHelpTextBlock" class="smaller-text mt-2" tabindex="0">
-										Search taxonomies used in MCZbase. <a class="" href="javascript:void(0)" onClick="getMCZDocs('Search Taxonomy')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a>  
+										Search taxonomies used in MCZbase. 
+										<a class="" href="javascript:void(0)" onClick="getMCZDocs('Search Taxonomy')">
+											<i class="fa fa-info-circle" aria-label="link to more info icon"></i> 
+										</a>  
 										<div class="readMore"><input type="checkbox" id="readMore_check_id"><label class="read" for="readMore_check_id"></label><span class="ilt bg-transparent">Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens.</span>
 											<span class="sr-only" tabindex="0">Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens.</span>
 										</div>
