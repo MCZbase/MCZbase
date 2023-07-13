@@ -2075,19 +2075,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									onClick=" openEditGeorefDialog('#lat_long_id#','editGeorefDialog',#callback_name#);"
 									aria-label = "Edit this georeference"
 								>Edit</button>
-								<cfif len(geolocate_score) EQ 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin"))>
-									<!--- prevent users from deleting automated georeferences --->
-									<button type="button" class="btn btn-xs btn-warning mb-1" 
-										onClick=" confirmDialog('Delete this georeference?  Georeferences should not normally be deleted.  In most cases, a new accepted georeference should be added instead.','Confirm Delete Georeference', doDeleteGeoref ); "
-										aria-label = "Delete this georeference from this locality"
-									>Delete</button>
-									<script>
-										function doDeleteGeoref() { 
-											deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);
-										};
-									</script>
-								</cfif>
-
+								<button type="button" class="btn btn-xs btn-warning mb-1" 
+									onClick=" confirmDialog('Delete this georeference?  Georeferences should not normally be deleted.  In most cases, a new accepted georeference should be added instead.','Confirm Delete Georeference', doDeleteGeoref ); "
+									aria-label = "Delete this georeference from this locality"
+								>Delete</button>
+								<script>
+									function doDeleteGeoref() { 
+										deleteGeoreference('#locality_id#','#lat_long_id#',#callback_name#);
+									};
+								</script>
 							</cfloop>
 					</div>
 						<button type="button" class="btn btn-xs btn-secondary mt-3" 
