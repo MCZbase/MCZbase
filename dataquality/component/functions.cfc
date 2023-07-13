@@ -419,7 +419,11 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset author_text = "#trim(queryrow.author_text)#">
 			<cfset taxonid = queryrow.taxonid>
 			<cfset scientificnameid = queryrow.scientificnameid>
-			<cfset dwc_scientificName = trim("#queryrow.scientific_name# #queryrow.author_text#")>
+			<cfif len(author_text) GT 0 AND #scientific_name.endsWith(author_text)#>
+				<cfset dwc_scientificName = #queryrow.scientific_name#>
+			<cfelse>
+				<cfset dwc_scientificName = trim("#queryrow.scientific_name# #queryrow.author_text#")>
+			</cfif>
 			<cfobject type="Java" class="java.text.Normalizer" name="normalizer">
 			<cfobject type="Java" class="java.text.Normalizer$Form" name="normalizerForm">
 			<cfset dwc_scientificName = normalizer.normalize(javaCast("string",dwc_scientificName), normalizerForm.NFC)>
