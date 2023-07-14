@@ -482,7 +482,6 @@ libraries found in github.com/filteredpush/ repositories.
 			<!--- @Provides("2750c040-1d4a-4149-99fe-0512785f2d5f") --->
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationClassificationConsistent",[aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcSciNameDQ.validationClassificationConsistent(kingdom, phylum, phylclass, phylorder, superfamily, family, subfamily, tribe, "", genus, gbifAuthority) >
-			//<cfset r.label = "higher classification is consistent" >
 			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationClassificationConsistent",[aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -608,7 +607,6 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationClassificationConsistent",[aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcSciNameDQ.validationClassificationConsistent(kingdom, phylum, phylclass, phylorder, superfamily, family, subfamily, tribe, "", genus, gbifAuthority) >
-			//<cfset r.label = "higher classification is consistent" >
 			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationClassificationConsistent",[aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
