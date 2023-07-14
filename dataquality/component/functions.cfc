@@ -617,7 +617,7 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("amendmentTaxonrankStandardized",[aString.getClass(),aString.getClass()]).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcSciNameDQ.amendmentTaxonrankStandardized(rank,"https://rs.gbif.org/vocabulary/gbif/rank.xml") >
-			<cfset r.label = dwcSciNameDQ.getClass().getMethod("amendmentTaxonrankStandardized",[aString.getClass(),aString.getClass(),aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("amendmentTaxonrankStandardized",[aString.getClass(),aString.getClass()]).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
