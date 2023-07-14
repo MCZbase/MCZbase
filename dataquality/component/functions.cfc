@@ -456,7 +456,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfobject type="Java" class="org.filteredpush.qc.sciname.DwCSciNameDQ" name="dwcSciNameDQ">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Validation" name="Validation">
-			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Amendment" name="Amendment">
+			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Amendment" name="AmendmentC">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Provides" name="Provides">
 			<!--- Obtain mechanism from annotation on class --->
 			<cfset result.mechanism = dwcSciNameDQ.getClass().getAnnotation(Mechanism.getClass()).label() >
@@ -618,7 +618,7 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("amendmentTaxonrankStandardized",[aString.getClass(),aString.getClass()]).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcSciNameDQ.amendmentTaxonrankStandardized(rank,"https://rs.gbif.org/vocabulary/gbif/rank.xml") >
-			<cfset r.label = dwcSciNameDQ.getClass().getMethod("amendmentTaxonrankStandardized",[aString.getClass(),aString.getClass()]).getAnnotation(Amendment.getClass()).description() >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("amendmentTaxonrankStandardized",[aString.getClass(),aString.getClass()]).getAnnotation(AmendmentC.getClass()).description() >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
@@ -637,7 +637,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<!--- not expected to be run --->
 				<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("amendmentScientificnameFromTaxonid",[aString.getClass(),aString.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Provides.getClass()).value() >
 				<cfset dqResponse = dwcSciNameDQ.amendmentScientificnameFromTaxonid(taxonID, dwc_scientificName, wormsAuthority) >
-				<cfset r.label = dwcSciNameDQ.getClass().getMethod("amendmentScientificnameFromTaxonid",[aString.getClass(),aString.getClass(),aString.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Amendment.getClass()).description() >
+				<cfset r.label = dwcSciNameDQ.getClass().getMethod("amendmentScientificnameFromTaxonid",[aString.getClass(),aString.getClass(),aString.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(AmendmentC.getClass()).description() >
 				<cfset r.type = "AMENDMENT" >
 				<cfset r.status = dqResponse.getResultState().getLabel() >
 				<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
