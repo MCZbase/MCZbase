@@ -447,7 +447,6 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfobject type="Java" class="java.text.Normalizer$Form" name="normalizerForm">
 			<cfset dwc_scientificName = normalizer.normalize(javaCast("string",dwc_scientificName), normalizerForm.NFC)>
 
-			<cfobject type="Java" class="org.filteredpush.qc.sciname.DwCSciNameDQ" name="dwcSciNameDQ">
 			<cfobject type="Java" class="org.filteredpush.qc.sciname.Taxon" name="taxon">
 			<cfobject type="Java" class="org.filteredpush.qc.sciname.SciNameSourceAuthority" name="sciNameSourceAuthority">
 			<cfobject type="Java" class="org.filteredpush.qc.sciname.DwCSciNameDQ" name="dwcSciNameDQ">
@@ -479,16 +478,17 @@ libraries found in github.com/filteredpush/ repositories.
 			<!--- TODO: Provide metadata from annotations --->
 
 			<cfset r=structNew()>
+			<cfset aString = "">
 			<!--- @Provides("2750c040-1d4a-4149-99fe-0512785f2d5f") --->
-			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationClassificationConsistent",String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,sciNameSourceAuthority.getClass()).getAnnotation(Provides.getClass()).value() >
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationClassificationConsistent",[aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcSciNameDQ.validationClassificationConsistent(kingdom, phylum, phylclass, phylorder, superfamily, family, subfamily, tribe, "", genus, gbifAuthority) >
 			//<cfset r.label = "higher classification is consistent" >
-			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationClassificationConsistent",String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,sciNameSourceAuthority.getClass()).getAnnotation(Validation.getClass()).description() >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationClassificationConsistent",[aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment[providedGuid] = r >
+			<cfset preamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("401bf207-9a55-4dff-88a5-abcd58ad97fa") --->
