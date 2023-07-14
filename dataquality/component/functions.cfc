@@ -639,7 +639,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfset r.value = "">
 			</cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfif r.status EQ "AMENDED" OR r.status EQ "FILLED_IN>
+			<cfif r.status EQ "AMENDED" OR r.status EQ "FILLED_IN">
 				<!--- amendment ran, thus report it --->
 				<cfset amendment["431467d6-9b4b-48fa-a197-cd5379f5e889"] = r >
 			</cfif>
@@ -657,7 +657,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfset r.value = "">
 			</cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfif r.status EQ "AMENDED" OR r.status EQ "FILLED_IN>
+			<cfif r.status EQ "AMENDED" OR r.status EQ "FILLED_IN">
 				<cfset amendment[providesGuid] = r >
 			</cfif>
 			<cfset r=structNew()>
@@ -676,7 +676,7 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset r.value = "">
 				</cfif>
 				<cfset r.comment = dqResponse.getComment() >
-				<cfif r.status EQ "AMENDED" OR r.status EQ "FILLED_IN>
+				<cfif r.status EQ "AMENDED" OR r.status EQ "FILLED_IN">
 					<cfset amendment[providesGuid] = r >
 				</cfif>
 				<cfset r=structNew()>
