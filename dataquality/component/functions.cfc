@@ -678,7 +678,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment[providesGuid] = r >
+			<cfset postamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("7c4b9498-a8d9-4ebb-85f1-9f200c788595") --->
