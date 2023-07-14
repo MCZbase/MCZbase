@@ -179,6 +179,7 @@ function displayQCResult(data,category,targetDivId) {
 	// iterate through preamendment tests, for each test found, look up the corresponding post-amendment test and 
 	// obtain the results to display pre/post together in tabular form.
 	for (var k in pre) { 
+		console.log(k);
 		counter ++;
 		if (counter % 2 == 0) { rowstyle = ""; } else { rowstyle = "style='background-color: #f2f2f2;'"; }
 		var key = pre[k];
