@@ -516,16 +516,6 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset preamendment["7c4b9498-a8d9-4ebb-85f1-9f200c788595"] = r >
 			<cfset r=structNew()>
 
-			<!--- @Provides("401bf207-9a55-4dff-88a5-abcd58ad97fa") --->
-			<cfset dqResponse = dwcSciNameDQ.validationTaxonidNotempty(taxonid) >
-			<cfset r.label = "dwc:taxonId contains a value" >
-			<cfset r.type = "VALIDATION" >
-			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
-			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["401bf207-9a55-4dff-88a5-abcd58ad97fa"] = r >
-			<cfset r=structNew()>
-
 			<!--- @Provides("f2ce7d55-5b1d-426a-b00e-6d4efe3058ec") --->
 			<cfset dqResponse = dwcSciNameDQ.validationGenusFound(genus,gbifAuthority) >
 			<cfset r.label = "dwc:genus is known to GBIF" >
