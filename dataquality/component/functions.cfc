@@ -633,10 +633,10 @@ libraries found in github.com/filteredpush/ repositories.
 			</cfif>
 			<cfset r=structNew()>
 
-			<cfif len(scientificName) EQ 0 AND len(taxonID) GT 0>
+			<cfif len(dwc_scientificName) EQ 0 AND len(taxonID) GT 0>
 				<!--- not expected to be run --->
 				<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("amendmentScientificnameFromTaxonid",[aString.getClass(),aString.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Provides.getClass()).value() >
-				<cfset dqResponse = dwcSciNameDQ.amendmentScientificnameFromTaxonid(taxonID, scientificName, wormsAuthority) >
+				<cfset dqResponse = dwcSciNameDQ.amendmentScientificnameFromTaxonid(taxonID, dwc_scientificName, wormsAuthority) >
 				<cfset r.label = dwcSciNameDQ.getClass().getMethod("amendmentScientificnameFromTaxonid",[aString.getClass(),aString.getClass(),aString.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Amendment.getClass()).description() >
 				<cfset r.type = "AMENDMENT" >
 				<cfset r.status = dqResponse.getResultState().getLabel() >
