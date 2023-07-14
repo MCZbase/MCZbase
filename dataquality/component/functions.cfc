@@ -268,6 +268,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfobject type="Java" class="org.filteredpush.qc.sciname.services.Validator" name="validator">
 				<cfobject type="Java" class="org.filteredpush.qc.sciname.services.WoRMSService" name="wormsService">
 				<cfobject type="Java" class="org.filteredpush.qc.sciname.services.GBIFService" name="gbifService">
+				<cfobject type="Java" class="org.filteredpush.qc.sciname.services.IRMNGService" name="irmngService">
 				<cfobject type="Java" class="edu.harvard.mcz.nametools.NameUsage" name="nameUsage">
 				<cfobject type="Java" class="edu.harvard.mcz.nametools.ICZNAuthorNameComparator" name="icznComparator">
 
@@ -305,6 +306,21 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset r.habitatFlags = "#habitatVals#">
 				</cfif>
 				<cfset result["WoRMS"] = r>
+
+				<cfif find(" ", trim(queryrow.scientific_name)) EQ 0>
+					<!--- lookup genera and higher taxa in IRMNG --->
+					<cfset irmngAuthority = irmngService.init(false)>
+					<cfset returnName = irmngAuthority.validate(lookupName)>
+					<cfset r=structNew()>
+					<cfif isDefined("returnName")>
+						<cfset r.matchDescription = returnName.getMatchDescription()>
+						<cfset r.scientificName = returnName.getScientificName()>
+						<cfset r.authorship = returnName.getAuthorship()>
+						<cfset r.guid = returnName.getGuid()>
+						<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+					</cfif>
+					<cfset result["IRMNG"] = r>
+				</cfif>
 
 				<!--- lookup in GBIF Backbone --->
 				<cfset gbifAuthority = gbifService.init()>
@@ -390,7 +406,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT scientific_name as item_label, 
 						'' as basisofrecord,
-						kingdom, phylum, phylclass, phylorder, family, genus,
+						kingdom, phylum, phylclass, phylorder, superfamily, family, subfamily, tribe, genus,
 						scientific_name, author_text,
 						taxonid,
 						scientificnameid
@@ -413,7 +429,10 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset phylum = queryrow.phylum>
 			<cfset phylclass = queryrow.phylclass>
 			<cfset phylorder = queryrow.phylorder>
+			<cfset superfamily = queryrow.superfamily>
 			<cfset family = queryrow.family>
+			<cfset subfamily = queryrow.subfamily>
+			<cfset tribe = queryrow.tribe>
 			<cfset genus = queryrow.genus>
 			<cfset scientific_name = "#trim(queryrow.scientific_name)#">
 			<cfset author_text = "#trim(queryrow.author_text)#">
@@ -442,8 +461,39 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset gbifAuthority = sciNameSourceAuthority.init("GBIF_BACKBONE_TAXONOMY")>
 
 			<!--- pre-amendment phase --->
+			<cfset taxonObj = taxon.init()>
+			<cfset taxonObj.setTaxonID(taxonid)>
+			<cfset taxonObj.setKingdom(kingdom)>
+			<cfset taxonObj.setPhylum(phylum)>
+			<cfset taxonObj.setTaxonomic_class(phylclass)>
+			<cfset taxonObj.setOrder(phylorder)>
+			<cfset taxonObj.setSuperfamily(superfamily)>
+			<cfset taxonObj.setFamily(family)>
+			<cfset taxonObj.setSubfamily(subfamily)>
+			<cfset taxonObj.setTribe(tribe)>
+			<cfset taxonObj.setGenus(genus)>
+			<cfset taxonObj.setGenericName(genus)>
+			<cfset taxonObj.setScientificName(dwc_scientificName)>
+			<cfset taxonObj.setScientificNameAuthorship(author_text)>
+			<cfset taxonObj.setScientificNameID(scientificnameid)>
 			<!--- TODO: Provide metadata from annotations --->
 
+			<cfset r=structNew()>
+			<!--- @Provides("2750c040-1d4a-4149-99fe-0512785f2d5f") --->
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationClassificationConsistent",String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,sciNameSourceAuthority.getClass()).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationClassificationConsistent(kingdom, phylum, phylclass, phylorder, superfamily, family, subfamily, tribe, "", genus, gbifAuthority) >
+			//<cfset r.label = "higher classification is consistent" >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationClassificationConsistent",String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,sciNameSourceAuthority.getClass()).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providedGuid] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("401bf207-9a55-4dff-88a5-abcd58ad97fa") --->
+			<cfset dqResponse = dwcSciNameDQ.validationTaxonidNotempty(taxonid) >
+			<cfset r.label = "dwc:taxonId contains a value" >
 			<!--- @Provides("7c4b9498-a8d9-4ebb-85f1-9f200c788595") --->
 			<cfset dqResponse = dwcSciNameDQ.validationScientificnameNotempty(dwc_scientificName) >
 			<cfset r.label = "dwc:scientificName contains a value" >
@@ -537,18 +587,6 @@ libraries found in github.com/filteredpush/ repositories.
 			<!--- amendment phase --->
 
 			<!---  @Provides("431467d6-9b4b-48fa-a197-cd5379f5e889") --->
-			<cfset taxonObj = taxon.init()>
-			<cfset taxonObj.setTaxonID(taxonid)>
-			<cfset taxonObj.setKingdom(kingdom)>
-			<cfset taxonObj.setPhylum(phylum)>
-			<cfset taxonObj.setTaxonomic_class(phylclass)>
-			<cfset taxonObj.setOrder(phylorder)>
-			<cfset taxonObj.setFamily(family)>
-			<cfset taxonObj.setGenus(genus)>
-			<cfset taxonObj.setGenericName(genus)>
-			<cfset taxonObj.setScientificName(dwc_scientificName)>
-			<cfset taxonObj.setScientificNameAuthorship(author_text)>
-			<cfset taxonObj.setScientificNameID(scientificnameid)>
 			<cfset dqResponse = dwcSciNameDQ.amendmentTaxonidFromTaxon(taxonObj,wormsAuthority) >
 			<cfset r.label = "lookup taxonID for taxon" >
 			<cfset r.type = "AMENDMENT" >
@@ -567,6 +605,17 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- post-amendment phase --->
+
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationClassificationConsistent",String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,sciNameSourceAuthority.getClass()).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationClassificationConsistent(kingdom, phylum, phylclass, phylorder, superfamily, family, subfamily, tribe, "", genus, gbifAuthority) >
+			//<cfset r.label = "higher classification is consistent" >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationClassificationConsistent",String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,String.class,sciNameSourceAuthority.getClass()).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providedGuid] = r >
+			<cfset r=structNew()>
 
 			<!--- @Provides("7c4b9498-a8d9-4ebb-85f1-9f200c788595") --->
 			<cfset dqResponse = dwcSciNameDQ.validationScientificnameNotempty(dwc_scientificName) >
