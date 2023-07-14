@@ -392,14 +392,32 @@ libraries found in github.com/filteredpush/ repositories.
 		<cfswitch expression="#ucase(target)#">
 			<cfcase value="FLAT">
 				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT guid as item_label, 
-						basisofrecord,
-						kingdom, phylum, phylclass, phylorder, '' as superfamily, family, subfamily, tribe, genus,
-						scientific_name, author_text,
-						taxonid,
-						scientificnameid
-					FROM DIGIR_QUERY.digir_filtered_flat
+					SELECT flat.guid as item_label, 
+						flat.basisofrecord,
+						flat.kingdom, flat.phylum, flat.phylclass, flat.phylorder, taxonomy.superfamily, flat.family, flat.subfamily, flat.tribe, flat.genus,
+						flat.scientific_name, flat.author_text,
+						flat.taxonid,
+						flat.scientificnameid,
+						nvl2(taxonomy.infraspecific_rank, infraspecific_rank, 
+						nvl2(taxonomy.subspecies,'subspecies',
+						nvl2(taxonomy.species, 'species', 
+						nvl2(taxonomy.subgenus, 'subgenus', 
+						nvl2(taxonomy.genus, 'genus', 
+						nvl2(taxonomy.tribe, 'tribe', 
+						nvl2(taxonomy.subfamily, 'subfamily', 
+						nvl2(taxonomy.family, 'family', 
+						nvl2(taxonomy.superfamily, 'superfamily', 
+						nvl2(taxonomy.phylorder, 'order', 
+						nvl2(taxonomy.phylclass, 'class', 
+						nvl2(taxonomy.phylum, 'phylum', 
+						nvl2(taxonomy.kingdom, 'kingdom', 
+						'unknown'
+						))))))))))))) as rank 
+					FROM DIGIR_QUERY.digir_filtered_flat flat
+						left join identification_taxonomy on flat.identification_id = identification_taxonomy.identification_id
+						left join taxonomy on identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
+						and rownum < 2
 				</cfquery>
 			</cfcase>
 			<cfcase value="TAXONOMY">
@@ -409,7 +427,22 @@ libraries found in github.com/filteredpush/ repositories.
 						kingdom, phylum, phylclass, phylorder, superfamily, family, subfamily, tribe, genus,
 						scientific_name, author_text,
 						taxonid,
-						scientificnameid
+						scientificnameid,
+						nvl2(infraspecific_rank, infraspecific_rank, 
+						nvl2(subspecies,'subspecies',
+						nvl2(species, 'species', 
+						nvl2(subgenus, 'subgenus', 
+						nvl2(genus, 'genus', 
+						nvl2(tribe, 'tribe', 
+						nvl2(subfamily, 'subfamily', 
+						nvl2(family, 'family', 
+						nvl2(superfamily, 'superfamily', 
+						nvl2(phylorder, 'order', 
+						nvl2(phylclass, 'class', 
+						nvl2(phylum, 'phylum', 
+						nvl2(kingdom, 'kingdom', 
+						'unknown'
+						))))))))))))) as rank 
 					FROM taxonomy
 					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
@@ -436,6 +469,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset genus = queryrow.genus>
 			<cfset scientific_name = "#trim(queryrow.scientific_name)#">
 			<cfset author_text = "#trim(queryrow.author_text)#">
+			<cfset rank = queryrow.rank>
 			<cfset taxonid = queryrow.taxonid>
 			<cfset scientificnameid = queryrow.scientificnameid>
 			<cfif len(author_text) GT 0 AND #scientific_name.endsWith(author_text)#>
@@ -491,8 +525,16 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("401bf207-9a55-4dff-88a5-abcd58ad97fa") --->
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonidNotempty",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcSciNameDQ.validationTaxonidNotempty(taxonid) >
-			<cfset r.label = "dwc:taxonId contains a value" >
+			<cfset r.label = dwcSciNameDQ.getClass).getMethod("validationTaxonidNotempty",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
 			<!--- @Provides("7c4b9498-a8d9-4ebb-85f1-9f200c788595") --->
 			<cfset dqResponse = dwcSciNameDQ.validationScientificnameNotempty(dwc_scientificName) >
 			<cfset r.label = "dwc:scientificName contains a value" >
@@ -590,20 +632,72 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "lookup taxonID for taxon" >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "CHANGED" OR r.status EQ "FILLED_IN">
+			<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
 				<cfset taxonid = dqResponse.getValue().getObject().get("dwc:taxonID") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
 			<cfelse>
 				<cfset r.value = "">
 			</cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfif r.status NEQ "INTERNAL_PREREQUISITES_NOT_MET">
-				<!--- data does not allow for amendment to be run, thus don't report it --->
+			<cfif r.status EQ "AMENDED" OR r.status EQ "FILLED_IN>
+				<!--- amendment ran, thus report it --->
 				<cfset amendment["431467d6-9b4b-48fa-a197-cd5379f5e889"] = r >
 			</cfif>
 			<cfset r=structNew()>
 
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("amendmentTaxonrankStandardized",[aString.getClass(),aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.amendmentTaxonrankStandardized(rank,"https://rs.gbif.org/vocabulary/gbif/rank.xml") >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("amendmentTaxonrankStandardized",[aString.getClass(),aString.getClass(),aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
+				<cfset rank = dqResponse.getValue().getObject().get("dwc:taxonRank") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfif r.status EQ "AMENDED" OR r.status EQ "FILLED_IN>
+				<cfset amendment[providesGuid] = r >
+			</cfif>
+			<cfset r=structNew()>
+
+			<cfif len(scientificName) EQ 0 AND len(taxonID) GT 0>
+				<!--- not expected to be run --->
+				<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("amendmentScientificnameFromTaxonid",[aString.getClass(),aString.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Provides.getClass()).value() >
+				<cfset dqResponse = dwcSciNameDQ.amendmentScientificnameFromTaxonid(taxonID, scientificName, wormsAuthority) >
+				<cfset r.label = dwcSciNameDQ.getClass().getMethod("amendmentScientificnameFromTaxonid",[aString.getClass(),aString.getClass(),aString.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Validation.getClass()).description() >
+				<cfset r.type = "AMENDMENT" >
+				<cfset r.status = dqResponse.getResultState().getLabel() >
+				<cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
+					<cfset rank = dqResponse.getValue().getObject().get("dwc:taxonRank") >
+					<cfset r.value = dqResponse.getValue().getObject().toString() >
+				<cfelse>
+					<cfset r.value = "">
+				</cfif>
+				<cfset r.comment = dqResponse.getComment() >
+				<cfif r.status EQ "AMENDED" OR r.status EQ "FILLED_IN>
+					<cfset amendment[providesGuid] = r >
+				</cfif>
+				<cfset r=structNew()>
+			</cfif>
+
 			<!--- post-amendment phase --->
+			<cfset taxonObj = taxon.init()>
+			<cfset taxonObj.setTaxonID(taxonid)>
+			<cfset taxonObj.setKingdom(kingdom)>
+			<cfset taxonObj.setPhylum(phylum)>
+			<cfset taxonObj.setTaxonomic_class(phylclass)>
+			<cfset taxonObj.setOrder(phylorder)>
+			<cfset taxonObj.setSuperfamily(superfamily)>
+			<cfset taxonObj.setFamily(family)>
+			<cfset taxonObj.setSubfamily(subfamily)>
+			<cfset taxonObj.setTribe(tribe)>
+			<cfset taxonObj.setGenus(genus)>
+			<cfset taxonObj.setGenericName(genus)>
+			<cfset taxonObj.setScientificName(dwc_scientificName)>
+			<cfset taxonObj.setScientificNameAuthorship(author_text)>
+			<cfset taxonObj.setScientificNameID(scientificnameid)>
 
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationClassificationConsistent",[aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),aString.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcSciNameDQ.validationClassificationConsistent(kingdom, phylum, phylclass, phylorder, superfamily, family, subfamily, tribe, "", genus, gbifAuthority) >
@@ -615,6 +709,17 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset postamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
+			<!--- @Provides("401bf207-9a55-4dff-88a5-abcd58ad97fa") --->
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonidNotempty",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationTaxonidNotempty(taxonid) >
+			<cfset r.label = dwcSciNameDQ.getClass).getMethod("validationTaxonidNotempty",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
 			<!--- @Provides("7c4b9498-a8d9-4ebb-85f1-9f200c788595") --->
 			<cfset dqResponse = dwcSciNameDQ.validationScientificnameNotempty(dwc_scientificName) >
 			<cfset r.label = "dwc:scientificName contains a value" >
@@ -623,16 +728,6 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["7c4b9498-a8d9-4ebb-85f1-9f200c788595"] = r >
-			<cfset r=structNew()>
-
-			<!--- @Provides("401bf207-9a55-4dff-88a5-abcd58ad97fa") --->
-			<cfset dqResponse = dwcSciNameDQ.validationTaxonidNotempty(taxonid) >
-			<cfset r.label = "dwc:taxonId contains a value" >
-			<cfset r.type = "VALIDATION" >
-			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
-			<cfset r.comment = dqResponse.getComment() >
-			<cfset postamendment["401bf207-9a55-4dff-88a5-abcd58ad97fa"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("3f335517-f442-4b98-b149-1e87ff16de45") --->
