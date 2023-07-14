@@ -392,30 +392,14 @@ libraries found in github.com/filteredpush/ repositories.
 		<cfswitch expression="#ucase(target)#">
 			<cfcase value="FLAT">
 				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT flat.guid as item_label, 
-						flat.basisofrecord,
-						flat.kingdom, flat.phylum, flat.phylclass, flat.phylorder, taxonomy.superfamily, flat.family, flat.subfamily, flat.tribe, flat.genus,
-						flat.scientific_name, flat.author_text,
-						flat.taxonid,
-						flat.scientificnameid,
-						nvl2(taxonomy.infraspecific_rank, infraspecific_rank, 
-						nvl2(taxonomy.subspecies,'subspecies',
-						nvl2(taxonomy.species, 'species', 
-						nvl2(taxonomy.subgenus, 'subgenus', 
-						nvl2(taxonomy.genus, 'genus', 
-						nvl2(taxonomy.tribe, 'tribe', 
-						nvl2(taxonomy.subfamily, 'subfamily', 
-						nvl2(taxonomy.family, 'family', 
-						nvl2(taxonomy.superfamily, 'superfamily', 
-						nvl2(taxonomy.phylorder, 'order', 
-						nvl2(taxonomy.phylclass, 'class', 
-						nvl2(taxonomy.phylum, 'phylum', 
-						nvl2(taxonomy.kingdom, 'kingdom', 
-						'unknown'
-						))))))))))))) as rank 
-					FROM DIGIR_QUERY.digir_filtered_flat flat
-						left join identification_taxonomy on flat.identification_id = identification_taxonomy.identification_id
-						left join taxonomy on identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id
+					SELECT guid as item_label, 
+						basisofrecord,
+						kingdom, phylum, phylclass, phylorder, '' as superfamily, family, subfamily, tribe, genus,
+						scientific_name, author_text,
+						taxonid,
+						scientificnameid,
+						taxonrank as rank
+					FROM DIGIR_QUERY.digir_filtered_flat
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 						and rownum < 2
 				</cfquery>
@@ -428,21 +412,7 @@ libraries found in github.com/filteredpush/ repositories.
 						scientific_name, author_text,
 						taxonid,
 						scientificnameid,
-						nvl2(infraspecific_rank, infraspecific_rank, 
-						nvl2(subspecies,'subspecies',
-						nvl2(species, 'species', 
-						nvl2(subgenus, 'subgenus', 
-						nvl2(genus, 'genus', 
-						nvl2(tribe, 'tribe', 
-						nvl2(subfamily, 'subfamily', 
-						nvl2(family, 'family', 
-						nvl2(superfamily, 'superfamily', 
-						nvl2(phylorder, 'order', 
-						nvl2(phylclass, 'class', 
-						nvl2(phylum, 'phylum', 
-						nvl2(kingdom, 'kingdom', 
-						'unknown'
-						))))))))))))) as rank 
+						get_taxonrank(taxon_name_id) as rank
 					FROM taxonomy
 					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
