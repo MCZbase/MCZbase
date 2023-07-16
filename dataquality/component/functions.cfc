@@ -394,7 +394,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT guid as item_label, 
 						basisofrecord,
-						kingdom, phylum, phylclass, phylorder, '' as superfamily, family, subfamily, tribe, genus, '' as subgenus
+						kingdom, phylum, phylclass, phylorder, '' as superfamily, family, subfamily, tribe, genus, '' as subgenus,
 						scientific_name, author_text,
 						taxonid,
 						scientificnameid,
@@ -410,7 +410,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT scientific_name as item_label, 
 						'' as basisofrecord,
-						kingdom, phylum, phylclass, phylorder, superfamily, family, subfamily, tribe, genus, subgenus
+						kingdom, phylum, phylclass, phylorder, superfamily, family, subfamily, tribe, genus, subgenus,
 						scientific_name, author_text,
 						taxonid,
 						scientificnameid,
