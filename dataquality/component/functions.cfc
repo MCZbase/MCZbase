@@ -659,7 +659,7 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<!--- @Provides("4c09f127-737b-4686-82a0-7c8e30841590") --->
 			<cfset arrayForTaxonUnamb = ArrayNew(1)>
-			<cfset ArraySet(arrayForTaxonUnamb,1,25,aString.getClass())>
+			<cfset ArraySet(arrayForTaxonUnamb,1,26,aString.getClass())>
 			<cfset ArrayAppend(arrayForTaxonUnamb,sciNameSourceAuthority.getClass())>
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",arrayForTaxonUnamb).getAnnotation(Provides.getClass()).value() >
 			<cfif length(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
@@ -908,8 +908,6 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("06851339-843f-4a43-8422-4e61b9a00e75") --->
-			<cfset array25String = ArrayNew(1)>
-			<cfset ArraySet(array25String,1,25,aString.getClass())>
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonNotempty",array25String).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcSciNameDQ.validationTaxonNotempty(phylclass, genus, '', phylum, scientificNameId, taxonId, '', subgenus, '', '', '', '', kingdom, family, dwc_scientificname, genericName, '', specificEpithet, infraspecificEpithet, phylorder, '', subfamily, superfamily, tribe, "") >
 			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonNotempty",array25String).getAnnotation(Validation.getClass()).description() >
@@ -921,9 +919,6 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("4c09f127-737b-4686-82a0-7c8e30841590") --->
-			<cfset arrayForTaxonUnamb = ArrayNew(1)>
-			<cfset ArraySet(arrayForTaxonUnamb,1,25,aString.getClass())>
-			<cfset ArrayAppend(arrayForTaxonUnamb,sciNameSourceAuthority.getClass())>
 			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",[taxonObj.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Provides.getClass()).value() >
 			<cfif length(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
 				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,wormsAuthority) >
