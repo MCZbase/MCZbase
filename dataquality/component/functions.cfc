@@ -661,13 +661,13 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset arrayForTaxonUnamb = ArrayNew(1)>
 			<cfset ArraySet(arrayForTaxonUnamb,1,27,aString.getClass())>
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",arrayForTaxonUnamb).getAnnotation(Provides.getClass()).value() >
-			<cfif length(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
+			<cfif len(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
 				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,wormsAuthority) >
 			<cfelse>
 				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,gbifAuthority) >
 			</cfif>
 			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",[taxonObj.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Validation.getClass()).description() >
-			<cfif length(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
+			<cfif len(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
 				<cfset r.label = replace(r.label,"bdq:sourceAuthority","WoRMS")>
 			<cfelse>
 				<cfset r.label = replace(r.label,"bdq:sourceAuthority","GBIF")>
@@ -919,13 +919,13 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<!--- @Provides("4c09f127-737b-4686-82a0-7c8e30841590") --->
 			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",[taxonObj.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Provides.getClass()).value() >
-			<cfif length(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
+			<cfif len(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
 				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,wormsAuthority) >
 			<cfelse>
 				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,gbifAuthority) >
 			</cfif>
 			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",[taxonObj.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Validation.getClass()).description() >
-			<cfif length(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
+			<cfif len(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
 				<cfset r.label = replace(r.label,"bdq:sourceAuthority","WoRMS")>
 			<cfelse>
 				<cfset r.label = replace(r.label,"bdq:sourceAuthority","GBIF")>
