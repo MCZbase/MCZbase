@@ -551,9 +551,9 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("7bdb13a4-8a51-4ee5-be7f-20693fdb183e") --->
-			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonrankStandard",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcSciNameDQ.validationTaxonrankStandard(rank) >
-			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonrankStandard",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonrankStandard",[aString.getClass(),aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationTaxonrankStandard(rank,"https://rs.gbif.org/vocabulary/gbif/rank.xml") >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonrankStandard",[aString.getClass(),aString.getClass()]).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -814,9 +814,9 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("7bdb13a4-8a51-4ee5-be7f-20693fdb183e") --->
-			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonrankStandard",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcSciNameDQ.validationTaxonrankStandard(rank) >
-			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonrankStandard",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonrankStandard",[aString.getClass(),aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationTaxonrankStandard(rank,"https://rs.gbif.org/vocabulary/gbif/rank.xml") >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonrankStandard",[aString.getClass(),aString.getClass()]).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
