@@ -666,7 +666,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfelse>
 				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,gbifAuthority.getName()) >
 			</cfif>
-			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",[taxonObj.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",arrayForTaxonUnamb).getAnnotation(Validation.getClass()).description() >
 			<cfif len(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
 				<cfset r.label = replace(r.label,"bdq:sourceAuthority","WoRMS")>
 			<cfelse>
@@ -918,13 +918,13 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("4c09f127-737b-4686-82a0-7c8e30841590") --->
-			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",[taxonObj.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",arrayForTaxonUnamb).getAnnotation(Provides.getClass()).value() >
 			<cfif len(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
-				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,wormsAuthority) >
+				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,wormsAuthority.getName()) >
 			<cfelse>
-				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,gbifAuthority) >
+				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,gbifAuthority.getName()) >
 			</cfif>
-			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",[taxonObj.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",arrayForTaxonUnamb).getAnnotation(Validation.getClass()).description() >
 			<cfif len(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
 				<cfset r.label = replace(r.label,"bdq:sourceAuthority","WoRMS")>
 			<cfelse>
