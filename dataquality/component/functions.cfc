@@ -446,6 +446,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset scientific_name = "#trim(queryrow.scientific_name)#">
 			<cfset author_text = "#trim(queryrow.author_text)#">
 			<cfset rank = queryrow.rank>
+			<cfset specificEpithet = queryrow.specificEpithet>
+			<cfset infraspecificEpithet = queryrow.infraspecificEpithet>
 			<cfset taxonid = queryrow.taxonid>
 			<cfset scientificnameid = queryrow.scientificnameid>
 			<cfif len(author_text) GT 0 AND #scientific_name.endsWith(author_text)#>
