@@ -17,9 +17,11 @@ function loadEventQC(collection_object_id,collecting_event_id,targetDivId){
 	if (collection_object_id && String(collection_object_id).length > 0) { 
 		target_id = String(collection_object_id);
 		target = "FLAT";
+		$("#"+targetDivId).html("<div>Running Event Quality Control Tests...</div>");
 	} else if (collecting_event_id && String(collecting_event_id).length > 0) {
 		target_id = String(collecting_event_id);
 		target = "COLLEVENT";
+		$("#"+targetDivId).html("<div>Running Event Quality Control Tests...</div>");
 	} else { 
 		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a collecting_event_id was provided." );
 	}
@@ -65,9 +67,11 @@ function loadNameQC(collection_object_id,taxon_name_id,targetDivId){
 	if (collection_object_id && String(collection_object_id).length > 0) { 
 		target_id = String(collection_object_id);
 		target = "FLAT";
+		$("#"+targetDivId).html("<div>Running Taxon Quality Control Tests...</div>");
 	} else if (taxon_name_id && String(taxon_name_id).length > 0) {
 		target_id = String(taxon_name_id);
 		target = "TAXONOMY";
+		$("#"+targetDivId).html("<div>Running Taxon Quality Control Tests...</div>");
 	} else { 
 		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a taxon_name_id was provided." );
 	}
@@ -113,9 +117,11 @@ function loadSpaceQC(collection_object_id,locality_id,targetDivId){
 	if (collection_object_id && String(collection_object_id).length > 0) { 
 		target_id = String(collection_object_id);
 		target = "FLAT";
+		$("#"+targetDivId).html("<div>Running Spatial Quality Control Tests...</div>");
 	} else if (locality_id && String(locality_id).length > 0) {
 		target_id = String(locality_id);
 		target = "LOCALITY";
+		$("#"+targetDivId).html("<div>Running Spatial Quality Control Tests...</div>");
 	} else { 
 		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a locality_id was provided." );
 	}
@@ -179,6 +185,7 @@ function displayQCResult(data,category,targetDivId) {
 	// iterate through preamendment tests, for each test found, look up the corresponding post-amendment test and 
 	// obtain the results to display pre/post together in tabular form.
 	for (var k in pre) { 
+		console.log(k);
 		counter ++;
 		if (counter % 2 == 0) { rowstyle = ""; } else { rowstyle = "style='background-color: #f2f2f2;'"; }
 		var key = pre[k];
