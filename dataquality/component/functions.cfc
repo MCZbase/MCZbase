@@ -659,8 +659,7 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<!--- @Provides("4c09f127-737b-4686-82a0-7c8e30841590") --->
 			<cfset arrayForTaxonUnamb = ArrayNew(1)>
-			<cfset ArraySet(arrayForTaxonUnamb,1,26,aString.getClass())>
-			<cfset ArrayAppend(arrayForTaxonUnamb,sciNameSourceAuthority.getClass())>
+			<cfset ArraySet(arrayForTaxonUnamb,1,27,aString.getClass())>
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",arrayForTaxonUnamb).getAnnotation(Provides.getClass()).value() >
 			<cfif length(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
 				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,wormsAuthority) >
