@@ -930,7 +930,6 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfelse>
 				<cfset r.label = replace(r.label,"bdq:sourceAuthority","GBIF")>
 			</cfif>
-			<cfset r.label = replace(r.label,"bdq:sourceAuthority","GBIF")>
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
