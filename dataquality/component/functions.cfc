@@ -472,6 +472,7 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<cfset wormsAuthority = sciNameSourceAuthority.init("WORMS")>
 			<cfset gbifAuthority = sciNameSourceAuthority.init("GBIF_BACKBONE_TAXONOMY")>
+			<cfset irmngAuthority = sciNameSourceAuthority.init("IRMNG")>
 
 			<!--- pre-amendment phase --->
 			<cfset taxonObj = taxon.init()>
