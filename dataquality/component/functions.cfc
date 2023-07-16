@@ -452,6 +452,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset scientificnameid = queryrow.scientificnameid>
 			<cfif len(author_text) GT 0 AND #scientific_name.endsWith(author_text)#>
 				<cfset dwc_scientificName = #queryrow.scientific_name#>
+				<cfset scientific_name = Replace(queryrow.scientific_name,queryrow.author_text,"")>
 			<cfelse>
 				<cfset dwc_scientificName = trim("#queryrow.scientific_name# #queryrow.author_text#")>
 			</cfif>
