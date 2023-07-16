@@ -398,7 +398,9 @@ libraries found in github.com/filteredpush/ repositories.
 						scientific_name, author_text,
 						taxonid,
 						scientificnameid,
-						taxonrank as rank
+						taxonrank as rank,
+						species as specificEpithet,
+						subspecies as infraspecificEpithet
 					FROM DIGIR_QUERY.digir_filtered_flat
 					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 						and rownum < 2
@@ -412,7 +414,9 @@ libraries found in github.com/filteredpush/ repositories.
 						scientific_name, author_text,
 						taxonid,
 						scientificnameid,
-						get_taxonrank(taxon_name_id) as rank
+						get_taxonrank(taxon_name_id) as rank,
+						species as specificEpithet,
+						subspecies as infraspecificEpithet
 					FROM taxonomy
 					WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
@@ -437,6 +441,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset subfamily = queryrow.subfamily>
 			<cfset tribe = queryrow.tribe>
 			<cfset genus = queryrow.genus>
+			<cfset genericname = queryrow.genus>
 			<cfset scientific_name = "#trim(queryrow.scientific_name)#">
 			<cfset author_text = "#trim(queryrow.author_text)#">
 			<cfset rank = queryrow.rank>
@@ -480,8 +485,24 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset taxonObj.setScientificName(dwc_scientificName)>
 			<cfset taxonObj.setScientificNameAuthorship(author_text)>
 			<cfset taxonObj.setScientificNameID(scientificnameid)>
-			<!--- TODO: Provide metadata from annotations --->
-
+			<!--- 
+			 * #120	VALIDATION_TAXONID_NOTEMPTY 401bf207-9a55-4dff-88a5-abcd58ad97fa
+ 			 * #121	VALIDATION_TAXONID_COMPLETE a82c7e3a-3a50-4438-906c-6d0fefa9e984
+ 			 * #105	VALIDATION_TAXON_NOTEMPTY 06851339-843f-4a43-8422-4e61b9a00e75
+			 * #123	VALIDATION_CLASSIFICATION_CONSISTENT 2750c040-1d4a-4149-99fe-0512785f2d5f
+ 			 * #70	VALIDATION_TAXON_UNAMBIGUOUS 4c09f127-737b-4686-82a0-7c8e30841590
+			 * #81	VALIDATION_KINGDOM_FOUND 125b5493-052d-4a0d-a3e1-ed5bf792689e
+			 * #22	VALIDATION_PHYLUM_FOUND eaad41c5-1d46-4917-a08b-4fd1d7ff5c0f
+			 * #77	VALIDATION_CLASS_FOUND 2cd6884e-3d14-4476-94f7-1191cfff309b
+			 * #83	VALIDATION_ORDER_FOUND 81cc974d-43cc-4c0f-a5e0-afa23b455aa3
+			 * #28	VALIDATION_FAMILY_FOUND 3667556d-d8f5-454c-922b-af8af38f613c
+			 * #122	VALIDATION_GENUS_FOUND f2ce7d55-5b1d-426a-b00e-6d4efe3058ec
+			 * #82	VALIDATION_SCIENTIFICNAME_NOTEMPTY 7c4b9498-a8d9-4ebb-85f1-9f200c788595
+			 * #46	VALIDATION_SCIENTIFICNAME_FOUND 3f335517-f442-4b98-b149-1e87ff16de45
+ 			 * #101	VALIDATION_POLYNOMIAL_CONSISTENT 17f03f1f-f74d-40c0-8071-2927cfc9487b
+			 * #161	VALIDATION_TAXONRANK_NOTEMPTY 14da5b87-8304-4b2b-911d-117e3c29e890
+ 			 * #162	VALIDATION_TAXONRANK_STANDARD 7bdb13a4-8a51-4ee5-be7f-20693fdb183e
+			--->
 			<cfset r=structNew()>
 			<cfset aString = "">
 			<!--- @Provides("2750c040-1d4a-4149-99fe-0512785f2d5f") --->
@@ -500,6 +521,39 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonidNotempty",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
 			<cfset dqResponse = dwcSciNameDQ.validationTaxonidNotempty(taxonid) >
 			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonidNotempty",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("a82c7e3a-3a50-4438-906c-6d0fefa9e984") --->
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonidComplete",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationTaxonidComplete(taxonid) >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonidComplete",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("14da5b87-8304-4b2b-911d-117e3c29e890") --->
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonrankNotempty",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationTaxonrankNotempty(rank) >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonrankNotempty",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("7bdb13a4-8a51-4ee5-be7f-20693fdb183e") --->
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonrankStandard",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationTaxonrankStandard(rank) >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonrankStandard",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -587,7 +641,61 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset preamendment["125b5493-052d-4a0d-a3e1-ed5bf792689e"] = r >
 			<cfset r=structNew()>
 
+			<!--- @Provides("06851339-843f-4a43-8422-4e61b9a00e75") --->
+			<cfset array25String = ArrayNew(1)>
+			<cfset ArraySet(array25String,1,25,aString.getClass())>
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonNotempty",array25String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationTaxonNotempty(phylclass, genus, '', phylum, scientificnameid, taxonid, '', subgenus, '', '', '', '', kingdom, family, scientificname, genericName, '', specificEpithet, infraspecificEpithet, phylorder, '', subfamily, superfamily, tribe, "") >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonNotempty",array25String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("4c09f127-737b-4686-82a0-7c8e30841590") --->
+			<cfset arrayForTaxonUnamb = ArrayNew(1)>
+			<cfset ArraySet(arrayForTaxonUnamb,1,25,aString.getClass())>
+			<cfset ArrayAppend(arrayForTaxonUnamb,sciNameSourceAuthority.getClass())>
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",arrayForTaxonUnamb).getAnnotation(Provides.getClass()).value() >
+			<cfif length(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
+				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,wormsAuthority) >
+			<cfelse>
+				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,gbifAuthority) >
+			</cfif>
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",[taxonObj.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfif length(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
+				<cfset r.label = replace(r.label,"bdq:sourceAuthority","WoRMS")>
+			<cfelse>
+				<cfset r.label = replace(r.label,"bdq:sourceAuthority","GBIF")>
+			</cfif>
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("17f03f1f-f74d-40c0-8071-2927cfc9487b") --->
+			<cfset array4String = ArrayNew(1)>
+			<cfset ArraySet(array4String,1,4,aString.getClass())>
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationPolynomialConsistent",array4String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationPolynomialConsistent(scientificname, genericname, specificEpithet, infraspecificEpithet) >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationPolynomialConsistent",array4String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
 			<!--- amendment phase --->
+			<!--- 
+ 			* #57	AMENDMENT_TAXONID_FROM_TAXON 431467d6-9b4b-48fa-a197-cd5379f5e889
+			* #71	AMENDMENT_SCIENTIFICNAME_FROM_TAXONID f01fb3f9-2f7e-418b-9f51-adf50f202aea
+			* #163	AMENDMENT_TAXONRANK_STANDARDIZED e39098df-ef46-464c-9aef-bcdeee2a88cb
+			--->
 
 			<!---  @Provides("431467d6-9b4b-48fa-a197-cd5379f5e889") --->
 			<cfset dqResponse = dwcSciNameDQ.amendmentTaxonidFromTaxon(taxonObj,wormsAuthority) >
@@ -683,6 +791,39 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset postamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
+			<!--- @Provides("a82c7e3a-3a50-4438-906c-6d0fefa9e984") --->
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonidComplete",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationTaxonidComplete(taxonid) >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonidComplete",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("14da5b87-8304-4b2b-911d-117e3c29e890") --->
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonrankNotempty",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationTaxonrankNotempty(rank) >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonrankNotempty",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("7bdb13a4-8a51-4ee5-be7f-20693fdb183e") --->
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonrankStandard",[aString.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationTaxonrankStandard(rank) >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonrankStandard",[aString.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
 			<!--- @Provides("7c4b9498-a8d9-4ebb-85f1-9f200c788595") --->
 			<cfset dqResponse = dwcSciNameDQ.validationScientificnameNotempty(dwc_scientificName) >
 			<cfset r.label = "dwc:scientificName contains a value" >
@@ -761,6 +902,55 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["125b5493-052d-4a0d-a3e1-ed5bf792689e"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("06851339-843f-4a43-8422-4e61b9a00e75") --->
+			<cfset array25String = ArrayNew(1)>
+			<cfset ArraySet(array25String,1,25,aString.getClass())>
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonNotempty",array25String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationTaxonNotempty(phylclass, genus, '', phylum, scientificNameId, taxonId, '', subgenus, '', '', '', '', kingdom, family, scientificname, genericName, '', specificEpithet, infraspecificEpithet, phylorder, '', subfamily, superfamily, tribe, "") >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonNotempty",array25String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("4c09f127-737b-4686-82a0-7c8e30841590") --->
+			<cfset arrayForTaxonUnamb = ArrayNew(1)>
+			<cfset ArraySet(arrayForTaxonUnamb,1,25,aString.getClass())>
+			<cfset ArrayAppend(arrayForTaxonUnamb,sciNameSourceAuthority.getClass())>
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",[taxonObj.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Provides.getClass()).value() >
+			<cfif length(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
+				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,wormsAuthority) >
+			<cfelse>
+				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,gbifAuthority) >
+			</cfif>
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",[taxonObj.getClass(),sciNameSourceAuthority.getClass()]).getAnnotation(Validation.getClass()).description() >
+			<cfif length(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
+				<cfset r.label = replace(r.label,"bdq:sourceAuthority","WoRMS")>
+			<cfelse>
+				<cfset r.label = replace(r.label,"bdq:sourceAuthority","GBIF")>
+			</cfif>
+			<cfset r.label = replace(r.label,"bdq:sourceAuthority","GBIF")>
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+
+			<!--- @Provides("17f03f1f-f74d-40c0-8071-2927cfc9487b") --->
+			<cfset array4String = ArrayNew(1)>
+			<cfset ArraySet(array4String,1,4,aString.getClass())>
+			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationPolynomialConsistent",array4String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcSciNameDQ.validationPolynomialConsistent(scientificname, genericname, specificEpithet, infraspecificEpithet) >
+			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationPolynomialConsistent",array4String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
 			<!--- Add results from phases to result to return --->
