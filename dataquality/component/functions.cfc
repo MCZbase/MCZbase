@@ -646,7 +646,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset array25String = ArrayNew(1)>
 			<cfset ArraySet(array25String,1,25,aString.getClass())>
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonNotempty",array25String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcSciNameDQ.validationTaxonNotempty(phylclass, genus, '', phylum, scientificnameid, taxonid, '', subgenus, '', '', '', '', kingdom, family, scientificname, genericName, '', specificEpithet, infraspecificEpithet, phylorder, '', subfamily, superfamily, tribe, "") >
+			<cfset dqResponse = dwcSciNameDQ.validationTaxonNotempty(phylclass, genus, '', phylum, scientificnameid, taxonid, '', subgenus, '', '', '', '', kingdom, family, dwc_scientificname, genericName, '', specificEpithet, infraspecificEpithet, phylorder, '', subfamily, superfamily, tribe, "") >
 			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonNotempty",array25String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -682,7 +682,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset array4String = ArrayNew(1)>
 			<cfset ArraySet(array4String,1,4,aString.getClass())>
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationPolynomialConsistent",array4String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcSciNameDQ.validationPolynomialConsistent(scientificname, genericname, specificEpithet, infraspecificEpithet) >
+			<cfset dqResponse = dwcSciNameDQ.validationPolynomialConsistent(dwc_scientificname, genericname, specificEpithet, infraspecificEpithet) >
 			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationPolynomialConsistent",array4String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -909,7 +909,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset array25String = ArrayNew(1)>
 			<cfset ArraySet(array25String,1,25,aString.getClass())>
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonNotempty",array25String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcSciNameDQ.validationTaxonNotempty(phylclass, genus, '', phylum, scientificNameId, taxonId, '', subgenus, '', '', '', '', kingdom, family, scientificname, genericName, '', specificEpithet, infraspecificEpithet, phylorder, '', subfamily, superfamily, tribe, "") >
+			<cfset dqResponse = dwcSciNameDQ.validationTaxonNotempty(phylclass, genus, '', phylum, scientificNameId, taxonId, '', subgenus, '', '', '', '', kingdom, family, dwc_scientificname, genericName, '', specificEpithet, infraspecificEpithet, phylorder, '', subfamily, superfamily, tribe, "") >
 			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonNotempty",array25String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -945,7 +945,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset array4String = ArrayNew(1)>
 			<cfset ArraySet(array4String,1,4,aString.getClass())>
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationPolynomialConsistent",array4String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcSciNameDQ.validationPolynomialConsistent(scientificname, genericname, specificEpithet, infraspecificEpithet) >
+			<cfset dqResponse = dwcSciNameDQ.validationPolynomialConsistent(dwc_scientificname, genericname, specificEpithet, infraspecificEpithet) >
 			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationPolynomialConsistent",array4String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
