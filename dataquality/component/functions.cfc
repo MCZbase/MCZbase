@@ -472,6 +472,7 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<cfset wormsAuthority = sciNameSourceAuthority.init("WORMS")>
 			<cfset gbifAuthority = sciNameSourceAuthority.init("GBIF_BACKBONE_TAXONOMY")>
+			<cfset irmngAuthority = sciNameSourceAuthority.init("IRMNG")>
 
 			<!--- pre-amendment phase --->
 			<cfset taxonObj = taxon.init()>
@@ -662,17 +663,17 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset arrayForTaxonUnamb = ArrayNew(1)>
 			<cfset ArraySet(arrayForTaxonUnamb,1,27,aString.getClass())>
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",arrayForTaxonUnamb).getAnnotation(Provides.getClass()).value() >
-			<cfif len(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
+			<cfif len(taxonid) GT 0 AND find("marinespecies.org",taxonid) GT 0>
 				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,wormsAuthority.getName()) >
-			<cfelseif len(taxonid) GT 0 AND find(taxonid,"irmng.org") GT 0>
+			<cfelseif len(taxonid) GT 0 AND find("irmng.org",taxonid) GT 0>
 				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,irmngAuthority.getName()) >
 			<cfelse>
 				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,gbifAuthority.getName()) >
 			</cfif>
 			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",arrayForTaxonUnamb).getAnnotation(Validation.getClass()).description() >
-			<cfif len(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
+			<cfif len(taxonid) GT 0 AND find("marinespecies.org",taxonid) GT 0>
 				<cfset r.label = replace(r.label,"bdq:sourceAuthority","WoRMS")>
-			<cfelseif len(taxonid) GT 0 AND find(taxonid,"irmng.org") GT 0>
+			<cfelseif len(taxonid) GT 0 AND find("irmng.org",taxonid) GT 0>
 				<cfset r.label = replace(r.label,"bdq:sourceAuthority","IRMNG")>
 			<cfelse>
 				<cfset r.label = replace(r.label,"bdq:sourceAuthority","GBIF")>
@@ -924,17 +925,17 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<!--- @Provides("4c09f127-737b-4686-82a0-7c8e30841590") --->
 			<cfset providesGuid = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",arrayForTaxonUnamb).getAnnotation(Provides.getClass()).value() >
-			<cfif len(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
+			<cfif len(taxonid) GT 0 AND find("marinespecies.org",taxonid) GT 0>
 				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,wormsAuthority.getName()) >
-			<cfelseif len(taxonid) GT 0 AND find(taxonid,"irmng.org") GT 0>
+			<cfelseif len(taxonid) GT 0 AND find("irmng.org",taxonid) GT 0>
 				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,irmngAuthority.getName()) >
 			<cfelse>
 				<cfset dqResponse = dwcSciNameDQ.validationTaxonUnambiguous(taxonObj,gbifAuthority.getName()) >
 			</cfif>
 			<cfset r.label = dwcSciNameDQ.getClass().getMethod("validationTaxonUnambiguous",arrayForTaxonUnamb).getAnnotation(Validation.getClass()).description() >
-			<cfif len(taxonid) GT 0 AND find(taxonid,"marinespecies.org") GT 0>
+			<cfif len(taxonid) GT 0 AND find("marinespecies.org",taxonid) GT 0>
 				<cfset r.label = replace(r.label,"bdq:sourceAuthority","WoRMS")>
-			<cfelseif len(taxonid) GT 0 AND find(taxonid,"irmng.org") GT 0>
+			<cfelseif len(taxonid) GT 0 AND find("irmng.org",taxonid) GT 0>
 				<cfset r.label = replace(r.label,"bdq:sourceAuthority","IRMNG")>
 			<cfelse>
 				<cfset r.label = replace(r.label,"bdq:sourceAuthority","GBIF")>
