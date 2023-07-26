@@ -32,7 +32,7 @@
 					left join project_trans on project.project_id = project_trans.project_id 
 					left join trans on project_trans.transaction_id=trans.transaction_id 
 					left join cataloged_item on trans.transaction_id=cataloged_item.accn_id
-				<cfif>
+				</cfif>
 				<cfif isdefined("sponsor") AND len(#sponsor#) gt 0>
 					left join project_sponsor on project.project_id = project_sponsor.project_id 
 					left join agent_name projSponsorName on project_sponsor.agent_name_id = projSponsorName.agent_name_id
