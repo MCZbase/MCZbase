@@ -1201,8 +1201,8 @@ limitations under the License.
 			<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update media_relations set
 				media_relationship=<cfqueryparam cfsqltype="cf_sql_varchar" value="#media_relationship#" /> ,
-				related_primary_key=<cfqueryparam cfsqltype="cf_sql_number" value="#related_primary_key#" /> ,
-				where media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" />
+				related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#" /> ,
+				where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" />
 			</cfquery>
 			<cfloop from="1" to="#number_of_relations#" index="n">
 				<cfset failure=0>
