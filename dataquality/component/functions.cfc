@@ -134,10 +134,10 @@ libraries found in github.com/filteredpush/ repositories.
 			</cfdefaultcase>
 		</cfswitch>
 		<cfif queryrow.recordcount is 1>
-			<cfset result.status="success">
-			<cfset result.target_id=target_id >
+			<cfset result.STATUS="success">
+			<cfset result.TARGET_ID=target_id >
 			<cfset result.guid=queryrow.item_label>
-			<cfset result.error="">
+			<cfset result.ERROR="">
 
 			<!--- store local copies of query results to use in pre-amendment phase and overwrite in ammendment phase  --->
 			<cfset country = queryrow.country>
@@ -220,22 +220,22 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<!--- Add results from phases to result to return --->
 
-			<cfset result["preamendment"] = preamendment >
+			<cfset result["PREAMENDMENT"] = preamendment >
 
-			<cfset result["amendment"] = amendment >
+			<cfset result["AMENDMENT"] = amendment >
 
-			<cfset result["postamendment"] = postamendment >
+			<cfset result["POSTAMENDMENT"] = postamendment >
 
 		<cfelse>
-			<cfset result.status="fail">
-			<cfset result.target_id=target_id>
-			<cfset result.error="record not found">
+			<cfset result.STATUS="fail">
+			<cfset result.TARGET_ID=target_id>
+			<cfset result.ERROR="record not found">
 		</cfif>
    <cfcatch>
-		<cfset result.status="fail">
-		<cfset result.target_id=target_id>
+		<cfset result.STATUS="fail">
+		<cfset result.TARGET_ID=target_id>
 		<cfset line = cfcatch.tagcontext[1].line>
-		<cfset result.error=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
+		<cfset result.ERROR=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
    </cfcatch>
 	</cftry>
    <cfreturn serializeJSON(result) >
@@ -426,10 +426,10 @@ libraries found in github.com/filteredpush/ repositories.
 			</cfdefaultcase>
 		</cfswitch>
 		<cfif queryrow.recordcount is 1>
-			<cfset result.status="success">
-			<cfset result.target_id=target_id >
+			<cfset result.STATUS="success">
+			<cfset result.TARGET_ID=target_id >
 			<cfset result.guid=queryrow.item_label>
-			<cfset result.error="">
+			<cfset result.ERROR="">
 
 			<!--- store local copies of query results to use in pre-amendment phase and overwrite in ammendment phase  --->
 			<cfset kingdom = queryrow.kingdom>
@@ -962,22 +962,22 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<!--- Add results from phases to result to return --->
 
-			<cfset result["preamendment"] = preamendment >
+			<cfset result["PREAMENDMENT"] = preamendment >
 
-			<cfset result["amendment"] = amendment >
+			<cfset result["AMENDMENT"] = amendment >
 
-			<cfset result["postamendment"] = postamendment >
+			<cfset result["POSTAMENDMENT"] = postamendment >
 
 		<cfelse>
-			<cfset result.status="fail">
-			<cfset result.target_id=target_id>
-			<cfset result.error="record not found">
+			<cfset result.STATUS="fail">
+			<cfset result.TARGET_ID=target_id>
+			<cfset result.ERROR="record not found">
 		</cfif>
     <cfcatch>
-			<cfset result.status="fail">
-			<cfset result.target_id=target_id>
+			<cfset result.STATUS="fail">
+			<cfset result.TARGET_ID=target_id>
 			<cfset line = cfcatch.tagcontext[1].line>
-			<cfset result.error=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
+			<cfset result.ERROR=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
     </cfcatch>
 	</cftry>
     <cfreturn serializeJSON(result) >
@@ -1032,10 +1032,10 @@ libraries found in github.com/filteredpush/ repositories.
 		</cfswitch>
 
 		<cfif flatrow.recordcount is 1>
-			<cfset result.status="success">
-			<cfset result.target_id=target_id>
+			<cfset result.STATUS="success">
+			<cfset result.TARGET_ID=target_id>
 			<cfset result.guid=flatrow.item_label>
-			<cfset result.error="">
+			<cfset result.ERROR="">
 
 			<!--- store local copies of query results to use in pre-amendment phase  --->
 			<cfif flatrow.began_date EQ flatrow.ended_date>
@@ -1524,22 +1524,22 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<!--- Add results from phases to result to return --->
 
-			<cfset result["preamendment"] = preamendment >
+			<cfset result["PREAMENDMENT"] = preamendment >
 
-			<cfset result["amendment"] = amendment >
+			<cfset result["AMENDMENT"] = amendment >
 
-			<cfset result["postamendment"] = postamendment >
+			<cfset result["POSTAMENDMENT"] = postamendment >
 
 		<cfelse>
-			<cfset result.status="fail">
-			<cfset result.target_id=target_id>
-			<cfset result.error="record not found">
+			<cfset result.STATUS="fail">
+			<cfset result.TARGET_ID=target_id>
+			<cfset result.ERROR="record not found">
 		</cfif>
     <cfcatch>
-			<cfset result.status="fail">
-			<cfset result.target_id=target_id>
+			<cfset result.STATUS="fail">
+			<cfset result.TARGET_ID=target_id>
 			<cfset line = cfcatch.tagcontext[1].line>
-			<cfset result.error=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
+			<cfset result.ERROR=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
     </cfcatch>
 	</cftry>
     <cfreturn serializeJSON(result) >

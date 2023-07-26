@@ -160,9 +160,9 @@ function loadSpaceQC(collection_object_id,locality_id,targetDivId){
  */
 function displayQCResult(data,category,targetDivId) { 
 	// extract the phases from the returned result
-	var pre = data.preamendment;   // extract pre-amendment phase test results
-	var post = data.postamendment; // extract post-amendment phase results
-	var amend = data.amendment;	 // extract amendments
+	var pre = data.PREAMENDMENT;   // extract pre-amendment phase test results
+	var post = data.POSTAMENDMENT; // extract post-amendment phase results
+	var amend = data.AMENDMENT;	 // extract amendments
 
 	// variables to assemble display output
 	var display = "<h2>QC " + category + " for " +data.guid+"</h2>";   // output to display as the result of the invocation of this method
