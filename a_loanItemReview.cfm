@@ -246,7 +246,7 @@
 		cataloged_item.collection_object_id = identification.collection_object_id AND
 		identification.accepted_id_fg = 1 AND
 		cataloged_item.collection_id=collection.collection_id AND
-	  	loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+	  	loan_item.transaction_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 	ORDER BY cat_num
 </cfquery>
 <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -256,7 +256,7 @@
                   left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
                   left join locality on collecting_event.locality_id = locality.locality_id
     where 
-	  	loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+	  	loan_item.transaction_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
     group by sovereign_nation
 </cfquery>
 <!--- Obtain list of preserve_method values for the collection that this loan is from --->
@@ -264,7 +264,7 @@
 	select ct.preserve_method, c.collection_cde from ctspecimen_preserv_method ct 
            left join collection c on ct.collection_cde = c.collection_cde
            left join trans t on c.collection_id = t.collection_id 
-         where t.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+         where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 </cfquery>
 <!--- handle legacy loans with cataloged items as the item --->
 <cfoutput>
@@ -273,7 +273,7 @@
           from collection c 
              left join trans t on c.collection_id = t.collection_id 
              left join loan l on t.transaction_id = l.transaction_id
-          where t.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+          where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 </cfquery>
 <cfif isdefined("Ijustwannadownload") and #Ijustwannadownload# is "yep">
 	<cfset fileName = "/download/ArctosLoanData_#getPartLoanRequests.loan_number#.csv">
