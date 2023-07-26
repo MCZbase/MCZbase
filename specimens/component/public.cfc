@@ -168,9 +168,14 @@ limitations under the License.
 										">
 										<div class="col-12 px-xl-0"><span class="small">Date Collected: </span>
 											<h2 class="h5 mb-1 d-inline-block">
-												<cfobject type="Java" class="org.filteredpush.qc.date.DateUtils" name="dateUtils">
-												<cfset formatted_date = dateUtils.extractDateFromVerbatimER(#summary.pretty_date#).getResult()>
+												<cftry>
+													<cfobject type="Java" class="org.filteredpush.qc.date.DateUtils" name="dateUtils">
+													<cfset formatted_date = dateUtils.extractDateFromVerbatimER(#summary.pretty_date#).getResult()>
+												<cfcatch>
+												</cfcatch>
+												</cftry>
 												<cfset date ="#summary.pretty_date#">
+											
 												<cfif isDefined("formatted_date") AND len(formatted_date) GT 0 >
 													<cfset date = "#formatted_date#">
 												<cfelseif summary.pretty_date EQ "[date unknown]" AND summary.began_date EQ "1700-01-01">
