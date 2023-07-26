@@ -399,19 +399,19 @@ function lookupName(taxon_name_id,target) {
 					result_table = result_table + "<td></td>";
 					result_table = result_table + "<td></td>";
 				} else { 
-					var guid = assertions["guid"];
+					var guid = assertions["GUID"];
 					if (guid && guid.startsWith("urn:lsid:marinespecies.org:taxname:")) { 
 						guid = "<a href='https://marinespecies.org/aphia.php?p=taxdetails&id=" + guid.replace("urn:lsid:marinespecies.org:taxname:","") +  "' target='_blank'>" + guid + "</a>";
 					} else if (guid && guid.startsWith("http://api.gbif.org/v1/species/")) { 
 						guid = guid.replace("http://api.gbif.org/v1/species/","https://www.gbif.org/species/");
 						guid = "<a href='"+guid+"' target='_blank'>"+ guid + "</a>";
 					}
-					result_table = result_table + "<td>" +  assertions["matchDescription"] + "</td>";
-					result_table = result_table + "<td>" +  assertions["scientificName"] + "</td>";
-					result_table = result_table + "<td>" +  assertions["authorship"] + "</td>";
+					result_table = result_table + "<td>" +  assertions["MATCHDESCRIPTION"] + "</td>";
+					result_table = result_table + "<td>" +  assertions["SCIENTIFICNAME"] + "</td>";
+					result_table = result_table + "<td>" +  assertions["AUTHORSHIP"] + "</td>";
 					result_table = result_table + "<td>" +  guid + "</td>";
-					result_table = result_table + "<td>" +  assertions["authorStringDistance"] + "</td>";
-					result_table = result_table + "<td>" +  assertions["habitatFlags"] + "</td>";
+					result_table = result_table + "<td>" +  assertions["AUTHORSTRINGDISTANCE"] + "</td>";
+					result_table = result_table + "<td>" +  assertions["HABITATFLAGS"] + "</td>";
 				}
 				result_table = result_table + "</tr>"
 			}

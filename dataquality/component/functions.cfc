@@ -290,11 +290,11 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfset returnName = wormsAuthority.validate(lookupName)>
 				<cfset r=structNew()>
 				<cfif isDefined("returnName")>
-					<cfset r.matchDescription = returnName.getMatchDescription()>
-					<cfset r.scientificName = returnName.getScientificName()>
-					<cfset r.authorship = returnName.getAuthorship()>
-					<cfset r.guid = returnName.getGuid()>
-					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+					<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
+					<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
+					<cfset r.AUTHORSHIP = returnName.getAuthorship()>
+					<cfset r.GUID = returnName.getGuid()>
+					<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
 					<cfset habitatVals = "">
 					<cfset separator = "">
 					<cfset habitats = returnName.getExtension()>
@@ -303,7 +303,7 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfif  habitats.get("freshwater") EQ "true"><cfset habitatVals = "#habitatVals##separator#Freshwater"><cfset separator=", "></cfif>
 					<cfif  habitats.get("terrestrial") EQ "true"><cfset habitatVals = "#habitatVals##separator#Terrestrial"><cfset separator=", "></cfif>
 					<cfif  habitats.get("extinct") EQ "true"><cfset habitatVals = "#habitatVals##separator#Extinct"><cfset separator=", "></cfif>
-					<cfset r.habitatFlags = "#habitatVals#">
+					<cfset r.HABITATFLAGS = "#habitatVals#">
 				</cfif>
 				<cfset result["WoRMS"] = r>
 
@@ -313,11 +313,11 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset returnName = irmngAuthority.validate(lookupName)>
 					<cfset r=structNew()>
 					<cfif isDefined("returnName")>
-						<cfset r.matchDescription = returnName.getMatchDescription()>
-						<cfset r.scientificName = returnName.getScientificName()>
-						<cfset r.authorship = returnName.getAuthorship()>
-						<cfset r.guid = returnName.getGuid()>
-						<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+						<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
+						<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
+						<cfset r.AUTHORSHIP = returnName.getAuthorship()>
+						<cfset r.GUID = returnName.getGuid()>
+						<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
 					</cfif>
 					<cfset result["IRMNG"] = r>
 				</cfif>
@@ -328,21 +328,21 @@ libraries found in github.com/filteredpush/ repositories.
 				<cftry>
 					<cfset returnName = gbifAuthority.validate(lookupName)>
 				<cfcatch>
-					<cfset r.matchDescription = "Error">
-					<cfset r.scientificName = "">
-					<cfset r.authorship = "">
-					<cfset r.guid = "">
-					<cfset r.authorStringDistance = "">
-					<cfset r.habitatFlags = "">
+					<cfset r.MATCHDESCRIPTION = "Error">
+					<cfset r.SCIENTIFICNAME = "">
+					<cfset r.AUTHORSHIP = "">
+					<cfset r.GUID = "">
+					<cfset r.AUTHORSTRINGDISTANCE = "">
+					<cfset r.HABITATFLAGS = "">
 				</cfcatch>
 				</cftry>
 				<cfif isDefined("returnName")>
-					<cfset r.matchDescription = returnName.getMatchDescription()>
-					<cfset r.scientificName = returnName.getScientificName()>
-					<cfset r.authorship = returnName.getAuthorship()>
-					<cfset r.guid = returnName.getGuid()>
-					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
-					<cfset r.habitatFlags = "">
+					<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
+					<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
+					<cfset r.AUTHORSHIP = returnName.getAuthorship()>
+					<cfset r.GUID = returnName.getGuid()>
+					<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
+					<cfset r.HABITATFLAGS = "">
 				</cfif>
 				<cfset result["GBIF Backbone"] = r>
 
@@ -351,12 +351,12 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfset returnName = gbifAuthority.validate(lookupName)>
 				<cfset r=structNew()>
 				<cfif isDefined("returnName")>
-					<cfset r.matchDescription = returnName.getMatchDescription()>
-					<cfset r.scientificName = returnName.getScientificName()>
-					<cfset r.authorship = returnName.getAuthorship()>
-					<cfset r.guid = returnName.getGuid()>
-					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
-					<cfset r.habitatFlags = "">
+					<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
+					<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
+					<cfset r.AUTHORSHIP = returnName.getAuthorship()>
+					<cfset r.GUID = returnName.getGuid()>
+					<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
+					<cfset r.HABITATFLAGS = "">
 				</cfif>
 				<cfset result["Paleobiology DB in GBIF"] = r>
 			</cfloop>
