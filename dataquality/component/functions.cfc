@@ -134,10 +134,10 @@ libraries found in github.com/filteredpush/ repositories.
 			</cfdefaultcase>
 		</cfswitch>
 		<cfif queryrow.recordcount is 1>
-			<cfset result.status="success">
-			<cfset result.target_id=target_id >
-			<cfset result.guid=queryrow.item_label>
-			<cfset result.error="">
+			<cfset result.STATUS="success">
+			<cfset result.TARGET_ID=target_id >
+			<cfset result.GUID=queryrow.item_label>
+			<cfset result.ERROR="">
 
 			<!--- store local copies of query results to use in pre-amendment phase and overwrite in ammendment phase  --->
 			<cfset country = queryrow.country>
@@ -220,22 +220,22 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<!--- Add results from phases to result to return --->
 
-			<cfset result["preamendment"] = preamendment >
+			<cfset result["PREAMENDMENT"] = preamendment >
 
-			<cfset result["amendment"] = amendment >
+			<cfset result["AMENDMENT"] = amendment >
 
-			<cfset result["postamendment"] = postamendment >
+			<cfset result["POSTAMENDMENT"] = postamendment >
 
 		<cfelse>
-			<cfset result.status="fail">
-			<cfset result.target_id=target_id>
-			<cfset result.error="record not found">
+			<cfset result.STATUS="fail">
+			<cfset result.TARGET_ID=target_id>
+			<cfset result.ERROR="record not found">
 		</cfif>
    <cfcatch>
-		<cfset result.status="fail">
-		<cfset result.target_id=target_id>
+		<cfset result.STATUS="fail">
+		<cfset result.TARGET_ID=target_id>
 		<cfset line = cfcatch.tagcontext[1].line>
-		<cfset result.error=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
+		<cfset result.ERROR=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
    </cfcatch>
 	</cftry>
    <cfreturn serializeJSON(result) >
@@ -290,11 +290,11 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfset returnName = wormsAuthority.validate(lookupName)>
 				<cfset r=structNew()>
 				<cfif isDefined("returnName")>
-					<cfset r.matchDescription = returnName.getMatchDescription()>
-					<cfset r.scientificName = returnName.getScientificName()>
-					<cfset r.authorship = returnName.getAuthorship()>
-					<cfset r.guid = returnName.getGuid()>
-					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+					<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
+					<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
+					<cfset r.AUTHORSHIP = returnName.getAuthorship()>
+					<cfset r.GUID = returnName.getGuid()>
+					<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
 					<cfset habitatVals = "">
 					<cfset separator = "">
 					<cfset habitats = returnName.getExtension()>
@@ -303,7 +303,7 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfif  habitats.get("freshwater") EQ "true"><cfset habitatVals = "#habitatVals##separator#Freshwater"><cfset separator=", "></cfif>
 					<cfif  habitats.get("terrestrial") EQ "true"><cfset habitatVals = "#habitatVals##separator#Terrestrial"><cfset separator=", "></cfif>
 					<cfif  habitats.get("extinct") EQ "true"><cfset habitatVals = "#habitatVals##separator#Extinct"><cfset separator=", "></cfif>
-					<cfset r.habitatFlags = "#habitatVals#">
+					<cfset r.HABITATFLAGS = "#habitatVals#">
 				</cfif>
 				<cfset result["WoRMS"] = r>
 
@@ -313,11 +313,11 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset returnName = irmngAuthority.validate(lookupName)>
 					<cfset r=structNew()>
 					<cfif isDefined("returnName")>
-						<cfset r.matchDescription = returnName.getMatchDescription()>
-						<cfset r.scientificName = returnName.getScientificName()>
-						<cfset r.authorship = returnName.getAuthorship()>
-						<cfset r.guid = returnName.getGuid()>
-						<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+						<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
+						<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
+						<cfset r.AUTHORSHIP = returnName.getAuthorship()>
+						<cfset r.GUID = returnName.getGuid()>
+						<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
 					</cfif>
 					<cfset result["IRMNG"] = r>
 				</cfif>
@@ -328,21 +328,21 @@ libraries found in github.com/filteredpush/ repositories.
 				<cftry>
 					<cfset returnName = gbifAuthority.validate(lookupName)>
 				<cfcatch>
-					<cfset r.matchDescription = "Error">
-					<cfset r.scientificName = "">
-					<cfset r.authorship = "">
-					<cfset r.guid = "">
-					<cfset r.authorStringDistance = "">
-					<cfset r.habitatFlags = "">
+					<cfset r.MATCHDESCRIPTION = "Error">
+					<cfset r.SCIENTIFICNAME = "">
+					<cfset r.AUTHORSHIP = "">
+					<cfset r.GUID = "">
+					<cfset r.AUTHORSTRINGDISTANCE = "">
+					<cfset r.HABITATFLAGS = "">
 				</cfcatch>
 				</cftry>
 				<cfif isDefined("returnName")>
-					<cfset r.matchDescription = returnName.getMatchDescription()>
-					<cfset r.scientificName = returnName.getScientificName()>
-					<cfset r.authorship = returnName.getAuthorship()>
-					<cfset r.guid = returnName.getGuid()>
-					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
-					<cfset r.habitatFlags = "">
+					<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
+					<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
+					<cfset r.AUTHORSHIP = returnName.getAuthorship()>
+					<cfset r.GUID = returnName.getGuid()>
+					<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
+					<cfset r.HABITATFLAGS = "">
 				</cfif>
 				<cfset result["GBIF Backbone"] = r>
 
@@ -351,12 +351,12 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfset returnName = gbifAuthority.validate(lookupName)>
 				<cfset r=structNew()>
 				<cfif isDefined("returnName")>
-					<cfset r.matchDescription = returnName.getMatchDescription()>
-					<cfset r.scientificName = returnName.getScientificName()>
-					<cfset r.authorship = returnName.getAuthorship()>
-					<cfset r.guid = returnName.getGuid()>
-					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
-					<cfset r.habitatFlags = "">
+					<cfset r.MATCHDESCRIPTION = returnName.getMatchDescription()>
+					<cfset r.SCIENTIFICNAME = returnName.getScientificName()>
+					<cfset r.AUTHORSHIP = returnName.getAuthorship()>
+					<cfset r.GUID = returnName.getGuid()>
+					<cfset r.AUTHORSTRINGDISTANCE = returnName.getAuthorshipStringEditDistance()>
+					<cfset r.HABITATFLAGS = "">
 				</cfif>
 				<cfset result["Paleobiology DB in GBIF"] = r>
 			</cfloop>
@@ -426,10 +426,10 @@ libraries found in github.com/filteredpush/ repositories.
 			</cfdefaultcase>
 		</cfswitch>
 		<cfif queryrow.recordcount is 1>
-			<cfset result.status="success">
-			<cfset result.target_id=target_id >
-			<cfset result.guid=queryrow.item_label>
-			<cfset result.error="">
+			<cfset result.STATUS="success">
+			<cfset result.TARGET_ID=target_id >
+			<cfset result.GUID=queryrow.item_label>
+			<cfset result.ERROR="">
 
 			<!--- store local copies of query results to use in pre-amendment phase and overwrite in ammendment phase  --->
 			<cfset kingdom = queryrow.kingdom>
@@ -962,22 +962,22 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<!--- Add results from phases to result to return --->
 
-			<cfset result["preamendment"] = preamendment >
+			<cfset result["PREAMENDMENT"] = preamendment >
 
-			<cfset result["amendment"] = amendment >
+			<cfset result["AMENDMENT"] = amendment >
 
-			<cfset result["postamendment"] = postamendment >
+			<cfset result["POSTAMENDMENT"] = postamendment >
 
 		<cfelse>
-			<cfset result.status="fail">
-			<cfset result.target_id=target_id>
-			<cfset result.error="record not found">
+			<cfset result.STATUS="fail">
+			<cfset result.TARGET_ID=target_id>
+			<cfset result.ERROR="record not found">
 		</cfif>
     <cfcatch>
-			<cfset result.status="fail">
-			<cfset result.target_id=target_id>
+			<cfset result.STATUS="fail">
+			<cfset result.TARGET_ID=target_id>
 			<cfset line = cfcatch.tagcontext[1].line>
-			<cfset result.error=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
+			<cfset result.ERROR=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
     </cfcatch>
 	</cftry>
     <cfreturn serializeJSON(result) >
@@ -1032,10 +1032,10 @@ libraries found in github.com/filteredpush/ repositories.
 		</cfswitch>
 
 		<cfif flatrow.recordcount is 1>
-			<cfset result.status="success">
-			<cfset result.target_id=target_id>
-			<cfset result.guid=flatrow.item_label>
-			<cfset result.error="">
+			<cfset result.STATUS="success">
+			<cfset result.TARGET_ID=target_id>
+			<cfset result.GUID=flatrow.item_label>
+			<cfset result.ERROR="">
 
 			<!--- store local copies of query results to use in pre-amendment phase  --->
 			<cfif flatrow.began_date EQ flatrow.ended_date>
@@ -1524,22 +1524,22 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<!--- Add results from phases to result to return --->
 
-			<cfset result["preamendment"] = preamendment >
+			<cfset result["PREAMENDMENT"] = preamendment >
 
-			<cfset result["amendment"] = amendment >
+			<cfset result["AMENDMENT"] = amendment >
 
-			<cfset result["postamendment"] = postamendment >
+			<cfset result["POSTAMENDMENT"] = postamendment >
 
 		<cfelse>
-			<cfset result.status="fail">
-			<cfset result.target_id=target_id>
-			<cfset result.error="record not found">
+			<cfset result.STATUS="fail">
+			<cfset result.TARGET_ID=target_id>
+			<cfset result.ERROR="record not found">
 		</cfif>
     <cfcatch>
-			<cfset result.status="fail">
-			<cfset result.target_id=target_id>
+			<cfset result.STATUS="fail">
+			<cfset result.TARGET_ID=target_id>
 			<cfset line = cfcatch.tagcontext[1].line>
-			<cfset result.error=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
+			<cfset result.ERROR=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
     </cfcatch>
 	</cftry>
     <cfreturn serializeJSON(result) >

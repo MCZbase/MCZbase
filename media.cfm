@@ -52,17 +52,17 @@
     <!--- update media --->
     <cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update media set
-		media_uri=<cfqueryparam cfsqltype="cf_sql_varchar" value="#media_uri#" /> ,
-		mime_type=<cfqueryparam cfsqltype="cf_sql_varchar" value="#mime_type#" /> ,
-		media_type=<cfqueryparam cfsqltype="cf_sql_varchar" value="#media_type#" /> ,
-		preview_uri=<cfqueryparam cfsqltype="cf_sql_varchar" value="#preview_uri#" />, 
-		mask_media_fg=<cfqueryparam cfsqltype="cf_sql_number" value="#mask_media_fg#" maxlength="1" />
+		media_uri=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_uri#" /> ,
+		mime_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#" /> ,
+		media_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_type#" /> ,
+		preview_uri=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preview_uri#" />, 
+		mask_media_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_media_fg#" maxlength="1" />
 		<cfif len(media_license_id) gt 0>
-			,media_license_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_license_id#" />
+			,media_license_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_license_id#" />
 		<cfelse>
 			,media_license_id=NULL
 		</cfif>
-		where media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" />
+		where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" />
 	</cfquery>
     <!--- relations --->
     <cfloop from="1" to="#number_of_relations#" index="n">

@@ -756,7 +756,7 @@ limitations under the License.
 						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 						left join locality on collecting_event.locality_id = locality.locality_id
 					where
-						cataloged_item.accn_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+						cataloged_item.accn_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 					group by sovereign_nation
 				</cfquery>
 				<cfset sep="">

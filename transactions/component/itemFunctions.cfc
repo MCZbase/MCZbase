@@ -450,7 +450,7 @@ limitations under the License.
 			left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 			left join locality on collecting_event.locality_id = locality.locality_id
 		WHERE
-			loan_item.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+			loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 		ORDER BY cat_num
 		</cfquery>
 		<cfset rows = getLoanItemsQuery_result.recordcount>
@@ -506,7 +506,7 @@ limitations under the License.
 					from 
 						loan_item
 					WHERE
-						loan_item.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+						loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 						AND loan_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 				</cfquery>
 				<h2 class="h3">Remove item #getLoanItemDetails.item_descr# from loan.</h2>
