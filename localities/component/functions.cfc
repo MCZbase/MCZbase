@@ -3970,9 +3970,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									</script> 
 								</div>
 								<div class="col-12 col-md-3 mb-2">
-									<label for="verificationstatus" class="data-entry-label">Verification Status</label>
+									<label for="verificationstatus" class="data-entry-label">
+										Verification Status
+										<cfif getGeoRef.verificationstatus NEQ "unverified">
+											<span id="oldverifstatus" class="text-danger" onClick="setVerificationStatus('#getGeoRef.verificationstatus#');">Was: #encodeForHtml(getGeoRef.verificationstatus)# (&##8595;)<span/>
+										</cfif>
+									</label>
 									<select name="verificationstatus" size="1" id="verificationstatus" class="data-entry-select reqdClr" onChange="changeVerificationStatus();">
 										<cfloop query="ctVerificationStatus">
+											<!--- user needs to explicitly address the verification status or it reverts to unverified --->
 											<cfif ctVerificationStatus.verificationstatus EQ "unverified"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 											<option value="#ctVerificationStatus.verificationStatus#" #selected#>#ctVerificationStatus.verificationStatus#</option>
 										</cfloop>
@@ -3990,7 +3996,16 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$('##verified_by_agent').val("");
 												$('##verified_by_agent_id').val("");
 											}
+											$('##verificationstatus').removeClass("bg-verylightred");
+											$('##verified_by_agent').removeClass("bg-verylightred");
+											$('##verificationstatus').addClass("reqdClr");
+											$('##verified_by_agent').addClass("reqdClr");
 										};
+										function setVerificationStatus(value) { 
+											$('##verificationstatus').val(value);
+											changeVerificationStatus();
+											$('##oldverifstatus').removeClass("text-danger");
+										} 
 									</script>
 								</div>
 								<div class="col-12 col-md-3 mb-2">
@@ -4003,8 +4018,17 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<script>
 										$(document).ready(function() { 
 											makeAgentAutocompleteMeta("verified_by_agent", "verified_by_agent_id");
-											$('##verified_by_agent').hide();
-											$('##verified_by_agent_label').hide();
+											<cfif getGeoRef.verificationstatus EQ "unverified" OR getGeoRef.verificationstatus EQ "migration" OR getGeoRef.verificationstatus EQ "unknown" >
+												$('##verified_by_agent').hide();
+												$('##verified_by_agent_label').hide();
+											</cfif>
+											<cfif getGeoRef.verificationstatus NEQ "unverified">
+												<!--- setup appearance when user needs to explicitly address the verification status or it reverts to unverified --->
+												$('##verificationstatus').addClass("bg-verylightred");
+												$('##verified_by_agent').addClass("bg-verylightred");
+												$('##verificationstatus').removeClass("reqdClr");
+												$('##verified_by_agent').removeClass("reqdClr");
+											</cfif>
 										});
 									</script>
 								</div>
