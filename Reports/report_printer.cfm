@@ -331,7 +331,7 @@
             <cfset d.sort(d.findColumn("cat_num_integer"),TRUE)>
 				--->
          <cfelse>
-				<cfset comparator = function(item1, item2) { return compare(item1['#sort#'],item2['#sort#']; } >
+				<cfset comparator = function(item1, item2) { return compare(item1['#sort#'],item2['#sort#']); } >
 				<cfset QuerySort(d,comparator)>
          </cfif>
     </cfif>
