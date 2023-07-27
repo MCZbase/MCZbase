@@ -99,7 +99,7 @@
                   </cfloop>
                </cfloop>
 			   </cfif>
-               <!-- Show only reports for user's collections, unless showAll is set -->
+               <!-- Show only reports for users collections, unless showAll is set -->
 			   <cfif (#show# EQ 1) || (#show_all# is "true") >
 		          <option value="#report_id#">#report_name#</option>
 		       </cfif>
@@ -192,7 +192,7 @@
 								</cfloop>
 							</select>
 						</cfif>
-						<p>Many reports are configured to limit printing of labels to a class of preservation type (e.g. fluid or dry), but will print one label for each preservation type in that class.  In some cases it is desirable to print reports for only one particular preservation type.  Reports that have been configured to also use this pick list can limit labels to a single preservation type (e.g 70% ethanol).  If you pick "All", one label will be printed for each part with the preservation type allowed for by the label (e.g. any fluid type).  If you pick a specific preservation type from the picklist, one label will be printed for each part with the preservation type that you picked.  This pick list further filters rather than overiding the preservation types allowed by the selected report, if you pick "Dry", or another preservation type that isn't normally included on that particular label report, for a Fluid label, you will get an empty report. </p>
+						<p>Many reports are configured to limit printing of labels to a class of preservation type (e.g. fluid or dry), but will print one label for each preservation type in that class.  In some cases it is desirable to print reports for only one particular preservation type.  Reports that have been configured to also use this pick list can limit labels to a single preservation type (e.g 70% ethanol).  If you pick "All", one label will be printed for each part with the preservation type allowed for by the label (e.g. any fluid type).  If you pick a specific preservation type from the picklist, one label will be printed for each part with the preservation type that you picked.  This pick list further filters rather than overiding the preservation types allowed by the selected report, if you pick "Dry", or another preservation type that is not normally included on that particular label report, for a Fluid label, you will get an empty report. </p><!--- ; --->
 					</div>
 					<div id="part_name_limit_section">
 						<cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
@@ -300,7 +300,7 @@
 				#preservesinglequotes(ssql)#
 			</cfquery>
 		<cfcatch>
-			<!--- sort can fail here, or below where d is sorted, if they try to sort by things that aren't in the query --->
+			<!--- sort can fail here, or below where d is sorted, if they try to sort by things that are not in the query --->
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				#preservesinglequotes(sql)#
 			</cfquery>
@@ -320,20 +320,20 @@
         <cfset d=evaluate(e.pre_function & "(d)")>
     </cfif>
 
-    <!---  Add the sort if one isn't present (to add a sort to a query from CustomTags --->
+    <!---  Add the sort if one is not present (to add a sort to a query from CustomTags --->
     <!---  Supports sort order on loan invoice --->
     <!---  this invokes a java .sort() method on the query result object.  --->
     <!---  TODO: Note, this stops working in coldfusion 2016, error message is sort() expects only one parameter --->
     <cfif len(#sort#) gt 0 and #d.getMetaData().getExtendedMetaData().sql# does not contain " order by ">
-	<!---
-	TODO: Temporaraily disabling sort to allow invoice printing. 
          <cfif #sort# eq "cat_num_pre_int"> 
+				<!---
             <cfset d.sort(d.findColumn("cat_num_prefix"),TRUE)>
             <cfset d.sort(d.findColumn("cat_num_integer"),TRUE)>
+				--->
          <cfelse>
-            <cfset d.sort(d.findColumn(#sort#),TRUE)>
+				<cfset comparator = function(item1, item2) { return compare(item1['#sort#'],item2['#sort#']; } >
+				<cfset QuerySort(d,comparator)>
          </cfif>
-	--->
     </cfif>
 
     <cfif e.report_format is "pdf">
