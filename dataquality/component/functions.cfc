@@ -136,7 +136,7 @@ libraries found in github.com/filteredpush/ repositories.
 		<cfif queryrow.recordcount is 1>
 			<cfset result.STATUS="success">
 			<cfset result.TARGET_ID=target_id >
-			<cfset result.guid=queryrow.item_label>
+			<cfset result.GUID=queryrow.item_label>
 			<cfset result.ERROR="">
 
 			<!--- store local copies of query results to use in pre-amendment phase and overwrite in ammendment phase  --->
@@ -428,7 +428,7 @@ libraries found in github.com/filteredpush/ repositories.
 		<cfif queryrow.recordcount is 1>
 			<cfset result.STATUS="success">
 			<cfset result.TARGET_ID=target_id >
-			<cfset result.guid=queryrow.item_label>
+			<cfset result.GUID=queryrow.item_label>
 			<cfset result.ERROR="">
 
 			<!--- store local copies of query results to use in pre-amendment phase and overwrite in ammendment phase  --->
@@ -1034,7 +1034,7 @@ libraries found in github.com/filteredpush/ repositories.
 		<cfif flatrow.recordcount is 1>
 			<cfset result.STATUS="success">
 			<cfset result.TARGET_ID=target_id>
-			<cfset result.guid=flatrow.item_label>
+			<cfset result.GUID=flatrow.item_label>
 			<cfset result.ERROR="">
 
 			<!--- store local copies of query results to use in pre-amendment phase  --->
