@@ -3978,6 +3978,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									</label>
 									<select name="verificationstatus" size="1" id="verificationstatus" class="data-entry-select reqdClr" onChange="changeVerificationStatus();">
 										<cfloop query="ctVerificationStatus">
+											<!--- user needs to explicitly address the verification status or it reverts to unverified --->
 											<cfif ctVerificationStatus.verificationstatus EQ "unverified"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 											<option value="#ctVerificationStatus.verificationStatus#" #selected#>#ctVerificationStatus.verificationStatus#</option>
 										</cfloop>
@@ -3997,6 +3998,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 											}
 											$('##verificationstatus').removeClass("bg-verylightred");
 											$('##verified_by_agent').removeClass("bg-verylightred");
+											$('##verificationstatus').addClass("reqdClr");
+											$('##verified_by_agent').addClass("reqdClr");
 										};
 										function setVerificationStatus(value) { 
 											$('##verificationstatus').val(value);
@@ -4020,8 +4023,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$('##verified_by_agent_label').hide();
 											</cfif>
 											<cfif getGeoRef.verificationstatus NEQ "unverified">
+												<!--- setup appearance when user needs to explicitly address the verification status or it reverts to unverified --->
 												$('##verificationstatus').addClass("bg-verylightred");
 												$('##verified_by_agent').addClass("bg-verylightred");
+												$('##verificationstatus').removeClass("reqdClr");
+												$('##verified_by_agent').removeClass("reqdClr");
 											</cfif>
 										});
 									</script>
