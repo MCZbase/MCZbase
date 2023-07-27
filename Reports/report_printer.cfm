@@ -325,12 +325,15 @@
     <!---  this invokes a java .sort() method on the query result object.  --->
     <!---  TODO: Note, this stops working in coldfusion 2016, error message is sort() expects only one parameter --->
     <cfif len(#sort#) gt 0 and #d.getMetaData().getExtendedMetaData().sql# does not contain " order by ">
+	<!---
+	TODO: Temporaraily disabling sort to allow invoice printing. 
          <cfif #sort# eq "cat_num_pre_int"> 
             <cfset d.sort(d.findColumn("cat_num_prefix"),TRUE)>
             <cfset d.sort(d.findColumn("cat_num_integer"),TRUE)>
          <cfelse>
             <cfset d.sort(d.findColumn(#sort#),TRUE)>
          </cfif>
+	--->
     </cfif>
 
     <cfif e.report_format is "pdf">
