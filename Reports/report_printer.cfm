@@ -322,14 +322,8 @@
 
     <!---  Add the sort if one is not present (to add a sort to a query from CustomTags --->
     <!---  Supports sort order on loan invoice --->
-    <!---  this invokes a java .sort() method on the query result object.  --->
-    <!---  TODO: Note, this stops working in coldfusion 2016, error message is sort() expects only one parameter --->
     <cfif len(#sort#) gt 0 and #d.getMetaData().getExtendedMetaData().sql# does not contain " order by ">
          <cfif #sort# eq "cat_num_pre_int"> 
-				<!---
-            <cfset d.sort(d.findColumn("cat_num_prefix"),TRUE)>
-            <cfset d.sort(d.findColumn("cat_num_integer"),TRUE)>
-				--->
 				<cfset comparator = function(item1, item2) { 
 					i = compare(item1['cat_num_prefix'],item2['cat_num_prefix']); 
 					if (i!=0) return i;
