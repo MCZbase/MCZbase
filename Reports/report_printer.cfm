@@ -327,7 +327,7 @@
 				<cfset comparator = function(item1, item2) { 
 					i = compare(item1['cat_num_prefix'],item2['cat_num_prefix']); 
 					if (i!=0) return i;
-					return compare(item1['cat_num_integer'],item2['cat_num_integer']); 
+					return compare(NumberFormat(item1['cat_num_integer'],"00000000000."),NumberFormat(item2['cat_num_integer'],"00000000000."));
 				} >
          <cfelse>
 				<cfset comparator = function(item1, item2) { return compare(item1['#sort#'],item2['#sort#']); } >
