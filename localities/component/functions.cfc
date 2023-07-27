@@ -3970,7 +3970,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									</script> 
 								</div>
 								<div class="col-12 col-md-3 mb-2">
-									<label for="verificationstatus" class="data-entry-label">Verification Status</label>
+									<label for="verificationstatus" class="data-entry-label">
+										Verification Status
+										<cfif getGeoRef.verificationstatus NEQ "unverified">
+											<span id="oldverifstatus" class="text-danger" onClick="setVerificationStatus('#getGeoRef.verificationstatus#');">[Was: #encodeForHtml(getGeoRef.verificationstatus)#]<span/>
+										</cfif>
+									</label>
 									<select name="verificationstatus" size="1" id="verificationstatus" class="data-entry-select reqdClr" onChange="changeVerificationStatus();">
 										<cfloop query="ctVerificationStatus">
 											<cfif ctVerificationStatus.verificationstatus EQ "unverified"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -3991,6 +3996,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 												$('##verified_by_agent_id').val("");
 											}
 										};
+										function setVerificationStatus(value) { 
+											$('##verificationstatus').val(value);
+											changeVerificationStatus();
+											$('##oldverifstatus').removeClass("text-danger");
+										} 
 									</script>
 								</div>
 								<div class="col-12 col-md-3 mb-2">
