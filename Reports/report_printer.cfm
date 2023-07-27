@@ -330,10 +330,15 @@
             <cfset d.sort(d.findColumn("cat_num_prefix"),TRUE)>
             <cfset d.sort(d.findColumn("cat_num_integer"),TRUE)>
 				--->
+				<cfset comparator = function(item1, item2) { 
+					i = compare(item1['cat_num_prefix'],item2['cat_num_prefix']); 
+					if (i!=0) return i;
+					return compare(item1['cat_num_integer'],item2['cat_num_integer']); 
+				} >
          <cfelse>
 				<cfset comparator = function(item1, item2) { return compare(item1['#sort#'],item2['#sort#']); } >
-				<cfset QuerySort(d,comparator)>
          </cfif>
+			<cfset QuerySort(d,comparator)>
     </cfif>
 
     <cfif e.report_format is "pdf">
