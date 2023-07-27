@@ -376,7 +376,7 @@ limitations under the License.
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select guid as annorecord
 					from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> FLAT
-					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#target_id#">
+					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 				<cfif annotated.recordcount EQ 0>
 					<cfthrow message="Catalged item to annotate not found.">
@@ -395,7 +395,7 @@ limitations under the License.
 						collection_contacts.contact_agent_id = electronic_address.agent_id AND
 						collection_contacts.CONTACT_ROLE = 'data quality' and
 						electronic_address.ADDRESS_TYPE='e-mail' and
-						cataloged_item.collection_object_id= <cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#target_id#' >
+						cataloged_item.collection_object_id= <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >
 				</cfquery>
 				<cfset mailTo = valuelist(whoTo.address)>
 			</cfcase>
@@ -404,7 +404,7 @@ limitations under the License.
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select 'Taxon:' || scientific_name || ' ' || author_text as annorecord
 					from taxonomy
-					where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#target_id#">
+					where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 			</cfcase>
 			<cfcase value="publication">
@@ -412,7 +412,7 @@ limitations under the License.
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select 'Publication:' || MCZBASE.getshortcitation(publication_id) as annorecord
 					from publication
-					where publication_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#target_id#">
+					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_id#">
 				</cfquery>
 			</cfcase>
 			<cfdefaultcase>
@@ -462,10 +462,10 @@ limitations under the License.
 					motivation
 				) values (
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
-					<cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#target_id#' >,
+					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#target_type#' >,
-					<cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#target_id#' >,
+					<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#target_id#' >,
 					'New',
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >
 				)
