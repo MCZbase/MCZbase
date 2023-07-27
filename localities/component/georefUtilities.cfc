@@ -184,7 +184,7 @@ Utility methods to support display of spatial information on maps.
 	</cfif>
 </cffunction>
 
-<!--- getGeorefsGeoJSON given a locality_id return the georeferencs, accepted and otherwise
+<!--- getGeorefsGeoJSON given a locality_id return the georeferences, accepted and otherwise
   for the locality as geoJSON.
   @param locality_id the primary key value for the locality.
   @return geoJSON for the set georeferences or an http 500 on error
