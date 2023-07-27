@@ -3973,7 +3973,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<label for="verificationstatus" class="data-entry-label">
 										Verification Status
 										<cfif getGeoRef.verificationstatus NEQ "unverified">
-											<span id="oldverifstatus" class="text-danger" onClick="setVerificationStatus('#getGeoRef.verificationstatus#');">[Was: #encodeForHtml(getGeoRef.verificationstatus)#]<span/>
+											<span id="oldverifstatus" class="text-danger" onClick="setVerificationStatus('#getGeoRef.verificationstatus#');">[Was: #encodeForHtml(getGeoRef.verificationstatus)# (&##8595;)]<span/>
 										</cfif>
 									</label>
 									<select name="verificationstatus" size="1" id="verificationstatus" class="data-entry-select reqdClr" onChange="changeVerificationStatus();">
@@ -4013,8 +4013,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 									<script>
 										$(document).ready(function() { 
 											makeAgentAutocompleteMeta("verified_by_agent", "verified_by_agent_id");
-											$('##verified_by_agent').hide();
-											$('##verified_by_agent_label').hide();
+											<cfif getGeoRef.verificationstatus EQ "unverified" OR getGeoRef.verificationstatus EQ "migration" OR getGeoRef.verificationstatus EQ "unknown" >
+												$('##verified_by_agent').hide();
+												$('##verified_by_agent_label').hide();
+											</cfif>
 										});
 									</script>
 								</div>
