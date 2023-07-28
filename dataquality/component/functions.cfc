@@ -222,9 +222,9 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset preamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountrycodeConsistent",array2String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeConsistent(country, countrycode) >
-			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountrycodeConsistent",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountryCountrycodeConsistent",array2String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountryCountrycodeConsistent(country, countrycode) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountryCountrycodeConsistent",array2String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -403,9 +403,9 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset postamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountrycodeConsistent",array2String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeConsistent(country, countrycode) >
-			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountrycodeConsistent",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountryCountrycodeConsistent",array2String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountryCountrycodeConsistent(country, countrycode) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountryCountrycodeConsistent",array2String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
