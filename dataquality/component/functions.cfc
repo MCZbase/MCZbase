@@ -150,6 +150,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfobject type="Java" class="org.filteredpush.qc.georeference.DwCGeoRefDQ" name="dwcGeoRefDQ">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Provides" name="Provides">
+			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Validation" name="Validation">
+			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Amendment" name="AmendmentC">
 			<!--- Obtain mechanism from annotation on class --->
 			<cfset result.mechanism = dwcGeoRefDQ.getClass().getAnnotation(Mechanism.getClass()).label() >
 			<cfset aString = ""><!--- a String variable, for invocation of getClass() --->
