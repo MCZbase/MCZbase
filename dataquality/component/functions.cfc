@@ -193,7 +193,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset array1String = ArrayNew(1)>
 			<cfset ArraySet(array1String,1,1,aString.getClass())>
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCoordinateuncertaintyInrange",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationCoordinateuncertaintyInrange(coordinateuncertaintyinmeters) >
+			<cfset dqResponse = dwcGeoRefDQ.validationCoordinateuncertaintyInrange(javaCast("string",coordinateuncertaintyinmeters)) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCoordinateuncertaintyInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -374,7 +374,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset array1String = ArrayNew(1)>
 			<cfset ArraySet(array1String,1,1,aString.getClass())>
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCoordinateuncertaintyInrange",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationCoordinateuncertaintyInrange(coordinateuncertaintyinmeters) >
+			<cfset dqResponse = dwcGeoRefDQ.validationCoordinateuncertaintyInrange(javaCast("string",coordinateuncertaintyinmeters)) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCoordinateuncertaintyInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
