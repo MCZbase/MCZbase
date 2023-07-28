@@ -50,6 +50,7 @@ libraries found in github.com/filteredpush/ repositories.
 						continent, country, countrycode,
 						spec_locality as locality,
 						dec_lat as decimal_latitude, dec_long as decimal_longitude, datum as geodeticDatum,
+						coordinateuncertaintyinmeters,
 						verbatimlatitude, verbatimlongitude, verbatimelevation, verbatimlocality, 
 						max_depth_in_m, min_depth_in_m, max_elev_in_m, min_elev_in_m,
 						waterbody, island_group, island
@@ -69,7 +70,8 @@ libraries found in github.com/filteredpush/ repositories.
                   spec_locality as locality,
                   accepted_lat_long.dec_lat as decimal_latitude, 
                   accepted_lat_long.dec_long as decimal_longitude, 
-                  accepted_lat_long.datum as geodeticDatum,
+                  decode(accepted_lat_long.datum,'WGS84','EPSG:4326',accepted_lat_long.datum) as geodeticDatum,
+						to_meters(accepted_lat_long.max_error_distance, accepted_lat_long.max_error_units) coordinateuncertaintyinmeters,
                   decode(accepted_lat_long.orig_lat_long_units,
                                 'decimal degrees',
                                         to_char(decimalZero(accepted_lat_long.dec_lat)) || 'd',
@@ -150,72 +152,332 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset result.mechanism = dwcGeoRefDQ.getClass().getAnnotation(Mechanism.getClass()).label() >
 
 			<!--- pre-amendment phase --->
-			<!--- TODO: Provide metadata from annotations --->
 
-			<!--- @Provides("6ce2b2b4-6afe-4d13-82a0-390d31ade01c") --->
-			<cfset dqResponse = dwcGeoRefDQ.validationCountryEmpty(country) >
-			<cfset r.label = "dwc:country contains a value" >
+			<cfset array5String = ArrayNew(1)>
+			<cfset ArraySet(array5String,1,5,aString.getClass())>
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesCountrycodeConsistent",array5String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimal_latitude,decimal_longitude, countrycode, "10000", "") >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesCountrycodeConsistent",array5String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["6ce2b2b4-6afe-4d13-82a0-390d31ade01c"] = r >
+			<cfset preamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<!--- @Provides("853b79a2-b314-44a2-ae46-34a1e7ed85e4") --->
-			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeEmpty(countrycode) >
-			<cfset r.label = "dwc:countryCode contains a value" >
+			<cfset array2String = ArrayNew(1)>
+			<cfset ArraySet(array2String,1,2,aString.getClass())>
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesNotzero",array2String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCoordinatesNotzero(decimal_latitude,decimal_longitude) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesNotzero",array2String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["853b79a2-b314-44a2-ae46-34a1e7ed85e4"] = r >
+			<cfset preamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<!--- @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe") --->
-			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeNotstandard(countrycode) >
-			<cfset r.label = "dwc:countryCode is a standard value" >
+			<cfset array1String = ArrayNew(1)>
+			<cfset ArraySet(array1String,1,1,aString.getClass())>
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCoordinateuncertaintyInrange",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCoordinateuncertaintyInrange(coordinateuncertaintyinmeters) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCoordinateuncertaintyInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["0493bcfb-652e-4d17-815b-b0cce0742fbe"] = r >
+			<cfset preamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountrycodeNotempty",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeNotempty(countrycode) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountrycodeNotempty",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountrycodeStandard",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeStandard(countrycode) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountrycodeStandard",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountryCountrycodeConsistent",array2String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountryCountrycodeConsistent(country, countrycode) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountryCountrycodeConsistent",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountryCountryRpimd(country, countrycode) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountryNotempty",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountryCountryNotempty(country, countrycode) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountryCountryNotempty",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeNotempty",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallatitudeNotempty(decimal_latitude) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeNotempty",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeInrange",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallatitudeInrange(decimal_latitude) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeInrange",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeNotempty",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallongitudeNotempty(decimal_longitude) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeNotempty",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeInrange",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallongitudeInrange(decimal_longitude) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeInrange",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumNotempty",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeGeodeticdatumNotempty(geodeticDatum) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumNotempty",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumStandard",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeGeodeticdatumStandard(geodeticDatum) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumStandard",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment[providesGuid] = r >
+			<cfset r=structNew()>
 
 			<!--- amendment phase --->
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("amendmentCountrycodeFromCoordinates",array5String).getAnnotation(Provides.getClass()).value() >
+         <cfset dqResponse= dwcGeoRefDQ.amendmentCountrycodeFromCoordinates(decimal_latitude, decimal_longitude, geodeticDatum, countrycode, "") >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("amendmentCountrycodeFromCoordinates",array5String).getAnnotation(Validation.getClass()).description() >
+         <cfset r.type = "AMENDMENT" >
+         <cfset r.status = dqResponse.getResultState().getLabel() >
+         <cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
+            <cfset countryCode = dqResponse.getValue().getObject().get("dwc:countryCode") >
+            <cfset r.value = dqResponse.getValue().getObject().toString() >
+         <cfelse>
+            <cfset r.value = "">
+         </cfif>
+         <cfset r.comment = dqResponse.getComment() >
+         <cfset amendment[providesGuid] = r >
+         <cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("amendmentCountrycodeStandardized",array1String).getAnnotation(Provides.getClass()).value() >
+         <cfset dqResponse= dwcGeoRefDQ.amendmentCountrycodeStandardized(countrycode) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("amendmentCountrycodeStandardized",array1String).getAnnotation(Validation.getClass()).description() >
+         <cfset r.type = "AMENDMENT" >
+         <cfset r.status = dqResponse.getResultState().getLabel() >
+         <cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
+            <cfset countryCode = dqResponse.getValue().getObject().get("dwc:countryCode") >
+            <cfset r.value = dqResponse.getValue().getObject().toString() >
+         <cfelse>
+            <cfset r.value = "">
+         </cfif>
+         <cfset r.comment = dqResponse.getComment() >
+         <cfset amendment[providesGuid] = r >
+         <cfset r=structNew()>
 
 
 			<!--- post-amendment phase --->
 
-			<!--- @Provides("6ce2b2b4-6afe-4d13-82a0-390d31ade01c") --->
-			<cfset dqResponse = dwcGeoRefDQ.validationCountryEmpty(country) >
-			<cfset r.label = "dwc:country contains a value" >
+			<cfset array5String = ArrayNew(1)>
+			<cfset ArraySet(array5String,1,5,aString.getClass())>
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesCountrycodeConsistent",array5String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCoordinatesCountrycodeConsistent(decimal_latitude,decimal_longitude, countrycode, "10000", "") >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesCountrycodeConsistent",array5String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset postamendment["6ce2b2b4-6afe-4d13-82a0-390d31ade01c"] = r >
+			<cfset postamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<!--- @Provides("853b79a2-b314-44a2-ae46-34a1e7ed85e4") --->
-			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeEmpty(countrycode) >
-			<cfset r.label = "dwc:countryCode contains a value" >
+			<cfset array2String = ArrayNew(1)>
+			<cfset ArraySet(array2String,1,2,aString.getClass())>
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesNotzero",array2String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCoordinatesNotzero(decimal_latitude,decimal_longitude) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCoordinatesNotzero",array2String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset postamendment["853b79a2-b314-44a2-ae46-34a1e7ed85e4"] = r >
+			<cfset postamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
-			<!--- @Provides("0493bcfb-652e-4d17-815b-b0cce0742fbe") --->
-			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeNotstandard(countrycode) >
-			<cfset r.label = "dwc:countryCode is a standard value" >
+			<cfset array1String = ArrayNew(1)>
+			<cfset ArraySet(array1String,1,1,aString.getClass())>
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCoordinateuncertaintyInrange",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCoordinateuncertaintyInrange(coordinateuncertaintyinmeters) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCoordinateuncertaintyInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset postamendment["0493bcfb-652e-4d17-815b-b0cce0742fbe"] = r >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountrycodeNotempty",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeNotempty(countrycode) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountrycodeNotempty",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountrycodeStandard",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountrycodeStandard(countrycode) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountrycodeStandard",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountryCountrycodeConsistent",array2String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountryCountrycodeConsistent(country, countrycode) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountryCountrycodeConsistent",array2String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountryCountryRpimd(country, countrycode) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountryFound",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountryNotempty",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountryCountryNotempty(country, countrycode) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountryCountryNotempty",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeNotempty",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallatitudeNotempty(decimal_latitude) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeNotempty",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeInrange",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallatitudeInrange(decimal_latitude) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeInrange",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeNotempty",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallongitudeNotempty(decimal_longitude) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeNotempty",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeInrange",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallongitudeInrange(decimal_longitude) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeInrange",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumNotempty",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeGeodeticdatumNotempty(geodeticDatum) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumNotempty",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
+			<cfset r=structNew()>
+
+			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumStandard",array1String).getAnnotation(Provides.getClass()).value() >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeGeodeticdatumStandard(geodeticDatum) >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumStandard",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment[providesGuid] = r >
 			<cfset r=structNew()>
 
 			<!--- Add results from phases to result to return --->
