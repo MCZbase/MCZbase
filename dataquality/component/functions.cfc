@@ -233,7 +233,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationCountryCountryRpimd(country, "The Getty Thesaurus of Geographic Names (TGN)") >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountryCountryFound(country, "The Getty Thesaurus of Geographic Names (TGN)") >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -414,7 +414,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationCountryCountryRpimd(country, "The Getty Thesaurus of Geographic Names (TGN)") >
+			<cfset dqResponse = dwcGeoRefDQ.validationCountryCountryFound(country, "The Getty Thesaurus of Geographic Names (TGN)") >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationCountryFound",array2String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
