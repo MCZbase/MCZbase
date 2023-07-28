@@ -165,7 +165,7 @@ function displayQCResult(data,category,targetDivId) {
 	var amend = data.AMENDMENT;	 // extract amendments
 
 	// variables to assemble display output
-	var display = "<h2>QC " + category + " for " +data.guid+"</h2>";   // output to display as the result of the invocation of this method
+	var display = "<h2>QC " + category + " for " +data.GUID+"</h2>";   // output to display as the result of the invocation of this method
 	display = display + "<div>Results of the TDWG Biodiversity Data Quality IG TG2 " + category + "  related tests.</div>";
 	display = display + "<div>Tests run using (mechanism): " + data.MECHANISM + ".</div>";
 	var displayamendments = "";   // results of amendment test formatted for display

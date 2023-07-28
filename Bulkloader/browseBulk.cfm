@@ -337,7 +337,7 @@ table##t th {
 		</cfif>
 	</cfquery>
 	<div class="container-fluid">
-		<div class="col-12 p-4">
+		<div class="col-12 p-4" style="min-height: 1200px;">
 			<cfoutput>
 				<h1 class="h2">Edit #countData.ct# records individually in this grid.</h2>
 				<cfif listLen(enteredByCleaned) EQ 1>
