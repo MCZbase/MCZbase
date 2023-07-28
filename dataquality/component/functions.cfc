@@ -146,6 +146,14 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset countrycode = queryrow.countrycode>
 			<cfset decimal_latitude = queryrow.decimal_latitude>
 			<cfset decimal_longitude = queryrow.decimal_longitude>
+			<cfset coordinateuncertaintyinmeters = queryrow.coordinateuncertaintyinmeters>
+			<cfset geodeticDatum = queryrow.geodeticDatum>
+			<cfset verbatimlatitude = queryrow.verbatimlatitude>
+			<cfset verbatimlongitude = queryrow.verbatimlongitude>
+			<cfset max_depth_in_m = queryrow.max_depth_in_m>
+			<cfset min_depth_in_m = queryrow.min_depth_in_m>
+			<cfset max_elev_in_m = queryrow.max_elev_in_m>
+			<cfset min_elev_in_m = queryrow.min_elev_in_m>
 
 			<cfobject type="Java" class="org.filteredpush.qc.georeference.DwCGeoRefDQ" name="dwcGeoRefDQ">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism">
