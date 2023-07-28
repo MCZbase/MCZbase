@@ -253,7 +253,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeNotempty",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallatitudeNotempty(decimal_latitude) >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimallatitudeNotempty(decimal_latitude) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeNotempty",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -263,7 +263,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeInrange",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallatitudeInrange(decimal_latitude) >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimallatitudeInrange(decimal_latitude) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -273,7 +273,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeNotempty",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallongitudeNotempty(decimal_longitude) >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimallongitudeNotempty(decimal_longitude) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeNotempty",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -283,7 +283,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeInrange",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallongitudeInrange(decimal_longitude) >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimallongitudeInrange(decimal_longitude) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -434,7 +434,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeNotempty",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallatitudeNotempty(decimal_latitude) >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimallatitudeNotempty(decimal_latitude) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeNotempty",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -444,7 +444,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeInrange",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallatitudeInrange(decimal_latitude) >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimallatitudeInrange(decimal_latitude) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallatitudeInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -454,7 +454,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeNotempty",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallongitudeNotempty(decimal_longitude) >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimallongitudeNotempty(decimal_longitude) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeNotempty",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -464,7 +464,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeInrange",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeDecimallongitudeInrange(decimal_longitude) >
+			<cfset dqResponse = dwcGeoRefDQ.validationDecimallongitudeInrange(decimal_longitude) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationDecimallongitudeInrange",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
