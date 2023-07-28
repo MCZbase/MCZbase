@@ -316,7 +316,7 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("amendmentCountrycodeFromCoordinates",array5String).getAnnotation(Provides.getClass()).value() >
          <cfset dqResponse= dwcGeoRefDQ.amendmentCountrycodeFromCoordinates(decimal_latitude, decimal_longitude, geodeticDatum, countrycode, "") >
-			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("amendmentCountrycodeFromCoordinates",array5String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("amendmentCountrycodeFromCoordinates",array5String).getAnnotation(Amendment.getClass()).description() >
          <cfset r.type = "AMENDMENT" >
          <cfset r.status = dqResponse.getResultState().getLabel() >
          <cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
@@ -331,7 +331,7 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("amendmentCountrycodeStandardized",array1String).getAnnotation(Provides.getClass()).value() >
          <cfset dqResponse= dwcGeoRefDQ.amendmentCountrycodeStandardized(countrycode) >
-			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("amendmentCountrycodeStandardized",array1String).getAnnotation(Validation.getClass()).description() >
+			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("amendmentCountrycodeStandardized",array1String).getAnnotation(Amendment.getClass()).description() >
          <cfset r.type = "AMENDMENT" >
          <cfset r.status = dqResponse.getResultState().getLabel() >
          <cfif r.status eq "AMENDED" OR r.status EQ "FILLED_IN">
