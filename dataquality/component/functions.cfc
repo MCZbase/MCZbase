@@ -144,6 +144,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<!--- store local copies of query results to use in pre-amendment phase and overwrite in ammendment phase  --->
 			<cfset country = queryrow.country>
 			<cfset countrycode = queryrow.countrycode>
+			<cfset decimal_latitude = queryrow.decimal_latitude>
+			<cfset decimal_longitude = queryrow.decimal_longitude>
 
 			<cfobject type="Java" class="org.filteredpush.qc.georeference.DwCGeoRefDQ" name="dwcGeoRefDQ">
 			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism">
