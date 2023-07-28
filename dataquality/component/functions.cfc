@@ -293,7 +293,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumNotempty",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeGeodeticdatumNotempty(geodeticDatum) >
+			<cfset dqResponse = dwcGeoRefDQ.validationGeodeticdatumNotempty(geodeticDatum) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumNotempty",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -303,7 +303,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumStandard",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeGeodeticdatumStandard(geodeticDatum) >
+			<cfset dqResponse = dwcGeoRefDQ.validationGeodeticdatumStandard(geodeticDatum) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumStandard",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -474,7 +474,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumNotempty",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeGeodeticdatumNotempty(geodeticDatum) >
+			<cfset dqResponse = dwcGeoRefDQ.validationGeodeticdatumNotempty(geodeticDatum) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumNotempty",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -484,7 +484,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<cfset providesGuid = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumStandard",array1String).getAnnotation(Provides.getClass()).value() >
-			<cfset dqResponse = dwcGeoRefDQ.validationDecimalLatitudeGeodeticdatumStandard(geodeticDatum) >
+			<cfset dqResponse = dwcGeoRefDQ.validationGeodeticdatumStandard(geodeticDatum) >
 			<cfset r.label = dwcGeoRefDQ.getClass().getMethod("validationGeodeticdatumStandard",array1String).getAnnotation(Validation.getClass()).description() >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
