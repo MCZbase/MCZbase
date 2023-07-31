@@ -17,9 +17,11 @@ function loadEventQC(collection_object_id,collecting_event_id,targetDivId){
 	if (collection_object_id && String(collection_object_id).length > 0) { 
 		target_id = String(collection_object_id);
 		target = "FLAT";
+		$("#"+targetDivId).html("<div>Running Event Quality Control Tests...</div>");
 	} else if (collecting_event_id && String(collecting_event_id).length > 0) {
 		target_id = String(collecting_event_id);
 		target = "COLLEVENT";
+		$("#"+targetDivId).html("<div>Running Event Quality Control Tests...</div>");
 	} else { 
 		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a collecting_event_id was provided." );
 	}
@@ -34,10 +36,10 @@ function loadEventQC(collection_object_id,collecting_event_id,targetDivId){
 		}, 
 		success: function (datareturn) { 
 		data = JSON.parse(datareturn);
-		  if (data.status == "success") { 
+		  if (data.STATUS == "success") { 
 				displayQCResult(data,"Event",targetDivId);
 			} else { 
-				$("#"+targetDivId).html("<h2>Error:</h2><div>" + data.error + "</div>");
+				$("#"+targetDivId).html("<h2>Error:</h2><div>" + data.ERROR + "</div>");
 			}
 		}, 
 		fail: function (jqXHR, textStatus) { 
@@ -65,9 +67,11 @@ function loadNameQC(collection_object_id,taxon_name_id,targetDivId){
 	if (collection_object_id && String(collection_object_id).length > 0) { 
 		target_id = String(collection_object_id);
 		target = "FLAT";
+		$("#"+targetDivId).html("<div>Running Taxon Quality Control Tests...</div>");
 	} else if (taxon_name_id && String(taxon_name_id).length > 0) {
 		target_id = String(taxon_name_id);
 		target = "TAXONOMY";
+		$("#"+targetDivId).html("<div>Running Taxon Quality Control Tests...</div>");
 	} else { 
 		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a taxon_name_id was provided." );
 	}
@@ -82,10 +86,10 @@ function loadNameQC(collection_object_id,taxon_name_id,targetDivId){
 		}, 
 		success: function (datareturn) { 
 		data = JSON.parse(datareturn);
-		  if (data.status == "success") { 
+		  if (data.STATUS == "success") { 
 				displayQCResult(data,"Taxon Name",targetDivId);
 			} else { 
-				$("#"+targetDivId).html("<h2>Error:</h2><div>" + data.error + "</div>");
+				$("#"+targetDivId).html("<h2>Error:</h2><div>" + data.ERROR + "</div>");
 			}
 		}, 
 		fail: function (jqXHR, textStatus) { 
@@ -113,9 +117,11 @@ function loadSpaceQC(collection_object_id,locality_id,targetDivId){
 	if (collection_object_id && String(collection_object_id).length > 0) { 
 		target_id = String(collection_object_id);
 		target = "FLAT";
+		$("#"+targetDivId).html("<div>Running Spatial Quality Control Tests...</div>");
 	} else if (locality_id && String(locality_id).length > 0) {
 		target_id = String(locality_id);
 		target = "LOCALITY";
+		$("#"+targetDivId).html("<div>Running Spatial Quality Control Tests...</div>");
 	} else { 
 		$("#" + targetDivId).html("Error: Neither a collection_object_id nor a locality_id was provided." );
 	}
@@ -130,10 +136,10 @@ function loadSpaceQC(collection_object_id,locality_id,targetDivId){
 		}, 
 		success: function (datareturn) { 
 		data = JSON.parse(datareturn);
-		  if (data.status == "success") { 
+		  if (data.STATUS == "success") { 
 				displayQCResult(data,"Geospatial",targetDivId);
 			} else { 
-				$("#"+targetDivId).html("<h2>Error:</h2><div>" + data.error + "</div>");
+				$("#"+targetDivId).html("<h2>Error:</h2><div>" + data.ERROR + "</div>");
 			}
 		}, 
 		fail: function (jqXHR, textStatus) { 
@@ -154,14 +160,14 @@ function loadSpaceQC(collection_object_id,locality_id,targetDivId){
  */
 function displayQCResult(data,category,targetDivId) { 
 	// extract the phases from the returned result
-	var pre = data.preamendment;   // extract pre-amendment phase test results
-	var post = data.postamendment; // extract post-amendment phase results
-	var amend = data.amendment;	 // extract amendments
+	var pre = data.PREAMENDMENT;   // extract pre-amendment phase test results
+	var post = data.POSTAMENDMENT; // extract post-amendment phase results
+	var amend = data.AMENDMENT;	 // extract amendments
 
 	// variables to assemble display output
-	var display = "<h2>QC " + category + " for " +data.guid+"</h2>";   // output to display as the result of the invocation of this method
+	var display = "<h2>QC " + category + " for " +data.GUID+"</h2>";   // output to display as the result of the invocation of this method
 	display = display + "<div>Results of the TDWG Biodiversity Data Quality IG TG2 " + category + "  related tests.</div>";
-	display = display + "<div>Tests run using (mechanism): " + data.mechanism + ".</div>";
+	display = display + "<div>Tests run using (mechanism): " + data.MECHANISM + ".</div>";
 	var displayamendments = "";   // results of amendment test formatted for display
 	var displayprepost = "";  // results of pre- and post-amendment tests formatted for display
 	var displayprepostheader = "";  // table header for pre- and post-amendment results formatted for display
@@ -179,47 +185,48 @@ function displayQCResult(data,category,targetDivId) {
 	// iterate through preamendment tests, for each test found, look up the corresponding post-amendment test and 
 	// obtain the results to display pre/post together in tabular form.
 	for (var k in pre) { 
+		console.log(k);
 		counter ++;
 		if (counter % 2 == 0) { rowstyle = ""; } else { rowstyle = "style='background-color: #f2f2f2;'"; }
 		var key = pre[k];
-		if (key.status == "RUN_HAS_RESULT" && key.value == "COMPLIANT") {
+		if (key.STATUS == "RUN_HAS_RESULT" && key.VALUE == "COMPLIANT") {
 			prepass = prepass + 1;
 			cs="<span style='color: green;'><strong>"; ce="</strong></span>";
 			status = "";  // don't show status when there is a result
 		} else { 
-			if (key.status == "RUN_HAS_RESULT" && key.value == "NOT_COMPLIANT") {
+			if (key.STATUS == "RUN_HAS_RESULT" && key.VALUE == "NOT_COMPLIANT") {
 				cs="<span style='color: red;'><strong>"; ce="</strong></span>";
 				status = "";  // don't show status when there is a result
 			} else { 
 				cs=""; ce="";
-				status = key.status;  // show the status when there is no result.
+				status = key.STATUS;  // show the status when there is no result.
 			}
 		}
-		if (key.type == "VALIDATION") { 
+		if (key.TYPE == "VALIDATION") { 
 			validationcount = validationcount + 1; 
 			// pre-amendment results for this test.
-			displayprepost = displayprepost + "<tr " +rowstyle+ "><td>" + key.label + "</td><td>" + status + " " + cs + key.value + ce  + "</td><td>" + key.comment + "</td>";
+			displayprepost = displayprepost + "<tr " +rowstyle+ "><td>" + key.LABEL + "</td><td>" + status + " " + cs + key.VALUE + ce  + "</td><td>" + key.COMMENT + "</td>";
 			// find matching post-amendment results for this test.
 			var postkey = post[k];
-			if (postkey.status == "RUN_HAS_RESULT" && postkey.value == "COMPLIANT") {
+			if (postkey.STATUS == "RUN_HAS_RESULT" && postkey.VALUE == "COMPLIANT") {
 				cs="<span style='color: green;'><strong>"; ce="</strong></span>";
 				status = "";
 			} else { 
-				if (postkey.status == "RUN_HAS_RESULT" && postkey.value == "NOT_COMPLIANT") {
+				if (postkey.STATUS == "RUN_HAS_RESULT" && postkey.VALUE == "NOT_COMPLIANT") {
 					cs="<span style='color: red;'><strong>"; ce="</strong></span>";
 					status = "";
 				} else { 
 					cs=""; ce="";
-					status = key.status;
+					status = key.STATUS;
 				}
 			}
-			displayprepost = displayprepost + "<td>" + status + " " + cs + postkey.value + ce  + "</td><td> " + postkey.comment + "</td></tr>";
+			displayprepost = displayprepost + "<td>" + status + " " + cs + postkey.VALUE + ce  + "</td><td> " + postkey.COMMENT + "</td></tr>";
 		} else { 
 			if (counter % 2 == 0) { rowstyle = "style='background-color: #ccffcc;'"; } else { rowstyle = "style='background-color: #e6ffe6;'"; }
 			// is a MEASURE (or possibly ISSUE), note that amendments won't be in this phase.
-			displaymeasure = displaymeasure + "<tr " + rowstyle+ "><td>" + key.label + "</td><td>" + key.status + " " + cs + key.value + ce  + "</td><td>" + key.comment + "</td>";
+			displaymeasure = displaymeasure + "<tr " + rowstyle+ "><td>" + key.LABEL + "</td><td>" + key.STATUS + " " + cs + key.VALUE + ce  + "</td><td>" + key.COMMENT + "</td>";
 			var postkey = post[k];
-			displaymeasure = displaymeasure + "<td>" + postkey.status + " " + postkey.value + "</td><td>" + postkey.comment + "</td></tr>";
+			displaymeasure = displaymeasure + "<td>" + postkey.STATUS + " " + postkey.VALUE + "</td><td>" + postkey.COMMENT + "</td></tr>";
 		}
 	}
 
@@ -228,18 +235,21 @@ function displayQCResult(data,category,targetDivId) {
 	var amendmentCount = 0;
 	for (var k in amend) { 
 		var key = amend[k];
-		if (key.status == 'AMENDED') {
-			var commentbit = key.comment;
+		var spanClass = '';
+		if (key.STATUS == 'AMENDED' || key.STATUS=='FILLED_IN') {
+			spanClass="";
+			var commentbit = key.COMMENT;
 			commentbit = commentbit.toUpperCase();
-			if (commentbit.includes('FILLED IN')) {   		
+			if (key.STATUS == 'FILLED IN') {   		
   					cs="<span style='color: blue;'><strong>"; ce="</strong></span>";
 			} else { 		
   					cs="<span style='color: red;'><strong>"; ce="</strong></span>";
 			}
 		} else { 
   				cs=""; ce="";
+				spanClass=" class='text-muted' ";
 		}
-		displayamendments = displayamendments + "<li><span>" + key.label + " " + key.status + " " + cs + key.value + ce + " " + key.comment + "</span></li>";
+		displayamendments = displayamendments + "<li><span " + spanClass + ">" + key.LABEL + " " + key.STATUS + " " + cs + key.VALUE + ce + " " + key.COMMENT + "</span></li>";
 		amendmentCount++;
 	}
 	if (amendmentCount==0) { 
@@ -249,7 +259,7 @@ function displayQCResult(data,category,targetDivId) {
 	// Iterate through post-amendment tests to calculate postpass.
 	for (var k in post) { 
 		var key = post[k];
-		if (key.status == "RUN_HAS_RESULT" && key.value == "COMPLIANT") { 
+		if (key.STATUS == "RUN_HAS_RESULT" && key.VALUE == "COMPLIANT") { 
 			postpass = postpass + 1;
 		}
 	}

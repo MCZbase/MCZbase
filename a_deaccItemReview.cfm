@@ -270,7 +270,7 @@
 		identification.accepted_id_fg = 1 AND
 		cataloged_item.collection_id=collection.collection_id AND
 		cataloged_item.accn_id = accn.transaction_id AND
-	  	deacc_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+	  	deacc_item.transaction_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 	ORDER BY cat_num
 </cfquery>
 <!--- Obtain list of preserve_method values for the collection that this deaccession is from --->
@@ -278,7 +278,7 @@
 	select ct.preserve_method, c.collection_cde from ctspecimen_preserv_method ct 
            left join collection c on ct.collection_cde = c.collection_cde
            left join trans t on c.collection_id = t.collection_id 
-         where t.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+         where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 </cfquery>
 <cfoutput>
 <cfquery name="aboutDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -286,7 +286,7 @@
           from collection c 
              left join trans t on c.collection_id = t.collection_id 
              left join deaccession d on t.transaction_id = d.transaction_id
-          where t.transaction_id = <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+          where t.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#" >
 </cfquery>
 <cfif isdefined("Ijustwannadownload") and #Ijustwannadownload# is "yep">
 	<cfset fileName = "/download/ArctosLoanData_#getPartDeaccRequests.deacc_number#.csv">

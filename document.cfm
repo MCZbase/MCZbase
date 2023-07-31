@@ -8,9 +8,9 @@
 			media_labels p,
 			media_labels t
 		where
-			p.media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" /> and
+			p.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" /> and
 			p.media_label='page' and
-			t.media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" /> and
+			t.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" /> and
 			t.media_label='title'
 	</cfquery>
 	<cfoutput>

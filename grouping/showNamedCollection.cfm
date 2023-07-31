@@ -285,10 +285,10 @@ limitations under the License.
 						<script type="text/javascript">
 							var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 								if (value > 1) {
-									return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0000ff;">' + value + '</span></a>';
+									return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##0251a5;">' + value + '</span></a>';
 								}
 								else {
-									return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: ##007bff;">' + value + '</span></a>';
+									return '<a href="/guid/'+value+'" target="_blank"><span style="margin: 4px; float: ' + columnproperties.cellsalign + '; color: color: ##0251a5;">' + value + '</span></a>';
 								}
 							}
 							$(document).ready(function () {

@@ -790,6 +790,7 @@ Typical use:
 											<label for="findNoAccGeoRef" class="form-check-label mt3px small95">No Accepted Georeferences</label>
 										</div>
 									</div>
+<!--- TODO: Support findNoAccGeoRefStrict --->
 									<div class="col-12 col-md-4 col-xl-3 pr-3 pl-0 py-2">
 										<div class="form-check">
 											<cfif isDefined("NoGeorefBecause") AND NoGeorefBecause EQ "1"><cfset checked="checked"><cfelse><cfset checked=""></cfif>
@@ -826,7 +827,8 @@ Typical use:
 									</div>
 									<div class="col-12 col-md-2 px-4 px-md-5 mt-xl-3 py-2">
 										<div class="form-check">
-											<input type="checkbox" name="onlyShared" id="onlyShared" class="form-check-input">
+											<cfif isDefined("onlyShared") AND (onlyShared EQ "1" OR onlyShared EQ "on")><cfset checked="checked"><cfelse><cfset checked=""></cfif>
+											<input type="checkbox" name="onlyShared" id="onlyShared" class="form-check-input" #checked#>
 											<label for="onlyShared" class="form-check-label mt3px small95">Shared Localities Only</label>
 										</div>
 									</div>

@@ -983,7 +983,7 @@ You deleted a collecting event.
 	<cfelse>
 		,endDayOfYear = null
 	</cfif>
-	 where collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#collecting_event_id#">
+	 where collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 	</cfquery>
 	<cfif isdefined("coll_event_number_series") and isdefined("coll_event_number") and len(trim(coll_event_number_series)) GT 0 and len(trim(coll_event_number)) GT 0 >
 		<cfquery name="addCollEvNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1350,8 +1350,8 @@ You deleted a collecting event.
 		<cftransaction>
 		<cfloop list="#collecting_event_id#" index="ceid">
 			<cfquery name="upCollLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update collecting_event set locality_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#locality_id#">
-			where collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#ceid#">
+			update collecting_event set locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+			where collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ceid#">
 			</cfquery>
 		</cfloop>
 		</cftransaction>

@@ -31,7 +31,7 @@
 				        identification.identification_id=identification_taxonomy.identification_id and
  					MCZBASE.is_media_encumbered(media.media_id) < 1 and 
 				        --media.preview_uri is not null and
-				        identification_taxonomy.taxon_name_id = <cfqueryparam cfsqltype="cf_sql_number" value="#taxon_name_id#" />
+				        identification_taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#" />
 				    UNION
 				    select 
 				        media.media_id,
@@ -47,7 +47,7 @@
 				         media.media_id=media_relations.media_id and
 				         media_relations.media_relationship like '%taxonomy' and
  					 MCZBASE.is_media_encumbered(media.media_id) < 1 and 
-				         media_relations.related_primary_key = <cfqueryparam cfsqltype="cf_sql_number" value="#taxon_name_id#" />
+				         media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#" />
 				 ) group by
 				 	media_id,
 				    media_uri,

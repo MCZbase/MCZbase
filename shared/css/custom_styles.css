@@ -4,6 +4,33 @@ body, html {
 	line-height: 1.15rem;
 	font-size: 15px;
 }
+/*a {
+	color: #0460c1;
+}*/
+a:link {
+	color: #0460c1;
+	cursor: pointer;
+}
+a:visited {
+	color: purple;
+}
+a:hover {
+	color: #0460c1;
+	text-decoration: underline;
+}
+a:focus { 
+	color: purple;
+	text-decoration: underline;
+}
+a:active {
+	color: #0460c1;
+}
+a.btn-info {
+	color: white;
+}
+a.btn-secondary, a.btn-warning, a.btn-primary {
+	color: #212529;
+}
 /** Styling of Required fields on forms **/
 input.reqdClr, select.reqdClr, textarea.reqdClr {
 	background-color: #E4E476 !important;
@@ -43,9 +70,6 @@ input.goodPick, select.goodPick, textarea.goodPick {
 	color: #6a737b!important;
 }
 table#t {
-	cursor: pointer;
-}
-a {
 	cursor: pointer;
 }
 .blueFocus a:focus {
@@ -93,6 +117,9 @@ table td .small {
 }
 .bg-verylightgreen {
 	background-color: #EBFFEB !important;
+}
+.bg-verylightred {
+	background-color: #FFD3D3 !important;
 }
 .bg-lt-gray {
 	background-color: #F0F3F7 !important;
@@ -213,9 +240,8 @@ h1.h4 {
 	color: #524e4e;
 }
 .btn-link, .helpText, .fas-info {
-	color: #036ee0 !important;
+	color: #0460c1 !important;
 }
-
 span.caps {
 	text-transform: capitalize;
 }
@@ -274,12 +300,9 @@ div:focus, div > span:focus {
 	width: 0;
 	overflow: hidden;
 }
-a {
-	color:#006ee3;/*not working for accessibility*/
-	color: #0460c1;
-}
+
 .link-color {
-	color: #006ee3;
+	color: #02458c;
 }
 .brackets {
 	width: 5px;
@@ -520,18 +543,36 @@ span.data-entry-addon {
 	border-color: buttonface;
 }
 .jqx-grid-cell a {
-	padding-left: .3rem;
+	margin-left: .2rem;
+	margin-right: .2rem;
 }
-.jqx-grid-cell a.focus, .jqx-grid-cell a:focus {
+/*
+.jqx-widget a:link, .jqx-widget a.link {
+	color: #0460c1;
+}
+.jqx-widget a:visited,.jqx-widget a.visited {
+	color: purple;
+}
+.jqx-widget a:hover,.jqx-widget a.hover {
+	color: #0460c1;
+	text-decoration: underline;
+}
+.jqx-widget a.focus, .jqx-widget a:focus {
 	text-decoration: underline;
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
+	color: purple;
+}
+.jqx-widget a:active {
+	color: #0460c1;
+}*/
+.jqx-item {
+	color: black;
 }
 .text-success {
-	color: #1e5d16 !important;
+	/*color: #1e5d16 !important;*/
 	color: #18780b !important;
 }
-
 .btn-danger {
 	background-color: #f8d7da;
 	background: #f8d7da;
@@ -1272,6 +1313,10 @@ table.inputTable tr {
 }
 .jqx-grid-cell-selected-light a:focus, .jqx-fill-state-pressed a {
 	color: blue !important; /*changed from white*/
+	text-decoration: underline;
+}
+.jqx-grid-cell-selected-light a:visited {
+	color: purple !important; /*changed from white*/
 	text-decoration: underline;
 }
 input[type="button"]#delPOIbutton {
