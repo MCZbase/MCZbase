@@ -4623,7 +4623,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<div class="col-12">
 			     	<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
 					<cfset vl_value="">
-					 <cfif isdefined("verbatim_locality")>
+					<cfif isdefined("verbatim_locality")>
 						<cfset vl_value=verbatim_locality>
 					<cfelseif isdefined("spec_locality")>
 						<cfset vl_value=spec_locality>
@@ -4698,7 +4698,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<label for="endDayOfYear" class="data-entry-label">End Day of Year</label>
 					<cfif not isDefined("endDayOfYear")><cfset endDayOfYear = ""></cfif>
 					<input type="text" name="endDayOfYear" id="endDayOfYear" class="data-entry-input" value="#encodeForHTML(locDet.endDayOfYear)#">
-					</cfif>
 				</div>
 				<div class="col-12">
 					<label for="coll_event_remarks" class="data-entry-label">Remarks</label>
