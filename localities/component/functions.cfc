@@ -4534,4 +4534,242 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<cffunction name="getCreateCollectingEventHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="clone_from_collecting_event_id" type="string" required="no">
+	<cfargument name="locality_id" type="string" required="no">
+	<cfargument name="verbatim_locality" type="string" required="no">
+	<cfargument name="verbatimDepth" type="string" required="no">
+	<cfargument name="verbatimElevation" type="string" required="no">
+	<cfargument name="verbatimCoordinates" type="string" required="no">
+	<cfargument name="verbatimLatitude" type="string" required="no">
+	<cfargument name="verbatimLongitude" type="string" required="no">
+	<cfargument name="verbatimCoordinateSystem" type="string" required="no">
+	<cfargument name="verbatimSRS" type="string" required="no">
+
+	<cfif isDefined("clone_from_collecting_event_id") AND len(clone_from_collecting_event_id) GT 0 >
+		<cfquery name="eventToCloneFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT locality_id, verbatim_locality, verbatimDepth, verbatimElevation,
+				verbatimCoordinates, verbatimLatitude, verbatimLongitude,
+				verbatimCoordinateSystem, verbatimSRS
+			FROM collecting_event
+			WHERE
+				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_collecting_event_id#">
+		</cfquery>
+		<cfif eventToCloneFrom.recordcount EQ 0>
+			<cfthrow message = "No event to clone from found for specified collecting event id.">
+		<cfelse>
+			<cfset locality_id = eventToCloneFrom.locality_id>
+			<cfset verbatim_locality = eventToCloneFrom.verbatim_locality>
+			<cfset verbatimDepth = eventToCloneFrom.verbatimDepth>
+			<cfset verbatimElevation = eventToCloneFrom.verbatimElevation>
+			<cfset verbatimCoordinates = eventToCloneFrom.verbatimCoordinates>
+			<cfset verbatimLatitude = eventToCloneFrom.verbatimLatitude>
+			<cfset verbatimLongitude = eventToCloneFrom.verbatimLongitude>
+			<cfset verbatimCoordinateSystem = eventToCloneFrom.verbatimCoordinateSystem>
+			<cfset verbatimSRS = eventToCloneFrom.verbatimSRS>
+		</cfif>
+	</cfif> 
+	<cfset higher_geog = "">
+	<cfset spec_locality = "">
+	<cfif isDefined("locality_id") AND len(locality_id) GT 0>
+		<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT higher_geog, spec_locality
+			FROM 
+				locality
+				join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+			WHERE 
+				locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+		</cfquery>
+		<cfif lookupLocality.recordCount EQ 0>
+			<cfthrow message = "No locality found for specified locality_id [#encodeForHtml(locality_id)#].">
+		<cfelse>
+			<cfset higher_geog = "#lookupLocality.higher_geog#">
+			<cfset spec_locality = "#lookupLocality.spec_locality#">
+		</cfif>
+	</cfif>
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="createCollEventFormThread#tn#">
+		<cfoutput>
+			<div class="form-row">
+				<div class="col-12">
+					<cfif NOT isDefined(locality_id) OR len(locality_id) EQ 0>
+						<label class="data-entry-label" for="locality_id">Pick Locality for this Collecting Event</label>
+						<input name="locality_id" id="locality_id" class="data-entry-input">
+						<!--- TODO: Bind to Locality picker  --->
+						<script>
+						</script>
+					<cfelse>
+						<h3 class="h4">#higher_geog#</h3>
+				</div>
+				<div class="col-12">
+						<h3 class="h4">#spec_locality#</h3>
+					</cfif>
+				</div>
+				<div class="col-12">
+			     	<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
+					<cfset vl_value="">
+					 <cfif isdefined("verbatim_locality")>
+						<cfset vl_value=verbatim_locality>
+					<cfelseif isdefined("spec_locality")>
+						<cfset vl_value=spec_locality>
+					</cfif>
+	     			<input type="text" name="verbatim_locality" id="verbatim_locality" class="data-entry-input" value="#encodeForHtml(vl_value)#">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="verbatimDepth" class="data-entry-label">Verbatim Depth<label>
+					<cfif not isDefined("verbatimDepth")><cfset verbatimDepth = ""></cfif>
+					<input type="text" name="verbatimDepth" value="#encodeForHTML(verbatimDepth)#" id="verbatimDepth" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="verbatimElevation" class="data-entry-label">Verbatim Elevation<label>
+					<cfif not isDefined("verbatimElevation")><cfset verbatimElevation = ""></cfif>
+					<input type="text" name="verbatimElevation" value="#encodeForHTML(verbatimElevation)#" id="verbatimElevation" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="verbatimCoordinates" class="data-entry-label">Verbatim Coordinates (Summary)<label>
+					<cfif not isDefined("verbatimCoordinates")><cfset verbatimCoordinates = ""></cfif>
+					<input type="text" name="verbatimCoordinates" value="#encodeForHTML(verbatimCoordinates)#" id="verbatimCoordinates"  class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="verbatimLatitude" class="data-entry-label">Verbatim Latitude<label>
+					<cfif not isDefined("verbatimLatitude")><cfset verbatimLatitude = ""></cfif>
+					<input type="text" name="verbatimLatitude" value="#encodeForHTML(verbatimLatitude)#" id="verbatimLatitude" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="verbatimLongitude" class="data-entry-label">Verbatim Longitude<label>
+					<cfif not isDefined("verbatimLongitude")><cfset verbatimLongitude = ""></cfif>
+					<input type="text" name="verbatimLongitude" value="#encodeForHTML(verbatimLongitude)#" id="verbatimLongitude" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System (e.g., decimal degrees)<label>
+					<cfif not isDefined("verbatimCoordinateSystem")><cfset verbatimCoordinateSystem = ""></cfif>
+					<input type="text" name="verbatimCoordinateSystem" value="#encodeForHTML(verbatimCoordinateSystem)#" id="verbatimCoordinateSystem" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="verbatimSRS">Verbatim SRS (includes ellipsoid model/Datum)<label>
+					<cfif not isDefined("verbatimSRS")><cfset verbatimSRS = ""></cfif>
+					<input type="text" name="verbatimSRS" value="#encodeForHTML(verbatimSRS)#" id="verbatimSRS" class="data-entry-input">
+				</div>
+
+<!--- TODO: From here --->
+
+				<label for="verbatim_date">Verbatim Date</label>
+				<input type="text" name="verbatim_date" id="verbatim_date" class="reqdClr" required="required"
+				  	<cfif isdefined("verbatim_date")>value="#encodeForHTML(verbatim_date)#"</cfif>>
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td style="padding-right: 1.5em;">
+				<span class="infoLink"onClick="newCollEvnt.began_date.value=newCollEvnt.verbatim_date.value;
+					newCollEvnt.ended_date.value=newCollEvnt.verbatim_date.value;">[ copy ]</span>
+				<label for="collecting_time">Collecting Time</label>
+				<input type="text" name="collecting_time" id="collecting_time"
+				  	<cfif isdefined("collecting_time")>
+						value="#encodeForHTML(collecting_time)#"
+					</cfif>
+				>
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td style="padding-right: 1.5em;">
+					<label for="startDayOfYear">Start Day of Year</label>
+					<input type="text" name="startDayOfYear" id="startDayOfYear"
+					<cfif isdefined("startDayOfYear")>
+						value="#encodeForHTML(locDet.startDayOfYear)#"
+					</cfif>
+					size="20">
+				</td>
+				<td>
+					<label for="endDayOfYear">End Day of Year</label>
+					<input type="text" name="endDayOfYear" id="endDayOfYear"
+					<cfif isdefined("endDayOfYear")>
+						value="#encodeForHTML(locDet.endDayOfYear)#"
+					</cfif>
+					size="20">
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td style="padding-right: 1.5em;">
+
+						<label for="began_date">Began Date</label>
+				      	<input type="text" name="began_date" id="began_date"  class="reqdClr" required="required"
+						  	<cfif isdefined("began_date")>
+								value="#encodeForHTML(began_date)#"
+							</cfif>
+						>
+			       </td>
+				<td>
+
+				        <label for="ended_date">Ended Date</label>
+				        <input type="text" name="ended_date" id="ended_date" class="reqdClr" required="required"
+							<cfif isdefined("ended_date")>
+								value="#encodeForHTML(ended_date)#"
+							</cfif>
+						>
+
+				</td>
+			</tr>
+		</table>
+		<table>
+		   <tr>
+			<td>
+			<label for="coll_event_remarks">Remarks</label>
+			<input type="text" name="coll_event_remarks" id="coll_event_remarks"
+			  	<cfif isdefined("coll_event_remarks")>
+					value="#encodeForHTML(coll_event_remarks)#"
+				</cfif>
+			size="115">
+			</td>
+		   </tr>
+		<table>
+			<tr>
+				<td style="padding-right: 2em;">
+					<label for="collecting_source">Collecting Source</label>
+					<cfif isdefined("collecting_source")>
+						<cfset collsrc = collecting_source>
+					<cfelse>
+						<cfset collsrc = "">
+					</cfif>
+					<select name="collecting_source" id="collecting_source" size="1" class="reqdClr" required="required" >
+					<option value="">Choose...</option>
+						<cfloop query="ctCollecting_Source">
+							<option
+								<cfif ctCollecting_Source.Collecting_Source is collsrc> selected="selected" </cfif>
+								value="#ctCollecting_Source.Collecting_Source#">#ctCollecting_Source.Collecting_Source#</option>
+						</cfloop>
+					</select>
+				</td>
+				<td>
+					<label for="collecting_method">Collecting Method</label>
+					<input type="text" name="collecting_method" id="collecting_method"
+					  	<cfif isdefined("collecting_method")>
+							value="#encodeForHTML(collecting_method)#"
+						</cfif>
+					size="92">
+				</td>
+			</tr></table>
+		<table><tr><td>
+			<label for="habitat_desc">Habitat</label>
+			<input type="text" name="habitat_desc" id="habitat_desc"
+				<cfif isdefined("HABITAT_DESC")>
+					value="#encodeForHTML(HABITAT_DESC)#"
+				</cfif>
+			size="115">
+			</td></tr></table>
+
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="createCollEventFormThread#tn#" />
+
+	<cfreturn cfthread["createCollEventFormThread#tn#"].output>
+
+</cffunction>
+
 </cfcomponent>
