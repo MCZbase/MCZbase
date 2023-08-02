@@ -4545,12 +4545,17 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="verbatimLongitude" type="string" required="no">
 	<cfargument name="verbatimCoordinateSystem" type="string" required="no">
 	<cfargument name="verbatimSRS" type="string" required="no">
+	<cfargument name="verbatim_date" type="string" required="no">
+	<cfargument name="collecting_time" type="string" required="no">
 
 	<cfif isDefined("clone_from_collecting_event_id") AND len(clone_from_collecting_event_id) GT 0 >
 		<cfquery name="eventToCloneFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT locality_id, verbatim_locality, verbatimDepth, verbatimElevation,
 				verbatimCoordinates, verbatimLatitude, verbatimLongitude,
-				verbatimCoordinateSystem, verbatimSRS
+				verbatimCoordinateSystem, verbatimSRS,
+				verbatim_date, collecting_time,
+				startDayOfYear, endDayOfYear, began_date, ended_date,
+				coll_event_remarks, collecting_source, habitat_desc
 			FROM collecting_event
 			WHERE
 				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_collecting_event_id#">
@@ -4567,6 +4572,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfset verbatimLongitude = eventToCloneFrom.verbatimLongitude>
 			<cfset verbatimCoordinateSystem = eventToCloneFrom.verbatimCoordinateSystem>
 			<cfset verbatimSRS = eventToCloneFrom.verbatimSRS>
+			<cfset verbatim_date = eventToCloneFrom.verbatim_date>
+			<cfset collecting_time = eventToCloneFrom.collecting_time>
+			<cfset startDayOfYear = eventToCloneFrom.startDayOfYear>
+			<cfset endDayOfYear = eventToCloneFrom.endDayOfYear>
+			<cfset began_date = eventToCloneFrom.began_date>
+			<cfset ended_date = eventToCloneFrom.ended_date>
+			<cfset coll_event_remarks = eventToCloneFrom.coll_event_remarks>
+			<cfset collecting_source = eventToCloneFrom.collecting_source>
+			<cfset habitat_desc = eventToCloneFrom.habitat_desc>
 		</cfif>
 	</cfif> 
 	<cfset higher_geog = "">
@@ -4651,119 +4665,77 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfif not isDefined("verbatimSRS")><cfset verbatimSRS = ""></cfif>
 					<input type="text" name="verbatimSRS" value="#encodeForHTML(verbatimSRS)#" id="verbatimSRS" class="data-entry-input">
 				</div>
-
-<!--- TODO: From here --->
-
-				<label for="verbatim_date">Verbatim Date</label>
-				<input type="text" name="verbatim_date" id="verbatim_date" class="reqdClr" required="required"
-				  	<cfif isdefined("verbatim_date")>value="#encodeForHTML(verbatim_date)#"</cfif>>
-				</td>
-			</tr>
-		</table>
-		<table>
-			<tr>
-				<td style="padding-right: 1.5em;">
-				<span class="infoLink"onClick="newCollEvnt.began_date.value=newCollEvnt.verbatim_date.value;
-					newCollEvnt.ended_date.value=newCollEvnt.verbatim_date.value;">[ copy ]</span>
-				<label for="collecting_time">Collecting Time</label>
-				<input type="text" name="collecting_time" id="collecting_time"
-				  	<cfif isdefined("collecting_time")>
-						value="#encodeForHTML(collecting_time)#"
+				<div class="col-12 col-md-3">
+					<label for="verbatim_date" class="data-entry-label">
+						Verbatim Date
+						<span onClick="newCollEvnt.began_date.value=newCollEvnt.verbatim_date.value; newCollEvnt.ended_date.value=newCollEvnt.verbatim_date.value;">[ copy ]</span>
+						<!--- TODO: interpret and populate began_date/ended_date --->
+					</label>
+					<cfif not isDefined("verbatim_date")><cfset verbatim_date = ""></cfif>
+					<input type="text" name="verbatim_date" id="verbatim_date" class="reqdClr data-entry-input" required="required" value="#encodeForHtml(verbatim_date)#">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="began_date" class="data-entry-label">Began Date</label>
+					<cfif not isDefined("began_date")><cfset began_date = ""></cfif>
+				    <input type="text" name="began_date" id="began_date"  class="reqdClr data-entry-input" required="required" >
+				</div>
+				<div class="col-12 col-md-3">
+				    <label for="ended_date" class="data-entry-label">Ended Date</label>
+					<cfif not isDefined("ended_date")><cfset ended_date = ""></cfif>
+				    <input type="text" name="ended_date" id="ended_date" class="reqdClr data-entry-input" required="required" value="#encodeForHTML(ended_date)#" >
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="collecting_time" class="data-entry-label">Collecting Time</label>
+					<cfif not isDefined("collecting_time")><cfset collecting_time = ""></cfif>
+					<input type="text" name="collecting_time" id="collecting_time"  class="data-entry-input" value="#encodeForHtml(collecting_time)#">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="startDayOfYear" class="data-entry-label">Start Day of Year</label>
+					<cfif not isDefined("startDayOfYear")><cfset startDayOfYear = ""></cfif>
+					<input type="text" name="startDayOfYear" id="startDayOfYear" value="#encodeForHTML(locDet.startDayOfYear)#" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="endDayOfYear" class="data-entry-label">End Day of Year</label>
+					<cfif not isDefined("endDayOfYear")><cfset endDayOfYear = ""></cfif>
+					<input type="text" name="endDayOfYear" id="endDayOfYear" class="data-entry-input" value="#encodeForHTML(locDet.endDayOfYear)#">
 					</cfif>
-				>
-				</td>
-			</tr>
-		</table>
-		<table>
-			<tr>
-				<td style="padding-right: 1.5em;">
-					<label for="startDayOfYear">Start Day of Year</label>
-					<input type="text" name="startDayOfYear" id="startDayOfYear"
-					<cfif isdefined("startDayOfYear")>
-						value="#encodeForHTML(locDet.startDayOfYear)#"
-					</cfif>
-					size="20">
-				</td>
-				<td>
-					<label for="endDayOfYear">End Day of Year</label>
-					<input type="text" name="endDayOfYear" id="endDayOfYear"
-					<cfif isdefined("endDayOfYear")>
-						value="#encodeForHTML(locDet.endDayOfYear)#"
-					</cfif>
-					size="20">
-				</td>
-			</tr>
-		</table>
-		<table>
-			<tr>
-				<td style="padding-right: 1.5em;">
-
-						<label for="began_date">Began Date</label>
-				      	<input type="text" name="began_date" id="began_date"  class="reqdClr" required="required"
-						  	<cfif isdefined("began_date")>
-								value="#encodeForHTML(began_date)#"
-							</cfif>
-						>
-			       </td>
-				<td>
-
-				        <label for="ended_date">Ended Date</label>
-				        <input type="text" name="ended_date" id="ended_date" class="reqdClr" required="required"
-							<cfif isdefined("ended_date")>
-								value="#encodeForHTML(ended_date)#"
-							</cfif>
-						>
-
-				</td>
-			</tr>
-		</table>
-		<table>
-		   <tr>
-			<td>
-			<label for="coll_event_remarks">Remarks</label>
-			<input type="text" name="coll_event_remarks" id="coll_event_remarks"
-			  	<cfif isdefined("coll_event_remarks")>
-					value="#encodeForHTML(coll_event_remarks)#"
-				</cfif>
-			size="115">
-			</td>
-		   </tr>
-		<table>
-			<tr>
-				<td style="padding-right: 2em;">
-					<label for="collecting_source">Collecting Source</label>
-					<cfif isdefined("collecting_source")>
-						<cfset collsrc = collecting_source>
-					<cfelse>
-						<cfset collsrc = "">
-					</cfif>
-					<select name="collecting_source" id="collecting_source" size="1" class="reqdClr" required="required" >
-					<option value="">Choose...</option>
+				</div>
+				<div class="col-12">
+					<label for="coll_event_remarks" class="data-entry-label">Remarks</label>
+					<cfif not isDefined("coll_event_remarks")><cfset coll_event_remarks = ""></cfif>
+					<textarea name="coll_event_remarks" id="coll_event_remarks" class="autogrow border rounded w-100">#encodeForHTML(coll_event_remarks)#</textarea>
+					<script>
+						// make selected textareas autogrow as text is entered.
+						$(document).ready(function() {
+							// bind the autogrow function to the keyup event
+							$('textarea.autogrow').keyup(autogrow);
+							// trigger keyup event to size textareas to existing text
+							$('textarea.autogrow').keyup();
+						});
+					</script> 
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="collecting_source" class="data-entry-label">Collecting Source</label>
+					<cfif isdefined("collecting_source")> <cfset collsrc = collecting_source> <cfelse> <cfset collsrc = ""> </cfif>
+					<select name="collecting_source" id="collecting_source" size="1" class="reqdClr data-entry-select" required="required" >
+						<option value="">Choose...</option>
 						<cfloop query="ctCollecting_Source">
-							<option
-								<cfif ctCollecting_Source.Collecting_Source is collsrc> selected="selected" </cfif>
-								value="#ctCollecting_Source.Collecting_Source#">#ctCollecting_Source.Collecting_Source#</option>
+							<cfif ctCollecting_Source.Collecting_Source is collsrc><cfset selected='selected="selected"'><cfelse><cfset selected=''></cfif>
+							<option value="#ctCollecting_Source.Collecting_Source#" #selected#>#ctCollecting_Source.Collecting_Source#</option>
 						</cfloop>
 					</select>
-				</td>
-				<td>
-					<label for="collecting_method">Collecting Method</label>
-					<input type="text" name="collecting_method" id="collecting_method"
-					  	<cfif isdefined("collecting_method")>
-							value="#encodeForHTML(collecting_method)#"
-						</cfif>
-					size="92">
-				</td>
-			</tr></table>
-		<table><tr><td>
-			<label for="habitat_desc">Habitat</label>
-			<input type="text" name="habitat_desc" id="habitat_desc"
-				<cfif isdefined("HABITAT_DESC")>
-					value="#encodeForHTML(HABITAT_DESC)#"
-				</cfif>
-			size="115">
-			</td></tr></table>
-
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="collecting_method" class="data-entry-label">Collecting Method</label>
+					<cfif not isDefined("collecting_method")><cfset collecting_method = ""></cfif>
+					<input type="text" name="collecting_method" id="collecting_method" value="#encodeForHTML(collecting_method)#" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-6">
+					<label for="habitat_desc" class="data-entry-label">Habitat</label>
+					<cfif not isDefined("habitat_desc")><cfset habitat_desc = ""></cfif>
+					<input type="text" name="habitat_desc" id="habitat_desc" value="#encodeForHTML(HABITAT_DESC)#" class="data-entry-input">
+				</div>
+			</div>
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="createCollEventFormThread#tn#" />
