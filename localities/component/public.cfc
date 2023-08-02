@@ -195,8 +195,10 @@ limitations under the License.
 							}
 							map.fitBounds(bounds.union(georefsBounds));
 							for(var a=0; a<polygonArray.length; a++){
+								// TODO: Assumsion is that there is one georeferenced point and it is at center, this is not true
 								if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
 									$("##mapdiv_" + geog_auth_rec_id).addClass('uglyGeoSPatData');
+									// TODO: Accessibility, add human readable text for case.
 								} else {
 									$("##mapdiv_" + geog_auth_rec_id).addClass('niceGeoSPatData');
 								}
@@ -486,7 +488,9 @@ limitations under the License.
 								} 
 								map.fitBounds(bounds);
 								for(var a=0; a<uncertaintyPolygonArray.length; a++){
+									// TODO: Assumsion is that there is one georeferenced point and it is at center, this is not true
 									if (! google.maps.geometry.poly.containsLocation(center, uncertaintyPolygonArray[a]) ) {
+										// TODO: Accessibility, add human readable text for case.
 										$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
 									} else {
 										$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
