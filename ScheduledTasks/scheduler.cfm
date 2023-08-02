@@ -1,4 +1,4 @@
-<!--- first, get rid of everything --->
+<!--- first, get rid of everything ---> 
 <cfobject type="JAVA" action="Create" name="factory" class="coldfusion.server.ServiceFactory">
 <cfset allTasks = factory.CronService.listAll()>  
 <cfset numberOtasks = arraylen(allTasks)>
@@ -133,7 +133,7 @@
     startDate = "#dateformat(now(),'dd-mmm-yyyy')#"
     startTime = "06:00 AM"
     interval = "daily"
-    requestTimeOut = "600">
+    requestTimeOut = "600"--->
 	
 <!-----------------------------------   curatorial alerts    ------------------------------------------>
 <!---cfschedule action = "update"
