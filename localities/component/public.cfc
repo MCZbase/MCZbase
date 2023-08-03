@@ -49,10 +49,12 @@ limitations under the License.
 					var enclosingpoly;
 					var georefs;
 					var georefsBounds = new google.maps.LatLngBounds();
+					var higherLoaded = false;
+					var georefsLoaded = false;
+					var polygonArray = [];
 					function setupMap(geog_auth_rec_id){
 						var coords="0.0,0.0";
 						var bounds = new google.maps.LatLngBounds();
-						var polygonArray = [];
 						var ptsArray=[];
 						var lat=coords.split(',')[0];
 						var lng=coords.split(',')[1];
@@ -144,6 +146,8 @@ limitations under the License.
 											infoWindow.open({ map: map, shouldFocus: true },);
 										}
 									); 
+									georefsLoaded = true;
+									postLoadCheck();
 								}
 							}
 						).fail(function(jqXHR,textStatus,error){
@@ -194,18 +198,26 @@ limitations under the License.
 								bounds.extend(extendPoint2);
 							}
 							map.fitBounds(bounds.union(georefsBounds));
-							for(var a=0; a<polygonArray.length; a++){
-								// TODO: Assumsion is that there is one georeferenced point and it is at center, this is not true
-								if (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
-									$("##mapdiv_" + geog_auth_rec_id).addClass('uglyGeoSPatData');
-									// TODO: Accessibility, add human readable text for case.
-								} else {
-									$("##mapdiv_" + geog_auth_rec_id).addClass('niceGeoSPatData');
-								}
-							}
+							higherLoaded = true;
+							postLoadCheck();
 						});
 						map.fitBounds(bounds.union(georefsBounds));
 					};
+					function postLoadCheck() { 
+						if (georefsLoaded && higherLoaded && georefs) { 
+							var hasProblem = false;
+							for(var a=0; a<polygonArray.length; a++){
+								if (georefs) { 
+									if (! google.maps.geometry.poly.containsLocation(georefs, polygonArray[a]) ) {
+										$("##mapdiv_" + geog_auth_rec_id).addClass('uglyGeoSPatData');
+										$("##mapMetadataUL").append("<li class='list-style-circle'>Georeferences for localities in this higher geography fall outside of if. </li>");
+									} else {
+										$("##mapdiv_" + geog_auth_rec_id).addClass('niceGeoSPatData');
+									}
+								}
+							}
+						}
+					} 
 					$(document).ready(function() {
 						setupMap(#geog_auth_rec_id#);
 					});
@@ -313,11 +325,14 @@ limitations under the License.
 					var georefsBounds;
 					var uncertaintypoly;
 					var errorcircle;
+					var georefsLoaded = false;
+					var polygonLoaded = false;
+					var higherLoaded = false;
+					var uncertaintyPolygonArray = [];
+					var enclosingPolygonArray = [];
 
 					function setupMap(locality_id){
 						var bounds = new google.maps.LatLngBounds();
-						var uncertaintyPolygonArray = [];
-						var enclosingPolygonArray = [];
 						var uncertaintyPointsArray=[];
 						var enclosingPointsArray=[];
 
@@ -396,6 +411,8 @@ limitations under the License.
 									map.fitBounds(bounds);
 									georefsBounds = bounds;
 									center = map.getCenter();
+									georefsLoaded = true;
+									postLoadCheck();
 								}
 							}
 						).fail(function(jqXHR,textStatus,error){
@@ -487,15 +504,8 @@ limitations under the License.
 									bounds = google.maps.LatLngBounds.MAX_BOUNDS;
 								} 
 								map.fitBounds(bounds);
-								for(var a=0; a<uncertaintyPolygonArray.length; a++){
-									// TODO: Assumsion is that there is one georeferenced point and it is at center, this is not true
-									if (! google.maps.geometry.poly.containsLocation(center, uncertaintyPolygonArray[a]) ) {
-										// TODO: Accessibility, add human readable text for case.
-										$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
-									} else {
-										$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
-									}
-								}
+								polygonLoaded = true;
+								postLoadCheck();
 							} else {
 								$("##mapdiv_" + locality_id).addClass('noErrorWKT');
 							}
@@ -545,24 +555,38 @@ limitations under the License.
 								bounds.extend(extendPoint2);
 							}		
 							map.fitBounds(bounds);
-							for(var a=0; a<enclosingPolygonArray.length; a++){
-								if (georefs) { 
-									// style map depending on overlap of georeference and enclosing polygon.
-									if (! google.maps.geometry.poly.containsLocation(georefs, enclosingPolygonArray[a]) ) {
-										$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
-										// accessible information
-										$("##mapMetadataUL").append("<li class='list-style-circle'>Georeference for locality is outside of enclosing higher geography.</li>");
-									} else {
-										$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
-									}
-								}
-							}
 							if (bounds.getNorthEast().lat() > 89 || bounds.getSouthWest().lat() < -89) { 
 								bounds = google.maps.LatLngBounds.MAX_BOUNDS;
 							} 
 							map.fitBounds(bounds);
+							higherLoaded = true;
+							postLoadCheck();
 						});
 					}
+					function postLoadCheck() { 
+						if (georefsLoaded && polygonLoaded && higherLoaded && georefs) { 
+							var hasProblem = false;
+							for(var a=0; a<enclosingPolygonArray.length; a++){
+								if (! google.maps.geometry.poly.containsLocation(georefs, enclosingPolygonArray[a]) ) {
+									hasProblem = true;
+									// accessible information
+									$("##mapMetadataUL").append("<li class='list-style-circle'>Georeference for locality is outside of enclosing higher geography.</li>");
+								}
+							}
+							for(var a=0; a<uncertaintyPolygonArray.length; a++){
+								if (! google.maps.geometry.poly.containsLocation(georefs, uncertaintyPolygonArray[a]) ) {
+									hasProblem = true;
+									// accessible information
+									$("##mapMetadataUL").append("<li class='list-style-circle'>Georeference for locality is outside of Footprint Polygon.</li>");
+								}
+							}
+							if (hasProblem) {
+								$("##mapdiv_" + locality_id).addClass('uglyGeoSPatData');
+							} else {
+								$("##mapdiv_" + locality_id).addClass('niceGeoSPatData');
+							}
+						}
+					};
 					</cfif>
 					$(document).ready(function() {
 						setupMap(#locality_id#);
