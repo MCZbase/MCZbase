@@ -27,6 +27,7 @@ limitations under the License.
 	
 	<!--- TODO: Check for encumbrances --->
 
+	<cfset variables.geog_auth_rec_id = arguments.geog_auth_rec_id>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="geogMapThread#tn#">
 		<cfoutput>
