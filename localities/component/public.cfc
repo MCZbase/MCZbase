@@ -506,11 +506,11 @@ limitations under the License.
 									bounds = google.maps.LatLngBounds.MAX_BOUNDS;
 								} 
 								map.fitBounds(bounds);
-								polygonLoaded = true;
-								postLoadCheck(locality_id);
 							} else {
 								$("##mapdiv_" + locality_id).addClass('noErrorWKT');
 							}
+							polygonLoaded = true;
+							postLoadCheck(locality_id);
 						});
 						// Polygon for surrounding higher geography if any, ajax load
 						$.get( "/localities/component/georefUtilities.cfc?returnformat=plain&method=getContainingGeographyWKT&locality_id=" + locality_id, function( wkt ) {
