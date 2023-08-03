@@ -47,12 +47,12 @@ limitations under the License.
 						return bounds;
 					} 
 					var map;
-					var enclosingpoly;
-					var georefs;
+					var enclosingpoly; // a polygon for the higher geography
+					var georefsArray = [];  // list of georeferenced localities to check against polygonArray when both are loaded.
 					var georefsBounds = new google.maps.LatLngBounds();
 					var higherLoaded = false;
 					var georefsLoaded = false;
-					var polygonArray = [];
+					var polygonArray = [];  // the set of polygons for the higher geography
 					function setupMap(geog_auth_rec_id){
 						var coords="0.0,0.0";
 						var bounds = new google.maps.LatLngBounds();
@@ -121,11 +121,12 @@ limitations under the License.
 										} 
 									});
 									// fit the map bounds to the loaded features
+									// and add the loaded feature to the list of georeferences
 									var gbounds = new google.maps.LatLngBounds(); 
 									map.data.forEach(function(feature){
 										feature.getGeometry().forEachLatLng(function(latlng){
 											gbounds.extend(latlng);
-											georefs = latlng;
+											georefsArray.push(latlng);
 										});
 									});
 									map.fitBounds(gbounds.union(bounds));
@@ -206,18 +207,21 @@ limitations under the License.
 						map.fitBounds(bounds.union(georefsBounds));
 					};
 					function postLoadCheck(geog_auth_rec_id) { 
-						if (georefsLoaded && higherLoaded && georefs) { 
+						if (georefsLoaded && higherLoaded && georefsArray.length>0) { 
 							var hasProblem = false;
 							for(var a=0; a<polygonArray.length; a++){
-								if (georefs) { 
-									if (! google.maps.geometry.poly.containsLocation(georefs, polygonArray[a]) ) {
-										$("##mapdiv_" + geog_auth_rec_id).addClass('uglyGeoSPatData');
-										$("##mapMetadataUL").append("<li class='list-style-circle'>Georeferences for localities in this higher geography fall outside of if. </li>");
-									} else {
-										$("##mapdiv_" + geog_auth_rec_id).addClass('niceGeoSPatData');
+								for (var b=0; b<georefsArray.length; b++) { 
+									if (! google.maps.geometry.poly.containsLocation(georefsArray[b], polygonArray[a]) ) {
+										hasProblem = true;
 									}
 								}
 							}
+							if (hasProblem) { 
+								$("##mapdiv_" + geog_auth_rec_id).addClass('uglyGeoSPatData');
+								$("##mapMetadataUL").append("<li class='list-style-circle'>Georeferences for localities in this higher geography fall outside of if. </li>");
+							} else { 
+								$("##mapdiv_" + geog_auth_rec_id).addClass('niceGeoSPatData');
+							} 
 						}
 					}; 
 					$(document).ready(function() {
