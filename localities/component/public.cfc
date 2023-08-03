@@ -227,7 +227,7 @@ limitations under the License.
 				<div class="mb-2 w-100" style="height: 600px;">
 					<div id="mapdiv_#geog_auth_rec_id#" style="height:100%;"></div>
 				</div>
-				<ul id="mapMetatadaUL" class="px-2 px-md-4 px-xl-5">
+				<ul id="mapMetadataUL" class="px-2 px-md-4 px-xl-5">
 					<cfquery name="hasHigherPolygon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
 						SELECT count(*) ct 
 						FROM 
