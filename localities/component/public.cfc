@@ -124,6 +124,7 @@ limitations under the License.
 									map.data.forEach(function(feature){
 										feature.getGeometry().forEachLatLng(function(latlng){
 											gbounds.extend(latlng);
+											georefs = latlng;
 										});
 									});
 									map.fitBounds(gbounds.union(bounds));
@@ -217,7 +218,7 @@ limitations under the License.
 								}
 							}
 						}
-					} 
+					}; 
 					$(document).ready(function() {
 						setupMap(#geog_auth_rec_id#);
 					});
