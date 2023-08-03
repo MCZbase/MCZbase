@@ -149,7 +149,7 @@ limitations under the License.
 										}
 									); 
 									georefsLoaded = true;
-									postLoadCheck();
+									postLoadCheck(geog_auth_rec_id);
 								}
 							}
 						).fail(function(jqXHR,textStatus,error){
@@ -201,11 +201,11 @@ limitations under the License.
 							}
 							map.fitBounds(bounds.union(georefsBounds));
 							higherLoaded = true;
-							postLoadCheck();
+							postLoadCheck(geog_auth_rec_id);
 						});
 						map.fitBounds(bounds.union(georefsBounds));
 					};
-					function postLoadCheck() { 
+					function postLoadCheck(geog_auth_rec_id) { 
 						if (georefsLoaded && higherLoaded && georefs) { 
 							var hasProblem = false;
 							for(var a=0; a<polygonArray.length; a++){
@@ -414,7 +414,7 @@ limitations under the License.
 									georefsBounds = bounds;
 									center = map.getCenter();
 									georefsLoaded = true;
-									postLoadCheck();
+									postLoadCheck(locality_id);
 								}
 							}
 						).fail(function(jqXHR,textStatus,error){
@@ -507,7 +507,7 @@ limitations under the License.
 								} 
 								map.fitBounds(bounds);
 								polygonLoaded = true;
-								postLoadCheck();
+								postLoadCheck(locality_id);
 							} else {
 								$("##mapdiv_" + locality_id).addClass('noErrorWKT');
 							}
@@ -562,10 +562,10 @@ limitations under the License.
 							} 
 							map.fitBounds(bounds);
 							higherLoaded = true;
-							postLoadCheck();
+							postLoadCheck(locality_id);
 						});
 					}
-					function postLoadCheck() { 
+					function postLoadCheck(locality_id) { 
 						if (georefsLoaded && polygonLoaded && higherLoaded && georefs) { 
 							var hasProblem = false;
 							for(var a=0; a<enclosingPolygonArray.length; a++){
