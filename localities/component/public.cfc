@@ -221,7 +221,7 @@ limitations under the License.
 						}
 					}; 
 					$(document).ready(function() {
-						setupMap(#geog_auth_rec_id#);
+						setupMap(#variables.geog_auth_rec_id#);
 					});
 				</script>
 				<div class="mb-2 w-100" style="height: 600px;">
