@@ -31,6 +31,7 @@ function newIdFormula (f) {
 		b_val.value='';
 		b_id.className='reqdClr';
 	} else if (f == 'A' || f == 'A ?' || f == 'A cf.' || f == 'A sp.' || f == 'A aff.' || f == 'A ssp.' || f == 'A sp. nov.' 
+			|| f == 'A sp. ?' 
 			||  f == 'A ssp. nov.' ||f=='A \{string\}' || f=='A (group)' || f=='A gen. nov.' || f=='A nr.' || f == 'A spp.') 
 	{
 		bTr.style.display='none';
