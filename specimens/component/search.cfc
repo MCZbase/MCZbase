@@ -2626,6 +2626,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfargument name="download_profile_id" type="string" required="yes">
 
 	<cfset retval = "">
+	<cfset stream = true>
 	<cftry>
 		<cfset username = session.dbuser>
 		<cfquery name="getProfileFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfileFields_result">
@@ -2695,8 +2696,13 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
 
-		<cfset retval = queryToCSV(search)>
-		<cfset queryToCSVFile(search)>
+		<cfif search.recordcount LT 10001>
+			<cfset retval = queryToCSV(search)>
+			<cfset stream = true>
+		<cfelse>
+			<cfset retval = queryToCSVFile(search)>
+			<cfset stream = false>
+		</cfif>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
@@ -2706,8 +2712,19 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	</cfcatch>
 	</cftry>
 
-	<cfheader name="Content-Type" value="text/csv">
-<cfoutput>#retval#</cfoutput>
+	<cfif stream>
+		<cfheader name="Content-Type" value="text/csv">
+		<cfoutput>#retval#</cfoutput>
+	<cfelse>
+		<cfoutput>
+			<cfif retval.STATUS = "Failed">
+				#retval.MESSAGE#
+			<cfelse 
+				<cflocation url="#retval.FILENAME#" addtoken="false">
+				<a href="#retval.filename#">#retval.MESSAGE#</a>
+			</cfif>
+		</cfoutput>
+	<cfif>
 </cffunction>
 
 
