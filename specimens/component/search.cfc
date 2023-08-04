@@ -2696,6 +2696,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 		</cfquery>
 
 		<cfset retval = queryToCSV(search)>
+		<cfset queryToCSVFile(search)>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
