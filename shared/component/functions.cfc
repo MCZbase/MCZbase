@@ -612,6 +612,50 @@ limitations under the License.
 	<cfreturn outputBuffer.toString() >
 </cffunction>
 
+
+<!--- 
+ ** given a query, write a serialization of that query as csv, with a header line
+ * to a file.
+ * @param queryToConvert the query to serialize as csv 
+ * @return a count of the number of records written to the file. 
+ **
+--->
+<cffunction name="queryToCSVFile" returntype="string" output="false" access="public">
+	<cfargument name="queryToConvert" type="query" required="true">		
+
+	<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHnnssl')#">
+	<cfset filename ="temp_#session.dbuser#_timestamp">
+	<cfset written = 0>
+
+	<!--- arrayToList on getColumnNames preserves order. --->
+	<cfset columnNamesList = arrayToList(queryToConvert.getColumnNames()) >
+	<cfset columnNamesArray = queryToConvert.getColumnNames() >
+	<cfset columnCount = ArrayLen(columnNamesArray) >
+
+	<!--- header line --->
+	<cfset header=[]>
+	<cfloop index="i" from="1" to="#columnCount#" step="1">
+		<cfset header[i] = """#ucase(columnNamesArray[i])#""" >
+	</cfloop>
+	<cffile action="write" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(header,','))#">
+
+	<!--- loop through query and append rows to file --->
+	<cftry>
+	<cfloop query="queryToConvert">
+		<cfset row=[]>
+		<cfloop index="j" from="1" to="#columnCount#" step="1">
+			<cfset row[j] = '"' & replace(evaluate(columnNamesArray[j]),'"','""','all') & '"' >
+		</cfloop>
+		<cffile action="append" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(row,','))#">
+		<cfset written = written + 1>
+	</cfloop>
+	<cfcatch>
+		// TODO: Handle failure case 
+	</cfcatch>
+	</cftry>
+	<cfreturn "#written#" >
+</cffunction>
+
 <!--- getGuidLink given an guid and guid type, return html for a link out to that guid, if
   either guid or guid_guid_type are not supplied or if the the guid_guid_type is not recognized
   in ctguid_type, then returns an empty string.
