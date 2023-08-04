@@ -2724,7 +2724,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<a href="#retval.filename#">#retval.MESSAGE#</a>
 			</cfif>
 		</cfoutput>
-	<cfif>
+	</cfif>
 </cffunction>
 
 
