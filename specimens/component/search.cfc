@@ -2719,7 +2719,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 		<cfoutput>
 			<cfif retval.STATUS EQ "Failed">
 				#retval.MESSAGE#
-			<cfelse 
+			<cfelse>
 				<cflocation url="#retval.FILENAME#" addtoken="false">
 				<a href="#retval.filename#">#retval.MESSAGE#</a>
 			</cfif>
