@@ -2717,7 +2717,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 		<cfoutput>#retval#</cfoutput>
 	<cfelse>
 		<cfoutput>
-			<cfif retval.STATUS = "Failed">
+			<cfif retval.STATUS EQ "Failed">
 				#retval.MESSAGE#
 			<cfelse 
 				<cflocation url="#retval.FILENAME#" addtoken="false">
