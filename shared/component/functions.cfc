@@ -623,7 +623,7 @@ limitations under the License.
  * contains the name of the file that was written.
  **
 --->
-<cffunction name="queryToCSVFile" returntype="string" output="false" access="public">
+<cffunction name="queryToCSVFile" returntype="any" output="false" access="public">
 	<cfargument name="queryToConvert" type="query" required="true">		
 
 	<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHnnssl')#">
