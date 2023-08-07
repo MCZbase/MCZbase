@@ -231,7 +231,8 @@ sho err
               </cfif>
            </cfloop>
            </cfoutput>
-           <cflocation url="BulkloadMedia.cfm?action=validate">
+				<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
+           <cflocation url="BulkloadMedia.cfm?action=validate&veryLargeFiles=#veryLargeFiles#">
        </cfif> <!--- File was selected --->
 </cfif> <!--- action getFile --->
 <!------------------------------------------------------->
