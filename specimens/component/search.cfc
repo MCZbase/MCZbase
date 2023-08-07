@@ -2720,6 +2720,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cfif retval.STATUS EQ "Failed">
 				#retval.MESSAGE#
 			<cfelse>
+				<!--- TODO: Fails with NS_NET_ERROR_RESET --->
 				<cflocation url="#retval.FILENAME#" addtoken="false">
 				<a href="#retval.filename#">#retval.MESSAGE#</a>
 			</cfif>
