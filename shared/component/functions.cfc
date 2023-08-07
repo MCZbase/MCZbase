@@ -627,7 +627,7 @@ limitations under the License.
 	<cfargument name="queryToConvert" type="query" required="true">		
 
 	<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHnnssl')#">
-	<cfset filename ="specimens_#session.dbuser#_#timestamp#">
+	<cfset filename ="download_#session.dbuser#_#timestamp#">
 	<cfset written = 0>
 	<cfset retval = StructNew()>
 
