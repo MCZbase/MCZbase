@@ -641,10 +641,10 @@ limitations under the License.
 	<cfloop index="i" from="1" to="#columnCount#" step="1">
 		<cfset header[i] = """#ucase(columnNamesArray[i])#""" >
 	</cfloop>
-	<cffile action="write" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(header,','))#">
 
 	<!--- loop through query and append rows to file --->
 	<cftry>
+		<cffile action="write" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(header,','))#">
 		<cfloop query="queryToConvert">
 			<cfset row=[]>
 			<cfloop index="j" from="1" to="#columnCount#" step="1">
