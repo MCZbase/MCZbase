@@ -2716,6 +2716,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 		<cfheader name="Content-Type" value="text/csv">
 		<cfoutput>#retval#</cfoutput>
 	<cfelse>
+		<cftry>
 		<cfoutput>
 			<cfif retval.STATUS EQ "Failed">
 				#retval.MESSAGE#
@@ -2725,6 +2726,10 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<a href="#retval.filename#">#retval.MESSAGE#</a>
 			</cfif>
 		</cfoutput>
+		<cfcatch>
+			<cfdump var="#cfcatch#">
+		</cfcatch>
+		</cftry>
 	</cfif>
 </cffunction>
 
