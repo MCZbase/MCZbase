@@ -413,6 +413,18 @@ Typical use:
 										<option value="#ctcollection.collection_id#" #selected#>#ctcollection.collection#</option>
 									</cfloop>
 								</select>
+								<script>
+									function changeColl() { 
+										if ($("##collection_id").val()=="") { 
+											$("##collnOper").removeClass("reqdClr");
+										} else { 
+											$("##collnOper").addClass("reqdClr");
+										}
+									} 
+									$(document).ready(function() { 
+										$("##collection_id").on("change",changeColl);
+									});
+								</script>
 							</div>
 							<div class="col-6 col-md-1 pl-3 pr-1 px-md-2 py-1">
 								<cfif not isDefined("curated_fg")><cfset curated_fg=""></cfif>
