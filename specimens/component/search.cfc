@@ -2625,6 +2625,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="download_profile_id" type="string" required="yes">
 
+	<cfsetting requestTimeout="600">
+
 	<cfset retval = "">
 	<cfset stream = true>
 	<cftry>

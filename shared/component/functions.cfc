@@ -626,6 +626,8 @@ limitations under the License.
 <cffunction name="queryToCSVFile" returntype="any" output="false" access="public">
 	<cfargument name="queryToConvert" type="query" required="true">		
 
+	<cfsetting requestTimeout="600">
+
 	<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHnnssl')#">
 	<cfset filename ="download_#session.dbuser#_#timestamp#">
 	<cfset written = 0>
