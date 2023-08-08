@@ -153,15 +153,17 @@ sho err
 <br>
 <br>
 
-<cfform name="atts" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="Action" value="getFile">
-			  <input type="file"
-		   name="FiletoUpload"
-		   size="45">
-			 <input type="submit" value="Upload this file"
-		class="savBtn"
-		onmouseover="this.className='savBtn btnhov'"
-		onmouseout="this.className='savBtn'">
+	<cfform name="atts" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="Action" value="getFile">
+		<input type="file" name="FiletoUpload" size="45">
+		<select name="veryLargeFiles">
+			<option value="">Process Normally</option>
+			<option value="true">References Very Large Files</option>
+		</select>
+		<input type="submit" value="Upload this file"
+			class="savBtn"
+			onmouseover="this.className='savBtn btnhov'"
+			onmouseout="this.className='savBtn'">
   </cfform>
 
 </cfif>
@@ -229,7 +231,8 @@ sho err
               </cfif>
            </cfloop>
            </cfoutput>
-           <cflocation url="BulkloadMedia.cfm?action=validate">
+				<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
+           <cflocation url="BulkloadMedia.cfm?action=validate&veryLargeFiles=#veryLargeFiles#">
        </cfif> <!--- File was selected --->
 </cfif> <!--- action getFile --->
 <!------------------------------------------------------->
@@ -573,7 +576,8 @@ sho err
 			<cfset rec_stat=listappend(rec_stat,'#preview_uri# is invalid',";")>
 		</cfif>
 	</cfif>
-	<cfif isimagefile("#escapeQuotes(media_uri)#")>
+	<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
+	<cfif isimagefile("#escapeQuotes(media_uri)#") AND NOT veryLargeFiles EQ "true">
 		<cfimage action="info" source="#escapeQuotes(media_uri)#" structname="imgInfo"/>
 		<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into cf_temp_media_labels (

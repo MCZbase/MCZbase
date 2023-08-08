@@ -612,6 +612,69 @@ limitations under the License.
 	<cfreturn outputBuffer.toString() >
 </cffunction>
 
+
+<!--- 
+ ** given a query, write a serialization of that query as csv, with a header line
+ * to a file.
+ * @param queryToConvert the query to serialize as csv 
+ * @return a structure containing the name of the file, the count of the number of records 
+ * written to the file, and a status (STATUS, WRITTEN, FILENAME, MESSAGE), 
+ * values of STATUS are Success, Incomplete, and Failed.  For Success and Incomplete, FILENAME 
+ * contains the name of the file that was written.
+ **
+--->
+<cffunction name="queryToCSVFile" returntype="any" output="false" access="public">
+	<cfargument name="queryToConvert" type="query" required="true">		
+
+	<cfsetting requestTimeout="600">
+
+	<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHnnssl')#">
+	<cfset filename ="download_#session.dbuser#_#timestamp#">
+	<cfset written = 0>
+	<cfset retval = StructNew()>
+
+	<!--- arrayToList on getColumnNames preserves order. --->
+	<cfset columnNamesList = arrayToList(queryToConvert.getColumnNames()) >
+	<cfset columnNamesArray = queryToConvert.getColumnNames() >
+	<cfset columnCount = ArrayLen(columnNamesArray) >
+
+	<!--- header line --->
+	<cfset header=[]>
+	<cfloop index="i" from="1" to="#columnCount#" step="1">
+		<cfset header[i] = """#ucase(columnNamesArray[i])#""" >
+	</cfloop>
+
+	<!--- loop through query and append rows to file --->
+	<cftry>
+		<cffile action="write" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(header,','))#">
+		<cfloop query="queryToConvert">
+			<cfset row=[]>
+			<cfloop index="j" from="1" to="#columnCount#" step="1">
+				<cfset row[j] = '"' & replace(evaluate(columnNamesArray[j]),'"','""','all') & '"' >
+			</cfloop>
+			<cffile action="append" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(row,','))#">
+			<cfset written = written + 1>
+		</cfloop>
+		<cfset retval.STATUS = "Success">
+		<cfset retval.WRITTEN = "#written#">
+		<cfset retval.FILENAME = "/temp/#filename#.csv">
+		<cfset retval.MESSAGE = "Wrote #written# records into temporary file for download.">
+	<cfcatch>
+		// Failure case 
+		<cfset retval.WRITTEN = "#written#">
+		<cfif written GT 0> 
+			<cfset retval.STATUS = "Incomplete">
+			<cfset retval.FILENAME = "/temp/#filename#.csv">
+			<cfset retval.MESSAGE = "Error: #cfcatch.message#. Wrote #written# records into temporary file for download.">
+		<cfelse>
+			<cfset retval.STATUS = "Failed">
+			<cfset retval.MESSAGE = "Error: #cfcatch.message#.">
+		</cfif>
+	</cfcatch>
+	</cftry>
+	<cfreturn retval >
+</cffunction>
+
 <!--- getGuidLink given an guid and guid type, return html for a link out to that guid, if
   either guid or guid_guid_type are not supplied or if the the guid_guid_type is not recognized
   in ctguid_type, then returns an empty string.
