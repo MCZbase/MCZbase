@@ -4743,4 +4743,159 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 </cffunction>
 
+<!--- Returns html to populate an edit collecting event form 
+ @param collecting_event_id the primary key of the collecting_event record to populate the form.
+ @param collection_object_id if populated allows the user to clone edits to the collecting event
+   into a new collecting event, and move the specified cataloged item to the new collecting event.
+ @return html with a form or an error message.
+--->
+<cffunction name="getEditCollectingEventHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="no">
+
+	<cfset variables.collecting_event_id = arguments.collecting_event_id>
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="createCollEventFormThread#tn#">
+		<cfoutput>
+			<div class="form-row">
+
+			</div>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="createCollEventFormThread#tn#" />
+	<cfreturn cfthread["createCollEventFormThread#tn#"].output>
+</cffunction>
+
+<!--- update a collecting event record with new values, use only when editing a 
+ collecting event and changes should be applied to all related cataloged items, 
+ not for use to split cataloged item into a new collecting event
+ @param collecting_event_id the primary key value of the collecting_event record to update.
+ @return a json object with status, id, and message properties, or an http 500.
+ --->
+<cffunction name="updateCollectingEvent" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+	<cfargument name="began_date" type="string" required="yes">
+	<cfargument name="ended_date" type="string" required="yes">
+	<cfargument name="verbatim_date" type="string" required="yes">
+	<cfargument name="collecting_source" type="string" required="yes">
+	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="verbatim_locality" type="string" required="no">
+	<cfargument name="verbatimDepth" type="string" required="no">
+	<cfargument name="verbatimElevation" type="string" required="no">
+	<cfargument name="verbatimCoordinates" type="string" required="no">
+	<cfargument name="verbatimLatitude" type="string" required="no">
+	<cfargument name="verbatimLongitude" type="string" required="no">
+	<cfargument name="verbatimCoordinateSystem" type="string" required="no">
+	<cfargument name="verbatimSRS" type="string" required="no">
+	<cfargument name="collecting_time" type="string" required="no">
+
+	<cfif not isDefined("action")><cfset action="update"></cfif>
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE collecting_event 
+				SET
+					began_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">,
+					ended_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">,
+					verbatim_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_date#">,
+					collecting_source = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collecting_source#">,
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					<cfif len(#verbatim_locality#) gt 0>
+						,verbatim_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_locality#">
+					<cfelse>
+						,verbatim_locality = null
+					</cfif>
+					<cfif len(#verbatimdepth#) gt 0>
+						,verbatimdepth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimdepth#">
+					<cfelse>
+						,verbatimdepth = null
+					</cfif>
+					<cfif len(#verbatimelevation#) gt 0>
+						,verbatimelevation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimelevation#">
+					<cfelse>
+						,verbatimelevation = null
+					</cfif>
+					<cfif len(#COLL_EVENT_REMARKS#) gt 0>
+						,COLL_EVENT_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_EVENT_REMARKS#">
+					<cfelse>
+						,COLL_EVENT_REMARKS = null
+					</cfif>
+					<cfif len(#COLLECTING_METHOD#) gt 0>
+						,COLLECTING_METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_METHOD#">
+					<cfelse>
+						,COLLECTING_METHOD = null
+					</cfif>
+					<cfif len(#HABITAT_DESC#) gt 0>
+						,HABITAT_DESC = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HABITAT_DESC#">
+					<cfelse>
+						,HABITAT_DESC = null
+					</cfif>
+					<cfif len(#COLLECTING_TIME#) gt 0>
+						,COLLECTING_TIME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_TIME#">
+					<cfelse>
+						,COLLECTING_TIME = null
+					</cfif>
+					<cfif len(#ICH_FIELD_NUMBER#) gt 0>
+						,FISH_FIELD_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ICH_FIELD_NUMBER#">
+					<cfelse>
+						,FISH_FIELD_NUMBER = null
+					</cfif>
+					<cfif len(#verbatimCoordinates#) gt 0>
+						,verbatimCoordinates = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinates#">
+					<cfelse>
+						,verbatimCoordinates = null
+					</cfif>
+					<cfif len(#verbatimLatitude#) gt 0>
+						,verbatimLatitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLatitude#">
+					<cfelse>
+						,verbatimLatitude = null
+					</cfif>
+					<cfif len(#verbatimLongitude#) gt 0>
+						,verbatimLongitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLongitude#">
+					<cfelse>
+						,verbatimLongitude = null
+					</cfif>
+					<cfif len(#verbatimCoordinateSystem#) gt 0>
+						,verbatimCoordinateSystem = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinateSystem#">
+					<cfelse>
+						,verbatimCoordinateSystem = null
+					</cfif>
+					<cfif len(#verbatimSRS#) gt 0>
+						,verbatimSRS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimSRS#">
+					<cfelse>
+						,verbatimSRS = null
+					</cfif>
+					<cfif len(#startDayOfYear#) gt 0>
+						,startDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#startDayOfYear#">
+					<cfelse>
+						,startDayOfYear = null
+					</cfif>
+					<cfif len(#endDayOfYear#) gt 0>
+						,endDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDayOfYear#">
+					<cfelse>
+						,endDayOfYear = null
+					</cfif>
+	 			WHERE
+					 collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+			</cfquery>
+			<cfset message = "">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "updated">
+			<cfset row["id"] = "#collecting_event_id#">
+			<cfset row["message"] = "#message#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
