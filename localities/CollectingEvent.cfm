@@ -49,12 +49,16 @@ limitations under the License.
 
 <cfswitch expression="#action#">
 	 <cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select  spec_locality, geog_auth_rec_id from locality
-		where locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+		SELECT spec_locality, geog_auth_rec_id 
+		FROM locality
+		WHERE 
+			locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 	</cfquery>
 	<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select higher_geog from geog_auth_rec where
-		geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.geog_auth_rec_id#">
+		SELECT higher_geog 
+		FROM geog_auth_rec 
+		WHERE
+			geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.geog_auth_rec_id#">
 	</cfquery>
 	<cfcase value="new">
 		<cfset extra = "">
@@ -133,6 +137,115 @@ limitations under the License.
 				</cftransaction>
 			</cfif>
 		</cfoutput>
+	</cfcase>
+	<cfcase value="makenewCollectingEvent">
+		<cftransaction>
+			<cfquery name="nextColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT sq_collecting_event_id.nextval nextColl FROM dual
+			</cfquery>
+			<cfquery name="newCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO collecting_event (
+					collecting_event_id,
+					LOCALITY_ID,
+					BEGAN_DATE,
+					ENDED_DATE,
+					VERBATIM_DATE,
+					COLLECTING_SOURCE,
+					VERBATIM_LOCALITY,
+					verbatimdepth,
+					verbatimelevation,
+					COLL_EVENT_REMARKS,
+					COLLECTING_METHOD,
+					HABITAT_DESC,
+					collecting_time,
+					VERBATIMCOORDINATES,
+					VERBATIMLATITUDE,
+					VERBATIMLONGITUDE,
+					VERBATIMCOORDINATESYSTEM,
+					VERBATIMSRS,
+					STARTDAYOFYEAR,
+					ENDDAYOFYEAR
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextColl.nextColl#">
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BEGAN_DATE#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ENDED_DATE#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIM_DATE#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_SOURCE#">
+					<cfif len(#VERBATIM_LOCALITY#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIM_LOCALITY#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#VERBATIMDEPTH#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMDEPTH#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#VERBATIMELEVATION#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMELEVATION#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#COLL_EVENT_REMARKS#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_EVENT_REMARKS#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#COLLECTING_METHOD#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_METHOD#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#HABITAT_DESC#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HABITAT_DESC#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#collecting_time#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collecting_time#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#VERBATIMCOORDINATES#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMCOORDINATES#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#VERBATIMLATITUDE#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMLATITUDE#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#VERBATIMLONGITUDE#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMLONGITUDE#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#VERBATIMCOORDINATESYSTEM#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMCOORDINATESYSTEM#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#VERBATIMSRS#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMSRS#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#STARTDAYOFYEAR#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#STARTDAYOFYEAR#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#ENDDAYOFYEAR#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ENDDAYOFYEAR#">
+					<cfelse>
+						,NULL
+					</cfif>
+				)
+			</cfquery>
+		<cftransaction>
+		<cflocation addtoken="no" url="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#nextColl.nextColl#">
 	</cfcase>
 </cfswitch>
 
