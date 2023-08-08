@@ -577,50 +577,53 @@ sho err
 		</cfif>
 	</cfif>
 	<cfif not isDefined("veryLargeFiles")><cfset veryLargeFiles=""></cfif>
-	<cfif isimagefile("#escapeQuotes(media_uri)#") AND NOT veryLargeFiles EQ "true">
-		<cfimage action="info" source="#escapeQuotes(media_uri)#" structname="imgInfo"/>
-		<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			insert into cf_temp_media_labels (
-						key,
-						MEDIA_LABEL,
-						ASSIGNED_BY_AGENT_ID,
-						LABEL_VALUE
-					) values (
-						#key#,
-						'height',
-						#session.myAgentId#,
-						'#imgInfo.height#'
-					)
-		</cfquery>
-		<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					insert into cf_temp_media_labels (
-						key,
-						MEDIA_LABEL,
-						ASSIGNED_BY_AGENT_ID,
-						LABEL_VALUE
-					) values (
-						#key#,
-						'width',
-						#session.myAgentId#,
-						'#imgInfo.width#'
-					)
-		</cfquery>
-		<cfhttp url="#media_uri#" method="get" getAsBinary="yes" result="result">
-		<cfset md5hash=Hash(result.filecontent,"MD5")>
-
-		<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					insert into cf_temp_media_labels (
-						key,
-						MEDIA_LABEL,
-						ASSIGNED_BY_AGENT_ID,
-						LABEL_VALUE
-					) values (
-						#key#,
-						'md5hash',
-						#session.myAgentId#,
-						'#md5Hash#'
-					)
-		</cfquery>
+	<cfif veryLargeFiles NEQ "true">
+		<!--- both isimagefile and cfimage run into heap space limits with very large files --->
+		<cfif isimagefile("#escapeQuotes(media_uri)#")>
+			<cfimage action="info" source="#escapeQuotes(media_uri)#" structname="imgInfo"/>
+			<cfquery name="makeHeightLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				insert into cf_temp_media_labels (
+							key,
+							MEDIA_LABEL,
+							ASSIGNED_BY_AGENT_ID,
+							LABEL_VALUE
+						) values (
+							#key#,
+							'height',
+							#session.myAgentId#,
+							'#imgInfo.height#'
+						)
+			</cfquery>
+			<cfquery name="makeWidthLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						insert into cf_temp_media_labels (
+							key,
+							MEDIA_LABEL,
+							ASSIGNED_BY_AGENT_ID,
+							LABEL_VALUE
+						) values (
+							#key#,
+							'width',
+							#session.myAgentId#,
+							'#imgInfo.width#'
+						)
+			</cfquery>
+			<cfhttp url="#media_uri#" method="get" getAsBinary="yes" result="result">
+			<cfset md5hash=Hash(result.filecontent,"MD5")>
+	
+			<cfquery name="makeMD5hash" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						insert into cf_temp_media_labels (
+							key,
+							MEDIA_LABEL,
+							ASSIGNED_BY_AGENT_ID,
+							LABEL_VALUE
+						) values (
+							#key#,
+							'md5hash',
+							#session.myAgentId#,
+							'#md5Hash#'
+						)
+			</cfquery>
+		</cfif>
 	</cfif>
 	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update cf_temp_media set status='#rec_stat#' where key=#key#
