@@ -4534,4 +4534,368 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<cffunction name="getCreateCollectingEventHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="clone_from_collecting_event_id" type="string" required="no">
+	<cfargument name="locality_id" type="string" required="no">
+	<cfargument name="verbatim_locality" type="string" required="no">
+	<cfargument name="verbatimDepth" type="string" required="no">
+	<cfargument name="verbatimElevation" type="string" required="no">
+	<cfargument name="verbatimCoordinates" type="string" required="no">
+	<cfargument name="verbatimLatitude" type="string" required="no">
+	<cfargument name="verbatimLongitude" type="string" required="no">
+	<cfargument name="verbatimCoordinateSystem" type="string" required="no">
+	<cfargument name="verbatimSRS" type="string" required="no">
+	<cfargument name="verbatim_date" type="string" required="no">
+	<cfargument name="collecting_time" type="string" required="no">
+
+	<cfif isDefined("clone_from_collecting_event_id") AND len(clone_from_collecting_event_id) GT 0 >
+		<cfquery name="eventToCloneFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT locality_id, verbatim_locality, verbatimDepth, verbatimElevation,
+				verbatimCoordinates, verbatimLatitude, verbatimLongitude,
+				verbatimCoordinateSystem, verbatimSRS,
+				verbatim_date, collecting_time,
+				startDayOfYear, endDayOfYear, began_date, ended_date,
+				coll_event_remarks, collecting_source, habitat_desc
+			FROM collecting_event
+			WHERE
+				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_collecting_event_id#">
+		</cfquery>
+		<cfif eventToCloneFrom.recordcount EQ 0>
+			<cfthrow message = "No event to clone from found for specified collecting event id.">
+		<cfelse>
+			<cfset locality_id = eventToCloneFrom.locality_id>
+			<cfset verbatim_locality = eventToCloneFrom.verbatim_locality>
+			<cfset verbatimDepth = eventToCloneFrom.verbatimDepth>
+			<cfset verbatimElevation = eventToCloneFrom.verbatimElevation>
+			<cfset verbatimCoordinates = eventToCloneFrom.verbatimCoordinates>
+			<cfset verbatimLatitude = eventToCloneFrom.verbatimLatitude>
+			<cfset verbatimLongitude = eventToCloneFrom.verbatimLongitude>
+			<cfset verbatimCoordinateSystem = eventToCloneFrom.verbatimCoordinateSystem>
+			<cfset verbatimSRS = eventToCloneFrom.verbatimSRS>
+			<cfset verbatim_date = eventToCloneFrom.verbatim_date>
+			<cfset collecting_time = eventToCloneFrom.collecting_time>
+			<cfset startDayOfYear = eventToCloneFrom.startDayOfYear>
+			<cfset endDayOfYear = eventToCloneFrom.endDayOfYear>
+			<cfset began_date = eventToCloneFrom.began_date>
+			<cfset ended_date = eventToCloneFrom.ended_date>
+			<cfset coll_event_remarks = eventToCloneFrom.coll_event_remarks>
+			<cfset collecting_source = eventToCloneFrom.collecting_source>
+			<cfset habitat_desc = eventToCloneFrom.habitat_desc>
+		</cfif>
+	</cfif> 
+	<cfset higher_geog = "">
+	<cfset spec_locality = "">
+	<cfif isDefined("locality_id") AND len(locality_id) GT 0>
+		<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT higher_geog, spec_locality
+			FROM 
+				locality
+				join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+			WHERE 
+				locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+		</cfquery>
+		<cfif lookupLocality.recordCount EQ 0>
+			<cfthrow message = "No locality found for specified locality_id [#encodeForHtml(locality_id)#].">
+		<cfelse>
+			<cfset higher_geog = "#lookupLocality.higher_geog#">
+			<cfset spec_locality = "#lookupLocality.spec_locality#">
+		</cfif>
+	</cfif>
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="createCollEventFormThread#tn#">
+		<cfoutput>
+			<div class="form-row">
+				<div class="col-12">
+					<cfif NOT isDefined(locality_id) OR len(locality_id) EQ 0>
+						<label class="data-entry-label" for="locality_id">Pick Locality for this Collecting Event</label>
+						<input name="locality_id" id="locality_id" class="data-entry-input">
+						<!--- TODO: Bind to Locality picker  --->
+						<script>
+						</script>
+					<cfelse>
+						<h3 class="h4">#higher_geog#</h3>
+				</div>
+				<div class="col-12">
+						<h3 class="h4">#spec_locality#</h3>
+					</cfif>
+				</div>
+				<div class="col-12">
+			     	<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
+					<cfset vl_value="">
+					<cfif isdefined("verbatim_locality")>
+						<cfset vl_value=verbatim_locality>
+					<cfelseif isdefined("spec_locality")>
+						<cfset vl_value=spec_locality>
+					</cfif>
+	     			<input type="text" name="verbatim_locality" id="verbatim_locality" class="data-entry-input" value="#encodeForHtml(vl_value)#">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="verbatimDepth" class="data-entry-label">Verbatim Depth<label>
+					<cfif not isDefined("verbatimDepth")><cfset verbatimDepth = ""></cfif>
+					<input type="text" name="verbatimDepth" value="#encodeForHTML(verbatimDepth)#" id="verbatimDepth" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="verbatimElevation" class="data-entry-label">Verbatim Elevation<label>
+					<cfif not isDefined("verbatimElevation")><cfset verbatimElevation = ""></cfif>
+					<input type="text" name="verbatimElevation" value="#encodeForHTML(verbatimElevation)#" id="verbatimElevation" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="verbatimCoordinates" class="data-entry-label">Verbatim Coordinates (Summary)<label>
+					<cfif not isDefined("verbatimCoordinates")><cfset verbatimCoordinates = ""></cfif>
+					<input type="text" name="verbatimCoordinates" value="#encodeForHTML(verbatimCoordinates)#" id="verbatimCoordinates"  class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="verbatimLatitude" class="data-entry-label">Verbatim Latitude<label>
+					<cfif not isDefined("verbatimLatitude")><cfset verbatimLatitude = ""></cfif>
+					<input type="text" name="verbatimLatitude" value="#encodeForHTML(verbatimLatitude)#" id="verbatimLatitude" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="verbatimLongitude" class="data-entry-label">Verbatim Longitude<label>
+					<cfif not isDefined("verbatimLongitude")><cfset verbatimLongitude = ""></cfif>
+					<input type="text" name="verbatimLongitude" value="#encodeForHTML(verbatimLongitude)#" id="verbatimLongitude" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System (e.g., decimal degrees)<label>
+					<cfif not isDefined("verbatimCoordinateSystem")><cfset verbatimCoordinateSystem = ""></cfif>
+					<input type="text" name="verbatimCoordinateSystem" value="#encodeForHTML(verbatimCoordinateSystem)#" id="verbatimCoordinateSystem" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="verbatimSRS">Verbatim SRS (includes ellipsoid model/Datum)<label>
+					<cfif not isDefined("verbatimSRS")><cfset verbatimSRS = ""></cfif>
+					<input type="text" name="verbatimSRS" value="#encodeForHTML(verbatimSRS)#" id="verbatimSRS" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="verbatim_date" class="data-entry-label">
+						Verbatim Date
+						<span onClick="newCollEvnt.began_date.value=newCollEvnt.verbatim_date.value; newCollEvnt.ended_date.value=newCollEvnt.verbatim_date.value;">[ copy ]</span>
+						<!--- TODO: interpret and populate began_date/ended_date --->
+					</label>
+					<cfif not isDefined("verbatim_date")><cfset verbatim_date = ""></cfif>
+					<input type="text" name="verbatim_date" id="verbatim_date" class="reqdClr data-entry-input" required="required" value="#encodeForHtml(verbatim_date)#">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="began_date" class="data-entry-label">Began Date</label>
+					<cfif not isDefined("began_date")><cfset began_date = ""></cfif>
+				    <input type="text" name="began_date" id="began_date"  class="reqdClr data-entry-input" required="required" >
+				</div>
+				<div class="col-12 col-md-3">
+				    <label for="ended_date" class="data-entry-label">Ended Date</label>
+					<cfif not isDefined("ended_date")><cfset ended_date = ""></cfif>
+				    <input type="text" name="ended_date" id="ended_date" class="reqdClr data-entry-input" required="required" value="#encodeForHTML(ended_date)#" >
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="collecting_time" class="data-entry-label">Collecting Time</label>
+					<cfif not isDefined("collecting_time")><cfset collecting_time = ""></cfif>
+					<input type="text" name="collecting_time" id="collecting_time"  class="data-entry-input" value="#encodeForHtml(collecting_time)#">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="startDayOfYear" class="data-entry-label">Start Day of Year</label>
+					<cfif not isDefined("startDayOfYear")><cfset startDayOfYear = ""></cfif>
+					<input type="text" name="startDayOfYear" id="startDayOfYear" value="#encodeForHTML(locDet.startDayOfYear)#" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="endDayOfYear" class="data-entry-label">End Day of Year</label>
+					<cfif not isDefined("endDayOfYear")><cfset endDayOfYear = ""></cfif>
+					<input type="text" name="endDayOfYear" id="endDayOfYear" class="data-entry-input" value="#encodeForHTML(locDet.endDayOfYear)#">
+				</div>
+				<div class="col-12">
+					<label for="coll_event_remarks" class="data-entry-label">Remarks</label>
+					<cfif not isDefined("coll_event_remarks")><cfset coll_event_remarks = ""></cfif>
+					<textarea name="coll_event_remarks" id="coll_event_remarks" class="autogrow border rounded w-100">#encodeForHTML(coll_event_remarks)#</textarea>
+					<script>
+						// make selected textareas autogrow as text is entered.
+						$(document).ready(function() {
+							// bind the autogrow function to the keyup event
+							$('textarea.autogrow').keyup(autogrow);
+							// trigger keyup event to size textareas to existing text
+							$('textarea.autogrow').keyup();
+						});
+					</script> 
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="collecting_source" class="data-entry-label">Collecting Source</label>
+					<cfif isdefined("collecting_source")> <cfset collsrc = collecting_source> <cfelse> <cfset collsrc = ""> </cfif>
+					<select name="collecting_source" id="collecting_source" size="1" class="reqdClr data-entry-select" required="required" >
+						<option value="">Choose...</option>
+						<cfloop query="ctCollecting_Source">
+							<cfif ctCollecting_Source.Collecting_Source is collsrc><cfset selected='selected="selected"'><cfelse><cfset selected=''></cfif>
+							<option value="#ctCollecting_Source.Collecting_Source#" #selected#>#ctCollecting_Source.Collecting_Source#</option>
+						</cfloop>
+					</select>
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="collecting_method" class="data-entry-label">Collecting Method</label>
+					<cfif not isDefined("collecting_method")><cfset collecting_method = ""></cfif>
+					<input type="text" name="collecting_method" id="collecting_method" value="#encodeForHTML(collecting_method)#" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-6">
+					<label for="habitat_desc" class="data-entry-label">Habitat</label>
+					<cfif not isDefined("habitat_desc")><cfset habitat_desc = ""></cfif>
+					<input type="text" name="habitat_desc" id="habitat_desc" value="#encodeForHTML(HABITAT_DESC)#" class="data-entry-input">
+				</div>
+			</div>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="createCollEventFormThread#tn#" />
+
+	<cfreturn cfthread["createCollEventFormThread#tn#"].output>
+
+</cffunction>
+
+<!--- Returns html to populate an edit collecting event form 
+ @param collecting_event_id the primary key of the collecting_event record to populate the form.
+ @param collection_object_id if populated allows the user to clone edits to the collecting event
+   into a new collecting event, and move the specified cataloged item to the new collecting event.
+ @return html with a form or an error message.
+--->
+<cffunction name="getEditCollectingEventHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="no">
+
+	<cfset variables.collecting_event_id = arguments.collecting_event_id>
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="createCollEventFormThread#tn#">
+		<cfoutput>
+			<div class="form-row">
+
+			</div>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="createCollEventFormThread#tn#" />
+	<cfreturn cfthread["createCollEventFormThread#tn#"].output>
+</cffunction>
+
+<!--- update a collecting event record with new values, use only when editing a 
+ collecting event and changes should be applied to all related cataloged items, 
+ not for use to split cataloged item into a new collecting event
+ @param collecting_event_id the primary key value of the collecting_event record to update.
+ @return a json object with status, id, and message properties, or an http 500.
+ --->
+<cffunction name="updateCollectingEvent" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+	<cfargument name="began_date" type="string" required="yes">
+	<cfargument name="ended_date" type="string" required="yes">
+	<cfargument name="verbatim_date" type="string" required="yes">
+	<cfargument name="collecting_source" type="string" required="yes">
+	<cfargument name="locality_id" type="string" required="yes">
+	<cfargument name="verbatim_locality" type="string" required="no">
+	<cfargument name="verbatimDepth" type="string" required="no">
+	<cfargument name="verbatimElevation" type="string" required="no">
+	<cfargument name="verbatimCoordinates" type="string" required="no">
+	<cfargument name="verbatimLatitude" type="string" required="no">
+	<cfargument name="verbatimLongitude" type="string" required="no">
+	<cfargument name="verbatimCoordinateSystem" type="string" required="no">
+	<cfargument name="verbatimSRS" type="string" required="no">
+	<cfargument name="collecting_time" type="string" required="no">
+
+	<cfif not isDefined("action")><cfset action="update"></cfif>
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="ctVerificationStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE collecting_event 
+				SET
+					began_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#began_date#">,
+					ended_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ended_date#">,
+					verbatim_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_date#">,
+					collecting_source = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collecting_source#">,
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					<cfif len(#verbatim_locality#) gt 0>
+						,verbatim_locality = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatim_locality#">
+					<cfelse>
+						,verbatim_locality = null
+					</cfif>
+					<cfif len(#verbatimdepth#) gt 0>
+						,verbatimdepth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimdepth#">
+					<cfelse>
+						,verbatimdepth = null
+					</cfif>
+					<cfif len(#verbatimelevation#) gt 0>
+						,verbatimelevation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimelevation#">
+					<cfelse>
+						,verbatimelevation = null
+					</cfif>
+					<cfif len(#COLL_EVENT_REMARKS#) gt 0>
+						,COLL_EVENT_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_EVENT_REMARKS#">
+					<cfelse>
+						,COLL_EVENT_REMARKS = null
+					</cfif>
+					<cfif len(#COLLECTING_METHOD#) gt 0>
+						,COLLECTING_METHOD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_METHOD#">
+					<cfelse>
+						,COLLECTING_METHOD = null
+					</cfif>
+					<cfif len(#HABITAT_DESC#) gt 0>
+						,HABITAT_DESC = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#HABITAT_DESC#">
+					<cfelse>
+						,HABITAT_DESC = null
+					</cfif>
+					<cfif len(#COLLECTING_TIME#) gt 0>
+						,COLLECTING_TIME = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_TIME#">
+					<cfelse>
+						,COLLECTING_TIME = null
+					</cfif>
+					<cfif len(#ICH_FIELD_NUMBER#) gt 0>
+						,FISH_FIELD_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ICH_FIELD_NUMBER#">
+					<cfelse>
+						,FISH_FIELD_NUMBER = null
+					</cfif>
+					<cfif len(#verbatimCoordinates#) gt 0>
+						,verbatimCoordinates = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinates#">
+					<cfelse>
+						,verbatimCoordinates = null
+					</cfif>
+					<cfif len(#verbatimLatitude#) gt 0>
+						,verbatimLatitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLatitude#">
+					<cfelse>
+						,verbatimLatitude = null
+					</cfif>
+					<cfif len(#verbatimLongitude#) gt 0>
+						,verbatimLongitude = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimLongitude#">
+					<cfelse>
+						,verbatimLongitude = null
+					</cfif>
+					<cfif len(#verbatimCoordinateSystem#) gt 0>
+						,verbatimCoordinateSystem = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimCoordinateSystem#">
+					<cfelse>
+						,verbatimCoordinateSystem = null
+					</cfif>
+					<cfif len(#verbatimSRS#) gt 0>
+						,verbatimSRS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimSRS#">
+					<cfelse>
+						,verbatimSRS = null
+					</cfif>
+					<cfif len(#startDayOfYear#) gt 0>
+						,startDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#startDayOfYear#">
+					<cfelse>
+						,startDayOfYear = null
+					</cfif>
+					<cfif len(#endDayOfYear#) gt 0>
+						,endDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDayOfYear#">
+					<cfelse>
+						,endDayOfYear = null
+					</cfif>
+	 			WHERE
+					 collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+			</cfquery>
+			<cfset message = "">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "updated">
+			<cfset row["id"] = "#collecting_event_id#">
+			<cfset row["message"] = "#message#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
