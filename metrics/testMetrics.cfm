@@ -25,3 +25,6 @@ limitations under the License.
 
 <!--- Put the getCounterHtml function in scope, so that it can be invoked directly in this page --->
 <cfinclude template="/metrics/component/functions.cfc">
+	
+	
+<cfinclude template="/shared/_footer.cfm">
