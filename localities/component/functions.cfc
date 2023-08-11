@@ -4608,7 +4608,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cftry>
 			<div class="form-row">
 				<div class="col-12">
-					<cfif NOT isDefined(locality_id) OR len(locality_id) EQ 0>
+					<cfif NOT isDefined("locality_id") OR len(locality_id) EQ 0>
 						<label class="data-entry-label" for="locality_id">Pick Locality for this Collecting Event</label>
 						<input name="locality_id" id="locality_id" class="data-entry-input">
 						<!--- TODO: Bind to Locality picker  --->
