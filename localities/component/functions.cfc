@@ -4894,6 +4894,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
 		</cfcatch>
+		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
