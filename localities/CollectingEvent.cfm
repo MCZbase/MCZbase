@@ -47,6 +47,8 @@ limitations under the License.
 <cfset pageHasTabs="false">
 <cfinclude template = "/shared/_header.cfm">
 
+<cfinclude template="/localities/component/functions.cfc" runonce="true">
+
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
