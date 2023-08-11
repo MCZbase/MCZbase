@@ -4693,12 +4693,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<div class="col-12 col-md-3">
 					<label for="startDayOfYear" class="data-entry-label">Start Day of Year</label>
 					<cfif not isDefined("startDayOfYear")><cfset startDayOfYear = ""></cfif>
-					<input type="text" name="startDayOfYear" id="startDayOfYear" value="#encodeForHTML(locDet.startDayOfYear)#" class="data-entry-input">
+					<input type="text" name="startDayOfYear" id="startDayOfYear" value="#encodeForHTML(startDayOfYear)#" class="data-entry-input">
 				</div>
 				<div class="col-12 col-md-3">
 					<label for="endDayOfYear" class="data-entry-label">End Day of Year</label>
 					<cfif not isDefined("endDayOfYear")><cfset endDayOfYear = ""></cfif>
-					<input type="text" name="endDayOfYear" id="endDayOfYear" class="data-entry-input" value="#encodeForHTML(locDet.endDayOfYear)#">
+					<input type="text" name="endDayOfYear" id="endDayOfYear" class="data-entry-input" value="#encodeForHTML(endDayOfYear)#">
 				</div>
 				<div class="col-12">
 					<label for="coll_event_remarks" class="data-entry-label">Remarks</label>
