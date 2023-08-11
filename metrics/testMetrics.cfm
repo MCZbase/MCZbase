@@ -20,11 +20,22 @@ limitations under the License.
 
 -->
 <cfset pageTitle="Metrics Testing">
-<!--- Script includes are normally in shared/_header.cfm, but in one-off non-reused, can be in the page --->
+<cfinclude template="/shared/_header.cfm">
+<!--- TODO: Move inclusion to shared/_header.cfm --->
 <script type="text/javascript" src="/metrics/js/metrics.js"></script>
 
-<!--- Put backing functions in scope, so that it can be invoked directly in this page --->
+<!--- existing metrics/activity function --->
+<cfinclude template="/info/component/activity.cfc">
+
+<!--- Put new backing functions in scope, so that they can be invoked directly in this page --->
 <cfinclude template="/metrics/component/functions.cfc">
 	
-	
+	<!--- see documentation for getCollObjectActivity() --->
+	<cfset activityJSON= getCollObjectActivity(start_date="2022-01-0-",end_date="2022-12-31",group_by_collection="true")>
+	<div id="activityBlock">
+		<!--- TODO: getCollObjectActivity returns json, parse for display, see documentation --->
+		#activityJSON#
+	</div>
+
+
 <cfinclude template="/shared/_footer.cfm">
