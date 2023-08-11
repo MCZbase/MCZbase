@@ -142,7 +142,7 @@ limitations under the License.
 							<script>
 								function saveCollectingEvent() { 
 									if (checkFormValidity($('##createCollectingEventForm')[0])) { 
-										$("#createCollectingEventForm#").submit();
+										$("##createCollectingEventForm").submit();
 									} 
 								} 
 							</script>
