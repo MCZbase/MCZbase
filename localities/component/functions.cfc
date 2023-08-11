@@ -4721,7 +4721,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<label for="collecting_source" class="data-entry-label">Collecting Source</label>
 						<cfif isdefined("collecting_source")> <cfset collsrc = collecting_source> <cfelse> <cfset collsrc = ""> </cfif>
 						<select name="collecting_source" id="collecting_source" size="1" class="reqdClr data-entry-select" required="required" >
-							<option value="">Choose...</option>
+							<option value=""></option>
 							<cfloop query="ctCollecting_Source">
 								<cfif ctCollecting_Source.Collecting_Source is collsrc><cfset selected='selected="selected"'><cfelse><cfset selected=''></cfif>
 								<option value="#ctCollecting_Source.Collecting_Source#" #selected#>#ctCollecting_Source.Collecting_Source#</option>
