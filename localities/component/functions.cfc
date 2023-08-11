@@ -4610,20 +4610,26 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					select collecting_source from ctcollecting_source order by collecting_source
 				</cfquery>
 				<div class="form-row">
-					<div class="col-12">
-						<cfif NOT isDefined("locality_id") OR len(locality_id) EQ 0>
+					<cfif NOT isDefined("locality_id") OR len(locality_id) EQ 0>
+						<div class="col-12">
 							<label class="data-entry-label" for="locality_id">Pick Locality for this Collecting Event</label>
-							<input name="locality_id" id="locality_id" class="data-entry-input">
-							<!--- TODO: Bind to Locality picker  --->
+							<input type="text" name="locality" id="locality" class="data-entry-input reqdClr" required>
+							<input type="hidden" name="locality_id" id="locality_id">
 							<script>
+								$(document).ready(function() { 
+									makeLocalityAutocompleteMeta("locality", "locality_id");
+								});
 							</script>
-						<cfelse>
+						</div>
+					<cfelse>
+						<div class="col-12">
 							<h3 class="h4">#higher_geog#</h3>
-					</div>
-					<div class="col-12">
+						</div>
+						<div class="col-12">
 							<h3 class="h4">#spec_locality#</h3>
-						</cfif>
-					</div>
+							<input type="hidden" name="locality_id" id="locality_id" value="#locality_id#">
+						</div>
+					</cfif>
 					<div class="col-12">
 				     	<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
 						<cfset vl_value="">
