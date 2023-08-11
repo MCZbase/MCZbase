@@ -4605,6 +4605,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="createCollEventFormThread#tn#">
 		<cfoutput>
+			<cftry>
 			<div class="form-row">
 				<div class="col-12">
 					<cfif NOT isDefined(locality_id) OR len(locality_id) EQ 0>
@@ -4735,6 +4736,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<input type="text" name="habitat_desc" id="habitat_desc" value="#encodeForHTML(HABITAT_DESC)#" class="data-entry-input">
 				</div>
 			</div>
+		<cfcatch>
+			<cfdump var="#cfcatch#">
+		</cfcatch>
+		</cftry>
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="createCollEventFormThread#tn#" />
@@ -4756,15 +4761,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfset variables.collecting_event_id = arguments.collecting_event_id>
 	<cfset variables.collection_object_id = arguments.collection_object_id>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-	<cfthread name="createCollEventFormThread#tn#">
+	<cfthread name="editCollEventFormThread#tn#">
 		<cfoutput>
 			<div class="form-row">
 				TODO: Add form
 			</div>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="createCollEventFormThread#tn#" />
-	<cfreturn cfthread["createCollEventFormThread#tn#"].output>
+	<cfthread action="join" name="editCollEventFormThread#tn#" />
+	<cfreturn cfthread["editCollEventFormThread#tn#"].output>
 </cffunction>
 
 <!--- update a collecting event record with new values, use only when editing a 
