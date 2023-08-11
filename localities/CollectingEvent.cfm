@@ -172,7 +172,7 @@ limitations under the License.
 						<h2>Successfully deleted collecting event.</h2>
 						<cftransaction action="commit">
 					<cfelse>
-						<cfthrow message="Error deleting collecting event, other than one event affected."
+						<cfthrow message="Error deleting collecting event, other than one event affected.">
 						<cftransaction action="rollback">
 					</cfif>
 				</cftransaction>
