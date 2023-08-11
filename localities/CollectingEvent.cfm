@@ -131,10 +131,21 @@ limitations under the License.
 					<div class="col-12 mt-2 mb-5">
 						<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Collecting Event#extra#</h1>
 						<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
-							<form name="createCollectingEvent" method="post" action="/localities/CollectingEvent.cfm">
+							<form name="createCollectingEvent" id="createCollectingEventForm" method="post" action="/localities/CollectingEvent.cfm">
 								<input type="hidden" name="Action" value="makenewCollectingEvent">
 								#blockform#
+								<div class="col-12 col-md-3 pt-2">
+									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2" onClick="saveCollectingEvent();" id="submitButton" >
+									<output id="createFeedback" class="text-danger">&nbsp;</output>	
+								</div>
 							</form>
+							<script>
+								function saveCollectingEvent() { 
+									if (checkFormValidity($('##createCollectingEventForm')[0])) { 
+										$("#createCollectingEventForm#").submit();
+									} 
+								} 
+							</script>
 						</div>
 					</div>
 				</section>
