@@ -262,16 +262,16 @@ limitations under the License.
 		<cfoutput>
 			<cfset extra = "">
 			<cfif isDefined("geog_auth_rec_id") AND len(geog_auth_rec_id) GT 0 AND NOT (isDefined("clone_from_locality_id") and len(clone_from_locality_id) GT 0)>
-					<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT higher_geog
-						FROM geog_auth_rec
-						WHERE 
-							geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
-					</cfquery>
-					<cfloop query="lookupHigherGeog">
-						<cfset extra = " within #lookupHigherGeog.higher_geog#">
-					</cfloop>
-					<cfset blockform = getCreateLocalityHtml(geog_auth_rec_id = "#geog_auth_rec_id#")>
+				<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT higher_geog
+					FROM geog_auth_rec
+					WHERE 
+						geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+				</cfquery>
+				<cfloop query="lookupHigherGeog">
+					<cfset extra = " within #lookupHigherGeog.higher_geog#">
+				</cfloop>
+				<cfset blockform = getCreateLocalityHtml(geog_auth_rec_id = "#geog_auth_rec_id#")>
 			<cfelseif isDefined("clone_from_locality_id") and len(clone_from_locality_id) GT 0>
 				<cfset extra = " cloned from #encodeForHtml(clone_from_locality_id)#">
 				<cfset blockform = getCreateLocalityHtml(clone_from_locality_id = "#clone_from_locality_id#")>
