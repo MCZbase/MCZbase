@@ -48,19 +48,19 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 
 <cfswitch expression="#action#">
-	 <cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT spec_locality, geog_auth_rec_id 
-		FROM locality
-		WHERE 
-			locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-	</cfquery>
-	<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT higher_geog 
-		FROM geog_auth_rec 
-		WHERE
-			geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.geog_auth_rec_id#">
-	</cfquery>
 	<cfcase value="edit">
+		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT spec_locality, geog_auth_rec_id 
+			FROM locality
+			WHERE 
+				locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+		</cfquery>
+		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT higher_geog 
+			FROM geog_auth_rec 
+			WHERE
+				geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.geog_auth_rec_id#">
+		</cfquery>
 		<cfquery name="lookupEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT collecting_event_id 
 			FROM collecting_event
