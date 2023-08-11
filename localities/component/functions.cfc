@@ -4606,7 +4606,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfthread name="createCollEventFormThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="ctCollectingSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+				<cfquery name="ctCollecting_Source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 					select collecting_source from ctcollecting_source order by collecting_source
 				</cfquery>
 				<div class="form-row">
@@ -4769,7 +4769,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfthread name="editCollEventFormThread#tn#">
 		<cfoutput>
 			<cftry>
-				<cfquery name="ctCollectingSource" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+				<cfquery name="ctCollecting_Source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 					select collecting_source from ctcollecting_source order by collecting_source
 				</cfquery>
 				<div class="form-row">
