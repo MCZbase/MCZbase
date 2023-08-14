@@ -1223,7 +1223,7 @@ limitations under the License.
 							<section id="restrictionSection" title="Restrictions" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
 								<div class="col-12 pb-0 px-0">
 									<h2 class="h3 px-3">Restrictions on Use</h2>
-									<p>Restrictions on use from one or more permissions and rights document apply to one or more items in this loan.</p>
+									<p class="px-3">Restrictions on use from one or more permissions and rights document apply to one or more items in this loan.</p>
 									<ul>
 										<cfloop query="getRestrictions">
 											<li><a href="/transactions/Permit.cfm?action=view&#getRestrictions.permit_id#" target="_blank">#getRestrictions.permit_num#</a>#getRestrictions.restriction_summary#</li>

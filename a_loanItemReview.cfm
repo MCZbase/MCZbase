@@ -380,15 +380,17 @@ Review items in loan<b>
 		<td>
 			Item Remarks
 		</td>
-                <cfif aboutLoan.collection EQ 'Cryogenic'>
-		<td>
-			Preserve Method
-		</td>
+      <cfif aboutLoan.collection EQ 'Cryogenic'>
+			<td>
+				Preserve Method
+			</td>
 		</cfif>
 		<td>
 			Disposition
 		</td>
-		
+		<td>
+			Restrictions	
+		</td>
 		<td>
 			Encumbrance
 		</td>
@@ -399,6 +401,24 @@ Review items in loan<b>
 
 <cfset i=1>
 <cfloop query="getPartLoanRequests">
+	<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct permit.permit_id, permit.permit_num
+		from cataloged_item ci
+			join accn on ci.accn_id = accn.transaction_id
+			join permit_trans on accn.transaction_id = permit_trans.transaction_id
+			join permit on permit_trans.permit_id = permit.permit_id
+		where ci.collection_object)id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#collection_objec_id#">
+			and permit.restriction_summary is not null
+	</cfquery>
+	<cfif getRestrictions.recordcount GT 0>
+		<cfset restrictions="<strong>Has Restrictions On Use</strong>"><!--- " --->
+		<cfloop query="getRestrictions">
+			<cfset restrictions = "#restrictions# <a href='/transactions/Permit.cfm?action=view&permit_id=#getRestrictions.permit_id#'>#getRestrictions.permit_num#</a>"><!--- " --->
+		</cfloop>
+	<cfelse>
+		<cfset restrictions="">
+	</cfif>
+	<cif>	
 	<tr id="rowNum#partID#">
 		<td>
 			<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
@@ -453,6 +473,9 @@ Review items in loan<b>
 							value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
 					</cfloop>				
 			</select>
+		</td>
+		<td>
+			#restrictions#
 		</td>
 		<td>
 			#Encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>&nbsp;
