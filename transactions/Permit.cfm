@@ -1434,6 +1434,7 @@ limitations under the License.
 							jQuery.get("/transactions/component/functions.cfc",
 							{
 								method : "getPermitMediaHtml",
+								editable : "false",
 								permit_id : permit_id
 							},
 							function (result) {
@@ -1446,6 +1447,7 @@ limitations under the License.
 							{
 								method : "getPermitMediaHtml",
 								permit_id : permit_id,
+								editable : "false",
 								correspondence : "yes"
 							},
 							function (result) {
