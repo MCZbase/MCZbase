@@ -1313,7 +1313,7 @@ limitations under the License.
 					<a href="/transactions/Permit.cfm?action=edit&permit_id=#encodeForURL(permit_id)#" class="btn btn-xs btn-primary">Edit</a>
 				</h1>
 				<section id="PermitFormSection" class="row mx-0 border rounded mt-2" aria-labeledby="PermitFormSectionLabel" >
-					<form id="noActionForm" action="javascript:void(0);">
+					<form id="noActionForm" action="javascript:void(0);" class="col-12 px-3">
 						<div class="form-row my-2 pt-2">
 							<div class="col-12 col-md-4">
 								<span>
@@ -1332,7 +1332,6 @@ limitations under the License.
 									</label>
 								</span>
 								<input name="issued_to_agent_name" id="issued_to_agent_name" class="form-control form-control-sm data-entry-input" readonly value="#IssuedToAgent#" >
-								</div>
 							</div>
 							<div class="col-12 col-md-4">
 								<span>
