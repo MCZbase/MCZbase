@@ -5412,6 +5412,12 @@ limitations under the License.
 
 
 <!----------------------------------------------------------------------------------------------------------------->
+<!--- getPermitMediaHtml return a block of html listing media for a permission and rights document
+  @param permit_id the primary key value to look up
+  @param correspondence, if non-empty value is provided, show additional documentation rather than 
+   media for the permit itself.
+  @editable if false, then do not include the edit controls, if not specified, default is true.
+--->
 <cffunction name="getPermitMediaHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="permit_id" type="string" required="yes">
 	<cfargument name="correspondence" type="string" required="no">
