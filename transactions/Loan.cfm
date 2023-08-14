@@ -902,11 +902,15 @@ limitations under the License.
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/a_loanItemReview.cfm?transaction_id=#transaction_id#');">
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
-							onClick=" updateLoanItemCount('#transaction_id#','loanItemCountDiv'); ">
+							onClick=" doItemUpdate(); ">
 					</div>
 					<div class="col-12 pt-2">
 						<div id="loanItemCountDiv" class="pb-3" tabindex="0"></div>
 						<script>
+							<function doItemUpdate() { 
+							 	updateLoanItemCount('#transaction_id#','loanItemCountDiv');
+								updateRestrictionsBlock('#transaction_id#','restrictionSection','restrictionWarningDiv');
+							}
 							$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
 						</script>
 						<cfif loanDetails.loan_type EQ 'consumable'>
@@ -953,12 +957,13 @@ limitations under the License.
 						</cfif>
 					</div>
 					<cfif getRestrictions.recordcount GT 0>
-						<div id="restrictionHeader" class="col-12 pt-2 border rounded bg-verylightred">
-							<div class="h2">One of more specimens in this loan has retrictions on its use.  See summary below and details in permissions and rights documents.  Review Items to see which specimens have restrictions.</div>
-						</div>
+						<cfset restrictionsVisibility = "">
 					<cfelse>
-						<div id="restrictionHeader"></div>
+						<cfset restrictionsVisibility = "hidden">
 					</cfif>
+					<div id="restrictionWarningDiv" class="col-12 pt-2 border rounded bg-verylightred" #restrictionsVisibility#>
+						<div class="h2">One of more specimens in this loan has retrictions on its use.  See summary below and details in permissions and rights documents.  Review Items to see which specimens have restrictions.</div>
+					</div>
 				</section>
 				<section class="row mx-0">
 					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
@@ -1232,7 +1237,7 @@ limitations under the License.
 								</div>
 							</section>
 						<cfelse>
-							<section id="restrictionSection"></section>
+							<section id="restrictionSection" title="Restrictions" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0"><section>
 						</cfif>
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
 							<div class="col-12 pb-0 px-0">
