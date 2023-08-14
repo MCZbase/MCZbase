@@ -907,7 +907,7 @@ limitations under the License.
 					<div class="col-12 pt-2">
 						<div id="loanItemCountDiv" class="pb-3" tabindex="0"></div>
 						<script>
-							<function doItemUpdate() { 
+							function doItemUpdate() { 
 							 	updateLoanItemCount('#transaction_id#','loanItemCountDiv');
 								updateRestrictionsBlock('#transaction_id#','restrictionSection','restrictionWarningDiv');
 							}
