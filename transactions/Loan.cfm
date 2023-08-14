@@ -954,7 +954,7 @@ limitations under the License.
 					</div>
 					<cfif getRestrictions.recordcount GT 0>
 						<div id="restrictionHeader" class="col-12 pt-2 border rounded bg-verylightred">
-							<div class="h2">One of more specimens in this loan has retrictions on its use.  See summary below and details in permissions and rights documents.</div>
+							<div class="h2">One of more specimens in this loan has retrictions on its use.  See summary below and details in permissions and rights documents.  Review Items to see which specimens have restrictions.</div>
 						</div>
 					<cfelse>
 						<div id="restrictionHeader"></div>
