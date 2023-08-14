@@ -5774,72 +5774,87 @@ limitations under the License.
 <cffunction name="getRestrictionsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">
 	
-	<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT transaction_type 
-		FROM trans
-		WHERE
-			transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
-	</cfquery>
-		
-	<cfif getType.transaction_type EQ "loan">
-		<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT distinct restriction_summary, permit_id, permit_num from (
-			select permit.restriction_summary, permit.permit_id, permit.permit_num
-			from loan_item li 
-				join specimen_part sp on li.collection_object_id = sp.collection_object_id
-				join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
-				join accn on ci.accn_id = accn.transaction_id
-				join permit_trans on accn.transaction_id = permit_trans.transaction_id
-				join permit on permit_trans.permit_id = permit.permit_id
-			where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
-				and permit.restriction_summary is not null
-			UNION
-			select permit.restriction_summary, permit.permit_id, permit.permit_num
-			from loan
-				join shipment on loan.transaction_id = shipment.transaction_id
-				join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
-				join permit on permit_shipment.permit_id = permit.permit_id
-			where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
-				and permit.restriction_summary is not null
-			)
-		</cfquery>
-	<cfelseif getType.transaction_type EQ "deacc">
-		<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT distinct restriction_summary, permit_id, permit_num from (
-			select permit.restriction_summary, permit.permit_id, permit.permit_num
-			from deacc_item li 
-				join specimen_part sp on li.collection_object_id = sp.collection_object_id
-				join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
-				join accn on ci.accn_id = accn.transaction_id
-				join permit_trans on accn.transaction_id = permit_trans.transaction_id
-				join permit on permit_trans.permit_id = permit.permit_id
-			where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
-				and permit.restriction_summary is not null
-			UNION
-			select permit.restriction_summary, permit.permit_id, permit.permit_num
-			from deacc
-				join shipment on deacc.transaction_id = shipment.transaction_id
-				join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
-				join permit on permit_shipment.permit_id = permit.permit_id
-			where deacc.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
-				and permit.restriction_summary is not null
-			)
-		</cfquery>
-	<cfelse>
-		<cfthrow message="No transaction found for specified transaction_id">
-	</cfif>
-	<cfoutput>
-		<div class="col-12 pb-0 px-0">
-			<h2 class="h3 px-3">Restrictions on Use</h2>
-			<p class="px-3">Restrictions on use from one or more permissions and rights document apply to one or more items in this loan.</p>
-			<ul>
-				<cfloop query="getRestrictions">
-					<li><a href="/transactions/Permit.cfm?action=view&#getRestrictions.permit_id#" target="_blank">#getRestrictions.permit_num#</a>#getRestrictions.restriction_summary#</li>
-				</cfloop>
-			</ul>
-		</div>
-	</cfoutput>
-
+	<cfthread name="getRestrictionsThread">
+		<cftry>
+			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT transaction_type 
+				FROM trans
+				WHERE
+					transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+				
+			<cfif getType.transaction_type EQ "loan">
+				<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct restriction_summary, permit_id, permit_num from (
+					select permit.restriction_summary, permit.permit_id, permit.permit_num
+					from loan_item li 
+						join specimen_part sp on li.collection_object_id = sp.collection_object_id
+						join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+						join accn on ci.accn_id = accn.transaction_id
+						join permit_trans on accn.transaction_id = permit_trans.transaction_id
+						join permit on permit_trans.permit_id = permit.permit_id
+					where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+						and permit.restriction_summary is not null
+					UNION
+					select permit.restriction_summary, permit.permit_id, permit.permit_num
+					from loan
+						join shipment on loan.transaction_id = shipment.transaction_id
+						join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+						join permit on permit_shipment.permit_id = permit.permit_id
+					where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+						and permit.restriction_summary is not null
+					)
+				</cfquery>
+			<cfelseif getType.transaction_type EQ "deacc">
+				<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct restriction_summary, permit_id, permit_num from (
+					select permit.restriction_summary, permit.permit_id, permit.permit_num
+					from deacc_item li 
+						join specimen_part sp on li.collection_object_id = sp.collection_object_id
+						join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+						join accn on ci.accn_id = accn.transaction_id
+						join permit_trans on accn.transaction_id = permit_trans.transaction_id
+						join permit on permit_trans.permit_id = permit.permit_id
+					where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+						and permit.restriction_summary is not null
+					UNION
+					select permit.restriction_summary, permit.permit_id, permit.permit_num
+					from deacc
+						join shipment on deacc.transaction_id = shipment.transaction_id
+						join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+						join permit on permit_shipment.permit_id = permit.permit_id
+					where deacc.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+						and permit.restriction_summary is not null
+					)
+				</cfquery>
+			<cfelse>
+				<cfthrow message="No transaction found for specified transaction_id">
+			</cfif>
+			<cfif isDefined("getType") AND getType.recordCount GT 0>
+				<cfoutput>
+					<div class="col-12 pb-0 px-0">
+						<h2 class="h3 px-3">Restrictions on Use</h2>
+						<p class="px-3">Restrictions on use from one or more permissions and rights document apply to one or more items in this loan.</p>
+						<ul>
+							<cfloop query="getRestrictions">
+								<li><a href="/transactions/Permit.cfm?action=view&#getRestrictions.permit_id#" target="_blank">#getRestrictions.permit_num#</a>#getRestrictions.restriction_summary#</li>
+							</cfloop>
+						</ul>
+					</div>
+				</cfoutput>
+			<cfelse>
+				<cfoutput></cfoutput>
+			</cfif>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getRestrictionsThread" />
+	<cfreturn getRestrictionsThread.output>
 </cffunction>
 
 </cfcomponent>

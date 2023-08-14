@@ -570,7 +570,8 @@ function updateLoanItemCount(transactionId,targetDiv) {
 
 /* Update the content of a div containing inherited restrictions on transaction items
  * @param transactionId the transaction_id of the transaction to lookup
- * @param targetDiv the id div for which to replace the contents (without a leading #).
+ * @param targetDiv the id of a div for which to replace the contents (without a leading #).
+ * @param targetDiv the id of a div containing a static warning message to show or hide.
  */
 function updateRestrictionsBlock(transactionId,targetDiv,warningDiv) {
 	jQuery.ajax(
@@ -581,7 +582,7 @@ function updateRestrictionsBlock(transactionId,targetDiv,warningDiv) {
 			method : "getRestrictionsHtml",
 			transaction_id : transactionId
 		},
-		error: function (jqXHR, status, message) {
+		error: function (jqXHR, textStatus, message) {
 			handleFail(jqXHR,textStatus,error,"looking up transaction item restrictions");
 		},
 		success: function (result) {
