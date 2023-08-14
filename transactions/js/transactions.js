@@ -640,7 +640,7 @@ function addSubloanToParent(parentTransactionId,childTransactionId) {
 			loadSubLoans(parentTransactionId);
 		}
 	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
+		handleFail(jqXHR,textStatus,error,"adding subloan to master exhibition loan");
 	});
 };
 
@@ -661,7 +661,7 @@ function loadSubLoans(transactionId) {
 			$("#subloan_section").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
+			handleFail(jqXHR,textStatus,error,"loading subloans from master exhibition loan");
 		},
 		dataType: "html"
 	});
@@ -679,7 +679,7 @@ function loadTransactionFormMedia(transaction_id,transaction_type) {
 			$("#transactionFormMedia").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
+			handleFail(jqXHR,textStatus,error,"loading transaction form media");
 		},
 		dataType: "html"
 	});
