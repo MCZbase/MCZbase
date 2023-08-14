@@ -548,6 +548,27 @@ limitations under the License.
 					and (lr.transaction_id is null or lr.relation_type <> 'Subloan')
 				order by pc.loan_number
 			</cfquery>
+			<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct restriction_summary from (
+				select permit.restriction_summary
+				from loan_item li 
+					join specimen_part sp on li.collection_object_id = sp.collection_object_id
+					join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+					join accn on ci.accn_id = accn.transaction_id
+					join permit_trans on accn.transaction_id = permit_trans.transaction_id
+					join permit on permit_trans.permit_id = permit.permit_id
+				where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+					and permit.restriction_summary is not null
+				union
+				select permit.restriction_summary
+				from loan
+					join shipment on loan.transaction_id = shipment.transaction_id
+					join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+					join permit on permit_shipment.permit_id = permit.permit_id
+				where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+					and permit.restriction_summary is not null
+				)
+			</cfquery>
 			<script>
 				$(function() {
 					// on page load, hide the create project from loan fields
@@ -733,7 +754,7 @@ limitations under the License.
 							</script>
 							<div class="col-12 mt-1" id="agentTableContainerDiv">
 								<img src='/shared/images/indicator.gif'>
-								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
+								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don&apos;t appear here, there is an error).</span>
 								<script>
 								$(document).ready(function() { 
 									$('##agentWarningSpan').delay(1000).fadeIn(300);
@@ -931,6 +952,13 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</div>
+					<cfif getRestrictions.recordcount GT 0>
+						<div id="restrictionHeader" class="col-12 pt-2 border rounded bg-verylightred">
+							<div class="h2">One of more specimens in this loan has retrictions on its use.  See summary below and details in permissions and rights documents.</div>
+						</div>
+					<cfelse>
+						<div id="restrictionHeader"></div>
+					</cfif>
 				</section>
 				<section class="row mx-0">
 					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
@@ -1191,6 +1219,21 @@ limitations under the License.
 								</div>
 							</section>
 						</div>
+						<cfif getRestrictions.recordcount GT 0>
+							<section id="restrictionSection" title="Restrictions" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
+								<div class="col-12 pb-0 px-0">
+									<h2 class="h3 px-3">Restrictions on Use</h2>
+									<p>Restrictions on use from one or more permissions and rights document apply to one or more items in this loan.</p>
+									<ul>
+										<cfloop query="getRestrictions">
+											<li><a href="/transactions/Permit.cfm?action=view&#getRestrictions.permit_id#" target="_blank">#getRestrictions.permit_num#</a>#getRestrictions.restriction_summary#</li>
+										</cfloop>
+									</ul>
+								</div>
+							</section>
+						<cfelse>
+							<section id="restrictionSection"></section>
+						</cfif>
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
 							<div class="col-12 pb-0 px-0">
 								<h2 class="h3 px-3">
