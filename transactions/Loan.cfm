@@ -549,8 +549,8 @@ limitations under the License.
 				order by pc.loan_number
 			</cfquery>
 			<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select distinct restriction_summary from (
-				select permit.restriction_summary
+				select distinct restriction_summary, permit_id, permit_num from (
+				select permit.restriction_summary, permit.permit_id, permit.permit_num
 				from loan_item li 
 					join specimen_part sp on li.collection_object_id = sp.collection_object_id
 					join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
@@ -560,7 +560,7 @@ limitations under the License.
 				where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 					and permit.restriction_summary is not null
 				union
-				select permit.restriction_summary
+				select permit.restriction_summary, permit.permit_id, permit.permit_num
 				from loan
 					join shipment on loan.transaction_id = shipment.transaction_id
 					join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
