@@ -411,7 +411,7 @@ Review items in loan<b>
 			and permit.restriction_summary is not null
 	</cfquery>
 	<cfif getRestrictions.recordcount GT 0>
-		<cfset restrictions="<strong>Has Restrictions On Use</strong>"><!--- " --->
+		<cfset restrictions="<strong>Has Restrictions On Use</strong> See: "><!--- " --->
 		<cfloop query="getRestrictions">
 			<cfset restrictions = "#restrictions# <a href='/transactions/Permit.cfm?action=view&permit_id=#getRestrictions.permit_id#'>#getRestrictions.permit_num#</a>"><!--- " --->
 		</cfloop>
