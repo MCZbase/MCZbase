@@ -5481,6 +5481,10 @@ limitations under the License.
 						</li>
 					</cfloop>
 					</ul>
+				<cfelseif query.recordcount EQ 0 AND editable EQ "false">
+					<ul class="col-12 mx-0 pl-4 pr-0 list-style-disc">
+						<li class="my-1">None</li>
+					</ul>
 				</cfif>
 				<span>
 					<cfif editable EQ "true" AND (query.recordcount EQ 0 or relation IS 'document for permit')>
