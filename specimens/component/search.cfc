@@ -20,6 +20,8 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/functions.cfc" runOnce="true">
 
+<cfset DOWNLOAD_THRESHOLD = 1001>
+
 <!---
  ** Given a string that may be a search term for a date or a date range, reformat it to 
  *  fit the expectations of a date search, e.g. change "2020" to "2020-01-01/2020-12-31"
@@ -2700,7 +2702,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 	
-			<cfif search.recordcount LT 10001>
+			<cfif search.recordcount LT DOWNLOAD_THRESHOLD>
 				<cfset retval = queryToCSV(search)>
 				<cfset stream = true>
 			<cfelse>
@@ -2742,6 +2744,46 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfreturn cfthread["downloadThread#tn#"].output>
 </cffunction>
 
+<cffunction name="setupSpecimenDownload" returntype="string" access="remote" returnformat="json">
+	<cfargument name="result_id" type="string" required="yes">
+
+	<cftry>
+		<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCount_result">
+			SELECT count(*) as ct 
+			FROM user_search_table
+			WHERE
+				result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+		</cfquery>
+		<cfset data = ArrayNew(1)>
+		<cfif getCount.recordcount NEQ 1>
+			<cfthrow message="Error looking up records to download.">
+		</cfif>
+
+		<cfset i = 1>
+		<cfloop query="getCount">
+			<cfif getCount.ct EQ 0>
+				<cfthrow message="No records found to download.">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["recordcount"] = "#getCount.ct#">
+			<cfif getCount.ct LT DOWNLOAD_THRESHOLD>
+				<cfset row["mode"] = "direct">
+			<cfelse>
+				<cfset row["mode"] = "file">
+			</cfif>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 <cffunction name="getDownloadDialogHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
@@ -2792,6 +2834,26 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							}
 							function handleInternalDownloadClick() {
 								$("##downloadFeedback").html("Download requested...");
+								jQuery.ajax({
+									url: "/specimens/component/search.cfc",
+									type: "post",
+									data: { 
+										method: "setupSpecimenDownload",
+										returnformat: "json",
+										result_id : result_id
+									},
+									success: function (data) { 
+										if (data.MODE=="direct") { 
+											$("##downloadFeedback").html('<a id="specimencsvdownloadlink" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" target="_blank" onClick="handleInternalDownloadClick();" >Download</a>');
+										} else if (data.MODE=="file") { 
+											$("##downloadFeedback").html("Preparing....");
+											// TODO: Poll for ready
+										}
+									}, 
+									error: function (jqXHR, textStatus, error) {
+										handleFail(jqXHR,textStatus,error,"setting up to download");
+									}
+								});
 							}
 						</script>
 						<label class="data-entry-label" for="profile_picker">Pick profile for which fields to include in the download</label>
@@ -2808,7 +2870,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						</select>
 					</div>
 					<div class="col-12">
-						<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" target="_blank" onClick="handleInternalDownloadClick();" >Download as CSV</a>
+						<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onClick="handleInternalDownloadClick();" >Download as CSV</a>
 						<output id="downloadFeedback"></output>
 					</div>
 				</div>
