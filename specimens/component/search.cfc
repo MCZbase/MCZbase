@@ -2832,7 +2832,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 								var profile = $("##profile_picker").val();
 								$('##specimencsvdownloadbutton').attr("href", "/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id="+profile);
 							}
-							function handleInternalDownloadClick() {
+							function handleInternalDownloadClick(result_id) {
 								$("##downloadFeedback").html("Download requested...");
 								jQuery.ajax({
 									url: "/specimens/component/search.cfc",
@@ -2844,7 +2844,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 									},
 									success: function (data) { 
 										if (data.MODE=="direct") { 
-											$("##downloadFeedback").html('<a id="specimencsvdownloadlink" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" target="_blank" onClick="handleInternalDownloadClick();" >Download</a>');
+											$("##downloadFeedback").html('<a id="specimencsvdownloadlink" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" target="_blank" onClick="handleInternalDownloadClick(#result_id#);" >Download</a>');
 										} else if (data.MODE=="file") { 
 											$("##downloadFeedback").html("Preparing....");
 											// TODO: Poll for ready
