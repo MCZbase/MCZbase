@@ -751,6 +751,7 @@ limitations under the License.
 						updateDeaccItemDispositions('#transaction_id#','deaccessionItemDispositionsDiv');
 						updateTransItemCountries('#transaction_id#','countriesOfOriginDiv');
 						updateDeaccLoans('#transaction_id#','deaccessionLoansDiv');
+						updateDeaccLimitations('#transaction_id#','deaccessionLimitationsDiv');
 					};
 					$(document).ready(function() {
 						updateItemSections();
@@ -843,7 +844,6 @@ limitations under the License.
 								};
 								$( document ).ready( function() { 
 									loadTransactionFormPermits(#transaction_id#);
-									updateDeaccLimitations('#transaction_id#','deaccessionLimitationsDiv');
 								});
 							</script>
 								<h2 class="h3">Permissions and Rights documents (e.g. Permits):</h2>
