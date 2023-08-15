@@ -157,7 +157,10 @@ limitations under the License.
 	<cfreturn getDeaccItemDispThread.output>
 </cffunction>
 
-<!--- obtain an html block containing restrictions imposed by permissions and rights documents on material in a deaccession --->
+<!--- obtain an html block containing restrictions imposed by permissions and rights documents on material in a deaccession 
+  and benefits required for such material.
+ @param transaction_id the primary key value for the deaccession transaction for which to return benefits and restrictions.
+--->
 <cffunction name="getDeaccLimitations" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">
 

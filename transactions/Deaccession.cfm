@@ -649,7 +649,7 @@ limitations under the License.
 							</script>
 							<div class="col-12 mt-1" id="agentTableContainerDiv">
 								<img src='/shared/images/indicator.gif'>
-								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
+								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don&apos;t appear here, there is an error).</span>
 								<script>
 								$(document).ready(function() { 
 									$('##agentWarningSpan').delay(1000).fadeIn(300);
@@ -847,7 +847,7 @@ limitations under the License.
 								});
 							</script>
 								<h2 class="h3">Permissions and Rights documents (e.g. Permits):</h2>
-								<p>List here all permissions and rights related documents associated with this deaccession including the deed of gift, collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents.  Permits (but not deeds of gift and some other document types) listed here are linked to all subsequent shipments of material from this deaccession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the deaccession or here under the deaccession, list it at least here.</strong>
+								<p>List here all permissions and rights related documents associated with this deaccession including the deed of gift, collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents.  Permits (but not deeds of gift and some other document types) listed here are linked to all subsequent shipments of material from this deaccession.  <strong>If you aren&apos;t sure of whether a permit or permit-like document should be listed with a particular shipment for the deaccession or here under the deaccession, list it at least here.</strong>
 								</p>
 								<div id="transactionFormPermits" class="col-12 px-0 pb-1">Loading permits...</div>
 								<div id='addPermit_#transaction_id#' class="col-12 px-0">
