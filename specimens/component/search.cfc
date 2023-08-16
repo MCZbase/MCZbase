@@ -2759,13 +2759,11 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cfoutput>#retval#</cfoutput>
 		<cfelse>
 			<cftry>
-			<cfoutput>
 				<cfif retval.STATUS EQ "Failed">
-					#retval.MESSAGE#
+					<cfoutput>#retval.MESSAGE#</cfoutput>
 				<cfelse>
-					<a href="#retval.filename#">#retval.MESSAGE#</a>
+					<cfoutput><a id="specimencsvdownloadlink" arial-label="download results file" download="mcz_specimen_result_download_#result_id#.csv" target="_blank" href="#retval.filename#">#retval.MESSAGE#</a></cfoutput>
 				</cfif>
-			</cfoutput>
 			<cfcatch>
 				<cfoutput>
 					<cfdump var="#cfcatch#">
@@ -2941,6 +2939,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 												},
 												success: function(data) { 
 													console.log(data);
+													$("##downloadFeedback").html(data);
 												},
 												error: function (jqXHR, textStatus, error) {
 													handleFail(jqXHR,textStatus,error,"checking specimen download status");
