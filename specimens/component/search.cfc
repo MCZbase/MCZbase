@@ -2915,11 +2915,31 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										var retval = JSON.parse(data);
 										var rows = retval[0].RECORDCOUNT;
 										if (retval[0].MODE=="direct") { 
+											// just stream the results to the user
 											$("##downloadFeedback").html('<a id="specimencsvdownloadlink" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id='+profile+'" download="#filename#" onclick="$(\'##specimencsvdownloadlink\').attr(\'style\',\'color: purple !important;\');" target="_blank" >Download ('+rows+' records)</a>');
 										} else if (retval[0].MODE=="file") { 
+											// request generation of file, and poll until it is created.
 											var token = retval[0].TOKEN;
 											$("##downloadFeedback").html("Preparing ("+rows+" records)..");
-											
+											// actually request that the file be generated
+											jQuery.ajax({
+												url: "/specimens/component/search.cfc",
+												type: "post",
+												data: { 
+													method: "getSpecimensAsCSVProfile",
+													returnformat: "json",
+													download_profile_id : profile,
+													result_id: result_id,
+													token : token
+												},
+												success: function(data) { 
+													console.log(data);
+												},
+												error: function (jqXHR, textStatus, error) {
+													handleFail(jqXHR,textStatus,error,"checking specimen download status");
+												}
+											});
+
 											// TODO: Poll for ready
 											jQuery.ajax({
 												url: "/specimens/component/search.cfc",
