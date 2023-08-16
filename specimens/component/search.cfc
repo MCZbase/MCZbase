@@ -2830,16 +2830,18 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 		</cfif>
 
 		<cfset i = 1>
-		<cfloop query="getStatus">
+		<cfif getStatus.recordcount EQ 0>
 			<cfset row = StructNew()>
-			<cfif getStatus.recordcount EQ 0>
-				<cfset row["STATUS"] = "not started yet">
-			<cfelse>
-				<cfset row["STATUS"] = "#getStatus.status#">
-			</cfif>
+			<cfset row["STATUS"] = "not started yet">
 			<cfset data[i]  = row>
-			<cfset i = i + 1>
-		</cfloop>
+		<cfelse>
+			<cfloop query="getStatus">
+				<cfset row = StructNew()>
+				<cfset row["STATUS"] = "#getStatus.status#">
+				<cfset data[i]  = row>
+				<cfset i = i + 1>
+			</cfloop>
+		</cfif>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
