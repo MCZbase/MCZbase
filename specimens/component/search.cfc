@@ -2707,36 +2707,43 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<cfset retval = queryToCSV(search)>
 				<cfset stream = true>
 			<cfelse>
-				<cfquery name="preDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preDownload_result">
-					INSERT into cf_download_file (
-						result_id,
-						token,
-						username,
-						download_profile_id,
-						status
-					) values ( 
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">,
-						'started'
-					)
+				<cfquery name="checkToken" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preDownload_result">
+					SELECT count(*) ct 
+					FROM cf_download_file 
+					WHERE token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#">
 				</cfquery>
-				<cfset retval = queryToCSVFile(search)>
-				<cfset stream = false>
-				<cfquery name="postDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="postDownload_result">
-					UPDATE cf_download_file 
-					SET 
-						status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.STATUS#">,
-						filename = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.FILENAME#">,
-						message = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.MESSAGE#">
-					WHERE
-						token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#"> and
-						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#"> and
-						download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
-				</cfquery>
-				<cfset retval = queryToCSVFile(search)>
+				<cfif checkToken.ct EQ 0>
+					<cfquery name="preDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preDownload_result">
+						INSERT into cf_download_file (
+							result_id,
+							token,
+							username,
+							download_profile_id,
+							status
+						) values ( 
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">,
+							'started'
+						)
+					</cfquery>
+					<cfset retval = queryToCSVFile(search)>
+					<cfset stream = false>
+					<cfquery name="postDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="postDownload_result">
+						UPDATE cf_download_file 
+						SET 
+							status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.STATUS#">,
+							filename = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.FILENAME#">,
+							message = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.MESSAGE#">
+						WHERE
+							token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#"> and
+							result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#"> and
+							download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
+					</cfquery>
+					<cfset retval = queryToCSVFile(search)>
+				</cfif>
 			</cfif>
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
