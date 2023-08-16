@@ -2873,7 +2873,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										var retval = JSON.parse(data);
 										var rows = retval[0].RECORDCOUNT;
 										if (retval[0].MODE=="direct") { 
-											$("##downloadFeedback").html('<a id="specimencsvdownloadlink" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" target="_blank" >Download ('+rows+' records)</a>');
+											$("##downloadFeedback").html('<a id="specimencsvdownloadlink" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" target="_blank" >Download ('+rows+' records)</a>');
 										} else if (retval[0].MODE=="file") { 
 											$("##downloadFeedback").html("Preparing ("+rows+" records)....");
 											// TODO: Poll for ready
@@ -2899,7 +2899,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						</select>
 					</div>
 					<div class="col-12">
-						<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onClick="handleInternalDownloadClick('#result_id#');" >Download as CSV</a>
+						<button id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onClick="handleInternalDownloadClick('#result_id#');" >Request Download as CSV</button>
 						<output id="downloadFeedback"></output>
 					</div>
 				</div>
