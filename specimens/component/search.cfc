@@ -2771,7 +2771,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfreturn cfthread["downloadThread#tn#"].output>
 </cffunction>
 
-<cffunction name="setupSpecimenDownload" returntype="string" access="remote" returnformat="json">
+<cffunction name="setupSpecimenDownload" returntype="any" access="remote" returnformat="json">
 	<cfargument name="result_id" type="string" required="yes">
 
 	<cftry>
