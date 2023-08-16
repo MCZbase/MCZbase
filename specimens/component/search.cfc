@@ -2825,14 +2825,18 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#">
 		</cfquery>
 		<cfset data = ArrayNew(1)>
-		<cfif getStatus.recordcount NEQ 1>
-			<cfthrow message="Error looking up download status, no match found for token.">
+		<cfif getStatus.recordcount GT 1>
+			<cfthrow message="Error looking up download status, duplicate token.">
 		</cfif>
 
 		<cfset i = 1>
 		<cfloop query="getStatus">
 			<cfset row = StructNew()>
-			<cfset row["STATUS"] = "#getStatus.status#">
+			<cfif getStatus.recordcount EQ 0>
+				<cfset row["STATUS"] = "not started yet">
+			<cfelse>
+				<cfset row["STATUS"] = "#getStatus.status#">
+			</cfif>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
