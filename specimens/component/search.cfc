@@ -2825,7 +2825,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#">
 		</cfquery>
 		<cfset data = ArrayNew(1)>
-		<cfif getCount.recordcount NEQ 1>
+		<cfif getStatus.recordcount NEQ 1>
 			<cfthrow message="Error looking up download status, no match found for token.">
 		</cfif>
 
