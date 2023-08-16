@@ -2760,9 +2760,11 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 		<cfelse>
 			<cftry>
 				<cfif retval.STATUS EQ "Failed">
-					<cfoutput>#retval.MESSAGE#</cfoutput>
+					<cfoutput>#retval.STATUS#: #retval.MESSAGE#</cfoutput>
 				<cfelse>
-					<cfoutput><a id="specimencsvdownloadlink" arial-label="download results file" download="mcz_specimen_result_download_#result_id#.csv" target="_blank" href="#retval.filename#">#retval.MESSAGE#</a></cfoutput>
+					<cfoutput>
+						[<a id="specimencsvdownloadlink" arial-label="download results file" download="mcz_specimen_result_download_#result_id#.csv" target="_blank" href="#retval.filename#">#retval.MESSAGE#</a>]
+					</cfoutput>
 				</cfif>
 			<cfcatch>
 				<cfoutput>
