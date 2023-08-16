@@ -14,9 +14,6 @@ a:link {
 a:visited {
 	color: purple;
 }
-a.asifvisited {
-	color: purple;
-}
 a:hover {
 	color: #0460c1;
 	text-decoration: underline;
