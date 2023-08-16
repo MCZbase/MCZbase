@@ -2626,6 +2626,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 <cffunction name="getSpecimensAsCSVProfile" access="remote" returntype="any" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="download_profile_id" type="string" required="yes">
+	<cfargument name="token" type="string" required="no">
 
 	<cfsetting requestTimeout="600">
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
@@ -2706,24 +2707,23 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<cfset retval = queryToCSV(search)>
 				<cfset stream = true>
 			<cfelse>
-<!---
 				<cfquery name="preDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preDownload_result">
 					INSERT into cf_download_file (
 						result_id,
+						token,
 						username,
 						download_profile_id,
 						status
 					) values ( 
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">,
 						'started'
 					)
 				</cfquery>
---->
 				<cfset retval = queryToCSVFile(search)>
 				<cfset stream = false>
-<!---
 				<cfquery name="postDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="postDownload_result">
 					UPDATE cf_download_file 
 					SET 
@@ -2731,11 +2731,11 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						filename = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.FILENAME#">,
 						message = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.MESSAGE#">
 					WHERE
+						token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#"> and
 						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#"> and
 						download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
 				</cfquery>
---->
 				<cfset retval = queryToCSVFile(search)>
 			</cfif>
 		<cfcatch>
@@ -2796,8 +2796,43 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cfif getCount.ct LT DOWNLOAD_THRESHOLD>
 				<cfset row["MODE"] = "direct">
 			<cfelse>
+				<cfset token = CreateUUID()>
 				<cfset row["MODE"] = "file">
+				<cfset row["TOKEN"] = "#token#">
 			</cfif>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<cffunction name="checkSpecimenDownload" returntype="any" access="remote" returnformat="json">
+	<cfargument name="token" type="string" required="yes">
+
+	<cftry>
+		<cfquery name="getStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCount_result">
+			SELECT status
+			FROM cf_download_file 
+			WHERE
+				token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#">
+		</cfquery>
+		<cfset data = ArrayNew(1)>
+		<cfif getCount.recordcount NEQ 1>
+			<cfthrow message="Error looking up download status, no match found for token.">
+		</cfif>
+
+		<cfset i = 1>
+		<cfloop query="getStatus">
+			<cfset row = StructNew()>
+			<cfset row["STATUS"] = "#getStatus.status#">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
@@ -2860,6 +2895,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 								$('##specimencsvdownloadbutton').attr("href", "/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id="+profile);
 							}
 							function handleInternalDownloadClick(result_id) {
+								var profile = $("##profile_picker").val();
 								$("##downloadFeedback").html("Download requested...");
 								jQuery.ajax({
 									url: "/specimens/component/search.cfc",
@@ -2873,10 +2909,28 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										var retval = JSON.parse(data);
 										var rows = retval[0].RECORDCOUNT;
 										if (retval[0].MODE=="direct") { 
-											$("##downloadFeedback").html('<a id="specimencsvdownloadlink" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" onclick="$(\'##specimencsvdownloadlink\').attr(\'style\',\'color: purple !important;\');" target="_blank" >Download ('+rows+' records)</a>');
+											$("##downloadFeedback").html('<a id="specimencsvdownloadlink" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id='+profile+'" download="#filename#" onclick="$(\'##specimencsvdownloadlink\').attr(\'style\',\'color: purple !important;\');" target="_blank" >Download ('+rows+' records)</a>');
 										} else if (retval[0].MODE=="file") { 
-											$("##downloadFeedback").html("Preparing ("+rows+" records)....");
+											var token = retval[0].TOKEN;
+											$("##downloadFeedback").html("Preparing ("+rows+" records)..");
+											
 											// TODO: Poll for ready
+											jQuery.ajax({
+												url: "/specimens/component/search.cfc",
+												type: "post",
+												data: { 
+													method: "checkSpecimenDownload",
+													returnformat: "json",
+													token : token
+												},
+												success: function(data) { 
+													console.log(data);
+													$("##downloadFeedback").html("Preparing ("+rows+" records).... ("+JSON.parse(data)[0].STATUS+")");
+												},
+												error: function (jqXHR, textStatus, error) {
+													handleFail(jqXHR,textStatus,error,"checking specimen download status");
+												}
+											});
 										}
 									}, 
 									error: function (jqXHR, textStatus, error) {
