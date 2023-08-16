@@ -2706,8 +2706,37 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<cfset retval = queryToCSV(search)>
 				<cfset stream = true>
 			<cfelse>
+<!---
+				<cfquery name="preDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preDownload_result">
+					INSERT into cf_download_file (
+						result_id,
+						username,
+						download_profile_id,
+						status
+					) values ( 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">,
+						'started'
+					)
+				</cfquery>
+--->
 				<cfset retval = queryToCSVFile(search)>
 				<cfset stream = false>
+<!---
+				<cfquery name="postDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="postDownload_result">
+					UPDATE cf_download_file 
+					SET 
+						status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.STATUS#">,
+						filename = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.FILENAME#">,
+						message = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.MESSAGE#">
+					WHERE
+						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#"> and
+						download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
+				</cfquery>
+--->
+				<cfset retval = queryToCSVFile(search)>
 			</cfif>
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
@@ -2727,8 +2756,6 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<cfif retval.STATUS EQ "Failed">
 					#retval.MESSAGE#
 				<cfelse>
-					<!--- TODO: Fails with NS_NET_ERROR_RESET --->
-					<cflocation url="#retval.FILENAME#" addtoken="false">
 					<a href="#retval.filename#">#retval.MESSAGE#</a>
 				</cfif>
 			</cfoutput>
@@ -2765,11 +2792,11 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<cfthrow message="No records found to download.">
 			</cfif>
 			<cfset row = StructNew()>
-			<cfset row["recordcount"] = "#getCount.ct#">
+			<cfset row["RECORDCOUNT"] = "#getCount.ct#">
 			<cfif getCount.ct LT DOWNLOAD_THRESHOLD>
-				<cfset row["mode"] = "direct">
+				<cfset row["MODE"] = "direct">
 			<cfelse>
-				<cfset row["mode"] = "file">
+				<cfset row["MODE"] = "file">
 			</cfif>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
@@ -2843,10 +2870,11 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										result_id : result_id
 									},
 									success: function (data) { 
+										var rows = data.RECORDCOUNT;
 										if (data.MODE=="direct") { 
-											$("##downloadFeedback").html('<a id="specimencsvdownloadlink" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" target="_blank" onClick="handleInternalDownloadClick(#result_id#);" >Download</a>');
+											$("##downloadFeedback").html('<a id="specimencsvdownloadlink" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" target="_blank" >Download ('+rows+' records)</a>');
 										} else if (data.MODE=="file") { 
-											$("##downloadFeedback").html("Preparing....");
+											$("##downloadFeedback").html("Preparing ("+rows+" records)....");
 											// TODO: Poll for ready
 										}
 									}, 
@@ -2870,7 +2898,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						</select>
 					</div>
 					<div class="col-12">
-						<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onClick="handleInternalDownloadClick();" >Download as CSV</a>
+						<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onClick="handleInternalDownloadClick('#result_id#');" >Download as CSV</a>
 						<output id="downloadFeedback"></output>
 					</div>
 				</div>
