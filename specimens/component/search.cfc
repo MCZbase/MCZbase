@@ -2870,10 +2870,11 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										result_id : result_id
 									},
 									success: function (data) { 
-										var rows = data.RECORDCOUNT;
-										if (data.MODE=="direct") { 
+										var retval = JSON.parse(data);
+										var rows = retval[0].RECORDCOUNT;
+										if (retval[0].MODE=="direct") { 
 											$("##downloadFeedback").html('<a id="specimencsvdownloadlink" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" target="_blank" >Download ('+rows+' records)</a>');
-										} else if (data.MODE=="file") { 
+										} else if (retval[0].MODE=="file") { 
 											$("##downloadFeedback").html("Preparing ("+rows+" records)....");
 											// TODO: Poll for ready
 										}
