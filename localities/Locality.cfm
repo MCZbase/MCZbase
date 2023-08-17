@@ -508,7 +508,7 @@ limitations under the License.
 								,NULL
 							</cfif>
 							<cfif len(#DEC_LONG_MIN#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG_MIN#" scale=="8">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG_MIN#" scale="8">
 							<cfelse>
 								,NULL
 							</cfif>
