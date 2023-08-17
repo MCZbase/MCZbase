@@ -469,6 +469,8 @@ limitations under the License.
 							,ACCEPTED_LAT_LONG_FG
 							,EXTENT
 							,GPSACCURACY
+							,SPATIAL_FIT
+							,FOOTPRINT_SPATIAL_FIT
 							,GEOREFMETHOD
 							,VERIFICATIONSTATUS
 							,verified_by_agent_id)
@@ -481,7 +483,7 @@ limitations under the License.
 								,NULL
 							</cfif>
 							<cfif len(#DEC_LAT_MIN#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT_MIN#">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT_MIN#" scale="6">
 							<cfelse>
 								,NULL
 							</cfif>
@@ -491,12 +493,12 @@ limitations under the License.
 								,NULL
 							</cfif>
 							<cfif len(#LAT_SEC#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_SEC#">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_SEC#" scale="6">
 							<cfelse>
 								,NULL
 							</cfif>
 							<cfif len(#LAT_DIR#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_DIR#">
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_DIR#" scale="6">
 							<cfelse>
 								,NULL
 							</cfif>
@@ -506,7 +508,7 @@ limitations under the License.
 								,NULL
 							</cfif>
 							<cfif len(#DEC_LONG_MIN#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG_MIN#">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG_MIN#" scale=="8">
 							<cfelse>
 								,NULL
 							</cfif>
@@ -526,12 +528,12 @@ limitations under the License.
 								,NULL
 							</cfif>
 							<cfif len(#DEC_LAT#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT#">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT#" scale="10">
 							<cfelse>
 								,NULL
 							</cfif>
 							<cfif len(#DEC_LONG#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG#">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG#" scale="10">
 							<cfelse>
 								,NULL
 							</cfif>
@@ -587,12 +589,22 @@ limitations under the License.
 							</cfif>
 							,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ACCEPTED_LAT_LONG_FG#">
 							<cfif len(#EXTENT#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">
 							<cfelse>
 								,NULL
 							</cfif>
 							<cfif len(#GPSACCURACY#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">
+							<cfelse>
+								,NULL
+							</cfif>
+							<cfif len(#SPATIAL_FIT#) gt 0>
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIAL_FIT#" scale="3">
+							<cfelse>
+								,NULL
+							</cfif>
+							<cfif len(#FOOTPRINT_SPATIAL_FIT#) gt 0>
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#FOOTPRINT_SPATIAL_FIT#" scale="3">
 							<cfelse>
 								,NULL
 							</cfif>
