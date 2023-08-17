@@ -357,8 +357,8 @@ Data:
 				) values (
 					sq_lat_long_id.nextval,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Locality_ID#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Lat#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Long#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Lat#" scale="10">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#Dec_Long#" scale="10">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DATUM#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ORIG_LAT_LONG_UNITS#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DETERMINED_BY_AGENT_ID#">,
@@ -373,19 +373,19 @@ Data:
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MAX_ERROR_UNITS#">,
 					1,
 					<cfif len(EXTENT) gt 0>
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">,
 					<cfelse>
 						NULL,
 					</cfif>
 					<cfif len(GPSACCURACY) gt 0>
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">,
 					<cfelse>
 						NULL,
 					</cfif>
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GEOREFMETHOD#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERIFICATIONSTATUS#">,
 					<cfif len(SPATIALFIT) gt 0>
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#">
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">
 					<cfelse>
 						NULL
 					</cfif>
