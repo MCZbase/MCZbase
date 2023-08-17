@@ -469,8 +469,8 @@ limitations under the License.
 							,ACCEPTED_LAT_LONG_FG
 							,EXTENT
 							,GPSACCURACY
-							,SPATIAL_FIT
-							,FOOTPRINT_SPATIAL_FIT
+							,SPATIALFIT
+							,FOOTPRINT_SPATIALFIT
 							,GEOREFMETHOD
 							,VERIFICATIONSTATUS
 							,verified_by_agent_id)
@@ -598,13 +598,13 @@ limitations under the License.
 							<cfelse>
 								,NULL
 							</cfif>
-							<cfif len(#SPATIAL_FIT#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIAL_FIT#" scale="3">
+							<cfif len(#SPATIALFIT#) gt 0>
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">
 							<cfelse>
 								,NULL
 							</cfif>
-							<cfif len(#FOOTPRINT_SPATIAL_FIT#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#FOOTPRINT_SPATIAL_FIT#" scale="3">
+							<cfif len(#FOOTPRINT_SPATIALFIT#) gt 0>
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#FOOTPRINT_SPATIALFIT#" scale="3">
 							<cfelse>
 								,NULL
 							</cfif>
