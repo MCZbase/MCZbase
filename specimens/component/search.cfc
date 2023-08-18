@@ -2945,38 +2945,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 												}
 											});
 
-											var done = false;
-											while (!done) { 
-												jQuery.ajax({
-													url: "/specimens/component/search.cfc",
-													type: "post",
-													data: { 
-														method: "checkSpecimenDownload",
-														returnformat: "json",
-														token : token
-													},
-													success: async function(data) { 
-														console.log(data);
-														var status = JSON.parse(data)[0].STATUS;
-														if (status=='Success' { 
-															$("##downloadFeedback").html(JSON.parse(data)[0].STATUS);
-															done = true;
-														} else { 
-															$("##downloadFeedback").html("Preparing ("+rows+" records).... ("+JSON.parse(data)[0].STATUS+")");
-															if (status=="Failed" || status=="Incomplete") { 
-																done = true;
-															} else { 
-																await new Promise(resolve => setTimeout(resolve, 2000));
-															}
-														} 
-													},
-													error: function (jqXHR, textStatus, error) {
-														done = true;
-														handleFail(jqXHR,textStatus,error,"checking specimen download status");
-													}
-												});
-												
-											} 
+											checkStatus();
 										}
 									}, 
 									error: function (jqXHR, textStatus, error) {
@@ -2984,7 +2953,39 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 									}
 								});
 							}
-				
+							async function checkStatus() { 
+								var done = false;
+								while (!done) { 
+									await new Promise(resolve => setTimeout(resolve, 2000));
+									jQuery.ajax({
+										url: "/specimens/component/search.cfc",
+										type: "post",
+										data: { 
+											method: "checkSpecimenDownload",
+											returnformat: "json",
+											token : token
+										},
+										success: function(data) { 
+											console.log(data);
+											var status = JSON.parse(data)[0].STATUS;
+											if (status=='Success' { 
+												$("##downloadFeedback").html(JSON.parse(data)[0].STATUS);
+												done = true;
+											} else { 
+												$("##downloadFeedback").html("Preparing ("+rows+" records).... ("+JSON.parse(data)[0].STATUS+")");
+												if (status=="Failed" || status=="Incomplete") { 
+													done = true;
+												} else { 
+												}
+											} 
+										},
+										error: function (jqXHR, textStatus, error) {
+											done = true;
+											handleFail(jqXHR,textStatus,error,"checking specimen download status");
+										}
+									});
+								} 
+							}
 						</script>
 						<label class="data-entry-label" for="profile_picker">Pick profile for which fields to include in the download</label>
 						<select id="profile_picker" name="profile_picker" class="data-entry-select" onchange="changeProfile()">
