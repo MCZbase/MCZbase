@@ -2758,7 +2758,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<cfelse> 
 						<cfset pagenumber = 1>
 						<cfset totalpages = ceiling(count.ct/pagesize)>
-						<cfloop index="currentpage" from="1" to=totalpages>
+						<cfloop index="currentpage" from="1" to="#totalpages#">
 							<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 								SELECT * FROM (
 									SELECT qry.*, rownum foundrownum
