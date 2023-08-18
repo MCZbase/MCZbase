@@ -2745,6 +2745,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#"> and
 							download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
 					</cfquery>
+				<cfelse>
+					<cfthrow message="Token [#token#] exists, #checkToken.ct# matches found.">
 				</cfif>
 			</cfif>
 		<cfcatch>
