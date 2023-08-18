@@ -2746,7 +2746,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
 					</cfquery>
 				<cfelse>
-					<cfthrow message="Token [#token#] exists, #checkToken.ct# matches found.">
+					<cfthrow message="Problem creating download.  Token [#token#] exists, [#checkToken.ct#] matches found.">
 				</cfif>
 			</cfif>
 		<cfcatch>
@@ -2912,6 +2912,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							function handleInternalDownloadClick(result_id) {
 								var profile = $("##profile_picker").val();
 								$("##downloadFeedback").html("Download requested...");
+								$("##downloadResult").html("");
 								jQuery.ajax({
 									url: "/specimens/component/search.cfc",
 									type: "post",
