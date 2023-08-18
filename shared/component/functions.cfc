@@ -631,32 +631,32 @@ limitations under the License.
 
 	<cfsetting requestTimeout="600">
 
-	<cfif mode EQ "create">
-		<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHnnssl')#">
-		<cfset written = 0>
-	<cfelse>
-		<cfif not isDefined("timestamp") OR len(timestamp) EQ 0 OR not isDefined("written") OR len(written) EQ 0>
-			<cfthrow message="timestamp and written parameters are required if mode is other than create">
-		<cfelseif not REMatch("^[0-9]+$",timestamp)>
-			<cfthrow message="timestamp can only contain numbers">
-		</cfif>
-	</cfif>
-	<cfset filename ="download_#session.dbuser#_#timestamp#">
-	<cfset retval = StructNew()>
-
-	<!--- arrayToList on getColumnNames preserves order. --->
-	<cfset columnNamesList = arrayToList(queryToConvert.getColumnNames()) >
-	<cfset columnNamesArray = queryToConvert.getColumnNames() >
-	<cfset columnCount = ArrayLen(columnNamesArray) >
-
-	<!--- header line --->
-	<cfset header=[]>
-	<cfloop index="i" from="1" to="#columnCount#" step="1">
-		<cfset header[i] = """#ucase(columnNamesArray[i])#""" >
-	</cfloop>
-
-	<!--- loop through query and append rows to file --->
 	<cftry>
+		<cfif mode EQ "create">
+			<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHnnssl')#">
+			<cfset written = 0>
+		<cfelse>
+			<cfif not isDefined("timestamp") OR len(timestamp) EQ 0 OR not isDefined("written") OR len(written) EQ 0>
+				<cfthrow message="timestamp and written parameters are required if mode is other than create">
+			<cfelseif REFind("^[0-9_]+$",timestamp) EQ 0>
+				<cfthrow message="timestamp can only contain numbers">
+			</cfif>
+		</cfif>
+		<cfset filename ="download_#session.dbuser#_#timestamp#">
+		<cfset retval = StructNew()>
+	
+		<!--- arrayToList on getColumnNames preserves order. --->
+		<cfset columnNamesList = arrayToList(queryToConvert.getColumnNames()) >
+		<cfset columnNamesArray = queryToConvert.getColumnNames() >
+		<cfset columnCount = ArrayLen(columnNamesArray) >
+	
+		<!--- header line --->
+		<cfset header=[]>
+		<cfloop index="i" from="1" to="#columnCount#" step="1">
+			<cfset header[i] = """#ucase(columnNamesArray[i])#""" >
+		</cfloop>
+	
+		<!--- loop through query and append rows to file --->
 		<cfif mode EQ "create">
 			<cffile action="write" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(header,','))#">
 		</cfif>
