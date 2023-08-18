@@ -2714,13 +2714,16 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<cfset retval = queryToCSV(search)>
 				<cfset stream = true>
 			<cfelse>
+				<cftransaction isolation="serializable">
 				<cfquery name="checkToken" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preDownload_result">
 					SELECT count(*) ct 
 					FROM cf_download_file 
 					WHERE token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#">
 				</cfquery>
+				<cftransaction action="commit">
+				</cftransaction>
 				<cfif checkToken.ct EQ 0>
-					<cftransaction>
+					<cftransaction isolation="serializable">
 					<cfquery name="preDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preDownload_result">
 						INSERT into cf_download_file (
 							result_id,
@@ -2974,10 +2977,6 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<div class="form-row">
 					<div class="col-12">
 						<script>
-							function changeProfile() { 
-								var profile = $("##profile_picker").val();
-								// $('##specimencsvdownloadbutton').attr("href", "/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id="+profile);
-							}
 							function handleInternalDownloadClick(result_id) {
 								var profile = $("##profile_picker").val();
 								$("##downloadFeedback").html("Download requested...");
@@ -3068,7 +3067,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							}
 						</script>
 						<label class="data-entry-label" for="profile_picker">Pick profile for which fields to include in the download</label>
-						<select id="profile_picker" name="profile_picker" class="data-entry-select" onchange="changeProfile()">
+						<select id="profile_picker" name="profile_picker" class="data-entry-select">
 							<cfloop query="getProfiles">
 								<cfset columnCount = ListLen(column_list)>
 								<cfif download_profile_id EQ selected_profile_id>
