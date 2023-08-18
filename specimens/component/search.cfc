@@ -2944,7 +2944,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 													handleFail(jqXHR,textStatus,error,"checking specimen download status");
 												}
 											});
-											checkStatus(token);
+											checkStatus(token,rows);
 										}
 									}, 
 									error: function (jqXHR, textStatus, error) {
@@ -2952,7 +2952,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 									}
 								});
 							}
-							async function checkStatus(token) { 
+							async function checkStatus(token,rows) { 
 								var done = false;
 								while (!done) { 
 									await new Promise(resolve => setTimeout(resolve, 2000));
