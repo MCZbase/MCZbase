@@ -3022,6 +3022,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 												},
 												error: function (jqXHR, textStatus, error) {
 													handleFail(jqXHR,textStatus,error,"checking specimen download status");
+													$("##downloadResult").html("Error");
 												}
 											});
 											checkStatus(token,rows);
@@ -3062,6 +3063,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 											handleFail(jqXHR,textStatus,error,"checking specimen download status");
 										}
 									});
+									if ($("##downloadResult").html()=="Error") { done = true; }
 								} 
 							}
 						</script>
