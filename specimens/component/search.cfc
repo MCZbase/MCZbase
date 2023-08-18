@@ -2938,7 +2938,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 												},
 												success: function(data) { 
 													console.log(data);
-													var parsed = JSON.parse(data.trim().replaceAll("'",'"'))[0];
+													var parsed = JSON.parse(data.replaceAll('"','').trim().replaceAll("'",'"'))[0];
 													var filename = parsed.FILENAME;
 													var path = parsed.PATH;
 													var message = parsed.MESSAGE;
