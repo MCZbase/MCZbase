@@ -2947,7 +2947,6 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 
 											var done = false;
 											while (!done) { 
-												await new Promise(resolve => setTimeout(resolve, 2000));
 												jQuery.ajax({
 													url: "/specimens/component/search.cfc",
 													type: "post",
@@ -2956,7 +2955,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 														returnformat: "json",
 														token : token
 													},
-													success: function(data) { 
+													success: async function(data) { 
 														console.log(data);
 														var status = JSON.parse(data)[0].STATUS;
 														if (status=='Success' { 
@@ -2966,6 +2965,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 															$("##downloadFeedback").html("Preparing ("+rows+" records).... ("+JSON.parse(data)[0].STATUS+")");
 															if (status=="Failed" || status=="Incomplete") { 
 																done = true;
+															} else { 
+																await new Promise(resolve => setTimeout(resolve, 2000));
 															}
 														} 
 													},
@@ -2983,6 +2984,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 									}
 								});
 							}
+				
 						</script>
 						<label class="data-entry-label" for="profile_picker">Pick profile for which fields to include in the download</label>
 						<select id="profile_picker" name="profile_picker" class="data-entry-select" onchange="changeProfile()">
