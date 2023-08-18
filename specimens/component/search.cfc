@@ -2944,7 +2944,6 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 													handleFail(jqXHR,textStatus,error,"checking specimen download status");
 												}
 											});
-
 											checkStatus();
 										}
 									}, 
@@ -2968,14 +2967,13 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										success: function(data) { 
 											console.log(data);
 											var status = JSON.parse(data)[0].STATUS;
-											if (status=='Success' { 
+											if (status=='Success') { 
 												$("##downloadFeedback").html(JSON.parse(data)[0].STATUS);
 												done = true;
 											} else { 
 												$("##downloadFeedback").html("Preparing ("+rows+" records).... ("+JSON.parse(data)[0].STATUS+")");
 												if (status=="Failed" || status=="Incomplete") { 
 													done = true;
-												} else { 
 												}
 											} 
 										},
