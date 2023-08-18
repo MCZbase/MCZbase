@@ -2713,6 +2713,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					WHERE token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#">
 				</cfquery>
 				<cfif checkToken.ct EQ 0>
+					<cftransaction>
 					<cfquery name="preDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preDownload_result">
 						INSERT into cf_download_file (
 							result_id,
@@ -2728,6 +2729,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							'started'
 						)
 					</cfquery>
+					<cftransaction action="commit">
+					</cftransaction>
 					<cfset retval = queryToCSVFile(search)>
 					<cfset stream = false>
 					<cfquery name="postDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="postDownload_result">
