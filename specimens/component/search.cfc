@@ -2778,7 +2778,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										ORDER BY
 											user_search_table.collection_object_id
 									) qry
-									WHERE rownum < < ((#pagenumber# * #pagesize#) + 1 )
+									WHERE rownum < ((#pagenumber# * #pagesize#) + 1 )
 								) 
 								WHERE foundrownum >= (((#pagenumber#-1) * #pagesize#) + 1)
 							</cfquery>
