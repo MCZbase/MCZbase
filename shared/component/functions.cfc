@@ -624,13 +624,24 @@ limitations under the License.
  **
 --->
 <cffunction name="queryToCSVFile" returntype="any" output="false" access="public">
-	<cfargument name="queryToConvert" type="query" required="true">		
+	<cfargument name="queryToConvert" type="query" required="true">
+	<cfargument name="mode" type="string" required="no" default="create">
+	<cfargument name="timestamp" type="string" required="no">
+	<cfargument name="written" type="string" required="no">
 
 	<cfsetting requestTimeout="600">
 
-	<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHnnssl')#">
+	<cfif mode EQ "create">
+		<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHnnssl')#">
+		<cfset written = 0>
+	<cfelse>
+		<cfif not isDefined("timestamp") OR len(timestamp) EQ 0 OR not isDefined("written") OR len(written) EQ 0>
+			<cfthrow message="timestamp and written parameters are required if mode is other than create">
+		<cfelseif not REMatch("^[0-9]+$",timestamp)>
+			<cfthrow message="timestamp can only contain numbers">
+		</cfif>
+	</cfif>
 	<cfset filename ="download_#session.dbuser#_#timestamp#">
-	<cfset written = 0>
 	<cfset retval = StructNew()>
 
 	<!--- arrayToList on getColumnNames preserves order. --->
@@ -646,7 +657,9 @@ limitations under the License.
 
 	<!--- loop through query and append rows to file --->
 	<cftry>
-		<cffile action="write" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(header,','))#">
+		<cfif mode EQ "create">
+			<cffile action="write" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(header,','))#">
+		</cfif>
 		<cfloop query="queryToConvert">
 			<cfset row=[]>
 			<cfloop index="j" from="1" to="#columnCount#" step="1">
@@ -657,11 +670,13 @@ limitations under the License.
 		</cfloop>
 		<cfset retval.STATUS = "Success">
 		<cfset retval.WRITTEN = "#written#">
+		<cfset retval.TIMESTAMP= "#timestamp#">
 		<cfset retval.FILENAME = "/temp/#filename#.csv">
 		<cfset retval.MESSAGE = "Wrote #written# records into temporary file for download.">
 	<cfcatch>
 		// Failure case 
 		<cfset retval.WRITTEN = "#written#">
+		<cfset retval.TIMESTAMP= "#timestamp#">
 		<cfif written GT 0> 
 			<cfset retval.STATUS = "Incomplete">
 			<cfset retval.FILENAME = "/temp/#filename#.csv">

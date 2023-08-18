@@ -2688,22 +2688,29 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<cfset valid_columns[counter] = col>
 				</cfif>
 			</cfloop>
-			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-				SELECT 
-					<cfset comma = "">
-					<cfloop array="#valid_columns#" index="idx">
-						<cfif len(idx.sql_element) GT 0> 
-							#comma##replace(idx.sql_element,"''","'","all")# #idx.column_name#
-							<cfset comma = ",">
-						</cfif>
-					</cfloop>
-				FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-					join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+			<cfquery name="count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="count_result">
+				SELECT count(*) ct 
+				FROM
+					user_search_table
 				WHERE
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 	
-			<cfif search.recordcount LT DOWNLOAD_THRESHOLD>
+			<cfif count.ct LT DOWNLOAD_THRESHOLD>
+				<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+					SELECT 
+						<cfset comma = "">
+						<cfloop array="#valid_columns#" index="idx">
+							<cfif len(idx.sql_element) GT 0> 
+								#comma##replace(idx.sql_element,"''","'","all")# #idx.column_name#
+								<cfset comma = ",">
+							</cfif>
+						</cfloop>
+					FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+						join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+					WHERE
+						user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				</cfquery>
 				<cfset retval = queryToCSV(search)>
 				<cfset stream = true>
 			<cfelse>
@@ -2731,7 +2738,57 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					</cfquery>
 					<cftransaction action="commit">
 					</cftransaction>
-					<cfset retval = queryToCSVFile(search)>
+					<cfset pagesize = 10000>
+					<cfif count.ct LTE pagesize>
+						<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+							SELECT 
+								<cfset comma = "">
+								<cfloop array="#valid_columns#" index="idx">
+									<cfif len(idx.sql_element) GT 0> 
+										#comma##replace(idx.sql_element,"''","'","all")# #idx.column_name#
+										<cfset comma = ",">
+									</cfif>
+								</cfloop>
+							FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+								join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+							WHERE
+								user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						</cfquery>
+						<cfset retval = queryToCSVFile(queryToConvert=search)>
+					<cfelse> 
+						<cfset pagenumber = 1>
+						<cfset totalpages = ceiling(count.ct/pagesize)>
+						<cfloop>
+							<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+								SELECT * FROM (
+									SELECT qry.*, rownum foundrownum
+									FROM (
+										SELECT 
+										<cfset comma = "">
+										<cfloop array="#valid_columns#" index="idx">
+											<cfif len(idx.sql_element) GT 0> 
+												#comma##replace(idx.sql_element,"''","'","all")# #idx.column_name#
+												<cfset comma = ",">
+											</cfif>
+										</cfloop>
+										FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+											join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+										WHERE
+											user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+										ORDER BY
+											user_search_table.collection_object_id
+									) qry
+									WHERE rownum < < ((#pagenumber# * #pagesize#) + 1 )
+								) 
+								WHERE foundrownum >= (((#pagenumber#-1) * #pagesize#) + 1)
+							</cfquery>
+							<cfif pagenumber EQ 1>
+								<cfset retval = queryToCSVFile(queryToConvert=search)>
+							<cfelse>
+								<cfset retval = queryToCSVFile(queryToConvert=search,mode="append",timestamp=retval.TIMESTAMP,written=retval.WRITTEN)>
+							</cfif>
+						</cfloop>
+					</cfif>
 					<cfset stream = false>
 					<cfquery name="postDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="postDownload_result">
 						UPDATE cf_download_file 
