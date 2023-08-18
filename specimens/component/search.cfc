@@ -2759,9 +2759,10 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						</cfquery>
 						<cfset retval = queryToCSVFile(queryToConvert=search)>
 					<cfelse> 
-						<cfset pagenumber = 1>
+						<cfset pagenumber = 0>
 						<cfset totalpages = ceiling(count.ct/pagesize)>
 						<cfloop index="currentpage" from="1" to="#totalpages#">
+							<cfset pagenumber = pagenumber + 1 >
 							<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 								SELECT * FROM (
 									SELECT qry.*, rownum foundrownum
