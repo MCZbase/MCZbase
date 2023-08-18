@@ -2758,7 +2758,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<cfelse> 
 						<cfset pagenumber = 1>
 						<cfset totalpages = ceiling(count.ct/pagesize)>
-						<cfloop>
+						<cfloop index="currentpage" from="1" to=totalpages>
 							<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 								SELECT * FROM (
 									SELECT qry.*, rownum foundrownum
@@ -2787,6 +2787,18 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							<cfelse>
 								<cfset retval = queryToCSVFile(queryToConvert=search,mode="append",timestamp=retval.TIMESTAMP,written=retval.WRITTEN)>
 							</cfif>
+							<cfquery name="partialDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="partialDownload_result">
+								UPDATE cf_download_file 
+								SET 
+									status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="processed #pagenumber*pagesize# rows">,
+									filename = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.FILENAME#">,
+									message = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.MESSAGE#">
+								WHERE
+									token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#"> and
+									result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#"> and
+									download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
+							</cfquery>
 						</cfloop>
 					</cfif>
 					<cfset stream = false>
