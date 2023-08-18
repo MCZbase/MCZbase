@@ -3001,6 +3001,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<div class="col-12">
 						<button id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onClick="handleInternalDownloadClick('#result_id#');" >Request Download as CSV</button>
 						<output id="downloadFeedback"></output>
+						<output id="downloadResult"></output>
 					</div>
 				</div>
 			<cfcatch>
