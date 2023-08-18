@@ -2976,7 +2976,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<script>
 							function changeProfile() { 
 								var profile = $("##profile_picker").val();
-								$('##specimencsvdownloadbutton').attr("href", "/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id="+profile);
+								// $('##specimencsvdownloadbutton').attr("href", "/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id="+profile);
 							}
 							function handleInternalDownloadClick(result_id) {
 								var profile = $("##profile_picker").val();
