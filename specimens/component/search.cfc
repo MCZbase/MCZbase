@@ -2836,7 +2836,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 		<cfset i = 1>
 		<cfif getStatus.recordcount EQ 0>
 			<cfset row = StructNew()>
-			<cfset row["STATUS"] = "not started yet">
+			<cfset row["STATUS"] = "Starting">
 			<cfset data[i]  = row>
 		<cfelse>
 			<cfloop query="getStatus">
@@ -2924,7 +2924,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										} else if (retval[0].MODE=="file") { 
 											// request generation of file, and poll until it is created.
 											var token = retval[0].TOKEN;
-											$("##downloadFeedback").html("Preparing ("+rows+" records)..");
+											$("##downloadFeedback").html("Preparing ("+rows+" records).");
 											// actually request that the file be generated
 											jQuery.ajax({
 												url: "/specimens/component/search.cfc",
