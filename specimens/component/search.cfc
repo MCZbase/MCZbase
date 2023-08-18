@@ -2920,7 +2920,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										var rows = retval[0].RECORDCOUNT;
 										if (retval[0].MODE=="direct") { 
 											// just stream the results to the user
-											$("##downloadFeedback").html('<a id="specimencsvdownloadlink" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id='+profile+'" download="#filename#" onclick="$(\'##specimencsvdownloadlink\').attr(\'style\',\'color: purple !important;\');" target="_blank" >Download ('+rows+' records)</a>');
+											$("##downloadResult").html('<a id="specimencsvdownloadlink" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id='+profile+'" download="#filename#" onclick="$(\'##specimencsvdownloadlink\').attr(\'style\',\'color: purple !important;\');" target="_blank" >Download ('+rows+' records)</a>');
 										} else if (retval[0].MODE=="file") { 
 											// request generation of file, and poll until it is created.
 											var token = retval[0].TOKEN;
@@ -2938,30 +2938,44 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 												},
 												success: function(data) { 
 													console.log(data);
-													$("##downloadFeedback").html(data);
+													$("##downloadResult").html(data);
 												},
 												error: function (jqXHR, textStatus, error) {
 													handleFail(jqXHR,textStatus,error,"checking specimen download status");
 												}
 											});
 
-											// TODO: Poll for ready
-											jQuery.ajax({
-												url: "/specimens/component/search.cfc",
-												type: "post",
-												data: { 
-													method: "checkSpecimenDownload",
-													returnformat: "json",
-													token : token
-												},
-												success: function(data) { 
-													console.log(data);
-													$("##downloadFeedback").html("Preparing ("+rows+" records).... ("+JSON.parse(data)[0].STATUS+")");
-												},
-												error: function (jqXHR, textStatus, error) {
-													handleFail(jqXHR,textStatus,error,"checking specimen download status");
-												}
-											});
+											var done = false;
+											while (!done) { 
+												await new Promise(resolve => setTimeout(resolve, 2000));
+												jQuery.ajax({
+													url: "/specimens/component/search.cfc",
+													type: "post",
+													data: { 
+														method: "checkSpecimenDownload",
+														returnformat: "json",
+														token : token
+													},
+													success: function(data) { 
+														console.log(data);
+														var status = JSON.parse(data)[0].STATUS;
+														if (status=='Success' { 
+															$("##downloadFeedback").html(JSON.parse(data)[0].STATUS);
+															done = true;
+														} else { 
+															$("##downloadFeedback").html("Preparing ("+rows+" records).... ("+JSON.parse(data)[0].STATUS+")");
+															if (status=="Failed" || status=="Incomplete") { 
+																done = true;
+															}
+														} 
+													},
+													error: function (jqXHR, textStatus, error) {
+														done = true;
+														handleFail(jqXHR,textStatus,error,"checking specimen download status");
+													}
+												});
+												
+											} 
 										}
 									}, 
 									error: function (jqXHR, textStatus, error) {
@@ -3177,6 +3191,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							<!--- using target _blank to give user feedback on ongoing download.  Could monitor for a cookie, see for example https://www.bennadel.com/blog/2533-tracking-file-download-events-using-javascript-and-coldfusion.htm --->
 							<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id=#encodeForUrl(result_id)#" download="#filename#" target="_blank" onclick="handleDownloadClick();" >Download as CSV</a>
 							<output id="downloadFeedback"></output>
+							<output id="downloadResult"></output>
 						</div>
 					</div>
 				</form>
