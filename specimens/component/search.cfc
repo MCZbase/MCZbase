@@ -2628,9 +2628,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfargument name="download_profile_id" type="string" required="yes">
 	<cfargument name="token" type="string" required="no">
 
-	<cfsetting requestTimeout="600">
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-	<cfthread name="downloadThread#tn#">
+	<cfthread name="downloadThread#tn#" action="run" result_id="#result_id#" download_profile_id="#download_profile_id#" token="#token#">
 
 		<cfset retval = "">
 		<cfset stream = true>
@@ -3016,7 +3015,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 									await new Promise(resolve => setTimeout(resolve, 2000));
 									jQuery.ajax({
 										url: "/specimens/component/search.cfc",
-										type: "post",
+										type: "get",
 										data: { 
 											method: "checkSpecimenDownload",
 											returnformat: "json",
@@ -3043,11 +3042,11 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 									if ($("##downloadResult").html()=="Error") { done = true; }
 								} 
 							}
-							function callGetSpecimensAsCSVProfile(profile, result_id, token) { 
+							async function callGetSpecimensAsCSVProfile(profile, result_id, token) { 
 								console.log(token);
 								jQuery.ajax({
 									url: "/specimens/component/search.cfc",
-									type: "post",
+									type: "get",
 									data: { 
 										method: "getSpecimensAsCSVProfile",
 										returnformat: "json",
