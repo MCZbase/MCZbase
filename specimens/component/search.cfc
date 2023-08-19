@@ -2779,7 +2779,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										WHERE
 											user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 										ORDER BY
-											user_search_table.collection_object_id
+											flatTableName.collection_object_id
 									) qry
 									WHERE rownum < ((#pagenumber# * #pagesize#) + 1 )
 								) 
