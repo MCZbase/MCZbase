@@ -3001,30 +3001,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 											var token = retval[0].TOKEN;
 											$("##downloadFeedback").html("Preparing ("+rows+" records).");
 											// actually request that the file be generated
-											jQuery.ajax({
-												url: "/specimens/component/search.cfc",
-												type: "post",
-												data: { 
-													method: "getSpecimensAsCSVProfile",
-													returnformat: "json",
-													download_profile_id : profile,
-													result_id: result_id,
-													token : token
-												},
-												success: function(data) { 
-													console.log(data);
-													var parsed = JSON.parse(data.replaceAll('"','').trim().replaceAll("'",'"'))[0];
-													var filename = parsed.FILENAME;
-													var path = parsed.PATH;
-													var message = parsed.MESSAGE;
-													var html = '<a id="specimencsvdownloadlink" arial-label="download results file" download="'+filename+'" target="_blank" href="'+path+'">'+message+'</a>';
-													$("##downloadResult").html(html);
-												},
-												error: function (jqXHR, textStatus, error) {
-													handleFail(jqXHR,textStatus,error,"checking specimen download status");
-													$("##downloadResult").html("Error");
-												}
-											});
+											callGetSpecimensAsCSVProfile(profile, result_id, token);
 											checkStatus(token,rows);
 										}
 									}, 
@@ -3065,6 +3042,33 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 									});
 									if ($("##downloadResult").html()=="Error") { done = true; }
 								} 
+							}
+							function callGetSpecimensAsCSVProfile(profile, result_id, token) { 
+								console.log(token);
+								jQuery.ajax({
+									url: "/specimens/component/search.cfc",
+									type: "post",
+									data: { 
+										method: "getSpecimensAsCSVProfile",
+										returnformat: "json",
+										download_profile_id : profile,
+										result_id: result_id,
+										token : token
+									},
+									success: function(data) { 
+										console.log(data);
+										var parsed = JSON.parse(data.replaceAll('"','').trim().replaceAll("'",'"'))[0];
+										var filename = parsed.FILENAME;
+										var path = parsed.PATH;
+										var message = parsed.MESSAGE;
+										var html = '<a id="specimencsvdownloadlink" arial-label="download results file" download="'+filename+'" target="_blank" href="'+path+'">'+message+'</a>';
+										$("##downloadResult").html(html);
+									},
+									error: function (jqXHR, textStatus, error) {
+										handleFail(jqXHR,textStatus,error,"checking specimen download status");
+										$("##downloadResult").html("Error");
+									}
+								});
 							}
 						</script>
 						<label class="data-entry-label" for="profile_picker">Pick profile for which fields to include in the download</label>
