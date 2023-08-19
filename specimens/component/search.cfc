@@ -2900,7 +2900,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 
 	<cftry>
 		<cfquery name="getStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCount_result">
-			SELECT status
+			SELECT status, result_id, filename, message
 			FROM cf_download_file 
 			WHERE
 				token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#">
@@ -2919,6 +2919,9 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cfloop query="getStatus">
 				<cfset row = StructNew()>
 				<cfset row["STATUS"] = "#getStatus.status#">
+				<cfset row["FILENAME"] = "mcz_specimen_result_download_#getStatus.result_id#">
+				<cfset row["PATH"] = "#getStatus.filename#">
+				<cfset row["MESSAGE"] = "#getStatus.message#">
 				<cfset data[i]  = row>
 				<cfset i = i + 1>
 			</cfloop>
@@ -3023,10 +3026,16 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										},
 										success: function(data) { 
 											console.log(data);
-											var status = JSON.parse(data)[0].STATUS;
+											var parsed = JSON.parse(data)[0];
+											var status = parsed.STATUS;
 											if (status=='Success') { 
-												$("##downloadFeedback").html(JSON.parse(data)[0].STATUS);
+												$("##downloadFeedback").html(parsed.STATUS);
 												done = true;
+												var filename = parsed.FILENAME;
+												var path = parsed.PATH;
+												var message = parsed.MESSAGE;
+												var html = '<a id="specimencsvdownloadlink" arial-label="download results file" download="'+filename+'" target="_blank" href="'+path+'">'+message+'</a>';
+												$("##downloadResult").html(html);
 											} else { 
 												$("##downloadFeedback").html("Preparing ("+rows+" records).... ("+JSON.parse(data)[0].STATUS+")");
 												if (status=="Failed" || status=="Incomplete") { 
