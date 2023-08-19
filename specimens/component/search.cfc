@@ -2821,32 +2821,32 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<cfthrow message="Problem creating download.  Token [#token#] exists, [#checkToken.ct#] matches found.">
 				</cfif>
 			</cfif>
+			<cfif stream>
+				<cfheader name="Content-Type" value="text/csv">
+				<cfoutput>#retval#</cfoutput>
+			<cfelse>
+				<cftry>
+					<cfif retval.STATUS EQ "Failed">
+						<cfoutput>#retval.STATUS#: #retval.MESSAGE#</cfoutput>
+					<cfelse>
+						<cfoutput>[{'FILENAME':'mcz_specimen_result_download_#result_id#.csv','PATH':'#retval.filename#','MESSAGE':'#retval.MESSAGE#'}]</cfoutput>
+					</cfif>
+				<cfcatch>
+					<cfoutput>
+						<cfdump var="#cfcatch#">
+					</cfoutput>
+				</cfcatch>
+				</cftry>
+			</cfif>
+
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-			<cfabort>
+			<cfoutput>Error in #function_called#: #error_message#</cfoutput>
 		</cfcatch>
 		</cftry>
 	
-		<cfif stream>
-			<cfheader name="Content-Type" value="text/csv">
-			<cfoutput>#retval#</cfoutput>
-		<cfelse>
-			<cftry>
-				<cfif retval.STATUS EQ "Failed">
-					<cfoutput>#retval.STATUS#: #retval.MESSAGE#</cfoutput>
-				<cfelse>
-					<cfoutput>[{'FILENAME':'mcz_specimen_result_download_#result_id#.csv','PATH':'#retval.filename#','MESSAGE':'#retval.MESSAGE#'}]</cfoutput>
-				</cfif>
-			<cfcatch>
-				<cfoutput>
-					<cfdump var="#cfcatch#">
-				</cfoutput>
-			</cfcatch>
-			</cftry>
-		</cfif>
 	</cfthread>
 	<cfthread action="join" name="downloadThread#tn#" />
 	<cfreturn cfthread["downloadThread#tn#"].output>
