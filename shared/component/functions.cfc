@@ -647,27 +647,46 @@ limitations under the License.
 	
 		<!--- arrayToList on getColumnNames preserves order. --->
 		<cfset columnNamesList = arrayToList(queryToConvert.getColumnNames()) >
+		<cfset columnNamesAlpha = queryToConvert.columnList>
 		<cfset columnNamesArray = queryToConvert.getColumnNames() >
 		<cfset columnCount = ArrayLen(columnNamesArray) >
 	
+		<cfset columnMap = ArrayNew(1)>
+		<cfset ArraySet(columnMap,1,columnCount,0)>
 		<!--- header line --->
 		<cfset header=[]>
 		<cfloop index="i" from="1" to="#columnCount#" step="1">
 			<cfset header[i] = """#ucase(columnNamesArray[i])#""" >
+			<!--- Find order of columns in query, to be referenced in cfloop query=queryToConvert with queryToConvert[columnMap[j]][queryToConvert.currentRow] --->
+			<cfset columnMap[i] = ListContains(columnNamesAlpha,columnNamesArray[i])>
 		</cfloop>
 	
 		<!--- loop through query and append rows to file --->
 		<cfif mode EQ "create">
 			<cffile action="write" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(header,','))#">
 		</cfif>
+		<cfset buffer = CreateObject("java","java.lang.StringBuffer").Init()>
+		<cfset stepsToWrite = 100>
+		<cfset counter = 0>
 		<cfloop query="queryToConvert">
+			<cfset counter = counter + 1>
 			<cfset row=[]>
 			<cfloop index="j" from="1" to="#columnCount#" step="1">
-				<cfset row[j] = '"' & replace(evaluate(columnNamesArray[j]),'"','""','all') & '"' >
+				<!--- TODO: Move replace into query --->
+				<cfset row[j] = '"' & replace(queryToConvert[columnMap[j]][queryToConvert.currentRow],'"','""','all') & '"' >
 			</cfloop>
-			<cffile action="append" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(row,','))#">
-			<cfset written = written + 1>
+			<cfset buffer.Append(JavaCast('string',ArrayToList(row,',')))>
+			<cfif counter EQ stepsToWrite>
+				<cffile action="append" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#buffer.toString()#">
+				<cfset written = written + counter>
+				<cfset counter = 0>
+				<cfset buffer.setLength(0)>
+			</cfif>
 		</cfloop>
+		<cfif counter NEQ stepsToWrite>
+			<cffile action="append" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#buffer.toString()#">
+			<cfset written = written + counter>
+		</cfif>
 		<cfset retval.STATUS = "Success">
 		<cfset retval.WRITTEN = "#written#">
 		<cfset retval.TIMESTAMP= "#timestamp#">
