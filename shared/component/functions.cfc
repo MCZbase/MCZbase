@@ -676,15 +676,16 @@ limitations under the License.
 				<cfset row[j] = '"' & replace(queryToConvert["#columnNamesArray[j]#"][queryToConvert.currentRow],'"','""','all') & '"' >
 			</cfloop>
 			<cfset buffer.Append(JavaCast('string',ArrayToList(row,',')))>
+			<cfset buffer.Append(Chr(10))>
 			<cfif counter EQ stepsToWrite>
-				<cffile action="append" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#buffer.toString()#">
+				<cffile action="append" file="#application.webDirectory#/temp/#filename#.csv" addnewline="no" output="#buffer.toString()#">
 				<cfset written = written + counter>
 				<cfset counter = 0>
 				<cfset buffer.setLength(0)>
 			</cfif>
 		</cfloop>
 		<cfif counter NEQ stepsToWrite>
-			<cffile action="append" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#buffer.toString()#">
+			<cffile action="append" file="#application.webDirectory#/temp/#filename#.csv" addnewline="no" output="#buffer.toString()#">
 			<cfset written = written + counter>
 		</cfif>
 		<cfset retval.STATUS = "Success">
