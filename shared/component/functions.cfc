@@ -673,7 +673,7 @@ limitations under the License.
 			<cfset row=[]>
 			<cfloop index="j" from="1" to="#columnCount#" step="1">
 				<!--- TODO: Move replace into query --->
-				<cfset row[j] = '"' & replace(queryToConvert[columnMap[j]][queryToConvert.currentRow],'"','""','all') & '"' >
+				<cfset row[j] = '"' & replace(queryToConvert["#columnNamesArray[j]#"][queryToConvert.currentRow],'"','""','all') & '"' >
 			</cfloop>
 			<cfset buffer.Append(JavaCast('string',ArrayToList(row,',')))>
 			<cfif counter EQ stepsToWrite>
@@ -694,6 +694,7 @@ limitations under the License.
 		<cfset retval.MESSAGE = "Wrote #written# records into temporary file for download.">
 	<cfcatch>
 		// Failure case 
+		<cflog text="#cfcatch.message#" file="MCZbase">
 		<cfset retval.WRITTEN = "#written#">
 		<cfset retval.TIMESTAMP= "#timestamp#">
 		<cfif written GT 0> 
