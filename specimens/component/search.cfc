@@ -2770,7 +2770,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										<cfset comma = "">
 										<cfloop array="#valid_columns#" index="idx">
 											<cfif len(idx.sql_element) GT 0> 
-												#comma#replace(#replace(idx.sql_element,"''","'","all")#,'"','""') #idx.column_name#
+												#comma##replace(idx.sql_element,"''","'","all")# #idx.column_name#
 												<cfset comma = ",">
 											</cfif>
 										</cfloop>
@@ -2779,7 +2779,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										WHERE
 											user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 										ORDER BY
-											flatTableName.collection_object_id
+											user_search_table.collection_object_id
 									) qry
 									WHERE rownum < ((#pagenumber# * #pagesize#) + 1 )
 								) 

@@ -669,7 +669,7 @@ limitations under the License.
 			<cfset counter = counter + 1>
 			<cfset row=[]>
 			<cfloop index="j" from="1" to="#columnCount#" step="1">
-				<cfset row[j] = '"' & queryToConvert["#columnNamesArray[j]#"][queryToConvert.currentRow] & '"' >
+				<cfset row[j] = '"' & replace(queryToConvert["#columnNamesArray[j]#"][queryToConvert.currentRow],'"','""','all') & '"' >
 			</cfloop>
 			<cfset buffer.Append(JavaCast('string',ArrayToList(row,',')))>
 			<cfset buffer.Append(Chr(10))>
