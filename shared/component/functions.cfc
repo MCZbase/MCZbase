@@ -632,6 +632,8 @@ limitations under the License.
 	<cfsetting requestTimeout="600">
 
 	<cftry>
+		<!--- remove the column added to order the query results for paging ---->
+		<cfset queryToConvert = QueryDeleteColumn(queryToConvert,"FOUNDROWNUM")>
 		<cfif mode EQ "create">
 			<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHnnssl')#">
 			<cfset written = 0>
@@ -666,7 +668,7 @@ limitations under the License.
 			<cffile action="write" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(header,','))#">
 		</cfif>
 		<cfset buffer = CreateObject("java","java.lang.StringBuffer").Init()>
-		<cfset stepsToWrite = 100>
+		<cfset stepsToWrite = 1000>
 		<cfset counter = 0>
 		<cfloop query="queryToConvert">
 			<cfset counter = counter + 1>
