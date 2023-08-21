@@ -649,18 +649,13 @@ limitations under the License.
 	
 		<!--- arrayToList on getColumnNames preserves order. --->
 		<cfset columnNamesList = arrayToList(queryToConvert.getColumnNames()) >
-		<cfset columnNamesAlpha = queryToConvert.columnList>
 		<cfset columnNamesArray = queryToConvert.getColumnNames() >
 		<cfset columnCount = ArrayLen(columnNamesArray) >
 	
-		<cfset columnMap = ArrayNew(1)>
-		<cfset ArraySet(columnMap,1,columnCount,0)>
 		<!--- header line --->
 		<cfset header=[]>
 		<cfloop index="i" from="1" to="#columnCount#" step="1">
 			<cfset header[i] = """#ucase(columnNamesArray[i])#""" >
-			<!--- Find order of columns in query, to be referenced in cfloop query=queryToConvert with queryToConvert[columnMap[j]][queryToConvert.currentRow] --->
-			<cfset columnMap[i] = ListContains(columnNamesAlpha,columnNamesArray[i])>
 		</cfloop>
 	
 		<!--- loop through query and append rows to file --->
@@ -674,8 +669,7 @@ limitations under the License.
 			<cfset counter = counter + 1>
 			<cfset row=[]>
 			<cfloop index="j" from="1" to="#columnCount#" step="1">
-				<!--- TODO: Move replace into query --->
-				<cfset row[j] = '"' & replace(queryToConvert["#columnNamesArray[j]#"][queryToConvert.currentRow],'"','""','all') & '"' >
+				<cfset row[j] = '"' & queryToConvert["#columnNamesArray[j]#"][queryToConvert.currentRow] & '"' >
 			</cfloop>
 			<cfset buffer.Append(JavaCast('string',ArrayToList(row,',')))>
 			<cfset buffer.Append(Chr(10))>
