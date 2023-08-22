@@ -51,7 +51,7 @@
 			SET status = 'Deleted'
 		WHERE
 			token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getFileList.token#"> and
-			result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getFileList.filename#"> 
+			filename = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getFileList.filename#"> 
 	</cfquery>
 </cfloop>
 <cfquery name="markFailed" datasource="uam_god">
