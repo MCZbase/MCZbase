@@ -32,6 +32,7 @@
 	WHERE
 		time_created < current_timestamp - 1
 		and status <> 'Deleted'
+		and filename like '/temp/%'
 </cfquery>
 <cfloop query="getFileList">
 	<cffile action="DELETE" file="#Application.webDirectory#/#getFileList.filename#">
@@ -43,6 +44,14 @@
 			result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getFileList.filename#"> 
 	</cfquery>
 </cfloop>
+<cfquery name="markFailed" datasource="uam_god">
+	UPDATE cf_download_file 
+		SET status = 'Failed'
+	WHERE
+		time_created < current_timestamp - 1
+		and status = 'started'
+		and filename IS NULL
+</cfquery>
 
 <!---- other temp files more than 3 days old ---->
 <CFDIRECTORY ACTION="List" DIRECTORY="#Application.webDirectory#/temp" NAME="dir_listing"> 
