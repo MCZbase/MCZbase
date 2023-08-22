@@ -40,7 +40,7 @@
 	<cfcatch>
 		<cfif FindNoCase("specified in action delete does not exist.",cfcatch.message)>
 			<cfset calling_file = "#ListLast(GetCurrentTemplatePath(),'\')#">
-			<cflog text="#calling_file# attempting to remove already deleted file">
+			<cflog text="#calling_file# attempting to remove already deleted file" file="MCZbase">
 		<cfelse>
 			<cfrethrow>
 		</cfif>
