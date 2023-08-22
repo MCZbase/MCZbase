@@ -30,7 +30,7 @@
 <cfquery name="getFileList" datasource="uam_god">
 	SELECT filename, token from cf_download_file 
 	WHERE
-		timestamp < NOW() - 1
+		time_created < current_timestamp - 1
 		and status <> 'Deleted'
 </cfquery>
 <cfloop query="getFileList">
