@@ -31,7 +31,7 @@ limitations under the License.
 <cfinclude template="/metrics/component/functions.cfc">
 	
 	<!--- see documentation for getCollObjectActivity() --->
-	<cfset activityJSON= getCollObjectActivity(start_date="2022-01-0-",end_date="2022-12-31",group_by_collection="true")>
+	<cfset activityJSON= getCollObjectActivity(start_date="2022-01-0-",end_date="31-Dec-22",group_by_collection="true")>
 	<div id="activityBlock">
 		<!--- TODO: getCollObjectActivity returns json, parse for display, see documentation --->
 		#activityJSON#
