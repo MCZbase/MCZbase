@@ -26,7 +26,25 @@
 	 </cfif> 
 </cfloop> 
 </cfoutput>
+<!---- large specimen downloads more than 1 day old, remove files and update records ---->
+<cfquery name="getFileList" datasource="uam_god">
+	SELECT filename, token from cf_download_file 
+	WHERE
+		timestamp < NOW() - 1
+		and status <> "Deleted"
+</cfquery>
+<cfloop query="getFileList">
+	<cffile action="DELETE" file="#Application.webDirectory#/#getFileList.filename#">
+	<cfquery name="markRemoved" datasource="uam_god">
+		UPDATE cf_download_file 
+			SET status = "Deleted"
+		WHERE
+			token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getFileList.token#"> and
+			result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getFileList.filename#"> 
+	</cfquery>
+</cfloop>
 
+<!---- other temp files more than 3 days old ---->
 <CFDIRECTORY ACTION="List" DIRECTORY="#Application.webDirectory#/temp" NAME="dir_listing"> 
 <cfloop query="dir_listing">
 	<cfif dateCompare(dateAdd("d",3,datelastmodified),now()) LTE 0 and left(name,1) neq "."
