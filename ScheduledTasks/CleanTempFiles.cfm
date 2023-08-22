@@ -35,7 +35,17 @@
 		and filename like '/temp/%'
 </cfquery>
 <cfloop query="getFileList">
-	<cffile action="DELETE" file="#Application.webDirectory#/#getFileList.filename#">
+	<cftry>
+		<cffile action="DELETE" file="#Application.webDirectory#/#getFileList.filename#">
+	<cfcatch>
+		<cfif FindNoCase("specified in action delete does not exist.",cfcatch.message)>
+			<cfset calling_file = "#ListLast(GetCurrentTemplatePath(),'\')#">
+			<cflog text="#calling_file# attempting to remove already deleted file">
+		<cfelse>
+			<cfrethrow>
+		</cfif>
+	</cfcatch>
+	</cftry>
 	<cfquery name="markRemoved" datasource="uam_god">
 		UPDATE cf_download_file 
 			SET status = 'Deleted'
