@@ -31,13 +31,13 @@
 	SELECT filename, token from cf_download_file 
 	WHERE
 		timestamp < NOW() - 1
-		and status <> "Deleted"
+		and status <> 'Deleted'
 </cfquery>
 <cfloop query="getFileList">
 	<cffile action="DELETE" file="#Application.webDirectory#/#getFileList.filename#">
 	<cfquery name="markRemoved" datasource="uam_god">
 		UPDATE cf_download_file 
-			SET status = "Deleted"
+			SET status = 'Deleted'
 		WHERE
 			token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getFileList.token#"> and
 			result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getFileList.filename#"> 
