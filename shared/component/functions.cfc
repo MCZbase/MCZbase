@@ -641,6 +641,16 @@ limitations under the License.
 	<cfargument name="written" type="string" required="no">
 
 	<cfsetting requestTimeout="600">
+	<cfset controlChars = "\p{cntrl}">
+	<cftry>
+		<cfset engineCheck = refind("[[:digit:]]","1")>
+		<cfif engineCheck EQ 1>
+			<cfset controlChars = "[[:cntrl:]]">
+		</cfif>
+	<cfcatch>
+		<!--- not the default perl regex engine --->
+	</cfcatch>
+	</cftry>		
 
 	<cftry>
 		<!--- remove the column added to order the query results for paging ---->
@@ -680,7 +690,7 @@ limitations under the License.
 			<cfset counter = counter + 1>
 			<cfset row=[]>
 			<cfloop index="j" from="1" to="#columnCount#" step="1">
-				<cfset row[j] = '"' & replace(queryToConvert["#columnNamesArray[j]#"][queryToConvert.currentRow],'"','""','all') & '"' >
+				<cfset row[j] = '"' & rereplace(replace(queryToConvert["#columnNamesArray[j]#"][queryToConvert.currentRow],'"','""','all'),controlChars,"") & '"' >
 			</cfloop>
 			<cfset buffer.Append(JavaCast('string',ArrayToList(row,',')))>
 			<cfset buffer.Append(Chr(10))>
