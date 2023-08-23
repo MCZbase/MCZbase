@@ -2628,9 +2628,12 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfargument name="download_profile_id" type="string" required="yes">
 	<cfargument name="token" type="string" required="no">
 
+	<cflog text="getSpecimensAsCSVProfile started" file="MCZbase">
+
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="downloadThread#tn#" action="run" result_id="#result_id#" download_profile_id="#download_profile_id#" token="#token#">
 
+		<cflog text="getSpecimensAsCSVProfile executing downloadThread#tn#" file="MCZbase">
 		<cfset retval = "">
 		<cfset stream = true>
 		<cftry>
@@ -2742,6 +2745,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					</cftransaction>
 					<cfset pagesize = 10000>
 					<cfif count.ct LTE pagesize>
+						<cflog text="before search query count.ct=[#count.ct#]" file="MCZbase">
 						<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 							SELECT 
 								<cfset comma = "">
@@ -2756,12 +2760,15 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							WHERE
 								user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 						</cfquery>
+						<cflog text="after search query" file="MCZbase">
 						<cfset retval = queryToCSVFile(queryToConvert=search)>
+						<cflog text="after queryToCSVFile" file="MCZbase">
 					<cfelse> 
 						<cfset pagenumber = 0>
 						<cfset totalpages = ceiling(count.ct/pagesize)>
 						<cfloop index="currentpage" from="1" to="#totalpages#">
 							<cfset pagenumber = pagenumber + 1 >
+							<cflog text="before search query count.ct=[#count.ct#] pagenumber=[#pagenumber#]" file="MCZbase">
 							<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 								SELECT * FROM (
 									SELECT qry.*, rownum foundrownum
@@ -2785,10 +2792,15 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 								) 
 								WHERE foundrownum >= (((#pagenumber#-1) * #pagesize#) + 1)
 							</cfquery>
+							<cflog text="after search query" file="MCZbase">
 							<cfif pagenumber EQ 1>
+								<cflog text="beforeQueryToCSVFile" file="MCZbase">
 								<cfset retval = queryToCSVFile(queryToConvert=search)>
+								<cflog text="after QueryToCSVFile" file="MCZbase">
 							<cfelse>
+								<cflog text="beforeQueryToCSVFile(mode=append)" file="MCZbase">
 								<cfset retval = queryToCSVFile(queryToConvert=search,mode="append",timestamp=retval.TIMESTAMP,written=retval.WRITTEN)>
+								<cflog text="afterQueryToCSVFile(mode=append)" file="MCZbase">
 							</cfif>
 							<cfquery name="partialDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="partialDownload_result">
 								UPDATE cf_download_file 
@@ -2818,6 +2830,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
 					</cfquery>
 				<cfelse>
+					<cflog text="Token exists [#checkToken.ct#] matches in downloadThread#tn#" file="MCZbase">
 					<cfthrow message="Problem creating download.  Token [#token#] exists, [#checkToken.ct#] matches found.">
 				</cfif>
 			</cfif>
@@ -2838,7 +2851,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				</cfcatch>
 				</cftry>
 			</cfif>
-
+			<cflog text="normal end of downloadThread#tn#" file="MCZbase">
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
@@ -2849,6 +2862,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	
 	</cfthread>
 	<cfthread action="join" name="downloadThread#tn#" />
+	<cflog text="getSpecimensAsCSVProfile completed downloadThread#tn#" file="MCZbase">
 	<cfreturn cfthread["downloadThread#tn#"].output>
 </cffunction>
 
