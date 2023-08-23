@@ -584,6 +584,16 @@ limitations under the License.
 --->
 <cffunction name="queryToCSV" returntype="string" output="false" access="public">
 	<cfargument name="queryToConvert" type="query" required="true">
+
+	<cfset controlChars = "\p{cntrl}">
+	<cftry>
+		<cfset engineCheck = refind("[[:digit:]]","1")>
+		<cfif engineCheck EQ 1>
+			<cfset controlChars = "[[:cntrl:]]">
+		</cfif>
+	<cfcatch>
+		<!--- not the default perl regex engine --->
+	</cfcatch>
 		
 	<!--- arrayToList on getColumnNames preserves order. --->
 	<cfset columnNamesList = arrayToList(queryToConvert.getColumnNames()) >
@@ -604,7 +614,7 @@ limitations under the License.
 	<cfloop query="queryToConvert">
 		<cfset row=[]>
 		<cfloop index="j" from="1" to="#columnCount#" step="1">
-			<cfset row[j] = '"' & replace(evaluate(columnNamesArray[j]),'"','""','all') & '"' >
+			<cfset row[j] = '"' & rereplace(replace(evaluate(columnNamesArray[j]),'"','""','all'),controlChars,"","all") & '"' >
 		</cfloop>
 		<cfset outputBuffer.append( JavaCast('string',(ArrayToList(row,","))))>
 		<cfset outputBuffer.append(newLine) >
