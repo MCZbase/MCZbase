@@ -14,40 +14,39 @@
 <!--------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="entryPoint">
-
-	<cfoutput>
-		<section class="row" aria-labelledby="formheading">
-			<div class="col-12 pt-4">
-				<h1 class="h3 px-1" id="formheading" >
-					Change Encumbrance the (#getItems.recordcount#) cataloged items listed below:
-				</h1>
-				<form name="changeEncumbrance" method="post" action="/specimens/changeQueryEncumbrance.cfm">
-					<input type="hidden" name="result_id" value="#result_id#">
-					<div class="form-row mb-2">
-						<div class="col-12 pb-2">
-							<label for="encumbrance" class="data-entry-label">Add these specimens to/Remove these specimens from the Encumbrance.</label>
-							<input type="text" id="encumbrance" name="encumbrance" value="" required class="data-entry-input redqClr">
-							<input type="hidden" id="encumbrance_id" name="encumbrance_id" value="">
-<!--- TODO: Encumbrance picker --->
-							<script>
-							</script>
-						</div>
-						<div class="col-12 pb-2">
-							<label for="action" class="data-entry-label">Add these specimens to/Remove these specimens from the Encumbrance.</label>
-							<select id="action" name="action" required class="data-entry-select reqdClr">
-								<option selected value="addItems">Add</option>
-								<option selected value="removeItems">Remove</option>
-							</select>
-						</div>
-						<div class="col-12 col-md-4 col-lg-4 mb-2 mb-md-0">
-							<div class="data-entry-label">&nbsp;</div>
-							<input type="submit" id="s_btn" value="Change" class="btn btn-xs btn-warning">
-						</div>
-					</div>
-				</form>
-			</div>
-		</section>
 		<cfoutput>
+			<section class="row" aria-labelledby="formheading">
+				<div class="col-12 pt-4">
+					<h1 class="h3 px-1" id="formheading" >
+						Change Encumbrance the (#getItems.recordcount#) cataloged items listed below:
+					</h1>
+					<form name="changeEncumbrance" method="post" action="/specimens/changeQueryEncumbrance.cfm">
+						<input type="hidden" name="result_id" value="#result_id#">
+						<div class="form-row mb-2">
+							<div class="col-12 pb-2">
+								<label for="encumbrance" class="data-entry-label">Add these specimens to/Remove these specimens from the Encumbrance.</label>
+								<input type="text" id="encumbrance" name="encumbrance" value="" required class="data-entry-input redqClr">
+								<input type="hidden" id="encumbrance_id" name="encumbrance_id" value="">
+	<!--- TODO: Encumbrance picker --->
+								<script>
+								</script>
+							</div>
+							<div class="col-12 pb-2">
+								<label for="action" class="data-entry-label">Add these specimens to/Remove these specimens from the Encumbrance.</label>
+								<select id="action" name="action" required class="data-entry-select reqdClr">
+									<option selected value="addItems">Add</option>
+									<option selected value="removeItems">Remove</option>
+								</select>
+							</div>
+							<div class="col-12 col-md-4 col-lg-4 mb-2 mb-md-0">
+								<div class="data-entry-label">&nbsp;</div>
+								<input type="submit" id="s_btn" value="Change" class="btn btn-xs btn-warning">
+							</div>
+						</div>
+					</form>
+				</div>
+			</section>
+		</cfoutput>
 	</cfcase>
 	<!--------------------------------------------------------------------------------->
 	<cfcase value="addItems">
