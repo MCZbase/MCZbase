@@ -2628,7 +2628,11 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfargument name="download_profile_id" type="string" required="yes">
 	<cfargument name="token" type="string" required="no">
 
-	<cflog text="getSpecimensAsCSVProfile started token=#token#" file="MCZbase">
+	<cfif isDefined("token")>
+		<cflog text="getSpecimensAsCSVProfile started token=#token#" file="MCZbase">
+	<cfelse>
+		<cflog text="getSpecimensAsCSVProfile started with no token" file="MCZbase">
+	</cfif>
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="downloadThread#tn#" action="run" result_id="#result_id#" download_profile_id="#download_profile_id#" token="#token#">
