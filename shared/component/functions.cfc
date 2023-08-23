@@ -594,7 +594,8 @@ limitations under the License.
 	<cfcatch>
 		<!--- not the default perl regex engine --->
 	</cfcatch>
-		
+	</cftry>		
+
 	<!--- arrayToList on getColumnNames preserves order. --->
 	<cfset columnNamesList = arrayToList(queryToConvert.getColumnNames()) >
 	<cfset columnNamesArray = queryToConvert.getColumnNames() >
