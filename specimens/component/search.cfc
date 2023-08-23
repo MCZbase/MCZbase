@@ -2628,7 +2628,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfargument name="download_profile_id" type="string" required="yes">
 	<cfargument name="token" type="string" required="no">
 
-	<cflog text="getSpecimensAsCSVProfile started" file="MCZbase">
+	<cflog text="getSpecimensAsCSVProfile started token=#token#" file="MCZbase">
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="downloadThread#tn#" action="run" result_id="#result_id#" download_profile_id="#download_profile_id#" token="#token#">
@@ -2717,6 +2717,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<cfset stream = true>
 			<cfelse>
 				<cftransaction isolation="serializable">
+				<cflog text="checking token #token# in cf_download_file" file="MCZbase">
 				<cfquery name="checkToken" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preDownload_result">
 					SELECT count(*) ct 
 					FROM cf_download_file 
@@ -2725,6 +2726,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<cftransaction action="commit">
 				</cftransaction>
 				<cfif checkToken.ct EQ 0>
+					<cflog text="adding token #token# to cf_download_file" file="MCZbase">
 					<cftransaction isolation="serializable">
 					<cfquery name="preDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preDownload_result">
 						INSERT into cf_download_file (
