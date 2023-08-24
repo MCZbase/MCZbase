@@ -15,10 +15,26 @@
 <cfswitch expression="#action#">
 	<cfcase value="entryPoint">
 		<cfoutput>
+			<cfquery name="countItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countItems_result">
+				SELECT count(*) ct 
+				FROM
+					cataloged_item
+					join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+					join locality on collecting_event.locality_id = locality.locality_id 
+					join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
+					join collection on cataloged_item.collection_id = collection.collection_id 
+				WHERE 
+					cataloged_item.collection_object_id IN 
+						(
+							select collection_object_id from user_search_table 
+							where 
+								result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						) 
+			</cfquery>
 			<section class="row" aria-labelledby="formheading">
 				<div class="col-12 pt-4">
 					<h1 class="h3 px-1" id="formheading" >
-						Change Encumbrance the (#getItems.recordcount#) cataloged items listed below:
+						Change Encumbrance the (#countItems.ct#) cataloged items listed below:
 					</h1>
 					<form name="changeEncumbrance" method="post" action="/specimens/changeQueryEncumbrance.cfm">
 						<input type="hidden" name="result_id" value="#result_id#">
@@ -27,7 +43,6 @@
 								<label for="encumbrance" class="data-entry-label">Add these specimens to/Remove these specimens from the Encumbrance.</label>
 								<input type="text" id="encumbrance" name="encumbrance" value="" required class="data-entry-input redqClr">
 								<input type="hidden" id="encumbrance_id" name="encumbrance_id" value="">
-	<!--- TODO: Encumbrance picker --->
 								<script>
 									$(document).ready(function() { 
 										makeEncumbranceAutocompleteMeta('encumbrance', 'encumbrance_id');
@@ -252,25 +267,23 @@
 									</cfquery>
 									<cfset e=1>
 									<cfloop query="encs">
-									
-									<cfif len(#encumbrance#) gt 0>
-										#encumbrance# (#encumbrance_action#) 
-										by #encumbering_agent# made 
-										#dateformat(encumbered_date,"yyyy-mm-dd")#, 
-										expires #dateformat(expiration_date,"yyyy-mm-dd")# 
-										#expiration_event# #remarks#<br>
-										<form name="nothing#e#">
-											<input type="button" 
-												value="Remove This Encumbrance" 
-												class="delBtn"
-												onmouseover="this.className='delBtn btnhov'"
-												onmouseout="this.className='delBtn'"
-												onClick="deleteEncumbrance(#encumbrance_id#,#encs.collection_object_id#);">
-						
-										</form>
-									<cfelse>
-										None
-									</cfif> 
+										<cfif len(#encumbrance#) gt 0>
+											#encumbrance# (#encumbrance_action#) 
+											by #encumbering_agent# made 
+											#dateformat(encumbered_date,"yyyy-mm-dd")#, 
+											expires #dateformat(expiration_date,"yyyy-mm-dd")# 
+											#expiration_event# #remarks#<br>
+											<form name="nothing#e#">
+												<input type="button" 
+													value="Remove This Encumbrance" 
+													class="delBtn"
+													onmouseover="this.className='delBtn btnhov'"
+													onmouseout="this.className='delBtn'"
+													onClick="deleteEncumbrance(#encumbrance_id#,#encs.collection_object_id#);">
+											</form>
+										<cfelse>
+											None
+										</cfif> 
 										<cfset e=#e#+1>
 									</cfloop>
 								</td>
