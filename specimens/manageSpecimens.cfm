@@ -84,7 +84,7 @@ limitations under the License.
 									</li>
 								</cfif>
 								<li class="nav-item mb-1">
-									<a href="/specimens/changeQueryEncumbrances.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Encumbrances</a>
+									<a href="/specimens/changeQueryEncumbrance.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Encumbrances</a>
 								</li>
 								<li class="nav-item mb-1">
 									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Identifications</a>
