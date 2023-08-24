@@ -84,7 +84,7 @@
 					FROM coll_object_encumbrance
 					WHERE
 						encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#"> AND
-						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getRecords.collection_object_id#">
 				</cfquery>
 				<cfif checkEncumbrance.ct EQ 0>
 					<cfquery name="addToEncumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -93,7 +93,7 @@
 							collection_object_id
 							) values (
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getRecords.collection_object_id#">
 						)
 					</cfquery>
 				</cfif>
@@ -119,7 +119,7 @@
 				FROM coll_object_encumbrance
 				WHERE
 					encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#"> AND
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getRecords.collection_object_id#">
 			</cfquery>
 		</cfloop>
 		<cflocation url="/specimens/changeQueryEncumbrance.cfm?result_id=#encodeForURL(result_id)#&action=updateComplete" addtoken="false">
