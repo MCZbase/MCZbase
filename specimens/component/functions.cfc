@@ -5234,9 +5234,9 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 			FROM
 				encumbrance
 			WHERE
-				encumbrance like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+				lower(encumbrance) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#lcase(term)#%">
 				OR
-				remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+				lower(remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#lcase(term)#%">
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
