@@ -53,7 +53,7 @@
 								<label for="action" class="data-entry-label">Add these specimens to/Remove these specimens from the Encumbrance.</label>
 								<select id="action" name="action" required class="data-entry-select reqdClr">
 									<option selected value="addItems">Add</option>
-									<option selected value="removeItems">Remove</option>
+									<option value="removeItems">Remove</option>
 								</select>
 							</div>
 							<div class="col-12 col-md-4 col-lg-4 mb-2 mb-md-0">
