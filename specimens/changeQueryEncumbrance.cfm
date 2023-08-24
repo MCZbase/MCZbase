@@ -324,6 +324,7 @@
 							data : {
 								method : "getEncumbrancesHTML",
 								collection_object_id: collection_object_id,
+								containing_block: reloadBlock
 							},
 							success: function (result) {
 								$("##" + reloadBlock ).html(result);

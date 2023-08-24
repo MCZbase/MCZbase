@@ -5305,7 +5305,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 								<form name="removeEncumb_#collection_object_id#_#encumbrance_id#">
 									<input type="button" value="Remove" class="btn btn-xs btn-warning"
 										aria-label="Remove this cataloged item from this encumbrance"
-										onClick="removeFromEncumbrance(#encumbrance_id#,#getEncumbrances.collection_object_id#,'#containg_block#');">
+										onClick="removeFromEncumbrance(#encumbrance_id#,#getEncumbrances.collection_object_id#,'#containing_block#');">
 								</form>
 							</li>
 						<cfelse>
