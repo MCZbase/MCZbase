@@ -39,8 +39,8 @@
 					<form name="changeEncumbrance" method="post" action="/specimens/changeQueryEncumbrance.cfm">
 						<input type="hidden" name="result_id" value="#result_id#">
 						<div class="form-row mb-2">
-							<div class="col-12 pb-2">
-								<label for="encumbrance" class="data-entry-label">Add these specimens to/Remove these specimens from the Encumbrance.</label>
+							<div class="col-12 col-md-8 pb-2">
+								<label for="encumbrance" class="data-entry-label">Encumbrance</label>
 								<input type="text" id="encumbrance" name="encumbrance" value="" required class="data-entry-input reqdClr">
 								<input type="hidden" id="encumbrance_id" name="encumbrance_id" value="">
 								<script>
@@ -49,11 +49,11 @@
 									});
 								</script>
 							</div>
-							<div class="col-12 pb-2">
-								<label for="action" class="data-entry-label">Add these specimens to/Remove these specimens from the Encumbrance.</label>
+							<div class="col-12 col-md-4 pb-2">
+								<label for="action" class="data-entry-label">Action to take on these specimens</label>
 								<select id="action" name="action" required class="data-entry-select reqdClr">
-									<option selected value="addItems">Add</option>
-									<option value="removeItems">Remove</option>
+									<option selected value="addItems">Add To Encumbrance</option>
+									<option value="removeItems">Remove From Encumbrance</option>
 								</select>
 							</div>
 							<div class="col-12 col-md-4 col-lg-4 mb-2 mb-md-0">
