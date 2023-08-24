@@ -1115,7 +1115,7 @@ limitations under the License.
  @return html for editing other ids for the specified cataloged item. 
 --->
 						
-
+<!--- TODO: Metadata references updateImages and then identifications and identification history on updateMedia function --->
 <!---TEST function updateImages update the test images block for an arbitrary number of identifications in the identification history of a collection object 
 	@param collection_object_id the collecton object to which the identification history pertains
 	@param number_of_ids the number of determinations in the identification history
@@ -1173,11 +1173,13 @@ limitations under the License.
 		</cftransaction>
 	</cfoutput>
 </cffunction>
+<!--- TODO: Identify cause of duplication and remove --->
 <!---TEST function getEditMediaHtml obtain an html block to popluate an edit dialog for images
  @param media_id the media.media_id to edit.
  @return html for editing the media record 
 --->
-<cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getEditMediaHTMLDuplicate" returntype="string" access="remote" returnformat="plain">
+	<!--- TODO: This is a duplicate of getEditMediaHTML with less content --->
 	<cfargument name="media_id" type="string" required="yes">
 	<cfthread name="getMediaThread">
 		<cftry>
