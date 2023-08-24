@@ -288,7 +288,7 @@
 												</form>
 											</li>
 										<cfelse>
-											<li>None<li>
+											<li>None</li>
 										</cfif> 
 									</cfloop>
 									</ul>
@@ -314,11 +314,11 @@
 								messageDialog("Error removing item from encumbrance: " + status + " " + jqXHR.responseText ,'Error: '+ status);
 							},
 							success: function (result) {
-								reloadEncumbrances(reloadBlock);
+								reloadEncumbrances(reloadBlock,collection_object_id);
 							}
 						});
 					}
-					function reloadEncumbrances(reloadBlock) { 
+					function reloadEncumbrances(reloadBlock,collection_object_id) { 
 						jQuery.ajax({
 							url: "/specimens/component/functions.cfc",
 							data : {

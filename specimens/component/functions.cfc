@@ -5309,7 +5309,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 								</form>
 							</li>
 						<cfelse>
-							<li>None<li>
+							<li>None</li>
 						</cfif> 
 					</cfloop>
 					</ul>
