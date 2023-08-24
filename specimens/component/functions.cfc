@@ -5208,5 +5208,51 @@ function showLLFormat(orig_units) {
 	<cfreturn getPartCondHist.output>
 </cffunction>
 
+<!---
+Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning json suitable for jquery-ui autocomplete
+ with a _renderItem overriden to display more detail on the picklist, and the encumbrance as the selected value.
+
+@param term information to search for.
+@return a json structure containing id and value, with encumbrance in value and encumbrane_id in id, and encumbrance with more data in meta.
+--->
+<cffunction name="getEncumbranceAutocompleteMeta" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT
+				encumbrance_id, expiration_event, 
+				to_char(expiration_date,'yyyy-mm-dd') as expiration_date, 
+				encumbrance,
+				mczbase.get_agentnamebytype(encumbering_agent_id,'preferred') as by
+			FROM
+				encumbrance
+			WHERE
+				encumbrance like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+				OR
+				remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.encumbrance_id#">
+			<cfset row["value"] = "#search.encumbrance#" >
+			<cfset row["meta"] = "#search.encumbrance# (#by# Expires:#search.expiration_event# #search.expiration_date#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 </cfcomponent>

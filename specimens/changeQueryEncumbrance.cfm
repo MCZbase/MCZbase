@@ -29,6 +29,9 @@
 								<input type="hidden" id="encumbrance_id" name="encumbrance_id" value="">
 	<!--- TODO: Encumbrance picker --->
 								<script>
+									$(document).ready(function() { 
+										makeEncumbranceAutocompleteMeta('encumbrance', 'encumbrance_id');
+									});
 								</script>
 							</div>
 							<div class="col-12 pb-2">
