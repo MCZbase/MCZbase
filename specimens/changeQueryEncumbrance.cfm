@@ -35,7 +35,7 @@
 				<div class="col-12 pt-4">
 					<h1 class="h3 px-1" id="formheading" >
 						Add or Remove an Encumbrance to the (#countItems.ct#) cataloged items listed below.
-						<a class="btn btn-xs btn-primary" target="_blank" href="/Encumbrances.cfm?action=create">Add New Encumbrance</a>
+						<a class="btn btn-xs btn-primary" target="_blank" href="/Encumbrances.cfm?action=create">Create New Encumbrance</a>
 					</h1>
 					<form name="changeEncumbrance" method="post" action="/specimens/changeQueryEncumbrance.cfm">
 						<input type="hidden" name="result_id" value="#result_id#">
