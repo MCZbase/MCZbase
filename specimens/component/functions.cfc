@@ -5294,23 +5294,22 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					</cfquery>
 					<ul>
+					<cfif getEncumbrances.recordcount EQ 0>
+						<li>None</li>
+					</cfif>
 					<cfloop query="getEncumbrances">
-						<cfif len(#encumbrance#) gt 0>
-							<li>
-								#encumbrance# (#encumbrance_action#) 
-								by #encumbering_agent# made 
-								#dateformat(encumbered_date,"yyyy-mm-dd")#, 
-								expires #dateformat(expiration_date,"yyyy-mm-dd")# 
-								#expiration_event# #remarks#
-								<form name="removeEncumb_#collection_object_id#_#encumbrance_id#">
-									<input type="button" value="Remove" class="btn btn-xs btn-warning"
-										aria-label="Remove this cataloged item from this encumbrance"
-										onClick="removeFromEncumbrance(#encumbrance_id#,#getEncumbrances.collection_object_id#,'#containing_block#');">
-								</form>
-							</li>
-						<cfelse>
-							<li>None</li>
-						</cfif> 
+						<li>
+							#encumbrance# (#encumbrance_action#) 
+							by #encumbering_agent# made 
+							#dateformat(encumbered_date,"yyyy-mm-dd")#, 
+							expires #dateformat(expiration_date,"yyyy-mm-dd")# 
+							#expiration_event# #remarks#
+							<form name="removeEncumb_#collection_object_id#_#encumbrance_id#">
+								<input type="button" value="Remove" class="btn btn-xs btn-warning"
+									aria-label="Remove this cataloged item from this encumbrance"
+									onClick="removeFromEncumbrance(#encumbrance_id#,#getEncumbrances.collection_object_id#,'#containing_block#');">
+							</form>
+						</li>
 					</cfloop>
 					</ul>
 				<cfcatch>
