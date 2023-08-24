@@ -121,12 +121,11 @@ limitations under the License.
 
 	Agents - Implmemented (as Collectors/Preparators)
 
-	Localities - Implemented
+	Localities - Implemented [testing]
 
-	Collecting Events - Implemented
+	Collecting Events - Implemented [testing]
 
-	<option value="/Encumbrances.cfm"> works only with collection_object_id 
-	Encumbrances
+	Encumbrances - Implemented
 
 	<option value="/multiIdentification.cfm"> works only with collection_object_id 
 	Identification
