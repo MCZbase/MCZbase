@@ -16,7 +16,7 @@
 	<cfcase value="entryPoint">
 		<cfoutput>
 			<cfquery name="countItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countItems_result">
-				SELECT count(*) ct 
+				SELECT count(distinct cataloged_item.collection_object_id) ct 
 				FROM
 					cataloged_item
 					join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
@@ -128,10 +128,16 @@
 	<cfcase value="updateComplete">
 		<cfset returnURL = "/specimens/changeEncumbrance.cfm?result_id=#encodeForURL(result_id)#">
 		<cfoutput>
+			<cfquery name="countRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT count(distinct collection_object_id) ct
+				FROM user_search_table
+				WHERE
+					result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			</cfquery>
 			<div class="container-fluid">
 				<div class="row mx-0">
 					<div class="col-12 px-4 mt-3">
-						<h2 class="h2">Changed encumbrance for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
+						<h2 class="h2">Changed encumbrance for all #countRecords.ct# cataloged items [in #encodeForHtml(result_id)#]</h2>
 						<ul class="col-12 list-group list-group-horizontal">
 							<li class="list-group-item d-flex justify-content-between align-items-center">
 								<a href="#returnURL#"><i class="fa fa-arrow-left"></i> Back to Manage Encumbrance</a>
@@ -148,9 +154,9 @@
 </cfswitch>
 
 <cfoutput>
-	<!--- note, has left joins to parts and encumbrances, cfloop groups by collection_object_id and loop contains loops through parts and encumbrances --->
+	<!--- NOTE: has left joins to parts and encumbrances, cfloop groups by collection_object_id and loop contains loops through parts and encumbrances --->
 	<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		 SELECT 
+		 SELECT distinct
 			cataloged_item.collection_object_id as collection_object_id, 
 			cat_num, 
 			concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID,
