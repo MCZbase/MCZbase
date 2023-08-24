@@ -161,6 +161,7 @@
 			quad, 
 			institution_acronym, 
 			collection.collection_cde, 
+			collection.collection, 
 			part_name, 
 			specimen_part.collection_object_id AS partID, 
 			encumbering_agent.agent_name AS encumbering_agent, 
