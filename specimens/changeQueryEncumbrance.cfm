@@ -326,7 +326,7 @@
 								collection_object_id: collection_object_id,
 							},
 							success: function (result) {
-								$("#" + reloadBlock ).html(result);
+								$("##" + reloadBlock ).html(result);
 							},
 							error: function (jqXHR, textStatus, error) {
 								handleFail(jqXHR,textStatus,error,"loading encumbrances html");
