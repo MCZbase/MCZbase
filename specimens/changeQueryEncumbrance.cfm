@@ -52,7 +52,8 @@
 							<div class="col-12 col-md-4 pb-2">
 								<label for="action" class="data-entry-label">Action to take on these specimens</label>
 								<select id="action" name="action" required class="data-entry-select reqdClr">
-									<option selected value="addItems">Add To Encumbrance</option>
+									<option selected value=""></option>
+									<option value="addItems">Add To Encumbrance</option>
 									<option value="removeItems">Remove From Encumbrance</option>
 								</select>
 							</div>
