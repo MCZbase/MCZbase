@@ -148,6 +148,7 @@
 </cfswitch>
 
 <cfoutput>
+	<!--- note, has left joins to parts and encumbrances, cfloop groups by collection_object_id and loop contains loops through parts and encumbrances --->
 	<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		 SELECT 
 			cataloged_item.collection_object_id as collection_object_id, 
@@ -164,7 +165,7 @@
 			collection.collection, 
 			part_name, 
 			specimen_part.collection_object_id AS partID, 
-			encumbering_agent.agent_name AS encumbering_agent, 
+			MCZBASE.get_agentnameoftype(encumbrance.encumbering_agent_id) AS encumbering_agent, 
 			expiration_date, 
 			expiration_event, 
 			encumbrance, 
@@ -181,7 +182,6 @@
 			left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 			left join coll_object_encumbrance on cataloged_item.collection_object_id=coll_object_encumbrance.collection_object_id
 			left join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
-			left join preferred_agent_name encumbering_agent on encumbrance.encumbering_agent_id = encumbering_agent.agent_id
 		WHERE 
 			cataloged_item.collection_object_id IN 
 				(
@@ -225,7 +225,7 @@
 											part_name, 
 											partID
 										FROM 
-											getData 
+											getItems
 										WHERE 
 											collection_object_id = #collection_object_id# 
 										GROUP BY
@@ -238,7 +238,6 @@
 											#getParts.part_name#<br>
 										</cfif>
 									</cfloop>
-									
 								</td>
 								<td>
 									<cfquery name="encs" dbtype="query">
@@ -252,7 +251,7 @@
 											expiration_date,
 											expiration_event,
 											remarks
-										FROM getData
+										FROM getItems
 										WHERE 
 											collection_object_id = #collection_object_id# 
 										GROUP BY
