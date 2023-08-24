@@ -126,7 +126,7 @@
 	</cfcase>
 	<!--------------------------------------------------------------------------------->
 	<cfcase value="updateComplete">
-		<cfset returnURL = "/specimens/changeEncumbrance.cfm?result_id=#encodeForURL(result_id)#">
+		<cfset returnURL = "/specimens/changeQueryEncumbrance.cfm?result_id=#encodeForURL(result_id)#">
 		<cfoutput>
 			<cfquery name="countRecords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT count(distinct collection_object_id) ct
