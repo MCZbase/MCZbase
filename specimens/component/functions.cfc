@@ -5228,7 +5228,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 				expiration_event, 
 				to_char(expiration_date,'yyyy-mm-dd') as expiration_date, 
 				encumbrance,
-				mczbase.get_agentnamebytype(encumbering_agent_id,'preferred') as by_agent
+				mczbase.get_agentnameoftype(encumbering_agent_id,'preferred') as by_agent
 			FROM
 				encumbrance
 			WHERE
