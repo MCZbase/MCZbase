@@ -18,6 +18,9 @@
 	<cfcase value="edit">
 		<cfset pagetitle = "Edit Permissions/Rights Document">
 	</cfcase>
+	<cfcase value="view">
+		<cfset pagetitle = "View Permissions/Rights Document">
+	</cfcase>
 	<cfcase value="delete">
 		<cfset pagetitle = "Delete a Permissions/Rights Document">
 	</cfcase>
@@ -1165,6 +1168,292 @@ limitations under the License.
 							loadPermitRelatedMedia(#permit_id#);
 						}
 			
+						jQuery(document).ready(loadPermitMedia(#permit_id#));
+						jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));
+					</script>
+					<section name="associatedMediaSection" class="mx-0 pb-2 bg-light row border rounded mt-2">
+						<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+								concat('/transactions/Accession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+								left join collection on trans.collection_id = collection.collection_id
+								left join accn on trans.transaction_id = accn.transaction_id
+							where trans.transaction_type = 'accn'
+								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+							union
+							select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+								concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri
+							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+								left join collection on trans.collection_id = collection.collection_id
+								left join loan on trans.transaction_id = loan.transaction_id
+							where trans.transaction_type = 'loan'
+								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+							union
+							select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+								concat('/transactions/Deaccession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+								left join collection on trans.collection_id = collection.collection_id
+								left join MCZBASE.deaccession on trans.transaction_id = deaccession.transaction_id
+							where trans.transaction_type = 'deaccession'
+								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+							union
+							select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+								concat('/transactions/Borrow.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+							from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+								left join collection on trans.collection_id = collection.collection_id
+								left join borrow on trans.transaction_id = borrow.transaction_id
+							where trans.transaction_type = 'borrow'
+								and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+							union
+							select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+								concat('/transactions/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri
+							from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+								left join trans on shipment.transaction_id = trans.transaction_id
+								left join collection on trans.collection_id = collection.collection_id
+								left join borrow on trans.transaction_id = borrow.transaction_id
+							where trans.transaction_type = 'borrow'
+								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+							union
+							select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+								concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri
+							from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+								left join trans on shipment.transaction_id = trans.transaction_id
+								left join collection on trans.collection_id = collection.collection_id
+								left join loan on trans.transaction_id = loan.transaction_id
+							where trans.transaction_type = 'loan'
+								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+							union
+							select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+								concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri
+							from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+								left join trans on shipment.transaction_id = trans.transaction_id
+								left join collection on trans.collection_id = collection.collection_id
+								left join accn on trans.transaction_id = accn.transaction_id
+							where trans.transaction_type = 'accn'
+								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+							union
+							select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+								concat('/transactions/Deaccession.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+							from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+								left join trans on shipment.transaction_id = trans.transaction_id
+								left join collection on trans.collection_id = collection.collection_id
+								left join deaccession on trans.transaction_id = deaccession.transaction_id
+							where trans.transaction_type = 'deaccession'
+								and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						</cfquery>
+						<div class="col-12">
+							<div id="permitsusedin" class="shippingBlock" >
+								<h2 class="h3">Permit used for</h2>
+								<ul class="col-12 col-md-8 mx-0 px-4 float-left list-style-disc">
+									<cfloop query="permituse">
+										<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a> #ontype# type: #ttype# on: #dateformat(trans_date,'yyyy-mm-dd')# went to: #guid_prefix#</li>
+									</cfloop>
+									<cfif permituse.recordCount eq 0>
+										<li>No linked transactions or shipments.</li>
+									</cfif>
+								</ul>
+							</div>
+							<span>
+								<form action="/transactions/Permit.cfm" method="get">
+									<input type="hidden" name="permit_id" value="#permit_id#">
+									<input type="hidden" name="Action" value="PermitUseReport">
+									<input type="submit" value="Detailed report on use of this Permit" class="btn btn-xs btn-secondary float-right">
+								</form>
+							</span>
+						</div>
+					</section>
+				</div>
+			</main>
+		</cfoutput>
+	</cfcase>
+	<!--------------------------------------------------------------------------------------------------->
+	<cfcase value="view">
+		<cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
+			<cfthrow message="Error: Unable to view a permissions and rights document without a permit_id">
+		</cfif>
+		<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct
+				permit.permit_id,
+				issuedBy.agent_name as IssuedByAgent,
+				issuedBy.agent_id as IssuedByAgentID,
+				issuedTo.agent_name as IssuedToAgent,
+				issuedTo.agent_id as IssuedToAgentID,
+				contact_agent_id,
+				contact.agent_name as ContactAgent,
+				issued_Date,
+				renewed_Date,
+				exp_Date,
+				restriction_summary,
+				benefits_summary,
+				benefits_provided,
+				permit_num,
+				permit_Type,
+				specific_type,
+				permit_title,
+				permit_remarks
+			from
+				permit left join preferred_agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
+				left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+				left join preferred_agent_name contact on permit.contact_agent_id = contact.agent_id
+			where
+				permit_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+			order by permit_id
+		</cfquery>
+		<cfoutput query="permitInfo" group="permit_id">
+			<script>
+				jQuery(document).ready(function() {
+					$("##issued_date").datepicker({ dateFormat: 'yy-mm-dd'});
+					$("##renewed_date").datepicker({ dateFormat: 'yy-mm-dd'});
+					$("##exp_date").datepicker({ dateFormat: 'yy-mm-dd'});
+				});
+			</script>
+			<main class="container pt-2 pb-5">
+				<h1 class="h2 wikilink my-2 ml-3" id="PermitFormSectionLabel" >
+					Permissions &amp; Rights Document 
+					<a href="/transactions/Permit.cfm?action=edit&permit_id=#encodeForURL(permit_id)#" class="btn btn-xs btn-primary">Edit</a>
+				</h1>
+				<section id="PermitFormSection" class="row mx-0 border rounded mt-2" aria-labeledby="PermitFormSectionLabel" >
+					<form id="noActionForm" action="javascript:void(0);" class="col-12 px-3">
+						<div class="form-row my-2 pt-2">
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="issued_by_agent_name" class="data-entry-label">
+										Issued By:
+										<span id="issued_by_agent_view"><a href="/agents/Agent.cfm?agent_id=#IssuedByAgentId#">View</a></span>
+									</label>
+								</span>
+								<input name="issued_by_agent_name" id="issued_by_agent_name" class="form-control form-control-sm data-entry-input" readonly value="#IssuedByAgent#" >
+							</div>
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="issued_to_agent_name" class="data-entry-label">
+										Issued To:
+										<span id="issued_to_agent_view"><a href="/agents/Agent.cfm?agent-id=#IssuedToAgentID#">View</a></span>
+									</label>
+								</span>
+								<input name="issued_to_agent_name" id="issued_to_agent_name" class="form-control form-control-sm data-entry-input" readonly value="#IssuedToAgent#" >
+							</div>
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="contact_agent_name" class="data-entry-label">
+										Contact Person:
+										<span id="contact_agent_view"><a href="/agents/Agent.cfm?agent-id=#contact_agent_id#">View</a></span>
+									</label>
+								</span>
+								<input name="contact_agent_name" id="contact_agent_name" class="form-control form-control-sm data-entry-input" readonly value="#ContactAgent#">
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-4">
+								<label for="issued_date" class="data-entry-label">Issued Date</label>
+								<input type="text" id="issued_date" name="issued_date" class="data-entry-input" readonly  value="#dateformat(issued_date,"yyyy-mm-dd")#">
+							</div>
+							<div class="col-12 col-md-4">
+								<label for="renewed_date" class="data-entry-label">Renewed Date</label>
+								<input type="text" id="renewed_date" name="renewed_date" class="data-entry-input" readonly value="#dateformat(renewed_date,"yyyy-mm-dd")#">
+							</div>
+							<div class="col-12 col-md-4">
+								<label for="exp_date" class="data-entry-label">Expiration Date</label>
+								<input type="text" id="exp_date" name="exp_date" class="data-entry-input" readonly value="#dateformat(exp_date,"yyyy-mm-dd")#">
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-6">
+								<label for="permit_num" class="data-entry-label">Permit Number</label>
+								<input type="text" name="permit_num" id="permit_num" class="data-entry-input" readonly value="#permit_num#">
+							</div>
+							<div class="col-12 col-md-6">
+								<label for="permit_title" class="data-entry-label">Document Title</label>
+								<input type="text" name="permit_title" id="permit_title" class="data-entry-input" readonly value="#permit_title#">
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-6">
+								<label for="permit_type" class="data-entry-label">Type</label>
+								<input type="text" name="permit_type" id="permit_type" class="data-entry-input" readonly value="#permit_type#">
+							</div>
+							<div class="col-12 col-md-6">
+								<label for="specific_type" class="data-entry-label">Specific Document Type</label>
+								<input type="text" name="specific_type" id="specific_type" class="data-entry-input" readonly value="#specific_type#">
+							</div>
+							<div class="col-12">
+								<label for="permit_remarks" class="data-entry-label">Remarks</label>
+								<input type="text" name="permit_remarks" id="permit_remarks" class="data-entry-input" readonly value="#permit_remarks#">
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12">
+								<label for="restriction_summary" class="data-entry-label">Summary of Restrictions on Use (<span id="length_restriction_summary"></span>)</label>
+								<textarea rows="1" name="restriction_summary" id="restriction_summary" 
+									onkeyup="countCharsLeft('restriction_summary', 4000, 'length_restriction_summary');"
+									class="autogrow border rounded w-100" readonly>#restriction_summary#</textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12">
+								<label for="benefits_summary" class="data-entry-label">Summary of Agreed Benefits (<span id="length_benefits_summary"></span>)</label>
+								<textarea rows="1" name="benefits_summary" id="benefits_summary" 
+									onkeyup="countCharsLeft('benefits_summary', 4000, 'length_benefits_summary');"
+									class="autogrow border rounded w-100" readonly >#benefits_summary#</textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12">
+								<label for="benefits_provided" class="data-entry-label">Benefits Provided (<span id="length_benefits_provided"></span>)</label>
+								<textarea rows="1" name="benefits_provided" id="benefits_provided" 
+									onkeyup="countCharsLeft('benefits_provided', 4000, 'length_benefits_provided');"
+									class="autogrow border rounded w-100" readonly>#benefits_provided#</textarea>
+							</div>
+						</div>
+						<script>
+							// make selected textareas autogrow as text is entered.
+							$(document).ready(function() {
+								// bind the autogrow function to the keyup event
+								$('textarea.autogrow').keyup(autogrow);
+								// trigger keyup event to size textareas to existing text
+								$('textarea.autogrow').keyup();
+							});
+						</script> 
+					</form>
+				</section>
+				<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
+					<section name="permitMediaSection" class="row mx-0 bg-light border pb-2 rounded my-2">
+						<div class="col-12">
+							<!---  Show/add media copy of permit  (shows permit) --->
+							<div id="copyofpermit"><img src='images/indicator.gif'></div>
+						</div>
+					</section>
+					<section name="associatedMediaSection" class="row mx-0 bg-light border pb-2 rounded my-2">
+						<div class="col-12 pb-2">
+							<!---  list/add media copy of associated documents (document for permit) --->
+							<div id="associateddocuments"><img src='images/indicator.gif'></div>
+						</div>
+					</section>
+					<script>
+						function loadPermitMedia(permit_id) {
+							jQuery.get("/transactions/component/functions.cfc",
+							{
+								method : "getPermitMediaHtml",
+								editable : "false",
+								permit_id : permit_id
+							},
+							function (result) {
+								$("##copyofpermit").html(result);
+							});
+						};
+			
+						function loadPermitRelatedMedia(permit_id) {
+							jQuery.get("/transactions/component/functions.cfc",
+							{
+								method : "getPermitMediaHtml",
+								permit_id : permit_id,
+								editable : "false",
+								correspondence : "yes"
+							},
+							function (result) {
+								$("##associateddocuments").html(result);
+							});
+						};
 						jQuery(document).ready(loadPermitMedia(#permit_id#));
 						jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));
 					</script>

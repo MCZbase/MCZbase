@@ -20,6 +20,8 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/functions.cfc" runOnce="true">
 
+<cfset DOWNLOAD_THRESHOLD = 1001>
+
 <!---
  ** Given a string that may be a search term for a date or a date range, reformat it to 
  *  fit the expectations of a date search, e.g. change "2020" to "2020-01-01/2020-12-31"
@@ -2624,11 +2626,19 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 <cffunction name="getSpecimensAsCSVProfile" access="remote" returntype="any" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="download_profile_id" type="string" required="yes">
+	<cfargument name="token" type="string" required="no">
 
-	<cfsetting requestTimeout="600">
+	<cfif isDefined("token")>
+		<cflog text="getSpecimensAsCSVProfile started token=#token#" file="MCZbase">
+	<cfelse>
+		<cflog text="getSpecimensAsCSVProfile started with no token" file="MCZbase">
+		<cfset token = "">
+	</cfif>
+
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-	<cfthread name="downloadThread#tn#">
+	<cfthread name="downloadThread#tn#" action="run" result_id="#result_id#" download_profile_id="#download_profile_id#" token="#token#">
 
+		<cflog text="getSpecimensAsCSVProfile executing downloadThread#tn#" file="MCZbase">
 		<cfset retval = "">
 		<cfset stream = true>
 		<cftry>
@@ -2685,63 +2695,268 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<cfset valid_columns[counter] = col>
 				</cfif>
 			</cfloop>
-			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-				SELECT 
-					<cfset comma = "">
-					<cfloop array="#valid_columns#" index="idx">
-						<cfif len(idx.sql_element) GT 0> 
-							#comma##replace(idx.sql_element,"''","'","all")# #idx.column_name#
-							<cfset comma = ",">
-						</cfif>
-					</cfloop>
-				FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
-					join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+			<cfquery name="count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="count_result">
+				SELECT count(*) ct 
+				FROM
+					user_search_table
 				WHERE
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 	
-			<cfif search.recordcount LT 10001>
+			<cfif count.ct LT DOWNLOAD_THRESHOLD>
+				<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+					SELECT 
+						<cfset comma = "">
+						<cfloop array="#valid_columns#" index="idx">
+							<cfif len(idx.sql_element) GT 0> 
+								#comma##replace(idx.sql_element,"''","'","all")# #idx.column_name#
+								<cfset comma = ",">
+							</cfif>
+						</cfloop>
+					FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+						join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+					WHERE
+						user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				</cfquery>
 				<cfset retval = queryToCSV(search)>
 				<cfset stream = true>
 			<cfelse>
-				<cfset retval = queryToCSVFile(search)>
-				<cfset stream = false>
+				<cftransaction isolation="serializable">
+				<cflog text="checking token #token# in cf_download_file" file="MCZbase">
+				<cfquery name="checkToken" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preDownload_result">
+					SELECT count(*) ct 
+					FROM cf_download_file 
+					WHERE token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#">
+				</cfquery>
+				<cftransaction action="commit">
+				</cftransaction>
+				<cfif checkToken.ct EQ 0>
+					<cflog text="adding token #token# to cf_download_file" file="MCZbase">
+					<cftransaction isolation="serializable">
+					<cfquery name="preDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="preDownload_result">
+						INSERT into cf_download_file (
+							result_id,
+							token,
+							username,
+							download_profile_id,
+							status
+						) values ( 
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">,
+							'started'
+						)
+					</cfquery>
+					<cftransaction action="commit">
+					</cftransaction>
+					<cfset pagesize = 10000>
+					<cfif count.ct LTE pagesize>
+						<cflog text="before search query count.ct=[#count.ct#]" file="MCZbase">
+						<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+							SELECT 
+								<cfset comma = "">
+								<cfloop array="#valid_columns#" index="idx">
+									<cfif len(idx.sql_element) GT 0> 
+										#comma##replace(idx.sql_element,"''","'","all")# #idx.column_name#
+										<cfset comma = ",">
+									</cfif>
+								</cfloop>
+							FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+								join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+							WHERE
+								user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						</cfquery>
+						<cflog text="after search query" file="MCZbase">
+						<cfset retval = queryToCSVFile(queryToConvert=search)>
+						<cflog text="after queryToCSVFile" file="MCZbase">
+					<cfelse> 
+						<cfset pagenumber = 0>
+						<cfset totalpages = ceiling(count.ct/pagesize)>
+						<cfloop index="currentpage" from="1" to="#totalpages#">
+							<cfset pagenumber = pagenumber + 1 >
+							<cflog text="before search query count.ct=[#count.ct#] pagenumber=[#pagenumber#]" file="MCZbase">
+							<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+								SELECT * FROM (
+									SELECT qry.*, rownum foundrownum
+									FROM (
+										SELECT 
+										<cfset comma = "">
+										<cfloop array="#valid_columns#" index="idx">
+											<cfif len(idx.sql_element) GT 0> 
+												#comma##replace(idx.sql_element,"''","'","all")# #idx.column_name#
+												<cfset comma = ",">
+											</cfif>
+										</cfloop>
+										FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+											join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+										WHERE
+											user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+										ORDER BY
+											user_search_table.collection_object_id
+									) qry
+									WHERE rownum < ((#pagenumber# * #pagesize#) + 1 )
+								) 
+								WHERE foundrownum >= (((#pagenumber#-1) * #pagesize#) + 1)
+							</cfquery>
+							<cflog text="after search query" file="MCZbase">
+							<cfif pagenumber EQ 1>
+								<cflog text="beforeQueryToCSVFile" file="MCZbase">
+								<cfset retval = queryToCSVFile(queryToConvert=search)>
+								<cflog text="after QueryToCSVFile" file="MCZbase">
+							<cfelse>
+								<cflog text="beforeQueryToCSVFile(mode=append)" file="MCZbase">
+								<cfset retval = queryToCSVFile(queryToConvert=search,mode="append",timestamp=retval.TIMESTAMP,written=retval.WRITTEN)>
+								<cflog text="afterQueryToCSVFile(mode=append)" file="MCZbase">
+							</cfif>
+							<cfquery name="partialDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="partialDownload_result">
+								UPDATE cf_download_file 
+								SET 
+									status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="processed #pagenumber*pagesize# rows">,
+									filename = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.FILENAME#">,
+									message = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.MESSAGE#">
+								WHERE
+									token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#"> and
+									result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
+									username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#"> and
+									download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
+							</cfquery>
+						</cfloop>
+					</cfif>
+					<cfset stream = false>
+					<cfquery name="postDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="postDownload_result">
+						UPDATE cf_download_file 
+						SET 
+							status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.STATUS#">,
+							filename = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.FILENAME#">,
+							message = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval.MESSAGE#">
+						WHERE
+							token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#"> and
+							result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#"> and
+							download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
+					</cfquery>
+				<cfelse>
+					<cflog text="Token exists [#checkToken.ct#] matches in downloadThread#tn#" file="MCZbase">
+					<cfthrow message="Problem creating download.  Token [#token#] exists, [#checkToken.ct#] matches found.">
+				</cfif>
 			</cfif>
+			<cfif stream>
+				<cfheader name="Content-Type" value="text/csv">
+				<cfoutput>#retval#</cfoutput>
+			<cfelse>
+				<cftry>
+					<cfif retval.STATUS EQ "Failed">
+						<cfoutput>#retval.STATUS#: #retval.MESSAGE#</cfoutput>
+					<cfelse>
+						<cfoutput>[{'FILENAME':'mcz_specimen_result_download_#result_id#.csv','PATH':'#retval.filename#','MESSAGE':'#retval.MESSAGE#'}]</cfoutput>
+					</cfif>
+				<cfcatch>
+					<cfoutput>
+						<cfdump var="#cfcatch#">
+					</cfoutput>
+				</cfcatch>
+				</cftry>
+			</cfif>
+			<cflog text="normal end of downloadThread#tn#" file="MCZbase">
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-			<cfabort>
+			<cfoutput>Error in #function_called#: #error_message#</cfoutput>
 		</cfcatch>
 		</cftry>
 	
-		<cfif stream>
-			<cfheader name="Content-Type" value="text/csv">
-			<cfoutput>#retval#</cfoutput>
-		<cfelse>
-			<cftry>
-			<cfoutput>
-				<cfif retval.STATUS EQ "Failed">
-					#retval.MESSAGE#
-				<cfelse>
-					<!--- TODO: Fails with NS_NET_ERROR_RESET --->
-					<cflocation url="#retval.FILENAME#" addtoken="false">
-					<a href="#retval.filename#">#retval.MESSAGE#</a>
-				</cfif>
-			</cfoutput>
-			<cfcatch>
-				<cfoutput>
-					<cfdump var="#cfcatch#">
-				</cfoutput>
-			</cfcatch>
-			</cftry>
-		</cfif>
 	</cfthread>
 	<cfthread action="join" name="downloadThread#tn#" />
+	<cflog text="getSpecimensAsCSVProfile completed downloadThread#tn#" file="MCZbase">
 	<cfreturn cfthread["downloadThread#tn#"].output>
 </cffunction>
 
+<cffunction name="setupSpecimenDownload" returntype="any" access="remote" returnformat="json">
+	<cfargument name="result_id" type="string" required="yes">
+
+	<cftry>
+		<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCount_result">
+			SELECT count(*) as ct 
+			FROM user_search_table
+			WHERE
+				result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+		</cfquery>
+		<cfset data = ArrayNew(1)>
+		<cfif getCount.recordcount NEQ 1>
+			<cfthrow message="Error looking up records to download.">
+		</cfif>
+
+		<cfset i = 1>
+		<cfloop query="getCount">
+			<cfif getCount.ct EQ 0>
+				<cfthrow message="No records found to download.">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["RECORDCOUNT"] = "#getCount.ct#">
+			<cfif getCount.ct LT DOWNLOAD_THRESHOLD>
+				<cfset row["MODE"] = "direct">
+			<cfelse>
+				<cfset token = CreateUUID()>
+				<cfset row["MODE"] = "file">
+				<cfset row["TOKEN"] = "#token#">
+			</cfif>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<cffunction name="checkSpecimenDownload" returntype="any" access="remote" returnformat="json">
+	<cfargument name="token" type="string" required="yes">
+
+	<cftry>
+		<cfquery name="getStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCount_result">
+			SELECT status, result_id, filename, message
+			FROM cf_download_file 
+			WHERE
+				token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#">
+		</cfquery>
+		<cfset data = ArrayNew(1)>
+		<cfif getStatus.recordcount GT 1>
+			<cfthrow message="Error looking up download status, duplicate token.">
+		</cfif>
+
+		<cfset i = 1>
+		<cfif getStatus.recordcount EQ 0>
+			<cfset row = StructNew()>
+			<cfset row["STATUS"] = "Starting">
+			<cfset data[i]  = row>
+		<cfelse>
+			<cfloop query="getStatus">
+				<cfset row = StructNew()>
+				<cfset row["STATUS"] = "#getStatus.status#">
+				<cfset row["FILENAME"] = "mcz_specimen_result_download_#getStatus.result_id#">
+				<cfset row["PATH"] = "#getStatus.filename#">
+				<cfset row["MESSAGE"] = "#getStatus.message#">
+				<cfset data[i]  = row>
+				<cfset i = i + 1>
+			</cfloop>
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 <cffunction name="getDownloadDialogHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
@@ -2786,16 +3001,107 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<div class="form-row">
 					<div class="col-12">
 						<script>
-							function changeProfile() { 
+							function handleInternalDownloadClick(result_id) {
 								var profile = $("##profile_picker").val();
-								$('##specimencsvdownloadbutton').attr("href", "/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id="+profile);
-							}
-							function handleInternalDownloadClick() {
 								$("##downloadFeedback").html("Download requested...");
+								$("##downloadResult").html("");
+								jQuery.ajax({
+									url: "/specimens/component/search.cfc",
+									type: "post",
+									data: { 
+										method: "setupSpecimenDownload",
+										returnformat: "json",
+										result_id : result_id
+									},
+									success: function (data) { 
+										var retval = JSON.parse(data);
+										var rows = retval[0].RECORDCOUNT;
+										if (retval[0].MODE=="direct") { 
+											// just stream the results to the user
+											$("##downloadResult").html('<a id="specimencsvdownloadlink" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id='+profile+'" download="#filename#" onclick="$(\'##specimencsvdownloadlink\').attr(\'style\',\'color: purple !important;\');" target="_blank" >Download ('+rows+' records)</a>');
+										} else if (retval[0].MODE=="file") { 
+											// request generation of file, and poll until it is created.
+											var token = retval[0].TOKEN;
+											$("##downloadFeedback").html("Preparing ("+rows+" records).");
+											// actually request that the file be generated
+											callGetSpecimensAsCSVProfile(profile, result_id, token);
+											checkStatus(token,rows);
+										}
+									}, 
+									error: function (jqXHR, textStatus, error) {
+										handleFail(jqXHR,textStatus,error,"setting up to download");
+									}
+								});
+							}
+							async function checkStatus(token,rows) { 
+								var done = false;
+								while (!done) { 
+									await new Promise(resolve => setTimeout(resolve, 2000));
+									jQuery.ajax({
+										url: "/specimens/component/search.cfc",
+										type: "get",
+										data: { 
+											method: "checkSpecimenDownload",
+											returnformat: "json",
+											token : token
+										},
+										success: function(data) { 
+											console.log(data);
+											var parsed = JSON.parse(data)[0];
+											var status = parsed.STATUS;
+											if (status=='Success') { 
+												$("##downloadFeedback").html(parsed.STATUS);
+												done = true;
+												var filename = parsed.FILENAME;
+												var path = parsed.PATH;
+												var message = parsed.MESSAGE;
+												var html = '<a id="specimencsvdownloadlink" arial-label="download results file" download="'+filename+'" target="_blank" href="'+path+'">'+message+'</a>';
+												$("##downloadResult").html(html);
+											} else { 
+												$("##downloadFeedback").html("Preparing ("+rows+" records).... ("+JSON.parse(data)[0].STATUS+")");
+												if (status=="Failed" || status=="Incomplete") { 
+													done = true;
+												}
+											} 
+										},
+										error: function (jqXHR, textStatus, error) {
+											done = true;
+											handleFail(jqXHR,textStatus,error,"checking specimen download status");
+										}
+									});
+									if ($("##downloadResult").html()=="Error") { done = true; }
+								} 
+							}
+							async function callGetSpecimensAsCSVProfile(profile, result_id, token) { 
+								console.log(token);
+								jQuery.ajax({
+									url: "/specimens/component/search.cfc",
+									type: "get",
+									data: { 
+										method: "getSpecimensAsCSVProfile",
+										returnformat: "json",
+										download_profile_id : profile,
+										result_id: result_id,
+										token : token
+									},
+									success: function(data) { 
+										console.log(data);
+										var parsed = JSON.parse(data.replaceAll('"','').trim().replaceAll("'",'"'))[0];
+										var filename = parsed.FILENAME;
+										var path = parsed.PATH;
+										var message = parsed.MESSAGE;
+										var html = '<a id="specimencsvdownloadlink" arial-label="download results file" download="'+filename+'" target="_blank" href="'+path+'">'+message+'</a>';
+										$("##downloadResult").html(html);
+									},
+									error: function (jqXHR, textStatus, error) {
+										handleFail(jqXHR,textStatus,error,"checking specimen download status");
+										$("##downloadResult").html("Error");
+									}
+								});
 							}
 						</script>
 						<label class="data-entry-label" for="profile_picker">Pick profile for which fields to include in the download</label>
-						<select id="profile_picker" name="profile_picker" class="data-entry-select" onchange="changeProfile()">
+						<select id="profile_picker" name="profile_picker" class="data-entry-select">
 							<cfloop query="getProfiles">
 								<cfset columnCount = ListLen(column_list)>
 								<cfif download_profile_id EQ selected_profile_id>
@@ -2808,8 +3114,9 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						</select>
 					</div>
 					<div class="col-12">
-						<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" target="_blank" onClick="handleInternalDownloadClick();" >Download as CSV</a>
+						<button id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onClick="handleInternalDownloadClick('#result_id#');" >Request Download as CSV</button>
 						<output id="downloadFeedback"></output>
+						<output id="downloadResult"></output>
 					</div>
 				</div>
 			<cfcatch>
@@ -3001,6 +3308,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							<!--- using target _blank to give user feedback on ongoing download.  Could monitor for a cookie, see for example https://www.bennadel.com/blog/2533-tracking-file-download-events-using-javascript-and-coldfusion.htm --->
 							<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id=#encodeForUrl(result_id)#" download="#filename#" target="_blank" onclick="handleDownloadClick();" >Download as CSV</a>
 							<output id="downloadFeedback"></output>
+							<output id="downloadResult"></output>
 						</div>
 					</div>
 				</form>

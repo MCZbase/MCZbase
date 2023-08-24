@@ -1115,7 +1115,7 @@ limitations under the License.
  @return html for editing other ids for the specified cataloged item. 
 --->
 						
-
+<!--- TODO: Metadata references updateImages and then identifications and identification history on updateMedia function --->
 <!---TEST function updateImages update the test images block for an arbitrary number of identifications in the identification history of a collection object 
 	@param collection_object_id the collecton object to which the identification history pertains
 	@param number_of_ids the number of determinations in the identification history
@@ -1173,11 +1173,13 @@ limitations under the License.
 		</cftransaction>
 	</cfoutput>
 </cffunction>
+<!--- TODO: Identify cause of duplication and remove --->
 <!---TEST function getEditMediaHtml obtain an html block to popluate an edit dialog for images
  @param media_id the media.media_id to edit.
  @return html for editing the media record 
 --->
-<cffunction name="getEditMediaHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getEditMediaHTMLDuplicate" returntype="string" access="remote" returnformat="plain">
+	<!--- TODO: This is a duplicate of getEditMediaHTML with less content --->
 	<cfargument name="media_id" type="string" required="yes">
 	<cfthread name="getMediaThread">
 		<cftry>
@@ -5132,7 +5134,8 @@ function showLLFormat(orig_units) {
 --->
 <cffunction name="getPartConditionHistoryHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getPartCondHist"> <cfoutput>
+	<cfthread name="getPartCondHist">
+		<cfoutput>
 			<cftry>
 				<!---- lookup cataloged item for collection object or part we are getting the condition history of ---->
 				<cfquery name="itemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -5203,10 +5206,163 @@ function showLLFormat(orig_units) {
 					<p class="mt-2 text-danger">Error in #function_called#: #error_message#</p>
 				</cfcatch>
 			</cftry>
-		</cfoutput> </cfthread>
+		</cfoutput> 
+	</cfthread>
 	<cfthread action="join" name="getPartCondHist" />
 	<cfreturn getPartCondHist.output>
 </cffunction>
 
+<!---
+Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning json suitable for jquery-ui autocomplete
+ with a _renderItem overriden to display more detail on the picklist, and the encumbrance as the selected value.
+
+@param term information to search for.
+@return a json structure containing id and value, with encumbrance in value and encumbrane_id in id, and encumbrance with more data in meta.
+--->
+<cffunction name="getEncumbranceAutocompleteMeta" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT
+				encumbrance_id, 
+				expiration_event, 
+				to_char(expiration_date,'yyyy-mm-dd') as expiration_date, 
+				encumbrance,
+				mczbase.get_agentnameoftype(encumbering_agent_id,'preferred') as by_agent
+			FROM
+				encumbrance
+			WHERE
+				lower(encumbrance) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#lcase(term)#%">
+				OR
+				lower(remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#lcase(term)#%">
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.encumbrance_id#">
+			<cfset row["value"] = "#search.encumbrance#" >
+			<cfset row["meta"] = "#search.encumbrance# (#by_agent# Expires:#search.expiration_event# #search.expiration_date#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- obtain a block of html listing encumbrances for a cataloged item 
+  @param collection_object_id the primary key for the cataloged item for which to list encumbrances 
+  @param containing_block the id, without a leading pound for an element in the dom that is to be
+    passed to removeFromEncumbrance and reloaded on success.
+  @return a block of html with encumbrances, expects the javascript function 
+    removeFromEncumbrance(encumbrance_id, collection_object_id, updateBlockId) to be in scope.
+--->
+<cffunction name="getEncumbrancesHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="containing_block" type="string" required="yes">
+
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfset variables.containing_block = arguments.containing_block>
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
+	<cfthread name="getEncumbThread#tn#">
+		<cfoutput>
+			<cftry>
+					<cfquery name="getEncumbrances" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select 
+							collection_object_id,
+							encumbrance.encumbrance_id,
+							encumbrance,
+							encumbrance_action,
+							MCZBASE.get_agentnameoftype(encumbrance.encumbering_agent_id) AS encumbering_agent, 
+							encumbrance.made_date AS encumbered_date, 
+							expiration_date,
+							expiration_event,
+							remarks
+						FROM coll_object_encumbrance
+							join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+						WHERE 
+							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					</cfquery>
+					<ul>
+					<cfif getEncumbrances.recordcount EQ 0>
+						<li>None</li>
+					</cfif>
+					<cfloop query="getEncumbrances">
+						<li>
+							#encumbrance# (#encumbrance_action#) 
+							by #encumbering_agent# made 
+							#dateformat(encumbered_date,"yyyy-mm-dd")#, 
+							expires #dateformat(expiration_date,"yyyy-mm-dd")# 
+							#expiration_event# #remarks#
+							<form name="removeEncumb_#collection_object_id#_#encumbrance_id#">
+								<input type="button" value="Remove" class="btn btn-xs btn-warning"
+									aria-label="Remove this cataloged item from this encumbrance"
+									onClick="removeFromEncumbrance(#encumbrance_id#,#getEncumbrances.collection_object_id#,'#containing_block#');">
+							</form>
+						</li>
+					</cfloop>
+					</ul>
+				<cfcatch>
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+					<cfset function_called = "#GetFunctionCalledName()#">
+					<p class="mt-2 text-danger">Error in #function_called#: #error_message#</p>
+				</cfcatch>
+			</cftry>
+		</cfoutput> 
+	</cfthread>
+	<cfthread action="join" name="getEncumbThread#tn#" />
+	<cfreturn cfthread["getEncumbThread#tn#"].output>
+</cffunction>
+
+<!--- function removeObjectFromEncumbrance remove a cataloged item from an encumbrance
+  @param collection_object_id the cataloged item to remove from the encumbrance
+  @param encumbrance_id the encumbrance from which to remove the item.
+  @return a json structure with status=removed, or an http 500 response.
+--->
+<cffunction name="removeObjectFromEncumbrance" returntype="any" access="remote" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="encumbrance_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>	
+			<cfquery name="removeFromEncumbrance" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removeFromEncumbrance_result">
+				DELETE 
+				FROM coll_object_encumbrance
+				WHERE
+					encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#"> AND
+					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			</cfquery>
+			<cfif removeFromEncumbrance_result.recordcount EQ 1>
+				<cftransaction action="commit"/>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "removed">
+				<cfset row["id"] = "#encumbrance_id#">
+				<cfset data[1] = row>
+			<cfelse>
+				<cfthrow message="Error other than one row affected.">
+			</cfif>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 </cfcomponent>

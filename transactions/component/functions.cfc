@@ -157,7 +157,10 @@ limitations under the License.
 	<cfreturn getDeaccItemDispThread.output>
 </cffunction>
 
-<!--- obtain an html block containing restrictions imposed by permissions and rights documents on material in a deaccession --->
+<!--- obtain an html block containing restrictions imposed by permissions and rights documents on material in a deaccession 
+  and benefits required for such material.
+ @param transaction_id the primary key value for the deaccession transaction for which to return benefits and restrictions.
+--->
 <cffunction name="getDeaccLimitations" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">
 
@@ -5412,9 +5415,16 @@ limitations under the License.
 
 
 <!----------------------------------------------------------------------------------------------------------------->
+<!--- getPermitMediaHtml return a block of html listing media for a permission and rights document
+  @param permit_id the primary key value to look up
+  @param correspondence, if non-empty value is provided, show additional documentation rather than 
+   media for the permit itself.
+  @editable if false, then do not include the edit controls, if not specified, default is true.
+--->
 <cffunction name="getPermitMediaHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="permit_id" type="string" required="yes">
 	<cfargument name="correspondence" type="string" required="no">
+	<cfargument name="editable" type="string" required="no" default="true">
 
 	<cfif isdefined("correspondence") and len(#correspondence#) gt 0>
 		<cfset relation = "document for permit">
@@ -5424,6 +5434,12 @@ limitations under the License.
 		<cfset heading = "The Document (copy of the actual permit)">
 	</cfif>
 	<cfset rel = left(relation,3)>
+	
+	<cfif not isDefined("editable") OR editable NEQ "false">
+		<cfset variables.editable = "true">
+	<cfelse>
+		<cfset variables.editable = "false">
+	</cfif>
 
 	<cfthread name="getPermitMediaThread">
 		<cftry>
@@ -5452,41 +5468,47 @@ limitations under the License.
 					and media_relations.related_primary_key = <cfqueryparam value="#permit_id#" CFSQLType="CF_SQL_DECIMAL">
 			</cfquery>
 			<cfoutput>
-				
-						<h2 class="h3">#heading# Media</h2>
-						<cfif query.recordcount gt 0>
-							<ul class="col-12 mx-0 pl-4 pr-0 list-style-disc">
-							<cfloop query="query">
-								<cfset puri=getMediaPreview(preview_uri,media_type) >
-								<cfif puri EQ "/images/noThumb.jpg">
-									<cfset altText = "Red X in a red square, with text, no preview image available">
-								<cfelse>
-									<cfset altText = query.media_descriptor>
-								</cfif>
-								<li class="my-1">
-									<a href='#media_uri#' class="w-auto mr-2"><img src='#puri#' height='40' width='28' alt='#media_descriptor#'></a>
-									<span class="d-inline">#mime_type#</span> | <span class="d-inline"> #media_type# </span> |  <span class="d-inline">#label_value#</span>
-									<a href='/media/#media_id#' target='_blank'>Media Details</a>
-									<input class='btn btn-xs btn-warning'
-											onClick=' confirmDialog("Remove this media from this permit (#relation#)?", "Confirm Unlink Media", function() { deleteMediaFromPermit(#media_id#,#permit_id#,"#relation#"); } ); event.preventDefault(); ' 
-											value='Remove' style='width: 5em; text-align: center; padding: .15em .25em;' >
-								</li>
-							</cfloop>
-							</ul>
+				<h2 class="h3">#heading# Media</h2>
+				<cfif query.recordcount gt 0>
+					<ul class="col-12 mx-0 pl-4 pr-0 list-style-disc">
+					<cfloop query="query">
+						<cfset puri=getMediaPreview(preview_uri,media_type) >
+						<cfif puri EQ "/images/noThumb.jpg">
+							<cfset altText = "Red X in a red square, with text, no preview image available">
+						<cfelse>
+							<cfset altText = query.media_descriptor>
 						</cfif>
-						<span>
-							<cfif query.recordcount EQ 0 or relation IS 'document for permit'>
-								<input type='button' onClick="opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rights document #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia);" 
-									value='Create Media' class='btn btn-xs btn-secondary'>&nbsp;
-								<span id='addPermit_#permit_id#'>
-									<input type='button' value='Link Media' class='btn btn-xs btn-secondary' 
-										onClick="openlinkmediadialog('addPermitDlg_#permit_id#_#rel#','Pick Media for Permit #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia); " >
-								</span>
+						<li class="my-1">
+							<a href='#media_uri#' class="w-auto mr-2"><img src='#puri#' height='40' width='28' alt='#media_descriptor#'></a>
+							<span class="d-inline">#mime_type#</span> | <span class="d-inline"> #media_type# </span> |  <span class="d-inline">#label_value#</span>
+							<a href='/media/#media_id#' target='_blank'>Media Details</a>
+							<cfif editable EQ "true">
+								<input class='btn btn-xs btn-warning'
+									onClick=' confirmDialog("Remove this media from this permit (#relation#)?", "Confirm Unlink Media", function() { deleteMediaFromPermit(#media_id#,#permit_id#,"#relation#"); } ); event.preventDefault(); ' 
+									value='Remove' style='width: 5em; text-align: center; padding: .15em .25em;' >
 							</cfif>
+						</li>
+					</cfloop>
+					</ul>
+				<cfelseif query.recordcount EQ 0 AND editable EQ "false">
+					<ul class="col-12 mx-0 pl-4 pr-0 list-style-disc">
+						<li class="my-1">None</li>
+					</ul>
+				</cfif>
+				<span>
+					<cfif editable EQ "true" AND (query.recordcount EQ 0 or relation IS 'document for permit')>
+						<input type='button' onClick="opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rights document #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia);" 
+							value='Create Media' class='btn btn-xs btn-secondary'>&nbsp;
+						<span id='addPermit_#permit_id#'>
+							<input type='button' value='Link Media' class='btn btn-xs btn-secondary' 
+								onClick="openlinkmediadialog('addPermitDlg_#permit_id#_#rel#','Pick Media for Permit #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia); " >
 						</span>
-						<div id='addMediaDlg_#permit_id#_#rel#'></div>
-						<div id='addPermitDlg_#permit_id#_#rel#'></div>
-				
+					</cfif>
+				</span>
+				<cfif editable EQ "true">
+					<div id='addMediaDlg_#permit_id#_#rel#'></div>
+					<div id='addPermitDlg_#permit_id#_#rel#'></div>
+				</cfif>
 			</cfoutput>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -5763,6 +5785,98 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	<cfreturn result>
+</cffunction>
+
+
+<!--- getRestrictionsHtml get a block of html listing restrictions inherited from permits for items
+  involved in a transaction. 
+  @param transaction_id the transaction for which to lookup transitive restrictions.
+  @return a block of html
+--->
+<cffunction name="getRestrictionsHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+	
+	<cfthread name="getRestrictionsThread">
+		<cftry>
+			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT transaction_type 
+				FROM trans
+				WHERE
+					transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+				
+			<cfif getType.transaction_type EQ "loan">
+				<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct restriction_summary, permit_id, permit_num from (
+					select permit.restriction_summary, permit.permit_id, permit.permit_num
+					from loan_item li 
+						join specimen_part sp on li.collection_object_id = sp.collection_object_id
+						join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+						join accn on ci.accn_id = accn.transaction_id
+						join permit_trans on accn.transaction_id = permit_trans.transaction_id
+						join permit on permit_trans.permit_id = permit.permit_id
+					where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+						and permit.restriction_summary is not null
+					UNION
+					select permit.restriction_summary, permit.permit_id, permit.permit_num
+					from loan
+						join shipment on loan.transaction_id = shipment.transaction_id
+						join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+						join permit on permit_shipment.permit_id = permit.permit_id
+					where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+						and permit.restriction_summary is not null
+					)
+				</cfquery>
+			<cfelseif getType.transaction_type EQ "deacc">
+				<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct restriction_summary, permit_id, permit_num from (
+					select permit.restriction_summary, permit.permit_id, permit.permit_num
+					from deacc_item li 
+						join specimen_part sp on li.collection_object_id = sp.collection_object_id
+						join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+						join accn on ci.accn_id = accn.transaction_id
+						join permit_trans on accn.transaction_id = permit_trans.transaction_id
+						join permit on permit_trans.permit_id = permit.permit_id
+					where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+						and permit.restriction_summary is not null
+					UNION
+					select permit.restriction_summary, permit.permit_id, permit.permit_num
+					from deacc
+						join shipment on deacc.transaction_id = shipment.transaction_id
+						join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+						join permit on permit_shipment.permit_id = permit.permit_id
+					where deacc.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+						and permit.restriction_summary is not null
+					)
+				</cfquery>
+			<cfelse>
+				<cfthrow message="No transaction found for specified transaction_id">
+			</cfif>
+			<cfif isDefined("getType") AND getType.recordCount GT 0>
+				<cfoutput>
+					<div class="col-12 pb-0 px-0">
+						<h2 class="h3 px-3">Restrictions on Use</h2>
+						<p class="px-3">Restrictions on use from one or more permissions and rights document apply to one or more items in this loan.</p>
+						<ul>
+							<cfloop query="getRestrictions">
+								<li><a href="/transactions/Permit.cfm?action=view&#getRestrictions.permit_id#" target="_blank">#getRestrictions.permit_num#</a>#getRestrictions.restriction_summary#</li>
+							</cfloop>
+						</ul>
+					</div>
+				</cfoutput>
+			<cfelse>
+				<cfoutput></cfoutput>
+			</cfif>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getRestrictionsThread" />
+	<cfreturn getRestrictionsThread.output>
 </cffunction>
 
 </cfcomponent>

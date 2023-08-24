@@ -584,7 +584,18 @@ limitations under the License.
 --->
 <cffunction name="queryToCSV" returntype="string" output="false" access="public">
 	<cfargument name="queryToConvert" type="query" required="true">
-		
+
+	<cfset controlChars = "\p{cntrl}">
+	<cftry>
+		<cfset engineCheck = refind("[[:digit:]]","1")>
+		<cfif engineCheck EQ 1>
+			<cfset controlChars = "[[:cntrl:]]">
+		</cfif>
+	<cfcatch>
+		<!--- not the default perl regex engine --->
+	</cfcatch>
+	</cftry>		
+
 	<!--- arrayToList on getColumnNames preserves order. --->
 	<cfset columnNamesList = arrayToList(queryToConvert.getColumnNames()) >
 	<cfset columnNamesArray = queryToConvert.getColumnNames() >
@@ -604,7 +615,7 @@ limitations under the License.
 	<cfloop query="queryToConvert">
 		<cfset row=[]>
 		<cfloop index="j" from="1" to="#columnCount#" step="1">
-			<cfset row[j] = '"' & replace(evaluate(columnNamesArray[j]),'"','""','all') & '"' >
+			<cfset row[j] = '"' & rereplace(replace(evaluate(columnNamesArray[j]),'"','""','all'),controlChars,"","all") & '"' >
 		</cfloop>
 		<cfset outputBuffer.append( JavaCast('string',(ArrayToList(row,","))))>
 		<cfset outputBuffer.append(newLine) >
@@ -624,44 +635,86 @@ limitations under the License.
  **
 --->
 <cffunction name="queryToCSVFile" returntype="any" output="false" access="public">
-	<cfargument name="queryToConvert" type="query" required="true">		
+	<cfargument name="queryToConvert" type="query" required="true">
+	<cfargument name="mode" type="string" required="no" default="create">
+	<cfargument name="timestamp" type="string" required="no">
+	<cfargument name="written" type="string" required="no">
 
 	<cfsetting requestTimeout="600">
-
-	<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHnnssl')#">
-	<cfset filename ="download_#session.dbuser#_#timestamp#">
-	<cfset written = 0>
-	<cfset retval = StructNew()>
-
-	<!--- arrayToList on getColumnNames preserves order. --->
-	<cfset columnNamesList = arrayToList(queryToConvert.getColumnNames()) >
-	<cfset columnNamesArray = queryToConvert.getColumnNames() >
-	<cfset columnCount = ArrayLen(columnNamesArray) >
-
-	<!--- header line --->
-	<cfset header=[]>
-	<cfloop index="i" from="1" to="#columnCount#" step="1">
-		<cfset header[i] = """#ucase(columnNamesArray[i])#""" >
-	</cfloop>
-
-	<!--- loop through query and append rows to file --->
+	<cfset controlChars = "\p{cntrl}">
 	<cftry>
-		<cffile action="write" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(header,','))#">
+		<cfset engineCheck = refind("[[:digit:]]","1")>
+		<cfif engineCheck EQ 1>
+			<cfset controlChars = "[[:cntrl:]]">
+		</cfif>
+	<cfcatch>
+		<!--- not the default perl regex engine --->
+	</cfcatch>
+	</cftry>		
+
+	<cftry>
+		<!--- remove the column added to order the query results for paging ---->
+		<cfset queryToConvert = QueryDeleteColumn(queryToConvert,"FOUNDROWNUM")>
+		<cfif mode EQ "create">
+			<cfset timestamp = "#dateformat(now(),'yyyymmdd')#_#TimeFormat(Now(),'HHnnssl')#">
+			<cfset written = 0>
+		<cfelse>
+			<cfif not isDefined("timestamp") OR len(timestamp) EQ 0 OR not isDefined("written") OR len(written) EQ 0>
+				<cfthrow message="timestamp and written parameters are required if mode is other than create">
+			<cfelseif REFind("^[0-9_]+$",timestamp) EQ 0>
+				<cfthrow message="timestamp can only contain numbers">
+			</cfif>
+		</cfif>
+		<cfset filename ="download_#session.dbuser#_#timestamp#">
+		<cfset retval = StructNew()>
+	
+		<!--- arrayToList on getColumnNames preserves order. --->
+		<cfset columnNamesList = arrayToList(queryToConvert.getColumnNames()) >
+		<cfset columnNamesArray = queryToConvert.getColumnNames() >
+		<cfset columnCount = ArrayLen(columnNamesArray) >
+	
+		<!--- header line --->
+		<cfset header=[]>
+		<cfloop index="i" from="1" to="#columnCount#" step="1">
+			<cfset header[i] = """#ucase(columnNamesArray[i])#""" >
+		</cfloop>
+	
+		<!--- loop through query and append rows to file --->
+		<cfif mode EQ "create">
+			<cffile action="write" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(header,','))#">
+		</cfif>
+		<cfset buffer = CreateObject("java","java.lang.StringBuffer").Init()>
+		<cfset stepsToWrite = 1000>
+		<cfset counter = 0>
 		<cfloop query="queryToConvert">
+			<cfset counter = counter + 1>
 			<cfset row=[]>
 			<cfloop index="j" from="1" to="#columnCount#" step="1">
-				<cfset row[j] = '"' & replace(evaluate(columnNamesArray[j]),'"','""','all') & '"' >
+				<cfset row[j] = '"' & rereplace(replace(queryToConvert["#columnNamesArray[j]#"][queryToConvert.currentRow],'"','""','all'),controlChars,"") & '"' >
 			</cfloop>
-			<cffile action="append" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(row,','))#">
-			<cfset written = written + 1>
+			<cfset buffer.Append(JavaCast('string',ArrayToList(row,',')))>
+			<cfset buffer.Append(Chr(10))>
+			<cfif counter EQ stepsToWrite>
+				<cffile action="append" file="#application.webDirectory#/temp/#filename#.csv" addnewline="no" output="#buffer.toString()#">
+				<cfset written = written + counter>
+				<cfset counter = 0>
+				<cfset buffer.setLength(0)>
+			</cfif>
 		</cfloop>
+		<cfif counter NEQ stepsToWrite>
+			<cffile action="append" file="#application.webDirectory#/temp/#filename#.csv" addnewline="no" output="#buffer.toString()#">
+			<cfset written = written + counter>
+		</cfif>
 		<cfset retval.STATUS = "Success">
 		<cfset retval.WRITTEN = "#written#">
+		<cfset retval.TIMESTAMP= "#timestamp#">
 		<cfset retval.FILENAME = "/temp/#filename#.csv">
 		<cfset retval.MESSAGE = "Wrote #written# records into temporary file for download.">
 	<cfcatch>
 		// Failure case 
+		<cflog text="#cfcatch.message#" file="MCZbase">
 		<cfset retval.WRITTEN = "#written#">
+		<cfset retval.TIMESTAMP= "#timestamp#">
 		<cfif written GT 0> 
 			<cfset retval.STATUS = "Incomplete">
 			<cfset retval.FILENAME = "/temp/#filename#.csv">

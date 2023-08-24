@@ -262,16 +262,16 @@ limitations under the License.
 		<cfoutput>
 			<cfset extra = "">
 			<cfif isDefined("geog_auth_rec_id") AND len(geog_auth_rec_id) GT 0 AND NOT (isDefined("clone_from_locality_id") and len(clone_from_locality_id) GT 0)>
-					<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT higher_geog
-						FROM geog_auth_rec
-						WHERE 
-							geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
-					</cfquery>
-					<cfloop query="lookupHigherGeog">
-						<cfset extra = " within #lookupHigherGeog.higher_geog#">
-					</cfloop>
-					<cfset blockform = getCreateLocalityHtml(geog_auth_rec_id = "#geog_auth_rec_id#")>
+				<cfquery name="lookupHigherGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT higher_geog
+					FROM geog_auth_rec
+					WHERE 
+						geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
+				</cfquery>
+				<cfloop query="lookupHigherGeog">
+					<cfset extra = " within #lookupHigherGeog.higher_geog#">
+				</cfloop>
+				<cfset blockform = getCreateLocalityHtml(geog_auth_rec_id = "#geog_auth_rec_id#")>
 			<cfelseif isDefined("clone_from_locality_id") and len(clone_from_locality_id) GT 0>
 				<cfset extra = " cloned from #encodeForHtml(clone_from_locality_id)#">
 				<cfset blockform = getCreateLocalityHtml(clone_from_locality_id = "#clone_from_locality_id#")>
@@ -469,6 +469,8 @@ limitations under the License.
 							,ACCEPTED_LAT_LONG_FG
 							,EXTENT
 							,GPSACCURACY
+							,SPATIALFIT
+							,FOOTPRINT_SPATIALFIT
 							,GEOREFMETHOD
 							,VERIFICATIONSTATUS
 							,verified_by_agent_id)
@@ -481,7 +483,7 @@ limitations under the License.
 								,NULL
 							</cfif>
 							<cfif len(#DEC_LAT_MIN#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT_MIN#">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT_MIN#" scale="6">
 							<cfelse>
 								,NULL
 							</cfif>
@@ -491,12 +493,12 @@ limitations under the License.
 								,NULL
 							</cfif>
 							<cfif len(#LAT_SEC#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_SEC#">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LAT_SEC#" scale="6">
 							<cfelse>
 								,NULL
 							</cfif>
 							<cfif len(#LAT_DIR#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_DIR#">
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LAT_DIR#" scale="6">
 							<cfelse>
 								,NULL
 							</cfif>
@@ -506,7 +508,7 @@ limitations under the License.
 								,NULL
 							</cfif>
 							<cfif len(#DEC_LONG_MIN#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG_MIN#">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG_MIN#" scale="8">
 							<cfelse>
 								,NULL
 							</cfif>
@@ -526,12 +528,12 @@ limitations under the License.
 								,NULL
 							</cfif>
 							<cfif len(#DEC_LAT#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT#">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LAT#" scale="10">
 							<cfelse>
 								,NULL
 							</cfif>
 							<cfif len(#DEC_LONG#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG#">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DEC_LONG#" scale="10">
 							<cfelse>
 								,NULL
 							</cfif>
@@ -587,12 +589,22 @@ limitations under the License.
 							</cfif>
 							,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ACCEPTED_LAT_LONG_FG#">
 							<cfif len(#EXTENT#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#EXTENT#" scale="5">
 							<cfelse>
 								,NULL
 							</cfif>
 							<cfif len(#GPSACCURACY#) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#">
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#GPSACCURACY#" scale="3">
+							<cfelse>
+								,NULL
+							</cfif>
+							<cfif len(#SPATIALFIT#) gt 0>
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#SPATIALFIT#" scale="3">
+							<cfelse>
+								,NULL
+							</cfif>
+							<cfif len(#FOOTPRINT_SPATIALFIT#) gt 0>
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#FOOTPRINT_SPATIALFIT#" scale="3">
 							<cfelse>
 								,NULL
 							</cfif>

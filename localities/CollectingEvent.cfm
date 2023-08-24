@@ -47,20 +47,22 @@ limitations under the License.
 <cfset pageHasTabs="false">
 <cfinclude template = "/shared/_header.cfm">
 
+<cfinclude template="/localities/component/functions.cfc" runonce="true">
+
 <cfswitch expression="#action#">
-	 <cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT spec_locality, geog_auth_rec_id 
-		FROM locality
-		WHERE 
-			locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
-	</cfquery>
-	<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT higher_geog 
-		FROM geog_auth_rec 
-		WHERE
-			geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.geog_auth_rec_id#">
-	</cfquery>
 	<cfcase value="edit">
+		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT spec_locality, geog_auth_rec_id 
+			FROM locality
+			WHERE 
+				locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+		</cfquery>
+		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT higher_geog 
+			FROM geog_auth_rec 
+			WHERE
+				geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.geog_auth_rec_id#">
+		</cfquery>
 		<cfquery name="lookupEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT collecting_event_id 
 			FROM collecting_event
@@ -75,6 +77,7 @@ limitations under the License.
 						<div class="col-12 mt-2 mb-5">
 							<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Edit Collecting Event#extra#</h1>
 							<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
+								<cfset blockform = getEditCollectingEventHtml(collecting_event_id="#collecting_event_id#")>
 								<form name="editCollectingEventForm" id="editCollectingEvent">
 									#blockform#
 									<input type="button" class="btn btn-primary btn-xs" value="Save" onClick=" saveEvent(); ">
@@ -115,7 +118,7 @@ limitations under the License.
 			<cfloop query="lookupLocality">
 				<cfset extra = " within #lookupLocality.higher_geog# #lookupLocality.spec_locality#">
 			</cfloop>
-		<cfset blockform = getCreateCollectingEventHtml(geog_auth_rec_id = "#geog_auth_rec_id#")>
+			<cfset blockform = getCreateCollectingEventHtml(geog_auth_rec_id = "#geog_auth_rec_id#")>
 		<cfelseif isDefined("clone_from_locality_id") and len(clone_from_locality_id) GT 0>
 			<cfset extra = " cloned from #encodeForHtml(clone_from_locality_id)#">
 				<cfset blockform = getCreateCollectingEventHtml(clone_from_locality_id = "#clone_from_locality_id#")>
@@ -128,10 +131,21 @@ limitations under the License.
 					<div class="col-12 mt-2 mb-5">
 						<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Create New Collecting Event#extra#</h1>
 						<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
-							<form name="createCollectingEvent" method="post" action="/localities/CollectingEvent.cfm">
+							<form name="createCollectingEvent" id="createCollectingEventForm" method="post" action="/localities/CollectingEvent.cfm">
 								<input type="hidden" name="Action" value="makenewCollectingEvent">
 								#blockform#
+								<div class="col-12 col-md-3 pt-2">
+									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2" onClick="saveCollectingEvent();" id="submitButton" >
+									<output id="createFeedback" class="text-danger">&nbsp;</output>	
+								</div>
 							</form>
+							<script>
+								function saveCollectingEvent() { 
+									if (checkFormValidity($('##createCollectingEventForm')[0])) { 
+										$("##createCollectingEventForm").submit();
+									} 
+								} 
+							</script>
 						</div>
 					</div>
 				</section>
@@ -172,7 +186,7 @@ limitations under the License.
 						<h2>Successfully deleted collecting event.</h2>
 						<cftransaction action="commit">
 					<cfelse>
-						<cfthrow message="Error deleting collecting event, other than one event affected."
+						<cfthrow message="Error deleting collecting event, other than one event affected.">
 						<cftransaction action="rollback">
 					</cfif>
 				</cftransaction>

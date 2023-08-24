@@ -568,6 +568,35 @@ function updateLoanItemCount(transactionId,targetDiv) {
 	)
 };
 
+/* Update the content of a div containing inherited restrictions on transaction items
+ * @param transactionId the transaction_id of the transaction to lookup
+ * @param targetDiv the id of a div for which to replace the contents (without a leading #).
+ * @param targetDiv the id of a div containing a static warning message to show or hide.
+ */
+function updateRestrictionsBlock(transactionId,targetDiv,warningDiv) {
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/transactions/component/functions.cfc",
+		data: { 
+			method : "getRestrictionsHtml",
+			transaction_id : transactionId
+		},
+		error: function (jqXHR, textStatus, message) {
+			handleFail(jqXHR,textStatus,error,"looking up transaction item restrictions");
+		},
+		success: function (result) {
+			$('#' + targetDiv).html(result);
+			if (result) { 
+				$('#' + warningDiv).show();
+			} else { 
+				$('#' + warningDiv).hide();
+			}
+		}
+	},
+	)
+};
+
 /** 
  * removeSubloandFromParent unlink a subloan from a master exhibition loan and reload
  * the subloan_section of the page.
@@ -612,7 +641,7 @@ function addSubloanToParent(parentTransactionId,childTransactionId) {
 			loadSubLoans(parentTransactionId);
 		}
 	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
+		handleFail(jqXHR,textStatus,error,"adding subloan to master exhibition loan");
 	});
 };
 
@@ -633,7 +662,7 @@ function loadSubLoans(transactionId) {
 			$("#subloan_section").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
+			handleFail(jqXHR,textStatus,error,"loading subloans from master exhibition loan");
 		},
 		dataType: "html"
 	});
@@ -651,7 +680,7 @@ function loadTransactionFormMedia(transaction_id,transaction_type) {
 			$("#transactionFormMedia").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
+			handleFail(jqXHR,textStatus,error,"loading transaction form media");
 		},
 		dataType: "html"
 	});
