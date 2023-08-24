@@ -41,7 +41,7 @@
 						<div class="form-row mb-2">
 							<div class="col-12 pb-2">
 								<label for="encumbrance" class="data-entry-label">Add these specimens to/Remove these specimens from the Encumbrance.</label>
-								<input type="text" id="encumbrance" name="encumbrance" value="" required class="data-entry-input redqClr">
+								<input type="text" id="encumbrance" name="encumbrance" value="" required class="data-entry-input reqdClr">
 								<input type="hidden" id="encumbrance_id" name="encumbrance_id" value="">
 								<script>
 									$(document).ready(function() { 
@@ -245,8 +245,9 @@
 										</cfif>
 									</cfloop>
 								</td>
-								<td>
-									<cfquery name="encs" dbtype="query">
+								<cfset existingBlock = "existEnc_#collection_object_id#">
+								<td id="#existingBlock#">
+									<cfquery name="getEncumbrances" dbtype="query">
 										select 
 											collection_object_id,
 											encumbrance_id,
@@ -271,32 +272,69 @@
 											expiration_event,
 											remarks
 									</cfquery>
-									<cfset e=1>
-									<cfloop query="encs">
+									<ul>
+									<cfloop query="getEncumbrances">
 										<cfif len(#encumbrance#) gt 0>
-											#encumbrance# (#encumbrance_action#) 
-											by #encumbering_agent# made 
-											#dateformat(encumbered_date,"yyyy-mm-dd")#, 
-											expires #dateformat(expiration_date,"yyyy-mm-dd")# 
-											#expiration_event# #remarks#<br>
-											<form name="nothing#e#">
-												<input type="button" 
-													value="Remove This Encumbrance" 
-													class="delBtn"
-													onmouseover="this.className='delBtn btnhov'"
-													onmouseout="this.className='delBtn'"
-													onClick="deleteEncumbrance(#encumbrance_id#,#encs.collection_object_id#);">
-											</form>
+											<li>
+												#encumbrance# (#encumbrance_action#) 
+												by #encumbering_agent# made 
+												#dateformat(encumbered_date,"yyyy-mm-dd")#, 
+												expires #dateformat(expiration_date,"yyyy-mm-dd")# 
+												#expiration_event# #remarks#
+												<form name="removeEncumb_#collection_object_id#_#encumbrance_id#">
+													<input type="button" value="Remove" class="btn btn-xs btn-warning"
+														aria-label="Remove this cataloged item from this encumbrance"
+														onClick="removeFromEncumbrance(#encumbrance_id#,#getEncumbrances.collection_object_id#,'#existingBlock#');">
+												</form>
+											</li>
 										<cfelse>
-											None
+											<li>None<li>
 										</cfif> 
-										<cfset e=#e#+1>
 									</cfloop>
+									</ul>
 								</td>
 							</tr>
 						</cfloop>
 					</tbody>
 				</table>
+				<script>
+					// TODO: Move to specimens/js/specimens.js library accessible from cataloged item page
+					function removeFromEncumbrance(encumbrance_id, collection_object_id, reloadBlock) { 
+						jQuery.ajax({
+							dataType: "json",
+							url: "/specimens/component/functions.cfc",
+							data: { 
+								method : "removeObjectFromEncumbrance",
+								encumbrance_id : encumbrance_id,
+								collection_object_id : collection_object_id,
+								returnformat : "json",
+								queryformat : 'column'
+							},
+							error: function (jqXHR, status, message) {
+								messageDialog("Error removing item from encumbrance: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+							},
+							success: function (result) {
+								reloadEncumbrances(reloadBlock);
+							}
+						});
+					}
+					function reloadEncumbrances(reloadBlock) { 
+						jQuery.ajax({
+							url: "/specimens/component/functions.cfc",
+							data : {
+								method : "getEncumbrancesHTML",
+								collection_object_id: collection_object_id,
+							},
+							success: function (result) {
+								$("#" + reloadBlock ).html(result);
+							},
+							error: function (jqXHR, textStatus, error) {
+								handleFail(jqXHR,textStatus,error,"loading encumbrances html");
+							},
+							dataType: "html"
+						});
+					}
+				</script>
 			</div>
 		</section>
 	</main>
