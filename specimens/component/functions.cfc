@@ -5224,10 +5224,11 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT
-				encumbrance_id, expiration_event, 
+				encumbrance_id, 
+				expiration_event, 
 				to_char(expiration_date,'yyyy-mm-dd') as expiration_date, 
 				encumbrance,
-				mczbase.get_agentnamebytype(encumbering_agent_id,'preferred') as by
+				mczbase.get_agentnamebytype(encumbering_agent_id,'preferred') as by_agent
 			FROM
 				encumbrance
 			WHERE
@@ -5241,7 +5242,7 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.encumbrance_id#">
 			<cfset row["value"] = "#search.encumbrance#" >
-			<cfset row["meta"] = "#search.encumbrance# (#by# Expires:#search.expiration_event# #search.expiration_date#)" >
+			<cfset row["meta"] = "#search.encumbrance# (#by_agent# Expires:#search.expiration_event# #search.expiration_date#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
