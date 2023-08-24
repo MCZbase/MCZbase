@@ -34,7 +34,7 @@
 			<section class="row" aria-labelledby="formheading">
 				<div class="col-12 pt-4">
 					<h1 class="h3 px-1" id="formheading" >
-						Change Encumbrance the (#countItems.ct#) cataloged items listed below:
+						Add or Remove an Encumbrance to the (#countItems.ct#) cataloged items listed below:
 					</h1>
 					<form name="changeEncumbrance" method="post" action="/specimens/changeQueryEncumbrance.cfm">
 						<input type="hidden" name="result_id" value="#result_id#">
