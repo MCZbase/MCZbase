@@ -5283,8 +5283,8 @@ Function getEncumbranceAutocompleteMeta.  Search for encumbrances, returning jso
 							encumbrance.encumbrance_id,
 							encumbrance,
 							encumbrance_action,
-							encumbering_agent,
-							encumbered_date,
+							MCZBASE.get_agentnameoftype(encumbrance.encumbering_agent_id) AS encumbering_agent, 
+							encumbrance.made_date AS encumbered_date, 
 							expiration_date,
 							expiration_event,
 							remarks
