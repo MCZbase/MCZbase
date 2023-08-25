@@ -84,7 +84,7 @@ limitations under the License.
 	<!--- if cftoken is an integer, this will change it to a shorter alphanumeric string which likely wont be long enought to need to be truncated --->
 	<cfset reencodedToken = binaryencode(binarydecode(replace(cftoken,"-","","All"),"Hex"),"Base64Url")>
 	<!--- Base64Url is ^[A-Za-z0-9_-]+$, oracle table names are ^[A-Za-z0-9_#\$]+$, so replace - with # --->
-	<cfset reencodedToken = replace(reencodedToken,"-","#","All")>
+	<cfset reencodedToken = replace(reencodedToken,"-","##","All")>
 	<cfset temp=cfid & '_' & left(replace(reencodedToken,"-",""),maxavailable) & '_' & rand>
 	<cfset session.SpecSrchTab="SpecSrch" & temp>
 	<cfset session.MediaSrchTab="MediaSrch" & temp>
