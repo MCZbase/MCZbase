@@ -690,8 +690,11 @@ limitations under the License.
 			<cfset counter = counter + 1>
 			<cfset row=[]>
 			<cfloop index="j" from="1" to="#columnCount#" step="1">
-				<cfset row[j] = '"' & rereplace(replace(queryToConvert["#columnNamesArray[j]#"][queryToConvert.currentRow],'"','""','all'),controlChars,"") & '"' >
+				<cfset row[j] = queryToConvert["#columnNamesArray[j]#"][queryToConvert.currentRow]>
 			</cfloop>
+			<cfscript>
+				 row = ArrayMap(row, function(item){ return '"' & rereplace(replace(item,'"','""','all'),controlChars,"") & '"' }, "true") 
+			</cfscript>
 			<cfset buffer.Append(JavaCast('string',ArrayToList(row,',')))>
 			<cfset buffer.Append(Chr(10))>
 			<cfif counter EQ stepsToWrite>
