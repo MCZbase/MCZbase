@@ -2755,6 +2755,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<cflog text="before search query count.ct=[#count.ct#]" file="MCZbase">
 						<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 							SELECT 
+								rownum as foundrownum,
 								<cfset comma = "">
 								<cfloop array="#valid_columns#" index="idx">
 									<cfif len(idx.sql_element) GT 0> 
