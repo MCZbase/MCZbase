@@ -79,7 +79,8 @@ limitations under the License.
 	<!--- cftoken may be a uuid, table names need to be limited to 30 characters --->
 	<cfset rand = RandRange(0,9999)>
 	<cfset lenTaken = len("MediaSrch#cfid#_#rand#_")>
-	<cfset maxavailable = 30 - lenTaken>
+	<cfset DBOBJECTNAME_MAX_LEN = 30>
+	<cfset maxavailable = DBOBJECTNAME_MAX_LEN - lenTaken>
 	<!--- prefered way of shortening a hash is to truncate on right, reencode cftoken from hex to base64 (reduces to 22 characters), then truncate that --->
 	<!--- if cftoken is an integer, this will change it to a shorter alphanumeric string which likely wont be long enought to need to be truncated --->
 	<cfset reencodedToken = binaryencode(binarydecode(replace(cftoken,"-","","All"),"Hex"),"Base64Url")>
