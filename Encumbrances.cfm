@@ -16,6 +16,9 @@
 <cfquery name="ctEncAct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select encumbrance_action from ctencumbrance_action order by encumbrance_action
 </cfquery>
+<!--- TODO: This page incorporates both managing encumbrances, which needs redesign, and managing cataloged items in encumbrances, which has been moved to a manage page, 
+  but not disentangled from this page yet, so not all functionality here needs to be moved into a redesigned find/create/edit encumbrances page.
+--->
 <!---------------------------------------------------------------------------->
 <cfif action is "create">
 	<strong><br>Create a new encumbrance.</strong>
@@ -64,6 +67,7 @@
 		<cfset title = "Search for specimens or encumbrances">
 		<p>
 			<cfif len(collection_object_id) gt 0>
+				<!--- Note: We shouldn't reach this block now, manage encumbrances has been moved to manage by result_id --->
 				Now find an encumbrance to apply to the specimens below. If you need a new encumbrance, create it
 				first then come back here.
 			<cfelse>
