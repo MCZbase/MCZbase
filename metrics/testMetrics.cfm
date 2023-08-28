@@ -40,7 +40,7 @@ GROUP BY coll_object.coll_obj_disposition, coll_object.coll_object_entered_date,
 </cfquery>
 
 <cfloop index="i" from="1" to="#lots1.RecordCount#">
-<cfset lots.began_date[i]=
+<cfset lots1.began_date[i]=
 NumberFormat(lots1.began_date("yyyy", lots1.began_date[i]) ,9999)>
 </cfloop>
 	
@@ -56,7 +56,7 @@ GROUP BY coll_object.coll_object_entered_date, coll_object.coll_obj_disposition
 	
 <!--- Round average salaries to thousands. --->
 <cfloop index="i" from="1" to="#lots2.RecordCount#">
-<cfset lots.AvgLot[i]=
+<cfset lots2.AvgLot[i]=
 Round(lots2.AvgLot[i]/1000)*1000>
 </cfloop>
 
