@@ -33,8 +33,7 @@ limitations under the License.
 	
 <cfquery name = "lots2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 SELECT
-coll_object.coll_obj_disposition, coll_object.coll_object_entered_date
-AVG(lot_count) AS AvgLot
+coll_object.coll_obj_disposition, AVG(lot_count) AS "AvgLot", coll_object.coll_object_entered_date
 FROM coll_object, specimen_part
 	where specimen_part.derived_from_cat_item =coll_object.collection_object_id
 GROUP BY coll_object.coll_object_entered_date, coll_object.coll_obj_disposition
