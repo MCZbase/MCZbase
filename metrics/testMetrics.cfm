@@ -36,7 +36,7 @@ coll_object.coll_obj_disposition, coll_object.coll_object_entered_date, flat.beg
 FROM coll_object, flat, specimen_part
 	where flat.collection_object_id = coll_object.collection_object_id
 	and specimen_part.derived_from_cat_item =coll_object.collection_object_id
-GROUP BY coll_object.coll_obj_disposition
+GROUP BY coll_object.coll_obj_disposition, coll_object.coll_object_entered_date, flat.began_date
 </cfquery>
 
 <cfloop index="i" from="1" to="#lots1.RecordCount#">
