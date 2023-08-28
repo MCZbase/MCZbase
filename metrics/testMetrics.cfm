@@ -51,7 +51,7 @@ BackgroundColor="##FFFF00"
 show3D="yes">
 <cfchartseries
 type="area"
-query="lot2"
+query="lots2"
 valueColumn="lots2.coll_object_entered_date"
 itemColumn="lots2.coll_obj_disposition"/>
 </cfchart>
