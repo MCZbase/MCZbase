@@ -2715,7 +2715,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			</cfquery>
 	
 			<cfif count.ct LT DOWNLOAD_THRESHOLD OR paging EQ "no">
-				<cflog text="query for stream paging=#paging# count.ct=#count.ct#" file="MCZbase">
+				<cflog text="Query for stream. paging=#paging# count.ct=#count.ct#" file="MCZbase">
 				<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 					SELECT 
 						<cfset comma = "">
