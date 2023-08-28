@@ -33,11 +33,10 @@ limitations under the License.
 	
 <cfquery name = "lots2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 SELECT
-coll_object.coll_obj_disposition, coll_object.coll_object_entered_date,flat.began_date
+coll_object.coll_obj_disposition, coll_object.coll_object_entered_date
 AVG(lot_count) AS AvgLot
-FROM coll_object, <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat, specimen_part
-	where flat.collection_object_id = coll_object.collection_object_id
-	and specimen_part.derived_from_cat_item =coll_object.collection_object_id
+FROM coll_object, specimen_part
+	where specimen_part.derived_from_cat_item =coll_object.collection_object_id
 GROUP BY coll_object.coll_object_entered_date, coll_object.coll_obj_disposition
 </cfquery>
 	
@@ -55,7 +54,7 @@ show3D="yes">
 type="area"
 query="lot2"
 valueColumn="lots2.coll_object_entered_date"
-itemColumn="lots2.began_date"/>
+itemColumn="lots2.coll_obj_disposition"/>
 </cfchart>
 <br>	
 	
