@@ -2621,12 +2621,15 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
   * of fields specified in a download_profile.
   * @param result_id the uuid that identifies the search to return as csv
   * @param download_profile_id the id for the profile that specifies the columns in the download.
+  * @param paging default no, if yes, and result size is larger than DOWNLOAD_THRESHOLD then 
+  *  page results, otherwise stream results.
   * @return a csv serialization with a content type text/csv http header or a http error status.
   ** --->
 <cffunction name="getSpecimensAsCSVProfile" access="remote" returntype="any" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="download_profile_id" type="string" required="yes">
-	<cfargument name="token" type="string" required="no">
+	<cfargument name="token" type="string" required="no" default="">
+	<cfargument name="paging" type="string" required="no" default="no">
 
 	<cfif isDefined("token")>
 		<cflog text="getSpecimensAsCSVProfile started token=#token#" file="MCZbase">
@@ -2635,6 +2638,10 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 		<cfset token = "">
 	</cfif>
 
+	<cfset variable.result_id = arguments.result_id>
+	<cfset variable.download_profile_id = arguments.download_profile_id>
+	<cfset variable.token = arguments.token>
+	<cfset variable.paging = arguments.paging>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="downloadThread#tn#" action="run" result_id="#result_id#" download_profile_id="#download_profile_id#" token="#token#">
 
@@ -2703,7 +2710,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 	
-			<cfif count.ct LT DOWNLOAD_THRESHOLD>
+			<cfif count.ct LT DOWNLOAD_THRESHOLD AND paging EQ "no">
 				<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 					SELECT 
 						<cfset comma = "">
@@ -3019,7 +3026,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										var rows = retval[0].RECORDCOUNT;
 										if (retval[0].MODE=="direct") { 
 											// just stream the results to the user
-											$("##downloadResult").html('<a id="specimencsvdownloadlink" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id='+profile+'" download="#filename#" onclick="$(\'##specimencsvdownloadlink\').attr(\'style\',\'color: purple !important;\');" target="_blank" >Download ('+rows+' records)</a>');
+											$("##downloadResult").html('<a id="specimencsvdownloadlink" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id='+profile+'&paging=yes" download="#filename#" onclick="$(\'##specimencsvdownloadlink\').attr(\'style\',\'color: purple !important;\');" target="_blank" >Download ('+rows+' records)</a>');
 										} else if (retval[0].MODE=="file") { 
 											// request generation of file, and poll until it is created.
 											var token = retval[0].TOKEN;
@@ -3083,6 +3090,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										returnformat: "json",
 										download_profile_id : profile,
 										result_id: result_id,
+										paging: "yes",
 										token : token
 									},
 									success: function(data) { 
@@ -3290,7 +3298,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							<script>
 								function changeProfile() { 
 									var profile = $("##profile_picker").val();
-									$('##specimencsvdownloadbutton').attr("href", "/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id="+profile);
+									$('##specimencsvdownloadbutton').attr("href", "/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&paging=#encodeForUrl(result_id)#&paging=no&download_profile_id="+profile);
 								}
 							</script>
 							<label class="data-entry-label" for="profile_picker">Pick profile for which fields to include in the download</label>
