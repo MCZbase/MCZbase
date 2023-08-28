@@ -59,13 +59,13 @@ itemColumn="to_char(co.coll_object_entered_date,'YYYY') "
 />
 </cfchart>--->
 		
-<cfquery name="GetSalaries" datasource="cfdocexamples">
+<!---<cfquery name="GetSalaries" datasource="cfdocexamples">
 SELECT Departmt.Dept_Name,
 Employee.StartDate,
 Employee.Salary
 FROM Departmt, Employee
 WHERE Departmt.Dept_ID = Employee.Dept_ID
-</cfquery>	
+</cfquery>	--->
 
 <!--- Convert the date to a number for the query to work --->
 <cfloop index="i" from="1" to="#GetSalaries.RecordCount#">
