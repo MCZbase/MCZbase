@@ -74,19 +74,33 @@ NumberFormat(DatePart("yyyy", GetSalaries.StartDate[i]) ,9999)>
 </cfloop>
 
 <!--- Query of Queries for average salary by start year. --->
-<cfquery dbtype = "query" name = "HireSalaries">
+<cfquery dbtype = "query" name = "types">
 SELECT
-StartDate,
-AVG(Salary) AS AvgByStart
-FROM GetSalaries
-GROUP BY StartDate
+began_date,
+toptypestatus
+FROM flat
 </cfquery>
+<!---	<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collection_object_id) as "NUMBER_CATALOG_ITEMS", count(distinct media_id) as "NUMBER_OF_IMAGES", 
+		count(distinct mr.related_primary_key) as "NUMBER_OF_TYPES_WITH_IMAGES", to_char(co.coll_object_entered_date,'YYYY') as "ENTERED_DATE"
+		from UNDERSCORE_RELATION u, flat f, citation c, CTCITATION_TYPE_STATUS ts, coll_object co,
+		(select * from MEDIA_RELATIONS where MEDIA_RELATIONSHIP = 'shows cataloged_item') mr
+		where u.collection_object_id = f.collection_object_id
+		and f.COLLECTION_OBJECT_ID=c.COLLECTION_OBJECT_ID
+		and c.type_status=ts.TYPE_STATUS
+		and mr.RELATED_PRIMARY_KEY(+) = f.collection_object_id
+		--and co.coll_object_entered_date >= '01-JAN-23'
+		and f.collection_object_id = co.collection_object_id
+		and ts.CATEGORY != 'Temp'
+		group by ts.type_status, co.coll_object_entered_date, ts.CATEGORY
+	</cfquery>--->
+
 
 <!--- Round average salaries to thousands. --->
-<cfloop index="i" from="1" to="#HireSalaries.RecordCount#">
+<!---<cfloop index="i" from="1" to="#types.RecordCount#">
 <cfset HireSalaries.AvgByStart[i]=
 Round(HireSalaries.AvgByStart[i]/1000)*1000>
-</cfloop>
+</cfloop>--->
 	
 <cfchart
 chartWidth=400
@@ -95,9 +109,8 @@ show3D="yes"
 >
 <cfchartseries
 type="area"
-query="HireSalaries"
-valueColumn="AvgByStart"
-itemColumn="StartDate"
+query="types"
+itemColumn="Began_date"
 />
 </cfchart>
 <cfinclude template="/shared/_footer.cfm">
