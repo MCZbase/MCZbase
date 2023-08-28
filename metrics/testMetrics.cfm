@@ -112,7 +112,7 @@ fontBold="yes"
 backgroundColor = "##CCFFFF"
 show3D="yes"
 >
-
+#i#
 <cfchartseries
 type="pie"
 query="counts"
