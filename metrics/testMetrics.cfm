@@ -75,10 +75,18 @@ NumberFormat(DatePart("yyyy", GetSalaries.StartDate[i]) ,9999)>
 
 <!--- Query of Queries for average salary by start year. --->
 <cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-SELECT
-began_date,
-toptypestatus
-FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+select ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collection_object_id) as "NUMBER_CATALOG_ITEMS", count(distinct media_id) as "NUMBER_OF_IMAGES", 
+		count(distinct mr.related_primary_key) as "NUMBER_OF_TYPES_WITH_IMAGES", to_char(co.coll_object_entered_date,'YYYY') as "ENTERED_DATE"
+		from UNDERSCORE_RELATION u, <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat f, citation c, CTCITATION_TYPE_STATUS ts, coll_object co,
+		(select * from MEDIA_RELATIONS where MEDIA_RELATIONSHIP = 'shows cataloged_item') mr
+		where u.collection_object_id = f.collection_object_id
+		and f.COLLECTION_OBJECT_ID=c.COLLECTION_OBJECT_ID
+		and c.type_status=ts.TYPE_STATUS
+		and mr.RELATED_PRIMARY_KEY(+) = f.collection_object_id
+		--and co.coll_object_entered_date >= '01-JAN-23'
+		and f.collection_object_id = co.collection_object_id
+		and ts.CATEGORY != 'Temp'
+		group by ts.type_status, co.coll_object_entered_date, ts.CATEGORY
 </cfquery>
 <!---	<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collection_object_id) as "NUMBER_CATALOG_ITEMS", count(distinct media_id) as "NUMBER_OF_IMAGES", 
