@@ -72,9 +72,18 @@ WHERE Departmt.Dept_ID = Employee.Dept_ID
 <cfset GetSalaries.StartDate[i]=
 NumberFormat(DatePart("yyyy", GetSalaries.StartDate[i]) ,9999)>
 </cfloop>--->
-
+<cfquery name="counts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select collection_cde, SUM(f.collection_object_id) as "SumByColl", AVG(f.collection_object_id) as "AvgByColl" 
+	from flat f
+</cfquery>
+<cfloop index="i" from="1" to="#counts.RecordCount#">
+<cfset counts.SumByColl[i]=Round(counts.SumByColl[i]/
+1000)*1000>
+<cfset counts.AvgByColl[i]=Round(counts.AvgByColl[i]/
+1000)*1000>
+</cfloop>
 <!--- Query of Queries for average salary by start year. --->
-<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 select ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collection_object_id) as "NUMBER_CATALOG_ITEMS", count(distinct media_id) as "NUMBER_OF_IMAGES", 
 		count(distinct mr.related_primary_key) as "NUMBER_OF_TYPES_WITH_IMAGES", to_char(co.coll_object_entered_date,'YYYY') as "ENTERED_DATE"
 		from UNDERSCORE_RELATION u, <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat f, citation c, CTCITATION_TYPE_STATUS ts, coll_object co,
@@ -87,38 +96,28 @@ select ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collectio
 		and f.collection_object_id = co.collection_object_id
 		and ts.CATEGORY != 'Temp'
 		group by ts.type_status, co.coll_object_entered_date, ts.CATEGORY
-</cfquery>
-<!---	<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collection_object_id) as "NUMBER_CATALOG_ITEMS", count(distinct media_id) as "NUMBER_OF_IMAGES", 
-		count(distinct mr.related_primary_key) as "NUMBER_OF_TYPES_WITH_IMAGES", to_char(co.coll_object_entered_date,'YYYY') as "ENTERED_DATE"
-		from UNDERSCORE_RELATION u, flat f, citation c, CTCITATION_TYPE_STATUS ts, coll_object co,
-		(select * from MEDIA_RELATIONS where MEDIA_RELATIONSHIP = 'shows cataloged_item') mr
-		where u.collection_object_id = f.collection_object_id
-		and f.COLLECTION_OBJECT_ID=c.COLLECTION_OBJECT_ID
-		and c.type_status=ts.TYPE_STATUS
-		and mr.RELATED_PRIMARY_KEY(+) = f.collection_object_id
-		--and co.coll_object_entered_date >= '01-JAN-23'
-		and f.collection_object_id = co.collection_object_id
-		and ts.CATEGORY != 'Temp'
-		group by ts.type_status, co.coll_object_entered_date, ts.CATEGORY
-	</cfquery>--->
-
-
-<!--- Round average salaries to thousands. --->
-<!---<cfloop index="i" from="1" to="#types.RecordCount#">
-<cfset HireSalaries.AvgByStart[i]=
-Round(HireSalaries.AvgByStart[i]/1000)*1000>
-</cfloop>--->
-	
+</cfquery>--->
+<cfloop index="i" from="1" to="#counts.RecordCount#">
+<cfset counts.SumByColl[i]=Round(counts.SumByColl[i]/
+1000)*1000>
+<cfset counts.AvgByColl[i]=Round(counts.AvgByColl[i]/
+1000)*1000>
+</cfloop>
 <cfchart
-chartWidth=400
-BackgroundColor="##FFFF00"
+tipStyle="mousedown"
+font="Times"
+fontsize=14
+fontBold="yes"
+backgroundColor = "##CCFFFF"
 show3D="yes"
 >
+
 <cfchartseries
-type="area"
+type="pie"
 query="types"
-itemColumn="Began_date"
+valueColumn="SumByColl"
+itemColumn="Collection_CDE"
+colorlist="##6666FF,##66FF66,##FF6666,##66CCCC"
 />
 </cfchart>
 <cfinclude template="/shared/_footer.cfm">
