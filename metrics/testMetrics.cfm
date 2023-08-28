@@ -21,15 +21,6 @@ limitations under the License.
 -->
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
-<!--- TODO: Move inclusion to shared/_header.cfm --->
-<script type="text/javascript" src="/metrics/js/metrics.js"></script>
-
-<!--- existing metrics/activity function --->
-<cfinclude template="/info/component/activity.cfc">
-
-<!--- Put new backing functions in scope, so that they can be invoked directly in this page --->
-<cfinclude template="/metrics/component/functions.cfc">
-
 	
 <cfquery name = "lots2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 SELECT coll_object.coll_obj_disposition, AVG(lot_count) AS "AvgLot", coll_object.coll_object_entered_date
