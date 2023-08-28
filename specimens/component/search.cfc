@@ -2560,6 +2560,9 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
   * user_search_table joined with session.flatTableName as a csv serialization.
   * @param result_id the uuid that identifies the search to return as csv
   * @return a csv serialization with a content type text/csv http header or a http error status.
+  *
+  * @deprecated 
+  * @see getSpecimensAsCSVProfile
   ** --->
 <cffunction name="getSpecimensAsCSV" access="remote" returntype="any" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
@@ -2598,6 +2601,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 			WHERE
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				and rownum < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DOWNLOAD_THRESHOLD#">
 		</cfquery>
 
 		<cfset retval = queryToCSV(search)>
@@ -2710,7 +2714,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 	
-			<cfif count.ct LT DOWNLOAD_THRESHOLD AND paging EQ "no">
+			<cfif count.ct LT DOWNLOAD_THRESHOLD OR paging EQ "no">
 				<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 					SELECT 
 						<cfset comma = "">
@@ -3319,7 +3323,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<div class="col-12">
 							<!--- See note above about streaming only from this dialog --->
 							<!--- using target _blank to give user feedback on ongoing download.  Could monitor for a cookie, see for example https://www.bennadel.com/blog/2533-tracking-file-download-events-using-javascript-and-coldfusion.htm --->
-							<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id=#encodeForUrl(result_id)#" download="#filename#" target="_blank" onclick="handleDownloadClick();" >Download as CSV</a>
+							<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&download_profile_id=#profile_id#&result_id=#encodeForUrl(result_id)#" download="#filename#" target="_blank" onclick="handleDownloadClick();" >Download as CSV</a>
 							<output id="downloadFeedback"></output>
 							<output id="downloadResult"></output>
 						</div>
