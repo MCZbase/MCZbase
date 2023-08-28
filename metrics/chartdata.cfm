@@ -26,7 +26,19 @@ limitations under the License.
 
 <!--- existing metrics/activity function --->
 <cfinclude template="/info/component/activity.cfc">
+<cfquery dbtype = "query" name = "lots">
+SELECT
+coll_obj_disposition,
+AVG(lot_count) AS AvgLot
+FROM coll_object 
+GROUP BY coll_obj_disposition
+</cfquery>
 
+<!--- Round average salaries to thousands. --->
+<cfloop index="i" from="1" to="#lots.RecordCount#">
+<cfset lots.AvgLot[i]=
+Round(lots.AvgLot[i]/1000)*1000>
+</cfloop>
 <!--- Put new backing functions in scope, so that they can be invoked directly in this page --->
 <cfinclude template="/metrics/component/functions.cfc">
 <cfquery name="parts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
