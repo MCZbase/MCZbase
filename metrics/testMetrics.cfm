@@ -30,22 +30,36 @@ limitations under the License.
 <!--- Put new backing functions in scope, so that they can be invoked directly in this page --->
 <cfinclude template="/metrics/component/functions.cfc">
 	
+	
+	<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collection_object_id) as "NUMBER_CATALOG_ITEMS", count(distinct media_id) as "NUMBER_OF_IMAGES", 
+		count(distinct mr.related_primary_key) as "NUMBER_OF_TYPES_WITH_IMAGES", to_char(co.coll_object_entered_date,'YYYY') as "ENTERED_DATE"
+		from UNDERSCORE_RELATION u, flat f, citation c, CTCITATION_TYPE_STATUS ts, coll_object co,
+		(select * from MEDIA_RELATIONS where MEDIA_RELATIONSHIP = 'shows cataloged_item') mr
+		where u.collection_object_id = f.collection_object_id
+		and f.COLLECTION_OBJECT_ID=c.COLLECTION_OBJECT_ID
+		and c.type_status=ts.TYPE_STATUS
+		and mr.RELATED_PRIMARY_KEY(+) = f.collection_object_id
+		--and co.coll_object_entered_date >= '01-JAN-23'
+		and f.collection_object_id = co.collection_object_id
+		and ts.CATEGORY != 'Temp'
+		group by ts.type_status, co.coll_object_entered_date, ts.CATEGORY
+	</cfquery>
+
 <cfchart
-   format="png"
-   scalefrom="0"
-   scaleto="1200000">
-  <cfchartseries
-      type="bar"
-      serieslabel="Website Traffic 2006"
-      seriescolor="blue">
-    <cfchartdata item="January" value="503100">
-    <cfchartdata item="February" value="720310">
-    <cfchartdata item="March" value="688700">
-    <cfchartdata item="April" value="986500">
-    <cfchartdata item="May" value="1063911">
-    <cfchartdata item="June" value="1125123">
-  </cfchartseries>
+chartWidth=400
+BackgroundColor="##FFFF00"
+show3D="yes"
+>
+<cfchartseries
+type="area"
+query="types"
+valueColumn="TYPE_STATUS"
+itemColumn="NUMBER_OF_IMAGES"
+/>
 </cfchart>
+		
+		
 
 
 <cfinclude template="/shared/_footer.cfm">
