@@ -33,7 +33,7 @@ limitations under the License.
 <cfquery name = "lots1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 SELECT
 coll_object.coll_obj_disposition, coll_object.coll_object_entered_date, flat.began_date
-FROM coll_object, flat, specimen_part
+FROM coll_object, <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat, specimen_part
 	where flat.collection_object_id = coll_object.collection_object_id
 	and specimen_part.derived_from_cat_item =coll_object.collection_object_id
 GROUP BY coll_object.coll_obj_disposition, coll_object.coll_object_entered_date, flat.began_date
@@ -41,23 +41,23 @@ GROUP BY coll_object.coll_obj_disposition, coll_object.coll_object_entered_date,
 
 <cfloop index="i" from="1" to="#lots1.RecordCount#">
 <cfset lots.began_date[i]=
-NumberFormat(flat.began_date("yyyy", lots.began_date[i]) ,9999)>
+NumberFormat(lots1.began_date("yyyy", lots1.began_date[i]) ,9999)>
 </cfloop>
 	
 <cfquery name = "lots2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 SELECT
 coll_object.coll_obj_disposition, coll_object.coll_object_entered_date,flat.began_date
 AVG(lot_count) AS AvgLot
-FROM coll_object, flat, specimen_part
+FROM coll_object, <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat, specimen_part
 	where flat.collection_object_id = coll_object.collection_object_id
 	and specimen_part.derived_from_cat_item =coll_object.collection_object_id
 GROUP BY coll_object.coll_object_entered_date, coll_object.coll_obj_disposition
 </cfquery>
 	
 <!--- Round average salaries to thousands. --->
-<cfloop index="i" from="1" to="#lots.RecordCount#">
+<cfloop index="i" from="1" to="#lots2.RecordCount#">
 <cfset lots.AvgLot[i]=
-Round(lots.AvgLot[i]/1000)*1000>
+Round(lots2.AvgLot[i]/1000)*1000>
 </cfloop>
 
 <cfchart
@@ -67,8 +67,8 @@ show3D="yes">
 <cfchartseries
 type="area"
 query="lot2"
-valueColumn="coll_object.coll_object_entered_date"
-itemColumn="flat.began_date"/>
+valueColumn="lots2.coll_object_entered_date"
+itemColumn="lots2.began_date"/>
 </cfchart>
 <br>	
 	
