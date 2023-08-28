@@ -41,7 +41,7 @@ GROUP BY coll_object.coll_obj_disposition, coll_object.coll_object_entered_date,
 
 <cfloop index="i" from="1" to="#lots1.RecordCount#">
 <cfset lots1.began_date[i]=
-NumberFormat(lots1.began_date("yyyy", lots1.began_date[i]) ,9999)>
+NumberFormat(lots1.began_date("yyyy-mm-dd", lots1.began_date[i]) ,9999)>
 </cfloop>
 	
 <cfquery name = "lots2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
