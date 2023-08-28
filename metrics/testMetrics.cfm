@@ -50,7 +50,7 @@ coll_object.coll_obj_disposition, coll_object.coll_object_entered_date,flat.bega
 AVG(lot_count) AS AvgLot
 FROM coll_object, flat, specimen_part
 	where flat.collection_object_id = coll_object.collection_object_id
-	and specimen_part.derived_from_cataloged_item =coll_object.collection_object_id
+	and specimen_part.derived_from_cat_item =coll_object.collection_object_id
 GROUP BY coll_object.coll_object_entered_date, coll_object.coll_obj_disposition
 </cfquery>
 	
