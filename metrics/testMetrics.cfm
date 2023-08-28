@@ -68,10 +68,10 @@ WHERE Departmt.Dept_ID = Employee.Dept_ID
 </cfquery>	--->
 
 <!--- Convert the date to a number for the query to work --->
-<cfloop index="i" from="1" to="#GetSalaries.RecordCount#">
+<!---<cfloop index="i" from="1" to="#GetSalaries.RecordCount#">
 <cfset GetSalaries.StartDate[i]=
 NumberFormat(DatePart("yyyy", GetSalaries.StartDate[i]) ,9999)>
-</cfloop>
+</cfloop>--->
 
 <!--- Query of Queries for average salary by start year. --->
 <cfquery dbtype = "query" name = "types">
