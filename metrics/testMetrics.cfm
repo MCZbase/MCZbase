@@ -31,7 +31,7 @@ limitations under the License.
 <cfinclude template="/metrics/component/functions.cfc">
 	
 	
-	<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---	<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collection_object_id) as "NUMBER_CATALOG_ITEMS", count(distinct media_id) as "NUMBER_OF_IMAGES", 
 		count(distinct mr.related_primary_key) as "NUMBER_OF_TYPES_WITH_IMAGES", to_char(co.coll_object_entered_date,'YYYY') as "ENTERED_DATE"
 		from UNDERSCORE_RELATION u, flat f, citation c, CTCITATION_TYPE_STATUS ts, coll_object co,
@@ -54,12 +54,50 @@ show3D="yes"
 <cfchartseries
 type="area"
 query="types"
-valueColumn="TYPE_STATUS"
-itemColumn="NUMBER_OF_IMAGES"
+valueColumn="ts.TYPE_STATUS"
+itemColumn="to_char(co.coll_object_entered_date,'YYYY') "
+/>
+</cfchart>--->
+		
+<cfquery name="GetSalaries" datasource="cfdocexamples">
+SELECT Departmt.Dept_Name,
+Employee.StartDate,
+Employee.Salary
+FROM Departmt, Employee
+WHERE Departmt.Dept_ID = Employee.Dept_ID
+</cfquery>	
+
+<!--- Convert the date to a number for the query to work --->
+<cfloop index="i" from="1" to="#GetSalaries.RecordCount#">
+<cfset GetSalaries.StartDate[i]=
+NumberFormat(DatePart("yyyy", GetSalaries.StartDate[i]) ,9999)>
+</cfloop>
+
+<!--- Query of Queries for average salary by start year. --->
+<cfquery dbtype = "query" name = "HireSalaries">
+SELECT
+StartDate,
+AVG(Salary) AS AvgByStart
+FROM GetSalaries
+GROUP BY StartDate
+</cfquery>
+
+<!--- Round average salaries to thousands. --->
+<cfloop index="i" from="1" to="#HireSalaries.RecordCount#">
+<cfset HireSalaries.AvgByStart[i]=
+Round(HireSalaries.AvgByStart[i]/1000)*1000>
+</cfloop>
+	
+<cfchart
+chartWidth=400
+BackgroundColor="##FFFF00"
+show3D="yes"
+>
+<cfchartseries
+type="area"
+query="HireSalaries"
+valueColumn="AvgByStart"
+itemColumn="StartDate"
 />
 </cfchart>
-		
-		
-
-
 <cfinclude template="/shared/_footer.cfm">
