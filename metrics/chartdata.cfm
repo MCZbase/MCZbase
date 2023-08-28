@@ -29,22 +29,29 @@ limitations under the License.
 
 <!--- Put new backing functions in scope, so that they can be invoked directly in this page --->
 <cfinclude template="/metrics/component/functions.cfc">
-<cfquery name="DeptSalaries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-SELECT
-Dept_Name,
-SUM(Salary) AS SumByDept,
-AVG(Salary) AS AvgByDept
-FROM GetSalaries
-GROUP BY Dept_Name
+<cfquery name="parts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select lot_count, part_name, preserve_method 
+	from specimen_part sp, coll_object co 
+	where co.collection_object_id = sp.DERIVED_FROM_CAT_ITEM
 </cfquery>
 
 <!--- Reformat the generated numbers to show only thousands. --->
-<cfloop index="i" from="1" to="#DeptSalaries.RecordCount#">
-<cfset DeptSalaries.SumByDept[i]=Round(DeptSalaries.SumByDept[i]/
+<cfloop index="i" from="1" to="#parts.RecordCount#">
+<cfset parts.lot_count[i]=Round(parts.SumByDept[i]/
 1000)*1000>
-<cfset DeptSalaries.AvgByDept[i]=Round(DeptSalaries.AvgByDept[i]/
+<cfset parts.lot_count[i]=Round(parts.AvgByDept[i]/
 1000)*1000>
 </cfloop>
-	
+<cfchart 
+xAxisTitle="Department" 
+yAxisTitle="Salary Average" 
+> 
+<cfchartseries 
+type="bar" 
+query="parts" 
+valueColumn="AvgByDept" 
+itemColumn="part_name" 
+/> 
+</cfchart>	
 	
 <cfinclude template="/shared/_footer.cfm">
