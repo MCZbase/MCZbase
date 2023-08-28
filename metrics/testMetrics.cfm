@@ -74,11 +74,11 @@ NumberFormat(DatePart("yyyy", GetSalaries.StartDate[i]) ,9999)>
 </cfloop>--->
 
 <!--- Query of Queries for average salary by start year. --->
-<cfquery dbtype = "query" name = "types">
+<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 SELECT
 began_date,
 toptypestatus
-FROM flat
+FROM <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 </cfquery>
 <!---	<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collection_object_id) as "NUMBER_CATALOG_ITEMS", count(distinct media_id) as "NUMBER_OF_IMAGES", 
