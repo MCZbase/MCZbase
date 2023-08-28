@@ -72,7 +72,7 @@ WHERE Departmt.Dept_ID = Employee.Dept_ID
 <cfset GetSalaries.StartDate[i]=
 NumberFormat(DatePart("yyyy", GetSalaries.StartDate[i]) ,9999)>
 </cfloop>--->
-<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="counts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection_cde, SUM(f.collection_object_id) as "SumByColl", AVG(f.collection_object_id) as "AvgByColl" 
 	from flat f
 	group by collection_cde
@@ -115,7 +115,7 @@ show3D="yes"
 
 <cfchartseries
 type="pie"
-query="types"
+query="counts"
 valueColumn="SumByColl"
 itemColumn="Collection_CDE"
 colorlist="##6666FF,##66FF66,##FF6666,##66CCCC"
