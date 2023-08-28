@@ -63,14 +63,14 @@ Round(lots.AvgLot[i]/1000)*1000>
 <cfchart
 chartWidth=400
 BackgroundColor="##FFFF00"
-show3D="yes"/>
+show3D="yes">
 <cfchartseries
 type="area"
 query="lot2"
 valueColumn="coll_object.coll_object_entered_date"
 itemColumn="Began_Date"/>
 </cfchart>
-	
+<br>	
 	
 	
 <cfinclude template="/shared/_footer.cfm">
