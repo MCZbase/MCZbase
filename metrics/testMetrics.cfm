@@ -30,15 +30,6 @@ limitations under the License.
 <!--- Put new backing functions in scope, so that they can be invoked directly in this page --->
 <cfinclude template="/metrics/component/functions.cfc">
 
-<cfquery name = "lots1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-SELECT
-coll_object.coll_obj_disposition, coll_object.coll_object_entered_date
-FROM coll_object, <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat, specimen_part
-	where flat.collection_object_id = coll_object.collection_object_id
-	and specimen_part.derived_from_cat_item =coll_object.collection_object_id
-GROUP BY coll_object.coll_obj_disposition, coll_object.coll_object_entered_date
-</cfquery>
-
 	
 <cfquery name = "lots2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 SELECT
