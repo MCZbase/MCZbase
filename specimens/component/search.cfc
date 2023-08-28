@@ -3288,7 +3288,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<h3>Download Profile</h3>
 					<cfquery name="getProfiles" datasource="cf_dbuser">
 						SELECT 
-							username, name, download_profile_id, sharing
+							username, name, download_profile_id, sharing, column_list
 						FROM 
 							download_profile
 						WHERE
@@ -3297,8 +3297,13 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
 							or sharing = 'Everyone'
 						)
+						ORDER BY 
+							length(column_list) asc
 					</cfquery>
 					<div class="form-row">
+						<div class="col-12">
+							Note: Downloads over #DOWNLOAD_THRESHOLD# records may fail.  We suggest querying <a href="https://www.gbif.org/occurrence/search?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3" target="_blank">MCZ records on GBIF</a> for large donwloads, and any downloads used for publications (where we encourage you to cite the DOI for the downloaded data in your publication).
+						</div>
 						<div class="col-12">
 							<!--- NOTE: functionality for saving to a temporary file and monitoring progress is not included on this dialog, so getSpecimensAsCSVProfile can
  								only operate here with paging=no.
@@ -3313,10 +3318,11 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							<select id="profile_picker" name="profile_picker" class="data-entry-select" onchange="changeProfile()">
 								<cfset selected="selected">
 								<cfloop query="getProfiles">
+									<cfset columnCount = ListLen(column_list)>
 									<cfif selected EQ "selected">
 										<cfset profile_id = download_profile_id>
 									</cfif>
-									<option value="#download_profile_id#" #selected#>#name# (Available to: #sharing#)</option>
+									<option value="#download_profile_id#" #selected#>#name# #columnCount# columns (Available to: #sharing#)</option>
 									<cfset selected="">
 								</cfloop>
 							</select>
