@@ -2873,6 +2873,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			</cfif>
 			<cflog text="normal end of downloadThread#tn#" file="MCZbase">
 		<cfcatch>
+			<cflog text="Exception in downloadThread#tn# #cfcatch.message#" file="MCZbase">
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 			<cfset function_called = "#GetFunctionCalledName()#">
