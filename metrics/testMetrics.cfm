@@ -75,6 +75,7 @@ NumberFormat(DatePart("yyyy", GetSalaries.StartDate[i]) ,9999)>
 <cfquery name="counts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection_cde, SUM(f.collection_object_id) as "SumByColl", AVG(f.collection_object_id) as "AvgByColl" 
 	from flat f
+	group by collection_cde
 </cfquery>
 <cfloop index="i" from="1" to="#counts.RecordCount#">
 <cfset counts.SumByColl[i]=Round(counts.SumByColl[i]/
