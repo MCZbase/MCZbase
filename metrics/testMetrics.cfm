@@ -33,17 +33,34 @@ limitations under the License.
 	
 <cfquery name = "lots" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 SELECT
-coll_obj_disposition,
+coll_obj_disposition, coll_object.coll_object_entered_date,
 AVG(lot_count) AS AvgLot
-FROM coll_object 
+FROM coll_object, flat, specimen_part
+	where flat.collection_object_id = coll_object.collection_object_id
+	and specimen_part.derived_from_cataloged_item =coll_object.collection_object_id
 GROUP BY coll_obj_disposition
 </cfquery>
-
+<cfloop index="i" from="1" to="#lots.RecordCount#">
+<cfset lots.Began_Date[i]=
+NumberFormat(Began_Date("yyyy", lots.Began_Date[i]) ,9999)>
+</cfloop>
 <!--- Round average salaries to thousands. --->
 <cfloop index="i" from="1" to="#lots.RecordCount#">
 <cfset lots.AvgLot[i]=
 Round(lots.AvgLot[i]/1000)*1000>
 </cfloop>
-<!--- Put new backing functions in scope, so that they can be invoked directly in this page --->
 
+<cfchart
+chartWidth=400
+BackgroundColor="##FFFF00"
+show3D="yes"/>
+<cfchartseries
+type="area"
+query="HireSalaries"
+valueColumn="AvgByStart"
+itemColumn="StartDate"/>
+</cfchart>
+	
+	
+	
 <cfinclude template="/shared/_footer.cfm">
