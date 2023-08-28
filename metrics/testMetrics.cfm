@@ -29,11 +29,9 @@ limitations under the License.
 
 <!--- Put new backing functions in scope, so that they can be invoked directly in this page --->
 <cfinclude template="/metrics/component/functions.cfc">
+
 	
-<cfinclude template="/metrics/component/functions.cfc">
-	
-	
-<cfquery dbtype = "query" name = "lots" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name = "lots" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 SELECT
 coll_obj_disposition,
 AVG(lot_count) AS AvgLot
