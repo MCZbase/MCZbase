@@ -46,7 +46,7 @@ NumberFormat(Began_Date("yyyy", lots.Began_Date[i]) ,9999)>
 	
 <cfquery name = "lots2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 SELECT
-coll_obj_disposition, coll_object.coll_object_entered_date,
+coll_obj_disposition, coll_object.coll_object_entered_date,flat.began_date
 AVG(lot_count) AS AvgLot
 FROM coll_object, flat, specimen_part
 	where flat.collection_object_id = coll_object.collection_object_id
