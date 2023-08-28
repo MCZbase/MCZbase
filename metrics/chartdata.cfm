@@ -29,28 +29,22 @@ limitations under the License.
 
 <!--- Put new backing functions in scope, so that they can be invoked directly in this page --->
 <cfinclude template="/metrics/component/functions.cfc">
-<cfchart
-scaleFrom=40000
-scaleTo=100000
-font="arial"
-fontSize=16
-gridLines=4
-show3D="yes"
-foregroundcolor="##000066"
-databackgroundcolor="##FFFFCC"
-chartwidth="450"
->
+<cfquery dbtype = "query" name = "DeptSalaries">
+SELECT
+Dept_Name,
+SUM(Salary) AS SumByDept,
+AVG(Salary) AS AvgByDept
+FROM GetSalaries
+GROUP BY Dept_Name
+</cfquery>
 
-<cfchartseries
-type="bar"
-query="DeptSalaries"
-valueColumn="AvgByDept"
-itemColumn="Dept_Name"
-seriescolor="##33CC99"
-paintstyle="shade"
-/>
-
-</cfchart>
+<!--- Reformat the generated numbers to show only thousands. --->
+<cfloop index="i" from="1" to="#DeptSalaries.RecordCount#">
+<cfset DeptSalaries.SumByDept[i]=Round(DeptSalaries.SumByDept[i]/
+1000)*1000>
+<cfset DeptSalaries.AvgByDept[i]=Round(DeptSalaries.AvgByDept[i]/
+1000)*1000>
+</cfloop>
 	
 	
 <cfinclude template="/shared/_footer.cfm">
