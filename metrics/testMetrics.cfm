@@ -21,14 +21,18 @@ limitations under the License.
 -->
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
-	
+<cfquery name="lot" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lot_result">
+	select coll_object.COLL_OBJ_DISPOSITION as "disp", SUM(coll_object.LOT_COUNT) As "lots" from coll_object, specimen_part 
+where coll_object.collection_object_id = specimen_part.collection_object_id
+group by coll_object.COLL_OBJ_DISPOSITION
+</cfquery>
 <cfchart
    format="png"
    scalefrom="0"
    scaleto="1200000">
   <cfchartseries
       type="bar"
-      serieslabel="Website Traffic 2006"
+      serieslabel="Lots by disp"
       seriescolor="blue">
     <cfchartdata item="Jan" value="503100">
     <cfchartdata item="Feb" value="720310">
