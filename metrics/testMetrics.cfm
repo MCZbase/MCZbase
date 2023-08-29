@@ -29,9 +29,10 @@ group by coll_object.COLL_OBJ_DISPOSITION
 <cfchart
    format="png"
    scalefrom="0"
-   scaleto="1200000">
+   scaleto="1200000"
+pieslicestyle="solid">
   <cfchartseries
-      type="bar"
+      type="pie"
       serieslabel="Lots by disp"
       seriescolor="blue">
     <cfchartdata item="Jan" value="503100">
