@@ -23,15 +23,16 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 	
 <cfquery name = "lots2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-SELECT coll_object.coll_obj_disposition, AVG(lot_count) AS "AvgLot", lot_count, coll_object.coll_object_entered_date
-FROM coll_object, specimen_part where specimen_part.derived_from_cat_item =coll_object.collection_object_id
-GROUP BY lot_count, coll_object.coll_object_entered_date, coll_object.coll_obj_disposition
+SELECT coll_obj_disposition, sum(coll_object.LOT_COUNT) as "LOT_COUNT"
+FROM coll_object, specimen_part, cataloged_item where specimen_part.derived_from_cat_item =coll_object.collection_object_id
+and specimen_part.DERIVED_FROM_CAT_ITEM = cataloged_item.COLLECTION_OBJECT_ID
+GROUP BY  coll_object.coll_obj_disposition, coll_object.LOT_COUNT
 </cfquery>
 	
 <!--- Round average salaries to thousands. --->
 <cfloop index="i" from="1" to="#lots2.RecordCount#">
 <cfset lots2.AvgLot[i]=
-Round(lots2.AvgLot[i]/1000)*1000>
+Round(lots2.LOT_COUNT[i]/1000)*1000>
 </cfloop>
 
 <cfchart
@@ -41,8 +42,8 @@ show3D="yes">
 <cfchartseries
 type="area"
 query="lots2"
-valueColumn="lots2.AvgLot"
-itemColumn="lots2.lot_count"/>
+valueColumn="lots2.LOT_COUNT"
+itemColumn="lots2.LOT_COUNT"/>
 </cfchart>
 <br>	
 	
