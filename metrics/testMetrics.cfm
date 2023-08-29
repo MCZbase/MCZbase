@@ -40,7 +40,7 @@ chartWidth=400
 BackgroundColor="##FFFF00"
 show3D="yes">
 <cfchartseries
-type="area"
+type="bar"
 query="lots2"
 valueColumn="lots2.LOT_COUNT"
 itemColumn="lots2.coll_obj_disposition"/>
