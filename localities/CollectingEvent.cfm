@@ -70,7 +70,7 @@ limitations under the License.
 				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 		</cfquery>
 		<!--- TODO: Create summary for event for dialogs --->
-		<cfset summary = "[#lookupEvent.collecting_event_id#]"
+		<cfset summary = "[#lookupEvent.collecting_event_id#]" >
 		<cfif lookupEvent.recordcount EQ 1>
 			<cfset extra="(#lookupEvent.collecting_event_id#)">
 			<cfoutput>
