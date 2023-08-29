@@ -23,6 +23,7 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfquery name="lot" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lot_result">
 	select coll_object.COLL_OBJ_DISPOSITION, sum(coll_object.LOT_COUNT) as "lots" from coll_object
+	group by coll_object.coll_obj_disposition
 
 </cfquery>
 
