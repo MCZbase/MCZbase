@@ -27,7 +27,7 @@ where coll_object.collection_object_id = specimen_part.collection_object_id
 </cfquery>
 <cfquery dbtype = "query" name = "DataTable"> 
 SELECT 
-Dept_Name, 
+coll_obj_disposition, 
 AVG(LOT_COUNT) AS avgLot, 
 SUM(LOT_COUNT) AS sumLot 
 FROM lot 
