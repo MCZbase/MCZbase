@@ -32,9 +32,11 @@ GROUP BY  coll_object.coll_obj_disposition, coll_object.LOT_COUNT
 #coll_obj_disposition#,
 	</cfloop>
 <cfloop index="i" from="1" to="10">
-<cfset lots2.LOT_COUNT[i]=
-Round(lots2.LOT_COUNT[i]/1000)*1000>
-</cfloop>
+<cfset lots2.LOT_COUN datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">00>
+<SELECT coll_obj_disposition, sum(coll_object.LOT_COUNT) as "LOT_COUNT"
+FROM coll_object, specimen_part, cataloged_item where specimen_part.derived_from_cat_item =coll_object.collection_object_id
+and specimen_part.DERIVED_FROM_CAT_ITEM = cataloged_item.COLLECTION_OBJECT_ID
+GROUP BY  coll_object.coll_obj_disposition, coll_object.LOT_COUNT/cfloop>
 
 <cfchart
 chartWidth=400
