@@ -22,14 +22,21 @@ limitations under the License.
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 	
-<cfchart format="html" chartHeight="400" chartWidth="600" showLegend="no" title="Line chart">
-<cfchartseries type="line" serieslabel="WBC" markerstyle="circle" color="red">
-<cfchartdata item="Day 1" value="19.2"/>
-<cfchartdata item="Day 2" value="15.2"/>
-<cfchartdata item="Day 3" value="15.1"/>
-<cfchartdata item="Day 4" value="12.6"/>
-<cfchartdata item="Day 5" value="14.2"/>
-</cfchartseries>
+<cfchart
+   format="png"
+   scalefrom="0"
+   scaleto="1200000">
+  <cfchartseries
+      type="bar"
+      serieslabel="Website Traffic 2006"
+      seriescolor="blue">
+    <cfchartdata item="January" value="503100">
+    <cfchartdata item="February" value="720310">
+    <cfchartdata item="March" value="688700">
+    <cfchartdata item="April" value="986500">
+    <cfchartdata item="May" value="1063911">
+    <cfchartdata item="June" value="1125123">
+  </cfchartseries>
 </cfchart>
 
 <cfinclude template="/shared/_footer.cfm">
