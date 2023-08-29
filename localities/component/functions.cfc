@@ -4534,9 +4534,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<cffunction name="getCreateCollectingEventHtml" returntype="string" access="remote" returnformat="plain">
+<!--- obtain html form content for creating, cloning, or editing a collecting event. 
+--->
+<cffunction name="getCollectingEventFormHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="mode" type="string" required="yes">
 	<cfargument name="clone_from_collecting_event_id" type="string" required="no">
 	<cfargument name="locality_id" type="string" required="no">
+	<cfargument name="collecting_event_id" type="string" required="no">
 	<cfargument name="verbatim_locality" type="string" required="no">
 	<cfargument name="verbatimDepth" type="string" required="no">
 	<cfargument name="verbatimElevation" type="string" required="no">
@@ -4547,8 +4551,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="verbatimSRS" type="string" required="no">
 	<cfargument name="verbatim_date" type="string" required="no">
 	<cfargument name="collecting_time" type="string" required="no">
+	
+	<cfif mode NEQ "edit" AND mode NEQ "create">
+		<cfthrow message="Unknown value for mode [#encodeForHtml(mode)#], must be create or edit."
+	</cfif>
 
-	<cfif isDefined("clone_from_collecting_event_id") AND len(clone_from_collecting_event_id) GT 0 >
+	<cfif isDefined("clone_from_collecting_event_id") AND len(clone_from_collecting_event_id) GT 0 AND mode EQ "create" >
 		<cfquery name="eventToCloneFrom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT locality_id, verbatim_locality, verbatimDepth, verbatimElevation,
 				verbatimCoordinates, verbatimLatitude, verbatimLongitude,
@@ -4581,6 +4589,57 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfset coll_event_remarks = eventToCloneFrom.coll_event_remarks>
 			<cfset collecting_source = eventToCloneFrom.collecting_source>
 			<cfset habitat_desc = eventToCloneFrom.habitat_desc>
+			<!--- TODO: Missing fields in clone 
+				valid_distribtion_fg, collecting_method,
+				date_determined_by_agent_id, fish_field_number
+			--->
+		</cfif>
+	<cfelseif mode EQ "edit" >
+		<cfquery name="getEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				collecting_event_id 
+				locality_id, verbatim_locality, verbatimDepth, verbatimElevation,
+				verbatimCoordinates, verbatimLatitude, verbatimLongitude,
+				verbatimCoordinateSystem, verbatimSRS,
+				verbatim_date, collecting_time,
+				startDayOfYear, endDayOfYear, began_date, ended_date,
+				coll_event_remarks, collecting_source, habitat_desc,
+				date_began_date, date_ended_date,
+				valid_distribtion_fg, collecting_method,
+				date_determined_by_agent_id, fish_field_number
+			FROM collecting_event
+			WHERE
+				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+		</cfquery>
+		<cfif getEvent.recordcount EQ 0>
+			<cfthrow message = "No collecting event found for the specified collecting event id [#encodeForHtml(collecting_event_id)#].">
+		<cfelse>
+			<cfset locality_id = getEvent.locality_id>
+			<cfset verbatim_locality = getEvent.verbatim_locality>
+			<cfset verbatimDepth = getEvent.verbatimDepth>
+			<cfset verbatimElevation = getEvent.verbatimElevation>
+			<cfset verbatimCoordinates = getEvent.verbatimCoordinates>
+			<cfset verbatimLatitude = getEvent.verbatimLatitude>
+			<cfset verbatimLongitude = getEvent.verbatimLongitude>
+			<cfset verbatimCoordinateSystem = getEvent.verbatimCoordinateSystem>
+			<cfset verbatimSRS = getEvent.verbatimSRS>
+			<cfset verbatim_date = getEvent.verbatim_date>
+			<cfset collecting_time = getEvent.collecting_time>
+			<cfset startDayOfYear = getEvent.startDayOfYear>
+			<cfset endDayOfYear = getEvent.endDayOfYear>
+			<cfset began_date = getEvent.began_date>
+			<cfset ended_date = getEvent.ended_date>
+			<cfset coll_event_remarks = getEvent.coll_event_remarks>
+			<cfset collecting_source = getEvent.collecting_source>
+			<cfset habitat_desc = getEvent.habitat_desc>
+<!--- TODO: Added fields
+				date_began_date,
+				date_ended_date,
+				valid_distribtion_fg, 
+				collecting_method,
+				date_determined_by_agent_id, 
+				fish_field_number
+--->
 		</cfif>
 	</cfif> 
 	<cfset higher_geog = "">
@@ -4734,6 +4793,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<cfif not isDefined("verbatimSRS")><cfset verbatimSRS = ""></cfif>
 						<input type="text" name="verbatimSRS" value="#encodeForHTML(verbatimSRS)#" id="verbatimSRS" class="data-entry-input">
 					</div>
+<!--- TODO: Added fields --->
 					<div class="col-12">
 						<label for="coll_event_remarks" class="data-entry-label">Remarks</label>
 						<cfif not isDefined("coll_event_remarks")><cfset coll_event_remarks = ""></cfif>
@@ -4803,42 +4863,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfreturn cfthread["editCollEventFormThread#tn#"].output>
 </cffunction>
 
-<!--- Returns html to populate an edit collecting event form 
- @param collecting_event_id the primary key of the collecting_event record to populate the form.
- @param collection_object_id if populated allows the user to clone edits to the collecting event
-   into a new collecting event, and move the specified cataloged item to the new collecting event.
- @return html with a form or an error message.
+<!--- populate a dialog for adding collecting event numbers to a collecting event 
+ @param collecting_event_id the collecting event to which add numbers
+ @return a block of html to populate a dialog.
 --->
-<cffunction name="getEditCollectingEventHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collecting_event_id" type="string" required="yes">
-	<cfargument name="collection_object_id" type="string" required="no" default="">
-
-	<cfset variables.collecting_event_id = arguments.collecting_event_id>
-	<cfif isDefined("arguments.collection_object_id")>
-		<cfset variables.collection_object_id = arguments.collection_object_id>
-	</cfif>
-	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-	<cfthread name="editCollEventFormThread#tn#">
-		<cfoutput>
-			<cftry>
-				<cfquery name="ctCollecting_Source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
-					select collecting_source from ctcollecting_source order by collecting_source
-				</cfquery>
-				<div class="form-row">
-					TODO: Add form
-				</div>
-			<cfcatch>
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<h2 class="h3 text-danger mt-0">Error: #cfcatch.type# #cfcatch.message# in #function_called#</h2> 
-				<div>#cfcatch.detail#</div>
-			</cfcatch>
-			</cftry>
-		</cfoutput>
-	</cfthread>
-	<cfthread action="join" name="editCollEventFormThread#tn#" />
-	<cfreturn cfthread["editCollEventFormThread#tn#"].output>
-</cffunction>
-
 <cffunction name="getAddCollEventNumberDialogHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collecting_event_id" type="string" required="yes">
 	

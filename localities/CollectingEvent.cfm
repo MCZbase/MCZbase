@@ -80,7 +80,7 @@ limitations under the License.
 						<div class="col-12 mt-2 mb-5">
 							<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Edit Collecting Event#extra#</h1>
 							<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
-								<cfset blockform = getEditCollectingEventHtml(collecting_event_id="#collecting_event_id#")>
+								<cfset blockform = getCollectingEventFormHtml(collecting_event_id = "#collecting_event_id#",mode="edit")>
 								<form name="editCollectingEventForm" id="editCollectingEvent">
 									#blockform#
 									<input type="button" class="btn btn-primary btn-xs" value="Save" onClick=" saveEvent(); ">
@@ -185,12 +185,12 @@ limitations under the License.
 			<cfloop query="lookupLocality">
 				<cfset extra = " within #lookupLocality.higher_geog# #lookupLocality.spec_locality#">
 			</cfloop>
-			<cfset blockform = getCreateCollectingEventHtml(geog_auth_rec_id = "#geog_auth_rec_id#")>
+			<cfset blockform = getCollectingEventFormHtml(geog_auth_rec_id = "#geog_auth_rec_id#",mode="create")>
 		<cfelseif isDefined("clone_from_locality_id") and len(clone_from_locality_id) GT 0>
 			<cfset extra = " cloned from #encodeForHtml(clone_from_locality_id)#">
-				<cfset blockform = getCreateCollectingEventHtml(clone_from_locality_id = "#clone_from_locality_id#")>
+				<cfset blockform = getCollectingEventFormHtml(clone_from_locality_id = "#clone_from_locality_id#",mode="create")>
 		<cfelse>
-			<cfset blockform = getCreateCollectingEventHtml()>
+			<cfset blockform = getCollectingEventFormHtml(mode="create")>
 		</cfif>
 		<cfoutput>
 			<main class="container-fluid container-xl my-2" id="content">
