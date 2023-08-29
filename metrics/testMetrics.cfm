@@ -29,7 +29,7 @@ and specimen_part.DERIVED_FROM_CAT_ITEM = cataloged_item.COLLECTION_OBJECT_ID
 GROUP BY  coll_object.coll_obj_disposition, coll_object.LOT_COUNT
 </cfquery>
 	
-<!--- Round average salaries to thousands. --->
+<!---
 <cfloop index="i" from="1" to="#lots2.RecordCount#">
 <cfset lots2.LOT_COUNT[i]=
 Round(lots2.LOT_COUNT[i]/1000)*1000>
@@ -47,7 +47,7 @@ itemColumn="lots2.coll_obj_disposition"
 	</chartseries>
 </cfchart>
 <br>	
-	
+	--->
 	<cfscript>
        border={"color":"blue","radius":6,"width":2};
 </cfscript>
