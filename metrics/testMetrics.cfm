@@ -41,12 +41,12 @@ GROUP BY COLL_OBJ_DISPOSITION
 	
 <cfchart format="png" 
 xaxistitle="Disposition" 
-yaxistitle="Lot Average"> 
+yaxistitle="Lot Sum"> 
 
 <cfchartseries type="bar" 
 query="DataTable" 
 itemcolumn="COLL_OBJ_DISPOSITION" 
-valuecolumn="avgLot" /> 
+valuecolumn="sumLot" /> 
 </cfchart>
 
 <cfinclude template="/shared/_footer.cfm">
