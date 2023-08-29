@@ -43,7 +43,7 @@ show3D="yes">
 type="area"
 query="lots2"
 valueColumn="lots2.LOT_COUNT"
-itemColumn="lots2.LOT_COUNT"/>
+itemColumn="lots2.coll_obj_disposition"/>
 </cfchart>
 <br>	
 	
