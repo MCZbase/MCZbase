@@ -53,12 +53,12 @@ itemColumn="lots2.coll_obj_disposition"
 </cfscript>
 <cfchart format="html" type="bar" showlegend="false" chartHeight="400" chartWidth="600" border="#border#">
 	<cfchartseries >
-		<cfchartdata item="not applicable" value=639757>
-		<cfchartdata item="on loan" value=6068>
+		<cfchartdata item="not applicable" value=757>
+		<cfchartdata item="on loan" value=068>
 		<cfchartdata item="deaccessioned - other" value=47>
 		<cfchartdata item="deaccessioned - discarded" value=109>
-		<cfchartdata item="in collection" value=985770>
-		<cfchartdata item="missing" value=1413>
+		<cfchartdata item="in collection" value=770>
+		<cfchartdata item="missing" value=413>
 	</cfchartseries>
 </cfchart>
 	
