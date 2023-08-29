@@ -30,12 +30,12 @@ limitations under the License.
       type="bar"
       serieslabel="Website Traffic 2006"
       seriescolor="blue">
-    <cfchartdata item="January" value="503100">
-    <cfchartdata item="February" value="720310">
-    <cfchartdata item="March" value="688700">
-    <cfchartdata item="April" value="986500">
+    <cfchartdata item="Jan" value="503100">
+    <cfchartdata item="Feb" value="720310">
+    <cfchartdata item="Mar" value="688700">
+    <cfchartdata item="Apr" value="986500">
     <cfchartdata item="May" value="1063911">
-    <cfchartdata item="June" value="1125123">
+    <cfchartdata item="Jun" value="1125123">
   </cfchartseries>
 </cfchart>
 
