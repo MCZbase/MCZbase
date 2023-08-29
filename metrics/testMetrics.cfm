@@ -27,7 +27,7 @@ limitations under the License.
 </cfquery>
 <cfquery dbtype = "query" name = "DataTable"> 
 SELECT 
-coll_obj_disposition, 
+COLL_OBJ_DISPOSITION, 
 AVG(LOT_COUNT) AS avgLot, 
 SUM(LOT_COUNT) AS sumLot 
 FROM lot 
