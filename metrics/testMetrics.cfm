@@ -41,7 +41,7 @@ show3D="yes">
 <cfchartseries
 type="area"
 query="lots2"
-valueColumn="lots2.coll_object_entered_date"
+valueColumn="lots2.AvgLot"
 itemColumn="lots2.coll_obj_disposition"/>
 </cfchart>
 <br>	
