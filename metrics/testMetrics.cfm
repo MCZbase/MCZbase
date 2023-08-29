@@ -35,11 +35,11 @@ GROUP BY COLL_OBJ_DISPOSITION
 </cfquery> 
 	
 <cfloop index = "i" from = "1" to = "#DataTable.RecordCount#"> 
-<cfset DataTable.sumSal[i] = Round(DataTable.sumLot[i]/1000)*1000> 
-<cfset DataTable.avgSal[i] = Round(DataTable.avgLot[i]/1000)*1000> 
+<cfset DataTable.sumLot[i] = Round(DataTable.sumLot[i]/1000)*1000> 
+<cfset DataTable.avgLot[i] = Round(DataTable.avgLot[i]/1000)*1000> 
 </cfloop> 
 	
-<cfchart format="flash" 
+<cfchart format="png" 
 xaxistitle="Disposition" 
 yaxistitle="Lot Average"> 
 
