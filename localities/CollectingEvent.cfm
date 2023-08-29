@@ -127,7 +127,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 px-0 pr-md-3 pl-md-0 ">
 							<div class="border bg-light rounded p-3 my-2">
-								<h2 class="h3 mt-3 pl-1 ml-2" id="formheading">Collectors</h2>
+								<h2 class="h3 mt-3 pl-1 ml-2" id="formheading">Collectors in this Collecting Event</h2>
 								<cfquery name="getCollectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollectors_result">
 									SELECT
 										count(cataloged_item.collection_object_id) ct, 
@@ -146,6 +146,9 @@ limitations under the License.
 										MCZBASE.get_agentnameoftype(agent.agent_id)
 								</cfquery>
 								<ul>
+									<cfif getCollectors.recordcount EQ 0>
+										<li>None</li>
+									</cfif>
 									<cfloop query="getCollectors">
 										<li><a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#getCollectors.name#</a> (#birth_date#-#death_date#) #ct#</li>
 									</cfloop>
