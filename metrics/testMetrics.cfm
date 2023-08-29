@@ -32,9 +32,10 @@ AVG(LOT_COUNT) AS avgLot,
 SUM(LOT_COUNT) AS sumLot 
 FROM lot 
 GROUP BY COLL_OBJ_DISPOSITION 
+	where sumLot <= 1000
 </cfquery> 
 	
-<cfloop index = "i" from = "1" to = "#DataTable.RecordCount#"> 
+<cfloop index = "i" from = "1" to = "1000> 
 <cfset DataTable.sumLot[i] = Round(DataTable.sumLot[i]/1000)*1000> 
 <cfset DataTable.avgLot[i] = Round(DataTable.avgLot[i]/1000)*1000> 
 </cfloop> 
