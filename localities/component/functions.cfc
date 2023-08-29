@@ -4788,8 +4788,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfloop query="colEventNumbers">
 						<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#) <input type="button" value="Delete" class="btn btn-xs btn-danger" onclick=" deleteCollEventNumber(#coll_event_number_id#); "></span></li>
 					</cfloop>
+					<li><button onClick="openAddCollEventNumberDialog("#collecting_event_id#", "addCENumberDialog#collecting_event_id#", reloadNumbers);" class="btn btn-xs btn-secondary">Add</button></li>
 				</ul>
-				<!--- TODO: Add Number dialog --->
+				<div id="addCENumberDialog#collecting_event_id#"></div>
 			<cfcatch>
 				<cfset function_called = "#GetFunctionCalledName()#">
 				<h2 class="h3 text-danger mt-0">Error: #cfcatch.type# #cfcatch.message# in #function_called#</h2> 
@@ -4836,6 +4837,50 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	</cfthread>
 	<cfthread action="join" name="editCollEventFormThread#tn#" />
 	<cfreturn cfthread["editCollEventFormThread#tn#"].output>
+</cffunction>
+
+<cffunction name="getAddCollEventNumberDialogHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+	
+	<cftry>
+		<cfoutput>
+			<cfquery name="collEventNumberSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id,
+					CASE collector_agent_id WHEN null THEN '[No Agent]' ELSE mczbase.get_agentnameoftype(collector_agent_id) END as collector_agent
+				FROM coll_event_num_series
+				ORDER BY number_series, mczbase.get_agentnameoftype(collector_agent_id)
+			</cfquery>
+			<h3>Add</h3>
+			<label for="coll_event_number_series">Collecting Event Number Series</label>
+			<span>
+				<select id="coll_event_number_series" name="coll_event_number_series">
+					<option value=""></option>
+					<cfset ifbit = "">
+					<cfloop query="collEventNumberSeries">
+						<option value="#collEventNumberSeries.coll_event_num_series_id#">#collEventNumberSeries.number_series# (#collEventNumberSeries.collector_agent#)</option>
+						<cfset ifbit = ifbit & "if (selectedid=#collEventNumberSeries.coll_event_num_series_id#) { $('##pattern_span').html('#collEventNumberSeries.pattern#'); }; ">
+					</cfloop>
+				</select>
+				<a href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add new number series</a>
+			</span>
+			<!---  On change of picklist, look up the expected pattern for the collecting event number series --->
+			<script>
+				$( document ).ready(function() {
+					$('##coll_event_number_series').change( function() { selectedid = $('##coll_event_number_series').val(); #ifbit# } );
+				});
+			</script>
+			<label for="coll_event_number">Collector/Field Number <span id="pattern_span" style="color: Gray;">#patternvalue#</span></label>
+			<input type="text" name="coll_event_number" id="coll_event_number" size=50>
+		</cfoutput>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfoutput>
+			<h3 class="h4">Error in #function_called#:</h2>
+			<div>#error_message#</div>
+		</cfoutput>
+	</cfcatch>
+	</cftry>
 </cffunction>
 
 <!--- update a collecting event record with new values, use only when editing a 

@@ -480,3 +480,59 @@ function closeGeoLocate(msg) {
 	$('#theFrame', window.parent.document).remove();
 }
 
+// Create and open a dialog to add collecting event numbers to a collecting event
+// @param collecting_event_id the collecting event for which to add numbers
+// @param dialogid the id of a div in the dom that is to be populated with
+//  the content of the dialog, without a leading #.
+// @param callback a function to invoke on closing the dialog.
+function openAddCollEventNumberDialog(collecting_event_id, dialogid, callback) { 
+	var title = "Add collecting event numbers to a collecting event";
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	h = Math.floor(h *.5);
+	if (h < 600) { h = 600; }
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 300,
+		minHeight: 600,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() { 
+				$("#"+dialogid).dialog('close'); 
+			}
+		},
+		close: function(event,ui) { 
+			if (jQuery.type(callback)==='function') {
+				callback();
+	  		}
+			$("#"+dialogid+"_div").html("");
+			$("#"+dialogid).dialog('destroy'); 
+		} 
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/localities/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "getAddCollEventNumberDialogHtml",
+			returnformat: "plain",
+			collecting_event_id: collecting_event_id
+		}, 
+		success: function (data) { 
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading add collecting event number dialog");
+		}
+	});
+}
