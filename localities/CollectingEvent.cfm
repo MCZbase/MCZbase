@@ -48,6 +48,7 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 
 <cfinclude template="/localities/component/functions.cfc" runonce="true">
+<cfinclude template="/localities/component/public.cfc" runonce="true">
 
 <cfswitch expression="#action#">
 	<cfcase value="edit">
