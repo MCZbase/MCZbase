@@ -4810,10 +4810,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 --->
 <cffunction name="getEditCollectingEventHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collecting_event_id" type="string" required="yes">
-	<cfargument name="collection_object_id" type="string" required="no">
+	<cfargument name="collection_object_id" type="string" required="no" default="">
 
 	<cfset variables.collecting_event_id = arguments.collecting_event_id>
-	<cfset variables.collection_object_id = arguments.collection_object_id>
+	<cfif isDefined("arguments.collection_object_id")>
+		<cfset variables.collection_object_id = arguments.collection_object_id>
+	</cfif>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="editCollEventFormThread#tn#">
 		<cfoutput>
