@@ -107,7 +107,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 px-0 pr-md-3 pl-md-0 ">
 							<div class="border bg-light rounded p-3 my-2">
-								<cfset media = getCollEventMediaHtml(collecting_event_id="#collecting_event_id#")>
+								<cfset media = getCollectingEventMediaHtml(collecting_event_id="#collecting_event_id#")>
 								<div id="mediaDiv" class="row">#media#</div>
 								<div id="addMediaDiv">
 									<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
