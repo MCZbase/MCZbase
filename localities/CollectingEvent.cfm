@@ -96,11 +96,42 @@ limitations under the License.
 									});
 								</script>
 							</div>
+						</div>
+						<div class="col-12 px-0 pr-md-3 pl-md-0 ">
 							<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
 								<cfset blocknumbers = getEditCollectingEventNumbersHtml(collecting_event_id="#collecting_event_id#")>
+								<div id="collEventNumbersDiv">#blocknumbers#</div>
+							</div>
+						</div>
+						<div class="col-12 px-0 pr-md-3 pl-md-0 ">
+							<div class="border bg-light rounded p-3 my-2">
+								<cfset media = getCollEventMediaHtml(collecting_event_id="#collecting_event_id#")>
+								<div id="mediaDiv" class="row">#media#</div>
+								<div id="addMediaDiv">
+									<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT media_relationship as relation 
+										FROM ctmedia_relationship 
+										WHERE media_relationship like '% collecting_event'
+										ORDER BY media_relationship
+									</cfquery>
+									<cfloop query="relations">
+										<cfset summary = replace(replace(summary,'"','','all'),"'","","all")>
+										<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
+										<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
+									</cfloop>
+								</div>
+								<div id="mediaDialogDiv"></div>
 							</div>
 						</div>
 					</section>
+					<script>
+						function reloadNumbers()  {
+							loadCollEventNumbersHTML('#locality_id#','collEventNumbersDiv');
+						}
+						function reloadMedia()  {
+							loadCollEventMediaHTML('#locality_id#','mediaDiv');
+						}
+					</script>
 				</main>
 			</cfoutput>
 		<cfelse>

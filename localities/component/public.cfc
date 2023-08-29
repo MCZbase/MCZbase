@@ -1554,4 +1554,49 @@ limitations under the License.
 	<cfreturn cfthread["localityVerbatimThread#tn#"].output>
 </cffunction>
 
+<!--- function getCollectingEventMediaHtml return a block of html with media associated with a collecting_event. 
+
+   @param collecting_event_id the primary key value for the collecting_event for which to return media.
+   @return block of html.
+--->
+<cffunction name="getCollectingEventMediaHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+	
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="collEventMediaThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						media_id
+					FROM
+						media_relations
+					WHERE
+						media_relationship like '% collecting_event'
+						and
+						related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collectinge_event_id#"> 
+						and 
+						MCZBASE.is_media_encumbered(media_id) < 1 
+				</cfquery>
+				<cfif collEventMedia.recordcount gt 0>
+					<cfloop query="collEventMedia">
+						<div class="col-6 px-1 col-sm-3 col-lg-3 col-xl-3 mb-1 px-md-2 pt-1 float-left"> 
+							<div id='ceMediaBlock#collEventMedia.media_id#'>
+								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="350",captionAs="textShort")>
+							</div>
+						</div>
+					</cfloop>
+				</cfif>
+			<cfcatch>
+				<h3 class="h4 text-danger">Error: #cfcatch.type# #cfcatch.message#</h3> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="collEventMediaThread#tn#" />
+
+	<cfreturn cfthread["collEventMediaThread#tn#"].output>
+</cffunction>
+
 </cfcomponent>
