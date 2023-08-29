@@ -23,7 +23,7 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 	
 <cfquery name = "lots2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-SELECT coll_object.coll_obj_disposition, AVG(lot_count) AS "AvgLot", coll_object.coll_object_entered_date
+SELECT coll_object.coll_obj_disposition, AVG(lot_count) AS "AvgLot", lot_count, coll_object.coll_object_entered_date
 FROM coll_object, specimen_part where specimen_part.derived_from_cat_item =coll_object.collection_object_id
 GROUP BY coll_object.coll_object_entered_date, coll_object.coll_obj_disposition
 </cfquery>
@@ -42,7 +42,7 @@ show3D="yes">
 type="area"
 query="lots2"
 valueColumn="lots2.AvgLot"
-itemColumn="lots2.coll_obj_disposition"/>
+itemColumn="lots2.lot_count"/>
 </cfchart>
 <br>	
 	
