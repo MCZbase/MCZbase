@@ -22,8 +22,8 @@ limitations under the License.
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 <cfquery name="lot" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lot_result">
-	select coll_object.COLL_OBJ_DISPOSITION, coll_object.LOT_COUNT from coll_object, specimen_part 
-where coll_object.collection_object_id = specimen_part.collection_object_id
+	select coll_object.COLL_OBJ_DISPOSITION, coll_object.LOT_COUNT from coll_object
+
 </cfquery>
 <cfquery dbtype = "query" name = "DataTable"> 
 SELECT 
