@@ -31,10 +31,22 @@ limitations under the License.
 	
 <cfchart format="png" 
 xaxistitle="Disposition" 
-yaxistitle="Lot Sum"> 
+yaxistitle="Lot Sum"
+scaleFrom=50
+scaleTo=100000
+font="arial"
+fontSize=16
+gridLines=4
+show3D="yes"
+foregroundcolor="##000066"
+databackgroundcolor="##FFFFCC"
+chartwidth="1450"
+		 > 
 
 <cfchartseries type="bar" 
 query="lot" 
+seriescolor="##33CC99"
+paintstyle="shade"
 itemcolumn="COLL_OBJ_DISPOSITION" 
 valuecolumn="lots" /> 
 </cfchart>
