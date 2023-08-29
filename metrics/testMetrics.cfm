@@ -29,8 +29,8 @@ and specimen_part.DERIVED_FROM_CAT_ITEM = cataloged_item.COLLECTION_OBJECT_ID
 GROUP BY  coll_object.coll_obj_disposition, coll_object.LOT_COUNT
 </cfquery>
 	
-<!---
-<cfloop index="i" from="1" to="#lots2.RecordCount#">
+
+<cfloop index="i" from="1" to="10">
 <cfset lots2.LOT_COUNT[i]=
 Round(lots2.LOT_COUNT[i]/1000)*1000>
 </cfloop>
@@ -47,20 +47,7 @@ itemColumn="lots2.coll_obj_disposition"
 	</chartseries>
 </cfchart>
 <br>	
-	--->
-	<cfscript>
-       border={"color":"blue","radius":6,"width":2};
-</cfscript>
-<cfchart format="html" type="bar" showlegend="false" chartHeight="400" chartWidth="600" border="#border#">
-	<cfchartseries >
-		<cfchartdata item="not applicable" value=757>
-		<cfchartdata item="on loan" value=068>
-		<cfchartdata item="deaccessioned - other" value=47>
-		<cfchartdata item="deaccessioned - discarded" value=109>
-		<cfchartdata item="in collection" value=770>
-		<cfchartdata item="missing" value=413>
-	</cfchartseries>
-</cfchart>
-	
-	
+
+
+
 <cfinclude template="/shared/_footer.cfm">
