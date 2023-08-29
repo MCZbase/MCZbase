@@ -69,6 +69,8 @@ limitations under the License.
 			WHERE
 				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 		</cfquery>
+		<!--- TODO: Create summary for event for dialogs --->
+		<cfset summary = "[#lookupEvent.collecting_event_id#]"
 		<cfif lookupEvent.recordcount EQ 1>
 			<cfset extra="(#lookupEvent.collecting_event_id#)">
 			<cfoutput>
@@ -116,20 +118,47 @@ limitations under the License.
 									</cfquery>
 									<cfloop query="relations">
 										<cfset summary = replace(replace(summary,'"','','all'),"'","","all")>
-										<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
-										<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Locality: #summary#', '#locality_id#', '#relations.relation#', reloadMedia); ">
+										<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Collecting Event: #summary#', '#collecting_event_id#', '#relations.relation#', reloadMedia); ">
+										<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Collecting Event: #summary#', '#collecting_event_id#', '#relations.relation#', reloadMedia); ">
 									</cfloop>
 								</div>
 								<div id="mediaDialogDiv"></div>
 							</div>
 						</div>
+						<div class="col-12 px-0 pr-md-3 pl-md-0 ">
+							<div class="border bg-light rounded p-3 my-2">
+								<h2 class="h3 mt-3 pl-1 ml-2" id="formheading">Collectors</h2>
+								<cfquery name="getCollectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollectors_result">
+									SELECT
+										count(cataloged_item.collection_object_id) ct, 
+										agent.agent_id,
+										MCZBASE.get_agentnameoftype(agent.agent_id) as name,
+										birth_date, death_date
+									FROM 
+										cataloged_item
+										join collector on cataloged_item.collection_object_id = collector.collection_object_id
+										join agent on collector.agent_id = agent.agent_id
+										left join person on agent.agent_id = person.person_id
+									WHERE 
+										collector_role = 'c'
+										AND collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+									ORDER BY 
+										MCZBASE.get_agentnameoftype(agent.agent_id)
+								</cfquery>
+								<ul>
+									<cfloop query="getCollectors">
+										<li><a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#getCollectors.name#</a> (#birth_date#-#death_date#) #ct#</li>
+									</cfloop>
+								</ul>
+							</div>
+						</div>
 					</section>
 					<script>
 						function reloadNumbers()  {
-							loadCollEventNumbersHTML('#locality_id#','collEventNumbersDiv');
+							loadCollEventNumbersHTML('#collecting_event_id#','collEventNumbersDiv');
 						}
 						function reloadMedia()  {
-							loadCollEventMediaHTML('#locality_id#','mediaDiv');
+							loadCollEventMediaHTML('#collecting_event_id#','mediaDiv');
 						}
 					</script>
 				</main>
