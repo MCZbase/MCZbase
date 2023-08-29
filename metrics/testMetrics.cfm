@@ -31,7 +31,7 @@ GROUP BY  coll_object.coll_obj_disposition, coll_object.LOT_COUNT
 	
 <!--- Round average salaries to thousands. --->
 <cfloop index="i" from="1" to="#lots2.RecordCount#">
-<cfset lots2.AvgLot[i]=
+<cfset lots2.LOT_COUNT[i]=
 Round(lots2.LOT_COUNT[i]/1000)*1000>
 </cfloop>
 
