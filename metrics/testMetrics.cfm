@@ -22,26 +22,31 @@ limitations under the License.
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 <cfquery name="lot" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lot_result">
-	select coll_object.COLL_OBJ_DISPOSITION as "disp", SUM(coll_object.LOT_COUNT) As "lots" from coll_object, specimen_part 
+	select coll_object.COLL_OBJ_DISPOSITION, coll_object.LOT_COUNT from coll_object, specimen_part 
 where coll_object.collection_object_id = specimen_part.collection_object_id
-group by coll_object.COLL_OBJ_DISPOSITION
 </cfquery>
-<cfchart
-   format="png"
-   scalefrom="0"
-   scaleto="1200000"
-pieslicestyle="solid">
-  <cfchartseries
-      type="pie"
-      serieslabel="Lots by disp"
-      seriescolor="blue">
-    <cfchartdata item="Jan" value="503100">
-    <cfchartdata item="Feb" value="720310">
-    <cfchartdata item="Mar" value="688700">
-    <cfchartdata item="Apr" value="986500">
-    <cfchartdata item="May" value="1063911">
-    <cfchartdata item="Jun" value="1125123">
-  </cfchartseries>
+<cfquery dbtype = "query" name = "DataTable"> 
+SELECT 
+Dept_Name, 
+AVG(LOT_COUNT) AS avgLot, 
+SUM(LOT_COUNT) AS sumLot 
+FROM lot 
+GROUP BY COLL_OBJ_DISPOSITION 
+</cfquery> 
+	
+<cfloop index = "i" from = "1" to = "#DataTable.RecordCount#"> 
+<cfset DataTable.sumSal[i] = Round(DataTable.sumLot[i]/1000)*1000> 
+<cfset DataTable.avgSal[i] = Round(DataTable.avgLot[i]/1000)*1000> 
+</cfloop> 
+	
+<cfchart format="flash" 
+xaxistitle="Disposition" 
+yaxistitle="Lot Average"> 
+
+<cfchartseries type="bar" 
+query="DataTable" 
+itemcolumn="COLL_OBJ_DISPOSITION" 
+valuecolumn="avgLot" /> 
 </cfchart>
 
 <cfinclude template="/shared/_footer.cfm">
