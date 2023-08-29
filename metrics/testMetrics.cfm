@@ -22,7 +22,7 @@ limitations under the License.
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 	
-<cfquery name = "lots2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+ame = "lots2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 SELECT coll_obj_disposition, sum(coll_object.LOT_COUNT) as "LOT_COUNT"
 FROM coll_object, specimen_part, cataloged_item where specimen_part.derived_from_cat_item =coll_object.collection_object_id
 and specimen_part.DERIVED_FROM_CAT_ITEM = cataloged_item.COLLECTION_OBJECT_ID
