@@ -29,7 +29,7 @@ and specimen_part.DERIVED_FROM_CAT_ITEM = cataloged_item.COLLECTION_OBJECT_ID
 GROUP BY  coll_object.coll_obj_disposition, coll_object.LOT_COUNT
 </cfquery>
 <cfloop query = "lots2">
-#LOT_COUNT#
+#coll_obj_disposition#,
 	</cfloop>
 <cfloop index="i" from="1" to="10">
 <cfset lots2.LOT_COUNT[i]=
