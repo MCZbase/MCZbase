@@ -96,6 +96,9 @@ limitations under the License.
 									});
 								</script>
 							</div>
+							<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
+								<cfset blocknumbers = getEditCollectingEventNumbersHtml(collecting_event_id="#collecting_event_id#")>
+							</div>
 						</div>
 					</section>
 				</main>

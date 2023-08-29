@@ -4763,6 +4763,45 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 </cffunction>
 
+
+<cffunction name="getEditCollectingEventNumbersHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+
+	<cfset variables.collecting_event_id = arguments.collecting_event_id>
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="editCollEventFormThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="colEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT number_series,
+						MCZBASE.get_agentnameoftype(collector_agent_id) as collector_agent,
+						coll_event_number,
+						coll_event_number_id
+					FROM
+						coll_event_number
+						left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
+					WHERE
+						coll_event_number.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+				</cfquery>
+				<h3>Collector/Field Numbers (identifying collecting events)</h3>
+				<ul>
+					<cfloop query="colEventNumbers">
+						<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#) <input type="button" value="Delete" class="btn btn-xs btn-danger" onclick=" deleteCollEventNumber(#coll_event_number_id#); "></span></li>
+					</cfloop>
+				</ul>
+				<!--- TODO: Add Number dialog --->
+			<cfcatch>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3 text-danger mt-0">Error: #cfcatch.type# #cfcatch.message# in #function_called#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="editCollEventFormThread#tn#" />
+	<cfreturn cfthread["editCollEventFormThread#tn#"].output>
+</cffunction>
+
 <!--- Returns html to populate an edit collecting event form 
  @param collecting_event_id the primary key of the collecting_event record to populate the form.
  @param collection_object_id if populated allows the user to clone edits to the collecting event
