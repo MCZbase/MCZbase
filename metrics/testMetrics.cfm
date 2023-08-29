@@ -48,7 +48,13 @@ itemColumn="lots2.coll_obj_disposition"
 	</chartseries>
 </cfchart>
 <br>	
-
+<cfquery name="qEmployee" datasource="cfdocexamples" maxRows="6">
+    SELECT FirstName, LastName, Salary FROM EMPLOYEE
+</cfquery>
+<cfchart format="html" pieslicestyle="solid" chartWidth="600" chartHeight="400">
+    <cfchartseries query="qEmployee" type="pie" serieslabel="Salary Details 2016" valuecolumn="Salary" itemcolumn="FirstName">
+    </cfchartseries>
+</cfchart>
 
 
 <cfinclude template="/shared/_footer.cfm">
