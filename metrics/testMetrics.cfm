@@ -33,7 +33,7 @@ xaxistitle="Disposition"
 yaxistitle="Lot Sum"> 
 
 <cfchartseries type="bar" 
-query="DataTable" 
+query="lot" 
 itemcolumn="COLL_OBJ_DISPOSITION" 
 valuecolumn="lots" /> 
 </cfchart>
