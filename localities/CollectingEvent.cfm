@@ -51,23 +51,23 @@ limitations under the License.
 
 <cfswitch expression="#action#">
 	<cfcase value="edit">
-		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="lookupEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT collecting_event_id, locality_id
+			FROM collecting_event
+			WHERE
+				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+		</cfquery>
+		<cfquery name="lookupLocality"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT spec_locality, geog_auth_rec_id 
 			FROM locality
 			WHERE 
-				locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+				locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupEvent.locality_id#">
 		</cfquery>
 		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT higher_geog 
 			FROM geog_auth_rec 
 			WHERE
-				geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.geog_auth_rec_id#">
-		</cfquery>
-		<cfquery name="lookupEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT collecting_event_id 
-			FROM collecting_event
-			WHERE
-				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+				geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupLocality.geog_auth_rec_id#">
 		</cfquery>
 		<!--- TODO: Create summary for event for dialogs --->
 		<cfset summary = "[#lookupEvent.collecting_event_id#]" >
