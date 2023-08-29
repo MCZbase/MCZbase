@@ -22,7 +22,15 @@ limitations under the License.
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 	
-ame = "lots2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfchart format="html" chartHeight="400" chartWidth="600" showLegend="no" title="Line chart">
+<cfchartseries type="line" serieslabel="WBC" markerstyle="circle" color="red">
+<cfchartdata item="Day 1" value="19.2"/>
+<cfchartdata item="Day 2" value="15.2"/>
+<cfchartdata item="Day 3" value="15.1"/>
+<cfchartdata item="Day 4" value="12.6"/>
+<cfchartdata item="Day 5" value="14.2"/>
+</cfchartseries>
+</cfchart>ame = "lots2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 SELECT coll_obj_disposition, sum(coll_object.LOT_COUNT) as "LOT_COUNT"
 FROM coll_object, specimen_part, cataloged_item where specimen_part.derived_from_cat_item =coll_object.collection_object_id
 and specimen_part.DERIVED_FROM_CAT_ITEM = cataloged_item.COLLECTION_OBJECT_ID
