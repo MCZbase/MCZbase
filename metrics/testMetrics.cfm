@@ -39,11 +39,12 @@ Round(lots2.LOT_COUNT[i]/1000)*1000>
 chartWidth=400
 BackgroundColor="##FFFF00"
 show3D="yes">
-<cfchartseries
+<cfchartseries>
 type="bar"
 query="lots2"
 valueColumn="lots2.LOT_COUNT"
-itemColumn="lots2.coll_obj_disposition"/>
+itemColumn="lots2.coll_obj_disposition"
+	</chartseries>
 </cfchart>
 <br>	
 	
