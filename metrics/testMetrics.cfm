@@ -28,7 +28,7 @@ FROM coll_object, specimen_part, cataloged_item where specimen_part.derived_from
 and specimen_part.DERIVED_FROM_CAT_ITEM = cataloged_item.COLLECTION_OBJECT_ID
 GROUP BY  coll_object.coll_obj_disposition, coll_object.LOT_COUNT
 </cfquery>
-<cfloop query = "lots2">
+<cfloop qu2">
 #coll_obj_disposition#,
 	</cfloop>
 <cfloop index="i" from="1" to="10">
