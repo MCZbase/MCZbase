@@ -1574,7 +1574,7 @@ limitations under the License.
 					WHERE
 						media_relationship like '% collecting_event'
 						and
-						related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collectinge_event_id#"> 
+						related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#"> 
 						and 
 						MCZBASE.is_media_encumbered(media_id) < 1 
 				</cfquery>
