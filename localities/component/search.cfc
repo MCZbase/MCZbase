@@ -3182,6 +3182,11 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<cffunction name="getCollectingEventSummary" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+
+	<cfoutput>TODO: Implement summary</cfoutput>
+</cffunction>
 
 <cffunction name="getLocalitySummary" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="locality_id" type="string" required="yes">
