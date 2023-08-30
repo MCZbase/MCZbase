@@ -1630,7 +1630,8 @@ limitations under the License.
 					GROUP BY
 						collection.collection,
 						collection.collection_cde,
-						collection.collection_id
+						collection.collection_id,
+						locality_id
 			  	</cfquery>
 				<div>
 					<cfif #collectingEventUses.recordcount# is 0>
