@@ -1642,7 +1642,7 @@ limitations under the License.
 							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">
 								#collectingEventUses.numOfSpecs# #collectingEventUses.collection_cde# specimens
 							</a>
-							see <a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">other collecting events at this locality</a>.
+							see <a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#collectingEventUses.locality_id#&include_counts=true&include_ce_counts=true">other collecting events at this locality</a>.
 						</h2>
 					<cfelse>
 						<cfset totalSpecimens=0>
