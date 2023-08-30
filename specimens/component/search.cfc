@@ -2793,27 +2793,25 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							<cfset pagenumber = pagenumber + 1 >
 							<cflog text="before search query count.ct=[#count.ct#] pagenumber=[#pagenumber#]" file="MCZbase">
 							<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-								SELECT * FROM (
-									SELECT qry.*, rownum foundrownum
-									FROM (
 										SELECT 
-										<cfset comma = "">
-										<cfloop array="#valid_columns#" index="idx">
-											<cfif len(idx.sql_element) GT 0> 
-												#comma##replace(idx.sql_element,"''","'","all")# #idx.column_name#
-												<cfset comma = ",">
-											</cfif>
-										</cfloop>
+											rownum as foundrownum,
+											<cfset comma = "">
+											<cfloop array="#valid_columns#" index="idx">
+												<cfif len(idx.sql_element) GT 0> 
+													#comma##replace(idx.sql_element,"''","'","all")# #idx.column_name#
+													<cfset comma = ",">
+												</cfif>
+											</cfloop>
 										FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 											join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 										WHERE
 											user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+											and
+											pagesort > = ((#pagenumber#-1) * #pagesize# + 1)
+											and
+											pagesort < ((##pagenumber# * #pagesize#) + 1)
 										ORDER BY
 											user_search_table.collection_object_id
-									) qry
-									WHERE rownum < ((#pagenumber# * #pagesize#) + 1 )
-								) 
-								WHERE foundrownum >= (((#pagenumber#-1) * #pagesize#) + 1)
 							</cfquery>
 							<cflog text="after search query" file="MCZbase">
 							<cfif pagenumber EQ 1>
