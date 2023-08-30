@@ -1699,7 +1699,7 @@ limitations under the License.
 					<div class="h2">#higher_geog#</div>
 					<div class="h2">#specific_locality#</div>
 					<div class="h2">#verbatim_date#</div>
-				</cfoop>
+				</cfloop>
 			<cfcatch>
 				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
