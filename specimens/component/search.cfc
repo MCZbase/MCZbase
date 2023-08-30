@@ -2809,7 +2809,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 											and
 											pagesort > = ((#pagenumber#-1) * #pagesize# + 1)
 											and
-											pagesort < ((##pagenumber# * #pagesize#) + 1)
+											pagesort < ((#pagenumber# * #pagesize#) + 1)
 										ORDER BY
 											user_search_table.collection_object_id
 							</cfquery>
