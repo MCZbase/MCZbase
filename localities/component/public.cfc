@@ -1680,7 +1680,13 @@ limitations under the License.
 <cffunction name="getCollectingEventSummary" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collecting_event_id" type="string" required="yes">
 
-	<cfoutput>TODO: Implement summary</cfoutput>
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="collEventSummaryThread#tn#">
+		<cfoutput>TODO: Implement summary</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="collEventSummaryThread#tn#" />
+
+	<cfreturn cfthread["collEventSummaryThread#tn#"].output>
 </cffunction>
 
 </cfcomponent>
