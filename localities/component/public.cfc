@@ -1686,7 +1686,7 @@ limitations under the License.
 			<cftry>
 				<cfquery name="getCollEventUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollEventUp_result">
 					SELECT higher_geog, geog_auth_rec.geog_auth_rec_id,
-						specific_locality,
+						spec_locality,
 						verbatim_date
 					FROM
 						collecting_event
@@ -1697,7 +1697,7 @@ limitations under the License.
 				</cfquery>
 				<cfloop query="getCollEventUp">
 					<div class="h2">#higher_geog#</div>
-					<div class="h2">#specific_locality#</div>
+					<div class="h2">#spec_locality#</div>
 					<div class="h2">#verbatim_date#</div>
 				</cfloop>
 			<cfcatch>
