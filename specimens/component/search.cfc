@@ -2850,7 +2850,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					</cfquery>
 				<cfelse>
 					<cflog text="Token exists [#checkToken.ct#] matches in downloadThread#tn#" file="MCZbase">
-					<cfthrow message="Problem creating download.  Token [#token#] exists, [#checkToken.ct#] matches found.">
+					<cfthrow message="Problem creating download.  Token [#token#] exists, [#checkToken.ct#] matches found." errorCode="900">
 				</cfif>
 			</cfif>
 			<cfif stream>
@@ -2873,6 +2873,20 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cflog text="normal end of downloadThread#tn#" file="MCZbase">
 		<cfcatch>
 			<cflog text="Exception in downloadThread#tn# #cfcatch.message#" file="MCZbase">
+			<cfif NOT isDefined("cfcatch.errorcode") OR cfcatch.errorcode NEQ "900">
+				<cfquery name="failedDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="postDownload_result">
+					UPDATE cf_download_file 
+					SET 
+						status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Failed">,
+						filename = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="">,
+						message = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cfcatch.message#">
+					WHERE
+						token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#"> and
+						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#"> and
+						download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
+				</cfquery>
+			</cfif>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 			<cfset function_called = "#GetFunctionCalledName()#">
