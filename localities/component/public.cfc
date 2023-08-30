@@ -1677,4 +1677,10 @@ limitations under the License.
 	<cfreturn cfthread["collectingEventUsesThread#tn#"].output>
 </cffunction>
 
+<cffunction name="getCollectingEventSummary" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+
+	<cfoutput>TODO: Implement summary</cfoutput>
+</cffunction>
+
 </cfcomponent>
