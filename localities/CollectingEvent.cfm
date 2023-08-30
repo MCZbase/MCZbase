@@ -143,6 +143,9 @@ limitations under the License.
 									WHERE 
 										collector_role = 'c'
 										AND collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+									GROUP BY
+										agent.agent_id,
+										birth_date, death_date
 									ORDER BY 
 										MCZBASE.get_agentnameoftype(agent.agent_id)
 								</cfquery>
