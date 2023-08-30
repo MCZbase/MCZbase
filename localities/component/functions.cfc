@@ -4597,7 +4597,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfelseif mode EQ "edit" >
 		<cfquery name="getEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
-				collecting_event_id 
+				collecting_event_id,
 				locality_id, verbatim_locality, verbatimDepth, verbatimElevation,
 				verbatimCoordinates, verbatimLatitude, verbatimLongitude,
 				verbatimCoordinateSystem, verbatimSRS,
