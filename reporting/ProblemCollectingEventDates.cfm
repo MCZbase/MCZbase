@@ -38,7 +38,7 @@ Report on collecting events with problematic values for began date or ended date
 						ended_date,
 						case when date_ended_date < to_date('1582-10-15','yyyy-mm-dd') then 'pre-Gregorian' else '' end as end_pre_gregorian
 					FROM collecting_event 
-					WHERE date_began_date < to_date('1700-01-01','yyyy-mm-dd') or date_ended_date < to_date('1700-01-01','yyyy-mm-dd');
+					WHERE date_began_date < to_date('1700-01-01','yyyy-mm-dd') or date_ended_date < to_date('1700-01-01','yyyy-mm-dd')
 				</cfquery>
 				<h2 class="h3">Date Collected prior to 1700</h2>
 				<ul>
