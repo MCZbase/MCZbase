@@ -1619,7 +1619,8 @@ limitations under the License.
 						count(cataloged_item.cat_num) numOfSpecs,
 						collection.collection,
 						collection.collection_cde,
-						collection.collection_id
+						collection.collection_id,
+						locality_id
 					from
 						collecting_event
 						left join cataloged_item on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
@@ -1637,7 +1638,7 @@ limitations under the License.
 					<cfelseif #collectingEventUses.recordcount# is 1>
 						<h2 class="h4 px-2">
 							This CollectingEvent (#collecting_event_id#) contains 
-							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#">
+							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">
 								#collectingEventUses.numOfSpecs# #collectingEventUses.collection_cde# specimens
 							</a>
 							see <a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">other collecting events at this locality</a>.
