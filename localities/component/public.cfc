@@ -1682,7 +1682,30 @@ limitations under the License.
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="collEventSummaryThread#tn#">
-		<cfoutput>TODO: Implement summary</cfoutput>
+		<cfoutput>
+			<cftry>
+				<cfquery name="getCollEventUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollEventUp_result">
+					SELECT higher_geog, geog_auth_rec.geog_auth_rec_id,
+						specific_locality,
+						verbatim_date
+					FROM
+						collecting_event
+						join locality on collecting_event.locality_id = locality.locality_id
+						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+					WHERE
+						collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+				</cfquery>
+				<cfloop query="getCollEventUp">
+					<div class="h2">#higher_geog#</div>
+					<div class="h2">#specific_locality#</div>
+					<div class="h2">#verbatim_date#</div>
+				</cfoop>
+			<cfcatch>
+				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="collEventSummaryThread#tn#" />
 
