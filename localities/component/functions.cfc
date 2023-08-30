@@ -4605,7 +4605,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				startDayOfYear, endDayOfYear, began_date, ended_date,
 				coll_event_remarks, collecting_source, habitat_desc,
 				date_began_date, date_ended_date,
-				valid_distribtion_fg, collecting_method,
+				valid_distribution_fg, collecting_method,
 				date_determined_by_agent_id, fish_field_number
 			FROM collecting_event
 			WHERE
