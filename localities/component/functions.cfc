@@ -4553,7 +4553,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="collecting_time" type="string" required="no">
 	
 	<cfif mode NEQ "edit" AND mode NEQ "create">
-		<cfthrow message="Unknown value for mode [#encodeForHtml(mode)#], must be create or edit."
+		<cfthrow message="Unknown value for mode [#encodeForHtml(mode)#], must be create or edit.">
 	</cfif>
 
 	<cfif isDefined("clone_from_collecting_event_id") AND len(clone_from_collecting_event_id) GT 0 AND mode EQ "create" >
