@@ -43,7 +43,7 @@ Report on collecting events with problematic values for began date or ended date
 				<h2 class="h3">Date Collected prior to 1700</h2>
 				<ul>
 					<cfset accumulate_shared = 0>
-					<cfif getcounts.recordcount EQ 0>
+					<cfif pre1700.recordcount EQ 0>
 						<li class="py-1">None.  No collecting events have a date prior to 1700-01-01.</li>
 					<cfelse>
 						<cfloop query="pre1700">
