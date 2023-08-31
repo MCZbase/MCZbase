@@ -3093,7 +3093,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										},
 										error: function (jqXHR, textStatus, error) {
 											done = true;
-											var html = '<button class="btn btn-xs btn-secondary" onClick="checkStatus(\''+token+'\',\''+rows+'\');">Recheck Status</button>';
+											var html = '<button class="btn btn-xs btn-secondary" onClick="checkStatus(\\\''+token+'\\\',\\\''+rows+'\\\');">Recheck Status</button>';
 											$("##downloadFeedback").html("Preparing ("+rows+" records).... Error. "+html);
 											handleFail(jqXHR,textStatus,error,"checking specimen download status");
 										}
