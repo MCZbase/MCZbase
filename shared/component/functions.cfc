@@ -680,10 +680,15 @@ limitations under the License.
 		</cfloop>
 	
 		<!--- loop through query and append rows to file --->
-		<cfset fileToWrite = FileOpen("#application.webDirectory#/temp/#filename#.csv", 'append', 'utf-8')>
+		<cfobject type="Java" class="java.io.FileOutputStream" name="fileOutputStreamClass">
+		<cfobject type="Java" class="java.io.OutputStreamWriter" name="outputStreamWriterClass">
+		<cfobject type="Java" class="java.io.BufferedWriter" name="bufferedWriterClass">
+		<cfset fileoutputstream = fileOutputStreamClass.Init("#application.webDirectory#/temp/#filename#.csv",true)>
+		<cfset outputstreamwriter = outputStreamWriterClass(fileoutputstream,"utf-8")>
+		<cfset bufferedwriter = bufferedWriterCleass(outputstreamwriter)>
 		<cfif mode EQ "create">
-			<cfset fileWriteLine(fileToWrite, "#JavaCast('string',ArrayToList(header,','))#") >
-			<cfset fileWriteLine(fileToWrite, "#Chr(10)#") >
+			<cfset bufferedwriter.write("#JavaCast('string',ArrayToList(header,','))#") >
+			<cfset bufferedwriter.newLine() >
 		</cfif>
 		<cfset buffer = CreateObject("java","java.lang.StringBuffer").Init()>
 		<cfset stepsToWrite = 1000>
@@ -700,17 +705,17 @@ limitations under the License.
 			<cfset buffer.Append(JavaCast('string',ArrayToList(row,',')))>
 			<cfset buffer.Append(Chr(10))>
 			<cfif counter EQ stepsToWrite>
-				<cfset fileWriteLine(fileToWrite, "#buffer.toString()#") >
+				<cfset bufferedWriter.write("#buffer.toString()#") >
 				<cfset written = written + counter>
 				<cfset counter = 0>
 				<cfset buffer.setLength(0)>
 			</cfif>
 		</cfloop>
 		<cfif counter NEQ stepsToWrite>
-			<cfset fileWriteLine(fileToWrite, "#buffer.toString()#") >
+			<cfset bufferedWriter.write("#buffer.toString()#") >
 			<cfset written = written + counter>
 		</cfif>
-		<cfset FileClose(fileToWrite)>
+		<cfset bufferedWriter.close()>
 		<cfset retval.STATUS = "Success">
 		<cfset retval.WRITTEN = "#written#">
 		<cfset retval.TIMESTAMP= "#timestamp#">
@@ -729,9 +734,9 @@ limitations under the License.
 			<cfset retval.STATUS = "Failed">
 			<cfset retval.MESSAGE = "Error: #cfcatch.message#.">
 		</cfif>
-		<cfif isDefined("fileToWrite")>
+		<cfif isDefined("bufferedWriter")>
 			<cftry>
-				<cfset FileClose(fileToWrite)>
+				<cfset bufferedWriter.close()>
 			<cfcatch></cfcatch>
 			</cftry>
 		</cfif>
