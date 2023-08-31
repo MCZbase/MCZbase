@@ -705,15 +705,16 @@ limitations under the License.
 			<cfset buffer.Append(JavaCast('string',ArrayToList(row,',')))>
 			<cfset buffer.Append(Chr(10))>
 			<cfif counter EQ stepsToWrite>
-				<cfset bufferedWriter.write("#buffer.toString()#") >
+				<cfset bufferedWriter.write(buffer.toString()) >
 				<cfset written = written + counter>
 				<cfset counter = 0>
 				<cfset buffer.setLength(0)>
 			</cfif>
 		</cfloop>
 		<cfif counter NEQ stepsToWrite>
-			<cfset bufferedWriter.write("#buffer.toString()#") >
+			<cfset bufferedWriter.write(buffer.toString()) >
 			<cfset written = written + counter>
+			<cfset buffer.setLength(0)>
 		</cfif>
 		<cfset bufferedWriter.close()>
 		<cfset retval.STATUS = "Success">
