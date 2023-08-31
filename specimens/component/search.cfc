@@ -3094,8 +3094,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										},
 										error: function (jqXHR, textStatus, error) {
 											done = true;
-											var html = '<button class="btn btn-xs btn-secondary" onClick="checkStatus(\\\''+token+'\\\',\\\''+rows+'\\\');">Recheck Status</button>';
-											$("##downloadRetry").html(html);
+											$("##downloadRetry").html('<button class="btn btn-xs btn-secondary" onClick="checkStatus(\''+token+'\',\''+rows+'\');">Recheck Status</button>');
 											if (!error) { error=""; } 
 											$("##downloadStatus").html("Preparing ("+rows+" records).... Error: " + error.toString().substring(0,50));
 											handleFail(jqXHR,textStatus,error,"checking specimen download status");
