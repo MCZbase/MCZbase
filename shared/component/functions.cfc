@@ -684,8 +684,8 @@ limitations under the License.
 		<cfobject type="Java" class="java.io.OutputStreamWriter" name="outputStreamWriterClass">
 		<cfobject type="Java" class="java.io.BufferedWriter" name="bufferedWriterClass">
 		<cfset fileoutputstream = fileOutputStreamClass.Init("#application.webDirectory#/temp/#filename#.csv",true)>
-		<cfset outputstreamwriter = outputStreamWriterClass(fileoutputstream,"utf-8")>
-		<cfset bufferedwriter = bufferedWriterCleass(outputstreamwriter)>
+		<cfset outputstreamwriter = outputStreamWriterClass.Init(fileoutputstream,"utf-8")>
+		<cfset bufferedwriter = bufferedWriterClass.Init(outputstreamwriter)>
 		<cfif mode EQ "create">
 			<cfset bufferedwriter.write("#JavaCast('string',ArrayToList(header,','))#") >
 			<cfset bufferedwriter.newLine() >
