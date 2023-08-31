@@ -2872,7 +2872,9 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			</cfif>
 			<cflog text="normal end of downloadThread#tn#" file="MCZbase">
 		<cfcatch>
-			<cflog text="Exception in downloadThread#tn# #cfcatch.message#" file="MCZbase">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cflog text="Exception in downloadThread#tn# #error_message#" file="MCZbase">
 			<cfif NOT isDefined("cfcatch.errorcode") OR cfcatch.errorcode NEQ "900">
 				<cfquery name="failedDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="postDownload_result">
 					UPDATE cf_download_file 
@@ -2887,8 +2889,6 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
 				</cfquery>
 			</cfif>
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>Error in #function_called#: #error_message#</cfoutput>
 		</cfcatch>
