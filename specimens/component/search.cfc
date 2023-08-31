@@ -3094,6 +3094,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										error: function (jqXHR, textStatus, error) {
 											done = true;
 											handleFail(jqXHR,textStatus,error,"checking specimen download status");
+											var html = '<button class="btn btn-xs btn-secondary" onClick="checkStatus(\''+token+'\',\''+rows+'\');">Recheck Status</button>';
+											$("##downloadFeedback").html("Preparing ("+rows+" records).... Error. "+html);
 										}
 									});
 									if ($("##downloadResult").html()=="Error") { done = true; }
