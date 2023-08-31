@@ -3062,6 +3062,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							}
 							async function checkStatus(token,rows) { 
 								var done = false;
+								$("##downloadRetry").html("");
 								while (!done) { 
 									await new Promise(resolve => setTimeout(resolve, 2000));
 									jQuery.ajax({
@@ -3094,7 +3095,9 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										error: function (jqXHR, textStatus, error) {
 											done = true;
 											var html = '<button class="btn btn-xs btn-secondary" onClick="checkStatus(\\\''+token+'\\\',\\\''+rows+'\\\');">Recheck Status</button>';
-											$("##downloadFeedback").html("Preparing ("+rows+" records).... Error. "+html);
+											$("##downloadRetry").html(html);
+											if (!error) { error=""; } 
+											$("##downloadStatus").html("Preparing ("+rows+" records).... Error: " + error.toString().substring(0,50));
 											handleFail(jqXHR,textStatus,error,"checking specimen download status");
 										}
 									});
@@ -3147,6 +3150,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<button id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onClick="handleInternalDownloadClick('#result_id#');" >Request Download as CSV</button>
 						<output id="downloadFeedback"></output>
 						<output id="downloadResult"></output>
+						<output id="downloadRetry"></output>
 					</div>
 				</div>
 			<cfcatch>
