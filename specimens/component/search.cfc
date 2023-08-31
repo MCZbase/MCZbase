@@ -3075,22 +3075,26 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										},
 										success: function(data) { 
 											console.log(data);
-											var parsed = JSON.parse(data)[0];
-											var status = parsed.STATUS;
-											if (status=='Success') { 
-												$("##downloadFeedback").html(parsed.STATUS);
-												done = true;
-												var filename = parsed.FILENAME;
-												var path = parsed.PATH;
-												var message = parsed.MESSAGE;
-												var html = '<a id="specimencsvdownloadlink" arial-label="download results file" download="'+filename+'" target="_blank" href="'+path+'">'+message+'</a>';
-												$("##downloadResult").html(html);
-											} else { 
-												$("##downloadFeedback").html("Preparing ("+rows+" records).... ("+JSON.parse(data)[0].STATUS+")");
-												if (status=="Failed" || status=="Incomplete") { 
+											try { 
+												var parsed = JSON.parse(data)[0];
+												var status = parsed.STATUS;
+												if (status=='Success') { 
+													$("##downloadFeedback").html(parsed.STATUS);
 													done = true;
-												}
-											} 
+													var filename = parsed.FILENAME;
+													var path = parsed.PATH;
+													var message = parsed.MESSAGE;
+													var html = '<a id="specimencsvdownloadlink" arial-label="download results file" download="'+filename+'" target="_blank" href="'+path+'">'+message+'</a>';
+													$("##downloadResult").html(html);
+												} else { 
+													$("##downloadFeedback").html("Preparing ("+rows+" records).... ("+JSON.parse(data)[0].STATUS+")");
+													if (status=="Failed" || status=="Incomplete") { 
+														done = true;
+													}
+												} 
+											} catch (e) { 
+												console.log(e.message);
+											}
 										},
 										error: function (jqXHR, textStatus, error) {
 											done = true;
