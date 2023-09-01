@@ -29,6 +29,5 @@ select collection_object_id, lastuser, collection, lastdate, scientific_name, st
 	 
 <cffile action="write" file="#application.webDirectory#/media/datafiles/chart_data.csv">
 
-<cfexecute rscript>
 
 <cfinclude template="/shared/_footer.cfm">
