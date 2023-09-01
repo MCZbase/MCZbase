@@ -1,7 +1,2 @@
-<cfexecute(
-	name="rscript",
-	arguments="-R 'Chart' '/metrics/datafile/chart_data.csv'",
-	timeout="10",
-	terminateOnTimeout="true"
-	);
+<cfexecute outputfile="/metrics/datafile/chart_data.csv" name="rscript">
 ></cfexecute>
