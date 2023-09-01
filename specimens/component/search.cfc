@@ -2821,6 +2821,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 								<cfset retval = queryToCSVFile(queryToConvert=search,mode="append",timestamp=retval.TIMESTAMP,written=retval.WRITTEN)>
 								<cflog text="afterQueryToCSVFile(mode=append)" file="MCZbase">
 							</cfif>
+							<cfset QueryClear(search)>
 							<cfquery name="partialDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="partialDownload_result">
 								UPDATE cf_download_file 
 								SET 
@@ -2859,9 +2860,13 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cfelse>
 				<cftry>
 					<cfif retval.STATUS EQ "Failed">
-						<cfoutput>#retval.STATUS#: #retval.MESSAGE#</cfoutput>
+						<cfset st = retval.STATUS>
+						<cfset msg = retval.MESSAGE>
+						<cfoutput>#st#: #msg#</cfoutput>
 					<cfelse>
-						<cfoutput>[{'FILENAME':'mcz_specimen_result_download_#result_id#.csv','PATH':'#retval.filename#','MESSAGE':'#retval.MESSAGE#'}]</cfoutput>
+						<cfset fn = retval.filename>
+						<cfset msg = retval.MESSAGE>
+						<cfoutput>[{'FILENAME':'mcz_specimen_result_download_#result_id#.csv','PATH':'#fn#','MESSAGE':'#msg#'}]</cfoutput>
 					</cfif>
 				<cfcatch>
 					<cfoutput>
