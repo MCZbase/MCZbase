@@ -23,7 +23,7 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/shared/component/functions.cfc">
 <cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select collection_object_id, lastuser, collection, lastdate, scientific_name, state_prov from cf_temp_chart_data
+select collection_object_id, lastuser, collection, lastdate, scientific_name, state_prov from mczbase.cf_temp_chart_data
 </cfquery>
  <cfset csv = queryToCSV(getStats)> 
 	 
