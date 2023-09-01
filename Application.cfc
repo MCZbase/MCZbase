@@ -229,8 +229,8 @@ limitations under the License.
 
 		<!---cfset Application.sessionTimeout=createTimeSpan(0,1,40,0) /--->
 		<cfset Application.session_timeout=90 /><!--- in minutes --->
-		<cfset Application.ajax_timeout=120 /><!--- in seconds, for ajax calls for search/browse --->
-		<cfset Application.query_timeout=115 /><!--- in seconds, for cfquery for search/browse --->
+		<cfset Application.ajax_timeout=60 /><!--- in seconds, for ajax calls for search/browse --->
+		<cfset Application.query_timeout=55 /><!--- in seconds, for cfquery for search/browse --->
 		<cfset Application.short_timeout=5 /><!--- in seconds, for cfquery that should complete rapidly --->
 		<cfset Application.serverRootUrl = "#Application.protocol#://#serverName#" />
 		<cfset Application.user_login="user_login" />
