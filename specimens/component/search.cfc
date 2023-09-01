@@ -1786,7 +1786,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					<cfprocresult name="buildsearch">
 				</cfstoredproc>
 			</cfthread>
-			<cfthread name="fixedQueryProcThread#tn#" action="join" />
+			<cfthread name="fixedQueryProcThread#tn#" action="join">
 		</cfif>
 		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result" timeout="#Application.short_timeout#">
 			SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
