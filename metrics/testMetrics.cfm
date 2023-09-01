@@ -21,34 +21,14 @@ limitations under the License.
 -->
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
-<cfquery name="lot" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lot_result">
-	select coll_object.COLL_OBJ_DISPOSITION, sum(coll_object.LOT_COUNT) as "lots" from coll_object
-	group by coll_object.coll_obj_disposition
-
+<cfinclude template = "/shared/component/functions.cfc">
+<cfquery name="getStats">
+select collection_object_id, lastuser, collection, lastdate, scientific_name, state_prov from cf_temp_chart_data
 </cfquery>
+ <cfset csv = queryToCSV(getStats)> 
+	 
+<cffile action="write" file="#application.webDirectory#/media/datafiles/chart_data.csv">
 
-
-	
-<cfchart format="png" 
-xaxistitle="Disposition" 
-yaxistitle="Lot Sum"
-scaleFrom=50
-scaleTo=100000
-font="arial"
-fontSize=16
-gridLines=4
-show3D="yes"
-foregroundcolor="##000066"
-databackgroundcolor="##FFFFCC"
-chartwidth="1450"
-		 > 
-
-<cfchartseries type="bar" 
-query="lot" 
-seriescolor="##33CC99"
-paintstyle="shade"
-itemcolumn="COLL_OBJ_DISPOSITION" 
-valuecolumn="lots" /> 
-</cfchart>
+<cfexecute rscript>
 
 <cfinclude template="/shared/_footer.cfm">
