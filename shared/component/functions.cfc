@@ -700,7 +700,7 @@ limitations under the License.
 				<cfset row[j] = queryToConvert["#columnNamesArray[j]#"][queryToConvert.currentRow]>
 			</cfloop>
 			<cfscript>
-				 row = ArrayMap(row, function(item){ return '"' & rereplace(replace(item,'"','""','all'),controlChars,"") & '"' }, "true") 
+				 row = ArrayMap(row, function(item){ return '"' & rereplace(replace(item,'"','""','all'),controlChars,"") & '"' }, "true",2) 
 			</cfscript>
 			<cfset buffer.Append(JavaCast('string',ArrayToList(row,',')))>
 			<cfset buffer.Append(Chr(10))>
