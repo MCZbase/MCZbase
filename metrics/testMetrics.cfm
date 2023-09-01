@@ -25,9 +25,10 @@ limitations under the License.
 <cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 select collection_object_id, lastuser, collection, lastdate, scientific_name, state_prov from mczbase.cf_temp_chart_data
 </cfquery>
+<cfoutput>
  <cfset csv = queryToCSV(getStats)> 
 	 
 <cffile action="write" file="#application.webDirectory#/media/datafiles/chart_data.csv">
-
+</cfoutput>
 
 <cfinclude template="/shared/_footer.cfm">
