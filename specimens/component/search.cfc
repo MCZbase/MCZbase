@@ -1777,16 +1777,12 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		</cfquery>
 		<cfif result_id_count.ct EQ 0>
 			<!--- errors are handled by build_query_dbms_sql throwing exceptions --->
-			<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-			<cfthread name="fixedQueryProcThread#tn#" action="run" result_id="#result_id#" search_json="#search_json#">
-				<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout*2#">
-					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-					<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
-					<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
-					<cfprocresult name="buildsearch">
-				</cfstoredproc>
-			</cfthread>
-			<cfthread name="fixedQueryProcThread#tn#" action="join">
+			<cfstoredproc procedure="build_query_dbms_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="prepareSearch_result" timeout="#Application.query_timeout*2#">
+				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				<cfprocparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+				<cfprocparam cfsqltype="CF_SQL_CLOB" value="#search_json#">
+				<cfprocresult name="buildsearch">
+			</cfstoredproc>
 		</cfif>
 		<cfquery name="getFieldMetadata" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attrFields_result" timeout="#Application.short_timeout#">
 			SELECT upper(column_name) as column_name, sql_element, data_type, category, label, disp_order
