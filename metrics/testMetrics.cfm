@@ -19,27 +19,16 @@ limitations under the License.
 * Demonstration of ajax patterns in MCZbase.
 
 -->
-
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/shared/component/functions.cfc">
-<cffunction name="getStatsCSV" access="remote" returntype="any" returnformat="plain">
-<cfset retval = "">
-	<cftry>
-	<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select collection_object_id, lastuser, collection, lastdate, scientific_name, state_prov from mczbase.cf_temp_chart_data
-	</cfquery>
-		<cfset retval = queryToCSV(getStats)>
-	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
-	</cftry>
+<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+select collection_object_id, lastuser, collection, lastdate, scientific_name, state_prov from mczbase.cf_temp_chart_data
+</cfquery>
+<cfoutput>
+ <cfset csv = queryToCSV(getStats)> 
+	 
+<cffile action="write" file="#application.webDirectory#/media/datafiles/chart_data.csv" output = "csv" addnewline="Yes">
+</cfoutput>
 
-	<cfheader name="Content-Type" value="text/csv">
-<cfoutput>#retval#</cfoutput>
-</cffunction>
 <cfinclude template="/shared/_footer.cfm">
