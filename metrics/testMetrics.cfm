@@ -27,8 +27,7 @@ select collection_object_id, lastuser, collection, lastdate, scientific_name, st
 </cfquery>
 <cfoutput>
  <cfset csv = queryToCSV(getStats)> 
-	 
 <cffile action="write" file="#application.webDirectory#/metrics/datafiles/chart_data.csv" output = "#csv#" addnewline="No">
 </cfoutput>
-
+<a href="/metrics/datafiles/chart_data.csv">table</a>
 <cfinclude template="/shared/_footer.cfm">
