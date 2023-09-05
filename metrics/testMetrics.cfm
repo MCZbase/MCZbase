@@ -28,9 +28,9 @@ select collection_object_id, lastuser, collection, lastdate, scientific_name, st
 <cfoutput>
  <cfset csv = queryToCSV(getStats)> 
 	 
-<cfexecute name="chart_data.csv" 
+<cfexecute name="getStats" 
 timeout="60" 
-arguments ="#csv#"
+arguments =""
 outputfile="/media/datafiles/chart_data.csv">
 </cfexecute>
 </cfoutput>
