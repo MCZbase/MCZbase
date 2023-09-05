@@ -19,11 +19,13 @@ limitations under the License.
 * Demonstration of ajax patterns in MCZbase.
 
 -->
+
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/shared/component/functions.cfc">
 
 <cfoutput>
+<cffunction name="getSpecimensAsCSV" access="remote" returntype="any" returnformat="plain">
 <cfset retval = "">
 	<cftry>
 	<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
