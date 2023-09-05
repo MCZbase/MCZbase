@@ -33,7 +33,7 @@ and mr.related_primary_key(+) = f.collection_object_id
 and f.collection = 'Herpetology'
 and f.collection_object_id = co.collection_object_id
 and ts.category != 'Temp'
-group by ts.type_status, co.coll_object_entered_date, ts.category
+group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 </cfquery>
 <cfoutput>
  <cfset csv = queryToCSV(getStats)> 
