@@ -23,8 +23,6 @@ limitations under the License.
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/shared/component/functions.cfc">
-
-<cfoutput>
 <cffunction name="getStatsCSV" access="remote" returntype="any" returnformat="plain">
 <cfset retval = "">
 	<cftry>
@@ -44,6 +42,4 @@ limitations under the License.
 	<cfheader name="Content-Type" value="text/csv">
 <cfoutput>#retval#</cfoutput>
 </cffunction>
-</cfoutput>
-
 <cfinclude template="/shared/_footer.cfm">
