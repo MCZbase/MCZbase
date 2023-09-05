@@ -30,7 +30,6 @@ from flat f, citation c, ctcitation_type_status ts, coll_object co,
 where f.collection_object_id=c.collection_object_id
 and c.type_status=ts.type_status
 and mr.related_primary_key(+) = f.collection_object_id
-and f.collection = 'Herpetology'
 and f.collection_object_id = co.collection_object_id
 and ts.category != 'Temp'
 group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
