@@ -22,6 +22,7 @@ limitations under the License.
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/shared/component/functions.cfc">
+	<cfset right_now = Now()>
 <cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 select f.COLLECTION, ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collection_object_id) as "NUMBER_CATALOG_ITEMS", count(distinct media_id) as "NUMBER_OF_IMAGES", 
 count(distinct mr.related_primary_key) as "NUMBER_OF_TYPES_WITH_IMAGES", to_char(co.coll_object_entered_date,'YYYY') as "ENTERED_DATE"
@@ -35,16 +36,13 @@ and ts.category != 'Temp'
 group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 </cfquery>
 <cfoutput>
+<script type="text/javascript">
+  alert('#right_now#'); // don't forget you need to put quotes around strings in JS
+</script>
  <cfset csv = queryToCSV(getStats)> 
 <cffile action="write" file="#application.webDirectory#/metrics/datafiles/chart_data.csv" output = "#csv#" addnewline="No">
 </cfoutput>
 <a href="/metrics/datafiles/chart_data.csv">download table</a>
- <cfset right_now = Now()>
 
-<cfoutput>
-<script type="text/javascript">
-  alert('#right_now#'); // don't forget you need to put quotes around strings in JS
-</script>
-</cfoutput>
 	 
 <cfinclude template="/shared/_footer.cfm">
