@@ -25,7 +25,7 @@ limitations under the License.
 <script src= "/metrics/js/metrics.js"></script>
 <cfoutput>
 <div id="MetricsLink" class="col-12 col-md-7 col-xl-9 float-left my-0 pt-3 pb-0">
-	<cfset theseMetrics= getMetrics()>
+	<cfset theseMetrics= getMetrics(theseMetrics)>
 	<div id="theseMetrics">
 		#theseMetrics#
 	</div>
