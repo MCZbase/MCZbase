@@ -22,6 +22,7 @@ limitations under the License.
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/shared/component/functions.cfc">
+	<cfinclude template = "/metrics/js/metrics.js">
 <cfoutput>
 <div id="MetricsLink" class="col-12 col-md-7 col-xl-9 float-left my-0 pt-3 pb-0">
 	<cfset theseMetrics= getMetrics()>
