@@ -22,13 +22,23 @@ limitations under the License.
 <cfset pageTitle="Metrics Testing">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/shared/component/functions.cfc">
-<script src= "/metrics/js/metrics.js"></script>
+<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+select f.COLLECTION, ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collection_object_id) as "NUMBER_CATALOG_ITEMS", count(distinct media_id) as "NUMBER_OF_IMAGES", 
+count(distinct mr.related_primary_key) as "NUMBER_OF_TYPES_WITH_IMAGES", to_char(co.coll_object_entered_date,'YYYY') as "ENTERED_DATE"
+from flat f, citation c, ctcitation_type_status ts, coll_object co,
+(select * from media_relations where media_relationship = 'shows cataloged_item') mr
+where f.collection_object_id=c.collection_object_id
+and c.type_status=ts.type_status
+and mr.related_primary_key(+) = f.collection_object_id
+and f.collection_object_id = co.collection_object_id
+and ts.category != 'Temp'
+group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
+</cfquery>
 <cfoutput>
-<div id="MetricsLink" class="col-12 col-md-7 col-xl-9 float-left my-0 pt-3 pb-0">
-	<cfset theseMetrics= getMetrics(theseMetrics)>
-	<div id="theseMetrics">
-		#theseMetrics#
-	</div>
-</div>
+ <cfset csv = queryToCSV(getStats)> 
+<cffile action="write" file="#application.webDirectory#/metrics/datafiles/chart_data.csv" output = "#csv#" addnewline="No">
 </cfoutput>
+<a href="/metrics/datafiles/chart_data.csv">download table</a>
+	 
+	 
 <cfinclude template="/shared/_footer.cfm">
