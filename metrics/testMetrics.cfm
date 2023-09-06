@@ -43,7 +43,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 <cfexecute name = "#application.webDirectory#/usr/share/R" 
 arguments = "#application.webDirectory#/metrics/R/bubble_graph.R" 
 variable = "ChartData"
-timeout = "100"> 
+timeout = "10000"> 
 </cfexecute>
 
 <cfdump var="#ChartData#">
