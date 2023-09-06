@@ -7,7 +7,7 @@ function getMetrics(targetDiv) {
 	
 		},
 		success: function (result) {
-			$("#" + targetDiv).html(result);
+			$(targetDiv).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"retrieving metadata block");
