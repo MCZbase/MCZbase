@@ -12,6 +12,8 @@ library(gifski)
 library(png)
 library(ggthemes)
 
+Chart_Data_Img_per_year <- read_csv('/metrics/datafiles/chart_data.csv')
+
 Cit1 <- filter(Chart_Data_Img_per_year, NUMBER_CATALOG_ITEMS >= 1)
 Cit2 <- filter(Chart_Data_Img_per_year, NUMBER_OF_TYPES_WITH_IMAGES >= 0)
 Cit3 <- filter(Chart_Data_Img_per_year, ENTERED_DATE >= 1800)
@@ -33,7 +35,7 @@ BubbleAnim <- ggplot(Cit3, aes(NUMBER_CATALOG_ITEMS, NUMBER_OF_IMAGES, shape = N
 #pdf("Citation_Images.pdf")
 #print(BubbleAnim)
 #save_animation("Citation_Images.gif")
-print(g) # print first
-anim_save("Citation_Images.gif",animation = g)
-BubbleAnim
+print(BubbleAnim) # print first
+anim_save("Citation_Images.gif",animation = BubbleAnim)
+#BubbleAnim
 
