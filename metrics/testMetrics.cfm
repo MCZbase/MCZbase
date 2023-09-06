@@ -40,10 +40,10 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 </cfoutput>
 <a href="/metrics/datafiles/chart_data.csv">download table</a>
 
-<cfexecute name = "/metrics/R/bubble_graph.R" 
-arguments = "" 
-variable = ""
-timeout = "1"> 
+<cfexecute name = "/usr/bin/R.exe" 
+arguments = "ChartData" 
+variable = "/metrics/R/bubble_graph.R"
+timeout = "100"> 
 </cfexecute>
 
 <cfdump var="#ChartData#">
