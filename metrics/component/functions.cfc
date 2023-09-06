@@ -29,7 +29,7 @@
  				<cfset csv = queryToCSV(getStats)> 
 				<cffile action="write" file="#application.webDirectory#/metrics/datafiles/chart_data.csv" output = "#csv#" addnewline="No">
 			</cfoutput>
-				<a href="/metrics/datafiles/chart_data.csv">download table</a>
+				
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
