@@ -42,5 +42,5 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 <div id="ChartData"></div>
 
 <cfexecute name = "/usr/bin/Rscript" arguments = "/metrics/R/bubble_graph.R" variable = "ChartData" timeout = "100"> </cfexecute>
-<cfdump var="#bubble#">
+<cfdump var="#ChartData#">
 <cfinclude template="/shared/_footer.cfm">
