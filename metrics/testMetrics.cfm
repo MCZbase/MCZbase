@@ -39,6 +39,12 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 <cffile action="write" file="#application.webDirectory#/metrics/datafiles/chart_data.csv" output = "#csv#" addnewline="No">
 </cfoutput>
 <a href="/metrics/datafiles/chart_data.csv">download table</a>
-	 
+ <cfset right_now = Now()>
+
+<cfoutput>
+<script type="text/javascript">
+  alert('#right_now#'); // don't forget you need to put quotes around strings in JS
+</script>
+</cfoutput>
 	 
 <cfinclude template="/shared/_footer.cfm">
