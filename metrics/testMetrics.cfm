@@ -42,7 +42,9 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
  <cfset csv = queryToCSV(getStats)> 
 <cffile action="write" file="#application.webDirectory#/metrics/datafiles/chart_data.csv" output = "#csv#" addnewline="No">
 </cfoutput>
-<a href="/metrics/datafiles/chart_data.csv">download table</a>
+<!---<a href="/metrics/datafiles/chart_data.csv">download table</a>--->
+ 
+
 
 	 
 <cfinclude template="/shared/_footer.cfm">
