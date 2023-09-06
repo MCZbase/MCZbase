@@ -39,6 +39,12 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 <cffile action="write" file="#application.webDirectory#/metrics/datafiles/chart_data.csv" output = "#csv#" addnewline="No">
 </cfoutput>
 <a href="/metrics/datafiles/chart_data.csv">download table</a>
-	 
+
+	<div id="Metrics" class="col-12 col-md-7 col-xl-9 float-left my-0 pt-3 pb-0">
+		<cfset getTheseMetrics= getMetrics()>
+			<div id="getTheseMetrics">
+				#getTheseMetrics#
+			</div>
+	</div>
 	 
 <cfinclude template="/shared/_footer.cfm">
