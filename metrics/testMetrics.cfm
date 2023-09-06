@@ -39,9 +39,12 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 <cffile action="write" file="#application.webDirectory#/metrics/datafiles/chart_data.csv" output = "#csv#" addnewline="No">
 </cfoutput>
 <a href="/metrics/datafiles/chart_data.csv">download table</a>
-
+<cfexecute name = "/usr/bin/R.exe" 
+arguments = "-e" 
+outputFile = "/metrics/R/bubble_graph.R" 
+timeout = "1"> 
+</cfexecute>
 
 <cfexecute name = "/usr/bin/R /metrics/R/bubble_graph.R" arguments = "" variable = "ChartData" timeout = "100"> </cfexecute>
-<div id="ChartData"></div>
-<!---<cfdump var="#ChartData#">--->
+<cfdump var="#ChartData#">
 <cfinclude template="/shared/_footer.cfm">
