@@ -26,7 +26,7 @@ BubbleAnim <- ggplot(Cit3, aes(NUMBER_CATALOG_ITEMS, NUMBER_OF_IMAGES, shape = N
   scale_shape_binned() +
   labels2 <- c("no types", "50 types", "100 types", "150 types", "200 types")
 scale_shape_manual(values = 
-                     c(rep(1,5),0,1,2,3,4,5,6),labels= labels2)
+                     c(rep(0,5),0,1,2,3,4,5,6),labels= labels2)
  # scale_x_log10() +
  # facet_wrap(~CITATION_TYPE) +
   
