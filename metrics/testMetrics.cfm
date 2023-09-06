@@ -41,6 +41,6 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 <a href="/metrics/datafiles/chart_data.csv">download table</a>
 <div id="ChartData"></div>
 
-<cfexecute name = "/usr/lib64/R /metrics/R/bubble_graph.R" arguments = "" variable = "ChartData" timeout = "100"> </cfexecute>
+<cfexecute name = "/usr/lib64/R" arguments = "/metrics/R/bubble_graph.R" variable = "ChartData" timeout = "100"> </cfexecute>
 <cfdump var="#ChartData#">
 <cfinclude template="/shared/_footer.cfm">
