@@ -1,5 +1,5 @@
 function getMetrics(targetDiv) { 
-	console.log("Where is it? " + targetDiv);
+	console.log("getMetrics" + targetDiv);
 	jQuery.ajax({
 		url: "/metrics/component/functions.cfc",
 		data : {
