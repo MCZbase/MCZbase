@@ -117,7 +117,7 @@ limitations under the License.
 											</div>
 											<script>
 												$(document).ready(function(){ 
-													$('##bugzilla_component').on('change',setPriorityList);
+													$('##component').on('change',setPriorityList);
 													setPriorityList();
 												});
 												function setPriorityList() { 
