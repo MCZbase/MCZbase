@@ -123,7 +123,7 @@ limitations under the License.
 												function setPriorityList() { 
 													var targetComponent = $('##component').val();
 													var currentPriority = $('##user_priority').val();
-													if (targetComponent.equals("WorkflowSupport")) {
+													if (targetComponent==="WorkflowSupport") {
 														$('##user_priority').empty().append('<option selected="selected" value="0">Low Priority</option>');
 													}
 													if (targetComponent==="Questions") {
