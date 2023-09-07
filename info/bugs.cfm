@@ -78,6 +78,19 @@ limitations under the License.
 										<div class="col-12">
 											<h3 class="h4 pt-3 px-1">Please provide as much detail as possible. We do not know what you see unless you write about it in the report.</h3>
 										</div>
+										<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
+											<div class="col-12 py-3">
+												<label for="component" class="data-entry-label">What would you like to report:</label>
+												<select name="bugzilla_component" id="component" size="1" class="data-entry-select">
+													<option value="Web Interface">A bug or issue with MCZbase</option>
+													<option value="Questions" >I have a question</option>
+													<option value="Data" >A problem with data</option>
+													<option value="WorkflowSupport">I am requesting help with a workflow</option>
+												</select>
+											</div>
+										<cfelse>
+											<input type="hidden" name="component" value="Web Interface">
+										</cfif>
 										<div class="col-12">
 											<label for="complaint" class="data-entry-label">Feedback</label>
 											<textarea name="complaint" id="complaint" rows="15"  class="data-entry-textarea reqdClr autogrow" style = "min-height: 100px;" placeholder="#FEEDBACK_INSTRUCTIONS#" required></textarea>
@@ -91,7 +104,7 @@ limitations under the License.
 										</script>
 										<div class="col-12 py-3">
 											<label for="user_priority" class="data-entry-label">Priority</label>
-											<select name="user_priority" size="1" class="data-entry-select">
+											<select name="user_priority" id="user_priority" size="1" class="data-entry-select">
 												<option value="0">Low Priority</option>
 												<option value="2" SELECTED >Normal Priority</option>
 												<option value="6" >Enhancement Request</option>
@@ -210,6 +223,11 @@ limitations under the License.
 			</cfcatch>
 			</cftry>
 			<cfset sentok="true">
+			<cfif isDefined(bugzilla_component) AND ListContains("Web Interface,Data,Questions,WorkflowSupport",bugzilla_component)>
+				<cfset bugzilla_component="#bugzilla_component#">
+			<cfelse>
+				<cfset bugzilla_component="Web Interface">
+			</cfif>
 			<cftry>
 				<cfmail to="#Application.bugReportEmail#" subject="ColdFusion bug report submitted" from="BugReport@#Application.fromEmail#" type="html">
 <p>Reported Name: #reported_name# (AKA #session.username#) submitted a bug report on #thisDate#.</p>
@@ -219,6 +237,8 @@ limitations under the License.
 <p>Priority: #user_priority#</p>
 
 <p>Email: #user_email#</p>
+
+<p>Request: #bugzilla_component#</p>
 
 #insertErrorMessage#
 				</cfmail>
@@ -234,7 +254,6 @@ limitations under the License.
 	 		<cfset bugzilla_mail="#Application.bugzillaToEmail#"><!--- address to access email_in.pl script --->
 			<!---cfset bugzilla_user="test@example.com"---><!--- bugzilla user for testing integration as bugreport@software can have alias resolution problems --->
 			<cfset bugzilla_user="#Application.bugzillaFromEmail#"><!--- bugs submitted by email can only come from a registered bugzilla user --->
-			<cfset bugzilla_component="Web Interface">
 			<cfset bugzilla_priority="@priority = P3">
 			<cfset bugzilla_severity="@bug_severity = normal">
 			<cfset human_importance="Submitter Importance = Normal Priority [#user_priority#]">
@@ -268,7 +287,7 @@ limitations under the License.
 @rep_platform = PC
 @op_sys = Linux
 @product = MCZbase
-@component = Web Interface
+@component = #bugzilla_component#
 @version = 2.5.1merge
 #bugzilla_priority##newline#
 #bugzilla_severity#
