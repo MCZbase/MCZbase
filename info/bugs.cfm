@@ -199,7 +199,9 @@ limitations under the License.
 												<option value="4">High Priority</option>
 											</select>
 										</div>
-										<cfif NOT isdefined("session.roles") OR NOT listcontainsnocase(session.roles,"coldfusion_user")>
+										<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
+											<!--- captcha not needed --->
+										<cfelse>
 											<div class="col-12">
 												<div class="g-recaptcha" data-sitekey="#application.g_sitekey#"></div>
 											</div>
@@ -239,7 +241,9 @@ limitations under the License.
 			<cfset concatSub = replace(concatSub,"#chr(60)#","---","all")>
 	
 	
-			<cfif !listcontainsnocase(session.roles,"coldfusion_user")>
+			<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
+				<!--- capcha not needed ---->
+			<cfelse>
 				<cftry>
 					<cfobject action = "create" 
 						type = "java" 
