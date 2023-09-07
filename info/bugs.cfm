@@ -55,6 +55,9 @@ limitations under the License.
 						<cfset email = "#getUserInfo.emails#">
 					</cfloop>
 				</cfif>
+			</cfif>
+			<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
+				<!--- captcha not needed --->
 			<cfelse>
 				<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 			</cfif>
