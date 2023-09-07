@@ -120,8 +120,8 @@ limitations under the License.
 													$('##bugzilla_component').on('change',setPriorityList);
 												});
 												function setPriorityList() { 
-													var targetComponent = $('##component').value();
-													var currentPriority = $('##user_priority').value();
+													var targetComponent = $('##component').val();
+													var currentPriority = $('##user_priority').val();
 													if (targetComponent.equals("WorkflowSupport")) {
 														$('##user_priority').empty().append('<option selected="selected" value="0">Low Priority</option>');
 													}
