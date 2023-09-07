@@ -223,7 +223,7 @@ limitations under the License.
 			</cfcatch>
 			</cftry>
 			<cfset sentok="true">
-			<cfif isDefined(bugzilla_component) AND ListContains("Web Interface,Data,Questions,WorkflowSupport",bugzilla_component)>
+			<cfif isDefined("bugzilla_component") AND ListContains("Web Interface,Data,Questions,WorkflowSupport",bugzilla_component)>
 				<cfset bugzilla_component="#bugzilla_component#">
 			<cfelse>
 				<cfset bugzilla_component="Web Interface">
