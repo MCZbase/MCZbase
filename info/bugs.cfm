@@ -118,6 +118,7 @@ limitations under the License.
 											<script>
 												$(document).ready(function(){ 
 													$('##bugzilla_component').on('change',setPriorityList);
+													setPriorityList();
 												});
 												function setPriorityList() { 
 													var targetComponent = $('##component').val();
@@ -125,7 +126,7 @@ limitations under the License.
 													if (targetComponent.equals("WorkflowSupport")) {
 														$('##user_priority').empty().append('<option selected="selected" value="0">Low Priority</option>');
 													}
-													if (targetComponent.equals("Questions")) {
+													if (targetComponent==="Questions") {
 														var sel2 = "selected";
 														var sel4 = "";
 														if (currentPriority=="4") { 
@@ -135,7 +136,7 @@ limitations under the License.
 														$('##user_priority').empty().append('<option '+sel2+' value="2">Normal Priority</option>');
 														$('##user_priority').append('<option '+sel4+' value="4">High Priority</option>');
 													}
-													if (targetComponent.equals("Data")) {
+													if (targetComponent==="Data") {
 														var sel2 = "selected";
 														var sel4 = "";
 														if (currentPriority=="4") { 
@@ -145,7 +146,7 @@ limitations under the License.
 														$('##user_priority').empty().append('<option '+sel2+' value="2">Normal Priority</option>');
 														$('##user_priority').append('<option '+sel4+' value="4">High Priority</option>');
 													}
-													if (targetComponent.equals("Web Interface")) {
+													if (targetComponent==="Web Interface") {
 														var sel0 = "";
 														var sel2 = "selected";
 														var sel4 = "";
