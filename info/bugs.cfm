@@ -122,30 +122,30 @@ limitations under the License.
 												function setPriorityList() { 
 													var targetComponent = $('##component').value();
 													var currentPriority = $('##user_priority').value();
-													if (targetComponent.equals("WorkflowSupport") {
-														$('##user_priority').empty().append('<option selected="selected" value="0">Low Priority</option>')
+													if (targetComponent.equals("WorkflowSupport")) {
+														$('##user_priority').empty().append('<option selected="selected" value="0">Low Priority</option>');
 													}
-													if (targetComponent.equals("Questions") {
+													if (targetComponent.equals("Questions")) {
 														var sel2 = "selected";
 														var sel4 = "";
 														if (currentPriority=="4") { 
 															var sel2 = "";
 															var sel4 = "selected";
 														}
-														$('##user_priority').empty().append('<option '+sel2+' value="2">Normal Priority</option>')
-														$('##user_priority').append('<option '+sel4+' value="4">High Priority</option>')
+														$('##user_priority').empty().append('<option '+sel2+' value="2">Normal Priority</option>');
+														$('##user_priority').append('<option '+sel4+' value="4">High Priority</option>');
 													}
-													if (targetComponent.equals("Data") {
+													if (targetComponent.equals("Data")) {
 														var sel2 = "selected";
 														var sel4 = "";
 														if (currentPriority=="4") { 
 															var sel2 = "";
 															var sel4 = "selected";
 														}
-														$('##user_priority').empty().append('<option '+sel2+' value="2">Normal Priority</option>')
-														$('##user_priority').append('<option '+sel4+' value="4">High Priority</option>')
+														$('##user_priority').empty().append('<option '+sel2+' value="2">Normal Priority</option>');
+														$('##user_priority').append('<option '+sel4+' value="4">High Priority</option>');
 													}
-													if (targetComponent.equals("Web Interface") {
+													if (targetComponent.equals("Web Interface")) {
 														var sel0 = "";
 														var sel2 = "selected";
 														var sel4 = "";
@@ -168,10 +168,10 @@ limitations under the License.
 															var sel4 = "";
 															var sel6 = "selected";
 														}
-														$('##user_priority').empty().append('<option '+sel0+' value="0">Low Priority</option>')
-														$('##user_priority').append('<option '+sel2+' value="2">Normal Priority</option>')
-														$('##user_priority').append('<option '+sel6+' value="6">Enhancement Request</option>')
-														$('##user_priority').append('<option '+sel4+' value="4">High Priority</option>')
+														$('##user_priority').empty().append('<option '+sel0+' value="0">Low Priority</option>');
+														$('##user_priority').append('<option '+sel2+' value="2">Normal Priority</option>');
+														$('##user_priority').append('<option '+sel6+' value="6">Enhancement Request</option>');
+														$('##user_priority').append('<option '+sel4+' value="4">High Priority</option>');
 													}
 												}
 											</script>
