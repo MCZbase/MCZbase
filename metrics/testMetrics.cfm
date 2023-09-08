@@ -42,12 +42,14 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 <cftry>
 	<cfexecute name = "/usr/bin/Rscript" 
 	arguments = "/var/www/html/arctos/metrics/R/bubble_graph.R" 
-	variable = "ChartData"
+	variable = "chartdata"
 	timeout = "10000"> 
 	</cfexecute>
 	<cfcatch>
-		<cfdump var="#ChartData#">
+		<cfsavecontent variable="result">
+			<cfdump var="#chartdata#">
+		</cfsavecontent>
 	</cfcatch>
-
+<cfreturn result>
 </cftry>
 <cfinclude template="/shared/_footer.cfm">
