@@ -59,7 +59,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 		</div>
 		<div class="row">
 			<div class="col-12">
-				<p>Chart that should appear looks like this. If two appear we know it is working.</p>
+				<p>Chart that should appear looks like this. If two charts appear we know it is working.</p>
 				<img src="/metrics/R/graphs/BubbleChart.gif" width="30%" alt="Chart"/>
 			</div>
 		</div>
