@@ -153,8 +153,8 @@
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
-							insert into cf_temp_barcode_parts
-								(#fieldlist#,username)
+							insert into MCZBASE.CF_TEMP_BARCODE_PARTS
+								(#fieldlist#,USERNAME)
 							values (
 								<cfset separator = "">
 								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
