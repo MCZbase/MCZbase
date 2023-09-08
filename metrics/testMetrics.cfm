@@ -42,14 +42,14 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 <cftry>
 	<cfexecute name = "/usr/bin/Rscript" 
 		arguments = "/var/www/html/arctos/metrics/R/bubble_graph.R" 
-		variable = "chartdata"
+		variable = "Chart"
 		timeout = "10000"> 
 	</cfexecute>
 	<cfcatch>
-		<img src="/metrics/R/graphs/BubbleChart.gif"
+		<img src="/metrics/R/graphs/Chart.gif"
 	</cfcatch>
 
 </cftry>
 	
-	<img src="/metrics/R/graphs/BubbleChart.gif" width="30%"/>
+	<img src="/metrics/R/graphs/BubbleChart.gif" width="30%" alt="Chart that should appear looks like this. If two appear we know it is working."/>
 <cfinclude template="/shared/_footer.cfm">
