@@ -103,9 +103,9 @@ limitations under the License.
 											<input type="text" name="user_email" id="user_email" class="data-entry-input" value="#email#">
 										</div>
 										<div class="col-12">
-											<h3 class="h4 pt-3 px-1">Please provide as much detail as possible. We do not know what you see unless you write about it in the report.</h3>
+											<h2 class="h4 pt-3 px-1">Please provide as much detail as possible. We do not know what you see unless you write about it in the report.</h3>
 											<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
-												<h3 class="h4 pt-1 px-1">Please include the page you are seeing the issue on, and the specific catalog number, loan number, etc. that you are seeing the problem with.</h3>
+												<h2 class="h4 pt-1 px-1">Please include the page you are seeing the issue on, and the specific catalog number, loan number, etc. that you are seeing the problem with.</h3>
 											</cfif>
 										</div>
 										<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
