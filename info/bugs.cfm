@@ -73,7 +73,7 @@ limitations under the License.
 									<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
 										<li class="mb-1">Use this form to ask questions about how to use MCZbase (Select: <i>I have a question</i>).</li>
 										<li class="my-1">Use this form to report problems you have encountered while using the database, including bulkoading data (Select: <i>A bug or issue with MCZbase</i> and priority low, normal, or high).</li>
-										<li class="mb-1">Use this form to make suggestions to improve MCZbase (Select: <i>A bug or issue with MCZbase</i> and priority <i>Enhancement Request</i>).</li>
+										<li class="mb-1">Use this form to make suggestions to improve MCZbase (Select: <i>Enhancement Request</i>).</li>
 										<li class="mb-1">Use this form to make a request for assistance from the database administrator importing or exporting data in support of a workflow, other than use of the bulkloaders (Select: <i>Workflow Support</i>).</li>
 										<li class="mb-1">Use this form to report problems with agent, locality, event, etc. data that you are not able to resolve yourself (Select: <i>A problem with data</i>).</li>
 										<li class="mb-1">You can use this form to report errors with specimen, taxon, publication, or project data that you are not able to resolve yourself, but use of annotation with the "Report Bad Data" links included on the Specimen Detail and other pages is preferrable.</li>
@@ -115,6 +115,7 @@ limitations under the License.
 													<option value="Web Interface" selected>A bug or issue with MCZbase</option>
 													<option value="Questions" >I have a question</option>
 													<option value="Data" >A problem with data</option>
+													<option value="EnhancementRequest" >I have an Enhancement Request</option>
 													<option value="WorkflowSupport">I am requesting Workflow Support</option>
 												</select>
 											</div>
@@ -128,6 +129,9 @@ limitations under the License.
 													var currentPriority = $('##user_priority').val();
 													if (targetComponent==="WorkflowSupport") {
 														$('##user_priority').empty().append('<option selected="selected" value="0">Low Priority</option>');
+													}
+													if (targetComponent==="EnhancementRequest") {
+														$('##user_priority').empty().append('<option selected="selected" value="6">Enhancement Request</option>');
 													}
 													if (targetComponent==="Questions") {
 														var sel2 = "selected";
@@ -174,7 +178,6 @@ limitations under the License.
 														}
 														$('##user_priority').empty().append('<option '+sel0+' value="0">Low Priority</option>');
 														$('##user_priority').append('<option '+sel2+' value="2">Normal Priority</option>');
-														$('##user_priority').append('<option '+sel6+' value="6">Enhancement Request</option>');
 														$('##user_priority').append('<option '+sel4+' value="4">High Priority</option>');
 													}
 												}
@@ -225,6 +228,10 @@ limitations under the License.
 	<cfcase value="save">
 		<cfoutput>
 		<main class="container py-3" id="content" >
+			<cfif isDefined("bugzilla_component") AND bugzilla_component EQ "EnhancementRequest">
+				<cfset bugzilla_component = "Web Interface">
+				<cfset user_priority = "6">
+			</cfif>
 			<cfset user_id=0>
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				<cfquery name="isUser"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
