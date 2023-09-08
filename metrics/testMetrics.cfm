@@ -40,8 +40,8 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 </cfoutput>
 <a href="/metrics/datafiles/chart_data.csv">download table</a>
 
-<cfexecute name = "/usr/bin/R /metrics/R/bubble_graph.R" 
-arguments = "" 
+<cfexecute name = "/usr/bin/Rscript" 
+arguments = "/var/www/html/arctos/metrics/R/bubble_graph.R" 
 variable = "ChartData"
 timeout = "10000"> 
 </cfexecute>
