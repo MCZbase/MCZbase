@@ -52,6 +52,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 </cftry>
 	<div class="container">
 		<div class="row">
+			<h1 class="h3 mt-3">Dynamic Metrics Visualization Testing</h1>
 			<div class="col-12">
 				<a href="/metrics/datafiles/chart_data.csv">download table</a>
 			</div>
