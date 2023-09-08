@@ -46,10 +46,8 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 	timeout = "10000"> 
 	</cfexecute>
 	<cfcatch>
-		<cfsavecontent variable="result">
-			<cfdump var="#chartdata#">
-		</cfsavecontent>
+		<cfdump var="#chartdata#">
 	</cfcatch>
-<cfreturn result>
+
 </cftry>
 <cfinclude template="/shared/_footer.cfm">
