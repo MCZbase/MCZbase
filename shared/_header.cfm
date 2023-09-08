@@ -242,7 +242,7 @@ limitations under the License.
 <!--- End workaround ---> 
 
 <header id="header" class="border-bottom">
-	<a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
+	<a href="##content" class="sr-only btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a><!---class="sr-only-focusable" removed from list of classes--->
 	
 	<div class="branding clearfix bg-black">
 		<a href="http://www.harvard.edu/" aria-label="link to Harvard website">
