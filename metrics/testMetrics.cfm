@@ -50,4 +50,6 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 	</cfcatch>
 
 </cftry>
+	
+	<img src="/metrics/R/graphs/BubbleChart.gif" width=100/>
 <cfinclude template="/shared/_footer.cfm">
