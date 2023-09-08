@@ -59,7 +59,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 		</div>
 		<div class="row">
 			<div class="col-12">
-				<p>Chart should come from build on Rscript in metrics folder. Example below. I created this one using /metrics/R/datafiles/chart_data.csv to ouput the /metrics/R/datafiles/graphs/BubbleChart.gif that you see. If two charts appear, we know it is working as intended.</p>
+				<p>Chart should come from build on Rscript in metrics folder. Example below. I created this one using /metrics/R/datafiles/chart_data.csv to ouput the /metrics/R/datafiles/graphs/BubbleChart.gif that you see. If two charts appear, we know it is working as intended using "<cfexecute>".</p>
 				<img src="/metrics/R/graphs/BubbleChart.gif" width="30%" alt="Chart"/>
 			</div>
 		</div>
