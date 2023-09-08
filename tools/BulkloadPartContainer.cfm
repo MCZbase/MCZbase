@@ -24,7 +24,7 @@
 		<cfset separator = ",">
 	</cfloop>
 	<cfheader name="Content-Type" value="text/csv">
-	<cfoutput>#csv##chr(13)##chr(10)#</cfoutput><!---not sure what the separator number should be--->
+	<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
 	<cfabort>
 </cfif>
 
@@ -79,28 +79,31 @@
 			</cfquery>
 			
 			<!--- check for required fields in header line --->
-			<cfset collection_cde_exists = false>
-			<cfset other_id_type_exists = false>
-			<cfset other_id_number_exists = false>
+			<cfset OTHER_ID_TYPE_exists = false>
+			<cfset OTHER_ID_NUMBER_exists = false>
+			<cfset COLLECTION_CDE_exists = false>
+			<cfset INSTITUTION_ACRONYM_exists = false>
+			<cfset PART_NAME_exists = false>
+			<cfset PRESERVE_METHOD_exists = false>
+			<cfset CONTAINER_UNIQUE_ID_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
-				<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
-				<cfif ucase(header) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
-				<cfif ucase(header) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
-				<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
-				<cfif ucase(header) EQ 'part_name'><cfset part_name_exists=true></cfif>
-				<cfif ucase(header) EQ 'preserve_method'><cfset preserve_method_exists=true></cfif>
-				<cfif ucase(header) EQ 'container_unique_id'><cfset container_unique_id_exists=true></cfif>
+				<cfif ucase(header) EQ 'OTHER_ID_TYPE'><cfset OTHER_ID_TYPE_exists=true></cfif>
+				<cfif ucase(header) EQ 'OTHER_ID_NUMBER'><cfset OTHER_ID_NUMBER_exists=true></cfif>
+				<cfif ucase(header) EQ 'COLLECTION_CDE'><cfset COLLECTION_CDE_exists=true></cfif>
+				<cfif ucase(header) EQ 'INSTITUTION_ACRONYM'><cfset INSTITUTION_ACRONYM_exists=true></cfif>
+				<cfif ucase(header) EQ 'PART_NAME'><cfset PART_NAME_exists=true></cfif>
+				<cfif ucase(header) EQ 'PRESERVE_METHOD'><cfset PRESERVE_METHOD_exists=true></cfif>
+				<cfif ucase(header) EQ 'CONTAINER_UNIQUE_ID'><cfset CONTAINER_UNIQUE_ID_exists=true></cfif>
 			</cfloop>
-			<cfif not (collection_cde_exists AND other_id_type_exists AND other_id_number_exists)>
+			<cfif not (OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND COLLECTION_CDE_exists AND INSTITUTION_ACRONYM_exists AND PART_NAME_exists AND PRESERVE_METHOD_exists AND CONTAINER_UNIQUE_ID_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
-				<cfif not collection_cde_exits><cfset message = "#message# collection_cde is missing."></cfif>
-				<cfif not other_id_type_exits><cfset message = "#message# other_id_type is missing."></cfif>
-				<cfif not other_id_number_exits><cfset message = "#message# other_id_number is missing."></cfif>
-				<cfif not institution_acronym_exits><cfset message = "#message# institution_acronym is missing."></cfif>
-				<cfif not part_name_exits><cfset message = "#message# part_name is missing."></cfif>
-				<cfif not preserve_method_exits><cfset message = "#message# preserve_method is missing."></cfif>
-				<cfif not container_unique_id_exits><cfset message = "#message# container_unique_id is missing."></cfif>
+				<cfif not OTHER_ID_TYPE_exits><cfset message = "#message# OTHER_ID_TYPE is missing."></cfif>
+				<cfif not OTHER_ID_NUMBER_exits><cfset message = "#message# OTHER_ID_NUMBER is missing."></cfif>
+				<cfif not COLLECTION_CDE_exits><cfset message = "#message# COLLECTION_CDE is missing."></cfif>
+				<cfif not INSTITUTION_ACRONYM_exits><cfset message = "#message# INSTITUTION_ACRONYM is missing."></cfif>
+				<cfif not PART_NAME_exits><cfset message = "#message# PART_NAME is missing."></cfif>
+				<cfif not CONTAINER_UNIQUE_ID_exits><cfset message = "#message# CONTAINER_UNIQUE_ID is missing."></cfif>
 				<cfthrow message="#message#">
 			</cfif>
 			<cfset colNames="">
