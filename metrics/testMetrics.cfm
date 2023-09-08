@@ -38,7 +38,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 <cfset csv = queryToCSV(getStats)> 
 <cffile action="write" file="#application.webDirectory#/metrics/datafiles/chart_data.csv" output = "#csv#" addnewline="No">
 </cfoutput>
-<a href="/metrics/datafiles/chart_data.csv">download table</a>
+
 <cftry>
 	<cfexecute name = "/usr/bin/Rscript" 
 		arguments = "/var/www/html/arctos/metrics/R/bubble_graph.R" 
@@ -50,6 +50,18 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 	</cfcatch>
 
 </cftry>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<a href="/metrics/datafiles/chart_data.csv">download table</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<p>Chart that should appear looks like this. If two appear we know it is working.</p>
+				<img src="/metrics/R/graphs/BubbleChart.gif" width="30%" alt="Chart"/>
+			</div>
+		</div>
+	</div>
 	
-	<img src="/metrics/R/graphs/BubbleChart.gif" width="30%" alt="Chart that should appear looks like this. If two appear we know it is working."/>
 <cfinclude template="/shared/_footer.cfm">
