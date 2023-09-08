@@ -13,7 +13,7 @@ library(png)
 library(ggthemes)
 
 Chart_Data_Img_per_year <- read_csv('/metrics/datafiles/chart_data.csv')
-#Chart_Data_Img_per_year <- chart_data
+Chart_Data_Img_per_year <- chart_data
 
 Cit1 <- filter(Chart_Data_Img_per_year, NUMBER_CATALOG_ITEMS >= 1)
 Cit2 <- filter(Chart_Data_Img_per_year, NUMBER_OF_TYPES_WITH_IMAGES >= 0)
@@ -29,7 +29,7 @@ BubbleAnim <- ggplot(Cit3, aes(NUMBER_CATALOG_ITEMS, NUMBER_OF_IMAGES, shape = N
  # facet_wrap(~CITATION_TYPE) +
   
   # Here comes the gganimate specific bits
-  labs(title = 'Year: {frame_time}', x = 'Number of Cataloged Items', y = 'Number of Images') +
+  labs(title = 'Year: {frame_time}', x = 'Number of Citations', y = 'Number of Images') +
   transition_time(ENTERED_DATE) +
   ease_aes('linear')
 
@@ -37,6 +37,6 @@ BubbleAnim <- ggplot(Cit3, aes(NUMBER_CATALOG_ITEMS, NUMBER_OF_IMAGES, shape = N
 #print(BubbleAnim)
 #save_animation("/metrics/R/graphs/BubbleChart.gif")
 #print(BubbleAnim) # print first
-anim_save("BubbleChart.gif",animation = BubbleAnim)
+anim_save("/graphs/BubbleChart.gif",animation = BubbleAnim)
 
 

@@ -51,5 +51,5 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 
 </cftry>
 	
-	<img src="/metrics/R/graphs/BubbleChart.gif" width="50%"/>
+	<img src="/metrics/R/graphs/BubbleChart.gif" width="30%"/>
 <cfinclude template="/shared/_footer.cfm">
