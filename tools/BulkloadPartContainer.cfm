@@ -29,7 +29,7 @@
 </cfif>
 
 <!--- Normal page delivery with header/footer --->
-<cfset pageTitle = "Bulk Edit Container">
+<cfset pageTitle = "Bulk Part Container">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container py-3" id="content">
