@@ -680,8 +680,15 @@ limitations under the License.
 		</cfloop>
 	
 		<!--- loop through query and append rows to file --->
+		<cfobject type="Java" class="java.io.FileOutputStream" name="fileOutputStreamClass">
+		<cfobject type="Java" class="java.io.OutputStreamWriter" name="outputStreamWriterClass">
+		<cfobject type="Java" class="java.io.BufferedWriter" name="bufferedWriterClass">
+		<cfset fileoutputstream = fileOutputStreamClass.Init("#application.webDirectory#/temp/#filename#.csv",true)>
+		<cfset outputstreamwriter = outputStreamWriterClass.Init(fileoutputstream,"utf-8")>
+		<cfset bufferedwriter = bufferedWriterClass.Init(outputstreamwriter)>
 		<cfif mode EQ "create">
-			<cffile action="write" file="#application.webDirectory#/temp/#filename#.csv" addnewline="yes" output="#JavaCast('string',ArrayToList(header,','))#">
+			<cfset bufferedwriter.write("#JavaCast('string',ArrayToList(header,','))#") >
+			<cfset bufferedwriter.newLine() >
 		</cfif>
 		<cfset buffer = CreateObject("java","java.lang.StringBuffer").Init()>
 		<cfset stepsToWrite = 1000>
@@ -690,21 +697,26 @@ limitations under the License.
 			<cfset counter = counter + 1>
 			<cfset row=[]>
 			<cfloop index="j" from="1" to="#columnCount#" step="1">
-				<cfset row[j] = '"' & rereplace(replace(queryToConvert["#columnNamesArray[j]#"][queryToConvert.currentRow],'"','""','all'),controlChars,"") & '"' >
+				<cfset row[j] = queryToConvert["#columnNamesArray[j]#"][queryToConvert.currentRow]>
 			</cfloop>
+			<cfscript>
+				 row = ArrayMap(row, function(item){ return '"' & rereplace(replace(item,'"','""','all'),controlChars,"") & '"' }, "true",2) 
+			</cfscript>
 			<cfset buffer.Append(JavaCast('string',ArrayToList(row,',')))>
 			<cfset buffer.Append(Chr(10))>
 			<cfif counter EQ stepsToWrite>
-				<cffile action="append" file="#application.webDirectory#/temp/#filename#.csv" addnewline="no" output="#buffer.toString()#">
+				<cfset bufferedWriter.write(buffer.toString()) >
 				<cfset written = written + counter>
 				<cfset counter = 0>
 				<cfset buffer.setLength(0)>
 			</cfif>
 		</cfloop>
 		<cfif counter NEQ stepsToWrite>
-			<cffile action="append" file="#application.webDirectory#/temp/#filename#.csv" addnewline="no" output="#buffer.toString()#">
+			<cfset bufferedWriter.write(buffer.toString()) >
 			<cfset written = written + counter>
+			<cfset buffer.setLength(0)>
 		</cfif>
+		<cfset bufferedWriter.close()>
 		<cfset retval.STATUS = "Success">
 		<cfset retval.WRITTEN = "#written#">
 		<cfset retval.TIMESTAMP= "#timestamp#">
@@ -722,6 +734,12 @@ limitations under the License.
 		<cfelse>
 			<cfset retval.STATUS = "Failed">
 			<cfset retval.MESSAGE = "Error: #cfcatch.message#.">
+		</cfif>
+		<cfif isDefined("bufferedWriter")>
+			<cftry>
+				<cfset bufferedWriter.close()>
+			<cfcatch></cfcatch>
+			</cftry>
 		</cfif>
 	</cfcatch>
 	</cftry>

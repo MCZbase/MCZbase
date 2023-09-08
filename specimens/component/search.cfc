@@ -2560,6 +2560,9 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
   * user_search_table joined with session.flatTableName as a csv serialization.
   * @param result_id the uuid that identifies the search to return as csv
   * @return a csv serialization with a content type text/csv http header or a http error status.
+  *
+  * @deprecated 
+  * @see getSpecimensAsCSVProfile
   ** --->
 <cffunction name="getSpecimensAsCSV" access="remote" returntype="any" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
@@ -2598,6 +2601,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 			WHERE
 				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				and rownum < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DOWNLOAD_THRESHOLD#">
 		</cfquery>
 
 		<cfset retval = queryToCSV(search)>
@@ -2621,23 +2625,33 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
   * of fields specified in a download_profile.
   * @param result_id the uuid that identifies the search to return as csv
   * @param download_profile_id the id for the profile that specifies the columns in the download.
+  * @param paging default no, if yes, and result size is larger than DOWNLOAD_THRESHOLD then 
+  *  page results, otherwise stream results.
   * @return a csv serialization with a content type text/csv http header or a http error status.
   ** --->
 <cffunction name="getSpecimensAsCSVProfile" access="remote" returntype="any" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="download_profile_id" type="string" required="yes">
-	<cfargument name="token" type="string" required="no">
+	<cfargument name="token" type="string" required="no" default="">
+	<cfargument name="paging" type="string" required="no" default="no">
 
-	<cfif isDefined("token")>
+	<cfif isDefined("token") AND len(token) GT 0>
 		<cflog text="getSpecimensAsCSVProfile started token=#token#" file="MCZbase">
 	<cfelse>
 		<cflog text="getSpecimensAsCSVProfile started with no token" file="MCZbase">
 		<cfset token = "">
 	</cfif>
 
+	<cfset variable.result_id = arguments.result_id>
+	<cfset variable.download_profile_id = arguments.download_profile_id>
+	<cfset variable.token = arguments.token>
+	<cfset variable.paging = arguments.paging>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="downloadThread#tn#" action="run" result_id="#result_id#" download_profile_id="#download_profile_id#" token="#token#">
 
+		<cfif NOT isDefined("paging")>
+			<cfset paging = "no">
+		</cfif>
 		<cflog text="getSpecimensAsCSVProfile executing downloadThread#tn#" file="MCZbase">
 		<cfset retval = "">
 		<cfset stream = true>
@@ -2703,7 +2717,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			</cfquery>
 	
-			<cfif count.ct LT DOWNLOAD_THRESHOLD>
+			<cfif count.ct LT DOWNLOAD_THRESHOLD OR paging EQ "no">
+				<cflog text="Query for stream. paging=#paging# count.ct=#count.ct#" file="MCZbase">
 				<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 					SELECT 
 						<cfset comma = "">
@@ -2755,6 +2770,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<cflog text="before search query count.ct=[#count.ct#]" file="MCZbase">
 						<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 							SELECT 
+								rownum as foundrownum,
 								<cfset comma = "">
 								<cfloop array="#valid_columns#" index="idx">
 									<cfif len(idx.sql_element) GT 0> 
@@ -2777,27 +2793,23 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							<cfset pagenumber = pagenumber + 1 >
 							<cflog text="before search query count.ct=[#count.ct#] pagenumber=[#pagenumber#]" file="MCZbase">
 							<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-								SELECT * FROM (
-									SELECT qry.*, rownum foundrownum
-									FROM (
 										SELECT 
-										<cfset comma = "">
-										<cfloop array="#valid_columns#" index="idx">
-											<cfif len(idx.sql_element) GT 0> 
-												#comma##replace(idx.sql_element,"''","'","all")# #idx.column_name#
-												<cfset comma = ",">
-											</cfif>
-										</cfloop>
+											rownum as foundrownum,
+											<cfset comma = "">
+											<cfloop array="#valid_columns#" index="idx">
+												<cfif len(idx.sql_element) GT 0> 
+													#comma##replace(idx.sql_element,"''","'","all")# #idx.column_name#
+													<cfset comma = ",">
+												</cfif>
+											</cfloop>
 										FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 											join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 										WHERE
 											user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-										ORDER BY
-											user_search_table.collection_object_id
-									) qry
-									WHERE rownum < ((#pagenumber# * #pagesize#) + 1 )
-								) 
-								WHERE foundrownum >= (((#pagenumber#-1) * #pagesize#) + 1)
+											and
+											pagesort > = ((#pagenumber#-1) * #pagesize# + 1)
+											and
+											pagesort < ((#pagenumber# * #pagesize#) + 1)
 							</cfquery>
 							<cflog text="after search query" file="MCZbase">
 							<cfif pagenumber EQ 1>
@@ -2809,6 +2821,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 								<cfset retval = queryToCSVFile(queryToConvert=search,mode="append",timestamp=retval.TIMESTAMP,written=retval.WRITTEN)>
 								<cflog text="afterQueryToCSVFile(mode=append)" file="MCZbase">
 							</cfif>
+							<cfset QueryClear(search)>
 							<cfquery name="partialDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="partialDownload_result">
 								UPDATE cf_download_file 
 								SET 
@@ -2838,7 +2851,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					</cfquery>
 				<cfelse>
 					<cflog text="Token exists [#checkToken.ct#] matches in downloadThread#tn#" file="MCZbase">
-					<cfthrow message="Problem creating download.  Token [#token#] exists, [#checkToken.ct#] matches found.">
+					<cfthrow message="Problem creating download.  Token [#token#] exists, [#checkToken.ct#] matches found." errorCode="900">
 				</cfif>
 			</cfif>
 			<cfif stream>
@@ -2847,9 +2860,13 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cfelse>
 				<cftry>
 					<cfif retval.STATUS EQ "Failed">
-						<cfoutput>#retval.STATUS#: #retval.MESSAGE#</cfoutput>
+						<cfset st = retval.STATUS>
+						<cfset msg = retval.MESSAGE>
+						<cfoutput>#st#: #msg#</cfoutput>
 					<cfelse>
-						<cfoutput>[{'FILENAME':'mcz_specimen_result_download_#result_id#.csv','PATH':'#retval.filename#','MESSAGE':'#retval.MESSAGE#'}]</cfoutput>
+						<cfset fn = retval.filename>
+						<cfset msg = retval.MESSAGE>
+						<cfoutput>[{'FILENAME':'mcz_specimen_result_download_#result_id#.csv','PATH':'#fn#','MESSAGE':'#msg#'}]</cfoutput>
 					</cfif>
 				<cfcatch>
 					<cfoutput>
@@ -2862,6 +2879,21 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cflog text="Exception in downloadThread#tn# #error_message#" file="MCZbase">
+			<cfif NOT isDefined("cfcatch.errorcode") OR cfcatch.errorcode NEQ "900">
+				<cfquery name="failedDownload" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="postDownload_result">
+					UPDATE cf_download_file 
+					SET 
+						status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Failed">,
+						filename = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="">,
+						message = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cfcatch.message#">
+					WHERE
+						token = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#token#"> and
+						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#"> and
+						download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
+				</cfquery>
+			</cfif>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfoutput>Error in #function_called#: #error_message#</cfoutput>
 		</cfcatch>
@@ -3018,7 +3050,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										var rows = retval[0].RECORDCOUNT;
 										if (retval[0].MODE=="direct") { 
 											// just stream the results to the user
-											$("##downloadResult").html('<a id="specimencsvdownloadlink" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id='+profile+'" download="#filename#" onclick="$(\'##specimencsvdownloadlink\').attr(\'style\',\'color: purple !important;\');" target="_blank" >Download ('+rows+' records)</a>');
+											$("##downloadResult").html('<a id="specimencsvdownloadlink" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id='+profile+'&paging=yes" download="#filename#" onclick="$(\'##specimencsvdownloadlink\').attr(\'style\',\'color: purple !important;\');" target="_blank" >Download ('+rows+' records)</a>');
 										} else if (retval[0].MODE=="file") { 
 											// request generation of file, and poll until it is created.
 											var token = retval[0].TOKEN;
@@ -3035,6 +3067,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							}
 							async function checkStatus(token,rows) { 
 								var done = false;
+								$("##downloadRetry").html("");
 								while (!done) { 
 									await new Promise(resolve => setTimeout(resolve, 2000));
 									jQuery.ajax({
@@ -3047,25 +3080,32 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										},
 										success: function(data) { 
 											console.log(data);
-											var parsed = JSON.parse(data)[0];
-											var status = parsed.STATUS;
-											if (status=='Success') { 
-												$("##downloadFeedback").html(parsed.STATUS);
-												done = true;
-												var filename = parsed.FILENAME;
-												var path = parsed.PATH;
-												var message = parsed.MESSAGE;
-												var html = '<a id="specimencsvdownloadlink" arial-label="download results file" download="'+filename+'" target="_blank" href="'+path+'">'+message+'</a>';
-												$("##downloadResult").html(html);
-											} else { 
-												$("##downloadFeedback").html("Preparing ("+rows+" records).... ("+JSON.parse(data)[0].STATUS+")");
-												if (status=="Failed" || status=="Incomplete") { 
+											try { 
+												var parsed = JSON.parse(data)[0];
+												var status = parsed.STATUS;
+												if (status=='Success') { 
+													$("##downloadFeedback").html(parsed.STATUS);
 													done = true;
-												}
-											} 
+													var filename = parsed.FILENAME;
+													var path = parsed.PATH;
+													var message = parsed.MESSAGE;
+													var html = '<a id="specimencsvdownloadlink" arial-label="download results file" download="'+filename+'" target="_blank" href="'+path+'">'+message+'</a>';
+													$("##downloadResult").html(html);
+												} else { 
+													$("##downloadFeedback").html("Preparing ("+rows+" records).... ("+JSON.parse(data)[0].STATUS+")");
+													if (status=="Failed" || status=="Incomplete") { 
+														done = true;
+													}
+												} 
+											} catch (e) { 
+												console.log(e.message);
+											}
 										},
 										error: function (jqXHR, textStatus, error) {
 											done = true;
+											$("##downloadRetry").html('<button class="btn btn-xs btn-secondary" onClick="checkStatus(\''+token+'\',\''+rows+'\');">Recheck Status</button>');
+											if (!error) { error=""; } 
+											$("##downloadStatus").html("Preparing ("+rows+" records).... Error: " + error.toString().substring(0,50));
 											handleFail(jqXHR,textStatus,error,"checking specimen download status");
 										}
 									});
@@ -3082,6 +3122,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 										returnformat: "json",
 										download_profile_id : profile,
 										result_id: result_id,
+										paging: "yes",
 										token : token
 									},
 									success: function(data) { 
@@ -3117,6 +3158,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<button id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onClick="handleInternalDownloadClick('#result_id#');" >Request Download as CSV</button>
 						<output id="downloadFeedback"></output>
 						<output id="downloadResult"></output>
+						<output id="downloadRetry"></output>
 					</div>
 				</div>
 			<cfcatch>
@@ -3274,7 +3316,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<h3>Download Profile</h3>
 					<cfquery name="getProfiles" datasource="cf_dbuser">
 						SELECT 
-							username, name, download_profile_id, sharing
+							username, name, download_profile_id, sharing, column_list
 						FROM 
 							download_profile
 						WHERE
@@ -3283,30 +3325,40 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
 							or sharing = 'Everyone'
 						)
+						ORDER BY 
+							length(column_list) asc
 					</cfquery>
 					<div class="form-row">
 						<div class="col-12">
+							Note: Downloads over #DOWNLOAD_THRESHOLD# records may fail.  We suggest querying <a href="https://www.gbif.org/occurrence/search?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3" target="_blank">MCZ records on GBIF</a> for large donwloads, and any downloads used for publications (where we encourage you to cite the DOI for the downloaded data in your publication).
+						</div>
+						<div class="col-12">
+							<!--- NOTE: functionality for saving to a temporary file and monitoring progress is not included on this dialog, so getSpecimensAsCSVProfile can
+ 								only operate here with paging=no.
+							--->
 							<script>
 								function changeProfile() { 
 									var profile = $("##profile_picker").val();
-									$('##specimencsvdownloadbutton').attr("href", "/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id="+profile);
+									$('##specimencsvdownloadbutton').attr("href", "/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&paging=no&download_profile_id="+profile);
 								}
 							</script>
 							<label class="data-entry-label" for="profile_picker">Pick profile for which fields to include in the download</label>
 							<select id="profile_picker" name="profile_picker" class="data-entry-select" onchange="changeProfile()">
 								<cfset selected="selected">
 								<cfloop query="getProfiles">
+									<cfset columnCount = ListLen(column_list)>
 									<cfif selected EQ "selected">
 										<cfset profile_id = download_profile_id>
 									</cfif>
-									<option value="#download_profile_id#" #selected#>#name# (Available to: #sharing#)</option>
+									<option value="#download_profile_id#" #selected#>#name# #columnCount# columns (Available to: #sharing#)</option>
 									<cfset selected="">
 								</cfloop>
 							</select>
 						</div>
 						<div class="col-12">
+							<!--- See note above about streaming only from this dialog --->
 							<!--- using target _blank to give user feedback on ongoing download.  Could monitor for a cookie, see for example https://www.bennadel.com/blog/2533-tracking-file-download-events-using-javascript-and-coldfusion.htm --->
-							<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id=#encodeForUrl(result_id)#" download="#filename#" target="_blank" onclick="handleDownloadClick();" >Download as CSV</a>
+							<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&download_profile_id=#profile_id#&result_id=#encodeForUrl(result_id)#" download="#filename#" target="_blank" onclick="handleDownloadClick();" >Download as CSV</a>
 							<output id="downloadFeedback"></output>
 							<output id="downloadResult"></output>
 						</div>

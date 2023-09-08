@@ -37,6 +37,7 @@ Landing pad page with lists of various self service reports.
 					<li class="py-1"><a href="/reporting/PrimaryTypes.cfm">Primary Types</a> &ndash; Obtain reports by collection.</li>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 				 		<li class="py-1"><a href="/reporting/UnknownSovereignNation.cfm">Unknown Sovereign Nation</a> &ndash; Find localities with [unknown] Sovereign Nation for cleanup.</li>
+				 		<li class="py-1"><a href="/reporting/ProblemCollectingEventDates.cfm">Problematic Collecting Dates</a> &ndash; Find collecting events with out of range dates.</li>
 					</cfif>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 						<br/>

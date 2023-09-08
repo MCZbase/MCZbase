@@ -202,6 +202,9 @@ limitations under the License.
 <cfif CGI.script_name IS "/localities/HigherGeography.cfm">
 	<script type="text/javascript" src="/localities/js/highergeography.js"></script> 
 </cfif>
+<cfif CGI.script_name IS "/localities/CollectingEvent.cfm" OR CGI.script_name IS "/specimens/Specimen.cfm">
+	<script type="text/javascript" src="/localities/js/collectingevents.js"></script>
+</cfif>
 
 <cfif not isdefined("session.header_color")>
 	<cfif NOT isDefined('setDbUser')>
@@ -242,7 +245,7 @@ limitations under the License.
 <!--- End workaround ---> 
 
 <header id="header" class="border-bottom">
-	<a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
+	<a href="##content" class="sr-only btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
 	
 	<div class="branding clearfix bg-black">
 		<a href="http://www.harvard.edu/" aria-label="link to Harvard website">

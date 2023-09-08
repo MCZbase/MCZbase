@@ -30,21 +30,34 @@ limitations under the License.
 		<cfoutput>
 			<cfset reportedName ="">
 			<cfset email = "">
-			<cfif isDefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
-				<cfquery name="getUserInfo"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT username, preferred_agent_name.agent_name, GET_EMAILADDRESSES(agent_name.agent_id,', ') emails
-					FROM cf_users
-						left join agent_name on cf_users.username = agent_name.agent_name and agent_name.agent_name_type = 'login'
-						left join preferred_agent_name on agent_name.agent_id = preferred_agent_name.agent_id
-					WHERE
-						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
+			<cfif isDefined("session.username") AND len(session.username) GT 0>
+				<cfif isDefined("session.username") AND listcontainsnocase(session.roles,"coldfusion_user")>
+					<cfquery name="getUserInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT username, preferred_agent_name.agent_name, GET_EMAILADDRESSES(agent_name.agent_id,', ') emails
+						FROM cf_users
+							left join agent_name on cf_users.username = agent_name.agent_name and agent_name.agent_name_type = 'login'
+							left join preferred_agent_name on agent_name.agent_id = preferred_agent_name.agent_id
+						WHERE
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				<cfelse>
+					<cfquery name="getUserInfo" datasource="cf_dbuser" >
+						SELECT username, first_name || ' ' || last_name as agent_name, email as emails
+						FROM cf_users
+							left join cf_user_data on cf_users.user_id = cf_user_data.user_id
+						WHERE
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				</cfif>
 				<cfif getUserInfo.recordcount EQ 1>
 					<cfloop query="getUserInfo">
 						<cfset reportedName ="#getUserInfo.agent_name#">
 						<cfset email = "#getUserInfo.emails#">
 					</cfloop>
 				</cfif>
+			</cfif>
+			<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
+				<!--- captcha not needed --->
 			<cfelse>
 				<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 			</cfif>
@@ -57,10 +70,24 @@ limitations under the License.
 							</div>
 							<div class="col-12 px-4 py-1">
 								<ul class="pt-3">
-									<li class="my-1">Use this form to report problems you have encountered while using the database.</li>
-									<li class="mb-1">Use this form to make suggestions in relation to database function or data display.</li>
-									<li class="mb-1">To report problems or errors with specimen data, you may use this form, or if logged in, you may use the "Report Bad Data" link included on Search Results or Specimen Detail pages.</li>
-									<li class="mb-1">Include your email address if you wish to be contacted when the issue has been addressed. Your email address will <b>not</b> be released or publicly displayed on our site.</li>
+									<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
+										<li class="mb-1">Use this form to ask questions about how to use MCZbase (Select: <i>I have a question</i>).</li>
+										<li class="my-1">Use this form to report problems you have encountered while using the database, including bulkoading data (Select: <i>A bug or issue with MCZbase</i> and priority low, normal, or high).</li>
+										<li class="mb-1">Use this form to make suggestions to improve MCZbase (Select: <i>Enhancement Request</i>).</li>
+										<li class="mb-1">Use this form to make a request for assistance from the database administrator importing or exporting data in support of a workflow, other than use of the bulkloaders (Select: <i>Workflow Support</i>).</li>
+										<li class="mb-1">Use this form to report problems with agent, locality, event, etc. data that you are not able to resolve yourself (Select: <i>A problem with data</i>).</li>
+										<li class="mb-1">You can use this form to report errors with specimen, taxon, publication, or project data that you are not able to resolve yourself, but use of annotation with the "Report Bad Data" links included on the Specimen Detail and other pages is preferrable.</li>
+									<cfelseif isdefined("session.username") and len(session.username) GT 0>
+										<li class="my-1">Use this form to report problems you have encountered while using the database.</li>
+										<li class="mb-1">You can use this form to report errors with specimen data or you can use the "Report Bad Data" link included on Search Results or Specimen Detail pages.</li>
+										<cfif NOT isDefined("email") OR len(email) EQ 0>
+											<li class="mb-1">Include your email address if you wish to be contacted when the issue has been addressed. Your email address will <b>not</b> be released or publicly displayed on our site.</li>
+										</cfif>
+									<cfelse>
+										<li class="my-1">Use this form to report problems you have encountered while using the database.</li>
+										<li class="mb-1">To report problems or errors with specimen data, you may use this form, or if logged in, you may use the "Report Bad Data" link included on Search Results or Specimen Detail pages.</li>
+										<li class="mb-1">Include your email address if you wish to be contacted when the issue has been addressed. Your email address will <b>not</b> be released or publicly displayed on our site.</li>
+									</cfif>
 								</ul>
 							</div>
 							<div class="col-12 px-4 py-1">
@@ -76,8 +103,88 @@ limitations under the License.
 											<input type="text" name="user_email" id="user_email" class="data-entry-input" value="#email#">
 										</div>
 										<div class="col-12">
-											<h3 class="h4 pt-3 px-1">Please provide as much detail as possible. We do not know what you see unless you write about it in the report.</h3>
+											<h2 class="h4 pt-3 px-1">Please provide as much detail as possible. We do not know what you see unless you write about it in the report.</h3>
+											<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
+												<h2 class="h4 pt-1 px-1">Please include the page you are seeing the issue on, and the specific catalog number, loan number, etc. that you are seeing the problem with.</h3>
+											</cfif>
 										</div>
+										<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
+											<div class="col-12 py-3">
+												<label for="component" class="data-entry-label">What would you like to report:</label>
+												<select name="bugzilla_component" id="component" size="1" class="data-entry-select">
+													<option value="Web Interface" selected>A bug or issue with MCZbase</option>
+													<option value="Questions" >I have a question</option>
+													<option value="Data" >A problem with data</option>
+													<option value="EnhancementRequest" >I have an Enhancement Request</option>
+													<option value="WorkflowSupport">I am requesting Workflow Support</option>
+												</select>
+											</div>
+											<script>
+												$(document).ready(function(){ 
+													$('##component').on('change',setPriorityList);
+													setPriorityList();
+												});
+												function setPriorityList() { 
+													var targetComponent = $('##component').val();
+													var currentPriority = $('##user_priority').val();
+													if (targetComponent==="WorkflowSupport") {
+														$('##user_priority').empty().append('<option selected="selected" value="0">Low Priority</option>');
+													}
+													if (targetComponent==="EnhancementRequest") {
+														$('##user_priority').empty().append('<option selected="selected" value="6">Enhancement Request</option>');
+													}
+													if (targetComponent==="Questions") {
+														var sel2 = "selected";
+														var sel4 = "";
+														if (currentPriority=="4") { 
+															var sel2 = "";
+															var sel4 = "selected";
+														}
+														$('##user_priority').empty().append('<option '+sel2+' value="2">Normal Priority</option>');
+														$('##user_priority').append('<option '+sel4+' value="4">High Priority</option>');
+													}
+													if (targetComponent==="Data") {
+														var sel2 = "selected";
+														var sel4 = "";
+														if (currentPriority=="4") { 
+															var sel2 = "";
+															var sel4 = "selected";
+														}
+														$('##user_priority').empty().append('<option '+sel2+' value="2">Normal Priority</option>');
+														$('##user_priority').append('<option '+sel4+' value="4">High Priority</option>');
+													}
+													if (targetComponent==="Web Interface") {
+														var sel0 = "";
+														var sel2 = "selected";
+														var sel4 = "";
+														var sel6 = "";
+														if (currentPriority=="0") { 
+															var sel0 = "selected";
+															var sel2 = "";
+															var sel4 = "";
+															var sel6 = "";
+														}
+														if (currentPriority=="4") { 
+															var sel0 = "";
+															var sel2 = "";
+															var sel4 = "selected";
+															var sel6 = "";
+														}
+														if (currentPriority=="6") { 
+															var sel0 = "";
+															var sel2 = "";
+															var sel4 = "";
+															var sel6 = "selected";
+														}
+														$('##user_priority').empty().append('<option '+sel0+' value="0">Low Priority</option>');
+														$('##user_priority').append('<option '+sel2+' value="2">Normal Priority</option>');
+														$('##user_priority').append('<option '+sel4+' value="4">High Priority</option>');
+													}
+												}
+											</script>
+										<cfelse>
+											<input type="hidden" name="component" value="Web Interface">
+										</cfif>
 										<div class="col-12">
 											<label for="complaint" class="data-entry-label">Feedback</label>
 											<textarea name="complaint" id="complaint" rows="15"  class="data-entry-textarea reqdClr autogrow" style = "min-height: 100px;" placeholder="#FEEDBACK_INSTRUCTIONS#" required></textarea>
@@ -91,14 +198,16 @@ limitations under the License.
 										</script>
 										<div class="col-12 py-3">
 											<label for="user_priority" class="data-entry-label">Priority</label>
-											<select name="user_priority" size="1" class="data-entry-select">
+											<select name="user_priority" id="user_priority" size="1" class="data-entry-select">
 												<option value="0">Low Priority</option>
 												<option value="2" SELECTED >Normal Priority</option>
 												<option value="6" >Enhancement Request</option>
 												<option value="4">High Priority</option>
 											</select>
 										</div>
-										<cfif NOT isdefined("session.roles") OR NOT listcontainsnocase(session.roles,"coldfusion_user")>
+										<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
+											<!--- captcha not needed --->
+										<cfelse>
 											<div class="col-12">
 												<div class="g-recaptcha" data-sitekey="#application.g_sitekey#"></div>
 											</div>
@@ -119,6 +228,10 @@ limitations under the License.
 	<cfcase value="save">
 		<cfoutput>
 		<main class="container py-3" id="content" >
+			<cfif isDefined("bugzilla_component") AND bugzilla_component EQ "EnhancementRequest">
+				<cfset bugzilla_component = "Web Interface">
+				<cfset user_priority = "6">
+			</cfif>
 			<cfset user_id=0>
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				<cfquery name="isUser"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -138,7 +251,9 @@ limitations under the License.
 			<cfset concatSub = replace(concatSub,"#chr(60)#","---","all")>
 	
 	
-			<cfif !listcontainsnocase(session.roles,"coldfusion_user")>
+			<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
+				<!--- capcha not needed ---->
+			<cfelse>
 				<cftry>
 					<cfobject action = "create" 
 						type = "java" 
@@ -210,6 +325,11 @@ limitations under the License.
 			</cfcatch>
 			</cftry>
 			<cfset sentok="true">
+			<cfif isDefined("bugzilla_component") AND ListContains("Web Interface,Data,Questions,WorkflowSupport",bugzilla_component)>
+				<cfset bugzilla_component="#bugzilla_component#">
+			<cfelse>
+				<cfset bugzilla_component="Web Interface">
+			</cfif>
 			<cftry>
 				<cfmail to="#Application.bugReportEmail#" subject="ColdFusion bug report submitted" from="BugReport@#Application.fromEmail#" type="html">
 <p>Reported Name: #reported_name# (AKA #session.username#) submitted a bug report on #thisDate#.</p>
@@ -219,6 +339,8 @@ limitations under the License.
 <p>Priority: #user_priority#</p>
 
 <p>Email: #user_email#</p>
+
+<p>Request: #bugzilla_component#</p>
 
 #insertErrorMessage#
 				</cfmail>
@@ -234,7 +356,6 @@ limitations under the License.
 	 		<cfset bugzilla_mail="#Application.bugzillaToEmail#"><!--- address to access email_in.pl script --->
 			<!---cfset bugzilla_user="test@example.com"---><!--- bugzilla user for testing integration as bugreport@software can have alias resolution problems --->
 			<cfset bugzilla_user="#Application.bugzillaFromEmail#"><!--- bugs submitted by email can only come from a registered bugzilla user --->
-			<cfset bugzilla_component="Web Interface">
 			<cfset bugzilla_priority="@priority = P3">
 			<cfset bugzilla_severity="@bug_severity = normal">
 			<cfset human_importance="Submitter Importance = Normal Priority [#user_priority#]">
@@ -268,7 +389,7 @@ limitations under the License.
 @rep_platform = PC
 @op_sys = Linux
 @product = MCZbase
-@component = Web Interface
+@component = #bugzilla_component#
 @version = 2.5.1merge
 #bugzilla_priority##newline#
 #bugzilla_severity#

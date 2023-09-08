@@ -545,9 +545,6 @@ If your item needs to be sorted in a special way, then do that here. --->
 					<option value="/bulkLocality.cfm"><!--- works only on session_search table, passed as table_name --->
 						Localities [Warning: No Tabs]
 					</option>
-					<option value="/Encumbrances.cfm"><!--- works only with collection_object_id --->
-						Encumbrances
-					</option>
 					<option value="/multiIdentification.cfm"><!--- works only with collection_object_id --->
 						Identification
 					</option>

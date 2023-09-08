@@ -1554,4 +1554,162 @@ limitations under the License.
 	<cfreturn cfthread["localityVerbatimThread#tn#"].output>
 </cffunction>
 
+<!--- function getCollectingEventMediaHtml return a block of html with media associated with a collecting_event. 
+
+   @param collecting_event_id the primary key value for the collecting_event for which to return media.
+   @return block of html.
+--->
+<cffunction name="getCollectingEventMediaHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+	
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="collEventMediaThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						media_id
+					FROM
+						media_relations
+					WHERE
+						media_relationship like '% collecting_event'
+						and
+						related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#"> 
+						and 
+						MCZBASE.is_media_encumbered(media_id) < 1 
+				</cfquery>
+				<cfif collEventMedia.recordcount gt 0>
+					<cfloop query="collEventMedia">
+						<div class="col-6 px-1 col-sm-3 col-lg-3 col-xl-3 mb-1 px-md-2 pt-1 float-left"> 
+							<div id='ceMediaBlock#collEventMedia.media_id#'>
+								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="350",captionAs="textShort")>
+							</div>
+						</div>
+					</cfloop>
+				</cfif>
+			<cfcatch>
+				<h3 class="h4 text-danger">Error: #cfcatch.type# #cfcatch.message#</h3> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="collEventMediaThread#tn#" />
+
+	<cfreturn cfthread["collEventMediaThread#tn#"].output>
+</cffunction>
+
+
+
+<!--- function getCollectingEventUsesHtml return a block of html sumarizing the collecting events, 
+   collections, and cataloged items associated with a collecting_event.
+
+   @param collecting_event_id the primary key value for the collecting_event for which to return html.
+   @return block of html.
+--->
+<cffunction name="getCollectingEventUsesHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+	
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="collectingEventUsesThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="collectingEventUses" datasource="uam_god">
+					SELECT
+						count(cataloged_item.cat_num) numOfSpecs,
+						collection.collection,
+						collection.collection_cde,
+						collection.collection_id,
+						locality_id
+					from
+						collecting_event
+						left join cataloged_item on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
+						left join collection on cataloged_item.collection_id = collection.collection_id
+					WHERE
+						collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+					GROUP BY
+						collection.collection,
+						collection.collection_cde,
+						collection.collection_id,
+						locality_id
+			  	</cfquery>
+				<div>
+					<cfif #collectingEventUses.recordcount# is 0>
+						<h2 class="h4 px-2 text-primary">This CollectingEvent (#collecting_event_id#) contains no specimens. Please delete it if you don&apos;t have plans for it!</h2>
+					<cfelseif #collectingEventUses.recordcount# is 1>
+						<h2 class="h4 px-2">
+							This CollectingEvent (#collecting_event_id#) contains 
+							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">
+								#collectingEventUses.numOfSpecs# #collectingEventUses.collection_cde# specimens
+							</a>
+							see <a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#collectingEventUses.locality_id#&include_counts=true&include_ce_counts=true">other collecting events at this locality</a>.
+						</h2>
+					<cfelse>
+						<cfset totalSpecimens=0>
+						<cfloop query="collectingEventUses">
+							<cfset totalSpecimens=totalSpecimens+collectingEventUses.numOfSpecs>
+						</cfloop>
+						<h2 class="h4 px-2">
+							This CollectingEvent (#collecting_event_id#)
+							contains the following <a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">#totalSpecimens# specimens</a>
+						</h2>
+						<ul class="px-2 pl-xl-4 ml-xl-1 small95">
+							<cfloop query="collectingEventUses">
+								<li>
+									<cfif numOfSpecs EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+									<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#&nestdepth2=2&JoinOperator2=and&field2=CATALOGED_ITEM%3ACOLLECTION_CDE&searchText2=%3D#collectingEventUses.collection_cde#">
+										#numOfSpecs# #collection_cde# specimen#plural#
+									</a>
+								</li>
+							</cfloop>
+						</ul>
+					</cfif>
+				</div>
+			<cfcatch>
+				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="collectingEventUsesThread#tn#" />
+
+	<cfreturn cfthread["collectingEventUsesThread#tn#"].output>
+</cffunction>
+
+<cffunction name="getCollectingEventSummary" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="collEventSummaryThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getCollEventUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollEventUp_result">
+					SELECT higher_geog, geog_auth_rec.geog_auth_rec_id,
+						spec_locality,
+						verbatim_date
+					FROM
+						collecting_event
+						join locality on collecting_event.locality_id = locality.locality_id
+						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+					WHERE
+						collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+				</cfquery>
+				<cfloop query="getCollEventUp">
+					<div class="h2">#higher_geog#</div>
+					<div class="h2">#spec_locality#</div>
+					<div class="h2">#verbatim_date#</div>
+				</cfloop>
+			<cfcatch>
+				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="collEventSummaryThread#tn#" />
+
+	<cfreturn cfthread["collEventSummaryThread#tn#"].output>
+</cffunction>
+
 </cfcomponent>
