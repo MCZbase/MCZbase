@@ -37,6 +37,6 @@ BubbleAnim <- ggplot(Cit3, aes(NUMBER_CATALOG_ITEMS, NUMBER_OF_IMAGES, shape = N
 #print(BubbleAnim)
 #save_animation("/metrics/R/graphs/BubbleChart.gif")
 #print(BubbleAnim) # print first
-anim_save("/graphs/BubbleChart.gif",animation = BubbleAnim)
+anim_save("/metrics/R/graphs/BubbleChart.gif",animation = BubbleAnim)
 
 
