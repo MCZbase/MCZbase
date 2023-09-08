@@ -79,9 +79,9 @@
 			</cfquery>
 			
 			<!--- check for required fields in header line --->
-			<cfset container_unique_id_exists = false>
-			<cfset container_type_exists = false>
-			<cfset container_name_exists = false>
+			<cfset collection_cde_exists = false>
+			<cfset other_id_type_exists = false>
+			<cfset other_id_number_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
 				<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
@@ -92,7 +92,7 @@
 				<cfif ucase(header) EQ 'preserve_method'><cfset preserve_method_exists=true></cfif>
 				<cfif ucase(header) EQ 'container_unique_id'><cfset container_unique_id_exists=true></cfif>
 			</cfloop>
-			<cfif not (container_unique_id_exists AND collection_cde_exists AND other_id_number_exists)>
+			<cfif not (collection_cde_exists AND other_id_type_exists AND other_id_number_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
 				<cfif not collection_cde_exits><cfset message = "#message# collection_cde is missing."></cfif>
 				<cfif not other_id_type_exits><cfset message = "#message# other_id_type is missing."></cfif>
