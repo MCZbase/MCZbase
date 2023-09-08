@@ -36,9 +36,9 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 </cfquery>
 <cfoutput>
 <cfset csv = queryToCSV(getStats)> 
-<cffile action="write" file="#application.webDirectory#/metrics/R/datafiles/chart_data.csv" output = "#csv#" addnewline="No">
+<cffile action="write" file="#application.webDirectory#/metrics/datafiles/chart_data.csv" output = "#csv#" addnewline="No">
 </cfoutput>
-<a href="/metrics/R/datafiles/chart_data.csv">download table</a>
+<a href="/metrics/datafiles/chart_data.csv">download table</a>
 <cftry>
 	<cfexecute name = "/usr/bin/Rscript" 
 		arguments = "/var/www/html/arctos/metrics/R/bubble_graph.R" 
