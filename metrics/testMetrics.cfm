@@ -39,11 +39,15 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 <cffile action="write" file="#application.webDirectory#/metrics/datafiles/chart_data.csv" output = "#csv#" addnewline="No">
 </cfoutput>
 <a href="/metrics/datafiles/chart_data.csv">download table</a>
+<cftry>
+	<cfexecute name = "/usr/bin/Rscript" 
+	arguments = "/var/www/html/arctos/metrics/R/bubble_graph.R" 
+	variable = "ChartData"
+	timeout = "10000"> 
+	</cfexecute>
+	<cfcatch>
+		<cfdump var="#ChartData#">
+	</cfcatch>
 
-<cfexecute name = "/usr/bin/Rscript" 
-arguments = "/var/www/html/arctos/metrics/R/bubble_graph.R" 
-variable = "ChartData"
-timeout = "10000"> 
-</cfexecute>
-<cfdump var="#ChartData#">
+</cftry>
 <cfinclude template="/shared/_footer.cfm">
