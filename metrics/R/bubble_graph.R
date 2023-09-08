@@ -13,7 +13,7 @@ library(png)
 library(ggthemes)
 
 Chart_Data_Img_per_year <- read_csv('/metrics/datafiles/chart_data.csv')
-Chart_Data_Img_per_year <- chart_data
+#Chart_Data_Img_per_year <- chart_data
 
 Cit1 <- filter(Chart_Data_Img_per_year, NUMBER_CATALOG_ITEMS >= 1)
 Cit2 <- filter(Chart_Data_Img_per_year, NUMBER_OF_TYPES_WITH_IMAGES >= 0)
