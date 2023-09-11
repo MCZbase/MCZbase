@@ -305,71 +305,71 @@
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
-		<cfoutput>
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT trim(INSTITUTION_ACRONYM) INSTITUTION_ACRONYM,
-				trim(COLLECTION_CDE) COLLECTION_CDE,
-				trim(OTHER_ID_TYPE) OTHER_ID_TYPE,
-				trim(OTHER_ID_NUMBER) oidNum,
-				trim(PART_NAME) part_name,
-				trim(PRESERVE_METHOD) preserve_method,
-				trim(CONTAINER_UNIQUE_ID) container_unique_id,
-				print_fg FROM cf_temp_barcode_parts
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT trim(INSTITUTION_ACRONYM) INSTITUTION_ACRONYM,
+			trim(COLLECTION_CDE) COLLECTION_CDE,
+			trim(OTHER_ID_TYPE) OTHER_ID_TYPE,
+			trim(OTHER_ID_NUMBER) oidNum,
+			trim(PART_NAME) part_name,
+			trim(PRESERVE_METHOD) preserve_method,
+			trim(CONTAINER_UNIQUE_ID) container_unique_id,
+			FROM cf_temp_barcode_parts
+			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		</cfquery>
+		<cfif getTempData.other_id_type is "catalog number">
+			<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					specimen_part.collection_object_id 
+				FROM
+					cataloged_item,
+					specimen_part,
+					collection
+				WHERE
+					cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
+					cataloged_item.collection_id = collection.collection_id AND
+					collection.COLLECTION_CDE='#getTempData.COLLECTION_CDE#' AND
+					collection.INSTITUTION_ACRONYM = '#getTempData.INSTITUTION_ACRONYM#' AND
+					other_ID_number ='#getTempData.oidnum#' AND
+					other_id_type = '#getTempData.OTHER_ID_TYPE#' AND
+					part_name='#getTempData.part_name#' AND
+					preserve_method = '#getTempData.preserve_method#'
 			</cfquery>
-			<cfif getTempData.other_id_type is "catalog number">
-				<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						specimen_part.collection_object_id 
-					FROM
-						cataloged_item,
-						specimen_part,
-						collection
-					WHERE
-						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-						cataloged_item.collection_id = collection.collection_id AND
-						collection.COLLECTION_CDE='#getTempData.COLLECTION_CDE#' AND
-						collection.INSTITUTION_ACRONYM = '#getTempData.INSTITUTION_ACRONYM#' AND
-						other_ID_number ='#getTempData.oidnum#' AND
-						other_id_type = '#getTempData.OTHER_ID_TYPE#' AND
-						part_name='#getTempData.part_name#' AND
-						preserve_method = '#getTempData.preserve_method#'
-				</cfquery>
-			<cfelse>
-				<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						specimen_part.collection_object_id 
-					FROM
-						cataloged_item,
-						specimen_part,
-						coll_obj_other_id_num,
-						collection
-					WHERE
-						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-						cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id AND
-						cataloged_item.collection_id = collection.collection_id AND
-						collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
-						collection.INSTITUTION_ACRONYM = '#INSTITUTION_ACRONYM#' AND
-						other_id_type='#getTempData.other_id_type#' AND
-						display_value= '#getTempData.oidnum#' AND
-						part_name='#getTempData.part_name#' AND
-						preserve_method = '#getTempData.preserve_method#'
-				</cfquery>
-			</cfif>
-			<cfset contid=''>
-			<cfif coll_obj.collection_object_id gt 0>
-				<cfquery name="getContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select
-						container_id, print_fg 
-					FROM
-						container
-					WHERE
-						container.barcode = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_unique_id#">
-				</cfquery>
-			</cfif>
-			<cfif coll_obj.recordcount is not 1>
-				<cfset sts='object_not_found'>
-			</cfif>
+		<cfelse>
+			<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					specimen_part.collection_object_id 
+				FROM
+					cataloged_item,
+					specimen_part,
+					coll_obj_other_id_num,
+					collection
+				WHERE
+					cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
+					cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id AND
+					cataloged_item.collection_id = collection.collection_id AND
+					collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
+					collection.INSTITUTION_ACRONYM = '#INSTITUTION_ACRONYM#' AND
+					other_id_type='#getTempData.other_id_type#' AND
+					display_value= '#getTempData.oidnum#' AND
+					part_name='#getTempData.part_name#' AND
+					preserve_method = '#getTempData.preserve_method#'
+			</cfquery>
+		</cfif>
+		<cfset contid=''>
+		<cfif coll_obj.collection_object_id gt 0>
+			<cfquery name="getContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select
+					container_id, print_fg 
+				FROM
+					container
+				WHERE
+					container.barcode = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_unique_id#">
+			</cfquery>
+		</cfif>
+		<cfif coll_obj.recordcount is not 1>
+			<cfset sts='object_not_found'>
+		</cfif>
+		<cfoutput>
 			<cftry>
 				<cfset part_container_updates = 0>
 					<cftransaction>
@@ -489,6 +489,5 @@
 			</cfquery>
 		</cfoutput>
 	</cfif>
-
 </main>
 <cfinclude template="/shared/_footer.cfm">
