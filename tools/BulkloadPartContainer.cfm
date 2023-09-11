@@ -195,40 +195,24 @@
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<!---See if they have a valid catalog item--->
-			<cfif other_id_type is "catalog number">
-				<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select specimen_part.collection_object_id FROM
-						cataloged_item,
-						specimen_part,
-						collection
-					WHERE
-						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-						cataloged_item.collection_id = collection.collection_id AND
-						collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
-						collection.INSTITutION_ACRONYM = '#INSTITutION_ACRONYM#' AND
-						cat_num='#oidnum#' AND
-						part_name='#part_name#' AND
-						preserve_method = '#preserve_method#'
-				</cfquery>
-			<cfelse>
-				<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select specimen_part.collection_object_id FROM
-						cataloged_item,
-						specimen_part,
-						coll_obj_other_id_num,
-						collection
-					WHERE
-						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-						cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id AND
-						cataloged_item.collection_id = collection.collection_id AND
-						collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
-						collection.INSTITutION_ACRONYM = '#INSTITutION_ACRONYM#' AND
-						other_id_type='#other_id_type#' AND
-						display_value= '#oidnum#' AND
-						part_name='#part_name#' AND
-						preserve_method = '#preserve_method#'
-				</cfquery>
-			</cfif>
+			<cfquery name="getCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					specimen_part.collection_object_id 
+				FROM
+					cataloged_item,
+					specimen_part,
+					coll_obj_other_id_num,
+					collection
+				WHERE
+					cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
+				AND cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id 
+				AND cataloged_item.collection_id = collection.collection_id 
+				AND collection.COLLECTION_CDE='#COLLECTION_CDE#' 
+				AND PART_NAME = '#PART_NAME#'
+				AND PRESERVE_METHOD = '#PRESERVE_METHOD#'
+				AND collection.INSTITUTION_ACRONYM = '#INSTITUTION_ACRONYM#' 
+				AND (display_value= '#OTHER_ID_NUMBER#' OR cat_num = '#OTHER_ID_NUMBER#')
+			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_barcode_parts  set container_id=
 				(select container_id from container where container.barcode = cf_temp_barcode_parts .container_unique_id)
@@ -242,7 +226,7 @@
 			<cfquery name="mias" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_barcode_parts  
 				SET status = 'specimen part not found'
-				WHERE coll_obj.collection_object_id is null
+				WHERE getCollObj.collection_object_id is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -324,29 +308,79 @@
 	<!-------------------------------------------------------------------------------------------->
 		<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
-		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT * FROM cf_temp_barcode_parts
-				<!---WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">--->
+				SELECT trim(INSTITUTION_ACRONYM) INSTITUTION_ACRONYM,
+				trim(COLLECTION_CDE) COLLECTION_CDE,
+				trim(OTHER_ID_TYPE) OTHER_ID_TYPE,
+				trim(OTHER_ID_NUMBER) oidNum,
+				trim(PART_NAME) part_name,
+				trim(PRESERVE_METHOD) preserve_method,
+				trim(CONTAINER_UNIQUE_ID) container_unique_id,
+				print_fg FROM cf_temp_barcode_parts
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfset sts=''>
+			<cfif getTempData.other_id_type is "catalog number">
+				<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						specimen_part.collection_object_id 
+					FROM
+						cataloged_item,
+						specimen_part,
+						collection
+					WHERE
+						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
+						cataloged_item.collection_id = collection.collection_id AND
+						collection.COLLECTION_CDE='#getTempData.COLLECTION_CDE#' AND
+						collection.INSTITUTION_ACRONYM = '#getTempData.INSTITUTION_ACRONYM#' AND
+						other_ID_number ='#getTempData.oidnum#' AND
+						other_id_type = '#getTempData.OTHER_ID_TYPE#' AND
+						part_name='#getTempData.part_name#' AND
+						preserve_method = '#getTempData.preserve_method#'
+				</cfquery>
+			<cfelse>
+				<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						specimen_part.collection_object_id 
+					FROM
+						cataloged_item,
+						specimen_part,
+						coll_obj_other_id_num,
+						collection
+					WHERE
+						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
+						cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id AND
+						cataloged_item.collection_id = collection.collection_id AND
+						collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
+						collection.INSTITUTION_ACRONYM = '#INSTITUTION_ACRONYM#' AND
+						other_id_type='#getTempData.other_id_type#' AND
+						display_value= '#getTempData.oidnum#' AND
+						part_name='#getTempData.part_name#' AND
+						preserve_method = '#getTempData.preserve_method#'
+				</cfquery>
+			</cfif>
+			<cfif coll_obj.recordcount is not 1>
+				<cfset sts='object_not_found'>
+			</cfif>
+		<cfoutput>
 			<cftry>
-				<cfset container_type_updates = 0>
+				<cfset container_part_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
+						<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
 							UPDATE
-								container 
+								COLL_OBJ_CONT_HIST
 							SET
-								CONTAINER_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_TYPE#">
+								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="CONTAINER_ID#">
 							WHERE
-								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
+								COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObj.collection_object_id#">
 						</cfquery>
-						<cfset container_type_updates = container_type_updates + updateContainer_result.recordcount>
+						<cfset container_part_updates = container_part_updates + updatePart_result.recordcount>
 					</cfloop>
 				</cftransaction>
-				<h2>Updated types for #container_type_updates# containers.</h2>
+				<h2>Updated types for #container_part_updates# containers.</h2>
 			<cfcatch>
-				<h2>There was a problem updating container types.</h2>
+				<h2>There was a problem updating part container.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT OTHER_ID_TYPE, OTHER_ID_NUMBER, COLLECTION_CDE, INSTITUTION_ACRONYM, PART_NAME, PRESERVE_METHOD, CONTAINER_UNIQUE_ID
 					FROM cf_temp_barcode_parts 
