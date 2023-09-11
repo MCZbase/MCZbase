@@ -320,7 +320,6 @@
 				print_fg FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset sts=''>
 			<cfif getTempData.other_id_type is "catalog number">
 				<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
@@ -360,6 +359,17 @@
 						preserve_method = '#getTempData.preserve_method#'
 				</cfquery>
 			</cfif>
+			<cfset contid=''>
+			<cfif coll_obj.collection_object_id gt 0>
+				<cfquery name="getContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select
+						container_id, print_fg 
+					FROM
+						container
+					WHERE
+						container.barcode = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_unique_id#">
+				</cfquery>
+			</cfif>
 			<cfif coll_obj.recordcount is not 1>
 				<cfset sts='object_not_found'>
 			</cfif>
@@ -372,7 +382,7 @@
 								UPDATE
 									COLL_OBJ_CONT_HIST
 								SET
-									CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_ID#">
+									CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getContID.CONTAINER_ID#">, installed_date = sysdate, current_container_fg = 1
 								WHERE
 									COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObj.collection_object_id#">
 							</cfquery>
@@ -389,7 +399,7 @@
 						WHERE status is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<h3>Problematic Rows (<a href="/tools/BulkloadPartParent.cfm?action=dumpProblems">download</a>)</h3>
+					<h3>Problematic Rows (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>)</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
@@ -431,11 +441,14 @@
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartContainer_result">
 							UPDATE
-								COLL_OBJ_CONT_HIST
+								coll_obj_cont_hist 
 							SET
-								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_ID#">
+								collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj.collection_object_id#">,
+								CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getContID#">,
+								INSTALLED_DATE=sysdate,
+								current_container_fg
 							WHERE
-								COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObj.collection_object_id#">
+								collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_obj.collection_object_id#">
 						</cfquery>
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
@@ -451,7 +464,7 @@
 					<h3>Error updating row (#container_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
-							<tr>other_id_type, other_id_number, collection_cde, institutional_acronym, part_name, preserve_method, container_unique_id
+							<tr>
 								<th>other_id_type</th><th>other_id_number</th><th>collection_cde</th><th>institutional_acronym</th><th>part_name</th><th>preserve_method</th><th>container_unique_id</th><th>status</th><th>status</th>
 							</tr> 
 						</thead>
