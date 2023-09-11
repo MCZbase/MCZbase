@@ -71,7 +71,6 @@
 			<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
 			<cfset fileContent=replace(fileContent,"'","''","all")>
 			<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-		
 			<!--- cleanup any incomplete work by the same user --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM MCZBASE.CF_TEMP_BARCODE_PARTS 
@@ -187,13 +186,11 @@
 			<h3 class="h3">
 				Successfully loaded #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadContEditParent.cfm?action=validate">click to validate</a>.
 			</h3>
-		</cfoutput>
 	</cfif>
 											
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
-		<cfoutput>
 			<!---See if they have a valid catalog item--->
 			<cfquery name="getCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
@@ -302,12 +299,10 @@
 					</cfloop>
 				</tbody>
 			</table>
-		</cfoutput>
 	</cfif>
 				
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
-		<cfoutput>
 		<h2 class="h3">Third step: Apply changes.</h2>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT trim(INSTITUTION_ACRONYM) INSTITUTION_ACRONYM,
@@ -374,8 +369,7 @@
 				<cfset sts='object_not_found'>
 			</cfif>
 			<cftry>
-				<cfoutput>
-					<cfset part_container_updates = 0>
+				<cfset part_container_updates = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
 							<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
@@ -390,7 +384,6 @@
 						</cfloop>
 					</cftransaction>
 					<h2>Updated types for #part_container_updates# containers.</h2>
-				</cfoutput>
 				<cfcatch>
 					<h2>There was a problem updating part container.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -434,7 +427,6 @@
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfoutput>
 					<cfif coll_obj.collection_object_id gt 1>
 					<cfset part_container_updates = 0>
 					<cfloop query="getTempData">
@@ -453,7 +445,6 @@
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
-				</cfoutput>
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -494,7 +485,6 @@
 				DELETE FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-		</cfoutput>
 	</cfif>
 				
 
