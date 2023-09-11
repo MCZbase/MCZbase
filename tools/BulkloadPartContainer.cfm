@@ -176,9 +176,9 @@
 							)
 						</cfquery>
 						<cfset loadedRows = loadedRows + insert_result.recordcount>
-					<cfcatch>
-						<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
-					</cfcatch>
+						<cfcatch>
+							<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
+						</cfcatch>
 					</cftry>
 				</cfif>
 			</cfloop>
@@ -447,37 +447,37 @@
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
-				<cfcatch>
-					<cftransaction action="rollback">
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT other_id_type, other_id_number, collection_cde, institutional_acronym, part_name, preserve_method, container_unique_id 
-						FROM cf_temp_barcode_parts 
-						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
-					</cfquery>
-					<h3>Error updating row (#container_updates + 1#): #cfcatch.message#</h3>
-					<table class='sortable table table-responsive table-striped d-lg-table'>
-						<thead>
-							<tr>
-								<th>other_id_type</th><th>other_id_number</th><th>collection_cde</th><th>institutional_acronym</th><th>part_name</th><th>preserve_method</th><th>container_unique_id</th><th>status</th><th>status</th>
-							</tr> 
-						</thead>
-						<tbody>
-							<cfloop query="getProblemData">
+					<cfcatch>
+						<cftransaction action="rollback">
+						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT other_id_type, other_id_number, collection_cde, institutional_acronym, part_name, preserve_method, container_unique_id 
+							FROM cf_temp_barcode_parts 
+							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+						</cfquery>
+						<h3>Error updating row (#container_updates + 1#): #cfcatch.message#</h3>
+						<table class='sortable table table-responsive table-striped d-lg-table'>
+							<thead>
 								<tr>
-									<td>#getProblemData.OTHER_ID_TYPE#</td>
-									<td>#getProblemData.OTHER_ID_NUMBER#</td>
-									<td>#getProblemData.COLLECTION_CDE#</td>
-									<td>#getProblemData.INSTITUTION_ACRONYM#</td>
-									<td>#getProblemData.PART_NAME#</td>
-									<td>#getProblemData.PRESERVE_METHOD#</td>
-									<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-									<td>#getProblemData.status#</td>
+									<th>other_id_type</th><th>other_id_number</th><th>collection_cde</th><th>institutional_acronym</th><th>part_name</th><th>preserve_method</th><th>container_unique_id</th><th>status</th><th>status</th>
 								</tr> 
-							</cfloop>
-						</tbody>
-					</table>
-					<cfrethrow>
-				</cfcatch>
+							</thead>
+							<tbody>
+								<cfloop query="getProblemData">
+									<tr>
+										<td>#getProblemData.OTHER_ID_TYPE#</td>
+										<td>#getProblemData.OTHER_ID_NUMBER#</td>
+										<td>#getProblemData.COLLECTION_CDE#</td>
+										<td>#getProblemData.INSTITUTION_ACRONYM#</td>
+										<td>#getProblemData.PART_NAME#</td>
+										<td>#getProblemData.PRESERVE_METHOD#</td>
+										<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
+										<td>#getProblemData.status#</td>
+									</tr> 
+								</cfloop>
+							</tbody>
+						</table>
+						<cfrethrow>
+					</cfcatch>
 				</cftry>
 			</cftransaction>
 			<h2>Updated #container_updates# containers.</h2>
