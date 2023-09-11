@@ -307,8 +307,8 @@
 				
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
-		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
+		<h2 class="h3">Third step: Apply changes.</h2>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT trim(INSTITUTION_ACRONYM) INSTITUTION_ACRONYM,
 				trim(COLLECTION_CDE) COLLECTION_CDE,
@@ -365,6 +365,7 @@
 			</cfif>
 
 			<cftry>
+			<cfoutput>
 				<cfset container_part_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
@@ -419,10 +420,12 @@
 				</table>
 				<cfrethrow>
 			</cfcatch>
+			</cfoutput>
 			</cftry>
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
+					<cfoutput>
 					<cfif coll_obj.collection_object_id gt 1>
 					<cfset container_updates = 0>
 					<cfloop query="getTempData">
@@ -471,6 +474,7 @@
 					</table>
 					<cfrethrow>
 				</cfcatch>
+				</cfoutput>
 				</cftry>
 			</cftransaction>
 			<h2>Updated #container_updates# containers.</h2>
@@ -482,6 +486,7 @@
 			</cfquery>
 		</cfoutput>
 	</cfif>
+				
 
 </main>
 <cfinclude template="/shared/_footer.cfm">
