@@ -182,7 +182,6 @@
 					</cftry>
 				</cfif>
 			</cfloop>
-		
 			<h3 class="h3">
 				Successfully loaded #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadContEditParent.cfm?action=validate">click to validate</a>.
 			</h3>
@@ -192,6 +191,7 @@
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
+		<cfoutput>
 			<!---See if they have a valid catalog item--->
 			<cfquery name="getCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
@@ -300,6 +300,7 @@
 					</cfloop>
 				</tbody>
 			</table>
+		</cfoutput>
 	</cfif>
 				
 	<!-------------------------------------------------------------------------------------------->
