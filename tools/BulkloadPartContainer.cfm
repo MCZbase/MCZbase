@@ -191,29 +191,37 @@
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
-		<cfoutput>
-			<!---See if they have a valid catalog item--->
-			<cfquery name="getCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					specimen_part.collection_object_id 
-				FROM
-					cataloged_item,
-					specimen_part,
-					coll_obj_other_id_num,
-					collection
-				WHERE
-					cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
-				AND cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id 
-				AND cataloged_item.collection_id = collection.collection_id 
-				AND collection.COLLECTION_CDE='#COLLECTION_CDE#' 
-				AND PART_NAME = '#PART_NAME#'
-				AND PRESERVE_METHOD = '#PRESERVE_METHOD#'
-				AND collection.INSTITUTION_ACRONYM = '#INSTITUTION_ACRONYM#' 
-				AND (display_value= '#OTHER_ID_NUMBER#' OR cat_num = '#OTHER_ID_NUMBER#')
-			</cfquery>
+			<cfif cf_temp_barcode_parts.other_id_type eq "catalog number">
+				<cfquery name="getCollOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_barcode_parts set collection_object_id =
+					(select specimen_part.collection_object_id from cataloged_item, specimen_part
+					where cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
+					AND cataloged_item.collection_id = collection.collection_id 
+					AND collection.COLLECTION_CDE=cf_temp_barcode_parts.COLLECTION_CDE
+					AND PART_NAME = cf_temp_barcode_parts.PART_NAME
+					AND PRESERVE_METHOD = cf_temp_barcode_parts.PRESERVE_METHOD
+					AND collection.INSTITUTION_ACRONYM = cf_temp_barcode_parts.INSTITUTION_ACRONYM
+					AND cat_num = cf_temp_barcode_parts.OTHER_ID_NUMBER)
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			<cfelse>
+				<cfquery name="getCollOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_barcode_parts set collection_object_id =
+					(select specimen_part.collection_object_id from cataloged_item, specimen_part, coll_object_other_id_Num
+					where cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
+					AND cataloged_item.collection_id = collection.collection_id
+					and coll_object_other_id_num.collection_object_id = cataloged_item.collection_object_id
+					AND collection.COLLECTION_CDE=cf_temp_barcode_parts.COLLECTION_CDE
+					AND PART_NAME = cf_temp_barcode_parts.PART_NAME
+					AND PRESERVE_METHOD = cf_temp_barcode_parts.PRESERVE_METHOD
+					AND collection.INSTITUTION_ACRONYM = cf_temp_barcode_parts.INSTITUTION_ACRONYM
+					AND coll_object_other_id_num.display_value = cf_temp_barcode_parts.OTHER_ID_NUMBER)
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfif>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_barcode_parts  set container_id=
-				(select container_id from container where container.barcode = cf_temp_barcode_parts .container_unique_id)
+				(select container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -224,7 +232,7 @@
 			<cfquery name="mias" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_barcode_parts  
 				SET status = 'specimen part not found'
-				WHERE getCollObj.collection_object_id is null
+				WHERE getCollOID.collection_object_id is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -300,76 +308,15 @@
 					</cfloop>
 				</tbody>
 			</table>
-		</cfoutput>
 	</cfif>
 				
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT trim(INSTITUTION_ACRONYM) INSTITUTION_ACRONYM,
-			trim(COLLECTION_CDE) COLLECTION_CDE,
-			trim(OTHER_ID_TYPE) OTHER_ID_TYPE,
-			trim(OTHER_ID_NUMBER) oidNum,
-			trim(PART_NAME) part_name,
-			trim(PRESERVE_METHOD) preserve_method,
-			trim(CONTAINER_UNIQUE_ID) container_unique_id,
-			FROM cf_temp_barcode_parts
+			SELECT * FROM cf_temp_barcode_parts
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
-		<cfif getTempData.other_id_type is "catalog number">
-			<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					specimen_part.collection_object_id 
-				FROM
-					cataloged_item,
-					specimen_part,
-					collection
-				WHERE
-					cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-					cataloged_item.collection_id = collection.collection_id AND
-					collection.COLLECTION_CDE='#getTempData.COLLECTION_CDE#' AND
-					collection.INSTITUTION_ACRONYM = '#getTempData.INSTITUTION_ACRONYM#' AND
-					other_ID_number ='#getTempData.oidnum#' AND
-					other_id_type = '#getTempData.OTHER_ID_TYPE#' AND
-					part_name='#getTempData.part_name#' AND
-					preserve_method = '#getTempData.preserve_method#'
-			</cfquery>
-		<cfelse>
-			<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					specimen_part.collection_object_id 
-				FROM
-					cataloged_item,
-					specimen_part,
-					coll_obj_other_id_num,
-					collection
-				WHERE
-					cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-					cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id AND
-					cataloged_item.collection_id = collection.collection_id AND
-					collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
-					collection.INSTITUTION_ACRONYM = '#INSTITUTION_ACRONYM#' AND
-					other_id_type='#getTempData.other_id_type#' AND
-					display_value= '#getTempData.oidnum#' AND
-					part_name='#getTempData.part_name#' AND
-					preserve_method = '#getTempData.preserve_method#'
-			</cfquery>
-		</cfif>
-		<cfset contid=''>
-		<cfif coll_obj.collection_object_id gt 0>
-			<cfquery name="getContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
-					container_id, print_fg 
-				FROM
-					container
-				WHERE
-					container.barcode = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_unique_id#">
-			</cfquery>
-		</cfif>
-		<cfif coll_obj.recordcount is not 1>
-			<cfset sts='object_not_found'>
-		</cfif>
 		<cfoutput>
 			<cftry>
 				<cfset part_container_updates = 0>
@@ -445,7 +392,7 @@
 							WHERE
 								collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_obj.collection_object_id#">
 						</cfquery>
-						<cfset container_updates = container_updates + updateContainer_result.recordcount>
+						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
 					<cfcatch>
@@ -459,7 +406,14 @@
 						<table class='sortable table table-responsive table-striped d-lg-table'>
 							<thead>
 								<tr>
-									<th>other_id_type</th><th>other_id_number</th><th>collection_cde</th><th>institutional_acronym</th><th>part_name</th><th>preserve_method</th><th>container_unique_id</th><th>status</th><th>status</th>
+									<th>other_id_type</th>
+									<th>other_id_number</th>
+									<th>collection_cde</th>
+									<th>institutional_acronym</th>
+									<th>part_name</th>
+									<th>preserve_method</th>
+									<th>container_unique_id</th>
+									<th>status</th>
 								</tr> 
 							</thead>
 							<tbody>
