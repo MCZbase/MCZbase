@@ -381,6 +381,7 @@
 					</cfloop>
 				</cftransaction>
 				<h2>Updated types for #container_part_updates# containers.</h2>
+			</cfoutput>
 			<cfcatch>
 				<h2>There was a problem updating part container.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -420,7 +421,7 @@
 				</table>
 				<cfrethrow>
 			</cfcatch>
-			</cfoutput>
+		
 			</cftry>
 			<cfset problem_key = "">
 			<cftransaction>
