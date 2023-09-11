@@ -371,7 +371,7 @@
 							UPDATE
 								COLL_OBJ_CONT_HIST
 							SET
-								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="CONTAINER_ID#">
+								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_ID#">
 							WHERE
 								COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObj.collection_object_id#">
 						</cfquery>
@@ -422,48 +422,6 @@
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfset sts=''>
-					<cfif other_id_type is "catalog number">
-						<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT
-								specimen_part.collection_object_id 
-							FROM
-								cataloged_item,
-								specimen_part,
-								collection
-							WHERE
-								cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-								cataloged_item.collection_id = collection.collection_id AND
-								collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
-								collection.INSTITUTION_ACRONYM = '#INSTITUTION_ACRONYM#' AND
-								cat_num='#oidnum#' AND
-								part_name='#part_name#' AND
-								preserve_method = '#preserve_method#'
-						</cfquery>
-					<cfelse>
-						<cfquery name="coll_obj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT
-								specimen_part.collection_object_id 
-							FROM
-								cataloged_item,
-								specimen_part,
-								coll_obj_other_id_num,
-								collection
-							WHERE
-								cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-								cataloged_item.collection_object_id = coll_obj_other_id_num.collection_object_id AND
-								cataloged_item.collection_id = collection.collection_id AND
-								collection.COLLECTION_CDE='#COLLECTION_CDE#' AND
-								collection.INSTITUTION_ACRONYM = '#INSTITUTION_ACRONYM#' AND
-								other_id_type='#other_id_type#' AND
-								display_value= '#oidnum#' AND
-								part_name='#part_name#' AND
-								preserve_method = '#preserve_method#'
-						</cfquery>
-					</cfif>
-					<cfif coll_obj.recordcount is not 1>
-						<cfset sts='object_not_found'>
-					</cfif>
 					<cfif coll_obj.collection_object_id gt 1>
 					<cfset container_updates = 0>
 					<cfloop query="getTempData">
