@@ -306,8 +306,9 @@
 	</cfif>
 				
 	<!-------------------------------------------------------------------------------------------->
-		<cfif action is "load">
+	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
+		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT trim(INSTITUTION_ACRONYM) INSTITUTION_ACRONYM,
 				trim(COLLECTION_CDE) COLLECTION_CDE,
@@ -362,7 +363,7 @@
 			<cfif coll_obj.recordcount is not 1>
 				<cfset sts='object_not_found'>
 			</cfif>
-		<cfoutput>
+
 			<cftry>
 				<cfset container_part_updates = 0>
 				<cftransaction>
