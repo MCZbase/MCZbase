@@ -363,83 +363,79 @@
 			<cfif coll_obj.recordcount is not 1>
 				<cfset sts='object_not_found'>
 			</cfif>
-
 			<cftry>
-			<cfoutput>
-				<cfset container_part_updates = 0>
-				<cftransaction>
-					<cfloop query="getTempData">
-						<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
-							UPDATE
-								COLL_OBJ_CONT_HIST
-							SET
-								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_ID#">
-							WHERE
-								COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObj.collection_object_id#">
-						</cfquery>
-						<cfset container_part_updates = container_part_updates + updatePart_result.recordcount>
-					</cfloop>
-				</cftransaction>
-				<h2>Updated types for #container_part_updates# containers.</h2>
-			</cfoutput>
-			<cfcatch>
-				<h2>There was a problem updating part container.</h2>
-				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT OTHER_ID_TYPE, OTHER_ID_NUMBER, COLLECTION_CDE, INSTITUTION_ACRONYM, PART_NAME, PRESERVE_METHOD, CONTAINER_UNIQUE_ID
-					FROM cf_temp_barcode_parts 
-					WHERE status is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<h3>Problematic Rows (<a href="/tools/BulkloadPartParent.cfm?action=dumpProblems">download</a>)</h3>
-				<table class='sortable table table-responsive table-striped d-lg-table'>
-					<thead>
-						<tr>
-							<th>OTHER_ID_TYPE</th>
-							<th>OTHER_ID_NUMBER</th>
-							<th>COLLECTION_CDE</th>
-							<th>INSTITUTION_ACRONYM</th>
-							<th>PART_NAME</th>
-							<th>PRESERVE_METHOD</th>
-							<th>CONTAINER_UNIQUE_ID</th>
-							<th>STATUS</th>
-						</tr> 
-					</thead>
-					<tbody>
-						<cfloop query="getProblemData">
-							<tr>
-								<td>#getProblemData.OTHER_ID_TYPE#</td>
-								<td>#getProblemData.OTHER_ID_NUMBER#</td>
-								<td>#getProblemData.COLLECTION_CDE#</td>
-								<td>#getProblemData.INSTITUTION_ACRONYM#</td>
-								<td>#getProblemData.PART_NAME#</td>
-								<td>#getProblemData.PRESERVE_METHOD#</td>
-								<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-								<td><strong>#STATUS#</strong></td>
-							</tr> 
+				<cfoutput>
+					<cfset part_container_updates = 0>
+					<cftransaction>
+						<cfloop query="getTempData">
+							<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
+								UPDATE
+									COLL_OBJ_CONT_HIST
+								SET
+									CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_ID#">
+								WHERE
+									COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObj.collection_object_id#">
+							</cfquery>
+							<cfset part_container_updates = part_container_updates + updatePart_result.recordcount>
 						</cfloop>
-					</tbody>
-				</table>
-				<cfrethrow>
-			</cfcatch>
-		
+					</cftransaction>
+					<h2>Updated types for #part_container_updates# containers.</h2>
+				</cfoutput>
+				<cfcatch>
+					<h2>There was a problem updating part container.</h2>
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT OTHER_ID_TYPE, OTHER_ID_NUMBER, COLLECTION_CDE, INSTITUTION_ACRONYM, PART_NAME, PRESERVE_METHOD, CONTAINER_UNIQUE_ID
+						FROM cf_temp_barcode_parts 
+						WHERE status is not null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<h3>Problematic Rows (<a href="/tools/BulkloadPartParent.cfm?action=dumpProblems">download</a>)</h3>
+					<table class='sortable table table-responsive table-striped d-lg-table'>
+						<thead>
+							<tr>
+								<th>OTHER_ID_TYPE</th>
+								<th>OTHER_ID_NUMBER</th>
+								<th>COLLECTION_CDE</th>
+								<th>INSTITUTION_ACRONYM</th>
+								<th>PART_NAME</th>
+								<th>PRESERVE_METHOD</th>
+								<th>CONTAINER_UNIQUE_ID</th>
+								<th>STATUS</th>
+							</tr> 
+						</thead>
+						<tbody>
+							<cfloop query="getProblemData">
+								<tr>
+									<td>#getProblemData.OTHER_ID_TYPE#</td>
+									<td>#getProblemData.OTHER_ID_NUMBER#</td>
+									<td>#getProblemData.COLLECTION_CDE#</td>
+									<td>#getProblemData.INSTITUTION_ACRONYM#</td>
+									<td>#getProblemData.PART_NAME#</td>
+									<td>#getProblemData.PRESERVE_METHOD#</td>
+									<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
+									<td><strong>#STATUS#</strong></td>
+								</tr> 
+							</cfloop>
+						</tbody>
+					</table>
+					<cfrethrow>
+				</cfcatch>
 			</cftry>
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
 					<cfoutput>
 					<cfif coll_obj.collection_object_id gt 1>
-					<cfset container_updates = 0>
+					<cfset part_container_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
+						<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartContainer_result">
 							UPDATE
-								container 
+								COLL_OBJ_CONT_HIST
 							SET
-								<cfif len(#parent_container_id#) gt 0>
-									parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
-								</cfif>
+								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_ID#">
 							WHERE
-								CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
+								COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObj.collection_object_id#">
 						</cfquery>
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
