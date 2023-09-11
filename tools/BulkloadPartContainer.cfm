@@ -444,6 +444,7 @@
 						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
+				</cfoutput>
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -475,7 +476,6 @@
 					</table>
 					<cfrethrow>
 				</cfcatch>
-				</cfoutput>
 				</cftry>
 			</cftransaction>
 			<h2>Updated #container_updates# containers.</h2>
