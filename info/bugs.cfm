@@ -71,7 +71,7 @@ limitations under the License.
 							<div class="col-12 px-4 py-1">
 								<ul class="pt-3">
 									<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
-										<li class="mb-1">Use this form to ask questions about how to use MCZbase (Select: <i>I have a question</i>).</li>
+										<li class="mb-1">Use this form to ask questions about how to use MCZbase where you can&apos;t find the answer on the <a href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase" target="_blank">wiki</a> (Select: <i>I have a question</i>).</li>
 										<li class="my-1">Use this form to report problems you have encountered while using the database, including bulkoading data (Select: <i>A bug or issue with MCZbase</i> and priority low, normal, or high).</li>
 										<li class="mb-1">Use this form to make suggestions to improve MCZbase (Select: <i>Enhancement Request</i>).</li>
 										<li class="mb-1">Use this form to make a request for assistance from the database administrator importing or exporting data in support of a workflow, other than use of the bulkloaders (Select: <i>Workflow Support</i>).</li>
