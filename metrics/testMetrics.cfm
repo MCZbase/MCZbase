@@ -46,7 +46,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 		timeout = "10000"> 
 	</cfexecute>
 	<cfcatch>
-		<img src="/metrics/R/graphs/chart1.gif"
+		<img src="/metrics/R/graphs/chart1.png"
 	</cfcatch>
 	<cfcatch>
 		<h3>Error loading chart</h3>
