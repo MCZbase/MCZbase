@@ -23,7 +23,7 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/shared/component/functions.cfc">
 <cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select f.COLLECTION, ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collection_object_id) as "NUMBER Of CITATIONS", count(distinct media_id) as "NUMBER of IMAGES", 
+select f.COLLECTION, ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collection_object_id) as "NUMBER_OF_CITATIONS", count(distinct media_id) as "NUMBER_OF_IMAGES", 
 count(distinct mr.related_primary_key) as "NUMBER_OF_TYPES_WITH_IMAGES", to_char(co.coll_object_entered_date,'YYYY') as "ENTERED_DATE"
 from flat f, citation c, ctcitation_type_status ts, coll_object co,
 (select * from media_relations where media_relationship = 'shows cataloged_item') mr
