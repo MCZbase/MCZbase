@@ -12,8 +12,8 @@ library(gifski)
 library(png)
 library(ggthemes)
 
-#Chart_Data_Img_per_year <- read_csv('/metrics/datafiles/chart_data.csv')
-simple_chart <- `chart_data1`
+simple_chart <- read_csv('/metrics/datafiles/chart_data.csv')
+#simple_chart <- `chart_data1`
 chart <- filter(simple_chart,COLLECTION=='Herpetology')
 chart0 <- filter(chart, CITATION_TYPE =='Primary')
 
