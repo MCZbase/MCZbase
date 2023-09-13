@@ -41,14 +41,16 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 
 <cftry>
 	<cfexecute name = "/usr/bin/Rscript" 
-		arguments = "/var/www/html/arctos/metrics/R/bubble_graph.R" 
+		arguments = "/var/www/html/arctos/metrics/R/simple_chart.R" 
 		variable = "Chart"
 		timeout = "10000"> 
 	</cfexecute>
 	<cfcatch>
-		<img src="/metrics/R/graphs/Chart.gif"
+		<img src="/metrics/R/graphs/chart1.gif"
 	</cfcatch>
-
+	<cfcatch>
+		<cfdump var="#cfcatch#">
+	</cfcatch>
 </cftry>
 	<div class="container">
 		<div class="row">
@@ -59,8 +61,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 		</div>
 		<div class="row">
 			<div class="col-12">
-				<p>Chart should come from build on Rscript in metrics folder. Example below. I created this one using /metrics/R/datafiles/chart_data.csv to ouput the /metrics/R/datafiles/graphs/BubbleChart.gif that you see. If two charts appear, we know it is working as intended using "cfexecute".</p>
-				<img src="/metrics/R/graphs/BubbleChart.gif" width="30%" alt="Chart"/>
+				<p> Chart that looks like a bullseye should appear.</p>
 			</div>
 		</div>
 	</div>
