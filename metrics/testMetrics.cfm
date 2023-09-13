@@ -49,6 +49,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 		<img src="/metrics/R/graphs/chart1.gif"
 	</cfcatch>
 	<cfcatch>
+		<h3>Error loading chart</h3>
 		<cfdump var="#cfcatch#">
 	</cfcatch>
 </cftry>
