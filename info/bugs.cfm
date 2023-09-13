@@ -71,12 +71,12 @@ limitations under the License.
 							<div class="col-12 px-4 py-1">
 								<ul class="pt-3">
 									<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"coldfusion_user")>
-										<li class="mb-1">Use this form to ask questions about how to use MCZbase where you can&apos;t find the answer on the <a href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase" target="_blank">wiki</a> (Select: <i>I have a question</i>).</li>
-										<li class="my-1">Use this form to report problems you have encountered while using the database, including bulkoading data (Select: <i>A bug or issue with MCZbase</i> and priority low, normal, or high).</li>
+										<li class="mb-1">Use this form to ask questions about how to use MCZbase when you can&apos;t find the answer on the <a href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase" target="_blank">wiki</a> (Select: <i>I have a question</i>).</li>
+										<li class="my-1">Use this form to report problems that you have encountered while using the database, including bulkoading data (Select: <i>A bug or issue with MCZbase</i> and priority low, normal, or high).</li>
 										<li class="mb-1">Use this form to make suggestions to improve MCZbase (Select: <i>Enhancement Request</i>).</li>
-										<li class="mb-1">Use this form to make a request for assistance from the database administrator importing or exporting data in support of a workflow, other than use of the bulkloaders (Select: <i>Workflow Support</i>).</li>
+										<li class="mb-1">Use this form to make a request for assistance from the informatics team with importing or exporting data in support of a workflow for tasks not addressed by the bulkloaders (Select: <i>Workflow Support</i>).</li>
 										<li class="mb-1">Use this form to report problems with agent, locality, event, etc. data that you are not able to resolve yourself (Select: <i>A problem with data</i>).</li>
-										<li class="mb-1">You can use this form to report errors with specimen, taxon, publication, or project data that you are not able to resolve yourself, but use of annotation with the "Report Bad Data" links included on the Specimen Detail and other pages is preferrable.</li>
+										<li class="mb-1">You can use this form to report errors with specimen, taxon, publication, or project data that you are not able to resolve yourself, but use of annotation with the "Report Bad Data" links included on the Specimen Detail and other pages is preferrable, as you can review and comment on annotations.</li>
 									<cfelseif isdefined("session.username") and len(session.username) GT 0>
 										<li class="my-1">Use this form to report problems you have encountered while using the database.</li>
 										<li class="mb-1">You can use this form to report errors with specimen data or you can use the "Report Bad Data" link included on Search Results or Specimen Detail pages.</li>
