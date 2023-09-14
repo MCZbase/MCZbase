@@ -40,7 +40,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 </cfoutput>
 
 <cftry>
-	<cfexecute name = "/usr/bin/Rscript.exe" 
+	<cfexecute name = "/usr/bin/Rscript" 
 		arguments = "/var/www/html/arctos/metrics/R/simple_chart.R" 
 		variable = "chartOutput"
 		timeout = "10000"
