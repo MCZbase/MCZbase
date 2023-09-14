@@ -367,7 +367,7 @@ Review items in deaccession<b>
 		<th class="inside">Deaccession Item Instructions</th>
 		<th class="inside">Accession</th>
 		<th class="inside">Encumbered</th>
-		<td class="inside">Restrictions</td>
+		<th class="inside">Restrictions</th>
 		<th>Remove</th>
 	</tr>
 
