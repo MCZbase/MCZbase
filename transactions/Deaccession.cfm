@@ -773,6 +773,7 @@ limitations under the License.
 						updateTransItemCountries('#transaction_id#','countriesOfOriginDiv');
 						updateDeaccLoans('#transaction_id#','deaccessionLoansDiv');
 						updateDeaccLimitations('#transaction_id#','deaccessionLimitationsDiv');
+						updateRestrictionsBlock('#transaction_id#',null,'restrictionWarningDiv');
 					};
 					$(document).ready(function() {
 						updateItemSections();

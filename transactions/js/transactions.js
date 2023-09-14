@@ -586,7 +586,9 @@ function updateRestrictionsBlock(transactionId,targetDiv,warningDiv) {
 			handleFail(jqXHR,textStatus,error,"looking up transaction item restrictions");
 		},
 		success: function (result) {
-			$('#' + targetDiv).html(result);
+			if (targetDiv) { 
+				$('#' + targetDiv).html(result);
+			}
 			if (result) { 
 				$('#' + warningDiv).show();
 			} else { 
