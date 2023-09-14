@@ -2,11 +2,9 @@
 #animation set up
 library(ggplot2)
 library(png)
-library(sqldf)
 library(readr)
 library(tidyr)
-library(gsubfn)
-library(RSQLite)
+
 
 simple_chart <- read.csv('https://mczbase-dev.rc.fas.harvard.edu/metrics/datafiles/chart_data.csv', header=TRUE, sep=",")
 chart <- filter(simple_chart,COLLECTION=='Herpetology')
