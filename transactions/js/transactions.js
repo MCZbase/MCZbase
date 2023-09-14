@@ -576,7 +576,7 @@ function updateLoanItemCount(transactionId,targetDiv) {
 function updateRestrictionsBlock(transactionId,targetDiv,warningDiv) {
 	jQuery.ajax(
 	{
-		dataType: "json",
+		dataType: "html",
 		url: "/transactions/component/functions.cfc",
 		data: { 
 			method : "getRestrictionsHtml",
