@@ -8,15 +8,12 @@ library(tidyr)
 library(gsubfn)
 library(RSQLite)
 
-
-simple_chart <- read.csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv', header=TRUE, sep=",")
-#simple_chart <- `chart_data1`
-
-#chart <- filter(simple_chart,COLLECTION=='Herpetology')
-#chart0 <- filter(chart, CITATION_TYPE =='Primary')
+simple_chart <- read.csv('https://mczbase-dev.rc.fas.harvard.edu/metrics/datafiles/chart_data.csv', header=TRUE, sep=",")
+chart <- filter(simple_chart,COLLECTION=='Herpetology')
+chart0 <- filter(chart, CITATION_TYPE =='Primary')
 
 
-chart1 <- fortify(simple_chart, aes(x="", y=NUMBER_OF_CITATIONS, fill=TYPE_STATUS)) +
+chart1 <- fortify(chart0, aes(x="", y=NUMBER_OF_CITATIONS, fill=TYPE_STATUS)) +
   geom_bar(stat="identity",width = 1)+
   coord_polar("y", start=0)
 print(chart1)
