@@ -9,7 +9,7 @@ library(tidyr)
 simple_chart <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
 chart0 <- filter(simple_chart,COLLECTION="Mammalogy")
 
-chart1 <- ggplot(simple_chart, aes(x=NUMBER_OF_TYPES_WITH_IMAGES, y=NUMBER_OF_CITATIONS, fill=TYPE_STATUS)) +
+chart1 <- ggplot(chart0, aes(x=NUMBER_OF_TYPES_WITH_IMAGES, y=NUMBER_OF_CITATIONS, fill=TYPE_STATUS)) +
   geom_bar(stat="identity",width = 1)+
   coord_polar("y", start=0)
 print(chart1)
