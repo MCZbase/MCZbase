@@ -42,17 +42,16 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 <cftry>
 	<cfexecute name = "/usr/bin/Rscript.exe" 
 		arguments = "/var/www/html/arctos/metrics/R/simple_chart.R" 
-		variable = "Chart"
-		timeout = "10000"> 
+		variable = "chartOutput"
+		timeout = "10000"
+		errorVariable = "chartError"> 
 	</cfexecute>
-	<cfcatch>
-		<img src="/metrics/R/graphs/chart1.png"/>
-		
-	</cfcatch>
-	<cfcatch>
-		<h3>Error loading chart</h3>
-		<cfdump var="#cfcatch#">
-	</cfcatch>
+<cfcatch>
+	<h3>Error loading chart</h3>
+	<cfdump var="#cfcatch#">
+	<cfset chartOutput = "">
+	<cfset errorVariable="">
+</cfcatch>
 </cftry>
 	<div class="container">
 		<div class="row">
@@ -64,7 +63,16 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 		</div>
 		<div class="row">
 			<div class="col-12">
+				Script output: [#chartOutput#]
+			</div>
+			<div class="col-12">
+				Script errors: [#chartError#]
+			</div>
+			<div class="col-12">
 				<p> Chart that looks like a bullseye should appear.</p>
+			</div>
+			<div class="col-12">
+				<img src="/metrics/R/graphs/chart1.png"/>
 			</div>
 		</div>
 	</div>
