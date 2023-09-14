@@ -8,19 +8,18 @@ library(gsubfn)
 library(tidyr)
 
 
-simple_chart <- file.path(tempdir(), '/var/www/html/arctos/metrics/datafiles/chart_data.csv',"select * from file where COLLECTION='Herpetology' and CITATION_TYPE='Primary'")
+simple_chart <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv',"select * from file where COLLECTION='Herpetology' and CITATION_TYPE='Primary'")
 #simple_chart <- `chart_data1`
-write.csv(chart_data[1-10, ], simple_chart, row.names=FALSE)
 
-simple_chart <- read_csv(simple_chart, show_col_types = FALSE)
+#chart <- filter(simple_chart,COLLECTION=='Herpetology')
+#chart0 <- filter(chart, CITATION_TYPE =='Primary')
 
-spec(simple_chart)
 
-#chart1 <- ggplot2::fortify(simple_chart, aes(x=TYPE_STATUS, y=NUMBER_OF_CITATIONS, fill=TYPE_STATUS)) +
- # geom_bar(stat="identity",width = 1)+
- # coord_polar("y", start=0)
-#print(chart1)
-#ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png',width=6, height=4,dpi=300)
+chart1 <- ggplot2::fortify(simple_chart, aes(x=TYPE_STATUS, y=NUMBER_OF_CITATIONS, fill=TYPE_STATUS)) +
+  geom_bar(stat="identity",width = 1)+
+  coord_polar("y", start=0)
+print(chart1)
+ggsave('/var/www/html/arctos/metrics/R/graphs/chart1.png',width=6, height=4,dpi=300)
 
 
 
