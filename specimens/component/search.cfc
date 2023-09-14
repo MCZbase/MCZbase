@@ -3109,7 +3109,10 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 											handleFail(jqXHR,textStatus,error,"checking specimen download status");
 										}
 									});
-									if ($("##downloadResult").html()=="Error") { done = true; }
+									if ($("##downloadResult").html()=="Error") { 
+										done = true; 
+										$("##downloadRetry").html('<button class="btn btn-xs btn-secondary" onClick="checkStatus(\''+token+'\',\''+rows+'\');">Recheck Status</button>');
+									}
 								} 
 							}
 							async function callGetSpecimensAsCSVProfile(profile, result_id, token) { 
