@@ -2,7 +2,11 @@
 <cfset title="Review Deaccession Items">
 <cfinclude template="includes/_header.cfm">
 <script type='text/javascript' src='/includes/transAjax.js'></script>
-<div style="width: 78em; margin: 0 auto; padding: 2em 0 3em 0;">
+<cfif #action# is "nothing">
+	<div>
+<cfelse>
+	<div style="width: 78em; margin: 0 auto; padding: 2em 0 3em 0;">
+</cfif>
 	<script type='text/javascript' src='/includes/_deaccReview.js'></script>
 	<script src="/includes/sorttable.js"></script>
 <cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
