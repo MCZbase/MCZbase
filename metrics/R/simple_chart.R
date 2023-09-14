@@ -4,7 +4,6 @@ library(ggplot2)
 library(png)
 library(sqldf)
 library(readr)
-library(gsubfn)
 library(tidyr)
 
 
