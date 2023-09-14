@@ -8,7 +8,7 @@ library(tidyr)
 
 simple_chart <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
 
-chart1 <- fortify(simple_chart, aes(x=NUMBER_OF_TYPES_WITH_IMAGES, y=NUMBER_OF_CITATIONS, fill=TYPE_STATUS)) +
+chart1 <- ggplot(simple_chart, aes(x=NUMBER_OF_TYPES_WITH_IMAGES, y=NUMBER_OF_CITATIONS, fill=TYPE_STATUS)) +
   geom_bar(stat="identity",width = 1)+
   coord_polar("y", start=0)
 print(chart1)
