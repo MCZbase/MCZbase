@@ -510,6 +510,27 @@ limitations under the License.
 					trans_agent_role,
 					agent_name
 			</cfquery>
+			<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct restriction_summary, permit_id, permit_num from (
+				select permit.restriction_summary, permit.permit_id, permit.permit_num
+				from deacc_item di 
+					join specimen_part sp on di.collection_object_id = sp.collection_object_id
+					join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+					join accn on ci.accn_id = accn.transaction_id
+					join permit_trans on accn.transaction_id = permit_trans.transaction_id
+					join permit on permit_trans.permit_id = permit.permit_id
+				where di.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+					and permit.restriction_summary is not null
+				union
+				select permit.restriction_summary, permit.permit_id, permit.permit_num
+				from deaccession
+					join shipment on deaccession.transaction_id = shipment.transaction_id
+					join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+					join permit on permit_shipment.permit_id = permit.permit_id
+				where deaccession.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+					and permit.restriction_summary is not null
+				)
+			</cfquery>
 			<script>
 				$(function() {
 					// on page load, hide the create project from deaccession fields
@@ -775,61 +796,71 @@ limitations under the License.
 				</section>
 				<section role="search" aria-labelledby="guid_list_label" class="container my-3" title="Search for collection objects to add to this deaccession">
 					<h2 class="h3">Add Cataloged Items to this Deaccession</h2>
-						<div class="row border rounded mb-2 pb-2" >
-							<form name="addCollObjectsDeaccession" id="addCollObjectsDeaccession" class="col-12">
-							<input type="hidden" id="transaction_id" name="transaction_id" value="#transaction_id#" >
-							<input type="hidden" id="method" name="method" value="addCollObjectsDeaccession" >
-							<div class="form-row mx-0 my-2">
-								<div class="col-12 col-md-8">
-									<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this deaccession (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
-									<input type="text" id="guid_list" name="guid_list" class="data-entry-input" 
-											value="" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >
-								</div>
-								<div class="col-12 col-md-2">
-									<label for="deacc_items_remarks" id="deacc_items_remarks_label" class="data-entry-label">Remarks</label>
-									<input type="text" id="deacc_item_remarks" name="deacc_items_remarks" class="data-entry-input" value="" >
-								</div>
-								<script>
-									function addCollectionObjects(){ 
-										$('##addResultDiv').html("Saving.... ");
-										jQuery.ajax({
-											url : "/transactions/component/functions.cfc",
-											type : "post",
-											dataType : "json",
-											data : $('##addCollObjectsDeaccession').serialize(),
-											success : function (data) {
-												updateItemSections();
-												$('##addResultDiv').html("Added " + data[0].added);
-											},
-											error: function(jqXHR,textStatus,error){
-												handleFail(jqXHR,textStatus,error,"adding item to deaccession");
-												$('##addResultDiv').html("Error.");
-											}
-										});
-									};
-									$(document).ready( function() {
-										$('##addCollObjectsDeaccession').on('submit', 
-											function(event){
-												event.preventDefault();
-												if ($('##guid_list').val().length > 0)  {
-													addCollectionObjects();
-												}
-											}
-										);
-									});
-								</script>
-								<div class="col-12 col-md-2">
-									<div id="addResultDiv">&nbsp;</div>
-									<input type="button" id="addbutton"
-											value="Add" aria-label="Add catalog items"
-											class="btn mt-0 mt-md-3 mt-lg-1 btn-xs btn-secondary"
-											onClick=" addCollectionObjects(); " 
-											>
-								</div>
+					<div class="row border rounded mb-2 pb-2" >
+						<form name="addCollObjectsDeaccession" id="addCollObjectsDeaccession" class="col-12">
+						<input type="hidden" id="transaction_id" name="transaction_id" value="#transaction_id#" >
+						<input type="hidden" id="method" name="method" value="addCollObjectsDeaccession" >
+						<div class="form-row mx-0 my-2">
+							<div class="col-12 col-md-8">
+								<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this deaccession (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
+								<input type="text" id="guid_list" name="guid_list" class="data-entry-input" 
+										value="" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >
 							</div>
-						</form>
+							<div class="col-12 col-md-2">
+								<label for="deacc_items_remarks" id="deacc_items_remarks_label" class="data-entry-label">Remarks</label>
+								<input type="text" id="deacc_item_remarks" name="deacc_items_remarks" class="data-entry-input" value="" >
+							</div>
+							<script>
+								function addCollectionObjects(){ 
+									$('##addResultDiv').html("Saving.... ");
+									jQuery.ajax({
+										url : "/transactions/component/functions.cfc",
+										type : "post",
+										dataType : "json",
+										data : $('##addCollObjectsDeaccession').serialize(),
+										success : function (data) {
+											updateItemSections();
+											$('##addResultDiv').html("Added " + data[0].added);
+										},
+										error: function(jqXHR,textStatus,error){
+											handleFail(jqXHR,textStatus,error,"adding item to deaccession");
+											$('##addResultDiv').html("Error.");
+										}
+									});
+								};
+								$(document).ready( function() {
+									$('##addCollObjectsDeaccession').on('submit', 
+										function(event){
+											event.preventDefault();
+											if ($('##guid_list').val().length > 0)  {
+												addCollectionObjects();
+											}
+										}
+									);
+								});
+							</script>
+							<div class="col-12 col-md-2">
+								<div id="addResultDiv">&nbsp;</div>
+								<input type="button" id="addbutton"
+										value="Add" aria-label="Add catalog items"
+										class="btn mt-0 mt-md-3 mt-lg-1 btn-xs btn-secondary"
+										onClick=" addCollectionObjects(); " 
+										>
+							</div>
 						</div>
-					</section>
+					</form>
+					</div>
+				</section>
+				<cfif getRestrictions.recordcount GT 0>
+					<cfset restrictionsVisibility = "">
+				<cfelse>
+					<cfset restrictionsVisibility = "hidden">
+				</cfif>
+				<section class="row mx-0">
+					<div id="restrictionWarningDiv" class="col-12 pt-2 border rounded bg-verylightred" #restrictionsVisibility#>
+						<div class="h2">One of more specimens in this deaccession has retrictions on its use.  See summary below and details in permissions and rights documents.  Review Items to see which specimens have restrictions.</div>
+					</div>
+				</section>
 				<section class="row mx-0" arial-label="Associated Shipments, Permits, Documents and Media">
 					<div class="col-12 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
 						<section name="permitSection" class="row mx-0 border rounded bg-light my-2 px-3 pb-3" title="Subsection: Permissions and Rights Documents">
