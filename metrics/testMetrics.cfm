@@ -40,7 +40,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 </cfquery>
 <cfoutput>
 <cfset csv = queryToCSV(getStats)> 
-<cffile action="write" file="https://mczbase-dev.rc.fas.harvard.edu/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
+<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
 </cfoutput>
 
 <cftry>
