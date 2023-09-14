@@ -6,7 +6,7 @@ library(readr)
 library(tidyr)
 
 
-simple_chart <- read_csv('/var/html/arctos/metrics/datafiles/chart_data.csv')
+simple_chart <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
 chart <- filter(simple_chart,COLLECTION=='Herpetology')
 chart0 <- filter(chart, CITATION_TYPE =='Primary')
 
