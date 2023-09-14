@@ -5852,7 +5852,7 @@ limitations under the License.
 			<cfelse>
 				<cfthrow message="No transaction found for specified transaction_id">
 			</cfif>
-			<cfif isDefined("getType") AND getType.recordCount GT 0>
+			<cfif isDefined("getRestrictions") AND getRestrictions.recordCount GT 0>
 				<cfoutput>
 					<div class="col-12 pb-0 px-0">
 						<h2 class="h3 px-3">Restrictions on Use</h2>
