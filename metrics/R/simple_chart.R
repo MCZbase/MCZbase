@@ -16,7 +16,7 @@ simple_chart <- read.csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv'
 #chart0 <- filter(chart, CITATION_TYPE =='Primary')
 
 
-chart1 <- ggplot2::fortify(simple_chart, aes(x="", y=NUMBER_OF_CITATIONS, fill=TYPE_STATUS)) +
+chart1 <- fortify(simple_chart, aes(x="", y=NUMBER_OF_CITATIONS, fill=TYPE_STATUS)) +
   geom_bar(stat="identity",width = 1)+
   coord_polar("y", start=0)
 print(chart1)
