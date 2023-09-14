@@ -40,12 +40,12 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 </cfquery>
 <cfoutput>
 <cfset csv = queryToCSV(getStats)> 
-<cffile action="write" file="#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
+<cffile action="write" file="/#application.webDirectory##filePath##targetFile#" output = "#csv#" addnewline="No">
 </cfoutput>
 
 <cftry>
 	<cfexecute name = "/usr/bin/Rscript" 
-		arguments = "#application.webDirectory#/metrics/R/simple_chart.R" 
+		arguments = "/#application.webDirectory#/metrics/R/simple_chart.R" 
 		variable = "chartOutput"
 		timeout = "10000"
 		errorVariable = "chartError"> 
