@@ -589,7 +589,7 @@ function updateRestrictionsBlock(transactionId,targetDiv,warningDiv) {
 			if (targetDiv) { 
 				$('#' + targetDiv).html(result);
 			}
-			if (result) { 
+			if (result && result.trim().length > 0) { 
 				$('#' + warningDiv).show();
 			} else { 
 				$('#' + warningDiv).hide();
