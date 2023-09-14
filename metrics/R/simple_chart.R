@@ -4,7 +4,7 @@ library(ggplot2)
 library(png)
 library(readr)
 library(tidyr)
-library(tidyverse)
+library(dplyr)
 
 
 simple_chart <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv')
