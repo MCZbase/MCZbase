@@ -4,6 +4,7 @@ library(ggplot2)
 library(png)
 library(sqldf)
 library(readr)
+library(tidyr)
 
 
 simple_chart <- read_csv('/var/www/html/arctos/metrics/datafiles/chart_data.csv',"select * from file where COLLECTION='Herpetology' and CITATION_TYPE='Primary'")
