@@ -5841,11 +5841,11 @@ limitations under the License.
 						and permit.restriction_summary is not null
 					UNION
 					select permit.restriction_summary, permit.permit_id, permit.permit_num
-					from deacc
-						join shipment on deacc.transaction_id = shipment.transaction_id
+					from deacccession
+						join shipment on deaccession.transaction_id = shipment.transaction_id
 						join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 						join permit on permit_shipment.permit_id = permit.permit_id
-					where deacc.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+					where deaccession.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 						and permit.restriction_summary is not null
 					)
 				</cfquery>
