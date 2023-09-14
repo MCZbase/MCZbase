@@ -5827,7 +5827,7 @@ limitations under the License.
 						and permit.restriction_summary is not null
 					)
 				</cfquery>
-			<cfelseif getType.transaction_type EQ "deacc">
+			<cfelseif getType.transaction_type EQ "deaccession">
 				<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct restriction_summary, permit_id, permit_num from (
 					select permit.restriction_summary, permit.permit_id, permit.permit_num
