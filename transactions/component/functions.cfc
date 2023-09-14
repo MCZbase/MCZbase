@@ -5841,7 +5841,7 @@ limitations under the License.
 						and permit.restriction_summary is not null
 					UNION
 					select permit.restriction_summary, permit.permit_id, permit.permit_num
-					from deacccession
+					from deaccession
 						join shipment on deaccession.transaction_id = shipment.transaction_id
 						join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 						join permit on permit_shipment.permit_id = permit.permit_id
