@@ -583,7 +583,7 @@ function updateRestrictionsBlock(transactionId,targetDiv,warningDiv) {
 			transaction_id : transactionId
 		},
 		error: function (jqXHR, textStatus, message) {
-			handleFail(jqXHR,textStatus,error,"looking up transaction item restrictions");
+			handleFail(jqXHR,textStatus,message,"looking up transaction item restrictions");
 		},
 		success: function (result) {
 			if (targetDiv) { 
