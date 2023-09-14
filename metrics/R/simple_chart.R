@@ -2,14 +2,16 @@
 #animation set up
 library(ggplot2)
 library(png)
+library(sqldf)
 
 
-simple_chart <- read_csv('/metrics/datafiles/chart_data.csv')
+simple_chart <- read_csv('/metrics/datafiles/chart_data.csv',"select * from file where COLLECTION='Herpetology' and CITATION_TYPE='Primary'")
 #simple_chart <- `chart_data1`
-chart <- filter(simple_chart,COLLECTION=='Herpetology')
-chart0 <- filter(chart, CITATION_TYPE =='Primary')
 
-chart1 <- ggplot(chart0, aes(x=TYPE_STATUS, y=NUMBER_OF_CITATIONS, fill=TYPE_STATUS)) +
+#chart <- filter(simple_chart,COLLECTION=='Herpetology')
+#chart0 <- filter(chart, CITATION_TYPE =='Primary')
+
+chart1 <- ggplot2::fortify(simple_chart, aes(x=TYPE_STATUS, y=NUMBER_OF_CITATIONS, fill=TYPE_STATUS)) +
   geom_bar(stat="identity",width = 1)+
   coord_polar("y", start=0)
 print(chart1)
