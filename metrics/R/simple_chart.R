@@ -6,7 +6,7 @@ library(readr)
 library(tidyr)
 
 
-simple_chart <- read.csv('https://mczbase-dev.rc.fas.harvard.edu/metrics/datafiles/chart_data.csv', header=TRUE, sep=",")
+simple_chart <- read_csv('https://mczbase-dev.rc.fas.harvard.edu/metrics/datafiles/chart_data.csv', header=TRUE, sep=",")
 chart <- filter(simple_chart,COLLECTION=='Herpetology')
 chart0 <- filter(chart, CITATION_TYPE =='Primary')
 
