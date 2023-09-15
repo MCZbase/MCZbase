@@ -519,14 +519,15 @@ limitations under the License.
 													AND (status <> 'Failed' OR time_created > current_timestamp - interval '2' DAY)
 												ORDER BY time_created desc
 											</cfquery>
+											<span id="recentDownloadRequestsDiv">
 											<ul>
 												<cfif getDownloadStatus.recordcount EQ 0>
 													<li>None</li>
 												<cfelse>
 													<cfloop query="getDownloadStatus">
 														<li>
-															#getDownloadStatus.status# 
 															Requested:#getDownloadStatus.time_created#
+															#getDownloadStatus.status# 
 															<cfif getDownloadStatus.status EQ "Success" AND len(getDownloadStatus.filename) GT 0>
 																<a href="#getDownloadStatus.filename#">Download</a>
 															</cfif>
@@ -534,7 +535,33 @@ limitations under the License.
 													</cfloop>
 												</cfif>
 											</ul>
+											</span>
+											<button class="btn btn-xs btn-secondary" id="recheckDownloadRequestsBtn">Recheck Status</button>
 										</div>
+										<script>
+											function updateDownloadsBlock(targetDiv) {
+												jQuery.ajax(
+												{
+													dataType: "html",
+													url: "/specimens/component/functions.cfc",
+													data: { 
+														method : "getDownloadRequestsHTML"
+													},
+													error: function (jqXHR, textStatus, message) {
+														handleFail(jqXHR,textStatus,message,"looking up download specimen search files metadata");
+													},
+													success: function (result) {
+														if (targetDiv) { 
+															$('##' + targetDiv).html(result);
+														}
+													}
+												},
+												)
+											};
+											$(document).ready(function() { 
+												$("##recheckDownloadRequestsBtn").on("click",updateDownloadsBlock('recentDownloadsRequestDiv');
+											});
+										</script>
 									</div>
 								</cfif>
 						</div>

@@ -2990,6 +2990,61 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<cffunction name="getDownloadRequestsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfthread name="getDownloadRequestsThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getDownloadStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDownloadStatus_result">
+					SELECT filename, status, to_char(time_created,'yyyy-mm-dd hh:MM') time_created 
+					FROM cf_download_file
+					WHERE username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND status <> 'Deleted'
+						AND (status <> 'Failed' OR time_created > current_timestamp - interval '2' DAY)
+					ORDER BY time_created desc
+				</cfquery>
+				<ul>
+					<cfif getDownloadStatus.recordcount EQ 0>
+						<li>None</li>
+					<cfelse>
+						<cfloop query="getDownloadStatus">
+							<li>
+								Requested:#getDownloadStatus.time_created#
+								#getDownloadStatus.status# 
+								<cfif getDownloadStatus.status EQ "Success" AND len(getDownloadStatus.filename) GT 0>
+									<a href="#getDownloadStatus.filename#">Download</a>
+								</cfif>
+							</li>
+						</cfloop>
+					</cfif>
+				</ul>
+			<cfcatch>
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+				<cfelse>
+				   <cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+			   	<div class="container">
+					  <div class="row">
+						 <div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">"Feedback/Report Errors"</a></p>
+						 </div>
+					  </div>
+				   </div>
+			</cfcatch>
+			</cftry>
+	  </cfoutput>
+   </cfthread>
+   <cfthread action="join" name="getDownloadRequestsThread" />
+   <cfreturn getDownloadRequestsThread.output>
+</cffunction>
+
+
 <cffunction name="getDownloadDialogHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="filename" type="string" required="yes">
