@@ -511,7 +511,7 @@ limitations under the License.
 									<cfinclude template="/specimens/component/search.cfc" runOnce="true">
 									<div class="form-row">
 										<div class="col-12 col-xl-7 float-left mb-2">
-											<h3 class="h3">Your recent specimen search download requests</h3>
+											<h3 class="h3">Your recent specimen search CSV download requests</h3>
 											<cfset downloadRequestsBlockContent = getDownloadRequestsHTML() >
 											<span id="recentDownloadRequestsDiv">#downloadRequestsBlockContent#</span>
 											<button class="btn btn-xs btn-secondary" 
