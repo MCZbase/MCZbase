@@ -559,7 +559,7 @@ limitations under the License.
 												)
 											};
 											$(document).ready(function() { 
-												$("##recheckDownloadRequestsBtn").on("click",updateDownloadsBlock('recentDownloadsRequestDiv');
+												$("##recheckDownloadRequestsBtn").on("click",updateDownloadsBlock('recentDownloadsRequestDiv'));
 											});
 										</script>
 									</div>
