@@ -3112,6 +3112,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 											// request generation of file, and poll until it is created.
 											var token = retval[0].TOKEN;
 											$("##downloadFeedback").html("Preparing ("+rows+" records).");
+											$("##downloadResult").html("Progress and download also available on your User Profile");
 											// actually request that the file be generated
 											callGetSpecimensAsCSVProfile(profile, result_id, token);
 											checkStatus(token,rows);
