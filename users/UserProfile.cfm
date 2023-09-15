@@ -537,7 +537,7 @@ limitations under the License.
 											</ul>
 											</span>
 											<button class="btn btn-xs btn-secondary" 
-												id="recheckDownloadRequestsBtn" onClick=" updateDownloadsBlock('recentDownloadsRequestDiv');" 
+												id="recheckDownloadRequestsBtn" onClick=" updateDownloadsBlock('recentDownloadRequestDiv');" 
 											>Recheck Status</button>
 										</div>
 										<script>
