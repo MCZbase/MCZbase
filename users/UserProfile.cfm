@@ -516,6 +516,7 @@ limitations under the License.
 												FROM cf_download_file
 												WHERE username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 													AND status <> 'Deleted'
+													AND (status <> 'Failed' OR time_created > current_timestamp - interval '2' DAY)
 												ORDER BY time_created desc
 											</cfquery>
 											<ul>
