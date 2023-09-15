@@ -487,7 +487,7 @@ limitations under the License.
 									</div>
 									<div class="form-row">
 										<div class="col-12 col-xl-7 float-left mb-2">
-											<!--- download profile is an exception, it isn't in the session but retrieved on demand--->
+											<!--- download profile is an exception, it isn&apos;t in the session but retrieved on demand--->
 											<label for="specimens_default_profile" class="data-entry-label">Default Profile for Columns included when downloading Specimen results as CSV </label>
 											<select name="specimen_default_profile" id="specimen_default_profile" class="data-entry-select" onchange="changeSpecimenDefaultProfile(this.value)">
 												<option></option>
@@ -507,7 +507,35 @@ limitations under the License.
 										</cfif>
 									</div>
 								</form>
-				
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+									<div class="form-row">
+										<div class="col-12 col-xl-7 float-left mb-2">
+											<h3 class="h3">Your recent specimen search download requests</h3>
+											<cfquery name="getDownloadStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDownloadStatus_result">
+												SELECT filename, status, to_char(time_created,'yyyy-mm-dd hh:MM') time_created 
+												FROM cf_download_file
+												WHERE username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+													AND status <> 'Deleted' ;
+												ORDER BY time_created desc
+											</cfquery>
+											<ul>
+												<cfif getDownloadStatus.recordcount EQ 0>
+													<li>None</li>
+												<cfelse>
+													<cfloop query="getDownloadStatus">
+														<li>
+															#getDownloadStatus.status# 
+															Requested:#getDownloadStatus.time_created#
+															<cfif getDownloadStatus.status EQ "Success" AND len(getDownloadStatus.filename) GT 0>
+																<a href="#getDownloadStatus.filename#">Download</a>
+															</cfif>
+														</li>
+													</cfloop>
+												</cfif>
+											</ul>
+										</div>
+									</div>
+								</cfif>
 						</div>
 					</div>				
 					<div class="col-12 col-md-4 float-left">
