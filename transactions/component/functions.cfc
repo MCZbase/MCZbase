@@ -5827,7 +5827,7 @@ limitations under the License.
 						and permit.restriction_summary is not null
 					)
 				</cfquery>
-			<cfelseif getType.transaction_type EQ "deacc">
+			<cfelseif getType.transaction_type EQ "deaccession">
 				<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct restriction_summary, permit_id, permit_num from (
 					select permit.restriction_summary, permit.permit_id, permit.permit_num
@@ -5841,18 +5841,18 @@ limitations under the License.
 						and permit.restriction_summary is not null
 					UNION
 					select permit.restriction_summary, permit.permit_id, permit.permit_num
-					from deacc
-						join shipment on deacc.transaction_id = shipment.transaction_id
+					from deaccession
+						join shipment on deaccession.transaction_id = shipment.transaction_id
 						join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 						join permit on permit_shipment.permit_id = permit.permit_id
-					where deacc.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+					where deaccession.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 						and permit.restriction_summary is not null
 					)
 				</cfquery>
 			<cfelse>
 				<cfthrow message="No transaction found for specified transaction_id">
 			</cfif>
-			<cfif isDefined("getType") AND getType.recordCount GT 0>
+			<cfif isDefined("getRestrictions") AND getRestrictions.recordCount GT 0>
 				<cfoutput>
 					<div class="col-12 pb-0 px-0">
 						<h2 class="h3 px-3">Restrictions on Use</h2>

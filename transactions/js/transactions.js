@@ -576,18 +576,20 @@ function updateLoanItemCount(transactionId,targetDiv) {
 function updateRestrictionsBlock(transactionId,targetDiv,warningDiv) {
 	jQuery.ajax(
 	{
-		dataType: "json",
+		dataType: "html",
 		url: "/transactions/component/functions.cfc",
 		data: { 
 			method : "getRestrictionsHtml",
 			transaction_id : transactionId
 		},
 		error: function (jqXHR, textStatus, message) {
-			handleFail(jqXHR,textStatus,error,"looking up transaction item restrictions");
+			handleFail(jqXHR,textStatus,message,"looking up transaction item restrictions");
 		},
 		success: function (result) {
-			$('#' + targetDiv).html(result);
-			if (result) { 
+			if (targetDiv) { 
+				$('#' + targetDiv).html(result);
+			}
+			if (result && result.trim().length > 0) { 
 				$('#' + warningDiv).show();
 			} else { 
 				$('#' + warningDiv).hide();

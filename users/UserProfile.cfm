@@ -487,7 +487,7 @@ limitations under the License.
 									</div>
 									<div class="form-row">
 										<div class="col-12 col-xl-7 float-left mb-2">
-											<!--- download profile is an exception, it isn't in the session but retrieved on demand--->
+											<!--- download profile is an exception, it isn&apos;t in the session but retrieved on demand--->
 											<label for="specimens_default_profile" class="data-entry-label">Default Profile for Columns included when downloading Specimen results as CSV </label>
 											<select name="specimen_default_profile" id="specimen_default_profile" class="data-entry-select" onchange="changeSpecimenDefaultProfile(this.value)">
 												<option></option>
@@ -507,7 +507,40 @@ limitations under the License.
 										</cfif>
 									</div>
 								</form>
-				
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+									<cfinclude template="/specimens/component/search.cfc" runOnce="true">
+									<div class="form-row">
+										<div class="col-12 col-xl-7 float-left mb-2">
+											<h3 class="h3">Your recent specimen search CSV download requests</h3>
+											<cfset downloadRequestsBlockContent = getDownloadRequestsHTML() >
+											<span id="recentDownloadRequestsDiv">#downloadRequestsBlockContent#</span>
+											<button class="btn btn-xs btn-secondary" 
+												id="recheckDownloadRequestsBtn" onClick=" updateDownloadsBlock('recentDownloadRequestsDiv');" 
+											>Recheck Status</button>
+										</div>
+										<script>
+											function updateDownloadsBlock(targetDiv) {
+												jQuery.ajax(
+												{
+													dataType: "html",
+													url: "/specimens/component/search.cfc",
+													data: { 
+														method : "getDownloadRequestsHTML"
+													},
+													error: function (jqXHR, textStatus, message) {
+														handleFail(jqXHR,textStatus,message,"looking up download specimen search files metadata");
+													},
+													success: function (result) {
+														if (targetDiv) { 
+															$('##' + targetDiv).html(result);
+														}
+													}
+												},
+												)
+											};
+										</script>
+									</div>
+								</cfif>
 						</div>
 					</div>				
 					<div class="col-12 col-md-4 float-left">
