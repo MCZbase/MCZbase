@@ -2996,8 +2996,10 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cftry>
 				<cfquery name="getDownloadStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDownloadStatus_result">
 					SELECT filename, status, to_char(time_created,'yyyy-mm-dd HH24:MI') time_created 
+						name
 					FROM cf_download_file
-					WHERE username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						left join download_profile on cf_download_file.download_profile_id = download_profile.download_profile_id
+					WHERE cf_download_file.username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND status <> 'Deleted'
 						AND (status <> 'Failed' OR time_created > current_timestamp - interval '2' DAY)
 					ORDER BY time_created desc
@@ -3011,7 +3013,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 								Requested:#getDownloadStatus.time_created#
 								#getDownloadStatus.status# 
 								<cfif getDownloadStatus.status EQ "Success" AND len(getDownloadStatus.filename) GT 0>
-									<a href="#getDownloadStatus.filename#">Download</a>
+									<a href="#getDownloadStatus.filename#">Download</a> #getDownloadStatus.name#
 								</cfif>
 							</li>
 						</cfloop>

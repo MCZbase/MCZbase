@@ -508,34 +508,12 @@ limitations under the License.
 									</div>
 								</form>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+									<cfinclude template="/specimens/component/search.cfc" runOnce="true">
 									<div class="form-row">
 										<div class="col-12 col-xl-7 float-left mb-2">
 											<h3 class="h3">Your recent specimen search download requests</h3>
-											<cfquery name="getDownloadStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDownloadStatus_result">
-												SELECT filename, status, to_char(time_created,'yyyy-mm-dd HH24:MI') time_created 
-												FROM cf_download_file
-												WHERE username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-													AND status <> 'Deleted'
-													AND (status <> 'Failed' OR time_created > current_timestamp - interval '2' DAY)
-												ORDER BY time_created desc
-											</cfquery>
-											<span id="recentDownloadRequestsDiv">
-											<ul>
-												<cfif getDownloadStatus.recordcount EQ 0>
-													<li>None</li>
-												<cfelse>
-													<cfloop query="getDownloadStatus">
-														<li>
-															Requested:#getDownloadStatus.time_created#
-															#getDownloadStatus.status# 
-															<cfif getDownloadStatus.status EQ "Success" AND len(getDownloadStatus.filename) GT 0>
-																<a href="#getDownloadStatus.filename#">Download</a>
-															</cfif>
-														</li>
-													</cfloop>
-												</cfif>
-											</ul>
-											</span>
+											<cfset downloadRequestsBlockContent = getDownloadRequestsHTML() >
+											<span id="recentDownloadRequestsDiv">#downloadRequestsBlockContent#</span>
 											<button class="btn btn-xs btn-secondary" 
 												id="recheckDownloadRequestsBtn" onClick=" updateDownloadsBlock('recentDownloadRequestsDiv');" 
 											>Recheck Status</button>
