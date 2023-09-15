@@ -2995,7 +2995,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 		<cfoutput>
 			<cftry>
 				<cfquery name="getDownloadStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDownloadStatus_result">
-					SELECT filename, status, to_char(time_created,'yyyy-mm-dd HH24:MI') time_created 
+					SELECT filename, status, to_char(time_created,'yyyy-mm-dd HH24:MI') time_created,
 						name
 					FROM cf_download_file
 						left join download_profile on cf_download_file.download_profile_id = download_profile.download_profile_id
