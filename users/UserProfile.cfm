@@ -545,7 +545,7 @@ limitations under the License.
 												jQuery.ajax(
 												{
 													dataType: "html",
-													url: "/specimens/component/functions.cfc",
+													url: "/specimens/component/search.cfc",
 													data: { 
 														method : "getDownloadRequestsHTML"
 													},
