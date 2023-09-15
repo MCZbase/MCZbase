@@ -560,6 +560,7 @@ limitations under the License.
 												},
 												)
 											};
+										</script>
 									</div>
 								</cfif>
 						</div>
