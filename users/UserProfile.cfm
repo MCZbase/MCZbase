@@ -536,7 +536,9 @@ limitations under the License.
 												</cfif>
 											</ul>
 											</span>
-											<button class="btn btn-xs btn-secondary" id="recheckDownloadRequestsBtn">Recheck Status</button>
+											<button class="btn btn-xs btn-secondary" 
+												id="recheckDownloadRequestsBtn" onClick=" updateDownloadsBlock('recentDownloadsRequestDiv');" 
+											>Recheck Status</button>
 										</div>
 										<script>
 											function updateDownloadsBlock(targetDiv) {
@@ -558,10 +560,6 @@ limitations under the License.
 												},
 												)
 											};
-											$(document).ready(function() { 
-												$("##recheckDownloadRequestsBtn").on("click",updateDownloadsBlock('recentDownloadsRequestDiv'));
-											});
-										</script>
 									</div>
 								</cfif>
 						</div>
