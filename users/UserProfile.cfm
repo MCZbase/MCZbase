@@ -512,7 +512,7 @@ limitations under the License.
 										<div class="col-12 col-xl-7 float-left mb-2">
 											<h3 class="h3">Your recent specimen search download requests</h3>
 											<cfquery name="getDownloadStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDownloadStatus_result">
-												SELECT filename, status, to_char(time_created,'yyyy-mm-dd hh:MM') time_created 
+												SELECT filename, status, to_char(time_created,'yyyy-mm-dd HH24:MI') time_created 
 												FROM cf_download_file
 												WHERE username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 													AND status <> 'Deleted'
