@@ -3316,6 +3316,13 @@ limitations under the License.
 	<cfargument name="accn_status" type="string" required="yes">
 	<cfargument name="estimated_count" type="string" required="no">
 
+	<cfif isdefined("trans_remarks") AND len(trans_remarks) GT 0 >
+		<cfset trans_remarks = replace(trans_remarks,"#CHR(13)##CHR(10)#",CHR(13),"All")>
+	</cfif>
+	<cfif isdefined("nature_of_material") AND len(nature_of_material) GT 0 >
+		<cfset nature_of_material = replace(nature_of_material,"#CHR(13)##CHR(10)#",CHR(13),"All")>
+	</cfif>
+
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
