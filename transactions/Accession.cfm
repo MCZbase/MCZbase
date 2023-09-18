@@ -284,7 +284,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-12">
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
-								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
+								<textarea name="nature_of_material" id="nature_of_material" rows="2"  maxlength="4000"
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
 									class="reqdClr form-control form-control-sm w-100 autogrow" 
 									required ></textarea>
@@ -293,7 +293,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-12">
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
-								<textarea name="trans_remarks" id="trans_remarks" 
+								<textarea name="trans_remarks" id="trans_remarks" maxlength="4000"
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
 									class="form-control form-control-sm w-100 autogrow" rows="2"></textarea>
 							</div>
