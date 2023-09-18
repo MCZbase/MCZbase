@@ -3408,6 +3408,9 @@ limitations under the License.
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfif find("ORA-01461",error_message) GT 0>
+				<cfset error_message = "You may be entering more characters in a field than it can hold. #error_message#">
+			</cfif>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
