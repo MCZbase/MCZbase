@@ -548,7 +548,7 @@ limitations under the License.
 							</script>
 							<div class="col-12 mt-1" id="agentTableContainerDiv">
 								<img src='/shared/images/indicator.gif'>
-								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
+								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don&apos;t appear here, there is an error).</span>
 								<script>
 								$(document).ready(function() { 
 									$('##agentWarningSpan').delay(1000).fadeIn(300);
@@ -567,7 +567,7 @@ limitations under the License.
 						<div class="form-row mb-1">
 							<div class="col-12">
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
-								<textarea name="nature_of_material" id="nature_of_material" rows="1" 
+								<textarea name="nature_of_material" id="nature_of_material" rows="1" maxlength="4000"
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
 									class="reqdClr autogrow data-entry-textarea" required >#encodeForHtml(accessionDetails.nature_of_material)#</textarea>
 							</div>
@@ -575,7 +575,7 @@ limitations under the License.
 						<div class="form-row mb-1">
 							<div class="col-12">
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
-								<textarea name="trans_remarks" id="trans_remarks" rows="1"
+								<textarea name="trans_remarks" id="trans_remarks" rows="1" maxlength="4000"
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
 									class="autogrow data-entry-textarea">#encodeForHTML(accessionDetails.trans_remarks)#</textarea>
 							</div>
