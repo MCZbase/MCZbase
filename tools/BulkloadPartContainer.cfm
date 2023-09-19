@@ -313,12 +313,12 @@
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
-		<cfoutput>
-		<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT * FROM cf_temp_barcode_parts
-			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		</cfquery>
+			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT * FROM cf_temp_barcode_parts
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cftry>
+				<cfoutput>
 				<cfset part_container_updates = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
@@ -334,6 +334,7 @@
 						</cfloop>
 					</cftransaction>
 					<h2>Updated types for #part_container_updates# containers.</h2>
+				</cfoutput>
 				<cfcatch>
 					<h2>There was a problem updating part container.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -371,12 +372,13 @@
 							</cfloop>
 						</tbody>
 					</table>
-				<!---	<cfrethrow>--->
+					<cfrethrow>
 				</cfcatch>
 			</cftry>
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
+					<cfoutput>
 					<cfif coll_obj.collection_object_id gt 1>
 					<cfset part_container_updates = 0>
 					<cfloop query="getTempData">
@@ -394,6 +396,7 @@
 						</cfquery>
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
+					</cfoutput>
 					<cftransaction action="commit">
 					<cfcatch>
 						<cftransaction action="rollback">
@@ -431,7 +434,7 @@
 								</cfloop>
 							</tbody>
 						</table>
-						<!---<cfrethrow>--->
+						<cfrethrow>
 					</cfcatch>
 				</cftry>
 			</cftransaction>
@@ -442,7 +445,6 @@
 				DELETE FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-		</cfoutput>
 	</cfif>
 </main>
 <cfinclude template="/shared/_footer.cfm">
