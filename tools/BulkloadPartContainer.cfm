@@ -312,7 +312,9 @@
 				
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
-		<h2 class="h3">Third step: Apply changes.</h2>
+		<cfoutput>
+			<h2 class="h3">Third step: Apply changes.</h2>
+		</cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -438,8 +440,10 @@
 					</cfcatch>
 				</cftry>
 			</cftransaction>
+			<cfoutput>
 			<h2>Updated #container_updates# containers.</h2>
 			<h2>Success, changes applied.</h2>
+			</cfoutput>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_barcode_parts 
