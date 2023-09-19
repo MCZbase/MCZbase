@@ -371,7 +371,7 @@
 							</cfloop>
 						</tbody>
 					</table>
-					<cfrethrow>
+				<!---	<cfrethrow>--->
 				</cfcatch>
 			</cftry>
 			<cfset problem_key = "">
@@ -431,7 +431,7 @@
 								</cfloop>
 							</tbody>
 						</table>
-						<cfrethrow>
+						<!---<cfrethrow>--->
 					</cfcatch>
 				</cftry>
 			</cftransaction>
