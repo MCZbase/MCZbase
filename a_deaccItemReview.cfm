@@ -2,7 +2,11 @@
 <cfset title="Review Deaccession Items">
 <cfinclude template="includes/_header.cfm">
 <script type='text/javascript' src='/includes/transAjax.js'></script>
-<div style="width: 78em; margin: 0 auto; padding: 2em 0 3em 0;">
+<cfif #action# is "nothing">
+	<div>
+<cfelse>
+	<div style="width: 78em; margin: 0 auto; padding: 2em 0 3em 0;">
+</cfif>
 	<script type='text/javascript' src='/includes/_deaccReview.js'></script>
 	<script src="/includes/sorttable.js"></script>
 <cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -367,11 +371,29 @@ Review items in deaccession<b>
 		<th class="inside">Deaccession Item Instructions</th>
 		<th class="inside">Accession</th>
 		<th class="inside">Encumbered</th>
+		<th class="inside">Restrictions</th>
 		<th>Remove</th>
 	</tr>
 
 <cfset i=1>
 <cfloop query="getPartDeaccRequests">
+	<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct permit.permit_id, permit.permit_num
+		from cataloged_item ci
+			join accn on ci.accn_id = accn.transaction_id
+			join permit_trans on accn.transaction_id = permit_trans.transaction_id
+			join permit on permit_trans.permit_id = permit.permit_id
+		where ci.collection_object_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#collection_object_id#">
+			and permit.restriction_summary is not null
+	</cfquery>
+	<cfif getRestrictions.recordcount GT 0>
+		<cfset restrictions="<strong>Has Restrictions On Use</strong> See: "><!--- " --->
+		<cfloop query="getRestrictions">
+			<cfset restrictions = "#restrictions# <a href='/transactions/Permit.cfm?action=view&permit_id=#getRestrictions.permit_id#'>#getRestrictions.permit_num#</a>"><!--- " --->
+		</cfloop>
+	<cfelse>
+		<cfset restrictions="">
+	</cfif>
 	<tr id="rowNum#partID#">
 		<td class="inside">
 			<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
@@ -423,6 +445,9 @@ Review items in deaccession<b>
 		</td>
 		<td class="inside">
 			#encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>&nbsp;
+		</td>
+		<td class="inside">
+			#restrictions#
 		</td>
 		<td class="inside">
 			<img src="/images/del.gif" class="likeLink" onclick="remPartFromDeacc(#partID#,#collection_object_id#);" />
