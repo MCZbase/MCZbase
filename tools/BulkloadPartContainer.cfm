@@ -309,7 +309,7 @@
 					</cftransaction>
 					<h2>Updated types for #part_container_updates# containers.</h2>
 				</cfoutput>
-				<cfcatch>
+<!---				<cfcatch>
 					<h2>There was a problem updating part container.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT OTHER_ID_TYPE, OTHER_ID_NUMBER, COLLECTION_CDE, INSTITUTION_ACRONYM, PART_NAME, PRESERVE_METHOD, CONTAINER_UNIQUE_ID
@@ -347,7 +347,7 @@
 						</tbody>
 					</table>
 					<cfrethrow>
-				</cfcatch>
+				</cfcatch>--->
 			</cftry>
 			<cfset problem_key = "">
 			<cftransaction>
