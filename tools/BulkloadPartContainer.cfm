@@ -204,6 +204,17 @@
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_barcode_parts set part_container_id = 
+				(
+					select sp.collection_object_id 
+					from specimen_part sp, cataloged_item ci
+					where sp.collection_object_id = ci.collection_object_id
+					and ci.collection_cde = cf_temp_barcode_parts.collection_cde
+					and ci.cat_num = cf_temp_barcode_parts.other_id_number
+				) 
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_barcode_parts set container_id=
 				(select container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -222,7 +233,7 @@
 			</cfquery>
 	
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,CONTAINER_ID,PRINT_FG,PART_CONTAINER_ID,
+				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,CONTAINER_ID,
 				INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID,STATUS 
 				FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -255,9 +266,7 @@
 						<th>CONTAINER_UNIQUE_ID</th>
 						<th>COLLECTION_OBJECT_ID</th>
 						<th>CONTAINER_ID</th>
-						<th>PRINT_FG</th>
 						<th>PRESERVE_METHOD</th>
-						<th>PART_CONTAINER_ID</th>
 						<th>STATUS</th>
 					</tr>
 				<tbody>
@@ -271,9 +280,7 @@
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
 							<td>#data.COLLECTION_OBJECT_ID#</td>
 							<td>#data.CONTAINER_ID#</td>
-							<td>#data.PRINT_FG#</td>
 							<td>#data.PRESERVE_METHOD#</td>
-							<td>#data.PART_CONTAINER_ID#</td>
 							<td><strong>#STATUS#</strong></td>
 						</tr>
 					</cfloop>
