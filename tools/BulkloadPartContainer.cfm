@@ -319,7 +319,7 @@
 	</cfif>
 				
 	<!-------------------------------------------------------------------------------------------->
-<!---	<cfif action is "load">
+	<cfif action is "load">
 		<cfoutput>
 			<h2 class="h3">Third step: Apply changes.</h2>
 		</cfoutput>
@@ -386,7 +386,7 @@
 				</cfcatch>
 			</cftry>
 			<cfset problem_key = "">
-			<cftransaction>
+<!---			<cftransaction>
 				<cftry>
 					<cfoutput>
 					<cfif coll_obj.collection_object_id gt 1>
@@ -447,7 +447,7 @@
 						<cfrethrow>
 					</cfcatch>
 				</cftry>
-			</cftransaction>
+			</cftransaction>--->
 			<cfoutput>
 			<h2>Updated #container_updates# containers.</h2>
 			<h2>Success, changes applied.</h2>
