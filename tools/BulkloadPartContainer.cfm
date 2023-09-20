@@ -327,7 +327,8 @@
 				SELECT * FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cftry>
+				#getTempData#
+<!---			<cftry>
 				<cfoutput>
 				<cfset part_container_updates = 0>
 					<cftransaction>
@@ -453,7 +454,7 @@
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			</cfquery>--->
 	</cfif>
 </main>
 <cfinclude template="/shared/_footer.cfm">
