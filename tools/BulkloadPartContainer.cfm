@@ -202,7 +202,7 @@
 				where <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCIB" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_barcode_parts set container_id=
+				update cf_temp_barcode_parts set part_container_id=
 				(select container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -244,35 +244,33 @@
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
+						<th>OTHER_ID_TYPE</th>
+						<th>OTHER_ID_NUMBER</th>
+						<th>COLLECTION_CDE</th>
+						<th>INSTITUTION_ACRONYM</th>
+						<th>PART_NAME</th>
 						<th>CONTAINER_UNIQUE_ID</th>
-						<th>PARENT_UNIQUE_ID</th>
-						<th>CONTAINER_TYPE</th>
-						<th>CONTAINER_NAME</th>
-						<th>DESCRIPTION</th>
-						<th>REMARKS</th>
-						<th>WIDTH</th>
-						<th>HEIGHT</th>
-						<th>LENGTH</th>
-						<th>NUMBER_POSITIONS</th>
+						<th>COLLECTION_OBJECT_ID</th>
 						<th>CONTAINER_ID</th>
-						<th>PARENT_CONTAINER_ID</th>
+						<th>PRINT_FG</th>
+						<th>PRESERVE_METHOD</th>
+						<th>PART_CONTAINER_ID</th>
 						<th>STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
 						<tr>
+							<td>#data.OTHER_ID_TYPE#</td>
+							<td>#data.OTHER_ID_NUMBER#</td>
+							<td>#data.COLLECTION_CDE#</td>
+							<td>#data.INSTITUTION_ACRONYM#</td>
+							<td>#data.PART_NAME#</td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
-							<td>#data.PARENT_UNIQUE_ID#</td>
-							<td>#data.CONTAINER_TYPE#</td>
-							<td>#data.CONTAINER_NAME#</td>
-							<td>#data.DESCRIPTION#</td>
-							<td>#data.REMARKS#</td>
-							<td>#data.WIDTH#</td>
-							<td>#data.HEIGHT#</td>
-							<td>#data.LENGTH#</td>
-							<td>#data.NUMBER_POSITIONS#</td>
+							<td>#data.COLLECTION_OBJECT_ID#</td>
 							<td>#data.CONTAINER_ID#</td>
-							<td>#data.PARENT_CONTAINER_ID#</td>
+							<td>#data.PRINT_FG#</td>
+							<td>#data.PRESERVE_METHOD#</td>
+							<td>#data.PART_CONTAINER_ID#</td>
 							<td><strong>#STATUS#</strong></td>
 						</tr>
 					</cfloop>
