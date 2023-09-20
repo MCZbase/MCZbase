@@ -177,7 +177,7 @@
 			</cfloop>
 		
 			<h3 class="h3">
-				Successfully loaded #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadContEditParent.cfm?action=validate">click to validate</a>.
+				Successfully loaded #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadPartContainer.cfm">click to validate</a>.
 			</h3>
 		</cfoutput>
 	</cfif>
