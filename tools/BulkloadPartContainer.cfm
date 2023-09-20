@@ -198,8 +198,7 @@
 					from specimen_part sp, cataloged_item ci 
 					where sp.derived_from_cat_item = ci.collection_object_id 
 					and ci.collection_cde = cp.collection_cde
-					and ci.cat_num = cp.other_id_number) 
-				where <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and ci.cat_num = cp.other_id_number) where <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCIB" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_barcode_parts set container_id=
@@ -220,7 +219,7 @@
 			</cfquery>
 	
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID,STATUS 
+				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID,STATUS 
 				FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
