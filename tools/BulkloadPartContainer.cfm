@@ -138,7 +138,7 @@
 							</cfif>
 							<li class="#class#">
 								#field#
-								<cfif arrayFindNoCase(colNameArray,field) GT 0>
+								<cfif arrayFindNoCase(colNameArray,fieldArray,typeArray) GT 0>
 									<strong>Present in CSV</strong>
 								</cfif>
 							</li>
@@ -224,42 +224,6 @@
 				WHERE CONTAINER_NAME is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
-				<!---
-				*** labels deprecated in MCZbase ***
-				<cfquery name="lq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select container_id,parent_container_id,key from cf_temp_cont_edit
-				</cfquery>
-				<cfloop query="lq">
-					<cfquery name="islbl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select container_type from container where container_id='#container_id#'
-					</cfquery>
-					<cfif islbl.container_type does not contain 'label'>
-						<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update cf_temp_cont_edit set status = 'only_updates_to_labels'
-							where key=#key#
-								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery>
-					</cfif>
-				--->
-				<!---
-					<cfif len(parent_container_id) gt 0>
-						<cfquery name="isplbl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT container_type from container 
-							WHERE container_id = <cfqueryparam cfsqtype="CF_SQL_DECIMAL" value="#parent_container_id#">
-						</cfquery>
-						<cfif isplbl.container_type contains 'label'>
-							<cfquery name="miapp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								update cf_temp_cont_edit set status = 'parent_is_label'
-								WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
-									ANDusername = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery>
-						</cfif>
-					</cfif>
-				</cfloop>
-				*** labels deprecated in MCZbase ***
-				--->
-	
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT CONTAINER_UNIQUE_ID, PARENT_UNIQUE_ID, CONTAINER_TYPE, CONTAINER_NAME, DESCRIPTION, REMARKS, WIDTH,
 					HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS 
