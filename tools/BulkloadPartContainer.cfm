@@ -138,7 +138,7 @@
 							</cfif>
 							<li class="#class#">
 								#field#
-								<cfif arrayFindNoCase(colNameArray,fieldArray,typeArray) GT 0>
+								<cfif arrayFindNoCase(colNameArray,fieldArray) GT 0>
 									<strong>Present in CSV</strong>
 								</cfif>
 							</li>
