@@ -348,7 +348,7 @@
 					<cfrethrow>
 				</cfcatch>
 			</cftry>--->
-			<cfset problem_key = "">
+<!---			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
 					<cfif coll_obj.collection_object_id gt 1>
@@ -408,7 +408,7 @@
 						<cfrethrow>
 					</cfcatch>
 				</cftry>
-			</cftransaction>
+			</cftransaction>--->
 			<cfoutput>
 			<h2>Updated #container_updates# containers.</h2>
 			<h2>Success, changes applied.</h2>
