@@ -386,9 +386,8 @@
 				</cfcatch>
 			</cftry>
 			<cfset problem_key = "">
-<!---			<cftransaction>
+			<cftransaction>
 				<cftry>
-					<cfoutput>
 					<cfif coll_obj.collection_object_id gt 1>
 					<cfset part_container_updates = 0>
 					<cfloop query="getTempData">
@@ -406,7 +405,6 @@
 						</cfquery>
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
-					</cfoutput>
 					<cftransaction action="commit">
 					<cfcatch>
 						<cftransaction action="rollback">
@@ -447,7 +445,7 @@
 						<cfrethrow>
 					</cfcatch>
 				</cftry>
-			</cftransaction>--->
+			</cftransaction>
 			<cfoutput>
 			<h2>Updated #container_updates# containers.</h2>
 			<h2>Success, changes applied.</h2>
