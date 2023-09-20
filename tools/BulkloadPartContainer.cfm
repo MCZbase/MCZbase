@@ -199,7 +199,7 @@
 					where sp.derived_from_cat_item = ci.collection_object_id 
 					and ci.collection_cde = cp.collection_cde
 					and ci.cat_num = cp.other_id_number) 
-				where <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">;
+				where <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_barcode_parts set container_id=
