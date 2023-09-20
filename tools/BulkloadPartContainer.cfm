@@ -190,80 +190,82 @@
 											
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
+		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
-			<h2 class="h3">Second step: Data Validation</h2>
-		</cfoutput>
-			<cfif cf_temp_barcode_parts.other_id_type eq "catalog number">
-				<cfquery name="getCollOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_barcode_parts set collection_object_id =
-					(select specimen_part.collection_object_id from cataloged_item, specimen_part
-					where cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
-					AND cataloged_item.collection_id = collection.collection_id 
-					AND collection.COLLECTION_CDE=cf_temp_barcode_parts.COLLECTION_CDE
-					AND PART_NAME = cf_temp_barcode_parts.PART_NAME
-					AND PRESERVE_METHOD = cf_temp_barcode_parts.PRESERVE_METHOD
-					AND collection.INSTITUTION_ACRONYM = cf_temp_barcode_parts.INSTITUTION_ACRONYM
-					AND cat_num = cf_temp_barcode_parts.OTHER_ID_NUMBER)
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			<cfelse>
-				<cfquery name="getCollOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_barcode_parts set collection_object_id =
-					(select specimen_part.collection_object_id from cataloged_item, specimen_part, coll_object_other_id_Num
-					where cataloged_item.collection_object_id = specimen_part.derived_from_cat_item 
-					AND cataloged_item.collection_id = collection.collection_id
-					and coll_object_other_id_num.collection_object_id = cataloged_item.collection_object_id
-					AND collection.COLLECTION_CDE=cf_temp_barcode_parts.COLLECTION_CDE
-					AND PART_NAME = cf_temp_barcode_parts.PART_NAME
-					AND PRESERVE_METHOD = cf_temp_barcode_parts.PRESERVE_METHOD
-					AND collection.INSTITUTION_ACRONYM = cf_temp_barcode_parts.INSTITUTION_ACRONYM
-					AND coll_object_other_id_num.display_value = cf_temp_barcode_parts.OTHER_ID_NUMBER)
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfif>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_barcode_parts  set container_id=
+				update cf_temp_barcode_parts set container_id=
 				(select container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_barcode_parts  set parent_container_id=
-				(select container_id from container where container.barcode = cf_temp_barcode_parts .parent_container_id)
+				update cf_temp_barcode_parts set parent_container_id=
+				(select container_id from container where container.barcode = cf_temp_barcode_parts.parent_unique_id)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="mias" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_barcode_parts  
-				SET status = 'specimen part not found'
-				WHERE getCollOID.collection_object_id is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_barcode_parts  
+				UPDATE cf_temp_barcode_parts 
 				SET status = 'container_not_found'
 				WHERE container_id is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_barcode_parts  
+				UPDATE cf_temp_barcode_parts 
 				SET status = 'parent_container_not_found'
 				WHERE parent_container_id is null and parent_unique_id is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_barcode_parts  
+				UPDATE cf_temp_barcode_parts 
 				SET status = 'bad_container_type'
 				WHERE container_type not in (select container_type from ctcontainer_type)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_barcode_parts 
+				UPDATE cf_temp_barcode_parts
 				SET status = 'missing_label'
 				WHERE CONTAINER_NAME is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>	
+			</cfquery>
+
+				<!---
+				*** labels deprecated in MCZbase ***
+				<cfquery name="lq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select container_id,parent_container_id,key from cf_temp_cont_edit
+				</cfquery>
+				<cfloop query="lq">
+					<cfquery name="islbl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select container_type from container where container_id='#container_id#'
+					</cfquery>
+					<cfif islbl.container_type does not contain 'label'>
+						<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							update cf_temp_cont_edit set status = 'only_updates_to_labels'
+							where key=#key#
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+					</cfif>
+				--->
+				<!---
+					<cfif len(parent_container_id) gt 0>
+						<cfquery name="isplbl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT container_type from container 
+							WHERE container_id = <cfqueryparam cfsqtype="CF_SQL_DECIMAL" value="#parent_container_id#">
+						</cfquery>
+						<cfif isplbl.container_type contains 'label'>
+							<cfquery name="miapp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								update cf_temp_cont_edit set status = 'parent_is_label'
+								WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+									ANDusername = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+						</cfif>
+					</cfif>
+				</cfloop>
+				*** labels deprecated in MCZbase ***
+				--->
+	
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT other_id_type, other_id_number, collection_cde, institution_acronym, part_name, preserve_method, container_unique_id 
-				FROM cf_temp_barcode_parts 
+				SELECT CONTAINER_UNIQUE_ID, PARENT_UNIQUE_ID, CONTAINER_TYPE, CONTAINER_NAME, DESCRIPTION, REMARKS, WIDTH,
+					HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS 
+				FROM cf_temp_cont_edit
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="pf" dbtype="query">
@@ -272,50 +274,55 @@
 				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
-			<cfoutput>
 				<h2>
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>).
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>).
 				</h2>
 				<h3>
-					Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm">start again</a>.
+					Fix the problems in the data and <a href="/tools/BulkloadContEditParent.cfm">start again</a>.
 				</h3>
-			</cfoutput>
 			<cfelse>
-			<cfoutput>
 				<h2>
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load">click to continue</a> if it all looks good.
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadContEditParent.cfm?action=load">click to continue</a> if it all looks good.
 				</h2>
-			</cfoutput>
 			</cfif>
-			<cfoutput>
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
-						<th>OTHER_ID_TYPE</th>
-						<th>OTHER_ID_NUMBER</th>
-						<th>COLLECTION_CDE</th>
-						<th>INSTITUTION_ACRONYM</th>
-						<th>PART_NAME</th>
-						<th>PRESERVE_METHOD</th>
 						<th>CONTAINER_UNIQUE_ID</th>
+						<th>PARENT_UNIQUE_ID</th>
+						<th>CONTAINER_TYPE</th>
+						<th>CONTAINER_NAME</th>
+						<th>DESCRIPTION</th>
+						<th>REMARKS</th>
+						<th>WIDTH</th>
+						<th>HEIGHT</th>
+						<th>LENGTH</th>
+						<th>NUMBER_POSITIONS</th>
+						<th>CONTAINER_ID</th>
+						<th>PARENT_CONTAINER_ID</th>
 						<th>STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td>#data.OTHER_ID_TYPE#</td>
-							<td>#data.OTHER_ID_NUMBER#</td>
-							<td>#data.COLLECTION_CDE#</td>
-							<td>#data.INSTITUTION_ACRONYM#</td>
-							<td>#data.PART_NAME#</td>
-							<td>#data.PRESERVE_METHOD#</td>
 							<td>#data.CONTAINER_UNIQUE_ID#</td>
+							<td>#data.PARENT_UNIQUE_ID#</td>
+							<td>#data.CONTAINER_TYPE#</td>
+							<td>#data.CONTAINER_NAME#</td>
+							<td>#data.DESCRIPTION#</td>
+							<td>#data.REMARKS#</td>
+							<td>#data.WIDTH#</td>
+							<td>#data.HEIGHT#</td>
+							<td>#data.LENGTH#</td>
+							<td>#data.NUMBER_POSITIONS#</td>
+							<td>#data.CONTAINER_ID#</td>
+							<td>#data.PARENT_CONTAINER_ID#</td>
 							<td><strong>#STATUS#</strong></td>
 						</tr>
 					</cfloop>
 				</tbody>
 			</table>
-			</cfoutput>
+		</cfoutput>
 	</cfif>
 				
 	<!-------------------------------------------------------------------------------------------->
