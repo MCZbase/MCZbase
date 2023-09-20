@@ -194,7 +194,7 @@
 		<cfoutput>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_barcode_parts set container_id=
-				(select container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
+				(select container_id from cf_temp_barcode_parts where container.barcode = cf_temp_barcode_parts.container_unique_id)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
