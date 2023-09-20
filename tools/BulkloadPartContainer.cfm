@@ -456,6 +456,6 @@
 				DELETE FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-	</cfif>--->
+	</cfif>
 </main>
 <cfinclude template="/shared/_footer.cfm">
