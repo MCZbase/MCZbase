@@ -190,7 +190,9 @@
 											
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
-		<h2 class="h3">Second step: Data Validation</h2>
+		<cfoutput>
+			<h2 class="h3">Second step: Data Validation</h2>
+		</cfoutput>
 			<cfif cf_temp_barcode_parts.other_id_type eq "catalog number">
 				<cfquery name="getCollOID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_barcode_parts set collection_object_id =
@@ -270,17 +272,22 @@
 				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
+			<cfoutput>
 				<h2>
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>).
 				</h2>
 				<h3>
 					Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm">start again</a>.
 				</h3>
+			</cfoutput>
 			<cfelse>
+			<cfoutput>
 				<h2>
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load">click to continue</a> if it all looks good.
 				</h2>
+			</cfoutput>
 			</cfif>
+			<cfoutput>
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
@@ -308,6 +315,7 @@
 					</cfloop>
 				</tbody>
 			</table>
+			</cfoutput>
 	</cfif>
 				
 	<!-------------------------------------------------------------------------------------------->
