@@ -193,7 +193,21 @@
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_barcode_parts set container_id=cf_temp_barcode_parts.container_unique_id
+				update cf_temp_barcode_parts cp set cp.collection_object_id = 
+					(select sp.collection_object_id 
+					from specimen_part sp, cataloged_item ci 
+					where sp.derived_from_cat_item = ci.collection_object_id 
+					and ci.collection_cde = cp.collection_cde
+					and ci.cat_num = cp.other_id_number) 
+				where <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">;
+			</cfquery>
+			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_barcode_parts set container_id=
+				(select container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_barcode_parts set container_unique_ID=cf_temp_barcode_parts.container_unique_id
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
