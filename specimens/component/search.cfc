@@ -3010,8 +3010,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<cfelse>
 						<cfloop query="getDownloadStatus">
 							<li class="h4">
-								<span class="text-danger">Requested:  #getDownloadStatus.time_created#
-									#getDownloadStatus.status# </span>
+								Requested: #getDownloadStatus.time_created#
+									<span class="text-danger">#getDownloadStatus.status# </span>
 								<cfif getDownloadStatus.status EQ "Success" AND len(getDownloadStatus.filename) GT 0>
 									<a href="#getDownloadStatus.filename#">Download</a> #getDownloadStatus.name#
 								</cfif>
