@@ -510,7 +510,7 @@ limitations under the License.
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 									<cfinclude template="/specimens/component/search.cfc" runOnce="true">
 									<div class="form-row">
-										<div class="col-12 col-xl-6 float-left mb-2 mx-1 bg-light rounded border p-2">
+										<div class="col-12 col-xl-6 float-left mb-2 mx-1 bg-light rounded border p-3">
 											<h3 class="h3">Your recent specimen search CSV download requests</h3>
 											<cfset downloadRequestsBlockContent = getDownloadRequestsHTML() >
 											<span id="recentDownloadRequestsDiv"> #downloadRequestsBlockContent#</span>
