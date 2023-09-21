@@ -449,8 +449,8 @@ limitations under the License.
 						<th>Coll Event ID</th>
 						<th>Coll Method/Source</th>
 						<th>Date Collected</th>
+						<th>Higher Geog</th>
 						<th>Georeference</th>
-						<th>higher_geog</th>
 						<th>Depth/Elevation</th>
 						<th>Geology</th>
 					</tr>
