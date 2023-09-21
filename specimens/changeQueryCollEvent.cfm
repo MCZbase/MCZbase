@@ -213,7 +213,7 @@ limitations under the License.
 			higher_geog,
 			LatitudeString,
 			LongitudeString,
-			verbatim_coordinates,
+			verbatimcoordinates,
 			NoGeorefBecause,
 			coordinateDeterminer,
 			lat_long_ref_source,
@@ -240,7 +240,7 @@ limitations under the License.
 			higher_geog,
 			LatitudeString,
 			LongitudeString,
-			verbatim_coordinates,
+			verbatimcoordinates,
 			NoGeorefBecause,
 			coordinateDeterminer,
 			lat_long_ref_source,
@@ -331,7 +331,7 @@ limitations under the License.
 								<td>#spec_locality# [#verbatim_locality#]</td>
 								<td>#higher_geog#</td>
 								<td>#depth_elevation#</td>
-								<td>#georeference# [#verbatim_coordinates#]</td>
+								<td>#georeference# [#verbatimcoordinates#]</td>
 								<td>#geolAtts#</td>
 							</tr>
 							<cfset i=#i#+1>
