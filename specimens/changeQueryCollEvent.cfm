@@ -57,8 +57,8 @@ limitations under the License.
 		collection.collection,
 		flat.phylorder,
 		flat.family,
-		nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_lat,accepted_lat_long.coordinate_precision), round(dec_lat,5)) as dec_lat,
-		nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_long,accepted_lat_long.coordinate_precision), round(dec_long,5)) as dec_long,
+		nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_lat,accepted_lat_long.coordinate_precision), round(accepted_lat_long.dec_lat,5)) as dec_lat,
+		nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_long,accepted_lat_long.coordinate_precision), round(accepted_lat_long.dec_long,5)) as dec_long,
 		accepted_lat_long.datum
 	FROM
 		user_search_table
