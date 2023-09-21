@@ -291,30 +291,29 @@
 				
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
+		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
-			<h2 class="h3">Third step: Apply changes.</h2>
-		</cfoutput>
-		<cftry>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cftry>
 				<cfset part_container_updates = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
 							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
 							UPDATE
-								container 
+								coll_obj_cont_hist
 							SET
-								other_id_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#">,
-								other_id_number=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">,
-								institution_acronym=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">,
-								container_unique_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_unique_id#">
+								container_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_id#">,
+								collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#COLLECTION_OBJECT_ID#">,
+								current_container_fg = 1,
+								installed_date = sysdate
 							WHERE
 								container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#"> AND
 								collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#COLLECTION_OBJECT_ID#">
 						</cfquery>
-						<cfset container_updates = container_updates + updateContainer_result.recordcount>
+						<cfset part_container_updates = part_container_updates + updateContainer_result.recordcount>
 						</cfloop>
 					</cftransaction>
 					<h2>Updated types for #part_container_updates# containers.</h2>
@@ -361,7 +360,6 @@
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfif coll_obj.collection_object_id gt 1>
 					<cfset part_container_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
@@ -379,8 +377,8 @@
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
-<!---					<cfcatch>
-						<cftransaction action="rollback">
+				<cfcatch>
+					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT other_id_type, other_id_number, collection_cde, institutional_acronym, part_name, preserve_method, container_unique_id 
 							FROM cf_temp_barcode_parts 
@@ -416,17 +414,17 @@
 							</tbody>
 						</table>
 						<cfrethrow>
-					</cfcatch>--->
-					</cftransaction>
+					</cfcatch>
 				</cftry>
-			<cfoutput>
+			</cftransaction>
 			<h2>Updated #container_updates# containers.</h2>
 			<h2>Success, changes applied.</h2>
-			</cfoutput>
+			
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			</cfoutput>
 	</cfif>
 </main>
 <cfinclude template="/shared/_footer.cfm">
