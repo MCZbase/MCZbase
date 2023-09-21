@@ -513,7 +513,7 @@ limitations under the License.
 										<div class="col-12 col-xl-7 float-left mb-2">
 											<h3 class="h3">Your recent specimen search CSV download requests</h3>
 											<cfset downloadRequestsBlockContent = getDownloadRequestsHTML() >
-											<span class="h3" id="recentDownloadRequestsDiv"> #downloadRequestsBlockContent#</span>
+											<span id="recentDownloadRequestsDiv"> #downloadRequestsBlockContent#</span>
 												<p>The number of rows and columns determine how long it takes to process. Once the download link appears, it remains for 24 hours and then is deleted.</p>
 											<button class="btn btn-xs btn-secondary" 
 												id="recheckDownloadRequestsBtn" onClick=" updateDownloadsBlock('recentDownloadRequestsDiv');" 
