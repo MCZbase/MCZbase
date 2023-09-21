@@ -308,11 +308,14 @@
 						<cfloop query="getTempData">
 							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
 							UPDATE
-								container
+								coll_obj_cont_history
 							SET
-								parent_container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent_container_id#">
+								collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">,
+								CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.container_id#">,
+								INSTALLED_DATE=sysdate,
+								current_container_fg
 							WHERE
-								collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_container_ID#">
+								key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 						</cfquery>
 						<cfset part_container_updates = part_container_updates + updateContainer_result.recordcount>
 						</cfloop>
