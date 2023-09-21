@@ -49,6 +49,8 @@ limitations under the License.
 		collecting_event.verbatim_locality,
 		collecting_event.verbatimdepth,
 		collecting_event.verbatimelevation,
+		collecting_event.collecting_method,
+		collecting_event.collecting_source,
 		geog_auth_rec.higher_geog,
 		collection.institution_acronym,
 		collection.collection,
@@ -211,6 +213,7 @@ limitations under the License.
 			higher_geog,
 			LatitudeString,
 			LongitudeString,
+			verbatim_coordinates,
 			NoGeorefBecause,
 			coordinateDeterminer,
 			lat_long_ref_source,
@@ -237,6 +240,7 @@ limitations under the License.
 			higher_geog,
 			LatitudeString,
 			LongitudeString,
+			verbatim_coordinates,
 			NoGeorefBecause,
 			coordinateDeterminer,
 			lat_long_ref_source,
@@ -267,6 +271,7 @@ limitations under the License.
 							<th>&nbsp;</th>
 							<th>CollEvent ID</th>
 							<th>Date Collected</th>
+							<th>Coll Source/Method</th>
 							<th>Spec Locality</th>
 							<th>Geog</th>
 							<th>Depth/Elevation</th>
@@ -322,10 +327,11 @@ limitations under the License.
 								</td>
 								<td>#collecting_event_id#</td>
 								<td>#began_date#-#ended_date# #verbatim_date#</td>
+								<td>#collecting_source# #collecting_method#</td>
 								<td>#spec_locality# [#verbatim_locality#]</td>
 								<td>#higher_geog#</td>
 								<td>#depth_elevation#</td>
-								<td>#georeference#</td>
+								<td>#georeference# [#verbatim_coordinates#]</td>
 								<td>#geolAtts#</td>
 							</tr>
 							<cfset i=#i#+1>
@@ -431,8 +437,8 @@ limitations under the License.
 						<th>Family</th>
 						<th>Accepted Scientific Name</th>
 						<th>Locality ID</th>
-						<th>Spec Locality</th>
-						<th>Verbatim Locality</th>
+						<th>Locality</th>
+						<th>Coll Method/Source</th>
 						<th>Date Collected</th>
 						<th>higher_geog</th>
 						<th>Depth/Elevation</th>
@@ -450,7 +456,7 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<cfif len(verbatimdepth) GT 0>
-							<cfset depth_elevation = "#depth_elevation# #verbatim_depth# ">
+							<cfset depth_elevation = "#depth_elevation# [#verbatim_depth#] ">
 						</cfif>
 						<cfif len(minimum_elevation) GT 0>
 							<cfif minimum_elevation EQ maximum_elevation>
@@ -477,8 +483,8 @@ limitations under the License.
 							<td>#family#</td>
 							<td><i>#Scientific_Name#</i></td>
 							<td>#locality_id#</td>
-							<td>#spec_locality#</td>
-							<td>#verbatim_locality#</td>
+							<td>#spec_locality# [#verbatim_locality#]</td>
+							<td>#collecting_source# #collecting_method#</td>
 							<td>#verbatim_date#</td>
 							<td>#higher_geog#</td>
 							<td>#depth_elevation#</td>
