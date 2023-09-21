@@ -513,7 +513,7 @@ limitations under the License.
 										<div class="col-12 col-xl-7 float-left mb-2">
 											<h3 class="h3">Your recent specimen search CSV download requests</h3>
 											<cfset downloadRequestsBlockContent = getDownloadRequestsHTML() >
-											<span id="recentDownloadRequestsDiv">#downloadRequestsBlockContent#</span>
+											<span id="recentDownloadRequestsDiv">#downloadRequestsBlockContent#-</span>
 											<button class="btn btn-xs btn-secondary" 
 												id="recheckDownloadRequestsBtn" onClick=" updateDownloadsBlock('recentDownloadRequestsDiv');" 
 											>Recheck Status</button>
