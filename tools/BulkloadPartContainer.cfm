@@ -366,14 +366,14 @@
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartContainer_result">
 							UPDATE
-								coll_obj_cont_hist 
+								coll_obj_cont_history
 							SET
 								collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj.collection_object_id#">,
 								CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getContID#">,
 								INSTALLED_DATE=sysdate,
 								current_container_fg
 							WHERE
-								collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_obj.collection_object_id#">
+								key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 						</cfquery>
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
@@ -385,7 +385,7 @@
 							FROM cf_temp_barcode_parts 
 							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 						</cfquery>
-						<h3>Error updating row (#container_updates + 1#): #cfcatch.message#</h3>
+						<h3>Error updating row (#part_container_updates + 1#): #cfcatch.message#</h3>
 						<table class='sortable table table-responsive table-striped d-lg-table'>
 							<thead>
 								<tr>
@@ -415,17 +415,16 @@
 							</tbody>
 						</table>
 						<cfrethrow>
-					</cfcatch>
+				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>Updated #container_updates# containers.</h2>
+			<h2>Updated #part_container_updates# containers.</h2>
 			<h2>Success, changes applied.</h2>
-			
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			</cfoutput>
+		</cfoutput>
 	</cfif>
 </main>
 <cfinclude template="/shared/_footer.cfm">
