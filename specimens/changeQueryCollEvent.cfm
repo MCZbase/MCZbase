@@ -483,7 +483,7 @@ limitations under the License.
 							<cfif isDefined("verbatimcoordinates") AND len(verbatimcoordinates) GT 0>
 								<cfset verbatimcoordinates = "[#verbatimcoordinates#]">
 							</cfif>
-							<cfset georeference = "#dec_lat#,#dec_long# #datum# #verbatimcoordinates#"
+							<cfset georeference = "#dec_lat#,#dec_long# #datum# #verbatimcoordinates#">
 						</cfif>
 						<tr>
 							<td>
