@@ -417,8 +417,8 @@
 						</table>
 						<cfrethrow>
 					</cfcatch>--->
+					</cftransaction>
 				</cftry>
-			</cftransaction>
 			<cfoutput>
 			<h2>Updated #container_updates# containers.</h2>
 			<h2>Success, changes applied.</h2>
