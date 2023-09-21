@@ -73,16 +73,9 @@ limitations under the License.
 										<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Collecting Events</a>
 									</li>
 								</cfif>
-								<cfif findNoCase('master',Session.gitBranch) EQ 0>
-									<!--- still needs testing, don't link to on production --->
-									<li class="nav-item mb-1">
-										<a href="/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Localities</a>
-									</li>
-								<cfelse>
-									<li class="nav-item mb-1">
-										<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Localities</a>
-									</li>
-								</cfif>
+								<li class="nav-item mb-1">
+									<a href="/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Localities</a>
+								</li>
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQueryEncumbrance.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Encumbrances</a>
 								</li>
