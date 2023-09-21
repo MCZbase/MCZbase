@@ -231,7 +231,12 @@
 				WHERE collection_object_id is null
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-	
+			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_barcode_parts 
+				SET status = 'part_name_not_found'
+				WHERE part_name is null
+				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,CONTAINER_ID,
 				INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID,STATUS 
@@ -303,18 +308,15 @@
 						<cfloop query="getTempData">
 							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
 							UPDATE
-								coll_obj_cont_hist
+								container
 							SET
-								container_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_id#">,
-								current_container_fg = 1,
-								installed_date = sysdate
+								parent_container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent_container_id#">
 							WHERE
-								collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#COLLECTION_OBJECT_ID#">
-								and 
+								collection_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_container_ID#">
 						</cfquery>
 						<cfset part_container_updates = part_container_updates + updateContainer_result.recordcount>
 						</cfloop>
-					</cftransaction>
+					</cftransaction> 
 					<h2>Updated types for #part_container_updates# containers.</h2>
 				<cfcatch>
 					<h2>There was a problem updating part container.</h2>
