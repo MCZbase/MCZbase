@@ -47,7 +47,7 @@ limitations under the License.
 		locality.depth_units,
 		collecting_event.verbatim_date,
 		collecting_event.verbatim_locality,
-		collecting_event.verbatim_coordinates,
+		collecting_event.verbatimcoordinates,
 		collecting_event.verbatimdepth,
 		collecting_event.verbatimelevation,
 		collecting_event.collecting_method,
