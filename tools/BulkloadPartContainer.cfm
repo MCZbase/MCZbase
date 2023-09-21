@@ -294,7 +294,7 @@
 		<cfoutput>
 			<h2 class="h3">Third step: Apply changes.</h2>
 		</cfoutput>
-<!---			<cftry>
+		<cftry>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -302,19 +302,22 @@
 				<cfset part_container_updates = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
-							<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
-								UPDATE
-									COLL_OBJ_CONT_HIST
-								SET
-									CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getContID.CONTAINER_ID#">, installed_date = sysdate, current_container_fg = 1
-								WHERE
-									COLLECTION_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCollObj.collection_object_id#">
-							</cfquery>
-							<cfset part_container_updates = part_container_updates + updatePart_result.recordcount>
+							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
+							UPDATE
+								container 
+							SET
+								other_id_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#">,
+								other_id_number=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_number#">,
+								institution_acronym=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">,
+								container_unique_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_unique_id#">
+							WHERE
+								container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#"> AND
+								collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#COLLECTION_OBJECT_ID#">
+						</cfquery>
+						<cfset container_updates = container_updates + updateContainer_result.recordcount>
 						</cfloop>
 					</cftransaction>
 					<h2>Updated types for #part_container_updates# containers.</h2>
-		
 				<cfcatch>
 					<h2>There was a problem updating part container.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -354,8 +357,8 @@
 					</table>
 					<cfrethrow>
 				</cfcatch>
-			</cftry>--->
-<!---			<cfset problem_key = "">
+			</cftry>
+			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
 					<cfif coll_obj.collection_object_id gt 1>
@@ -415,7 +418,7 @@
 						<cfrethrow>
 					</cfcatch>
 				</cftry>
-			</cftransaction>--->
+			</cftransaction>
 			<cfoutput>
 			<h2>Updated #container_updates# containers.</h2>
 			<h2>Success, changes applied.</h2>
