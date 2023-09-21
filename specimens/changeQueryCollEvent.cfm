@@ -121,7 +121,7 @@ limitations under the License.
 					<cfquery name="checkCollEvent" datasource="uam_god">
 						SELECT count(*) ct
 						FROM collecting_event
-						WHERE collecting_event_id = <cfqueryparam cfsqltype="CF_SQL-DECIMAL" value="#newcollecting_event_id#">
+						WHERE collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newcollecting_event_id#">
 					</cfquery>
 					<cfif checkCollEvent.ct NEQ 1>
 						<cfthrow message="Target collecting event id to change to [#encodeForHtml(newcollecting_event_id)#] not found.">
@@ -133,7 +133,7 @@ limitations under the License.
 					<cfoutput>
 						<cfquery name="updateCollEvent" datasource="uam_god">
 							UPDATE cataloged_item 
-							SET collecting_event_id = <cfqueryparam cfsqltype="CF_SQL-DECIMAL" value="#newcollecting_event_id#">
+							SET collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newcollecting_event_id#">
 							WHERE collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObjIdsList#" list="yes">)
 						</cfquery>
 					</cfoutput>

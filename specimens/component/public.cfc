@@ -2344,7 +2344,7 @@ limitations under the License.
 									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">#geology.geology_attribute#: </li>
 									<cfset geo_determiner = geology.determiner>
 									<cfif geology.geo_att_determiner_id NEQ "0" AND len(geology.geo_att_determiner_id) GT 0>
-										<cfset geo_determiner = "<a href='/agents/agent.cfm?agent_id=#geology.geo_att_determiner_id#'>#geo_determiner#</a>">
+										<cfset geo_determiner = "<a href='/agents/Agent.cfm?agent_id=#geology.geo_att_determiner_id#'>#geo_determiner#</a>">
 									</cfif>
 									<cfif len(geo_determiner) GT 0>
 										<cfset geo_determiner = "By: #geo_determiner#">
@@ -2392,7 +2392,7 @@ limitations under the License.
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Georeference: </li>
 							<cfset georef_determiner= coordlookup.lat_long_determined_by>
 							<cfif coordlookup.determined_by_agent_id NEQ "0" and len(coordlookup.determined_by_agent_id) GT 0>
-								<cfset georef_determiner = "<a href='/agents/agent.cfm?agent_id=#coordlookup.determined_by_agent_id#'>#georef_determiner#</a>">
+								<cfset georef_determiner = "<a href='/agents/Agent.cfm?agent_id=#coordlookup.determined_by_agent_id#'>#georef_determiner#</a>">
 							</cfif>
 							<cfif len(georef_determiner) GT 0>
 								<cfset georef_determiner = "By: #georef_determiner#">
@@ -2488,7 +2488,7 @@ limitations under the License.
 								<cfif len(coordlookup.lat_long_verified_by) GT 0>
 									<cfset georef_determiner = coordlookup.lat_long_verified_by>
 									<cfif coordlookup.verified_by_agent_id NEQ "0">
-										<cfset georef_verifier = "<a href='/agents/agent.cfm?agent_id=#coordlookup.verified_by_agent_id#'>#georef_determiner#</a>">
+										<cfset georef_verifier = "<a href='/agents/Agent.cfm?agent_id=#coordlookup.verified_by_agent_id#'>#georef_determiner#</a>">
 									</cfif>
 									<cfif len(coordlookup.lat_long_verified_by) GT 0>
 										<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Georeference verified by: </li>
@@ -2529,7 +2529,7 @@ limitations under the License.
 											<cfset dlo = left(#coordlookup.dec_long#,10)>
 											<cfset georef_determiner= coordlookup.lat_long_determined_by>
 											<cfif coordlookup.determined_by_agent_id NEQ "0">
-												<cfset georef_determiner = "<a href='/agents/agent.cfm?agent_id=#coordlookup.determined_by_agent_id#'>#georef_determiner#</a>">
+												<cfset georef_determiner = "<a href='/agents/Agent.cfm?agent_id=#coordlookup.determined_by_agent_id#'>#georef_determiner#</a>">
 											</cfif>
 											<cfif len(georef_determiner) GT 0>
 												<cfset georef_determiner = "By: #georef_determiner#">
@@ -2612,7 +2612,7 @@ limitations under the License.
 								<li class="list-group-item col-5 col-xl-4 px-0"><span class="my-0 font-weight-lessbold">Collecting Event/Field Number: </span></li>
 								<cfset num_determiner= collEventNumbers.collector_agent_name>
 								<cfif len(collEventNumbers.collector_agent_id) GT 0 AND collEventNumbers.collector_agent_id NEQ "0">
-									<cfset num_determiner = "<a href='/agents/agent.cfm?agent_id=#collEventNumbers.collector_agent_id#'>#num_determiner#</a>">
+									<cfset num_determiner = "<a href='/agents/Agent.cfm?agent_id=#collEventNumbers.collector_agent_id#'>#num_determiner#</a>">
 								</cfif>
 								<li class="list-group-item col-7 col-xl-8 px-0">
 									#collEventNumbers.coll_event_number# 
