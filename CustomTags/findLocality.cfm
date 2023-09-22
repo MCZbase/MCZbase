@@ -79,6 +79,7 @@
 			ended_date,
 			verbatim_date,
 			verbatim_locality,
+			verbatimcoordinates,
 			collecting_source,
 			collecting_method,
 			CASE orig_lat_long_units
