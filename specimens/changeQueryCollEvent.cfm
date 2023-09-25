@@ -510,7 +510,11 @@ limitations under the License.
 						<th>Locality (ID)</th>
 						<th>Coll Event ID</th>
 						<th>Date Collected</th>
-						<th>Coll Method/Source</th>
+						<th>Coll Method/ Source
+							<cfif specimenList.recordcount LT 101>
+								/ Numbers
+							</cfif>
+						</th>
 						<th>Verbatim Locality</th>
 						<th>Depth/Elevation</th>
 						<th>Georeference</th>
@@ -519,6 +523,29 @@ limitations under the License.
 				</thead>
 				<tbody>
 					<cfoutput query="specimenList" group="collection_object_id">
+						<cfif len(fish_field_number) GT 0>
+							<cfset eventNumbers = "Fish field No: #fish_field_number#">
+						<cfelse>
+							<cfset eventNumbers = "">
+						</cfif>
+						<cfif specimenList.recordcount LT 101>
+							<cfquery name="getCollNumbersSpec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT distinct 
+									coll_event_number, number_series, collector_agent_id
+								FROM
+									coll_event_number
+									join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
+								WHERE 
+									coll_event_number.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#specimenList.collecting_event_id#">
+							</cfquery>
+							<cfloop query="getCollNumbersSpec">
+								<cfset series = getCollNumbers.number_series>
+								<cfif len(getCollNumber.collector_agent_id) GT 0>
+									<cfset series = "<a href='/agents/Agent.cfm?agent_id=#getCollNumber.collector_agent_id#' target='_blank'>#series#</a>" ><!--- " --->
+								</cfif>
+								<cfset eventNumbers = "#eventNumbers# #getCollNumbers.coll_event_number# #series#">
+							</cfloop>
+						</cfif>
 						<cfif specimenList.began_date EQ specimenList.ended_date>
 							<cfset date=specimenList.began_date>
 						<cfelseif len(specimenList.began_date) GT 0 AND len(specimenList.began_date) GT 0>
@@ -597,9 +624,7 @@ limitations under the License.
 							<td>#date#</td>
 							<td>
 								#collecting_source# #collecting_method#
-								<cfif len(fish_field_number) GT 0>
-									Fish field No: #fish_field_number# 
-								</cfif>
+								#eventNumbers#
 							</td>
 							<td>
 								#verbatim_locality# 
