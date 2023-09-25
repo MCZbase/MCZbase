@@ -47,13 +47,19 @@ limitations under the License.
 		locality.depth_units,
 		collecting_event.verbatim_date,
 		collecting_event.verbatim_locality,
+		collecting_event.verbatimcoordinates,
 		collecting_event.verbatimdepth,
 		collecting_event.verbatimelevation,
+		collecting_event.collecting_method,
+		collecting_event.collecting_source,
 		geog_auth_rec.higher_geog,
 		collection.institution_acronym,
 		collection.collection,
 		flat.phylorder,
-		flat.family
+		flat.family,
+		nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_lat,accepted_lat_long.coordinate_precision), round(accepted_lat_long.dec_lat,5)) as dec_lat,
+		nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_long,accepted_lat_long.coordinate_precision), round(accepted_lat_long.dec_long,5)) as dec_long,
+		accepted_lat_long.datum
 	FROM
 		user_search_table
 		left join cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
@@ -62,6 +68,7 @@ limitations under the License.
 		left join locality on collecting_event.locality_id = locality.locality_id
 		left join geog_auth_rec on  locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 		left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+		left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
 	WHERE
 		result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		<cfif isdefined("filterOrder") and len(#filterOrder#) GT 0>
@@ -211,6 +218,7 @@ limitations under the License.
 			higher_geog,
 			LatitudeString,
 			LongitudeString,
+			verbatimcoordinates,
 			NoGeorefBecause,
 			coordinateDeterminer,
 			lat_long_ref_source,
@@ -237,6 +245,7 @@ limitations under the License.
 			higher_geog,
 			LatitudeString,
 			LongitudeString,
+			verbatimcoordinates,
 			NoGeorefBecause,
 			coordinateDeterminer,
 			lat_long_ref_source,
@@ -267,6 +276,7 @@ limitations under the License.
 							<th>&nbsp;</th>
 							<th>CollEvent ID</th>
 							<th>Date Collected</th>
+							<th>Coll Source/Method</th>
 							<th>Spec Locality</th>
 							<th>Geog</th>
 							<th>Depth/Elevation</th>
@@ -322,10 +332,14 @@ limitations under the License.
 								</td>
 								<td>#collecting_event_id#</td>
 								<td>#began_date#-#ended_date# #verbatim_date#</td>
+								<td>#collecting_source# #collecting_method#</td>
 								<td>#spec_locality# [#verbatim_locality#]</td>
 								<td>#higher_geog#</td>
 								<td>#depth_elevation#</td>
-								<td>#georeference#</td>
+								<cfif isDefined("verbatimcoordinates") AND len(verbatimcoordinates) GT 0>
+									<cfset verbatimcoordinates = "[#verbatimcoordinates#]">
+								</cfif>
+								<td>#georeference# #verbatimcoordinates#</td>
 								<td>#geolAtts#</td>
 							</tr>
 							<cfset i=#i#+1>
@@ -431,10 +445,12 @@ limitations under the License.
 						<th>Family</th>
 						<th>Accepted Scientific Name</th>
 						<th>Locality ID</th>
-						<th>Spec Locality</th>
-						<th>Verbatim Locality</th>
+						<th>Locality</th>
+						<th>Coll Event ID</th>
+						<th>Coll Method/Source</th>
 						<th>Date Collected</th>
-						<th>higher_geog</th>
+						<th>Higher Geog</th>
+						<th>Georeference</th>
 						<th>Depth/Elevation</th>
 						<th>Geology</th>
 					</tr>
@@ -450,7 +466,7 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						<cfif len(verbatimdepth) GT 0>
-							<cfset depth_elevation = "#depth_elevation# #verbatim_depth# ">
+							<cfset depth_elevation = "#depth_elevation# [#verbatim_depth#] ">
 						</cfif>
 						<cfif len(minimum_elevation) GT 0>
 							<cfif minimum_elevation EQ maximum_elevation>
@@ -461,6 +477,13 @@ limitations under the License.
 						</cfif>
 						<cfif len(verbatimelevation) GT 0>
 							<cfset depth_elevation = "#depth_elevation# #verbatim_elevation#">
+						</cfif>
+						<cfset georeference="">
+						<cfif isDefined("dec_lat") AND len(dec_lat) GT 0>
+							<cfif isDefined("verbatimcoordinates") AND len(verbatimcoordinates) GT 0>
+								<cfset verbatimcoordinates = "[#verbatimcoordinates#]">
+							</cfif>
+							<cfset georeference = "#dec_lat#,#dec_long# #datum# #verbatimcoordinates#">
 						</cfif>
 						<tr>
 							<td>
@@ -477,10 +500,12 @@ limitations under the License.
 							<td>#family#</td>
 							<td><i>#Scientific_Name#</i></td>
 							<td>#locality_id#</td>
-							<td>#spec_locality#</td>
-							<td>#verbatim_locality#</td>
+							<td>#spec_locality# [#verbatim_locality#]</td>
+							<td>#collecting_event_id#</td>
+							<td>#collecting_source# #collecting_method#</td>
 							<td>#verbatim_date#</td>
 							<td>#higher_geog#</td>
+							<td>#georeference#</td>
 							<td>#depth_elevation#</td>
 							<td>#geolAtts#</td>
 						</tr>
