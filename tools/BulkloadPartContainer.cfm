@@ -310,7 +310,7 @@
 							UPDATE
 								coll_obj_cont_hist
 							SET
-								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.container_id#">,
+								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.container_id#">,
 								INSTALLED_DATE=sysdate,
 								current_container_fg=1
 							WHERE
