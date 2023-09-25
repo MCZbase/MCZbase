@@ -303,15 +303,13 @@
 					<cftransaction>
 						<cfset install_date = ''>
 						<cfloop query="getTempData">
-							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
+							<cfquery name="updateContainerHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainerHist_result">
 							insert into 
 								container_history 
 									(container_id,parent_container_id,install_date) 
 								values (#container_id#,#parent_container_id#,SYSDATE)
-							WHERE
-								key=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
-						</cfquery>
-						<cfset part_container_updates = part_container_updates + updateContainer_result.recordcount>
+							</cfquery>
+							<cfset part_container_updates = part_container_updates + updateContainerHist_result.recordcount>
 						</cfloop>
 					</cftransaction> 
 					<h2>Updated #part_container_updates# part containers.</h2>
