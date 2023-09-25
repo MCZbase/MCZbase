@@ -377,7 +377,7 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT other_id_type,other_id_number,collection_cde,institutional_acronym,
+						SELECT other_id_type,other_id_number,collection_cde,institution_acronym,
 							part_name,preserve_method,container_unique_id,status 
 						FROM cf_temp_barcode_parts 
 						WHERE status is not null
