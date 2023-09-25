@@ -379,7 +379,7 @@
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT other_id_type,other_id_number,collection_cde,institutional_acronym,
 							part_name,preserve_method,container_unique_id,status 
-						FROM cf_temp_cont_edit 
+						FROM cf_temp_barcode_parts 
 						WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
