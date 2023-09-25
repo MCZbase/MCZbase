@@ -159,7 +159,7 @@
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
-							insert into MCZBASE.cf_temp_bl_relations
+							insert into MCZBASE.CF_TEMP_BL_RELATIONS
 								(#fieldlist#,USERNAME)
 							values (
 								<cfset separator = "">
