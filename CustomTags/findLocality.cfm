@@ -77,20 +77,24 @@
 			locality.curated_fg,
 			began_date,
 			ended_date,
+			startdayofyear,
+			enddayofyear,
+			collecting_time,
 			verbatim_date,
 			verbatim_locality,
 			verbatimcoordinates,
+			habitat_desc,
 			collecting_source,
 			collecting_method,
 			CASE orig_lat_long_units
-				WHEN 'decimal degrees' THEN dec_lat || 'd'
-				WHEN 'deg. min. sec.' THEN lat_deg || 'd ' || lat_min || 'm ' || lat_sec || 's ' || lat_dir
-				WHEN 'degrees dec. minutes' THEN lat_deg || 'd ' || dec_lat_min || 'm ' || lat_dir
+				WHEN 'decimal degrees' THEN dec_lat || '&##176;'
+				WHEN 'deg. min. sec.' THEN lat_deg || '&##176; ' || lat_min || '&apos; ' || lat_sec || '&quot; ' || lat_dir
+				WHEN 'degrees dec. minutes' THEN lat_deg || '&##176; ' || dec_lat_min || '&apos; ' || lat_dir
 			END LatitudeString,
 			CASE orig_lat_long_units
-				WHEN 'decimal degrees' THEN dec_long || 'd'
-				WHEN'degrees dec. minutes' THEN long_deg || 'd ' || dec_long_min || 'm ' || long_dir
-				WHEN 'deg. min. sec.' THEN long_deg || 'd ' || long_min || 'm ' || long_sec || 's ' || long_dir
+				WHEN 'decimal degrees' THEN dec_long || '&##176;'
+				WHEN'degrees dec. minutes' THEN long_deg || '&##176; ' || dec_long_min || '&apos; ' || long_dir
+				WHEN 'deg. min. sec.' THEN long_deg || '&##176; ' || long_min || '&apos; ' || long_sec || '&quot; ' || long_dir
 			END LongitudeString,
 			nogeorefbecause,
 			max_error_distance,

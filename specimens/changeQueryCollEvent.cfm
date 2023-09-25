@@ -45,6 +45,11 @@ limitations under the License.
 		locality.min_depth,
 		locality.max_depth,
 		locality.depth_units,
+		collecting_event.began_date,
+		collecting_event.ended_date,
+		collecting_event.collecting_time,
+		collecting_event.startdayofyear,
+		collecting_event.enddayofyear,
 		collecting_event.verbatim_date,
 		collecting_event.verbatim_locality,
 		collecting_event.verbatimcoordinates,
@@ -52,6 +57,7 @@ limitations under the License.
 		collecting_event.verbatimelevation,
 		collecting_event.collecting_method,
 		collecting_event.collecting_source,
+		collecting_event.habitat_desc,
 		geog_auth_rec.higher_geog,
 		collection.institution_acronym,
 		collection.collection,
@@ -232,8 +238,12 @@ limitations under the License.
 			orig_elev_units,
 			began_date,
 			ended_date,
+			startdayofyear,
+			enddayofyear,
+			collecting_time,
 			verbatim_date,
 			verbatim_locality,
+			habitat_desc,
 			collecting_source,
 			collecting_method
 		FROM localityResults
@@ -259,8 +269,12 @@ limitations under the License.
 			orig_elev_units,
 			began_date,
 			ended_date,
+			startdayofyear,
+			enddayofyear,
+			collecting_time,
 			verbatim_date,
 			verbatim_locality,
+			habitat_desc,
 			collecting_source,
 			collecting_method
 	</cfquery>
@@ -478,6 +492,15 @@ limitations under the License.
 						<cfelse>
 							<cfset date=specimenList.began_date>
 						</cfif>
+						<cfif len(specimenList.startdayofyear) GT 0 AND len(specimenList.startdayofyear) GT 0>
+							<cfset date="#date# day:#startdayofyear#">
+							<cfif len(specimenList.enddayofyear) GT 0 AND len(specimenList.enddayofyear) GT 0>
+								<cfset date="#date#-#enddayofyear#">
+							<cfif>
+						</cfif>
+						<cfif len(specimenList.collecting_time) GT 0 AND len(specimenList.collecting_time) GT 0>
+							<cfset date="#date# #collecting_time#">
+						</cfif>
 						<cfif len(localityResults.verbatim_date) GT 0>
 							<cfset date="#date# [#localityResults.verbatim_date#]">
 						</cfif>
@@ -524,7 +547,7 @@ limitations under the License.
 							<td>#family#</td>
 							<td><i>#Scientific_Name#</i></td>
 							<td>#locality_id#</td>
-							<td>#spec_locality# [#verbatim_locality#]</td>
+							<td>#spec_locality# [#verbatim_locality#] #habitat_desc#</td>
 							<td>#collecting_event_id#</td>
 							<td>#collecting_source# #collecting_method#</td>
 							<td>#date#</td>
