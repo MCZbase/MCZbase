@@ -983,12 +983,13 @@ limitations under the License.
 								<th class="py-0"><span>Condition</span></th>
 								<th class="py-0"><span>Disposition</span></th>
 								<th class="py-0"><span>Count</span></th>
-								<th class="py-0"></th>
 								<cfif oneOfus is "1">
 									<th class="py-0">
 										<span>Container</span>
 									</th>
 								</cfif>
+								<th class="py-0"></th>
+								
 							</tr>
 						</thead>
 						<tbody class="bg-white">
