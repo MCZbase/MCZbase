@@ -299,8 +299,9 @@
 			</cfquery>
 			<cftry>
 				<cfset part_container_updates = 0>
-				<cfset install_date = ''>
+				
 					<cftransaction>
+						<cfset install_date = ''>
 						<cfloop query="getTempData">
 							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
 							insert into 
