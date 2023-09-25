@@ -326,8 +326,8 @@ limitations under the License.
 							<cfset eventNumbers = fish_field_number>
 							<cfloop query="getCollNumbers">
 								<cfset series = getCollNumbers.number_series>
-								<cfif len(getCollNumber.collector_agent_id) GT 0>
-									<cfset series = "<a href='/agents/Agent.cfm?agent_id=#getCollNumber.collector_agent_id#' target='_blank'>#series#</a>" ><!--- " --->
+								<cfif len(getCollNumbers.collector_agent_id) GT 0>
+									<cfset series = "<a href='/agents/Agent.cfm?agent_id=#getCollNumbers.collector_agent_id#' target='_blank'>#series#</a>" ><!--- " --->
 								</cfif>
 								<cfset eventNumbers = "#eventNumbers# #getCollNumbers.coll_event_number# #series#">
 							</cfloop>
@@ -528,7 +528,7 @@ limitations under the License.
 						<cfelse>
 							<cfset eventNumbers = "">
 						</cfif>
-						<cfif specimenList.recordcount LT 101>
+						<cfif specimenList.recordcount LT 201>
 							<cfquery name="getCollNumbersSpec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT distinct 
 									coll_event_number, number_series, collector_agent_id
@@ -539,11 +539,11 @@ limitations under the License.
 									coll_event_number.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#specimenList.collecting_event_id#">
 							</cfquery>
 							<cfloop query="getCollNumbersSpec">
-								<cfset series = getCollNumbers.number_series>
-								<cfif len(getCollNumber.collector_agent_id) GT 0>
-									<cfset series = "<a href='/agents/Agent.cfm?agent_id=#getCollNumber.collector_agent_id#' target='_blank'>#series#</a>" ><!--- " --->
+								<cfset series = getCollNumbersSpec.number_series>
+								<cfif len(getCollNumbersSpec.collector_agent_id) GT 0>
+									<cfset series = "<a href='/agents/Agent.cfm?agent_id=#getCollNumbersSpec.collector_agent_id#' target='_blank'>#series#</a>" ><!--- " --->
 								</cfif>
-								<cfset eventNumbers = "#eventNumbers# #getCollNumbers.coll_event_number# #series#">
+								<cfset eventNumbers = "#eventNumbers# #getCollNumbersSpec.coll_event_number# #series#">
 							</cfloop>
 						</cfif>
 						<cfif specimenList.began_date EQ specimenList.ended_date>
