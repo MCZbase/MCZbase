@@ -291,7 +291,7 @@ limitations under the License.
 							<th>CollEvent ID</th>
 							<th>Date Collected</th>
 							<th>Coll Source/Method</th>
-							<th>Spec Locality</th>
+							<th>Spec Locality [verbatim]</th>
 							<th>Geog</th>
 							<th>Depth/Elevation</th>
 							<th style="width: 11%;">Georeference</th>
@@ -469,11 +469,10 @@ limitations under the License.
 								</cfoutput>
 							</th>
 						</cfif>
-						<th>Order</th>
-						<th>Family</th>
+						<th>Order: Family</th>
 						<th>Accepted Scientific Name</th>
 						<th>Locality ID</th>
-						<th>Locality</th>
+						<th>Locality [verbatim]</th>
 						<th>Coll Event ID</th>
 						<th>Coll Method/Source</th>
 						<th>Date Collected</th>
@@ -543,8 +542,7 @@ limitations under the License.
 								#CustomID#&nbsp;
 							</td>
 						</cfif>
-							<td>#phylorder#</td>
-							<td>#family#</td>
+							<td>#phylorder# #family#</td>
 							<td><i>#Scientific_Name#</i></td>
 							<td>#locality_id#</td>
 							<td>#spec_locality# [#verbatim_locality#] #habitat_desc#</td>
