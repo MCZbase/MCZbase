@@ -316,7 +316,7 @@
 								INSTALLED_DATE=sysdate,
 								current_container_fg=1
 							WHERE
-								collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">
+								username=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.username#">
 						</cfquery>
 						<cfset part_container_updates = part_container_updates + updateContainer_result.recordcount>
 						</cfloop>
