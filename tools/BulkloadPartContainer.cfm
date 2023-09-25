@@ -366,11 +366,11 @@
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartContainer_result">
 							UPDATE
-								container 
+								container_history 
 							SET
-								CONTAINER_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_TYPE#">
+								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_ID#">
 							WHERE
-								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
+								PARENT_CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#PARENT_CONTAINER_ID#">
 						</cfquery>
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
@@ -378,7 +378,8 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT other_id_type,other_id_number,collection_cde,institutional_acronym,part_name,preserve_method,container_unique_id,status 
+						SELECT other_id_type,other_id_number,collection_cde,institutional_acronym,
+							part_name,preserve_method,container_unique_id,status 
 						FROM cf_temp_cont_edit 
 						WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
