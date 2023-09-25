@@ -287,6 +287,16 @@ limitations under the License.
 					<tbody>
 						<cfset i = 1>
 						<cfloop query="localityResults">
+							<cfif localityResults.began_date EQ localityResults.ended_date>
+								<cfset date=localityResults.began_date>
+							<cfelseif len(localityResults.began_date) GT 0 AND len(localityResults.began_date) GT 0>
+								<cfset date="#localityResults.began_date#/#localityResults.ended_date#">
+							<cfelse>
+								<cfset date=localityResults.began_date>
+							</cfif>
+							<cfif len(localityResults.verbatim_date) GT 0>
+								<cfset date="#date# [#localityResults.verbatim_date#]">
+							</cfif>
 							<cfset depth_elevation = "">
 							<cfif len(min_depth) GT 0>
 								<cfif min_depth EQ max_depth>
@@ -306,6 +316,13 @@ limitations under the License.
 								<cfset georeference = NoGeorefBecause>
 							<cfelse>
 								<cfset georeference="#LatitudeString# #LongitudeString#">
+							</cfif>
+							<cfif len(localityResults.verbatimcoordinates) GT 0>
+								<cfset verbatim_coordinates=" #verbatimcoordinates# #verbatimsrs#">
+							<cfelseif len(localityResults.verbatimlatitude) GT 0>
+								<cfset verbatim_coordinates="[#verbatimlatitude#, #verbatimlongitude# #verbatimsrs#]">
+							<cfelse>
+								<cfset verbatim_coordinates="">
 							</cfif>
 							<tr>
 								<td> 
@@ -331,14 +348,11 @@ limitations under the License.
 									</form>
 								</td>
 								<td>#collecting_event_id#</td>
-								<td>#began_date#-#ended_date# #verbatim_date#</td>
+								<td>#date#</td>
 								<td>#collecting_source# #collecting_method#</td>
 								<td>#spec_locality# [#verbatim_locality#]</td>
 								<td>#higher_geog#</td>
 								<td>#depth_elevation#</td>
-								<cfif isDefined("verbatimcoordinates") AND len(verbatimcoordinates) GT 0>
-									<cfset verbatimcoordinates = "[#verbatimcoordinates#]">
-								</cfif>
 								<td>#georeference# #verbatimcoordinates#</td>
 								<td>#geolAtts#</td>
 							</tr>
@@ -457,6 +471,16 @@ limitations under the License.
 				</thead>
 				<tbody>
 					<cfoutput query="specimenList" group="collection_object_id">
+						<cfif specimenList.began_date EQ specimenList.ended_date>
+							<cfset date=specimenList.began_date>
+						<cfelseif len(specimenList.began_date) GT 0 AND len(specimenList.began_date) GT 0>
+							<cfset date="#specimenList.began_date#/#specimenList.ended_date#">
+						<cfelse>
+							<cfset date=specimenList.began_date>
+						</cfif>
+						<cfif len(localityResults.verbatim_date) GT 0>
+							<cfset date="#date# [#localityResults.verbatim_date#]">
+						</cfif>
 						<cfset depth_elevation = "">
 						<cfif len(min_depth) GT 0>
 							<cfif min_depth EQ max_depth>
@@ -503,7 +527,7 @@ limitations under the License.
 							<td>#spec_locality# [#verbatim_locality#]</td>
 							<td>#collecting_event_id#</td>
 							<td>#collecting_source# #collecting_method#</td>
-							<td>#verbatim_date#</td>
+							<td>#date#</td>
 							<td>#higher_geog#</td>
 							<td>#georeference#</td>
 							<td>#depth_elevation#</td>
