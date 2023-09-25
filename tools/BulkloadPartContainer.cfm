@@ -307,7 +307,7 @@
 							insert into 
 								container_history 
 									(container_id,parent_container_id,install_date) 
-								values (#container_id#,#parent_container_id#,#now()#)
+								values (#container_id#,#parent_container_id#,SYSDATE)
 							WHERE
 								key=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
