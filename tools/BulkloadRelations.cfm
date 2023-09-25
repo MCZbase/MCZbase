@@ -288,7 +288,7 @@
 	</cfif>											
 
 	<!------------------------------------------------------->
-<cfinclude template="/includes/_header.cfm">
+<cfinclude template="/shared/_header.cfm">
     <div style="width: 50em; margin: 0 auto; padding: 1em 0 3em 0;">
 <cfif #action# is "nothing">
     <h3 class="wikilink">Bulkload Relationships</h3>
@@ -514,4 +514,4 @@
 </cfoutput>
 </cfif>
             </div>
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
