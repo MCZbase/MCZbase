@@ -243,6 +243,9 @@ limitations under the License.
 			collecting_time,
 			verbatim_date,
 			verbatim_locality,
+			verbatimlatitude,
+			verbatimlongitude,
+			verbatimsrs,
 			habitat_desc,
 			collecting_source,
 			collecting_method
@@ -274,6 +277,9 @@ limitations under the License.
 			collecting_time,
 			verbatim_date,
 			verbatim_locality,
+			verbatimlatitude,
+			verbatimlongitude,
+			verbatimsrs,
 			habitat_desc,
 			collecting_source,
 			collecting_method
