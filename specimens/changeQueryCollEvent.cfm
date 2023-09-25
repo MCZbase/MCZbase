@@ -326,7 +326,7 @@ limitations under the License.
 							<cfset eventNumbers = fish_field_number>
 							<cfloop query="getCollNumbers">
 								<cfset series = getCollNumbers.number_series>
-								<cfif len(getCollNumber.collector_agent_id GT 0>
+								<cfif len(getCollNumber.collector_agent_id) GT 0>
 									<cfset series = "<a href='/agents/Agent.cfm?agent_id=#getCollNumber.collector_agent_id#' target='_blank'>#series#</a>" ><!--- " --->
 								</cfif>
 								<cfset eventNumbers = "#eventNumbers# #getCollNumbers.coll_event_number# #series#">
