@@ -470,6 +470,6 @@
 	</cftransaction>
 	Spiffy, all done.
 </cfoutput>--->
-</cfif>
+<!---</cfif>--->
 </div>
 <cfinclude template="/shared/_footer.cfm">
