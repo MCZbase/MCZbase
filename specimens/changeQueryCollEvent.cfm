@@ -501,8 +501,8 @@ limitations under the License.
 						<cfif len(specimenList.collecting_time) GT 0 AND len(specimenList.collecting_time) GT 0>
 							<cfset date="#date# #collecting_time#">
 						</cfif>
-						<cfif len(localityResults.verbatim_date) GT 0>
-							<cfset date="#date# [#localityResults.verbatim_date#]">
+						<cfif len(specimenList.verbatim_date) GT 0>
+							<cfset date="#date# [#specimenList.verbatim_date#]">
 						</cfif>
 						<cfset depth_elevation = "">
 						<cfif len(min_depth) GT 0>
