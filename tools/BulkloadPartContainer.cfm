@@ -311,7 +311,7 @@
 							<cfset part_container_updates = part_container_updates + updateContainerHist_result.recordcount>
 						</cfloop>
 					</cftransaction> 
-					<h2>Updated #part_container_updates# part containers.</h2>
+					<h2>Updated #part_container_updates# parts with containers.</h2>
 				<cfcatch>
 					<h2>There was a problem updating part container.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -412,8 +412,8 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>Updated #part_container_updates# container(s).</h2>
-			<h2>Success, changes applied.</h2>
+				<div class="col-12 mx-auto"><h3 class="text-success">Success, changes applied.</h3></div>
+			
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
