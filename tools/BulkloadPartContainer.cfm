@@ -239,7 +239,7 @@
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select container_id from container where container_type <> 'collection object'
-				and barcode='#container_unique_id#'
+				and barcode='#cf_temp_barcode_parts.container_unique_id#'
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,CONTAINER_ID,
@@ -317,8 +317,6 @@
 								container
 							SET
 								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">,
-								INSTALLED_DATE=sysdate,
-								current_container_fg=1
 							WHERE
 								collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">
 						</cfquery>
