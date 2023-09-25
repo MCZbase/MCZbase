@@ -308,7 +308,7 @@
 						<cfloop query="getTempData">
 							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
 							UPDATE
-								coll_obj_cont_history
+								coll_obj_cont_hist
 							SET
 								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">,
 								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.container_id#">,
