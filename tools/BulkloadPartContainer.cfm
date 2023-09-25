@@ -315,7 +315,7 @@
 								INSTALLED_DATE=sysdate,
 								current_container_fg=1
 							WHERE
-								key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
+								getTempData.key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 						</cfquery>
 						<cfset part_container_updates = part_container_updates + updateContainer_result.recordcount>
 						</cfloop>
