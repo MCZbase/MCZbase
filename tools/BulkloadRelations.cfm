@@ -11,7 +11,7 @@
 	<cfabort>
 </cfif>
 <cfset fieldlist = "INSTITUTION_ACROYNYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL">
-<cfset fieldTypes ="INSTITUTION_ACROYNYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL">
+<cfset fieldTypes ="varchar,varchar,varchar,varchar,varchar,varchar,varchar,varchar,varchar">
 <cfset requiredfieldlist = "INSTITUTION_ACROYNYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL">
 
 	
@@ -42,7 +42,8 @@
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
 				<label for="templatearea" class="data-entry-label">
-					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadRelations.cfm?action=getCSVHeader">download</a>)
+					Copy this header line and save it as a .csv file 
+					(<a href="/tools/BulkloadRelations.cfm?action=getCSVHeader">download</a>)
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
@@ -194,45 +195,48 @@
 			</h3>
 		</cfoutput>
 	</cfif>
-											
-	<!------------------------------------------------------->
+
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_barcode_parts  set container_id=
-				(select container_id from container where container.barcode = cf_temp_barcode_parts .container_unique_id)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					update cf_temp_bl_relations set collection_object_id = 
+				(
+					select ci.collection_object_id 
+					from cataloged_item ci
+					where ci.collection_cde = #cf_temp_bl_relations.collection_cde
+					and ci.cat_num = cf_temp_bl_relations.other_id_value
+				) 
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_barcode_parts  set parent_container_id=
-				(select container_id from container where container.barcode = cf_temp_barcode_parts .parent_unique_id)
+				update cf_temp_bl_relations set related_coll_object_id=
+				(
+					select ci.collection_object_id
+					from cataloged_item ci
+					where ci.collection_cde = #cf_temp_bl_relations.related_collection_cde
+					and ci.cat_num = cf_temp_bl_relations.related_other_id_val
+				)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_barcode_parts  
+				UPDATE cf_temp_bl_relations
 				SET status = 'container_not_found'
 				WHERE container_id is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_barcode_parts  
+				UPDATE cf_temp_bl_relations
 				SET status = 'parent_container_not_found'
 				WHERE parent_container_id is null and parent_unique_id is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_barcode_parts  
-				SET status = 'bad_container_type'
-				WHERE container_type not in (select container_type from ctcontainer_type)
+				UPDATE cf_temp_bl_relations
+				SET status = 'bad_relationship'
+				WHERE relationship not in (select biol_indiv_relationship,inverse_relation from ctbiol_relations)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_barcode_parts 
-				SET status = 'missing_label'
-				WHERE CONTAINER_NAME is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>	
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT other_id_type, other_id_number, collection_cde, institution_acronym, part_name, preserve_method, container_unique_id 
 				FROM cf_temp_barcode_parts 
@@ -283,13 +287,11 @@
 				</tbody>
 			</table>
 		</cfoutput>
-	</cfif>											
+	</cfif>
 
 </main>
 <!------------------------------------------------------->
-<!------------------------------------------------------->
 
-<!------------------------------------------------------->
 <!---<cfif #action# is "getFile">
 	<cfoutput>
 		<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
