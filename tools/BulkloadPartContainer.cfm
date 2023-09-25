@@ -203,19 +203,8 @@
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-<!---			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_barcode_parts set part_container_id = 
-				(
-					select sp.collection_object_id 
-					from specimen_part sp, cataloged_item ci
-					where sp.derived_from_cat_item = ci.collection_object_id
-					and ci.collection_cde = cf_temp_barcode_parts.collection_cde
-					and ci.cat_num = cf_temp_barcode_parts.other_id_number
-				) 
-				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>--->
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_barcode_parts set parent_container_id=
+				update cf_temp_barcode_parts set container_id=
 				(select container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -307,12 +296,8 @@
 				<cfset part_container_updates = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
-							#key#
 							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
-							UPDATE
-								container
-							SET
-								PARENT_CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">,
+							insert into container_history (container_id,parent_container_id,install_date) values (#container_id#,#parent_container_id#,sysdate)
 							WHERE
 								key=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
@@ -333,6 +318,7 @@
 						<thead>
 							<tr>
 								<th>CONTAINER_ID</th>
+								<th>COLLECTION_OBJECT_ID</th>
 								<th>OTHER_ID_TYPE</th>
 								<th>OTHER_ID_NUMBER</th>
 								<th>COLLECTION_CDE</th>
@@ -346,6 +332,7 @@
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr><td>#getProblemData.CONTAINER_ID#</td>
+									<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
 									<td>#getProblemData.OTHER_ID_TYPE#</td>
 									<td>#getProblemData.OTHER_ID_NUMBER#</td>
 									<td>#getProblemData.COLLECTION_CDE#</td>
