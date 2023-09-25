@@ -203,8 +203,8 @@
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_barcode_parts set part_container_id = 
+<!---			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_barcode_parts set  = 
 				(
 					select sp.collection_object_id 
 					from specimen_part sp, cataloged_item ci
@@ -213,7 +213,7 @@
 					and ci.cat_num = cf_temp_barcode_parts.other_id_number
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			</cfquery>--->
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_barcode_parts set parent_container_id=
 				(select container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
