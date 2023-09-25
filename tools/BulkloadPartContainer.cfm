@@ -368,9 +368,10 @@
 							UPDATE
 								container_history 
 							SET
-								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_ID#">
-							WHERE
+								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_ID#">,
 								PARENT_CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#PARENT_CONTAINER_ID#">
+							WHERE
+								Username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
