@@ -291,14 +291,13 @@ limitations under the License.
 				<table class="table table-responsive-lg">
 					<thead class="thead-light">
 						<tr>
-							<th>Geog ID</th>
+							<th>Geog</th>
 							<th>Locality ID</th>
 							<th>&nbsp;</th>
 							<th>CollEvent ID</th>
 							<th>Date Collected</th>
 							<th>Coll Source/Method</th>
 							<th>Spec Locality [verbatim]</th>
-							<th>Geog</th>
 							<th>Depth/Elevation</th>
 							<th style="width: 11%;">Georeference</th>
 							<th>Geology</th>
@@ -345,8 +344,9 @@ limitations under the License.
 								<cfset verbatim_coordinates="">
 							</cfif>
 							<tr>
-								<td> 
-									<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">#geog_auth_rec_id#</a>
+								<td>
+									#higher_geog#
+									(<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">#geog_auth_rec_id#</a>)
 								</td>
 								<td>
 									<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" target="_blank">#locality_id#</a>
@@ -367,11 +367,13 @@ limitations under the License.
 											class="btn btn-warning btn-xs">
 									</form>
 								</td>
-								<td>#collecting_event_id#</td>
+								<td>
+									<!--- TODO: Point to view collecting event page --->
+									<a href="/localities/CollectingEvent.cfm?action=edit&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
+								</td>
 								<td>#date#</td>
 								<td>#collecting_source# #collecting_method#</td>
 								<td>#spec_locality# [#verbatim_locality#]</td>
-								<td>#higher_geog#</td>
 								<td>#depth_elevation#</td>
 								<td>#georeference# #verbatimcoordinates#</td>
 								<td>#geolAtts#</td>
@@ -477,14 +479,13 @@ limitations under the License.
 						</cfif>
 						<th>Order: Family</th>
 						<th>Accepted Scientific Name</th>
-						<th>Locality ID</th>
-						<th>Locality [verbatim]</th>
+						<th>Higher Geog</th>
+						<th>Locality [verbatim] (ID)</th>
 						<th>Coll Event ID</th>
 						<th>Coll Method/Source</th>
 						<th>Date Collected</th>
-						<th>Higher Geog</th>
-						<th>Georeference</th>
 						<th>Depth/Elevation</th>
+						<th>Georeference</th>
 						<th>Geology</th>
 					</tr>
 				</thead>
@@ -550,14 +551,19 @@ limitations under the License.
 						</cfif>
 							<td>#phylorder# #family#</td>
 							<td><i>#Scientific_Name#</i></td>
-							<td>#locality_id#</td>
-							<td>#spec_locality# [#verbatim_locality#] #habitat_desc#</td>
-							<td>#collecting_event_id#</td>
+							<td>#higher_geog#</td>
+							<td>
+								#spec_locality# [#verbatim_locality#] #habitat_desc# 
+								(<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" target="_blank">#locality_id#</a>)
+							</td>
+							<td>
+								<!--- TODO: Point to view collecting event page --->
+								<a href="/localities/CollectingEvent.cfm?action=edit&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
+							</td>
 							<td>#collecting_source# #collecting_method#</td>
 							<td>#date#</td>
-							<td>#higher_geog#</td>
-							<td>#georeference#</td>
 							<td>#depth_elevation#</td>
+							<td>#georeference#</td>
 							<td>#geolAtts#</td>
 						</tr>
 					</cfoutput>
