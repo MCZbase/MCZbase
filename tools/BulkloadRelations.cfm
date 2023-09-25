@@ -196,8 +196,6 @@
 	</cfif>
 											
 	<!------------------------------------------------------->
-											
-	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
@@ -287,51 +285,13 @@
 		</cfoutput>
 	</cfif>											
 
-	<!------------------------------------------------------->
-<cfinclude template="/shared/_header.cfm">
-    <div style="width: 50em; margin: 0 auto; padding: 1em 0 3em 0;">
-<cfif #action# is "nothing">
-    <h3 class="wikilink">Bulkload Relationships</h3>
-<p>Upload a comma-delimited text file (csv). 
-    Include column headings, spelled exactly as below.</p>
-    <p> <span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
-	<div id="template" style="display:none;margin:1em 0;">
-		<label for="t">Copy and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">institution_acronym,collection_cde,other_id_type,other_id_val,relationship,related_institution_acronym,related_collection_cde,related_other_id_type,related_other_id_val</textarea>
-	</div> 
-<p>
-    Columns in <span style="color:red">red</span> are required; others are optional:</p>
-<ul class="geol_hier"
-	<li style="color:red">institution_acronym</li>
-	<li style="color:red">collection_cde</li>
-	<li style="color:red">other_id_type ("catalog number" is OK)</li>
-	<li style="color:red">other_id_val</li>
-	<li style="color:red">relationship</li>
-	<li style="color:red">related_institution_acronym</li>
-	<li style="color:red">related_collection_cde</li>
-	<li style="color:red">related_other_id_type ("catalog number" is OK)</li>
-	<li style="color:red">related_other_id_val</li>
-</ul>
 
-<cfform name="atts" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="Action" value="getFile">
-			  <input type="file"
-		   name="FiletoUpload"
-		   size="45">
-			 <input type="submit" value="Upload this file"
-		class="savBtn"
-		onmouseover="this.className='savBtn btnhov'" 
-		onmouseout="this.className='savBtn'">
-  </cfform>
-
-</cfif>
 <!------------------------------------------------------->
 <!------------------------------------------------------->
 
 <!------------------------------------------------------->
-<cfif #action# is "getFile">
+<!---<cfif #action# is "getFile">
 	<cfoutput>
-		<!--- put this in a temp table --->
 		<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from cf_temp_bl_relations
 		</cfquery>
@@ -369,10 +329,9 @@
 		</cfloop>
 	</cfoutput>
 	<cflocation url="BulkloadRelations.cfm?action=validate">
-</cfif>
-<!------------------------------------------------------->
-<!------------------------------------------------------->
-<cfif #action# is "validate">
+</cfif>--->
+
+<!---<cfif #action# is "validate">
 <cfoutput>
 	<cfquery name="setStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update 
@@ -489,7 +448,6 @@
 	<cfdump var=#d#>
 </cfoutput>
 </cfif>
-<!------------------------------------------------------->
 <cfif #action# is "loadData">
 <cfoutput>
 	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -511,7 +469,7 @@
 	</cfloop>
 	</cftransaction>
 	Spiffy, all done.
-</cfoutput>
+</cfoutput>--->
 </cfif>
-            </div>
+</div>
 <cfinclude template="/shared/_footer.cfm">
