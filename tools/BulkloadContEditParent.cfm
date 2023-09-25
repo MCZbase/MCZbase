@@ -190,11 +190,11 @@
 				(select container_id from container where container.barcode = cf_temp_cont_edit.container_unique_id)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-		<!---	<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_cont_edit set parent_container_id=
 				(select container_id from container where container.barcode = cf_temp_cont_edit.parent_unique_id)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>--->
+			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_cont_edit 
 				SET status = 'container_not_found'
@@ -333,9 +333,9 @@
 							UPDATE
 								container 
 							SET
-								parent_container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent_container_id#">
+								CONTAINER_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_TYPE#">
 							WHERE
-								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_CONTAINER_ID#">
+								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
 						</cfquery>
 						<cfset container_type_updates = container_type_updates + updateContainer_result.recordcount>
 					</cfloop>
