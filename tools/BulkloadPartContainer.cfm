@@ -319,7 +319,7 @@
 						<cfset part_container_updates = part_container_updates + updateContainer_result.recordcount>
 						</cfloop>
 					</cftransaction> 
-					<h2>Updated types for #part_container_updates# containers.</h2>
+					<h2>Updated #part_container_updates# part containers.</h2>
 				<cfcatch>
 					<h2>There was a problem updating part container.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
