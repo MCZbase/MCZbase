@@ -33,7 +33,7 @@
 <cfinclude template="/shared/_header.cfm">
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container py-3" id="content">
-	<h1 class="h2 mt-2">Bulkload Part Container</h1>
+	<h1 class="h2 mt-2">Bulkload Part Containers (add containers to parts and see them on cataloged items)</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<p>Use this form to put collection objects (that is, parts) in containers. Parts and containers must already exist. This form can be used for specimen records with multiple parts as long as the full names (name plus preserve method) of the parts are unique.</p>
@@ -311,7 +311,7 @@
 							<cfset part_container_updates = part_container_updates + updateContainerHist_result.recordcount>
 						</cfloop>
 					</cftransaction> 
-					<h2>Updated #part_container_updates# parts with containers.</h2>
+					<h2 class="h3">Updated #part_container_updates# part(s) with container(s).</h2>
 				<cfcatch>
 					<h2>There was a problem updating part container.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -412,8 +412,14 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-				<div class="col-12 mx-auto"><h3 class="text-success">Success, changes applied.</h3></div>
-			
+			<div class="container">
+				<div class="row">
+					<div class="col-12 mx-auto">
+						<h3 class="text-success">Success, changes applied.</h3>
+					</div>
+				</div>
+			</div>
+
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_barcode_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
