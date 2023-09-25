@@ -310,10 +310,10 @@
 							UPDATE
 								coll_obj_cont_history
 							SET
-								collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">,
-								CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.container_id#">,
+								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">,
+								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.container_id#">,
 								INSTALLED_DATE=sysdate,
-								current_container_fg
+								current_container_fg=1
 							WHERE
 								key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
 						</cfquery>
