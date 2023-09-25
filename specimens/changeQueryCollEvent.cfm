@@ -292,12 +292,12 @@ limitations under the License.
 					<thead class="thead-light">
 						<tr>
 							<th>Geog</th>
-							<th>Locality ID</th>
+							<th>Locality (ID)</th>
 							<th>&nbsp;</th>
 							<th>CollEvent ID</th>
 							<th>Date Collected</th>
 							<th>Coll Source/Method</th>
-							<th>Spec Locality [verbatim]</th>
+							<th>Verbatim Locality</th>
 							<th>Depth/Elevation</th>
 							<th style="width: 11%;">Georeference</th>
 							<th>Geology</th>
@@ -349,7 +349,8 @@ limitations under the License.
 									(<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">#geog_auth_rec_id#</a>)
 								</td>
 								<td>
-									<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" target="_blank">#locality_id#</a>
+									#spec_locality#
+									(<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" target="_blank">#locality_id#</a>)
 								</td>
 								<td>
 									<form name="coll#i#" method="post" action="/specimens/changeQueryCollEvent.cfm">
@@ -373,7 +374,7 @@ limitations under the License.
 								</td>
 								<td>#date#</td>
 								<td>#collecting_source# #collecting_method#</td>
-								<td>#spec_locality# [#verbatim_locality#]</td>
+								<td>#verbatim_locality#</td>
 								<td>#depth_elevation#</td>
 								<td>#georeference# #verbatimcoordinates#</td>
 								<td>#geolAtts#</td>
@@ -480,10 +481,11 @@ limitations under the License.
 						<th>Order: Family</th>
 						<th>Accepted Scientific Name</th>
 						<th>Higher Geog</th>
-						<th>Locality [verbatim] (ID)</th>
+						<th>Locality (ID)</th>
 						<th>Coll Event ID</th>
-						<th>Coll Method/Source</th>
 						<th>Date Collected</th>
+						<th>Coll Method/Source</th>
+						<th>Verbatim Locality</th>
 						<th>Depth/Elevation</th>
 						<th>Georeference</th>
 						<th>Geology</th>
@@ -538,6 +540,9 @@ limitations under the License.
 							</cfif>
 							<cfset georeference = "#dec_lat#,#dec_long# #datum# #verbatimcoordinates#">
 						</cfif>
+						<cfif isDefined("habitat_desc") AND len(habitat_desc) GT 0>
+							<cfset habitat_desc = "habitat:#habitatdesc#">
+						</cfif>
 						<tr>
 							<td>
 							<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
@@ -560,8 +565,12 @@ limitations under the License.
 								<!--- TODO: Point to view collecting event page --->
 								<a href="/localities/CollectingEvent.cfm?action=edit&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
 							</td>
-							<td>#collecting_source# #collecting_method#</td>
 							<td>#date#</td>
+							<td>#collecting_source# #collecting_method#</td>
+							<td>
+								#verbatim_locality# 
+								#habitat_desc#
+							</td>
 							<td>#depth_elevation#</td>
 							<td>#georeference#</td>
 							<td>#geolAtts#</td>
