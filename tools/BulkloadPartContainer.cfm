@@ -203,7 +203,7 @@
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_barcode_parts set part_container_id = 
 				(
 					select sp.collection_object_id 
@@ -213,9 +213,9 @@
 					and ci.cat_num = cf_temp_barcode_parts.other_id_number
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			</cfquery>--->
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_barcode_parts set container_id=
+				update cf_temp_barcode_parts set parent_container_id=
 				(select container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -312,7 +312,7 @@
 							UPDATE
 								container
 							SET
-								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">,
+								PARENT_CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.parent_container_id#">,
 							WHERE
 								key=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
