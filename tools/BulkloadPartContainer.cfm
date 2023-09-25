@@ -390,7 +390,7 @@
 									<th>other_id_type</th>
 									<th>other_id_number</th>
 									<th>collection_cde</th>
-									<th>institutional_acronym</th>
+									<th>institution_acronym</th>
 									<th>part_name</th>
 									<th>preserve_method</th>
 									<th>container_unique_id</th>
