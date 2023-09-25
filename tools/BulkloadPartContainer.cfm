@@ -313,8 +313,6 @@
 								container
 							SET
 								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">,
-								INSTALLED_DATE=sysdate,
-								current_container_fg=1
 							WHERE
 								key=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.key#">
 						</cfquery>
