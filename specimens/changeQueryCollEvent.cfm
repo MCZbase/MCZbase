@@ -496,7 +496,7 @@ limitations under the License.
 							<cfset date="#date# day:#startdayofyear#">
 							<cfif len(specimenList.enddayofyear) GT 0 AND len(specimenList.enddayofyear) GT 0>
 								<cfset date="#date#-#enddayofyear#">
-							<cfif>
+							</cfif>
 						</cfif>
 						<cfif len(specimenList.collecting_time) GT 0 AND len(specimenList.collecting_time) GT 0>
 							<cfset date="#date# #collecting_time#">
