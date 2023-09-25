@@ -58,6 +58,7 @@ limitations under the License.
 		collecting_event.collecting_method,
 		collecting_event.collecting_source,
 		collecting_event.habitat_desc,
+		collecting_event.fish_field_number,
 		geog_auth_rec.higher_geog,
 		collection.institution_acronym,
 		collection.collection,
@@ -522,6 +523,9 @@ limitations under the License.
 						</cfif>
 						<cfif len(verbatimdepth) GT 0>
 							<cfset depth_elevation = "#depth_elevation# [#verbatim_depth#] ">
+							<cfif len(fish_field_number) GT 0>
+								<cfset depth_elevation = "#depth_elevatation# Fish field No: #fish_field_number# ">
+							</cfif>
 						</cfif>
 						<cfif len(minimum_elevation) GT 0>
 							<cfif minimum_elevation EQ maximum_elevation>
