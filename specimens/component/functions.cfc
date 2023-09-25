@@ -2146,9 +2146,8 @@ limitations under the License.
 											<th><span>Part Name</span></th>
 											<th><span>Condition</span></th>
 											<th><span>Disposition</span></th>
-											<th><span>Container</span></th>
 											<th><span>##</span></th>
-											
+											<th><span>Container</span></th>
 										</tr>
 									</thead>
 									<tbody>
