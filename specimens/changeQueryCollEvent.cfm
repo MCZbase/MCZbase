@@ -298,7 +298,7 @@ limitations under the License.
 				<table class="table table-responsive-lg">
 					<thead class="thead-light">
 						<tr>
-							<th>Higher Geog</th>
+							<th>Higher Geog (ID)</th>
 							<th>Locality (ID)</th>
 							<th>&nbsp;</th>
 							<th>CollEvent ID</th>
@@ -506,7 +506,7 @@ limitations under the License.
 						</cfif>
 						<th>Order: Family</th>
 						<th>Accepted Scientific Name</th>
-						<th>Higher Geog</th>
+						<th>Higher Geog (ID)</th>
 						<th>Locality (ID)</th>
 						<th>Coll Event ID</th>
 						<th>Date Collected</th>
