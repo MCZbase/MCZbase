@@ -329,7 +329,7 @@
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<h3>Problematic Rows (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>)</h3>
-					<table class='sortable table table-responsive table-striped d-lg-table'>
+				<!---	<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
 								<th>OTHER_ID_TYPE</th>
@@ -356,7 +356,7 @@
 								</tr> 
 							</cfloop>
 						</tbody>
-					</table>
+					</table>--->
 					<cfrethrow>
 				</cfcatch>
 			</cftry>
