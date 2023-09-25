@@ -299,6 +299,7 @@
 			</cfquery>
 			<cftry>
 				<cfset part_container_updates = 0>
+				<cfset install_date = ''>
 					<cftransaction>
 						<cfloop query="getTempData">
 							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
@@ -361,14 +362,11 @@
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartContainer_result">
 							UPDATE
-								coll_obj_cont_history
+								container 
 							SET
-								collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">,
-								CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.container_id#">,
-								INSTALLED_DATE=sysdate,
-								current_container_fg
+								CONTAINER_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_TYPE#">
 							WHERE
-								key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
+								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
 						</cfquery>
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
@@ -376,9 +374,10 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT other_id_type, other_id_number, collection_cde, institutional_acronym, part_name, preserve_method, container_unique_id 
-							FROM cf_temp_barcode_parts 
-							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+						SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
+						FROM cf_temp_cont_edit 
+						WHERE status is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<h3>Error updating row (#part_container_updates + 1#): #cfcatch.message#</h3>
 						<table class='sortable table table-responsive table-striped d-lg-table'>
