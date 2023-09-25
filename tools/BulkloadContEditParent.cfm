@@ -333,9 +333,9 @@
 							UPDATE
 								container 
 							SET
-								CONTAINER_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_TYPE#">
+								parent_container_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent_container_id#">
 							WHERE
-								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
+								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_CONTAINER_ID#">
 						</cfquery>
 						<cfset container_type_updates = container_type_updates + updateContainer_result.recordcount>
 					</cfloop>
