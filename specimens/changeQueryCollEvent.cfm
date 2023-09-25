@@ -45,6 +45,7 @@ limitations under the License.
 		locality.min_depth,
 		locality.max_depth,
 		locality.depth_units,
+		locality.geog_auth_rec_id,
 		collecting_event.began_date,
 		collecting_event.ended_date,
 		collecting_event.collecting_time,
@@ -297,7 +298,7 @@ limitations under the License.
 				<table class="table table-responsive-lg">
 					<thead class="thead-light">
 						<tr>
-							<th>Geog</th>
+							<th>Higher Geog</th>
 							<th>Locality (ID)</th>
 							<th>&nbsp;</th>
 							<th>CollEvent ID</th>
@@ -581,7 +582,10 @@ limitations under the License.
 						</cfif>
 							<td>#phylorder# #family#</td>
 							<td><i>#Scientific_Name#</i></td>
-							<td>#higher_geog#</td>
+							<td>
+								#higher_geog#
+								(<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank">#geog_auth_rec_id#</a>)
+							</td>
 							<td>
 								#spec_locality# [#verbatim_locality#] #habitat_desc# 
 								(<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" target="_blank">#locality_id#</a>)
