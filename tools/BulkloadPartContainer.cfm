@@ -334,6 +334,7 @@
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
+								<th>CONTAINER_ID</th>
 								<th>OTHER_ID_TYPE</th>
 								<th>OTHER_ID_NUMBER</th>
 								<th>COLLECTION_CDE</th>
@@ -346,7 +347,7 @@
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
-								<tr>
+								<tr><td>#getProblemData.CONTAINER_ID#</td>
 									<td>#getProblemData.OTHER_ID_TYPE#</td>
 									<td>#getProblemData.OTHER_ID_NUMBER#</td>
 									<td>#getProblemData.COLLECTION_CDE#</td>
