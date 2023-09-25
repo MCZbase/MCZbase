@@ -239,7 +239,7 @@
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select container_id from container where container_type <> 'collection object'
-				and barcode='#container_unique_id#'
+				and container_id='#container_id#'
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,CONTAINER_ID,
