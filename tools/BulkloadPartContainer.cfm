@@ -310,12 +310,11 @@
 							UPDATE
 								coll_obj_cont_hist
 							SET
-								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">,
 								CONTAINER_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.container_id#">,
 								INSTALLED_DATE=sysdate,
 								current_container_fg=1
 							WHERE
-								getTempData.key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.key#">
+								collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#">
 						</cfquery>
 						<cfset part_container_updates = part_container_updates + updateContainer_result.recordcount>
 						</cfloop>
