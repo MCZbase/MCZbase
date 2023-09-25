@@ -87,6 +87,8 @@
 			verbatimlongitude,
 			verbatimsrs,
 			habitat_desc,
+			fish_field_number,
+			coll_event_remarks,
 			collecting_source,
 			collecting_method,
 			CASE orig_lat_long_units

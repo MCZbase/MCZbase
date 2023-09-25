@@ -59,6 +59,7 @@ limitations under the License.
 		collecting_event.collecting_source,
 		collecting_event.habitat_desc,
 		collecting_event.fish_field_number,
+		collecting_event.coll_event_remarks,
 		geog_auth_rec.higher_geog,
 		collection.institution_acronym,
 		collection.collection,
