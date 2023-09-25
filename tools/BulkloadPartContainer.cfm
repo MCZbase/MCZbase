@@ -250,7 +250,7 @@
 			</cfquery>
 			<cfif pf.c gt 0>
 				<h2>
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadPartContainer.cfm">download</a>).
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadPartContainer.cfm?action=validate">download</a>).
 				</h2>
 				<h3>
 					Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm">start again</a>.
@@ -303,7 +303,7 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cftry>
-			<!---	<cfset part_container_updates = 0>
+				<cfset part_container_updates = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
 							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
@@ -319,7 +319,7 @@
 						</cfquery>
 						<cfset part_container_updates = part_container_updates + updateContainer_result.recordcount>
 						</cfloop>
-					</cftransaction> --->
+					</cftransaction> 
 					<h2>Updated types for #part_container_updates# containers.</h2>
 				<cfcatch>
 					<h2>There was a problem updating part container.</h2>
