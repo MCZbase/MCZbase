@@ -249,7 +249,9 @@ limitations under the License.
 			verbatimsrs,
 			habitat_desc,
 			collecting_source,
-			collecting_method
+			collecting_method,
+			coll_event_remarks,
+			fish_field_number
 		FROM localityResults
 		GROUP BY
 			collecting_event_id,
@@ -283,7 +285,9 @@ limitations under the License.
 			verbatimsrs,
 			habitat_desc,
 			collecting_source,
-			collecting_method
+			collecting_method,
+			coll_event_remarks,
+			fish_field_number
 	</cfquery>
 	<div class="container-fluid">
 		<div class="row mx-1">
@@ -297,16 +301,34 @@ limitations under the License.
 							<th>&nbsp;</th>
 							<th>CollEvent ID</th>
 							<th>Date Collected</th>
-							<th>Coll Source/Method</th>
+							<th>Coll Source/ Method/ Numbers</th>
 							<th>Verbatim Locality</th>
 							<th>Depth/Elevation</th>
 							<th style="width: 11%;">Georeference</th>
 							<th>Geology</th>
+							<th>Remarks</th>
 						</tr>
 					</thead>
 					<tbody>
 						<cfset i = 1>
 						<cfloop query="localityResults">
+							<cfquery name="getCollNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT distinct 
+									coll_event_number, number_series, collector_agent_id
+								FROM
+									coll_event_number
+									join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
+								WHERE 
+									coll_event_number.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+							</cfquery>
+							<cfset eventNumbers = fish_field_number>
+							<cfloop query="getCollNumbers">
+								<cfset series = getCollNumbers.number_series>
+								<cfif len(getCollNumber.collector_agent_id GT 0>
+									<cfset series = "<a href='/agents/Agent.cfm?agent_id=#getCollNumber.collector_agent_id#' target='_blank'>#series#</a>" ><!--- " --->
+								</cfif>
+								<cfset eventNumbers = "#eventNumbers# #getCollNumbers.coll_event_number# #series#">
+							</cfloop>
 							<cfif localityResults.began_date EQ localityResults.ended_date>
 								<cfset date=localityResults.began_date>
 							<cfelseif len(localityResults.began_date) GT 0 AND len(localityResults.began_date) GT 0>
@@ -374,11 +396,12 @@ limitations under the License.
 									<a href="/localities/CollectingEvent.cfm?action=edit&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
 								</td>
 								<td>#date#</td>
-								<td>#collecting_source# #collecting_method#</td>
+								<td>#collecting_source# #collecting_method# #eventNumbers#</td>
 								<td>#verbatim_locality#</td>
 								<td>#depth_elevation#</td>
 								<td>#georeference# #verbatimcoordinates#</td>
 								<td>#geolAtts#</td>
+								<td>#coll_event_remarks#</td>
 							</tr>
 							<cfset i=#i#+1>
 						</cfloop>
@@ -523,9 +546,6 @@ limitations under the License.
 						</cfif>
 						<cfif len(verbatimdepth) GT 0>
 							<cfset depth_elevation = "#depth_elevation# [#verbatim_depth#] ">
-							<cfif len(fish_field_number) GT 0>
-								<cfset depth_elevation = "#depth_elevatation# Fish field No: #fish_field_number# ">
-							</cfif>
 						</cfif>
 						<cfif len(minimum_elevation) GT 0>
 							<cfif minimum_elevation EQ maximum_elevation>
@@ -570,7 +590,12 @@ limitations under the License.
 								<a href="/localities/CollectingEvent.cfm?action=edit&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
 							</td>
 							<td>#date#</td>
-							<td>#collecting_source# #collecting_method#</td>
+							<td>
+								#collecting_source# #collecting_method#
+								<cfif len(fish_field_number) GT 0>
+									Fish field No: #fish_field_number# 
+								</cfif>
+							</td>
 							<td>
 								#verbatim_locality# 
 								#habitat_desc#
