@@ -92,18 +92,20 @@
 			collecting_source,
 			collecting_method,
 			CASE orig_lat_long_units
-				WHEN 'decimal degrees' THEN dec_lat || '&##176;'
+				WHEN 'decimal degrees' THEN nvl2(coordinate_precision, round(dec_lat,coordinate_precision)  || '&##176;'
 				WHEN 'deg. min. sec.' THEN lat_deg || '&##176; ' || lat_min || '&apos; ' || lat_sec || '&quot; ' || lat_dir
 				WHEN 'degrees dec. minutes' THEN lat_deg || '&##176; ' || dec_lat_min || '&apos; ' || lat_dir
 			END LatitudeString,
 			CASE orig_lat_long_units
-				WHEN 'decimal degrees' THEN dec_long || '&##176;'
+				WHEN 'decimal degrees' THEN nvl2(coordinate_precision, round(dec_long,coordinate_precision) || '&##176;'
 				WHEN'degrees dec. minutes' THEN long_deg || '&##176; ' || dec_long_min || '&apos; ' || long_dir
 				WHEN 'deg. min. sec.' THEN long_deg || '&##176; ' || long_min || '&apos; ' || long_sec || '&quot; ' || long_dir
 			END LongitudeString,
 			nogeorefbecause,
 			max_error_distance,
 			max_error_units,
+			datum,
+			MCZBASE.to_meters(max_error_distance, max_error_units) coordinateUncertaintyInMeters,
 			lat_long_ref_source,
 			determined_date,
 			minimum_elevation,
