@@ -335,7 +335,11 @@ limitations under the License.
 							<cfif len(NoGeorefBecause) GT 0>
 								<cfset georeference = NoGeorefBecause>
 							<cfelse>
-								<cfset georeference="#LatitudeString# #LongitudeString# #datum#  &##177;#coordinateUncertaintyInMeters#m">
+								<cfif len(trim(LatitudeString) GT 0>
+									<cfset georeference="#LatitudeString# #LongitudeString# #datum#  &##177;#coordinateUncertaintyInMeters#m">
+								<cfelse>
+									<cfset georeference = "">
+								</cfif>
 							</cfif>
 							<tr>
 								<td> 
