@@ -59,6 +59,7 @@ limitations under the License.
 		END LongitudeString,
 		accepted_lat_long.datum,
 		accepted_lat_long.coordinate_precision,
+		MCZBASE.to_meters(accepted_lat_long.max_error_distance, max_error_units) coordinateUncertaintyInMeters,
 		geog_auth_rec.higher_geog,
 		collection.institution_acronym,
 		collection.collection,
