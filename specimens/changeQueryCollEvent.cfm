@@ -296,7 +296,7 @@ limitations under the License.
 		<div class="row mx-1">
 			<div class="col-12 px-4 mt-3">
 				<h2 class="h2 px-3">Change collecting event for all cataloged items [in #encodeForHtml(result_id)#]</h2>
-				<table class="table table-responsive-lg sortable">
+				<table class="table table-responsive-lg sortable" id="catItemsTable">
 					<thead class="thead-light">
 						<tr>
 							<th>Higher Geog (ID)</th>
@@ -494,7 +494,7 @@ limitations under the License.
 <div class="container-fluid">
 	<div class="row mx-0">
 		<div class="col-12">
-			<table class="table table-responsive-lg sortable">
+			<table class="table table-responsive-lg sortable" id="specimensTable">
 				<thead class="thead-light">
 					<tr>
 						<th>Catalog Number</th>
