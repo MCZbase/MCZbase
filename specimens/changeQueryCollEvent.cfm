@@ -311,7 +311,7 @@ limitations under the License.
 							<th>Coll Source/ Method/ Numbers</th>
 							<th>Verbatim Locality</th>
 							<th>Depth/Elevation</th>
-							<th style="width: 11%;">Georeference</th>
+							<th>Georeference [verbatim]</th>
 							<th>Geology</th>
 							<th>Remarks</th>
 						</tr>
@@ -367,7 +367,7 @@ limitations under the License.
 								<cfset georeference="#LatitudeString# #LongitudeString#">
 							</cfif>
 							<cfif len(localityResults.verbatimcoordinates) GT 0>
-								<cfset verbatim_coordinates=" #verbatimcoordinates# #verbatimsrs#">
+								<cfset verbatim_coordinates=" [#verbatimcoordinates# #verbatimsrs#]">
 							<cfelseif len(localityResults.verbatimlatitude) GT 0>
 								<cfset verbatim_coordinates="[#verbatimlatitude#, #verbatimlongitude# #verbatimsrs#]">
 							<cfelse>
