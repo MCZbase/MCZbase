@@ -21,7 +21,6 @@ limitations under the License.
 </cfif>
 <cfset pageTitle = "Manage Specimens">
 <cfinclude template = "/shared/_header.cfm">
-<cfinclude template = "/localities/component/public.cfc" runonce="true"> <!--- for getCollectingEventSummary() --->
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided to manage.">
@@ -250,11 +249,14 @@ limitations under the License.
 							<div class="card bg-light border-secondary mb-3">
 								<cfquery name="collectingEvents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingEvents_result">
 									SELECT count(*) ct, 
-										collecting_event_id
+										collecting_event_id, iso_began_date, iso_ended_date, verbatim_date
 									FROM user_search_table
 										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
 									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-									GROUP BY collecting_event_id
+									GROUP BY 
+										collecting_event_id, iso_began_date, iso_ended_date, verbatim_date
+									ORDER BY
+										iso_began_date, iso_ended_date
 								</cfquery>
 								<div class="card-header h4">Collecting Events (#collectingEvents.recordcount#)</div>
 								<div class="card-body">
@@ -265,7 +267,13 @@ limitations under the License.
 									<cfelse>
 										<ul class="list-group list-group-horizontal d-flex flex-wrap">
 											<cfloop query="collectingEvents">
-												<cfset summary = getCollectingEventSummary(collecting_event_id="#collectingEvents.collecting_event_id#")>
+												<cfset summary = iso_began_date>
+												<cfif iso_ended_date NEQ iso_began_date>
+													<cfset summary = "#summary#/#iso_ended_date#">
+												<cfif>
+												<cfif len(verbatim_date) GT 0 >
+													<cfset summary = "#summary# [#verbatim_date#]">
+												</cfif>
 												<li class="list-group-item">#summary# (#collectingEvents.ct#);</li>
 											</cfloop>
 										</ul>
