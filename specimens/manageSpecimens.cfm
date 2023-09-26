@@ -270,7 +270,7 @@ limitations under the License.
 												<cfset summary = iso_began_date>
 												<cfif iso_ended_date NEQ iso_began_date>
 													<cfset summary = "#summary#/#iso_ended_date#">
-												<cfif>
+												</cfif>
 												<cfif len(verbatim_date) GT 0 >
 													<cfset summary = "#summary# [#verbatim_date#]">
 												</cfif>
