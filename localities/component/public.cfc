@@ -218,7 +218,7 @@ limitations under the License.
 							}
 							if (hasProblem) { 
 								$("##mapdiv_" + geog_auth_rec_id).addClass('uglyGeoSPatData');
-								$("##mapMetadataUL").append("<li class='list-style-circle'>Georeferences for localities in this higher geography fall outside of if. </li>");
+								$("##mapMetadataUL").append("<li class='list-style-circle'>Georeferences for localities in this higher geography fall outside of it. </li>");
 							} else { 
 								$("##mapdiv_" + geog_auth_rec_id).addClass('niceGeoSPatData');
 							} 
