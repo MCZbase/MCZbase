@@ -55,6 +55,7 @@ limitations under the License.
 		collecting_event.verbatim_date,
 		collecting_event.verbatim_locality,
 		collecting_event.verbatimcoordinates,
+		collecting_event.verbatimSRS,
 		collecting_event.verbatimdepth,
 		collecting_event.verbatimelevation,
 		collecting_event.collecting_method,
@@ -596,7 +597,7 @@ limitations under the License.
 							<cfif isDefined("verbatimcoordinates") AND len(verbatimcoordinates) GT 0>
 								<cfset verbatimcoordinates = "[#verbatimcoordinates#]">
 							</cfif>
-							<cfset georeference = "#dec_lat#,#dec_long# #datum# #verbatimcoordinates#">
+							<cfset georeference = "#dec_lat#,#dec_long# #datum# [#verbatimcoordinates# #verbatimSRS#]">
 						</cfif>
 						<cfif isDefined("habitat_desc") AND len(habitat_desc) GT 0>
 							<cfset habitat_desc = "habitat:#habitatdesc#">
