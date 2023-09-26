@@ -101,6 +101,7 @@
 				WHEN'degrees dec. minutes' THEN long_deg || '&##176; ' || dec_long_min || '&apos; ' || long_dir
 				WHEN 'deg. min. sec.' THEN long_deg || '&##176; ' || long_min || '&apos; ' || long_sec || '&quot; ' || long_dir
 			END LongitudeString,
+			coordinate_precision,
 			nogeorefbecause,
 			max_error_distance,
 			max_error_units,
