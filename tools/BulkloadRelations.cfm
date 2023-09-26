@@ -80,7 +80,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!--- check for required fields in header line --->
-			<cfset INSTITUTION_ACROYNYM_exists = false>
+			<cfset INSTITUTION_ACRONYM_exists = false>
 			<cfset COLLECTION_CDE_exists = false>
 			<cfset OTHER_ID_TYPE_exists = false>
 			<cfset OTHER_ID_VAL_exists = false>
@@ -91,7 +91,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 			<cfset RELATED_OTHER_ID_VAL_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
-				<cfif ucase(header) EQ 'INSTITUTION_ACROYNYM'><cfset INSTITUTION_ACROYNYM_exists=true></cfif>
+				<cfif ucase(header) EQ 'INSTITUTION_ACRONYM'><cfset INSTITUTION_ACRONYM_exists=true></cfif>
 				<cfif ucase(header) EQ 'COLLECTION_CDE'><cfset COLLECTION_CDE_exists=true></cfif>
 				<cfif ucase(header) EQ 'OTHER_ID_TYPE'><cfset OTHER_ID_TYPE_exists=true></cfif>
 				<cfif ucase(header) EQ 'OTHER_ID_VAL'><cfset OTHER_ID_VAL_exists=true></cfif>
@@ -101,9 +101,9 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				<cfif ucase(header) EQ 'RELATED_OTHER_ID_TYPE'><cfset RELATED_OTHER_ID_TYPE_exists=true></cfif>
 				<cfif ucase(header) EQ 'RELATED_OTHER_ID_VAL'><cfset RELATED_OTHER_ID_VAL_exists=true></cfif>
 			</cfloop>
-			<cfif not (INSTITUTION_ACROYNYM_exists AND COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_VAL_exists AND RELATIONSHIP_exists AND RELATED_INSTITUTION_ACRONYM_exists AND RELATED_COLLECTION_CDE_exists AND RELATED_OTHER_ID_TYPE_exists AND RELATED_OTHER_ID_VAL_exists)>
+			<cfif not (INSTITUTION_ACRONYM_exists AND COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_VAL_exists AND RELATIONSHIP_exists AND RELATED_INSTITUTION_ACRONYM_exists AND RELATED_COLLECTION_CDE_exists AND RELATED_OTHER_ID_TYPE_exists AND RELATED_OTHER_ID_VAL_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
-				<cfif not INSTITUTION_ACROYNYM_exists><cfset message = "#message# INSTITUTION_ACROYNYM is missing."></cfif>
+				<cfif not INSTITUTION_ACRONYM_exists><cfset message = "#message# INSTITUTION_ACRONYM is missing."></cfif>
 				<cfif not COLLECTION_CDE_exists><cfset message = "#message# COLLECTION_CDE is missing."></cfif>
 				<cfif not OTHER_ID_TYPE_exists><cfset message = "#message# OTHER_ID_TYPE is missing."></cfif>
 				<cfif not OTHER_ID_VAL_exists><cfset message = "#message# OTHER_ID_VAL is missing."></cfif>
