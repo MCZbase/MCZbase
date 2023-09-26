@@ -606,7 +606,7 @@ limitations under the License.
 							<cfset georeference = "#dec_lat#,#dec_long# #datum# [#verbatimcoordinates# #verbatimSRS#]">
 						</cfif>
 						<cfif isDefined("habitat_desc") AND len(habitat_desc) GT 0>
-							<cfset habitat_desc = "habitat:#habitatdesc#">
+							<cfset habitat_desc = "habitat:#habitat_desc#">
 						</cfif>
 						<tr>
 							<td>
