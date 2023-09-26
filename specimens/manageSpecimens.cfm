@@ -21,6 +21,7 @@ limitations under the License.
 </cfif>
 <cfset pageTitle = "Manage Specimens">
 <cfinclude template = "/shared/_header.cfm">
+<cfinclude template = "/localities/component/public.cfc" runonce="true"> <!--- for getCollectingEventSummary() --->
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided to manage.">
@@ -228,6 +229,49 @@ limitations under the License.
 									</div>
 								</div>
 							</cfif>
+							<div class="card bg-light border-secondary mb-3">
+								<cfquery name="localities" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localities_result">
+									SELECT count(*) ct, 
+										locality_id, spec_locality
+									FROM user_search_table
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+									GROUP BY locality_id, spec_locality
+								</cfquery>
+								<div class="card-header h4">Specific Localities (#localities.recordcount#)</div>
+								<div class="card-body">
+									<ul class="list-group list-group-horizontal d-flex flex-wrap">
+										<cfloop query="localities">
+											<li class="list-group-item">#localities.spec_locality# (#localities.ct#);</li>
+										</cfloop>
+									</ul>
+								</div>
+							</div>
+							<div class="card bg-light border-secondary mb-3">
+								<cfquery name="collectingEvents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingEvents_result">
+									SELECT count(*) ct, 
+										collecting_event_id
+									FROM user_search_table
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+									GROUP BY collecting_event_id
+								</cfquery>
+								<div class="card-header h4">Collecting Events (#collectingEvents.recordcount#)</div>
+								<div class="card-body">
+									<cfif collectingEvents.recordcount GT 50>
+										<ul class="list-group list-group-horizontal d-flex flex-wrap">
+											<li class="list-group-item">More than 50 collecting events, details not shown.</li>
+										</ul>
+									<cfelse>
+										<ul class="list-group list-group-horizontal d-flex flex-wrap">
+											<cfloop query="localities">
+												<cfset summary = getCollectingEventSummary(collecting_event_id="#collectingEvents.collecting_event_id#")>
+												<li class="list-group-item">#summary# (#collectingEvents.ct#);</li>
+											</cfloop>
+										</ul>
+									</cfif>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
