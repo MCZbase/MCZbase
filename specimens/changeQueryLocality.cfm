@@ -48,17 +48,17 @@ limitations under the License.
 		locality.depth_units,
 		locality.NoGeorefBecause,
 		CASE accepted_lat_long.orig_lat_long_units
-			WHEN 'decimal degrees' THEN nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_lat,accepted_lat_long.coordinate_precision)  || '&##176;'
+			WHEN 'decimal degrees' THEN nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_lat,accepted_lat_long.coordinate_precision),, round(accepted_lat_long.dec_lat,5))  || '&##176;'
 			WHEN 'deg. min. sec.' THEN accepted_lat_long.lat_deg || '&##176; ' || accepted_lat_long.lat_min || '&apos; ' || accepted_lat_long.lat_sec || '&quot; ' || accepted_lat_long.lat_dir
 			WHEN 'degrees dec. minutes' THEN accepted_lat_long.lat_deg || '&##176; ' || accepted_lat_long.dec_lat_min || '&apos; ' || accepted_lat_long.lat_dir
 		END LatitudeString,
 		CASE accepted_lat_long.orig_lat_long_units
-			WHEN 'decimal degrees' THEN nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_long,accepted_lat_long.coordinate_precision) || '&##176;'
+			WHEN 'decimal degrees' THEN nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_long,accepted_lat_long.coordinate_precision), round(accepted_lat_long.dec_long,5)) || '&##176;'
 			WHEN'degrees dec. minutes' THEN accepted_lat_long.long_deg || '&##176; ' || accepted_lat_long.dec_long_min || '&apos; ' || accepted_lat_long.long_dir
 			WHEN 'deg. min. sec.' THEN accepted_lat_long.long_deg || '&##176; ' || accepted_lat_long.long_min || '&apos; ' || accepted_lat_long.long_sec || '&quot; ' || accepted_lat_long.long_dir
 		END LongitudeString,
 		accepted_lat_long.datum,
-		accepted_lat_long.coordinateprecision,
+		accepted_lat_long.coordinate_precision,
 		geog_auth_rec.higher_geog,
 		collection.institution_acronym,
 		collection.collection,
