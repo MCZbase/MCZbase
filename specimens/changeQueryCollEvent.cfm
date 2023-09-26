@@ -303,7 +303,7 @@ limitations under the License.
 							<th>Locality (ID)</th>
 							<th>&nbsp;</th>
 							<th>CollEvent ID</th>
-							<th>Date Collected</th>
+							<th>Date Collected [verbatim]</th>
 							<th>Coll Source/ Method/ Numbers</th>
 							<th>Verbatim Locality</th>
 							<th>Depth/Elevation</th>
@@ -510,7 +510,7 @@ limitations under the License.
 						<th>Higher Geog (ID)</th>
 						<th>Locality (ID)</th>
 						<th>Coll Event ID</th>
-						<th>Date Collected</th>
+						<th>Date Collected [verbatim]</th>
 						<th>Coll Method/ Source
 							<cfif specimenList.recordcount LT 101>
 								/ Numbers
