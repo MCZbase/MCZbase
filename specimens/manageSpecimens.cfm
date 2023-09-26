@@ -264,7 +264,7 @@ limitations under the License.
 										</ul>
 									<cfelse>
 										<ul class="list-group list-group-horizontal d-flex flex-wrap">
-											<cfloop query="localities">
+											<cfloop query="collectingEvents">
 												<cfset summary = getCollectingEventSummary(collecting_event_id="#collectingEvents.collecting_event_id#")>
 												<li class="list-group-item">#summary# (#collectingEvents.ct#);</li>
 											</cfloop>
