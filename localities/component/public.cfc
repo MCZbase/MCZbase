@@ -1681,6 +1681,7 @@ limitations under the License.
 	<cfargument name="collecting_event_id" type="string" required="yes">
 
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfset  variables.collecting_event_id = arguments.collecting_event_id>
 	<cfthread name="collEventSummaryThread#tn#">
 		<cfoutput>
 			<cftry>

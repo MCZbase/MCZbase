@@ -63,16 +63,9 @@ limitations under the License.
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs nav-link" target="_blank">Collectors/Preparators</a>
 								</li>
-								<cfif findNoCase('master',Session.gitBranch) EQ 0>
-									<!--- still needs testing, don't link to on production --->
-									<li class="nav-item mb-1">
-										<a href="/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-xs btn-secondary" target="_blank">Collecting Events</a>
-									</li>
-								<cfelse>
-									<li class="nav-item mb-1">
-										<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Collecting Events</a>
-									</li>
-								</cfif>
+								<li class="nav-item mb-1">
+									<a href="/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-xs btn-secondary" target="_blank">Collecting Events</a>
+								</li>
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQueryLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Localities</a>
 								</li>
@@ -202,7 +195,7 @@ limitations under the License.
 								</div>
 							</div>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-								<div class="card bg-light border-secondary mb-0">
+								<div class="card bg-light border-secondary mb-3">
 									<cfquery name="accessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="accessions_result">
 										SELECT count(*) ct, 
 											accn_number, 
@@ -228,6 +221,52 @@ limitations under the License.
 									</div>
 								</div>
 							</cfif>
+							<div class="card bg-light border-secondary mb-3">
+								<cfquery name="localities" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="localities_result">
+									SELECT count(*) ct, 
+										locality_id, spec_locality
+									FROM user_search_table
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+									GROUP BY locality_id, spec_locality
+								</cfquery>
+								<div class="card-header h4">Specific Localities (#localities.recordcount#)</div>
+								<div class="card-body">
+									<ul class="list-group list-group-horizontal d-flex flex-wrap">
+										<cfloop query="localities">
+											<li class="list-group-item">#localities.spec_locality# (#localities.ct#);</li>
+										</cfloop>
+									</ul>
+								</div>
+							</div>
+							<div class="card bg-light border-secondary mb-3">
+								<cfquery name="collectingEvents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingEvents_result">
+									SELECT count(*) ct, 
+										collecting_event_id, began_date, ended_date, verbatim_date
+									FROM user_search_table
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on user_search_table.collection_object_id = flat.collection_object_id
+									WHERE result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+									GROUP BY 
+										collecting_event_id, began_date, ended_date, verbatim_date
+									ORDER BY
+										began_date, ended_date
+								</cfquery>
+								<div class="card-header h4">Collecting Events (#collectingEvents.recordcount#)</div>
+								<div class="card-body">
+									<ul class="list-group list-group-horizontal d-flex flex-wrap">
+										<cfloop query="collectingEvents">
+											<cfset summary = began_date>
+											<cfif ended_date NEQ began_date>
+												<cfset summary = "#summary#/#ended_date#">
+											</cfif>
+											<cfif len(verbatim_date) GT 0 AND verbatim_date NEQ "[no verbatim date data]" >
+												<cfset summary = "#summary# [#verbatim_date#]">
+											</cfif>
+											<li class="list-group-item">#summary# (#collectingEvents.ct#);</li>
+										</cfloop>
+									</ul>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

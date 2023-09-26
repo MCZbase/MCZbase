@@ -19,6 +19,7 @@ limitations under the License.
 <cfset pageTitle = "Change Localities for Search Result">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<script src="/includes/sorttable.js"></script>
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided for result set on which to change localities.">
@@ -45,6 +46,22 @@ limitations under the License.
 		locality.min_depth,
 		locality.max_depth,
 		locality.depth_units,
+		locality.NoGeorefBecause,
+		CASE accepted_lat_long.orig_lat_long_units
+			WHEN 'decimal degrees' THEN nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_lat,accepted_lat_long.coordinate_precision), round(accepted_lat_long.dec_lat,5))  || '&##176;'
+			WHEN 'deg. min. sec.' THEN accepted_lat_long.lat_deg || '&##176; ' || accepted_lat_long.lat_min || '&apos; ' || accepted_lat_long.lat_sec || '&quot; ' || accepted_lat_long.lat_dir
+			WHEN 'degrees dec. minutes' THEN accepted_lat_long.lat_deg || '&##176; ' || accepted_lat_long.dec_lat_min || '&apos; ' || accepted_lat_long.lat_dir
+		END LatitudeString,
+		CASE accepted_lat_long.orig_lat_long_units
+			WHEN 'decimal degrees' THEN nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_long,accepted_lat_long.coordinate_precision), round(accepted_lat_long.dec_long,5)) || '&##176;'
+			WHEN'degrees dec. minutes' THEN accepted_lat_long.long_deg || '&##176; ' || accepted_lat_long.dec_long_min || '&apos; ' || accepted_lat_long.long_dir
+			WHEN 'deg. min. sec.' THEN accepted_lat_long.long_deg || '&##176; ' || accepted_lat_long.long_min || '&apos; ' || accepted_lat_long.long_sec || '&quot; ' || accepted_lat_long.long_dir
+		END LongitudeString,
+		accepted_lat_long.datum,
+		accepted_lat_long.coordinate_precision,
+		trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
+		accepted_lat_long.verificationstatus,
+		MCZBASE.to_meters(accepted_lat_long.max_error_distance, max_error_units) coordinateUncertaintyInMeters,
 		geog_auth_rec.higher_geog,
 		collection.institution_acronym,
 		collection.collection,
@@ -58,6 +75,7 @@ limitations under the License.
 		left join locality on collecting_event.locality_id = locality.locality_id
 		left join geog_auth_rec on  locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 		left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+		left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
 	WHERE
 		result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		<cfif isdefined("filterOrder") and len(#filterOrder#) GT 0>
@@ -241,6 +259,10 @@ limitations under the License.
 			LatitudeString,
 			LongitudeString,
 			NoGeorefBecause,
+			plss,
+			verificationstatus,
+			datum,
+			coordinateUncertaintyInMeters,
 			coordinateDeterminer,
 			lat_long_ref_source,
 			determined_date,
@@ -260,6 +282,10 @@ limitations under the License.
 			LatitudeString,
 			LongitudeString,
 			NoGeorefBecause,
+			plss,
+			verificationstatus,
+			datum,
+			coordinateUncertaintyInMeters,
 			coordinateDeterminer,
 			lat_long_ref_source,
 			determined_date,
@@ -275,15 +301,15 @@ limitations under the License.
 		<div class="row mx-1">
 			<div class="col-12 px-4 mt-3">
 				<h2 class="h2 px-3">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
-				<table class="table table-responsive-lg">
+				<table class="table table-responsive-lg sortable" id="localityTable">
 					<thead class="thead-light">
 						<tr>
 							<th>Geog ID</th>
 							<th>Locality ID</th>
 							<th>&nbsp;</th>
-							<th>Spec Locality</th>
-							<th>Geog</th>
-							<th>Depth/Elevation</th>
+							<th>Specific Locality</th>
+							<th>Higher Geography</th>
+							<th>Depth / Elevation</th>
 							<th style="width: 11%;">Georeference</th>
 							<th>Geology</th>
 						</tr>
@@ -309,7 +335,11 @@ limitations under the License.
 							<cfif len(NoGeorefBecause) GT 0>
 								<cfset georeference = NoGeorefBecause>
 							<cfelse>
-								<cfset georeference="#LatitudeString# #LongitudeString#">
+								<cfif len(trim(LatitudeString)) GT 0>
+									<cfset georeference="#LatitudeString# #LongitudeString# #datum#  &##177;#coordinateUncertaintyInMeters#m">
+								<cfelse>
+									<cfset georeference = "">
+								</cfif>
 							</cfif>
 							<tr>
 								<td> 
@@ -337,7 +367,7 @@ limitations under the License.
 								<td>#spec_locality#</td>
 								<td>#higher_geog#</td>
 								<td>#depth_elevation#</td>
-								<td>#georeference#</td>
+								<td>#georeference# #plss# #verificationstatus#</td>
 								<td>#geolAtts#</td>
 							</tr>
 							<cfset i=#i#+1>
@@ -428,7 +458,7 @@ limitations under the License.
 <div class="container-fluid">
 	<div class="row mx-0">
 		<div class="col-12">
-			<table class="table table-responsive-lg">
+			<table class="table table-responsive-lg sortable" id="specimenTable">
 				<thead class="thead-light">
 					<tr>
 						<th>Catalog Number</th>
@@ -443,9 +473,10 @@ limitations under the License.
 						<th>Family</th>
 						<th>Accepted Scientific Name</th>
 						<th>Locality ID</th>
-						<th>Spec Locality</th>
-						<th>higher_geog</th>
-						<th>Depth/Elevation</th>
+						<th>Specific Locality</th>
+						<th>Higher Geography</th>
+						<th>Depth / Elevation</th>
+						<th>Georeference</th>
 						<th>Geology</th>
 					</tr>
 				</thead>
@@ -466,6 +497,15 @@ limitations under the License.
 								<cfset depth_elevation = "Depth: #minimum_elevation#-#maximum_elevation# #orig_elev_units#">
 							</cfif>
 						</cfif>
+						<cfif len(NoGeorefBecause) GT 0>
+							<cfset georeference = NoGeorefBecause>
+						<cfelse>
+							<cfif len(latitudeString) GT 0> 
+								<cfset georeference="#LatitudeString# #LongitudeString# #datum#  &##177;#coordinateUncertaintyInMeters#m">
+							<cfelse>
+								<cfset georeference = "">
+							</cfif>
+						</cfif>
 						<tr>
 							<td>
 							<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
@@ -484,6 +524,7 @@ limitations under the License.
 							<td>#spec_locality#</td>
 							<td>#higher_geog#</td>
 							<td>#depth_elevation#</td>
+							<td>#georeference# #plss# #verificationstatus#</td>
 							<td>#geolAtts#</td>
 						</tr>
 					</cfoutput>
