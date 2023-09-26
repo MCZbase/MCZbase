@@ -266,7 +266,7 @@ limitations under the License.
 											<cfif ended_date NEQ began_date>
 												<cfset summary = "#summary#/#ended_date#">
 											</cfif>
-											<cfif len(verbatim_date) GT 0 >
+											<cfif len(verbatim_date) GT 0 AND verbatim_date NEQ "[no verbatim date data]" >
 												<cfset summary = "#summary# [#verbatim_date#]">
 											</cfif>
 											<li class="list-group-item">#summary# (#collectingEvents.ct#);</li>
