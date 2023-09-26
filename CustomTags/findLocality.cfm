@@ -97,7 +97,7 @@
 				WHEN 'degrees dec. minutes' THEN lat_deg || '&##176; ' || dec_lat_min || '&apos; ' || lat_dir
 			END LatitudeString,
 			CASE orig_lat_long_units
-				WHEN 'decimal degrees' THEN nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_lat,5)) || '&##176;'
+				WHEN 'decimal degrees' THEN nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_long,5)) || '&##176;'
 				WHEN'degrees dec. minutes' THEN long_deg || '&##176; ' || dec_long_min || '&apos; ' || long_dir
 				WHEN 'deg. min. sec.' THEN long_deg || '&##176; ' || long_min || '&apos; ' || long_sec || '&quot; ' || long_dir
 			END LongitudeString,
