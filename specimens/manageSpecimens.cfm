@@ -260,24 +260,18 @@ limitations under the License.
 								</cfquery>
 								<div class="card-header h4">Collecting Events (#collectingEvents.recordcount#)</div>
 								<div class="card-body">
-									<cfif collectingEvents.recordcount GT 50>
-										<ul class="list-group list-group-horizontal d-flex flex-wrap">
-											<li class="list-group-item">More than 50 collecting events, details not shown.</li>
-										</ul>
-									<cfelse>
-										<ul class="list-group list-group-horizontal d-flex flex-wrap">
-											<cfloop query="collectingEvents">
-												<cfset summary = iso_began_date>
-												<cfif iso_ended_date NEQ iso_began_date>
-													<cfset summary = "#summary#/#iso_ended_date#">
-												</cfif>
-												<cfif len(verbatim_date) GT 0 >
-													<cfset summary = "#summary# [#verbatim_date#]">
-												</cfif>
-												<li class="list-group-item">#summary# (#collectingEvents.ct#);</li>
-											</cfloop>
-										</ul>
-									</cfif>
+									<ul class="list-group list-group-horizontal d-flex flex-wrap">
+										<cfloop query="collectingEvents">
+											<cfset summary = iso_began_date>
+											<cfif iso_ended_date NEQ iso_began_date>
+												<cfset summary = "#summary#/#iso_ended_date#">
+											</cfif>
+											<cfif len(verbatim_date) GT 0 >
+												<cfset summary = "#summary# [#verbatim_date#]">
+											</cfif>
+											<li class="list-group-item">#summary# (#collectingEvents.ct#);</li>
+										</cfloop>
+									</ul>
 								</div>
 							</div>
 						</div>
