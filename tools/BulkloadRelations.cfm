@@ -10,9 +10,12 @@
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "INSTITUTION_ACROYNYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist = "INSTITUTION_ACROYNYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL">
+<cfset fieldlist ="INSTITUTION_ACROYNYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,
+				   RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL">
+<cfset fieldTypes="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,
+				   CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset requiredfieldlist = "INSTITUTION_ACROYNYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,
+							RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL">
 
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -26,14 +29,14 @@
 	<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
 	<cfabort>
 </cfif>
-		
 
 <!--- Normal page delivery with header/footer --->
-<cfset pageTitle = "Bulk Part Container">
+<cfset pageTitle = "Bulk Relations">
 <cfinclude template="/shared/_header.cfm">
-<cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
+<cfif not isDefined("action") OR len(action) EQ 0>
+	<cfset action="nothing">
+</cfif>
 	
-
 <main class="container py-3" id="content">
 	<h1 class="h2 mt-2">Bulkload Relationships</h1>
 	<cfif #action# is "nothing">
