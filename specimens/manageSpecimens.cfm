@@ -202,7 +202,7 @@ limitations under the License.
 								</div>
 							</div>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-								<div class="card bg-light border-secondary mb-0">
+								<div class="card bg-light border-secondary mb-3">
 									<cfquery name="accessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="accessions_result">
 										SELECT count(*) ct, 
 											accn_number, 
