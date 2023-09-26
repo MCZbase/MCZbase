@@ -1258,7 +1258,7 @@ limitations under the License.
 						</cfloop>
 						<cfquery name="localityCollEventUses" datasource="uam_god">
 							SELECT
-								count(distinct collecting_event.collecting_event_id) numOfCollEvents,
+								count(distinct collecting_event.collecting_event_id) numOfCollEvents
 							from
 								collecting_event
 								left join cataloged_item on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
