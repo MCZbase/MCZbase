@@ -59,6 +59,8 @@ limitations under the License.
 		END LongitudeString,
 		accepted_lat_long.datum,
 		accepted_lat_long.coordinate_precision,
+		trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
+		accepted_lat_long.verificationstatus,
 		MCZBASE.to_meters(accepted_lat_long.max_error_distance, max_error_units) coordinateUncertaintyInMeters,
 		geog_auth_rec.higher_geog,
 		collection.institution_acronym,
@@ -257,6 +259,8 @@ limitations under the License.
 			LatitudeString,
 			LongitudeString,
 			NoGeorefBecause,
+			plss,
+			verificationstatus,
 			datum,
 			coordinateUncertaintyInMeters,
 			coordinateDeterminer,
@@ -278,6 +282,8 @@ limitations under the License.
 			LatitudeString,
 			LongitudeString,
 			NoGeorefBecause,
+			plss,
+			verificationstatus,
 			datum,
 			coordinateUncertaintyInMeters,
 			coordinateDeterminer,
@@ -357,7 +363,7 @@ limitations under the License.
 								<td>#spec_locality#</td>
 								<td>#higher_geog#</td>
 								<td>#depth_elevation#</td>
-								<td>#georeference#</td>
+								<td>#georeference# #plss# #verificationstatus#</td>
 								<td>#geolAtts#</td>
 							</tr>
 							<cfset i=#i#+1>
@@ -514,7 +520,7 @@ limitations under the License.
 							<td>#spec_locality#</td>
 							<td>#higher_geog#</td>
 							<td>#depth_elevation#</td>
-							<td>#georeference#</td>
+							<td>#georeference# #plss# #verificationstatus#</td>
 							<td>#geolAtts#</td>
 						</tr>
 					</cfoutput>

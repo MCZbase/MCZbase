@@ -70,7 +70,9 @@ limitations under the License.
 		flat.family,
 		nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_lat,accepted_lat_long.coordinate_precision), round(accepted_lat_long.dec_lat,5)) as dec_lat,
 		nvl2(accepted_lat_long.coordinate_precision, round(accepted_lat_long.dec_long,accepted_lat_long.coordinate_precision), round(accepted_lat_long.dec_long,5)) as dec_long,
-		accepted_lat_long.datum
+		accepted_lat_long.datum,
+		trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
+		accepted_lat_long.verificationstatus
 	FROM
 		user_search_table
 		left join cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
@@ -235,6 +237,8 @@ limitations under the License.
 			coordinate_precision,
 			datum,
 			lat_long_ref_source,
+			plss,
+			verificationstatus,
 			determined_date,
 			geolAtts,
 			min_depth,
@@ -273,6 +277,8 @@ limitations under the License.
 			datum,
 			coordinateDeterminer,
 			lat_long_ref_source,
+			plss,
+			verificationstatus,
 			determined_date,
 			geolAtts,
 			min_depth,
@@ -368,11 +374,11 @@ limitations under the License.
 								<cfset georeference="#LatitudeString# #LongitudeString#">
 							</cfif>
 							<cfif len(localityResults.verbatimcoordinates) GT 0>
-								<cfset verbatim_coordinates=" [#verbatimcoordinates# #verbatimsrs#]">
+								<cfset verbatimcoordinates=" [#verbatimcoordinates# #verbatimsrs#]">
 							<cfelseif len(localityResults.verbatimlatitude) GT 0>
-								<cfset verbatim_coordinates="[#verbatimlatitude#, #verbatimlongitude# #verbatimsrs#]">
+								<cfset verbatimcoordinates="[#verbatimlatitude#, #verbatimlongitude# #verbatimsrs#]">
 							<cfelse>
-								<cfset verbatim_coordinates="">
+								<cfset verbatimcoordinates="">
 							</cfif>
 							<tr>
 								<td>
@@ -407,7 +413,7 @@ limitations under the License.
 								<td>#collecting_source# #collecting_method# #eventNumbers#</td>
 								<td>#verbatim_locality#</td>
 								<td>#depth_elevation#</td>
-								<td>#georeference# #verbatimcoordinates#</td>
+								<td>#georeference# #verbatimcoordinates# #plss# #verificationstatus#</td>
 								<td>#geolAtts#</td>
 								<td>#coll_event_remarks#</td>
 							</tr>
@@ -637,7 +643,7 @@ limitations under the License.
 								#habitat_desc#
 							</td>
 							<td>#depth_elevation#</td>
-							<td>#georeference#</td>
+							<td>#georeference# #plss# #verificationstatus#</td>
 							<td>#geolAtts#</td>
 						</tr>
 					</cfoutput>

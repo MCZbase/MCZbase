@@ -115,6 +115,8 @@
 			township, township_direction,
 			range, range_direction,
 			section as plss_section, section_part,
+			trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
+			accepted_lat_long.verificationstatus,
 			coordDet.agent_name coordinateDeterminer,
 			concatGeologyAttributeDetail(locality.locality_id) geolAtts,
 			max_depth,
