@@ -1066,7 +1066,7 @@ limitations under the License.
 							dec_long raw_dec_long,
 							max_error_distance,
 							max_error_units,
-							to_meters(lat_long.max_error_distance, lat_long.max_error_units) coordinateUncertaintyInMeters,
+							round(to_meters(lat_long.max_error_distance, lat_long.max_error_units)) coordinateUncertaintyInMeters,
 							error_polygon,
 							datum,
 							extent,
