@@ -77,24 +77,36 @@
 			locality.curated_fg,
 			began_date,
 			ended_date,
+			startdayofyear,
+			enddayofyear,
+			collecting_time,
 			verbatim_date,
 			verbatim_locality,
 			verbatimcoordinates,
+			verbatimlatitude,
+			verbatimlongitude,
+			verbatimsrs,
+			habitat_desc,
+			fish_field_number,
+			coll_event_remarks,
 			collecting_source,
 			collecting_method,
 			CASE orig_lat_long_units
-				WHEN 'decimal degrees' THEN dec_lat || 'd'
-				WHEN 'deg. min. sec.' THEN lat_deg || 'd ' || lat_min || 'm ' || lat_sec || 's ' || lat_dir
-				WHEN 'degrees dec. minutes' THEN lat_deg || 'd ' || dec_lat_min || 'm ' || lat_dir
+				WHEN 'decimal degrees' THEN nvl2(coordinate_precision, round(dec_lat,coordinate_precision), round(dec_lat,5))  || '&##176;'
+				WHEN 'deg. min. sec.' THEN lat_deg || '&##176; ' || lat_min || '&apos; ' || lat_sec || '&quot; ' || lat_dir
+				WHEN 'degrees dec. minutes' THEN lat_deg || '&##176; ' || dec_lat_min || '&apos; ' || lat_dir
 			END LatitudeString,
 			CASE orig_lat_long_units
-				WHEN 'decimal degrees' THEN dec_long || 'd'
-				WHEN'degrees dec. minutes' THEN long_deg || 'd ' || dec_long_min || 'm ' || long_dir
-				WHEN 'deg. min. sec.' THEN long_deg || 'd ' || long_min || 'm ' || long_sec || 's ' || long_dir
+				WHEN 'decimal degrees' THEN nvl2(coordinate_precision, round(dec_long,coordinate_precision), round(dec_long,5)) || '&##176;'
+				WHEN'degrees dec. minutes' THEN long_deg || '&##176; ' || dec_long_min || '&apos; ' || long_dir
+				WHEN 'deg. min. sec.' THEN long_deg || '&##176; ' || long_min || '&apos; ' || long_sec || '&quot; ' || long_dir
 			END LongitudeString,
+			coordinate_precision,
 			nogeorefbecause,
 			max_error_distance,
 			max_error_units,
+			datum,
+			MCZBASE.to_meters(max_error_distance, max_error_units) coordinateUncertaintyInMeters,
 			lat_long_ref_source,
 			determined_date,
 			minimum_elevation,
@@ -103,6 +115,8 @@
 			township, township_direction,
 			range, range_direction,
 			section as plss_section, section_part,
+			trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
+			accepted_lat_long.verificationstatus,
 			coordDet.agent_name coordinateDeterminer,
 			concatGeologyAttributeDetail(locality.locality_id) geolAtts,
 			max_depth,
