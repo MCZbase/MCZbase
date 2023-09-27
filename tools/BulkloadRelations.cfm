@@ -347,7 +347,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 							insert into 
 								BIOL_INDIV_RELATIONS
 									(collection_object_id,related_coll_object_id,biol_indiv_relationship,created_by) 
-								values (#collection_object_id#,#related_coll_object_id#,#biol_indiv_relationship#,#username#)
+								values (#collection_object_id#,#related_collection_object_id#,#relationship#,#username#)
 							</cfquery>
 							<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 						</cfloop>
