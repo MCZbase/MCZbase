@@ -276,25 +276,31 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				<thead>
 					<tr>
 						<th>OTHER_ID_TYPE</th>
-						<th>OTHER_ID_NUMBER</th>
+						<th>OTHER_ID_VAL</th>
 						<th>COLLECTION_CDE</th>
 						<th>INSTITUTION_ACRONYM</th>
-						<th>PART_NAME</th>
-						<th>PRESERVE_METHOD</th>
-						<th>CONTAINER_UNIQUE_ID</th>
-						<th>STATUS</th>
+						<th>RELATIONSHIP</th>
+						<th>RELATED_INSTITUTION_ACRONYM</th>
+						<th>RELATED_COLLECTION_CDE</th>
+						<th>RELATED_OTHER_ID_TYPE</th>
+						<th>RELATED_OTHER_ID_VAL</th>
+						<th>COLLECTION_OBJECT_ID</th>
+						<th>RELATED_COLLECTION_OBJECT_ID</th>
+						<th>VALIDATED_STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
 						<tr>
 							<td>#data.OTHER_ID_TYPE#</td>
-							<td>#data.OTHER_ID_NUMBER#</td>
+							<td>#data.OTHER_ID_VAL#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.INSTITUTION_ACRONYM#</td>
-							<td>#data.PART_NAME#</td>
-							<td>#data.PRESERVE_METHOD#</td>
-							<td>#data.CONTAINER_UNIQUE_ID#</td>
-							<td><strong>#STATUS#</strong></td>
+							<td>#data.RELATED_COLLECTION_CDE#</td>
+							<td>#data.RELATED_OTHER_ID_TYPE#</td>
+							<td>#data.RELATED_OTHER_ID_VAL#</td>
+							<td>#data.COLLECTION_OBJECT_ID#</td>
+							<td>#data.RELATED_COLLECTION_OBJECT_ID#</td>
+							<td><strong>#VALIDATED_STATUS#</strong></td>
 						</tr>
 					</cfloop>
 				</tbody>
