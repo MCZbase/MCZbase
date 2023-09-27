@@ -219,7 +219,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				(
 					select co.collection_object_id
 					from coll_obj_other_id_num co
-					where (co.other_id_type = cf_temp_bl_relations.other_id_type || co.other_id_type = cf_temp_bl_relations.related_other_id_type
+					where (co.other_id_type = cf_temp_bl_relations.other_id_type || co.other_id_type = cf_temp_bl_relations.related_other_id_type)
 					and (co.other_id_val = cf_temp_bl_relations.other_id_val || co.other_id_val = cf_temp_bl_relations.related_other_id_val)
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
