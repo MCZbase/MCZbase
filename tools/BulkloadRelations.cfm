@@ -208,7 +208,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				(
 					select ci.collection_object_id 
 					from cataloged_item ci
-					where (ci.collection_cde = cf_temp_bl_relations.collection_cde || co.collecton_cde = cf_temp_bl_relations.related_collection_cde)
+					where (ci.collection_cde = cf_temp_bl_relations.collection_cde || ci.collecton_cde = cf_temp_bl_relations.related_collection_cde)
 					and (ci.cat_num = cf_temp_bl_relations.other_id_value || ci.cat_num = cf_temp_bl_relations.related_other_id_val)
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -219,23 +219,12 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				(
 					select co.collection_object_id
 					from coll_obj_other_id_num co
-					where co.other_id_type = cf_temp_bl_relations.related_collection_cde
-					and co.other_id_number = cf_temp_bl_relations.related_other_id_val
+					where (co.other_id_type = cf_temp_bl_relations.other_id_type || co.other_id_type = cf_temp_bl_relations.related_other_id_type
+					and (co.other_id_val = cf_temp_bl_relations.other_id_val || co.other_id_val = cf_temp_bl_relations.related_other_id_val)
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_bl_relations set related_collection_object_id=
-				(
-					select ci.collection_object_id
-					from cataloged_item ci
-					where ci.collection_cde = cf_temp_bl_relations.related_collection_cde
-					and ci.cat_num = cf_temp_bl_relations.related_other_id_val
-				)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_bl_relations
 				SET status = 'record number not found'
