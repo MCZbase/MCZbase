@@ -405,16 +405,16 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfset part_container_updates = 0>
+					<cfset relations_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartContainer_result">
+						<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelations_result">
 							Insert into 
 							biol_indiv_relations 
 							(collection_object_id,related_coll_object_id,biol_indiv_relationship,created_by) 
 							values (#collection_object_id#,#related_coll_object_id#,#biol_indiv_relationship#,#created_by#)
 						</cfquery>
-						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
+						<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
@@ -470,7 +470,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				</div>
 			</div>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_barcode_parts 
+				DELETE FROM cf_temp_bl_relations 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
