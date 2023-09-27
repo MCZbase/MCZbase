@@ -209,7 +209,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 					select ci.collection_object_id 
 					from cataloged_item ci
 					where ci.collection_cde = cf_temp_bl_relations.collection_cde
-					and ci.cat_num = cf_temp_bl_relations.other_id_value
+					and ci.cat_num = cf_temp_bl_relations.other_id_val
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
