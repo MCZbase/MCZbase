@@ -387,9 +387,9 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartContainer_result">
 							Insert into 
-							container_history 
-							(container_id, parent_container_id,install_date) 
-							values (#CONTAINER_ID#,#PARENT_CONTAINER_ID#,SYSDATE)
+							biol_indiv_relations 
+							(collection_object_id,related_coll_object_id,biol_indiv_relationship,created_by) 
+							values (#collection_object_id#,#related_coll_object_id#,#biol_indiv_relationship#,#created_by#)
 						</cfquery>
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
@@ -397,13 +397,12 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT other_id_type,other_id_number,collection_cde,institution_acronym,
-							part_name,preserve_method,container_unique_id,status 
-						FROM cf_temp_barcode_parts 
-						WHERE status is not null
+						SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL
+						FROM cf_temp_bl_relations
+						WHERE validated_status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<h3>Error updating row (#part_container_updates + 1#): #cfcatch.message#</h3>
+						<h3>Error updating row (#relations_updates + 1#): #cfcatch.message#</h3>
 						<table class='sortable table table-responsive table-striped d-lg-table'>
 							<thead>
 								<tr>
