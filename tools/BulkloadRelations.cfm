@@ -273,33 +273,31 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				</h2>
 			</cfif>
 			<table class='sortable table table-responsive table-striped d-lg-table'>
-				<thead>
+				<thead><cfset fieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL">
 					<tr>
+						<th>INSTITUTION_ACRONYM</th>
+						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_VAL</th>
-						<th>COLLECTION_CDE</th>
-						<th>INSTITUTION_ACRONYM</th>
 						<th>RELATIONSHIP</th>
 						<th>RELATED_INSTITUTION_ACRONYM</th>
 						<th>RELATED_COLLECTION_CDE</th>
 						<th>RELATED_OTHER_ID_TYPE</th>
 						<th>RELATED_OTHER_ID_VAL</th>
-						<th>COLLECTION_OBJECT_ID</th>
-						<th>RELATED_COLLECTION_OBJECT_ID</th>
 						<th>VALIDATED_STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
 						<tr>
+							<td>#data.INSTITUTION_ACRONYM#</td>
+							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_VAL#</td>
-							<td>#data.COLLECTION_CDE#</td>
-							<td>#data.INSTITUTION_ACRONYM#</td>
+							<td>#data.RELATIONSHIP#</td>
+							<td>#data.RELATED_INSTITUTION_ACRONYM#</td>
 							<td>#data.RELATED_COLLECTION_CDE#</td>
 							<td>#data.RELATED_OTHER_ID_TYPE#</td>
 							<td>#data.RELATED_OTHER_ID_VAL#</td>
-							<td>#data.COLLECTION_OBJECT_ID#</td>
-							<td>#data.RELATED_COLLECTION_OBJECT_ID#</td>
 							<td><strong>#VALIDATED_STATUS#</strong></td>
 						</tr>
 					</cfloop>
