@@ -305,189 +305,153 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 			</table>
 		</cfoutput>
 	</cfif>
-
-</main>
-<!------------------------------------------------------->
-
-<!---<cfif #action# is "getFile">
-	<cfoutput>
-		<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			delete from cf_temp_bl_relations
-		</cfquery>
-		<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
-		<cfset fileContent=replace(fileContent,"'","''","all")>
-		<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-		<cfset numberOfColumns = ArrayLen(arrResult[1])>
-		<cfset colNames="">
-		<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
-			<cfset colVals="">
-				<cfloop from="1"  to ="#ArrayLen(arrResult[o])#" index="i">
-					 <cfset numColsRec = ArrayLen(arrResult[o])>
-					<cfset thisBit=arrResult[o][i]>
-					<cfif #o# is 1>
-						<cfset colNames="#colNames#,#thisBit#">
-					<cfelse>
-						<cfset colVals="#colVals#,'#thisBit#'">
-					</cfif>
-				</cfloop>
-			<cfif #o# is 1>
-				<cfset colNames=replace(colNames,",","","first")>
-			</cfif>	
-			<cfif len(#colVals#) gt 1>
-				<cfset colVals=replace(colVals,",","","first")>
-				<cfif numColsRec lt numberOfColumns>
-					<cfset missingNumber = numberOfColumns - numColsRec>
-					<cfloop from="1" to="#missingNumber#" index="c">
-						<cfset colVals = "#colVals#,''">
+				
+	<!---Load data--->					
+	<cfif #action# is "load">
+		<h2 class="h3">Third step: Apply changes.</h2>
+		<cfoutput>
+			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT *
+				FROM cf_temp_bl_relations
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cftry>
+				<cfset relations_updates = 0>
+					<cftransaction>
+						<cfset install_date = ''>
+						<cfloop query="getTempData">
+							<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelations_result">
+							insert into 
+								BIOL_INDIV_RELATIONS
+									(collection_object_id,related_coll_object_id,biol_indiv_relationship,created_by) 
+								values (#collection_object_id#,#related_coll_object_id#,#biol_indiv_relationship#,#username#)
+							</cfquery>
+							<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
+						</cfloop>
+					</cftransaction> 
+					<div class="container">
+						<div class="row">
+							<div class="col-12 mx-auto">
+								<h2 class="h3">Updated #relations_updates# relationships.</h2>
+							</div>
+						</div>
+					</div>
+				<cfcatch>
+					<h2>There was a problem updating relationships.</h2>
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT *
+						FROM cf_temp_bl_relations 
+						WHERE validated_status is not null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<h3>Problematic Rows (<a href="/tools/BulkloadRelations.cfm?action=dumpProblems">download</a>)</h3>
+					<table class='sortable table table-responsive table-striped d-lg-table'>
+						<thead>
+							<tr>
+								<th>CONTAINER_ID</th>
+								<th>COLLECTION_OBJECT_ID</th>
+								<th>OTHER_ID_TYPE</th>
+								<th>OTHER_ID_NUMBER</th>
+								<th>COLLECTION_CDE</th>
+								<th>INSTITUTION_ACRONYM</th>
+								<th>PART_NAME</th>
+								<th>PRESERVE_METHOD</th>
+								<th>CONTAINER_UNIQUE_ID</th>
+								<th>STATUS</th>
+							</tr> 
+						</thead>
+						<tbody>
+							<cfloop query="getProblemData">
+								<tr><td>#getProblemData.CONTAINER_ID#</td>
+									<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
+									<td>#getProblemData.OTHER_ID_TYPE#</td>
+									<td>#getProblemData.OTHER_ID_NUMBER#</td>
+									<td>#getProblemData.COLLECTION_CDE#</td>
+									<td>#getProblemData.INSTITUTION_ACRONYM#</td>
+									<td>#getProblemData.PART_NAME#</td>
+									<td>#getProblemData.PRESERVE_METHOD#</td>
+									<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
+									<td><strong>#STATUS#</strong></td>
+								</tr> 
+							</cfloop>
+						</tbody>
+					</table>
+					<cfrethrow>
+				</cfcatch>
+			</cftry>
+			<cfset problem_key = "">
+			<cftransaction>
+				<cftry>
+					<cfset part_container_updates = 0>
+					<cfloop query="getTempData">
+						<cfset problem_key = getTempData.key>
+						<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartContainer_result">
+							Insert into 
+							container_history 
+							(container_id, parent_container_id,install_date) 
+							values (#CONTAINER_ID#,#PARENT_CONTAINER_ID#,SYSDATE)
+						</cfquery>
+						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
-				</cfif>
-				<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					insert into cf_temp_bl_relations (#colNames#) values (#preservesinglequotes(colVals)#)
-				</cfquery>
-			</cfif>
-		</cfloop>
-	</cfoutput>
-	<cflocation url="BulkloadRelations.cfm?action=validate">
-</cfif>--->
-
-<!---<cfif #action# is "validate">
-<cfoutput>
-	<cfquery name="setStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update 
-			cf_temp_bl_relations 
-		set 
-			validated_status='bad_relationship'
-		where 
-			validated_status is null AND (
-				relationship not in (select BIOL_INDIV_RELATIONSHIP from CTBIOL_RELATIONS)
-			)
-	</cfquery>
-	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from cf_temp_bl_relations
-	</cfquery>
-	<cfloop query="d">
-		<cfif #other_id_type# is "catalog number">
-			<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					collection_object_id
-				FROM
-					cataloged_item,
-					collection
-				WHERE
-					cataloged_item.collection_id = collection.collection_id and
-					collection.collection_cde = '#collection_cde#' and
-					collection.institution_acronym = '#institution_acronym#' and
-					cat_num='#other_id_val#'
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT other_id_type,other_id_number,collection_cde,institution_acronym,
+							part_name,preserve_method,container_unique_id,status 
+						FROM cf_temp_barcode_parts 
+						WHERE status is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+						<h3>Error updating row (#part_container_updates + 1#): #cfcatch.message#</h3>
+						<table class='sortable table table-responsive table-striped d-lg-table'>
+							<thead>
+								<tr>
+									<th>INSTITUTION_ACRONYM</th>
+									<th>COLLECTION_CDE</th>
+									<th>OTHER_ID_TYPE</th>
+									<th>OTHER_ID_VAL</th>
+									<th>RELATIONSHIP</th>
+									<th>RELATED_INSTITUTION_ACRONYM</th>
+									<th>RELATED_COLLECTION_CDE</th>
+									<th>RELATED_OTHER_ID_TYPE</th>
+									<th>RELATED_OTHER_ID_VAL</th>
+									<th>VALIDATED_STATUS</th>
+								</tr> 
+							</thead>
+							<tbody>
+								<cfloop query="getProblemData">
+									<tr>
+										<td>#getProblemData.INSTITUTION_ACRONYM#</td>
+										<td>#getProblemData.COLLECTION_CDE#</td>
+										<td>#getProblemData.OTHER_ID_TYPE#</td>
+										<td>#getProblemData.OTHER_ID_VAL#</td>
+										<td>#getProblemData.RELATIONSHIP#</td>
+										<td>#getProblemData.RELATED_INSTITUTION_ACRONYM#</td>
+										<td>#getProblemData.RELATED_COLLECTION_CDE#</td>
+										<td>#getProblemData.RELATED_OTHER_ID_TYPE#</td>
+										<td>#getProblemData.RELATED_OTHER_ID_VAL#</td>
+										<td>#getProblemData.VALIDATED_STATUS#</td>
+									</tr> 
+								</cfloop>
+							</tbody>
+						</table>
+						<cfrethrow>
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<div class="container">
+				<div class="row">
+					<div class="col-12 mx-auto">
+						<h3 class="text-success">Success, changes applied.</h3>
+					</div>
+				</div>
+			</div>
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+				DELETE FROM cf_temp_barcode_parts 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-		<cfelse>
-			<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					coll_obj_other_id_num.collection_object_id
-				FROM
-					coll_obj_other_id_num,
-					cataloged_item,
-					collection
-				WHERE
-					coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
-					cataloged_item.collection_id = collection.collection_id and
-					collection.collection_cde = '#collection_cde#' and
-					collection.institution_acronym = '#institution_acronym#' and
-					other_id_type = '#other_id_type#' and
-					other_id_num = '#other_id_val#'
-			</cfquery>				
-		</cfif>
-		<cfif #collObj.recordcount# is 1>					
-			<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_bl_relations SET collection_object_id = #collObj.collection_object_id#
-				where
-				key = #key#
-			</cfquery>
-		<cfelse>				
-			<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_bl_relations SET validated_status = 
-				validated_status || 'identifier matched #collObj.recordcount# records' 
-				where key = #key#
-			</cfquery>
-		</cfif>
-		<cfif #related_other_id_type# is "catalog number">
-			<cfquery name="rcollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					collection_object_id
-				FROM
-					cataloged_item,
-					collection
-				WHERE
-					cataloged_item.collection_id = collection.collection_id and
-					collection.collection_cde = '#related_collection_cde#' and
-					collection.institution_acronym = '#related_institution_acronym#' and
-					cat_num='#related_other_id_val#'
-			</cfquery>
-		<cfelse>
-			<cfquery name="rcollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					coll_obj_other_id_num.collection_object_id
-				FROM
-					coll_obj_other_id_num,
-					cataloged_item,
-					collection
-				WHERE
-					coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
-					cataloged_item.collection_id = collection.collection_id and
-					collection.collection_cde = '#related_collection_cde#' and
-					collection.institution_acronym = '#related_institution_acronym#' and
-					other_id_type = '#related_other_id_type#' and
-					other_id_num = '#related_other_id_val#'
-			</cfquery>				
-		</cfif>
-		<cfif #rcollObj.recordcount# is 1>					
-			<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_bl_relations SET related_collection_object_id = #rcollObj.collection_object_id#
-				where
-				key = #key#
-			</cfquery>
-		<cfelse>				
-			<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_bl_relations SET validated_status = 
-				validated_status || 'related identifier matched #rcollObj.recordcount# records.' 
-				where key = #key#
-			</cfquery>
-		</cfif>
-	</cfloop>
-	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from cf_temp_bl_relations
-	</cfquery>	
-	<cfquery name="b" dbtype="query">
-		select count(*) c from d where validated_status is not null
-	</cfquery>
-	<cfif b.c gt 0>
-		You must clean up the #b.recordcount# rows with validated_status != NULL in this table before proceeding.
-	<cfelse>
-		Check out the table below and <a href="BulkloadRelations.cfm?action=loadData">click here to proceed</a> when all looks OK
+		</cfoutput>
 	</cfif>
-	<cfdump var=#d#>
-</cfoutput>
-</cfif>
-<cfif #action# is "loadData">
-<cfoutput>
-	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from cf_temp_bl_relations
-	</cfquery>
-	<cftransaction>
-	<cfloop query="getTempData">
-		<cfquery name="newAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			insert into biol_indiv_relations (
-				collection_object_id,
-				related_coll_object_id,
-				biol_indiv_relationship
-			) values (
-				#collection_object_id#,
-				#related_collection_object_id#,
-				'#relationship#'
-			)
-		</cfquery>
-	</cfloop>
-	</cftransaction>
-	Spiffy, all done.
-</cfoutput>--->
-<!---</cfif>--->
+</main>
 <cfinclude template="/shared/_footer.cfm">
