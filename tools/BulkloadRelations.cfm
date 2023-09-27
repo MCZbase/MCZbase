@@ -213,6 +213,17 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+			<cfelse>
+				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_bl_relations set collection_object_id = 
+				(
+					select oi.collection_object_id
+					from coll_obj_other_id_num oi
+					where oi.other_id_type = cf_temp_bl_relations.other_id_type
+					and oi.display_value = cf_temp_bl_relations.other_id_val
+				) 
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 			</cfif>
 			<cfif related_other_id_type eq 'catalog number'>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -222,6 +233,17 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 					from cataloged_item co
 					where co.collection_cde = cf_temp_bl_relations.related_collection_cde
 					and co.cat_num = cf_temp_bl_relations.related_other_id_val
+				) 
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			<cfelse>
+				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_bl_relations set related_collection_object_id = 
+				(
+					select oi.collection_object_id
+					from coll_obj_other_id_num oi
+					where oi.other_id_type = cf_temp_bl_relations.related_other_id_type
+					and oi.display_value = cf_temp_bl_relations.related_other_id_val
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
