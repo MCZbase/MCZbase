@@ -97,11 +97,14 @@ limitations under the License.
 	<cfthrow message = "No records found on which to change collecting events with record_id #encodeForHtml(result_id)# in user_search_table.  Did someone else send you a link to this result set?">
 </cfif>
 <cfset filterTextForHead = "">
-<cfif isdefined("filterOrder")>
+<cfset hasFilter = false>
+<cfif isdefined("filterOrder") AND len(filterOrder) GT 0 >
 	<cfset filterTextForHead = "#filterTextForHead# filtered by Order #encodeForHtml(filterOrder)#">
+	<cfset hasFilter = true>
 </cfif>
-<cfif isdefined("filterFamily")>
+<cfif isdefined("filterFamily") AND len(filterFamily) GT 0 >
 	<cfset filterTextForHead = "#filterTextForHead# filtered by Family #encodeForHtml(filterFamily)#">
+	<cfset hasFilter = true>
 </cfif>
 
 <!--------------------------------------------------------------------------------------------------->
@@ -504,7 +507,13 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
-					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
+					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount##filterTextForHead#</h2>
+				<cfelseif hasFilter>
+					<cfset returnURL = "/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#">
+					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount##filterTextForHead#</h2>
+					<div><a href="#returnURL#"><i class="fa fa-arrow-left"></i> Remove Filter</a></div>
+				<cfelse>
+					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount##filterTextForHead#</h2>
 				</cfif>
 			</div>
 		</div>
