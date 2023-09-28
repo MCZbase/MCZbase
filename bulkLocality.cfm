@@ -1,3 +1,4 @@
+<!--- Deprecated.  To be removed.  Replaced with /manage/changeQueryLocality.cfm --->
 <cfinclude template="includes/_header.cfm">
 
 <!--------------------------------------------------------------------------------------------------->
