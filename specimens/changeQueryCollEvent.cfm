@@ -180,7 +180,7 @@ limitations under the License.
 			</cftransaction>
 			<cfset returnURL = "/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#">
 			<cfif isdefined("filterOrder")>
-				<cfset returnURL = returnURL & "&fiterOrder=#encodeForURL(filterOrder)#">
+				<cfset returnURL = returnURL & "&filterOrder=#encodeForURL(filterOrder)#">
 			</cfif>
 			<cfif isdefined("filterFamily")>
 				<cfset returnURL = returnURL & "&filterFamily=#encodeForURL(filterFamily)#">
@@ -203,7 +203,7 @@ limitations under the License.
 	<cfcase value="updateComplete">
 		<cfset returnURL = "/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#">
 		<cfif isdefined("filterOrder")>
-			<cfset returnURL = returnURL & "&fiterOrder=#encodeForURL(filterOrder)#">
+			<cfset returnURL = returnURL & "&filterOrder=#encodeForURL(filterOrder)#">
 		</cfif>
 		<cfif isdefined("filterFamily")>
 			<cfset returnURL = returnURL & "&filterFamily=#encodeForURL(filterFamily)#">
@@ -437,7 +437,7 @@ limitations under the License.
 	</div>
 	<cfset returnURL = "/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#">
 	<cfif isdefined("filterOrder")>
-		<cfset returnURL = returnURL & "&fiterOrder=#encodeForURL(filterOrder)#">
+		<cfset returnURL = returnURL & "&filterOrder=#encodeForURL(filterOrder)#">
 	</cfif>
 	<cfif isdefined("filterFamily")>
 		<cfset returnURL = returnURL & "&filterFamily=#encodeForURL(filterFamily)#">
