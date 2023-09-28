@@ -49,7 +49,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
 			<p class="pt-2">Columns in <span class="text-danger">red</span> are required; others are optional:</p>
-			<ul class="geol_hier">
+			<ul>
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfif listContains(requiredfieldlist,field,",")>
 						<cfset class="text-danger">
