@@ -317,7 +317,11 @@ limitations under the License.
 	<div class="container-fluid">
 		<div class="row mx-1">
 			<div class="col-12 px-4 mt-3">
-				<h2 class="h2 px-3">Change collecting event for all cataloged items [in #encodeForHtml(result_id)#]#filterTextForHead#</h2>
+				<cfif hasFilter>
+					<h2 class="h2 px-3">Change collecting event for #specimenList.recordCount# cataloged items [in #encodeForHtml(result_id)#]<strong>#filterTextForHead#</strong></h2>
+				<cfelse>
+					<h2 class="h2 px-3">Change collecting event for all cataloged items [in #encodeForHtml(result_id)#]#filterTextForHead#</h2>
+				</cfif>
 				<table class="table table-responsive-lg sortable" id="catItemsTable">
 					<thead class="thead-light">
 						<tr>
