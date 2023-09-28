@@ -250,7 +250,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,VALIDATED_STATUS
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATIONS_REMARKS,VALIDATED_STATUS
 				FROM cf_temp_bl_relations 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -283,6 +283,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 						<th>RELATED_COLLECTION_CDE</th>
 						<th>RELATED_OTHER_ID_TYPE</th>
 						<th>RELATED_OTHER_ID_VAL</th>
+						<th>BIOL_INDIV_RELATIONS_REMARKS</th>
 						<th>VALIDATED_STATUS</th>
 					</tr>
 				<tbody>
@@ -297,6 +298,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 							<td>#data.RELATED_COLLECTION_CDE#</td>
 							<td>#data.RELATED_OTHER_ID_TYPE#</td>
 							<td>#data.RELATED_OTHER_ID_VAL#</td>
+							<td>#data.BIOL_INDIV_RELATIONS_REMARKS#</td>
 							<td><strong>#VALIDATED_STATUS#</strong></td>
 						</tr>
 					</cfloop>
@@ -323,7 +325,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 							insert into 
 								BIOL_INDIV_RELATIONS
 									(collection_object_id,related_coll_object_id,biol_indiv_relationship,created_by) 
-								values (#collection_object_id#,#related_collection_object_id#,'#relationship#,#username#)
+								values (#collection_object_id#,#related_collection_object_id#,'#relationship#,#BIOL_INDIV_RELATIONS_REMARKS#,#username#)
 							</cfquery>
 							<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 						</cfloop>
@@ -356,6 +358,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 								<th>RELATED_COLLECTION_CDE</th>
 								<th>RELATED_OTHER_ID_TYPE</th>
 								<th>RELATED_OTHER_ID_VAL</th>
+								<th>BIOL_INDIV_RELATIONS_REMARKS</th>
 								<th>VALIDATED_STATUS</th>
 							</tr> 
 						</thead>
@@ -371,6 +374,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 									<td>#getProblemData.RELATED_COLLECTION_CDE#</td>
 									<td>#getProblemData.RELATED_OTHER_ID_TYPE#</td>
 									<td>#getProblemData.RELATED_OTHER_ID_VAL#</td>
+									<td>#getProblemData.BIOL_INDIV_RELATIONS_REMARKS#</td>
 									<td><strong>#VALIDATED_STATUS#</strong></td>
 								</tr> 
 							</cfloop>
@@ -388,8 +392,8 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 						<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelations_result">
 							Insert into 
 							biol_indiv_relations 
-							(collection_object_id,related_coll_object_id,biol_indiv_relationship,created_by) 
-							values (#collection_object_id#,#related_coll_object_id#,#biol_indiv_relationship#,#created_by#)
+							(collection_object_id,related_coll_object_id,biol_indiv_relationship,BIOL_INDIV_RELATIONS_REMARKS,created_by) 
+							values (#collection_object_id#,#related_coll_object_id#,#biol_indiv_relationship#,#BIOL_INDIV_RELATIONS_REMARKS#,#created_by#)
 						</cfquery>
 						<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 					</cfloop>
@@ -397,7 +401,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL
+						SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATIONS_REMARKS
 						FROM cf_temp_bl_relations
 						WHERE validated_status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -415,6 +419,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 									<th>RELATED_COLLECTION_CDE</th>
 									<th>RELATED_OTHER_ID_TYPE</th>
 									<th>RELATED_OTHER_ID_VAL</th>
+									<th>BIOL_INDIV_RELATIONS_REMARKS</th>
 									<th>VALIDATED_STATUS</th>
 								</tr> 
 							</thead>
@@ -430,6 +435,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 										<td>#getProblemData.RELATED_COLLECTION_CDE#</td>
 										<td>#getProblemData.RELATED_OTHER_ID_TYPE#</td>
 										<td>#getProblemData.RELATED_OTHER_ID_VAL#</td>
+										<td>#getProblemData.BIOL_INDIV_RELATIONS_REMARKS#</td>
 										<td>#getProblemData.VALIDATED_STATUS#</td>
 									</tr> 
 								</cfloop>
