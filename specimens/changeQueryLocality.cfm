@@ -90,6 +90,16 @@ limitations under the License.
 <cfif specimenList.recordcount EQ 0>
 	<cfthrow message = "No records found on which to change localities with record_id #encodeForHtml(result_id)# in user_search_table.  Did someone else send you a link to this result set?">
 </cfif>
+<cfset filterTextForHead = "">
+<cfset hasFilter = false>
+<cfif isdefined("filterOrder") AND len(filterOrder) GT 0 >
+	<cfset filterTextForHead = "#filterTextForHead# filtered by Order #encodeForHtml(filterOrder)#">
+	<cfset hasFilter = true>
+</cfif>
+<cfif isdefined("filterFamily") AND len(filterFamily) GT 0 >
+	<cfset filterTextForHead = "#filterTextForHead# filtered by Family #encodeForHtml(filterFamily)#">
+	<cfset hasFilter = true>
+</cfif>
 
 <!--------------------------------------------------------------------------------------------------->
 
@@ -106,7 +116,7 @@ limitations under the License.
 		<cfset showEvent=0>
 		<cfoutput>
 			<main id="content">
-				<h1 class="h2 mt-3 mb-0 px-4">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
+				<h1 class="h2 mt-3 mb-0 px-4">Find new locality for cataloged items [in #encodeForHtml(result_id)#]#filterTextForHead#</h1>
 				<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
 					<input type="hidden" name="Action" value="findLocality">
 					<input type="hidden" name="result_id" value="#result_id#">
@@ -132,6 +142,7 @@ limitations under the License.
 			<cfset failed=false>
 			<cftransaction>
 				<cftry>
+					<!--- filter criteria on result are applied in specimenList query, so list passed to queries here is filtered --->
 					<cfquery name="collEvents" dbtype="query">
 						select distinct collecting_event_id from specimenList
 					</cfquery>
@@ -206,7 +217,7 @@ limitations under the License.
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12 mt-3">
-							<h2 class="h2">Changing locality for cataloged items [in #encodeForHtml(result_id)#]</h2>
+							<h2 class="h2">Changing locality for cataloged items [in #encodeForHtml(result_id)#]#filterTextForHead#</h2>
 							<div><a href="#returnURL#"><i class="fa fa-arrow-left"></i> Back to Manage Locality</a></div>
 						</div>
 					</div>
@@ -230,7 +241,7 @@ limitations under the License.
 			<main id="content" class="container-fluid">
 				<div class="row mx-0">
 					<div class="col-12 px-4 mt-3">
-						<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
+						<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]#filterTextForHead#</h2>
 						<ul class="col-12 list-group list-group-horizontal">
 							<li class="list-group-item d-flex justify-content-between align-items-center">
 								<a href="#returnURL#"><i class="fa fa-arrow-left"></i> Back to Manage Locality  <!---<span class="badge badge-primary badge-pill">1</span>--->
@@ -300,7 +311,11 @@ limitations under the License.
 	<main id="content" class="container-fluid">
 		<div class="row mx-1">
 			<div class="col-12 px-4 mt-3">
-				<h2 class="h2 px-3">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
+				<cfif hasFilter>
+					<h2 class="h2 px-3">Change locality for #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]<strong>#filterTextForHead#</strong></h2>
+				<cfelse>
+					<h2 class="h2 px-3">Change locality for all cataloged items [in #encodeForHtml(result_id)#]#filterTextForHead#</h2>
+				</cfif>
 				<table class="table table-responsive-lg sortable" id="localityTable">
 					<thead class="thead-light">
 						<tr>
@@ -359,8 +374,12 @@ limitations under the License.
 										<cfif isdefined("filterFamily")>
 											<input type="hidden" name="filterFamily" value="#filterFamily#">
 										</cfif>
+										<cfset targetCount = "ALL">
+										<cfif hasFilter>
+											<cfset targetCount = "#specimenList.recordcount#">
+										</cfif>
 										<input type="submit"
-											value="Change ALL to this Locality"
+											value="Change #targetCount# to this Locality"
 											class="btn btn-warning btn-xs">
 									</form>
 								</td>
@@ -449,7 +468,15 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
-					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
+					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount##filtereTextForHead#</h2>
+				<cfelseif hasFilter>
+					<cfset returnURL = "/specimens/changeQueryLocality.cfm?result_id=#encodeForURL(result_id)#">
+					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount##filterTextForHead#</h2>
+					<cfif actionWord NEQ "That Have Been">
+						<div><a href="#returnURL#"><i class="fa fa-arrow-left"></i> Remove Filter</a></div>
+					</cfif>
+				<cfelse>
+					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount##filterTextForHead#</h2>
 				</cfif>
 			</div>
 		</div>
