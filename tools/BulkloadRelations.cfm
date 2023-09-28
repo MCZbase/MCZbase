@@ -89,7 +89,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 			<cfset RELATED_COLLECTION_CDE_exists = false>
 			<cfset RELATED_OTHER_ID_TYPE_exists = false>
 			<cfset RELATED_OTHER_ID_VAL_exists = false>
-			<cfset BIOL_INDIV_RELATIONS_REMARKS_exists = false>
+			<cfset BIOL_INDIV_RELATION_REMARKS_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
 				<cfif ucase(header) EQ 'INSTITUTION_ACRONYM'><cfset INSTITUTION_ACRONYM_exists=true></cfif>
@@ -101,7 +101,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				<cfif ucase(header) EQ 'RELATED_COLLECTION_CDE'><cfset RELATED_COLLECTION_CDE_exists=true></cfif>
 				<cfif ucase(header) EQ 'RELATED_OTHER_ID_TYPE'><cfset RELATED_OTHER_ID_TYPE_exists=true></cfif>
 				<cfif ucase(header) EQ 'RELATED_OTHER_ID_VAL'><cfset RELATED_OTHER_ID_VAL_exists=true></cfif>
-				<cfif ucase(header) EQ 'BIOL_INDIV_RELATIONS_REMARKS'><cfset BIOL_INDIV_RELATIONS_REMARKS_exists=true></cfif>
+				<cfif ucase(header) EQ 'BIOL_INDIV_RELATION_REMARKS'><cfset BIOL_INDIV_RELATION_REMARKS_exists=true></cfif>
 			</cfloop>
 			<cfif not (INSTITUTION_ACRONYM_exists AND COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_VAL_exists AND RELATIONSHIP_exists AND RELATED_INSTITUTION_ACRONYM_exists AND RELATED_COLLECTION_CDE_exists AND RELATED_OTHER_ID_TYPE_exists AND RELATED_OTHER_ID_VAL_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
@@ -114,7 +114,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				<cfif not RELATED_COLLECTION_CDE_exists><cfset message = "#message# RELATED_COLLECTION_CDE is missing."></cfif>
 				<cfif not RELATED_OTHER_ID_TYPE_exists><cfset message = "#message# RELATED_OTHER_ID_TYPE is missing."></cfif>
 				<cfif not RELATED_OTHER_ID_VAL_exists><cfset message = "#message# RELATED_OTHER_ID_VAL is missing."></cfif>
-				<cfif not BIOL_INDIV_RELATIONS_REMARKS_exists><cfset message = "#message# BIOL_INDIV_RELATIONS_REMARKS is missing."></cfif>
+				<cfif not BIOL_INDIV_RELATION_REMARKS_exists><cfset message = "#message# BIOL_INDIV_RELATION_REMARKS is missing."></cfif>
 				<cfthrow message="#message#">
 			</cfif>
 			<cfset colNames="">
@@ -250,7 +250,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATIONS_REMARKS,VALIDATED_STATUS
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,VALIDATED_STATUS
 				FROM cf_temp_bl_relations 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -283,7 +283,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 						<th>RELATED_COLLECTION_CDE</th>
 						<th>RELATED_OTHER_ID_TYPE</th>
 						<th>RELATED_OTHER_ID_VAL</th>
-						<th>BIOL_INDIV_RELATIONS_REMARKS</th>
+						<th>BIOL_INDIV_RELATION_REMARKS</th>
 						<th>VALIDATED_STATUS</th>
 					</tr>
 				<tbody>
@@ -298,7 +298,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 							<td>#data.RELATED_COLLECTION_CDE#</td>
 							<td>#data.RELATED_OTHER_ID_TYPE#</td>
 							<td>#data.RELATED_OTHER_ID_VAL#</td>
-							<td>#data.BIOL_INDIV_RELATIONS_REMARKS#</td>
+							<td>#data.BIOL_INDIV_RELATION_REMARKS#</td>
 							<td><strong>#VALIDATED_STATUS#</strong></td>
 						</tr>
 					</cfloop>
@@ -325,7 +325,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 							insert into 
 								BIOL_INDIV_RELATIONS
 									(collection_object_id,related_coll_object_id,biol_indiv_relationship,biol_indiv_relation_remarks,created_by) 
-								values (#collection_object_id#,#related_collection_object_id#,'#relationship#,#BIOL_INDIV_RELATIONS_REMARKS#,#username#)
+								values (#collection_object_id#,#related_collection_object_id#,'#relationship#,#BIOL_INDIV_RELATION_REMARKS#,#username#)
 							</cfquery>
 							<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 						</cfloop>
@@ -358,7 +358,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 								<th>RELATED_COLLECTION_CDE</th>
 								<th>RELATED_OTHER_ID_TYPE</th>
 								<th>RELATED_OTHER_ID_VAL</th>
-								<th>BIOL_INDIV_RELATIONS_REMARKS</th>
+								<th>BIOL_INDIV_RELATION_REMARKS</th>
 								<th>VALIDATED_STATUS</th>
 							</tr> 
 						</thead>
@@ -374,7 +374,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 									<td>#getProblemData.RELATED_COLLECTION_CDE#</td>
 									<td>#getProblemData.RELATED_OTHER_ID_TYPE#</td>
 									<td>#getProblemData.RELATED_OTHER_ID_VAL#</td>
-									<td>#getProblemData.BIOL_INDIV_RELATIONS_REMARKS#</td>
+									<td>#getProblemData.BIOL_INDIV_RELATION_REMARKS#</td>
 									<td><strong>#VALIDATED_STATUS#</strong></td>
 								</tr> 
 							</cfloop>
@@ -393,7 +393,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 							Insert into 
 							biol_indiv_relations 
 							(collection_object_id,related_coll_object_id,biol_indiv_relationship,BIOL_INDIV_RELATIONS_REMARKS,created_by) 
-							values (#collection_object_id#,#related_coll_object_id#,#biol_indiv_relationship#,#BIOL_INDIV_RELATIONS_REMARKS#,#created_by#)
+							values (#collection_object_id#,#related_coll_object_id#,#biol_indiv_relationship#,#BIOL_INDIV_RELATION_REMARKS#,#created_by#)
 						</cfquery>
 						<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 					</cfloop>
@@ -401,7 +401,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATIONS_REMARKS
+						SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS
 						FROM cf_temp_bl_relations
 						WHERE validated_status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -419,7 +419,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 									<th>RELATED_COLLECTION_CDE</th>
 									<th>RELATED_OTHER_ID_TYPE</th>
 									<th>RELATED_OTHER_ID_VAL</th>
-									<th>BIOL_INDIV_RELATIONS_REMARKS</th>
+									<th>BIOL_INDIV_RELATION_REMARKS</th>
 									<th>VALIDATED_STATUS</th>
 								</tr> 
 							</thead>
@@ -435,7 +435,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 										<td>#getProblemData.RELATED_COLLECTION_CDE#</td>
 										<td>#getProblemData.RELATED_OTHER_ID_TYPE#</td>
 										<td>#getProblemData.RELATED_OTHER_ID_VAL#</td>
-										<td>#getProblemData.BIOL_INDIV_RELATIONS_REMARKS#</td>
+										<td>#getProblemData.BIOL_INDIV_RELATION_REMARKS#</td>
 										<td>#getProblemData.VALIDATED_STATUS#</td>
 									</tr> 
 								</cfloop>
