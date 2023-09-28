@@ -66,12 +66,19 @@ limitations under the License.
 </cfquery>
 
 <cfoutput query="getCollectingEvent">
+	<cfset locality_id = getCollectingEvent.locality_id>
 	<main class="container-xl " id="content">
 		<div class="row mx-0">
 			<div class="col-12 px-0">
 				<div class="row mx-0">
 					<div class="col-12 mt-4 pb-2 border-bottom border-dark">
-						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">Locality [#encodeForHtml(locality_id)#]</h1>
+						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">Collecting Event [#encodeForHtml(collecting_event_id)#]</h1>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+							<a role="button" href="/localities/CollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">Edit Collecting Event</a>
+						</cfif>
+					</div>
+					<div class="col-12 mt-4 pb-2 border-bottom border-dark">
+						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">In Locality [#encodeForHtml(locality_id)#]</h1>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
 							<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right mr-1">Edit Locality</a>
 						</cfif>
@@ -81,7 +88,7 @@ limitations under the License.
 					
 					<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 						<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
-						<div id="summary" class="small95 px-2 mb-0"><span class="sr-only">Summary: </span>#summary#</div>
+						<div id="summary" class="small95 px-2 mb-0"><span class="sr-only">Locality Summary: </span>#summary#</div>
 					</div>
 
 					<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
