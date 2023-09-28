@@ -217,7 +217,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				(
 					select rci.collection_object_id
 					from cataloged_item rci
-					where rci.cataloged_item = cf_temp_bl_relations.related_other_id_type
+					where rci.collection_cde = cf_temp_bl_relations.related_collection_cde
 					and rci.cat_num = cf_temp_bl_relations.related_other_id_val
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
