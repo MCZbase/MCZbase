@@ -140,6 +140,7 @@ limitations under the License.
 	<cfcase value="updateLocality">
 		<cfoutput>
 			<cfset failed=false>
+			<cfset madeClone=false>
 			<cftransaction>
 				<cftry>
 					<!--- filter criteria on result are applied in specimenList query, so list passed to queries here is filtered --->
@@ -182,6 +183,7 @@ limitations under the License.
 										FROM collecting_event 
 										WHERE collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CEID#">
 								</cfquery>
+								<cfset madeClone=true>
 								<cfquery name="updateCollEvent" datasource="uam_god">
 									UPDATE collecting_event 
 									SET locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newLocality_Id#">
@@ -200,6 +202,7 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfset failed=true>
+					<cfset madeClone=false>
 					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 					<h3 class="h3">Update failed</h3>
 					<div>Error setting locality for cataloged items in search result: #error_message#</div>
@@ -223,7 +226,11 @@ limitations under the License.
 					</div>
 				</div>
 			<cfelse>
-				<cflocation url="#returnURL#&action=updateComplete">
+				<cfif madeClone>
+					<cflocation url="#returnURL#&action=updateComplete&collEventCloned=1">
+				<cfelse>
+					<cflocation url="#returnURL#&action=updateComplete">
+				</cfif>
 			</cfif>
 		</cfoutput>
 	</cfcase>
@@ -241,7 +248,11 @@ limitations under the License.
 			<main id="content" class="container-fluid">
 				<div class="row mx-0">
 					<div class="col-12 px-4 mt-3">
-						<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]#filterTextForHead#</h2>
+						<cfset cloneText = "">
+						<cfif isDefined("collEventCloned") AND collEventCloned EQ "1">
+							<cfset cloneText = " (splitting collecting events into clones)">
+						</cfif>
+						<h2 class="h2">Changed locality#cloneText# for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]#filterTextForHead#</h2>
 						<ul class="col-12 list-group list-group-horizontal">
 							<li class="list-group-item d-flex justify-content-between align-items-center">
 								<a href="#returnURL#"><i class="fa fa-arrow-left"></i> Back to Manage Locality  <!---<span class="badge badge-primary badge-pill">1</span>--->
