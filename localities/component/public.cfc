@@ -218,7 +218,7 @@ limitations under the License.
 							}
 							if (hasProblem) { 
 								$("##mapdiv_" + geog_auth_rec_id).addClass('uglyGeoSPatData');
-								$("##mapMetadataUL").append("<li class='list-style-circle'>Georeferences for localities in this higher geography fall outside of if. </li>");
+								$("##mapMetadataUL").append("<li class='list-style-circle'>Georeferences for localities in this higher geography fall outside of it. </li>");
 							} else { 
 								$("##mapdiv_" + geog_auth_rec_id).addClass('niceGeoSPatData');
 							} 
@@ -1066,7 +1066,7 @@ limitations under the License.
 							dec_long raw_dec_long,
 							max_error_distance,
 							max_error_units,
-							to_meters(lat_long.max_error_distance, lat_long.max_error_units) coordinateUncertaintyInMeters,
+							round(to_meters(lat_long.max_error_distance, lat_long.max_error_units)) coordinateUncertaintyInMeters,
 							error_polygon,
 							datum,
 							extent,
@@ -1256,6 +1256,19 @@ limitations under the License.
 							<cfset totalEvents=totalEvents+localityUses.numOfCollEvents>
 							<cfset totalSpecimens=totalSpecimens+localityUses.numOfSpecs>
 						</cfloop>
+						<cfquery name="localityCollEventUses" datasource="uam_god">
+							SELECT
+								count(distinct collecting_event.collecting_event_id) numOfCollEvents
+							from
+								collecting_event
+								left join cataloged_item on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
+								left join collection on cataloged_item.collection_id = collection.collection_id
+							WHERE
+								collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					  	</cfquery>
+						<cfloop query="localityCollEventUses">
+							<cfset totalEvents=localityCollEventUses.numOfCollEvents>
+						</cfloop>
 						<h2 class="h4 px-2">
 							This Locality (#locality_id#)
 							contains the following <a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID&searchText1=#locality_id#">#totalSpecimens# specimens</a>
@@ -1276,7 +1289,7 @@ limitations under the License.
 									<cfset numShared = 0>
 									<cfif len(localityUses.collection_id) GT 0>
 										<cfquery name="countSole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT flatTableName.collecting_event_id 
+											SELECT distinct flatTableName.collecting_event_id 
 											FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat1 on
 													flatTableName.collecting_event_id = flat1.collecting_event_id
@@ -1287,7 +1300,7 @@ limitations under the License.
 										</cfquery>
 										<cfset numSole = countSole.recordcount>
 										<cfquery name="countShared" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT flatTableName.collecting_event_id 
+											SELECT distinct flatTableName.collecting_event_id 
 											FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 												left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat1 on
 													flatTableName.collecting_event_id = flat1.collecting_event_id
