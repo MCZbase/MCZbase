@@ -276,9 +276,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				</h2>
 			</cfif>
 			<table class='sortable table table-responsive table-striped d-lg-table'>
-				<thead><cfset fieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL">
-					<!---,BIOL_INDIV_RELATION_REMARKS--->
-					
+				<thead>
 					<tr>
 						<th>COLLECTION_OBJECT_ID</th>
 						<th>RELATED_COLLECTION_OBJECT_ID</th>
@@ -359,8 +357,8 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
-								<th>COLLECTION_OBJECT_ID</th>
-								<th>RELATED_COLL_OBJECT_ID</th>
+						<!---		<th>COLLECTION_OBJECT_ID</th>
+								<th>RELATED_COLL_OBJECT_ID</th>--->
 								<th>INSTITUTION_ACRONYM</th>
 								<th>COLLECTION_CDE</th>
 								<th>OTHER_ID_TYPE</th>
@@ -377,8 +375,8 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
-									<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
-									<td>#getProblemData.RELATED_COLL_OBJECT_ID#</td>
+							<!---		<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
+									<td>#getProblemData.RELATED_COLL_OBJECT_ID#</td>--->
 									<td>#getProblemData.INSTITUTION_ACRONYM#</td>
 									<td>#getProblemData.COLLECTION_CDE#</td>
 									<td>#getProblemData.OTHER_ID_TYPE#</td>
