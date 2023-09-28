@@ -324,7 +324,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 							<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelations_result">
 							insert into 
 								BIOL_INDIV_RELATIONS
-									(collection_object_id,related_coll_object_id,biol_indiv_relationship,created_by) 
+									(collection_object_id,related_coll_object_id,biol_indiv_relationship,biol_indiv_relation_remarks,created_by) 
 								values (#collection_object_id#,#related_collection_object_id#,'#relationship#,#BIOL_INDIV_RELATIONS_REMARKS#,#username#)
 							</cfquery>
 							<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
