@@ -1,3 +1,4 @@
+<!--- Deprecated.  To be removed.  Replaced with /manage/changeQueryLocality.cfm --->
 <cfinclude template="includes/_header.cfm">
 
 <!--------------------------------------------------------------------------------------------------->
@@ -271,7 +272,7 @@
 		</cftransaction>
 		<cfset returnURL = "bulkLocality.cfm?table_name=#table_name#">
 		<cfif isdefined("filterOrder")>
-			<cfset returnURL = returnURL & "&fiterOrder=#filterOrder#">
+			<cfset returnURL = returnURL & "&filterOrder=#filterOrder#">
 		</cfif>
 		<cfif isdefined("filterFamily")>
 			<cfset returnURL = returnURL & "&filterFamily=#filterFamily#">

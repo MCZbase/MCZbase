@@ -1,3 +1,4 @@
+<!--- Deprecated.  To be removed.  Replaced with /manage/changeQueryCollectingEvent.cfm --->
 <cfinclude template="includes/_header.cfm">
 <!--------------------------------------------------------------------------------------------------->
 <cfif #Action# is "nothing">
