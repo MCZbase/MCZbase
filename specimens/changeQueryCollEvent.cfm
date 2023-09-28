@@ -511,7 +511,9 @@ limitations under the License.
 				<cfelseif hasFilter>
 					<cfset returnURL = "/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#">
 					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount##filterTextForHead#</h2>
-					<div><a href="#returnURL#"><i class="fa fa-arrow-left"></i> Remove Filter</a></div>
+					<cfif actionWord NEQ "That Have Been">
+						<div><a href="#returnURL#"><i class="fa fa-arrow-left"></i> Remove Filter</a></div>
+					</cfif>
 				<cfelse>
 					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount##filterTextForHead#</h2>
 				</cfif>
