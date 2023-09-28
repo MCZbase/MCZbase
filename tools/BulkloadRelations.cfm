@@ -253,7 +253,9 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT COLLECTION_OBJECT_ID,RELATED_COLLECTION_OBJECT_ID,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,VALIDATED_STATUS
+				SELECT 
+				<!---COLLECTION_OBJECT_ID,RELATED_COLLECTION_OBJECT_ID,--->
+				INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,VALIDATED_STATUS
 				FROM cf_temp_bl_relations 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				<!---BIOL_INDIV_RELATION_REMARKS,--->
@@ -278,8 +280,8 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
-						<th>COLLECTION_OBJECT_ID</th>
-						<th>RELATED_COLLECTION_OBJECT_ID</th>
+						<!---<th>COLLECTION_OBJECT_ID</th>
+						<th>RELATED_COLLECTION_OBJECT_ID</th>--->
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -295,8 +297,8 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td>#data.COLLECTION_OBJECT_ID#</td>
-							<td>#data.RELATED_COLLECTION_OBJECT_ID#</td>
+						<!---	<td>#data.COLLECTION_OBJECT_ID#</td>
+							<td>#data.RELATED_COLLECTION_OBJECT_ID#</td>--->
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
