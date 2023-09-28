@@ -281,7 +281,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 					
 					<tr>
 						<th>COLLECTION_OBJECT_ID</th>
-						<th>RELATED_COLL_OBJECT_ID</th>
+						<th>RELATED_COLLECTION_OBJECT_ID</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -298,7 +298,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 					<cfloop query="data">
 						<tr>
 							<td>#data.COLLECTION_OBJECT_ID#</td>
-							<td>#data.RELATED_COLL_OBJECT_ID#</td>
+							<td>#data.RELATED_COLLECTION_OBJECT_ID#</td>
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
