@@ -325,7 +325,6 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 			<cftry>
 				<cfset relations_updates = 0>
 					<cftransaction>
-						<cfset install_date = ''>
 						<cfloop query="getTempData">
 							<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelations_result">
 							insert into 
@@ -394,6 +393,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 			<cftransaction>
 				<cftry>
 					<cfset relations_updates = 0>
+					<cfset related_coll_object_id = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelations_result">
@@ -409,10 +409,10 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL
-						FROM cf_temp_bl_relations
-						WHERE validated_status is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL
+							FROM cf_temp_bl_relations
+							WHERE validated_status is not null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 							<!---,BIOL_INDIV_RELATION_REMARKS--->
 						<h3>Error updating row (#relations_updates + 1#): #cfcatch.message#</h3>
@@ -428,7 +428,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 									<th>RELATED_COLLECTION_CDE</th>
 									<th>RELATED_OTHER_ID_TYPE</th>
 									<th>RELATED_OTHER_ID_VAL</th>
-								<!---	<th>BIOL_INDIV_RELATION_REMARKS</th>--->
+									<!---<th>BIOL_INDIV_RELATION_REMARKS</th>--->
 									<th>VALIDATED_STATUS</th>
 								</tr> 
 							</thead>
