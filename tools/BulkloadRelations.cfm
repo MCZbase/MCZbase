@@ -323,7 +323,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 							insert into 
 								BIOL_INDIV_RELATIONS
 									(collection_object_id,related_coll_object_id,biol_indiv_relationship,created_by) 
-								values (#collection_object_id#,#related_collection_object_id#,'#relationship#',#username#)
+								values (#collection_object_id#,#related_collection_object_id#,'#relationship#,#username#)
 							</cfquery>
 							<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 						</cfloop>
@@ -347,30 +347,31 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
-								<th>CONTAINER_ID</th>
-								<th>COLLECTION_OBJECT_ID</th>
-								<th>OTHER_ID_TYPE</th>
-								<th>OTHER_ID_NUMBER</th>
-								<th>COLLECTION_CDE</th>
 								<th>INSTITUTION_ACRONYM</th>
-								<th>PART_NAME</th>
-								<th>PRESERVE_METHOD</th>
-								<th>CONTAINER_UNIQUE_ID</th>
-								<th>STATUS</th>
+								<th>COLLECTION_CDE</th>
+								<th>OTHER_ID_TYPE</th>
+								<th>OTHER_ID_VAL</th>
+								<th>RELATIONSHIP</th>
+								<th>RELATED_INSTITUTION_ACRONYM</th>
+								<th>RELATED_COLLECTION_CDE</th>
+								<th>RELATED_OTHER_ID_TYPE</th>
+								<th>RELATED_OTHER_ID_VAL</th>
+								<th>VALIDATED_STATUS</th>
 							</tr> 
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
-								<tr><td>#getProblemData.CONTAINER_ID#</td>
-									<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
-									<td>#getProblemData.OTHER_ID_TYPE#</td>
-									<td>#getProblemData.OTHER_ID_NUMBER#</td>
-									<td>#getProblemData.COLLECTION_CDE#</td>
+								<tr>
 									<td>#getProblemData.INSTITUTION_ACRONYM#</td>
-									<td>#getProblemData.PART_NAME#</td>
-									<td>#getProblemData.PRESERVE_METHOD#</td>
-									<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-									<td><strong>#STATUS#</strong></td>
+									<td>#getProblemData.COLLECTION_CDE#</td>
+									<td>#getProblemData.OTHER_ID_TYPE#</td>
+									<td>#getProblemData.OTHER_ID_VAL#</td>
+									<td>#getProblemData.RELATIONSHIP#</td>
+									<td>#getProblemData.RELATED_INSTITUTION_ACRONYM#</td>
+									<td>#getProblemData.RELATED_COLLECTION_CDE#</td>
+									<td>#getProblemData.RELATED_OTHER_ID_TYPE#</td>
+									<td>#getProblemData.RELATED_OTHER_ID_VAL#</td>
+									<td><strong>#VALIDATED_STATUS#</strong></td>
 								</tr> 
 							</cfloop>
 						</tbody>
