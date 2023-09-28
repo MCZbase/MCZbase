@@ -658,7 +658,18 @@ limitations under the License.
 							</td>
 							<td>
 								<!--- TODO: Point to view collecting event page --->
-								<a href="/localities/CollectingEvent.cfm?action=edit&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
+								<cftry>
+									<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+									<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+								<cfcatch>
+									<cfset gitBranch = "unknown">
+								</cfcatch>
+								</cftry>
+								<cfif gitBranch EQ "unknown" OR findNoCase('master',gitBranch) GT 0 >
+									<a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=904879=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
+								<cfelse>
+									<a href="/localities/viewCollectingEvent.cfm?action=edit&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
+								</cfif>
 							</td>
 							<td>#date#</td>
 							<td>
