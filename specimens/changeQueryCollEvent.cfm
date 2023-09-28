@@ -411,8 +411,12 @@ limitations under the License.
 										<cfif isdefined("filterFamily")>
 											<input type="hidden" name="filterFamily" value="#filterFamily#">
 										</cfif>
+										<cfset targetCount = "ALL">
+										<cfif hasFilter>
+											<cfset targetCount = "#specimenList.recordcount#">
+										</cfif>
 										<input type="submit"
-											value="Change ALL to this Collecting Event"
+											value="Change #targetCount# to this Collecting Event"
 											class="btn btn-warning btn-xs">
 									</form>
 								</td>
