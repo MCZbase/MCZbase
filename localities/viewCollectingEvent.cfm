@@ -50,7 +50,8 @@ limitations under the License.
 		date_began_date, date_ended_date, verbatim_date,
 		verbatim_locality, coll_event_remarks, valid_distribution_fg,
 		collecting_source, collecting_method, habitat_desc,
-		date_determined_by_agent_id, fish_field_number, 
+		date_determined_by_agent_id, agent_name,
+		fish_field_number, 
 		began_date, ended_date, collecting_time,
 		startdayofyear, enddayofyear, 
 		verbatimcoordinates, verbatimlatitude, verbatimlongitude,
@@ -58,6 +59,7 @@ limitations under the License.
 		verbatimelevation, verbatimdepth
 	FROM
 		collecting_event
+		left join preferred_agent_name on collecting_event.date_determined_by_agent_id = preferred_agent_name.agent_id
 	WHERE
 		collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 </cfquery>
@@ -68,7 +70,7 @@ limitations under the License.
 			<div class="col-12 px-0">
 				<div class="row mx-0">
 					<div class="col-12 mt-4 pb-2 border-bottom border-dark">
-						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">Locality [#encodeForHtml(locality.locality_id)#]</h1>
+						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">Locality [#encodeForHtml(locality_id)#]</h1>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
 							<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right mr-1">Edit Locality</a>
 						</cfif>
@@ -83,9 +85,90 @@ limitations under the License.
 
 					<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 						<!--- TODO: event details --->
-						<ul>
-							<li>#began_date#</li>
-							<li>#ended_date#</li>
+						<ul class="sd list-unstyled bg-light row mx-0 px-2 pt-1 mb-0 border-top">
+							<cfif len(collecting_source) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Collecting Source: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#collecting_source#</li>
+							</cfif>
+							<cfif len(collecting_method) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Collecting Method: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#collecting_method#</li>
+							</cfif>
+							<cfif len(began_date) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Start Date: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#began_date#</li>
+							</cfif>
+							<cfif len(ended_date) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">End Date: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#ended_date#</li>
+							</cfif>
+							<cfif len(collecting_time) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Time: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#collecting_time#</li>
+							</cfif>
+							<cfif len(startdayofyear) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Start Day: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#startdayofyear#</li>
+							</cfif>
+							<cfif len(enddayofyear) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">End Day: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#enddayofyear#</li>
+							</cfif>
+							<cfif len(verbatim_date) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Date: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatim_date#</li>
+							</cfif>
+							<cfif len(date_determined_by_agent_id) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Date Determined By: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last"><a href="/agents/Agent.cfm?agent_id="#date_determined_by_agent_id#">#agent_name#</a></li>
+							</cfif>
+							<cfif len(valid_distribution_fg) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Valid Distribution: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#valid_distribution_fg#</li>
+							<cfif len(verbatim_locality) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Locality: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatim_locality#</li>
+							</cfif>
+							<cfif len(verbatimcoordinates) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Coordinates: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatimcoordinates#</li>
+							</cfif>
+							<cfif len(verbatimcoordinatesystem) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Coordinate System: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatimcoordinatesystem#</li>
+							</cfif>
+							<cfif len(verbatimsrs) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Spatial Reference System: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatimsrs#</li>
+							</cfif>
+							<cfif len(verbatimlatitude) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Latitude: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatimlatitude#</li>
+							</cfif>
+							<cfif len(verbatimlongitude) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Longitude: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatimlongitude#</li>
+							</cfif>
+							<cfif len(verbatimdepth) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Depth: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatimdepth#</li>
+							</cfif>
+							<cfif len(verbatimelevation) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Elevation: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatimelevation#</li>
+							</cfif>
+							<cfif len(habitat_desc) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Habitat: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#habitat_desc#</li>
+							</cfif>
+							<cfif len(fish_field_number) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Fish Field Number: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#fish_field_number#</li>
+							</cfif>
+							<cfif len(coll_event_remarks) gt 0>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Remarks: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#coll_event_remarks#</li>
+							</cfif>
 						</ul>
 					</div>
 
