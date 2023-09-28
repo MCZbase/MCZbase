@@ -468,7 +468,7 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
-					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount##filtereTextForHead#</h2>
+					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount##filterTextForHead#</h2>
 				<cfelseif hasFilter>
 					<cfset returnURL = "/specimens/changeQueryLocality.cfm?result_id=#encodeForURL(result_id)#">
 					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount##filterTextForHead#</h2>
