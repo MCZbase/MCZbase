@@ -243,8 +243,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_bl_relations
 				SET validated_status = 'bad relationship'
-				WHERE (cf_temp_bl_relations.relationship not in (select biol_indiv_relationship from ctbiol_relations))
-				OR (cf_temp_bl_relations.relationship not in (select biol_indiv_relationship from ctbiol_relations))
+				WHERE cf_temp_bl_relations.relationship not in (select biol_indiv_relationship from ctbiol_relations)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
