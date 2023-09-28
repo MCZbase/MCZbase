@@ -196,13 +196,13 @@ limitations under the License.
 					<cfelse>
 						<!--- map --->
 						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
-							<cfset map = getLocalityMapHtml(locality_id="#locality_id#")>
+							<cfset map = getLocalityMapHtml(locality_id="#getCollectingEvent.locality_id#")>
 							<div id="mapDiv">#map#</div>
 						</div>
 						<!--- verbatim values --->
 						<div class="col-12 pt-2">
 							<h2 class="h4">Verbatim localities (from other associated collecting events)</h2>
-							<cfset verbatim = getLocalityVerbatimHtml(locality_id="#locality_id#", context="view")>
+							<cfset verbatim = getLocalityVerbatimHtml(locality_id="#getCollectingEvent.locality_id#", context="view")>
 							<div id="verbatimDiv">#verbatim#</div>
 						</div>
 					</cfif>
