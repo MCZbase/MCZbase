@@ -47,13 +47,13 @@ limitations under the License.
 <cfquery name="getCollectingEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollectingEvent_result">
 	SELECT 
 		locality_id,
-		date_began_date, date_ended_date, verbatim_date,
+		began_date, ended_date, collecting_time,
+		verbatim_date,
 		verbatim_locality, coll_event_remarks, 
 		decode(valid_distribution_fg, null, '', 1, 'yes',0,'no','') valid_distribution_flag,
 		collecting_source, collecting_method, habitat_desc,
 		date_determined_by_agent_id, agent_name,
 		fish_field_number, 
-		began_date, ended_date, collecting_time,
 		startdayofyear, enddayofyear, 
 		verbatimcoordinates, verbatimlatitude, verbatimlongitude,
 		verbatimcoordinatesystem, verbatimsrs,
