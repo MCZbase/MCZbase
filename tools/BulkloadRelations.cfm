@@ -280,6 +280,8 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 					<!---,BIOL_INDIV_RELATION_REMARKS--->
 					
 					<tr>
+						<th>COLLECTION_OBJECT_ID</th>
+						<th>RELATED_COLL_OBJECT_ID</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -295,6 +297,8 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				<tbody>
 					<cfloop query="data">
 						<tr>
+							<td>#data.COLLECTION_OBJECT_ID#</td>
+							<td>#data.RELATED_COLL_OBJECT_ID#</td>
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
@@ -355,6 +359,8 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
+								<th>COLLECTION_OBJECT_ID</th>
+								<th>RELATED_COLL_OBJECT_ID</th>
 								<th>INSTITUTION_ACRONYM</th>
 								<th>COLLECTION_CDE</th>
 								<th>OTHER_ID_TYPE</th>
@@ -371,6 +377,8 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
+									<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
+									<td>#getProblemData.RELATED_COLL_OBJECT_ID#</td>
 									<td>#getProblemData.INSTITUTION_ACRONYM#</td>
 									<td>#getProblemData.COLLECTION_CDE#</td>
 									<td>#getProblemData.OTHER_ID_TYPE#</td>
@@ -410,7 +418,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL
+							SELECT COLLECTION_OBJECT_ID, RELATED_COLL_OBJECT_ID,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL
 							FROM cf_temp_bl_relations
 							WHERE validated_status is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -420,6 +428,8 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 						<table class='sortable table table-responsive table-striped d-lg-table'>
 							<thead>
 								<tr>
+									<th>COLLECTION_OBJECT_ID</th>
+									<th>RELATED_COLL_OBJECT_ID</th>
 									<th>INSTITUTION_ACRONYM</th>
 									<th>COLLECTION_CDE</th>
 									<th>OTHER_ID_TYPE</th>
@@ -436,6 +446,8 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 							<tbody>
 								<cfloop query="getProblemData">
 									<tr>
+										<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
+										<td>#getProblemData.RELATED_COLL_OBJECT_ID#</td>
 										<td>#getProblemData.INSTITUTION_ACRONYM#</td>
 										<td>#getProblemData.COLLECTION_CDE#</td>
 										<td>#getProblemData.OTHER_ID_TYPE#</td>
