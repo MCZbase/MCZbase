@@ -48,7 +48,8 @@ limitations under the License.
 	SELECT 
 		locality_id,
 		date_began_date, date_ended_date, verbatim_date,
-		verbatim_locality, coll_event_remarks, valid_distribution_fg,
+		verbatim_locality, coll_event_remarks, 
+		decode(valid_distribution_fg, null, '', 1, 'yes',0,'no','') valid_distribution_flag,
 		collecting_source, collecting_method, habitat_desc,
 		date_determined_by_agent_id, agent_name,
 		fish_field_number, 
@@ -122,9 +123,10 @@ limitations under the License.
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Date Determined By: </li>
 								<li class="list-group-item col-7 col-xl-8 px-0 last"><a href="/agents/Agent.cfm?agent_id="#date_determined_by_agent_id#">#agent_name#</a></li>
 							</cfif>
-							<cfif len(valid_distribution_fg) gt 0>
+							<cfif isdefined("valid_distribution_flag") AND len(valid_distribution_flag) gt 0>
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Valid Distribution: </li>
-								<li class="list-group-item col-7 col-xl-8 px-0 last">#valid_distribution_fg#</li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">#valid_distribution_flag#</li>
+							</cfif>
 							<cfif len(verbatim_locality) gt 0>
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Locality: </li>
 								<li class="list-group-item col-7 col-xl-8 px-0 last">#verbatim_locality#</li>
