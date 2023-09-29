@@ -259,9 +259,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-				<!---COLLECTION_OBJECT_ID,RELATED_COLLECTION_OBJECT_ID,--->
-INSTITUTION_ACRONYM,collection_object_id,related_collection_object_id,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,VALIDATED_STATUS
+				SELECT INSTITUTION_ACRONYM,collection_object_id,related_collection_object_id,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,VALIDATED_STATUS
 				FROM cf_temp_bl_relations 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				<!---BIOL_INDIV_RELATION_REMARKS,--->
@@ -331,6 +329,7 @@ INSTITUTION_ACRONYM,collection_object_id,related_collection_object_id,COLLECTION
 				SELECT *
 				FROM cf_temp_bl_relations
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				and (collection_object_id != (select collection_object_id from biol_indiv_relations OR collection_object_id != (select related_coll_object_id from biol_indiv_relations))
 			</cfquery>
 			<cftry>
 				<cfset relations_updates = 0>
