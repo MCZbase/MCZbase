@@ -28,6 +28,13 @@ limitations under the License.
 	<cfset action="entryPoint">
 </cfif>
 <cfset actionWord = "To Be">
+<cftry>
+	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+<cfcatch>
+	<cfset gitBranch = "unknown">
+</cfcatch>
+</cftry>
 
 <!--- For all actions, obtain data from the list of cataloged items specified by the result_id --->
 <cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -96,6 +103,16 @@ limitations under the License.
 <cfif specimenList.recordcount EQ 0>
 	<cfthrow message = "No records found on which to change collecting events with record_id #encodeForHtml(result_id)# in user_search_table.  Did someone else send you a link to this result set?">
 </cfif>
+<cfset filterTextForHead = "">
+<cfset hasFilter = false>
+<cfif isdefined("filterOrder") AND len(filterOrder) GT 0 >
+	<cfset filterTextForHead = "#filterTextForHead# filtered by Order #encodeForHtml(filterOrder)#">
+	<cfset hasFilter = true>
+</cfif>
+<cfif isdefined("filterFamily") AND len(filterFamily) GT 0 >
+	<cfset filterTextForHead = "#filterTextForHead# filtered by Family #encodeForHtml(filterFamily)#">
+	<cfset hasFilter = true>
+</cfif>
 
 <!--------------------------------------------------------------------------------------------------->
 
@@ -112,7 +129,7 @@ limitations under the License.
 		<cfset showEvent=1>
 		<cfoutput>
 			<main id="content">
-				<h1 class="h2 mt-3 mb-0 px-4">Find new collecting event for cataloged items [in #encodeForHtml(result_id)#]</h1>
+				<h1 class="h2 mt-3 mb-0 px-4">Find new collecting event for cataloged items [in #encodeForHtml(result_id)#]#filterTextForHead#</h1>
 				<form name="getLoc" method="post" action="/specimens/changeQueryCollEvent.cfm">
 					<input type="hidden" name="Action" value="findCollectingEvent">
 					<input type="hidden" name="result_id" value="#result_id#">
@@ -146,6 +163,7 @@ limitations under the License.
 					<cfif checkCollEvent.ct NEQ 1>
 						<cfthrow message="Target collecting event id to change to [#encodeForHtml(newcollecting_event_id)#] not found.">
 					</cfif>
+					<!--- filter criteria on result are applied in specimenList query, so list passed to updateCollEvent is filtered --->
 					<cfquery name="collObjects" dbtype="query">
 						select distinct collection_object_id from specimenList
 					</cfquery>
@@ -169,7 +187,7 @@ limitations under the License.
 			</cftransaction>
 			<cfset returnURL = "/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#">
 			<cfif isdefined("filterOrder")>
-				<cfset returnURL = returnURL & "&fiterOrder=#encodeForURL(filterOrder)#">
+				<cfset returnURL = returnURL & "&filterOrder=#encodeForURL(filterOrder)#">
 			</cfif>
 			<cfif isdefined("filterFamily")>
 				<cfset returnURL = returnURL & "&filterFamily=#encodeForURL(filterFamily)#">
@@ -178,7 +196,7 @@ limitations under the License.
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12 mt-3">
-							<h2 class="h2">Changing collecting event for cataloged items [in #encodeForHtml(result_id)#]</h2>
+							<h2 class="h2">Changing collecting event for cataloged items [in #encodeForHtml(result_id)#]#filterTextForHead#</h2>
 							<div><a href="#returnURL#"><i class="fa fa-arrow-left"></i> Back to Manage Collecting Event</a></div>
 						</div>
 					</div>
@@ -192,7 +210,7 @@ limitations under the License.
 	<cfcase value="updateComplete">
 		<cfset returnURL = "/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#">
 		<cfif isdefined("filterOrder")>
-			<cfset returnURL = returnURL & "&fiterOrder=#encodeForURL(filterOrder)#">
+			<cfset returnURL = returnURL & "&filterOrder=#encodeForURL(filterOrder)#">
 		</cfif>
 		<cfif isdefined("filterFamily")>
 			<cfset returnURL = returnURL & "&filterFamily=#encodeForURL(filterFamily)#">
@@ -202,7 +220,7 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row mx-0">
 					<div class="col-12 px-4 mt-3">
-						<h2 class="h2">Changed collecting event for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
+						<h2 class="h2">Changed collecting event for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]#filterTextForHead#</h2>
 						<ul class="col-12 list-group list-group-horizontal">
 							<li class="list-group-item d-flex justify-content-between align-items-center">
 								<a href="#returnURL#"><i class="fa fa-arrow-left"></i> Back to Manage Collecting Event  <!---<span class="badge badge-primary badge-pill">1</span>--->
@@ -306,7 +324,11 @@ limitations under the License.
 	<div class="container-fluid">
 		<div class="row mx-1">
 			<div class="col-12 px-4 mt-3">
-				<h2 class="h2 px-3">Change collecting event for all cataloged items [in #encodeForHtml(result_id)#]</h2>
+				<cfif hasFilter>
+					<h2 class="h2 px-3">Change collecting event for #specimenList.recordCount# cataloged items [in #encodeForHtml(result_id)#]<strong>#filterTextForHead#</strong></h2>
+				<cfelse>
+					<h2 class="h2 px-3">Change collecting event for all cataloged items [in #encodeForHtml(result_id)#]#filterTextForHead#</h2>
+				</cfif>
 				<table class="table table-responsive-lg sortable" id="catItemsTable">
 					<thead class="thead-light">
 						<tr>
@@ -400,14 +422,22 @@ limitations under the License.
 										<cfif isdefined("filterFamily")>
 											<input type="hidden" name="filterFamily" value="#filterFamily#">
 										</cfif>
+										<cfset targetCount = "ALL">
+										<cfif hasFilter>
+											<cfset targetCount = "#specimenList.recordcount#">
+										</cfif>
 										<input type="submit"
-											value="Change ALL to this Collecting Event"
+											value="Change #targetCount# to this Collecting Event"
 											class="btn btn-warning btn-xs">
 									</form>
 								</td>
 								<td>
 									<!--- TODO: Point to view collecting event page --->
-									<a href="/localities/CollectingEvent.cfm?action=edit&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
+									<cfif gitBranch EQ "unknown" OR findNoCase('master',gitBranch) GT 0 >
+										<a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
+									<cfelse>
+										<a href="/localities/viewCollectingEvent.cfm?action=edit&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
+									</cfif>
 								</td>
 								<td>#date#</td>
 								<td>#collecting_source# #collecting_method# #eventNumbers#</td>
@@ -426,7 +456,7 @@ limitations under the License.
 	</div>
 	<cfset returnURL = "/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#">
 	<cfif isdefined("filterOrder")>
-		<cfset returnURL = returnURL & "&fiterOrder=#encodeForURL(filterOrder)#">
+		<cfset returnURL = returnURL & "&filterOrder=#encodeForURL(filterOrder)#">
 	</cfif>
 	<cfif isdefined("filterFamily")>
 		<cfset returnURL = returnURL & "&filterFamily=#encodeForURL(filterFamily)#">
@@ -496,7 +526,15 @@ limitations under the License.
 							</div>
 						</div>
 					</form>
-					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
+					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount##filterTextForHead#</h2>
+				<cfelseif hasFilter>
+					<cfset returnURL = "/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#">
+					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount##filterTextForHead#</h2>
+					<cfif actionWord NEQ "That Have Been">
+						<div><a href="#returnURL#"><i class="fa fa-arrow-left"></i> Remove Filter</a></div>
+					</cfif>
+				<cfelse>
+					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount##filterTextForHead#</h2>
 				</cfif>
 			</div>
 		</div>
@@ -631,7 +669,11 @@ limitations under the License.
 							</td>
 							<td>
 								<!--- TODO: Point to view collecting event page --->
-								<a href="/localities/CollectingEvent.cfm?action=edit&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
+								<cfif gitBranch EQ "unknown" OR findNoCase('master',gitBranch) GT 0 >
+									<a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
+								<cfelse>
+									<a href="/localities/viewCollectingEvent.cfm?action=edit&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
+								</cfif>
 							</td>
 							<td>#date#</td>
 							<td>
