@@ -329,7 +329,6 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				SELECT *
 				FROM cf_temp_bl_relations
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and (collection_object_id != (select collection_object_id from biol_indiv_relations OR collection_object_id != (select related_coll_object_id from biol_indiv_relations))
 			</cfquery>
 			<cftry>
 				<cfset relations_updates = 0>
