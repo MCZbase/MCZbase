@@ -186,8 +186,8 @@
 					select sp.collection_object_id
 					from specimen_part sp, cataloged_item ci
 					where sp.derived_from_cat_item = ci.collection_object_id
-					and ci.collection_cde = cf_temp_barcode_parts.collection_cde
-					and ci.cat_num = cf_temp_barcode_parts.other_id_number
+					and ci.collection_cde = cf_temp_parts.collection_cde
+					and ci.cat_num = cf_temp_parts.other_id_number
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -197,8 +197,8 @@
 					select sp.derived_from_cat_item 
 					from specimen_part sp, cataloged_item ci
 					where sp.derived_from_cat_item = ci.collection_object_id
-					and ci.collection_cde = cf_temp_barcode_parts.collection_cde
-					and ci.cat_num = cf_temp_barcode_parts.other_id_number
+					and ci.collection_cde = cf_temp_parts.collection_cde
+					and ci.cat_num = cf_temp_parts.other_id_number
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
