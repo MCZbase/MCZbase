@@ -1,6 +1,6 @@
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,condition,part_att_name_1,part_att_val_1,part_att_units_1,part_att_detby_1,part_att_madedate_1,part_att_rem_1,part_att_name_2,part_att_val_2,part_att_units_2,part_att_detby_2,part_att_madedate_2,part_att_rem_2
+		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method
 		FROM cf_temp_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -10,26 +10,9 @@
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,condition,
-part_att_name_1,part_att_val_1,part_att_units_1,part_att_detby_1,part_att_madedate_1,part_att_rem_1,part_att_name_2,part_att_val_2,part_att_units_2,part_att_detby_2,part_att_madedate_2,part_att_rem_2">
-<cfset fieldTypes ="
-CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,
-CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,
-CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR
-">
-<cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count,condition">
-
-<!---<cfset fieldlist2 = "
-institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,
-lot_count_modifier,lot_count,current_remarks,container_unique_id,condition,
-part_att_name_1,part_att_val_1,part_att_units_1,part_att_detby_1,part_att_madedate_1,part_att_rem_1,
-part_att_name_2,part_att_val_2,part_att_units_2,part_att_detby_2,part_att_madedate_2,part_att_rem_2,
-part_att_name_3,part_att_val_3,part_att_units_3,part_att_detby_3,part_att_madedate_3,part_att_rem_3,
-part_att_name_4,part_att_val_4,part_att_units_4,part_att_detby_4,part_att_madedate_4,part_att_rem_4,
-part_att_name_5,part_att_val_5,part_att_units_5,part_att_detby_5,part_att_madedate_5,part_att_rem_5,
-part_att_name_6,part_att_val_6,part_att_units_6,part_att_detby_6,part_att_madedate_6,part_att_rem_6">
-<cfset fieldTypes2 ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">--->
-<!--- special case handling to dump column headers as csv --->
+<cfset fieldlist = "collection_cde,other_id_type,other_id_number,part_name,preserve_method,container_unique_id">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method">
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
@@ -53,7 +36,7 @@ part_att_name_6,part_att_val_6,part_att_units_6,part_att_detby_6,part_att_madeda
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
 				<label for="templatearea" class="data-entry-label">
-					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadPartContainer.cfm?action=getCSVHeader">download</a>)
+					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadNewParts.cfm?action=getCSVHeader">download</a>)
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
@@ -68,7 +51,7 @@ part_att_name_6,part_att_val_6,part_att_units_6,part_att_detby_6,part_att_madeda
 					<li class="#class#">#field#</li>
 				</cfloop>
 			</ul>
-			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadPartContainer.cfm">
+			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadNewParts.cfm">
 				<input type="hidden" name="Action" value="getFile">
 				<input type="file" name="FiletoUpload" size="45">
 				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
@@ -89,105 +72,26 @@ part_att_name_6,part_att_val_6,part_att_units_6,part_att_detby_6,part_att_madeda
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!--- check for required fields in header line --->
-			<cfset INSTITUTION_ACRONYM_exists = false>
 			<cfset COLLECTION_CDE_exists = false>
 			<cfset OTHER_ID_TYPE_exists = false>
 			<cfset OTHER_ID_NUMBER_exists = false>
 			<cfset PART_NAME_exists = false>
 			<cfset PRESERVE_METHOD_exists = false>
-			<cfset DISPOSITION_exists = false>
-			<cfset LOT_COUNT_MODIFIER_exists = false>
-			<cfset LOT_COUNT_exists = false>
 			<cfset CURRENT_REMARKS_exists = false>
 			<cfset CONTAINER_UNIQUE_ID_exists = false>
 			<cfset CONDITION_exists = false>
-			<cfset PART_ATT_NAME_1_exists = false>
-			<cfset PART_ATT_VAL_1_exists = false>
-			<cfset PART_ATT_UNITS_1_exists = false>
-			<cfset PART_ATT_DETBY_1_exists = false>
-			<cfset PART_ATT_MADEDATE_1_exists = false>
-			<cfset PART_ATT_REM_1_exists = false>
-			<cfset PART_ATT_NAME_2_exists = false>
-			<cfset PART_ATT_VAL_2_exists = false>
-			<cfset PART_ATT_UNITS_2_exists = false>
-			<cfset PART_ATT_DETBY_2_exists = false>
-			<cfset PART_ATT_MADEDATE_2_exists = false>
-			<cfset PART_ATT_REM_2_exists = false>
-			<!---<cfset PART_ATT_NAME_3_exists = false>
-			<cfset PART_ATT_VAL_3_exists = false>
-			<cfset PART_ATT_UNITS_3_exists = false>
-			<cfset PART_ATT_DETBY_3_exists = false>
-			<cfset PART_ATT_MADEDATE_3_exists = false>
-			<cfset PART_ATT_REM_3_exists = false>
-			<cfset PART_ATT_NAME_4_exists = false>
-			<cfset PART_ATT_VAL_4_exists = false>
-			<cfset PART_ATT_UNITS_4_exists = false>
-			<cfset PART_ATT_DETBY_4_exists = false>
-			<cfset PART_ATT_MADEDATE_4_exists = false>
-			<cfset PART_ATT_REM_4_exists = false>
-			<cfset PART_ATT_NAME_5_exists = false>
-			<cfset PART_ATT_VAL_5_exists = false>
-			<cfset PART_ATT_UNITS_5_exists = false>
-			<cfset PART_ATT_DETBY_5_exists = false>
-			<cfset PART_ATT_MADEDATE_5_exists = false>
-			<cfset PART_ATT_REM_5_exists = false>
-			<cfset PART_ATT_NAME_6_exists = false>
-			<cfset PART_ATT_VAL_6_exists = false>
-			<cfset PART_ATT_UNITS_6_exists = false>
-			<cfset PART_ATT_DETBY_6_exists = false>
-			<cfset PART_ATT_MADEDATE_6_exists = false>
-			<cfset PART_ATT_REM_6_exists = false>--->
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
-				<cfif ucase(header) EQ 'INSTITUTION_ACRONYM'><cfset INSTITUTION_ACRONYM_exists=true></cfif>
 				<cfif ucase(header) EQ 'COLLECTION_CDE'><cfset COLLECTION_CDE_exists=true></cfif>
 				<cfif ucase(header) EQ 'OTHER_ID_TYPE'><cfset OTHER_ID_TYPE_exists=true></cfif>
 				<cfif ucase(header) EQ 'OTHER_ID_NUMBER'><cfset OTHER_ID_NUMBER_exists=true></cfif>
 				<cfif ucase(header) EQ 'PART_NAME'><cfset PART_NAME_exists=true></cfif>
 				<cfif ucase(header) EQ 'PRESERVE_METHOD'><cfset PRESERVE_METHOD_exists=true></cfif>
 				<cfif ucase(header) EQ 'DISPOSITION'><cfset DISPOSITION_exists=true></cfif>
-				<cfif ucase(header) EQ 'LOT_COUNT_MODIFIER'><cfset LOT_COUNT_MODIFIER_exists=true></cfif>
-				<cfif ucase(header) EQ 'LOT_COUNT'><cfset LOT_COUNT_exists=true></cfif>
 				<cfif ucase(header) EQ 'CURRENT_REMARKS'><cfset CURRENT_REMARKS_exists=true></cfif>
 				<cfif ucase(header) EQ 'CONTAINER_UNIQUE_ID'><cfset CONTAINER_UNIQUE_ID_exists=true></cfif>
 				<cfif ucase(header) EQ 'CONDITION'><cfset CONDITION_exists=true></cfif>
-				<cfif ucase(header) EQ 'CURRENT_REMARKS'><cfset CURRENT_REMARKS_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_NAME_1'><cfset PART_ATT_NAME_1_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_VAL_1'><cfset PART_ATT_VAL_1_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_UNITS_1'><cfset PART_ATT_UNITS_1_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_DETBY_1'><cfset PART_ATT_DETBY_1_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_MADEDATE_1'><cfset PART_ATT_MADEDATE_1_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_REM_1'><cfset PART_ATT_REM_1_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_NAME_2'><cfset PART_ATT_NAME_2_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_VAL_2'><cfset PART_ATT_VAL_2_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_UNITS_2'><cfset PART_ATT_UNITS_2_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_DETBY_2'><cfset PART_ATT_DETBY_2_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_MADEDATE_2'><cfset PART_ATT_MADEDATE_2_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_REM_2'><cfset PART_ATT_REM_2_exists=true></cfif>
-				<!---<cfif ucase(header) EQ 'PART_ATT_NAME_3'><cfset PART_ATT_NAME_3_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_VAL_3'><cfset PART_ATT_VAL_3_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_UNITS_3'><cfset PART_ATT_UNITS_3_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_DETBY_3'><cfset PART_ATT_DETBY_3_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_MADEDATE_3'><cfset PART_ATT_MADEDATE_3_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_REM_3'><cfset PART_ATT_REM_3_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_NAME_4'><cfset PART_ATT_NAME_4_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_VAL_4'><cfset PART_ATT_VAL_4_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_UNITS_4'><cfset PART_ATT_UNITS_4_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_DETBY_4'><cfset PART_ATT_DETBY_4_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_MADEDATE_4'><cfset PART_ATT_MADEDATE_4_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_REM_4'><cfset PART_ATT_REM_4_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_NAME_5'><cfset PART_ATT_NAME_5_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_VAL_5'><cfset PART_ATT_VAL_5_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_UNITS_5'><cfset PART_ATT_UNITS_5_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_DETBY_5'><cfset PART_ATT_DETBY_5_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_MADEDATE_5'><cfset PART_ATT_MADEDATE_5_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_REM_5'><cfset PART_ATT_REM_5_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_NAME_6'><cfset PART_ATT_NAME_6_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_VAL_6'><cfset PART_ATT_VAL_6_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_UNITS_6'><cfset PART_ATT_UNITS_6_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_DETBY_6'><cfset PART_ATT_DETBY_6_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_MADEDATE_6'><cfset PART_ATT_MADEDATE_6_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_REM_6'><cfset PART_ATT_REM_6_exists=true></cfif>--->
+				<cfif ucase(header) EQ 'CURRENT_REMARKS'><cfset CURRENT_REMARKS_exists=true></cfif>			
 			</cfloop>
 			<cfif not (INSTITUTION_ACRONYM_exists AND COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND PART_NAME_exists AND PRESERVE_METHOD_exists AND DISPOSITION_exists AND LOT_COUNT_exists AND CONDITION_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
@@ -324,7 +228,7 @@ part_att_name_6,part_att_val_6,part_att_units_6,part_att_detby_6,part_att_madeda
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,CONTAINER_ID,
-				INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID,STATUS 
+				INSTITUTION_ACRONYM,PART_NAME,PRESERVE_METHOD,CONTAINER_UNIQUE_ID,VALIDATED_STATUS 
 				FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -357,7 +261,7 @@ part_att_name_6,part_att_val_6,part_att_units_6,part_att_detby_6,part_att_madeda
 						<th>COLLECTION_OBJECT_ID</th>
 						<th>CONTAINER_ID</th>
 						<th>PRESERVE_METHOD</th>
-						<th>STATUS</th>
+						<th>VALIDATED_STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -371,7 +275,7 @@ part_att_name_6,part_att_val_6,part_att_units_6,part_att_detby_6,part_att_madeda
 							<td>#data.COLLECTION_OBJECT_ID#</td>
 							<td>#data.CONTAINER_ID#</td>
 							<td>#data.PRESERVE_METHOD#</td>
-							<td><strong>#STATUS#</strong></td>
+							<td><strong>#VALIDATED_STATUS#</strong></td>
 						</tr>
 					</cfloop>
 				</tbody>
