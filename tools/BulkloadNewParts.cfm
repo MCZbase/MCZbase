@@ -301,13 +301,11 @@
 								values (#collection_object_id#,'#part_name#','#preserve_method#')
 							</cfquery>
 							<cfset part_updates = part_updates + updatePart_result.recordcount>
-						</cfloop>
-						<cfloop query="getTempData">
 							<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
 							insert into 
 								coll_object 
-									(collection_object_id,lot_count,lot_count_modifier,condition,entered_person_id) 
-								values (#collection_object_id#,#lot_count#,#lot_count_modifier#,'#condition#','#username#')
+									(lot_count,lot_count_modifier,condition,entered_person_id) 
+								values (#lot_count#,#lot_count_modifier#,'#condition#','#username#')
 							</cfquery>
 							<cfset part_updates = part_updates + updatePart_result.recordcount>
 						</cfloop>
