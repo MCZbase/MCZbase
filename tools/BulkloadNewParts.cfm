@@ -193,13 +193,13 @@
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts 
-				SET status = 'part_not_found'
+				SET validated_status = 'part_not_found'
 				WHERE collection_object_id is null
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts 
-				SET status = 'part_name_not_found'
+				SET validated_status = 'part_name_not_found'
 				WHERE part_name is null
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
