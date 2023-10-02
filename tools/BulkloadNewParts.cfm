@@ -1,6 +1,6 @@
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count,lot_count_modifier,condition
+		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count,lot_count_modifier,condition
 		FROM cf_temp_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -10,9 +10,9 @@
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count,lot_count_modifier,condition">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist = "collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count,lot_count_modifier,condition">
+<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count,lot_count_modifier,condition">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count,lot_count_modifier,condition">
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
@@ -72,6 +72,7 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!--- check for required fields in header line --->
+			<cfset INSTITUTION_ACRONYM_exists = false>
 			<cfset COLLECTION_CDE_exists = false>
 			<cfset OTHER_ID_TYPE_exists = false>
 			<cfset OTHER_ID_NUMBER_exists = false>
@@ -83,6 +84,7 @@
 	
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
+				<cfif ucase(header) EQ 'INSTITUTION_ACRONYM'><cfset INSTITUTION_ACRONYM_exists=true></cfif>
 				<cfif ucase(header) EQ 'COLLECTION_CDE'><cfset COLLECTION_CDE_exists=true></cfif>
 				<cfif ucase(header) EQ 'OTHER_ID_TYPE'><cfset OTHER_ID_TYPE_exists=true></cfif>
 				<cfif ucase(header) EQ 'OTHER_ID_NUMBER'><cfset OTHER_ID_NUMBER_exists=true></cfif>
@@ -93,8 +95,9 @@
 				<cfif ucase(header) EQ 'CONDITION'><cfset CONDITION_exists=true></cfif>
 		
 			</cfloop>
-			<cfif not (COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND PART_NAME_exists AND PRESERVE_METHOD_exists AND LOT_COUNT_exists AND LOT_COUNT_MODIFIER_exists AND CONDITION_exists)>
+			<cfif not (INSTITUTION_ACRONYM,COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND PART_NAME_exists AND PRESERVE_METHOD_exists AND LOT_COUNT_exists AND LOT_COUNT_MODIFIER_exists AND CONDITION_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
+				<cfif not INSTITUTION_ACRONYM_exists><cfset message = "#message# INSTITUTION_ACRONYM is missing."></cfif>
 				<cfif not COLLECTION_CDE_exists><cfset message = "#message# COLLECTION_CDE is missing."></cfif>
 				<cfif not OTHER_ID_TYPE_exists><cfset message = "#message# OTHER_ID_TYPE is missing."></cfif>
 				<cfif not OTHER_ID_NUMBER_exists><cfset message = "#message# OTHER_ID_NUMBER is missing."></cfif>
@@ -227,7 +230,7 @@
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,PART_NAME,PRESERVE_METHOD,LOT_COUNT,LOT_COUNT_MODIFIER,CONDITION,VALIDATED_STATUS 
+				SELECT INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,PART_NAME,PRESERVE_METHOD,LOT_COUNT,LOT_COUNT_MODIFIER,CONDITION,VALIDATED_STATUS 
 				FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -251,6 +254,7 @@
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
+						<th>INSTITUTION_ACRONYM</th>
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
 						<th>COLLECTION_CDE</th>
@@ -264,6 +268,7 @@
 				<tbody>
 					<cfloop query="data">
 						<tr>
+							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
 							<td>#data.COLLECTION_CDE#</td>
@@ -329,6 +334,7 @@
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
+								<th>INSTITUTION_ACRONYM</th>
 								<th>COLLECTION_CDE</th>
 								<th>OTHER_ID_TYPE</th>
 								<th>OTHER_ID_NUMBER</th>
@@ -343,6 +349,7 @@
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
+									<td>#getProblemData.INSTITUTION_ACRONYM#</td>
 									<td>#getProblemData.COLLECTION_CDE#</td>
 									<td>#getProblemData.OTHER_ID_TYPE#</td>
 									<td>#getProblemData.OTHER_ID_NUMBER#</td>
@@ -396,7 +403,7 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT other_id_type,other_id_number,collection_cde,part_name,preserve_method,lot_count,lot_count_modifier,condition,validated_status 
+						SELECT institution_acronym,other_id_type,other_id_number,collection_cde,part_name,preserve_method,lot_count,lot_count_modifier,condition,validated_status 
 						FROM cf_temp_parts 
 						WHERE validated_status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -405,6 +412,7 @@
 						<table class='sortable table table-responsive table-striped d-lg-table'>
 							<thead>
 								<tr>
+									<th>institution_acronym</th>
 									<th>other_id_type</th>
 									<th>other_id_number</th>
 									<th>collection_cde</th>
@@ -419,6 +427,7 @@
 							<tbody>
 								<cfloop query="getProblemData">
 									<tr>
+										<td>#getProblemData.INSTITUTION_ACRONYM#</td>
 										<td>#getProblemData.OTHER_ID_TYPE#</td>
 										<td>#getProblemData.OTHER_ID_NUMBER#</td>
 										<td>#getProblemData.COLLECTION_CDE#</td>
