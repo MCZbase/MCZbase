@@ -191,17 +191,6 @@
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set derived_from_cat_item = 
-				(
-					select sp.derived_from_cat_item 
-					from specimen_part sp, cataloged_item ci
-					where sp.derived_from_cat_item = ci.collection_object_id
-					and ci.collection_cde = cf_temp_parts.collection_cde
-					and ci.cat_num = cf_temp_parts.other_id_number
-				) 
-				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_parts 
 				SET status = 'container_not_found'
