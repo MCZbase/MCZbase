@@ -393,19 +393,19 @@ part_att_name_6,part_att_val_6,part_att_units_6,part_att_detby_6,part_att_madeda
 					<cftransaction>
 						<cfset install_date = ''>
 						<cfloop query="getTempData">
-							<cfquery name="updateContainerHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainerHist_result">
+							<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
 							insert into 
 								container_history 
 									(container_id,parent_container_id,install_date) 
 								values (#container_id#,#parent_container_id#,SYSDATE)
 							</cfquery>
-							<cfset part_container_updates = part_container_updates + updateContainerHist_result.recordcount>
+							<cfset part_updates = part_container_updates + updatePart_result.recordcount>
 						</cfloop>
 					</cftransaction> 
 					<div class="container">
 						<div class="row">
 							<div class="col-12 mx-auto">
-								<h2 class="h3">Updated #part_container_updates# part(s) with container(s).</h2>
+								<h2 class="h3">Updated #part_updates# part(s) with container(s).</h2>
 							</div>
 						</div>
 					</div>
@@ -417,33 +417,63 @@ part_att_name_6,part_att_val_6,part_att_units_6,part_att_detby_6,part_att_madeda
 						WHERE status is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<h3>Problematic Rows (<a href="/tools/BulkloadPartContainer.cfm?action=dumpProblems">download</a>)</h3>
+					<h3>Problematic Rows (<a href="/tools/BulkloadNewParts.cfm?action=dumpProblems">download</a>)</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
-								<th>CONTAINER_ID</th>
-								<th>COLLECTION_OBJECT_ID</th>
+								<th>INSTITUTION_ACRONYM</th>
+								<th>COLLECTION_CDE</th>
 								<th>OTHER_ID_TYPE</th>
 								<th>OTHER_ID_NUMBER</th>
-								<th>COLLECTION_CDE</th>
-								<th>INSTITUTION_ACRONYM</th>
 								<th>PART_NAME</th>
 								<th>PRESERVE_METHOD</th>
+								<th>DISPOSITION</th>
+								<th>LOT_COUNT_MODIFIER</th>
+								<th>LOT_COUNT</th>
+								<th>CURRENT_REMARKS</th>
 								<th>CONTAINER_UNIQUE_ID</th>
+								<th>CONDITION</th>
+								<th>PART_ATT_NAME_1</th>
+								<th>part_att_val_1</th>
+								<th>part_att_units_1</th>
+								<th>part_att_detby_1</th>
+								<th>part_att_madedate_1</th>
+								<th>part_att_rem_1</th>
+								<th>PART_ATT_NAME_2</th>
+								<th>part_att_val_2</th>
+								<th>part_att_units_2</th>
+								<th>part_att_detby_2</th>
+								<th>part_att_madedate_2</th>
+								<th>part_att_rem_2</th>
 								<th>STATUS</th>
 							</tr> 
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
-								<tr><td>#getProblemData.CONTAINER_ID#</td>
-									<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
+								<tr><td>#getProblemData.INSTITUTION_ACRONYM#</td>
+									<td>#getProblemData.COLLECTION_CDE#</td>
 									<td>#getProblemData.OTHER_ID_TYPE#</td>
 									<td>#getProblemData.OTHER_ID_NUMBER#</td>
-									<td>#getProblemData.COLLECTION_CDE#</td>
-									<td>#getProblemData.INSTITUTION_ACRONYM#</td>
 									<td>#getProblemData.PART_NAME#</td>
 									<td>#getProblemData.PRESERVE_METHOD#</td>
+									<td>#getProblemData.DISPOSITION#</td>
+									<td>#getProblemData.LOT_COUNT_MODIFIER#</td>
+									<td>#getProblemData.LOT_COUNT#</td>
+									<td>#getProblemData.CURRENT_REMARKS#</td>
 									<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
+									<td>#getProblemData.CONDITION#</td>
+									<td>#getProblemData.PART_ATT_NAME_1#</td>
+									<td>#getProblemData.part_att_val_1#</td>
+									<td>#getProblemData.part_att_units_1#</td>
+									<td>#getProblemData.part_att_detby_1#</td>
+									<td>#getProblemData.part_att_madedate_1#</td>
+									<td>#getProblemData.part_att_rem_1#</td>
+									<td>#getProblemData.part_att_name_2#</td>
+									<td>#getProblemData.part_att_val_2#</td>
+									<td>#getProblemData.part_att_units_2#</td>
+									<td>#getProblemData.part_att_detby_2#</td>
+									<td>#getProblemData.part_att_madedate_2#</td>
+									<td>#getProblemData.part_att_rem_2#</td>
 									<td><strong>#STATUS#</strong></td>
 								</tr> 
 							</cfloop>
@@ -455,14 +485,14 @@ part_att_name_6,part_att_val_6,part_att_units_6,part_att_detby_6,part_att_madeda
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfset part_container_updates = 0>
+					<cfset part_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartContainer_result">
+						<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
 							Insert into 
-							container_history 
-							(container_id, parent_container_id,install_date) 
-							values (#CONTAINER_ID#,#PARENT_CONTAINER_ID#,SYSDATE)
+							specimen_part
+							(collection_object_id, derived_from_cat_item,install_date) 
+							values (#collection_object_id#,#_ID#,SYSDATE)
 						</cfquery>
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
@@ -472,7 +502,7 @@ part_att_name_6,part_att_val_6,part_att_units_6,part_att_detby_6,part_att_madeda
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT other_id_type,other_id_number,collection_cde,institution_acronym,
 							part_name,preserve_method,container_unique_id,status 
-						FROM cf_temp_barcode_parts 
+						FROM cf_temp_parts 
 						WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
