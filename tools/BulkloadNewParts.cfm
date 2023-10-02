@@ -1,6 +1,6 @@
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT collection_cde,other_id_type,other_id_number,part_name,preserve_method
+		SELECT collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count,lot_count_modifier,condition,derived_from_cat_item
 		FROM cf_temp_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -10,9 +10,9 @@
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "collection_cde,other_id_type,other_id_number,part_name,preserve_method">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist = "collection_cde,other_id_type,other_id_number,part_name,preserve_method">
+<cfset fieldlist = "collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count,lot_count_modifier,condition,derived_from_cat_item">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset requiredfieldlist = "collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count,lot_count_modifier,condition,derived_from_cat_item">
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
@@ -77,6 +77,10 @@
 			<cfset OTHER_ID_NUMBER_exists = false>
 			<cfset PART_NAME_exists = false>
 			<cfset PRESERVE_METHOD_exists = false>
+			<cfset LOT_COUNT_exists = false>
+			<cfset LOT_COUNT_MODIFIER_exists = false>
+			<cfset CONDITION_exists = false>
+			<cfset DERIVED_FROM_CAT_ITEM_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
 				<cfif ucase(header) EQ 'COLLECTION_CDE'><cfset COLLECTION_CDE_exists=true></cfif>
@@ -84,14 +88,22 @@
 				<cfif ucase(header) EQ 'OTHER_ID_NUMBER'><cfset OTHER_ID_NUMBER_exists=true></cfif>
 				<cfif ucase(header) EQ 'PART_NAME'><cfset PART_NAME_exists=true></cfif>
 				<cfif ucase(header) EQ 'PRESERVE_METHOD'><cfset PRESERVE_METHOD_exists=true></cfif>
+				<cfif ucase(header) EQ 'LOT_COUNT'><cfset LOT_COUNT_exists=true></cfif>
+				<cfif ucase(header) EQ 'LOT_COUNT_MODIFIER'><cfset LOT_COUNT_MODIFIER_exists=true></cfif>
+				<cfif ucase(header) EQ 'CONDITION'><cfset CONDITION_exists=true></cfif>
+				<cfif ucase(header) EQ 'DERIVED_FROM_CAT_ITEM'><cfset DERIVED_FROM_CAT_ITEM_exists=true></cfif>
 			</cfloop>
-			<cfif not (COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND PART_NAME_exists AND PRESERVE_METHOD_exists)>
+			<cfif not (COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND PART_NAME_exists AND PRESERVE_METHOD_exists AND LOT_COUNT_exists AND LOT_COUNT_MODIFIER_exists AND CONDITION_exists AND DERIVED_FROM_CAT_ITEM)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
 				<cfif not COLLECTION_CDE_exists><cfset message = "#message# COLLECTION_CDE is missing."></cfif>
 				<cfif not OTHER_ID_TYPE_exists><cfset message = "#message# OTHER_ID_TYPE is missing."></cfif>
 				<cfif not OTHER_ID_NUMBER_exists><cfset message = "#message# OTHER_ID_NUMBER is missing."></cfif>
 				<cfif not PART_NAME_exists><cfset message = "#message# PART_NAME is missing."></cfif>
 				<cfif not PRESERVE_METHOD_exists><cfset message = "#message# PRESERVE_METHOD is missing."></cfif>
+				<cfif not LOT_COUNT_exists><cfset message = "#message# LOT_COUNT is missing."></cfif>
+				<cfif not LOT_COUNT_MODIFIER_exists><cfset message = "#message# LOT_COUNT_MODIFIER is missing."></cfif>
+				<cfif not CONDITION_exists><cfset message = "#message# CONDITION is missing."></cfif>
+				<cfif not DERIVED_FROM_CAT_ITEM_exists><cfset message = "#message# DERIVED_FROM_CAT_ITEM is missing."></cfif>
 				<cfthrow message="#message#">
 			</cfif>
 			<cfset colNames="">
@@ -185,6 +197,17 @@
 				(
 					select sp.collection_object_id
 					from specimen_part sp, cataloged_item ci
+					where sp.collection_object_id = ci.collection_object_id
+					and ci.collection_cde = cf_temp_parts.collection_cde
+					and ci.cat_num = cf_temp_parts.other_id_number
+				) 
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_parts set DERIVED_FROM_CAT_ITEM = 
+				(
+				select sp.collection_object_id
+					from specimen_part sp, cataloged_item ci
 					where sp.derived_from_cat_item = ci.collection_object_id
 					and ci.collection_cde = cf_temp_parts.collection_cde
 					and ci.cat_num = cf_temp_parts.other_id_number
@@ -204,7 +227,7 @@
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,PART_NAME,PRESERVE_METHOD,VALIDATED_STATUS 
+				SELECT OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,PART_NAME,PRESERVE_METHOD,LOT_COUNT,LOT_COUNT_MODIFIER,CONDITION,VALIDATED_STATUS 
 				FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -233,6 +256,9 @@
 						<th>COLLECTION_CDE</th>
 						<th>PART_NAME</th>
 						<th>PRESERVE_METHOD</th>
+						<th>LOT_COUNT</th>
+						<th>LOT_COUNT_MODIFIER</th>
+						<th>CONDITION</th>
 						<th>VALIDATED_STATUS</th>
 					</tr>
 				<tbody>
@@ -243,6 +269,9 @@
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.PART_NAME#</td>
 							<td>#data.PRESERVE_METHOD#</td>
+							<td>#data.lot_count#</td>
+							<td>#data.lot_count_modifier#</td>
+							<td>#data.condition#</td>
 							<td><strong>#VALIDATED_STATUS#</strong></td>
 						</tr>
 					</cfloop>
@@ -269,7 +298,16 @@
 							insert into 
 								specimen_part 
 									(collection_object_id,part_name) 
-								values (#collection_object_id#,'#part_name#')
+								values (#collection_object_id#,'#part_name#','#preserve_method#')
+							</cfquery>
+							<cfset part_updates = part_updates + updatePart_result.recordcount>
+						</cfloop>
+						<cfloop query="getTempData">
+							<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
+							insert into 
+								coll_object 
+									(collection_object_id,lot_count,lot_count_modifier,condition,derived_from_cat_item,entered_person_id) 
+								values (#collection_object_id#,#lot_count#,#lot_count_modifier#,'#condition#',derived_from_cat_item,'#username#')
 							</cfquery>
 							<cfset part_updates = part_updates + updatePart_result.recordcount>
 						</cfloop>
@@ -298,6 +336,10 @@
 								<th>OTHER_ID_NUMBER</th>
 								<th>PART_NAME</th>
 								<th>PRESERVE_METHOD</th>
+								<th>LOT_COUNT</th>
+								<th>LOT_COUNT_MODIFIER</th>
+								<th>CONDITION</th>
+								<th>DERIVED_FROM_CAT_ITEM</th>
 								<th>VALIDTED_STATUS</th>
 							</tr> 
 						</thead>
@@ -309,6 +351,10 @@
 									<td>#getProblemData.OTHER_ID_NUMBER#</td>
 									<td>#getProblemData.PART_NAME#</td>
 									<td>#getProblemData.PRESERVE_METHOD#</td>
+									<td>#getProblemData.LOT_COUNT#</td>
+									<td>#getProblemData.LOT_COUNT_MODIFIER#</td>
+									<td>#getProblemData.CONDITION#</td>
+									<td>#getProblemData.DERIVED_FROM_CAT_ITEM#</td>
 									<td><strong>#VALIDTED_STATUS#</strong></td>
 								</tr> 
 							</cfloop>
@@ -331,11 +377,19 @@
 								COLLECTION_OBJECT_ID,
 								COLL_OBJECT_TYPE,
 								ENTERED_PERSON_ID,
-								COLL_OBJECT_ENTERED_DATE)
+								condition,
+								lot_count,
+								lot_count_modifier,
+								condition,
+								COLL_OBJECT_ENTERED_DATE
+							)
 							VALUES (
 								#NEXTID.NEXTID#,
 								'SP',
 								#enteredbyid#,
+								#lot_count#,
+								#lot_count_modifier#,
+								#condition#,
 								sysdate 
 							)
 							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -346,7 +400,7 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT other_id_type,other_id_number,collection_cde,part_name,preserve_method,validated_status 
+						SELECT other_id_type,other_id_number,collection_cde,part_name,preserve_method,lot_count,lot_count_modifier,condition,validated_status 
 						FROM cf_temp_parts 
 						WHERE validated_status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -360,6 +414,9 @@
 									<th>collection_cde</th>
 									<th>part_name</th>
 									<th>preserve_method</th>
+									<th>lot_count</th>
+									<th>lot_count_modifier</th>
+									<th>condition</th>
 									<th>validated_status</th>
 								</tr> 
 							</thead>
@@ -371,6 +428,9 @@
 										<td>#getProblemData.COLLECTION_CDE#</td>
 										<td>#getProblemData.PART_NAME#</td>
 										<td>#getProblemData.PRESERVE_METHOD#</td>
+										<td>#getProblemData.LOT_COUNT#</td>
+										<td>#getProblemData.LOT_COUNT_MODIFIER#</td>
+										<td>#getProblemData.CONDITION#</td>
 										<td>#getProblemData.validated_status#</td>
 									</tr> 
 								</cfloop>
