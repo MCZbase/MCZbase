@@ -1,6 +1,6 @@
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method
+		SELECT collection_cde,other_id_type,other_id_number,part_name,preserve_method
 		FROM cf_temp_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -10,9 +10,9 @@
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "collection_cde,other_id_type,other_id_number,part_name,preserve_method,container_unique_id">
+<cfset fieldlist = "collection_cde,other_id_type,other_id_number,part_name,preserve_method">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method">
+<cfset requiredfieldlist = "collection_cde,other_id_type,other_id_number,part_name,preserve_method">
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
@@ -77,9 +77,6 @@
 			<cfset OTHER_ID_NUMBER_exists = false>
 			<cfset PART_NAME_exists = false>
 			<cfset PRESERVE_METHOD_exists = false>
-			<cfset CURRENT_REMARKS_exists = false>
-			<cfset CONTAINER_UNIQUE_ID_exists = false>
-			<cfset CONDITION_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
 				<cfif ucase(header) EQ 'COLLECTION_CDE'><cfset COLLECTION_CDE_exists=true></cfif>
@@ -87,23 +84,14 @@
 				<cfif ucase(header) EQ 'OTHER_ID_NUMBER'><cfset OTHER_ID_NUMBER_exists=true></cfif>
 				<cfif ucase(header) EQ 'PART_NAME'><cfset PART_NAME_exists=true></cfif>
 				<cfif ucase(header) EQ 'PRESERVE_METHOD'><cfset PRESERVE_METHOD_exists=true></cfif>
-				<cfif ucase(header) EQ 'DISPOSITION'><cfset DISPOSITION_exists=true></cfif>
-				<cfif ucase(header) EQ 'CURRENT_REMARKS'><cfset CURRENT_REMARKS_exists=true></cfif>
-				<cfif ucase(header) EQ 'CONTAINER_UNIQUE_ID'><cfset CONTAINER_UNIQUE_ID_exists=true></cfif>
-				<cfif ucase(header) EQ 'CONDITION'><cfset CONDITION_exists=true></cfif>
-				<cfif ucase(header) EQ 'CURRENT_REMARKS'><cfset CURRENT_REMARKS_exists=true></cfif>			
 			</cfloop>
 			<cfif not (INSTITUTION_ACRONYM_exists AND COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND PART_NAME_exists AND PRESERVE_METHOD_exists AND DISPOSITION_exists AND LOT_COUNT_exists AND CONDITION_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
-				<cfif not INSTITUTION_ACRONYM_exists><cfset message = "#message# INSTITUTION_ACRONYM is missing."></cfif>
 				<cfif not COLLECTION_CDE_exists><cfset message = "#message# COLLECTION_CDE is missing."></cfif>
 				<cfif not OTHER_ID_TYPE_exists><cfset message = "#message# OTHER_ID_TYPE is missing."></cfif>
 				<cfif not OTHER_ID_NUMBER_exists><cfset message = "#message# OTHER_ID_NUMBER is missing."></cfif>
 				<cfif not PART_NAME_exists><cfset message = "#message# PART_NAME is missing."></cfif>
-				<cfif not PRESERVE_METHOD_exists><cfset message = "#message# PRESERVE_METHOD is missing."></cfif>
-				<cfif not DISPOSITION_exists><cfset message = "#message# DISPOSITION is missing."></cfif>
-				<cfif not LOT_COUNT_exists><cfset message = "#message# LOT_COUNT is missing."></cfif>
-				<cfif not CONDITION_exists><cfset message = "#message# CONDITION is missing."></cfif>
+					<cfif not PART_NAME_exists><cfset message = "#message# PRESERVE_METHOD is missing."></cfif>
 				<cfthrow message="#message#">
 			</cfif>
 			<cfset colNames="">
@@ -195,7 +183,7 @@
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set collection_object_id = 
 				(
-					select sp.derived_from_cat_item 
+					select sp.collection_object_id
 					from specimen_part sp, cataloged_item ci
 					where sp.derived_from_cat_item = ci.collection_object_id
 					and ci.collection_cde = cf_temp_barcode_parts.collection_cde
@@ -204,9 +192,15 @@
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set parent_container_id=
-				(select parent_container_id from container where container.barcode = cf_temp_parts.container_unique_id)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				update cf_temp_parts set derived_from_cat_item = 
+				(
+					select sp.derived_from_cat_item 
+					from specimen_part sp, cataloged_item ci
+					where sp.derived_from_cat_item = ci.collection_object_id
+					and ci.collection_cde = cf_temp_barcode_parts.collection_cde
+					and ci.cat_num = cf_temp_barcode_parts.other_id_number
+				) 
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_parts 
