@@ -93,7 +93,7 @@
 				<cfif ucase(header) EQ 'CONDITION'><cfset CONDITION_exists=true></cfif>
 		
 			</cfloop>
-			<cfif not (COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND PART_NAME_exists AND PRESERVE_METHOD_exists AND LOT_COUNT_exists AND LOT_COUNT_MODIFIER_exists AND CONDITION_exists AND DERIVED_FROM_CAT_ITEM)>
+			<cfif not (COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND PART_NAME_exists AND PRESERVE_METHOD_exists AND LOT_COUNT_exists AND LOT_COUNT_MODIFIER_exists AND CONDITION_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
 				<cfif not COLLECTION_CDE_exists><cfset message = "#message# COLLECTION_CDE is missing."></cfif>
 				<cfif not OTHER_ID_TYPE_exists><cfset message = "#message# OTHER_ID_TYPE is missing."></cfif>
@@ -306,8 +306,8 @@
 							<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
 							insert into 
 								coll_object 
-									(collection_object_id,lot_count,lot_count_modifier,condition,derived_from_cat_item,entered_person_id) 
-								values (#collection_object_id#,#lot_count#,#lot_count_modifier#,'#condition#',derived_from_cat_item,'#username#')
+									(collection_object_id,lot_count,lot_count_modifier,condition,entered_person_id) 
+								values (#collection_object_id#,#lot_count#,#lot_count_modifier#,'#condition#','#username#')
 							</cfquery>
 							<cfset part_updates = part_updates + updatePart_result.recordcount>
 						</cfloop>
