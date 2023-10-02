@@ -10,11 +10,25 @@
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,condition,part_att_name_1,part_att_val_1,part_att_units_1,part_att_detby_1,part_att_madedate_1,part_att_rem_1,part_att_name_2,part_att_val_2,part_att_units_2,part_att_detby_2,part_att_madedate_2,part_att_rem_2">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,condition,
+part_att_name_1,part_att_val_1,part_att_units_1,part_att_detby_1,part_att_madedate_1,part_att_rem_1,part_att_name_2,part_att_val_2,part_att_units_2,part_att_detby_2,part_att_madedate_2,part_att_rem_2">
+<cfset fieldTypes ="
+CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,
+CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,
+CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR
+">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count,condition">
-	
 
+<!---<cfset fieldlist2 = "
+institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,
+lot_count_modifier,lot_count,current_remarks,container_unique_id,condition,
+part_att_name_1,part_att_val_1,part_att_units_1,part_att_detby_1,part_att_madedate_1,part_att_rem_1,
+part_att_name_2,part_att_val_2,part_att_units_2,part_att_detby_2,part_att_madedate_2,part_att_rem_2,
+part_att_name_3,part_att_val_3,part_att_units_3,part_att_detby_3,part_att_madedate_3,part_att_rem_3,
+part_att_name_4,part_att_val_4,part_att_units_4,part_att_detby_4,part_att_madedate_4,part_att_rem_4,
+part_att_name_5,part_att_val_5,part_att_units_5,part_att_detby_5,part_att_madedate_5,part_att_rem_5,
+part_att_name_6,part_att_val_6,part_att_units_6,part_att_detby_6,part_att_madedate_6,part_att_rem_6">
+<cfset fieldTypes2 ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">--->
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
@@ -99,7 +113,7 @@
 			<cfset PART_ATT_DETBY_2_exists = false>
 			<cfset PART_ATT_MADEDATE_2_exists = false>
 			<cfset PART_ATT_REM_2_exists = false>
-			<cfset PART_ATT_NAME_3_exists = false>
+			<!---<cfset PART_ATT_NAME_3_exists = false>
 			<cfset PART_ATT_VAL_3_exists = false>
 			<cfset PART_ATT_UNITS_3_exists = false>
 			<cfset PART_ATT_DETBY_3_exists = false>
@@ -122,7 +136,7 @@
 			<cfset PART_ATT_UNITS_6_exists = false>
 			<cfset PART_ATT_DETBY_6_exists = false>
 			<cfset PART_ATT_MADEDATE_6_exists = false>
-			<cfset PART_ATT_REM_6_exists = false>
+			<cfset PART_ATT_REM_6_exists = false>--->
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
 				<cfif ucase(header) EQ 'INSTITUTION_ACRONYM'><cfset INSTITUTION_ACRONYM_exists=true></cfif>
@@ -150,7 +164,7 @@
 				<cfif ucase(header) EQ 'PART_ATT_DETBY_2'><cfset PART_ATT_DETBY_2_exists=true></cfif>
 				<cfif ucase(header) EQ 'PART_ATT_MADEDATE_2'><cfset PART_ATT_MADEDATE_2_exists=true></cfif>
 				<cfif ucase(header) EQ 'PART_ATT_REM_2'><cfset PART_ATT_REM_2_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_NAME_3'><cfset PART_ATT_NAME_3_exists=true></cfif>
+				<!---<cfif ucase(header) EQ 'PART_ATT_NAME_3'><cfset PART_ATT_NAME_3_exists=true></cfif>
 				<cfif ucase(header) EQ 'PART_ATT_VAL_3'><cfset PART_ATT_VAL_3_exists=true></cfif>
 				<cfif ucase(header) EQ 'PART_ATT_UNITS_3'><cfset PART_ATT_UNITS_3_exists=true></cfif>
 				<cfif ucase(header) EQ 'PART_ATT_DETBY_3'><cfset PART_ATT_DETBY_3_exists=true></cfif>
@@ -173,7 +187,7 @@
 				<cfif ucase(header) EQ 'PART_ATT_UNITS_6'><cfset PART_ATT_UNITS_6_exists=true></cfif>
 				<cfif ucase(header) EQ 'PART_ATT_DETBY_6'><cfset PART_ATT_DETBY_6_exists=true></cfif>
 				<cfif ucase(header) EQ 'PART_ATT_MADEDATE_6'><cfset PART_ATT_MADEDATE_6_exists=true></cfif>
-				<cfif ucase(header) EQ 'PART_ATT_REM_6'><cfset PART_ATT_REM_6_exists=true></cfif>
+				<cfif ucase(header) EQ 'PART_ATT_REM_6'><cfset PART_ATT_REM_6_exists=true></cfif>--->
 			</cfloop>
 			<cfif not (INSTITUTION_ACRONYM_exists AND COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND PART_NAME_exists AND PRESERVE_METHOD_exists AND DISPOSITION_exists AND LOT_COUNT_exists AND CONDITION_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
@@ -265,7 +279,7 @@
 				</cfif>
 			</cfloop>
 			<h3 class="h3">
-				Successfully loaded #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadPartContainer.cfm?action=validate">click to validate</a>.
+				Successfully loaded #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadNewParts.cfm?action=validate">click to validate</a>.
 			</h3>
 		</cfoutput>
 	</cfif>
@@ -284,11 +298,6 @@
 					and ci.cat_num = cf_temp_barcode_parts.other_id_number
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp__parts set container_id=
-				(select container_id from container where container.barcode = cf_temp_parts.container_unique_id)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set parent_container_id=
@@ -326,14 +335,14 @@
 			</cfquery>
 			<cfif pf.c gt 0>
 				<h2>
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadPartContainer.cfm?action=validate">download</a>).
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadNewParts.cfm?action=validate">download</a>).
 				</h2>
 				<h3>
-					Fix the problems in the data and <a href="/tools/BulkloadPartContainer.cfm">start again</a>.
+					Fix the problems in the data and <a href="/tools/BulkloadNewParts.cfm">start again</a>.
 				</h3>
 			<cfelse>
 				<h2>
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadPartContainer.cfm?action=load">click to continue</a> if it all looks good.
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good.
 				</h2>
 			</cfif>
 			<table class='sortable table table-responsive table-striped d-lg-table'>
