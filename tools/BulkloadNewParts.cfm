@@ -95,7 +95,7 @@
 				<cfif ucase(header) EQ 'CONDITION'><cfset CONDITION_exists=true></cfif>
 		
 			</cfloop>
-			<cfif not (INSTITUTION_ACRONYM,COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND PART_NAME_exists AND PRESERVE_METHOD_exists AND LOT_COUNT_exists AND LOT_COUNT_MODIFIER_exists AND CONDITION_exists)>
+			<cfif not (INSTITUTION_ACRONYM_exists AND COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND PART_NAME_exists AND PRESERVE_METHOD_exists AND LOT_COUNT_exists AND LOT_COUNT_MODIFIER_exists AND CONDITION_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
 				<cfif not INSTITUTION_ACRONYM_exists><cfset message = "#message# INSTITUTION_ACRONYM is missing."></cfif>
 				<cfif not COLLECTION_CDE_exists><cfset message = "#message# COLLECTION_CDE is missing."></cfif>
