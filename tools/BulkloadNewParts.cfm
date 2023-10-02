@@ -269,7 +269,7 @@
 							insert into 
 								specimen_part 
 									(collection_object_id,part_name) 
-								values (#container_id#,#parent_name#)
+								values (#collection_object_id#,#parent_name#)
 							</cfquery>
 							<cfset part_updates = part_updates + updatePart_result.recordcount>
 						</cfloop>
