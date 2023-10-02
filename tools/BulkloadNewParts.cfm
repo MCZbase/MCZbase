@@ -248,11 +248,7 @@
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
 						<th>COLLECTION_CDE</th>
-						<th>INSTITUTION_ACRONYM</th>
 						<th>PART_NAME</th>
-						<th>CONTAINER_UNIQUE_ID</th>
-						<th>COLLECTION_OBJECT_ID</th>
-						<th>CONTAINER_ID</th>
 						<th>PRESERVE_METHOD</th>
 						<th>VALIDATED_STATUS</th>
 					</tr>
@@ -262,11 +258,7 @@
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
 							<td>#data.COLLECTION_CDE#</td>
-							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.PART_NAME#</td>
-							<td>#data.CONTAINER_UNIQUE_ID#</td>
-							<td>#data.COLLECTION_OBJECT_ID#</td>
-							<td>#data.CONTAINER_ID#</td>
 							<td>#data.PRESERVE_METHOD#</td>
 							<td><strong>#VALIDATED_STATUS#</strong></td>
 						</tr>
@@ -286,28 +278,28 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cftry>
-				<cfset part_container_updates = 0>
+				<cfset part_updates = 0>
 					<cftransaction>
 						<cfset install_date = ''>
 						<cfloop query="getTempData">
 							<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
 							insert into 
 								specimen_part 
-									(collection_object_id,id,install_date) 
-								values (#container_id#,#parent_container_id#,SYSDATE)
+									(collection_object_id,part_name) 
+								values (#container_id#,#parent_name#)
 							</cfquery>
-							<cfset part_updates = part_container_updates + updatePart_result.recordcount>
+							<cfset part_updates = part_updates + updatePart_result.recordcount>
 						</cfloop>
 					</cftransaction> 
 					<div class="container">
 						<div class="row">
 							<div class="col-12 mx-auto">
-								<h2 class="h3">Updated #part_updates# part(s) with container(s).</h2>
+								<h2 class="h3">Updated #part_updates# part(s).</h2>
 							</div>
 						</div>
 					</div>
 				<cfcatch>
-					<h2>There was a problem updating part container.</h2>
+					<h2>There was a problem updating parts.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT *
 						FROM cf_temp_parts 
@@ -318,60 +310,23 @@
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
-								<th>INSTITUTION_ACRONYM</th>
 								<th>COLLECTION_CDE</th>
 								<th>OTHER_ID_TYPE</th>
 								<th>OTHER_ID_NUMBER</th>
 								<th>PART_NAME</th>
 								<th>PRESERVE_METHOD</th>
-								<th>DISPOSITION</th>
-								<th>LOT_COUNT_MODIFIER</th>
-								<th>LOT_COUNT</th>
-								<th>CURRENT_REMARKS</th>
-								<th>CONTAINER_UNIQUE_ID</th>
-								<th>CONDITION</th>
-								<th>PART_ATT_NAME_1</th>
-								<th>part_att_val_1</th>
-								<th>part_att_units_1</th>
-								<th>part_att_detby_1</th>
-								<th>part_att_madedate_1</th>
-								<th>part_att_rem_1</th>
-								<th>PART_ATT_NAME_2</th>
-								<th>part_att_val_2</th>
-								<th>part_att_units_2</th>
-								<th>part_att_detby_2</th>
-								<th>part_att_madedate_2</th>
-								<th>part_att_rem_2</th>
-								<th>STATUS</th>
+								<th>VALIDTED_STATUS</th>
 							</tr> 
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
-								<tr><td>#getProblemData.INSTITUTION_ACRONYM#</td>
+								<tr>
 									<td>#getProblemData.COLLECTION_CDE#</td>
 									<td>#getProblemData.OTHER_ID_TYPE#</td>
 									<td>#getProblemData.OTHER_ID_NUMBER#</td>
 									<td>#getProblemData.PART_NAME#</td>
 									<td>#getProblemData.PRESERVE_METHOD#</td>
-									<td>#getProblemData.DISPOSITION#</td>
-									<td>#getProblemData.LOT_COUNT_MODIFIER#</td>
-									<td>#getProblemData.LOT_COUNT#</td>
-									<td>#getProblemData.CURRENT_REMARKS#</td>
-									<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-									<td>#getProblemData.CONDITION#</td>
-									<td>#getProblemData.PART_ATT_NAME_1#</td>
-									<td>#getProblemData.part_att_val_1#</td>
-									<td>#getProblemData.part_att_units_1#</td>
-									<td>#getProblemData.part_att_detby_1#</td>
-									<td>#getProblemData.part_att_madedate_1#</td>
-									<td>#getProblemData.part_att_rem_1#</td>
-									<td>#getProblemData.part_att_name_2#</td>
-									<td>#getProblemData.part_att_val_2#</td>
-									<td>#getProblemData.part_att_units_2#</td>
-									<td>#getProblemData.part_att_detby_2#</td>
-									<td>#getProblemData.part_att_madedate_2#</td>
-									<td>#getProblemData.part_att_rem_2#</td>
-									<td><strong>#STATUS#</strong></td>
+									<td><strong>#VALIDTED_STATUS#</strong></td>
 								</tr> 
 							</cfloop>
 						</tbody>
@@ -393,24 +348,12 @@
 								COLLECTION_OBJECT_ID,
 								COLL_OBJECT_TYPE,
 								ENTERED_PERSON_ID,
-								COLL_OBJECT_ENTERED_DATE,
-								LAST_EDITED_PERSON_ID,
-								COLL_OBJ_DISPOSITION,
-								LOT_COUNT_MODIFIER,
-								LOT_COUNT,
-								CONDITION,
-								FLAGS )
+								COLL_OBJECT_ENTERED_DATE)
 							VALUES (
 								#NEXTID.NEXTID#,
 								'SP',
 								#enteredbyid#,
-								sysdate,
-								#enteredbyid#,
-								'#DISPOSITION#',
-								'#lot_count_modifier#',
-								#lot_count#,
-								'#condition#',
-								0 
+								sysdate 
 							)
 							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
@@ -420,24 +363,21 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT other_id_type,other_id_number,collection_cde,institution_acronym,
-							part_name,preserve_method,container_unique_id,status 
+						SELECT other_id_type,other_id_number,collection_cde,part_name,preserve_method,validated_status 
 						FROM cf_temp_parts 
 						WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<h3>Error updating row (#part_container_updates + 1#): #cfcatch.message#</h3>
+						<h3>Error updating row (#part_updates + 1#): #cfcatch.message#</h3>
 						<table class='sortable table table-responsive table-striped d-lg-table'>
 							<thead>
 								<tr>
 									<th>other_id_type</th>
 									<th>other_id_number</th>
 									<th>collection_cde</th>
-									<th>institution_acronym</th>
 									<th>part_name</th>
 									<th>preserve_method</th>
-									<th>container_unique_id</th>
-									<th>status</th>
+									<th>validated_status</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -446,11 +386,9 @@
 										<td>#getProblemData.OTHER_ID_TYPE#</td>
 										<td>#getProblemData.OTHER_ID_NUMBER#</td>
 										<td>#getProblemData.COLLECTION_CDE#</td>
-										<td>#getProblemData.INSTITUTION_ACRONYM#</td>
 										<td>#getProblemData.PART_NAME#</td>
 										<td>#getProblemData.PRESERVE_METHOD#</td>
-										<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
-										<td>#getProblemData.status#</td>
+										<td>#getProblemData.validated_status#</td>
 									</tr> 
 								</cfloop>
 							</tbody>
@@ -468,7 +406,7 @@
 				</div>
 			</div>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_barcode_parts 
+				DELETE FROM cf_temp_parts 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
