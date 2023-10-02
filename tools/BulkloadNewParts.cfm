@@ -259,6 +259,7 @@
 						<th>LOT_COUNT</th>
 						<th>LOT_COUNT_MODIFIER</th>
 						<th>CONDITION</th>
+						<th>DERIVED_FROM_CAT_ITEM</th>
 						<th>VALIDATED_STATUS</th>
 					</tr>
 				<tbody>
@@ -272,6 +273,7 @@
 							<td>#data.lot_count#</td>
 							<td>#data.lot_count_modifier#</td>
 							<td>#data.condition#</td>
+							<td>#data.DERIVED_FROM_CAT_ITEM#</td>
 							<td><strong>#VALIDATED_STATUS#</strong></td>
 						</tr>
 					</cfloop>
