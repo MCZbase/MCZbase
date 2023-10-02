@@ -297,7 +297,7 @@
 							<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
 							insert into 
 								specimen_part 
-									(collection_object_id,part_name) 
+									(collection_object_id,part_name,preserve_method) 
 								values (#collection_object_id#,'#part_name#','#preserve_method#')
 							</cfquery>
 							<cfset part_updates = part_updates + updatePart_result.recordcount>
