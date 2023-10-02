@@ -395,8 +395,8 @@ part_att_name_6,part_att_val_6,part_att_units_6,part_att_detby_6,part_att_madeda
 						<cfloop query="getTempData">
 							<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
 							insert into 
-								container_history 
-									(container_id,parent_container_id,install_date) 
+								specimen_part 
+									(collection_object_id,id,install_date) 
 								values (#container_id#,#parent_container_id#,SYSDATE)
 							</cfquery>
 							<cfset part_updates = part_container_updates + updatePart_result.recordcount>
@@ -488,11 +488,34 @@ part_att_name_6,part_att_val_6,part_att_units_6,part_att_detby_6,part_att_madeda
 					<cfset part_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
+						<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select sq_collection_object_id.nextval NEXTID from dual
+						</cfquery>
 						<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
-							Insert into 
-							specimen_part
-							(collection_object_id, derived_from_cat_item,install_date) 
-							values (#collection_object_id#,#_ID#,SYSDATE)
+							INSERT INTO coll_object (
+								COLLECTION_OBJECT_ID,
+								COLL_OBJECT_TYPE,
+								ENTERED_PERSON_ID,
+								COLL_OBJECT_ENTERED_DATE,
+								LAST_EDITED_PERSON_ID,
+								COLL_OBJ_DISPOSITION,
+								LOT_COUNT_MODIFIER,
+								LOT_COUNT,
+								CONDITION,
+								FLAGS )
+							VALUES (
+								#NEXTID.NEXTID#,
+								'SP',
+								#enteredbyid#,
+								sysdate,
+								#enteredbyid#,
+								'#DISPOSITION#',
+								'#lot_count_modifier#',
+								#lot_count#,
+								'#condition#',
+								0 
+							)
+							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
