@@ -414,8 +414,6 @@
 
 				<cfset part_updates = 0>
 					<cftransaction>
-						<cfset install_date = ''>
-						<cfloop query="getTempData">
 					
 							
 							
