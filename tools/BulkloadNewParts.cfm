@@ -12,7 +12,7 @@
 </cfif>
 <cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,container_unique_id,lot_count,lot_count_modifier,condition,disposition">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,container_unique_id,lot_count,condition,disposition">
+<cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count,condition,disposition">
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
