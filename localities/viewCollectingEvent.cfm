@@ -261,14 +261,14 @@ limitations under the License.
 							<cfelseif getItemCount.recordcount LT 11>
 								<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getItems_result">
 									SELECT 
-										guid, phylclass, phylorder, family, scientific_name, author_text, partdetail, typestatus, collection
+										guid, phylclass, phylorder, family, MCZBASE.get_scientific_name_auths(collection_object_id) sci_name, parts, typestatus, collection
 									FROM 
 										<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 									WHERE
 										collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 								</cfquery>
 								<cfloop query="getItems">
-									<li>#collection# <a href="/guid/#guid#">#guid#</a> #scientific_name# <span class="">#author_text#</span> #partdetail# #typestatus#</li>
+									<li>#collection# #family# <a href="/guid/#guid#">#guid#</a> #sci_name# #parts# #typestatus#</li>
 								</cfloop>
 							<cfelse>
 								<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getItems_result">
