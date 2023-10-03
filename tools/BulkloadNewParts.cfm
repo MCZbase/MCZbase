@@ -1,6 +1,6 @@
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,container_unique_id,lot_count_modifier,lot_count,condition,disposition
+		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count_modifier,lot_count,condition,disposition,container_unique_id
 		FROM cf_temp_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -10,7 +10,7 @@
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,container_unique_id,lot_count_modifier,lot_count,condition,disposition">
+<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count_modifier,lot_count,condition,disposition,container_unique_id">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count,condition,disposition">
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -78,11 +78,11 @@
 			<cfset OTHER_ID_NUMBER_exists = false>
 			<cfset PART_NAME_exists = false>
 			<cfset PRESERVE_METHOD_exists = false>
-			<cfset CONTAINER_UNIQUE_ID_exists = false>
 			<cfset LOT_COUNT_MODIFIER_exists = false>
 			<cfset LOT_COUNT_exists = false>
 			<cfset CONDITION_exists = false>
 			<cfset disposition_exists = false>
+			<cfset CONTAINER_UNIQUE_ID_exists = false>
 	
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
