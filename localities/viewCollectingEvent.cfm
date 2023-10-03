@@ -188,12 +188,110 @@ limitations under the License.
 					<cfelse>
 
 						<!--- TODO: Collecting event numbers --->
+						<cfquery name="getCollEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollEventNumbers_result">
+							SELECT 
+								coll_event_number, number_series, agent_name, preferred_agent_name.agent_id
+							FROM
+								coll_event_number
+								left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
+								left join preferred_agent_name on coll_event_num_series.collector_agent_id = preferred_agent_name.agent_id
+							WHERE
+								coll_event_number.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+						</cfquery>
+						<cfif getCollEventNumbers.recordcount GT 0>
+							<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+								<h2 class="h3">Collector Numbers/Field Numbers for this event</h2>
+								<ul>
+									<cfloop query="getCollEventNumbers">
+										<cfset agentLink ="">
+										<cfif len(getCollEventNumbers.agent_id) GT 0>
+											<cfset agentLink = '<a href="/agents/Agent.cfm?agent_id=#getCollEventNumbers.agent_id#">#getCollEventNumbers.agent_name#</a>'>
+										</cfif>
+										<li>#coll_event_number# #number_series# #agentLink#</li>
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
 
-						<!--- TODO: Collectors --->
+						<!--- Collectors --->
+						<cfquery name="getCollectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollectors_result">
+							SELECT 
+								count(cataloged_item.collection_object_id) ct, preferred_agent_name.agent_id, agent_name
+							FROM
+								cataloged_item
+								left join collector on cataloged_item.collection_object_id = collector.collection_object_id and collector.collector_role = 'c'
+								left join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
+							WHERE
+								cataloged_item.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+							GROUP BY
+								preferred_agent_name.agent_id, agent_name
+							ORDER BY
+								agent_name
+						<cfquery>
+						
+						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+							<h2 class="h3">Collectors in this event</h2>
+							<ul>
+								<cfif getCollectors.recordcount EQ 0>
+									<li>None</li>
+								<cfloop query="getCollectors">
+									<li><a href="/agents/Agent.cfm?agent_id=#getCollectors.agent_id#">#getCollectors.agent_name#</a> (#getCollectors.ct#)</li>
+								</cfoop>
+							</ul>
+						</div>
 
 					</cfif>
 
-
+					<!--- Summary of cataloged item records --->
+					<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getItemCount_result">
+						SELECT count(collection_object_id) ct
+						FROM 
+							<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+						WHERE
+							collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+					</cfquery>
+					<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+						<h2 class="h3">
+							Material collected in this event 
+							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACOLLECTING%20EVENTS_COLLECTING_EVENT_ID&searchText1=#encodeForURL(collecting_event_id)#">(#getItemCount.recordcount#)</a>
+						</h2>
+						<ul>
+							<cfif getItemCount.recordCount EQ 0>
+								<li>None</li>
+							<cfelseif getItemCount.recordcount LT 11>
+								<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getItems_result">
+									SELECT 
+										guid, phylclass, phylorder, family, scientific_name, author_text, partdetail, typestatus, collection
+									FROM 
+										<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+									WHERE
+										collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+								</cfquery>
+								<cfloop query="getItems">
+									<li>#collection# <a href="/guid/#guid#">#guid#</a> #scientific_name# <span class="">#author_text#</span> #partdetail# #typestatus#</li>
+								</cfloop>
+							<cfelse>
+								<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getItems_result">
+									SELECT 
+										count(collection_object_id) ct, collection, phylclass, phylorder, family, collection_cde
+									FROM 
+										<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+									WHERE
+										collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+									GROUP BY
+										collection, phylclass, phylorder, family, collection_cde
+									ORDER BY
+										collection, family
+								</cfquery>
+								<cfloop query="getItems">
+									<li>
+										#collection# #phylclass# #phylorder# #family# 
+										<a href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACOLLECTING%20EVENTS_COLLECTING_EVENT_ID&searchText1=#encodeForUrl(collecting_event_id)#&nestdepth2=2&JoinOperator2=and&field2=CATALOGED_ITEM%3ACOLLECTION_CDE&searchText2=%3D#collection_cde#&nestdepth3=3&JoinOperator3=and&field3=TAXONOMY%3AFAMILY&searchText3=%3D#family#">(#ct#)</a>
+									</li>
+								</cfloop>
+							</cfif>
+						</ul>
+					</div>
 				</section>
 				<section class="mt-3 mt-md-2 col-12 col-md-3 col-xl-4 pl-md-0 float-left">
 					<cfif ListContains(encumber,"mask coordinates") GT 0>
