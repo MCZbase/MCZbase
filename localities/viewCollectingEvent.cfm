@@ -186,7 +186,6 @@ limitations under the License.
 							[Masked]
 						</div>
 					<cfelse>
-
 						<!--- TODO: Collecting event numbers --->
 						<cfquery name="getCollEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollEventNumbers_result">
 							SELECT 
@@ -237,7 +236,7 @@ limitations under the License.
 								</cfif>
 								<cfloop query="getCollectors">
 									<li><a href="/agents/Agent.cfm?agent_id=#getCollectors.agent_id#">#getCollectors.agent_name#</a> (#getCollectors.ct#)</li>
-								</cfoop>
+								</cfloop>
 							</ul>
 						</div>
 
