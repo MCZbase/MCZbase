@@ -421,8 +421,8 @@
 								INSERT INTO coll_object (
 									COLLECTION_OBJECT_ID,
 									COLL_OBJECT_TYPE,
+									ENTERED_PERSON_ID,
 									COLL_OBJECT_ENTERED_DATE,
-									LAST_EDITED_PERSON_ID,
 									COLL_OBJ_DISPOSITION,
 									LOT_COUNT_MODIFIER,
 									LOT_COUNT,
@@ -431,8 +431,8 @@
 								VALUES (
 									#NEXTID.NEXTID#,
 									'SP',
+									'#USERNAME#'
 									sysdate,
-									#enteredbyid#,
 									'#DISPOSITION#',
 									'#lot_count_modifier#',
 									#lot_count#,
