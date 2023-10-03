@@ -64,9 +64,9 @@
 			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name;
 		</cfquery>
 		<!--- loop once for each agent --->
-	<cfloop query="agent" startrow=1 endrow=450>
+	<cfloop query="agent" startrow=1 endrow=150>
 	<cfquery name="chkLog" datasource="uam_god">
-		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2023-06-01', 'YYYY-MM-DD')
+		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2023-08-01', 'YYYY-MM-DD')
 	</cfquery>
 	<cfif chkLog.recordcount EQ 0>
 			<!--- local queries to organize and flatten loan data --->
@@ -309,7 +309,7 @@
 				MUSEUM OF COMPARATIVE ZOOLOGY<br>
 				HARVARD UNIVERSITY<br>
 				<br>
-				OVERDUE LOAN NOTIFICATION REPORT FOR #DateFormat(Now(),"DD-mmmm-YYYY")#
+				OVERDUE LOAN NOTIFICATION REPORT FOR #DateFormat(Now(),"dd-mmmm-YYYY")#
 				<br><br>
 				Dear Colleague,
 				<br><br>
@@ -347,7 +347,7 @@
 						group by
 						loan.transaction_id
 					</cfquery>
-				Loan Number: #loan_number# // Due Date: #DateFormat(return_due_date, "DD-mmmm-YYYY")#
+				Loan Number: #loan_number# // Due Date: #DateFormat(return_due_date, "dd-mmmm-YYYY")#
 				<br>
 				Original Total Number of Items:	#counts.total# // Partial Return of Loaned Items: <cfif loan_status EQ "open partially returned">Yes<cfelse>No</cfif>
 				<br>
@@ -462,7 +462,7 @@
 				MUSEUM OF COMPARATIVE ZOOLOGY<br>
 				HARVARD UNIVERSITY<br>
 				<br>
-				OVERDUE LOAN NOTIFICATION REPORT FOR #DateFormat(Now(),"DD-mmmm-YYYY")#
+				OVERDUE LOAN NOTIFICATION REPORT FOR #DateFormat(Now(),"dd-mmmm-YYYY")#
 				<br><br>
 				Dear Colleague,
 				<br><br>
@@ -500,7 +500,7 @@
 						group by
 						loan.transaction_id
 					</cfquery>
-				Loan Number: #loan_number# // Due Date: #DateFormat(return_due_date, "DD-mmmm-YYYY")#
+				Loan Number: #loan_number# // Due Date: #DateFormat(return_due_date, "dd-mmmm-YYYY")#
 				<br>
 				Original Total Number of Items:	#counts.total# // Partial Return of Loaned Items: <cfif loan_status EQ "open partially returned">Yes<cfelse>No</cfif>
 				<br>

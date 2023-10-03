@@ -43,6 +43,14 @@ limitations under the License.
 	<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
 	<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number. --->
 </cfif>
+<!--- TODO: Remove when edit collecting event is ready for production --->
+<cftry>
+	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+<cfcatch>
+	<cfset gitBranch = "unknown">
+</cfcatch>
+</cftry>
 
 <cfquery name="getCollectingEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollectingEvent_result">
 	SELECT 
@@ -74,11 +82,15 @@ limitations under the License.
 					<div class="col-12 mt-4 pb-2 border-bottom border-dark">
 						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">Collecting Event [#encodeForHtml(collecting_event_id)#]</h1>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
-							<a role="button" href="/localities/CollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">Edit Collecting Event</a>
+							<cfif gitBranch EQ "unknown" OR findNoCase('master',gitBranch) GT 0 >
+								<a role="button" href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">Edit Collecting Event</a>
+							<cfelse>
+								<a role="button" href="/localities/CollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">Edit Collecting Event</a>
+							</cfif>
 						</cfif>
 					</div>
 					<div class="col-12 mt-4 pb-2 border-bottom border-dark">
-						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">In Locality [#encodeForHtml(locality_id)#]</h1>
+						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">In Locality [<a href="/localities/viewLocality.cfm?locality_id=#encodeForUrl(locality_id)#">#encodeForHtml(locality_id)#</a>]</h1>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
 							<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right mr-1">Edit Locality</a>
 						</cfif>
@@ -186,14 +198,112 @@ limitations under the License.
 							[Masked]
 						</div>
 					<cfelse>
-
 						<!--- TODO: Collecting event numbers --->
+						<cfquery name="getCollEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollEventNumbers_result">
+							SELECT 
+								coll_event_number, number_series, agent_name, preferred_agent_name.agent_id
+							FROM
+								coll_event_number
+								left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
+								left join preferred_agent_name on coll_event_num_series.collector_agent_id = preferred_agent_name.agent_id
+							WHERE
+								coll_event_number.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+						</cfquery>
+						<cfif getCollEventNumbers.recordcount GT 0>
+							<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+								<h2 class="h3">Collector Numbers/Field Numbers for this event</h2>
+								<ul>
+									<cfloop query="getCollEventNumbers">
+										<cfset agentLink ="">
+										<cfif len(getCollEventNumbers.agent_id) GT 0>
+											<cfset agentLink = '<a href="/agents/Agent.cfm?agent_id=#getCollEventNumbers.agent_id#">#getCollEventNumbers.agent_name#</a>'>
+										</cfif>
+										<li>#coll_event_number# #number_series# #agentLink#</li>
+									</cfloop>
+								</ul>
+							</div>
+						</cfif>
 
-						<!--- TODO: Collectors --->
+						<!--- Collectors --->
+						<cfquery name="getCollectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollectors_result">
+							SELECT 
+								count(cataloged_item.collection_object_id) ct, preferred_agent_name.agent_id, agent_name
+							FROM
+								cataloged_item
+								left join collector on cataloged_item.collection_object_id = collector.collection_object_id and collector.collector_role = 'c'
+								left join preferred_agent_name on collector.agent_id = preferred_agent_name.agent_id
+							WHERE
+								cataloged_item.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+							GROUP BY
+								preferred_agent_name.agent_id, agent_name
+							ORDER BY
+								agent_name
+						</cfquery>
+						
+						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+							<h2 class="h3">Collectors in this event</h2>
+							<ul>
+								<cfif getCollectors.recordcount EQ 0>
+									<li>None</li>
+								</cfif>
+								<cfloop query="getCollectors">
+									<li><a href="/agents/Agent.cfm?agent_id=#getCollectors.agent_id#">#getCollectors.agent_name#</a> (#getCollectors.ct#)</li>
+								</cfloop>
+							</ul>
+						</div>
 
 					</cfif>
 
-
+					<!--- Summary of cataloged item records --->
+					<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getItemCount_result">
+						SELECT count(collection_object_id) ct
+						FROM 
+							<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+						WHERE
+							collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+					</cfquery>
+					<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+						<h2 class="h3">
+							Material collected in this event 
+							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACOLLECTING%20EVENTS_COLLECTING_EVENT_ID&searchText1=#encodeForURL(collecting_event_id)#">(#getItemCount.recordcount#)</a>
+						</h2>
+						<ul>
+							<cfif getItemCount.recordCount EQ 0>
+								<li>None</li>
+							<cfelseif getItemCount.recordcount LT 11>
+								<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getItems_result">
+									SELECT 
+										guid, phylclass, phylorder, family, MCZBASE.get_scientific_name_auths(collection_object_id) sci_name, parts, typestatus, collection
+									FROM 
+										<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+									WHERE
+										collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+								</cfquery>
+								<cfloop query="getItems">
+									<li>#collection# #family# <a href="/guid/#guid#">#guid#</a> #sci_name# #parts# #typestatus#</li>
+								</cfloop>
+							<cfelse>
+								<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getItems_result">
+									SELECT 
+										count(collection_object_id) ct, collection, phylclass, phylorder, family, collection_cde
+									FROM 
+										<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+									WHERE
+										collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+									GROUP BY
+										collection, phylclass, phylorder, family, collection_cde
+									ORDER BY
+										collection, family
+								</cfquery>
+								<cfloop query="getItems">
+									<li>
+										#collection# #phylclass# #phylorder# #family# 
+										<a href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACOLLECTING%20EVENTS_COLLECTING_EVENT_ID&searchText1=#encodeForUrl(collecting_event_id)#&nestdepth2=2&JoinOperator2=and&field2=CATALOGED_ITEM%3ACOLLECTION_CDE&searchText2=%3D#collection_cde#&nestdepth3=3&JoinOperator3=and&field3=TAXONOMY%3AFAMILY&searchText3=%3D#family#">(#ct#)</a>
+									</li>
+								</cfloop>
+							</cfif>
+						</ul>
+					</div>
 				</section>
 				<section class="mt-3 mt-md-2 col-12 col-md-3 col-xl-4 pl-md-0 float-left">
 					<cfif ListContains(encumber,"mask coordinates") GT 0>
