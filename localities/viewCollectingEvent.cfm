@@ -43,6 +43,14 @@ limitations under the License.
 	<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
 	<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number. --->
 </cfif>
+<!--- TODO: Remove when edit collecting event is ready for production --->
+<cftry>
+	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+<cfcatch>
+	<cfset gitBranch = "unknown">
+</cfcatch>
+</cftry>
 
 <cfquery name="getCollectingEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollectingEvent_result">
 	SELECT 
@@ -74,7 +82,11 @@ limitations under the License.
 					<div class="col-12 mt-4 pb-2 border-bottom border-dark">
 						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">Collecting Event [#encodeForHtml(collecting_event_id)#]</h1>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
-							<a role="button" href="/localities/CollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">Edit Collecting Event</a>
+							<cfif gitBranch EQ "unknown" OR findNoCase('master',gitBranch) GT 0 >
+								<a role="button" href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">Edit Collecting Event</a>
+							<cfelse>
+								<a role="button" href="/localities/CollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">Edit Collecting Event</a>
+							</cfif>
 						</cfif>
 					</div>
 					<div class="col-12 mt-4 pb-2 border-bottom border-dark">
