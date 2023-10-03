@@ -261,6 +261,59 @@
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_parts set validated_status = validated_status || ';Invalid LOT_COUNT'
+				where (
+					LOT_COUNT is null OR
+					is_number(lot_count) = 0
+					)
+				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_parts set validated_status = validated_status || ';invalid lot_count_modifier'
+				where lot_count_modifier NOT IN (
+					select modifier from ctnumeric_modifiers
+					)
+				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_parts set (validated_status) = (
+				select
+				decode(parent_container_id,
+				0,'NOTE: PART EXISTS',
+				'NOTE: PART EXISTS IN PARENT CONTAINER')
+				from specimen_part,coll_obj_cont_hist,container, coll_object_remark where
+				specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id AND
+				coll_obj_cont_hist.container_id = container.container_id AND
+				coll_object_remark.collection_object_id(+) = specimen_part.collection_object_id AND
+				derived_from_cat_item = cf_temp_parts.collection_object_id AND
+				cf_temp_parts.part_name=specimen_part.part_name AND
+				cf_temp_parts.preserve_method=specimen_part.preserve_method AND
+				nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL')
+				group by parent_container_id)
+				where validated_status='VALID'
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_parts set (parent_container_id) = (
+				select container_id
+				from container where
+				barcode=container_unique_id)
+				where substr(validated_status,1,5) IN ('VALID','NOTE:')
+				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_parts set (use_part_id) = (
+				select min(specimen_part.collection_object_id)
+				from specimen_part, coll_object_remark where
+				specimen_part.collection_object_id = coll_object_remark.collection_object_id(+) AND
+				cf_temp_parts.part_name=specimen_part.part_name and
+				cf_temp_parts.preserve_method=specimen_part.preserve_method and
+				cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
+				nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
+				where validated_status like '%NOTE: PART EXISTS%' AND
+				use_existing = 1 AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set parent_container_id =
 				(select container_id from container where container.barcode = cf_temp_parts.container_unique_id)
@@ -271,10 +324,10 @@
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set validated_status = validated_status || 'Invalid part_name'
-				where part_name|| '|' ||collection_cde NOT IN (
+				where (part_name|| '|' ||collection_cde NOT IN (
 					select part_name|| '|' ||collection_cde from ctspecimen_part_name
-					)
-					OR part_name is null
+					) OR part_name is null)
+				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts 
