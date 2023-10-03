@@ -213,8 +213,8 @@
 							collection
 						WHERE
 							cataloged_item.collection_id = collection.collection_id and
-							collection.collection_cde = data.collection_cde and
-							collection.institution_acronym = data.institution_acronym and
+							collection.collection_cde = #data.collection_cde# and
+							collection.institution_acronym = #data.institution_acronym# and
 							cat_num='#data.other_id_number#'
 					</cfquery>
 				<cfelse>
