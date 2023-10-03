@@ -778,7 +778,7 @@ limitations under the License.
 						</cfquery>
 						<li class="list-group-item py-0">
 							<span class="float-left h4 mb-0">Higher Geography</span>
-							<span class="float-left small95 pl-1 mb-0"> #lookupHigherGeog.higher_geog#</span>
+							<span class="float-left small95 pl-1 mb-0"> <a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#">#lookupHigherGeog.higher_geog#</a></span>
 						</li>
 						<li class="list-group-item py-0">
 							<span class="float-left h4 mb-0">Sovereign Nation</span>
