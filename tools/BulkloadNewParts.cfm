@@ -201,7 +201,7 @@
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select * from cf_temp_parts where validated_status is null
+				select * from cf_temp_parts where validated_status = 'VALID'
 		</cfquery>
 		<cfloop query="data">
 			<cfif #other_id_type# is "catalog number">
