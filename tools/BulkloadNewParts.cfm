@@ -288,7 +288,7 @@
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,PART_NAME,PRESERVE_METHOD,LOT_COUNT,LOT_COUNT_MODIFIER,CONDITION,VALIDATED_STATUS 
+				SELECT INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,PART_NAME,PRESERVE_METHOD,LOT_COUNT_MODIFIER,LOT_COUNT,CONDITION,DISPOSITION,CONTAINER_UNIQUE_ID,VALIDATED_STATUS 
 				FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -318,9 +318,11 @@
 						<th>COLLECTION_CDE</th>
 						<th>PART_NAME</th>
 						<th>PRESERVE_METHOD</th>
-						<th>LOT_COUNT</th>
 						<th>LOT_COUNT_MODIFIER</th>
+						<th>LOT_COUNT</th>
 						<th>CONDITION</th>
+						<th>DISPOSITION</th>
+						<th>Container_UNIQUE_ID</th>
 						<th>VALIDATED_STATUS</th>
 					</tr>
 				<tbody>
@@ -332,9 +334,11 @@
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.PART_NAME#</td>
 							<td>#data.PRESERVE_METHOD#</td>
-							<td>#data.lot_count#</td>
 							<td>#data.lot_count_modifier#</td>
+							<td>#data.lot_count#</td>
 							<td>#data.condition#</td>
+							<td>#data.disposition#</td>
+							<td>#data.container_unique_ID#</td>
 							<td><strong>#VALIDATED_STATUS#</strong></td>
 						</tr>
 					</cfloop>
