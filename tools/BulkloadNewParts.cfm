@@ -558,10 +558,12 @@
 									<th>other_id_number</th>
 									<th>collection_cde</th>
 									<th>part_name</th>
+									<th>lot_count_modifier</th>
 									<th>preserve_method</th>
 									<th>lot_count</th>
-									<th>lot_count_modifier</th>
 									<th>condition</th>
+									<th>disposition</th>
+									<th>Container_unique_id</th>
 									<th>validated_status</th>
 								</tr> 
 							</thead>
@@ -574,9 +576,11 @@
 										<td>#getProblemData.COLLECTION_CDE#</td>
 										<td>#getProblemData.PART_NAME#</td>
 										<td>#getProblemData.PRESERVE_METHOD#</td>
-										<td>#getProblemData.LOT_COUNT#</td>
 										<td>#getProblemData.LOT_COUNT_MODIFIER#</td>
+										<td>#getProblemData.LOT_COUNT#</td>
 										<td>#getProblemData.CONDITION#</td>
+										<td>#getProblemData.DISPOSITION#</td>
+										<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
 										<td>#getProblemData.validated_status#</td>
 									</tr> 
 								</cfloop>
