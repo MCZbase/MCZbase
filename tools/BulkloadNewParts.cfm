@@ -237,7 +237,7 @@
 				<cfif #collObj.recordcount# is 1>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id# ,
-						validated_status='VALID', lot_count = 'data.lot_count#'#
+						validated_status='VALID', lot_count = '#data.lot_count#'
 						where
 						key = #key#
 					</cfquery>
