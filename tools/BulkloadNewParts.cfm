@@ -299,7 +299,7 @@
 			</cfquery>
 			<cfif pf.c gt 0>
 				<h2>
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadNewParts.cfm?action=getCSVHeader">download</a>).
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadNewParts.cfm?action=dumpProblemsr">download</a>).
 				</h2>
 				<h3>
 					Fix the problems in the data and <a href="/tools/BulkloadNewParts.cfm">start again</a>.
