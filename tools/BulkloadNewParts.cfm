@@ -213,8 +213,8 @@
 							collection
 						WHERE
 							cataloged_item.collection_id = collection.collection_id and
-							collection.collection_cde = #data.collection_cde# and
-							collection.institution_acronym = #institution_acronym# and
+							collection.collection_cde = '#data.collection_cde#'' and
+							collection.institution_acronym = '#institution_acronym#' and
 							cat_num='#data.other_id_number#'
 					</cfquery>
 				<cfelse>
@@ -229,9 +229,9 @@
 							coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
 							cataloged_item.collection_id = collection.collection_id and
 							collection.collection_cde = data.collection_cde and
-							collection.institution_acronym = data.institution_acronym and
-							other_id_type = other_id_type and
-							display_value = data.other_id_number
+							collection.institution_acronym = #data.institution_acronym# and
+							other_id_type = #other_id_type# and
+							display_value = '#data.other_id_number#'
 					</cfquery>
 				</cfif>
 				<cfif #collObj.recordcount# is 1>
