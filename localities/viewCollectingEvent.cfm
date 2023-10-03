@@ -227,7 +227,7 @@ limitations under the License.
 								preferred_agent_name.agent_id, agent_name
 							ORDER BY
 								agent_name
-						<cfquery>
+						</cfquery>
 						
 						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 							<h2 class="h3">Collectors in this event</h2>
