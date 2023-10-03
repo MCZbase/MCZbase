@@ -482,6 +482,7 @@
 								<th>LOT_COUNT</th>
 								<th>LOT_COUNT_MODIFIER</th>
 								<th>CONDITION</th>
+								<th>CONTAINER_UNIQUE_ID</th>
 								<th>VALIDTED_STATUS</th>
 							</tr> 
 						</thead>
@@ -497,6 +498,7 @@
 									<td>#getProblemData.LOT_COUNT#</td>
 									<td>#getProblemData.LOT_COUNT_MODIFIER#</td>
 									<td>#getProblemData.CONDITION#</td>
+									<td>#getProblemData.CONTAINER_UNIQUE_ID#</td>
 									<td><strong>#VALIDTED_STATUS#</strong></td>
 								</tr> 
 							</cfloop>
