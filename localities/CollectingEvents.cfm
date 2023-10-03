@@ -315,6 +315,10 @@ limitations under the License.
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/localities/viewLocality.cfm?locality_id=' + rowData['LOCALITY_ID'] + '" target="_blank">'+value+'</a></span>';
 					};
+					var viewEventCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowData) {
+						var id = encodeURIComponent(rowData['COLLECTING_EVENT_ID']);
+						return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/localities/viewCollectingEvent.cfm?collecting_event_id=' + id + '">Evt.</a>';
+					};
 					var summaryCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						var data = makeLocalitySummary(rowData);
@@ -503,8 +507,8 @@ limitations under the License.
 										{text: 'Edit', datafield: 'LOCALITY_ID_1', width:60, hideable: false, cellsrenderer: editLocCellRenderer},
 										{text: 'Edit', datafield: 'COLLECTING_EVENT_ID_1', width:60, hideable: false, cellsrenderer: editEventCellRenderer},
 									<cfelse>
-										<!--- TODO: collecting event details page --->
 										{text: 'Loc.', datafield: 'LOCALITY_ID_1', width:60, hideable: false, cellsrenderer: linkIdCellRenderer},
+										{text: 'Evt.', datafield: 'COLLECTING_EVENT_ID_1', width:60, hideable: false, cellsrenderer: viewEventCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
 									{ text: 'collecting_event_id', datafield: 'COLLECTING_EVENT_ID',width: 100, hideabel: true, hidden: getColHidProp('COLLECTING_EVENT_ID',true) },
