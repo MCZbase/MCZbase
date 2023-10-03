@@ -1,6 +1,6 @@
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,container_unique_id,lot_count,lot_count_modifier,condition,disposition
+		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,container_unique_id,lot_count_modifier,lot_count,condition,disposition
 		FROM cf_temp_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -10,7 +10,7 @@
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,container_unique_id,lot_count,lot_count_modifier,condition,disposition">
+<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,container_unique_id,lot_count_modifier,lot_count,condition,disposition">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count,condition,disposition">
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -79,8 +79,8 @@
 			<cfset PART_NAME_exists = false>
 			<cfset PRESERVE_METHOD_exists = false>
 			<cfset CONTAINER_UNIQUE_ID_exists = false>
-			<cfset LOT_COUNT_exists = false>
 			<cfset LOT_COUNT_MODIFIER_exists = false>
+			<cfset LOT_COUNT_exists = false>
 			<cfset CONDITION_exists = false>
 			<cfset disposition_exists = false>
 	
@@ -93,8 +93,8 @@
 				<cfif ucase(header) EQ 'PART_NAME'><cfset PART_NAME_exists=true></cfif>
 				<cfif ucase(header) EQ 'PRESERVE_METHOD'><cfset PRESERVE_METHOD_exists=true></cfif>
 				<cfif ucase(header) EQ 'CONTAINER_UNIQUE_ID'><cfset CONTAINER_UNIQUE_ID_exists=true></cfif>
-				<cfif ucase(header) EQ 'LOT_COUNT'><cfset LOT_COUNT_exists=true></cfif>
 				<cfif ucase(header) EQ 'LOT_COUNT_MODIFIER'><cfset LOT_COUNT_MODIFIER_exists=true></cfif>
+				<cfif ucase(header) EQ 'LOT_COUNT'><cfset LOT_COUNT_exists=true></cfif>
 				<cfif ucase(header) EQ 'CONDITION'><cfset CONDITION_exists=true></cfif>
 				<cfif ucase(header) EQ 'DISPOSITION'><cfset DISPOSITION_exists=true></cfif>
 		
@@ -237,7 +237,7 @@
 				<cfif #collObj.recordcount# is 1>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id# ,
-						validated_status='VALID'
+						validated_status='VALID', lot_count = #collObj.lot_count#
 						where
 						key = #key#
 					</cfquery>
@@ -299,7 +299,7 @@
 			</cfquery>
 			<cfif pf.c gt 0>
 				<h2>
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadNewParts.cfm?action=validate">download</a>).
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadNewParts.cfm?action=getCSVHeader">download</a>).
 				</h2>
 				<h3>
 					Fix the problems in the data and <a href="/tools/BulkloadNewParts.cfm">start again</a>.
