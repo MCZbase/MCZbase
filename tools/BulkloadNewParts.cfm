@@ -111,7 +111,7 @@
 				<cfif not LOT_COUNT_exists><cfset message = "#message# LOT_COUNT is missing."></cfif>
 				<cfif not CONDITION_exists><cfset message = "#message# CONDITION is missing."></cfif>
 				<cfif not DISPOSITION_exists><cfset message = "#message# DISPOSITION is missing."></cfif>
-				<cfif no CONTAINER_UNIQUE_ID exists><cfset message = "#message# CONTAINER_UNIQUE_ID is missing."></cfif>
+			
 				<cfthrow message="#message#">
 			</cfif>
 			<cfset colNames="">
