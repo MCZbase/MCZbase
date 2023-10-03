@@ -411,85 +411,48 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cftry>
-
 				<cfset part_updates = 0>
 					<cftransaction>
-					
-							
-							
-				<cfif len(#container_unique_id#) gt 0 and len(#collection_object_id#) gt 0>
-				<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select sq_collection_object_id.nextval NEXTID from dual
-				</cfquery>
-				<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					INSERT INTO coll_object (
-						COLLECTION_OBJECT_ID,
-						COLL_OBJECT_TYPE,
-						ENTERED_PERSON_ID,
-						COLL_OBJECT_ENTERED_DATE,
-						LAST_EDITED_PERSON_ID,
-						COLL_OBJ_DISPOSITION,
-						LOT_COUNT_MODIFIER,
-						LOT_COUNT,
-						CONDITION,
-						FLAGS )
-					VALUES (
-						#NEXTID.NEXTID#,
-						'SP',
-						#enteredbyid#,
-						sysdate,
-						#enteredbyid#,
-						'#DISPOSITION#',
-						'#lot_count_modifier#',
-						#lot_count#,
-						'#condition#',
-						0 )
-				</cfquery>
-				<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					INSERT INTO specimen_part (
-						  COLLECTION_OBJECT_ID,
-						  PART_NAME,
-						  PRESERVE_METHOD,
-						  DERIVED_FROM_cat_item )
-						VALUES (
-							#NEXTID.NEXTID#,
-						  '#PART_NAME#',
-						  '#PRESERVE_METHOD#'
-							,#collection_object_id# )
-				</cfquery>
-				<cfif len(#current_remarks#) gt 0>
-						<!---- new remark --->
-						<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-							VALUES (sq_collection_object_id.currval, '#current_remarks#')
+					<cfloop query="getTempData">
+						<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select sq_collection_object_id.nextval NEXTID from dual
 						</cfquery>
-				</cfif>
-				<cfif len(#changed_date#) gt 0>
-					<cfquery name="change_date" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update SPECIMEN_PART_PRES_HIST set CHANGED_DATE = to_date('#CHANGED_DATE#', 'YYYY-MM-DD') where collection_object_id =#NEXTID.NEXTID# and is_current_fg = 1
-					</cfquery>
-				</cfif>
-			<!---	<cfif len(#container_unique_id#) gt 0>
-					<cfquery name="part_container_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select container_id from coll_obj_cont_hist where collection_object_id = #NEXTID.NEXTID#
-					</cfquery>
-						<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update container set parent_container_id=#parent_container_id#
-							where container_id = #part_container_id.container_id#
-						</cfquery>
-					<cfif #len(change_container_type)# gt 0>
-						<cfquery name="upPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update container set
-							container_type='#change_container_type#'
-							where container_id=#parent_container_id#
-						</cfquery>
-					</cfif>
-				</cfif>--->	
-							
-							
-							
-							
-							
+							<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								INSERT INTO coll_object (
+									COLLECTION_OBJECT_ID,
+									COLL_OBJECT_TYPE,
+									ENTERED_PERSON_ID,
+									COLL_OBJECT_ENTERED_DATE,
+									LAST_EDITED_PERSON_ID,
+									COLL_OBJ_DISPOSITION,
+									LOT_COUNT_MODIFIER,
+									LOT_COUNT,
+									CONDITION,
+									FLAGS )
+								VALUES (
+									#NEXTID.NEXTID#,
+									'SP',
+									#enteredbyid#,
+									sysdate,
+									#enteredbyid#,
+									'#DISPOSITION#',
+									'#lot_count_modifier#',
+									#lot_count#,
+									'#condition#',
+									0 )
+							</cfquery>
+							<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								INSERT INTO specimen_part (
+									  COLLECTION_OBJECT_ID,
+									  PART_NAME,
+									  PRESERVE_METHOD,
+									  DERIVED_FROM_cat_item )
+									VALUES (
+										#NEXTID.NEXTID#,
+									  '#PART_NAME#',
+									  '#PRESERVE_METHOD#'
+										,#collection_object_id# )
+							</cfquery>
 							<cfset part_updates = part_updates + updatePart_result.recordcount>
 						</cfloop>
 					</cftransaction> 
