@@ -1,6 +1,6 @@
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count,lot_count_modifier,condition
+		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,container_unique_id,lot_count,lot_count_modifier,condition
 		FROM cf_temp_parts
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -10,9 +10,9 @@
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
 </cfif>
-<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count,lot_count_modifier,condition">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count,lot_count_modifier,condition">
+<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,container_unique_id,lot_count,lot_count_modifier,condition">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,container_unique_id,lot_count,lot_count_modifier,condition">
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
 	<cfset separator = "">
@@ -78,6 +78,7 @@
 			<cfset OTHER_ID_NUMBER_exists = false>
 			<cfset PART_NAME_exists = false>
 			<cfset PRESERVE_METHOD_exists = false>
+			<cfset CONTAINER_UNIQUE_ID_exists = false>
 			<cfset LOT_COUNT_exists = false>
 			<cfset LOT_COUNT_MODIFIER_exists = false>
 			<cfset CONDITION_exists = false>
@@ -90,6 +91,7 @@
 				<cfif ucase(header) EQ 'OTHER_ID_NUMBER'><cfset OTHER_ID_NUMBER_exists=true></cfif>
 				<cfif ucase(header) EQ 'PART_NAME'><cfset PART_NAME_exists=true></cfif>
 				<cfif ucase(header) EQ 'PRESERVE_METHOD'><cfset PRESERVE_METHOD_exists=true></cfif>
+				<cfif ucase(header) EQ 'CONTAINER_UNIQUE_ID'><cfset CONTAINER_UNIQUE_ID_exists=true></cfif>
 				<cfif ucase(header) EQ 'LOT_COUNT'><cfset LOT_COUNT_exists=true></cfif>
 				<cfif ucase(header) EQ 'LOT_COUNT_MODIFIER'><cfset LOT_COUNT_MODIFIER_exists=true></cfif>
 				<cfif ucase(header) EQ 'CONDITION'><cfset CONDITION_exists=true></cfif>
@@ -103,10 +105,10 @@
 				<cfif not OTHER_ID_NUMBER_exists><cfset message = "#message# OTHER_ID_NUMBER is missing."></cfif>
 				<cfif not PART_NAME_exists><cfset message = "#message# PART_NAME is missing."></cfif>
 				<cfif not PRESERVE_METHOD_exists><cfset message = "#message# PRESERVE_METHOD is missing."></cfif>
+				<cfif no CONTAINER_UNIQUE_ID exists><cfset message = "#message# CONTAINER_UNIQUE_ID is missing."></cfif>
 				<cfif not LOT_COUNT_exists><cfset message = "#message# LOT_COUNT is missing."></cfif>
 				<cfif not LOT_COUNT_MODIFIER_exists><cfset message = "#message# LOT_COUNT_MODIFIER is missing."></cfif>
 				<cfif not CONDITION_exists><cfset message = "#message# CONDITION is missing."></cfif>
-		
 				<cfthrow message="#message#">
 			</cfif>
 			<cfset colNames="">
@@ -216,7 +218,22 @@
 					and ci.cat_num = cf_temp_parts.other_id_number
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>--->
+			</cfquery>---> 
+			<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_parts set parent_container_id =
+				(select container_id from container where container.barcode = cf_temp_parts.container_unique_id)
+			</cfquery>
+			<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_parts set validated_status = validated_status || 'Container Unique ID not found'
+				where container_unique_id is not null and parent_container_id is null
+			</cfquery>
+			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_parts set validated_status = validated_status || 'Invalid part_name'
+				where part_name|| '|' ||collection_cde NOT IN (
+					select part_name|| '|' ||collection_cde from ctspecimen_part_name
+					)
+					OR part_name is null
+			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts 
 				SET validated_status = 'part_not_found'
@@ -302,15 +319,8 @@
 							<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
 							insert into 
 								specimen_part 
-									(collection_object_id,part_name,preserve_method, lot_count) 
-								values (#collection_object_id#,'#part_name#','#preserve_method#',#lot_count#)
-							</cfquery>
-							<cfset part_updates = part_updates + updatePart_result.recordcount>
-							<cfquery name="updatePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePart_result">
-							insert into 
-								coll_object 
-									(lot_count,lot_count_modifier,condition,entered_person_id) 
-								values (#lot_count#,#lot_count_modifier#,'#condition#','#username#')
+									(collection_object_id,part_name,preserve_method) 
+								values (#collection_object_id#,'#part_name#','#preserve_method#')
 							</cfquery>
 							<cfset part_updates = part_updates + updatePart_result.recordcount>
 						</cfloop>
