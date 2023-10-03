@@ -234,6 +234,7 @@ limitations under the License.
 							<ul>
 								<cfif getCollectors.recordcount EQ 0>
 									<li>None</li>
+								</cfif>
 								<cfloop query="getCollectors">
 									<li><a href="/agents/Agent.cfm?agent_id=#getCollectors.agent_id#">#getCollectors.agent_name#</a> (#getCollectors.ct#)</li>
 								</cfoop>
