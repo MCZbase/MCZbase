@@ -438,7 +438,7 @@
 									'#lot_count_modifier#',
 									#lot_count#,
 									'#condition#',
-									0 )
+									'0' )
 							</cfquery>
 							<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								INSERT INTO specimen_part (
