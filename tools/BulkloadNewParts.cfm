@@ -208,13 +208,13 @@
 			<cfif #other_id_type# is "catalog number">
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
-						collection_object_id
+						specimen_part.collection_object_id
 					FROM
 						cataloged_item,
 						collection,
 						specimen_part
 					WHERE
-						specimen_part.collection_object_id = catalog_item.collection_object_id
+						specimen_part.collection_object_id = cataloged_item.collection_object_id and
 						cataloged_item.collection_id = collection.collection_id and
 						collection.collection_cde = '#data.collection_cde#' and
 						collection.institution_acronym = '#institution_acronym#' and
