@@ -235,6 +235,9 @@
 						display_value = '#data.other_id_number#'
 				</cfquery>
 			</cfif>
+					<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select sq_collection_object_id.nextval NEXTID from dual
+						</cfquery>
 				<cfif #collObj.recordcount# is 1>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_parts 
@@ -244,10 +247,10 @@
 					</cfquery>
 				<cfelse>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE cf_temp_parts SET validated_status =
-						'status =' || '#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
-						where key = #key#
-						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						UPDATE cf_temp_parts 
+						SET collection_object_id = #NEXTID.NEXTID# ,
+						validated_status='collection_object_id problem'
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
 			</cfloop>
@@ -268,7 +271,7 @@
 				where validated_status like '%NOTE: PART EXISTS%' AND
 				use_existing = 1 AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<!---	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set validated_status = validated_status || 'Invalid part_name'
 				where (part_name|| '|' ||collection_cde NOT IN (
 					select part_name|| '|' ||collection_cde from ctspecimen_part_name
@@ -286,7 +289,7 @@
 				SET validated_status = 'part_name_not_found'
 				WHERE part_name is null
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			</cfquery>--->
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,PART_NAME,PRESERVE_METHOD,LOT_COUNT_MODIFIER,LOT_COUNT,CONDITION,DISPOSITION,CONTAINER_UNIQUE_ID,VALIDATED_STATUS 
 				FROM cf_temp_parts
