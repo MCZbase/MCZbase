@@ -262,21 +262,21 @@
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>--->
-			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set validated_status = validated_status || 'Invalid LOT_COUNT'
 				where (
 					LOT_COUNT is null OR
 					is_number(lot_count) = 0
 					)
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			</cfquery>--->
+<!---			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set validated_status = validated_status || 'invalid lot_count_modifier'
 				where lot_count_modifier NOT IN (
 					select modifier from ctnumeric_modifiers
 					)
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			</cfquery>--->
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set parent_container_id = 
 				(select container_id
@@ -295,14 +295,6 @@
 				nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
 				where validated_status like '%NOTE: PART EXISTS%' AND
 				use_existing = 1 AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="getParentContainerId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set parent_container_id =
-				(select container_id from container where container.barcode = cf_temp_parts.container_unique_id)
-			</cfquery>
-			<cfquery name="validateGotParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set validated_status = validated_status || 'Container Unique ID not found'
-				where container_unique_id is not null and parent_container_id is null
 			</cfquery>
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set validated_status = validated_status || 'Invalid part_name'
