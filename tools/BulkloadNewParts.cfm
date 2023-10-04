@@ -251,7 +251,7 @@
 					</cfquery>
 				</cfif>
 			</cfloop>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set collection_object_id = 
 				(
 					select sp.collection_object_id
@@ -261,7 +261,7 @@
 					and ci.cat_num = cf_temp_parts.other_id_number
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			</cfquery>--->
 			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set validated_status = validated_status || 'Invalid LOT_COUNT'
 				where (
