@@ -230,7 +230,7 @@
 						collection,
 						specimen_part
 					WHERE
-						specimen_part.collection_object_id = cataloged_item.collection_object_id
+						specimen_part.collection_object_id = cataloged_item.collection_object_id AND
 						coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
 						cataloged_item.collection_id = collection.collection_id and
 						collection.collection_cde = #data.collection_cde# and
