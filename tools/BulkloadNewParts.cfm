@@ -205,16 +205,14 @@
 			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfloop query="data">
-			<cfif #other_id_type# is "catalog number">
+			<cfif #other_id_type# is "catalog number"><!---Checks to see if the catalog record exists--->
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
-						specimen_part.collection_object_id
+						cataloged_item.collection_object_id
 					FROM
 						cataloged_item,
-						collection,
-						specimen_part
+						collection
 					WHERE
-						specimen_part.collection_object_id = cataloged_item.collection_object_id and
 						cataloged_item.collection_id = collection.collection_id and
 						collection.collection_cde = '#data.collection_cde#' and
 						collection.institution_acronym = '#institution_acronym#' and
@@ -227,10 +225,8 @@
 					FROM
 						coll_obj_other_id_num,
 						cataloged_item,
-						collection,
-						specimen_part
+						collection
 					WHERE
-						specimen_part.collection_object_id = cataloged_item.collection_object_id AND
 						coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
 						cataloged_item.collection_id = collection.collection_id and
 						collection.collection_cde = #data.collection_cde# and
@@ -242,7 +238,20 @@
 			</cfloop>
 			<cfif len(#collObj.collection_object_id#) gt 1>
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set collection_object_id = select collection_object_id where specimen_part.collObj.collection_object_id
+				update cf_temp_parts set collection_object_id = (
+					SELECT 
+						specimen_part.collection_object_id 
+					FROM
+						cataloged_item,
+						collection,
+						specimen_part
+					WHERE
+						specimen_part.collection_object_id = cataloged_item.collection_object_id AND
+						cataloged_item.collection_id = collection.collection_id and
+						collection.collection_cde = '#data.collection_cde#' and
+						collection.institution_acronym = '#institution_acronym#' and
+						cat_num='#data.other_id_number#'
+					)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
