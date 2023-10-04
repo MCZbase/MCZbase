@@ -337,22 +337,20 @@
 	<cfif #action# is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
-		
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT *
 				FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-		
+			<cfif collection_object_id lt 1>
+				<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select sq_collection_object_id.nextval NEXTID from dual
+				</cfquery>
+			</cfif>
 			<cftry>
 				<cfset part_updates = 0>
 					<cftransaction>
-					<cfloop query="getTempData">
-						<cfif collection_object_id lt 0>
-							<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select sq_collection_object_id.nextval NEXTID from dual
-							</cfquery>
-						</cfif>
+						<cfloop query="getTempData">
 							<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								INSERT INTO coll_object (
 									COLLECTION_OBJECT_ID,
@@ -375,7 +373,7 @@
 									'#condition#',
 									'0' )
 							</cfquery>
-							<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								INSERT INTO specimen_part (
 									COLLECTION_OBJECT_ID,
 									PART_NAME,
