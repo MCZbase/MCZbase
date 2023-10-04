@@ -234,9 +234,9 @@
 						other_id_type = '#other_id_type#' and
 						display_value = '#data.other_id_number#'
 				</cfquery>
-			</cfif>
-
+				</cfif>
 			</cfloop>
+			#collection_object_id#
 <!---			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts set parent_container_id = 
 				(select container_id from container where barcode = cf_temp_parts.container_unique_id)
@@ -337,17 +337,13 @@
 	<cfif #action# is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
+		
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT *
 				FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts SET collection_object_id = (
-				select collection_object_id from collObj, specimen_part 
-				where collObj.collection_object_id = specimen_part.collection_object_id)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+		
 			<cftry>
 				<cfset part_updates = 0>
 					<cftransaction>
