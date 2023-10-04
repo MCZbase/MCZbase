@@ -201,43 +201,44 @@
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select * from cf_temp_parts where validated_status = 'VALID' AND
+			select * from cf_temp_parts where 
 			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfloop query="data">
 			<cfif #other_id_type# is "catalog number">
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT
-							collection_object_id
-						FROM
-							cataloged_item,
-							collection
-						WHERE
-							cataloged_item.collection_id = collection.collection_id and
-							collection.collection_cde = '#data.collection_cde#' and
-							collection.institution_acronym = '#institution_acronym#' and
-							cat_num='#data.other_id_number#'
-					</cfquery>
-				<cfelse>
-					<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT
-							coll_obj_other_id_num.collection_object_id
-						FROM
-							coll_obj_other_id_num,
-							cataloged_item,
-							collection
-						WHERE
-							coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
-							cataloged_item.collection_id = collection.collection_id and
-							collection.collection_cde = #data.collection_cde# and
-							collection.institution_acronym = '#data.institution_acronym#' and
-							other_id_type = '#other_id_type#' and
-							display_value = '#data.other_id_number#'
-					</cfquery>
-				</cfif>
+					SELECT
+						collection_object_id
+					FROM
+						cataloged_item,
+						collection
+					WHERE
+						cataloged_item.collection_id = collection.collection_id and
+						collection.collection_cde = '#data.collection_cde#' and
+						collection.institution_acronym = '#institution_acronym#' and
+						cat_num='#data.other_id_number#'
+				</cfquery>
+			<cfelse>
+				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						coll_obj_other_id_num.collection_object_id
+					FROM
+						coll_obj_other_id_num,
+						cataloged_item,
+						collection
+					WHERE
+						coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
+						cataloged_item.collection_id = collection.collection_id and
+						collection.collection_cde = #data.collection_cde# and
+						collection.institution_acronym = '#data.institution_acronym#' and
+						other_id_type = '#other_id_type#' and
+						display_value = '#data.other_id_number#'
+				</cfquery>
+			</cfif>
 				<cfif #collObj.recordcount# is 1>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE cf_temp_parts SET collection_object_id = #collObj.collection_object_id# ,
+						UPDATE cf_temp_parts 
+						SET collection_object_id = #collObj.collection_object_id# ,
 						validated_status='VALID'
 						where
 						key = #key#
@@ -329,7 +330,7 @@
 					) OR part_name is null)
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_parts 
 				SET validated_status = 'part_not_found'
 				WHERE collection_object_id is null
