@@ -240,9 +240,7 @@
 						UPDATE cf_temp_parts 
 						SET collection_object_id = #collObj.collection_object_id# ,
 						validated_status='collection_object_id problem'
-						where
-						key = #key#
-						and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				<cfelse>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
