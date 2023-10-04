@@ -237,10 +237,10 @@
 				</cfif>
 			</cfloop>
 			<cfif len(collObj.collection_object_id) eq 0>
-				<cfloop>
 					<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select sq_collection_object_id.nextval NEXTID from dual
 					</cfquery>
+				<cfloop>
 					<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update cf_temp_part set collection_object_id = NEXTID.NEXTID where key = #key#
 					</cfquery>
