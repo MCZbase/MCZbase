@@ -467,7 +467,7 @@
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT *
 						FROM cf_temp_parts 
-						WHERE validated_status is null
+						WHERE validated_status is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<h3>Problematic Rows (<a href="/tools/BulkloadNewParts.cfm?action=dumpProblems">download</a>)</h3>
