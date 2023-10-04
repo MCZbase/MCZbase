@@ -236,7 +236,7 @@
 				</cfquery>
 				</cfif>
 			</cfloop>
-			<cfif collObj is not null>
+			<cfif len(collObj.collection_object_id) eq 0>
 				<cfloop>
 					<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select sq_collection_object_id.nextval NEXTID from dual
