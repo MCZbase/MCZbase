@@ -436,7 +436,7 @@
 									sysdate,
 									'#DISPOSITION#',
 									'#lot_count_modifier#',
-									#lot_count#,
+									'#lot_count#',
 									'#condition#',
 									'0' )
 							</cfquery>
