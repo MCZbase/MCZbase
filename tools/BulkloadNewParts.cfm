@@ -447,7 +447,7 @@
 									PRESERVE_METHOD,
 									DERIVED_FROM_cat_item )
 									VALUES (
-									#NEXTID.NEXTID#,
+									#updateColl.collection_object_id#,
 									'#PART_NAME#',
 									'#PRESERVE_METHOD#',
 									#collection_object_id# )
