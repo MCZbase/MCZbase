@@ -316,11 +316,6 @@
 				FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif collection_object_id is null>
-				<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select sq_collection_object_id.nextval NEXTID from dual
-				</cfquery>
-			</cfif>
 			<cftry>
 				<cfset part_updates = 0>
 					<cftransaction>
@@ -337,7 +332,7 @@
 									CONDITION,
 									FLAGS )
 								VALUES (
-									#NEXTID.NEXTID#,
+									#collection_object_id#,
 									'SP',
 									'#USERNAME#',
 									sysdate,
@@ -355,7 +350,7 @@
 										PRESERVE_METHOD,
 										DERIVED_FROM_cat_item )
 										VALUES (
-										#updateColl.collection_object_id#,
+										#collection_object_id#,
 										'#PART_NAME#',
 										'#PRESERVE_METHOD#',
 										#collection_object_id# )
