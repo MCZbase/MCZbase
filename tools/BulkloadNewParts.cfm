@@ -236,43 +236,10 @@
 				</cfquery>
 				</cfif>
 			</cfloop>
-			#collection_object_id#
-<!---			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set parent_container_id = 
-				(select container_id from container where barcode = cf_temp_parts.container_unique_id)
-				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>--->
-<!---			<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set (use_part_id) = (
-				select min(specimen_part.collection_object_id)
-				from specimen_part, coll_object_remark where
-				specimen_part.collection_object_id = coll_object_remark.collection_object_id(+) AND
-				cf_temp_parts.part_name=specimen_part.part_name and
-				cf_temp_parts.preserve_method=specimen_part.preserve_method and
-				cf_temp_parts.collection_object_id=specimen_part.derived_from_cat_item and
-				nvl(cf_temp_parts.current_remarks, 'NULL') = nvl(coll_object_remark.coll_object_remarks, 'NULL'))
-				where validated_status like '%NOTE: PART EXISTS%' AND
-				use_existing = 1 AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>--->
-		<!---	<cfquery name="bads" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set validated_status = validated_status || 'Invalid part_name'
-				where (part_name|| '|' ||collection_cde NOT IN (
-					select part_name|| '|' ||collection_cde from ctspecimen_part_name
-					) OR part_name is null)
-				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts 
-				SET validated_status = 'part_not_found'
-				WHERE collection_object_id is null
-				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts 
-				SET validated_status = 'part_name_not_found'
-				WHERE part_name is null
-				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>--->
+			<cfif #collObj.collection_object_id# gt 1>
+				update cf_temp_parts set collection_object_id = (select collection_object_id from collObj)
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfif>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,PART_NAME,PRESERVE_METHOD,LOT_COUNT_MODIFIER,LOT_COUNT,CONDITION,DISPOSITION,CONTAINER_UNIQUE_ID,VALIDATED_STATUS 
 				FROM cf_temp_parts
