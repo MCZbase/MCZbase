@@ -239,7 +239,7 @@
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_parts 
 						SET collection_object_id = #collObj.collection_object_id# ,
-						validated_status='VALID'
+						validated_status='collection_object_id problem'
 						where
 						key = #key#
 					</cfquery>
