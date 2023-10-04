@@ -211,8 +211,10 @@
 						collection_object_id
 					FROM
 						cataloged_item,
-						collection
+						collection,
+						specimen_part
 					WHERE
+						specimen_part.collection_object_id = catalog_item.collection_object_id
 						cataloged_item.collection_id = collection.collection_id and
 						collection.collection_cde = '#data.collection_cde#' and
 						collection.institution_acronym = '#institution_acronym#' and
@@ -225,8 +227,10 @@
 					FROM
 						coll_obj_other_id_num,
 						cataloged_item,
-						collection
+						collection,
+						specimen_part
 					WHERE
+						specimen_part.collection_object_id = cataloged_item.collection_object_id
 						coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
 						cataloged_item.collection_id = collection.collection_id and
 						collection.collection_cde = #data.collection_cde# and
@@ -238,7 +242,7 @@
 			</cfloop>
 			<cfif len(#collObj.collection_object_id#) gt 1>
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set collection_object_id = collObj.collection_object_id
+				update cf_temp_parts set collection_object_id = select collection_object_id where specimen_part.collObj.collection_object_id
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
@@ -311,7 +315,7 @@
 				FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif collection_object_id lt 1>
+			<cfif collection_object_id is null>
 				<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select sq_collection_object_id.nextval NEXTID from dual
 				</cfquery>
