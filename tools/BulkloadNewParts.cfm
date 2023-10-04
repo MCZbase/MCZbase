@@ -246,7 +246,7 @@
 				<cfelse>
 					<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_parts SET validated_status =
-						'#validated_status#' || '#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
+						'status =' || '#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# could not be found.'
 						where key = #key#
 					</cfquery>
 				</cfif>
