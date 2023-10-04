@@ -238,7 +238,7 @@
 			</cfloop>
 			<cfif len(#collObj.collection_object_id#) gt 1>
 				<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_parts set collection_object_id = (select collection_object_id from collObj)
+				update cf_temp_parts set collection_object_id = collObj.collection_object_id
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
