@@ -432,7 +432,7 @@
 								VALUES (
 									#NEXTID.NEXTID#,
 									'SP',
-									'#USERNAME#'
+									'#USERNAME#',
 									sysdate,
 									'#DISPOSITION#',
 									'#lot_count_modifier#',
