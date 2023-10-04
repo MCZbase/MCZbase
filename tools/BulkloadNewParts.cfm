@@ -320,7 +320,7 @@
 				<cfset part_updates = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
-							<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="updateColl1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								INSERT INTO coll_object (
 									COLLECTION_OBJECT_ID,
 									COLL_OBJECT_TYPE,
@@ -342,18 +342,20 @@
 									'#condition#',
 									'0' )
 							</cfquery>
-							<cfquery name="updateColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								INSERT INTO specimen_part (
-									COLLECTION_OBJECT_ID,
-									PART_NAME,
-									PRESERVE_METHOD,
-									DERIVED_FROM_cat_item )
-									VALUES (
-									#updateColl.collection_object_id#,
-									'#PART_NAME#',
-									'#PRESERVE_METHOD#',
-									#collection_object_id# )
-							</cfquery>
+							<cfif len(updateColl1.collection_object_id) gt 1>
+								<cfquery name="updateColl2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									INSERT INTO specimen_part (
+										COLLECTION_OBJECT_ID,
+										PART_NAME,
+										PRESERVE_METHOD,
+										DERIVED_FROM_cat_item )
+										VALUES (
+										#updateColl.collection_object_id#,
+										'#PART_NAME#',
+										'#PRESERVE_METHOD#',
+										#collection_object_id# )
+								</cfquery>
+							</cfif>
 							<cfset part_updates = part_updates + updatePart_result.recordcount>
 						</cfloop>
 					</cftransaction> 
