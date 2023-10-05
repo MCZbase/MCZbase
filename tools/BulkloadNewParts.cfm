@@ -211,10 +211,14 @@
 						(SELECT
 							collection_object_id
 						FROM
-							cataloged_item
+							cataloged_item,
+							specimen_part
 						WHERE
-							cataloged_item.collection_cde = '#data.collection_cde#' and
+							cataloged_item.collection_cde = '#data.collection_cde#' 
+						and
 							cat_num='#data.other_id_number#'
+						and 
+							specimen_part.collection_object_id = cataloged_item.collection_object_id
 						)
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -229,7 +233,8 @@
 						COLL_OBJ_DISPOSITION,
 						LOT_COUNT_MODIFIER,
 						LOT_COUNT,
-						CONDITION )
+						CONDITION,
+						FLAGS )
 					VALUES (
 						#data.collection_object_id#,
 						'SP',
@@ -238,7 +243,8 @@
 						'#data.DISPOSITION#',
 						'#data.lot_count_modifier#',
 						'#data.lot_count#',
-						'#data.condition#')
+						'#data.condition#',
+						'0' )
 				</cfquery>
 <!---			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
