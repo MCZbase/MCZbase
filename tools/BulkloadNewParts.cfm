@@ -325,7 +325,7 @@
 									CONDITION,
 									FLAGS )
 								VALUES (
-									#nextid.nextid#,
+									'#nextid.nextid#',
 									'SP',
 									'#USERNAME#',
 									sysdate,
@@ -343,7 +343,7 @@
 										PRESERVE_METHOD,
 										DERIVED_FROM_cat_item )
 										VALUES (
-										#nextid.nextid#,
+										'#nextid.nextid#',
 										'#PART_NAME#',
 										'#PRESERVE_METHOD#',
 										#collection_object_id# )
