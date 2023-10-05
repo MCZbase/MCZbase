@@ -207,7 +207,7 @@
 		
 		<cfloop query="data">
 			<cfquery name="collQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_parts set collection_object_id (select collection_object_id from 
+			update cf_temp_parts set collection_object_id = (select collection_object_id from 
 			<cfif #other_id_type# is "catalog number"><!---Checks to see if the catalog record exists--->
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
