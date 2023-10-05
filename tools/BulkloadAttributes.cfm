@@ -13,7 +13,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 </cfif>
 <cfset fieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,ATTRIBUTE_DATE,ATTRIBUTE_METH,DETERMINER,REMARKS">
 <cfset fieldTypes="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
-<cfset requiredfieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_DATE,DETERMINER">
+<cfset requiredfieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,ATTRIBUTE_DATE,ATTRIBUTE_METH,DETERMINER,REMARKS">
 <!---,BIOL_INDIV_RELATION_REMARKS--->
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -100,12 +100,12 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 				<cfif ucase(header) EQ 'ATTRIBUTE'><cfset ATTRIBUTE_exists=true></cfif>
 				<cfif ucase(header) EQ 'ATTRIBUTE_VALUE'><cfset ATTRIBUTE_VALUE_exists=true></cfif>
 				<cfif ucase(header) EQ 'ATTRIBUTE_UNITS'><cfset ATTRIBUTE_UNITS_exists=true></cfif>
-				<cfif ucase(header) EQ 'ATTRIBUTE_DATE'><cfset ATTRIBUTE_DATE_exists=true></cfif>
+				<cfif ucase(header) EQ 'ATTRIBUTE_DATE'><cfset ATTRIBUTE_UNITS_exists=true></cfif>
 				<cfif ucase(header) EQ 'ATTRIBUTE_METH'><cfset ATTRIBUTE_METH_exists=true></cfif>
 				<cfif ucase(header) EQ 'DETERMINER'><cfset DETERMINER_exists=true></cfif>
 				<cfif ucase(header) EQ 'REMARKS'><cfset REMARKS_exists=true></cfif>
 			</cfloop>
-			<cfif not (INSTITUTION_ACRONYM_exists AND COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND ATTRIBUTE_exists AND ATTRIBUTE_VALUE_exists AND ATTRIBUTE_DATE_exists AND DETERMINER_exists)>
+			<cfif not (INSTITUTION_ACRONYM_exists AND COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND ATTRIBUTE_exists AND ATTRIBUTE_VALUE_exists AND ATTRIBUTE_UNITS_exists AND ATTRIBUTE_DATE_exists AND ATTRIBUTE_METH_exists AND DETERMINER_exists AND REMARKS_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
 				<cfif not INSTITUTION_ACRONYM_exists><cfset message = "#message# INSTITUTION_ACRONYM is missing."></cfif>
 				<cfif not COLLECTION_CDE_exists><cfset message = "#message# COLLECTION_CDE is missing."></cfif>
@@ -113,8 +113,11 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 				<cfif not OTHER_ID_NUMBER_exists><cfset message = "#message# OTHER_ID_NUMBER is missing."></cfif>
 				<cfif not ATTRIBUTE_exists><cfset message = "#message# ATTRIBUTE is missing."></cfif>
 				<cfif not ATTRIBUTE_VALUE_exists><cfset message = "#message# ATTRIBUTE_VALUE is missing."></cfif>
+				<cfif not ATTRIBUTE_UNITS_exists><cfset message = "#message# ATTRIBUTE_UNITS is missing."></cfif>
 				<cfif not ATTRIBUTE_DATE_exists><cfset message = "#message# ATTRIBUTE_DATE is missing."></cfif>
+				<cfif not ATTRIBUTE_METH_exists><cfset message = "#message# ATTRIBUTE_METH is missing."></cfif>
 				<cfif not DETERMINER_exists><cfset message = "#message# DETERMINER is missing."></cfif>
+				<cfif not RENARKS_exists><cfset message = "#message# REMARKS is missing."></cfif>
 				<cfthrow message="#message#">
 			</cfif>
 			<cfset colNames="">
