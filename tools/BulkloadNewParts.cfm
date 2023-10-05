@@ -218,8 +218,30 @@
 						)
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				
 			</cfloop>
-
+				<cfquery name="updateColl1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					INSERT INTO coll_object (
+						data.COLLECTION_OBJECT_ID,
+						COLL_OBJECT_TYPE,
+						ENTERED_PERSON_ID,
+						COLL_OBJECT_ENTERED_DATE,
+						COLL_OBJ_DISPOSITION,
+						LOT_COUNT_MODIFIER,
+						LOT_COUNT,
+						CONDITION,
+						FLAGS )
+					VALUES (
+						#collection_object_id#,
+						'SP',
+						'#USERNAME#',
+						sysdate,
+						'#DISPOSITION#',
+						'#lot_count_modifier#',
+						'#lot_count#',
+						'#condition#',
+						'0' )
+				</cfquery>
 <!---			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
