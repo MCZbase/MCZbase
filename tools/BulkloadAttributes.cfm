@@ -2,7 +2,7 @@
 	<!---,BIOL_INDIV_RELATION_REMARKS--->
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,ATTRIBUTE_DATE,ATTRIBUTE_METH,DETERMINER,REMARKS
-		FROM cf_temp_bl_relations
+		FROM cf_temp_attributes
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc"><!---need to add to functions.cfc page--->
@@ -194,7 +194,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 				</cfif>
 			</cfloop>
 			<h3 class="h3">
-				Successfully loaded #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadRelations.cfm?action=validate">click to validate</a>.
+				Successfully loaded #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadAttributes.cfm?action=validate">click to validate</a>.
 			</h3>
 		</cfoutput>
 	</cfif>
