@@ -204,7 +204,7 @@
 			select * from cf_temp_parts where 
 			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
-		<cfif #other_id_type# is "catalog number"><!---Checks to see if the catalog record exists--->
+		<!---Checks to see if the catalog record exists--->
 			<cfloop query="data">
 				<cfquery name="collQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_parts set collection_object_id = (select collection_object_id from 
@@ -222,7 +222,7 @@
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfloop>
-		</cfif>
+
 <!---			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
