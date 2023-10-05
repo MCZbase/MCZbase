@@ -1701,6 +1701,8 @@ limitations under the License.
 				<cfquery name="getCollEventUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollEventUp_result">
 					SELECT higher_geog, geog_auth_rec.geog_auth_rec_id,
 						spec_locality,
+						began_date, ended_date,
+						collecting_time, collecting_method,
 						verbatim_date
 					FROM
 						collecting_event
@@ -1712,7 +1714,21 @@ limitations under the License.
 				<cfloop query="getCollEventUp">
 					<div class="h2">#higher_geog#</div>
 					<div class="h2">#spec_locality#</div>
-					<div class="h2">#verbatim_date#</div>
+					<cfset datebit = "">
+					<cfif len(began_date) GT 0>
+						<cfif began_date EQ ended_date>
+							<cfset datebit = began_date>
+						<cfelse>
+							<cfset datebit = "#began_date#/#ended_date#>
+						</cfif>
+					</cfif>
+					<cfif len(collecting_time) GT 0>
+						<cfset datebit = "#datebit# #collecting_time#">
+					</cfif>
+					<cfif len(verbatim_date) GT 0>
+						<cfset datebit = "#datebit# [#verbatim_date#]">
+					</cfif>
+					<div class="h2">#datebit# #collecting_method#</div>
 				</cfloop>
 			<cfcatch>
 				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
