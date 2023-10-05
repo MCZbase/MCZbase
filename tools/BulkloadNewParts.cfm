@@ -229,8 +229,7 @@
 						COLL_OBJ_DISPOSITION,
 						LOT_COUNT_MODIFIER,
 						LOT_COUNT,
-						CONDITION,
-						FLAGS )
+						CONDITION )
 					VALUES (
 						#data.collection_object_id#,
 						'SP',
@@ -239,8 +238,7 @@
 						'#data.DISPOSITION#',
 						'#data.lot_count_modifier#',
 						'#data.lot_count#',
-						'#data.condition#',
-						'0' )
+						'#data.condition#')
 				</cfquery>
 <!---			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
