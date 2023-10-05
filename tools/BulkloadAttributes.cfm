@@ -38,10 +38,10 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 </cfif>
 	
 <main class="container py-3" id="content">
-	<h1 class="h2 mt-2">Bulkload Relationships</h1>
+	<h1 class="h2 mt-2">Bulkload Attributes</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>Use this form to add relationships between specimens. Specimen records must already exist. This form can be used to create relationships between specimens within the MCZ or between institutions using the catalog number or another identifier.</p>
+			<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv and it does not edit existing attributes and their remarks.</p>
 			<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below. Additional colums will be ignored.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
@@ -69,6 +69,132 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 			</cfform>
 		</cfoutput>
 	</cfif>
+
+	<cfif #action# is "getFile">
+		<h2 class="h3">First step: Reading data from CSV file.</h2>
+		<cfoutput>
+			<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
+			<cfset fileContent=replace(fileContent,"'","''","all")>
+			<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
+			<!--- cleanup any incomplete work by the same user --->
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+				DELETE FROM MCZBASE.cf_temp_attributes 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<!--- check for required fields in header line --->
+			<cfset INSTITUTION_ACRONYM_exists = false>
+			<cfset COLLECTION_CDE_exists = false>
+			<cfset OTHER_ID_TYPE_exists = false>
+			<cfset OTHER_ID_NUMBER_exists = false>
+			<cfset ATTRIBUTE_exists = false>
+			<cfset ATTRIBUTE_VALUE_exists = false>
+			<cfset ATTRIBUTE_DATE_exists = false>
+			<cfset DETERMINER_exists = false>
+			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
+				<cfset header = arrResult[1][col]>
+				<cfif ucase(header) EQ 'INSTITUTION_ACRONYM'><cfset INSTITUTION_ACRONYM_exists=true></cfif>
+				<cfif ucase(header) EQ 'COLLECTION_CDE'><cfset COLLECTION_CDE_exists=true></cfif>
+				<cfif ucase(header) EQ 'OTHER_ID_TYPE'><cfset OTHER_ID_TYPE_exists=true></cfif>
+				<cfif ucase(header) EQ 'OTHER_ID_NUMBER'><cfset OTHER_ID_NUMBER_exists=true></cfif>
+				<cfif ucase(header) EQ 'ATTRIBUTE'><cfset ATTRIBUTE_exists=true></cfif>
+				<cfif ucase(header) EQ 'ATTRIBUTE_VALUE'><cfset ATTRIBUTE_VALUE_exists=true></cfif>
+				<cfif ucase(header) EQ 'ATTRIBUTE_DATE'><cfset ATTRIBUTE_DATE_exists=true></cfif>
+				<cfif ucase(header) EQ 'DETERMINER'><cfset DETERMINER_exists=true></cfif>
+			</cfloop>
+			<cfif not (INSTITUTION_ACRONYM_exists AND COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND ATTRIBUTE_exists AND ATTRIBUTE_VALUE_exists AND ATTRIBUTE_DATE_exists AND DETERMINER_exists)>
+				<cfset message = "One or more required fields are missing in the header line of the csv file.">
+				<cfif not INSTITUTION_ACRONYM_exists><cfset message = "#message# INSTITUTION_ACRONYM is missing."></cfif>
+				<cfif not COLLECTION_CDE_exists><cfset message = "#message# COLLECTION_CDE is missing."></cfif>
+				<cfif not OTHER_ID_TYPE_exists><cfset message = "#message# OTHER_ID_TYPE is missing."></cfif>
+				<cfif not OTHER_ID_NUMBER_exists><cfset message = "#message# OTHER_ID_NUMBER is missing."></cfif>
+				<cfif not ATTRIBUTE_exists><cfset message = "#message# ATTRIBUTE is missing."></cfif>
+				<cfif not ATTRIBUTE_VALUE_exists><cfset message = "#message# ATTRIBUTE_VALUE is missing."></cfif>
+				<cfif not ATTRIBUTE_DATE_exists><cfset message = "#message# ATTRIBUTE_DATE is missing."></cfif>
+				<cfif not DETERMINER_exists><cfset message = "#message# DETERMINER is missing."></cfif>
+				<cfthrow message="#message#">
+			</cfif>
+			<cfset colNames="">
+			<cfset loadedRows = 0>
+			<!--- get the headers from the first row of the input, then iterate through the remaining rows inserting the data into the temp table. --->
+			<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
+				<!--- obtain the values in the current row --->
+				<cfset colVals="">
+				<cfloop from="1" to ="#ArrayLen(arrResult[row])#" index="col">
+					<cfset thisBit=arrResult[row][col]>
+					<cfif #row# is 1>
+						<cfset colNames="#colNames#,#thisBit#">
+					<cfelse>
+						<!--- quote values to ensure all columns have content, will need to strip out later to insert values --->
+						<cfset colVals="#colVals#,'#thisBit#'">
+					</cfif>
+				</cfloop>
+				<cfif #row# is 1>
+					<!--- first row, obtain column headers --->
+					<!--- strip off the leading separator --->
+					<cfset colNames=replace(colNames,",","","first")>
+					<cfset colNameArray = listToArray(ucase(colNames))><!--- the list of columns/fields found in the input file --->
+					<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
+					<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
+					<h3 class="h4">Found #arrayLen(colNameArray)# matching columns in header of csv file.</h3>
+					<ul>
+						<cfloop list="#fieldlist#" index="field" delimiters=",">
+							<cfif listContains(requiredfieldlist,field,",")>
+								<cfset class="text-danger">
+							<cfelse>
+								<cfset class="text-dark">
+							</cfif>
+							<li class="#class#">
+								#field#
+								<cfif arrayFindNoCase(colNameArray,field) GT 0>
+									<strong>Present in CSV</strong>
+								</cfif>
+							</li>
+						</cfloop>
+					</ul>
+				<cfelse>
+					<!--- subsequent rows, data --->
+					<!--- strip off the leading separator --->
+					<cfset colVals=replace(colVals,",","","first")>
+					<cfset colValArray=listToArray(colVals)>
+					<cftry>
+						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
+						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
+							insert into MCZBASE.CF_TEMP_ATTRIBUTE
+								(#fieldlist#,USERNAME)
+							values (
+								<cfset separator = "">
+								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
+									<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
+										<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
+										<cfset val=trim(colValArray[col])>
+										<cfset val=rereplace(val,"^'+",'')>
+										<cfset val=rereplace(val,"'+$",'')>
+										<cfif val EQ ""> 
+											#separator#NULL
+										<cfelse>
+											#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#val#">
+										</cfif>
+									<cfelse>
+										#separator#NULL
+									</cfif>
+									<cfset separator = ",">
+								</cfloop>
+								#separator#<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							)
+						</cfquery>
+						<cfset loadedRows = loadedRows + insert_result.recordcount>
+					<cfcatch>
+						<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
+					</cfcatch>
+					</cftry>
+				</cfif>
+			</cfloop>
+			<h3 class="h3">
+				Successfully loaded #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadRelations.cfm?action=validate">click to validate</a>.
+			</h3>
+		</cfoutput>
+	</cfif>
+<!------------------------------------------------------->
 
 	<cfif #action# is "getFile">
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
@@ -205,391 +331,280 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 
 
 
-
-
-
-
-<!---
-alter table cf_temp_attributes add status varchar2(255);
-
-
- CREATE OR REPLACE TRIGGER cf_temp_attributes_key
- before insert  ON cf_temp_attributes
- for each row
-    begin
-    	if :NEW.key is null then
-    		select somerandomsequence.nextval into :new.key from dual;
-    	end if;
-    end;
-/
-sho err
---->
-<cfinclude template="/includes/_header.cfm">
-     <div style="width: 56em;margin:0 auto; padding: 1em 0 3em 0;">
-<cfif #action# is "nothing">
-   <h3 class="wikilink">Bulkload Attributes</h3>
-<p>Upload a comma-delimited text file (csv).
-    Include column headings, spelled exactly as below.</p>
-
-        <p style="margin: 1em 0;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
-	<div id="template" style="display:none;margin: 1em 0;">
-		<label for="t">Copy the existing code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,ATTRIBUTE_DATE,ATTRIBUTE_METH,DETERMINER,REMARKS,COLLECTION_CDE,INSTITUTION_ACRONYM</textarea>
-	</div>
-    
-   
-		<cfset attribute_type="">
-            <cfset collection_cde="">
-                
-            <cfset colNames="">
-	
-           
-                         <p>This tool adds attributes to the specimen record.  The attribute has to be in the code table prior to uploading this .csv. </p>
-
-                <p><a href="/info/ctDocumentation.cfm?table=ctattribute_type">Attribute List</a></p>
-
-                <p>Columns in <span style="color:red">red</span> are required; others are optional:</p>
-<ul class="geol_hier">
-	<li style="color:red">COLLECTION_CDE</li>
-	<li style="color:red">INSTITUTION_ACRONYM</li>
-	<li style="color:red">OTHER_ID_TYPE ("catalog number" is OK)</li>
-	<li style="color:red">OTHER_ID_NUMBER</li>
-	<li style="color:red">ATTRIBUTE</li>
-	<li style="color:red">ATTRIBUTE_VALUE</li>
-	<li>ATTRIBUTE_UNITS</li>
-	<li style="color:red">ATTRIBUTE_DATE</li>
-	<li>ATTRIBUTE_METH</li>
-	<li style="color:red">DETERMINER</li>
-	<li>REMARKS</li>
-</ul>
-
-<cfform name="atts" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="Action" value="getFile">
-			  <input type="file"
-		   name="FiletoUpload"
-		   size="45">
-			 <input type="submit" value="Upload this file"
-		class="savBtn"
-		onmouseover="this.className='savBtn btnhov'"
-		onmouseout="this.className='savBtn'">
-  </cfform>
-  
-</cfif>
 <!------------------------------------------------------->
-<!------------------------------------------------------->
-
-<!------------------------------------------------------->
-<cfif #action# is "getFile">
-<cfoutput>
-	<!--- put this in a temp table --->
-	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		delete from cf_temp_attributes
-	</cfquery>
-	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
-	<cfset fileContent=replace(fileContent,"'","''","all")>
-	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-	<cfset colNames="">
-	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
-		<cfset colVals="">
-			<cfloop from="1"  to ="#ArrayLen(arrResult[o])#" index="i">
-				<cfset thisBit=arrResult[o][i]>
-				<cfif #o# is 1>
-					<cfset colNames="#colNames#,#thisBit#">
-				<cfelse>
-					<cfset colVals="#colVals#,'#thisBit#'">
-				</cfif>
-			</cfloop>
-		<cfif #o# is 1>
-			<cfset colNames=replace(colNames,",","","first")>
-		</cfif>
-		<cfif len(#colVals#) gt 1>
-			<cfset colVals=replace(colVals,",","","first")>
-			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				insert into cf_temp_attributes (#colNames#) values (#preservesinglequotes(colVals)#)
-			</cfquery>
-		</cfif>
-	</cfloop>
-	<cflocation url="BulkloadAttributes.cfm?action=validate">
-</cfoutput>
-</cfif>
-<!------------------------------------------------------->
-<!------------------------------------------------------->
-<cfif #action# is "validate">
-<cfoutput>
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from cf_temp_attributes
-	</cfquery>
-	<cfloop query="data">
-		<cfset stat="">
-		<cfif len(#other_id_type#) is 0>
-			<cfset stat=listappend(stat,"You must specify an other ID type",";")>
-		</cfif>
-		<cfif len(#other_id_number#) is 0>
-			<cfset stat=listappend(stat,"You must specify an other ID number",";")>
-		</cfif>
-		<cfif len(#collection_cde#) is 0>
-			<cfset stat=listappend(stat,"You must specify a collection_cde",";")>
-		</cfif>
-		<cfif len(#institution_acronym#) is 0>
-			<cfset stat=listappend(stat,"You must specify a institution_acronym",";")>
-		</cfif>
-		<cfif len(#attribute#) is 0>
-			<cfset stat=listappend(stat,"You must specify an attribute",";")>
-		</cfif>
-		<cfif len(#determiner#) is 0>
-			<cfset stat=listappend(stat,"You must specify an determiner",";")>
-		</cfif>
-		<cfif stat is "">
-			<cfif #other_id_type# is "catalog number">
-				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						collection_object_id
-					FROM
-						cataloged_item,
-						collection
-					WHERE
-						cataloged_item.collection_id = collection.collection_id and
-						collection.collection_cde = '#collection_cde#' and
-						collection.institution_acronym = '#institution_acronym#' and
-						cat_num='#other_id_number#'
+	<cfif #action# is "validate">
+		<h2 class="h3">Second step: Data Validation</h2>
+		<cfoutput>
+			<cfset other_id_val = ''>
+			<cfset related_other_id_type = ''>
+				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_bl_relations set collection_object_id = 
+				(
+					select ci.collection_object_id 
+					from cataloged_item ci
+					where ci.collection_cde = cf_temp_bl_relations.collection_cde
+					and ci.cat_num = cf_temp_bl_relations.other_id_val
+				) 
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_bl_relations set related_collection_object_id = 
+				(
+					select rci.collection_object_id
+					from cataloged_item rci
+					where rci.collection_cde = cf_temp_bl_relations.related_collection_cde
+					and rci.cat_num = cf_temp_bl_relations.related_other_id_val
+				) 
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_bl_relations
+				SET validated_status = 'No ID match'
+				WHERE other_id_val is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_bl_relations
+				SET validated_status = 'No ID match'
+				WHERE related_other_id_val is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_bl_relations
+				SET validated_status = 'collection not found'
+				WHERE collection_cde is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_bl_relations
+				SET validated_status = 'related collection not found'
+				WHERE related_collection_cde is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_bl_relations
+				SET validated_status = 'bad relationship'
+				WHERE relationship not in (select biol_indiv_relationship from ctbiol_relations)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT INSTITUTION_ACRONYM,collection_object_id,related_collection_object_id,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,VALIDATED_STATUS
+				FROM cf_temp_bl_relations 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				<!---BIOL_INDIV_RELATION_REMARKS,--->
+			</cfquery>
+			<cfquery name="pf" dbtype="query">
+				SELECT count(*) c 
+				FROM data 
+				WHERE validated_status is not null
+			</cfquery>
+			<cfif pf.c gt 0>
+				<h2>
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadRelations.cfm?action=dumpProblems">download</a>).
+				</h2>
+				<h3>
+					Fix the problems in the data and <a href="/tools/BulkloadRelations.cfm">start again</a>.
+				</h3>
 			<cfelse>
-				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						coll_obj_other_id_num.collection_object_id
-					FROM
-						coll_obj_other_id_num,
-						cataloged_item,
-						collection
-					WHERE
-						coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
-						cataloged_item.collection_id = collection.collection_id and
-						collection.collection_cde = '#collection_cde#' and
-						collection.institution_acronym = '#institution_acronym#' and
-						other_id_type = '#other_id_type#' and
-						display_value = '#other_id_number#'
-				</cfquery>
+				<h2>
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadRelations.cfm?action=load">click to continue</a> if it all looks good.
+				</h2>
 			</cfif>
-			<cfif collObj.recordcount is not 1>
-				<cfset stat=listappend(stat,"#data.institution_acronym# #data.collection_cde# #data.other_id_type# #data.other_id_number# not found",";")>
-			<cfelse>
-				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_attributes SET collection_object_id = #collObj.collection_object_id# where key = #key#
-				</cfquery>
-			</cfif>
-			<cfquery name="isAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select attribute_type from ctattribute_type where attribute_type='#attribute#'
-				AND collection_cde='#collection_cde#'
-			</cfquery>
-			<cfif isAtt.recordcount is not 1>
-				<cfset stat=listappend(stat,"Attribute (#attribute#) does not match code table values for collection #collection_cde#",";")>
-			</cfif>
-			<!---- see if it  should be code-table controlled ---->
-			<cfquery name="isValCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT value_code_table FROM ctattribute_code_tables WHERE
-				attribute_type = '#trim(attribute)#'
-			</cfquery>
-			<cfif isdefined("isValCt.value_code_table") and len(#isValCt.value_code_table#) gt 0>
-				<cfquery name="valCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select * from #isValCt.value_code_table#
-				</cfquery>
-					<!---- get column names --->
-				<cfquery name="getCols" datasource="uam_god">
-					select column_name from sys.user_tab_columns where table_name='#ucase(isValCt.value_code_table)#'
-					and column_name <> 'DESCRIPTION'
-				</cfquery>
-				<cfset collCode = "">
-				<cfset columnName = "">
-				<cfloop query="getCols">
-					<cfif getCols.column_name is "COLLECTION_CDE">
-						<cfset collCode = "yes">
-					 <cfelse>
-						<cfset columnName = "#getCols.column_name#">
-					</cfif>
-				</cfloop>
-				<!--- if we got a collection code, rerun the query to filter ---->
-				<cfif len(#collCode#) gt 0>
-					<cfquery name="valCodes" dbtype="query">
-						SELECT #getCols.column_name# as valCodes from valCT
-						WHERE #getCols.column_name# =  '#attribute_value#'
-						AND collection_cde='#collection_cde#'
-					</cfquery>
-				<cfelse>
-					<cfquery name="valCodes" dbtype="query">
-						SELECT #getCols.column_name# as valCodes from valCT
-						WHERE #getCols.column_name# =  '#attribute_value#'
-					</cfquery>
-				</cfif>
-				<cfset GoodValueFlag = "">
-				<cfset thisVal = #data.attribute_value#>
-				<cfloop query="valCodes">
-					<cfif #valCodes.valCodes# is #thisVal#>
-						<cfset GoodValueFlag = "'something that's longer than nothing'">
-					</cfif>
-				</cfloop>
-				<cfif len(#GoodValueFlag#) is 0>
-					<cfset stat=listappend(stat,"Attribute Value (#attribute_value#) is code table controlled and does not match code table values",";")>
-				</cfif>
-			</cfif>
-			<cfif len(#attribute_units#) gt 0>
-				<cfquery name="isUnitCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT units_code_table FROM ctattribute_code_tables WHERE attribute_type = '#attribute#'
-				</cfquery>
-				<cfif #isUnitCt.recordcount# gt 0 AND len(#isUnitCt.units_code_table#) gt 0>
-					<cfquery name="unitCT" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select * from #isUnitCt.units_code_table#
-					</cfquery>
-					<!---- get column names --->
-					<cfquery name="getCols" datasource="uam_god">
-						select column_name from sys.user_tab_columns where table_name='#ucase(isUnitCt.units_code_table)#'
-						and column_name <> 'DESCRIPTION'
-					</cfquery>
-					<cfset collCode = "">
-					<cfset columnName = "">
-					<cfloop query="getCols">
-						<cfif getCols.column_name is "COLLECTION_CDE">
-							<cfset collCde = "yes">
-						<cfelse>
-							<cfset columnName = "#getCols.column_name#">
-						</cfif>
+			<table class='sortable table table-responsive table-striped d-lg-table'>
+				<thead>
+					<tr>
+						<!---<th>COLLECTION_OBJECT_ID</th>
+						<th>RELATED_COLLECTION_OBJECT_ID</th>--->
+						<th>INSTITUTION_ACRONYM</th>
+						<th>COLLECTION_CDE</th>
+						<th>OTHER_ID_TYPE</th>
+						<th>OTHER_ID_VAL</th>
+						<th>RELATIONSHIP</th>
+						<th>RELATED_INSTITUTION_ACRONYM</th>
+						<th>RELATED_COLLECTION_CDE</th>
+						<th>RELATED_OTHER_ID_TYPE</th>
+						<th>RELATED_OTHER_ID_VAL</th>
+					<!---	<th>BIOL_INDIV_RELATION_REMARKS</th>--->
+						<th>VALIDATED_STATUS</th>
+					</tr>
+				<tbody>
+					<cfloop query="data">
+						<tr>
+						<!---	<td>#data.COLLECTION_OBJECT_ID#</td>
+							<td>#data.RELATED_COLLECTION_OBJECT_ID#</td>--->
+							<td>#data.INSTITUTION_ACRONYM#</td>
+							<td>#data.COLLECTION_CDE#</td>
+							<td>#data.OTHER_ID_TYPE#</td>
+							<td>#data.OTHER_ID_VAL#</td>
+							<td>#data.RELATIONSHIP#</td>
+							<td>#data.RELATED_INSTITUTION_ACRONYM#</td>
+							<td>#data.RELATED_COLLECTION_CDE#</td>
+							<td>#data.RELATED_OTHER_ID_TYPE#</td>
+							<td>#data.RELATED_OTHER_ID_VAL#</td>
+							<!---<td>#data.BIOL_INDIV_RELATION_REMARKS#</td>--->
+							<td><strong>#VALIDATED_STATUS#</strong></td>
+						</tr>
 					</cfloop>
-					<cfif len(#collCode#) gt 0>
-						<cfquery name="unitCodes" dbtype="query">
-							SELECT #getCols.column_name# as unitCodes from unitCT
-							WHERE collection_cde='#indiv.collection_cde#'
-						</cfquery>
-					<cfelse>
-						<cfquery name="unitCodes" dbtype="query">
-							SELECT #getCols.column_name# as unitCodes from unitCT
-						</cfquery>
-					</cfif>
-					<cfset thisAttUnit = #attribute_units#>
-					<cfset AttUnitBsdFlag = "">
-					<cfloop query="unitCodes">
-						<cfif #unitCodes.unitCodes# is "#thisAttUnit#">
-							<cfset AttUnitBsdFlag = "something">
-						</cfif>
-					</cfloop>
-					<cfif len(#AttUnitBsdFlag#) is 0>
-						<cfset stat=listappend(stat,"Attribute units (#attribute_units#) did not match CT values",";")>
-					</cfif>
-			  		<!---- they have a valid units code table, so go back and make sure the value they gave is numeric --->
-					<cfif not isnumeric(replace(#attribute_value#,'-',''))>
-						<cfset stat=listappend(stat,"Attribute Value (#attribute_value#) must be numeric for #attribute#",";")>
-					</cfif>
-			 	<cfelse>
-					<!---- not code table controlled, leave it null for now - all units are either CT controlled or NULL--->
-					<!--- see if they tried to put anything in here --->
-					<cfif len(#attribute_units#) gt 0>
-						<cfif #attribute_units# is not "null">
-							<cfset stat=listappend(stat,"You can't have attribute units for this attribute",";")>
-						</cfif>
-					</cfif>
-				</cfif><!--- end CT check --->
-			<cfelse>
-				<!--- att val units not given, see if it should be --->
-				<cfquery name="isUnitCt"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT units_code_table FROM ctattribute_code_tables WHERE
-					attribute_type = '#attribute#'
-				</cfquery>
-				<cfif #isUnitCt.recordcount# gt 0 and len(#isUnitCt.units_code_table#) gt 0>
-					<cfset stat=listappend(stat,"A value for Atribute Units  is required",";")>
-				</cfif>
-			</cfif>
-			<cfif len(#attribute_date#) gt 0>
-				<cfif not isdate(#attribute_date#)>
-					<cfset stat=listappend(stat,"Attribute Date (#attribute_date#) is not a date",";")>
-				</cfif>
-			<cfelse>
-			  	<cfset stat=listappend(stat,"Attribute Date is required",";")>
-			</cfif>
-			<cfquery name="attDet1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT distinct agent_id FROM agent_name WHERE agent_name = '#determiner#'
-			</cfquery>
-			<cfif #attDet1.recordcount# is not 1>
-				<cfset stat=listappend(stat,"Attribute Determiner (#determiner#) was not found or has multiple matches",";")>
-			<cfelse>
-				<cfquery name="gotDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_attributes SET determined_by_agent_id = #attDet1.agent_id#
-					where key=#key#
-				</cfquery>
-			</cfif>
-			<cfif len(stat) gt 0>
-				<cfif len(stat) gte 255>
-					<cfset stat=left(stat,250) & "...">
-				</cfif>
-				<cfquery name="gotDet" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_attributes set status='#stat#' where key=#key#
-				</cfquery>
-			</cfif>
-		</cfif><!--- end goteverything check --->
-	</cfloop>
-	<cfquery name="datadump" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from cf_temp_attributes
-	</cfquery>
-		<cfquery name="pf" dbtype="query">
-		select count(*) l from datadump where status is not null
-	</cfquery>
-	<cfif pf.l GT 0>
-		Oops - something's hinky. Review the table below and try again.
-	<cfelse>
-		Your data should load. Review the table below and <a href="BulkloadAttributes.cfm?action=loadData">click to continue</a>.
+				</tbody>
+			</table>
+		</cfoutput>
 	</cfif>
-	<cfdump var=#datadump#>
-</cfoutput>
-</cfif>
-<!------------------------------------------------------->
-<cfif #action# is "loadData">
-
-<cfoutput>
-
-
-	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from cf_temp_attributes
-	</cfquery>
-	<cftransaction>
-	<cfloop query="getTempData">
-		<cfquery name="newAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO attributes (
-			attribute_id,
-			collection_object_id,
-			determined_by_agent_id,
-			attribute_type,
-			attribute_value
-			<cfif len(#attribute_units#) gt 0>
-				,attribute_units
-			</cfif>
-			<cfif len(#remarks#) gt 0>
-				,attribute_remark
-			</cfif>
-			,determined_date
-			<cfif len(#attribute_meth#) gt 0>
-				,determination_method
-			</cfif>
-			)
-		VALUES (
-			sq_attribute_id.nextval,
-			#collection_object_id#,
-			#determined_by_agent_id#,
-			'#attribute#'
-			,'#attribute_value#'
-			<cfif len(#attribute_units#) gt 0>
-				,'#attribute_units#'
-			</cfif>
-			<cfif len(#remarks#) gt 0>
-				,'#remarks#'
-			</cfif>
-			,'#dateformat(attribute_date,"yyyy-mm-dd")#'
-			<cfif len(#attribute_meth#) gt 0>
-				,'#attribute_meth#'
-			</cfif>
-			)
+				
+	<!---Load data--->
+	<cfif #action# is "load">
+		<h2 class="h3">Third step: Apply changes.</h2>
+		<cfoutput>
+			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT *
+				FROM cf_temp_bl_relations
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-	</cfloop>
-	</cftransaction>
-
-	Spiffy, all done.
-</cfoutput>
-</cfif>
-</div>
-<cfinclude template="/includes/_footer.cfm">
+			<cftry>
+				<cfset relations_updates = 0>
+					<cftransaction>
+						<cfloop query="getTempData">
+							<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelations_result">
+							insert into 
+								BIOL_INDIV_RELATIONS (collection_object_id,related_coll_object_id,biol_indiv_relationship) values (#collection_object_id#,#related_collection_object_id#,'#relationship#')
+							</cfquery>
+							<!---,#BIOL_INDIV_RELATION_REMARKS#--->
+							<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
+						</cfloop>
+					</cftransaction> 
+					<div class="container">
+						<div class="row">
+							<div class="col-12 mx-auto">
+								<h2 class="h3">Updated #relations_updates# relationships.</h2>
+							</div>
+						</div>
+					</div>
+				<cfcatch>
+					<h2>There was a problem updating relationships.</h2>
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT *
+						FROM cf_temp_bl_relations 
+						WHERE validated_status is not null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<h3>Problematic Rows (<a href="/tools/BulkloadRelations.cfm?action=dumpProblems">download</a>)</h3>
+					<table class='sortable table table-responsive table-striped d-lg-table'>
+						<thead>
+							<tr>
+						<!---		<th>COLLECTION_OBJECT_ID</th>
+								<th>RELATED_COLL_OBJECT_ID</th>--->
+								<th>INSTITUTION_ACRONYM</th>
+								<th>COLLECTION_CDE</th>
+								<th>OTHER_ID_TYPE</th>
+								<th>OTHER_ID_VAL</th>
+								<th>RELATIONSHIP</th>
+								<th>RELATED_INSTITUTION_ACRONYM</th>
+								<th>RELATED_COLLECTION_CDE</th>
+								<th>RELATED_OTHER_ID_TYPE</th>
+								<th>RELATED_OTHER_ID_VAL</th>
+								<!---<th>BIOL_INDIV_RELATION_REMARKS</th>--->
+								<th>VALIDATED_STATUS</th>
+							</tr> 
+						</thead>
+						<tbody>
+							<cfloop query="getProblemData">
+								<tr>
+							<!---		<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
+									<td>#getProblemData.RELATED_COLL_OBJECT_ID#</td>--->
+									<td>#getProblemData.INSTITUTION_ACRONYM#</td>
+									<td>#getProblemData.COLLECTION_CDE#</td>
+									<td>#getProblemData.OTHER_ID_TYPE#</td>
+									<td>#getProblemData.OTHER_ID_VAL#</td>
+									<td>#getProblemData.RELATIONSHIP#</td>
+									<td>#getProblemData.RELATED_INSTITUTION_ACRONYM#</td>
+									<td>#getProblemData.RELATED_COLLECTION_CDE#</td>
+									<td>#getProblemData.RELATED_OTHER_ID_TYPE#</td>
+									<td>#getProblemData.RELATED_OTHER_ID_VAL#</td>
+								<!---	<td>#getProblemData.BIOL_INDIV_RELATION_REMARKS#</td>--->
+									<td><strong>#VALIDATED_STATUS#</strong></td>
+								</tr> 
+							</cfloop>
+						</tbody>
+					</table>
+					<cfrethrow>
+				</cfcatch>
+			</cftry>
+			<cfset problem_key = "">
+			<cftransaction>
+				<cftry>
+		<!---			<cfset relations_updates = 0>
+					<cfloop query="getTempData">
+						<cfset problem_key = getTempData.key>
+						<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelations_result">
+							Insert into 
+							biol_indiv_relations 
+							(collection_object_id,related_coll_object_id,biol_indiv_relationship) 
+							values (#collection_object_id#,#related_collection_object_id#,'#relationship#')
+						</cfquery>
+						
+						<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
+					</cfloop>
+					<cftransaction action="commit">--->
+				<cfcatch>
+					<cftransaction action="rollback">
+						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT 	
+							<!---	COLLECTION_OBJECT_ID, RELATED_COLL_OBJECT_ID,--->			INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,validated_status
+							FROM cf_temp_bl_relations
+							WHERE validated_status is not null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+							<!---,BIOL_INDIV_RELATION_REMARKS--->
+						<h3>Error updating row (#relations_updates + 1#): #cfcatch.message#</h3>
+						<table class='sortable table table-responsive table-striped d-lg-table'>
+							<thead>
+								<tr>
+									<th>INSTITUTION_ACRONYM</th>
+									<th>COLLECTION_CDE</th>
+									<th>OTHER_ID_TYPE</th>
+									<th>OTHER_ID_VAL</th>
+									<th>RELATIONSHIP</th>
+									<th>RELATED_INSTITUTION_ACRONYM</th>
+									<th>RELATED_COLLECTION_CDE</th>
+									<th>RELATED_OTHER_ID_TYPE</th>
+									<th>RELATED_OTHER_ID_VAL</th>
+									<!---<th>BIOL_INDIV_RELATION_REMARKS</th>--->
+									<th>VALIDATED_STATUS</th>
+								</tr> 
+							</thead>
+							<tbody>
+								<cfloop query="getProblemData">
+									<tr>
+										<td>#getProblemData.INSTITUTION_ACRONYM#</td>
+										<td>#getProblemData.COLLECTION_CDE#</td>
+										<td>#getProblemData.OTHER_ID_TYPE#</td>
+										<td>#getProblemData.OTHER_ID_VAL#</td>
+										<td>#getProblemData.RELATIONSHIP#</td>
+										<td>#getProblemData.RELATED_INSTITUTION_ACRONYM#</td>
+										<td>#getProblemData.RELATED_COLLECTION_CDE#</td>
+										<td>#getProblemData.RELATED_OTHER_ID_TYPE#</td>
+										<td>#getProblemData.RELATED_OTHER_ID_VAL#</td>
+										<!---<td>#getProblemData.BIOL_INDIV_RELATION_REMARKS#</td>--->
+										<td>#getProblemData.VALIDATED_STATUS#</td>
+									</tr> 
+								</cfloop>
+							</tbody>
+						</table>
+						<cfrethrow>
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<div class="container">
+				<div class="row">
+					<div class="col-12 mx-auto">
+						<h3 class="text-success">Success, changes applied.</h3>
+					</div>
+				</div>
+			</div>
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+				DELETE FROM cf_temp_bl_relations 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+		</cfoutput>
+	</cfif>
+</main>
+<cfinclude template="/shared/_footer.cfm">
