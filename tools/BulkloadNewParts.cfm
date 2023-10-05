@@ -236,10 +236,10 @@
 						'SP',
 						'#data.USERNAME#',
 						sysdate,
-						'#DISPOSITION#',
-						'#lot_count_modifier#',
-						'#lot_count#',
-						'#condition#',
+						'#data.DISPOSITION#',
+						'#data.lot_count_modifier#',
+						'#data.lot_count#',
+						'#data.condition#',
 						'0' )
 				</cfquery>
 <!---			<cfelse>
