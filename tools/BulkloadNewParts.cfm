@@ -207,16 +207,13 @@
 		<!---Checks to see if the catalog record exists--->
 			<cfloop query="data">
 				<cfquery name="collQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_parts set collection_object_id = (select collection_object_id from 
+					update cf_temp_parts set institution_acronym = "MCZ", collection_object_id = 
 						(SELECT
-							cataloged_item.collection_object_id
+							collection_object_id
 						FROM
-							cataloged_item,
-							collection
+							cataloged_item
 						WHERE
-							cataloged_item.collection_id = collection.collection_id and
-							collection.collection_cde = '#data.collection_cde#' and
-							collection.institution_acronym = '#institution_acronym#' and
+							cataloged_item.collection_cde = '#data.collection_cde#' and
 							cat_num='#data.other_id_number#'
 						)
 					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
