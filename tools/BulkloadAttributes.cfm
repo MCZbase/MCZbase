@@ -47,7 +47,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 			<div id="template" style="display:none;margin: 1em 0;">
 				<label for="templatearea" class="data-entry-label">
 					Copy this header line and save it as a .csv file 
-					(<a href="/tools/BulkloadRelations.cfm?action=getCSVHeader">download</a>)
+					(<a href="/tools/BulkloadAttributes.cfm?action=getCSVHeader">download</a>)
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
@@ -62,7 +62,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 					<li class="#class#">#field#</li>
 				</cfloop>
 			</ul>
-			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadRelations.cfm">
+			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
 				<input type="hidden" name="Action" value="getFile">
 				<input type="file" name="FiletoUpload" size="45">
 				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
