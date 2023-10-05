@@ -209,7 +209,7 @@
 				<cfquery name="collQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_parts set institution_acronym = 'MCZ', collection_object_id = 
 						(SELECT
-							collection_object_id
+							specimen_part.collection_object_id
 						FROM
 							cataloged_item,
 							specimen_part
