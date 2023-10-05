@@ -100,7 +100,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 				<cfif ucase(header) EQ 'ATTRIBUTE'><cfset ATTRIBUTE_exists=true></cfif>
 				<cfif ucase(header) EQ 'ATTRIBUTE_VALUE'><cfset ATTRIBUTE_VALUE_exists=true></cfif>
 				<cfif ucase(header) EQ 'ATTRIBUTE_UNITS'><cfset ATTRIBUTE_UNITS_exists=true></cfif>
-				<cfif ucase(header) EQ 'ATTRIBUTE_DATE'><cfset ATTRIBUTE_UNITS_exists=true></cfif>
+				<cfif ucase(header) EQ 'ATTRIBUTE_DATE'><cfset ATTRIBUTE_DATE_exists=true></cfif>
 				<cfif ucase(header) EQ 'ATTRIBUTE_METH'><cfset ATTRIBUTE_METH_exists=true></cfif>
 				<cfif ucase(header) EQ 'DETERMINER'><cfset DETERMINER_exists=true></cfif>
 				<cfif ucase(header) EQ 'REMARKS'><cfset REMARKS_exists=true></cfif>
