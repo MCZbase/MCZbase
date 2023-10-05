@@ -204,24 +204,26 @@
 			select * from cf_temp_parts where 
 			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
-		
-		<cfloop query="data">
-			<cfquery name="collQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update cf_temp_parts set collection_object_id = (select collection_object_id from 
-			<cfif #other_id_type# is "catalog number"><!---Checks to see if the catalog record exists--->
-				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						cataloged_item.collection_object_id
-					FROM
-						cataloged_item,
-						collection
-					WHERE
-						cataloged_item.collection_id = collection.collection_id and
-						collection.collection_cde = '#data.collection_cde#' and
-						collection.institution_acronym = '#institution_acronym#' and
-						cat_num='#data.other_id_number#'
+		<cfif #other_id_type# is "catalog number"><!---Checks to see if the catalog record exists--->
+			<cfloop query="data">
+				<cfquery name="collQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_parts set collection_object_id = (select collection_object_id from 
+						(SELECT
+							cataloged_item.collection_object_id
+						FROM
+							cataloged_item,
+							collection
+						WHERE
+							cataloged_item.collection_id = collection.collection_id and
+							collection.collection_cde = '#data.collection_cde#' and
+							collection.institution_acronym = '#institution_acronym#' and
+							cat_num='#data.other_id_number#'
+						)
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			<cfelse>
+			</cfloop>
+		</cfif>
+<!---			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						coll_obj_other_id_num.collection_object_id
@@ -240,7 +242,7 @@
 				</cfif>
 				) where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			</cfloop>
+			</cfloop>--->
 			
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_OBJECT_ID,COLLECTION_CDE,PART_NAME,PRESERVE_METHOD,LOT_COUNT_MODIFIER,LOT_COUNT,CONDITION,DISPOSITION,CONTAINER_UNIQUE_ID,VALIDATED_STATUS 
