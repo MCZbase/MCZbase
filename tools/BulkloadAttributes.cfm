@@ -86,8 +86,11 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 			<cfset OTHER_ID_NUMBER_exists = false>
 			<cfset ATTRIBUTE_exists = false>
 			<cfset ATTRIBUTE_VALUE_exists = false>
+			<cfset ATTRIBUTE_UNITS_exists = false>
 			<cfset ATTRIBUTE_DATE_exists = false>
+			<cfset ATTRIBUTE_METH_exists = false>
 			<cfset DETERMINER_exists = false>
+			<cfset REMARKS_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
 				<cfif ucase(header) EQ 'INSTITUTION_ACRONYM'><cfset INSTITUTION_ACRONYM_exists=true></cfif>
@@ -96,8 +99,11 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 				<cfif ucase(header) EQ 'OTHER_ID_NUMBER'><cfset OTHER_ID_NUMBER_exists=true></cfif>
 				<cfif ucase(header) EQ 'ATTRIBUTE'><cfset ATTRIBUTE_exists=true></cfif>
 				<cfif ucase(header) EQ 'ATTRIBUTE_VALUE'><cfset ATTRIBUTE_VALUE_exists=true></cfif>
+				<cfif ucase(header) EQ 'ATTRIBUTE_UNITS'><cfset ATTRIBUTE_UNITS_exists=true></cfif>
 				<cfif ucase(header) EQ 'ATTRIBUTE_DATE'><cfset ATTRIBUTE_DATE_exists=true></cfif>
+				<cfif ucase(header) EQ 'ATTRIBUTE_METH'><cfset ATTRIBUTE_METH_exists=true></cfif>
 				<cfif ucase(header) EQ 'DETERMINER'><cfset DETERMINER_exists=true></cfif>
+				<cfif ucase(header) EQ 'REMARKS'><cfset REMARKS_exists=true></cfif>
 			</cfloop>
 			<cfif not (INSTITUTION_ACRONYM_exists AND COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND ATTRIBUTE_exists AND ATTRIBUTE_VALUE_exists AND ATTRIBUTE_DATE_exists AND DETERMINER_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
