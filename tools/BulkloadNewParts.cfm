@@ -234,7 +234,7 @@
 					VALUES (
 						#data.collection_object_id#,
 						'SP',
-						'#USERNAME#',
+						'#data.USERNAME#',
 						sysdate,
 						'#DISPOSITION#',
 						'#lot_count_modifier#',
