@@ -117,7 +117,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 				<cfif not ATTRIBUTE_DATE_exists><cfset message = "#message# ATTRIBUTE_DATE is missing."></cfif>
 				<cfif not ATTRIBUTE_METH_exists><cfset message = "#message# ATTRIBUTE_METH is missing."></cfif>
 				<cfif not DETERMINER_exists><cfset message = "#message# DETERMINER is missing."></cfif>
-				<cfif not RENARKS_exists><cfset message = "#message# REMARKS is missing."></cfif>
+				<cfif not REMARKS_exists><cfset message = "#message# REMARKS is missing."></cfif>
 				<cfthrow message="#message#">
 			</cfif>
 			<cfset colNames="">
