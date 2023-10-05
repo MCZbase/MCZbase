@@ -15,7 +15,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 <!---	,BIOL_INDIV_RELATION_REMARKS--->
 <cfset fieldTypes="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 	<!---,CF_SQL_VARCHAR--->
-<cfset requiredfieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_DATE,DETERMINER">
+<cfset requiredfieldlist="INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_VALUE_UNITS,ATTRIBUTE_DATE,DETERMINER">
 <!---,BIOL_INDIV_RELATION_REMARKS--->
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -203,33 +203,33 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_bl_relations
-				SET validated_status = 'No ID match'
+				UPDATE cf_temp_attributes
+				SET status = 'No ID match'
 				WHERE other_id_val is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_bl_relations
-				SET validated_status = 'No ID match'
+				UPDATE cf_temp_attributes
+				SET status = 'No ID match'
 				WHERE related_other_id_val is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_bl_relations
-				SET validated_status = 'collection not found'
+				UPDATE cf_temp_attributes
+				SET status = 'collection not found'
 				WHERE collection_cde is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET validated_status = 'related collection not found'
+				SET status = 'related collection not found'
 				WHERE related_collection_cde is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
 				SET status = 'bad relationship'
-				WHERE relationship not in (select biol_indiv_relationship from ctbiol_relations)
+				WHERE attribute not in (select attribute from ctattributes)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -260,13 +260,15 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
-						<th>OTHER_ID_VAL</th>
-						<th>RELATIONSHIP</th>
-						<th>RELATED_INSTITUTION_ACRONYM</th>
-						<th>RELATED_COLLECTION_CDE</th>
-						<th>RELATED_OTHER_ID_TYPE</th>
-						<th>RELATED_OTHER_ID_VAL</th>
-						<th>VALIDATED_STATUS</th>
+						<th>OTHER_ID_NUMBER</th>
+						<th>ATTRIBUTE</th>
+						<th>ATTRIBUTE_VALUE</th>
+						<th>ATTRIBUTE_UNITS</th>
+						<th>ATTRIBUTE_DATE</th>
+						<th>ATTRIBUTE_METH</th>
+						<th>DETERMINER</th>
+						<th>REMARKS</th>
+						<th>STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
@@ -274,13 +276,15 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
-							<td>#data.OTHER_ID_VAL#</td>
-							<td>#data.RELATIONSHIP#</td>
-							<td>#data.RELATED_INSTITUTION_ACRONYM#</td>
-							<td>#data.RELATED_COLLECTION_CDE#</td>
-							<td>#data.RELATED_OTHER_ID_TYPE#</td>
-							<td>#data.RELATED_OTHER_ID_VAL#</td>
-							<td><strong>#VALIDATED_STATUS#</strong></td>
+							<td>#data.OTHER_ID_NUMBER#</td>
+							<td>#data.ATTRIBUTE#</td>
+							<td>#data.ATTRIBUTE_VALUE#</td>
+							<td>#data.ATTRIBUTE_UNITS#</td>
+							<td>#data.ATTRIBUTE_DATE#</td>
+							<td>#data.ATTRIBUTE_METH#</td>
+							<td>#data.DETERMINER#</td>
+							<td>#data.REMARKS#</td>
+							<td>#STATUS#</td>
 						</tr>
 					</cfloop>
 				</tbody>
