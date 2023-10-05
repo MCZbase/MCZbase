@@ -212,38 +212,33 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 			<cfset INSTITUTION_ACRONYM_exists = false>
 			<cfset COLLECTION_CDE_exists = false>
 			<cfset OTHER_ID_TYPE_exists = false>
-			<cfset OTHER_ID_VAL_exists = false>
-			<cfset RELATIONSHIP_exists = false>
-			<cfset RELATED_INSTITUTION_ACRONYM_exists = false>
-			<cfset RELATED_COLLECTION_CDE_exists = false>
-			<cfset RELATED_OTHER_ID_TYPE_exists = false>
-			<cfset RELATED_OTHER_ID_VAL_exists = false>
-		<!---	<cfset BIOL_INDIV_RELATION_REMARKS_exists = false>--->
+			<cfset OTHER_ID_NUMBER_exists = false>
+			<cfset ATTRIBUTE_exists = false>
+			<cfset ATTRIBUTE_VALUE_exists = false>
+			<cfset ATTRIBUTE_DATE_exists = false>
+			<cfset DETERMINER_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
 				<cfif ucase(header) EQ 'INSTITUTION_ACRONYM'><cfset INSTITUTION_ACRONYM_exists=true></cfif>
 				<cfif ucase(header) EQ 'COLLECTION_CDE'><cfset COLLECTION_CDE_exists=true></cfif>
 				<cfif ucase(header) EQ 'OTHER_ID_TYPE'><cfset OTHER_ID_TYPE_exists=true></cfif>
-				<cfif ucase(header) EQ 'OTHER_ID_VAL'><cfset OTHER_ID_VAL_exists=true></cfif>
-				<cfif ucase(header) EQ 'RELATIONSHIP'><cfset RELATIONSHIP_exists=true></cfif>
-				<cfif ucase(header) EQ 'RELATED_INSTITUTION_ACRONYM'><cfset RELATED_INSTITUTION_ACRONYM_exists=true></cfif>
-				<cfif ucase(header) EQ 'RELATED_COLLECTION_CDE'><cfset RELATED_COLLECTION_CDE_exists=true></cfif>
-				<cfif ucase(header) EQ 'RELATED_OTHER_ID_TYPE'><cfset RELATED_OTHER_ID_TYPE_exists=true></cfif>
-				<cfif ucase(header) EQ 'RELATED_OTHER_ID_VAL'><cfset RELATED_OTHER_ID_VAL_exists=true></cfif>
-				<!---<cfif ucase(header) EQ 'BIOL_INDIV_RELATION_REMARKS'><cfset BIOL_INDIV_RELATION_REMARKS_exists=true></cfif>--->
-			</cfloop><!---AND BIOL_INDIV_RELATION_REMARKS_exists--->
-			<cfif not (INSTITUTION_ACRONYM_exists AND COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_VAL_exists AND RELATIONSHIP_exists AND RELATED_INSTITUTION_ACRONYM_exists AND RELATED_COLLECTION_CDE_exists AND RELATED_OTHER_ID_TYPE_exists AND RELATED_OTHER_ID_VAL_exists)>
+				<cfif ucase(header) EQ 'OTHER_ID_NUMBER'><cfset OTHER_ID_NUMBER_exists=true></cfif>
+				<cfif ucase(header) EQ 'ATTRIBUTE'><cfset ATTRIBUTE_exists=true></cfif>
+				<cfif ucase(header) EQ 'ATTRIBUTE_VALUE'><cfset ATTRIBUTE_VALUE_exists=true></cfif>
+				<cfif ucase(header) EQ 'ATTRIBUTE_DATE'><cfset ATTRIBUTE_DATE_exists=true></cfif>
+				<cfif ucase(header) EQ 'DETERMINER'><cfset DETERMINER_exists=true></cfif>
+			</cfloop>
+			<cfif not (INSTITUTION_ACRONYM_exists AND COLLECTION_CDE_exists AND OTHER_ID_TYPE_exists AND OTHER_ID_NUMBER_exists AND ATTRIBUTE_exists AND ATTRIBUTE_VALUE_exists AND ATTRIBUTE_DATE_exists AND DETERMINER_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
 				<cfif not INSTITUTION_ACRONYM_exists><cfset message = "#message# INSTITUTION_ACRONYM is missing."></cfif>
 				<cfif not COLLECTION_CDE_exists><cfset message = "#message# COLLECTION_CDE is missing."></cfif>
 				<cfif not OTHER_ID_TYPE_exists><cfset message = "#message# OTHER_ID_TYPE is missing."></cfif>
-				<cfif not OTHER_ID_VAL_exists><cfset message = "#message# OTHER_ID_VAL is missing."></cfif>
-				<cfif not RELATIONSHIP_exists><cfset message = "#message# RELATIONSHIP is missing."></cfif>
-				<cfif not RELATED_INSTITUTION_ACRONYM_exists><cfset message = "#message# RELATED_INSTITUTION_ACRONYM is missing."></cfif>
-				<cfif not RELATED_COLLECTION_CDE_exists><cfset message = "#message# RELATED_COLLECTION_CDE is missing."></cfif>
-				<cfif not RELATED_OTHER_ID_TYPE_exists><cfset message = "#message# RELATED_OTHER_ID_TYPE is missing."></cfif>
-				<cfif not RELATED_OTHER_ID_VAL_exists><cfset message = "#message# RELATED_OTHER_ID_VAL is missing."></cfif>
-				<!---<cfif not BIOL_INDIV_RELATION_REMARKS_exists><cfset message = "#message# BIOL_INDIV_RELATION_REMARKS is missing."></cfif>--->
+				<cfif not OTHER_ID_NUMBER_exists><cfset message = "#message# OTHER_ID_NUMBER is missing."></cfif>
+				<cfif not ATTRIBUTE_exists><cfset message = "#message# ATTRIBUTE is missing."></cfif>
+				<cfif not ATTRIBUTE_VALUE_exists><cfset message = "#message# ATTRIBUTE_VALUE is missing."></cfif>
+				<cfif not ATTRIBUTE_DATE_exists><cfset message = "#message# ATTRIBUTE_DATE is missing."></cfif>
+				<cfif not DETERMINER_exists><cfset message = "#message# DETERMINER is missing."></cfif>
+
 				<cfthrow message="#message#">
 			</cfif>
 			<cfset colNames="">
