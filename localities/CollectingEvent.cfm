@@ -53,7 +53,10 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfquery name="lookupEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT collecting_event_id, locality_id
+			SELECT collecting_event_id, locality_id,
+				began_date, ended_date,
+				collecting_time, collecting_method,
+				verbatim_date
 			FROM collecting_event
 			WHERE
 				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
@@ -70,8 +73,23 @@ limitations under the License.
 			WHERE
 				geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupLocality.geog_auth_rec_id#">
 		</cfquery>
-		<!--- TODO: Create summary for event for dialogs --->
 		<cfset summary = "[#lookupEvent.collecting_event_id#]" >
+		<!--- Create summary for event for dialogs --->
+		<cfset datebit = "">
+		<cfif len(lookupEvent.began_date) GT 0>
+			<cfif lookupEvent.began_date EQ lookupEvent.ended_date>
+				<cfset datebit = lookupEvent.began_date>
+			<cfelse>
+				<cfset datebit = "#lookupEvent.began_date#/#lookupEvent.ended_date#>
+			</cfif>
+		</cfif>
+		<cfif len(lookupEvent.collecting_time) GT 0>
+			<cfset datebit = "#datebit# #lookupEvent.collecting_time#">
+		</cfif>
+		<cfif len(lookupEvent.verbatim_date) GT 0>
+			<cfset datebit = "#datebit# [#lookupEvent.verbatim_date#]">
+		</cfif>
+		<cfset onelinesummary = "#datebit# #lookupEvent.collecting_method# (#lookupEvent.collecting_event_id#)" >
 		<cfif lookupEvent.recordcount EQ 1>
 			<cfset extra="(#lookupEvent.collecting_event_id#)">
 			<cfoutput>
@@ -124,9 +142,9 @@ limitations under the License.
 										ORDER BY media_relationship
 									</cfquery>
 									<cfloop query="relations">
-										<cfset summary = replace(replace(summary,'"','','all'),"'","","all")>
-										<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Collecting Event: #summary#', '#collecting_event_id#', '#relations.relation#', reloadMedia); ">
-										<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Collecting Event: #summary#', '#collecting_event_id#', '#relations.relation#', reloadMedia); ">
+										<cfset onelinesummary = replace(replace(onelinesummary,'"','','all'),"'","","all")>
+										<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Collecting Event: #onelinesummary#', '#collecting_event_id#', '#relations.relation#', reloadMedia); ">
+										<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Collecting Event: #onelinesummary#', '#collecting_event_id#', '#relations.relation#', reloadMedia); ">
 									</cfloop>
 								</div>
 								<div id="mediaDialogDiv"></div>
