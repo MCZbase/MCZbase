@@ -1,4 +1,4 @@
-cfif isDefined("action") AND action is "dumpProblems">
+<cfif isDefined("action") AND action is "dumpProblems">
 	<!---,BIOL_INDIV_RELATION_REMARKS--->
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,ATTRIBUTE_DATE,ATTRIBUTE_METH,DETERMINER,REMARKS
@@ -287,7 +287,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
-							insert into MCZBASE.CF_TEMP_BL_RELATIONS
+							insert into MCZBASE.CF_TEMP_ATTRIBUTES
 								(#fieldlist#,USERNAME)
 							values (
 								<cfset separator = "">
@@ -330,28 +330,6 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
-			<cfset other_id_val = ''>
-			<cfset related_other_id_type = ''>
-				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_bl_relations set collection_object_id = 
-				(
-					select ci.collection_object_id 
-					from cataloged_item ci
-					where ci.collection_cde = cf_temp_bl_relations.collection_cde
-					and ci.cat_num = cf_temp_bl_relations.other_id_val
-				) 
-				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_bl_relations set related_collection_object_id = 
-				(
-					select rci.collection_object_id
-					from cataloged_item rci
-					where rci.collection_cde = cf_temp_bl_relations.related_collection_cde
-					and rci.cat_num = cf_temp_bl_relations.related_other_id_val
-				) 
-				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
 			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_bl_relations
 				SET validated_status = 'No ID match'
@@ -371,27 +349,26 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miad" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_bl_relations
+				UPDATE cf_temp_attributes
 				SET validated_status = 'related collection not found'
 				WHERE related_collection_cde is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_bl_relations
-				SET validated_status = 'bad relationship'
+				UPDATE cf_temp_attributes
+				SET status = 'bad relationship'
 				WHERE relationship not in (select biol_indiv_relationship from ctbiol_relations)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT INSTITUTION_ACRONYM,collection_object_id,related_collection_object_id,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,VALIDATED_STATUS
-				FROM cf_temp_bl_relations 
+				SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUTE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,ATTRIBUTE_DATE,ATTRIBUTE_METH,DETERMINER,REMARKS,STATUS
+				FROM cf_temp_attributes 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				<!---BIOL_INDIV_RELATION_REMARKS,--->
 			</cfquery>
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
 				FROM data 
-				WHERE validated_status is not null
+				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
 				<h2>
@@ -408,8 +385,6 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
-						<!---<th>COLLECTION_OBJECT_ID</th>
-						<th>RELATED_COLLECTION_OBJECT_ID</th>--->
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -419,14 +394,11 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 						<th>RELATED_COLLECTION_CDE</th>
 						<th>RELATED_OTHER_ID_TYPE</th>
 						<th>RELATED_OTHER_ID_VAL</th>
-					<!---	<th>BIOL_INDIV_RELATION_REMARKS</th>--->
 						<th>VALIDATED_STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
 						<tr>
-						<!---	<td>#data.COLLECTION_OBJECT_ID#</td>
-							<td>#data.RELATED_COLLECTION_OBJECT_ID#</td>--->
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
@@ -436,7 +408,6 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 							<td>#data.RELATED_COLLECTION_CDE#</td>
 							<td>#data.RELATED_OTHER_ID_TYPE#</td>
 							<td>#data.RELATED_OTHER_ID_VAL#</td>
-							<!---<td>#data.BIOL_INDIV_RELATION_REMARKS#</td>--->
 							<td><strong>#VALIDATED_STATUS#</strong></td>
 						</tr>
 					</cfloop>
@@ -542,8 +513,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,ATTRIBUT
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT 	
-							<!---	COLLECTION_OBJECT_ID, RELATED_COLL_OBJECT_ID,--->			INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,validated_status
+							SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,
 							FROM cf_temp_bl_relations
 							WHERE validated_status is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
