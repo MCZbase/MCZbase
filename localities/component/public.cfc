@@ -1656,6 +1656,7 @@ limitations under the License.
 							WHERE
 								related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 								and media_relationship like '% collecting_event'
+								and media_id is not null
 							UNION
 							SELECT
 								count(*) ct, 'number' as block
@@ -1663,14 +1664,23 @@ limitations under the License.
 								coll_event_number
 							WHERE
 								collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+								and coll_event_number_id is not null
 						</cfquery>
-						<cfif deleteBlocks.recordcount EQ 0>
+						<cfset hasBlock = false>
+						<cfloop query="deleteBlocks">
+							<cfif deleteBlocks.ct GT 0>
+								<cfset hasBlock = true>
+							</cfif>
+						</cfloop>
+						<cfif NOT hasBlock>
 							TODO: Delete button
 						<cfelse>
 							<div>
 								Related media or collecting event numbers will have to be deleted first. (
+								<cfset separator="">
 								<cfloop query="deleteBlocks">
-									#block#:#ct#
+									#separator##block#:#ct#
+									<cfset separator="; ">
 								</cfloop>	
 								)
 							</div>
