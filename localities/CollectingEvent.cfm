@@ -106,6 +106,8 @@ limitations under the License.
 							<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
 								<cfset blockform = getCollectingEventFormHtml(collecting_event_id = "#collecting_event_id#",mode="edit")>
 								<form name="editCollectingEventForm" id="editCollectingEvent">
+									<input type="hidden" name="method" value="updateCollectingEvent">
+									<input type="hidden" name="returnformat" value="json">
 									#blockform#
 									<input type="button" class="btn btn-primary btn-xs" value="Save" onClick=" saveEvent(); ">
 									<output id="editCollEventStatus"></output>
@@ -113,7 +115,7 @@ limitations under the License.
 								<script>
 									function saveEvent(){ 
 										if ($('##editCollectingEventForm')[0].checkValidity()) { 
-											console.log("TODO: implement");
+											saveEdits();
 										} else { 
 											messageDialog('Error: Unable to save changes, required field missing a value.' ,'Error: Required fields not filled in.');
 										}
@@ -121,6 +123,41 @@ limitations under the License.
 									$(document).ready(function(){
 										$('##editCollectingEventForm').submit( function(event){ event.preventDefault(); } );
 									});
+									function handleChange(){
+										$('##editCollEventStatus').html('Unsaved changes.');
+										$('##editCollEventStatus').addClass('text-danger');
+										$('##editCollEventStatus').removeClass('text-success');
+										$('##editCollEventStatus').removeClass('text-warning');
+									};
+									$(document).ready(function() {
+										monitorForChanges('editCollectingEventForm',handleChange);
+									});
+									function saveEdits(){ 
+										$('##editCollEventStatus').html('Saving....');
+										$('##editCollEventStatus').addClass('text-warning');
+										$('##editCollEventStatus').removeClass('text-success');
+										$('##editCollEventStatus').removeClass('text-danger');
+										jQuery.ajax({
+											url : "/transactions/component/functions.cfc",
+											type : "post",
+											dataType : "json",
+											data : $('##editCollectingEventForm').serialize(),
+											success : function (data) {
+												$('##editCollEventStatus').html('Saved.');
+												$('##editCollEventStatus').addClass('text-success');
+												$('##editCollEventStatus').removeClass('text-danger');
+												$('##editCollEventStatus').removeClass('text-warning');
+												loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
+											},
+											error: function(jqXHR,textStatus,error){
+												$('##editCollEventStatus').html('Error.');
+												$('##editCollEventStatus').addClass('text-danger');
+												$('##editCollEventStatus').removeClass('text-success');
+												$('##editCollEventStatus').removeClass('text-warning');
+												handleFail(jqXHR,textStatus,error,'saving loan record');
+											}
+										});
+									};
 								</script>
 							</div>
 						</div>
