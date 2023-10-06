@@ -240,7 +240,6 @@
 				<thead>
 					<tr>
 						<th>COLLECTION_CDE</th>
-						<th>INSTITUTION_ACRONYM</th>
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
 						<th>ATTRIBUTE</th>
@@ -256,7 +255,6 @@
 					<cfloop query="data">
 						<tr>
 							<td>#data.COLLECTION_CDE#</td>
-							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
 							<td>#data.ATTRIBUTE#</td>
