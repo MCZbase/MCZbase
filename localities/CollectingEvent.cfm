@@ -84,7 +84,7 @@ limitations under the License.
 			</cfif>
 		</cfif>
 		<cfif len(lookupEvent.collecting_time) GT 0>
-			<cfset datebit = "#datebit# #lookupEvent.collecting_time#">
+			<cfset datebit="#datebit# #lookupEvent.collecting_time#">
 		</cfif>
 		<cfif len(lookupEvent.verbatim_date) GT 0>
 			<cfset datebit = "#datebit# [#lookupEvent.verbatim_date#]">
