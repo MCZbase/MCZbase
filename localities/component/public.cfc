@@ -1648,7 +1648,7 @@ limitations under the License.
 			  	</cfquery>
 				<div>
 					<cfif #collectingEventUses.recordcount# is 0>
-						<h2 class="h4 px-2 text-primary">This CollectingEvent (#collecting_event_id#) contains no specimens. Please delete it if you don&apos;t have plans for it!</h2>
+						<h2 class="h4 px-2">This CollectingEvent (#collecting_event_id#) contains no specimens. Please delete it if you don&apos;t have plans for it!</h2>
 						<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
 								count(*) ct, 'media' as block
@@ -1661,6 +1661,7 @@ limitations under the License.
 								count(*) ct, 'number' as block
 							FROM
 								coll_event_number
+							WHERE
 								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 						</cfquery>
 						<cfif deleteBlocks.recordcount EQ 0>
