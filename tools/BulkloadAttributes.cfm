@@ -201,13 +201,13 @@
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_attributes set container_id=
-				(select container_id from container where container.barcode = cf_temp_attributes.container_unique_id)
+				update cf_temp_attributes set attribute_type=
+				(select attribute_type from ctattribute_type where ctattribute_type.attribute_type = cf_temp_attributes.attribute_type)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_attributes set parent_container_id=
-				(select container_id from container where container.barcode = cf_temp_attributes.parent_unique_id)
+				update cf_temp_attributes set determiner=
+				(select agent_name from preferred_agent_name where container.barcode = cf_temp_attributes.parent_unique_id)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -235,7 +235,8 @@
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>	
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT collection_cde,institution_acronym,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,status
+				SELECT 
+				collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 				FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -309,23 +310,23 @@
 							UPDATE
 								attributes 
 							SET
-								CONTAINER_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_TYPE#">
-							WHERE
-								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
+								attribute_type= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_TYPE#">
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<cfset container_type_updates = container_type_updates + updateContainer_result.recordcount>
+						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 					</cfloop>
 				</cftransaction>
-				<h2>Updated types for #container_type_updates# containers.</h2>
+				<h2>Updated types for #attributes_updates# containers.</h2>
 			<cfcatch>
 				<h2>There was a problem updating container types.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
-					FROM cf_temp_cont_edit 
+					SELECT 
+					<!---container_unique_id,parent_unique_id,container_type,container_name, status --->
+					FROM cf_temp_attributes 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<h3>Problematic Rows (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>)</h3>
+				<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
 				<table class='sortable table table-responsive table-striped d-lg-table'>
 					<thead>
 						<tr>
