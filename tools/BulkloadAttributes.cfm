@@ -201,8 +201,7 @@
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_attributes set attribute_type=
-				(select attribute_type from ctattribute_type)
+				update cf_temp_attributes set attribute_type='(select attribute_type from ctattribute_type)''
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
