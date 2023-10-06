@@ -2,7 +2,7 @@
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT 
-			collection_cde, institution_acronym, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, attribute_meth, determiner, remarks
+			collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, attribute_meth, determiner, remarks
 	<!---	container_unique_id,parent_unique_id,container_type,container_name, 
 			description, remarks, width, height, length, number_positions,
 			status --->
@@ -16,10 +16,10 @@
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
-<cfset fieldlist = "collection_cde,institution_acronym,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner, remarks">
+<cfset fieldlist = "collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner, remarks">
 <!---<cfset fieldlist = "container_unique_id,parent_unique_id,container_type,container_name,description,remarks,width,height,length,number_positions">--->
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
-<cfset requiredfieldlist = "collection_cde,institution_acronym,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
+<cfset requiredfieldlist = "collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
 <!---<cfset requiredfieldlist = "container_unique_id,container_type,container_name">--->
 
 <!--- special case handling to dump column headers as csv --->
@@ -87,7 +87,6 @@
 			
 			<!--- check for required fields in header line --->
 			<cfset collection_cde_exists = false>
-			<cfset institution_acronym_exists = false>
 			<cfset other_id_type_exists = false>
 			<cfset other_id_number_exists = false>
 			<cfset attribute_exists = false>
@@ -97,7 +96,6 @@
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
 				<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
-				<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 				<cfif ucase(header) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
 				<cfif ucase(header) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
 				<cfif ucase(header) EQ 'attribute'><cfset attribute_exists=true></cfif>
@@ -105,10 +103,9 @@
 				<cfif ucase(header) EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
 				<cfif ucase(header) EQ 'determiner'><cfset determiner_exists=true></cfif>
 			</cfloop>
-			<cfif not (collection_cde_exists AND institution_acronym_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
+			<cfif not (collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
 				<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
-				<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
 				<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
 				<cfif not other_id_number_exists><cfset message = "#message# other_id_number is missing."></cfif>
 				<cfif not attribute_exists><cfset message = "#message# attribute is missing."></cfif>
@@ -238,8 +235,7 @@
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>	
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT CONTAINER_UNIQUE_ID, PARENT_UNIQUE_ID, CONTAINER_TYPE, CONTAINER_NAME, DESCRIPTION, REMARKS, WIDTH,
-					HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS 
+				SELECT collection_cde,institution_acronym,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 				FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -263,35 +259,33 @@
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
-						<th>CONTAINER_UNIQUE_ID</th>
-						<th>PARENT_UNIQUE_ID</th>
-						<th>CONTAINER_TYPE</th>
-						<th>CONTAINER_NAME</th>
-						<th>DESCRIPTION</th>
+						<th>COLLECTION_CDE</th>
+						<th>INSTITUTION_ACRONYM</th>
+						<th>OTHER_ID_TYPE</th>
+						<th>OTHER_ID_NUMBER</th>
+						<th>ATTRIBUTE</th>
+						<th>ATTRIBUTE_VALUE</th>
+						<th>ATTRIBUTE_UNITS</th>
+						<th>ATTRIBUTE_DATE</th>
+						<th>ATTRIBUTE_METH</th>
+						<th>DETERMINER</th>
 						<th>REMARKS</th>
-						<th>WIDTH</th>
-						<th>HEIGHT</th>
-						<th>LENGTH</th>
-						<th>NUMBER_POSITIONS</th>
-						<th>CONTAINER_ID</th>
-						<th>PARENT_CONTAINER_ID</th>
 						<th>STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td>#data.CONTAINER_UNIQUE_ID#</td>
-							<td>#data.PARENT_UNIQUE_ID#</td>
-							<td>#data.CONTAINER_TYPE#</td>
-							<td>#data.CONTAINER_NAME#</td>
-							<td>#data.DESCRIPTION#</td>
+							<td>#data.COLLECTION_CDE#</td>
+							<td>#data.INSTITUTION_ACRONYM#</td>
+							<td>#data.OTHER_ID_TYPE#</td>
+							<td>#data.OTHER_ID_NUMBER#</td>
+							<td>#data.ATTRIBUTE#</td>
+							<td>#data.ATTRIBUTE_VALUE#</td>
+							<td>#data.ATTRIBUTE_UNITS#</td>
+							<td>#data.ATTRIBUTE_DATE#</td>
+							<td>#data.ATTRIBUTE_METH#</td>
+							<td>#data.DETERMINER#</td>
 							<td>#data.REMARKS#</td>
-							<td>#data.WIDTH#</td>
-							<td>#data.HEIGHT#</td>
-							<td>#data.LENGTH#</td>
-							<td>#data.NUMBER_POSITIONS#</td>
-							<td>#data.CONTAINER_ID#</td>
-							<td>#data.PARENT_CONTAINER_ID#</td>
 							<td><strong>#STATUS#</strong></td>
 						</tr>
 					</cfloop>
@@ -304,16 +298,16 @@
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT * FROM cf_temp_cont_edit
+				SELECT * FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cftry>
-				<cfset container_type_updates = 0>
+				<cfset attributes_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
+						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
 							UPDATE
-								container 
+								attributes 
 							SET
 								CONTAINER_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_TYPE#">
 							WHERE
