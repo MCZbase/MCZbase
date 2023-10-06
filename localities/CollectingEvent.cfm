@@ -185,6 +185,9 @@ limitations under the License.
 						</div>
 					</section>
 					<script>
+						function reloadSummary() { 
+							TODO: Reload Summary block.
+						}
 						function reloadNumbers()  {
 							loadCollEventNumbersHTML('#collecting_event_id#','collEventNumbersDiv');
 						}

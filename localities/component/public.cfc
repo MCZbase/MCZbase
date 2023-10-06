@@ -1649,6 +1649,31 @@ limitations under the License.
 				<div>
 					<cfif #collectingEventUses.recordcount# is 0>
 						<h2 class="h4 px-2 text-primary">This CollectingEvent (#collecting_event_id#) contains no specimens. Please delete it if you don&apos;t have plans for it!</h2>
+						<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT 
+								count(*) ct, 'media' as block
+							FROM media_relations
+							WHERE
+								related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+								and media_relationship like '% collecting_event'
+							UNION
+							SELECT
+								count(*) ct, 'number' as block
+							FROM
+								coll_event_number
+								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+						</cfquery>
+						<cfif deleteBlocks.recordcount EQ 0>
+							TODO: Delete button
+						<cfelse>
+							<div>
+								Related media or collecting event numbers will have to be deleted first. (
+								<cfloop query="deleteBlocks">
+									#block#:#ct#
+								</cfloop>	
+								)
+							</div>
+						</cfif>
 					<cfelseif #collectingEventUses.recordcount# is 1>
 						<h2 class="h4 px-2">
 							This CollectingEvent (#collecting_event_id#) contains 
