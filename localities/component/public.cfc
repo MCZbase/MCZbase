@@ -1662,7 +1662,7 @@ limitations under the License.
 							FROM
 								coll_event_number
 							WHERE
-								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+								collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 						</cfquery>
 						<cfif deleteBlocks.recordcount EQ 0>
 							TODO: Delete button
