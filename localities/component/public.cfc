@@ -1719,7 +1719,7 @@ limitations under the License.
 						<cfif began_date EQ ended_date>
 							<cfset datebit = began_date>
 						<cfelse>
-							<cfset datebit = "#began_date#/#ended_date#>
+							<cfset datebit = "#began_date#/#ended_date#">
 						</cfif>
 					</cfif>
 					<cfif len(collecting_time) GT 0>
