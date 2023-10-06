@@ -1636,7 +1636,7 @@ limitations under the License.
 						locality_id
 					from
 						collecting_event
-						left join cataloged_item on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
+						join cataloged_item on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
 						left join collection on cataloged_item.collection_id = collection.collection_id
 					WHERE
 						collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
