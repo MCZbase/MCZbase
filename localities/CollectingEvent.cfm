@@ -80,7 +80,7 @@ limitations under the License.
 			<cfif lookupEvent.began_date EQ lookupEvent.ended_date>
 				<cfset datebit = lookupEvent.began_date>
 			<cfelse>
-				<cfset datebit = "#lookupEvent.began_date#/#lookupEvent.ended_date#>
+				<cfset datebit = "#lookupEvent.began_date#/#lookupEvent.ended_date#">
 			</cfif>
 		</cfif>
 		<cfif len(lookupEvent.collecting_time) GT 0>
