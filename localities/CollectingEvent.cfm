@@ -209,7 +209,6 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
-								<div id="relatedTo">#blockRelated#</div>
 								<cfset summary = getCollectingEventSummary(collecting_event_id="#collecting_event_id#")>
 								<div id="summary" class="small95 px-2 pb-2"><span class="sr-only">Summary: </span>#summary#</div>
 							</div>
