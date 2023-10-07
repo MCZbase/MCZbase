@@ -74,7 +74,7 @@ limitations under the License.
 				</main>
 			<cfoutput>
 			<cfinclude template = "/shared/_footer.cfm">
-			</cfabort>
+			<cfabort>
 		</cfif>
 		<cfquery name="lookupLocality"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT spec_locality, geog_auth_rec_id 
