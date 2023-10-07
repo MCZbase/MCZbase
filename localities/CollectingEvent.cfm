@@ -61,9 +61,20 @@ limitations under the License.
 			WHERE
 				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 		</cfquery>
-<!--- TODO handle gracefully when collecting event does not exist --->
 		<cfif lookupEvent.recordcount EQ 0>
-			<cfthrow message="Collecting event (#encodeForHtml(collecting_event_id)#) not found.">
+			<cfoutput>
+				<main class="container-fluid container-xl my-2" id="content">
+					<section class="row">
+						<div class="col-12 mt-2 mb-5">
+							<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">
+								Collecting event (#encodeForHtml(collecting_event_id)#) not found.
+							</h1>
+						</div>
+					</section>
+				</main>
+			<cfoutput>
+			<cfinclude template = "/shared/_footer.cfm">
+			</cfabort>
 		</cfif>
 		<cfquery name="lookupLocality"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT spec_locality, geog_auth_rec_id 
