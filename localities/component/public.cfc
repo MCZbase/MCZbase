@@ -1622,8 +1622,11 @@ limitations under the License.
 --->
 <cffunction name="getCollectingEventUsesHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collecting_event_id" type="string" required="yes">
+	<cfargument name="context" type="string" required="no" default="view">
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfset variables.collecting_event_id = arguments.collecting_event_id>
+	<cfset variables.context = arguments.context>
 	<cfthread name="collectingEventUsesThread#tn#">
 		<cfoutput>
 			<cftry>
@@ -1648,42 +1651,49 @@ limitations under the License.
 			  	</cfquery>
 				<div>
 					<cfif #collectingEventUses.recordcount# is 0>
-						<h2 class="h4 px-2">This CollectingEvent (#collecting_event_id#) contains no specimens. Please delete it if you don&apos;t have plans for it!</h2>
-						<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT 
-								count(*) ct, 'media' as block
-							FROM media_relations
-							WHERE
-								related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
-								and media_relationship like '% collecting_event'
-								and media_id is not null
-							UNION
-							SELECT
-								count(*) ct, 'number' as block
-							FROM
-								coll_event_number
-							WHERE
-								collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
-								and coll_event_number_id is not null
-						</cfquery>
-						<cfset hasBlock = false>
-						<cfloop query="deleteBlocks">
-							<cfif deleteBlocks.ct GT 0>
-								<cfset hasBlock = true>
+						<h2 class="h4 px-2">
+							This CollectingEvent (#collecting_event_id#) contains no specimens. 
+							<cfif isDefined("context") and context EQ "edit">
+								Please delete it if you don&apos;t have plans for it!
 							</cfif>
-						</cfloop>
-						<cfif NOT hasBlock>
-							TODO: Delete button
-						<cfelse>
-							<div>
-								Related media or collecting event numbers will have to be deleted first. (
-								<cfset separator="">
-								<cfloop query="deleteBlocks">
-									#separator##block#:#ct#
-									<cfset separator="; ">
-								</cfloop>	
-								)
-							</div>
+						</h2>
+						<cfif isDefined("context") and context EQ "edit">
+							<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT 
+									count(*) ct, 'media' as block
+								FROM media_relations
+								WHERE
+									related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+									and media_relationship like '% collecting_event'
+									and media_id is not null
+								UNION
+								SELECT
+									count(*) ct, 'number' as block
+								FROM
+									coll_event_number
+								WHERE
+									collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+									and coll_event_number_id is not null
+							</cfquery>
+							<cfset hasBlock = false>
+							<cfloop query="deleteBlocks">
+								<cfif deleteBlocks.ct GT 0>
+									<cfset hasBlock = true>
+								</cfif>
+							</cfloop>
+							<cfif NOT hasBlock>
+								<input type='button' value='Delete this Collecting Event' class='delBtn btn btn-xs btn-danger' onClick=" confirmDialog('Delete this collecting_event (#encodeForHtml(collecting_event_id)#)?', 'Confirm Delete Collecting Event', function() { deleteCollectingEvent(#collecting_event_id#); }  ); " >
+							<cfelse>
+								<div>
+									Related media or collecting event numbers will have to be deleted first. (
+									<cfset separator="">
+									<cfloop query="deleteBlocks">
+										#separator##block#:#ct#
+										<cfset separator="; ">
+									</cfloop>	
+									)
+								</div>
+							</cfif>
 						</cfif>
 					<cfelseif #collectingEventUses.recordcount# is 1>
 						<h2 class="h4 px-2">

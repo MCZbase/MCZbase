@@ -5043,4 +5043,73 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- function deleteCollectingEvent
+Delete an existing collecting event record.
+
+@param collecting_event_id primary key of record to delete
+@return json structure with status and id or http status 500
+--->
+<cffunction name="deleteCollectingEvent" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- check if something would block deletion --->
+			<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					count(*) ct, 'media' as block
+				FROM media_relations
+				WHERE
+					related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+					and media_relationship like '% collecting_event'
+					and media_id is not null
+				UNION
+				SELECT
+					count(*) ct, 'number' as block
+				FROM
+					coll_event_number
+				WHERE
+					collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+					and coll_event_number_id is not null
+			</cfquery>
+			<cfset hasBlock = false>
+			<cfloop query="deleteBlocks">
+				<cfif deleteBlocks.ct GT 0>
+					<cfset hasBlock = true>
+				</cfif>
+			</cfloop>
+			<cfif hasBlock>
+				<cfthrow message="Unable to delete, Collecting Event has related media or collector numbers.">
+			<cfelse>
+				<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					delete from collecting_event
+					where 
+						collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_number_id#">
+				</cfquery>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "deleted">
+				<cfset row["id"] = "#collecting_event_id#">
+				<cfset data[1] = row>
+			</cfif>
+			<cftransaction action="commit"/>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing deleteCollEvent: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>

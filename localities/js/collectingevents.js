@@ -33,3 +33,25 @@ function deleteCollEventNumber(id) {
 		}
 	});
 };
+/** given a collecting_event_id, attempt to delete the collecting_event.
+ @param collecting_event_id the collecting_event to delete
+ @param callback a callback function to invoke on success.
+**/
+function deleteCollectingEvent(collecting_event_id, callback) {
+	jQuery.ajax({
+		url: "/localities/component/functions.cfc",
+		data : {
+			method : "deleteCollectingEvent",
+			collecting_event_id: collecting_event_id
+		},
+		success: function (result) {
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"deleting a collecting event");
+		},
+		dataType: "html"
+	});
+};

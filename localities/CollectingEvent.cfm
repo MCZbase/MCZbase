@@ -98,7 +98,7 @@ limitations under the License.
 						<div class="col-12 mt-2 mb-5">
 							<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Edit Collecting Event#extra#</h1>
 							<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
-								<cfset blockRelated = getCollectingEventUsesHtml(collecting_event_id = "#collecting_event_id#")>
+								<cfset blockRelated = getCollectingEventUsesHtml(collecting_event_id = "#collecting_event_id#", context="edit")>
 								<div id="relatedTo">#blockRelated#</div>
 								<cfset summary = getCollectingEventSummary(collecting_event_id="#collecting_event_id#")>
 								<div id="summary" class="small95 px-2 pb-2"><span class="sr-only">Summary: </span>#summary#</div>
