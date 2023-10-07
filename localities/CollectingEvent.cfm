@@ -61,6 +61,10 @@ limitations under the License.
 			WHERE
 				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 		</cfquery>
+<!--- TODO handle gracefully when collecting event does not exist --->
+		<cfif lookupEvent.recordcount EQ 0>
+			<cfthrow message="Collecting event (#encodeForHtml(collecting_event_id#) not found.">
+		</cfif>
 		<cfquery name="lookupLocality"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT spec_locality, geog_auth_rec_id 
 			FROM locality
@@ -112,6 +116,7 @@ limitations under the License.
 									<input type="button" class="btn btn-primary btn-xs" value="Save" onClick=" saveEvent(); ">
 									<output id="editCollEventStatus"></output>
 								</form>
+<!--- TODO: Debug and fix change monitoring and save changes --->
 								<script>
 									function saveEvent(){ 
 										if ($('##editCollectingEventForm')[0].checkValidity()) { 

@@ -1682,6 +1682,7 @@ limitations under the License.
 								</cfif>
 							</cfloop>
 							<cfif NOT hasBlock>
+								<!--- TODO: Post delete success handler --->
 								<input type='button' value='Delete this Collecting Event' class='delBtn btn btn-xs btn-danger' onClick=" confirmDialog('Delete this collecting_event (#encodeForHtml(collecting_event_id)#)?', 'Confirm Delete Collecting Event', function() { deleteCollectingEvent(#collecting_event_id#,null); }  ); " >
 							<cfelse>
 								<div>
