@@ -5085,7 +5085,7 @@ Delete an existing collecting event record.
 				<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					delete from collecting_event
 					where 
-						collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_number_id#">
+						collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 				</cfquery>
 				<cfset row = StructNew()>
 				<cfset row["status"] = "deleted">
