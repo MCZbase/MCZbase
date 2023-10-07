@@ -72,7 +72,7 @@ limitations under the License.
 						</div>
 					</section>
 				</main>
-			<cfoutput>
+			</cfoutput>
 			<cfinclude template = "/shared/_footer.cfm">
 			<cfabort>
 		</cfif>
