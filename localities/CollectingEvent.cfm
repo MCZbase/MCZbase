@@ -147,14 +147,13 @@ limitations under the License.
 												$('##editCollEventStatus').addClass('text-success');
 												$('##editCollEventStatus').removeClass('text-danger');
 												$('##editCollEventStatus').removeClass('text-warning');
-												loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
 											},
 											error: function(jqXHR,textStatus,error){
 												$('##editCollEventStatus').html('Error.');
 												$('##editCollEventStatus').addClass('text-danger');
 												$('##editCollEventStatus').removeClass('text-success');
 												$('##editCollEventStatus').removeClass('text-warning');
-												handleFail(jqXHR,textStatus,error,'saving loan record');
+												handleFail(jqXHR,textStatus,error,'saving collecting event record');
 											}
 										});
 									};
