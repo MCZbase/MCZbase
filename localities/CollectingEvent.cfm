@@ -421,19 +421,48 @@ limitations under the License.
 					<a href="/localities/CollectingEvent.cfm?Action=editCollEvent&collecting_event_id=#collecting_event_id#">Return</a> to editing.
 				</div>
 			<cfelseif hasSpecimens.ct EQ 0>
-				<cftransaction>
-					<cfquery name="deleteCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteCollEvent_result">
-						DELETE from collecting_event
-						WHERE collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
-					</cfquery>
-					<cfif deleteCollEvent_result.recordcount EQ 1>
-						<h2>Successfully deleted collecting event.</h2>
-						<cftransaction action="commit">
-					<cfelse>
-						<cfthrow message="Error deleting collecting event, other than one event affected.">
-						<cftransaction action="rollback">
+				<!--- check if something else would block deletion --->
+				<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						count(*) ct, 'media' as block
+					FROM media_relations
+					WHERE
+						related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+						and media_relationship like '% collecting_event'
+						and media_id is not null
+					UNION
+					SELECT
+						count(*) ct, 'number' as block
+					FROM
+						coll_event_number
+					WHERE
+						collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+						and coll_event_number_id is not null
+				</cfquery>
+				<cfset hasBlock = false>
+				<cfloop query="deleteBlocks">
+					<cfif deleteBlocks.ct GT 0>
+						<cfset hasBlock = true>
 					</cfif>
-				</cftransaction>
+				</cfloop>
+				<cfif hasBlock>
+					<h2 class="h2">Unable to delete.</h2>
+					<div>Collecting Event has related media or collector numbers.  These must be removed before the collecting event can be deleted.</div>
+				<cfelse>
+					<cftransaction>
+						<cfquery name="deleteCollEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteCollEvent_result">
+							DELETE from collecting_event
+							WHERE collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+						</cfquery>
+						<cfif deleteCollEvent_result.recordcount EQ 1>
+							<h2>Successfully deleted collecting event.</h2>
+							<cftransaction action="commit">
+						<cfelse>
+							<cfthrow message="Error deleting collecting event, other than one event affected.">
+							<cftransaction action="rollback">
+						</cfif>
+					</cftransaction>
+				</cfif>
 			</cfif>
 		</cfoutput>
 	</cfcase>

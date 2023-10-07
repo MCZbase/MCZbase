@@ -5046,6 +5046,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 <!--- function deleteCollectingEvent
 Delete an existing collecting event record.
 
+Probably won't be used, delete is action on localities/CollectingEvent.cfm
+
 @param collecting_event_id primary key of record to delete
 @return json structure with status and id or http status 500
 --->
@@ -5056,6 +5058,13 @@ Delete an existing collecting event record.
 	<cftransaction>
 		<cftry>
 			<!--- check if something would block deletion --->
+			<cfquery name="hasSpecimens" datasource="uam_god">
+				SELECT count(collection_object_id) ct from cataloged_item
+				WHERE collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+			</cfquery>
+			<cfif #hasSpecimens.ct# gt 0>
+				<cfthrow message="Unable to delete, Collecting Event has #hasSpecimens.ct# related cataloged items..">
+			</cfif>
 			<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
 					count(*) ct, 'media' as block
@@ -5082,7 +5091,7 @@ Delete an existing collecting event record.
 			<cfif hasBlock>
 				<cfthrow message="Unable to delete, Collecting Event has related media or collector numbers.">
 			<cfelse>
-				<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					delete from collecting_event
 					where 
 						collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
