@@ -63,7 +63,7 @@ limitations under the License.
 		</cfquery>
 <!--- TODO handle gracefully when collecting event does not exist --->
 		<cfif lookupEvent.recordcount EQ 0>
-			<cfthrow message="Collecting event (#encodeForHtml(collecting_event_id#) not found.">
+			<cfthrow message="Collecting event (#encodeForHtml(collecting_event_id)#) not found.">
 		</cfif>
 		<cfquery name="lookupLocality"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT spec_locality, geog_auth_rec_id 
