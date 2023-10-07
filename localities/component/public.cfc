@@ -1682,7 +1682,7 @@ limitations under the License.
 								</cfif>
 							</cfloop>
 							<cfif NOT hasBlock>
-								<input type='button' value='Delete this Collecting Event' class='delBtn btn btn-xs btn-danger' onClick=" confirmDialog('Delete this collecting_event (#encodeForHtml(collecting_event_id)#)?', 'Confirm Delete Collecting Event', function() { deleteCollectingEvent(#collecting_event_id#); }  ); " >
+								<input type='button' value='Delete this Collecting Event' class='delBtn btn btn-xs btn-danger' onClick=" confirmDialog('Delete this collecting_event (#encodeForHtml(collecting_event_id)#)?', 'Confirm Delete Collecting Event', function() { deleteCollectingEvent(#collecting_event_id#,null); }  ); " >
 							<cfelse>
 								<div>
 									Related media or collecting event numbers will have to be deleted first. (

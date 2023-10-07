@@ -55,3 +55,14 @@ function deleteCollectingEvent(collecting_event_id, callback) {
 		dataType: "html"
 	});
 };
+/** function monitorForChanges bind a change monitoring function to inputs 
+ * on a given form.  Note: text inputs must have type=text to be bound to change function.
+ * @param formId the id of the form, not including the # id selector to monitor.
+ * @param changeFunction the function to fire on change events for inputs on the form.
+ */
+function monitorForChanges(formId,changeFunction) { 
+	$('#'+formId+' input[type=text]').on("change",changeFunction);
+	$('#'+formId+' input[type=checkbox]').on("change",changeFunction);
+	$('#'+formId+' select').on("change",changeFunction);
+	$('#'+formId+' textarea').on("change",changeFunction);
+}
