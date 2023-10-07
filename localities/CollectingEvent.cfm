@@ -113,7 +113,102 @@ limitations under the License.
 						<div class="col-12 mt-2 mb-5">
 							<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">Edit Collecting Event#extra#</h1>
 							<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
-								<cfset blockRelated = getCollectingEventUsesHtml(collecting_event_id = "#collecting_event_id#", context="edit")>
+								<cfquery name="collectingEventUses" datasource="uam_god">
+									SELECT
+										count(cataloged_item.cat_num) numOfSpecs,
+										collection.collection,
+										collection.collection_cde,
+										collection.collection_id,
+										locality_id
+									from
+										collecting_event
+										join cataloged_item on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
+										left join collection on cataloged_item.collection_id = collection.collection_id
+									WHERE
+										collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+									GROUP BY
+										collection.collection,
+										collection.collection_cde,
+										collection.collection_id,
+										locality_id
+							  	</cfquery>
+								<div>
+									<cfif #collectingEventUses.recordcount# is 0>
+										<h2 class="h4 px-2">
+											This CollectingEvent (#collecting_event_id#) contains no specimens. 
+											Please delete it if you don&apos;t have plans for it!
+										</h2>
+										<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											SELECT 
+												count(*) ct, 'media' as block
+											FROM media_relations
+											WHERE
+												related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+												and media_relationship like '% collecting_event'
+												and media_id is not null
+											UNION
+											SELECT
+												count(*) ct, 'number' as block
+											FROM
+												coll_event_number
+											WHERE
+												collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+												and coll_event_number_id is not null
+										</cfquery>
+										<cfset hasBlock = false>
+										<cfloop query="deleteBlocks">
+											<cfif deleteBlocks.ct GT 0>
+												<cfset hasBlock = true>
+											</cfif>
+										</cfloop>
+										<cfif NOT hasBlock>
+											<button type="button" class="btn btn-xs btn-danger" 
+												onClick="confirmDialog('Delete this collecting event?', 'Confirm Delete Collecting Event', function() { location.assign('/localities/CollectingeEvent.cfm?action=delete&collecting_event_id=#encodeForUrl(collecting_event_id)#'); } );" 
+											>
+												Delete Locality
+											</button>
+										<cfelse>
+											<div>
+												Related media or collecting event numbers will have to be deleted first. (
+												<cfset separator="">
+												<cfloop query="deleteBlocks">
+													#separator##block#:#ct#
+													<cfset separator="; ">
+												</cfloop>	
+												)
+											</div>
+										</cfif>
+									<cfelseif #collectingEventUses.recordcount# is 1>
+										<h2 class="h4 px-2">
+											This CollectingEvent (#collecting_event_id#) contains 
+											<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">
+												#collectingEventUses.numOfSpecs# #collectingEventUses.collection_cde# specimens
+											</a>
+											see <a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#collectingEventUses.locality_id#&include_counts=true&include_ce_counts=true">other collecting events at this locality</a>.
+										</h2>
+									<cfelse>
+										<cfset totalSpecimens=0>
+										<cfloop query="collectingEventUses">
+											<cfset totalSpecimens=totalSpecimens+collectingEventUses.numOfSpecs>
+										</cfloop>
+										<h2 class="h4 px-2">
+											This CollectingEvent (#collecting_event_id#)
+											contains the following <a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">#totalSpecimens# specimens</a>
+										</h2>
+										<ul class="px-2 pl-xl-4 ml-xl-1 small95">
+											<cfloop query="collectingEventUses">
+												<li>
+													<cfif numOfSpecs EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+													<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#&nestdepth2=2&JoinOperator2=and&field2=CATALOGED_ITEM%3ACOLLECTION_CDE&searchText2=%3D#collectingEventUses.collection_cde#">
+														#numOfSpecs# #collection_cde# specimen#plural#
+													</a>
+												</li>
+											</cfloop>
+										</ul>
+									</cfif>
+								</div>
+							</div>
+							<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 								<div id="relatedTo">#blockRelated#</div>
 								<cfset summary = getCollectingEventSummary(collecting_event_id="#collecting_event_id#")>
 								<div id="summary" class="small95 px-2 pb-2"><span class="sr-only">Summary: </span>#summary#</div>
