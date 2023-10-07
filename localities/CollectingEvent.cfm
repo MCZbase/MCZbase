@@ -218,6 +218,7 @@ limitations under the License.
 									<input type="hidden" name="method" value="updateCollectingEvent">
 									<input type="hidden" name="returnformat" value="json">
 									#blockform#
+<!--- TODO: Debug and fix form fields not populating as expected --->
 									<input type="button" class="btn btn-primary btn-xs" value="Save" onClick=" saveEvent(); ">
 									<output id="editCollEventStatus"></output>
 								</form>
