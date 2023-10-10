@@ -294,9 +294,9 @@
 					<cfloop query="getTempData">
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
 							UPDATE
-								attributes 
+								cf_temp_attributes
 							SET
-								attribute_type= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_TYPE#">
+								collection_object_id= cf_temp_data.collection_object_id,key=#key#
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
