@@ -202,7 +202,7 @@
 				update cf_temp_attributes set collection_object_id=
 				(select collection_object_id from cataloged_item where cataloged_item.collection_cde = 'cf_temp_attributes.collection_cde'
 				and cataloged_item.cat_num = 'cf_temp_attributes.other_id_number')
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				WHERE other_id_type = 'catalog number' AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
