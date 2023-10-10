@@ -200,7 +200,7 @@
 			<cfset collection_cde = ''>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_attributes set collection_object_id=
-				(select collection_object_id from cataloged_item where cataloged_item.collection_cde = cf_temp_attributes.collection_cde
+				(select collection_object_id from cataloged_item where cataloged_item.collection_cde = 'cf_temp_attributes.collection_cde'
 				and cataloged_item.cat_num = 'cf_temp_attributes.other_id_number')
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -223,7 +223,7 @@
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT collection_object_id,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,status
+				SELECT collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 				FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -247,7 +247,7 @@
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
-						<th>COLLECTION_OBJECT_ID</th>
+				
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
@@ -262,7 +262,7 @@
 					</tr>
 				<tbody>
 					<cfloop query="data">
-						<tr><td>#data.COLLECTION_OBJECT_ID#</td>
+						<tr>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
