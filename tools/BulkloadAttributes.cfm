@@ -296,7 +296,7 @@
 							UPDATE
 								cf_temp_attributes
 							SET
-								collection_object_id= cf_temp_data.collection_object_id,key=#key#
+								collection_object_id= #cf_temp_data.collection_object_id#,key=#key#
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
