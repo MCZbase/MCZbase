@@ -353,7 +353,7 @@
 							WHERE
 								ATTRIBUTE_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ATTRIBUTE_ID#">
 						</cfquery>
-						<cfset attribute_updates = attribute_updates + updateAttributes_result.recordcount>
+						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
@@ -363,7 +363,7 @@
 						FROM cf_temp_attributes 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-					<h3>Error updating row (#attribute_updates + 1#): #cfcatch.message#</h3>
+					<h3>Error updating row (#attributes_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
