@@ -233,7 +233,7 @@
 				</h3>
 			<cfelse>
 				<h2>
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadContEditParent.cfm?action=load">click to continue</a> if it all looks good.
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadAttributes.cfm?action=load">click to continue</a> if it all looks good.
 				</h2>
 			</cfif>
 			<table class='sortable table table-responsive table-striped d-lg-table'>
@@ -307,16 +307,22 @@
 				<table class='sortable table table-responsive table-striped d-lg-table'>
 					<thead>
 						<tr>
-							<th>container_unique_id</th><th>parent_unique_id</th><th>container_type</th><th>container_name</th><th>status</th>
+							<th>collection_cde</th><th>other_id_type</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_date</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
 						</tr> 
 					</thead>
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
-								<td>#getProblemData.container_unique_id#</td>
-								<td>#getProblemData.parent_unique_id#</td>
-								<td>#getProblemData.container_type#</td>
-								<td>#getProblemData.container_name#</td>
+								<td>#getProblemData.collection_cde#</td>
+								<td>#getProblemData.other_id_type#</td>
+								<td>#getProblemData.other_id_number#</td>
+								<td>#getProblemData.attribute#</td>
+								<td>#getProblemData.attribute_value#</td>
+								<td>#getProblemData.attribute_units#</td>
+								<td>#getProblemData.attribute_date#</td>
+								<td>#getProblemData.attribute_meth#</td>
+								<td>#getProblemData.determiner#</td>
+								<td>#getProblemData.remarks#</td>
 								<td>#getProblemData.status#</td>
 							</tr> 
 						</cfloop>
@@ -328,43 +334,25 @@
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfset container_updates = 0>
+					<cfset attributes_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
+						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
 							UPDATE
-								container 
+								attributes 
 							SET
-								label=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_NAME#">,
-								DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION#">,
-								PARENT_INSTALL_DATE=sysdate,
-								CONTAINER_REMARKS=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
-								<cfif len(#WIDTH#) gt 0>
-									,WIDTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#WIDTH#">
-								</cfif>
-								<cfif len(#HEIGHT#) gt 0>
-									,HEIGHT=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#HEIGHT#">
-								</cfif>
-								<cfif len(#LENGTH#) gt 0>
-									,LENGTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LENGTH#">
-								</cfif>
-								<cfif len(#NUMBER_POSITIONS#) gt 0>
-									,NUMBER_POSITIONS=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NUMBER_POSITIONS#">
-								</cfif>
-								<cfif len(#parent_container_id#) gt 0>
-									,parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
-								</cfif>
+								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">, attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">, attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, attribute_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, attribute_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_date#">, attribute_meth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">, determiner = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determiner#">, remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 							WHERE
-								CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
+								ATTRIBUTE_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ATTRIBUTE_ID#">
 						</cfquery>
-						<cfset container_updates = container_updates + updateContainer_result.recordcount>
+						<cfset attribute_updates = attribute_updates + updateAttributes_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
-						FROM cf_temp_cont_edit 
+						SELECT *, status 
+						FROM cf_temp_attributes 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
 					<h3>Error updating row (#container_updates + 1#): #cfcatch.message#</h3>
@@ -394,7 +382,7 @@
 			<h2>Success, changes applied.</h2>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_cont_edit 
+				DELETE FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
