@@ -202,7 +202,7 @@
 		<cfoutput>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
-				SET collection_object_id = (select collection_object_id from cataloged_item where collection_cde = '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.collection_cde#">' and cat_num = '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.other_id_number#">')
+				SET collection_object_id = (select collection_object_id from cataloged_item where collection_cde = '#cf_temp_attributes.collection_cde#' and cat_num = '#cf_temp_attributes.other_id_number#')
 				WHERE collection_object_id is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
