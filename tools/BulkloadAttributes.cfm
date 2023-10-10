@@ -13,10 +13,9 @@
 </cfif>
 <!--- end special case dump of problems --->
 <cfset fieldlist = "collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
-<!---<cfset fieldlist = "container_unique_id,parent_unique_id,container_type,container_name,description,remarks,width,height,length,number_positions">--->
+
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
-<!---<cfset requiredfieldlist = "container_unique_id,container_type,container_name">--->
 
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
@@ -364,7 +363,7 @@
 						FROM cf_temp_attributes 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-					<h3>Error updating row (#container_updates + 1#): #cfcatch.message#</h3>
+					<h3>Error updating row (#attribute_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
@@ -390,7 +389,7 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>Updated #attribute_updates# containers.</h2>
+			<h2>Updated #attribute_updates# attributes.</h2>
 			<h2>Success, changes applied.</h2>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
