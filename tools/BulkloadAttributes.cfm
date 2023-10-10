@@ -298,8 +298,8 @@
 							SET
 								collection_object_id= (
 							select collection_object_id from cataloged_item 
-							where collection_cde = #cf_temp_attributes.collection_cde#
-							and cat_num = #cf_temp_attributes.other_id_value#
+							where collection_cde = 'IZ'
+							and cat_num = 'HOL-1547'
 							),
 							key=#key#
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
