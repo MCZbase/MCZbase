@@ -12,7 +12,7 @@
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
-<cfset fieldlist = "collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
+<cfset fieldlist = "collection_object_id,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 <!---<cfset fieldlist = "container_unique_id,parent_unique_id,container_type,container_name,description,remarks,width,height,length,number_positions">--->
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
