@@ -245,6 +245,7 @@
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
+						<th>COLLECTION_OBJECT_ID</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
 						<th>OTHER_ID_NUMBER</th>
@@ -259,7 +260,7 @@
 					</tr>
 				<tbody>
 					<cfloop query="data">
-						<tr>
+						<tr><td>#data.COLLECTION_OBJECT_ID#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
