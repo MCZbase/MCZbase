@@ -1,11 +1,7 @@
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT 
-			collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, attribute_meth, determiner, remarks
-	<!---	container_unique_id,parent_unique_id,container_type,container_name, 
-			description, remarks, width, height, length, number_positions,
-			status --->
+		SELECT collection_cde, other_id_type, other_id_number, attribute, attribute_value, attribute_units, attribute_date, attribute_meth, determiner, remarks
 		FROM cf_temp_attributes 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -202,7 +198,7 @@
 		<cfoutput>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
-				SET collection_object_id = (select collection_object_id from cataloged_item where collection_cde = '#cf_temp_attributes.collection_cde#' and cat_num = '#cf_temp_attributes.other_id_number#')
+				SET collection_object_id = (select collection_object_id from cataloged_item where collection_cde = '#collection_cde#' and cat_num = '#other_id_number#')
 				WHERE collection_object_id is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
