@@ -307,8 +307,7 @@
 			<cfcatch>
 				<h2>There was a problem updating container types.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
-					<!---container_unique_id,parent_unique_id,container_type,container_name, status --->
+					SELECT collection_object_id, collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_unit, attribute_date,attribute_meth,determiner,remarks,status
 					FROM cf_temp_attributes 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
