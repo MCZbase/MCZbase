@@ -351,7 +351,7 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT *, status 
+						SELECT * 
 						FROM cf_temp_attributes 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
