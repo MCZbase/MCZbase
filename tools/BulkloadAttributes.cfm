@@ -356,7 +356,7 @@
 							SET
 								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">, attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">, attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, attribute_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, attribute_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_date#">, attribute_meth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">, determiner = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determiner#">, remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 							WHERE
-								ATTRIBUTE_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ATTRIBUTE_ID#">
+								username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 					</cfloop>
