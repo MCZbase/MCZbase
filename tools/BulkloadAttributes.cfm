@@ -359,16 +359,19 @@
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
-								<th>container_unique_id</th><th>parent_unique_id</th><th>container_type</th><th>container_name</th><th>status</th>
+								<th>collection_object_id</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
 							</tr> 
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
-									<td>#getProblemData.container_unique_id#</td>
-									<td>#getProblemData.parent_unique_id#</td>
-									<td>#getProblemData.container_type#</td>
-									<td>#getProblemData.container_name#</td>
+									<td>#getProblemData.collection_object_id#</td>
+									<td>#getProblemData.attribute#</td>
+									<td>#getProblemData.attribute_value#</td>
+									<td>#getProblemData.attribute_units#</td>
+									<td>#getProblemData.attribute_meth#</td>
+									<td>#getProblemData.determiner#</td>
+									<td>#getProblemData.remarks#</td>
 									<td>#getProblemData.status#</td>
 								</tr> 
 							</cfloop>
@@ -378,7 +381,7 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>Updated #container_updates# containers.</h2>
+			<h2>Updated #attribute_updates# containers.</h2>
 			<h2>Success, changes applied.</h2>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
