@@ -196,6 +196,8 @@
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
+			<cfset other_id_number = ''>
+			<cfset collection_cde = ''>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_attributes set collection_object_id=
 				(select collection_object_id from cataloged_item where cataloged_item.collection_cde = cf_temp_attributes.collection_cde
