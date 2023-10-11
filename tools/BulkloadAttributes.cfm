@@ -274,7 +274,7 @@
 		</cfoutput>
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
-<!---	<cfif action is "load">
+	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -381,7 +381,7 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
-	</cfif>--->
+	</cfif>
 
 </main>
 <cfinclude template="/shared/_footer.cfm">
