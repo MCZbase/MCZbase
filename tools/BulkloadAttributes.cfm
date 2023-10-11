@@ -197,13 +197,24 @@
 		<cfoutput>
 			<cfset other_id_number = ''>
 			<cfset collection_cde = ''>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_attributes set collection_object_id=
 				(select collection_object_id from cataloged_item where cataloged_item.collection_cde = 'cf_temp_attributes.collection_cde'
 				and cataloged_item.cat_num = 'cf_temp_attributes.other_id_number')
 				WHERE other_id_type = 'catalog number' AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-
+			</cfquery>--->
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
+							UPDATE
+								cf_temp_attributes
+							SET
+								collection_object_id= (
+									select collection_object_id from cataloged_item 
+									where collection_cde = 'Mala'
+									and cat_num = '254262'
+								),
+							key=#key#
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
 				SET status = 'attribute_not_found'
@@ -292,17 +303,8 @@
 				<cfset attributes_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
-							UPDATE
-								cf_temp_attributes
-							SET
-								collection_object_id= (
-									select collection_object_id from cataloged_item 
-									where collection_cde = 'Mala'
-									and cat_num = '254262'
-								),
-							key=#key#
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
+							INSERT into attributes (COLLECTION_OBJECT_ID,ATTRIBUTE_TYPE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,DETERMINED_DATE,DETERMINATION_METHOD, DETERMINED_BY_AGENT_ID,ATTRIBUTE_REMARK)VALUES(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_date#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determiner#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">)
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 					</cfloop>
