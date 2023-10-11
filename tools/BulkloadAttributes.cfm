@@ -389,7 +389,7 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>Updated #attribute_updates# attributes.</h2>
+			<h2>Updated #attributes_updates# attributes.</h2>
 			<h2>Success, changes applied.</h2>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
