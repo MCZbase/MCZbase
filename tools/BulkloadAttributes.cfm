@@ -307,7 +307,7 @@
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 					</cfloop>
 				</cftransaction>
-				<h2>Updated types for #attributes_updates# containers.</h2>
+				<h2>Updated #attributes_updates# attributes.</h2>
 			<cfcatch>
 				<h2>There was a problem updating container types.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
