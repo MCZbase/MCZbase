@@ -351,7 +351,7 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
-							INSERT
+							INSERT into
 								attributes 
 							SET
 								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">, attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">, attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, attribute_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, determined_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_date#">, determination_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">, determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determiner#">, attribute_remark = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
