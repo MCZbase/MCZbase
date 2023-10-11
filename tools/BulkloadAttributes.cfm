@@ -203,7 +203,11 @@
 				and cataloged_item.cat_num = 'cf_temp_attributes.other_id_number')
 				WHERE other_id_type = 'catalog number' AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-		
+			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_attributes set determiner=
+				(select agent_id from preferred_agent_name where preferred_agent_name.agent_name = 'cf_temp_attributes.determiner')
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
 				SET status = 'attribute_not_found'
@@ -354,7 +358,7 @@
 							UPDATE
 								attributes 
 							SET
-								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">, attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">, attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, attribute_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, attribute_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_date#">, attribute_meth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">, determiner = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determiner#">, attribute_remark = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
+								collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">, attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">, attribute_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, attribute_units = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, attribute_date = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_date#">, attribute_meth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">, determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determiner#">, attribute_remark = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 					</cfloop>
