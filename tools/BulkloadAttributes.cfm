@@ -207,11 +207,7 @@
 							UPDATE
 								cf_temp_attributes
 							SET
-								collection_object_id= (
-									select collection_object_id from cataloged_item 
-									where collection_cde = 'Mala'
-									and cat_num = '254262'
-								),
+								collection_object_id= 999322,
 							key=#key#
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
