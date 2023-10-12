@@ -206,10 +206,7 @@
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_bl_relations set collection_object_id = 
 				(
-					select collection_object_id 
-					from cataloged_item
-					where collection_cde = #cf_temp_bl_relations.collection_cde#
-					and cat_num = '#cf_temp_bl_relations.other_id_val#'
+					 select collection_object_id from cataloged_item where cat_num = cf_temp_relations.other_id_number and collection_cde = cf_temp_relations.collection_cde
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
