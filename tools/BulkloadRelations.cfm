@@ -275,8 +275,8 @@
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
-						<!---<th>COLLECTION_OBJECT_ID</th>
-						<th>RELATED_COLLECTION_OBJECT_ID</th>--->
+						<th>COLLECTION_OBJECT_ID</th>
+						<th>RELATED_COLLECTION_OBJECT_ID</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -292,8 +292,8 @@
 				<tbody>
 					<cfloop query="data">
 						<tr>
-						<!---	<td>#data.COLLECTION_OBJECT_ID#</td>
-							<td>#data.RELATED_COLLECTION_OBJECT_ID#</td>--->
+							<td>#data.COLLECTION_OBJECT_ID#</td>
+							<td>#data.RELATED_COLLECTION_OBJECT_ID#</td>
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
@@ -327,7 +327,7 @@
 						<cfloop query="getTempData">
 							<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelations_result">
 							insert into 
-								BIOL_INDIV_RELATIONS (collection_object_id,related_coll_object_id,biol_indiv_relationship,biol_indiv_relation_remarks) values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#biol_indiv_relation_remarks#">)
+								BIOL_INDIV_RELATIONS (collection_object_id,related_coll_object_id,biol_indiv_relationship,biol_indiv_relation_remarks) values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_bl_relations.collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_bl_relations.related_collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_bl_relations.relationship#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_bl_relations.biol_indiv_relation_remarks#">)
 							</cfquery>
 							<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 						</cfloop>
