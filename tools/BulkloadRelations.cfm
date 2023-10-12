@@ -216,7 +216,7 @@
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_bl_relations set related_collection_object_id = 
+					update cf_temp_bl_relations set related_coll_object_id = 
 				(
 					select rci.collection_object_id
 					from cataloged_item rci
