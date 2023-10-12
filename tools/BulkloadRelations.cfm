@@ -210,8 +210,8 @@
 				(
 					select collection_object_id 
 					from cataloged_item
-					where collection_cde = cf_temp_bl_relations.collection_cde
-					and cat_num = 'cf_temp_bl_relations.other_id_val'
+					where collection_cde = #cf_temp_bl_relations.collection_cde#
+					and cat_num = '#cf_temp_bl_relations.other_id_val#'
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -220,8 +220,8 @@
 				(
 					select collection_object_id
 					from cataloged_item
-					where collection_cde = cf_temp_bl_relations.related_collection_cde
-					and cat_num = 'cf_temp_bl_relations.related_other_id_val'
+					where collection_cde = #cf_temp_bl_relations.related_collection_cde#
+					and cat_num = '#cf_temp_bl_relations.related_other_id_val#'
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
