@@ -332,7 +332,7 @@
 						<cfloop query="getTempData">
 							<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelations_result">
 							insert into 
-								BIOL_INDIV_RELATIONS (collection_object_id,related_collection_object_id,biol_indiv_relationship,biol_indiv_relation_remarks) values (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_coll_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#biol_indiv_relationship#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#biol_indiv_relation_remarks#">)
+								BIOL_INDIV_RELATIONS (collection_object_id,related_collection_object_id,biol_indiv_relationship,biol_indiv_relation_remarks) values (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#biol_indiv_relationship#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#biol_indiv_relation_remarks#">)
 							</cfquery>
 							<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 						</cfloop>
@@ -400,7 +400,7 @@
 							Insert into 
 							biol_indiv_relations 
 							(collection_object_id,RELATED_COLLECTION_OBJECT_ID,biol_indiv_relationship,biol_indiv_relation_remarks) 
-							values (#collection_object_id#,#related_coll_object_id#,'#relationship#','#biol_indiv_relation_remarks#')
+							values (#collection_object_id#,#related_collection_object_id#,'#relationship#','#biol_indiv_relation_remarks#')
 						</cfquery>
 						<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 					</cfloop>
