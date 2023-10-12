@@ -203,20 +203,20 @@
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
-				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getCID2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_bl_relations set collection_object_id = 
 				(
-					 select collection_object_id from cataloged_item where cat_num = cf_temp_relations.other_id_number and collection_cde = cf_temp_relations.collection_cde
+					 select collection_object_id from cataloged_item where cat_num = 'cf_temp_bl_relations.other_id_number' and collection_cde = cf_temp_bl_relations.collection_cde
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getCID3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_bl_relations set RELATED_COLLECTION_OBJECT_ID = 
 				(
 					select collection_object_id
 					from cataloged_item
-					where collection_cde = #cf_temp_bl_relations.related_collection_cde#
-					and cat_num = '#cf_temp_bl_relations.related_other_id_val#'
+					where collection_cde = cf_temp_bl_relations.related_collection_cde
+					and cat_num = 'cf_temp_bl_relations.related_other_id_val'
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
