@@ -197,15 +197,13 @@
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
-<!---			<cfset other_id_number = ''>
-			<cfset collection_cde = ''>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
 				UPDATE
 					cf_temp_attributes
 				SET
-					collection_object_id= 999322
+					collection_object_id= (select collection_object_id from cataloged_item where cat_num = cf_temp_attributes.other_id_number and cf_temp_attributes.collection_cde)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>--->
+			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
 				SET status = 'attribute_not_found'
