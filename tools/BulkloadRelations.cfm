@@ -204,15 +204,12 @@
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_bl_relations set collection_object_id = 999320
-				<!---	(select collection_object_id from cataloged_item where cat_num = 'cf_temp_bl_relations.other_id_val' and collection_cde = cf_temp_bl_relations.collection_cde)--->
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					update cf_temp_bl_relations set collection_object_id = (select collection_object_id from cataloged_item where cat_num = 'cf_temp_bl_relations.other_id_val' and collection_cde = cf_temp_bl_relations.collection_cde)
 				</cfquery>
 				<cfquery name="getRCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_bl_relations set RELATED_COLLECTION_OBJECT_ID = 999324 
-			<!---		(select collection_object_id from cataloged_item 
-					where collection_cde = cf_temp_bl_relations.related_collection_cde and cat_num = 'cf_temp_bl_relations.related_other_id_val) --->
-					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					update cf_temp_bl_relations set RELATED_COLLECTION_OBJECT_ID = 
+					(select collection_object_id from cataloged_item 
+					where collection_cde = cf_temp_bl_relations.related_collection_cde and cat_num = 'cf_temp_bl_relations.related_other_id_val) where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_bl_relations
@@ -269,8 +266,7 @@
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
-						<th>COLLECTION_OBJECT_ID</th>
-						<th>RELATED_COLLECTION_OBJECT_ID</th>
+
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -286,8 +282,7 @@
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td>#data.COLLECTION_OBJECT_ID#</td>
-							<td>#data.RELATED_COLLECTION_OBJECT_ID#</td>
+				
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
@@ -344,8 +339,7 @@
 					<h3>Problematic Rows (<a href="/tools/BulkloadRelations.cfm?action=dumpProblems">download</a>)</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
-							<tr><th>COLLECTION_OBJECT_ID</th>
-						<th>RELATED_COLLECTION_OBJECT_ID</th>
+							<tr>
 								<th>INSTITUTION_ACRONYM</th>
 								<th>COLLECTION_CDE</th>
 								<th>OTHER_ID_TYPE</th>
@@ -361,8 +355,7 @@
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
-								<tr><td>#data.COLLECTION_OBJECT_ID#</td>
-									<td>#data.RELATED_COLLECTION_OBJECT_ID#</td>
+								<tr>
 									<td>#getProblemData.INSTITUTION_ACRONYM#</td>
 									<td>#getProblemData.COLLECTION_CDE#</td>
 									<td>#getProblemData.OTHER_ID_TYPE#</td>
@@ -397,7 +390,7 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT collection_object_id, related_collection_object_id,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,
+							SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,
 							RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,validated_status
 							FROM cf_temp_bl_relations
 							WHERE validated_status is not null
@@ -406,8 +399,7 @@
 						<h3>Error updating row (#relations_updates + 1#): #cfcatch.message#</h3>
 						<table class='sortable table table-responsive table-striped d-lg-table'>
 							<thead>
-								<tr><th>COLLECTION_OBJECT_ID</th>
-									<th>RELATED_COLLECTION_OBJECT_ID</th>
+								<tr>
 									<th>INSTITUTION_ACRONYM</th>
 									<th>COLLECTION_CDE</th>
 									<th>OTHER_ID_TYPE</th>
@@ -424,8 +416,6 @@
 							<tbody>
 								<cfloop query="getProblemData">
 									<tr>
-										<td>#data.COLLECTION_OBJECT_ID#</td>
-										<td>#data.RELATED_COLLECTION_OBJECT_ID#</td>
 										<td>#getProblemData.INSTITUTION_ACRONYM#</td>
 										<td>#getProblemData.COLLECTION_CDE#</td>
 										<td>#getProblemData.OTHER_ID_TYPE#</td>
