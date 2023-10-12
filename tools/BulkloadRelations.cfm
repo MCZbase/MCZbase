@@ -208,20 +208,20 @@
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_bl_relations set collection_object_id = 
 				(
-					select ci.collection_object_id 
-					from cataloged_item ci
-					where ci.collection_cde = cf_temp_bl_relations.collection_cde
-					and ci.cat_num = 'cf_temp_bl_relations.other_id_val'
+					select collection_object_id 
+					from cataloged_item
+					where collection_cde = cf_temp_bl_relations.collection_cde
+					and cat_num = 'cf_temp_bl_relations.other_id_val'
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_bl_relations set RELATED_COLLECTION_OBJECT_ID = 
 				(
-					select rci.collection_object_id
-					from cataloged_item rci
-					where rci.collection_cde = cf_temp_bl_relations.related_collection_cde
-					and rci.cat_num = 'cf_temp_bl_relations.related_other_id_val'
+					select collection_object_id
+					from cataloged_item
+					where collection_cde = cf_temp_bl_relations.related_collection_cde
+					and cat_num = 'cf_temp_bl_relations.related_other_id_val'
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
