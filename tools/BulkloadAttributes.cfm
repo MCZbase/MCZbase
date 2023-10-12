@@ -208,7 +208,7 @@
 				UPDATE
 					cf_temp_attributes
 				SET
-					determined_by_agent_id= (select agent_id from preferred_agent_name where agent_name = cf_temp_attributes.dterminer)
+					determined_by_agent_id= (select agent_id from preferred_agent_name where agent_name = cf_temp_attributes.determiner)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
