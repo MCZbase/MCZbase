@@ -140,7 +140,7 @@
 					<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 					<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
 					<h3 class="h4">Found #arrayLen(colNameArray)# matching columns in header of csv file.</h3>
-					<ul class="geol_hier">
+					<ul>
 						<cfloop list="#fieldlist#" index="field" delimiters=",">
 							<cfif listContains(requiredfieldlist,field,",")>
 								<cfset class="text-danger">
