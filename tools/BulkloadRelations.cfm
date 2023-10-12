@@ -256,7 +256,7 @@
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT INSTITUTION_ACRONYM,collection_object_id,related_collection_object_id,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,VALIDATED_STATUS
+				SELECT INSTITUTION_ACRONYM,COLLECTION_OBJECT_ID,RELATED_COLLECTION_OBJECT_ID,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,VALIDATED_STATUS
 				FROM cf_temp_bl_relations 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
