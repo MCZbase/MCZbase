@@ -397,10 +397,8 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelations_result">
-							Insert into 
-							biol_indiv_relations 
-							(collection_object_id,RELATED_COLLECTION_OBJECT_ID,biol_indiv_relationship,biol_indiv_relation_remarks) 
-							values (#collection_object_id#,#related_collection_object_id#,'#relationship#','#biol_indiv_relation_remarks#')
+							insert into 
+								BIOL_INDIV_RELATIONS (collection_object_id,related_coll_object_id,biol_indiv_relationship,biol_indiv_relation_remarks) values (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#biol_indiv_relation_remarks#">)
 						</cfquery>
 						<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 					</cfloop>
