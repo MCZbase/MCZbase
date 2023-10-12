@@ -203,8 +203,6 @@
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
-			<cfset other_id_val = ''>
-			<cfset related_other_id_type = ''>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_bl_relations set collection_object_id = 
 				(
