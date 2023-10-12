@@ -350,7 +350,8 @@
 					<h3>Problematic Rows (<a href="/tools/BulkloadRelations.cfm?action=dumpProblems">download</a>)</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
-							<tr>
+							<tr><th>COLLECTION_OBJECT_ID</th>
+						<th>RELATED_COLLECTION_OBJECT_ID</th>
 								<th>INSTITUTION_ACRONYM</th>
 								<th>COLLECTION_CDE</th>
 								<th>OTHER_ID_TYPE</th>
@@ -366,7 +367,8 @@
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
-								<tr>
+								<tr><td>#data.COLLECTION_OBJECT_ID#</td>
+									<td>#data.RELATED_COLLECTION_OBJECT_ID#</td>
 									<td>#getProblemData.INSTITUTION_ACRONYM#</td>
 									<td>#getProblemData.COLLECTION_CDE#</td>
 									<td>#getProblemData.OTHER_ID_TYPE#</td>
@@ -401,7 +403,7 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,
+							SELECT collection_object_id, related_collection_object_id,INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,
 							RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,validated_status
 							FROM cf_temp_bl_relations
 							WHERE validated_status is not null
@@ -410,7 +412,8 @@
 						<h3>Error updating row (#relations_updates + 1#): #cfcatch.message#</h3>
 						<table class='sortable table table-responsive table-striped d-lg-table'>
 							<thead>
-								<tr>
+								<tr><th>COLLECTION_OBJECT_ID</th>
+									<th>RELATED_COLLECTION_OBJECT_ID</th>
 									<th>INSTITUTION_ACRONYM</th>
 									<th>COLLECTION_CDE</th>
 									<th>OTHER_ID_TYPE</th>
@@ -427,6 +430,8 @@
 							<tbody>
 								<cfloop query="getProblemData">
 									<tr>
+										<td>#data.COLLECTION_OBJECT_ID#</td>
+										<td>#data.RELATED_COLLECTION_OBJECT_ID#</td>
 										<td>#getProblemData.INSTITUTION_ACRONYM#</td>
 										<td>#getProblemData.COLLECTION_CDE#</td>
 										<td>#getProblemData.OTHER_ID_TYPE#</td>
