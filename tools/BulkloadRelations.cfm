@@ -335,7 +335,7 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 						<cfloop query="getTempData">
 							<cfquery name="updateRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateRelations_result">
 							insert into 
-								BIOL_INDIV_RELATIONS (collection_object_id,related_coll_object_id,biol_indiv_relationship) values (#collection_object_id#,#related_collection_object_id#,'#relationship#',#BIOL_INDIV_RELATION_REMARKS#)
+								BIOL_INDIV_RELATIONS (collection_object_id,related_coll_object_id,biol_indiv_relationship,biol_indiv_relation_remarks) values (#collection_object_id#,#related_collection_object_id#,'#relationship#',#BIOL_INDIV_RELATION_REMARKS#)
 							</cfquery>
 							<cfset relations_updates = relations_updates + updateRelations_result.recordcount>
 						</cfloop>
@@ -415,13 +415,12 @@ SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHI
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT 	
-							<!---	COLLECTION_OBJECT_ID, RELATED_COLL_OBJECT_ID,--->			INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,validated_status
+							SELECT INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_VAL,RELATIONSHIP,RELATED_INSTITUTION_ACRONYM,
+							RELATED_COLLECTION_CDE,RELATED_OTHER_ID_TYPE,RELATED_OTHER_ID_VAL,BIOL_INDIV_RELATION_REMARKS,validated_status
 							FROM cf_temp_bl_relations
 							WHERE validated_status is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-							<!---,BIOL_INDIV_RELATION_REMARKS--->
 						<h3>Error updating row (#relations_updates + 1#): #cfcatch.message#</h3>
 						<table class='sortable table table-responsive table-striped d-lg-table'>
 							<thead>
