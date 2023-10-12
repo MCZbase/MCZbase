@@ -204,12 +204,15 @@
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_bl_relations set collection_object_id = (select collection_object_id from cataloged_item where cat_num = 'cf_temp_bl_relations.other_id_val' and collection_cde = cf_temp_bl_relations.collection_cde)
+					update cf_temp_bl_relations set collection_object_id = 999320
+				<!---	(select collection_object_id from cataloged_item where cat_num = 'cf_temp_bl_relations.other_id_val' and collection_cde = cf_temp_bl_relations.collection_cde)--->
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_bl_relations set RELATED_COLLECTION_OBJECT_ID = (select collection_object_id from cataloged_item 
-					where collection_cde = cf_temp_bl_relations.related_collection_cde and cat_num = 'cf_temp_bl_relations.related_other_id_val'
-				) where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				<cfquery name="getRCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update cf_temp_bl_relations set RELATED_COLLECTION_OBJECT_ID = 999324 
+			<!---		(select collection_object_id from cataloged_item 
+					where collection_cde = cf_temp_bl_relations.related_collection_cde and cat_num = 'cf_temp_bl_relations.related_other_id_val) --->
+					where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_bl_relations
@@ -217,7 +220,7 @@
 				WHERE other_id_val is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="miab" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_bl_relations
 				SET validated_status = 'No ID match'
 				WHERE related_other_id_val is null
