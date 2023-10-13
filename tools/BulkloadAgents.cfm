@@ -299,7 +299,7 @@
 						</cfquery>
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
 							insert into agent_name
-							(agent_name_type,agent_name,agent_id) values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_name_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_ID#">)
+							(agent_name_type,agent_name) values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_name_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_name#">)
 						</cfquery>
 						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
 					</cfloop>
