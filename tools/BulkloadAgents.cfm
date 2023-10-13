@@ -295,7 +295,7 @@
 					<cfloop query="getTempData">
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
 							insert into agent
-							(agent_id,agent_type,agent_remarks,agentguid_guid_type,agentguid,preferred_agent_name_id) values(sq_agent_id.nextval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remark#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid_guid_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,#agent_name_id#)
+							(agent_id,agent_type,agent_remarks,agentguid_guid_type,agentguid,preferred_agent_name_id) values(sq_agent_id.nextval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remark#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid_guid_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,#preferred_agent_name_id#)
 						</cfquery>
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
 							insert into agent_name
@@ -321,7 +321,17 @@
 				<table class='sortable table table-responsive table-striped d-lg-table'>
 					<thead>
 						<tr>
-							<th>agent_type</th><th>preferred_name</th><th>first_name</th><th>middle_name</th><th>last_name</th><th>birth_date</th><th>death_date</th><th>agent_remark</th><th>prefix</th><th>suffix</th><th>other_name_1</th><th>other_name_type_1</th><th>other_name_2</th><th>other_name_type_2</th><th>other_name_3</th><th>other_name_type_3</th><th>agentguid_guid_type</th><th>agentguid</th><th>status</th>
+							<th>agent_type</th>
+							<th>preferred_name</th>
+							<th>first_name</th>
+							<th>middle_name</th>
+							<th>last_name</th>
+							<th>birth_date</th>
+							<th>death_date</th>
+							<th>agent_remark</th>
+							<th>prefix</th>
+							<th>suffix</th>
+							<th>other_name_1</th><th>other_name_type_1</th><th>other_name_2</th><th>other_name_type_2</th><th>other_name_3</th><th>other_name_type_3</th><th>agentguid_guid_type</th><th>agentguid</th><th>status</th>
 						</tr> 
 					</thead>
 					<tbody>
@@ -368,7 +378,19 @@
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
-								<th>Agent_id</th><th>parent_unique_id</th><th>container_type</th><th>container_name</th><th>status</th>
+								<th>agent_type</th>
+								<th>preferred_name</th>
+								<th>agent_remark</th>
+								<th>agent_type</th>
+								<th>preferred_name</th>
+								<th>agent_remark</th>
+								<th>agent_type</th>
+								<th>preferred_name</th>
+								<th>agent_remark</th>
+								<th>agent_type</th>
+								<th>preferred_name</th>
+								<th>agent_remark</th>
+								<th>status</th>
 							</tr> 
 						</thead>
 						<tbody>
@@ -377,7 +399,16 @@
 									<td>#getProblemData.container_unique_id#</td>
 									<td>#getProblemData.parent_unique_id#</td>
 									<td>#getProblemData.container_type#</td>
-									<td>#getProblemData.container_name#</td>
+									<td>#getProblemData.preferred_name#</td>
+									<td>#getProblemData.parent_unique_id#</td>
+									<td>#getProblemData.container_type#</td>
+									<td>#getProblemData.preferred_name#</td>
+									<td>#getProblemData.parent_unique_id#</td>
+									<td>#getProblemData.container_type#</td>
+									<td>#getProblemData.preferred_name#</td>
+									<td>#getProblemData.parent_unique_id#</td>
+									<td>#getProblemData.container_type#</td>
+									<td>#getProblemData.preferred_name#</td>
 									<td>#getProblemData.status#</td>
 								</tr> 
 							</cfloop>
@@ -387,7 +418,7 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>Updated #container_updates# containers.</h2>
+			<h2>Updated #agent_updates# agents.</h2>
 			<h2>Success, changes applied.</h2>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
