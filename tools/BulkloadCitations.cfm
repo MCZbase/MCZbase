@@ -2,7 +2,7 @@
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT publication_title,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks,institution_acronym,collection_cde,other_id_type,other_id_number 
-		FROM cf_temp_agents 
+		FROM cf_temp_citation 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
@@ -78,7 +78,7 @@
 		
 			<!--- cleanup any incomplete work by the same user --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_agents 
+				DELETE FROM cf_temp_citation 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			
@@ -145,7 +145,7 @@
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
-							insert into cf_temp_agents
+							insert into cf_temp_citation
 								(#fieldlist#,username)
 							values (
 								<cfset separator = "">
@@ -224,14 +224,14 @@
 			</cfquery>
 			<cfif pf.c gt 0>
 				<h2>
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadAgents.cfm?action=dumpProblems">download</a>).
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>).
 				</h2>
 				<h3>
-					Fix the problems in the data and <a href="/tools/BulkloadAgents.cfm">start again</a>.
+					Fix the problems in the data and <a href="/tools/BulkloadCitations.cfm">start again</a>.
 				</h3>
 			<cfelse>
 				<h2>
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadAgents.cfm?action=load">click to continue</a> if it all looks good.
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadCitations.cfm?action=load">click to continue</a> if it all looks good.
 				</h2>
 			</cfif>
 			<table class='sortable table table-responsive table-striped d-lg-table'>
@@ -284,16 +284,8 @@
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							insert into agent
-							(preferred_agent_name_id) values(sq_agent_id.nextval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid_guid_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,sq_agent_id.nextval)
-						</cfquery>
-						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							insert into agent_name
-							(agent_name_id,agent_id,agent_name_type,agent_name) values(sq_agent_name_id.nextval,sq_agent_id.currval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_name_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preferred_name#">)
-						</cfquery>
-						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							insert into person
-							(person_id,prefix,last_name,first_name,middle_name,suffix,birth_date,death_date) values(sq_agent_id.currval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suffix#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(birth_date,'yyyy-mm-dd')#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(death_date,'yyyy-mm-dd')#">)
+							insert into citatons
+							(publication_title,publication_id) values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_title#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">)
 						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
@@ -302,8 +294,8 @@
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name, other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, status 
-					FROM cf_temp_agents 
+					SELECT publication_title,publication_id, status 
+					FROM cf_temp_citation 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
