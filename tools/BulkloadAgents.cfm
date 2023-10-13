@@ -31,7 +31,7 @@
 </cfif>
 
 <!--- Normal page delivery with header/footer --->
-<cfset pageTitle = "Bulk Edit Container">
+<cfset pageTitle = "Bulkload Agents">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container py-3" id="content">
@@ -39,7 +39,7 @@
 
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool is used to edit container information and/or move parts to a different parent container.</p>
+			<p>This tool is used to bulkload agents.</p>
 			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
@@ -59,7 +59,7 @@
 					<li class="#class#">#field#</li>
 				</cfloop>
 			</ul>
-			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadContEditParent.cfm">
+			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAgents.cfm">
 				<input type="hidden" name="Action" value="getFile">
 				<input type="file" name="FiletoUpload" size="45">
 				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
@@ -186,37 +186,26 @@
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_agents set container_id=
-				(select container_id from container where container.barcode = cf_temp_agents.container_unique_id)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_agents set parent_container_id=
-				(select container_id from container where container.barcode = cf_temp_agents.parent_unique_id)
+				update cf_temp_agents set agent_type=
+				(select agent_type from ctagent_type)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_agents 
-				SET status = 'container_not_found'
-				WHERE container_id is null
+				SET status = 'agent_type_not_found'
+				WHERE agent_type is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_agents 
-				SET status = 'parent_container_not_found'
-				WHERE parent_container_id is null and parent_unique_id is not null
+				SET status = 'last_name_not_found'
+				WHERE last_name is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_agents 
-				SET status = 'bad_container_type'
-				WHERE container_type not in (select container_type from ctcontainer_type)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_agents
-				SET status = 'missing_label'
-				WHERE CONTAINER_NAME is null
+				SET status = 'preferred_name_not_found'
+				WHERE preferred_name is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -305,12 +294,15 @@
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
-							UPDATE
-								agent_name 
+							insert into agent
 							SET
-								agent_name_type= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_TYPE#">
-							WHERE
-								AGENT_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#AGENT_ID#">
+								agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_TYPE#">,
+						</cfquery>
+						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
+							insert into agent_name
+							SET
+								agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_TYPE#">,
+								agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preferred_name#">
 						</cfquery>
 						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
 					</cfloop>
@@ -353,50 +345,32 @@
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfset container_updates = 0>
+					<cfset agent_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
+						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
 							UPDATE
-								container 
+								agents
 							SET
-								label=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_NAME#">,
-								DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION#">,
-								PARENT_INSTALL_DATE=sysdate,
-								CONTAINER_REMARKS=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
-								<cfif len(#WIDTH#) gt 0>
-									,WIDTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#WIDTH#">
-								</cfif>
-								<cfif len(#HEIGHT#) gt 0>
-									,HEIGHT=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#HEIGHT#">
-								</cfif>
-								<cfif len(#LENGTH#) gt 0>
-									,LENGTH=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LENGTH#">
-								</cfif>
-								<cfif len(#NUMBER_POSITIONS#) gt 0>
-									,NUMBER_POSITIONS=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NUMBER_POSITIONS#">
-								</cfif>
-								<cfif len(#parent_container_id#) gt 0>
-									,parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
-								</cfif>
+								
 							WHERE
-								CONTAINER_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
+								Agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#AGENT_ID#">
 						</cfquery>
-						<cfset container_updates = container_updates + updateContainer_result.recordcount>
+						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
-						FROM cf_temp_cont_edit 
+						SELECT agent_id,preferred_name,status 
+						FROM cf_temp_agents 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-					<h3>Error updating row (#container_updates + 1#): #cfcatch.message#</h3>
+					<h3>Error updating row (#agent_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
-								<th>container_unique_id</th><th>parent_unique_id</th><th>container_type</th><th>container_name</th><th>status</th>
+								<th>Agent_id</th><th>parent_unique_id</th><th>container_type</th><th>container_name</th><th>status</th>
 							</tr> 
 						</thead>
 						<tbody>
