@@ -209,7 +209,7 @@
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name_1, other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, status
+				SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name, other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, status
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -243,8 +243,8 @@
 						<th>AGENT_REMARK</th>
 						<th>PREFIX</th>
 						<th>SUFFIX</th>
-						<th>OTHER_NAME_1</th>
-						<th>OTHER_NAME_TYPE_1</th>
+						<th>OTHER_NAME</th>
+						<th>OTHER_NAME_TYPE</th>
 						<th>OTHER_NAME_2</th>
 						<th>OTHER_NAME_TYPE_2</th>
 						<th>OTHER_NAME_3</th>
@@ -266,8 +266,8 @@
 							<td>#data.AGENT_REMARK#</td>
 							<td>#data.PREFIX#</td>
 							<td>#data.SUFFIX#</td>
-							<td>#data.OTHER_NAME_1#</td>
-							<td>#data.OTHER_NAME_TYPE_1#</td>
+							<td>#data.OTHER_NAME#</td>
+							<td>#data.OTHER_NAME_TYPE#</td>
 							<td>#data.OTHER_NAME_2#</td>
 							<td>#data.OTHER_NAME_TYPE_2#</td>
 							<td>#data.OTHER_NAME_3#</td>
@@ -311,7 +311,7 @@
 			<cfcatch>
 				<h2>There was a problem updating container types.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name_1, other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, status 
+					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name, other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, status 
 					FROM cf_temp_agents 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
