@@ -384,35 +384,47 @@
 							<tr>
 								<th>agent_type</th>
 								<th>preferred_name</th>
+								<th>first_name</th>
+								<th>middle_name</th>
+								<th>last_name</th>
+								<th>birth_date</th>
+								<th>death_date</th>
 								<th>agent_remark</th>
-								<th>agent_type</th>
-								<th>preferred_name</th>
-								<th>agent_remark</th>
-								<th>agent_type</th>
-								<th>preferred_name</th>
-								<th>agent_remark</th>
-								<th>agent_type</th>
-								<th>preferred_name</th>
-								<th>agent_remark</th>
+								<th>prefix</th>
+								<th>suffix</th>
+								<th>other_name_type</th>
+								<th>other_name</th>
+								<th>other_name_type_2</th>
+								<th>other_name_2</th>
+								<th>other_name_type_3</th>
+								<th>other_name_3</th>
+								<th>username</th>
+								<th>agentguid_guid_type</th>
+								<th>agentguid</th>
 								<th>status</th>
 							</tr> 
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
-									<td>#getProblemData.container_unique_id#</td>
-									<td>#getProblemData.parent_unique_id#</td>
-									<td>#getProblemData.container_type#</td>
+									<td>#getProblemData.agent_type#</td>
 									<td>#getProblemData.preferred_name#</td>
-									<td>#getProblemData.parent_unique_id#</td>
-									<td>#getProblemData.container_type#</td>
-									<td>#getProblemData.preferred_name#</td>
-									<td>#getProblemData.parent_unique_id#</td>
-									<td>#getProblemData.container_type#</td>
-									<td>#getProblemData.preferred_name#</td>
-									<td>#getProblemData.parent_unique_id#</td>
-									<td>#getProblemData.container_type#</td>
-									<td>#getProblemData.preferred_name#</td>
+									<td>#getProblemData.first_name#</td>
+									<td>#getProblemData.middle_name#</td>
+									<td>#getProblemData.last_name#</td>
+									<td>#getProblemData.birth_date#</td>
+									<td>#getProblemData.death_date#</td>
+									<td>#getProblemData.agent_remark#</td>
+									<td>#getProblemData.prefix#</td>
+									<td>#getProblemData.suffix#</td>
+									<td>#getProblemData.other_name_type#</td>
+									<td>#getProblemData.other_name#</td>
+									<td>#getProblemData.other_name_type_2#</td>
+									<td>#getProblemData.other_name_2#</td>
+									<td>#getProblemData.other_name_type_3#</td>
+									<td>#getProblemData.other_name_3#</td>
+									<td>#getProblemData.agentguid_guid_type#</td>
+									<td>#getProblemData.agentguid#</td>
 									<td>#getProblemData.status#</td>
 								</tr> 
 							</cfloop>
