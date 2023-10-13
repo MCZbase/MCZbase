@@ -295,14 +295,11 @@
 					<cfloop query="getTempData">
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
 							insert into agent
-							SET
-								agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_TYPE#">,
+							(agent_type,agent_remarks,agentguid_guid_type,agentguid) values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remarks#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid_guid_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">)
 						</cfquery>
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
 							insert into agent_name
-							SET
-								agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_TYPE#">,
-								agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preferred_name#">
+							(agent_name_type,agent_name,agent_id) values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_name_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_ID#">)
 						</cfquery>
 						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
 					</cfloop>
