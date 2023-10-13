@@ -1,7 +1,7 @@
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name_1, other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, status 
+		SELECT agent_type,preferred_name,first_name,middle_name,last_name,birth_date,death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid,status 
 		FROM cf_temp_agents 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -13,7 +13,7 @@
 </cfif>
 <!--- end special case dump of problems --->
 
-<cfset fieldlist = "agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix,other_name_1, other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid">
+<cfset fieldlist = "agent_type,preferred_name,first_name,middle_name,last_name,birth_date, death_date,agent_remark,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type,agentguid">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR, CF_SQL_VARCHAR,CF_SQL_VARCHAR, CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "agent_type,preferred_name,last_name">
 
@@ -145,7 +145,7 @@
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
-							insert into cf_temp_agent
+							insert into cf_temp_agents
 								(#fieldlist#,username)
 							values (
 								<cfset separator = "">
@@ -220,8 +220,7 @@
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT CONTAINER_UNIQUE_ID, PARENT_UNIQUE_ID, CONTAINER_TYPE, CONTAINER_NAME, DESCRIPTION, REMARKS, WIDTH,
-					HEIGHT, LENGTH, NUMBER_POSITIONS, CONTAINER_ID, PARENT_CONTAINER_ID, STATUS 
+				SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name_1, other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, status
 				FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -298,47 +297,51 @@
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT * FROM cf_temp_cont_edit
+				SELECT * FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cftry>
-				<cfset container_type_updates = 0>
+				<cfset agent_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
+						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
 							UPDATE
-								container 
+								agent_name 
 							SET
-								CONTAINER_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_TYPE#">
+								agent_name_type= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_TYPE#">
 							WHERE
-								CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
+								AGENT_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#AGENT_ID#">
 						</cfquery>
-						<cfset container_type_updates = container_type_updates + updateContainer_result.recordcount>
+						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
 					</cfloop>
 				</cftransaction>
-				<h2>Updated types for #container_type_updates# containers.</h2>
+				<h2>Updated #agent_updates# agents.</h2>
 			<cfcatch>
 				<h2>There was a problem updating container types.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT container_unique_id,parent_unique_id,container_type,container_name, status 
-					FROM cf_temp_cont_edit 
+					SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name_1, other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, status 
+					FROM cf_temp_agents 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<h3>Problematic Rows (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>)</h3>
+				<h3>Problematic Rows (<a href="/tools/BulkloadAgents.cfm?action=dumpProblems">download</a>)</h3>
 				<table class='sortable table table-responsive table-striped d-lg-table'>
 					<thead>
 						<tr>
-							<th>container_unique_id</th><th>parent_unique_id</th><th>container_type</th><th>container_name</th><th>status</th>
+							<th>agent_type</th><th>preferred_name</th><th>first_name</th><th>middle_name</th><th>last_name</th><th>birth_date</th><th>death_date</th><th>agent_remark</th><th>prefix</th><th>suffix</th><th>other_name_1</th><th>other_name_type_1</th><th>other_name_2</th><th>other_name_type_2</th><th>other_name_3</th><th>other_name_type_3</th><th>agentguid_guid_type</th><th>agentguid</th><th>status</th>
 						</tr> 
 					</thead>
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
-								<td>#getProblemData.container_unique_id#</td>
-								<td>#getProblemData.parent_unique_id#</td>
-								<td>#getProblemData.container_type#</td>
-								<td>#getProblemData.container_name#</td>
+								<td>#getProblemData.agent_type#</td>
+								<td>#getProblemData.preferred_name#</td>
+								<td>#getProblemData.first_name#</td>
+								<td>#getProblemData.middle_name#</td>
+								<td>#getProblemData.agent_type#</td>
+								<td>#getProblemData.preferred_name#</td>
+								<td>#getProblemData.first_name#</td>
+								<td>#getProblemData.middle_name#</td>
 								<td>#getProblemData.status#</td>
 							</tr> 
 						</cfloop>
@@ -416,7 +419,7 @@
 			<h2>Success, changes applied.</h2>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_cont_edit 
+				DELETE FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
@@ -435,7 +438,7 @@
 	
 	
 	
-<cfinclude template="/includes/_header.cfm">
+<!---<cfinclude template="/includes/_header.cfm">
 <cfif #action# is "nothing">
 Step 1: Upload a comma-delimited text file (csv). 
 Include column headings, spelled exactly as below. 
@@ -480,30 +483,27 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 		onmouseout="this.className='savBtn'">
   </cfform>
 
-</cfif>
+</cfif>--->
 <!------------------------------------------------------->
 <!------------------------------------------------------->
 
 <!------------------------------------------------------->
-<cfif #action# is "getFile">
+<!---<cfif #action# is "getFile">
 <cfoutput>
-	<!--- put this in a temp table --->
+
 	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		delete from cf_temp_agents
 	</cfquery>
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
 	<cfset fileContent=replace(fileContent,"'","''","all")>
 	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-	<cfset numberOfColumns = ArrayLen(arrResult[1])>
+	<cfset numberOfColumns = ArrayLen(arrResult[1])>--->
 
 	
-	<cfset colNames="">
+<!---	<cfset colNames="">
 	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
 		<cfset colVals="">
 			<cfloop from="1"  to ="#ArrayLen(arrResult[o])#" index="i">
-				 <!---
-				 <cfdump var="#arrResult[o]#">
-				 --->
 				 <cfset numColsRec = ArrayLen(arrResult[o])>
 				<cfset thisBit=arrResult[o][i]>
 				<cfif #o# is 1>
@@ -516,9 +516,6 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 			<cfset colNames=replace(colNames,",","","first")>
 		</cfif>	
 		<cfif len(#colVals#) gt 1>
-			<!--- Excel randomly and unpredictably whacks values off
-				the end when they're NULL. Put NULLs back on as necessary.
-				--->
 			<cfset colVals=replace(colVals,",","","first")>
 			<cfif numColsRec lt numberOfColumns>
 				<cfset missingNumber = numberOfColumns - numColsRec>
@@ -531,15 +528,13 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 			</cfquery>
 		</cfif>
 	</cfloop>
-</cfoutput>
+</cfoutput>--->
 
  
-	<cflocation url="BulkloadAgents.cfm?action=validate">
+<!---	<cflocation url="BulkloadAgents.cfm?action=validate">
 
-</cfif>
-<!------------------------------------------------------->
-<!------------------------------------------------------->
-<cfif #action# is "validate">
+</cfif>--->
+<!---<cfif #action# is "validate">
 <cfoutput>
 <cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from cf_temp_agents
@@ -618,17 +613,14 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 	Review the dump below. If everything seems OK, 
 	<a href="BulkloadAgents.cfm?action=loadData">click here to proceed</a>.
 	<cfdump var=#d#>
-</cfif>
+</cfif>--->
 
 
-</cfoutput>
+<!---</cfoutput>
 </cfif>
-<!------------------------------------------------------->
 <cfif #action# is "loadData">
 
 <cfoutput>
-	
-		
 	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from cf_temp_agents
 	</cfquery>
@@ -679,4 +671,4 @@ Columns in <span style="color:red">red</span> are required; others are optional:
 </cfoutput>
 </cfif>
 
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/includes/_footer.cfm">--->
