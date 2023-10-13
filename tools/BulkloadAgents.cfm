@@ -303,7 +303,7 @@
 						</cfquery>
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
 							insert into agent_name
-							(agent_name_id,agent_id,agent_name_type,agent_name) values(sq_agent_name_id.nextval,sq_agent_id.currval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_name_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_name#">)
+							(agent_name_id,agent_id,agent_name_type,agent_name) values(sq_agent_name_id.nextval,sq_agent_id.currval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_name_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preferred_name#">)
 						</cfquery>
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
 							insert into person
