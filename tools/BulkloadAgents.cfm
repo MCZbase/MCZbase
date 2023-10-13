@@ -295,7 +295,7 @@
 					<cfloop query="getTempData">
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
 							insert into agent
-							(agent_id,agent_type,agent_remarks,agentguid_guid_type,agentguid,preferred_agent_name_id) values(sq_agent_id.nextval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remark#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid_guid_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,#preferred_agent_name_id#)
+							(agent_id,agent_type,agent_remarks,agentguid_guid_type,agentguid) values(sq_agent_id.nextval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remark#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid_guid_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">)
 						</cfquery>
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
 							insert into agent_name
