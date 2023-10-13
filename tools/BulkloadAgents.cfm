@@ -190,6 +190,11 @@
 				(select agent_type from ctagent_type where agent_type = cf_temp_agents.agent_type)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_agents set agent_id=
+				(select agent_type from ctagent_type where agent_type = cf_temp_agents.agent_type)
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_agents 
 				SET status = 'agent_type_not_found'
@@ -295,11 +300,15 @@
 					<cfloop query="getTempData">
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
 							insert into agent
-							(agent_type,agent_remarks,agentguid_guid_type,agentguid) values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remark#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid_guid_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">)
+							(agent_id,agent_type,agent_remarks,agentguid_guid_type,agentguid,preferred_agent_name_id) values(sq_agent_id.nextval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_remark#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid_guid_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agentguid#">,#agent_name_id#)
 						</cfquery>
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
 							insert into agent_name
-							(agent_name_type,agent_name) values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_name_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_name#">)
+							(agent_name_id,agent_id,agent_name_type,agent_name) values(sq_agent_name_id.nextval,sq_agent_id.currval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_name_type#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_name#">)
+						</cfquery>
+						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
+							insert into person
+							(person_id,prefix,last_name,first_name,middle_name,suffix,birth_date,death_date) values(sq_agent_id.currval,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#suffix#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(birth_date,'yyyy-mm-dd')#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(death_date,'yyyy-mm-dd')#">)
 						</cfquery>
 						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
 					</cfloop>
@@ -346,12 +355,9 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgents_result">
-							UPDATE
-								agents
-							SET
-								
-							WHERE
-								Agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#AGENT_ID#">
+						 	update ...
+							set
+							where
 						</cfquery>
 						<cfset agent_updates = agent_updates + updateAgents_result.recordcount>
 					</cfloop>
