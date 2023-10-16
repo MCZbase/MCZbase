@@ -296,8 +296,7 @@
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							insert into citations
-							(publication_title,publication_id) values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_title#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">)
+							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_ID#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_ID#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TAXON_NAME_ID#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CIT_CURRENT_FG#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#OCCURS_PAGE_NUMBER#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TYPE_STATUS#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITATION_REMARKS#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CITATION_PAGE_URI#">)
 						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
@@ -306,7 +305,7 @@
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT publication_title,publication_id, status 
+					SELECT publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri, status 
 					FROM cf_temp_citation 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
