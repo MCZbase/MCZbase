@@ -296,7 +296,7 @@
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.publication_ID#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.collection_object_ID#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.CITED_TAXON_NAME_ID#">,1,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.OCCURS_PAGE_NUMBER#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_citation.TYPE_STATUS#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_citation.CITATION_REMARKS#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_citation.CITATION_PAGE_URI#">)
+							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.PUBLICATION_ID#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.collection_object_ID#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.CITED_TAXON_NAME_ID#">,1,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.OCCURS_PAGE_NUMBER#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_citation.TYPE_STATUS#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_citation.CITATION_REMARKS#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_citation.CITATION_PAGE_URI#">)
 						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
@@ -305,7 +305,7 @@
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT publication_id,collection_object_id,cited_taxon_name_id,occurs_page_number,type_status,citation_remarks,citation_page_uri, status 
+					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks,status 
 					FROM cf_temp_citation 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -360,17 +360,17 @@
 							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,
 							citation_page_uri,type_status,citation_remarks)values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#occurs_page_number#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_URI#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#citation_remarks#">)
 						</cfquery>
-						<cfset agent_updates = citation_updates + updateCitations_result.recordcount>
+						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT *
-						FROM cf_temp_agents 
+						FROM cf_temp_citation 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-					<h3>Error updating row (#agent_updates + 1#): #cfcatch.message#</h3>
+					<h3>Error updating row (#citation_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
@@ -411,7 +411,7 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>Updated #agent_updates# agents.</h2>
+			<h2>Updated #citation_updates# citations.</h2>
 			<h2>Success, changes applied.</h2>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
