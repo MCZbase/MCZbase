@@ -299,7 +299,7 @@
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							insert into citation (PUBLICATION_ID,COLLECTION_OBJECT_ID,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(getTempData.pubication_id,getTempData.collection_object_id,getTempData.cited_taxon_name_id,getTempData.cit_current_fg,getTempData.occurs_page_number,getTempData.type_status,getTempData.citation_remarks,getTempData.citation_page_uri)
+							insert into citation (collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(getTempData.collection_object_id,getTempData.cited_taxon_name_id,getTempData.cit_current_fg,getTempData.occurs_page_number,getTempData.type_status,getTempData.citation_remarks,getTempData.citation_page_uri)
 						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
