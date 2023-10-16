@@ -30,15 +30,15 @@
 </cfif>
 
 <!--- Normal page delivery with header/footer --->
-<cfset pageTitle = "Bulkload Identifications">
+<cfset pageTitle = "Bulkload Other IDs">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container py-3" id="content">
-	<h1 class="h2 mt-2">Bulkload Identifications</h1>
+	<h1 class="h2 mt-2">Bulkload Other IDs</h1>
 
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool is used to bulkload Identifications.</p>
+			<p>This tool is used to bulkload Other IDs.</p>
 			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
@@ -77,7 +77,7 @@
 		
 			<!--- cleanup any incomplete work by the same user --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_id 
+				DELETE FROM cf_temp_oid 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			
