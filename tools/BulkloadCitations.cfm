@@ -1,7 +1,7 @@
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT publication_title,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks,institution_acronym,collection_cde,other_id_type,other_id_number 
+		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks
 		FROM cf_temp_citation 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -13,8 +13,8 @@
 </cfif>
 <!--- end special case dump of problems --->
 
-<cfset fieldlist = "publication_title,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks,institution_acronym,collection_cde,other_id_type,other_id_number">
-<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks">
+<cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,cited_scientific_name,type_status,citation_remarks">
 
 <!--- special case handling to dump column headers as csv --->
@@ -203,6 +203,12 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_citation set cited_taxon_name_id =
+				(select * from taxonomy,taxonomy_publication where taxonomy.taxon_name_id = taxonomy_publication.TAXON_NAME_ID
+				AND publication_id = cf_temp_citation.publication_id AND scientific_name=cf_temp_citation.cited_scientific_name)
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_citation set type_status = (select type_status from cttype_status where cttype_status = cf_temp_citation.type_status)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -219,7 +225,7 @@
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT agent_type, preferred_name, first_name, middle_name, last_name, birth_date, death_date, agent_remark, prefix, suffix, other_name, other_name_type,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agentguid_guid_type, agentguid, status
+				SELECT 
 				FROM cf_temp_citation
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -243,6 +249,10 @@
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
+						<th>INSTITUTION_ACRONYM</th>
+						<th>COLLECTION_CDE</th>
+						<th>OTHER_ID_TYPE</th>
+						<th>OTHER_ID_NUMBER</th>
 						<th>PUBLICATION_TITLE</th>
 						<th>PUBLICATION_ID</th>
 						<th>CITED_SCIENTIFIC_NAME</th>
@@ -250,15 +260,15 @@
 						<th>CITATION_PAGE_URI</th>
 						<th>TYPE_STATUS</th>
 						<th>CITATION_REMARKS</th>
-						<th>INSTITUTION_ACRONYM</th>
-						<th>COLLECTION_CDE</th>
-						<th>OTHER_ID_TYPE</th>
-						<th>OTHER_ID_NUMBER</th>
 						<th>STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
 						<tr>
+							<td>#data.INSTITUTION_ACRONYM#</td>
+							<td>#data.COLLECTION_CDE#</td>
+							<td>#data.OTHER_ID_TYPE#</td>
+							<td>#data.OTHER_ID_NUMBER#</td>
 							<td>#data.PUBLICATION_TITLE#</td>
 							<td>#data.PUBLICATION_ID#</td>
 							<td>#data.CITED_SCIENTIFIC_NAME#</td>
@@ -266,10 +276,6 @@
 							<td>#data.CITATION_PAGE_URI#</td>
 							<td>#data.TYPE_STATUS#</td>
 							<td>#data.CITATION_REMARKS#</td>
-							<td>#data.INSTITUTION_ACRONYM#</td>
-							<td>#data.COLLECTION_CDE#</td>
-							<td>#data.OTHER_ID_TYPE#</td>
-							<td>#data.OTHER_ID_NUMBER#</td>
 							<td><strong>#STATUS#</strong></td>
 						</tr>
 					</cfloop>
@@ -309,6 +315,10 @@
 				<table class='sortable table table-responsive table-striped d-lg-table'>
 					<thead>
 						<tr>
+							<th>institution_acronym</th>
+							<th>collection_cde</th>
+							<th>other_id_type</th>
+							<th>other_id_number</th>
 							<th>publication_title</th>
 							<th>publication_id</th>
 							<th>cited_scientific_name</th>
@@ -316,16 +326,16 @@
 							<th>citation_page_uri</th>
 							<th>type_status</th>
 							<th>citation_remarks</th>
-							<th>institution_acronym</th>
-							<th>collection_cde</th>
-							<th>other_id_type</th>
-							<th>other_id_number</th>
 							<th>status</th>
 						</tr> 
 					</thead>
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
+								<td>#getProblemData.institution_acronym#</td>
+								<td>#getProblemData.collection_cde#</td>
+								<td>#getProblemData.other_id_type#</td>
+								<td>#getProblemData.other_id_number#</td>
 								<td>#getProblemData.publication_title#</td>
 								<td>#getProblemData.publication_id#</td>
 								<td>#getProblemData.cited_scientific_name#</td>
@@ -333,10 +343,6 @@
 								<td>#getProblemData.citation_page_uri#</td>
 								<td>#getProblemData.type_status#</td>
 								<td>#getProblemData.citation_remarks#</td>
-								<td>#getProblemData.institution_acronym#</td>
-								<td>#getProblemData.collection_cde#</td>
-								<td>#getProblemData.other_id_type#</td>
-								<td>#getProblemData.other_id_number#</td>
 								<td>#getProblemData.status#</td>
 							</tr> 
 						</cfloop>
