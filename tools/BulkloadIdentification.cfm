@@ -1,45 +1,33 @@
-<cfinclude template="/includes/_header.cfm">
-      <div style="width: 50em; margin: 0 auto; padding: 1em 0 3em 0;">
-<cfset title="Bulkload Identification">
-<!---- make the table
+<!--- special case handling to dump problem data as csv --->
+<cfif isDefined("action") AND action is "dumpProblems">
+	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT collection_object_id,collection_cde,institution_acronym,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,agent_1,agent_2,status,taxon_name_id,taxon_formula,agent_1_ID,agent_2_ID,stored_as_fg
+		FROM cf_temp_citation 
+		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+	</cfquery>
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset csv = queryToCSV(getProblemData)>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfoutput>#csv#</cfoutput>
+	<cfabort>
+</cfif>
+<!--- end special case dump of problems --->
 
-drop table cf_temp_id;
-drop public synonym cf_temp_id;
+<cfset fieldlist = "collection_cde,institution_acronym,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,agent_1,agent_2,status,taxon_name_id,taxon_formula,agent_1_ID,agent_2_ID,stored_as_fg"><cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
+<cfset requiredfieldlist = "collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number">
 
-create table cf_temp_id (
-	key number,
-	collection_object_id number,
-	collection_cde varchar2(4),
-	institution_acronym varchar2(6),
-	other_id_type varchar2(60),
-	other_id_number varchar2(60),
-	scientific_name varchar2(255),
-	made_date varchar2(22),
-	nature_of_id varchar2(30),
-	accepted_fg number(1),
-	identification_remarks varchar2(255),
-	agent_1 varchar2(60),
-	agent_2 varchar2(60),
-	status varchar2(255),
-	taxon_name_id number,
-	taxa_formula varchar2(10),
-	agent_1_id number,
-	agent_2_id number
-);
-create public synonym cf_temp_id for cf_temp_id;
-grant select,insert,update,delete on cf_temp_id to manage_specimens;
-
-CREATE OR REPLACE TRIGGER cf_temp_id_key
- before insert  ON cf_temp_id
- for each row
-    begin
-    	if :NEW.key is null then
-    		select somerandomsequence.nextval into :new.key from dual;
-    	end if;
-    end;
-/
-sho err
------->
+<!--- special case handling to dump column headers as csv --->
+<cfif isDefined("action") AND action is "getCSVHeader">
+	<cfset csv = "">
+	<cfset separator = "">
+	<cfloop list="#fieldlist#" index="field" delimiters=",">
+		<cfset csv='#csv##separator#"#field#"'>
+		<cfset separator = ",">
+	</cfloop>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
+	<cfabort>
+</cfif>
 
 <cfif #action# is "nothing">
     <h3 class="wikilink">Bulkload Identifications</h3>
