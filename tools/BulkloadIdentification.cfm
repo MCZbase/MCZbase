@@ -1,8 +1,8 @@
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT collection_object_id,collection_cde,institution_acronym,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,agent_1,agent_2,status,taxon_name_id,taxon_formula,agent_1_ID,agent_2_ID,stored_as_fg
-		FROM cf_temp_citation 
+		SELECT collection_object_id,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_type,new_other_id_number,status
+		FROM cf_temp_OIDS 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
@@ -13,7 +13,7 @@
 </cfif>
 <!--- end special case dump of problems --->
 
-<cfset fieldlist = "collection_cde,institution_acronym,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,agent_1,agent_2,status,taxon_name_id,taxon_formula,agent_1_ID,agent_2_ID,stored_as_fg"><cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_DECIMAL,CF_SQL_DECIMAL,CF_SQL_DECIMAL">
+<cfset fieldlist = "collection_object_id,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_type,new_other_id_number,status"><cfset fieldTypes ="CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number">
 
 <!--- special case handling to dump column headers as csv --->
@@ -43,7 +43,7 @@
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
 				<label for="templatearea" class="data-entry-label">
-					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadIdentification.cfm?action=getCSVHeader">download</a>)
+					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadOtherId.cfm?action=getCSVHeader">download</a>)
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
@@ -58,7 +58,7 @@
 					<li class="#class#">#field#</li>
 				</cfloop>
 			</ul>
-			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadIdentification.cfm">
+			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadOtherId.cfm">
 				<input type="hidden" name="Action" value="getFile">
 				<input type="file" name="FiletoUpload" size="45">
 				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
@@ -186,7 +186,7 @@
 			</cfloop>
 		
 			<h3 class="h3">
-				Successfully loaded #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadIdentification.cfm?action=validate">click to validate</a>.
+				Successfully loaded #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadOtherId.cfm?action=validate">click to validate</a>.
 			</h3>
 		</cfoutput>
 	</cfif>
@@ -195,35 +195,35 @@
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_id set collection_object_id =
-				(select cataloged_item.collection_object_id from cataloged_item where cataloged_item.collection_cde = cf_temp_id.collection_cde and cataloged_item.cat_num = cf_temp_id.other_id_number)
+				update cf_temp_oids set collection_object_id =
+				(select cataloged_item.collection_object_id from cataloged_item where cataloged_item.collection_cde = cf_temp_oids.collection_cde and cataloged_item.cat_num = cf_temp_oids.other_id_number)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_id set cited_taxon_name_id =
+				update cf_temp_oids set cited_taxon_name_id =
 				(select taxonomy.taxon_name_id from taxonomy,taxonomy_publication where taxonomy.taxon_name_id = taxonomy_publication.TAXON_NAME_ID
-				AND taxonomy_publication.publication_id = cf_temp_id.publication_id AND taxonomy.scientific_name=cf_temp_id.cited_scientific_name)
+				AND taxonomy_publication.publication_id = cf_temp_oids.publication_id AND taxonomy.scientific_name=cf_temp_oids.cited_scientific_name)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_id set type_status = (select type_status from CTCITATION_TYPE_STATUS where CTCITATION_TYPE_STATUS.type_status = cf_temp_id.type_status)
+				update cf_temp_oids set type_status = (select type_status from CTCITATION_TYPE_STATUS where CTCITATION_TYPE_STATUS.type_status = cf_temp_oids.type_status)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_id 
-				SET status = 'type_status_not_found'
-				WHERE type_status is null
+				UPDATE cf_temp_oids 
+				SET status = 'other_id_type_not_found'
+				WHERE existing_other_id_type is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_id 
+				UPDATE cf_temp_oids 
 				SET status = 'collection_object_id_not_found'
 				WHERE collection_object_id is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks,collection_object_id,status
-				FROM cf_temp_id
+				FROM cf_temp_oids
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="pf" dbtype="query">
@@ -233,47 +233,39 @@
 			</cfquery>
 			<cfif pf.c gt 0>
 				<h2>
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadIdentification.cfm?action=dumpProblems">download</a>).
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>).
 				</h2>
 				<h3>
-					Fix the problems in the data and <a href="/tools/BulkloadIdentification.cfm">start again</a>.
+					Fix the problems in the data and <a href="/tools/BulkloadOtherId.cfm">start again</a>.
 				</h3>
 			<cfelse>
 				<h2>
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadIdentification.cfm?action=load">click to continue</a> if it all looks good.
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadOtherId.cfm?action=load">click to continue</a> if it all looks good.
 				</h2>
 			</cfif>
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
-						<th>INSTITUTION_ACRONYM</th>
-						<th>COLLECTION_CDE</th>
-						<th>OTHER_ID_TYPE</th>
-						<th>OTHER_ID_NUMBER</th>
-						<th>PUBLICATION_TITLE</th>
-						<th>PUBLICATION_ID</th>
-						<th>CITED_SCIENTIFIC_NAME</th>
-						<th>OCCURS_PAGE_NUMBER</th>
-						<th>CITATION_PAGE_URI</th>
-						<th>TYPE_STATUS</th>
-						<th>CITATION_REMARKS</th>
-						<th>STATUS</th>
+						<th>collection_object_id</th>
+						<th>other_id_type</th>
+						<th>other_id_prefix</th>
+						<th>other_id_number</th>
+						<th>other_id_suffix</th>
+						<th>display_value</th>
+						<th>coll_obj_other_id_num_id</th>
+						<th>status</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td>#data.INSTITUTION_ACRONYM#</td>
-							<td>#data.COLLECTION_CDE#</td>
-							<td>#data.OTHER_ID_TYPE#</td>
-							<td>#data.OTHER_ID_NUMBER#</td>
-							<td>#data.PUBLICATION_TITLE#</td>
-							<td>#data.PUBLICATION_ID#</td>
-							<td>#data.CITED_SCIENTIFIC_NAME#</td>
-							<td>#data.OCCURS_PAGE_NUMBER#</td>
-							<td>#data.CITATION_PAGE_URI#</td>
-							<td>#data.TYPE_STATUS#</td>
-							<td>#data.CITATION_REMARKS#</td>
-							<td><strong>#STATUS#</strong></td>
+							<td>#data.collection_object_id#</td>
+							<td>#data.other_id_type#</td>
+							<td>#data.other_id_prefix#</td>
+							<td>#data.other_id_number#</td>
+							<td>#data.other_id_suffix#</td>
+							<td>#data.display_value#</td>
+							<td>#data.coll_obj_other_id_num_id#</td>
+							<td>#data.status#</td>
 						</tr>
 					</cfloop>
 				</tbody>
@@ -285,60 +277,52 @@
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT * FROM cf_temp_id
+				SELECT * FROM cf_temp_oids
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cftry>
-				<cfset citation_updates = 0>
+				<cfset otherid_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
+						<cfquery name="updateOtherid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherid_result">
 							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#">,1,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">)
 						</cfquery>
-						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
+						<cfset otherid_updates = otherid_updates + updateOtherid_result.recordcount>
 					</cfloop>
 				</cftransaction>
-				<h2>Updated #citation_updates# citations.</h2>
+				<h2>Updated #otherid_updates# Other IDs.</h2>
 			<cfcatch>
-				<h2>There was a problem updating citations.</h2>
+				<h2>There was a problem updating Other IDs.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT *
-					FROM cf_temp_citation 
+					FROM cf_temp_oids 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<h3>Problematic Rows (<a href="/tools/BulkloadBulkloadIdentification.cfm?action=dumpProblems">download</a>)</h3>
+				<h3>Problematic Rows (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>)</h3>
 				<table class='sortable table table-responsive table-striped d-lg-table'>
 					<thead>
 						<tr>
-							<th>institution_acronym</th>
-							<th>collection_cde</th>
+							<th>collection_object_id</th>
 							<th>other_id_type</th>
+							<th>other_id_prefix</th>
 							<th>other_id_number</th>
-							<th>publication_title</th>
-							<th>publication_id</th>
-							<th>cited_scientific_name</th>
-							<th>occurs_page_number</th>
-							<th>citation_page_uri</th>
-							<th>type_status</th>
-							<th>citation_remarks</th>
+							<th>other_id_suffix</th>
+							<th>display_value</th>
+							<th>coll_obj_other_id_num_id</th>
 							<th>status</th>
 						</tr> 
 					</thead>
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
-								<td>#getProblemData.institution_acronym#</td>
-								<td>#getProblemData.collection_cde#</td>
+								<td>#getProblemData.collection_object_id#</td>
 								<td>#getProblemData.other_id_type#</td>
+								<td>#getProblemData.other_id_prefix#</td>
 								<td>#getProblemData.other_id_number#</td>
-								<td>#getProblemData.publication_title#</td>
-								<td>#getProblemData.publication_id#</td>
-								<td>#getProblemData.cited_scientific_name#</td>
-								<td>#getProblemData.occurs_page_number#</td>
-								<td>#getProblemData.citation_page_uri#</td>
-								<td>#getProblemData.type_status#</td>
-								<td>#getProblemData.citation_remarks#</td>
+								<td>#getProblemData.other_id_suffix#</td>
+								<td>#getProblemData.display_value#</td>
+								<td>#getProblemData.coll_obj_other_id_num_id#</td>
 								<td>#getProblemData.status#</td>
 							</tr> 
 						</cfloop>
@@ -350,54 +334,46 @@
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfset agent_updates = 0>
+					<cfset otherid_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,citation_page_uri,type_status,citation_remarks)values(#publication_id#,#collection_object_id#,#cited_taxon_name_id#,1,#occurs_page_number#,'#type_status#','#citation_remarks#','#citation_page_uri#')
+						<cfquery name="updateOtherid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherid_result">
+							insert into coll_obj_other_id_num (collection_object_id,other_id_type,other_id_prefix,other_id_number,other_id_suffix,display_value,coll_obj_other_id_num_id)values(#collection_object_id#,#other_id_type#,#other_id_prefix#,#other_id_number#,#other_id_suffix#,#display_value#,#coll_obj_other_id_num_id#)
 						</cfquery>
-						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
+						<cfset otherid_updates = otherid_updates + updateOtherid_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT *
-						FROM cf_temp_id 
+						FROM cf_temp_oids 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-					<h3>Error updating row (#citation_updates + 1#): #cfcatch.message#</h3>
+					<h3>Error updating row (#otherid_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
-								<th>publication_title</th>
-								<th>publication_id</th>
-								<th>cited_scientific_name</th>
-								<th>occurs_page_number</th>
-								<th>citation_page_uri</th>
-								<th>type_status</th>
-								<th>citation_remarks</th>
-								<th>institution_acronym</th>
-								<th>collection_cde</th>
+								<th>collection_object_id</th>
 								<th>other_id_type</th>
+								<th>other_id_prefix</th>
 								<th>other_id_number</th>
+								<th>other_id_suffix</th>
+								<th>display_value</th>
+								<th>coll_obj_other_id_num_id</th>
 								<th>status</th>
 							</tr> 
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
-									<td>#getProblemData.publication_title#</td>
-									<td>#getProblemData.publication_id#</td>
-									<td>#getProblemData.cited_scientific_name#</td>
-									<td>#getProblemData.occurs_page_number#</td>
-									<td>#getProblemData.citation_page_uri#</td>
-									<td>#getProblemData.type_status#</td>
-									<td>#getProblemData.citation_remarks#</td>
-									<td>#getProblemData.institution_acronym#</td>
-									<td>#getProblemData.collection_cde#</td>
+									<td>#getProblemData.collection_object_id#</td>
 									<td>#getProblemData.other_id_type#</td>
+									<td>#getProblemData.other_id_prefix#</td>
 									<td>#getProblemData.other_id_number#</td>
+									<td>#getProblemData.other_id_suffix#</td>
+									<td>#getProblemData.display_value#</td>
+									<td>#getProblemData.coll_obj_other_id_num_id#</td>
 									<td>#getProblemData.status#</td>
 								</tr> 
 							</cfloop>
@@ -407,11 +383,11 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>Updated #citation_updates# citations.</h2>
+			<h2>Updated #otherid_updates# Other IDs.</h2>
 			<h2>Success, changes applied.</h2>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_id
+				DELETE FROM cf_temp_oids
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
