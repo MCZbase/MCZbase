@@ -160,9 +160,7 @@
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
-							insert into cf_temp_citation
-								(#fieldlist#,username)
-							values (
+							insert into cf_temp_citation (#fieldlist#,username) values (
 								<cfset separator = "">
 								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
 									<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
@@ -299,7 +297,7 @@
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(#publication_id#,#collection_object_id#,#cited_taxon_name_id#,1,#occurs_page_number#,'#type_status#','#citation_remarks#','#citation_page_uri#')
+							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri) values (#publication_id#,#collection_object_id#,#cited_taxon_name_id#,1,#occurs_page_number#,'#type_status#','#citation_remarks#','#citation_page_uri#')
 						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
