@@ -296,7 +296,7 @@
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							insert into citatons
+							insert into citations
 							(publication_title,publication_id) values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_title#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">)
 						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
