@@ -199,7 +199,7 @@
 		<cfoutput>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_citation set collection_object_id =
-				(select collection_object_id from cataloged_item where collection_cde = cf_temp_citation.collection_cde and cat_num = 'cf_temp_citation.other_id_number')
+				(select collection_object_id from cataloged_item where collection_cde = 'cf_temp_citation.collection_cde' and cat_num = 'cf_temp_citation.other_id_number')
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
