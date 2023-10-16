@@ -205,7 +205,7 @@
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_citation set cited_taxon_name_id =
 				(select taxonomy.taxon_name_id from taxonomy,taxonomy_publication where taxonomy.taxon_name_id = taxonomy_publication.TAXON_NAME_ID
-				AND publication_id = cf_temp_citation.publication_id AND scientific_name=cf_temp_citation.cited_scientific_name)
+				AND taxonomy_publication.publication_id = cf_temp_citation.publication_id AND taxonomy.scientific_name=cf_temp_citation.cited_scientific_name)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -296,7 +296,7 @@
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.PUBLICATION_ID#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.collection_object_ID#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.CITED_TAXON_NAME_ID#">,1,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.OCCURS_PAGE_NUMBER#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_citation.TYPE_STATUS#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_citation.CITATION_REMARKS#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_citation.CITATION_PAGE_URI#">)
+							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.PUBLICATION_ID#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.COLLECTION_OBJECT_ID#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.CITED_TAXON_NAME_ID#">,1,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cf_temp_citation.OCCURS_PAGE_NUMBER#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_citation.TYPE_STATUS#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_citation.CITATION_REMARKS#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cf_temp_citation.CITATION_PAGE_URI#">)
 						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
