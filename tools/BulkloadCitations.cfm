@@ -292,7 +292,7 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cftry>
-				<cfset agent_updates = 0>
+				<cfset citation_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
@@ -301,7 +301,7 @@
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
 				</cftransaction>
-				<h2>Updated #citation_updates# agents.</h2>
+				<h2>Updated #citation_updates# citations.</h2>
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
