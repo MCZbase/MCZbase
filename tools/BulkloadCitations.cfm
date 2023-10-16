@@ -83,20 +83,32 @@
 			</cfquery>
 			
 			<!--- check for required fields in header line --->
-			<cfset agent_type_exists = false>
-			<cfset preferred_name_exists = false>
-			<cfset last_name_exists = false>
+			<cfset institution_acronym_exists = false>
+			<cfset collection_cde_exists = false>
+			<cfset other_id_type_exists = false>
+			<cfset other_id_number_exists = false>
+			<cfset publication_title_exists = false>
+			<cfset cited_scientific_name_exists = false>
+			<cfset type_status_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
-				<cfif ucase(header) EQ 'agent_type'><cfset agent_type_exists=true></cfif>
-				<cfif ucase(header) EQ 'preferred_name'><cfset preferred_name_exists=true></cfif>
-				<cfif ucase(header) EQ 'last_name'><cfset last_name_exists=true></cfif>
+				<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
+				<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
+				<cfif ucase(header) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
+				<cfif ucase(header) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
+				<cfif ucase(header) EQ 'publication_title'><cfset publication_title_exists=true></cfif>
+				<cfif ucase(header) EQ 'cited_scientific_name'><cfset cited_scientific_name_exists=true></cfif>
+				<cfif ucase(header) EQ 'type_status'><cfset type_status_exists=true></cfif>				
 			</cfloop>
-			<cfif not (agent_type_exists AND preferred_name_exists AND last_name_exists)>
+			<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND publication_title_exists AND cited_scientific_name_exists AND type_status_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
-				<cfif not agent_type_exists><cfset message = "#message# agent_type is missing."></cfif>
-				<cfif not preferred_name_exists><cfset message = "#message# preferred_name is missing."></cfif>
-				<cfif not last_name_exists><cfset message = "#message# last_name is missing."></cfif>
+				<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
+				<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
+				<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
+				<cfif not other_id_number_exists><cfset message = "#message# other_id_number is missing."></cfif>
+				<cfif not publication_title_exists><cfset message = "#message# publication_title is missing."></cfif>
+				<cfif not cited_scientific_name_exists><cfset message = "#message# cited_scientific_name is missing."></cfif>
+				<cfif not type_status_exists><cfset message = "#message# type_status is missing."></cfif>
 				<cfthrow message="#message#">
 			</cfif>
 			<cfset colNames="">
@@ -186,30 +198,24 @@
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_citation set agent_type=
-				(select agent_type from ctagent_type where agent_type = cf_temp_citation.agent_type)
+				update cf_temp_citation set collection_object_id =
+				(select collection_object_id from cataloged_item where collection_cde = cf_temp_citation.collection_cde and cat_num = 'cf_temp_citation.other_id_number')
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_citation set other_name_type = 'preferred'
+				update cf_temp_citation set type_status = (select type_status from cttype_status where cttype_status = cf_temp_citation.type_status)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_citation 
-				SET status = 'agent_type_not_found'
-				WHERE agent_type is null
+				SET status = 'type_status_not_found'
+				WHERE type_status is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_citation 
-				SET status = 'last_name_not_found'
-				WHERE last_name is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_citation 
-				SET status = 'preferred_name_not_found'
-				WHERE preferred_name is null
+				SET status = 'collection_object_id_not_found'
+				WHERE collection_object_id is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
