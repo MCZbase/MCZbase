@@ -305,7 +305,7 @@
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri, status 
+					SELECT publication_id,collection_object_id,cited_taxon_name_id,occurs_page_number,type_status,citation_remarks,citation_page_uri, status 
 					FROM cf_temp_citation 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
