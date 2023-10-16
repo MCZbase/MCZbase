@@ -1,290 +1,394 @@
-<cfinclude template="/includes/_header.cfm">
-      <div style="width: 56em; margin: 0 auto;padding: 2em 0 3em 0;">
-<!---- make the table 
-
-drop table cf_temp_oids;
-drop public synonym cf_temp_oids;
-
-create table cf_temp_oids (
-	key number,
-	collection_object_id number,
-	collection_cde varchar2(4),
-	institution_acronym varchar2(6),
-	existing_other_id_type varchar2(60),
-	existing_other_id_number varchar2(60),
-	new_other_id_type varchar2(60),
-	new_other_id_number varchar2(60)
-	);
-
-	create public synonym cf_temp_oids for cf_temp_oids;
-	grant select,insert,update,delete on cf_temp_oids to uam_query,uam_update;
-	
-	 CREATE OR REPLACE TRIGGER cf_temp_oids_key                                         
- before insert  ON cf_temp_oids  
- for each row 
-    begin     
-    	if :NEW.key is null then                                                                                      
-    		select somerandomsequence.nextval into :new.key from dual;
-    	end if;                                
-    end;                                                                                            
-/
-sho err
-
-alter table cf_temp_oids add status varchar2(4000);
-
------->
-<cfif #action# is "nothing">
-  <h3>Bulkload Other ID</h3>
-<p>Upload a comma-delimited text file (csv). 
-Include column headings, spelled exactly as below. 
-        </p>
-        <p style="margin: 1em 0;"><span class="likeLink" onclick="document.getElementById('template').style.display='block';">view template</span></p>
-	<div id="template" style="display:none;">
-		<label for="t">Copy the following code and save as a .csv file</label>
-		<textarea rows="2" cols="80" id="t">COLLECTION_CDE,INSTITUTION_ACRONYM,EXISTING_OTHER_ID_TYPE,EXISTING_OTHER_ID_NUMBER,NEW_OTHER_ID_TYPE,NEW_OTHER_ID_NUMBER</textarea>
-	</div> 
-
-
-<ul class="geol_hier">
-	<li style="color:red">COLLECTION_CDE</li>
-	<li style="color:red">INSTITUTION_ACRONYM</li>
-	<li style="color:red">EXISTING_OTHER_ID_TYPE ("catalog number" is OK)</li>
-	<li style="color:red">EXISTING_OTHER_ID_NUMBER</li>
-	<li style="color:red">NEW_OTHER_ID_TYPE</li>
-	<li style="color:red">NEW_OTHER_ID_NUMBER</li>
-</ul>
-
-
-<cfform name="oids" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="Action" value="getFile">
-			  <input type="file"
-		   name="FiletoUpload"
-		   size="45">
-			  <input type="submit" value="Upload this file" #saveClr#>
-  </cfform>
-  
-</cfif>
-<!------------------------------------------------------->
-<!------------------------------------------------------->
-
-<!------------------------------------------------------->
-<cfif #action# is "getFile">
-<cfoutput>
-	<!--- put this in a temp table --->
-	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		delete from cf_temp_oids
+<!--- special case handling to dump problem data as csv --->
+<cfif isDefined("action") AND action is "dumpProblems">
+	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT collection_object_id,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_type,new_other_id_number,status
+		FROM cf_temp_OIDS 
+		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
-	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
-	<cfset fileContent=replace(fileContent,"'","''","all")>
-	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />	
-	<cfset colNames="">
-	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
-		<cfset colVals="">
-			<cfloop from="1"  to ="#ArrayLen(arrResult[o])#" index="i">
-				<cfset thisBit=arrResult[o][i]>
-				<cfif #o# is 1>
-					<cfset colNames="#colNames#,#thisBit#">
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset csv = queryToCSV(getProblemData)>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfoutput>#csv#</cfoutput>
+	<cfabort>
+</cfif>
+<!--- end special case dump of problems --->
+
+<cfset fieldlist = "collection_object_id,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_type,new_other_id_number,status"><cfset fieldTypes ="CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset requiredfieldlist = "collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number">
+
+<!--- special case handling to dump column headers as csv --->
+<cfif isDefined("action") AND action is "getCSVHeader">
+	<cfset csv = "">
+	<cfset separator = "">
+	<cfloop list="#fieldlist#" index="field" delimiters=",">
+		<cfset csv='#csv##separator#"#field#"'>
+		<cfset separator = ",">
+	</cfloop>
+	<cfheader name="Content-Type" value="text/csv">
+	<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
+	<cfabort>
+</cfif>
+
+<!--- Normal page delivery with header/footer --->
+<cfset pageTitle = "Bulkload Identifications">
+<cfinclude template="/shared/_header.cfm">
+<cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
+<main class="container py-3" id="content">
+	<h1 class="h2 mt-2">Bulkload Identifications</h1>
+
+	<cfif #action# is "nothing">
+		<cfoutput>
+			<p>This tool is used to bulkload Identifications.</p>
+			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored</p>
+			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
+			<div id="template" style="display:none;margin: 1em 0;">
+				<label for="templatearea" class="data-entry-label">
+					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadOtherId.cfm?action=getCSVHeader">download</a>)
+				</label>
+				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
+			</div>
+			<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
+			<ul class="geol_hier">
+				<cfloop list="#fieldlist#" index="field" delimiters=",">
+					<cfif listContains(requiredfieldlist,field,",")>
+						<cfset class="text-danger">
+					<cfelse>
+						<cfset class="text-dark">
+					</cfif>
+					<li class="#class#">#field#</li>
+				</cfloop>
+			</ul>
+			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadOtherId.cfm">
+				<input type="hidden" name="Action" value="getFile">
+				<input type="file" name="FiletoUpload" size="45">
+				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
+			</cfform>
+		</cfoutput>
+	</cfif>	
+	
+	
+<!------------------------------------------------------->
+	<cfif #action# is "getFile">
+		<h2 class="h3">First step: Reading data from CSV file.</h2>
+		<cfoutput>
+			<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
+			<cfset fileContent=replace(fileContent,"'","''","all")>
+			<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
+		
+			<!--- cleanup any incomplete work by the same user --->
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+				DELETE FROM cf_temp_id 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			
+			<!--- check for required fields in header line --->
+			<cfset institution_acronym_exists = false>
+			<cfset collection_cde_exists = false>
+			<cfset existing_other_id_type_exists = false>
+			<cfset existing_other_id_number_exists = false>
+			<cfset new_other_id_type_exists = false>
+			<cfset new_other_id_number_exists = false>
+			<cfset type_status_exists = false>
+			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
+				<cfset header = arrResult[1][col]>
+				<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
+				<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
+				<cfif ucase(header) EQ 'existing_other_id_type'><cfset existing_other_id_type_exists=true></cfif>
+				<cfif ucase(header) EQ 'existing_other_id_number'><cfset existing_other_id_number_exists=true></cfif>
+				<cfif ucase(header) EQ 'new_other_id_type'><cfset new_other_id_type_exists=true></cfif>
+				<cfif ucase(header) EQ 'new_other_id_number'><cfset new_other_id_number_exists=true></cfif>
+				<cfif ucase(header) EQ 'type_status'><cfset type_status_exists=true></cfif>				
+			</cfloop>
+			<cfif not (institution_acronym_exists AND collection_cde_exists AND existing_other_id_type_exists AND existing_other_id_number_exists AND new_other_id_type_exists AND new_other_id_number_exists)>
+				<cfset message = "One or more required fields are missing in the header line of the csv file.">
+				<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
+				<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
+				<cfif not existing_other_id_type_exists><cfset message = "#message# existing_other_id_type is missing."></cfif>
+				<cfif not existing_other_id_number_exists><cfset message = "#message# existing_other_id_number is missing."></cfif>
+				<cfif not new_other_id_type_exists><cfset message = "#message# new_other_id_type is missing."></cfif>
+				<cfif not new_other_id_number_exists><cfset message = "#message# new_other_id_number is missing."></cfif>
+				<cfif not type_status_exists><cfset message = "#message# type_status is missing."></cfif>
+				<cfthrow message="#message#">
+			</cfif>
+			<cfset colNames="">
+			<cfset loadedRows = 0>
+			<!--- get the headers from the first row of the input, then iterate through the remaining rows inserting the data into the temp table. --->
+			<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
+				<!--- obtain the values in the current row --->
+				<cfset colVals="">
+				<cfloop from="1" to ="#ArrayLen(arrResult[row])#" index="col">
+					<cfset thisBit=arrResult[row][col]>
+					<cfif #row# is 1>
+						<cfset colNames="#colNames#,#thisBit#">
+					<cfelse>
+						<!--- quote values to ensure all columns have content, will need to strip out later to insert values --->
+						<cfset colVals="#colVals#,'#thisBit#'">
+					</cfif>
+				</cfloop>
+				<cfif #row# is 1>
+					<!--- first row, obtain column headers --->
+					<!--- strip off the leading separator --->
+					<cfset colNames=replace(colNames,",","","first")>
+					<cfset colNameArray = listToArray(ucase(colNames))><!--- the list of columns/fields found in the input file --->
+					<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
+					<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
+					<h3 class="h4">Found #arrayLen(colNameArray)# matching columns in header of csv file.</h3>
+					<ul class="geol_hier">
+						<cfloop list="#fieldlist#" index="field" delimiters=",">
+							<cfif listContains(requiredfieldlist,field,",")>
+								<cfset class="text-danger">
+							<cfelse>
+								<cfset class="text-dark">
+							</cfif>
+							<li class="#class#">
+								#field#
+								<cfif arrayFindNoCase(colNameArray,field) GT 0>
+									<strong>Present in CSV</strong>
+								</cfif>
+							</li>
+						</cfloop>
+					</ul>
 				<cfelse>
-					<cfset colVals="#colVals#,'#thisBit#'">
+					<!--- subsequent rows, data --->
+					<!--- strip off the leading separator --->
+					<cfset colVals=replace(colVals,",","","first")>
+					<cfset colValArray=listToArray(colVals)>
+					<cftry>
+						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
+						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
+							insert into cf_temp_id (#fieldlist#,username) values (
+								<cfset separator = "">
+								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
+									<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
+										<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
+										<cfset val=trim(colValArray[col])>
+										<cfset val=rereplace(val,"^'+",'')>
+										<cfset val=rereplace(val,"'+$",'')>
+										<cfif val EQ ""> 
+											#separator#NULL
+										<cfelse>
+											#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#val#">
+										</cfif>
+									<cfelse>
+										#separator#NULL
+									</cfif>
+									<cfset separator = ",">
+								</cfloop>
+								#separator#<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							)
+						</cfquery>
+						<cfset loadedRows = loadedRows + insert_result.recordcount>
+					<cfcatch>
+						<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
+					</cfcatch>
+					</cftry>
 				</cfif>
 			</cfloop>
-		<cfif #o# is 1>
-			<cfset colNames=replace(colNames,",","","first")>
-		</cfif>	
-		<cfif len(#colVals#) gt 1>
-			<cfset colVals=replace(colVals,",","","first")>
-			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				insert into cf_temp_oids (#colNames#) values (#preservesinglequotes(colVals)#)
-			</cfquery>
-		</cfif>
-	</cfloop>
-	<!----
-	
-	
-		<cfset i=1>
-	<cfloop index="line" list="#fileContent#" delimiters="#chr(10)#">
-		<cfset sql = "">
-		<cfset line = #replace(line,'#chr(9)##chr(9)#','#chr(9)#null#chr(9)#','all')#>
-		<cfloop index="field" list="#line#" delimiters="#chr(9)#">
-			<cfset field = #replace(field,"'","''","all")#>
-			<cfset sql = #replace(sql,'{comma}',',','all')#>
-			<cfset sql = "#sql#'#trim(replace(field,'"','','all'))#',">
-			
-		</cfloop>
-	 	<cfset sql = #reverse(replace(reverse(sql),",","","first"))#>
-		<cfset sql = "#i#,#sql#">
-		<cfset i=#i#+1>
-		<cfquery name="newRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			INSERT INTO cf_temp_oids (
-				key,
-				collection_cde,
-				institution_acronym,
-				existing_other_id_type,
-				existing_other_id_number,
-				new_other_id_type,
-				new_other_id_number
-				) 
-			VALUES (
-				#preservesinglequotes(sql)#
-				)	 
-			</cfquery>
-    </cfloop>
-	---->
-	<cflocation url="BulkloadOtherId.cfm?action=validate" addtoken="false">
-</cfoutput>
-</cfif>
-<!------------------------------------------------------->
-<!------------------------------------------------------->
-<cfif #action# is "validate">
-<cfoutput>
-
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from cf_temp_oids
-	</cfquery>
-	<cfloop query="data">
-		<cfset err="">
-		<cfif len(#existing_other_id_type#) is 0>
-			<cfset err="You must specify an other ID type.">
-			<cfquery name="fail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_oids set status='#err#' where key=#key#
-			</cfquery>
-		</cfif>
-		<cfif len(#existing_other_id_number#) is 0>
-			<cfset err="You must specify an other ID number.">
-			<cfquery name="fail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_oids set status='#err#' where key=#key#
-			</cfquery>
-		</cfif>
-		<cfif len(#collection_cde#) is 0>
-			<cfset err="You must specify a collection_cde.">
-			<cfquery name="fail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_oids set status='#err#' where key=#key#
-			</cfquery>
-		</cfif>
-		<cfif len(#institution_acronym#) is 0>
-			<cfset err="You must specify a institution_acronym.">
-			<cfquery name="fail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_oids set status='#err#' where key=#key#
-			</cfquery>
-		</cfif>
-		<cfif len(err) is 0>
-			<cfif #existing_other_id_type# is not "catalog number">
-				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
-						coll_obj_other_id_num.collection_object_id
-					FROM
-						coll_obj_other_id_num,
-						cataloged_item,
-						collection
-					WHERE
-						coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
-						cataloged_item.collection_id = collection.collection_id and
-						collection.collection_cde = '#collection_cde#' and
-						collection.institution_acronym = '#institution_acronym#' and
-						other_id_type = '#existing_other_id_type#' and
-						display_value = '#existing_other_id_number#'
-				</cfquery>
-			<cfelseif len(err) is 0>
-				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
-						collection_object_id
-					FROM
-						cataloged_item,
-						collection
-					WHERE
-						cataloged_item.collection_id = collection.collection_id and
-						collection.collection_cde = '#collection_cde#' and
-						collection.institution_acronym = '#institution_acronym#' and
-						cat_num='#existing_other_id_number#'
-				</cfquery>
-			</cfif>
-			<cfif #collObj.recordcount# is not 1>
-				<cfset err="#data.institution_acronym# #data.collection_cde# #data.existing_other_id_number# #data.existing_other_id_type# could not be found!">
-				<cfquery name="fail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_oids set status='#err#' where key=#key#
-				</cfquery>
-			<cfelse>
-				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_oids SET collection_object_id = #collObj.collection_object_id# where
-					key = #key#
-				</cfquery>			
-			</cfif>
-		</cfif>
-		<cfif len(err) is 0>
-			<cfquery name="isValid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select other_id_type from 
-				ctcoll_other_id_type where other_id_type = '#new_other_id_type#'
-			</cfquery>
-			<cfif #isValid.recordcount# is not 1>
-				<cfset err="Other ID type #new_other_id_type# was not found.">
-				<cfquery name="fail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_oids set status='#err#' where key=#key#
-				</cfquery>
-			</cfif>
-		</cfif>
-	</cfloop>
-	<cflocation url="BulkloadOtherId.cfm?action=showCheck" addtoken="false">
-</cfoutput>
-</cfif>
-<cfif #action# is "showCheck">
-	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from cf_temp_oids where status is not null
-	</cfquery>
-	<cfif data.recordcount gt 0>
-		You must fix everything in the table below and reload your file to continue.
-		<cfdump var=#data#>
-	<cfelse>
-		<cflocation url="BulkloadOtherId.cfm?action=loadData" addtoken="false">
-	</cfif>
-</cfif>
-
-
-<!------------------------------------------------------->
-<cfif action is "loadData">
-
-<cfoutput>
-	
 		
-	<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from cf_temp_oids
-	</cfquery>
-	
-	<cftransaction>
-        <cfset rowcounter = 0>
-        <cfset failed = false>
-	<cfloop query="getTempData">
-            <cfset rowcounter = rowcounter + 1>
-		<!---<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		 	{EXEC parse_other_id(#collection_object_id#, '#new_other_id_number#', '#new_other_id_type#')}
-		</cfquery>
-		--->
-	    <cftry>        
-
-		<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	    		<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-			<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
-			<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
-		</cfstoredproc>
-            <cfcatch>
-                <!--- Rollback the transaction, report the problem row, and break out of the loop. --->
-                <cftransaction action="rollback" />
-                <div>Error Processing row #rowcounter#: #new_other_id_type# #new_other_id_number#</div>
-                <div>#CFCATCH.TYPE#:#cfcatch.message#</div>
-                <div>#CFCATCH.queryerror#</div>
-                <cfif Find("ORA-06512",CFCATCH.queryerror)><div>Duplicate other id number.</div></cfif>
-                <cfset failed = true>
-                <cfbreak>
-            </cfcatch>
-            </cftry>
-
-	</cfloop>
-	</cftransaction>
-        <cfif failed eq false>  
-  	   <div>Successful bulkload of other ids.  Processed #rowcounter# rows.</div>
-        <cfelse>
-           <div>Fix the Error in your spreadsheet and try again.</div>
-        </cfif>
-</cfoutput>
-</cfif>
-          </div>
-<cfinclude template="/includes/_footer.cfm">
+			<h3 class="h3">
+				Successfully loaded #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadOtherId.cfm?action=validate">click to validate</a>.
+			</h3>
+		</cfoutput>
+	</cfif>
+	<!------------------------------------------------------->
+	<cfif #action# is "validate">
+		<h2 class="h3">Second step: Data Validation</h2>
+		<cfoutput>
+			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_oids set collection_object_id =
+				(select cataloged_item.collection_object_id from cataloged_item where cataloged_item.collection_cde = cf_temp_oids.collection_cde and cataloged_item.cat_num = cf_temp_oids.other_id_number)
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_oids set cited_taxon_name_id =
+				(select taxonomy.taxon_name_id from taxonomy,taxonomy_publication where taxonomy.taxon_name_id = taxonomy_publication.TAXON_NAME_ID
+				AND taxonomy_publication.publication_id = cf_temp_oids.publication_id AND taxonomy.scientific_name=cf_temp_oids.cited_scientific_name)
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_oids set type_status = (select type_status from CTCITATION_TYPE_STATUS where CTCITATION_TYPE_STATUS.type_status = cf_temp_oids.type_status)
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_oids 
+				SET status = 'other_id_type_not_found'
+				WHERE existing_other_id_type is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_oids 
+				SET status = 'collection_object_id_not_found'
+				WHERE collection_object_id is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks,collection_object_id,status
+				FROM cf_temp_oids
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="pf" dbtype="query">
+				SELECT count(*) c 
+				FROM data 
+				WHERE status is not null
+			</cfquery>
+			<cfif pf.c gt 0>
+				<h2>
+					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>).
+				</h2>
+				<h3>
+					Fix the problems in the data and <a href="/tools/BulkloadOtherId.cfm">start again</a>.
+				</h3>
+			<cfelse>
+				<h2>
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadOtherId.cfm?action=load">click to continue</a> if it all looks good.
+				</h2>
+			</cfif>
+			<table class='sortable table table-responsive table-striped d-lg-table'>
+				<thead>
+					<tr>
+						<th>collection_object_id</th>
+						<th>other_id_type</th>
+						<th>other_id_prefix</th>
+						<th>other_id_number</th>
+						<th>other_id_suffix</th>
+						<th>display_value</th>
+						<th>coll_obj_other_id_num_id</th>
+						<th>status</th>
+					</tr>
+				<tbody>
+					<cfloop query="data">
+						<tr>
+							<td>#data.collection_object_id#</td>
+							<td>#data.other_id_type#</td>
+							<td>#data.other_id_prefix#</td>
+							<td>#data.other_id_number#</td>
+							<td>#data.other_id_suffix#</td>
+							<td>#data.display_value#</td>
+							<td>#data.coll_obj_other_id_num_id#</td>
+							<td>#data.status#</td>
+						</tr>
+					</cfloop>
+				</tbody>
+			</table>
+		</cfoutput>
+	</cfif>
+	<!-------------------------------------------------------------------------------------------->
+	<cfif action is "load">
+		<h2 class="h3">Third step: Apply changes.</h2>
+		<cfoutput>
+			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT * FROM cf_temp_oids
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cftry>
+				<cfset otherid_updates = 0>
+				<cftransaction>
+					<cfloop query="getTempData">
+						<cfquery name="updateOtherid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherid_result">
+							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#">,1,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">)
+						</cfquery>
+						<cfset otherid_updates = otherid_updates + updateOtherid_result.recordcount>
+					</cfloop>
+				</cftransaction>
+				<h2>Updated #otherid_updates# Other IDs.</h2>
+			<cfcatch>
+				<h2>There was a problem updating Other IDs.</h2>
+				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT *
+					FROM cf_temp_oids 
+					WHERE status is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<h3>Problematic Rows (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>)</h3>
+				<table class='sortable table table-responsive table-striped d-lg-table'>
+					<thead>
+						<tr>
+							<th>collection_object_id</th>
+							<th>other_id_type</th>
+							<th>other_id_prefix</th>
+							<th>other_id_number</th>
+							<th>other_id_suffix</th>
+							<th>display_value</th>
+							<th>coll_obj_other_id_num_id</th>
+							<th>status</th>
+						</tr> 
+					</thead>
+					<tbody>
+						<cfloop query="getProblemData">
+							<tr>
+								<td>#getProblemData.collection_object_id#</td>
+								<td>#getProblemData.other_id_type#</td>
+								<td>#getProblemData.other_id_prefix#</td>
+								<td>#getProblemData.other_id_number#</td>
+								<td>#getProblemData.other_id_suffix#</td>
+								<td>#getProblemData.display_value#</td>
+								<td>#getProblemData.coll_obj_other_id_num_id#</td>
+								<td>#getProblemData.status#</td>
+							</tr> 
+						</cfloop>
+					</tbody>
+				</table>
+				<cfrethrow>
+			</cfcatch>
+			</cftry>
+			<cfset problem_key = "">
+			<cftransaction>
+				<cftry>
+					<cfset otherid_updates = 0>
+					<cfloop query="getTempData">
+						<cfset problem_key = getTempData.key>
+						<cfquery name="updateOtherid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherid_result">
+							insert into coll_obj_other_id_num (collection_object_id,other_id_type,other_id_prefix,other_id_number,other_id_suffix,display_value,coll_obj_other_id_num_id)values(#collection_object_id#,#other_id_type#,#other_id_prefix#,#other_id_number#,#other_id_suffix#,#display_value#,#coll_obj_other_id_num_id#)
+						</cfquery>
+						<cfset otherid_updates = otherid_updates + updateOtherid_result.recordcount>
+					</cfloop>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT *
+						FROM cf_temp_oids 
+						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+					</cfquery>
+					<h3>Error updating row (#otherid_updates + 1#): #cfcatch.message#</h3>
+					<table class='sortable table table-responsive table-striped d-lg-table'>
+						<thead>
+							<tr>
+								<th>collection_object_id</th>
+								<th>other_id_type</th>
+								<th>other_id_prefix</th>
+								<th>other_id_number</th>
+								<th>other_id_suffix</th>
+								<th>display_value</th>
+								<th>coll_obj_other_id_num_id</th>
+								<th>status</th>
+							</tr> 
+						</thead>
+						<tbody>
+							<cfloop query="getProblemData">
+								<tr>
+									<td>#getProblemData.collection_object_id#</td>
+									<td>#getProblemData.other_id_type#</td>
+									<td>#getProblemData.other_id_prefix#</td>
+									<td>#getProblemData.other_id_number#</td>
+									<td>#getProblemData.other_id_suffix#</td>
+									<td>#getProblemData.display_value#</td>
+									<td>#getProblemData.coll_obj_other_id_num_id#</td>
+									<td>#getProblemData.status#</td>
+								</tr> 
+							</cfloop>
+						</tbody>
+					</table>
+					<cfrethrow>
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<h2>Updated #otherid_updates# Other IDs.</h2>
+			<h2>Success, changes applied.</h2>
+			<!--- cleanup --->
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+				DELETE FROM cf_temp_oids
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+		</cfoutput>
+	</cfif>
