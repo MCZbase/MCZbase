@@ -200,13 +200,7 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_oids set cited_taxon_name_id =
-				(select taxonomy.taxon_name_id from taxonomy,taxonomy_publication where taxonomy.taxon_name_id = taxonomy_publication.TAXON_NAME_ID
-				AND taxonomy_publication.publication_id = cf_temp_oids.publication_id AND taxonomy.scientific_name=cf_temp_oids.cited_scientific_name)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_oids set type_status = (select type_status from CTCITATION_TYPE_STATUS where CTCITATION_TYPE_STATUS.type_status = cf_temp_oids.type_status)
+				update cf_temp_oids set new_other_ID_type = (select type_status from CTCOLL_OTHER_ID_TYPE where CTCOLL_OTHER_ID_TYPE.type_status = cf_temp_oids.NEW_OTHER_ID_TYPE)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -222,7 +216,7 @@
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks,collection_object_id,status
+				SELECT collection_object_id,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number,status
 				FROM cf_temp_oids
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -247,24 +241,24 @@
 				<thead>
 					<tr>
 						<th>collection_object_id</th>
-						<th>other_id_type</th>
-						<th>other_id_prefix</th>
-						<th>other_id_number</th>
-						<th>other_id_suffix</th>
-						<th>display_value</th>
-						<th>coll_obj_other_id_num_id</th>
+						<th>collection_cde</th>
+						<th>institution_acronym</th>
+						<th>existing_other_id_type</th>
+						<th>existing_other_id_number</th>
+						<th>new_other_id_type</th>
+						<th>new_other_id_number</th>
 						<th>status</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
 						<tr>
 							<td>#data.collection_object_id#</td>
-							<td>#data.other_id_type#</td>
-							<td>#data.other_id_prefix#</td>
-							<td>#data.other_id_number#</td>
-							<td>#data.other_id_suffix#</td>
-							<td>#data.display_value#</td>
-							<td>#data.coll_obj_other_id_num_id#</td>
+							<td>#data.collection_cde#</td>
+							<td>#data.institution_acronym#</td>
+							<td>#data.existing_other_id_type#</td>
+							<td>#data.existing_other_id_number#</td>
+							<td>#data.new_other_id_type#</td>
+							<td>#data.new_other_id_number#</td>
 							<td>#data.status#</td>
 						</tr>
 					</cfloop>
@@ -285,7 +279,7 @@
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateOtherid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherid_result">
-							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#">,1,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">)
+							insert into coll_obj_other_id_num (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#">,1,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">)
 						</cfquery>
 						<cfset otherid_updates = otherid_updates + updateOtherid_result.recordcount>
 					</cfloop>
