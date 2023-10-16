@@ -212,10 +212,6 @@
 				update cf_temp_citation set type_status = (select type_status from CTCITATION_TYPE_STATUS where CTCITATION_TYPE_STATUS.type_status = cf_temp_citation.type_status)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_citation set cit_current_fg = 1
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_citation 
 				SET status = 'type_status_not_found'
