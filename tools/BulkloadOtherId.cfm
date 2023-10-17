@@ -195,9 +195,7 @@
 		<cfoutput>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_oids set collection_object_id =
-				(select cataloged_item.collection_object_id from cataloged_item 
-where cataloged_item.collection_cde = 'Herp'
-and cataloged_item.cat_num = 'A-10')
+				(select cataloged_item.collection_object_id from cataloged_item where cataloged_item.collection_cde = 'Herp' and cataloged_item.cat_num = 'A-10')
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -208,7 +206,7 @@ and cataloged_item.cat_num = 'A-10')
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_oids 
-				SET status = 'collection_object_id_not_found'
+				SET status = 'collection_object_id not found'
 				WHERE collection_object_id is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
