@@ -1,7 +1,7 @@
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT collection_object_id,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_type,new_other_id_number,status
+		SELECT collection_object_id,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number,status
 		FROM cf_temp_OIDS 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -13,7 +13,7 @@
 </cfif>
 <!--- end special case dump of problems --->
 
-<cfset fieldlist = "collection_object_id,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_type,new_other_id_number,status"><cfset fieldTypes ="CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset fieldlist = "collection_object_id,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number,status"><cfset fieldTypes ="CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number">
 
 <!--- special case handling to dump column headers as csv --->
