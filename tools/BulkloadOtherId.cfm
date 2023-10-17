@@ -82,25 +82,27 @@
 			</cfquery>
 			
 			<!--- check for required fields in header line --->
-			<cfset institution_acronym_exists = false>
+			
 			<cfset collection_cde_exists = false>
+			<cfset institution_acronym_exists = false>
 			<cfset existing_other_id_type_exists = false>
 			<cfset existing_other_id_number_exists = false>
 			<cfset new_other_id_type_exists = false>
 			<cfset new_other_id_number_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
-				<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
+				
 				<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
+				<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 				<cfif ucase(header) EQ 'existing_other_id_type'><cfset existing_other_id_type_exists=true></cfif>
 				<cfif ucase(header) EQ 'existing_other_id_number'><cfset existing_other_id_number_exists=true></cfif>
 				<cfif ucase(header) EQ 'new_other_id_type'><cfset new_other_id_type_exists=true></cfif>
 				<cfif ucase(header) EQ 'new_other_id_number'><cfset new_other_id_number_exists=true></cfif>
 			</cfloop>
-			<cfif not (institution_acronym_exists AND collection_cde_exists AND existing_other_id_type_exists AND existing_other_id_number_exists AND new_other_id_type_exists AND new_other_id_number_exists)>
+			<cfif not (collection_cde_exists AND institution_acronym_exists AND  existing_other_id_type_exists AND existing_other_id_number_exists AND new_other_id_type_exists AND new_other_id_number_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
-				<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
 				<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
+				<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
 				<cfif not existing_other_id_type_exists><cfset message = "#message# existing_other_id_type is missing."></cfif>
 				<cfif not existing_other_id_number_exists><cfset message = "#message# existing_other_id_number is missing."></cfif>
 				<cfif not new_other_id_type_exists><cfset message = "#message# new_other_id_type is missing."></cfif>
@@ -291,26 +293,26 @@
 					<thead>
 						<tr>
 							<th>collection_object_id</th>
-							<th>other_id_type</th>
-							<th>other_id_prefix</th>
-							<th>other_id_number</th>
-							<th>other_id_suffix</th>
-							<th>display_value</th>
-							<th>coll_obj_other_id_num_id</th>
+							<th>collection_cde</th>
+							<th>institution_acronym</th>
+							<th>existing_other_id_type</th>
+							<th>existing_other_id_number</th>
+							<th>new_other_id_type</th>
+							<th>new_other_id_number</th>
 							<th>status</th>
 						</tr> 
 					</thead>
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
-								<td>#getProblemData.collection_object_id#</td>
-								<td>#getProblemData.other_id_type#</td>
-								<td>#getProblemData.other_id_prefix#</td>
-								<td>#getProblemData.other_id_number#</td>
-								<td>#getProblemData.other_id_suffix#</td>
-								<td>#getProblemData.display_value#</td>
-								<td>#getProblemData.coll_obj_other_id_num_id#</td>
-								<td>#getProblemData.status#</td>
+								<td>#data.collection_object_id#</td>
+								<td>#data.collection_cde#</td>
+								<td>#data.institution_acronym#</td>
+								<td>#data.existing_other_id_type#</td>
+								<td>#data.existing_other_id_number#</td>
+								<td>#data.new_other_id_type#</td>
+								<td>#data.new_other_id_number#</td>
+								<td>#data.status#</td>
 							</tr> 
 						</cfloop>
 					</tbody>
@@ -342,26 +344,26 @@
 						<thead>
 							<tr>
 								<th>collection_object_id</th>
-								<th>other_id_type</th>
-								<th>other_id_prefix</th>
-								<th>other_id_number</th>
-								<th>other_id_suffix</th>
-								<th>display_value</th>
-								<th>coll_obj_other_id_num_id</th>
+								<th>collection_cde</th>
+								<th>institution_acronym</th>
+								<th>existing_other_id_type</th>
+								<th>existing_other_id_number</th>
+								<th>new_other_id_type</th>
+								<th>new_other_id_number</th>
 								<th>status</th>
 							</tr> 
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
-									<td>#getProblemData.collection_object_id#</td>
-									<td>#getProblemData.other_id_type#</td>
-									<td>#getProblemData.other_id_prefix#</td>
-									<td>#getProblemData.other_id_number#</td>
-									<td>#getProblemData.other_id_suffix#</td>
-									<td>#getProblemData.display_value#</td>
-									<td>#getProblemData.coll_obj_other_id_num_id#</td>
-									<td>#getProblemData.status#</td>
+									<td>#data.collection_object_id#</td>
+									<td>#data.collection_cde#</td>
+									<td>#data.institution_acronym#</td>
+									<td>#data.existing_other_id_type#</td>
+									<td>#data.existing_other_id_number#</td>
+									<td>#data.new_other_id_type#</td>
+									<td>#data.new_other_id_number#</td>
+									<td>#data.status#</td>
 								</tr> 
 							</cfloop>
 						</tbody>
