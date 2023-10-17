@@ -199,10 +199,6 @@
 				(select cataloged_item.collection_object_id from cataloged_item where cataloged_item.collection_cde = cf_temp_oids.collection_cde and cataloged_item.cat_num = cf_temp_oids.other_id_number)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_oids set new_other_ID_type = (select type_status from CTCOLL_OTHER_ID_TYPE where CTCOLL_OTHER_ID_TYPE.type_status = cf_temp_oids.NEW_OTHER_ID_TYPE)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_oids 
 				SET status = 'other_id_type_not_found'
