@@ -368,7 +368,7 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateIds_result">
-							insert into identification (identification_id,institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,agent_1,agent_2,stored_as_fg)values('#nextid.nextid#','#institution_acronym#','#collection_cde#','#other_id_type#','#other_id_number#','#scientific_name#','#made_date#','#nature_of_id#','#accepted_fg#','#identification_remarks#','#agent_1#','#agent_2#','#stored_as_fg#')
+							insert into identification (#NEXTID.NEXTID#,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accepted_fg#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#stored_as_fg#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date#">)
 						</cfquery>
 						<cfset id_updates = iid_updates + updateIds_result.recordcount>
 					</cfloop>
