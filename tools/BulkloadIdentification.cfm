@@ -83,6 +83,7 @@
 			<cfset nature_of_id_exists = false>
 			<cfset accepted_fg_exists = false>
 			<cfset agent_1_exists = false>
+			<cfset stored_as_fg = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
 				<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
@@ -92,7 +93,8 @@
 				<cfif ucase(header) EQ 'scientific_name'><cfset scientific_name_exists=true></cfif>
 				<cfif ucase(header) EQ 'nature_of_id'><cfset nature_of_id_exists=true></cfif>
 				<cfif ucase(header) EQ 'accepted_fg'><cfset accepted_fg_exists=true></cfif>
-				<cfif ucase(header) EQ 'agent_1'><cfset agent_1_exists=true></cfif>				
+				<cfif ucase(header) EQ 'agent_1'><cfset agent_1_exists=true></cfif>
+				<cfif ucase(header) EQ 'stored_as_fg'><cfset accepted_fg_exists=true></cfif>
 			</cfloop>
 			<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND scientific_name_exists AND nature_of_id_exists AND accepted_fg_exists AND agent_1_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
@@ -104,7 +106,9 @@
 				<cfif not nature_of_id_exists><cfset message = "#message# nature_of_id is missing."></cfif>
 				<cfif not accepted_fg_exists><cfset message = "#message# accepted_fg is missing."></cfif>
 				<cfif not agent_1_exists><cfset message = "#message# agent_1 is missing."></cfif>
+				<cfif not stored_as_fg_exists><cfset message = "#message# stored_as_fg is missing."></cfif>
 				<cfthrow message="#message#">
+				
 			</cfif>
 			<cfset colNames="">
 			<cfset loadedRows = 0>
@@ -311,13 +315,17 @@
 							<th>collection_cde</th>
 							<th>other_id_type</th>
 							<th>other_id_number</th>
-							<th>publication_title</th>
-							<th>publication_id</th>
-							<th>cited_scientific_name</th>
-							<th>occurs_page_number</th>
-							<th>citation_page_uri</th>
-							<th>type_status</th>
-							<th>citation_remarks</th>
+							<th>scientific_name</th>
+							<th>made_date</th>
+							<th>nature_of_id</th>
+							<th>accepted_fg</th>
+							<th>identification_remarks</th>
+							<th>agent_1</th>
+							<th>agent_2</th>
+							<th>taxon_name_id</th>
+							<th>agent_1_id</th>
+							<th>agent_2_id</th>
+							<th>stored_as_fg</th>
 							<th>status</th>
 						</tr> 
 					</thead>
@@ -328,13 +336,17 @@
 								<td>#getProblemData.collection_cde#</td>
 								<td>#getProblemData.other_id_type#</td>
 								<td>#getProblemData.other_id_number#</td>
-								<td>#getProblemData.publication_title#</td>
-								<td>#getProblemData.publication_id#</td>
-								<td>#getProblemData.cited_scientific_name#</td>
-								<td>#getProblemData.occurs_page_number#</td>
-								<td>#getProblemData.citation_page_uri#</td>
-								<td>#getProblemData.type_status#</td>
-								<td>#getProblemData.citation_remarks#</td>
+								<td>#getProblemData.scientific_name#</td>
+								<td>#getProblemData.made_date#</td>
+								<td>#getProblemData.nature_of_id#</td>
+								<td>#getProblemData.accepted_fg#</td>
+								<td>#getProblemData.identification_remarks#</td>
+								<td>#getProblemData.agent_1#</td>
+								<td>#getProblemData.agent_2#</td>
+								<td>#getProblemData.taxon_name_id#</td>
+								<td>#getProblemData.agent_1_id#</td>
+								<td>#getProblemData.agent_2_id#</td>
+								<td>#getProblemData.stored_as_fg#</td>
 								<td>#getProblemData.status#</td>
 							</tr> 
 						</cfloop>
@@ -350,7 +362,7 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,citation_page_uri,type_status,citation_remarks)values(#publication_id#,#collection_object_id#,#cited_taxon_name_id#,1,#occurs_page_number#,'#type_status#','#citation_remarks#','#citation_page_uri#')
+							insert into citation (institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,agent_1,agent_2,stored_as_fg)values(#institution_acronym#,#collection_cde#,#other_id_type#,#other_id_number#,#scientific_name#,'#made_date#','#nature_of_id#','#accepted_fg#','#identification_remarks#','#agent_1#','#agent_2#','#stored_as_fg#')
 						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
@@ -366,34 +378,42 @@
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
-								<th>publication_title</th>
-								<th>publication_id</th>
-								<th>cited_scientific_name</th>
-								<th>occurs_page_number</th>
-								<th>citation_page_uri</th>
-								<th>type_status</th>
-								<th>citation_remarks</th>
 								<th>institution_acronym</th>
 								<th>collection_cde</th>
 								<th>other_id_type</th>
 								<th>other_id_number</th>
+								<th>scientific_name</th>
+								<th>made_date</th>
+								<th>nature_of_id</th>
+								<th>accepted_fg</th>
+								<th>identification_remarks</th>
+								<th>agent_1</th>
+								<th>agent_2</th>
+								<th>taxon_name_id</th>
+								<th>agent_1_id</th>
+								<th>agent_2_id</th>
+								<th>stored_as_fg</th>
 								<th>status</th>
 							</tr> 
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
-									<td>#getProblemData.publication_title#</td>
-									<td>#getProblemData.publication_id#</td>
-									<td>#getProblemData.cited_scientific_name#</td>
-									<td>#getProblemData.occurs_page_number#</td>
-									<td>#getProblemData.citation_page_uri#</td>
-									<td>#getProblemData.type_status#</td>
-									<td>#getProblemData.citation_remarks#</td>
 									<td>#getProblemData.institution_acronym#</td>
 									<td>#getProblemData.collection_cde#</td>
 									<td>#getProblemData.other_id_type#</td>
 									<td>#getProblemData.other_id_number#</td>
+									<td>#getProblemData.scientific_name#</td>
+									<td>#getProblemData.made_date#</td>
+									<td>#getProblemData.nature_of_id#</td>
+									<td>#getProblemData.accepted_fg#</td>
+									<td>#getProblemData.identification_remarks#</td>
+									<td>#getProblemData.agent_1#</td>
+									<td>#getProblemData.agent_2#</td>
+									<td>#getProblemData.taxon_name_id#</td>
+									<td>#getProblemData.agent_1_id#</td>
+									<td>#getProblemData.agent_2_id#</td>
+									<td>#getProblemData.stored_as_fg#</td>
 									<td>#getProblemData.status#</td>
 								</tr> 
 							</cfloop>
