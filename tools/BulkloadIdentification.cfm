@@ -358,7 +358,7 @@
 				<cfrethrow>
 			</cfcatch>
 			</cftry>
-			<cfset problem_key = "">
+<!---			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
 					<cfset id_updates = 0>
@@ -426,7 +426,7 @@
 					<cfrethrow>
 				</cfcatch>
 				</cftry>
-			</cftransaction>
+			</cftransaction>--->
 			<h2>Updated #id_updates# Identifications.</h2>
 			<h2>Success, changes applied.</h2>
 			<!--- cleanup --->
