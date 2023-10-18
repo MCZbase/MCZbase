@@ -214,13 +214,13 @@
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_ID 
-				SET status = 'type_status_not_found'
-				WHERE type_status is null
+				SET status = 'scientific_name not found'
+				WHERE scientific_name is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_ID 
-				SET status = 'collection_object_id_not_found'
+				SET status = 'collection_object_id not found'
 				WHERE collection_object_id is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -286,6 +286,9 @@
 		</cfoutput>
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
+				
+				
+				
 <!------------------------------>
 <cfinclude template="/includes/_header.cfm">
       <div style="width: 50em; margin: 0 auto; padding: 1em 0 3em 0;">
