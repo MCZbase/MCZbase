@@ -61,6 +61,7 @@
 				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
 			</cfform>
 		</cfoutput>
+	</cfif>
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
