@@ -370,7 +370,7 @@
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateIds_result">
 							insert into identification (#currentVAL.currentval#,collection_object_id,nature_of_id,accepted_id_fg,identification_remarks,taxa_formula,scientific_name,stored_as_fg,made_date) VALUES
-							(#identification_id#,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accepted_fg#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#stored_as_fg#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date#">)
+							(#identification_id#,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accepted_fg#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#stored_as_fg#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date#">)
 						</cfquery>
 						<cfset id_updates = id_updates + updateIds_result.recordcount>
 					</cfloop>
