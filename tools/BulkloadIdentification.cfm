@@ -359,7 +359,7 @@
 			<cftransaction>
 				<cftry>
 				<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select sq_collection_object_id.nextval NEXTID from dual
+					select sq_identification_id.nextval NEXTID from dual
 				</cfquery>
 					<cfset agent_updates = 0>
 					<cfloop query="getTempData">
