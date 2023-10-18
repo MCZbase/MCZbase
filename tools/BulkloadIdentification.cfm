@@ -94,7 +94,7 @@
 				<cfif ucase(header) EQ 'nature_of_id'><cfset nature_of_id_exists=true></cfif>
 				<cfif ucase(header) EQ 'accepted_fg'><cfset accepted_fg_exists=true></cfif>
 				<cfif ucase(header) EQ 'agent_1'><cfset agent_1_exists=true></cfif>
-				<cfif ucase(header) EQ 'stored_as_fg'><cfset accepted_fg_exists=true></cfif>
+				<cfif ucase(header) EQ 'stored_as_fg'><cfset stored_as_fg_exists=true></cfif>
 			</cfloop>
 			<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND scientific_name_exists AND nature_of_id_exists AND accepted_fg_exists AND agent_1_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
