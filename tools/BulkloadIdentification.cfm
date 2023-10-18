@@ -361,20 +361,20 @@
 					<cfset agent_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							insert into citation (institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,agent_1,agent_2,stored_as_fg)values(#institution_acronym#,#collection_cde#,#other_id_type#,#other_id_number#,#scientific_name#,'#made_date#','#nature_of_id#','#accepted_fg#','#identification_remarks#','#agent_1#','#agent_2#','#stored_as_fg#')
+						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateIds_result">
+							insert into identification(institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,agent_1,agent_2,stored_as_fg)values(#institution_acronym#,#collection_cde#,#other_id_type#,#other_id_number#,#scientific_name#,'#made_date#','#nature_of_id#','#accepted_fg#','#identification_remarks#','#agent_1#','#agent_2#','#stored_as_fg#')
 						</cfquery>
-						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
+						<cfset id_updates = iid_updates + updateIds_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT *
-						FROM cf_temp_citation 
+						FROM cf_temp_id
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-					<h3>Error updating row (#citation_updates + 1#): #cfcatch.message#</h3>
+					<h3>Error updating row (#id_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
@@ -423,11 +423,11 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>Updated #citation_updates# citations.</h2>
+			<h2>Updated #id_updates# Identifications.</h2>
 			<h2>Success, changes applied.</h2>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_agents
+				DELETE FROM cf_temp_id
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
