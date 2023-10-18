@@ -362,7 +362,7 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateIds_result">
-							insert into identification(institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,agent_1,agent_2,stored_as_fg)values(#institution_acronym#,#collection_cde#,#other_id_type#,#other_id_number#,#scientific_name#,'#made_date#','#nature_of_id#','#accepted_fg#','#identification_remarks#','#agent_1#','#agent_2#','#stored_as_fg#')
+							insert into identification(identification_id,institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,agent_1,agent_2,stored_as_fg)values(#sq_identification.nextval#,#institution_acronym#,#collection_cde#,#other_id_type#,#other_id_number#,#scientific_name#,'#made_date#','#nature_of_id#','#accepted_fg#','#identification_remarks#','#agent_1#','#agent_2#','#stored_as_fg#')
 						</cfquery>
 						<cfset id_updates = iid_updates + updateIds_result.recordcount>
 					</cfloop>
