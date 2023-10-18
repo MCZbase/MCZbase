@@ -276,7 +276,7 @@
 							<td>#data.IDENTIFICATION_REMARKS#</td>
 							<td>#data.AGENT_1#</td>
 							<td>#data.AGENT_2#</td>
-							<td>#data.STORED_AS_FG</td>
+							<td>#data.STORED_AS_FG#</td>
 							<td><strong>#STATUS#</strong></td>
 						</tr>
 					</cfloop>
