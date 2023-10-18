@@ -80,13 +80,9 @@
 			<cfset other_id_type_exists = false>
 			<cfset other_id_number_exists = false>
 			<cfset scientific_name_exists = false>
-			<cfset made_date_exists = false>
 			<cfset nature_of_id_exists = false>
 			<cfset accepted_fg_exists = false>
-			<cfset identification_remarks_exists = false>
 			<cfset agent_1_exists = false>
-			<cfset agent_2_exists = false>
-			<cfset stored_as_fg_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
 				<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
@@ -94,24 +90,20 @@
 				<cfif ucase(header) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
 				<cfif ucase(header) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
 				<cfif ucase(header) EQ 'scientific_name'><cfset scientific_name_exists=true></cfif>
-				<cfif ucase(header) EQ 'made_date'><cfset made_date_exists=true></cfif>
 				<cfif ucase(header) EQ 'nature_of_id'><cfset nature_of_id_exists=true></cfif>
 				<cfif ucase(header) EQ 'accepted_fg'><cfset accepted_fg_exists=true></cfif>
-				<cfif ucase(header) EQ 'identification_remarks'><cfset identification_remarks_exists=true></cfif>
-				<cfif ucase(header) EQ 'agent_1'><cfset agent_1_exists=true></cfif>
-				<cfif ucase(header) EQ 'agent_2'><cfset agent_2_exists=true></cfif>
-				<cfif ucase(header) EQ 'stored_as_fg'><cfset stored_as_fg_exists=true></cfif>				
+				<cfif ucase(header) EQ 'agent_1'><cfset agent_1_exists=true></cfif>				
 			</cfloop>
-			<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND publication_title_exists AND publication_id_exists AND cited_scientific_name_exists AND type_status_exists)>
+			<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND scientific_name_exists AND nature_of_id_exists AND accepted_fg_exists AND agent_1_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
 				<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
 				<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
 				<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
 				<cfif not other_id_number_exists><cfset message = "#message# other_id_number is missing."></cfif>
-				<cfif not publication_title_exists><cfset message = "#message# publication_title is missing."></cfif>
-				<cfif not publication_id_exists><cfset message = "#message# publication_id is missing."></cfif>
-				<cfif not cited_scientific_name_exists><cfset message = "#message# cited_scientific_name is missing."></cfif>
-				<cfif not type_status_exists><cfset message = "#message# type_status is missing."></cfif>
+				<cfif not scientific_name_exists><cfset message = "#message# scientific_name is missing."></cfif>
+				<cfif not nature_of_id_exists><cfset message = "#message# nature_of_id is missing."></cfif>
+				<cfif not accepted_fg_exists><cfset message = "#message# accepted_fg is missing."></cfif>
+				<cfif not agent_1_exists><cfset message = "#message# agent_1 is missing."></cfif>
 				<cfthrow message="#message#">
 			</cfif>
 			<cfset colNames="">
@@ -203,9 +195,8 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_ID set cited_taxon_name_id =
-				(select taxonomy.taxon_name_id from taxonomy,taxonomy_publication where taxonomy.taxon_name_id = taxonomy_publication.TAXON_NAME_ID
-				AND taxonomy_publication.publication_id = cf_temp_ID.publication_id AND taxonomy.scientific_name=cf_temp_ID.cited_scientific_name)
+				update cf_temp_ID set taxon_name_id =
+				(select taxonomy.taxon_name_id from taxonomy where taxonomy.scientific_name = cf_temp_ID.scientific_name)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
