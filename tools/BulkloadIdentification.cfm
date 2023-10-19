@@ -193,7 +193,7 @@
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
-			<cfif right(cf_temp_id.scientific_name,4) is " sp.">
+<!---			<cfif right(cf_temp_id.scientific_name,4) is " sp.">
 				<cfset cf_temp_id.scientific_name=left(cf_temp_id.scientific_name,len(cf_temp_id.scientific_name) -4)>
 				<cfset tf = "A sp.">
 				<cfset TaxonomyTaxonName=left(cf_temp_id.scientific_name,len(cf_temp_id.scientific_name) - 4)>
@@ -239,7 +239,7 @@
 				<cfset cf_temp_id.scientific_name=left(cf_temp_id.scientific_name,len(cf_temp_id.scientific_name) -4)>
 				<cfset tf = "A sp.">
 				<cfset TaxonomyTaxonName=left(cf_temp_id.scientific_name,len(cf_temp_id.scientific_name) - 4)>
-			</cfif>
+			</cfif>--->
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					coll_obj_other_id_num.collection_object_id
@@ -249,11 +249,11 @@
 				WHERE
 					collection.institution_acronym = 'cf_temp_id.institution_acronym' AND
 					cataloged_item.collection_cde = 'cf_temp_id.collection_cde' AND
-					(cf_temp_id.other_id_type = 'catalog number' and cat_num = 'cf_temp_id.other_id_number')
+					cf_temp_id.other_id_type = 'catalog number' AND
+					cat_num = 'cf_temp_id.other_id_number'
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_ID set collection_object_id =
-				(SELECT
+				SELECT
 					coll_obj_other_id_num.collection_object_id
 				FROM
 					coll_obj_other_id_num,
@@ -263,12 +263,12 @@
 					collection.institution_acronym = 'cf_temp_id.institution_acronym' AND
 					cataloged_item.collection_cde = 'cf_temp_id.collection_cde' AND
 					coll_obj_other_id_num.display_value = 'cf_temp_id.other_id_type' AND
-					display_value = 'cf_temp_id.other_id_number'
-				)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					display_value = 'cf_temp_id.other_id_number' AND
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="updateCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_ID set cf_temp_id.collection_object_id = getCID.collection_object_id
+				where username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT taxon_name_id FROM taxonomy WHERE scientific_name = '#Taxonomy.scientific_name#'
