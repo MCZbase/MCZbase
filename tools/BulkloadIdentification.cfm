@@ -240,6 +240,7 @@
 				<cfset tf = "A sp.">
 				<cfset TaxonomyTaxonName=left(cf_temp_id.scientific_name,len(cf_temp_id.scientific_name) - 4)>
 			</cfif>--->
+			<cfif other_id_type = 'catalog number'>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					coll_obj_other_id_num.collection_object_id
@@ -252,7 +253,8 @@
 					cf_temp_id.other_id_type = 'catalog number' AND
 					cat_num = 'cf_temp_id.other_id_number'
 			</cfquery>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfelse>
+				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					coll_obj_other_id_num.collection_object_id
 				FROM
@@ -266,6 +268,7 @@
 					coll_obj_other_id_num.other_id_type= 'cf_temp_id.other_id_type' AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			</cfif>
 			<cfquery name="updateCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_ID set cf_temp_id.collection_object_id = getCID.collection_object_id
 				where username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
