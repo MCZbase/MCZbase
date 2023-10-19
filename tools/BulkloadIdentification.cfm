@@ -195,9 +195,82 @@
 		<cfoutput>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_ID set collection_object_id =
-				(select cataloged_item.collection_object_id from cataloged_item where cataloged_item.collection_cde = cf_temp_ID.collection_cde and cataloged_item.cat_num = cf_temp_ID.other_id_number)
+				(			SELECT
+						coll_obj_other_id_num.collection_object_id
+					FROM
+						coll_obj_other_id_num,
+						cataloged_item,
+						collection
+					WHERE
+						coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
+						cataloged_item.collection_id = collection.collection_id and
+						collection.collection_cde = '#collection_cde#' and
+						collection.institution_acronym = '#institution_acronym#' and
+						other_id_type = '#trim(other_id_type)#' and
+						display_value = '#trim(other_id_number)#')
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfif right(scientific_name,4) is " sp.">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
+				<cfset tf = "A sp.">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 4)>
+			<cfelseif right(scientific_name,5) is " ssp.">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+				<cfset tf = "A ssp.">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
+			<cfelseif right(scientific_name,5) is " spp.">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+				<cfset tf = "A spp.">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
+			<cfelseif right(scientific_name,5) is " var.">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+				<cfset tf = "A var.">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
+			<cfelseif right(scientific_name,9) is " sp. nov.">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -9)>
+				<cfset tf = "A sp. nov.">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 9)>
+			<cfelseif right(scientific_name,10) is " gen. nov.">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -10)>
+				<cfset tf = "A gen. nov.">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 10)>
+			<cfelseif right(scientific_name,8) is " (Group)">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -8)>
+				<cfset tf = "A (Group)">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 8)>
+			<cfelseif right(scientific_name,4) is " nr.">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+				<cfset tf = "A nr.">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
+			<cfelseif right(scientific_name,4) is " cf.">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
+				<cfset tf = "A cf.">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 4)>
+			<cfelseif right(scientific_name,2) is " ?">
+				<cfset scientific_name=left(scientific_name,len(scientific_name) -2)>
+				<cfset tf = "A ?">
+				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 2)>
+			<cfelse>
+				<cfset  tf = "A">
+				<cfset TaxonomyTaxonName="#scientific_name#">
+			</cfif>	
+			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT taxon_name_id FROM taxonomy WHERE scientific_name = '#TaxonomyTaxonName#'
+			</cfquery>
+			<cfif #isTaxa.recordcount# is not 1>
+				<cfif len(#problem#) is 0>
+					<cfset problem = "taxonomy not found">
+				<cfelseif #isTaxa.recordcount# GT 1>
+					<cfset problem = "#problem#; multiple taxonomy records found">
+				<cfelse>
+					<cfset problem = "#problem#; taxonomy not found">
+				</cfif>
+			<cfelse>
+				<cfquery name="insColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_id SET taxon_name_id = #isTaxa.taxon_name_id#,taxa_formula='#tf#' where
+					key = #key#
+				</cfquery>
+			</cfif>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_ID set taxon_name_id =
 				(select taxonomy.taxon_name_id from taxonomy where taxonomy.scientific_name = cf_temp_ID.scientific_name)
