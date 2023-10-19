@@ -240,6 +240,7 @@
 				<cfset tf = "A sp.">
 				<cfset TaxonomyTaxonName=left(cf_temp_id.scientific_name,len(cf_temp_id.scientific_name) - 4)>
 			</cfif>--->
+			<cfset other_id_type = ''>
 			<cfif cf_temp_id.other_id_type eq 'catalog number'>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
