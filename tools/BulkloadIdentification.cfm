@@ -257,6 +257,7 @@
 						<th>NATURE_OF_ID</th>
 						<th>ACCEPTED_FG</th>
 						<th>IDENTIFICATION_REMARKS</th>
+						<th>taxa_formula</th>
 						<th>AGENT_1</th>
 						<th>AGENT_2</th>
 						<th>STORED_AS_FG</th>
@@ -274,6 +275,7 @@
 							<td>#data.NATURE_OF_ID#</td>
 							<td>#data.ACCEPTED_FG#</td>
 							<td>#data.IDENTIFICATION_REMARKS#</td>
+							<td>#data.TAXA_FORMULA#</td>
 							<td>#data.AGENT_1#</td>
 							<td>#data.AGENT_2#</td>
 							<td>#data.STORED_AS_FG#</td>
@@ -327,6 +329,7 @@
 							<th>nature_of_id</th>
 							<th>accepted_fg</th>
 							<th>identification_remarks</th>
+							<th>taxa_formula</th>
 							<th>agent_1</th>
 							<th>agent_2</th>
 							<th>taxon_name_id</th>
@@ -348,6 +351,7 @@
 								<td>#getProblemData.nature_of_id#</td>
 								<td>#getProblemData.accepted_fg#</td>
 								<td>#getProblemData.identification_remarks#</td>
+								<td>#getProblemData.taxa_formula#</td>
 								<td>#getProblemData.agent_1#</td>
 								<td>#getProblemData.agent_2#</td>
 								<td>#getProblemData.taxon_name_id#</td>
