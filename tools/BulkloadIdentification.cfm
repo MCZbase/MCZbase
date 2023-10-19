@@ -242,17 +242,15 @@
 			</cfif>--->
 		
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
+				UPDATE cf_temp_id set COLLECTION_OBJECT_ID = (SELECT
 					cataloged_item.collection_object_id
 				FROM
 					cataloged_item 
-					left join collection on cataloged_item.collection_id = collection.collection_id
 				WHERE
-					collection.institution_acronym = 'cf_temp_id.institution_acronym' AND
 					cataloged_item.collection_cde = 'cf_temp_id.collection_cde' AND
 					cataloged_item.cat_num ='cf_temp_id.other_id_number' AND
-					cataloged_item.other_id_type= 'cf_temp_id.other_id_type' AND
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					cataloged_item.other_id_type= 'cf_temp_id.other_id_type')
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT taxon_name_id FROM taxonomy WHERE scientific_name = '#Taxonomy.scientific_name#'
