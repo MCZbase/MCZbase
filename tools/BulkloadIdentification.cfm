@@ -207,8 +207,9 @@
 			</cfquery>
 			<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_ID set scientific_name =
-				(select scientific_name from taxonomy where taxonomy.scientific_name = 'cf_temp_ID.scientific_name' and cf_temp_id.taxa_formula = 'A')
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				(select scientific_name from taxonomy where taxonomy.scientific_name = 'cf_temp_ID.scientific_name')
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> AND
+				cf_temp_id.taxa_formula = 'A'
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_ID 
