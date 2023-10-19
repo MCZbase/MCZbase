@@ -242,28 +242,17 @@
 			</cfif>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_ID set collection_object_id =
-				(			SELECT
-						coll_obj_other_id_num.collection_object_id
-					FROM
-						coll_obj_other_id_num,
-						cataloged_item,
-						collection
-					WHERE
-						coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
-						cataloged_item.collection_id = collection.collection_id and
-						collection.collection_cde = 'cf_temp_id.collection_cde' and
-						collection.institution_acronym = 'cf_temp_id.institution_acronym' and
-						other_id_type = 'cf_temp_id.other_id_type' and
-						display_value = 'cf_temp_id.other_id_number')
+				(SELECT
+					coll_obj_other_id_num.collection_object_id
+				FROM
+					coll_obj_other_id_num,
+					left join cataloged_item on coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id,
+					left join collection on cataloged_item.collection_id = collection.collection_id
+				WHERE
+					collection.institution_acronym = 'cf_temp_id.institution_acronym' AND
+					<cfif other_id_type = 'catalog number'>cat_num<cfelse>display_value</cfif> = 'cf_temp_id.other_id_number'
+				)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_id SET taxon_name_id = #cf_temp_id.taxon_name_id#,taxa_formula='#tf#' 
-				where
-				()
-			AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					
-			</cfif>	
 			</cfquery>
 			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT taxon_name_id FROM taxonomy WHERE scientific_name = '#Taxonomy.scientific_name#'
