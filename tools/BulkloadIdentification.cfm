@@ -250,7 +250,7 @@
 					left join collection on cataloged_item.collection_id = collection.collection_id
 				WHERE
 					collection.institution_acronym = 'cf_temp_id.institution_acronym' AND
-					<cfif other_id_type = 'catalog number'>cat_num<cfelse>display_value</cfif> = 'cf_temp_id.other_id_number'
+					<cfif other_id_type eq 'catalog number'>cat_num<cfelse>display_value</cfif> = 'cf_temp_id.other_id_number'
 				)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
