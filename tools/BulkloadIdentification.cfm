@@ -248,8 +248,7 @@
 					cataloged_item 
 				WHERE
 					cataloged_item.collection_cde = 'cf_temp_id.collection_cde' AND
-					cataloged_item.cat_num ='cf_temp_id.other_id_number' AND
-					cataloged_item.other_id_type= 'cf_temp_id.other_id_type')
+					cataloged_item.cat_num ='cf_temp_id.other_id_number')
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
