@@ -210,10 +210,10 @@
 						display_value = 'cf_temp_id.other_id_number')
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif right(scientific_name,4) is " sp.">
-				<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
+			<cfif right(cf_temp_id.scientific_name,4) is " sp.">
+				<cfset cf_temp_id.scientific_name=left(cf_temp_id.scientific_name,len(cf_temp_id.scientific_name) -4)>
 				<cfset tf = "A sp.">
-				<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 4)>
+				<cfset TaxonomyTaxonName=left(cf_temp_id.scientific_name,len(cf_temp_id.scientific_name) - 4)>
 			<cfelseif right(scientific_name,5) is " ssp.">
 				<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
 				<cfset tf = "A ssp.">
@@ -255,7 +255,7 @@
 				<cfset TaxonomyTaxonName="#scientific_name#">
 			</cfif>	
 			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT taxon_name_id FROM taxonomy WHERE scientific_name = '#TaxonomyTaxonName#'
+				SELECT taxon_name_id FROM taxonomy WHERE scientific_name = '#Taxonomy.scientific_name#'
 			</cfquery>
 			<cfif #isTaxa.recordcount# is not 1>
 				<cfif len(#problem#) is 0>
