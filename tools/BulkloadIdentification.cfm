@@ -243,7 +243,7 @@
 			<cfif cf_temp_id.other_id_type eq 'catalog number'>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
-						coll_obj_other_id_num.collection_object_id
+						coll_obj_other_id_num.collection_object_id,cataloged_item.collection_object_id
 					FROM
 						coll_obj_other_id_num,
 						left join cataloged_item on coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id,
