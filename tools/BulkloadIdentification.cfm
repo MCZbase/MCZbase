@@ -262,8 +262,8 @@
 				WHERE
 					collection.institution_acronym = 'cf_temp_id.institution_acronym' AND
 					cataloged_item.collection_cde = 'cf_temp_id.collection_cde' AND
-					coll_obj_other_id_num.display_value = 'cf_temp_id.other_id_type' AND
-					display_value = 'cf_temp_id.other_id_number' AND
+					coll_obj_other_id_num.display_value = 'cf_temp_id.other_id_number' AND
+					coll_obj_other_id_num.other_id_type= 'cf_temp_id.other_id_type' AND
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="updateCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
