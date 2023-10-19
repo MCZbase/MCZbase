@@ -252,7 +252,7 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT taxon_name_id FROM taxonomy WHERE scientific_name = '#Taxonomy.scientific_name#'
+				SELECT taxon_name_id FROM taxonomy WHERE scientific_name = '#cf_temp_id.scientific_name#'
 			</cfquery>
 			<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_ID set taxon_name_id =
