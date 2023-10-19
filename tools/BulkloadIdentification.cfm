@@ -204,10 +204,10 @@
 					WHERE
 						coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
 						cataloged_item.collection_id = collection.collection_id and
-						collection.collection_cde = '#collection_cde#' and
-						collection.institution_acronym = '#institution_acronym#' and
-						other_id_type = '#trim(other_id_type)#' and
-						display_value = '#trim(other_id_number)#')
+						collection.collection_cde = 'cf_temp_id.collection_cde' and
+						collection.institution_acronym = 'cf_temp_id.institution_acronym' and
+						other_id_type = 'cf_temp_id.other_id_type' and
+						display_value = 'cf_temp_id.other_id_number')
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfif right(scientific_name,4) is " sp.">
