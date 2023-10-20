@@ -314,7 +314,7 @@
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
-							<td>#data.TaxonomyTaxonName# </td>
+							<td>#data.scientific_name# </td>
 							<td>#data.MADE_DATE#</td>
 							<td>#data.NATURE_OF_ID#</td>
 							<td>#data.ACCEPTED_FG#</td>
@@ -353,7 +353,7 @@
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accepted_fg#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxonomytaxonname#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#stored_as_fg#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date#">
 							)
@@ -397,7 +397,7 @@
 								<td>#getProblemData.collection_cde#</td>
 								<td>#getProblemData.other_id_type#</td>
 								<td>#getProblemData.other_id_number#</td>
-								<td>#getProblemData.taxonomytaxonname#</td>
+								<td>#getProblemData.scientific_name#</td>
 								<td>#getProblemData.made_date#</td>
 								<td>#getProblemData.nature_of_id#</td>
 								<td>#getProblemData.accepted_fg#</td>
