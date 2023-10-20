@@ -200,60 +200,7 @@
 				SELECT scientific_name,taxa_formula FROM cf_temp_id WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">	
 			</cfquery>
 		<cfoutput>
-			<cfset TaxonomyTaxonName = ''>
-			<cfset scientific_name = #isSciName.scientific_name#>
-			<cfset tf = '#isSciName.taxa_formula#'>
-			<cfloop query='isSciName'>
-				<cfif right(scientific_name,4) is " sp.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
-					<cfset tf = "A sp.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 4)>
-				<cfelseif right(scientific_name,5) is " ssp.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
-					<cfset tf = "A ssp.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
-				<cfelseif right(scientific_name,5) is " spp.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
-					<cfset tf = "A spp.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
-				<cfelseif right(scientific_name,5) is " var.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
-					<cfset tf = "A var.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
-				<cfelseif right(scientific_name,9) is " sp. nov.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -9)>
-					<cfset tf = "A sp. nov.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 9)>
-				<cfelseif right(scientific_name,10) is " gen. nov.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -10)>
-					<cfset tf = "A gen. nov.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 10)>
-				<cfelseif right(scientific_name,8) is " (Group)">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -8)>
-					<cfset tf = "A (Group)">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 8)>
-				<cfelseif right(scientific_name,4) is " nr.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
-					<cfset tf = "A nr.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
-				<cfelseif right(scientific_name,4) is " cf.">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
-					<cfset tf = "A cf.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 4)>
-				<cfelseif right(scientific_name,2) is " ?">
-					<cfset scientific_name=left(scientific_name,len(scientific_name) -2)>
-					<cfset tf = "A ?">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 2)>
-				<cfelse>
-					<cfset  tf = "A">
-					<cfset TaxonomyTaxonName="#scientific_name#">
-				</cfif>
-			</cfloop>
-			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_id set taxon_name_id =
-				(SELECT taxon_name_id FROM taxonomy WHERE scientific_name = '#TaxonomyTaxonName#')
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			
 			<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select nature_of_id from ctnature_of_id
 			</cfquery>
@@ -345,6 +292,60 @@
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_ID
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfset TaxonomyTaxonName = ''>
+			<cfset scientific_name = #isSciName.scientific_name#>
+			<cfset tf = '#isSciName.taxa_formula#'>
+			<cfloop query='isSciName'>
+				<cfif right(scientific_name,4) is " sp.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
+					<cfset tf = "A sp.">
+					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 4)>
+				<cfelseif right(scientific_name,5) is " ssp.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+					<cfset tf = "A ssp.">
+					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
+				<cfelseif right(scientific_name,5) is " spp.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+					<cfset tf = "A spp.">
+					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
+				<cfelseif right(scientific_name,5) is " var.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+					<cfset tf = "A var.">
+					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
+				<cfelseif right(scientific_name,9) is " sp. nov.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -9)>
+					<cfset tf = "A sp. nov.">
+					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 9)>
+				<cfelseif right(scientific_name,10) is " gen. nov.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -10)>
+					<cfset tf = "A gen. nov.">
+					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 10)>
+				<cfelseif right(scientific_name,8) is " (Group)">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -8)>
+					<cfset tf = "A (Group)">
+					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 8)>
+				<cfelseif right(scientific_name,4) is " nr.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
+					<cfset tf = "A nr.">
+					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
+				<cfelseif right(scientific_name,4) is " cf.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
+					<cfset tf = "A cf.">
+					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 4)>
+				<cfelseif right(scientific_name,2) is " ?">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -2)>
+					<cfset tf = "A ?">
+					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 2)>
+				<cfelse>
+					<cfset  tf = "A">
+					<cfset TaxonomyTaxonName="#scientific_name#">
+				</cfif>
+			</cfloop>
+			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_id set taxon_name_id =
+				(SELECT taxon_name_id FROM taxonomy WHERE scientific_name = '#TaxonomyTaxonName#')
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
