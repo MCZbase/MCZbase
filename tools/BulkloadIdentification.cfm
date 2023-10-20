@@ -205,7 +205,7 @@
 			<cfset tf = '#isSciName.taxa_formula#'>
 			<cfloop query='isSciName'>
 		
-				<cfif right(sn,4) is " sp.">
+				<cfif right(scientific_name,4) is " sp.">
 					<cfset sn=left(sn,len(sn) -4)>
 					<cfset tf = "A sp.">
 					<cfset TaxonomyTaxonName=left(sn,len(sn) - 4)>
