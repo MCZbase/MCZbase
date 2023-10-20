@@ -284,11 +284,10 @@
 				WHERE collection_object_id is null AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT cf_temp_id.institution_acronym,cf_temp_id.collection_cde,cf_temp_id.other_id_type,cf_temp_id.other_id_number,isSciName.scientific_name,cf_temp_id.made_date,cf_temp_id.nature_of_id,cf_temp_id.accepted_fg,
-				cf_temp_id.identification_remarks,cf_temp_id.taxa_formula,cf_temp_id.agent_1,cf_temp_id.agent_2,cf_temp_id.stored_as_fg,status
+				SELECT cf_temp_id.institution_acronym,cf_temp_id.collection_cde,cf_temp_id.other_id_type,cf_temp_id.other_id_number,isSciName.scientific_name,cf_temp_id.made_date,cf_temp_id.nature_of_id,cf_temp_id.accepted_fg,cf_temp_id.identification_remarks,cf_temp_id.taxa_formula,cf_temp_id.agent_1,cf_temp_id.agent_2,cf_temp_id.stored_as_fg,cf_temp_id.status
 				FROM cf_temp_ID,isSciName
-				WHERE cf_temp_id.scientific_name = isSciName.scientific_name and
-				 username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				WHERE cf_temp_id.scientific_name = isSciName.scientific_name and 
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
