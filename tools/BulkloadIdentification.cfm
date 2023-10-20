@@ -200,6 +200,7 @@
 				SELECT scientific_name,taxa_formula FROM cf_temp_id WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">	
 			</cfquery>
 		<cfoutput>
+			<cfset TaxonomyTaxonName = ''>
 			<cfset scientific_name = '#isSciName.scientific_name#'>
 			<cfset tf = '#isSciName.taxa_formula#'>
 			<cfloop query='isSciName'>
