@@ -197,7 +197,8 @@
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT scientific_name,taxa_formula FROM cf_temp_id WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">	
+			SELECT institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,
+				identification_remarks,taxa_formula,agent_1,agent_2,stored_as_fg,status FROM cf_temp_id WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">	
 		</cfquery>
 		<cfoutput>
 			<cfset scientific_name = '#data.scientific_name#'>
@@ -267,8 +268,8 @@
 				WHERE collection_object_id is null AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,
-				identification_remarks,taxa_formula,agent_1,agent_2,stored_as_fg,status
+				update data set scientific_name = #scientific_name#,collection_object_id =
+				(SELECT collection_object_id,taxon_name_id,institution_acronym,collection_cde,other_id_type,other_id_number,scientific_name,made_date,nature_of_id,accepted_fg,identification_remarks,taxa_formula,agent_1,agent_2,stored_as_fg,status)
 				FROM cf_temp_ID
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -353,7 +354,7 @@
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accepted_fg#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name# #tf#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#stored_as_fg#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date#">
 							)
