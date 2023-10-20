@@ -408,7 +408,7 @@
 								<td>#getProblemData.collection_cde#</td>
 								<td>#getProblemData.other_id_type#</td>
 								<td>#getProblemData.other_id_number#</td>
-								<td>#getProblemData.scientific_name#</td>
+								<td>#getProblemData.taxonomytaxonname#</td>
 								<td>#getProblemData.made_date#</td>
 								<td>#getProblemData.nature_of_id#</td>
 								<td>#getProblemData.accepted_fg#</td>
