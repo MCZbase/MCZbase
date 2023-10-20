@@ -195,7 +195,7 @@
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
-			<cfset scientific_name = ''>
+	
 			<cfif right(scientific_name,4) is " sp.">
 				<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
 				<cfset tf = "A sp.">
