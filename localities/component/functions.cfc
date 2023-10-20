@@ -4614,32 +4614,30 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 		<cfif getEvent.recordcount EQ 0>
 			<cfthrow message = "No collecting event found for the specified collecting event id [#encodeForHtml(collecting_event_id)#].">
 		<cfelse>
-			<cfset locality_id = getEvent.locality_id>
-			<cfset verbatim_locality = getEvent.verbatim_locality>
-			<cfset verbatimDepth = getEvent.verbatimDepth>
-			<cfset verbatimElevation = getEvent.verbatimElevation>
-			<cfset verbatimCoordinates = getEvent.verbatimCoordinates>
-			<cfset verbatimLatitude = getEvent.verbatimLatitude>
-			<cfset verbatimLongitude = getEvent.verbatimLongitude>
-			<cfset verbatimCoordinateSystem = getEvent.verbatimCoordinateSystem>
-			<cfset verbatimSRS = getEvent.verbatimSRS>
-			<cfset verbatim_date = getEvent.verbatim_date>
-			<cfset collecting_time = getEvent.collecting_time>
-			<cfset startDayOfYear = getEvent.startDayOfYear>
-			<cfset endDayOfYear = getEvent.endDayOfYear>
-			<cfset began_date = getEvent.began_date>
-			<cfset ended_date = getEvent.ended_date>
-			<cfset coll_event_remarks = getEvent.coll_event_remarks>
-			<cfset collecting_source = getEvent.collecting_source>
-			<cfset habitat_desc = getEvent.habitat_desc>
-<!--- TODO: Added fields
-				date_began_date,
-				date_ended_date,
-				valid_distribtion_fg, 
-				collecting_method,
-				date_determined_by_agent_id, 
-				fish_field_number
---->
+			<cfloop query="getEvent">
+				<cfset locality_id = getEvent.locality_id>
+				<cfset verbatim_locality = getEvent.verbatim_locality>
+				<cfset verbatimDepth = getEvent.verbatimDepth>
+				<cfset verbatimElevation = getEvent.verbatimElevation>
+				<cfset verbatimCoordinates = getEvent.verbatimCoordinates>
+				<cfset verbatimLatitude = getEvent.verbatimLatitude>
+				<cfset verbatimLongitude = getEvent.verbatimLongitude>
+				<cfset verbatimCoordinateSystem = getEvent.verbatimCoordinateSystem>
+				<cfset verbatimSRS = getEvent.verbatimSRS>
+				<cfset verbatim_date = getEvent.verbatim_date>
+				<cfset collecting_time = getEvent.collecting_time>
+				<cfset startDayOfYear = getEvent.startDayOfYear>
+				<cfset endDayOfYear = getEvent.endDayOfYear>
+				<cfset began_date = getEvent.began_date>
+				<cfset ended_date = getEvent.ended_date>
+				<cfset coll_event_remarks = getEvent.coll_event_remarks>
+				<cfset collecting_source = getEvent.collecting_source>
+				<cfset habitat_desc = getEvent.habitat_desc>
+				<cfset valid_distribution_fg = getEvent.valid_distribution_fg>
+				<cfset collecting_method = getEvent.collecting_method>
+				<cfset date_determined_by_agent_id = getEvent.date_determined_by_agent_id>
+				<cfset fish_field_number = getEvent.fish_field_number>
+			</cfloop>
 		</cfif>
 	</cfif> 
 	<cfset higher_geog = "">
@@ -4667,6 +4665,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cftry>
 				<cfquery name="ctCollecting_Source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 					select collecting_source from ctcollecting_source order by collecting_source
+				</cfquery>
+				<cfquery name="ctCollecting_method" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+					select collecting_method from ctcollecting_method order by collecting_method
 				</cfquery>
 				<div class="form-row">
 					<cfif NOT isDefined("locality_id") OR len(locality_id) EQ 0>
@@ -4727,6 +4728,16 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<cfif not isDefined("endDayOfYear")><cfset endDayOfYear = ""></cfif>
 						<input type="text" name="endDayOfYear" id="endDayOfYear" class="data-entry-input" value="#encodeForHTML(endDayOfYear)#">
 					</div>
+					<div class="col-12 col-md-2">
+						<label for="date_determined_by_agent_id" class="data-entry-label">Event Date Determined By</label>
+						<input type="hidden" name="date_determined_by_agent_id" id="date_determined_by_agent_id">
+						<input type="text" name="date_determined_by_agent" id="date_determined_by_agent" class="data-entry-input">
+						<script>
+							$(document).ready(function() { 
+								makeAgentAutocompleteMeta("date_determined_by_agent", "date_determined_by_agent_id");
+							});
+						</script>
+					</div>
 					<div class="col-12 col-md-4">
 						<label for="collecting_source" class="data-entry-label">Collecting Source</label>
 						<cfif isdefined("collecting_source")> <cfset collsrc = collecting_source> <cfelse> <cfset collsrc = ""> </cfif>
@@ -4740,8 +4751,14 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</div>
 					<div class="col-12 col-md-4">
 						<label for="collecting_method" class="data-entry-label">Collecting Method</label>
-						<cfif not isDefined("collecting_method")><cfset collecting_method = ""></cfif>
-						<input type="text" name="collecting_method" id="collecting_method" value="#encodeForHTML(collecting_method)#" class="data-entry-input">
+						<cfif isdefined("collecting_method")> <cfset collmethod = collecting_method> <cfelse> <cfset collmethod = ""> </cfif>
+						<select name="collecting_method" id="collecting_method" size="1" class="reqdClr data-entry-select" required="required" >
+							<option value=""></option>
+							<cfloop query="ctcollecting_Method">
+								<cfif ctcollecting_Method.collecting_Method is collmethod><cfset selected='selected="selected"'><cfelse><cfset selected=''></cfif>
+								<option value="#ctcollecting_Method.collecting_Method#" #selected#>#ctcollecting_Method.collecting_Method#</option>
+							</cfloop>
+						</select>
 					</div>
 					<div class="col-12 col-md-12">
 						<label for="habitat_desc" class="data-entry-label">Habitat</label>
@@ -4793,7 +4810,23 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<cfif not isDefined("verbatimSRS")><cfset verbatimSRS = ""></cfif>
 						<input type="text" name="verbatimSRS" value="#encodeForHTML(verbatimSRS)#" id="verbatimSRS" class="data-entry-input">
 					</div>
-<!--- TODO: Added fields --->
+					<div class="col-12 col-md-3">
+						<label for="valid_distribution_fg">Valid Distribution</label>
+						<cfif not isDefined("valid_distribution_fg")>
+							<cfset valid_distribution_fg = "1">
+						</cfif>
+						<select name="valid_distribution_fg" id="valid_distribution_fg" class="data-entry-select">
+							<cfif valid_distribution_fg EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="1" #selected#>Yes, material from this event represents distribution in the wild</option>
+							<cfif valid_distribution_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="0" #selected#>No, material from this event does not represent distribution in the wild</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="fish_field_number">Fish Field Number (Ich only)</label>
+						<cfif not isDefined("fish_field_number")><cfset fish_field_number = ""></cfif>
+						<input type="text" name="fish_field_number" value="#encodeForHTML(fish_field_number)#" id="fish_field_number" class="data-entry-input">
+					</div>
 					<div class="col-12">
 						<label for="coll_event_remarks" class="data-entry-label">Remarks</label>
 						<cfif not isDefined("coll_event_remarks")><cfset coll_event_remarks = ""></cfif>
