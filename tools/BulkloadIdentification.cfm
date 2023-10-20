@@ -261,8 +261,8 @@
 				select taxa_formula from cttaxa_formula order by taxa_formula
 			</cfquery>
 			<cfquery name="isSci" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_ID SET cf_temp_ID.scientific_name= #scientific_name#
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"><!---		(select scientific_name from isSciName where cf_temp_id.scientific_name = taxonomy.scientific_name)--->
+				UPDATE cf_temp_ID SET scientific_name= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_ID SET collection_object_id= 
