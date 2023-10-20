@@ -262,7 +262,7 @@
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_ID SET scientific_name= 
-				(select scientific_name from taxonomy where cf_temp_id.scientific_name = isSciName.TaxonomyTaxonName)
+				(select scientific_name from taxonomy where cf_temp_id.scientific_name = taxonomy.scientific_name)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
