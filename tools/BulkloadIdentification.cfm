@@ -331,12 +331,12 @@
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
-							<td>#TaxonomyTaxonName#</td>
+							<td>#isSciName.scientific_name# </td>
 							<td>#data.MADE_DATE#</td>
 							<td>#data.NATURE_OF_ID#</td>
 							<td>#data.ACCEPTED_FG#</td>
 							<td>#data.IDENTIFICATION_REMARKS#</td>
-							<td>#isSciName.scientific_name# #data.TAXA_FORMULA#</td>
+							<td>#data.TAXA_FORMULA#</td>
 							<td>#data.AGENT_1#</td>
 							<td>#data.AGENT_2#</td>
 							<td>#data.STORED_AS_FG#</td>
