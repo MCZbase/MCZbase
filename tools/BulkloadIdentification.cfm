@@ -261,7 +261,8 @@
 				select taxa_formula from cttaxa_formula order by taxa_formula
 			</cfquery>
 			<cfquery name="isSci" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_ID SET scientific_name= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">
+				UPDATE cf_temp_ID SET scientific_name= 
+				(select scientific_name from isSciName where <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -269,11 +270,6 @@
 				(select collection_object_id from cataloged_item where cat_num = cf_temp_ID.other_id_number and collection_cde = cf_temp_ID.collection_cde)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-	<!---		<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_ID set scientific_name =
-				(select scientific_name from taxonomy where taxonomy.scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>--->
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_ID SET status = 'scientific_name not found'
 				WHERE scientific_name is null AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -330,7 +326,7 @@
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
-							<td>#data.scientific_name# </td>
+							<td>#scientific_name# </td>
 							<td>#data.MADE_DATE#</td>
 							<td>#data.NATURE_OF_ID#</td>
 							<td>#data.ACCEPTED_FG#</td>
