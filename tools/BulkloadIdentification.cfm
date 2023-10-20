@@ -260,8 +260,8 @@
 			<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select taxa_formula from cttaxa_formula order by taxa_formula
 			</cfquery>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_ID SET scientific_name= #TaxonomyTaxonName#
+			<cfquery name="getCID1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_ID SET scientific_name= #TaxonomyTaxonName# where cf_temp_id.scientific_name is not null
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_ID SET collection_object_id= 
