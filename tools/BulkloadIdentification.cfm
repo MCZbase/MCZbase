@@ -62,6 +62,8 @@
 			</cfform>
 		</cfoutput>
 	</cfif>
+				
+			
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
@@ -347,7 +349,17 @@
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateIds" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateIds_result">
-							insert into identification (identification_id,collection_object_id,nature_of_id,accepted_id_fg,identification_remarks,taxa_formula,scientific_name,stored_as_fg,made_date)values(#NEXTID.NEXTID#,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accepted_fg#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">,'A',<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#stored_as_fg#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date#">)
+							insert into identification (identification_id,collection_object_id,nature_of_id,accepted_id_fg,identification_remarks,taxa_formula,scientific_name,stored_as_fg,made_date)values(
+							#NEXTID.NEXTID#,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accepted_fg#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">,
+							'A',
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#stored_as_fg#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date#">
+							)
 						</cfquery>
 						<cfset id_updates = id_updates + updateIds_result.recordcount>
 					</cfloop>
