@@ -84,6 +84,7 @@
 			<cfset scientific_name_exists = false>
 			<cfset nature_of_id_exists = false>
 			<cfset accepted_fg_exists = false>
+			<cfset taxa_formula_exists = false>
 			<cfset agent_1_exists = false>
 			<cfset stored_as_fg = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
@@ -95,6 +96,7 @@
 				<cfif ucase(header) EQ 'scientific_name'><cfset scientific_name_exists=true></cfif>
 				<cfif ucase(header) EQ 'nature_of_id'><cfset nature_of_id_exists=true></cfif>
 				<cfif ucase(header) EQ 'accepted_fg'><cfset accepted_fg_exists=true></cfif>
+				<cfif ucase(header) EQ 'taxa_formula'><cfset taxa_formula_exists=true></cfif>
 				<cfif ucase(header) EQ 'agent_1'><cfset agent_1_exists=true></cfif>
 				<cfif ucase(header) EQ 'stored_as_fg'><cfset stored_as_fg_exists=true></cfif>
 			</cfloop>
