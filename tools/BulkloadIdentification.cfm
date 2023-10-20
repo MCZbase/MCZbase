@@ -365,7 +365,7 @@
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_id#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accepted_fg#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_formula#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#SCIENTIFIC_NAME#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#stored_as_fg#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date#">
