@@ -337,7 +337,7 @@
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT * FROM data
+				SELECT * FROM cf_temp_ID
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -355,7 +355,7 @@
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accepted_fg#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#identification_remarks#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getSci.scientific_name#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#stored_as_fg#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date#">
 							)
