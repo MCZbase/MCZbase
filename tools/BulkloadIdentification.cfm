@@ -201,47 +201,47 @@
 			</cfquery>
 		<cfoutput>
 			<cfset TaxonomyTaxonName = ''>
-			<cfset sn = '#isSciName.scientific_name#'>
+			<cfset scientific_name = '#isSciName.scientific_name#'>
 			<cfset tf = '#isSciName.taxa_formula#'>
 			<cfloop query='isSciName'>
-				<cfif right(sn,4) is " sp.">
-					<cfset sn=left(scientific_name,len(scientific_name) -4)>
+				<cfif right(scientific_name,4) is " sp.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
 					<cfset tf = "A sp.">
 					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 4)>
-				<cfelseif right(sn,5) is " ssp.">
-					<cfset sn=left(scientific_name,len(scientific_name) -5)>
+				<cfelseif right(scientific_name,5) is " ssp.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
 					<cfset tf = "A ssp.">
 					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
-				<cfelseif right(sn,5) is " spp.">
-					<cfset sn=left(scientific_name,len(scientific_name) -5)>
+				<cfelseif right(scientific_name,5) is " spp.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
 					<cfset tf = "A spp.">
 					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
-				<cfelseif right(sn,5) is " var.">
-					<cfset sn=left(scientific_name,len(scientific_name) -5)>
+				<cfelseif right(scientific_name,5) is " var.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
 					<cfset tf = "A var.">
 					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
-				<cfelseif right(sn,9) is " sp. nov.">
-					<cfset sn=left(scientific_name,len(scientific_name) -9)>
+				<cfelseif right(scientific_name,9) is " sp. nov.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -9)>
 					<cfset tf = "A sp. nov.">
 					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 9)>
-				<cfelseif right(sn,10) is " gen. nov.">
-					<cfset sn=left(scientific_name,len(scientific_name) -10)>
+				<cfelseif right(scientific_name,10) is " gen. nov.">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -10)>
 					<cfset tf = "A gen. nov.">
 					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 10)>
-				<cfelseif right(sn,8) is " (Group)">
+				<cfelseif right(scientific_name,8) is " (Group)">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -8)>
 					<cfset tf = "A (Group)">
 					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 8)>
-				<cfelseif right(sn,4) is " nr.">
+				<cfelseif right(scientific_name,4) is " nr.">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
 					<cfset tf = "A nr.">
 					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
-				<cfelseif right(sn,4) is " cf.">
+				<cfelseif right(scientific_name,4) is " cf.">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
 					<cfset tf = "A cf.">
 					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 4)>
-				<cfelseif right(sn,2) is " ?">
-					<cfset sn=left(scientific_name,len(scientific_name) -2)>
+				<cfelseif right(scientific_name,2) is " ?">
+					<cfset scientific_name=left(scientific_name,len(scientific_name) -2)>
 					<cfset tf = "A ?">
 					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 2)>
 				<cfelse>
