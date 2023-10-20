@@ -199,7 +199,7 @@
 			</cfquery>
 		<cfoutput>
 			<cfset scientific_name = #isSciName.scientific_name#>
-			<cfset tf = #isSciName.taxon_formula>
+			<cfset tf = #isSciName.taxon_formula#>
 			<cfloop query='isSciName'>
 				<cfif right(scientific_name,4) is " sp.">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
