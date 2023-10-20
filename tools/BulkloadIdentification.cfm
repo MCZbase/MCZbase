@@ -239,7 +239,7 @@
 			<cfelse>
 				<cfset  tf = "A">
 				<cfset TaxonomyTaxonName="#scientific_name#">
-			</cfif>
+			</cfif>#TaxonomyTaxonName#
 			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT taxon_name_id FROM taxonomy WHERE scientific_name = '#TaxonomyTaxonName#'
 			</cfquery>
