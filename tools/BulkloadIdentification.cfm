@@ -196,60 +196,49 @@
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
-		<cfquery name="data1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT * FROM cf_temp_id WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">	
+		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT scientific_name FROM cf_temp_id WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">	
 		</cfquery>
 		<cfoutput>
-			<cfset TaxonomyTaxonName = ''>
-			<cfset scientific_name = '#data1.scientific_name#'>
-			<cfset tf = '#data1.taxa_formula#'>
-			<cfloop query='data1'>
+			<cfset scientific_name = '#data.scientific_name#'>
+			<cfset tf = '#data.taxa_formula#'>
+			<cfloop query='data'>
 				<cfif right(scientific_name,4) is " sp.">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
 					<cfset tf = "A sp.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 4)>
 				<cfelseif right(scientific_name,5) is " ssp.">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
 					<cfset tf = "A ssp.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
 				<cfelseif right(scientific_name,5) is " spp.">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
 					<cfset tf = "A spp.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
 				<cfelseif right(scientific_name,5) is " var.">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
 					<cfset tf = "A var.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
 				<cfelseif right(scientific_name,9) is " sp. nov.">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -9)>
 					<cfset tf = "A sp. nov.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 9)>
 				<cfelseif right(scientific_name,10) is " gen. nov.">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -10)>
 					<cfset tf = "A gen. nov.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 10)>
 				<cfelseif right(scientific_name,8) is " (Group)">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -8)>
 					<cfset tf = "A (Group)">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 8)>
 				<cfelseif right(scientific_name,4) is " nr.">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -5)>
 					<cfset tf = "A nr.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 5)>
 				<cfelseif right(scientific_name,4) is " cf.">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
 					<cfset tf = "A cf.">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 4)>
 				<cfelseif right(scientific_name,2) is " ?">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -2)>
 					<cfset tf = "A ?">
-					<cfset TaxonomyTaxonName=left(scientific_name,len(scientific_name) - 2)>
 				<cfelse>
 					<cfset  tf = "A">
-					<cfset TaxonomyTaxonName="#scientific_name#">
+					<cfset scientific_name="#scientific_name#">
 				</cfif>
 			</cfloop>
-			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_id set taxon_name_id =
 				(SELECT taxon_name_id FROM taxonomy WHERE scientific_name = cf_temp_id.scientific_name)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -260,8 +249,8 @@
 			<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select taxa_formula from cttaxa_formula order by taxa_formula
 			</cfquery>--->
-			<cfquery name="isSci" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_ID SET scientific_name= '#TaxonomyTaxonName#'
+			<cfquery name="getSci" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_ID SET scientific_name= '#scientific_name#'
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
