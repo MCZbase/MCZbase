@@ -251,7 +251,7 @@
 			</cfloop>
 			<cfquery name="isTaxa1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_id set taxon_name_id =
-				(SELECT taxon_name_id FROM taxonomy WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#isSciName.TaxonomyTaxonName#">)
+				(SELECT taxon_name_id FROM taxonomy WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -262,7 +262,7 @@
 			</cfquery>
 			<cfquery name="isSci" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_ID SET scientific_name= 
-					(SELECT scientific_name FROM taxonomy WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#isSciName.TaxonomyTaxonName#">)
+					(SELECT scientific_name FROM taxonomy WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
