@@ -330,7 +330,7 @@
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
 							<td>#data.OTHER_ID_NUMBER#</td>
-							<td>#isSciName.scientific_name# </td>
+							<td>#data.scientific_name# </td>
 							<td>#data.MADE_DATE#</td>
 							<td>#data.NATURE_OF_ID#</td>
 							<td>#data.ACCEPTED_FG#</td>
