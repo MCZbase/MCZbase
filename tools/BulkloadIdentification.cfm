@@ -247,7 +247,6 @@
 					<cfset TaxonomyTaxonName="#scientific_name#">
 				</cfif>
 			</cfloop>
-			
 			<cfquery name="isTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT taxon_name_id FROM taxonomy WHERE scientific_name = '#TaxonomyTaxonName#'
 			</cfquery>
@@ -257,43 +256,6 @@
 			<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select taxa_formula from cttaxa_formula order by taxa_formula
 			</cfquery>
-<!---			<cfquery name="getIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT distinct
-					identification.identification_id,
-					institution_acronym,
-					identification.scientific_name,
-					cat_num,
-					cataloged_item.collection_id,
-					cataloged_item.collection_cde,
-					made_date,
-					nature_of_id,
-					accepted_id_fg,
-					identification_remarks,
-					MCZBASE.GETSHORTCITATION(identification.publication_id) as formatted_publication,
-					identification.publication_id,
-					identification.sort_order,
-					identification.stored_as_fg
-				FROM
-					cataloged_item
-					left join identification on identification.collection_object_id = cataloged_item.collection_object_id
-					left join collection on cataloged_item.collection_id=collection.collection_id
-				WHERE
-					cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-				ORDER BY 
-					accepted_id_fg DESC, sort_order ASC
-			</cfquery>
-			<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT distinct
-					agent_name, identifier_order, identification_agent.agent_id, identification_agent_id
-				FROM
-					identification_agent
-					left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
-				WHERE
-					identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getIDs.identification_id#">
-				ORDER BY
-					identifier_order
-			</cfquery>--->
-
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE
 					cf_temp_ID
@@ -301,11 +263,6 @@
 					collection_object_id= (select collection_object_id from cataloged_item where cat_num = cf_temp_ID.other_id_number and collection_cde = cf_temp_ID.collection_cde)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-<!---			<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_ID set taxon_name_id =
-				(select taxonomy.taxon_name_id from taxonomy where taxonomy.scientific_name = cf_temp_id.scientific_name)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>--->
 			<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_ID set scientific_name =
 				(select scientific_name from taxonomy where taxonomy.scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TaxonomyTaxonName#">)
