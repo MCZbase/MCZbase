@@ -195,7 +195,7 @@
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 			<cfquery name="isSciName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT scientific_name,taxon_formula FROM cf_temp_id WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">	
+				SELECT scientific_name,taxa_formula FROM cf_temp_id WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">	
 			</cfquery>
 		<cfoutput>
 			<cfset scientific_name = #isSciName.scientific_name#>
