@@ -197,12 +197,12 @@
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfquery name="data1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT scientific_name,taxa_formula FROM cf_temp_id WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">	
+			SELECT * FROM cf_temp_id WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">	
 		</cfquery>
 		<cfoutput>
 			<cfset TaxonomyTaxonName = ''>
-			<cfset scientific_name = '#isSciName.scientific_name#'>
-			<cfset tf = '#isSciName.taxa_formula#'>
+			<cfset scientific_name = '#data1.scientific_name#'>
+			<cfset tf = '#data1.taxa_formula#'>
 			<cfloop query='data1'>
 				<cfif right(scientific_name,4) is " sp.">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
