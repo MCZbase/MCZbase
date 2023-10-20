@@ -196,14 +196,15 @@
 	<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
-			<cfquery name="isSciName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT scientific_name,taxa_formula FROM cf_temp_id WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">	
-			</cfquery>
+	
 		<cfoutput>
 			<cfset TaxonomyTaxonName = ''>
 			<cfset scientific_name = '#isSciName.scientific_name#'>
 			<cfset tf = '#isSciName.taxa_formula#'>
 			<cfloop query='isSciName'>
+			<cfquery name="isSciName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT scientific_name,taxa_formula FROM cf_temp_id WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">	
+			</cfquery>
 				<cfif right(scientific_name,4) is " sp.">
 					<cfset scientific_name=left(scientific_name,len(scientific_name) -4)>
 					<cfset tf = "A sp.">
@@ -254,15 +255,15 @@
 				(SELECT taxon_name_id FROM taxonomy WHERE scientific_name = cf_temp_id.scientific_name)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---			<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select nature_of_id from ctnature_of_id
 			</cfquery>
 			<cfquery name="ctFormula" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select taxa_formula from cttaxa_formula order by taxa_formula
-			</cfquery>
+			</cfquery>--->
 			<cfquery name="isSci" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_ID SET scientific_name= 
-				(select scientific_name from isSciName where <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">
+				(select scientific_name from taxonomy where <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
