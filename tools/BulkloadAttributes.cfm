@@ -208,7 +208,7 @@
 						UPDATE
 							cf_temp_attributes
 						SET
-							collection_object_id= (select collection_object_id from cataloged_item where cat_num = cf_temp_attributes.other_id_number and collection_cde = cf_temp_attributes.collection_cde) OR
+							collection_object_id= (select collection_object_id from cataloged_item where cat_num = cf_temp_attributes.other_id_number and collection_cde = cf_temp_attributes.collection_cde) 
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				<cfelse>
