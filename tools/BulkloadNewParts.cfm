@@ -309,7 +309,7 @@
 			<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select sq_collection_object_id.nextval NEXTID from dual
 			</cfquery>
-			<cftry>
+	<!---		<cftry>
 				<cfset part_updates = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
@@ -391,7 +391,7 @@
 					</table>
 					<cfrethrow>
 				</cfcatch>
-			</cftry>
+			</cftry>--->
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
