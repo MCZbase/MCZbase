@@ -399,7 +399,7 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="NEXTID2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select sq_der_from_cat_item.nextval NEXTID2 from dual
+							select sq_derived_from_cat_item.nextval NEXTID2 from dual
 						</cfquery>
 						<cfquery name="updateColl2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							INSERT INTO specimen_part (
