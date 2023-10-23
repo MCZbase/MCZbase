@@ -381,7 +381,7 @@
 						FROM cf_temp_attributes 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-					<h3>Error updating row (#attributes_updates + 1#): #cfcatch.message#</h3>
+					<h3 class="text-danger">Error updating row (#attributes_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr><th>institution_acronym</th>
@@ -410,7 +410,7 @@
 				</cftry>
 			</cftransaction>
 			<h2>#attributes_updates# attribute passed checks</h2>
-			<h2>Success, changes applied.</h2>
+			<h2 class="text-success">Success, changes applied.</h2>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
