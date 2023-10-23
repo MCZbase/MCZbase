@@ -399,7 +399,7 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="NEXTID2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select sq_collection_object_id.currentval from dual
+							select sq_collection_object_id.nextval NEXTID from dual
 						</cfquery>
 						<cfif len(updateColl1.collection_object_id) gt 1>
 								<cfquery name="updateColl2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -412,7 +412,7 @@
 										#nextid.nextid#,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="##PART_NAME##">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PRESERVE_METHOD#">,
-										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nextid2.currentval#"> )
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nextid2.nextid#"> )
 								</cfquery>
 							</cfif>
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
