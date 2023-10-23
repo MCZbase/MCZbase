@@ -38,8 +38,8 @@
 
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv.</p>
-			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored</p>
+			<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv. It ignores rows that are exactly the same. The attributes and attribute values must appear as they do on the <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?">controlled vocabularies</a> list. You will want to check the ATTRIBUTE_TYPE table and the see if your ATTRIBUTE_VALUE has a table by checking the <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES">ATTRIBUTE_CODE_TABLES</a>. Remember to check capitalization and spelling.</p>
+			<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.  Additional colums will be ignored</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
 				<label for="templatearea" class="data-entry-label">
@@ -409,7 +409,7 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>#attributes_updates# attribute passed checks</h2>
+			<h2>#attributes_updates# attribute(s) passed checks</h2>
 			<h2 class="text-success">Success, changes applied.</h2>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
