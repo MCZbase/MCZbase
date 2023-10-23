@@ -217,7 +217,7 @@
 							cf_temp_attributes
 						SET
 							collection_object_id= (
-								select collection_object_id from cataloged_item,coll_obj_other_id_num 
+								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
 								where coll_obj_other_id_num.other_id_type = cf_temp_attributes.other_id_type 
 								and cataloged_item.collection_cde = cf_temp_attributes.collection_cde 
 								and display_value= cf_temp_attributes.other_id_number
