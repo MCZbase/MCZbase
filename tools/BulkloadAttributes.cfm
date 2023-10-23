@@ -236,8 +236,8 @@
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
-				SET status = 'attribute_not_found'
-				WHERE attribute is null
+				SET status = 'attribute_type does not match the code table; check capitalization and spelling'
+				WHERE atttribute not in (select attribute from ctattribute_type)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
