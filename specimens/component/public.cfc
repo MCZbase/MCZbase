@@ -1249,7 +1249,7 @@ limitations under the License.
 										<tr class="small90">
 											<td colspan="6" class="pt-1">
 												<span class="pl-3 d-block pb-1">
-													<span class="font-italic">Remarks:</span> #part_remarks#
+													<span class="font-italic">Remarks:</span> _#part_remarks#
 												</span>
 											</td>
 										</tr>
