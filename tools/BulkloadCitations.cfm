@@ -336,7 +336,7 @@
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
 					<h2 class="text-info">#cfcatch.detail#<br>
-						<cfif #cfcatch.message# contains('[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: unique constraint (MCZBASE.PK_CITATION) violated')>This citation is already in the table.</cfif> </h2>
+						<cfif #cfcatch.message# contains('%unique constraint (MCZBASE.PK_CITATION) violated%')>This citation is already in the table.</cfif> </h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT *
 					FROM cf_temp_citation 
