@@ -400,6 +400,10 @@
 						FROM cf_temp_citation 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
+						<cfset error =''>
+						<cfif error contains('ORA-00001: unique constraint (MCZBASE.PK_CITATION) violated')>
+							<h2>Already a row in the table.</h2>
+						</cfif>
 					<h3 class="text-danger">Error updating row (#citation_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
