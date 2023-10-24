@@ -336,7 +336,7 @@
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
 				<h2 class="text-info">
-					<cfif find(cfcatch.detail,'unique constraint (MCZBASE.PK_CITATION) violated')>
+					<cfif findNoCase(cfcatch.detail,'unique constraint (MCZBASE.PK_CITATION) violated')>
 						This citation is already in the table.
 					</cfif> 
 				</h2>
