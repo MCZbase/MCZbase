@@ -335,6 +335,8 @@
 				<h2>Updated #citation_updates# citations.</h2>
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
+					<h2 class="text-info">#cfcatch.detail#<br>
+						<cfif #cfcatch.message# contains('[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: unique constraint (MCZBASE.PK_CITATION) violated')>This citation is already in the table.</cfif> </h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT *
 					FROM cf_temp_citation 
@@ -400,8 +402,7 @@
 						FROM cf_temp_citation 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-					<h2>#cfcatch.detail#<br>
-						<cfif #cfcatch.message# contains('[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: unique constraint (MCZBASE.PK_CITATION) violated')>This citation is already in the table.</cfif> </h2>
+				
 					
 					<h3 class="text-danger">Error updating row (#citation_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
