@@ -400,7 +400,7 @@
 						FROM cf_temp_citation 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-					<h3>Error updating row (#citation_updates + 1#): #cfcatch.message#</h3>
+					<h3 class="text-danger">Error updating row (#citation_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
@@ -441,8 +441,8 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>Updated #citation_updates# citations.</h2>
-			<h2>Success, changes applied.</h2>
+			<h2>#citation_updates# citations passed checks.</h2>
+			<h2 class="text-success">Success, changes applied.</h2>
 			<!--- cleanup --->
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_agents
