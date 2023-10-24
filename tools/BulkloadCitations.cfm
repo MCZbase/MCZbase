@@ -335,17 +335,14 @@
 				<h2>Updated #citation_updates# citations.</h2>
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
-				<h2 class="text-info">
-			
-				</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT *
 					FROM cf_temp_citation 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfif findNoCase(cfcatch.detail,'unique constraint (MCZBASE.PK_CITATION) violated')>
-						This citation is already in the table.
+				<cfif findNoCase(cfcatch.detail,'ORA-00001')>
+					<h2 class="text-info">This citation is already in the table.</h2>
 				<cfelse>
 				<h3>Problematic Rows (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>)</h3>
 				<table class='sortable table table-responsive table-striped d-lg-table'>
