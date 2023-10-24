@@ -387,9 +387,9 @@
 					<cfset agent_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
+						<!---<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
 							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,citation_page_uri,type_status,citation_remarks)values(#publication_id#,#collection_object_id#,#cited_taxon_name_id#,1,#occurs_page_number#,'#type_status#','#citation_remarks#','#citation_page_uri#')
-						</cfquery>
+						</cfquery>--->
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
