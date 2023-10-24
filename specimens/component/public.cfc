@@ -1245,7 +1245,7 @@ limitations under the License.
 											</span>
 										</td>
 									</tr>
-									<cfif len(subsampleParts.part_remarks) gt 0>
+									<cfif len(part_remarks) gt 0>
 										<tr class="small90">
 											<td colspan="6" class="pt-1">
 												<span class="pl-3 d-block pb-1">
