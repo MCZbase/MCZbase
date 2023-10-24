@@ -198,11 +198,41 @@
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_citation set collection_object_id =
-				(select cataloged_item.collection_object_id from cataloged_item where cataloged_item.collection_cde = cf_temp_citation.collection_cde and cataloged_item.cat_num = cf_temp_citation.other_id_number)
+			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select other_id_type
+				from cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfloop query="getType">
+				<cfif getType.other_id_type eq 'catalog number'>
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update 
+							cf_temp_citation 
+						set collection_object_id =
+							(select cataloged_item.collection_object_id 
+							from cataloged_item 
+							where cataloged_item.collection_cde = cf_temp_citation.collection_cde 
+							and cataloged_item.cat_num = cf_temp_citation.other_id_number
+							)
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				<cfelse>
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE
+							cf_temp_citation
+						SET
+							collection_object_id= (
+								select cataloged_item.collection_object_id 
+								from cataloged_item,coll_obj_other_id_num 
+								where coll_obj_other_id_num.other_id_type = cf_temp_citation.other_id_type 
+								and cataloged_item.collection_cde = cf_temp_citation.collection_cde 
+								and display_value= cf_temp_citation.other_id_number
+								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
+							)
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				</cfif>
+			</cfloop>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_citation set cited_taxon_name_id =
 				(select taxonomy.taxon_name_id from taxonomy,taxonomy_publication where taxonomy.taxon_name_id = taxonomy_publication.TAXON_NAME_ID
