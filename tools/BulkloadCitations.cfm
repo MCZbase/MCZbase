@@ -335,8 +335,11 @@
 				<h2>Updated #citation_updates# citations.</h2>
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
-					<h2 class="text-info">#cfcatch.detail#<br>
-						<cfif #cfcatch.detail# contains('%unique constraint (MCZBASE.PK_CITATION) violated%')>This citation is already in the table.</cfif> </h2>
+				<h2 class="text-info">
+					<cfif find(cfcatch.detail,'%unique constraint (MCZBASE.PK_CITATION) violated%')>
+						This citation is already in the table.
+					</cfif> 
+				</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT *
 					FROM cf_temp_citation 
