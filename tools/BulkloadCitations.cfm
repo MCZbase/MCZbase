@@ -341,7 +341,7 @@
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfif findNoCase(cfcatch.detail,'ORA-00001')>
+				<cfif findNoCase(cfcatch.message,'ORA-00001')>
 					<h3 class="text-info">This citation is already in the table.</h3>
 				<cfelse>
 				<h3 class="text-danger">Problematic Rows (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>)</h3>
