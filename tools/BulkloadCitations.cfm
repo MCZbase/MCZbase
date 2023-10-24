@@ -336,9 +336,7 @@
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
 				<h2 class="text-info">
-					<cfif findNoCase(cfcatch.detail,'unique constraint (MCZBASE.PK_CITATION) violated')>
-						This citation is already in the table.
-					</cfif> 
+			
 				</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT *
@@ -346,6 +344,9 @@
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfif findNoCase(cfcatch.detail,'unique constraint (MCZBASE.PK_CITATION) violated')>
+						This citation is already in the table.
+				<cfelse>
 				<h3>Problematic Rows (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>)</h3>
 				<table class='sortable table table-responsive table-striped d-lg-table'>
 					<thead>
@@ -383,6 +384,7 @@
 						</cfloop>
 					</tbody>
 				</table>
+				</cfif>
 				<cfrethrow>
 			</cfcatch>
 			</cftry>
