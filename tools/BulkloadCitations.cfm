@@ -388,7 +388,9 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							select * from citation where publication id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#"> and cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#"> and  collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">
+							SELECT *
+							FROM cf_temp_citation 
+							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
