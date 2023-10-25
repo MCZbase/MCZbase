@@ -384,16 +384,6 @@
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfset citation_updates = 0>
-					<cfloop query="getTempData">
-						<cfset problem_key = getTempData.key>
-						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							SELECT *
-							FROM cf_temp_citation 
-							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
-						</cfquery>
-						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
-					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
