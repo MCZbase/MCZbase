@@ -335,9 +335,9 @@
 				<h2>Updated #citation_updates# citations.</h2>
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
-				<cfif findNoCase(cfcatch.message,'ORA-00001')>
+			<!---	<cfif findNoCase(cfcatch.message,'ORA-00001')>
 					<h3 class="text-info">This citation is already in the table.</h3>
-				<cfelse>
+				<cfelse>--->
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT *
 					FROM cf_temp_citation 
@@ -381,7 +381,7 @@
 						</cfloop>
 					</tbody>
 				</table>
-				</cfif>
+			<!---	</cfif>--->
 				<cfrethrow>
 			</cfcatch>
 			</cftry>
