@@ -393,7 +393,7 @@
 						<cfset problem_key = getTempData.key>
 							<cfloop query="getTempData">
 								<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-									insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#">,1,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">)
+									insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">,1,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#occurs_page_number#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">)
 								</cfquery>
 								<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 							</cfloop>
