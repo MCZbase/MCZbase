@@ -335,12 +335,17 @@
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
 				</cftransaction>
+			<h2>#citation_updates# citations created.</h2>
+			<h2 class="text-success">Success, changes applied.</h2>
+			<!--- cleanup --->
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+				DELETE FROM cf_temp_agents
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 				<h2>Created #citation_updates# citations.</h2>
 			<cfcatch>
-				<h2>There was a problem updating citations.</h2>
-			<!---	<cfif findNoCase(cfcatch.message,'ORA-00001')>
-					<h3 class="text-info">This citation is already in the table.</h3>
-				<cfelse>--->
+				<h2>There was a problem uploading citations.</h2>
+	
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT *
 					FROM cf_temp_citation 
@@ -384,7 +389,6 @@
 						</cfloop>
 					</tbody>
 				</table>
-			<!---	</cfif>--->
 				<cfrethrow>
 			</cfcatch>
 			</cftry>
@@ -446,12 +450,6 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>#citation_updates# citations passed checks.</h2>
-			<h2 class="text-success">Success, changes applied.</h2>
-			<!--- cleanup --->
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_agents
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+
 		</cfoutput>
 	</cfif>
