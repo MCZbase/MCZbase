@@ -277,7 +277,7 @@
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadCitations.cfm?action=load">click to continue</a> if it all looks good.
 				</h2>
 			</cfif>
-			<table class='sortable table table-responsive table-striped d-lg-table small'>
+			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
 						<th>INSTITUTION_ACRONYM</th>
@@ -318,7 +318,7 @@
 	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
-			<!---<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_citation
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -335,9 +335,6 @@
 				<h2>Updated #citation_updates# citations.</h2>
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
-				<cfif findNoCase(cfcatch.message,'ORA-00001')>
-					<h3 class="text-info">This citation is already in the table.</h3>
-				<cfelse>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT *
 					FROM cf_temp_citation 
@@ -381,22 +378,18 @@
 						</cfloop>
 					</tbody>
 				</table>
-				</cfif>
 				<cfrethrow>
 			</cfcatch>
-			</cftry>--->
+			</cftry>
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
 					<cfset citation_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-							<cfloop query="getTempData">
-								<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-									insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_taxon_name_id#">,1,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#occurs_page_number#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">)
-								</cfquery>
-								<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
-							</cfloop>
+						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
+							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#">,1,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">)
+						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
@@ -407,8 +400,10 @@
 						FROM cf_temp_citation 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
+				
+					
 					<h3 class="text-danger">Error updating row (#citation_updates + 1#): #cfcatch.message#</h3>
-					<table class='sortable table table-responsive table-striped d-lg-table small'>
+					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
 								<th>publication_title</th>
