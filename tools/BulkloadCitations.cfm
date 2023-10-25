@@ -334,15 +334,16 @@
 						</cfquery>--->
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
+					<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+						DELETE FROM cf_temp_agents
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
 				</cftransaction>
 			<cftransaction action="commit">
 			<h2>#citation_updates# citations created.</h2>
 			<h2 class="text-success">Success, changes applied.</h2>
 			<!--- cleanup --->
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_agents
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+
 			<cfcatch>
 				<h2>There was a problem uploading citations.</h2>
 	
