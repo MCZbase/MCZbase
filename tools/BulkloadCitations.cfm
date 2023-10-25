@@ -277,7 +277,7 @@
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadCitations.cfm?action=load">click to continue</a> if it all looks good.
 				</h2>
 			</cfif>
-			<table class='sortable table table-responsive table-striped d-lg-table'>
+			<table class='sortable table table-responsive table-striped d-lg-table small'>
 				<thead>
 					<tr>
 						<th>INSTITUTION_ACRONYM</th>
