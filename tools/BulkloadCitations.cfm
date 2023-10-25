@@ -404,10 +404,8 @@
 						FROM cf_temp_citation 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-				
-					
 					<h3 class="text-danger">Error updating row (#citation_updates + 1#): #cfcatch.message#</h3>
-					<table class='sortable table table-responsive table-striped d-lg-table'>
+					<table class='sortable table table-responsive table-striped d-lg-table small'>
 						<thead>
 							<tr>
 								<th>publication_title</th>
