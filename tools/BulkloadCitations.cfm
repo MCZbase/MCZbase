@@ -335,6 +335,7 @@
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
 				</cftransaction>
+			<cftransaction action="commit">
 			<h2>#citation_updates# citations created.</h2>
 			<h2 class="text-success">Success, changes applied.</h2>
 			<!--- cleanup --->
@@ -342,7 +343,6 @@
 				DELETE FROM cf_temp_agents
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-				<h2>Created #citation_updates# citations.</h2>
 			<cfcatch>
 				<h2>There was a problem uploading citations.</h2>
 	
