@@ -388,7 +388,7 @@
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfset agent_updates = 0>
+					<cfset citation_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 	<!---					<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
