@@ -318,7 +318,7 @@
 	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<!---<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_citation
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -329,24 +329,15 @@
 						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
 							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#">,1,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">)
 						</cfquery>
-						<!---<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							update citation set publication_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">,collection_object_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">, cited_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#">,cit_current_fg=1,occurs_page_number=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#">,type_status=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,citation_remarks=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,citation_page_uri=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">
-						</cfquery>--->
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
-					<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-						DELETE FROM cf_temp_agents
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
 				</cftransaction>
-			<cftransaction action="commit">
-			<h2>#citation_updates# citations created.</h2>
-			<h2 class="text-success">Success, changes applied.</h2>
-			<!--- cleanup --->
-
+				<h2>Updated #citation_updates# citations.</h2>
 			<cfcatch>
-				<h2>There was a problem uploading citations.</h2>
-	
+				<h2>There was a problem updating citations.</h2>
+				<cfif findNoCase(cfcatch.message,'ORA-00001')>
+					<h3 class="text-info">This citation is already in the table.</h3>
+				<cfelse>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT *
 					FROM cf_temp_citation 
@@ -390,16 +381,22 @@
 						</cfloop>
 					</tbody>
 				</table>
+				</cfif>
 				<cfrethrow>
 			</cfcatch>
-			</cftry>
+			</cftry>--->
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
 					<cfset citation_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						
+							<cfloop query="getTempData">
+								<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
+									insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#">,1,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">)
+								</cfquery>
+								<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
+							</cfloop>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
@@ -451,6 +448,12 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-
+			<h2>#citation_updates# citations passed checks.</h2>
+			<h2 class="text-success">Success, changes applied.</h2>
+			<!--- cleanup --->
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+				DELETE FROM cf_temp_agents
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 		</cfoutput>
 	</cfif>
