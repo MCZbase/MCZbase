@@ -335,15 +335,15 @@
 				<h2>Updated #citation_updates# citations.</h2>
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
+				<cfif findNoCase(cfcatch.message,'ORA-00001')>
+					<h3 class="text-info">This citation is already in the table.</h3>
+				<cfelse>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT *
 					FROM cf_temp_citation 
 					WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfif findNoCase(cfcatch.message,'ORA-00001')>
-					<h3 class="text-info">This citation is already in the table.</h3>
-				<cfelse>
 				<h3 class="text-danger">Problematic Rows (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>)</h3>
 				<table class='sortable table table-responsive table-striped d-lg-table'>
 					<thead>
