@@ -315,7 +315,6 @@
 						<cfloop query="getTempData">
 							<cfquery name="updateColl1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								INSERT INTO coll_object (
-									COLLECTION_OBJECT_ID,
 									COLL_OBJECT_TYPE,
 									ENTERED_PERSON_ID,
 									COLL_OBJECT_ENTERED_DATE,
@@ -323,9 +322,9 @@
 									LOT_COUNT_MODIFIER,
 									LOT_COUNT,
 									CONDITION,
-									FLAGS )
+									FLAGS,
+									COLLECTION_OBJECT_ID)
 								VALUES (
-									#nextid.nextid#,
 									'SP',
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#USERNAME#">,
 									sysdate,
@@ -333,7 +332,8 @@
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOT_COUNT_MODIFIER#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOT_COUNT#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONDITION#">,
-									'0' )
+									'0',
+										#nextid.nextid#)
 							</cfquery>
 							<cfquery name="updateColl2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								INSERT INTO specimen_part (
