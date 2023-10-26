@@ -4720,16 +4720,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<label class="data-entry-label" for="locality_id">Locality</label>
 							<input type="text" name="locality" id="locality" class="data-entry-input reqdClr" disabled value="#higher_geog#: #spec_locality# (#locality_id#)">
 							<input type="hidden" name="locality_id" id="locality_id" value="#locality_id#">
-							<script>
-								$(document).ready(function() { 
-								});
-							</script>
 						</div>
 						<div class="col-2">
 							<label class="data-entry-label">&nbsp;</label>
 							<button type="button" class="btn btn-xs btn-secondary" onclick="enableChangeLocality();">Change Locality</button>
 							<script>
 								function enableChangeLocality() { 
+									console.log("locality edit enabled");
 									$("##locality").prop("disabled",false);
 									$("##locality").prop("required",true);
 									makeLocalityAutocompleteMeta("locality", "locality_id");
