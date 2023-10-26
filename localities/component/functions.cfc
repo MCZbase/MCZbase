@@ -4800,7 +4800,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</div>
 					<div class="col-12 col-md-12">
 						<label for="collecting_method" class="data-entry-label">Collecting Method</label>
-						<cfif isdefined("collecting_method")> <cfset collmethod = collecting_method> <cfelse> <cfset collmethod = ""> </cfif>
+						<cfif not isdefined("collecting_method")><cfset collecting_method = ""></cfif>
 						<input type="text" name="collecting_method" id="collecting_method" value="#encodeForHTML(collecting_method)#" class="data-entry-input" maxlength="255">
 					</div>
 					<div class="col-12 col-md-12">
