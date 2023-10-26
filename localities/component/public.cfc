@@ -1749,7 +1749,7 @@ limitations under the License.
 					SELECT higher_geog, geog_auth_rec.geog_auth_rec_id,
 						spec_locality,
 						began_date, ended_date,
-						collecting_time, collecting_method,
+						collecting_time, collecting_method, collecting_source,
 						verbatim_date
 					FROM
 						collecting_event
@@ -1775,7 +1775,7 @@ limitations under the License.
 					<cfif len(verbatim_date) GT 0>
 						<cfset datebit = "#datebit# [#verbatim_date#]">
 					</cfif>
-					<div class="h2">#datebit# #collecting_method#</div>
+					<div class="h2">#datebit# #collecting_method# #collecting_source#</div>
 				</cfloop>
 			<cfcatch>
 				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 

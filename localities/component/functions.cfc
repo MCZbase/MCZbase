@@ -4798,13 +4798,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<div class="col-12 col-md-4">
 						<label for="collecting_method" class="data-entry-label">Collecting Method</label>
 						<cfif isdefined("collecting_method")> <cfset collmethod = collecting_method> <cfelse> <cfset collmethod = ""> </cfif>
-						<select name="collecting_method" id="collecting_method" size="1" class="reqdClr data-entry-select" required="required" >
-							<option value=""></option>
-							<cfloop query="ctcollecting_Method">
-								<cfif ctcollecting_Method.collecting_Method is collmethod><cfset selected='selected="selected"'><cfelse><cfset selected=''></cfif>
-								<option value="#ctcollecting_Method.collecting_Method#" #selected#>#ctcollecting_Method.collecting_Method#</option>
-							</cfloop>
-						</select>
+						<input type="text" name="collecting_method" id="collecting_method" value="#encodeForHTML(collecting_method)#" class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-12">
 						<label for="habitat_desc" class="data-entry-label">Habitat</label>
