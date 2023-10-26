@@ -19,6 +19,7 @@ limitations under the License.
 <cfcomponent>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtmlUnthreaded --->
+<cfinclude template = "/localities/component/search.cfc" runOnce="true"><!--- for getLocalitySummary() --->
 <cf_rolecheck>
 
 <cffunction name="getHigherGeographyMapHtml" returntype="string" access="remote" returnformat="plain">
@@ -1745,12 +1746,29 @@ limitations under the License.
 	<cfthread name="collEventSummaryThread#tn#">
 		<cfoutput>
 			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+					<cfset encumber = "">
+				<cfelse> 
+					<cfquery name="checkForEncumbrances" datasource="uam_god">
+						SELECT encumbrance_action 
+						FROM 
+							collecting_event 
+				 			join cataloged_item on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
+				 			join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+							join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+						WHERE
+							collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					</cfquery>
+					<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
+				</cfif>
+				<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number. --->
 				<cfquery name="getCollEventUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollEventUp_result">
 					SELECT higher_geog, geog_auth_rec.geog_auth_rec_id,
 						spec_locality,
 						began_date, ended_date,
 						collecting_time, collecting_method, collecting_source,
-						verbatim_date
+						verbatim_date,
+						locality.locality_id
 					FROM
 						collecting_event
 						join locality on collecting_event.locality_id = locality.locality_id
@@ -1759,8 +1777,9 @@ limitations under the License.
 						collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 				</cfquery>
 				<cfloop query="getCollEventUp">
-					<div class="h2">#higher_geog#</div>
-					<div class="h2">#spec_locality#</div>
+					<div class="h2">Higher Geography: #higher_geog#</div>
+					<cfset locality = getLocalitySummary(locality_id="#getCollEventUp.locality_id#")>
+					<div class="h2">Locality: #locality#</div>
 					<cfset datebit = "">
 					<cfif len(began_date) GT 0>
 						<cfif began_date EQ ended_date>
