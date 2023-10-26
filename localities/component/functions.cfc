@@ -4801,12 +4801,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<div class="col-12 col-md-12">
 						<label for="collecting_method" class="data-entry-label">Collecting Method</label>
 						<cfif isdefined("collecting_method")> <cfset collmethod = collecting_method> <cfelse> <cfset collmethod = ""> </cfif>
-						<input type="text" name="collecting_method" id="collecting_method" value="#encodeForHTML(collecting_method)#" class="data-entry-input">
+						<input type="text" name="collecting_method" id="collecting_method" value="#encodeForHTML(collecting_method)#" class="data-entry-input" maxlength="255">
 					</div>
 					<div class="col-12 col-md-12">
 						<label for="habitat_desc" class="data-entry-label">Habitat</label>
 						<cfif not isDefined("habitat_desc")><cfset habitat_desc = ""></cfif>
-						<input type="text" name="habitat_desc" id="habitat_desc" value="#encodeForHTML(HABITAT_DESC)#" class="data-entry-input">
+						<input type="text" name="habitat_desc" id="habitat_desc" value="#encodeForHTML(HABITAT_DESC)#" class="data-entry-input" maxlength="500">
 					</div>
 					<div class="col-12">
 				     	<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
