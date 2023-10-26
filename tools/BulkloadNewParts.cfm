@@ -333,7 +333,7 @@
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOT_COUNT#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONDITION#">,
 									'0',
-										#nextid.nextid#)
+										)
 							</cfquery>
 							<cfquery name="updateColl2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								INSERT INTO specimen_part (
@@ -345,7 +345,7 @@
 									#nextid.nextid#,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="##PART_NAME##">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PRESERVE_METHOD#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#"> )
+									5559372 )
 							</cfquery>
 							<cfset part_updates = part_updates + updatePart_result.recordcount>
 						</cfloop>
