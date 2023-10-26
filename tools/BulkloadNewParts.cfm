@@ -307,7 +307,7 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select sq_collection_object_id.nextval NEXTID from dual
+				select sq_collection_object_id.nextval NEXTID from coll_object
 			</cfquery>
 			<cftry>
 				<cfset part_updates = 0>
