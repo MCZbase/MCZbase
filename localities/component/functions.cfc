@@ -4552,6 +4552,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="verbatim_date" type="string" required="no">
 	<cfargument name="collecting_time" type="string" required="no">
 	
+	<cfset variables.verbatim_date = arguments.verbatim_date>
+	<cfset variables.verbatim_locality = arguments.verbatim_locality>
+
 	<cfif mode NEQ "edit" AND mode NEQ "create">
 		<cfthrow message="Unknown value for mode [#encodeForHtml(mode)#], must be create or edit.">
 	</cfif>
@@ -4572,7 +4575,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfthrow message = "No event to clone from found for specified collecting event id.">
 		<cfelse>
 			<cfset locality_id = eventToCloneFrom.locality_id>
-			<cfset verbatim_locality = eventToCloneFrom.verbatim_locality>
+			<cfset variables.verbatim_locality = eventToCloneFrom.verbatim_locality>
 			<cfset verbatimDepth = eventToCloneFrom.verbatimDepth>
 			<cfset verbatimElevation = eventToCloneFrom.verbatimElevation>
 			<cfset verbatimCoordinates = eventToCloneFrom.verbatimCoordinates>
@@ -4616,7 +4619,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 		<cfelse>
 			<cfloop query="getEvent">
 				<cfset locality_id = getEvent.locality_id>
-				<cfset verbatim_locality = getEvent.verbatim_locality>
+				<cfset variables.verbatim_locality = getEvent.verbatim_locality>
 				<cfset verbatimDepth = getEvent.verbatimDepth>
 				<cfset verbatimElevation = getEvent.verbatimElevation>
 				<cfset verbatimCoordinates = getEvent.verbatimCoordinates>
@@ -4706,7 +4709,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<div class="col-12 col-md-3">
 						<label for="began_date" class="data-entry-label">Began Date</label>
 						<cfif not isDefined("began_date")><cfset began_date = ""></cfif>
-					    <input type="text" name="began_date" id="began_date"  class="reqdClr data-entry-input" required="required" >
+					    <input type="text" name="began_date" id="began_date"  class="reqdClr data-entry-input" required="required" value="#encodeForHTML(began_date)#">
 					</div>
 					<div class="col-12 col-md-3">
 					    <label for="ended_date" class="data-entry-label">Ended Date</label>
@@ -4768,7 +4771,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<div class="col-12">
 				     	<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
 						<cfset vl_value="">
-						<cfif isdefined("verbatim_locality")>
+						<cfif isdefined("variables.verbatim_locality")>
 							<cfset vl_value=verbatim_locality>
 						<cfelseif isdefined("spec_locality")>
 							<cfset vl_value=spec_locality>
