@@ -4726,7 +4726,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							</script>
 						</div>
 						<div class="col-2">
-							<button class="btn btn-xs btn-secondary" onclick="enableChangeLocality();">Change Locality</button>
+							<label class="data-entry-label">&nbsp;</label>
+							<button type="button" class="btn btn-xs btn-secondary" onclick="enableChangeLocality();">Change Locality</button>
 							<script>
 								function enableChangeLocality() { 
 									$("##locality").prop("disabled",false);
