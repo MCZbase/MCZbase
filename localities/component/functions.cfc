@@ -4784,7 +4784,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-4">
+					<div class="col-12 col-md-3">
 						<label for="collecting_source" class="data-entry-label">Collecting Source</label>
 						<cfif isdefined("collecting_source")> <cfset collsrc = collecting_source> <cfelse> <cfset collsrc = ""> </cfif>
 						<select name="collecting_source" id="collecting_source" size="1" class="reqdClr data-entry-select" required="required" >
@@ -4795,7 +4795,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							</cfloop>
 						</select>
 					</div>
-					<div class="col-12 col-md-4">
+					<div class="col-12 col-md-3">
+						<label for="fish_field_number">Fish Field Number (Ich only)</label>
+						<cfif not isDefined("fish_field_number")><cfset fish_field_number = ""></cfif>
+						<input type="text" name="fish_field_number" value="#encodeForHTML(fish_field_number)#" id="fish_field_number" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-12">
 						<label for="collecting_method" class="data-entry-label">Collecting Method</label>
 						<cfif isdefined("collecting_method")> <cfset collmethod = collecting_method> <cfelse> <cfset collmethod = ""> </cfif>
 						<input type="text" name="collecting_method" id="collecting_method" value="#encodeForHTML(collecting_method)#" class="data-entry-input">
@@ -4861,11 +4866,6 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<cfif valid_distribution_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option value="0" #selected#>No, material from this event does not represent distribution in the wild</option>
 						</select>
-					</div>
-					<div class="col-12 col-md-3">
-						<label for="fish_field_number">Fish Field Number (Ich only)</label>
-						<cfif not isDefined("fish_field_number")><cfset fish_field_number = ""></cfif>
-						<input type="text" name="fish_field_number" value="#encodeForHTML(fish_field_number)#" id="fish_field_number" class="data-entry-input">
 					</div>
 					<div class="col-12">
 						<label for="coll_event_remarks" class="data-entry-label">Remarks</label>
