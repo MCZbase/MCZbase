@@ -166,7 +166,7 @@ limitations under the License.
 										</cfloop>
 										<cfif NOT hasBlock>
 											<button type="button" class="btn btn-xs btn-danger" 
-												onClick="confirmDialog('Delete this collecting event?', 'Confirm Delete Collecting Event', function() { location.assign('/localities/CollectingeEvent.cfm?action=delete&collecting_event_id=#encodeForUrl(collecting_event_id)#'); } );" 
+												onClick="confirmDialog('Delete this collecting event?', 'Confirm Delete Collecting Event', function() { location.assign('/localities/CollectingEvent.cfm?action=delete&collecting_event_id=#encodeForUrl(collecting_event_id)#'); } );" 
 											>
 												Delete Collecting Event
 											</button>
