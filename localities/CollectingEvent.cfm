@@ -165,7 +165,7 @@ limitations under the License.
 											<button type="button" class="btn btn-xs btn-danger" 
 												onClick="confirmDialog('Delete this collecting event?', 'Confirm Delete Collecting Event', function() { location.assign('/localities/CollectingeEvent.cfm?action=delete&collecting_event_id=#encodeForUrl(collecting_event_id)#'); } );" 
 											>
-												Delete Locality
+												Delete Collecting Event
 											</button>
 										<cfelse>
 											<div>
