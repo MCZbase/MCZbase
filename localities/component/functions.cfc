@@ -4817,7 +4817,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						</select>
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="fish_field_number">Fish Field Number (Ich only)</label>
+						<label for="fish_field_number" class="data-entry-label">Fish Field Number (Ich only)</label>
 						<cfif not isDefined("fish_field_number")><cfset fish_field_number = ""></cfif>
 						<input type="text" name="fish_field_number" value="#encodeForHTML(fish_field_number)#" id="fish_field_number" class="data-entry-input">
 					</div>
