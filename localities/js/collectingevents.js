@@ -66,3 +66,63 @@ function monitorForChanges(formId,changeFunction) {
 	$('#'+formId+' select').on("change",changeFunction);
 	$('#'+formId+' textarea').on("change",changeFunction);
 }
+/** given a collecting_event_id lookup the media for a locality and
+ set the returned html as the content of a target div.
+ @param collecting_event_id the locality to look up the media for.
+*/
+function loadCollEventMediaHTML(collecting_event_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/localities/component/functions.cfc",
+		data : {
+			method : "getCollectingEventMediaHtml",
+			collecting_event_id: collecting_event_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading media for collecting event");
+		},
+		dataType: "html"
+	});
+};
+/** given a collecting_event_id lookup the summary for a collecting event and
+ set the returned html as the content of a target div.
+ @param collecting_event_id the collecting event to look up the summary for.
+*/
+function loadCollEventSummaryHTML(collecting_event_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/localities/component/functions.cfc",
+		data : {
+			method : "getCollectingEventSummary",
+			collecting_event_id: collecting_event_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading summary for collecting event");
+		},
+		dataType: "html"
+	});
+};
+/** given a collecting_event_id lookup the numbers for a collecting eventand
+ set the returned html as the content of a target div.
+ @param collecting_event_id the collecting event to look up the numbers for.
+*/
+function loadCollEventNumbersHTML(collecting_event_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/localities/component/functions.cfc",
+		data : {
+			method : "getEditCollectingEventNumbersHtml",
+			collecting_event_id: collecting_event_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading numbers for collecting event");
+		},
+		dataType: "html"
+	});
+};
