@@ -4706,8 +4706,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<div class="form-row">
 					<cfif NOT isDefined("locality_id") OR len(locality_id) EQ 0>
 						<div class="col-12">
-							<label class="data-entry-label" for="locality_id">Locality for this Collecting Event</label>
-							<input type="text" name="locality" id="locality" class="data-entry-input reqdClr" required value="#spec_locality# (#locality_id#)">
+							<label class="data-entry-label" for="locality_id">Pick Locality for this Collecting Event</label>
+							<input type="text" name="locality" id="locality" class="data-entry-input reqdClr" required>
 							<input type="hidden" name="locality_id" id="locality_id">
 							<script>
 								$(document).ready(function() { 
@@ -4716,12 +4716,24 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							</script>
 						</div>
 					<cfelse>
-						<div class="col-12">
-							<h3 class="h4">#higher_geog#</h3>
-						</div>
-						<div class="col-12">
-							<h3 class="h4">#spec_locality#</h3>
+						<div class="col-10">
+							<label class="data-entry-label" for="locality_id">Locality</label>
+							<input type="text" name="locality" id="locality" class="data-entry-input reqdClr" disabled value="#higher_geog#: #spec_locality# (#locality_id#)">
 							<input type="hidden" name="locality_id" id="locality_id" value="#locality_id#">
+							<script>
+								$(document).ready(function() { 
+								});
+							</script>
+						</div>
+						<div class="col-2">
+							<button class="btn btn-xs btn-secondary" onclick="enableChangeLocality();">Change Locality</button>
+							<script>
+								function enableChangeLocality() { 
+									$("##locality").prop("disabled",false);
+									$("##locality").prop("required",true);
+									makeLocalityAutocompleteMeta("locality", "locality_id");
+								}
+							</script>
 						</div>
 					</cfif>
 					<div class="col-12 col-md-3">
