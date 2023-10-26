@@ -4597,7 +4597,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				verbatimCoordinateSystem, verbatimSRS,
 				verbatim_date, collecting_time,
 				startDayOfYear, endDayOfYear, began_date, ended_date,
-				coll_event_remarks, collecting_source, habitat_desc
+				coll_event_remarks, collecting_source, habitat_desc,
+				valid_distribution_fg, collecting_method, 
+				fish_field_number,
+				date_determined_by_agent_id
 			FROM collecting_event
 			WHERE
 				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_collecting_event_id#">
@@ -4623,10 +4626,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfset coll_event_remarks = eventToCloneFrom.coll_event_remarks>
 			<cfset collecting_source = eventToCloneFrom.collecting_source>
 			<cfset habitat_desc = eventToCloneFrom.habitat_desc>
-			<!--- TODO: Missing fields in clone 
-				valid_distribtion_fg, collecting_method,
-				date_determined_by_agent_id, fish_field_number
-			--->
+			<cfset variables.valid_distribution_fg = eventToCloneFrom.valid_distribution_fg>
+			<cfset collecting_method = eventToCloneFrom.collecting_method>
+			<cfset fish_field_number = eventToCloneFrom.fish_field_number>
+			<cfset date_determined_by_agent_id = eventToCloneFrom.date_determined_by_agent_id>
 		</cfif>
 	<cfelseif mode EQ "edit" >
 		<cfquery name="getEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -4667,7 +4670,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<cfset coll_event_remarks = getEvent.coll_event_remarks>
 				<cfset collecting_source = getEvent.collecting_source>
 				<cfset habitat_desc = getEvent.habitat_desc>
-				<cfset valid_distribution_fg = getEvent.valid_distribution_fg>
+				<cfset variables.valid_distribution_fg = getEvent.valid_distribution_fg>
 				<cfset collecting_method = getEvent.collecting_method>
 				<cfset date_determined_by_agent_id = getEvent.date_determined_by_agent_id>
 				<cfset fish_field_number = getEvent.fish_field_number>
@@ -4794,7 +4797,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								<cfset agent = "#determiner.agent_name#">
 							</cfloop>
 						</cfif>
-						<input type="hidden" name="date_determined_by_agent_id" id="date_determined_by_agent_id" value="">
+						<input type="hidden" name="date_determined_by_agent_id" id="date_determined_by_agent_id" value="#encodeForHtml(date_determined_by_agent_id)#">
 						<input type="text" name="date_determined_by_agent" id="date_determined_by_agent" class="data-entry-input" value="#agent#">
 						<script>
 							$(document).ready(function() { 
@@ -4875,13 +4878,13 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="valid_distribution_fg">Valid Distribution</label>
-						<cfif not isDefined("valid_distribution_fg")>
-							<cfset valid_distribution_fg = "1">
+						<cfif not isDefined("variables.valid_distribution_fg")>
+							<cfset variables.valid_distribution_fg = "1">
 						</cfif>
-						<select name="valid_distribution_fg" id="valid_distribution_fg" class="data-entry-select">
-							<cfif valid_distribution_fg EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+						<select name="valid_distribution_fg" id="valid_distribution_fg" class="data-entry-select reqdClr" required>
+							<cfif variables.valid_distribution_fg EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option value="1" #selected#>Yes, material from this event represents distribution in the wild</option>
-							<cfif valid_distribution_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<cfif variables.valid_distribution_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option value="0" #selected#>No, material from this event does not represent distribution in the wild</option>
 						</select>
 					</div>
@@ -5024,6 +5027,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="verbatimCoordinateSystem" type="string" required="no">
 	<cfargument name="verbatimSRS" type="string" required="no">
 	<cfargument name="collecting_time" type="string" required="no">
+	<cfargument name="date_determined_by_agent_id" type="string" required="no">
+	<cfargument name="valid_distribution_fg" type="string" required="no">
 
 	<cfif not isDefined("action")><cfset action="update"></cfif>
 	<cfset data = ArrayNew(1)>
@@ -5111,6 +5116,16 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						,endDayOfYear = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#endDayOfYear#">
 					<cfelse>
 						,endDayOfYear = null
+					</cfif>
+					<cfif len(#date_determined_by_agent_id#) gt 0>
+						,date_determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#date_determined_by_agent_id#">
+					<cfelse>
+						,date_determined_by_agent_id = null
+					</cfif>
+					<cfif len(#valid_distribution_fg#) gt 0>
+						,valid_distribution_fg = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#valid_distribution_fg#">
+					<cfelse>
+						,valid_distribution_fg = null
 					</cfif>
 	 			WHERE
 					 collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
