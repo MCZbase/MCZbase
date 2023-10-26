@@ -4555,8 +4555,35 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfif isDefined("arguments.verbatim_date")>
 		<cfset variables.verbatim_date = arguments.verbatim_date>
 	</cfif>
-	<cfif isDefined("arguments.verbatim_date")>
+	<cfif isDefined("arguments.verbatim_locality")>
 		<cfset variables.verbatim_locality = arguments.verbatim_locality>
+	</cfif>
+	<cfif isDefined("arguments.verbatimDepth")>
+		<cfset variables.verbatimDepth = arguments.verbatimDepth>
+	</cfif>
+	<cfif isDefined("arguments.verbatimElevation")>
+		<cfset variables.verbatimElevation = arguments.verbatimElevation>
+	</cfif>
+	<cfif isDefined("arguments.verbatimCoordinates")>
+		<cfset variables.verbatimCoordinates = arguments.verbatimCoordinates>
+	</cfif>
+	<cfif isDefined("arguments.verbatimLatitude")>
+		<cfset variables.verbatimLatitude = arguments.verbatimLatitude>
+	</cfif>
+	<cfif isDefined("arguments.verbatimLongitude")>
+		<cfset variables.verbatimLongitude = arguments.verbatimLongitude>
+	</cfif>
+	<cfif isDefined("arguments.verbatimCoordinateSystem")>
+		<cfset variables.verbatimCoordinateSystem = arguments.verbatimCoordinateSystem>
+	</cfif>
+	<cfif isDefined("arguments.verbatimSRS")>
+		<cfset variables.verbatimSRS = arguments.verbatimSRS>
+	</cfif>
+	<cfif isDefined("arguments.collecting_time")>
+		<cfset variables.collecting_time = arguments.collecting_time>
+	</cfif>
+	<cfif isDefined("arguments.locality_id")>
+		<cfset variables.locality_id = arguments.locality_id>
 	</cfif>
 
 	<cfif mode NEQ "edit" AND mode NEQ "create">
@@ -4578,17 +4605,17 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 		<cfif eventToCloneFrom.recordcount EQ 0>
 			<cfthrow message = "No event to clone from found for specified collecting event id.">
 		<cfelse>
-			<cfset locality_id = eventToCloneFrom.locality_id>
+			<cfset variables.locality_id = eventToCloneFrom.locality_id>
 			<cfset variables.verbatim_locality = eventToCloneFrom.verbatim_locality>
-			<cfset verbatimDepth = eventToCloneFrom.verbatimDepth>
-			<cfset verbatimElevation = eventToCloneFrom.verbatimElevation>
-			<cfset verbatimCoordinates = eventToCloneFrom.verbatimCoordinates>
-			<cfset verbatimLatitude = eventToCloneFrom.verbatimLatitude>
-			<cfset verbatimLongitude = eventToCloneFrom.verbatimLongitude>
-			<cfset verbatimCoordinateSystem = eventToCloneFrom.verbatimCoordinateSystem>
-			<cfset verbatimSRS = eventToCloneFrom.verbatimSRS>
+			<cfset variables.verbatimDepth = eventToCloneFrom.verbatimDepth>
+			<cfset variables.verbatimElevation = eventToCloneFrom.verbatimElevation>
+			<cfset variables.verbatimCoordinates = eventToCloneFrom.verbatimCoordinates>
+			<cfset variables.verbatimLatitude = eventToCloneFrom.verbatimLatitude>
+			<cfset variables.verbatimLongitude = eventToCloneFrom.verbatimLongitude>
+			<cfset variables.verbatimCoordinateSystem = eventToCloneFrom.verbatimCoordinateSystem>
+			<cfset variables.verbatimSRS = eventToCloneFrom.verbatimSRS>
 			<cfset variables.verbatim_date = eventToCloneFrom.verbatim_date>
-			<cfset collecting_time = eventToCloneFrom.collecting_time>
+			<cfset variables.collecting_time = eventToCloneFrom.collecting_time>
 			<cfset startDayOfYear = eventToCloneFrom.startDayOfYear>
 			<cfset endDayOfYear = eventToCloneFrom.endDayOfYear>
 			<cfset began_date = eventToCloneFrom.began_date>
@@ -4622,17 +4649,17 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfthrow message = "No collecting event found for the specified collecting event id [#encodeForHtml(collecting_event_id)#].">
 		<cfelse>
 			<cfloop query="getEvent">
-				<cfset locality_id = getEvent.locality_id>
+				<cfset variables.locality_id = getEvent.locality_id>
 				<cfset variables.verbatim_locality = getEvent.verbatim_locality>
-				<cfset verbatimDepth = getEvent.verbatimDepth>
-				<cfset verbatimElevation = getEvent.verbatimElevation>
-				<cfset verbatimCoordinates = getEvent.verbatimCoordinates>
-				<cfset verbatimLatitude = getEvent.verbatimLatitude>
-				<cfset verbatimLongitude = getEvent.verbatimLongitude>
-				<cfset verbatimCoordinateSystem = getEvent.verbatimCoordinateSystem>
-				<cfset verbatimSRS = getEvent.verbatimSRS>
+				<cfset variables.verbatimDepth = getEvent.verbatimDepth>
+				<cfset variables.verbatimElevation = getEvent.verbatimElevation>
+				<cfset variables.verbatimCoordinates = getEvent.verbatimCoordinates>
+				<cfset variables.verbatimLatitude = getEvent.verbatimLatitude>
+				<cfset variables.verbatimLongitude = getEvent.verbatimLongitude>
+				<cfset variables.verbatimCoordinateSystem = getEvent.verbatimCoordinateSystem>
+				<cfset variables.verbatimSRS = getEvent.verbatimSRS>
 				<cfset variables.verbatim_date = getEvent.verbatim_date>
-				<cfset collecting_time = getEvent.collecting_time>
+				<cfset variables.collecting_time = getEvent.collecting_time>
 				<cfset startDayOfYear = getEvent.startDayOfYear>
 				<cfset endDayOfYear = getEvent.endDayOfYear>
 				<cfset began_date = getEvent.began_date>
@@ -4679,8 +4706,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<div class="form-row">
 					<cfif NOT isDefined("locality_id") OR len(locality_id) EQ 0>
 						<div class="col-12">
-							<label class="data-entry-label" for="locality_id">Pick Locality for this Collecting Event</label>
-							<input type="text" name="locality" id="locality" class="data-entry-input reqdClr" required>
+							<label class="data-entry-label" for="locality_id">Locality for this Collecting Event</label>
+							<input type="text" name="locality" id="locality" class="data-entry-input reqdClr" required value="#spec_locality# (#locality_id#)">
 							<input type="hidden" name="locality_id" id="locality_id">
 							<script>
 								$(document).ready(function() { 
