@@ -4580,7 +4580,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfset verbatimLongitude = eventToCloneFrom.verbatimLongitude>
 			<cfset verbatimCoordinateSystem = eventToCloneFrom.verbatimCoordinateSystem>
 			<cfset verbatimSRS = eventToCloneFrom.verbatimSRS>
-			<cfset verbatim_date = eventToCloneFrom.verbatim_date>
+			<cfset variables.verbatim_date = eventToCloneFrom.verbatim_date>
 			<cfset collecting_time = eventToCloneFrom.collecting_time>
 			<cfset startDayOfYear = eventToCloneFrom.startDayOfYear>
 			<cfset endDayOfYear = eventToCloneFrom.endDayOfYear>
@@ -4624,7 +4624,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<cfset verbatimLongitude = getEvent.verbatimLongitude>
 				<cfset verbatimCoordinateSystem = getEvent.verbatimCoordinateSystem>
 				<cfset verbatimSRS = getEvent.verbatimSRS>
-				<cfset verbatim_date = getEvent.verbatim_date>
+				<cfset variables.verbatim_date = getEvent.verbatim_date>
 				<cfset collecting_time = getEvent.collecting_time>
 				<cfset startDayOfYear = getEvent.startDayOfYear>
 				<cfset endDayOfYear = getEvent.endDayOfYear>
@@ -4695,8 +4695,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							Verbatim Date
 							<span onClick="fillDatesFromVerbatim()">[ copy ]</span>
 						</label>
-						<cfif not isDefined("verbatim_date")><cfset verbatim_date = ""></cfif>
-						<input type="text" name="verbatim_date" id="verbatim_date" class="reqdClr data-entry-input" required="required" value="#encodeForHtml(verbatim_date)#">
+						<cfif not isDefined("variables.verbatim_date")><cfset variables.verbatim_date = ""></cfif>
+						<input type="text" name="verbatim_date" id="verbatim_date" class="reqdClr data-entry-input" required="required" value="#encodeForHtml(variables.verbatim_date)#">
 						<!--- TODO: interpret and populate began_date/ended_date --->
 						<script>
 							function fillDatesFromVerbatim() { 
