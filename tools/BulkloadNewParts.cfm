@@ -323,7 +323,7 @@
 									LOT_COUNT,
 									CONDITION,
 									FLAGS,
-									COLLECTION_OBJECT_ID)
+									5559372)
 								VALUES (
 									'SP',
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#USERNAME#">,
