@@ -219,7 +219,8 @@
 				</cfquery>
 			<cfelse>
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
+					update cf_temp_parts set collection_object_id = 
+					(SELECT
 						coll_obj_other_id_num.collection_object_id
 					FROM
 						coll_obj_other_id_num,
@@ -232,6 +233,7 @@
 						collection.institution_acronym = '#data.institution_acronym#' and
 						other_id_type = '#other_id_type#' and
 						display_value = '#data.other_id_number#'
+					)
 				</cfquery>
 			</cfif>
 		</cfloop>
