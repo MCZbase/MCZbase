@@ -4774,8 +4774,25 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</div>
 					<div class="col-12 col-md-2">
 						<label for="date_determined_by_agent_id" class="data-entry-label">Event Date Determined By</label>
-						<input type="hidden" name="date_determined_by_agent_id" id="date_determined_by_agent_id">
-						<input type="text" name="date_determined_by_agent" id="date_determined_by_agent" class="data-entry-input">
+						<cfif not isDefined("date_determined_by_agent_id")>
+							<cfset date_determined_by_agent_id = "">
+							<cfset agent = "">
+						<cfelse>
+							<cfset agent = "">
+							<cfquery name="determiner" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									agent_name
+								FROM
+									preferred_agent_name
+								WHERE
+									agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#date_determined_by_agent_id#">
+							</cfquery>
+							<cfloop query="determiner">
+								<cfset agent = "#determiner.agent_name#">
+							</cfloop>
+						</cfif>
+						<input type="hidden" name="date_determined_by_agent_id" id="date_determined_by_agent_id" value="">
+						<input type="text" name="date_determined_by_agent" id="date_determined_by_agent" class="data-entry-input" value="#agent#">
 						<script>
 							$(document).ready(function() { 
 								makeAgentAutocompleteMeta("date_determined_by_agent", "date_determined_by_agent_id");

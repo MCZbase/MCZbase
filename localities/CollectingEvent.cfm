@@ -458,6 +458,10 @@ limitations under the License.
 						</cfquery>
 						<cfif deleteCollEvent_result.recordcount EQ 1>
 							<h2>Successfully deleted collecting event.</h2>
+							<ul>
+								<li><a href="/localities/CollectingEvents.cfm">Search for Collecting Events</a>.</li>
+								<li><a href="/localities/CollectingEvent.cfm?action=new">Create a new Collecting Event</a>.</li>
+							</ul>
 							<cftransaction action="commit">
 						<cfelse>
 							<cfthrow message="Error deleting collecting event, other than one event affected.">
