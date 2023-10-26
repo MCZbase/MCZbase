@@ -236,7 +236,6 @@
 				</cfquery>
 			</cfif>
 		</cfloop>
-	
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,PART_NAME,PRESERVE_METHOD,LOT_COUNT_MODIFIER,LOT_COUNT,CONDITION,DISPOSITION,CONTAINER_UNIQUE_ID,VALIDATED_STATUS 
 				FROM cf_temp_parts
@@ -309,7 +308,7 @@
 			<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select sq_collection_object_id.nextval NEXTID from dual
 			</cfquery>
-	<!---		<cftry>
+			<cftry>
 				<cfset part_updates = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
@@ -335,7 +334,18 @@
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONDITION#">,
 									'0' )
 							</cfquery>
-							
+							<cfquery name="updateColl2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								INSERT INTO specimen_part (
+									COLLECTION_OBJECT_ID,
+									PART_NAME,
+									PRESERVE_METHOD,
+									DERIVED_FROM_cat_item )
+									VALUES (
+									#nextid.nextid#,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="##PART_NAME##">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PRESERVE_METHOD#">,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#"> )
+							</cfquery>
 							<cfset part_updates = part_updates + updatePart_result.recordcount>
 						</cfloop>
 					</cftransaction> 
@@ -391,28 +401,14 @@
 					</table>
 					<cfrethrow>
 				</cfcatch>
-			</cftry>--->
+			</cftry>
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
 					<cfset part_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="NEXTID2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select sq_derived_from_cat_item.nextval NEXTID2 from dual
-						</cfquery>
-						<cfquery name="updateColl2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							INSERT INTO specimen_part (
-								COLLECTION_OBJECT_ID,
-								PART_NAME,
-								PRESERVE_METHOD,
-								DERIVED_FROM_cat_item )
-								VALUES (
-								#nextid.nextid#,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="##PART_NAME##">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PRESERVE_METHOD#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEXTID2.NEXTID2#"> )
-						</cfquery>
+						
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
