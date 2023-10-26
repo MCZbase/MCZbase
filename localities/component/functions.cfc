@@ -4780,7 +4780,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					</div>
 					<div class="col-12 col-md-2">
 						<label for="date_determined_by_agent_id" class="data-entry-label">Event Date Determined By</label>
-						<cfif not isDefined("date_determined_by_agent_id")>
+						<cfif not isDefined("date_determined_by_agent_id") OR len(date_determined_by_agent_id) EQ 0>
 							<cfset date_determined_by_agent_id = "">
 							<cfset agent = "">
 						<cfelse>
