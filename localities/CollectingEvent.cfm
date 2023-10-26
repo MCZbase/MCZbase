@@ -217,7 +217,7 @@ limitations under the License.
 							</div>
 							<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
 								<cfset blockform = getCollectingEventFormHtml(collecting_event_id = "#collecting_event_id#",mode="edit")>
-								<form name="editCollectingEventForm" id="editCollectingEvent">
+								<form name="editCollectingEventForm" id="editCollectingEventForm">
 									<input type="hidden" name="method" value="updateCollectingEvent">
 									<input type="hidden" name="returnformat" value="json">
 									#blockform#
