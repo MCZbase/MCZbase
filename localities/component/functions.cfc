@@ -5072,8 +5072,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfelse>
 						,COLLECTING_TIME = null
 					</cfif>
-					<cfif len(#ICH_FIELD_NUMBER#) gt 0>
-						,FISH_FIELD_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ICH_FIELD_NUMBER#">
+					<cfif len(#fish_field_number#) gt 0>
+						,FISH_FIELD_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fish_field_number#">
 					<cfelse>
 						,FISH_FIELD_NUMBER = null
 					</cfif>
