@@ -4552,8 +4552,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="verbatim_date" type="string" required="no">
 	<cfargument name="collecting_time" type="string" required="no">
 	
-	<cfset variables.verbatim_date = arguments.verbatim_date>
-	<cfset variables.verbatim_locality = arguments.verbatim_locality>
+	<cfif isDefined("arguments.verbatim_date")>
+		<cfset variables.verbatim_date = arguments.verbatim_date>
+	</cfif>
+	<cfif isDefined("arguments.verbatim_date")>
+		<cfset variables.verbatim_locality = arguments.verbatim_locality>
+	</cfif>
 
 	<cfif mode NEQ "edit" AND mode NEQ "create">
 		<cfthrow message="Unknown value for mode [#encodeForHtml(mode)#], must be create or edit.">
