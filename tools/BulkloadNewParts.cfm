@@ -207,11 +207,10 @@
 		<cfloop query="data">
 			<cfif #other_id_type# is "catalog number"><!---Checks to see if the catalog record exists--->
 				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						cataloged_item.collection_object_id
+					update cf_temp_parts set collection_object_id = 
+					(select cataloged_item.collection_object_id
 					FROM
-						cataloged_item,
-						collection
+						cataloged_item, collection
 					WHERE
 						cataloged_item.collection_id = collection.collection_id and
 						collection.collection_cde = '#data.collection_cde#' and
