@@ -1764,11 +1764,11 @@ limitations under the License.
 				<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number. --->
 				<cfquery name="getCollEventUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollEventUp_result">
 					SELECT higher_geog, geog_auth_rec.geog_auth_rec_id,
-						spec_locality,
 						began_date, ended_date,
 						collecting_time, collecting_method, collecting_source,
 						verbatim_date,
-						locality.locality_id
+						locality.locality_id,
+						verbatim_locality
 					FROM
 						collecting_event
 						join locality on collecting_event.locality_id = locality.locality_id
@@ -1777,9 +1777,15 @@ limitations under the License.
 						collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 				</cfquery>
 				<cfloop query="getCollEventUp">
-					<div class="h2">Higher Geography: #higher_geog#</div>
+					<div class="h2">
+						Higher Geography: #higher_geog# 
+						<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-xs btn-info" target="_blank" >View</a>
+					</div>
 					<cfset locality = getLocalitySummary(locality_id="#getCollEventUp.locality_id#")>
-					<div class="h2">Locality: #locality#</div>
+					<div class="h2">
+						Locality: #locality#
+						<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-info" target="_blank" >View</a>
+					</div>
 					<cfset datebit = "">
 					<cfif len(began_date) GT 0>
 						<cfif began_date EQ ended_date>
@@ -1794,7 +1800,7 @@ limitations under the License.
 					<cfif len(verbatim_date) GT 0>
 						<cfset datebit = "#datebit# [#verbatim_date#]">
 					</cfif>
-					<div class="h2">#datebit# #collecting_method# #collecting_source#</div>
+					<div class="h2">Event: #datebit# #collecting_method# #collecting_source# [#verbatim_locality#]</div>
 				</cfloop>
 			<cfcatch>
 				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
