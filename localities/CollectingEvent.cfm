@@ -251,7 +251,7 @@ limitations under the License.
 										$('##editCollEventStatus').removeClass('text-success');
 										$('##editCollEventStatus').removeClass('text-danger');
 										jQuery.ajax({
-											url : "/transactions/component/functions.cfc",
+											url : "/localities/component/functions.cfc",
 											type : "post",
 											dataType : "json",
 											data : $('##editCollectingEventForm').serialize(),
