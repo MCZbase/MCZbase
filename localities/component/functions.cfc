@@ -4703,6 +4703,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<cfquery name="ctCollecting_method" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 					select collecting_method from ctcollecting_method order by collecting_method
 				</cfquery>
+				<cfif isDefined("collecting_event_id") AND len(collecting_event_id) GT 0>
+					<input type="hidden" name="collecting_event_id" id="collecting_event_id" value="#collecting_event_id#" >
+				</cfif>
 				<div class="form-row">
 					<cfif NOT isDefined("locality_id") OR len(locality_id) EQ 0>
 						<div class="col-12">
