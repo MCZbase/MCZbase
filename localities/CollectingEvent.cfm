@@ -494,7 +494,9 @@ limitations under the License.
 					VERBATIMCOORDINATESYSTEM,
 					VERBATIMSRS,
 					STARTDAYOFYEAR,
-					ENDDAYOFYEAR
+					ENDDAYOFYEAR,
+					fish_field_number,
+					date_determined_by_agent_id
 				) VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextColl.nextColl#">
 					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#LOCALITY_ID#">
@@ -569,6 +571,16 @@ limitations under the License.
 					</cfif>
 					<cfif len(#ENDDAYOFYEAR#) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ENDDAYOFYEAR#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#fish_field_number#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fish_field_number#">
+					<cfelse>
+						,NULL
+					</cfif>
+					<cfif len(#date_determined_by_agent_id#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#date_determined_by_agent_id#">
 					<cfelse>
 						,NULL
 					</cfif>
