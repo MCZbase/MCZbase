@@ -1779,12 +1779,12 @@ limitations under the License.
 				<cfloop query="getCollEventUp">
 					<div class="h2">
 						Higher Geography: #higher_geog# 
-						<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-xs btn-info" target="_blank" >View</a>
+						<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a>
 					</div>
 					<cfset locality = getLocalitySummary(locality_id="#getCollEventUp.locality_id#")>
 					<div class="h2">
 						Locality: #locality#
-						<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-info" target="_blank" >View</a>
+						<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a>
 					</div>
 					<cfset datebit = "">
 					<cfif len(began_date) GT 0>
