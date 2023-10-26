@@ -384,6 +384,21 @@
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
+					<cfloop query="getTempData">
+						<cfset problem_key = getTempData.key>
+						<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
+							update citation set
+							publication_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">,
+							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
+							cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#">,
+							cit_current_fg = 1,
+							occurs_page_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#">,
+							type_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,
+							citation_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,
+							citation_page_uri = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">)
+						</cfquery>
+						<cfset container_updates = container_updates + updateContainer_result.recordcount>
+					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
