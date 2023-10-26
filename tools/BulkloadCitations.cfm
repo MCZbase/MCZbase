@@ -387,15 +387,15 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitation_result">
-							update citation set
-							publication_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">,
-							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
-							cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#">,
+							select * from citation where 
+							publication_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#"> and
+							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#"> and
+							cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#"> and
 							cit_current_fg = 1,
-							occurs_page_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#">,
-							type_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,
-							citation_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,
-							citation_page_uri = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">)
+							occurs_page_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#"> and
+							type_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#"> and
+							citation_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#"> and
+							citation_page_uri = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">
 						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitation_result.recordcount>
 					</cfloop>
