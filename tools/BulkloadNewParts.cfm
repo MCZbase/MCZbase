@@ -345,7 +345,7 @@
 									#nextid.nextid#,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="##PART_NAME##">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PRESERVE_METHOD#">,
-									5559372 )
+									5559292 )
 							</cfquery>
 							<cfset part_updates = part_updates + updateParts_result.recordcount>
 						</cfloop>
