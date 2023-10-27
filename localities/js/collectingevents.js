@@ -92,7 +92,7 @@ function loadCollEventMediaHTML(collecting_event_id,targetDivId) {
 */
 function loadCollEventSummaryHTML(collecting_event_id,targetDivId) { 
 	jQuery.ajax({
-		url: "/localities/component/functions.cfc",
+		url: "/localities/component/public.cfc",
 		data : {
 			method : "getCollectingEventSummary",
 			collecting_event_id: collecting_event_id
