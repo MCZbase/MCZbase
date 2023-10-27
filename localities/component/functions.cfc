@@ -4992,33 +4992,72 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				ORDER BY number_series, mczbase.get_agentnameoftype(collector_agent_id)
 			</cfquery>
 			<h3>Add</h3>
-			<div class="row">
-				<div class="col-12">
-					<label for="coll_event_number_series">Collecting Event Number Series</label>
-					<span>
-						<select id="coll_event_number_series" name="coll_event_number_series">
-							<option value=""></option>
-							<cfset ifbit = "">
-							<cfloop query="collEventNumberSeries">
-								<option value="#collEventNumberSeries.coll_event_num_series_id#">#collEventNumberSeries.number_series# (#collEventNumberSeries.collector_agent#)</option>
-								<cfset ifbit = ifbit & "if (selectedid==#collEventNumberSeries.coll_event_num_series_id#) { $('##pattern_span').html('#collEventNumberSeries.pattern#'); }; ">
-							</cfloop>
-						</select>
-						<a href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add new number series</a>
-					</span>
-					<cfset patternvalue = "">
-					<!---  On change of picklist, look up the expected pattern for the collecting event number series --->
-					<script>
-						$( document ).ready(function() {
-							$('##coll_event_number_series').change( function() { selectedid = $('##coll_event_number_series').val(); #ifbit# } );
-						});
-					</script>
+			<form id="addCollNumberForm">
+				<input type="hidden" name="method" value="addCollectingEventNumber">
+				<input type="hidden" name="collecting_event_id" value="#collecting_event_id#">
+				<div class="row">
+					<div class="col-12">
+						<label for="coll_event_number_series" class="data-entry-label">Collecting Event Number Series</label>
+						<span>
+							<select id="coll_event_number_series" name="coll_event_number_series" required class="reqdClr data-entry-select">
+								<option value=""></option>
+								<cfset ifbit = "">
+								<cfloop query="collEventNumberSeries">
+									<option value="#collEventNumberSeries.coll_event_num_series_id#">#collEventNumberSeries.number_series# (#collEventNumberSeries.collector_agent#)</option>
+									<cfset ifbit = ifbit & "if (selectedid==#collEventNumberSeries.coll_event_num_series_id#) { $('##pattern_span').html('#collEventNumberSeries.pattern#'); }; ">
+								</cfloop>
+							</select>
+							<a href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add new number series</a>
+						</span>
+						<cfset patternvalue = "">
+						<!---  On change of picklist, look up the expected pattern for the collecting event number series --->
+						<script>
+							$( document ).ready(function() {
+								$('##coll_event_number_series').change( function() { selectedid = $('##coll_event_number_series').val(); #ifbit# } );
+							});
+						</script>
+					</div>
+					<div class="col-12">
+						<label for="coll_event_number">Collector/Field Number <span id="pattern_span" style="color: Gray;">#patternvalue#</span></label>
+						<input type="text" name="coll_event_number" id="coll_event_number" class="data-entry-input reqdClr" required>
+					</div>
+					<div class="col-12">
+						<label class="data-entry-label">&nbsp;</label>
+						<button type="button" class="btn btn-xs btn-primary" onClick=" saveCollNumber(); " >Add</button>
+					</div>
+					<div class="col-12">
+						<output id="collNumFeedback"></output>
+					</div>
 				</div>
-				<div class="col-12">
-					<label for="coll_event_number">Collector/Field Number <span id="pattern_span" style="color: Gray;">#patternvalue#</span></label>
-					<input type="text" name="coll_event_number" id="coll_event_number" size=50>
-				</div>
-			</div>
+			</form>
+			<script>
+				function saveCollNumber(){ 
+					$('##collNumFeedback').html('Saving....');
+					$('##collNumFeedback').addClass('text-warning');
+					$('##collNumFeedback').removeClass('text-success');
+					$('##collNumFeedback').removeClass('text-danger');
+					jQuery.ajax({
+						url : "/localities/component/functions.cfc",
+						type : "post",
+						dataType : "json",
+						data : $('##addCollNumberForm').serialize(),
+						success : function (data) {
+							console.log(data);
+							$('##collNumFeedback').html('Saved.' + data[0].values);
+							$('##collNumFeedback').addClass('text-success');
+							$('##collNumFeedback').removeClass('text-danger');
+							$('##collNumFeedback').removeClass('text-warning');
+						},
+						error: function(jqXHR,textStatus,error){
+							$('##collNumFeedback').html('Error.');
+							$('##collNumFeedback').addClass('text-danger');
+							$('##collNumFeedback').removeClass('text-success');
+							$('##collNumFeedback').removeClass('text-warning');
+							handleFail(jqXHR,textStatus,error,'saving number for collecting event');
+						}
+					});
+				};
+			</script>
 		</cfoutput>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -5029,6 +5068,47 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 		</cfoutput>
 	</cfcatch>
 	</cftry>
+</cffunction>
+
+<cffunction name="addCollectingEventNumber" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+	<cfargument name="coll_event_number_series" type="string" required="yes">
+	<cfargument name="coll_event_number" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction> 
+		<cftry>
+			<cfif len(trim(coll_event_number_series)) GT 0 and len(trim(coll_event_number)) GT 0 >
+				<cfquery name="addCollEvNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					INSERT INTO coll_event_number
+						(coll_event_number, coll_event_num_series_id, collecting_event_id)
+					VALUES 
+					(
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_event_number#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_number_series#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+					)
+				</cfquery>
+			<cfelse>
+				<cfthrow message = "Required element number series or number not provided.">
+			</cfif>
+			<cfset message = "">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "added">
+			<cfset row["id"] = "#collecting_event_id#">
+			<cfset row["message"] = "#message#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 <!--- update a collecting event record with new values, use only when editing a 
