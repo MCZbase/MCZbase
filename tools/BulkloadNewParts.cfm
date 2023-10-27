@@ -339,7 +339,7 @@
 								INNER JOIN coll_object co ON co.collection_object_id = sp.derived_from_cat_item
 								(collection_object_id, sp.part_name, sp.preserve_method, sp.derived_from_cat_item,co.condition,co.lot_count_modifier,co.lot_count ) 
 								values
-								(''<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PART_NAME#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PRESERVE_METHOD#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DERIVED_FROM_CAT_ITEM#">','<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONDITION#">','<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">',<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count#">)
+								('<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PART_NAME#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PRESERVE_METHOD#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DERIVED_FROM_CAT_ITEM#">','<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONDITION#">','<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count_modifier#">',<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lot_count#">)
 							</cfquery>
 							<cfset part_updates = part_updates + updateParts_result.recordcount>
 						</cfloop>
