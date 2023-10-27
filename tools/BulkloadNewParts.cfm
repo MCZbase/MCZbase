@@ -313,7 +313,7 @@
 				<cfset part_updates = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
-							<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<!---				<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								INSERT INTO coll_object (
 									COLL_OBJECT_TYPE,
 									ENTERED_PERSON_ID,
@@ -334,7 +334,7 @@
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONDITION#">,
 									'0',
 										)
-							</cfquery>
+							</cfquery>--->
 							<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								INSERT INTO specimen_part (
 									COLLECTION_OBJECT_ID,
