@@ -4992,27 +4992,33 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				ORDER BY number_series, mczbase.get_agentnameoftype(collector_agent_id)
 			</cfquery>
 			<h3>Add</h3>
-			<label for="coll_event_number_series">Collecting Event Number Series</label>
-			<span>
-				<select id="coll_event_number_series" name="coll_event_number_series">
-					<option value=""></option>
-					<cfset ifbit = "">
-					<cfloop query="collEventNumberSeries">
-						<option value="#collEventNumberSeries.coll_event_num_series_id#">#collEventNumberSeries.number_series# (#collEventNumberSeries.collector_agent#)</option>
-						<cfset ifbit = ifbit & "if (selectedid=#collEventNumberSeries.coll_event_num_series_id#) { $('##pattern_span').html('#collEventNumberSeries.pattern#'); }; ">
-					</cfloop>
-				</select>
-				<a href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add new number series</a>
-			</span>
-			<cfset patternvalue = "">
-			<!---  On change of picklist, look up the expected pattern for the collecting event number series --->
-			<script>
-				$( document ).ready(function() {
-					$('##coll_event_number_series').change( function() { selectedid = $('##coll_event_number_series').val(); #ifbit# } );
-				});
-			</script>
-			<label for="coll_event_number">Collector/Field Number <span id="pattern_span" style="color: Gray;">#patternvalue#</span></label>
-			<input type="text" name="coll_event_number" id="coll_event_number" size=50>
+			<div class="row">
+				<div class="col-12">
+					<label for="coll_event_number_series">Collecting Event Number Series</label>
+					<span>
+						<select id="coll_event_number_series" name="coll_event_number_series">
+							<option value=""></option>
+							<cfset ifbit = "">
+							<cfloop query="collEventNumberSeries">
+								<option value="#collEventNumberSeries.coll_event_num_series_id#">#collEventNumberSeries.number_series# (#collEventNumberSeries.collector_agent#)</option>
+								<cfset ifbit = ifbit & "if (selectedid=#collEventNumberSeries.coll_event_num_series_id#) { $('##pattern_span').html('#collEventNumberSeries.pattern#'); }; ">
+							</cfloop>
+						</select>
+						<a href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add new number series</a>
+					</span>
+					<cfset patternvalue = "">
+					<!---  On change of picklist, look up the expected pattern for the collecting event number series --->
+					<script>
+						$( document ).ready(function() {
+							$('##coll_event_number_series').change( function() { selectedid = $('##coll_event_number_series').val(); #ifbit# } );
+						});
+					</script>
+				</div>
+				<div class="col-12">
+					<label for="coll_event_number">Collector/Field Number <span id="pattern_span" style="color: Gray;">#patternvalue#</span></label>
+					<input type="text" name="coll_event_number" id="coll_event_number" size=50>
+				</div>
+			</div>
 		</cfoutput>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
