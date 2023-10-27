@@ -72,7 +72,7 @@ function monitorForChanges(formId,changeFunction) {
 */
 function loadCollEventMediaHTML(collecting_event_id,targetDivId) { 
 	jQuery.ajax({
-		url: "/localities/component/functions.cfc",
+		url: "/localities/component/public.cfc",
 		data : {
 			method : "getCollectingEventMediaHtml",
 			collecting_event_id: collecting_event_id
