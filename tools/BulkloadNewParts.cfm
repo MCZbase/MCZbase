@@ -342,10 +342,10 @@
 									PRESERVE_METHOD,
 									DERIVED_FROM_cat_item )
 									VALUES (
-									#nextid.nextid#,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="##PART_NAME##">,
+									5559292,
+									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PART_NAME#">,
 									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PRESERVE_METHOD#">,
-									5559292 )
+									5559289)
 							</cfquery>
 							<cfset part_updates = part_updates + updateParts_result.recordcount>
 						</cfloop>
