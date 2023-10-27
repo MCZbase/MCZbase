@@ -5042,7 +5042,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						data : $('##addCollNumberForm').serialize(),
 						success : function (data) {
 							console.log(data);
-							$('##collNumFeedback').html('Saved. ' + data[0].status + " (" + data[0].id + ")"  );
+							$('##collNumFeedback').html('Saved. ' + data[0].status + " " + data[0].value + " to (" + data[0].id + ")"  );
 							$('##collNumFeedback').addClass('text-success');
 							$('##collNumFeedback').removeClass('text-danger');
 							$('##collNumFeedback').removeClass('text-warning');
@@ -5095,6 +5095,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfset row = StructNew()>
 			<cfset row["status"] = "added">
 			<cfset row["id"] = "#collecting_event_id#">
+			<cfset row["value"] = "#encodeForJavaScript(coll_event_number)#">
 			<cfset row["message"] = "#message#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
