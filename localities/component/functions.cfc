@@ -5004,6 +5004,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				</select>
 				<a href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add new number series</a>
 			</span>
+			<cfset patternvalue = "">
 			<!---  On change of picklist, look up the expected pattern for the collecting event number series --->
 			<script>
 				$( document ).ready(function() {
