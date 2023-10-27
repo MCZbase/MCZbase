@@ -491,8 +491,8 @@ function openAddCollEventNumberDialog(collecting_event_id, dialogid, callback) {
 	var h = $(window).height();
 	var w = $(window).width();
 	w = Math.floor(w *.9);
-	h = Math.floor(h *.25);
-	if (h < 250) { h = 250; }
+	h = Math.floor(h *.3);
+	if (h < 325) { h = 325; }
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
