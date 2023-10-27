@@ -4726,7 +4726,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<label class="data-entry-label" for="locality_id">Locality</label>
 							<input type="text" name="locality" id="locality" class="data-entry-input reqdClr" disabled value="#higher_geog#: #spec_locality# (#locality_id#)">
 							<input type="hidden" name="locality_id" id="locality_id" value="#locality_id#">
-							<input type="hidden" name="reset_locality_id" id="reset_locality_id" value="#locality_id#">
+							<input type="hidden" id="reset_locality_id" value="#locality_id#">
 							<input type="hidden" id="reset_locality" value="#higher_geog#: #spec_locality# (#locality_id#)">
 							<input type="hidden" id="reset_state" value="0">
 						</div>
