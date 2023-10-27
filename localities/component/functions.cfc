@@ -5001,7 +5001,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<cfset ifbit = "">
 							<cfloop query="collEventNumberSeries">
 								<option value="#collEventNumberSeries.coll_event_num_series_id#">#collEventNumberSeries.number_series# (#collEventNumberSeries.collector_agent#)</option>
-								<cfset ifbit = ifbit & "if (selectedid=#collEventNumberSeries.coll_event_num_series_id#) { $('##pattern_span').html('#collEventNumberSeries.pattern#'); }; ">
+								<cfset ifbit = ifbit & "if (selectedid==#collEventNumberSeries.coll_event_num_series_id#) { $('##pattern_span').html('#collEventNumberSeries.pattern#'); }; ">
 							</cfloop>
 						</select>
 						<a href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add new number series</a>
