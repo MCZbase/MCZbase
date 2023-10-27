@@ -4992,7 +4992,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				ORDER BY number_series, mczbase.get_agentnameoftype(collector_agent_id)
 			</cfquery>
 			<h3>Add</h3>
-			<form id="addCollNumberForm">
+			<form id="addCollNumberForm" onsubmit="return false;">
 				<input type="hidden" name="method" value="addCollectingEventNumber">
 				<input type="hidden" name="collecting_event_id" value="#collecting_event_id#">
 				<div class="row">
