@@ -224,7 +224,6 @@ limitations under the License.
 									<input type="button" class="btn btn-primary btn-xs" value="Save" onClick=" saveEvent(); ">
 									<output id="editCollEventStatus"></output>
 								</form>
-<!--- TODO: Debug and fix change monitoring and save changes --->
 								<script>
 									function saveEvent(){ 
 										if ($('##editCollectingEventForm')[0].checkValidity()) { 
@@ -260,6 +259,7 @@ limitations under the License.
 												$('##editCollEventStatus').addClass('text-success');
 												$('##editCollEventStatus').removeClass('text-danger');
 												$('##editCollEventStatus').removeClass('text-warning');
+												reloadSummary();
 											},
 											error: function(jqXHR,textStatus,error){
 												$('##editCollEventStatus').html('Error.');
