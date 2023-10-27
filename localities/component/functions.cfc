@@ -4996,20 +4996,16 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<input type="hidden" name="method" value="addCollectingEventNumber">
 				<input type="hidden" name="collecting_event_id" value="#collecting_event_id#">
 				<div class="row">
-					<div class="col-12">
+					<div class="col-12 col-md-4">
 						<label for="coll_event_number_series" class="data-entry-label">Collecting Event Number Series</label>
-						<span>
-							<select id="coll_event_number_series" name="coll_event_number_series" required class="reqdClr data-entry-select">
-								<option value=""></option>
-								<cfset ifbit = "">
-								<cfloop query="collEventNumberSeries">
-									<option value="#collEventNumberSeries.coll_event_num_series_id#">#collEventNumberSeries.number_series# (#collEventNumberSeries.collector_agent#)</option>
-									<cfset ifbit = ifbit & "if (selectedid==#collEventNumberSeries.coll_event_num_series_id#) { $('##pattern_span').html('#collEventNumberSeries.pattern#'); }; ">
-								</cfloop>
-							</select>
-							<a href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add new number series</a>
-						</span>
-						<cfset patternvalue = "">
+						<select id="coll_event_number_series" name="coll_event_number_series" required class="reqdClr data-entry-select">
+							<option value=""></option>
+							<cfset ifbit = "">
+							<cfloop query="collEventNumberSeries">
+								<option value="#collEventNumberSeries.coll_event_num_series_id#">#collEventNumberSeries.number_series# (#collEventNumberSeries.collector_agent#)</option>
+								<cfset ifbit = ifbit & "if (selectedid==#collEventNumberSeries.coll_event_num_series_id#) { $('##pattern_span').html('#collEventNumberSeries.pattern#'); }; ">
+							</cfloop>
+						</select>
 						<!---  On change of picklist, look up the expected pattern for the collecting event number series --->
 						<script>
 							$( document ).ready(function() {
@@ -5017,15 +5013,18 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							});
 						</script>
 					</div>
-					<div class="col-12">
-						<label for="coll_event_number">Collector/Field Number <span id="pattern_span" style="color: Gray;">#patternvalue#</span></label>
+					<div class="col-12 col-md-2">
+						<a href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add new number series</a>
+					</div>
+					<div class="col-12 col-md-6">
+						<label for="coll_event_number">Collector/Field Number <span id="pattern_span" style="color: Gray;"></span></label>
 						<input type="text" name="coll_event_number" id="coll_event_number" class="data-entry-input reqdClr" required>
 					</div>
-					<div class="col-12">
+					<div class="col-12 col-md-6">
 						<label class="data-entry-label">&nbsp;</label>
 						<button type="button" class="btn btn-xs btn-primary" onClick=" saveCollNumber(); " >Add</button>
 					</div>
-					<div class="col-12">
+					<div class="col-12 col-md-6">
 						<output id="collNumFeedback"></output>
 					</div>
 				</div>
