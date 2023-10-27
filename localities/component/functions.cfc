@@ -5014,7 +5014,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						</script>
 					</div>
 					<div class="col-12 col-md-2">
-						<a href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add new number series</a>
+						<label class="data-entry-label">&nbsp;</label>
+						<a href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank" class="btn btn-xs btn-primary">Add new number series</a>
 					</div>
 					<div class="col-12 col-md-6">
 						<label for="coll_event_number">Collector/Field Number <span id="pattern_span" style="color: Gray;"></span></label>
