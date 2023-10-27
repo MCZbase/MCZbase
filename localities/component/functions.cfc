@@ -4961,7 +4961,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfloop query="colEventNumbers">
 						<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#) <input type="button" value="Delete" class="btn btn-xs btn-danger" onclick=" deleteCollEventNumber(#coll_event_number_id#); "></span></li>
 					</cfloop>
-					<li><button onClick="openAddCollEventNumberDialog("#collecting_event_id#", "addCENumberDialog#collecting_event_id#", reloadNumbers);" class="btn btn-xs btn-secondary">Add</button></li>
+					<li><button onClick='openAddCollEventNumberDialog("#collecting_event_id#", "addCENumberDialog#collecting_event_id#", reloadNumbers);' class="btn btn-xs btn-secondary">Add</button></li>
 				</ul>
 				<div id="addCENumberDialog#collecting_event_id#"></div>
 			<cfcatch>
