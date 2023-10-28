@@ -476,10 +476,7 @@ limitations under the License.
 											</cfif>		
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 												<a class="dropdown-item" href="/localities/Locality.cfm?action=new">Locality</a> 
-												<cfif targetMenu NEQ "production">
-													<!--- TODO: Allow on production when ready --->
-													<a class="dropdown-item" href="/localities/CollectingEvent.cfm?action=new">Collecting Events</a> 
-												</cfif>
+												<a class="dropdown-item" href="/localities/CollectingEvent.cfm?action=new">Collecting Events</a> 
 											</cfif>
 									
 											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
