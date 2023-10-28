@@ -607,7 +607,7 @@ limitations under the License.
 				)
 			</cfquery>
 		<cftransaction>
-		<cflocation addtoken="no" url="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#nextColl.nextColl#">
+		<cflocation addtoken="no" url="/localities/CollectingEvent.cfm?collecting_event_id=#nextColl.nextColl#">
 	</cfcase>
 </cfswitch>
 
