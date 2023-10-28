@@ -111,7 +111,7 @@ limitations under the License.
 				<main class="container-fluid container-xl my-2" id="content">
 					<section class="row">
 						<div class="col-12 mt-2 mb-5 row">
-							<div class="col-12 col-md-9 col-xl-8">
+							<div class="col-12 col-md-10 col-xl-9">
 								<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">
 									Edit Collecting Event#extra#
 									<a role="button" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">View</a>
@@ -217,7 +217,7 @@ limitations under the License.
 									<div id="summary" class="small95 px-2 pb-2"><span class="sr-only">Summary: </span>#summary#</div>
 								</div>
 							</div>
-							<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-3 col-xl-4">
+							<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-2 col-xl-3">
 								<!--- map --->
 								<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 									<cfset map = getLocalityMapHtml(locality_id="#lookupEvent.locality_id#")>
