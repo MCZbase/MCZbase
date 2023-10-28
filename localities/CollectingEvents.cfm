@@ -347,7 +347,7 @@ limitations under the License.
 						};
 						var editEventCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowData) {
 							var id = encodeURIComponent(rowData['COLLECTING_EVENT_ID']);
-							return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/localties/CollectingEvent.cfm?collecting_event_id=' + id + '">Evt.</a>';
+							return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/localities/CollectingEvent.cfm?collecting_event_id=' + id + '">Evt.</a>';
 						};
 					</cfif>
 
