@@ -110,7 +110,7 @@ limitations under the License.
 			<cfoutput>
 				<main class="container-fluid container-xl my-2" id="content">
 					<section class="row">
-						<div class="col-12 mt-2 mb-5 row">
+						<div class="col-12 mt-2 mb-1 row">
 							<div class="col-12 col-md-10 col-xl-9">
 								<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">
 									Edit Collecting Event#extra#
@@ -285,63 +285,65 @@ limitations under the License.
 								</div>
 							</section>
 						</div>
-						<div class="col-12 px-0 pr-md-3 pl-md-0 ">
-							<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
-								<cfset blocknumbers = getEditCollectingEventNumbersHtml(collecting_event_id="#collecting_event_id#")>
-								<div id="collEventNumbersDiv">#blocknumbers#</div>
-							</div>
-						</div>
-						<div class="col-12 px-0 pr-md-3 pl-md-0 ">
-							<div class="border bg-light rounded p-3 my-2">
-								<cfset media = getCollectingEventMediaHtml(collecting_event_id="#collecting_event_id#")>
-								<div id="mediaDiv" class="row">#media#</div>
-								<div id="addMediaDiv">
-									<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT media_relationship as relation 
-										FROM ctmedia_relationship 
-										WHERE media_relationship like '% collecting_event'
-										ORDER BY media_relationship
-									</cfquery>
-									<cfloop query="relations">
-										<cfset onelinesummary = replace(replace(onelinesummary,'"','','all'),"'","","all")>
-										<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Collecting Event: #onelinesummary#', '#collecting_event_id#', '#relations.relation#', reloadMediaRelationships); ">
-										<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Collecting Event: #onelinesummary#', '#collecting_event_id#', '#relations.relation#', reloadMediaRelationships); ">
-									</cfloop>
+						<div class="col-12 row">
+							<div class="col-12 px-0 pr-md-3 pl-md-0 ">
+								<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
+									<cfset blocknumbers = getEditCollectingEventNumbersHtml(collecting_event_id="#collecting_event_id#")>
+									<div id="collEventNumbersDiv">#blocknumbers#</div>
 								</div>
-								<div id="mediaDialogDiv"></div>
 							</div>
-						</div>
-						<div class="col-12 px-0 pr-md-3 pl-md-0 ">
-							<div class="border bg-light rounded p-3 my-2">
-								<h2 class="h3 mt-3 pl-1 ml-2" id="formheading">Collectors in this Collecting Event</h2>
-								<cfquery name="getCollectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollectors_result">
-									SELECT
-										count(cataloged_item.collection_object_id) ct, 
-										agent.agent_id,
-										MCZBASE.get_agentnameoftype(agent.agent_id) as name,
-										birth_date, death_date
-									FROM 
-										cataloged_item
-										join collector on cataloged_item.collection_object_id = collector.collection_object_id
-										join agent on collector.agent_id = agent.agent_id
-										left join person on agent.agent_id = person.person_id
-									WHERE 
-										collector_role = 'c'
-										AND collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
-									GROUP BY
-										agent.agent_id,
-										birth_date, death_date
-									ORDER BY 
-										MCZBASE.get_agentnameoftype(agent.agent_id)
-								</cfquery>
-								<ul>
-									<cfif getCollectors.recordcount EQ 0>
-										<li>None</li>
-									</cfif>
-									<cfloop query="getCollectors">
-										<li><a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#getCollectors.name#</a> (#birth_date#-#death_date#) #ct#</li>
-									</cfloop>
-								</ul>
+							<div class="col-12 px-0 pr-md-3 pl-md-0 ">
+								<div class="border bg-light rounded p-3 my-2">
+									<cfset media = getCollectingEventMediaHtml(collecting_event_id="#collecting_event_id#")>
+									<div id="mediaDiv" class="row">#media#</div>
+									<div id="addMediaDiv">
+										<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											SELECT media_relationship as relation 
+											FROM ctmedia_relationship 
+											WHERE media_relationship like '% collecting_event'
+											ORDER BY media_relationship
+										</cfquery>
+										<cfloop query="relations">
+											<cfset onelinesummary = replace(replace(onelinesummary,'"','','all'),"'","","all")>
+											<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Collecting Event: #onelinesummary#', '#collecting_event_id#', '#relations.relation#', reloadMediaRelationships); ">
+											<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Collecting Event: #onelinesummary#', '#collecting_event_id#', '#relations.relation#', reloadMediaRelationships); ">
+										</cfloop>
+									</div>
+									<div id="mediaDialogDiv"></div>
+								</div>
+							</div>
+							<div class="col-12 px-0 pr-md-3 pl-md-0 ">
+								<div class="border bg-light rounded p-3 my-2">
+									<h2 class="h3 mt-3 pl-1 ml-2" id="formheading">Collectors in this Collecting Event</h2>
+									<cfquery name="getCollectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollectors_result">
+										SELECT
+											count(cataloged_item.collection_object_id) ct, 
+											agent.agent_id,
+											MCZBASE.get_agentnameoftype(agent.agent_id) as name,
+											birth_date, death_date
+										FROM 
+											cataloged_item
+											join collector on cataloged_item.collection_object_id = collector.collection_object_id
+											join agent on collector.agent_id = agent.agent_id
+											left join person on agent.agent_id = person.person_id
+										WHERE 
+											collector_role = 'c'
+											AND collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+										GROUP BY
+											agent.agent_id,
+											birth_date, death_date
+										ORDER BY 
+											MCZBASE.get_agentnameoftype(agent.agent_id)
+									</cfquery>
+									<ul>
+										<cfif getCollectors.recordcount EQ 0>
+											<li>None</li>
+										</cfif>
+										<cfloop query="getCollectors">
+											<li><a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#getCollectors.name#</a> (#birth_date#-#death_date#) #ct#</li>
+										</cfloop>
+									</ul>
+								</div>
 							</div>
 						</div>
 					</section>
