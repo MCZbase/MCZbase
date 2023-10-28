@@ -1594,11 +1594,11 @@ limitations under the License.
 				</cfquery>
 				<cfif collEventMedia.recordcount gt 0>
 					<cfloop query="collEventMedia">
-						<div class="col-6 px-1 col-sm-3 col-lg-3 col-xl-3 mb-1 px-md-2 pt-1 float-left"> 
+						<div class="col-6 p-1 col-sm-3 col-lg-3 col-xl-3 mb-1 px-md-2 pt-1 float-left border"> 
 							<div id='ceMediaBlock#collEventMedia.media_id#'>
 								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="350",captionAs="textShort")>
 							</div>
-							<div>
+							<div class="text-center">
 								<a class="btn btn-xs btn-warning" onClick=" alert('TODO: Implement #collEventMedia.media_relations_id# ');">Remove</a>
 							</div>
 						</div>
