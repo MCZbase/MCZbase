@@ -298,6 +298,8 @@ limitations under the License.
 	
 	<!--- TODO: Check for encumbrances --->
 
+	<cfset variables.locality_id = arguments.locality_id>
+
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityMapThread#tn#">
 		<cfoutput>
@@ -596,7 +598,7 @@ limitations under the License.
 					};
 					</cfif>
 					$(document).ready(function() {
-						setupMap(#locality_id#);
+						setupMap("#variables.locality_id#");
 					});
 				</script>
 				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
