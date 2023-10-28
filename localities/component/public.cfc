@@ -1582,7 +1582,7 @@ limitations under the License.
 			<cftry>
 				<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
-						media_id
+						media_id, media_relations_id
 					FROM
 						media_relations
 					WHERE
@@ -1597,6 +1597,9 @@ limitations under the License.
 						<div class="col-6 px-1 col-sm-3 col-lg-3 col-xl-3 mb-1 px-md-2 pt-1 float-left"> 
 							<div id='ceMediaBlock#collEventMedia.media_id#'>
 								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="350",captionAs="textShort")>
+							</div>
+							<div>
+								<a class="btn btn-xs btn-warning" onClick=" alert('TODO: Implement #collEventMedia.media_relations_id# ');">Remove</a>
 							</div>
 						</div>
 					</cfloop>
