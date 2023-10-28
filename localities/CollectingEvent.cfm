@@ -217,6 +217,15 @@ limitations under the License.
 									<div id="summary" class="small95 px-2 pb-2"><span class="sr-only">Summary: </span>#summary#</div>
 								</div>
 							</div>
+							<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-2 col-xl-3">
+								<!--- map --->
+								<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+									<cfset map = getLocalityMapHtml(locality_id="#lookupEvent.locality_id#")>
+									<div id="mapDiv">#map#</div>
+								</div>
+							</section>
+						</div>
+						<div class="col-12 mt-2 mb-5 row">
 							<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
 								<cfset blockform = getCollectingEventFormHtml(collecting_event_id = "#collecting_event_id#",mode="edit")>
 								<form name="editCollectingEventForm" id="editCollectingEventForm">
@@ -274,13 +283,6 @@ limitations under the License.
 									};
 								</script>
 							</div>
-							<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-2 col-xl-3">
-								<!--- map --->
-								<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
-									<cfset map = getLocalityMapHtml(locality_id="#lookupEvent.locality_id#")>
-									<div id="mapDiv">#map#</div>
-								</div>
-							</section>
 						</div>
 						<div class="col-12 px-0 pr-md-3 pl-md-0 ">
 							<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
