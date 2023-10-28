@@ -65,7 +65,7 @@ limitations under the License.
 			<cfoutput>
 				<main class="container-fluid container-xl my-2" id="content">
 					<section class="row">
-						<div class="col-12 mt-2 mb-5">
+						<div class="col-12 mt-2 mb-1">
 							<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">
 								Collecting event (#encodeForHtml(collecting_event_id)#) not found.
 							</h1>
@@ -273,7 +273,7 @@ limitations under the License.
 										};
 									</script>
 								</div>
-								<div class="border rounded px- my-1 ">
+								<div class="border rounded p-1 my-1 ">
 									<a class="btn btn-xs btn-secondary" target="_blank" href="/localities/CollectingEvent.cfm?action=new&clone_from_collecting_event_id=#collecting_event_id#">Clone</a>
 								</div>
 							</div>
