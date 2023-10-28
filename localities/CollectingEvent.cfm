@@ -354,7 +354,7 @@ limitations under the License.
 							loadCollEventMediaHTML('#collecting_event_id#','mediaDiv');
 						}
 						function reloadMap()  {
-							loadLocalityMapHTML('#locality_id#','mapDiv');
+							loadLocalityMapHTML($("##locality_id").val()),'mapDiv');
 						}
 					</script>
 				</main>
