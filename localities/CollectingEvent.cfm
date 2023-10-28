@@ -292,8 +292,8 @@ limitations under the License.
 									</cfquery>
 									<cfloop query="relations">
 										<cfset onelinesummary = replace(replace(onelinesummary,'"','','all'),"'","","all")>
-										<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Collecting Event: #onelinesummary#', '#collecting_event_id#', '#relations.relation#', reloadMedia); ">
-										<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Collecting Event: #onelinesummary#', '#collecting_event_id#', '#relations.relation#', reloadMedia); ">
+										<input type="button" value="Link Existing Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" openlinkmediadialog('mediaDialogDiv', 'Collecting Event: #onelinesummary#', '#collecting_event_id#', '#relations.relation#', reloadMediaRelationships); ">
+										<input type="button" value="Add New Media as #relations.relation#" class="btn btn-xs btn-secondary mt-2 mt-xl-0" onClick=" opencreatemediadialog('mediaDialogDiv', 'Collecting Event: #onelinesummary#', '#collecting_event_id#', '#relations.relation#', reloadMediaRelationships); ">
 									</cfloop>
 								</div>
 								<div id="mediaDialogDiv"></div>
@@ -340,7 +340,7 @@ limitations under the License.
 						function reloadNumbers()  {
 							loadCollEventNumbersHTML('#collecting_event_id#','collEventNumbersDiv');
 						}
-						function reloadMedia()  {
+						function reloadMediaRelationships()  {
 							loadCollEventMediaHTML('#collecting_event_id#','mediaDiv');
 						}
 					</script>

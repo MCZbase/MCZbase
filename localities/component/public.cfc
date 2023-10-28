@@ -1600,6 +1600,7 @@ limitations under the License.
 							</div>
 							<div class="text-center">
 								<a class="btn btn-xs btn-warning" onClick=" confirmDialog('Remove Relationship to this Media record?','Remove?', function() { removeMediaRelation('#collEventMedia.media_relations_id#'); }); ">Remove</a>
+								<!--- assumes reloadMediaRelationships is in scope in page for reload --->
 							</div>
 						</div>
 					</cfloop>
