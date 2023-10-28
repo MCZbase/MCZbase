@@ -1552,7 +1552,7 @@ limitations under the License.
 								<cfelse>
 									<cfset verbatim_coordinates="">
 								</cfif>
-								#date# #verbatim_locality##verbatim_coordinates# [<a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#getEventList.collecting_event_id#">#getEventList.collecting_event_id#</a>]
+								#date# #verbatim_locality##verbatim_coordinates# [<a href="/localities/CollectingEvent.cfm?collecting_event_id=#getEventList.collecting_event_id#">#getEventList.collecting_event_id#</a>]
 							</li>
 						</cfloop>
 					</ul>

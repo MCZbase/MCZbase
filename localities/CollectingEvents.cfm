@@ -264,7 +264,7 @@ limitations under the License.
 					 				content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/localities/viewLocality.cfm?locality_id="+locality_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 								</cfif>
 							} else if (datafield == 'COLLECTING_EVENT_ID') { 
-					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/Locality.cfm?Action=editCollEvnt&collecting_event_id="+collecting_event_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
+					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/localities/CollectingEvent.cfm&collecting_event_id="+collecting_event_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'HIGHER_GEOG') { 
 					 			content = content + "<li class='pr-3'><strong>" + text + ":</strong> <a href='/localities/viewHigherGeography.cfm?geog_auth_rec_id="+geog_auth_rec_id+"' target='_blank'>" + datarecord[datafield] + "</a></li>";
 							} else if (datafield == 'SPECIMEN_COUNT') { 
@@ -347,7 +347,7 @@ limitations under the License.
 						};
 						var editEventCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowData) {
 							var id = encodeURIComponent(rowData['COLLECTING_EVENT_ID']);
-							return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=' + id + '">Evt.</a>';
+							return '<a target="_blank" class="btn btn-xs btn-outline-primary ml-1" href="/localties/CollectingEvent.cfm?collecting_event_id=' + id + '">Evt.</a>';
 						};
 					</cfif>
 

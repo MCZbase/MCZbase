@@ -47,7 +47,7 @@ Report on collecting events with problematic values for began date or ended date
 						<li class="py-1">None.  No collecting events have a date prior to 1700-01-01.</li>
 					<cfelse>
 						<cfloop query="pre1700">
-							<li><a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#collecting_event_id#">(#collecting_event_id#)</a> Verbatim: #verbatim_date# Start: #date_began_date# #start_pre_gregorian# End: #date_ended_date# #end_pre_gregorian#</li> 
+							<li><a href="/localitiesCollectingEvent.cfm?collecting_event_id=#collecting_event_id#">(#collecting_event_id#)</a> Verbatim: #verbatim_date# Start: #date_began_date# #start_pre_gregorian# End: #date_ended_date# #end_pre_gregorian#</li> 
 						</cfloop>
 					</cfif>
 				</ul>
@@ -68,7 +68,7 @@ Report on collecting events with problematic values for began date or ended date
 						<li class="py-1">None.  No collecting events have a date after #date_format(now(),'yyyy-mm-dd')#.</li>
 					<cfelse>
 						<cfloop query="future">
-							<li><a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#collecting_event_id#">(#collecting_event_id#)</a> Verbatim: #verbatim_date# Start: #date_began_date# End: #date_ended_date#</li> 
+							<li><a href="/localitiesCollectingEvent.cfm?collecting_event_id=#collecting_event_id#">(#collecting_event_id#)</a> Verbatim: #verbatim_date# Start: #date_began_date# End: #date_ended_date#</li> 
 						</cfloop>
 					</cfif>
 				</ul>
@@ -82,7 +82,10 @@ Report on collecting events with problematic values for began date or ended date
 						ended_date,
 						case when date_ended_date < to_date('1582-10-15','yyyy-mm-dd') then 'pre-Gregorian' else '' end as end_pre_gregorian
 					FROM collecting_event 
-					WHERE date_ended_date is not null and date_began_date > date_ended_date
+					WHERE 
+						date_ended_date is not null 
+						and date_began_date > date_ended_date
+						and began_date <> ended_date
 				</cfquery>
 				<h2 class="h3">Date Collected end is before start</h2>
 				<ul>
@@ -91,7 +94,7 @@ Report on collecting events with problematic values for began date or ended date
 						<li class="py-1">None.  No collecting events have an end date before the start date.</li>
 					<cfelse>
 						<cfloop query="reversed">
-							<li><a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#collecting_event_id#">(#collecting_event_id#)</a> Verbatim: #verbatim_date# Start: #date_began_date# #start_pre_gregorian# End: #date_ended_date# #end_pre_gregorian#</li> 
+							<li><a href="/localitiesCollectingEvent.cfm?collecting_event_id=#collecting_event_id#">(#collecting_event_id#)</a> Verbatim: #verbatim_date# Start: #date_began_date# #start_pre_gregorian# End: #date_ended_date# #end_pre_gregorian#</li> 
 						</cfloop>
 					</cfif>
 				</ul>
