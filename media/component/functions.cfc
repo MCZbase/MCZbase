@@ -153,7 +153,7 @@ Backing methods for managing media
 			<div>Created with relationship: #thisRelationship#</div>
 		</cfif>--->
 		<script language='javascript' type='text/javascript'>
-			$('##savedLinkDiv').removeClass('ui-widget-content');
+			$html prevent form submission('##savedLinkDiv').removeClass('ui-widget-content');
 		</script>
 	</cfoutput>
 </cffunction>
@@ -307,11 +307,11 @@ Backing methods for managing media
 		</cfif>
 	</cffunction>
 
-<!--- deleteMediaRelation remove a record from media_relations
+<!--- removeMediaRelation remove a record from media_relations
   @param media_relations_id the primary key value for the record to delete.
   @return a structure containing status and message or a http 500
 --->
-<!---<cffunction name="deleteMediaRelation" returntype="query" access="remote">
+<cffunction name="removeMediaRelation" returntype="query" access="remote">
 	 <cfargument name="media_relations_id" type="string" required="yes">
 	 <cftry>
 	 	<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
@@ -338,7 +338,7 @@ Backing methods for managing media
 	 </cfcatch>
 	 </cftry>
 	 <cfreturn theResult>
-</cffunction>--->
+</cffunction>
 
 <!---<cffunction name="relationsTableHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
@@ -383,7 +383,7 @@ Backing methods for managing media
 									<div class="col-12 col-md-3">
 										<button type="button" 
 											class="btn btn-xs btn-warning float-left mt-2 mt-md-0 mb-1 mr-2" 
-											onClick=' confirmDialog("Remove #media_relationship# as #mediaRelationship.media_relationship# from this #mediaRelationship# ?", "Confirm Unlink relationship", function() { deleteMediaRelationship(#trans_agent_id#); } ); '
+											onClick=' confirmDialog("Remove #media_relationship# as #mediaRelationship.media_relationship# from this #mediaRelationship# ?", "Confirm Unlink relationship", function() { removeMediaRelation(#trans_agent_id#); } ); '
 											>Remove</button>
 										<button type="button" 
 											class="btn btn-xs btn-secondary mt-2 mt-md-0 mb-1 float-left" 

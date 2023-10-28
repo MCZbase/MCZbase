@@ -1599,7 +1599,7 @@ limitations under the License.
 								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="350",captionAs="textShort")>
 							</div>
 							<div class="text-center">
-								<a class="btn btn-xs btn-warning" onClick=" alert('TODO: Implement #collEventMedia.media_relations_id# ');">Remove</a>
+								<a class="btn btn-xs btn-warning" onClick=" confirmDialog('Remove Relationship to this Media record?','Remove?', function() { removeMediaRelation('#collEventMedia.media_relations_id#'); }); ">Remove</a>
 							</div>
 						</div>
 					</cfloop>

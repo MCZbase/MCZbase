@@ -204,6 +204,7 @@ limitations under the License.
 </cfif>
 <cfif CGI.script_name IS "/localities/CollectingEvent.cfm" OR CGI.script_name IS "/specimens/Specimen.cfm">
 	<script type="text/javascript" src="/localities/js/collectingevents.js"></script>
+	<script type="text/javascript" src="/media/js/media.js"></script>
 </cfif>
 
 <cfif not isdefined("session.header_color")>
