@@ -295,11 +295,15 @@ limitations under the License.
 <cffunction name="getLocalityMapHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="reload" type="string" required="no">
+	<cfargument name="extraText" type="string" required="no" default="">
 	
 	<!--- TODO: Check for encumbrances --->
 
 	<cfset variables.locality_id = arguments.locality_id>
-
+	<cfif isDefined("arguments.extraText")>
+		<cfset variables.extraText = arguments.extraText>
+	</cfif>
+	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityMapThread#tn#">
 		<cfoutput>
@@ -630,7 +634,10 @@ limitations under the License.
 					WHERE accepted_lat_long_fg=1
 				</cfquery>
 				<cfif len(getAcceptedGeoref.dec_lat) gt 0 and len(getAcceptedGeoref.dec_long) gt 0 and (getAcceptedGeoref.dec_lat is not 0 and getAcceptedGeoref.dec_long is not 0)>
-					<div class="h3 px-2 pt-2">Map of Georeferences</div>
+					<div class="h3 px-2 pt-2">
+						Map of Georeferences
+						<cfif isDefined("variables.extraText")>#variables.extraText#</cfif>
+					</div>
 				<cfelse>
 					<div class="h3 pt-2 text-danger px-2">No accepted georeferences</div>
 				</cfif>

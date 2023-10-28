@@ -274,10 +274,10 @@ limitations under the License.
 									</script>
 								</div>
 							</div>
-							<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-2 col-xl-3">
+							<section class="col-12 px-md-0 col-md-2 col-xl-3">
 								<!--- map --->
 								<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
-									<cfset map = getLocalityMapHtml(locality_id="#lookupEvent.locality_id#")>
+									<cfset map = getLocalityMapHtml(locality_id="#lookupEvent.locality_id#",extraText="For Locality")>
 									<div id="mapDiv">#map#</div>
 								</div>
 							</section>
