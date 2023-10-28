@@ -273,6 +273,9 @@ limitations under the License.
 										};
 									</script>
 								</div>
+								<div class="border rounded px-2 my-2 pt-3 pb-2">
+									<a class="btn btn-xs btn-secondary" target="_blank" href="/localities/CollectingEvent.cfm?action=new&clone_from_collecting_event_id=#collecting_event_id#">Clone</a>
+								</div>
 							</div>
 							<section class="col-12 px-md-0 col-md-2 col-xl-3">
 								<!--- map --->
@@ -378,9 +381,9 @@ limitations under the License.
 				<cfset extra = " within #lookupLocality.higher_geog# #lookupLocality.spec_locality#">
 			</cfloop>
 			<cfset blockform = getCollectingEventFormHtml(geog_auth_rec_id = "#geog_auth_rec_id#",mode="create")>
-		<cfelseif isDefined("clone_from_locality_id") and len(clone_from_locality_id) GT 0>
-			<cfset extra = " cloned from #encodeForHtml(clone_from_locality_id)#">
-				<cfset blockform = getCollectingEventFormHtml(clone_from_locality_id = "#clone_from_locality_id#",mode="create")>
+		<cfelseif isDefined("clone_from_collecting_event_id") and len(clone_from_collecting_event_id) GT 0>
+			<cfset extra = " cloned from #encodeForHtml(clone_from_collecting_event_id)#">
+				<cfset blockform = getCollectingEventFormHtml(clone_from_collecting_event_id = "#clone_from_collecting_event_id#",mode="create")>
 		<cfelse>
 			<cfset blockform = getCollectingEventFormHtml(mode="create")>
 		</cfif>
