@@ -216,6 +216,63 @@ limitations under the License.
 									<cfset summary = getCollectingEventSummary(collecting_event_id="#collecting_event_id#")>
 									<div id="summary" class="small95 px-2 pb-2"><span class="sr-only">Summary: </span>#summary#</div>
 								</div>
+								<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
+									<cfset blockform = getCollectingEventFormHtml(collecting_event_id = "#collecting_event_id#",mode="edit")>
+									<form name="editCollectingEventForm" id="editCollectingEventForm">
+										<input type="hidden" name="method" value="updateCollectingEvent">
+										<input type="hidden" name="returnformat" value="json">
+										#blockform#
+										<input type="button" class="btn btn-primary btn-xs" value="Save" onClick=" saveEvent(); ">
+										<output id="editCollEventStatus"></output>
+									</form>
+									<script>
+										function saveEvent(){ 
+											if ($('##editCollectingEventForm')[0].checkValidity()) { 
+												saveEdits();
+											} else { 
+												messageDialog('Error: Unable to save changes, required field missing a value.' ,'Error: Required fields not filled in.');
+											}
+										} 
+										$(document).ready(function(){
+											$('##editCollectingEventForm').submit( function(event){ event.preventDefault(); } );
+										});
+										function handleChange(){
+											$('##editCollEventStatus').html('Unsaved changes.');
+											$('##editCollEventStatus').addClass('text-danger');
+											$('##editCollEventStatus').removeClass('text-success');
+											$('##editCollEventStatus').removeClass('text-warning');
+										};
+										$(document).ready(function() {
+											monitorForChanges('editCollectingEventForm',handleChange);
+										});
+										function saveEdits(){ 
+											$('##editCollEventStatus').html('Saving....');
+											$('##editCollEventStatus').addClass('text-warning');
+											$('##editCollEventStatus').removeClass('text-success');
+											$('##editCollEventStatus').removeClass('text-danger');
+											jQuery.ajax({
+												url : "/localities/component/functions.cfc",
+												type : "post",
+												dataType : "json",
+												data : $('##editCollectingEventForm').serialize(),
+												success : function (data) {
+													$('##editCollEventStatus').html('Saved.');
+													$('##editCollEventStatus').addClass('text-success');
+													$('##editCollEventStatus').removeClass('text-danger');
+													$('##editCollEventStatus').removeClass('text-warning');
+													reloadSummary();
+												},
+												error: function(jqXHR,textStatus,error){
+													$('##editCollEventStatus').html('Error.');
+													$('##editCollEventStatus').addClass('text-danger');
+													$('##editCollEventStatus').removeClass('text-success');
+													$('##editCollEventStatus').removeClass('text-warning');
+													handleFail(jqXHR,textStatus,error,'saving collecting event record');
+												}
+											});
+										};
+									</script>
+								</div>
 							</div>
 							<section class="mt-3 mt-md-5 col-12 px-md-0 col-md-2 col-xl-3">
 								<!--- map --->
@@ -224,65 +281,6 @@ limitations under the License.
 									<div id="mapDiv">#map#</div>
 								</div>
 							</section>
-						</div>
-						<div class="col-12 mt-2 mb-5 row">
-							<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
-								<cfset blockform = getCollectingEventFormHtml(collecting_event_id = "#collecting_event_id#",mode="edit")>
-								<form name="editCollectingEventForm" id="editCollectingEventForm">
-									<input type="hidden" name="method" value="updateCollectingEvent">
-									<input type="hidden" name="returnformat" value="json">
-									#blockform#
-									<input type="button" class="btn btn-primary btn-xs" value="Save" onClick=" saveEvent(); ">
-									<output id="editCollEventStatus"></output>
-								</form>
-								<script>
-									function saveEvent(){ 
-										if ($('##editCollectingEventForm')[0].checkValidity()) { 
-											saveEdits();
-										} else { 
-											messageDialog('Error: Unable to save changes, required field missing a value.' ,'Error: Required fields not filled in.');
-										}
-									} 
-									$(document).ready(function(){
-										$('##editCollectingEventForm').submit( function(event){ event.preventDefault(); } );
-									});
-									function handleChange(){
-										$('##editCollEventStatus').html('Unsaved changes.');
-										$('##editCollEventStatus').addClass('text-danger');
-										$('##editCollEventStatus').removeClass('text-success');
-										$('##editCollEventStatus').removeClass('text-warning');
-									};
-									$(document).ready(function() {
-										monitorForChanges('editCollectingEventForm',handleChange);
-									});
-									function saveEdits(){ 
-										$('##editCollEventStatus').html('Saving....');
-										$('##editCollEventStatus').addClass('text-warning');
-										$('##editCollEventStatus').removeClass('text-success');
-										$('##editCollEventStatus').removeClass('text-danger');
-										jQuery.ajax({
-											url : "/localities/component/functions.cfc",
-											type : "post",
-											dataType : "json",
-											data : $('##editCollectingEventForm').serialize(),
-											success : function (data) {
-												$('##editCollEventStatus').html('Saved.');
-												$('##editCollEventStatus').addClass('text-success');
-												$('##editCollEventStatus').removeClass('text-danger');
-												$('##editCollEventStatus').removeClass('text-warning');
-												reloadSummary();
-											},
-											error: function(jqXHR,textStatus,error){
-												$('##editCollEventStatus').html('Error.');
-												$('##editCollEventStatus').addClass('text-danger');
-												$('##editCollEventStatus').removeClass('text-success');
-												$('##editCollEventStatus').removeClass('text-warning');
-												handleFail(jqXHR,textStatus,error,'saving collecting event record');
-											}
-										});
-									};
-								</script>
-							</div>
 						</div>
 						<div class="col-12 px-0 pr-md-3 pl-md-0 ">
 							<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
