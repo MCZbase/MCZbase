@@ -345,12 +345,16 @@ limitations under the License.
 					<script>
 						function reloadSummary() { 
 							loadCollEventSummaryHTML('#collecting_event_id#','summary');
+							reloadMap();
 						}
 						function reloadNumbers()  {
 							loadCollEventNumbersHTML('#collecting_event_id#','collEventNumbersDiv');
 						}
 						function reloadMediaRelationships()  {
 							loadCollEventMediaHTML('#collecting_event_id#','mediaDiv');
+						}
+						function reloadMap()  {
+							loadLocalityMapHTML('#locality_id#','mapDiv');
 						}
 					</script>
 				</main>
