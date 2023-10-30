@@ -302,13 +302,15 @@
 					<cftransaction>
 						<cfset install_date = ''>
 						<cfloop query="getTempData">
-							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
-							insert into 
-								container
-									(container_id,parent_container_id) 
-								values (#container_id#,#parent_container_id#)
-							</cfquery>
-							<cfset part_container_updates = part_container_updates + updateContainerHist_result.recordcount>
+							<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartContainer_result">
+								UPDATE
+									container 
+								SET
+									CONTAINER_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_TYPE#">
+								WHERE
+									CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
+							</cfquery>				
+							<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 						</cfloop>
 					</cftransaction> 
 					<div class="container">
@@ -367,20 +369,23 @@
 					<cfset part_container_updates = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartContainer_result">
-							insert into container 
-						</cfquery>
+							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
+								insert into 
+								container
+									(container_id,parent_container_id) 
+								values (#container_id#,#parent_container_id#)
+							</cfquery>
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT other_id_type,other_id_number,collection_cde,institution_acronym,
-							part_name,preserve_method,container_unique_id,status 
-						FROM cf_temp_barcode_parts 
-						WHERE status is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							SELECT other_id_type,other_id_number,collection_cde,institution_acronym,
+								part_name,preserve_method,container_unique_id,status 
+							FROM cf_temp_barcode_parts 
+							WHERE status is not null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<h3>Error updating row (#part_container_updates + 1#): #cfcatch.message#</h3>
 						<table class='sortable table table-responsive table-striped d-lg-table'>
