@@ -313,27 +313,6 @@
 				<cfset part_updates = 0>
 					<cftransaction>
 						<cfloop query="getTempData">
-			<!---				<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								INSERT INTO coll_object (
-									COLL_OBJECT_TYPE,
-									ENTERED_PERSON_ID,
-									COLL_OBJECT_ENTERED_DATE,
-									COLL_OBJ_DISPOSITION,
-									LOT_COUNT_MODIFIER,
-									LOT_COUNT,
-									CONDITION,
-									FLAGS,
-									5559372)
-								VALUES (
-									'SP',
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#USERNAME#">,
-									sysdate,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DISPOSITION#">,
-									<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOT_COUNT_MODIFIER#">,
-								
-									'0',
-										)
-							</cfquery>--->
 							<cfquery name="updateParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								insert into specimen_part sp
 								INNER JOIN coll_object co ON co.collection_object_id = sp.derived_from_cat_item
