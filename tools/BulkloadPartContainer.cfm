@@ -302,14 +302,12 @@
 					<cftransaction>
 						<cfset install_date = ''>
 						<cfloop query="getTempData">
-							<cfquery name="updatePartContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updatePartContainer_result">
-								UPDATE
-									container 
-								SET
-									CONTAINER_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CONTAINER_TYPE#">
-								WHERE
-									CONTAINER_ID= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTAINER_ID#">
-							</cfquery>				
+							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
+								insert into 
+								container
+									(container_type,container_id,parent_container_id) 
+								values (#container_type#,#container_id#,#parent_container_id#)
+							</cfquery>			
 							<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 						</cfloop>
 					</cftransaction> 
@@ -332,6 +330,7 @@
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
+								<th>CONTAINER_TYPE</th>
 								<th>CONTAINER_ID</th>
 								<th>COLLECTION_OBJECT_ID</th>
 								<th>OTHER_ID_TYPE</th>
@@ -346,7 +345,8 @@
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
-								<tr><td>#getProblemData.CONTAINER_ID#</td>
+								<tr><td>#getProblemData.CONTAINER_TYPE#</td>
+									<td>#getProblemData.CONTAINER_ID#</td>
 									<td>#getProblemData.COLLECTION_OBJECT_ID#</td>
 									<td>#getProblemData.OTHER_ID_TYPE#</td>
 									<td>#getProblemData.OTHER_ID_NUMBER#</td>
