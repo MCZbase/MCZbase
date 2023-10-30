@@ -305,8 +305,8 @@
 							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
 								insert into 
 								coll_Obj_cont_hist
-									(collection_object_id,container_id,installed_date) 
-								values (#collection_object_id#,#container_id#,sysdate)
+									(collection_object_id,container_id,installed_date,current_container_fg) 
+								values (#collection_object_id#,#container_id#,sysdate,1)
 							</cfquery>			
 							<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 						</cfloop>
@@ -373,7 +373,7 @@
 								insert into 
 								coll_Obj_cont_hist
 									(collection_object_id,container_id,installed_date,current_container_fg) 
-								values (#collection_object_id#,#container_id#,sysdate,1)
+								values (#collection_object_id#,#container_id#,sysdate,'1')
 							</cfquery>
 						<cfset part_container_updates = part_container_updates + updatePartContainer_result.recordcount>
 					</cfloop>
