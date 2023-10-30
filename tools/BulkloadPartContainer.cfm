@@ -305,8 +305,8 @@
 							<cfquery name="updateContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateContainer_result">
 							insert into 
 								container
-									(container_id,parent_container_id,install_date) 
-								values (#container_id#,#parent_container_id#,SYSDATE)
+									(container_id,parent_container_id) 
+								values (#container_id#,#parent_container_id#)
 							</cfquery>
 							<cfset part_container_updates = part_container_updates + updateContainerHist_result.recordcount>
 						</cfloop>
