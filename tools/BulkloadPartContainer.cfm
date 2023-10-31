@@ -197,7 +197,7 @@
 				FROM cf_temp_barcode_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif #getTempData.other_id_type# eq 'catalog number'>
+			<cfif getTempData.other_id_type eq 'catalog number'>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_barcode_parts set collection_object_id = 
 				(
