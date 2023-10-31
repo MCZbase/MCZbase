@@ -218,7 +218,6 @@
 					where sp.collection_object_id = ot.collection_object_id
 					and ot.other_id_type = cf_temp_barcode_parts.other_id_type
 					and ot.display_value = cf_temp_barcode_parts.other_id_number
-					and 
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
