@@ -1454,7 +1454,23 @@ limitations under the License.
 	--->
 	<cfset variables.context = arguments.context>
 
-	<!--- TODO: Check for encumbrances --->
+	<!--- Check for encumbrances --->
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+		<cfset encumber = "">
+	<cfelse> 
+		<cfquery name="checkForEncumbrances" datasource="uam_god">
+			SELECT encumbrance_action 
+			FROM 
+				collecting_event 
+ 				join cataloged_item on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
+ 				join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+				join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+			WHERE
+				collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+		</cfquery>
+		<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
+		<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number, mask locality. --->
+	</cfif>
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityVerbatimThread#tn#">
@@ -1475,14 +1491,18 @@ limitations under the License.
 					<div class="h4">No verbatim locality values</div>
 				<cfelse>
 					<ul class="px-2 pl-xl-4 ml-xl-1">
-						<cfloop query="getVerbatim">
-							<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-								<li><a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&verbatim_locality=%3D#encodeForUrl(verbatim_locality)#&begDateOper=%3D&endDateOper=%3D&accentInsensitive=1&include_counts=0">#verbatim_locality#</a>#counts#</li>
-							<cfelse>
-								<li>#verbatim_locality##counts# </li>
-							</cfif>
-						</cfloop>
+						<cfif ListContains(encumber,"mask locality") GT 0>
+							[Masked]
+						<cfelse>
+							<cfloop query="getVerbatim">
+								<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
+									<li><a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&verbatim_locality=%3D#encodeForUrl(verbatim_locality)#&begDateOper=%3D&endDateOper=%3D&accentInsensitive=1&include_counts=0">#verbatim_locality#</a>#counts#</li>
+								<cfelse>
+									<li>#verbatim_locality##counts# </li>
+								</cfif>
+							</cfloop>
+						</cfif>
 					</ul>
 				</cfif>
 				<cfquery name="getVerbatimGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getVerbatimGeoref_result">
@@ -1505,18 +1525,22 @@ limitations under the License.
 				<cfelse>
 					<div class="h4">Verbatim coordinate values</div>
 					<ul class="px-2 pl-xl-4 ml-xl-1">
-						<cfloop query="getVerbatimGeoref">
-							<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
-							<li>
-								<a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&begDateOper=%3D&endDateOper=%3D&verbatimCoordinates=#encodeForUrl(verbatimcoordinates)#&verbatimCoordinateSystem=#encodeForUrl(verbatimcoordinatesystem)#&verbatimSRS=%3D#encodeForUrl(verbatimsrs)#&verbatimlatitude=#encodeForUrl(verbatimlatitude)#&verbatimlongigude=#encodeForUrl(verbatimlongitude)#&accentInsensitive=1&include_counts=0">
-									#verbatimcoordinatesystem# #verbatimcoordinates# #verbatimlatitude# #verbatimlongitude# #verbatimsrs#
-								</a> 
-								 #counts#
-							</li>
-						</cfloop>
+						<cfif ListContains(encumber,"mask coordinates") GT 0>
+							[Masked]
+						<cfelse>
+							<cfloop query="getVerbatimGeoref">
+								<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
+								<li>
+									<a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&begDateOper=%3D&endDateOper=%3D&verbatimCoordinates=#encodeForUrl(verbatimcoordinates)#&verbatimCoordinateSystem=#encodeForUrl(verbatimcoordinatesystem)#&verbatimSRS=%3D#encodeForUrl(verbatimsrs)#&verbatimlatitude=#encodeForUrl(verbatimlatitude)#&verbatimlongigude=#encodeForUrl(verbatimlongitude)#&accentInsensitive=1&include_counts=0">
+										#verbatimcoordinatesystem# #verbatimcoordinates# #verbatimlatitude# #verbatimlongitude# #verbatimsrs#
+									</a> 
+									 #counts#
+								</li>
+							</cfloop>
+						</cfif>
 					</ul>
 				</cfif>
-				<cfif isDefined("context") and context EQ "edit" AND getVerbatim.recordcount LT 21 >
+				<cfif getVerbatim.recordcount LT 21 >
 					<cfquery name="getEventList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEventList_result">
 						SELECT 
 							collecting_event_id,
@@ -1531,31 +1555,35 @@ limitations under the License.
 							and verbatim_locality is not null
 					</cfquery>
 					<cfif getEventList.recordcount GT 0>
-					<div class="h4">Collecting Events <a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&accentInsensitive=1&include_counts=1" target="_blank">(#getEventList.recordcount#)</a></div>
-					<ul class="px-2 pl-xl-4 ml-xl-1">
-						<cfloop query="getEventList">
-							<li>
-								<cfif getEventList.began_date EQ getEventList.ended_date>
-									<cfset date=getEventList.began_date>
-								<cfelseif len(getEventList.began_date) GT 0 AND len(getEventList.began_date) GT 0>
-									<cfset date="#getEventList.began_date#/#getEventList.ended_date#">
-								<cfelse>
-									<cfset date=getEventList.began_date>
-								</cfif>
-								<cfif len(getEventList.verbatim_date) GT 0>
-									<cfset date="#date# [#getEventList.verbatim_date#]">
-								</cfif>
-								<cfif len(getEventList.verbatimcoordinates) GT 0>
-									<cfset verbatim_coordinates=" #verbatimcoordinates# #verbatimsrs#">
-								<cfelseif len(getEventList.verbatimlatitude) GT 0>
-									<cfset verbatim_coordinates=" #verbatimlatitude#, #verbatimlongitude# #verbatimsrs#">
-								<cfelse>
-									<cfset verbatim_coordinates="">
-								</cfif>
-								#date# #verbatim_locality##verbatim_coordinates# [<a href="/localities/CollectingEvent.cfm?collecting_event_id=#getEventList.collecting_event_id#">#getEventList.collecting_event_id#</a>]
-							</li>
-						</cfloop>
-					</ul>
+						<div class="h4">Collecting Events <a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&accentInsensitive=1&include_counts=1" target="_blank">(#getEventList.recordcount#)</a></div>
+						<ul class="px-2 pl-xl-4 ml-xl-1">
+							<cfloop query="getEventList">
+								<li>
+									<cfif getEventList.began_date EQ getEventList.ended_date>
+										<cfset date=getEventList.began_date>
+									<cfelseif len(getEventList.began_date) GT 0 AND len(getEventList.began_date) GT 0>
+										<cfset date="#getEventList.began_date#/#getEventList.ended_date#">
+									<cfelse>
+										<cfset date=getEventList.began_date>
+									</cfif>
+									<cfif len(getEventList.verbatim_date) GT 0>
+										<cfset date="#date# [#getEventList.verbatim_date#]">
+									</cfif>
+									<cfif len(getEventList.verbatimcoordinates) GT 0>
+										<cfset verbatim_coordinates=" #verbatimcoordinates# #verbatimsrs#">
+									<cfelseif len(getEventList.verbatimlatitude) GT 0>
+										<cfset verbatim_coordinates=" #verbatimlatitude#, #verbatimlongitude# #verbatimsrs#">
+									<cfelse>
+										<cfset verbatim_coordinates="">
+									</cfif>
+									<cfif isDefined("context") and context EQ "view">
+										#date# #verbatim_locality##verbatim_coordinates# [<a href="/localities/viewCollectingEvent.cfm?collecting_event_id=#getEventList.collecting_event_id#">View</a>]
+									<cfelseif isDefined("context") and context EQ "edit">
+										#date# #verbatim_locality##verbatim_coordinates# [<a href="/localities/CollectingEvent.cfm?collecting_event_id=#getEventList.collecting_event_id#">#getEventList.collecting_event_id#</a>]
+									</cfif>
+								</li>
+							</cfloop>
+						</ul>
 					</cfif>
 				</cfif>
 				<cfif isDefined("context") and context EQ "edit" and isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
