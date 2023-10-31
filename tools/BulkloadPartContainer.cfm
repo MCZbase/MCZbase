@@ -192,6 +192,7 @@
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
+			<cfif other_id_type eq 'catalog item'>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_barcode_parts set collection_object_id = 
 				(
@@ -203,6 +204,18 @@
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfelse>
+				update cf_temp_barcode_parts set collection_object_id = 
+				(
+					select sp.collection_object_id 
+					from specimen_part sp, coll_obj_other_id_num ci, cataloged_item ci
+					where sp.derived_from_cat_item = ot.collection_object_id
+					and ci.collection_cde = cf_temp_barcode_parts.collection_cde
+					and ot.other_id_type = cf_temp_barcode_parts.other_id_type
+					and ot.display_value = cf_temp_barcode_parts.other_id_number
+				) 
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfif>
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_barcode_parts set container_id=
 				(select container_id from container where container.barcode = cf_temp_barcode_parts.container_unique_id)
