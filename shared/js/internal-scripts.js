@@ -689,3 +689,68 @@ function makeEncumbranceAutocompleteMeta(valueControl, idControl) {
 		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
 	};
 };
+
+
+/** opencollectingeventpickerdialog, create and open a dialog to find and link collecting events
+ * @param dialogid id to give to the dialog
+ * @param header_text human readable text providing the context for the dialog
+ * @param collecting_event_id_control the id for an input where the selected collecting_event_id 
+ *  should be stored on selection.
+ * @param okcallback callback function to invoke on closing dialog
+ */
+function opencollectingeventpickerdialog(dialogid, header_text, collecting_event_id_control, okcallback) {
+	var title = "Change collecting event for " + header_text;
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true, 
+		stack: true, 
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 320,
+		minHeight: 450,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$(this).dialog('close'); 
+			}
+		}, 
+		close: function(event,ui) {
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+			$("#"+dialogid+"_div").html("");
+	 		$("#"+dialogid).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/shared/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "pickCollectingEventHtml",
+			returnformat: "plain",
+			collecting_event_id_control: collecting_event_id_control,
+			callback: okcallback
+		},
+		success: function (data) {
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error : function (jqXHR, status, error) {
+			var message = "";
+			if (error == 'timeout') { 
+				message = ' Server took too long to respond.';
+			} else { 
+				message = jqXHR.responseText;
+			}
+			$("#"+dialogid+"_div").html("Error (" + error + "): " + message );
+		}
+	});
+}
