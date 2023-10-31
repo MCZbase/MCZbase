@@ -821,11 +821,14 @@ limitations under the License.
 
 <!---
 	pickCollectingEventHtml create dialog content to pick a collecting event
+  @param collecting_event_id_control the id of an input in the dom into which the 
+  selected collecting_event_id should be pasted.
+  @param callback may not be needed
   @see findCollectingEventSearchResults 
 --->
 <cffunction name="pickCollectingEventHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="collecting_event_id_control" type="string" required="yes">
-	<cfargument name="callback" type="string" required="no" default="reloadTransMedia">
+	<cfargument name="callback" type="string" required="no" default="reloadCollectingEvent">
 
 	<cfset target_id = collecting_event_id_control>
 	<cfthread pickCollEventThread.output>
