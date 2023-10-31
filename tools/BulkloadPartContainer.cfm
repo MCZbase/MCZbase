@@ -208,11 +208,11 @@
 				update cf_temp_barcode_parts set collection_object_id = 
 				(
 					select sp.collection_object_id 
-					from specimen_part sp, coll_obj_other_id_num ci, cataloged_item ci
+					from specimen_part sp, coll_obj_other_id_num ot
 					where sp.derived_from_cat_item = ot.collection_object_id
-					and ci.collection_cde = cf_temp_barcode_parts.collection_cde
 					and ot.other_id_type = cf_temp_barcode_parts.other_id_type
 					and ot.display_value = cf_temp_barcode_parts.other_id_number
+					and 
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfif>
