@@ -195,19 +195,11 @@
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_barcode_parts set collection_object_id = 
 				(
-					select sp.derived_from_cat_item 
+					select sp.collecction_object_id 
 					from specimen_part sp, cataloged_item ci
 					where sp.derived_from_cat_item = ci.collection_object_id
 					and ci.collection_cde = cf_temp_barcode_parts.collection_cde
 					and ci.cat_num = cf_temp_barcode_parts.other_id_number
-				) 
-				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="getPID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_barcode_parts set collection_object_id = 
-				(
-					 select collection_object_id from specimen_part where derived_from_cat_item = getCID.collection_object_id
-				
 				) 
 				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
