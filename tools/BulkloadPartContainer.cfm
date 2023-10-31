@@ -213,7 +213,7 @@
 			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_barcode_parts set collection_object_id = 
 				(
-					select sp.collection_object_id 
+					select sp.derived_from_cat_item 
 					from specimen_part sp, coll_obj_other_id_num ot
 					where sp.derived_from_cat_item = ot.collection_object_id
 					and ot.other_id_type = cf_temp_barcode_parts.other_id_type
