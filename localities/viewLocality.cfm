@@ -55,7 +55,7 @@ limitations under the License.
 			collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 	</cfquery>
 	<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
-	<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number. --->
+	<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number, mask locality. --->
 </cfif>
 
 <cfoutput>

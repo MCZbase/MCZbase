@@ -265,12 +265,16 @@ limitations under the License.
 					<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 						<h2 class="h3">
 							Material collected in this event 
-							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACOLLECTING%20EVENTS_COLLECTING_EVENT_ID&searchText1=#encodeForURL(collecting_event_id)#">(#getItemCount.recordcount#)</a>
+							<cfif getItemCount.ct EQ 0>
+								(0)
+							<cfelse>
+								<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACOLLECTING%20EVENTS_COLLECTING_EVENT_ID&searchText1=#encodeForURL(collecting_event_id)#">(#getItemCount.ct#)</a>
+							</cfif>
 						</h2>
 						<ul>
-							<cfif getItemCount.recordCount EQ 0>
+							<cfif getItemCount.ct EQ 0>
 								<li>None</li>
-							<cfelseif getItemCount.recordcount LT 11>
+							<cfelseif getItemCount.ct LT 11>
 								<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getItems_result">
 									SELECT 
 										guid, phylclass, phylorder, family, MCZBASE.get_scientific_name_auths(collection_object_id) sci_name, parts, typestatus, collection

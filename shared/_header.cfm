@@ -204,6 +204,7 @@ limitations under the License.
 </cfif>
 <cfif CGI.script_name IS "/localities/CollectingEvent.cfm" OR CGI.script_name IS "/specimens/Specimen.cfm">
 	<script type="text/javascript" src="/localities/js/collectingevents.js"></script>
+	<script type="text/javascript" src="/media/js/media.js"></script>
 </cfif>
 
 <cfif not isdefined("session.header_color")>
@@ -475,6 +476,7 @@ limitations under the License.
 											</cfif>		
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 												<a class="dropdown-item" href="/localities/Locality.cfm?action=new">Locality</a> 
+												<a class="dropdown-item" href="/localities/CollectingEvent.cfm?action=new">Collecting Events</a> 
 											</cfif>
 									
 											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 

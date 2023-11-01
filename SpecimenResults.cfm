@@ -539,14 +539,12 @@ If your item needs to be sorted in a special way, then do that here. --->
 			<cfif summary.recordcount lt 1000 and (isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
 				<label for="goWhere">Manage results by...</label>
 				<select name="goWhere" id="goWhere" size="1">
-					<!--- 
                <option value="/bulkCollEvent.cfm"><!--- works only with collection_object_id --->
 						Collecting Events
 					</option>
 					<option value="/bulkLocality.cfm"><!--- works only on session_search table, passed as table_name --->
 						Localities [Warning: No Tabs]
 					</option>
-					---->
 					<option value="/multiIdentification.cfm"><!--- works only with collection_object_id --->
 						Identification
 					</option>

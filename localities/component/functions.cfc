@@ -4552,6 +4552,40 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="verbatim_date" type="string" required="no">
 	<cfargument name="collecting_time" type="string" required="no">
 	
+	<cfif isDefined("arguments.verbatim_date")>
+		<cfset variables.verbatim_date = arguments.verbatim_date>
+	</cfif>
+	<cfif isDefined("arguments.verbatim_locality")>
+		<cfset variables.verbatim_locality = arguments.verbatim_locality>
+	</cfif>
+	<cfif isDefined("arguments.verbatimDepth")>
+		<cfset variables.verbatimDepth = arguments.verbatimDepth>
+	</cfif>
+	<cfif isDefined("arguments.verbatimElevation")>
+		<cfset variables.verbatimElevation = arguments.verbatimElevation>
+	</cfif>
+	<cfif isDefined("arguments.verbatimCoordinates")>
+		<cfset variables.verbatimCoordinates = arguments.verbatimCoordinates>
+	</cfif>
+	<cfif isDefined("arguments.verbatimLatitude")>
+		<cfset variables.verbatimLatitude = arguments.verbatimLatitude>
+	</cfif>
+	<cfif isDefined("arguments.verbatimLongitude")>
+		<cfset variables.verbatimLongitude = arguments.verbatimLongitude>
+	</cfif>
+	<cfif isDefined("arguments.verbatimCoordinateSystem")>
+		<cfset variables.verbatimCoordinateSystem = arguments.verbatimCoordinateSystem>
+	</cfif>
+	<cfif isDefined("arguments.verbatimSRS")>
+		<cfset variables.verbatimSRS = arguments.verbatimSRS>
+	</cfif>
+	<cfif isDefined("arguments.collecting_time")>
+		<cfset variables.collecting_time = arguments.collecting_time>
+	</cfif>
+	<cfif isDefined("arguments.locality_id")>
+		<cfset variables.locality_id = arguments.locality_id>
+	</cfif>
+
 	<cfif mode NEQ "edit" AND mode NEQ "create">
 		<cfthrow message="Unknown value for mode [#encodeForHtml(mode)#], must be create or edit.">
 	</cfif>
@@ -4563,7 +4597,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				verbatimCoordinateSystem, verbatimSRS,
 				verbatim_date, collecting_time,
 				startDayOfYear, endDayOfYear, began_date, ended_date,
-				coll_event_remarks, collecting_source, habitat_desc
+				coll_event_remarks, collecting_source, habitat_desc,
+				valid_distribution_fg, collecting_method, 
+				fish_field_number,
+				date_determined_by_agent_id
 			FROM collecting_event
 			WHERE
 				collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#clone_from_collecting_event_id#">
@@ -4571,17 +4608,17 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 		<cfif eventToCloneFrom.recordcount EQ 0>
 			<cfthrow message = "No event to clone from found for specified collecting event id.">
 		<cfelse>
-			<cfset locality_id = eventToCloneFrom.locality_id>
-			<cfset verbatim_locality = eventToCloneFrom.verbatim_locality>
-			<cfset verbatimDepth = eventToCloneFrom.verbatimDepth>
-			<cfset verbatimElevation = eventToCloneFrom.verbatimElevation>
-			<cfset verbatimCoordinates = eventToCloneFrom.verbatimCoordinates>
-			<cfset verbatimLatitude = eventToCloneFrom.verbatimLatitude>
-			<cfset verbatimLongitude = eventToCloneFrom.verbatimLongitude>
-			<cfset verbatimCoordinateSystem = eventToCloneFrom.verbatimCoordinateSystem>
-			<cfset verbatimSRS = eventToCloneFrom.verbatimSRS>
-			<cfset verbatim_date = eventToCloneFrom.verbatim_date>
-			<cfset collecting_time = eventToCloneFrom.collecting_time>
+			<cfset variables.locality_id = eventToCloneFrom.locality_id>
+			<cfset variables.verbatim_locality = eventToCloneFrom.verbatim_locality>
+			<cfset variables.verbatimDepth = eventToCloneFrom.verbatimDepth>
+			<cfset variables.verbatimElevation = eventToCloneFrom.verbatimElevation>
+			<cfset variables.verbatimCoordinates = eventToCloneFrom.verbatimCoordinates>
+			<cfset variables.verbatimLatitude = eventToCloneFrom.verbatimLatitude>
+			<cfset variables.verbatimLongitude = eventToCloneFrom.verbatimLongitude>
+			<cfset variables.verbatimCoordinateSystem = eventToCloneFrom.verbatimCoordinateSystem>
+			<cfset variables.verbatimSRS = eventToCloneFrom.verbatimSRS>
+			<cfset variables.verbatim_date = eventToCloneFrom.verbatim_date>
+			<cfset variables.collecting_time = eventToCloneFrom.collecting_time>
 			<cfset startDayOfYear = eventToCloneFrom.startDayOfYear>
 			<cfset endDayOfYear = eventToCloneFrom.endDayOfYear>
 			<cfset began_date = eventToCloneFrom.began_date>
@@ -4589,10 +4626,10 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfset coll_event_remarks = eventToCloneFrom.coll_event_remarks>
 			<cfset collecting_source = eventToCloneFrom.collecting_source>
 			<cfset habitat_desc = eventToCloneFrom.habitat_desc>
-			<!--- TODO: Missing fields in clone 
-				valid_distribtion_fg, collecting_method,
-				date_determined_by_agent_id, fish_field_number
-			--->
+			<cfset variables.valid_distribution_fg = eventToCloneFrom.valid_distribution_fg>
+			<cfset collecting_method = eventToCloneFrom.collecting_method>
+			<cfset fish_field_number = eventToCloneFrom.fish_field_number>
+			<cfset date_determined_by_agent_id = eventToCloneFrom.date_determined_by_agent_id>
 		</cfif>
 	<cfelseif mode EQ "edit" >
 		<cfquery name="getEvent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -4614,32 +4651,30 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 		<cfif getEvent.recordcount EQ 0>
 			<cfthrow message = "No collecting event found for the specified collecting event id [#encodeForHtml(collecting_event_id)#].">
 		<cfelse>
-			<cfset locality_id = getEvent.locality_id>
-			<cfset verbatim_locality = getEvent.verbatim_locality>
-			<cfset verbatimDepth = getEvent.verbatimDepth>
-			<cfset verbatimElevation = getEvent.verbatimElevation>
-			<cfset verbatimCoordinates = getEvent.verbatimCoordinates>
-			<cfset verbatimLatitude = getEvent.verbatimLatitude>
-			<cfset verbatimLongitude = getEvent.verbatimLongitude>
-			<cfset verbatimCoordinateSystem = getEvent.verbatimCoordinateSystem>
-			<cfset verbatimSRS = getEvent.verbatimSRS>
-			<cfset verbatim_date = getEvent.verbatim_date>
-			<cfset collecting_time = getEvent.collecting_time>
-			<cfset startDayOfYear = getEvent.startDayOfYear>
-			<cfset endDayOfYear = getEvent.endDayOfYear>
-			<cfset began_date = getEvent.began_date>
-			<cfset ended_date = getEvent.ended_date>
-			<cfset coll_event_remarks = getEvent.coll_event_remarks>
-			<cfset collecting_source = getEvent.collecting_source>
-			<cfset habitat_desc = getEvent.habitat_desc>
-<!--- TODO: Added fields
-				date_began_date,
-				date_ended_date,
-				valid_distribtion_fg, 
-				collecting_method,
-				date_determined_by_agent_id, 
-				fish_field_number
---->
+			<cfloop query="getEvent">
+				<cfset variables.locality_id = getEvent.locality_id>
+				<cfset variables.verbatim_locality = getEvent.verbatim_locality>
+				<cfset variables.verbatimDepth = getEvent.verbatimDepth>
+				<cfset variables.verbatimElevation = getEvent.verbatimElevation>
+				<cfset variables.verbatimCoordinates = getEvent.verbatimCoordinates>
+				<cfset variables.verbatimLatitude = getEvent.verbatimLatitude>
+				<cfset variables.verbatimLongitude = getEvent.verbatimLongitude>
+				<cfset variables.verbatimCoordinateSystem = getEvent.verbatimCoordinateSystem>
+				<cfset variables.verbatimSRS = getEvent.verbatimSRS>
+				<cfset variables.verbatim_date = getEvent.verbatim_date>
+				<cfset variables.collecting_time = getEvent.collecting_time>
+				<cfset startDayOfYear = getEvent.startDayOfYear>
+				<cfset endDayOfYear = getEvent.endDayOfYear>
+				<cfset began_date = getEvent.began_date>
+				<cfset ended_date = getEvent.ended_date>
+				<cfset coll_event_remarks = getEvent.coll_event_remarks>
+				<cfset collecting_source = getEvent.collecting_source>
+				<cfset habitat_desc = getEvent.habitat_desc>
+				<cfset variables.valid_distribution_fg = getEvent.valid_distribution_fg>
+				<cfset collecting_method = getEvent.collecting_method>
+				<cfset date_determined_by_agent_id = getEvent.date_determined_by_agent_id>
+				<cfset fish_field_number = getEvent.fish_field_number>
+			</cfloop>
 		</cfif>
 	</cfif> 
 	<cfset higher_geog = "">
@@ -4668,6 +4703,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				<cfquery name="ctCollecting_Source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 					select collecting_source from ctcollecting_source order by collecting_source
 				</cfquery>
+				<cfquery name="ctCollecting_method" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
+					select collecting_method from ctcollecting_method order by collecting_method
+				</cfquery>
+				<cfif isDefined("collecting_event_id") AND len(collecting_event_id) GT 0>
+					<input type="hidden" name="collecting_event_id" id="collecting_event_id" value="#collecting_event_id#" >
+				</cfif>
 				<div class="form-row">
 					<cfif NOT isDefined("locality_id") OR len(locality_id) EQ 0>
 						<div class="col-12">
@@ -4681,12 +4722,41 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							</script>
 						</div>
 					<cfelse>
-						<div class="col-12">
-							<h3 class="h4">#higher_geog#</h3>
-						</div>
-						<div class="col-12">
-							<h3 class="h4">#spec_locality#</h3>
+						<div class="col-10">
+							<label class="data-entry-label" for="locality_id">Locality</label>
+							<input type="text" name="locality" id="locality" class="data-entry-input reqdClr" disabled value="#higher_geog#: #spec_locality# (#locality_id#)">
 							<input type="hidden" name="locality_id" id="locality_id" value="#locality_id#">
+							<input type="hidden" id="reset_locality_id" value="#locality_id#">
+							<input type="hidden" id="reset_locality" value="#higher_geog#: #spec_locality# (#locality_id#)">
+							<input type="hidden" id="reset_state" value="0">
+						</div>
+						<div class="col-2">
+							<label class="data-entry-label">&nbsp;</label>
+							<button type="button" class="btn btn-xs btn-secondary" onclick="toggleChangeLocality();" id="editLocalityToggle">Change Locality</button>
+							<script>
+								function toggleChangeLocality() { 
+									if ($("##reset_state").val()=="0") { 
+										$("##reset_state").val("1");
+										enableChangeLocality();
+									} else { 
+										$("##reset_state").val("0");
+										resetLocality();
+									}
+								}
+								function enableChangeLocality() { 
+									console.log("locality edit enabled");
+									$("##locality").prop("disabled",false);
+									$("##locality").prop("required",true);
+									makeLocalityAutocompleteMeta("locality", "locality_id");
+									$("##editLocalityToggle").html("Reset");
+									$("##locality").val("");
+								}
+								function resetLocality() { 
+									$("##locality").val($("##reset_locality").val());
+									$("##locality_id").val($("##reset_locality_id").val());
+									$("##editLocalityToggle").html("Change Locality");
+								}
+							</script>
 						</div>
 					</cfif>
 					<div class="col-12 col-md-3">
@@ -4694,8 +4764,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							Verbatim Date
 							<span onClick="fillDatesFromVerbatim()">[ copy ]</span>
 						</label>
-						<cfif not isDefined("verbatim_date")><cfset verbatim_date = ""></cfif>
-						<input type="text" name="verbatim_date" id="verbatim_date" class="reqdClr data-entry-input" required="required" value="#encodeForHtml(verbatim_date)#">
+						<cfif not isDefined("variables.verbatim_date")><cfset variables.verbatim_date = ""></cfif>
+						<input type="text" name="verbatim_date" id="verbatim_date" class="reqdClr data-entry-input" required="required" value="#encodeForHtml(variables.verbatim_date)#">
 						<!--- TODO: interpret and populate began_date/ended_date --->
 						<script>
 							function fillDatesFromVerbatim() { 
@@ -4705,7 +4775,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<div class="col-12 col-md-3">
 						<label for="began_date" class="data-entry-label">Began Date</label>
 						<cfif not isDefined("began_date")><cfset began_date = ""></cfif>
-					    <input type="text" name="began_date" id="began_date"  class="reqdClr data-entry-input" required="required" >
+					    <input type="text" name="began_date" id="began_date"  class="reqdClr data-entry-input" required="required" value="#encodeForHTML(began_date)#">
 					</div>
 					<div class="col-12 col-md-3">
 					    <label for="ended_date" class="data-entry-label">Ended Date</label>
@@ -4727,7 +4797,34 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<cfif not isDefined("endDayOfYear")><cfset endDayOfYear = ""></cfif>
 						<input type="text" name="endDayOfYear" id="endDayOfYear" class="data-entry-input" value="#encodeForHTML(endDayOfYear)#">
 					</div>
-					<div class="col-12 col-md-4">
+					<div class="col-12 col-md-2">
+						<label for="date_determined_by_agent_id" class="data-entry-label">Event Date Determined By</label>
+						<cfif not isDefined("date_determined_by_agent_id") OR len(date_determined_by_agent_id) EQ 0>
+							<cfset date_determined_by_agent_id = "">
+							<cfset agent = "">
+						<cfelse>
+							<cfset agent = "">
+							<cfquery name="determiner" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									agent_name
+								FROM
+									preferred_agent_name
+								WHERE
+									agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#date_determined_by_agent_id#">
+							</cfquery>
+							<cfloop query="determiner">
+								<cfset agent = "#determiner.agent_name#">
+							</cfloop>
+						</cfif>
+						<input type="hidden" name="date_determined_by_agent_id" id="date_determined_by_agent_id" value="#encodeForHtml(date_determined_by_agent_id)#">
+						<input type="text" name="date_determined_by_agent" id="date_determined_by_agent" class="data-entry-input" value="#agent#">
+						<script>
+							$(document).ready(function() { 
+								makeAgentAutocompleteMeta("date_determined_by_agent", "date_determined_by_agent_id");
+							});
+						</script>
+					</div>
+					<div class="col-12 col-md-3">
 						<label for="collecting_source" class="data-entry-label">Collecting Source</label>
 						<cfif isdefined("collecting_source")> <cfset collsrc = collecting_source> <cfelse> <cfset collsrc = ""> </cfif>
 						<select name="collecting_source" id="collecting_source" size="1" class="reqdClr data-entry-select" required="required" >
@@ -4738,20 +4835,25 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							</cfloop>
 						</select>
 					</div>
-					<div class="col-12 col-md-4">
+					<div class="col-12 col-md-3">
+						<label for="fish_field_number" class="data-entry-label">Fish Field Number (Ich only)</label>
+						<cfif not isDefined("fish_field_number")><cfset fish_field_number = ""></cfif>
+						<input type="text" name="fish_field_number" value="#encodeForHTML(fish_field_number)#" id="fish_field_number" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-12">
 						<label for="collecting_method" class="data-entry-label">Collecting Method</label>
-						<cfif not isDefined("collecting_method")><cfset collecting_method = ""></cfif>
-						<input type="text" name="collecting_method" id="collecting_method" value="#encodeForHTML(collecting_method)#" class="data-entry-input">
+						<cfif not isdefined("collecting_method")><cfset collecting_method = ""></cfif>
+						<input type="text" name="collecting_method" id="collecting_method" value="#encodeForHTML(collecting_method)#" class="data-entry-input" maxlength="255">
 					</div>
 					<div class="col-12 col-md-12">
 						<label for="habitat_desc" class="data-entry-label">Habitat</label>
 						<cfif not isDefined("habitat_desc")><cfset habitat_desc = ""></cfif>
-						<input type="text" name="habitat_desc" id="habitat_desc" value="#encodeForHTML(HABITAT_DESC)#" class="data-entry-input">
+						<input type="text" name="habitat_desc" id="habitat_desc" value="#encodeForHTML(HABITAT_DESC)#" class="data-entry-input" maxlength="500">
 					</div>
 					<div class="col-12">
 				     	<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
 						<cfset vl_value="">
-						<cfif isdefined("verbatim_locality")>
+						<cfif isdefined("variables.verbatim_locality")>
 							<cfset vl_value=verbatim_locality>
 						<cfelseif isdefined("spec_locality")>
 							<cfset vl_value=spec_locality>
@@ -4793,7 +4895,18 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<cfif not isDefined("verbatimSRS")><cfset verbatimSRS = ""></cfif>
 						<input type="text" name="verbatimSRS" value="#encodeForHTML(verbatimSRS)#" id="verbatimSRS" class="data-entry-input">
 					</div>
-<!--- TODO: Added fields --->
+					<div class="col-12 col-md-3">
+						<label for="valid_distribution_fg">Valid Distribution</label>
+						<cfif not isDefined("variables.valid_distribution_fg")>
+							<cfset variables.valid_distribution_fg = "1">
+						</cfif>
+						<select name="valid_distribution_fg" id="valid_distribution_fg" class="data-entry-select reqdClr" required>
+							<cfif variables.valid_distribution_fg EQ "1"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="1" #selected#>Yes, material from this event represents distribution in the wild</option>
+							<cfif variables.valid_distribution_fg EQ "0"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="0" #selected#>No, material from this event does not represent distribution in the wild</option>
+						</select>
+					</div>
 					<div class="col-12">
 						<label for="coll_event_remarks" class="data-entry-label">Remarks</label>
 						<cfif not isDefined("coll_event_remarks")><cfset coll_event_remarks = ""></cfif>
@@ -4848,7 +4961,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfloop query="colEventNumbers">
 						<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#) <input type="button" value="Delete" class="btn btn-xs btn-danger" onclick=" deleteCollEventNumber(#coll_event_number_id#); "></span></li>
 					</cfloop>
-					<li><button onClick="openAddCollEventNumberDialog("#collecting_event_id#", "addCENumberDialog#collecting_event_id#", reloadNumbers);" class="btn btn-xs btn-secondary">Add</button></li>
+					<li><button onClick='openAddCollEventNumberDialog("#collecting_event_id#", "addCENumberDialog#collecting_event_id#", reloadNumbers);' class="btn btn-xs btn-secondary">Add</button></li>
 				</ul>
 				<div id="addCENumberDialog#collecting_event_id#"></div>
 			<cfcatch>
@@ -4879,26 +4992,72 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 				ORDER BY number_series, mczbase.get_agentnameoftype(collector_agent_id)
 			</cfquery>
 			<h3>Add</h3>
-			<label for="coll_event_number_series">Collecting Event Number Series</label>
-			<span>
-				<select id="coll_event_number_series" name="coll_event_number_series">
-					<option value=""></option>
-					<cfset ifbit = "">
-					<cfloop query="collEventNumberSeries">
-						<option value="#collEventNumberSeries.coll_event_num_series_id#">#collEventNumberSeries.number_series# (#collEventNumberSeries.collector_agent#)</option>
-						<cfset ifbit = ifbit & "if (selectedid=#collEventNumberSeries.coll_event_num_series_id#) { $('##pattern_span').html('#collEventNumberSeries.pattern#'); }; ">
-					</cfloop>
-				</select>
-				<a href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank">Add new number series</a>
-			</span>
-			<!---  On change of picklist, look up the expected pattern for the collecting event number series --->
+			<form id="addCollNumberForm" onsubmit="return false;">
+				<input type="hidden" name="method" value="addCollectingEventNumber">
+				<input type="hidden" name="collecting_event_id" value="#collecting_event_id#">
+				<div class="row">
+					<div class="col-12 col-md-4">
+						<label for="coll_event_number_series" class="data-entry-label">Collecting Event Number Series</label>
+						<select id="coll_event_number_series" name="coll_event_number_series" required class="reqdClr data-entry-select">
+							<option value=""></option>
+							<cfset ifbit = "">
+							<cfloop query="collEventNumberSeries">
+								<option value="#collEventNumberSeries.coll_event_num_series_id#">#collEventNumberSeries.number_series# (#collEventNumberSeries.collector_agent#)</option>
+								<cfset ifbit = ifbit & "if (selectedid==#collEventNumberSeries.coll_event_num_series_id#) { $('##pattern_span').html('#collEventNumberSeries.pattern#'); }; ">
+							</cfloop>
+						</select>
+						<!---  On change of picklist, look up the expected pattern for the collecting event number series --->
+						<script>
+							$( document ).ready(function() {
+								$('##coll_event_number_series').change( function() { selectedid = $('##coll_event_number_series').val(); #ifbit# } );
+							});
+						</script>
+					</div>
+					<div class="col-12 col-md-2">
+						<label class="data-entry-label">&nbsp;</label>
+						<a href="/vocabularies/CollEventNumberSeries.cfm?action=new" target="_blank" class="btn btn-xs btn-primary">Add new number series</a>
+					</div>
+					<div class="col-12 col-md-6">
+						<label for="coll_event_number">Collector/Field Number <span id="pattern_span" style="color: Gray;"></span></label>
+						<input type="text" name="coll_event_number" id="coll_event_number" class="data-entry-input reqdClr" required>
+					</div>
+					<div class="col-12 col-md-6">
+						<label class="data-entry-label">&nbsp;</label>
+						<button type="button" class="btn btn-xs btn-primary" onClick=" saveCollNumber(); " >Add</button>
+					</div>
+					<div class="col-12 col-md-6">
+						<output id="collNumFeedback"></output>
+					</div>
+				</div>
+			</form>
 			<script>
-				$( document ).ready(function() {
-					$('##coll_event_number_series').change( function() { selectedid = $('##coll_event_number_series').val(); #ifbit# } );
-				});
+				function saveCollNumber(){ 
+					$('##collNumFeedback').html('Saving....');
+					$('##collNumFeedback').addClass('text-warning');
+					$('##collNumFeedback').removeClass('text-success');
+					$('##collNumFeedback').removeClass('text-danger');
+					jQuery.ajax({
+						url : "/localities/component/functions.cfc",
+						type : "post",
+						dataType : "json",
+						data : $('##addCollNumberForm').serialize(),
+						success : function (data) {
+							console.log(data);
+							$('##collNumFeedback').html('Saved. ' + data[0].status + " " + data[0].value + " to (" + data[0].id + ")"  );
+							$('##collNumFeedback').addClass('text-success');
+							$('##collNumFeedback').removeClass('text-danger');
+							$('##collNumFeedback').removeClass('text-warning');
+						},
+						error: function(jqXHR,textStatus,error){
+							$('##collNumFeedback').html('Error.');
+							$('##collNumFeedback').addClass('text-danger');
+							$('##collNumFeedback').removeClass('text-success');
+							$('##collNumFeedback').removeClass('text-warning');
+							handleFail(jqXHR,textStatus,error,'saving number for collecting event');
+						}
+					});
+				};
 			</script>
-			<label for="coll_event_number">Collector/Field Number <span id="pattern_span" style="color: Gray;">#patternvalue#</span></label>
-			<input type="text" name="coll_event_number" id="coll_event_number" size=50>
 		</cfoutput>
 	<cfcatch>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -4909,6 +5068,48 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 		</cfoutput>
 	</cfcatch>
 	</cftry>
+</cffunction>
+
+<cffunction name="addCollectingEventNumber" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+	<cfargument name="coll_event_number_series" type="string" required="yes">
+	<cfargument name="coll_event_number" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction> 
+		<cftry>
+			<cfif len(trim(coll_event_number_series)) GT 0 and len(trim(coll_event_number)) GT 0 >
+				<cfquery name="addCollEvNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					INSERT INTO coll_event_number
+						(coll_event_number, coll_event_num_series_id, collecting_event_id)
+					VALUES 
+					(
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_event_number#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_number_series#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+					)
+				</cfquery>
+			<cfelse>
+				<cfthrow message = "Required element number series or number not provided.">
+			</cfif>
+			<cfset message = "">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "added">
+			<cfset row["id"] = "#collecting_event_id#">
+			<cfset row["value"] = "#encodeForJavaScript(coll_event_number)#">
+			<cfset row["message"] = "#message#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 <!--- update a collecting event record with new values, use only when editing a 
@@ -4933,6 +5134,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfargument name="verbatimCoordinateSystem" type="string" required="no">
 	<cfargument name="verbatimSRS" type="string" required="no">
 	<cfargument name="collecting_time" type="string" required="no">
+	<cfargument name="date_determined_by_agent_id" type="string" required="no">
+	<cfargument name="valid_distribution_fg" type="string" required="no">
 
 	<cfif not isDefined("action")><cfset action="update"></cfif>
 	<cfset data = ArrayNew(1)>
@@ -4981,8 +5184,8 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfelse>
 						,COLLECTING_TIME = null
 					</cfif>
-					<cfif len(#ICH_FIELD_NUMBER#) gt 0>
-						,FISH_FIELD_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ICH_FIELD_NUMBER#">
+					<cfif len(#fish_field_number#) gt 0>
+						,FISH_FIELD_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#fish_field_number#">
 					<cfelse>
 						,FISH_FIELD_NUMBER = null
 					</cfif>
@@ -5021,6 +5224,16 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					<cfelse>
 						,endDayOfYear = null
 					</cfif>
+					<cfif len(#date_determined_by_agent_id#) gt 0>
+						,date_determined_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#date_determined_by_agent_id#">
+					<cfelse>
+						,date_determined_by_agent_id = null
+					</cfif>
+					<cfif len(#valid_distribution_fg#) gt 0>
+						,valid_distribution_fg = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#valid_distribution_fg#">
+					<cfelse>
+						,valid_distribution_fg = null
+					</cfif>
 	 			WHERE
 					 collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 			</cfquery>
@@ -5036,6 +5249,84 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- function deleteCollectingEvent
+Delete an existing collecting event record.
+
+Probably won't be used, delete is action on localities/CollectingEvent.cfm
+
+@param collecting_event_id primary key of record to delete
+@return json structure with status and id or http status 500
+--->
+<cffunction name="deleteCollectingEvent" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collecting_event_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- check if something would block deletion --->
+			<cfquery name="hasSpecimens" datasource="uam_god">
+				SELECT count(collection_object_id) ct from cataloged_item
+				WHERE collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+			</cfquery>
+			<cfif #hasSpecimens.ct# gt 0>
+				<cfthrow message="Unable to delete, Collecting Event has #hasSpecimens.ct# related cataloged items..">
+			</cfif>
+			<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					count(*) ct, 'media' as block
+				FROM media_relations
+				WHERE
+					related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+					and media_relationship like '% collecting_event'
+					and media_id is not null
+				UNION
+				SELECT
+					count(*) ct, 'number' as block
+				FROM
+					coll_event_number
+				WHERE
+					collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+					and coll_event_number_id is not null
+			</cfquery>
+			<cfset hasBlock = false>
+			<cfloop query="deleteBlocks">
+				<cfif deleteBlocks.ct GT 0>
+					<cfset hasBlock = true>
+				</cfif>
+			</cfloop>
+			<cfif hasBlock>
+				<cfthrow message="Unable to delete, Collecting Event has related media or collector numbers.">
+			<cfelse>
+				<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					delete from collecting_event
+					where 
+						collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+				</cfquery>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "deleted">
+				<cfset row["id"] = "#collecting_event_id#">
+				<cfset data[1] = row>
+			</cfif>
+			<cftransaction action="commit"/>
+		<cfcatch>
+			<cftransaction action="rollback"/>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing deleteCollEvent: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfoutput>
 			<cfabort>
 		</cfcatch>
 		</cftry>

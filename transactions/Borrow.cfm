@@ -245,7 +245,7 @@ limitations under the License.
 								<input type="text" name="lenders_loan_date" id="lenders_loan_date" class="data-entry-input mb-1">
 							</div>
 							<div class="col-12 col-md-3 mb-1 mb-md-0">
-								<label for="no_of_specimens" class="data-entry-label">Total No. of Specimens</label>
+								<label for="no_of_specimens" class="data-entry-label">Total No. of Specimens (manually update)</label>
 								<input type="text" name="no_of_specimens" id="no_of_specimens" class="reqdClr data-entry-input mb-1" required>
 							</div>
 							<div class="col-12 col-md-3 mb-1 mb-md-0">

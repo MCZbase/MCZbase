@@ -294,15 +294,14 @@ function loadRelatedImages(targetDiv, media_id) {
  */
 
 
-/** deleteMediaRelations given a media_relations_id delete the referenced row from media_relations
- * removing the agent from the role specified in that record from a transaction, on success
- * invoke reloadTransactionAgents() to reload the agent list for the transaction.
- * @param trans_agent_id the primary key of trans_agent to delete.
+/** removeMediaRelation given a media_relations_id delete the referenced row from media_relations, on success
+ * invoke reloadMediaRelationships() to reload the media relationships section for the relevant page.
+ * @param media_relations_id the primary key of the media relationship record to delete.
  */
-function deleteMediaRelations(media_relations_id) {
+function removeMediaRelation(media_relations_id) {
 	jQuery.getJSON("/media/component/functions.cfc",
 		{
-			method : "removeMediaRelations",
+			method : "removeMediaRelation",
 			media_relations_id : media_relations_id,
 			returnformat : "json",
 			queryformat : 'column'
