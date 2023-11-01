@@ -831,7 +831,7 @@ limitations under the License.
 	<cfargument name="callback" type="string" required="no" default="reloadCollectingEvent">
 
 	<cfset target_id = collecting_event_id_control>
-	<cfthread pickCollEventThread.output>
+	<cfthread name="pickCollEventThread">
 	<cftry> 
 		<cfquery name="ctCollecting_Source" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 			SELECT 
