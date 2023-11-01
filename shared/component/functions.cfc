@@ -860,11 +860,6 @@ limitations under the License.
 					</section>
 				</div>
 			
-				<div class='form-row mt-2'>
-					<div class=''>
-						<input type='submit' value='Search' class='btn-primary px-3 mb-2'>
-					</div>
-				</div>
 			</form>
 			<!--- Results table as a jqxGrid with a picker cellrenderer. --->
 			<section class="container-fluid">
