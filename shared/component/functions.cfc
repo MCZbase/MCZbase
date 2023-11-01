@@ -821,6 +821,24 @@ limitations under the License.
 
 <!---
 	pickCollectingEventHtml create dialog content to pick a collecting event
+
+  Example invocation:
+
+  <input type="hidden" name="collecting_event_id" id="collecting_event_id" value="">
+  <input type="text" id="collecting_event_summary" value="">
+  <button onClick=" clickHandler(); ">Pick Collecting Event</button>
+  <div id="pickCEDialog"></div>
+  <script>
+	 function clickHandler() { 
+  		opencollectingeventpickerdialog('pickCEDialog', 'Text to include in header', 'collecting_event_id', okcallback);
+    };
+    function okcallback() {
+    	console.log('callback invoked');
+		// do lookup to populate collecting_event_summary control here 
+    };
+  </script>
+
+
   @param collecting_event_id_control the id of an input in the dom into which the 
   selected collecting_event_id should be pasted.
   @param callback may not be needed

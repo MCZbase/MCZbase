@@ -191,25 +191,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>	
-<!--- TEST --->
-					<div class="row mx-0">
-						<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
-							<div class="border rounded px-3 my-2 py-3">
-								<input name="foo" id="foo" value="">
-								<button onClick=" clickHandler();">Test Pick</button>
-								<div id="testDialog"></div>
-								<script>
-									function clickHandler() { 
-								 		opencollectingeventpickerdialog('testDialog', 'Test Header Text', 'foo', okcallback);
-									};
-									function okcallback() { 
-										console.log('invoked');
-									};
-								</script>
-							</div>
-						</div>
-					</div>	
-<!--- END TEST --->
 					<div class="row mx-0">
 						<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
 							<div class="border rounded px-3 my-2 py-3">
