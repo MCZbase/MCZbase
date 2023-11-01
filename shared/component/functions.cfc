@@ -847,7 +847,7 @@ limitations under the License.
 			<div id='collEventPickSearchForm' class='search-box px-3 py-2'>
 			<h1 class='h3 mt-2'>Search for Collecting Events</h1>
 			<form id='findCollectingEventForm' >
-				<input type='hidden' name='method' value='getCollectingEvent'>
+				<input type='hidden' name='method' value='getCollectingEvents'>
 				<input type='hidden' name='returnformat' value='plain'>
 				<input type='hidden' name='target_id' value='#target_id#'>
 	
