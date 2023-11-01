@@ -1095,7 +1095,7 @@ limitations under the License.
 				<!--- The Picker --->
 				var pickEventCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowData) {
 					var id = encodeURIComponent(rowData['COLLECTING_EVENT_ID']);
-					return '<button type="button" class="btn btn-xs btn-outline-primary ml-1" onClick=" $(\'###target_id#\').val(\'' + id + ')\'">Pick</button>';
+					return '<button type="button" class="btn btn-xs btn-outline-primary ml-1" onClick=" $(\'###target_id#\').val(\'' + id + '\');">Pick</button>';
 				};
 				var summaryCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
