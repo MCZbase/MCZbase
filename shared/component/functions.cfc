@@ -895,6 +895,12 @@ limitations under the License.
 				</div>
 			</section>
 	
+			<cfset defaultSelectionMode = "none">
+			<cfif defaultSelectionMode EQ "none">
+				<cfset defaultenablebrowserselection = "true">
+			<cfelse>
+				<cfset defaultenablebrowserselection = "false">
+			</cfif>	
 			<cfset cellRenderClasses = "ml-1">
 			<script>
 				/** makeLocalitySummary combine row data for locality into a single text string **/
