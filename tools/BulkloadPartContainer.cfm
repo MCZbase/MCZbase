@@ -192,6 +192,8 @@
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
+			<cfset other_id_type = ''>
+			<cfset other_id_number = ''>
 			<cfquery name="getTempData1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT other_id_type
 				FROM cf_temp_barcode_parts
