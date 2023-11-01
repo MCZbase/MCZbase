@@ -196,7 +196,7 @@ limitations under the License.
 						<div class="col-12 col-md-6 px-0 pl-md-0 pr-md-3">
 							<div class="border rounded px-3 my-2 py-3">
 								<input name="foo" id="foo" value="">
-								<button onClick=" opencollectingeventpickerdialog('testDialog', 'Test Header Text', 'foo', okcallback) {">Test Pick</button>
+								<button onClick=" opencollectingeventpickerdialog('testDialog', 'Test Header Text', 'foo', okcallback);">Test Pick</button>
 								<div id="testDialog"></div>
 								<script>
 									function okcallback() { 
