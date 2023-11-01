@@ -471,7 +471,7 @@
 		</tr>
 		<cfloop query="checked">
 			<tr>
-				<td>#dateformat(check_date,"yyyy-mm-ddy")#</td>
+				<td>#dateformat(check_date,"yyyy-mm-dd")#</td>
 				<td>#agent_name#</td>
 				<td>#check_remark#</td>
 			</tr>

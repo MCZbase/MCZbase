@@ -863,7 +863,7 @@ include this function and use it.
 								<tr class="border mt-2 p-2"><th scope="row">Media URI </th><td><a target="_blank" href="#media.media_uri#">#media.media_uri#</a></td></tr>
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_media")>
-								<cfset thumbText = "None. Default Thumnail for media type used.">
+								<cfset thumbText = "None. Default Thumbnail for media type used.">
 								<cfif len(media.preview_uri) GT 0>
 									<cfset thumbText = "<a target='_blank' href='#media.preview_uri#'>#media.preview_uri#</a>">
 								</cfif>
