@@ -402,7 +402,7 @@
 									<td>#getProblemData.institution_acronym#</td>
 									<td>#getProblemData.collection_cde#</td>
 									<td>#getProblemData.other_id_number#</td>
-									<td>#getProblemData.attribute# <cfset message="#message# in row #whereAmI#"> </td>
+									<td>#getProblemData.attribute#  </td>
 									<td>#getProblemData.attribute_value#</td>
 									<td>#getProblemData.attribute_units#</td>
 									<td>#getProblemData.attribute_meth#</td>
@@ -415,6 +415,7 @@
 					</table>
 					<h3 class="text-danger">Error updating row (#attributes_updates + 1#): #cfcatch.message#</h3>
 					<cfrethrow>
+						<cfset message="#message# in row #whereAmI#">
 				</cfcatch>
 				</cftry>
 			</cftransaction>
