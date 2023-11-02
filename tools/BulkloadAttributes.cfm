@@ -364,7 +364,7 @@
 					</tbody>
 				</table>
 					<cfif cfcatch.detail CONTAINS "20001: Invalid attribute_type">
-						This is not an attribute for your collection.
+						<h3 class="text-danger">This attribute is not used in your collection. See controlled vocabulary.</h3>
 					</cfif>
 				<cfrethrow>
 			</cfcatch>
