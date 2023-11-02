@@ -345,13 +345,14 @@
 						</tr> 
 					</thead>
 					<tbody>
+						<cfset i = 1>
 						<cfloop query="getProblemData">
 							<tr>
 								<td>#getProblemData.institution_acronym#</td>
 								<td>#getProblemData.collection_cde#</td>
 								<td>#getProblemData.other_id_type#</td>
 								<td>#getProblemData.other_id_number#</td>
-								<td>#getProblemData.attribute# <cfset whereAmI = "#getProblemData.attribute#"></td>
+								<td>#getProblemData.attribute# <cfset whereAmI = "#getProblemData.attribute# #i#"></td>
 								<td>#getProblemData.attribute_value#</td>
 								<td>#getProblemData.attribute_units#</td>
 								<td>#getProblemData.attribute_date#</td>
@@ -359,6 +360,7 @@
 								<td>#getProblemData.determiner#</td>
 								<td>#getProblemData.remarks#</td>
 								<td>#getProblemData.status#</td>
+								<cfset i = i + 1>
 							</tr> 
 						</cfloop>
 					</tbody>
