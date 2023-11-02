@@ -366,7 +366,7 @@
 				</table>
 					<cfif cfcatch.detail CONTAINS "20001: Invalid attribute_type">
 						<h3 class="text-danger">
-							#whereAmI_5# #getProblemData.attribute_value#
+							#whereAmI_5#
 							<br>
 							The attribute is not used in your collection. See controlled vocabulary. 
 						</h3>
