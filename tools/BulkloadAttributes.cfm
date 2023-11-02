@@ -367,13 +367,13 @@
 				</table>
 				<cfif cfcatch.detail CONTAINS "Invalid attribute_type">
 					<h3 class="text-danger">
-						The attribute [ #whereAmI# ] is not used in your collection. See controlled vocabulary. 
+						The attribute type is not used in your collection. See controlled vocabulary. 
 					</h3>
 				</cfif>
 					
 				<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid ATTRIBUTE_UNITS">
 					<h3 class="text-danger">
-						The  [ #whereAmI# ] is not used in your collection. See controlled vocabulary. 
+						The attribute units is not used in your collection. See controlled vocabulary. 
 					</h3>
 				</cfif>
 				<cfrethrow>
