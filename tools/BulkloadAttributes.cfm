@@ -369,17 +369,17 @@
 			</cfcatch>
 			</cftry>
 			<cfset problem_key = "">
-				<cfset whereAmI="">
+			<cfset whereAmI="">
 			<cftransaction>
 				<cftry>
 					<cfset attributes_updates = 0>
 					<cfloop query="getTempData">
-						<cfset whereAmI=attribute_updates>
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
 							INSERT into attributes (COLLECTION_OBJECT_ID,ATTRIBUTE_TYPE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,DETERMINED_DATE,DETERMINATION_METHOD, DETERMINED_BY_AGENT_ID,ATTRIBUTE_REMARK)VALUES(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_date#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">)
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
+						<cfset whereAmI = attributes_updates + updateAttributes_result.attribute_type
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
@@ -402,7 +402,7 @@
 									<td>#getProblemData.institution_acronym#</td>
 									<td>#getProblemData.collection_cde#</td>
 									<td>#getProblemData.other_id_number#</td>
-									<td>#getProblemData.attribute#</td>
+									<td>#getProblemData.attribute# <cfset message="#message# in row #whereAmI#"> </td>
 									<td>#getProblemData.attribute_value#</td>
 									<td>#getProblemData.attribute_units#</td>
 									<td>#getProblemData.attribute_meth#</td>
