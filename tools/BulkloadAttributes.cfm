@@ -368,9 +368,10 @@
 						<h3 class="text-danger">The attribute is not used in your collection. See controlled vocabulary. 
 						</h3>
 					</cfif>
+					<cfset message="#message# in row #whereAmI#"> 
 				<cfrethrow>
 			</cfcatch>
-			</cftry>	#whereAmI#
+			</cftry>	
 		<!---	<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
