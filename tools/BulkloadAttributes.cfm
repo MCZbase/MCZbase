@@ -330,7 +330,6 @@
 				</cftransaction>
 				<h2>Updated #attributes_updates# attributes.</h2>
 			<cfcatch>
-			
 				<h2>There was a problem updating attributes.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units, attribute_date,attribute_meth,determiner,remarks,status
@@ -383,7 +382,9 @@
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
-					<cfif cfcatch.detail CONTAINS "20001: Invalid attribute_type"><cfset message="#message# in row #whereAmI#"> </cfcatch> This is not an attribute for your collection.</cfif>
+					<cfif cfcatch.detail CONTAINS "20001: Invalid attribute_type">
+						This is not an attribute for your collection.
+					</cfif>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT institution_acronym,collection_cde,other_id_number,attribute,attribute_value,attribute_units,attribute_meth,determiner,remarks,status 
