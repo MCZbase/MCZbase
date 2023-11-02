@@ -348,17 +348,17 @@
 						<cfset i=1>
 						<cfloop query="getProblemData">
 							<tr>
-								<td>#getProblemData.institution_acronym# <cfset whereAmI_1 = #getProblemData.institution_acronym#></td>
-								<td>#getProblemData.collection_cde# <cfset whereAmI_2 = #getProblemData.collection_cde#></td>
-								<td>#getProblemData.other_id_type# <cfset whereAmI_3 = #getProblemData.other_id_type#></td>
-								<td>#getProblemData.other_id_number# <cfset whereAmI = #getProblemData.other_id_number#></td>
-								<td>#getProblemData.attribute# <cfset whereAmI = #getProblemData.attribute#_#i#></td>
-								<td>#getProblemData.attribute_value# <cfset whereAmI_6 = #getProblemData.attribute_value#></td>
-								<td>#getProblemData.attribute_units# <cfset whereAmI_7 = #getProblemData.attribute_units#></td>
-								<td>#getProblemData.attribute_date# <cfset whereAmI_8 = #getProblemData.attribute_date#></td>
-								<td>#getProblemData.attribute_meth# <cfset whereAmI_9 = #getProblemData.attribute_meth#></td>
-								<td>#getProblemData.determiner# <cfset whereAmI_10 = #getProblemData.determiner#></td>
-								<td>#getProblemData.remarks# <cfset whereAmI_11 = #getProblemData.remarks#></td>
+								<td>#getProblemData.institution_acronym#</td>
+								<td>#getProblemData.collection_cde#</td>
+								<td>#getProblemData.other_id_type#</td>
+								<td>#getProblemData.other_id_number#</td>
+								<td>#getProblemData.attribute# #whereAmI#</td>
+								<td>#getProblemData.attribute_value#</td>
+								<td>#getProblemData.attribute_units#</td>
+								<td>#getProblemData.attribute_date#</td>
+								<td>#getProblemData.attribute_meth#</td>
+								<td>#getProblemData.determiner#</td>
+								<td>#getProblemData.remarks#</td>
 								<td>#getProblemData.status#</td>
 								<cfset i=i+1>
 							</tr> 
