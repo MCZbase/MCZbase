@@ -380,9 +380,7 @@
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
-					<cfif cfcatch.detail CONTAINS "20001: Invalid attribute_type">
-						This is not an attribute for your collection.
-					</cfif>
+			
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT institution_acronym,collection_cde,other_id_number,attribute,attribute_value,attribute_units,attribute_meth,determiner,remarks,status 
@@ -419,6 +417,9 @@
 				</cftry>
 			</cftransaction>
 			<h2>#attributes_updates# attribute(s) passed checks</h2>
+								<cfif cfcatch.detail CONTAINS "20001: Invalid attribute_type">
+						This is not an attribute for your collection.
+					</cfif>
 			<h2 class="text-success">Success, changes applied.</h2>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
