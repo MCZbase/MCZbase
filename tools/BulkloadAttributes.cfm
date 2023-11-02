@@ -364,7 +364,7 @@
 						</cfloop>
 					</tbody>
 				</table>
-					<cfif cfcatch.detail CONTAINS "20001: Invalid attribute_type">
+					<cfif cfcatch.detail CONTAINS "Invalid">
 						<h3 class="text-danger">
 							#whereAmI_5#
 							<br>
