@@ -315,6 +315,7 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 				<cfset whereAmI = "">
+				<cfset message = "">
 			<cftry>
 				<cfset attributes_updates = 0>
 				<cftransaction>
@@ -354,7 +355,7 @@
 								<td>#getProblemData.other_id_number# <cfset whereAmI = "#other_id_number#"></td>
 								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute#"></td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "#attribute_value#"></td>
-								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#"></td>
+								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#"><cfset message = "unit issue"></td>
 								<td>#getProblemData.attribute_date#</td>
 								<td>#getProblemData.attribute_meth#</td>
 								<td>#getProblemData.determiner#</td>
