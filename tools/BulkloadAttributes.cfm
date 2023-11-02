@@ -350,9 +350,8 @@
 								<td>#getProblemData.institution_acronym# <cfset whereAmI_1 = #getProblemData.institution_acronym#></td>
 								<td>#getProblemData.collection_cde# <cfset whereAmI_2 = #getProblemData.collection_cde#></td>
 								<td>#getProblemData.other_id_type# <cfset whereAmI_3 = #getProblemData.other_id_type#></td>
-								<td>#getProblemData.other_id_number# <cfset whereAmI_4 = #getProblemData.other_id_number#></td>
-								<td>#getProblemData.attribute# <cfset whereAmI = #getProblemData.attribute#>
-								</td>
+								<td>#getProblemData.other_id_number# <cfset whereAmI = #getProblemData.other_id_number#></td>
+								<td>#getProblemData.attribute# <cfset whereAmI = #getProblemData.attribute#></td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI_6 = #getProblemData.attribute_value#></td>
 								<td>#getProblemData.attribute_units# <cfset whereAmI_7 = #getProblemData.attribute_units#></td>
 								<td>#getProblemData.attribute_date# <cfset whereAmI_8 = #getProblemData.attribute_date#></td>
@@ -374,7 +373,6 @@
 			</cftry>	
 			<h2>#attributes_updates# attribute(s) passed checks</h2>
 			<h2 class="text-success">Success, changes applied.</h2>
-
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
