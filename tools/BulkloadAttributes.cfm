@@ -372,7 +372,7 @@
 				</cfif>
 					
 				<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid ATTRIBUTE_UNITS">
-					<h3 class="text-danger">
+					<h3 class="text-danger">#message#
 						The attribute units is not used in your collection. See controlled vocabulary. 
 					</h3>
 				</cfif>
