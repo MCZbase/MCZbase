@@ -352,11 +352,6 @@
 								<td>#getProblemData.other_id_type# <cfset whereAmI_3 = #getProblemData.other_id_type#></td>
 								<td>#getProblemData.other_id_number# <cfset whereAmI_4 = #getProblemData.other_id_number#></td>
 								<td>#getProblemData.attribute# <cfset whereAmI = #getProblemData.attribute#>
-									<cfif cfcatch.detail CONTAINS "Invalid attribute_type">
-										<h3 class="text-danger">
-											The attribute [ #whereAmI# ] is not used in your collection. See controlled vocabulary. 
-										</h3>
-									</cfif>
 								</td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI_6 = #getProblemData.attribute_value#></td>
 								<td>#getProblemData.attribute_units# <cfset whereAmI_7 = #getProblemData.attribute_units#></td>
@@ -374,6 +369,11 @@
 			</cftry>	
 			<h2>#attributes_updates# attribute(s) passed checks</h2>
 			<h2 class="text-success">Success, changes applied.</h2>
+			<cfif cfcatch.detail CONTAINS "Invalid attribute_type">
+				<h3 class="text-danger">
+					The attribute [ #whereAmI# ] is not used in your collection. See controlled vocabulary. 
+				</h3>
+			</cfif>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
