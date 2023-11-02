@@ -313,7 +313,6 @@
 				SELECT * FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset whereami="">
 			<cftry>
 				<cfset attributes_updates = 0>
 				<cftransaction>
@@ -327,7 +326,6 @@
 				</cftransaction>
 				<h2>Updated #attributes_updates# attributes.</h2>
 			<cfcatch>
-				<cfset message = "The test message: #whereami#">
 				<h2>There was a problem updating attributes.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units, attribute_date,attribute_meth,determiner,remarks,status
@@ -365,11 +363,14 @@
 				<cfrethrow>
 			</cfcatch>
 			</cftry>
+			<cfset message1 = "">
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
+					
 					<cfset attributes_updates = 0>
 					<cfloop query="getTempData">
+						<cfset message1 = "getTempData.attribute">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
 							INSERT into attributes (COLLECTION_OBJECT_ID,ATTRIBUTE_TYPE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,DETERMINED_DATE,DETERMINATION_METHOD, DETERMINED_BY_AGENT_ID,ATTRIBUTE_REMARK)VALUES(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_date#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">)
