@@ -363,11 +363,10 @@
 						</cfloop>
 					</tbody>
 				</table>
-		
 				<cfrethrow>
 					<cfif cfcatch.detail CONTAINS "Invalid attribute_type">
 						<h3 class="text-danger">
-							The attribute is not used in your collection. See controlled vocabulary. 
+							The attribute [ #whereAmI_5# ] is not used in your collection. See controlled vocabulary. 
 						</h3>
 					</cfif>
 			</cfcatch>
