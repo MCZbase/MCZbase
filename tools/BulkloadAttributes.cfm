@@ -355,7 +355,7 @@
 								<td>#getProblemData.other_id_number# <cfset whereAmI = "#other_id_number#"></td>
 								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute#"></td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "#attribute_value#"></td>
-								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#"><cfset message = "unit issue"></td>
+								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#"></td>
 								<td>#getProblemData.attribute_date#</td>
 								<td>#getProblemData.attribute_meth#</td>
 								<td>#getProblemData.determiner#</td>
@@ -367,13 +367,13 @@
 				</table>
 				<cfif cfcatch.detail CONTAINS "Invalid attribute_type">
 					<h3 class="text-danger">
-						The attribute type is not used in your collection. See controlled vocabulary. 
+						One of the attribute types is not used in your collection. See controlled vocabulary. 
 					</h3>
 				</cfif>
 					
 				<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid ATTRIBUTE_UNITS">
-					<h3 class="text-danger">#message#
-						The attribute units is not used in your collection. See controlled vocabulary. 
+					<h3 class="text-danger">
+						One of the attribute units is not used in your collection. See controlled vocabulary. 
 					</h3>
 				</cfif>
 				<cfrethrow>
