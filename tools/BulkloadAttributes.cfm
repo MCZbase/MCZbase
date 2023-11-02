@@ -330,7 +330,7 @@
 				</cftransaction>
 				<h2>Updated #attributes_updates# attributes.</h2>
 			<cfcatch>
-				<cfdump var="#cfcatch#">
+			
 				<h2>There was a problem updating attributes.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units, attribute_date,attribute_meth,determiner,remarks,status
@@ -381,7 +381,7 @@
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
-					#getTempData.attribute#
+					<cfdump var="#cfcatch#">
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT institution_acronym,collection_cde,other_id_number,attribute,attribute_value,attribute_units,attribute_meth,determiner,remarks,status 
