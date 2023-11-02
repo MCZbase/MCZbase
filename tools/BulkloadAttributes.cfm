@@ -314,6 +314,7 @@
 				SELECT * FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+				<cfset whereAmI = "">
 			<cftry>
 				<cfset attributes_updates = 0>
 				<cftransaction>
@@ -344,7 +345,7 @@
 						</tr> 
 					</thead>
 					<tbody>
-						<cfset whereAmI = "">
+					
 						<cfloop query="getProblemData">
 							<tr>
 								<td>#getProblemData.institution_acronym#</td>
