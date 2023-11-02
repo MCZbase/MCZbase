@@ -364,16 +364,17 @@
 						</cfloop>
 					</tbody>
 				</table>
+				<cfif cfcatch.detail CONTAINS "Invalid attribute_type">
+					<h3 class="text-danger">
+						The attribute [ #whereAmI# ] is not used in your collection. See controlled vocabulary. 
+					</h3>
+				</cfif>
 				<cfrethrow>
 			</cfcatch>
 			</cftry>	
 			<h2>#attributes_updates# attribute(s) passed checks</h2>
 			<h2 class="text-success">Success, changes applied.</h2>
-			<cfif cfcatch.detail CONTAINS "Invalid attribute_type">
-				<h3 class="text-danger">
-					The attribute [ #whereAmI# ] is not used in your collection. See controlled vocabulary. 
-				</h3>
-			</cfif>
+
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
