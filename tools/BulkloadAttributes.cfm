@@ -366,7 +366,7 @@
 				</table>
 					<cfif cfcatch.detail CONTAINS "20001: Invalid attribute_type">
 						<h3 class="text-danger">The attribute is not used in your collection. See controlled vocabulary. 
-							<cfset message="#message# in row #whereAmI#"></h3>
+							<cfset message="#whereAmI#"></h3>
 					</cfif>
 				<cfrethrow>
 			</cfcatch>
