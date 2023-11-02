@@ -310,6 +310,7 @@
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset getProblemData="">
+			<cfset whereAmI = "">
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -345,6 +346,7 @@
 					</thead>
 					<tbody>
 						<cfloop query="getProblemData">
+							<cfset whereAmI = #getProblemData.attribute#>
 							<tr>
 								<td>#getProblemData.institution_acronym#</td>
 								<td>#getProblemData.collection_cde#</td>
@@ -363,7 +365,8 @@
 					</tbody>
 				</table>
 					<cfif cfcatch.detail CONTAINS "20001: Invalid attribute_type">
-						<h3 class="text-danger">The attribute is not used in your collection. See controlled vocabulary.</h3>
+						<h3 class="text-danger">The attribute is not used in your collection. See controlled vocabulary. 
+							<cfset message="#message# in row #whereAmI#"></h3>
 					</cfif>
 				<cfrethrow>
 			</cfcatch>
