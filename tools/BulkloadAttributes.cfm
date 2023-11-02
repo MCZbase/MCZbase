@@ -310,7 +310,7 @@
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset getProblemData="">
-			<cfset whereAmI = "">
+			
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -345,13 +345,14 @@
 						</tr> 
 					</thead>
 					<tbody>
+						<cfset whereAmI = "">
 						<cfloop query="getProblemData">
 							<tr>
 								<td>#getProblemData.institution_acronym#</td>
 								<td>#getProblemData.collection_cde#</td>
 								<td>#getProblemData.other_id_type#</td>
 								<td>#getProblemData.other_id_number#</td>
-								<td>#getProblemData.attribute# <cfset whereAmI = "#cfcatch.detail#"></td>
+								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute#"></td>
 								<td>#getProblemData.attribute_value#</td>
 								<td>#getProblemData.attribute_units#</td>
 								<td>#getProblemData.attribute_date#</td>
