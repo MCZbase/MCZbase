@@ -350,6 +350,7 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<h3>Problematic Rows (<a href="/tools/BulkloadContEditParent.cfm?action=dumpProblems">download</a>)</h3>
+	
 				<table class='sortable table table-responsive table-striped d-lg-table'>
 					<thead>
 						<tr>
@@ -368,10 +369,11 @@
 						</cfloop>
 					</tbody>
 				</table>
+				
 				<cfrethrow>
 			</cfcatch>
 			</cftry>
-			<cfset problem_key = "">
+	<!---		<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
 					<cfset container_updates = 0>
@@ -435,7 +437,7 @@
 					<cfrethrow>
 				</cfcatch>
 				</cftry>
-			</cftransaction>
+			</cftransaction>--->
 			<h2>Updated #container_updates# containers.</h2>
 			<h2>Success, changes applied.</h2>
 			<!--- cleanup --->
