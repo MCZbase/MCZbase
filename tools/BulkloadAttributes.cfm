@@ -327,7 +327,7 @@
 				</cftransaction>
 				<h2>Updated #attributes_updates# attributes.</h2>
 			<cfcatch>
-				<cfset message = "The test message: #whereami#"></cfset>
+				<cfset message = "The test message: #whereami#">
 				<h2>There was a problem updating attributes.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units, attribute_date,attribute_meth,determiner,remarks,status
