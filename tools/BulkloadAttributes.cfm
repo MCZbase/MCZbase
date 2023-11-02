@@ -360,15 +360,15 @@
 								<td>#getProblemData.remarks# <cfset whereAmI_11 = #getProblemData.remarks#></td>
 								<td>#getProblemData.status#</td>
 							</tr> 
-						</cfloop>
-					</tbody>
-				</table>
-				<cfrethrow>
 					<cfif cfcatch.detail CONTAINS "Invalid attribute_type">
 						<h3 class="text-danger">
 							The attribute [ #whereAmI_5# ] is not used in your collection. See controlled vocabulary. 
 						</h3>
 					</cfif>
+						</cfloop>
+					</tbody>
+				</table>
+				<cfrethrow>
 			</cfcatch>
 			</cftry>	
 			<h2>#attributes_updates# attribute(s) passed checks</h2>
