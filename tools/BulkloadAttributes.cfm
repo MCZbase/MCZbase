@@ -352,7 +352,7 @@
 								<td>#getProblemData.collection_cde# <cfset whereAmI = "#collection_cde#"></td>
 								<td>#getProblemData.other_id_type# <cfset whereAmI = "#other_id_type#"></td>
 								<td>#getProblemData.other_id_number# <cfset whereAmI = "#other_id_number#"></td>
-								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute_type#"></td>
+								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute#"></td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "#attribute_value#"></td>
 								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#"></td>
 								<td>#getProblemData.attribute_date#</td>
