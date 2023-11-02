@@ -325,6 +325,7 @@
 				SELECT * FROM cf_temp_cont_edit
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfset getProblemData="" >
 			<cftry>
 				<cfset container_type_updates = 0>
 				<cftransaction>
