@@ -345,7 +345,6 @@
 						</tr> 
 					</thead>
 					<tbody>
-						<cfset i=1>
 						<cfloop query="getProblemData">
 							<tr>
 								<td>#getProblemData.institution_acronym#</td>
@@ -360,7 +359,6 @@
 								<td>#getProblemData.determiner#</td>
 								<td>#getProblemData.remarks#</td>
 								<td>#getProblemData.status#</td>
-								<cfset i=i+1>
 							</tr> 
 						</cfloop>
 					</tbody>
