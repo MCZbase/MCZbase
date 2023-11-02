@@ -320,7 +320,7 @@
             </tr>
             <tr>
               <td><label for="verbatim_locality"> Verbatim Locality
-                  &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
+                  &nbsp;&nbsp; <a href="/localities/CollectingEvent.cfm?collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Collecting Event</a>
                   <cfif cecount.ct eq 1>(unique to this specimen)<cfelse>(shared with #cecount.ct# specimens)</cfif>
  </label>
                 <cfinput type="text"

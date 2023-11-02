@@ -453,7 +453,6 @@ limitations under the License.
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 											<a class="dropdown-item" href="/localities/HigherGeographies.cfm">Geography</a> 
 											<a class="dropdown-item" href="/localities/Localities.cfm">Localities</a> 
-											<a class="dropdown-item" href="/Locality.cfm?action=findCO">Collecting Events (old)</a> 
 											<a class="dropdown-item" href="/localities/CollectingEvents.cfm">Collecting Events</a> 
 										</cfif>
 									

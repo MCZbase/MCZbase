@@ -3958,7 +3958,7 @@ limitations under the License.
 							<h1 class="h3 mt-3">Collecting Event</h1>
 							<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border">
 								<li class="col-12 col-md-12 px-0 pt-1 mt-2">
-									<label for="verbatim_locality" class="data-entry-label px-2"> Verbatim Locality &nbsp;&nbsp; <a href="Locality.cfm?Action=editCollEvnt&collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Shared Collecting Event</a>
+									<label for="verbatim_locality" class="data-entry-label px-2"> Verbatim Locality &nbsp;&nbsp; <a href="/localities/CollectingEvent.cfm?collecting_event_id=#l.collecting_event_id#" target="_blank"> Edit Shared Collecting Event</a>
 										<cfif cecount.ct eq 1>
 											(unique to this specimen)
 											<cfelse>
