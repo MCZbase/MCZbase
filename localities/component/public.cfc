@@ -1587,8 +1587,8 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif isDefined("context") and context EQ "edit" and isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
-					<form name="createNewCollEventForm" id="createNewCollEventForm" method="post" action="/Locality.cfm">
-						<input type="hidden" name="action" value="newCollEvent">
+					<form name="createNewCollEventForm" id="createNewCollEventForm" method="post" action="/localities/CollectingEvent.cfm">
+						<input type="hidden" name="action" value="new">
 						<input type="hidden" name="locality_id" value="#locality_id#">
 					</form>
 					<input type="button" class="btn btn-secondary btn-xs" onClick=" $('##createNewCollEventForm').submit(); " value="Add a Collecting Event to this Locality">

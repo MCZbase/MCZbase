@@ -82,11 +82,7 @@ limitations under the License.
 					<div class="col-12 mt-4 pb-2 border-bottom border-dark">
 						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">Collecting Event [#encodeForHtml(collecting_event_id)#]</h1>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
-							<cfif gitBranch EQ "unknown" OR findNoCase('master',gitBranch) GT 0 >
-								<a role="button" href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">Edit Collecting Event</a>
-							<cfelse>
-								<a role="button" href="/localities/CollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">Edit Collecting Event</a>
-							</cfif>
+							<a role="button" href="/localities/CollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">Edit Collecting Event</a>
 						</cfif>
 					</div>
 					<div class="col-12 mt-4 pb-2 border-bottom border-dark">

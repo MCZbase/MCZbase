@@ -432,12 +432,7 @@ limitations under the License.
 									</form>
 								</td>
 								<td>
-									<!--- TODO: Point to view collecting event page --->
-									<cfif gitBranch EQ "unknown" OR findNoCase('master',gitBranch) GT 0 >
-										<a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
-									<cfelse>
-										<a href="/localities/viewCollectingEvent.cfm?action=edit&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
-									</cfif>
+									<a href="/localities/viewCollectingEvent.cfm?action=edit&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
 								</td>
 								<td>#date#</td>
 								<td>#collecting_source# #collecting_method# #eventNumbers#</td>
@@ -668,12 +663,7 @@ limitations under the License.
 								(<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" target="_blank">#locality_id#</a>)
 							</td>
 							<td>
-								<!--- TODO: Point to view collecting event page --->
-								<cfif gitBranch EQ "unknown" OR findNoCase('master',gitBranch) GT 0 >
-									<a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
-								<cfelse>
-									<a href="/localities/viewCollectingEvent.cfm?action=edit&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
-								</cfif>
+								<a href="/localities/viewCollectingEvent.cfm?action=edit&collecting_event_id=#collecting_event_id#" target="_blank">#collecting_event_id#</a>
 							</td>
 							<td>#date#</td>
 							<td>
