@@ -365,10 +365,10 @@
 					</tbody>
 				</table>
 					<cfif cfcatch.detail CONTAINS "20001: Invalid attribute_type">
-						<h3 class="text-danger">The attribute is not used in your collection. See controlled vocabulary. 
+						<h3 class="text-danger">The attribute ( #whereAmI#" ) is not used in your collection. See controlled vocabulary. 
 						</h3>
 					</cfif>
-					<cfset message="#message# in row #whereAmI#"> 
+					
 				<cfrethrow>
 			</cfcatch>
 			</cftry>	
