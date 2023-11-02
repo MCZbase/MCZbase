@@ -334,8 +334,7 @@
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 					FROM cf_temp_attributes 
-					WHERE status is not null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
 				<table class='sortable table table-responsive table-striped d-lg-table'>
@@ -364,7 +363,7 @@
 					</tbody>
 				</table>
 					<cfif cfcatch.detail CONTAINS "20001: Invalid attribute_type">
-						<h3 class="text-danger">This attribute is not used in your collection. See controlled vocabulary.</h3>
+						<h3 class="text-danger">The attribute is not used in your collection. See controlled vocabulary.</h3>
 					</cfif>
 				<cfrethrow>
 			</cfcatch>
