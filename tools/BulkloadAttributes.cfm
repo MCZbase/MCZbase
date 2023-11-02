@@ -364,6 +364,8 @@
 						</cfloop>
 					</tbody>
 				</table>
+		
+				<cfrethrow>
 					<cfif cfcatch.detail CONTAINS "Invalid">
 						<h3 class="text-danger">
 							#whereAmI_5#
@@ -371,7 +373,6 @@
 							The attribute is not used in your collection. See controlled vocabulary. 
 						</h3>
 					</cfif>
-				<cfrethrow>
 			</cfcatch>
 			</cftry>	
 			<h2>#attributes_updates# attribute(s) passed checks</h2>
