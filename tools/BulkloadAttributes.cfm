@@ -370,8 +370,7 @@
 					</cfif>
 				<cfrethrow>
 			</cfcatch>
-				#whereAmI#
-			</cftry>
+			</cftry>	#whereAmI#
 		<!---	<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
