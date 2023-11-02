@@ -367,13 +367,13 @@
 				</table>
 				<cfif cfcatch.detail CONTAINS "Invalid attribute_type">
 					<h3 class="text-danger">
-						One of the attribute types is not used in your collection. See controlled vocabulary. 
+						One of the attribute types is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE" target="_blank">attribute type controlled vocabulary</a>. 
 					</h3>
 				</cfif>
 					
 				<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid ATTRIBUTE_UNITS">
 					<h3 class="text-danger">
-						One of the attribute units is not used in your collection. See controlled vocabulary. 
+						One of the attribute units is missing or not used in your collection. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm">controlled vocabulary</a> list. 
 					</h3>
 				</cfif>
 				<cfrethrow>
