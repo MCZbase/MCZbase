@@ -19,6 +19,7 @@ limitations under the License.
 <cfcomponent>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cfinclude template="/media/component/public.cfc" runOnce="true"><!--- for getMediaBlockHtmlUnthreaded --->
+<cfinclude template = "/localities/component/search.cfc" runOnce="true"><!--- for getLocalitySummary() --->
 <cf_rolecheck>
 
 <cffunction name="getHigherGeographyMapHtml" returntype="string" access="remote" returnformat="plain">
@@ -294,9 +295,15 @@ limitations under the License.
 <cffunction name="getLocalityMapHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="locality_id" type="string" required="yes">
 	<cfargument name="reload" type="string" required="no">
+	<cfargument name="extraText" type="string" required="no" default="">
 	
 	<!--- TODO: Check for encumbrances --->
 
+	<cfset variables.locality_id = arguments.locality_id>
+	<cfif isDefined("arguments.extraText")>
+		<cfset variables.extraText = arguments.extraText>
+	</cfif>
+	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityMapThread#tn#">
 		<cfoutput>
@@ -595,7 +602,7 @@ limitations under the License.
 					};
 					</cfif>
 					$(document).ready(function() {
-						setupMap(#locality_id#);
+						setupMap("#variables.locality_id#");
 					});
 				</script>
 				<cfquery name="getGeoreferences" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" timeout="#Application.short_timeout#">
@@ -627,7 +634,10 @@ limitations under the License.
 					WHERE accepted_lat_long_fg=1
 				</cfquery>
 				<cfif len(getAcceptedGeoref.dec_lat) gt 0 and len(getAcceptedGeoref.dec_long) gt 0 and (getAcceptedGeoref.dec_lat is not 0 and getAcceptedGeoref.dec_long is not 0)>
-					<div class="h3 px-2 pt-2">Map of Georeferences</div>
+					<div class="h3 px-2 pt-2">
+						Map of Georeferences
+						<cfif isDefined("variables.extraText")>#variables.extraText#</cfif>
+					</div>
 				<cfelse>
 					<div class="h3 pt-2 text-danger px-2">No accepted georeferences</div>
 				</cfif>
@@ -1444,7 +1454,23 @@ limitations under the License.
 	--->
 	<cfset variables.context = arguments.context>
 
-	<!--- TODO: Check for encumbrances --->
+	<!--- Check for encumbrances --->
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+		<cfset encumber = "">
+	<cfelse> 
+		<cfquery name="checkForEncumbrances" datasource="uam_god">
+			SELECT encumbrance_action 
+			FROM 
+				collecting_event 
+ 				join cataloged_item on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
+ 				join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+				join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+			WHERE
+				collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+		</cfquery>
+		<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
+		<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number, mask locality. --->
+	</cfif>
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="localityVerbatimThread#tn#">
@@ -1465,14 +1491,18 @@ limitations under the License.
 					<div class="h4">No verbatim locality values</div>
 				<cfelse>
 					<ul class="px-2 pl-xl-4 ml-xl-1">
-						<cfloop query="getVerbatim">
-							<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-								<li><a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&verbatim_locality=%3D#encodeForUrl(verbatim_locality)#&begDateOper=%3D&endDateOper=%3D&accentInsensitive=1&include_counts=0">#verbatim_locality#</a>#counts#</li>
-							<cfelse>
-								<li>#verbatim_locality##counts# </li>
-							</cfif>
-						</cfloop>
+						<cfif ListContains(encumber,"mask locality") GT 0>
+							[Masked]
+						<cfelse>
+							<cfloop query="getVerbatim">
+								<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
+									<li><a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&verbatim_locality=%3D#encodeForUrl(verbatim_locality)#&begDateOper=%3D&endDateOper=%3D&accentInsensitive=1&include_counts=0">#verbatim_locality#</a>#counts#</li>
+								<cfelse>
+									<li>#verbatim_locality##counts# </li>
+								</cfif>
+							</cfloop>
+						</cfif>
 					</ul>
 				</cfif>
 				<cfquery name="getVerbatimGeoref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getVerbatimGeoref_result">
@@ -1495,18 +1525,22 @@ limitations under the License.
 				<cfelse>
 					<div class="h4">Verbatim coordinate values</div>
 					<ul class="px-2 pl-xl-4 ml-xl-1">
-						<cfloop query="getVerbatimGeoref">
-							<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
-							<li>
-								<a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&begDateOper=%3D&endDateOper=%3D&verbatimCoordinates=#encodeForUrl(verbatimcoordinates)#&verbatimCoordinateSystem=#encodeForUrl(verbatimcoordinatesystem)#&verbatimSRS=%3D#encodeForUrl(verbatimsrs)#&verbatimlatitude=#encodeForUrl(verbatimlatitude)#&verbatimlongigude=#encodeForUrl(verbatimlongitude)#&accentInsensitive=1&include_counts=0">
-									#verbatimcoordinatesystem# #verbatimcoordinates# #verbatimlatitude# #verbatimlongitude# #verbatimsrs#
-								</a> 
-								 #counts#
-							</li>
-						</cfloop>
+						<cfif ListContains(encumber,"mask coordinates") GT 0>
+							[Masked]
+						<cfelse>
+							<cfloop query="getVerbatimGeoref">
+								<cfif ct GT 1><cfset counts=" (in #ct# collecting events)"><cfelse><cfset counts=""></cfif>
+								<li>
+									<a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&MinElevOper=%3D&MaxElevOper=%3D&MinElevOperM=%3D&MaxElevOperM=%3D&minDepthOper=%3D&MaxDepthOper=%3D&minDepthOperM=%3D&MaxDepthOperM=%3D&geology_attribute_hier=0&gs_comparator=%3D&begDateOper=%3D&endDateOper=%3D&verbatimCoordinates=#encodeForUrl(verbatimcoordinates)#&verbatimCoordinateSystem=#encodeForUrl(verbatimcoordinatesystem)#&verbatimSRS=%3D#encodeForUrl(verbatimsrs)#&verbatimlatitude=#encodeForUrl(verbatimlatitude)#&verbatimlongigude=#encodeForUrl(verbatimlongitude)#&accentInsensitive=1&include_counts=0">
+										#verbatimcoordinatesystem# #verbatimcoordinates# #verbatimlatitude# #verbatimlongitude# #verbatimsrs#
+									</a> 
+									 #counts#
+								</li>
+							</cfloop>
+						</cfif>
 					</ul>
 				</cfif>
-				<cfif isDefined("context") and context EQ "edit" AND getVerbatim.recordcount LT 21 >
+				<cfif getVerbatim.recordcount LT 21 >
 					<cfquery name="getEventList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEventList_result">
 						SELECT 
 							collecting_event_id,
@@ -1521,31 +1555,35 @@ limitations under the License.
 							and verbatim_locality is not null
 					</cfquery>
 					<cfif getEventList.recordcount GT 0>
-					<div class="h4">Collecting Events <a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&accentInsensitive=1&include_counts=1" target="_blank">(#getEventList.recordcount#)</a></div>
-					<ul class="px-2 pl-xl-4 ml-xl-1">
-						<cfloop query="getEventList">
-							<li>
-								<cfif getEventList.began_date EQ getEventList.ended_date>
-									<cfset date=getEventList.began_date>
-								<cfelseif len(getEventList.began_date) GT 0 AND len(getEventList.began_date) GT 0>
-									<cfset date="#getEventList.began_date#/#getEventList.ended_date#">
-								<cfelse>
-									<cfset date=getEventList.began_date>
-								</cfif>
-								<cfif len(getEventList.verbatim_date) GT 0>
-									<cfset date="#date# [#getEventList.verbatim_date#]">
-								</cfif>
-								<cfif len(getEventList.verbatimcoordinates) GT 0>
-									<cfset verbatim_coordinates=" #verbatimcoordinates# #verbatimsrs#">
-								<cfelseif len(getEventList.verbatimlatitude) GT 0>
-									<cfset verbatim_coordinates=" #verbatimlatitude#, #verbatimlongitude# #verbatimsrs#">
-								<cfelse>
-									<cfset verbatim_coordinates="">
-								</cfif>
-								#date# #verbatim_locality##verbatim_coordinates# [<a href="/Locality.cfm?Action=editCollEvnt&collecting_event_id=#getEventList.collecting_event_id#">#getEventList.collecting_event_id#</a>]
-							</li>
-						</cfloop>
-					</ul>
+						<div class="h4">Collecting Events <a href="/localities/CollectingEvents.cfm?action=search&execute=true&method=getCollectingEvents&locality_id=#locality_id#&accentInsensitive=1&include_counts=1" target="_blank">(#getEventList.recordcount#)</a></div>
+						<ul class="px-2 pl-xl-4 ml-xl-1">
+							<cfloop query="getEventList">
+								<li>
+									<cfif getEventList.began_date EQ getEventList.ended_date>
+										<cfset date=getEventList.began_date>
+									<cfelseif len(getEventList.began_date) GT 0 AND len(getEventList.began_date) GT 0>
+										<cfset date="#getEventList.began_date#/#getEventList.ended_date#">
+									<cfelse>
+										<cfset date=getEventList.began_date>
+									</cfif>
+									<cfif len(getEventList.verbatim_date) GT 0>
+										<cfset date="#date# [#getEventList.verbatim_date#]">
+									</cfif>
+									<cfif len(getEventList.verbatimcoordinates) GT 0>
+										<cfset verbatim_coordinates=" #verbatimcoordinates# #verbatimsrs#">
+									<cfelseif len(getEventList.verbatimlatitude) GT 0>
+										<cfset verbatim_coordinates=" #verbatimlatitude#, #verbatimlongitude# #verbatimsrs#">
+									<cfelse>
+										<cfset verbatim_coordinates="">
+									</cfif>
+									<cfif isDefined("context") and context EQ "view">
+										#date# #verbatim_locality##verbatim_coordinates# [<a href="/localities/viewCollectingEvent.cfm?collecting_event_id=#getEventList.collecting_event_id#">View</a>]
+									<cfelseif isDefined("context") and context EQ "edit">
+										#date# #verbatim_locality##verbatim_coordinates# [<a href="/localities/CollectingEvent.cfm?collecting_event_id=#getEventList.collecting_event_id#">#getEventList.collecting_event_id#</a>]
+									</cfif>
+								</li>
+							</cfloop>
+						</ul>
 					</cfif>
 				</cfif>
 				<cfif isDefined("context") and context EQ "edit" and isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
@@ -1581,7 +1619,7 @@ limitations under the License.
 			<cftry>
 				<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
-						media_id
+						media_id, media_relations_id
 					FROM
 						media_relations
 					WHERE
@@ -1593,9 +1631,13 @@ limitations under the License.
 				</cfquery>
 				<cfif collEventMedia.recordcount gt 0>
 					<cfloop query="collEventMedia">
-						<div class="col-6 px-1 col-sm-3 col-lg-3 col-xl-3 mb-1 px-md-2 pt-1 float-left"> 
+						<div class="col-6 p-1 col-sm-3 col-lg-3 col-xl-3 mb-1 px-md-2 pt-1 float-left border"> 
 							<div id='ceMediaBlock#collEventMedia.media_id#'>
 								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="350",captionAs="textShort")>
+							</div>
+							<div class="text-center">
+								<a class="btn btn-xs btn-warning" onClick=" confirmDialog('Remove Relationship to this Media record?','Remove?', function() { removeMediaRelation('#collEventMedia.media_relations_id#'); }); ">Remove</a>
+								<!--- assumes reloadMediaRelationships is in scope in page for reload --->
 							</div>
 						</div>
 					</cfloop>
@@ -1622,8 +1664,11 @@ limitations under the License.
 --->
 <cffunction name="getCollectingEventUsesHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collecting_event_id" type="string" required="yes">
+	<cfargument name="context" type="string" required="no" default="view">
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfset variables.collecting_event_id = arguments.collecting_event_id>
+	<cfset variables.context = arguments.context>
 	<cfthread name="collectingEventUsesThread#tn#">
 		<cfoutput>
 			<cftry>
@@ -1636,7 +1681,7 @@ limitations under the License.
 						locality_id
 					from
 						collecting_event
-						left join cataloged_item on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
+						join cataloged_item on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
 						left join collection on cataloged_item.collection_id = collection.collection_id
 					WHERE
 						collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
@@ -1648,7 +1693,51 @@ limitations under the License.
 			  	</cfquery>
 				<div>
 					<cfif #collectingEventUses.recordcount# is 0>
-						<h2 class="h4 px-2 text-primary">This CollectingEvent (#collecting_event_id#) contains no specimens. Please delete it if you don&apos;t have plans for it!</h2>
+						<h2 class="h4 px-2">
+							This CollectingEvent (#collecting_event_id#) contains no specimens. 
+							<cfif isDefined("context") and context EQ "edit">
+								Please delete it if you don&apos;t have plans for it!
+							</cfif>
+						</h2>
+						<cfif isDefined("context") and context EQ "edit">
+							<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT 
+									count(*) ct, 'media' as block
+								FROM media_relations
+								WHERE
+									related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+									and media_relationship like '% collecting_event'
+									and media_id is not null
+								UNION
+								SELECT
+									count(*) ct, 'number' as block
+								FROM
+									coll_event_number
+								WHERE
+									collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
+									and coll_event_number_id is not null
+							</cfquery>
+							<cfset hasBlock = false>
+							<cfloop query="deleteBlocks">
+								<cfif deleteBlocks.ct GT 0>
+									<cfset hasBlock = true>
+								</cfif>
+							</cfloop>
+							<cfif NOT hasBlock>
+								<!--- TODO: Post delete success handler --->
+								<input type='button' value='Delete this Collecting Event' class='delBtn btn btn-xs btn-danger' onClick=" confirmDialog('Delete this collecting_event (#encodeForHtml(collecting_event_id)#)?', 'Confirm Delete Collecting Event', function() { deleteCollectingEvent(#collecting_event_id#,null); }  ); " >
+							<cfelse>
+								<div>
+									Related media or collecting event numbers will have to be deleted first. (
+									<cfset separator="">
+									<cfloop query="deleteBlocks">
+										#separator##block#:#ct#
+										<cfset separator="; ">
+									</cfloop>	
+									)
+								</div>
+							</cfif>
+						</cfif>
 					<cfelseif #collectingEventUses.recordcount# is 1>
 						<h2 class="h4 px-2">
 							This CollectingEvent (#collecting_event_id#) contains 
@@ -1698,10 +1787,29 @@ limitations under the License.
 	<cfthread name="collEventSummaryThread#tn#">
 		<cfoutput>
 			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
+					<cfset encumber = "">
+				<cfelse> 
+					<cfquery name="checkForEncumbrances" datasource="uam_god">
+						SELECT encumbrance_action 
+						FROM 
+							collecting_event 
+				 			join cataloged_item on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
+				 			join coll_object_encumbrance on cataloged_item.collection_object_id = coll_object_encumbrance.collection_object_id
+							join encumbrance on coll_object_encumbrance.encumbrance_id = encumbrance.encumbrance_id
+						WHERE
+							collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					</cfquery>
+					<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
+				</cfif>
+				<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number. --->
 				<cfquery name="getCollEventUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollEventUp_result">
 					SELECT higher_geog, geog_auth_rec.geog_auth_rec_id,
-						spec_locality,
-						verbatim_date
+						began_date, ended_date,
+						collecting_time, collecting_method, collecting_source,
+						verbatim_date,
+						locality.locality_id,
+						verbatim_locality
 					FROM
 						collecting_event
 						join locality on collecting_event.locality_id = locality.locality_id
@@ -1710,9 +1818,30 @@ limitations under the License.
 						collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 				</cfquery>
 				<cfloop query="getCollEventUp">
-					<div class="h2">#higher_geog#</div>
-					<div class="h2">#spec_locality#</div>
-					<div class="h2">#verbatim_date#</div>
+					<div class="h2">
+						Higher Geography: #higher_geog# 
+						<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a>
+					</div>
+					<cfset locality = getLocalitySummary(locality_id="#getCollEventUp.locality_id#")>
+					<div class="h2">
+						Locality: #locality#
+						<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a>
+					</div>
+					<cfset datebit = "">
+					<cfif len(began_date) GT 0>
+						<cfif began_date EQ ended_date>
+							<cfset datebit = began_date>
+						<cfelse>
+							<cfset datebit = "#began_date#/#ended_date#">
+						</cfif>
+					</cfif>
+					<cfif len(collecting_time) GT 0>
+						<cfset datebit = "#datebit# #collecting_time#">
+					</cfif>
+					<cfif len(verbatim_date) GT 0>
+						<cfset datebit = "#datebit# [#verbatim_date#]">
+					</cfif>
+					<div class="h2">Event: #datebit# #collecting_method# #collecting_source# [#verbatim_locality#]</div>
 				</cfloop>
 			<cfcatch>
 				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 

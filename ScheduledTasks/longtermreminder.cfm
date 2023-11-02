@@ -64,7 +64,7 @@
 			select distinct agent_name, agent_id from expLoan where trans_agent_role = 'received by' order by agent_name;
 		</cfquery>
 		<!--- loop once for each agent --->
-	<cfloop query="agent" startrow=1 endrow=150>
+	<cfloop query="agent" startrow=1 endrow=700>
 	<cfquery name="chkLog" datasource="uam_god">
 		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2023-08-01', 'YYYY-MM-DD')
 	</cfquery>
@@ -280,7 +280,10 @@
 				<cfset toaddresses = "bhaley@oeb.harvard.edu">
 				<cfset ccaddresses = "">
 			</cfif--->
-
+			<cfif len(toaddresses) EQ 0>
+				<cfset toaddresses = "bhaley@oeb.harvard.edu">
+				<cfset specialmail="noemails">
+			</cfif>
 	<cfset uscodes="US,USA,UNITED STATES,UNITED STATES OF AMERICA,U.S.A">
 	<cfif loan.recordcount GT 0>
 			<cfquery name="collections" dbtype="query">
@@ -434,8 +437,10 @@
 				<cfset toaddresses = ValueList(cc_agents.address,";")>
 				<cfset ccaddresses = "">
 
-				<!---cfset toaddresses = "bhaley@oeb.harvard.edu">
-				<cfset ccaddresses = ""--->
+				<cfif len(toaddresses) EQ 0>
+				<cfset toaddresses = "bhaley@oeb.harvard.edu">
+				<cfset ccaddresses = "">
+				</cfif>
 
 			<cfquery name="collections" dbtype="query">
 				select distinct collection from loanunderreview

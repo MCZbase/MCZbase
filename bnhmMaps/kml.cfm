@@ -563,11 +563,11 @@
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
 					<cfscript>
-						kml=kml & '<p><a href="#application.serverRootUrl#/localties/Locality.cfm?locality_id=#locality_id#">Edit Locality</a></p>';
+						kml=kml & '<p><a href="#application.serverRootUrl#/localities/Locality.cfm?locality_id=#locality_id#">Edit Locality</a></p>';
 					</cfscript>
 				<cfelse>
 					<cfscript>
-						kml=kml & '<p><a href="#application.serverRootUrl#/localties/viewLocality.cfm?locality_id=#locality_id#">Locality Details</a></p>';
+						kml=kml & '<p><a href="#application.serverRootUrl#/localities/viewLocality.cfm?locality_id=#locality_id#">Locality Details</a></p>';
 					</cfscript>
 				</cfif>
 			</cfif>
