@@ -352,7 +352,7 @@
 								<td>#getProblemData.collection_cde# <cfset whereAmI_2 = #getProblemData.collection_cde#></td>
 								<td>#getProblemData.other_id_type# <cfset whereAmI_3 = #getProblemData.other_id_type#></td>
 								<td>#getProblemData.other_id_number# <cfset whereAmI_4 = #getProblemData.other_id_number#></td>
-								<td>#getProblemData.attribute# <cfset whereAmI_5 = #getProblemData.attribute#></td>
+								<td>#getProblemData.attribute# <cfset whereAmI_5 = #getProblemData.attribute_type#></td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI_6 = #getProblemData.attribute_value#></td>
 								<td>#getProblemData.attribute_units# <cfset whereAmI_7 = #getProblemData.attribute_units#></td>
 								<td>#getProblemData.attribute_date# <cfset whereAmI_8 = #getProblemData.attribute_date#></td>
@@ -366,7 +366,7 @@
 				</table>
 		
 				<cfrethrow>
-					<cfif cfcatch.detail CONTAINS "Invalid">
+					<cfif cfcatch.detail CONTAINS "Invalid attribute_type">
 						<h3 class="text-danger">
 							#whereAmI_5#
 							<br>
