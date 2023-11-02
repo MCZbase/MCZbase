@@ -35,7 +35,6 @@
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container py-3" id="content">
 	<h1 class="h2 mt-2">Bulkload Attributes</h1>
-
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv. It ignores rows that are exactly the same. The attributes and attribute values must appear as they do on the <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists. You will want to check the to see if the ATTRIBUTE_TYPE is in the <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE" class="font-weight-bold">ATTRIBUTE_TYPE</a> table and then see if the ATTRIBUTE_VALUE has a table of its own. For example, if you are in entomology and want to add "sex=male" as an attribute to a specimen record, check the ATTRIBUTE_TYPE table to see if "sex" is listed next to "Ent"  and then go to the <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES" class="font-weight-bold">ATTRIBUTE_CODE_TABLES</a> to see if there are specific values to choose. I see for sex, it says ctsex_cde. Next, I look for SEX_CDE on the ATTRIBUTES_CODE_TABLES page and click on it to find the format of "male" that the Ent dept prefers. In this case it is "Male." You may have to check the LENGTH_UNITS, NUMERIC_AGE_UNITS, AREA_UNITS, and ANGLE_UNITS if the units are needed for an attribute value. Remember to check capitalization and spelling.</p>
@@ -377,14 +376,14 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT institution_acronym,collection_cde,other_id_number,attribute,attribute_value,attribute_units,attribute_meth,determiner,remarks,status 
+						SELECT institution_acronym,attribute_type,collection_cde,other_id_number,attribute,attribute_value,attribute_units,attribute_meth,determiner,remarks,status 
 						FROM cf_temp_attributes 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
 					<h3 class="text-danger">Error updating row (#attributes_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
-							<tr><th>institution_acronym</th>
+							<tr><th>institution_acronym</th><th>attribute_type</th>
 								<th>collection_cde</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
 							</tr> 
 						</thead>
@@ -392,6 +391,7 @@
 							<cfloop query="getProblemData">
 								<tr>
 									<td>#getProblemData.institution_acronym#</td>
+									<td>#getProblemData.attribute_type#</td>
 									<td>#getProblemData.collection_cde#</td>
 									<td>#getProblemData.other_id_number#</td>
 									<td>#getProblemData.attribute#</td>
