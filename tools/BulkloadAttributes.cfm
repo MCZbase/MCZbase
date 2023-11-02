@@ -309,6 +309,7 @@
 	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
+			<cfset getProblemData="">
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -317,7 +318,6 @@
 				<cfset attributes_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-						<cfset whereami='current content'>
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
 							INSERT into attributes (
 							COLLECTION_OBJECT_ID,ATTRIBUTE_TYPE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,DETERMINED_DATE,DETERMINATION_METHOD, DETERMINED_BY_AGENT_ID,ATTRIBUTE_REMARK
@@ -332,17 +332,16 @@
 			<cfcatch>
 				<h2>There was a problem updating attributes.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units, attribute_date,attribute_meth,determiner,remarks,status
+					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 					FROM cf_temp_attributes 
 					WHERE status is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
 				<table class='sortable table table-responsive table-striped d-lg-table'>
 					<thead>
 						<tr>
-							<th>institution_acronym</th>
-							<th>collection_cde</th><th>other_id_type</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_date</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
+							<th>institution_acronym</th><th>collection_cde</th><th>other_id_type</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_date</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
 						</tr> 
 					</thead>
 					<tbody>
@@ -364,10 +363,13 @@
 						</cfloop>
 					</tbody>
 				</table>
+					<cfif cfcatch.detail CONTAINS "20001: Invalid attribute_type">
+						This is not an attribute for your collection.
+					</cfif>
 				<cfrethrow>
 			</cfcatch>
 			</cftry>
-			<cfset problem_key = "">
+		<!---	<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
 					<cfset attributes_updates = 0>
@@ -380,7 +382,6 @@
 					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
-			
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT institution_acronym,collection_cde,other_id_number,attribute,attribute_value,attribute_units,attribute_meth,determiner,remarks,status 
@@ -415,11 +416,9 @@
 						<cfset message="#message# in row #whereAmI#">
 				</cfcatch>
 				</cftry>
-			</cftransaction>
+			</cftransaction>--->
 			<h2>#attributes_updates# attribute(s) passed checks</h2>
-								<cfif cfcatch.detail CONTAINS "20001: Invalid attribute_type">
-						This is not an attribute for your collection.
-					</cfif>
+								
 			<h2 class="text-success">Success, changes applied.</h2>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
