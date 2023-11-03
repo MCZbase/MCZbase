@@ -366,13 +366,7 @@
 								<td>#getProblemData.remarks# </td>
 								<td>#getProblemData.status# </td>
 							</tr>
-							<cfif cfcatch.detail CONTAINS "Attributes">
-								<h3 class="text-danger">
-									<h2 class="text-danger mt-2">#whereAmI#</h2>
-								</h3>
-								<cfelse>
-									<h2 class="text-success">Success, changes applied.</h2>
-							</cfif>
+		
 						</cfloop>
 
 					</tbody>
