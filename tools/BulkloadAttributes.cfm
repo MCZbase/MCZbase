@@ -328,7 +328,7 @@
 							)
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
-							<cfset whereAmI="#attribute_unit#">
+							<cfset whereAmI="#attribute_units#">
 					</cfloop>
 				</cftransaction>
 	
