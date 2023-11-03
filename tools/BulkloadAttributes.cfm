@@ -343,38 +343,34 @@
 				</cfquery>
 				<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
 					<table class='sortable table-danger table table-responsive table-striped d-lg-table'>
-					<thead>
-						<tr>
-							<th>institution_acronym</th><th>collection_cde</th><th>other_id_type</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_date</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
-						</tr> 
-					</thead>
-					<tbody>
-						<cfloop query="getProblemData">
+						<thead>
 							<tr>
-								<td>#getProblemData.institution_acronym# </td>
-								<td>#getProblemData.collection_cde# </td>
-								<td>#getProblemData.other_id_type#</td>
-								<td>#getProblemData.other_id_number#</td>
-								<td>#getProblemData.attribute# </td>
-								<td>#getProblemData.attribute_value# </td>
-								<td>#getProblemData.attribute_units#</td>
-								<td>#getProblemData.attribute_date#</td>
-								<td>#getProblemData.attribute_meth# </td>
-								<td>#getProblemData.determiner# </td>
-								<td>#getProblemData.remarks# </td>
-								<td>#getProblemData.status# </td>
-							</tr>
-		
-						</cfloop>
-
-					</tbody>
+								<th>institution_acronym</th><th>collection_cde</th><th>other_id_type</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_date</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
+							</tr> 
+						</thead>
+						<tbody>
+							<cfloop query="getProblemData">
+								<tr>
+									<td>#getProblemData.institution_acronym# </td>
+									<td>#getProblemData.collection_cde# </td>
+									<td>#getProblemData.other_id_type#</td>
+									<td>#getProblemData.other_id_number#</td>
+									<td>#getProblemData.attribute# </td>
+									<td>#getProblemData.attribute_value# </td>
+									<td>#getProblemData.attribute_units#</td>
+									<td>#getProblemData.attribute_date#</td>
+									<td>#getProblemData.attribute_meth# </td>
+									<td>#getProblemData.determiner# </td>
+									<td>#getProblemData.remarks# </td>
+									<td>#getProblemData.status# </td>
+								</tr>
+							</cfloop>
+						</tbody>
 					</table>
-		
 				<cfset message="#message# in row #whereAmI#">	
 			</cfcatch>
-		
 			</cftry>
-				<cfif isdefined("updateAttributes_result")>
+				<cfif isdefined("whereAmI")>
 					<cfdump var="#whereAmI#">
 				</cfif>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
