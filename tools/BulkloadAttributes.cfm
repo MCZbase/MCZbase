@@ -327,7 +327,7 @@
 							)
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
-							<cfset whereAmI=updateAttributes_result>
+							<cfset whereAmI="#attribute_unit#">
 					</cfloop>
 				</cftransaction>
 	
@@ -353,18 +353,18 @@
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
-								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.institution_acronym# </td>
-								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.collection_cde# </td>
-								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.other_id_type#</td>
-								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.other_id_number#</td>
-								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.attribute# </td>
-								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.attribute_value# </td>
+								<td>#getProblemData.institution_acronym# </td>
+								<td>#getProblemData.collection_cde# </td>
+								<td>#getProblemData.other_id_type#</td>
+								<td>#getProblemData.other_id_number#</td>
+								<td>#getProblemData.attribute# </td>
+								<td>#getProblemData.attribute_value# </td>
 								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.attribute_units#</td>
-								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.attribute_date#</td>
-								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.attribute_meth# </td>
-								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.determiner# </td>
-								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.remarks# </td>
-								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.status# </td>
+								<td>#getProblemData.attribute_date#</td>
+								<td>#getProblemData.attribute_meth# </td>
+								<td>#getProblemData.determiner# </td>
+								<td>#getProblemData.remarks# </td>
+								<td>#getProblemData.status# </td>
 							</tr>
 							<cfif cfcatch.detail CONTAINS "Attributes">
 								<h3 class="text-danger">
@@ -377,9 +377,10 @@
 
 					</tbody>
 				</table>
-					<cfrethrow>
+					
 			</cfcatch>
-		</cftry>
+			<cfset message="#message# in row #whereAmI#">
+			</cftry>
 						
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
