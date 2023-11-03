@@ -363,9 +363,9 @@
 							</tr>
 						
 						</cfloop>
-							<cfif cfcatch.detail CONTAINS "attribute">
+							<cfif cfcatch.detail CONTAINS "Attributes with units must be numeric">
 								<h3 class="text-danger">
-									<h2 class="text-danger mt-2">Fix the problems and try again: <cfloop query="getProblemData">#whereAmI#</cfloop>.</h2>
+									<h2 class="text-danger mt-2">Fix the problems and try again: #whereAmI#.</h2>
 								</h3>
 								<cfelse>
 									<h2 class="text-success">Success, changes applied.</h2>
