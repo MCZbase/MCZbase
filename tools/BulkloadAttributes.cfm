@@ -331,7 +331,7 @@
 					</cfloop>
 				</cftransaction>
 				<cfif cfcatch.message CONTAINS "ORA-20001: Attribute with units must be numeric">
-					<cfset message = "attribute_units">
+						What is this?
 				</cfif>
 				<h2 class="h3">Updated #attributes_updates# attributes.</h2>
 			<cfcatch>
@@ -356,8 +356,8 @@
 									<td>#getProblemData.other_id_type#</td>
 									<td>#getProblemData.other_id_number#</td>
 									<td>#getProblemData.attribute# </td>
-									<td>#getProblemData.attribute_value# #whereAmI#</td>
-									<td>#getProblemData.attribute_units# #whereAmI#</td>
+									<td>#getProblemData.attribute_value# </td>
+									<td>#getProblemData.attribute_units# </td>
 									<td>#getProblemData.attribute_date#</td>
 									<td>#getProblemData.attribute_meth# </td>
 									<td>#getProblemData.determiner# </td>
@@ -367,12 +367,8 @@
 							</cfloop>
 						</tbody>
 					</table>
-				<cfset message="#message# in row #whereAmI#">	
 			</cfcatch>
 			</cftry>
-				<cfif isdefined("whereAmI")>
-					<cfdump var="#whereAmI#">
-				</cfif>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
