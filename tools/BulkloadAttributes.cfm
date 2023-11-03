@@ -347,8 +347,8 @@
 						</tr> 
 					</thead>
 					<tbody>
-						<tr>
-							<cfloop query="getProblemData">
+				
+							<cfloop query="getProblemData">		<tr>
 								<td>#getProblemData.institution_acronym# <cfset whereAmI = "#institution_acronym#"></td>
 								<td>#getProblemData.collection_cde# <cfset whereAmI = "#collection_cde#"></td>
 								<td>#getProblemData.other_id_type# <cfset whereAmI = "#other_id_type#"></td>
@@ -390,9 +390,9 @@
 								<td>#getProblemData.remarks#</td>
 								<td>#getProblemData.status#</td>
 					
-						
-							</cfloop>
 						</tr> 
+							</cfloop>
+						
 					</tbody>
 				</table>
 
