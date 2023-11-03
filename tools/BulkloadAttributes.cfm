@@ -366,6 +366,7 @@
 					</table>
 			</cfcatch>
 			</cftry>
+			<cfif cfmessage contains 'Attributes with units must be numeric'>Attribute values much be numeric when attribute_units are required. wing length</cfif>
 			<h2 class="text-success">Success</h2>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
