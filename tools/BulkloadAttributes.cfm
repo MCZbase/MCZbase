@@ -313,6 +313,7 @@
 			<cfset whereAmI = "">
 			<cfset problem = "There is a problem with">
 				<cfset problem2 = "(invalid data)">
+				<cfset errormessage = "">
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -367,13 +368,14 @@
 								<h3 class="text-danger">
 									#whereAmI#
 								</h3>
+								<cfset errormessage = 'errors'>
 							</cfif>
 						</cfloop>
 					</tbody>
 				</table>
 			</cfcatch>
 		</cftry>
-		<cfif cfcatch.detail CONTAINS "attribute">
+		<cfif errormessage = 'errors'>
 			Fix the problems and try again.
 		<cfelse>
 			<h2 class="text-success">Success, changes applied.</h2>
