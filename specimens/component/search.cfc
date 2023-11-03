@@ -3631,7 +3631,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 				</cfquery>
 				<cfif getcurrentvalues.recordcount NEQ 1>
-					<cfthrow message="Matched other than one record in user search table."
+					<cfthrow message="Matched other than one record in user search table.">
 				</cfif>
 				<cfquery name="remove" datasource="cf_dbuser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="remove_result" timeout="#Application.short_timeout#">
 					DELETE FROM
@@ -3642,7 +3642,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
 				</cfquery>
 				<cfif remove_result.recordcount NEQ 1>
-					<cfthrow message="Tried to remove other than one record in user search table."
+					<cfthrow message="Tried to remove other than one record in user search table.">
 				</cfif>
 				<cfquery name="movepagedown" datasource="cf_dbuser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="movepagedown_result" timeout="#Application.short_timeout#">
 					UPDATE
