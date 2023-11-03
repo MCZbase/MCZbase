@@ -383,7 +383,7 @@
 				</table>
 			</cfcatch>
 			</cftry>	
-			<h2>#whereAmI#  #message#  #attributes_updates# attribute(s) passed checks</h2>
+			<h2>Problem(s): #whereAmI# <br>  #message# </h2>
 			<h2 class="text-success">Success, changes applied.</h2>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
