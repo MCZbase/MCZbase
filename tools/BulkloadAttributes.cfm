@@ -348,21 +348,19 @@
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
-								<td>#getProblemData.institution_acronym# <cfset whereAmI = "institution_acronym #institution_acronym# is not valid"></td>
-								<td>#getProblemData.collection_cde# <cfset whereAmI = "collection_cde #collection_cde# is not valid"></td>
-								<td>#getProblemData.other_id_type# <cfset whereAmI = "other_id_type #getProblemData.other_id_type# is not valid"></td>
-								<td>#getProblemData.other_id_number# <cfset whereAmI = "other_id_number #other_id_number# is not valid"></td>
-								<td>#getProblemData.attribute# <cfset whereAmI = "attribute #getProblemData.attribute# is not valid"></td>
-								<td>#getProblemData.attribute_value# <cfset whereAmI = "attribute_value #getProblemData.attribute_value# is not valid">
+								<td>#getProblemData.institution_acronym# <cfset whereAmI = "institution_acronym #institution_acronym#"></td>
+								<td>#getProblemData.collection_cde# <cfset whereAmI = "collection_cde #collection_cde#"></td>
+								<td>#getProblemData.other_id_type# <cfset whereAmI = "other_id_type #getProblemData.other_id_type#"></td>
+								<td>#getProblemData.other_id_number# <cfset whereAmI = "other_id_number #other_id_number#"></td>
+								<td>#getProblemData.attribute# <cfset whereAmI = "attribute #getProblemData.attribute#"></td>
+								<td>#getProblemData.attribute_value# <cfset whereAmI = "attribute_value #getProblemData.attribute_value#">
 								</td>
-								<td>#getProblemData.attribute_units# <cfset whereAmI = "getProblemData.attribute_units #getProblemData.attribute_units# is not valid"></td>
-								<td>#getProblemData.attribute_date#  <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
-								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
-								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
-								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
-<!---								<td>#getProblemData.status#
-						
-								</td>--->
+								<td>#getProblemData.attribute_units# <cfset whereAmI = "getProblemData.attribute_units #getProblemData.attribute_units#"></td>
+								<td>#getProblemData.attribute_date#  <cfset whereAmI = "#getProblemData.attribute_units#"></td>
+								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
+								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
+								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
+								<td>#getProblemData.status#	</td>
 							</tr>
 										<cfif cfcatch.detail CONTAINS "attribute">
 										<h3 class="text-danger">
