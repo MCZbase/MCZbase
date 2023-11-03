@@ -363,18 +363,18 @@
 							</tr>
 
 						</cfloop>
-													<cfif cfcatch.detail CONTAINS "attribute">
+							<cfif cfcatch.detail CONTAINS "attribute">
 								<h3 class="text-danger">
-									<cfset errormessage = " errors: #whereAmI#">
+									<h2 class="text-danger mt-2">Fix the problems and try again: <cfloop query="getProblemData">#whereAmI#</cfloop>.</h2>
 								</h3>
 							</cfif>
 					</tbody>
 				</table>
 			</cfcatch>
 		</cftry>
-		<cfif errormessage contains 'error_messages'>
-			<h2 class="text-danger mt-2">Fix the problems and try again: <cfloop query="getProblemData">#whereAmI#,</cfloop>.</h2>
-		<cfelse>
+
+			
+
 			<h2 class="text-success">Success, changes applied.</h2>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
