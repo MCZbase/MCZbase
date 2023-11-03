@@ -6,9 +6,9 @@
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
-	<cfset csv = queryToCSV(getProblemData)>
+	<!---<cfset csv = queryToCSV(getProblemData)>--->
 	<cfheader name="Content-Type" value="text/csv">
-	<cfoutput>#csv#</cfoutput>
+<!---	<cfoutput>#csv#</cfoutput>--->
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
