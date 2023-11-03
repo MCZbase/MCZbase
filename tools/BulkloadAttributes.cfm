@@ -361,19 +361,21 @@
 									</cfif>
 								</td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "#attribute_value#"></td>
-								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#"></td>
+								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#">
+									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid ATTRIBUTE_UNITS">
+										<h3 class="text-danger">
+											One of the attribute units is missing or not used in your collection. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm">controlled vocabulary</a> list. 
+										</h3>
+										<cfrethrow>
+									</cfif>	
+								</td>
 								<td>#getProblemData.attribute_date#</td>
 								<td>#getProblemData.attribute_meth#</td>
 								<td>#getProblemData.determiner#</td>
 								<td>#getProblemData.remarks#</td>
 								<td>#getProblemData.status#</td>
 					
-								<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid ATTRIBUTE_UNITS">
-									<h3 class="text-danger">
-										One of the attribute units is missing or not used in your collection. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm">controlled vocabulary</a> list. 
-									</h3>
-									<cfrethrow>
-								</cfif>
+						
 							</cfloop>
 						</tr> 
 					</tbody>
