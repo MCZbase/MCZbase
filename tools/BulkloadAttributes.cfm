@@ -348,35 +348,31 @@
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
-								<td>#getProblemData.institution_acronym# <cfset whereAmI = "#institution_acronym#"></td>
-								<td>#getProblemData.collection_cde# <cfset whereAmI = "#collection_cde#"></td>
-								<td>#getProblemData.other_id_type# <cfset whereAmI = "#other_id_type#"></td>
-								<td>#getProblemData.other_id_number# <cfset whereAmI = "#other_id_number#"></td>
-								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute# is not valid">			
-											<!---<cfset message= "One of the attributes is not used in your collection. See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> --->
+								<td>#getProblemData.institution_acronym# <cfset whereAmI = "institution_acronym #institution_acronym# is not valid"></td>
+								<td>#getProblemData.collection_cde# <cfset whereAmI = "collection_cde #collection_cde# is not valid"></td>
+								<td>#getProblemData.other_id_type# <cfset whereAmI = "other_id_type #other_id_type# is not valid"></td>
+								<td>#getProblemData.other_id_number# <cfset whereAmI = "other_id_number #other_id_number# is not valid"></td>
+								<td>#getProblemData.attribute# <cfset whereAmI = "attribute #attribute# is not valid">			
 								</td>
-								<td>#getProblemData.attribute_value# <cfset whereAmI = "#getProblemData.attribute_value# is not valid">
-										<!---	<cfset message= "One of the attribute_values is not used in your collection. See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> --->
-									
+								<td>#getProblemData.attribute_value# <cfset whereAmI = "attribute_value #getProblemData.attribute_value# is not valid">
 								</td>
 								<td>#getProblemData.attribute_units# <cfset whereAmI = "#getProblemData.attribute_units# is not valid">
-											<!---<cfset message= "#message# See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> --->
 								</td>
-								<td>#getProblemData.attribute_date#</td>
-								<td>#getProblemData.attribute_meth#</td>
-								<td>#getProblemData.determiner#</td>
-								<td>#getProblemData.remarks#</td>
-								<td>#getProblemData.status#
-									<cfif cfcatch.detail CONTAINS "ORA-20001">
+								<td>#getProblemData.attribute_date#  <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
+								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
+								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
+								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
+<!---								<td>#getProblemData.status#
+						
+								</td>--->
+							</tr>
+										<cfif cfcatch.detail CONTAINS "ORA-20001">
 										<h3 class="text-danger">
 											#whereAmI#
 											#message# 
 										</h3>
 										
 									</cfif>
-								</td>
-							</tr>
-							
 						</cfloop>
 						<cfrethrow>
 					</tbody>
