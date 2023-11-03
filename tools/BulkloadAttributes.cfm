@@ -316,6 +316,8 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cftry>
+				
+
 				<cfset attributes_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
@@ -327,10 +329,16 @@
 							)
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
+							<cfset whereAmI=#attribute#>
 					</cfloop>
 				</cftransaction>
+	
 				<h2 class="h3">Updated #attributes_updates# attributes.</h2>
 			<cfcatch>
+				<cfdump var="#cfcatch#">
+					<cfif cfcatch.detail CONTAINS "ORA-00001: attribute">
+							put human readable interpretation in the error message that goes to the user.
+					</cfif>
 				<h2 class="h3">There was a problem updating attributes.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
@@ -363,7 +371,7 @@
 							</tr>
 							<cfif cfcatch.detail CONTAINS "Attributes">
 								<h3 class="text-danger">
-									<h2 class="text-danger mt-2">Fix the problems and try again: #whereAmI#</h2>
+									<h2 class="text-danger mt-2">#whereAmI#</h2>
 								</h3>
 								<cfelse>
 									<h2 class="text-success">Success, changes applied.</h2>
