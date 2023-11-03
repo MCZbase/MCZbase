@@ -331,25 +331,21 @@
 					</cfloop>
 				</cftransaction>
 				<h2>Updated #attributes_updates# attributes.</h2>
-			<cfcatch>
-				  <p>#cfcatch.message#</p>
-  <p>The contents of the tag stack are:</p>
-  <cfloop 
-    index = i 
-    from = 1 to = #ArrayLen(cfcatch.tagContext)#>
-       <cfset sCurrent = #cfcatch.tagContext[i]#>
-         <br>#i# #sCurrent["ID"]#
-        (#sCurrent["LINE"]#,#sCurrent["COLUMN"]#)
-        #sCurrent["TEMPLATE"]#
-  </cfloop>
-<!---				<h2>There was a problem updating #attributes_updates# attributes.</h2>
+				<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid attribute_type">
+					<h3 class="text-danger">
+						One of the attributes is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE" target="_blank">attribute type controlled vocabulary</a>. 
+					</h3>
+					<cfthrow>
+				</cfif>
+			<cfcatch type= "application">
+				<h2>There was a problem updating #attributes_updates# attributes. #cfcatch.message#</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 					FROM cf_temp_attributes 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
-				<table class='sortable table-danger table table-responsive table-striped d-lg-table'>
+	<!---			<table class='sortable table-danger table table-responsive table-striped d-lg-table'>
 					<thead>
 						<tr>
 							<th>institution_acronym</th><th>collection_cde</th><th>other_id_type</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_date</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
@@ -362,12 +358,7 @@
 								<td>#getProblemData.collection_cde# <cfset whereAmI = "#collection_cde#"></td>
 								<td>#getProblemData.other_id_type# <cfset whereAmI = "#other_id_type#"></td>
 								<td>#getProblemData.other_id_number# <cfset whereAmI = "#other_id_number#"></td>
-								<td>#getProblemData.attribute# <cfif cfcatch.detail CONTAINS "ORA-20001: Invalid attribute_type">
-									<h3 class="text-danger">
-										One of the attributes is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE" target="_blank">attribute type controlled vocabulary</a>. 
-									</h3>
-									<cfrethrow>
-								</cfif></td>
+								<td>#getProblemData.attribute# </td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "#attribute_value#"></td>
 								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#"></td>
 								<td>#getProblemData.attribute_date#</td>
@@ -385,8 +376,17 @@
 							</cfloop>
 						</tr> 
 					</tbody>
-				</table>
---->
+				</table>--->
+					  <p>The contents of the tag stack are:</p>
+  <cfloop 
+    index = i 
+    from = 1 to = #ArrayLen(cfcatch.tagContext)#>
+       <cfset sCurrent = #cfcatch.tagContext[i]#>
+         <br>#i# #sCurrent["ID"]#
+        (#sCurrent["LINE"]#,#sCurrent["COLUMN"]#)
+        #sCurrent["TEMPLATE"]#
+  </cfloop>
+
 			</cfcatch>
 			</cftry>	
 			<h2>#attributes_updates# attribute(s) passed checks</h2>
