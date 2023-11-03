@@ -368,15 +368,15 @@
 								<h3 class="text-danger">
 									#whereAmI#
 								</h3>
-								<cfset errormessage = 'errors'>
+								<cfset errormessage = 'error_messages'>
 							</cfif>
 						</cfloop>
 					</tbody>
 				</table>
 			</cfcatch>
 		</cftry>
-		<cfif errormessage is 'errors'>
-			<h2 class="text-danger">Fix the problems and try again.</h2>
+		<cfif errormessage is 'error_messages'>
+			<h2 class="text-danger mt-2">Fix the problems and try again: <cfloop query="getProblemData">#whereAmI#,</cfloop>.</h2>
 		<cfelse>
 			<h2 class="text-success">Success, changes applied.</h2>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
