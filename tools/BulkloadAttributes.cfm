@@ -360,18 +360,16 @@
 								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_units# #problem#"></td>
 								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.attribute_units# #problem#"></td>
 								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.attribute_units# #problem#"></td>
-<!---								<td>#getProblemData.status#
-						
-								</td>--->
+								<td>#getProblemData.status#</td>
 							</tr>
 										<cfif cfcatch.detail CONTAINS "attribute">
 										<h3 class="text-danger">
 											#whereAmI#
 										</h3>
 										
-									</cfif>
+									</cfif><cfrethrow>
 						</cfloop>
-						<cfrethrow>
+						
 					</tbody>
 				</table>
 			</cfcatch>
