@@ -310,12 +310,15 @@
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset getProblemData="">
+			<cfset whereAmI = "">
+			<cfset message = "">
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-				<cfset whereAmI = "">
-				<cfset message = "">
+			<cfquery name="getMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT * FROM messages
+			</cfquery>
 			<cftry>
 				<cfset attributes_updates = 0>
 				<cftransaction>
@@ -357,6 +360,7 @@
 								</td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "#getProblemData.attribute_value# is not valid">
 										<!---	<cfset message= "One of the attribute_values is not used in your collection. See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> --->
+									
 								</td>
 								<td>#getProblemData.attribute_units# <cfset whereAmI = "#getProblemData.attribute_units# is not valid">
 											<!---<cfset message= "#message# See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> --->
