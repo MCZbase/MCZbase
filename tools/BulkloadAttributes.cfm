@@ -376,7 +376,7 @@
 			</cfcatch>
 		</cftry>
 		<cfif errormessage is 'errors'>
-			Fix the problems and try again.
+			<h2 class="text-danger">Fix the problems and try again.</h2>
 		<cfelse>
 			<h2 class="text-success">Success, changes applied.</h2>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
