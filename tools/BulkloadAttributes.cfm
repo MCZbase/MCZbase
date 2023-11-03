@@ -355,7 +355,7 @@
 									<td>#getProblemData.other_id_number#</td>
 									<td>#getProblemData.attribute# </td>
 									<td>#getProblemData.attribute_value# </td>
-									<td>#getProblemData.attribute_units# 	<cfif cfcatch.message contains 'Attributes with units must be numeric'>Attribute values much be numeric when attribute_units are required. wing length</cfif></td>
+									<td>#getProblemData.attribute_units# 	<cfif cfcatch.message contains 'Attributes with units must be numeric'>*</cfif></td>
 									<td>#getProblemData.attribute_date#</td>
 									<td>#getProblemData.attribute_meth# </td>
 									<td>#getProblemData.determiner# </td>
