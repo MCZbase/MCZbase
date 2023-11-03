@@ -362,7 +362,7 @@
 								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
 								<td>#getProblemData.status#</td>
 							</tr>
-							<cfif cfcatch.detail CONTAINS "attribute">
+							<cfif cfcatch.detail CONTAINS "ORA">
 								<h3 class="text-danger">
 									#whereAmI# #problem#
 								</h3>
