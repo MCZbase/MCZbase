@@ -330,7 +330,7 @@
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 					</cfloop>
 				</cftransaction>
-				<cfif cfcatch.detail CONTAINS "ORA-20001: Attribute with units must be numeric">
+				<cfif cfcatch.message CONTAINS "ORA-20001: Attribute with units must be numeric">
 					<cfset message = "attribute_units">
 				</cfif>
 				<h2 class="h3">Updated #attributes_updates# attributes.</h2>
