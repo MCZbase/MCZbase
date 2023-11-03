@@ -371,7 +371,7 @@
 						</cfloop>
 						
 					</tbody>
-				</table><cfrethrow>
+				</table><cfrethrow errorcode = "#whereAmI#">
 			</cfcatch>
 			</cftry>	
 		
