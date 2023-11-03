@@ -358,7 +358,7 @@
 										<h3 class="text-danger">
 											This attribute is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE" target="_blank">attribute type controlled vocabulary</a>. 
 										</h3>
-										<cfthrow>
+										<cfrethrow>
 									</cfif>
 								</td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "#attribute_value#">
@@ -366,7 +366,7 @@
 										<h3 class="text-danger">
 											This attribute_value is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES" target="_blank">attribute type controlled vocabulary</a>. 
 										</h3>
-										<cfthrow>
+										<cfrethrow>
 									</cfif>	
 								</td>
 								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#">
@@ -374,7 +374,7 @@
 										<h3 class="text-danger">
 											The units is missing or this value is not valid. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES">controlled vocabulary</a> list. 
 										</h3>
-										<cfthrow>
+										<cfrethrow>
 									</cfif>	
 								</td>
 								<td>#getProblemData.attribute_date# <cfset whereAmI = "#attribute_date#">
@@ -382,7 +382,7 @@
 										<h3 class="text-danger">
 											The date is missing or incorrectly formatted. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES">controlled vocabulary</a> list. 
 										</h3>
-										<cfthrow>
+										<cfrethrow>
 									</cfif>		
 								</td>
 								<td>#getProblemData.attribute_meth#</td>
@@ -398,7 +398,7 @@
 
 			</cfcatch>
 			</cftry>	
-			<h2>#attributes_updates# attribute(s) passed checks</h2>
+			<h2>#attributes_updates# attribute(s) load. Fix problem and try again.</h2>
 			<h2 class="text-success">Success, changes applied.</h2>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
