@@ -357,7 +357,7 @@
 										<h3 class="text-danger">
 											This attribute is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE" target="_blank">attribute type controlled vocabulary</a>. 
 										</h3>
-										<cfrethrow object="#getProblemData.attribute#">
+										<cfrethrow>
 									</cfif>
 								</td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "#attribute_value#">
