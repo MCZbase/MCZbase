@@ -351,10 +351,10 @@
 								<td>#getProblemData.collection_cde# <cfset whereAmI = "#collection_cde#"></td>
 								<td>#getProblemData.other_id_type# <cfset whereAmI = "#getProblemData.other_id_type#"></td>
 								<td>#getProblemData.other_id_number# <cfset whereAmI = "#getProblemData.other_id_number#"></td>
-								<td>#getProblemData.attribute# <cfset whereAmI = "#getProblemData.attribute#"></td>
-								<td>#getProblemData.attribute_value# <cfset whereAmI = "#getProblemData.attribute_value#">
+								<td><cfset whereAmI = "#getProblemData.attribute#"></td>
+								<td><cfset whereAmI = "#getProblemData.attribute_value#">
 								</td>
-								<td>#getProblemData.attribute_units# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
+								<td><cfset whereAmI = "#getProblemData.attribute_units#"></td>
 								<td>#getProblemData.attribute_date#  <cfset whereAmI = "#getProblemData.attribute_date#"></td>
 								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_meth#"></td>
 								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.determiner#"></td>
@@ -365,7 +365,7 @@
 						</cfloop>
 							<cfif cfcatch.detail CONTAINS "Attributes with units must be numeric">
 								<h3 class="text-danger">
-									<h2 class="text-danger mt-2">Fix the problems and try again: #whereAmI#.</h2>
+									<h2 class="text-danger mt-2">Fix the problems and try again: #whereAmI#</h2>
 								</h3>
 								<cfelse>
 									<h2 class="text-success">Success, changes applied.</h2>
