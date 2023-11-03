@@ -366,8 +366,8 @@
 										<h3 class="text-danger">
 											#whereAmI#
 										</h3>
-										
-									</cfif><cfthrow>
+										<cfthrow>
+									</cfif>
 						</cfloop>
 						
 					</tbody>
