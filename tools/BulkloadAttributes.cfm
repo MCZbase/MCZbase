@@ -348,18 +348,18 @@
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
-								<td>#getProblemData.institution_acronym# <cfset whereAmI = "#institution_acronym# #problem#"></td>
-								<td>#getProblemData.collection_cde# <cfset whereAmI = "#collection_cde# #problem#"></td>
-								<td>#getProblemData.other_id_type# <cfset whereAmI = "other_id_type #other_id_type# #problem#"></td>
-								<td>#getProblemData.other_id_number# <cfset whereAmI = "other_id_number #other_id_number# #problem#"></td>
-								<td>#getProblemData.attribute# <cfset whereAmI = "attribute #attribute# #problem#"></td>
-								<td>#getProblemData.attribute_value# <cfset whereAmI = "attribute_value #getProblemData.attribute_value# #problem#">
+								<td>#getProblemData.institution_acronym# <cfset whereAmI = "#institution_acronym#"></td>
+								<td>#getProblemData.collection_cde# <cfset whereAmI = "#collection_cde#"></td>
+								<td>#getProblemData.other_id_type# <cfset whereAmI = "#other_id_type#"></td>
+								<td>#getProblemData.other_id_number# <cfset whereAmI = "other_id_number #other_id_number#"></td>
+								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute#"></td>
+								<td>#getProblemData.attribute_value# <cfset whereAmI = "#getProblemData.attribute_value#">
 								</td>
-								<td>#getProblemData.attribute_units# <cfset whereAmI = "#getProblemData.attribute_units# #problem#"></td>
-								<td>#getProblemData.attribute_date#  <cfset whereAmI = "#getProblemData.attribute_units# #problem#"></td>
-								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_units# #problem#"></td>
-								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.attribute_units# #problem#"></td>
-								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.attribute_units# #problem#"></td>
+								<td>#getProblemData.attribute_units# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
+								<td>#getProblemData.attribute_date#  <cfset whereAmI = "#getProblemData.attribute_units#"></td>
+								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
+								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
+								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
 								<td>#getProblemData.status#</td>
 							</tr>
 										<cfif cfcatch.detail CONTAINS "attribute">
