@@ -2013,7 +2013,11 @@ limitations under the License.
 							locality.section,
 							locality.section_part,
 						</cfif>
-						locality.spec_locality,
+						<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail) >
+							'[Masked]' as spec_locality,
+						<cfelse>
+							locality.spec_locality,
+						</cfif>
 						locality.locality_remarks,
 						locality.legacy_spec_locality_fg,
 						locality.depth_units,
