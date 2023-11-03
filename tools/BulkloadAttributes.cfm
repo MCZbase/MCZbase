@@ -366,8 +366,9 @@
 								<td>#getProblemData.determiner#</td>
 								<td>#getProblemData.remarks#</td>
 								<td>#getProblemData.status#
-									<cfif cfcatch.detail CONTAINS "ATTRIBUTE%">
-										<h3 class="text-danger">#whereAmI#
+									<cfif cfcatch.detail CONTAINS "ORA-20001">
+										<h3 class="text-danger">
+											#whereAmI#
 											#message# 
 										</h3>
 										
