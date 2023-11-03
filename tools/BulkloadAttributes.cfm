@@ -316,9 +316,6 @@
 				SELECT * FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getMessage" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT * FROM messages
-			</cfquery>
 			<cftry>
 				<cfset attributes_updates = 0>
 				<cftransaction>
