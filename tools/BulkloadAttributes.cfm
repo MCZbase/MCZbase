@@ -369,13 +369,11 @@
 								</h3>
 							</cfif>
 						</cfloop>
-					
 					</tbody>
 				</table>
 			</cfcatch>
-				
-			</cftry>
-		<cfif len(whereAmI) gt 0>
+		</cftry>
+		<cfif cfcatch.detail CONTAINS "attribute">
 			Fix the problems and try again.
 		<cfelse>
 			<h2 class="text-success">Success, changes applied.</h2>
