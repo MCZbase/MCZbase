@@ -311,7 +311,6 @@
 		<cfoutput>
 			<cfset getProblemData="">
 			<cfset whereAmI = "">
-			<cfset problem = "is not valid">
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -331,7 +330,7 @@
 					</cfloop>
 				</cftransaction>
 				<h2>Updated #attributes_updates# attributes.</h2>
-			<cfcatch>
+			<cfcatch type="Application">
 				<h2>There was a problem updating attributes.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
@@ -364,9 +363,10 @@
 							</tr>
 							<cfif cfcatch.detail CONTAINS "ORA">
 								<h3 class="text-danger">
-									#whereAmI# #problem#
+									#whereAmI# #cfcatch.message#
 								</h3>
 							</cfif>
+							<cfrethrow>
 						</cfloop>
 					</tbody>
 				</table>
