@@ -359,7 +359,7 @@
 								<td>#getProblemData.other_id_number#</td>
 								<td>#getProblemData.attribute# </td>
 								<td>#getProblemData.attribute_value# </td>
-								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.attribute_units#</td>
+								<td>#getProblemData.attribute_units#</td>
 								<td>#getProblemData.attribute_date#</td>
 								<td>#getProblemData.attribute_meth# </td>
 								<td>#getProblemData.determiner# </td>
