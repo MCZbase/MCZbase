@@ -375,7 +375,7 @@
 				</table>
 			</cfcatch>
 		</cftry>
-		<cfif errormessage = 'errors'>
+		<cfif errormessage is 'errors'>
 			Fix the problems and try again.
 		<cfelse>
 			<h2 class="text-success">Success, changes applied.</h2>
