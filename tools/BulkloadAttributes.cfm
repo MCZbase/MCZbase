@@ -360,16 +360,30 @@
 										<cfrethrow object="#getProblemData.attribute#">
 									</cfif>
 								</td>
-								<td>#getProblemData.attribute_value# <cfset whereAmI = "#attribute_value#"></td>
+								<td>#getProblemData.attribute_value# <cfset whereAmI = "#attribute_value#">
+									<cfif cfcatch.detail CONTAINS "date">
+										<h3 class="text-danger">
+											This attribute_value is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES" target="_blank">attribute type controlled vocabulary</a>. 
+										</h3>
+										<cfrethrow object="#getProblemData.attribute#">
+									</cfif>	
+								</td>
 								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#">
 									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid ATTRIBUTE_UNITS">
 										<h3 class="text-danger">
-											The units is missing or this value is not valid. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm">controlled vocabulary</a> list. 
+											The units is missing or this value is not valid. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES">controlled vocabulary</a> list. 
 										</h3>
 										<cfrethrow>
 									</cfif>	
 								</td>
-								<td>#getProblemData.attribute_date#</td>
+								<td>#getProblemData.attribute_date#
+									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid ATTRIBUTE_UNITS">
+										<h3 class="text-danger">
+											The units is missing or this value is not valid. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES">controlled vocabulary</a> list. 
+										</h3>
+										<cfrethrow>
+									</cfif>		
+								</td>
 								<td>#getProblemData.attribute_meth#</td>
 								<td>#getProblemData.determiner#</td>
 								<td>#getProblemData.remarks#</td>
