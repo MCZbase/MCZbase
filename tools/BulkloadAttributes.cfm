@@ -355,41 +355,25 @@
 								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute#">			
 									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid attribute_type">
 										<h3 class="text-danger">
-											This attribute is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE" target="_blank">attribute type controlled vocabulary</a>. 
+											One of the attributes is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE" target="_blank">attribute type controlled vocabulary</a>. 
 										</h3>
 										<cfrethrow>
 									</cfif>
 								</td>
-								<td>#getProblemData.attribute_value# <cfset whereAmI = "#attribute_value#">
-									<cfif cfcatch.detail CONTAINS "date">
-										<h3 class="text-danger">
-											This attribute_value is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES" target="_blank">attribute type controlled vocabulary</a>. 
-										</h3>
-										<cfrethrow>
-									</cfif>	
-								</td>
-								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#">
-									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid ATTRIBUTE_UNITS">
-										<h3 class="text-danger">
-											The units is missing or this value is not valid. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES">controlled vocabulary</a> list. 
-										</h3>
-										<cfthrow>
-									</cfif>	
-								</td>
-								<td>#getProblemData.attribute_date# <cfset whereAmI = "#attribute_date#">
-									<cfif cfcatch.detail CONTAINS "date">
-										<h3 class="text-danger">
-											The date is missing or incorrectly formatted. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES">controlled vocabulary</a> list. 
-										</h3>
-										<cfrethrow>
-									</cfif>		
-								</td>
+								<td>#getProblemData.attribute_value# <cfset whereAmI = "#attribute_value#"></td>
+								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#"></td>
+								<td>#getProblemData.attribute_date#</td>
 								<td>#getProblemData.attribute_meth#</td>
 								<td>#getProblemData.determiner#</td>
 								<td>#getProblemData.remarks#</td>
 								<td>#getProblemData.status#</td>
 					
-						
+								<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid ATTRIBUTE_UNITS">
+									<h3 class="text-danger">
+										One of the attribute units is missing or not used in your collection. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm">controlled vocabulary</a> list. 
+									</h3>
+									<cfrethrow>
+								</cfif>
 							</cfloop>
 						</tr> 
 					</tbody>
