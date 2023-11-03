@@ -311,6 +311,7 @@
 		<cfoutput>
 			<cfset getProblemData="">
 			<cfset whereAmI = "">
+			<cfset problem = "is not valid">
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -330,7 +331,7 @@
 					</cfloop>
 				</cftransaction>
 				<h2>Updated #attributes_updates# attributes.</h2>
-			<cfcatch type="Application">
+			<cfcatch>
 				<h2>There was a problem updating attributes.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
@@ -347,25 +348,30 @@
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
-								<td>#getProblemData.institution_acronym# <cfset whereAmI = "#getProblemData.institution_acronym#"></td>
-								<td>#getProblemData.collection_cde# <cfset whereAmI = "#getProblemData.collection_cde#"></td>
-								<td>#getProblemData.other_id_type# <cfset whereAmI = "#getProblemData.other_id_type#"></td>
-								<td>#getProblemData.other_id_number# <cfset whereAmI = "#getProblemData.other_id_number#"></td>
-								<td>#getProblemData.attribute# <cfset whereAmI = "#getProblemData.attribute#"></td>
-								<td>#getProblemData.attribute_value# <cfset whereAmI = "#getProblemData.attribute_value#"></td>
-								<td>#getProblemData.attribute_units# <cfset whereAmI = "attribute_units #getProblemData.attribute_units#">					<cfif cfcatch.detail CONTAINS "ORA-20001">
-								<h3 class="text-danger">
-									#whereAmI# #cfcatch.message#
-								</h3>
-							</cfif></td>
-								<td>#getProblemData.attribute_date#  <cfset whereAmI = "#getProblemData.attribute_units#"></td>
-								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
-								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
-								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
-								<td>#getProblemData.status#</td>
+								<td>#getProblemData.institution_acronym# <cfset whereAmI = "institution_acronym #institution_acronym# is not valid"></td>
+								<td>#getProblemData.collection_cde# <cfset whereAmI = "collection_cde #collection_cde# is not valid"></td>
+								<td>#getProblemData.other_id_type# <cfset whereAmI = "other_id_type #other_id_type# is not valid"></td>
+								<td>#getProblemData.other_id_number# <cfset whereAmI = "other_id_number #other_id_number# is not valid"></td>
+								<td>#getProblemData.attribute# <cfset whereAmI = "attribute #attribute# is not valid"></td>
+								<td>#getProblemData.attribute_value# <cfset whereAmI = "attribute_value #getProblemData.attribute_value# is not valid">
+								</td>
+								<td>#getProblemData.attribute_units# <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
+								<td>#getProblemData.attribute_date#  <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
+								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
+								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
+								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
+<!---								<td>#getProblemData.status#
+						
+								</td>--->
 							</tr>
+										<cfif cfcatch.detail CONTAINS "attribute">
+										<h3 class="text-danger">
+											#whereAmI#
+										</h3>
+										
+									</cfif>
 						</cfloop>
-		
+						<cfrethrow>
 					</tbody>
 				</table>
 			</cfcatch>
