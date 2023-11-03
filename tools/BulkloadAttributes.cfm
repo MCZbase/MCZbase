@@ -361,7 +361,7 @@
 										<cfrethrow>
 									</cfif>
 								</td>
-								<td>#getProblemData.attribute_value# <cfset whereAmI = "#attribute_value#">
+								<td>#getProblemData.attribute_value# 
 									<cfif cfcatch.detail CONTAINS "date">
 										<h3 class="text-danger">
 											This attribute_value is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES" target="_blank">attribute type controlled vocabulary</a>. 
@@ -369,7 +369,7 @@
 										<cfrethrow>
 									</cfif>	
 								</td>
-								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#">
+								<td>#getProblemData.attribute_units# 
 									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid ATTRIBUTE_UNITS">
 										<h3 class="text-danger">
 											The units is missing or this value is not valid. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES">controlled vocabulary</a> list. 
@@ -377,7 +377,7 @@
 										<cfrethrow>
 									</cfif>	
 								</td>
-								<td>#getProblemData.attribute_date# <cfset whereAmI = "#attribute_date#">
+								<td>#getProblemData.attribute_date# 
 									<cfif cfcatch.detail CONTAINS "date">
 										<h3 class="text-danger">
 											The date is missing or incorrectly formatted. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES">controlled vocabulary</a> list. 
