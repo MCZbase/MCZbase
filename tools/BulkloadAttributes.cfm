@@ -359,9 +359,9 @@
 									<td>#getProblemData.attribute_meth# </td>
 									<td>#getProblemData.determiner# </td>
 									<td>#getProblemData.remarks# </td>
-									<td>#getProblemData.status# <cfrethrow></td>
+									<td>#getProblemData.status# </td>
 								</tr>
-							</cfloop>
+							</cfloop><cfrethrow>
 						</tbody>
 					</table>
 			</cfcatch>
