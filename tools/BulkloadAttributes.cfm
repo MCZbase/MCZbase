@@ -359,16 +359,11 @@
 									</cfif>
 								</td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "#getProblemData.attribute_value#">
-									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid attribute_value">
 											<cfset message= "One of the attribute_values is not used in your collection. See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> 
-										<cfrethrow>
-									</cfif>	
+					
 								</td>
 								<td>#getProblemData.attribute_units# <cfset whereAmI = "#getProblemData.attribute_units# is not valid">
-									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid attribute_units">
 											<cfset message= "One of the attribute_units is not used in your collection. See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> 
-										<cfrethrow>
-									</cfif>	
 								</td>
 								<td>#getProblemData.attribute_date#</td>
 								<td>#getProblemData.attribute_meth#</td>
