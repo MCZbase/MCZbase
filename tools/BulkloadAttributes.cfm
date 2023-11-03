@@ -354,14 +354,14 @@
 									<td>#getProblemData.other_id_number#</td>
 									<td>#getProblemData.attribute# </td>
 									<td>#getProblemData.attribute_value# </td>
-									<td>#getProblemData.attribute_units# </td>
+									<td>#getProblemData.attribute_units# <cfrethrow></td>
 									<td>#getProblemData.attribute_date#</td>
 									<td>#getProblemData.attribute_meth# </td>
 									<td>#getProblemData.determiner# </td>
 									<td>#getProblemData.remarks# </td>
 									<td>#getProblemData.status# </td>
 								</tr>
-							</cfloop><cfrethrow>
+							</cfloop>
 						</tbody>
 					</table>
 			</cfcatch>
