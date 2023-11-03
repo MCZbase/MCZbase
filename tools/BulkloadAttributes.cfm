@@ -366,7 +366,7 @@
 							</tr>
 							<cfif cfcatch.detail CONTAINS "attribute">
 								<h3 class="text-danger">
-									<cfset errormessage = "#whereAmI#">
+									<cfset errormessages = "#whereAmI#">
 								</h3>
 							</cfif>
 						</cfloop>
