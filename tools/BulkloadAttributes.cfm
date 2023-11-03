@@ -363,18 +363,20 @@
 								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
 								<td>#getProblemData.status# </td>
 							</tr>
-										<cfif cfcatch.detail CONTAINS "attribute">
-										<h3 class="text-danger">
-											#whereAmI#
-										</h3>
-									</cfif>
+							<cfif cfcatch.detail CONTAINS "attribute">
+								<h3 class="text-danger">
+									#whereAmI#
+								</h3>
+							</cfif>
 						</cfloop>
 					
 					</tbody>
 				</table>
 			</cfcatch>
 			</cftry>	
-		<cfif whereAmI lt 0>
+		<cfif whereAmI gt 0>
+			Fix the problems and try again.
+		<cfelse>
 			<h2 class="text-success">Success, changes applied.</h2>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
