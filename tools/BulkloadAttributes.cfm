@@ -361,16 +361,16 @@
 								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.remarks#"></td>
 								<td>#getProblemData.status# </td>
 							</tr>
-						
+							<cfrethrow>
 						</cfloop>
-							<cfif cfcatch.detail CONTAINS "Attributes with units must be numeric">
+							<cfif cfcatch.detail CONTAINS "Attributes">
 								<h3 class="text-danger">
 									<h2 class="text-danger mt-2">Fix the problems and try again: #whereAmI#</h2>
 								</h3>
 								<cfelse>
 									<h2 class="text-success">Success, changes applied.</h2>
 							</cfif>
-								<cfrethrow>
+							
 					</tbody>
 				</table>
 			</cfcatch>
