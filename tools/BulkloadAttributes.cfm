@@ -376,10 +376,10 @@
 										<cfrethrow>
 									</cfif>	
 								</td>
-								<td>#getProblemData.attribute_date#
-									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid ATTRIBUTE_UNITS">
+								<td>#getProblemData.attribute_date# <cfset whereAmI = "#attribute_date#">
+									<cfif cfcatch.detail CONTAINS "date">
 										<h3 class="text-danger">
-											The units is missing or this value is not valid. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES">controlled vocabulary</a> list. 
+											The date is missing or incorrectly formatted. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES">controlled vocabulary</a> list. 
 										</h3>
 										<cfrethrow>
 									</cfif>		
