@@ -377,9 +377,9 @@
 
 					</tbody>
 				</table>
-					
+					<cfset message="#message# in row #whereAmI#">	
 			</cfcatch>
-			<cfset message="#message# in row #whereAmI#">
+		
 			</cftry>
 						
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
