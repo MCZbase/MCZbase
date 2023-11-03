@@ -330,9 +330,6 @@
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 					</cfloop>
 				</cftransaction>
-				<cfif cfcatch.message CONTAINS "ORA-20001: Attribute with units must be numeric">
-						What is this?
-				</cfif>
 				<h2 class="h3">Updated #attributes_updates# attributes.</h2>
 			<cfcatch>
 				<h2 class="h3">There was a problem updating attributes.</h2>
@@ -362,13 +359,14 @@
 									<td>#getProblemData.attribute_meth# </td>
 									<td>#getProblemData.determiner# </td>
 									<td>#getProblemData.remarks# </td>
-									<td>#getProblemData.status# </td>
+									<td>#getProblemData.status# <cfrethrow></td>
 								</tr>
 							</cfloop>
 						</tbody>
 					</table>
 			</cfcatch>
 			</cftry>
+			<h2 class="text-success">Success</h2>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
