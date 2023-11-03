@@ -355,7 +355,7 @@
 								<td>#getProblemData.attribute# <cfset whereAmI = "#getProblemData.attribute#"></td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "#getProblemData.attribute_value#">
 								</td>
-								<td>#getProblemData.attribute_units# <cfset whereAmI = "#getProblemData.attribute_units#"><cfrethrow></td>
+								<td>#getProblemData.attribute_units# <cfset whereAmI = "attribute_units #getProblemData.attribute_units#"><cfrethrow></td>
 								<td>#getProblemData.attribute_date#  <cfset whereAmI = "#getProblemData.attribute_units#"></td>
 								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
 								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
