@@ -355,9 +355,9 @@
 								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute#">			
 									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid attribute_type">
 										<h3 class="text-danger">
-											One of the attributes is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE" target="_blank">attribute type controlled vocabulary</a>. 
+											This attribute is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE" target="_blank">attribute type controlled vocabulary</a>. 
 										</h3>
-										<cfrethrow>
+										<cfthrow object="#getProblemData.attribute#">
 									</cfif>
 								</td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "#attribute_value#"></td>
