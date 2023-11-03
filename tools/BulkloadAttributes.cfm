@@ -352,14 +352,14 @@
 								<td>#getProblemData.collection_cde# <cfset whereAmI = "#collection_cde#"></td>
 								<td>#getProblemData.other_id_type# <cfset whereAmI = "#other_id_type#"></td>
 								<td>#getProblemData.other_id_number# <cfset whereAmI = "#other_id_number#"></td>
-								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute#">			
-											<cfset message= "One of the attributes is not used in your collection. See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> 
+								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute# is not valid">			
+											<!---<cfset message= "One of the attributes is not used in your collection. See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> --->
 								</td>
-								<td>#getProblemData.attribute_value# <cfset whereAmI = "#getProblemData.attribute_value#">
-											<cfset message= "One of the attribute_values is not used in your collection. See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> 
+								<td>#getProblemData.attribute_value# <cfset whereAmI = "#getProblemData.attribute_value# is not valid">
+										<!---	<cfset message= "One of the attribute_values is not used in your collection. See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> --->
 								</td>
 								<td>#getProblemData.attribute_units# <cfset whereAmI = "#getProblemData.attribute_units# is not valid">
-											<cfset message= "#message# See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> 
+											<!---<cfset message= "#message# See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> --->
 								</td>
 								<td>#getProblemData.attribute_date#</td>
 								<td>#getProblemData.attribute_meth#</td>
