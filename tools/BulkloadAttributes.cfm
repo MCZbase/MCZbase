@@ -373,9 +373,10 @@
 							
 					</tbody>
 				</table>
+					<cfrethrow>
 			</cfcatch>
 		</cftry>
-						<cfrethrow>
+						
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
