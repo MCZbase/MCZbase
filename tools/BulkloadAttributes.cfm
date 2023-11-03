@@ -354,14 +354,17 @@
 								<td>#getProblemData.other_id_number# <cfset whereAmI = "#other_id_number#"></td>
 								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute#">			
 									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid attribute_type">
-										
 											<cfset message= "One of the attributes is not used in your collection. See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> 
-										
 										<cfrethrow>
 									</cfif>
 								</td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "#attribute_value#"></td>
-								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#"></td>
+								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#">
+									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid attribute_units">
+											<cfset message= "One of the attribute_units is not used in your collection. See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> 
+										<cfrethrow>
+									</cfif>	
+								</td>
 								<td>#getProblemData.attribute_date#</td>
 								<td>#getProblemData.attribute_meth#</td>
 								<td>#getProblemData.determiner#</td>
