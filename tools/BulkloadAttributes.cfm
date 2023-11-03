@@ -359,7 +359,7 @@
 											<cfset message= "One of the attribute_values is not used in your collection. See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> 
 								</td>
 								<td>#getProblemData.attribute_units# <cfset whereAmI = "#getProblemData.attribute_units# is not valid">
-											<cfset message= "One of the attribute_units is not used in your collection. See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> 
+											<cfset message= "#message# See <a href='https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE'>attribute type controlled vocabulary</a>."> 
 								</td>
 								<td>#getProblemData.attribute_date#</td>
 								<td>#getProblemData.attribute_meth#</td>
