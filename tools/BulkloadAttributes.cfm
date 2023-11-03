@@ -353,18 +353,18 @@
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
-								<td>#getProblemData.institution_acronym# </td>
-								<td>#getProblemData.collection_cde# </td>
-								<td>#getProblemData.other_id_type#</td>
-								<td>#getProblemData.other_id_number#</td>
-								<td>#getProblemData.attribute# </td>
+								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.institution_acronym# </td>
+								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.collection_cde# </td>
+								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.other_id_type#</td>
+								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.other_id_number#</td>
+								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.attribute# </td>
 								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.attribute_value# </td>
 								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.attribute_units#</td>
-								<td>#getProblemData.attribute_date# <cfset whereAmI = "#getProblemData.attribute_date#"></td>
-								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_meth#"></td>
-								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.determiner#"></td>
-								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.remarks#"></td>
-								<td>#getProblemData.status# </td>
+								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.attribute_date#</td>
+								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.attribute_meth# </td>
+								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.determiner# </td>
+								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.remarks# </td>
+								<td <cfif whereAmI is true>class="font-weight-bold text-danger"</cfif>>#getProblemData.status# </td>
 							</tr>
 							<cfif cfcatch.detail CONTAINS "Attributes">
 								<h3 class="text-danger">
