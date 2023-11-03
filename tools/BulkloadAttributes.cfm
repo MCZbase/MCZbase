@@ -347,19 +347,14 @@
 						</tr> 
 					</thead>
 					<tbody>
-				
-							<cfloop query="getProblemData">		<tr>
+						<cfloop query="getProblemData">
+							<tr>
 								<td>#getProblemData.institution_acronym# <cfset whereAmI = "#institution_acronym#"></td>
 								<td>#getProblemData.collection_cde# <cfset whereAmI = "#collection_cde#"></td>
 								<td>#getProblemData.other_id_type# <cfset whereAmI = "#other_id_type#"></td>
 								<td>#getProblemData.other_id_number# <cfset whereAmI = "#other_id_number#"></td>
-								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute#">			
-									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid attribute_type">
-										<h3 class="text-danger">
-											#whereAmI# #message#; This attribute is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE" target="_blank">attribute type controlled vocabulary</a>. 
-										</h3>
-										<cfrethrow>
-									</cfif>
+								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute#">
+								
 								</td>
 								<td>#getProblemData.attribute_value# 
 									<cfif cfcatch.detail CONTAINS "date">
@@ -390,12 +385,16 @@
 								<td>#getProblemData.remarks#</td>
 								<td>#getProblemData.status#</td>
 					
-						</tr> 
-							</cfloop>
-						
+							</tr> 
+						</cfloop>
 					</tbody>
 				</table>
-
+						<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid attribute_type">
+										<h3 class="text-danger">
+											#whereAmI# #message#; This attribute is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE" target="_blank">attribute type controlled vocabulary</a>. 
+										</h3>
+										<cfrethrow>
+									</cfif>
 			</cfcatch>
 			</cftry>	
 			<h2>#attributes_updates# attribute(s) load. Fix problem and try again.</h2>
