@@ -316,9 +316,7 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cftry>
-				
-
-				<cfset attributes_updates = 0>
+			<cfset attributes_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
@@ -329,14 +327,14 @@
 							)
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
-							<cfset whereAmI=#attribute#>
+							<cfset whereAmI=#attribute_updates#>
 					</cfloop>
 				</cftransaction>
 	
 				<h2 class="h3">Updated #attributes_updates# attributes.</h2>
 			<cfcatch>
-				<cfdump var="#cfcatch#">
-					<cfif cfcatch.detail CONTAINS "ORA-00001: attribute">
+				
+					<cfif cfcatch.detail CONTAINS "ORA-20001: Attribute with units must be numeric">
 							put human readable interpretation in the error message that goes to the user.
 					</cfif>
 				<h2 class="h3">There was a problem updating attributes.</h2>
