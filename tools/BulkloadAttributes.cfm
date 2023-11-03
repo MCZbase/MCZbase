@@ -353,7 +353,11 @@
 								<td>#getProblemData.other_id_number# <cfset whereAmI = "#getProblemData.other_id_number#"></td>
 								<td>#getProblemData.attribute# <cfset whereAmI = "#getProblemData.attribute#"></td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "#getProblemData.attribute_value#"></td>
-								<td>#getProblemData.attribute_units# <cfset whereAmI = "attribute_units #getProblemData.attribute_units#"><cfrethrow></td>
+								<td>#getProblemData.attribute_units# <cfset whereAmI = "attribute_units #getProblemData.attribute_units#">					<cfif cfcatch.detail CONTAINS "ORA-20001">
+								<h3 class="text-danger">
+									#whereAmI# #cfcatch.message#
+								</h3>
+							</cfif></td>
 								<td>#getProblemData.attribute_date#  <cfset whereAmI = "#getProblemData.attribute_units#"></td>
 								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
 								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
@@ -361,11 +365,7 @@
 								<td>#getProblemData.status#</td>
 							</tr>
 						</cfloop>
-							<cfif cfcatch.detail CONTAINS "ORA-20001">
-								<h3 class="text-danger">
-									#whereAmI# #cfcatch.message#
-								</h3>
-							</cfif>
+		
 					</tbody>
 				</table>
 			</cfcatch>
