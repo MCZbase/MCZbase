@@ -311,7 +311,8 @@
 		<cfoutput>
 			<cfset getProblemData="">
 			<cfset whereAmI = "">
-			<cfset problem = "is not valid">
+			<cfset problem = "There is a problem with">
+				<cfset problem2 = "(invalid data)">
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -360,7 +361,7 @@
 								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
 								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
 								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
-								<td>#getProblemData.status# 222	</td>
+								<td>#getProblemData.status# </td>
 							</tr>
 										<cfif cfcatch.detail CONTAINS "attribute">
 										<h3 class="text-danger">
