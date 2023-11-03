@@ -311,6 +311,7 @@
 		<cfoutput>
 			<cfset getProblemData="">
 			<cfset whereAmI = "">
+			<cfset message = "fix this">
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
