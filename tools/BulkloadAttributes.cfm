@@ -331,18 +331,15 @@
 					</cfloop>
 				</cftransaction>
 				<h2>Updated #attributes_updates# attributes.</h2>
-			<cfcatch>
-				<cfcatch type="exception type1">
-					<h2>There was a problem updating attributes.</h2>
-						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
-							FROM cf_temp_attributes 
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery>
-						<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
-				</cfcatch>
-				<cfcatch type="exception type2">
-					<table class='sortable table-danger table table-responsive table-striped d-lg-table'>
+			<cfcatch><cftry>
+				<h2>There was a problem updating attributes.</h2>
+				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
+					FROM cf_temp_attributes 
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
+				<table class='sortable table-danger table table-responsive table-striped d-lg-table'>
 					<thead>
 						<tr>
 							<th>institution_acronym</th><th>collection_cde</th><th>other_id_type</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_date</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
@@ -365,20 +362,17 @@
 								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
 								<td>#getProblemData.status#</td>
 							</tr>
+						<cfcatch>
 							<cfif cfcatch.detail CONTAINS "ORA">
 								<h3 class="text-danger">
 									#whereAmI# #problem#
 								</h3>
 							</cfif>
+									</cfcatch>
 						</cfloop>
 					</tbody>
 				</table>
-				</cfcatch>
-				...
-				<cfcatch type="Any">
-				Add exception processing code appropriate for all other exceptions here ...
-				</cfcatch>
-
+					</cftry>
 			</cfcatch>
 			</cftry>	
 		
