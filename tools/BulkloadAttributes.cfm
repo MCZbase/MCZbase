@@ -328,24 +328,20 @@
 							)
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
-							<cfset whereAmI="#attribute_units#">
 					</cfloop>
 				</cftransaction>
-	
 				<h2 class="h3">Updated #attributes_updates# attributes.</h2>
-			<cfcatch>
-				
-					<cfif cfcatch.detail CONTAINS "ORA-20001: Attribute with units must be numeric">
-							put human readable interpretation in the error message that goes to the user.
-					</cfif>
-				<h2 class="h3">There was a problem updating attributes.</h2>
+			<cfcatch type="updateAttribute.attribute_units">
+				#cfcatch.message#<br>
+	<!---			<h2 class="h3">There was a problem updating attributes.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 					FROM cf_temp_attributes 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
-				<table class='sortable table-danger table table-responsive table-striped d-lg-table'>
+				<cfif cfcatch.detail CONTAINS "ORA-20001: Attribute with units must be numeric">
+					<table class='sortable table-danger table table-responsive table-striped d-lg-table'>
 					<thead>
 						<tr>
 							<th>institution_acronym</th><th>collection_cde</th><th>other_id_type</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_date</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
@@ -371,12 +367,15 @@
 						</cfloop>
 
 					</tbody>
-				</table>
-					<cfset message="#message# in row #whereAmI#">	
+					</table>
+				</cfif>--->
+				<cfset message="#message# in row #whereAmI#">	
 			</cfcatch>
 		
 			</cftry>
-						
+				<cfif isdefined("updateAttributes_result")>
+					<cfdump var="#updateAttributes_result#">
+				</cfif>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
