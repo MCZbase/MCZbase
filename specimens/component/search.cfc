@@ -3671,7 +3671,6 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			</cfcatch>
 			</cftry>
 			</cftransaction>
-			</cfoutput>
 		</cfthread>
 		<cfthread action="join" name="removeItemFromResultThread_#tn#" />
 	</cfif>
