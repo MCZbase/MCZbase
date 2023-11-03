@@ -368,7 +368,7 @@
 								<td>#getProblemData.remarks#</td>
 								<td>#getProblemData.status#
 									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid ATTRIBUTE_UNITS">
-										<h3 class="text-danger">
+										<h3 class="text-danger">#whereAmI#
 											One of the attribute units is missing or not used in your collection. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm">controlled vocabulary</a> list. 
 										</h3>
 										<cfrethrow>
