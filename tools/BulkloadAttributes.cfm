@@ -367,12 +367,14 @@
 								<h3 class="text-danger">
 									<h2 class="text-danger mt-2">Fix the problems and try again: <cfloop query="getProblemData">#whereAmI#</cfloop>.</h2>
 								</h3>
+								<cfelse>
+									<h2 class="text-success">Success, changes applied.</h2>
 							</cfif>
 					</tbody>
 				</table>
 			</cfcatch>
 		</cftry>
-			<h2 class="text-success">Success, changes applied.</h2>
+			
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
