@@ -373,9 +373,9 @@
 					</tbody>
 				</table>
 			</cfcatch>
-				<cfabort>
+				
 			</cftry>
-		<cfif whereAmI gt 0>
+		<cfif len(whereAmI) gt 0>
 			Fix the problems and try again.
 		<cfelse>
 			<h2 class="text-success">Success, changes applied.</h2>
