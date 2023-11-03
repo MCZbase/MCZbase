@@ -358,10 +358,10 @@
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "#getProblemData.attribute_value#">
 								</td>
 								<td>#getProblemData.attribute_units# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
-								<td>#getProblemData.attribute_date#  <cfset whereAmI = "#getProblemData.attribute_units#"></td>
-								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
-								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
-								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
+								<td>#getProblemData.attribute_date#  <cfset whereAmI = "#getProblemData.attribute_date#"></td>
+								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_meth#"></td>
+								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.determiner#"></td>
+								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.remarks#"></td>
 								<td>#getProblemData.status# </td>
 							</tr>
 							<cfif cfcatch.detail CONTAINS "attribute">
