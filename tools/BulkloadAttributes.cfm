@@ -350,9 +350,9 @@
 							<tr>
 								<td>#getProblemData.institution_acronym# <cfset whereAmI = "institution_acronym #institution_acronym# is not valid"></td>
 								<td>#getProblemData.collection_cde# <cfset whereAmI = "collection_cde #collection_cde# is not valid"></td>
-								<td>#getProblemData.other_id_type# <cfset whereAmI = "other_id_type #other_id_type# is not valid"></td>
+								<td>#getProblemData.other_id_type# <cfset whereAmI = "other_id_type #getProblemData.other_id_type# is not valid"></td>
 								<td>#getProblemData.other_id_number# <cfset whereAmI = "other_id_number #other_id_number# is not valid"></td>
-								<td>#getProblemData.attribute# <cfset whereAmI = "attribute #attribute# is not valid"></td>
+								<td>#getProblemData.attribute# <cfset whereAmI = "attribute #getProblemData.attribute# is not valid"></td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "attribute_value #getProblemData.attribute_value# is not valid">
 								</td>
 								<td>#getProblemData.attribute_units# <cfset whereAmI = "getProblemData.attribute_units #getProblemData.attribute_units# is not valid"></td>
