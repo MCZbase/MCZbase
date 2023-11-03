@@ -320,7 +320,6 @@
 			<cfset attributes_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
-						
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
 							INSERT into attributes (
 							COLLECTION_OBJECT_ID,ATTRIBUTE_TYPE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,DETERMINED_DATE,DETERMINATION_METHOD, DETERMINED_BY_AGENT_ID,ATTRIBUTE_REMARK
@@ -337,6 +336,7 @@
 				<h2 class="h3">Updated #attributes_updates# attributes.</h2>
 			<cfcatch>
 				<cfset message="#message# in row #whereAmI#">
+					<cfrethrow>
 			</cfcatch>
 			<cfcatch>
 				<h2 class="h3">There was a problem updating attributes.</h2>
