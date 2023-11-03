@@ -373,7 +373,8 @@
 					</tbody>
 				</table>
 			</cfcatch>
-			</cftry>	#whereAmI#
+				<cfabort>
+			</cftry>
 		<cfif whereAmI gt 0>
 			Fix the problems and try again.
 		<cfelse>
