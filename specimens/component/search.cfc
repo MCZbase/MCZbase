@@ -3623,7 +3623,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cftransaction>
 			<cftry>
 				<cfquery name="getcurrentvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getcurrentvalues_result" timeout="#Application.short_timeout#">
-					SELECT page_sort
+					SELECT pagesort
 					FROM user_search_table
 					WHERE 
 						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
@@ -3648,11 +3648,11 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					UPDATE
 						user_search_table
 					SET
-						page_sort = page_sort - 1
+						pagesort = pagesort - 1
 					WHERE
 						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
 						AND
-						page_sort > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getcurrentvalues.page_sort#">
+						pagesort > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getcurrentvalues.pagesort#">
 				</cfquery>
 				<cfset row = StructNew()>
 				<cfset row["status"] = "deleted">
