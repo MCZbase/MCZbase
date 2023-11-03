@@ -201,7 +201,6 @@
 				from cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			
 			<cfloop query="getType">
 				<cfif getType.other_id_type eq 'catalog number'>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -347,16 +346,21 @@
 						</tr> 
 					</thead>
 					<tbody>
-						<cfloop query="getProblemData">
-							<tr>
+						<tr>
+							<cfloop query="getProblemData">
 								<td>#getProblemData.institution_acronym# <cfset whereAmI = "#institution_acronym#"></td>
 								<td>#getProblemData.collection_cde# <cfset whereAmI = "#collection_cde#"></td>
 								<td>#getProblemData.other_id_type# <cfset whereAmI = "#other_id_type#"></td>
 								<td>#getProblemData.other_id_number# <cfset whereAmI = "#other_id_number#"></td>
-								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute#">
-								
+								<td>#getProblemData.attribute# <cfset whereAmI = "#attribute#">			
+									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid attribute_type">
+										<h3 class="text-danger">
+											This attribute is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE" target="_blank">attribute type controlled vocabulary</a>. 
+										</h3>
+										<cfrethrow>
+									</cfif>
 								</td>
-								<td>#getProblemData.attribute_value# 
+								<td>#getProblemData.attribute_value# <cfset whereAmI = "#attribute_value#">
 									<cfif cfcatch.detail CONTAINS "date">
 										<h3 class="text-danger">
 											This attribute_value is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES" target="_blank">attribute type controlled vocabulary</a>. 
@@ -364,15 +368,15 @@
 										<cfrethrow>
 									</cfif>	
 								</td>
-								<td>#getProblemData.attribute_units# 
+								<td>#getProblemData.attribute_units# <cfset whereAmI = "#attribute_units#">
 									<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid ATTRIBUTE_UNITS">
 										<h3 class="text-danger">
 											The units is missing or this value is not valid. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES">controlled vocabulary</a> list. 
 										</h3>
-										<cfrethrow>
+										<cfthrow>
 									</cfif>	
 								</td>
-								<td>#getProblemData.attribute_date# 
+								<td>#getProblemData.attribute_date# <cfset whereAmI = "#attribute_date#">
 									<cfif cfcatch.detail CONTAINS "date">
 										<h3 class="text-danger">
 											The date is missing or incorrectly formatted. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_CODE_TABLES">controlled vocabulary</a> list. 
@@ -385,19 +389,15 @@
 								<td>#getProblemData.remarks#</td>
 								<td>#getProblemData.status#</td>
 					
-							</tr> 
-						</cfloop>
+						
+							</cfloop>
+						</tr> 
 					</tbody>
 				</table>
-						<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid attribute_type">
-										<h3 class="text-danger">
-											#whereAmI# #message#; This attribute is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE" target="_blank">attribute type controlled vocabulary</a>. 
-										</h3>
-										<cfrethrow>
-									</cfif>
+
 			</cfcatch>
 			</cftry>	
-			<h2>#attributes_updates# attribute(s) load. Fix problem and try again.</h2>
+			<h2>#attributes_updates# attribute(s) passed checks</h2>
 			<h2 class="text-success">Success, changes applied.</h2>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
