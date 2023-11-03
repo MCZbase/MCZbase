@@ -354,7 +354,7 @@
 								<td>#getProblemData.attribute# <cfset whereAmI = "attribute"></td>
 								<td>#getProblemData.attribute_value#<cfif cfcatch.detail CONTAINS "attribute_value"> <cfset whereAmI = "#getProblemData.attribute_value#">
 									</cfif></td>
-								<td>#getProblemData.attribute_units# <cfset whereAmI = "#getProblemData.attribute_units#"></td>
+								<td>#getProblemData.attribute_units# <cfif cfcatch.detail CONTAINS "Attributes with units">Attribute Unit issue</cfif></td>
 								<td>#getProblemData.attribute_date# <cfset whereAmI = "#getProblemData.attribute_date#"></td>
 								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_meth#"></td>
 								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.determiner#"></td>
