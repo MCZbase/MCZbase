@@ -331,9 +331,8 @@
 					</cfloop>
 				</cftransaction>
 				<h2 class="h3">Updated #attributes_updates# attributes.</h2>
-			<cfcatch type="updateAttribute.attribute_units">
-				#cfcatch.message#<br>
-	<!---			<h2 class="h3">There was a problem updating attributes.</h2>
+			<cfcatch>
+				<h2 class="h3">There was a problem updating attributes.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 					FROM cf_temp_attributes 
@@ -368,13 +367,13 @@
 
 					</tbody>
 					</table>
-				</cfif>--->
+				</cfif>
 				<cfset message="#message# in row #whereAmI#">	
 			</cfcatch>
 		
 			</cftry>
 				<cfif isdefined("updateAttributes_result")>
-					<cfdump var="#updateAttributes_result#">
+					<cfdump var="#whereAmI#">
 				</cfif>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
