@@ -356,8 +356,8 @@
 									<td>#getProblemData.other_id_type#</td>
 									<td>#getProblemData.other_id_number#</td>
 									<td>#getProblemData.attribute# </td>
-									<td>#getProblemData.attribute_value# </td>
-									<td>#getProblemData.attribute_units#</td>
+									<td>#getProblemData.attribute_value# #whereAmI#</td>
+									<td>#getProblemData.attribute_units# #whereAmI#</td>
 									<td>#getProblemData.attribute_date#</td>
 									<td>#getProblemData.attribute_meth# </td>
 									<td>#getProblemData.determiner# </td>
