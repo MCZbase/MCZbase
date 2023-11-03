@@ -332,8 +332,9 @@
 				</cftransaction>
 				<h2 class="h3">Updated #attributes_updates# attributes.</h2>
 			<cfcatch>
-				#cfcatch.detail#
+				
 				<h2 class="h3">There was a problem updating attributes.</h2>
+				#cfcatch.detail#
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 					FROM cf_temp_attributes 
@@ -355,7 +356,7 @@
 									<td>#getProblemData.other_id_number#</td>
 									<td>#getProblemData.attribute# </td>
 									<td>#getProblemData.attribute_value# </td>
-									<td>#getProblemData.attribute_units# 	<cfif cfcatch.message contains 'Attributes with units must be numeric'>*</cfif></td>
+									<td>#getProblemData.attribute_units# </td>
 									<td>#getProblemData.attribute_date#</td>
 									<td>#getProblemData.attribute_meth# </td>
 									<td>#getProblemData.determiner# </td>
