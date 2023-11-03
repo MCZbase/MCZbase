@@ -376,8 +376,9 @@
 									</cfif>
 								</td>
 							</tr>
-							<cfrethrow>
+							
 						</cfloop>
+						<cfrethrow>
 					</tbody>
 				</table>
 			</cfcatch>
