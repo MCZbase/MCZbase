@@ -366,13 +366,13 @@
 										<h3 class="text-danger">
 											#whereAmI#
 										</h3>
-										
+											<cfthrow errorcode = "error message" message="message">
 									</cfif>
 						</cfloop>
 						
 					</tbody>
 				</table>
-				<cfthrow errorcode = "error message" message="message">
+			
 			</cfcatch>
 			</cftry>	
 		
