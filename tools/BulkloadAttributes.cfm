@@ -361,7 +361,7 @@
 								<td>#getProblemData.remarks# <cfset whereAmI = "#getProblemData.remarks#"></td>
 								<td>#getProblemData.status# </td>
 							</tr>
-							<cfthrow>
+							<cfrethrow>
 						</cfloop>
 							<cfif cfcatch.detail CONTAINS "attribute">
 								<h3 class="text-danger">
