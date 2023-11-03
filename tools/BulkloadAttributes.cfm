@@ -353,13 +353,12 @@
 					<tbody>
 						<cfloop query="getProblemData">
 							<tr>
-								<td>#getProblemData.institution_acronym# <cfset whereAmI = "MCZ"></td>
-								<td>#getProblemData.collection_cde# <cfset whereAmI = "#collection_cde#"></td>
-								<td>#getProblemData.other_id_type# <cfset whereAmI = "#getProblemData.other_id_type#"></td>
-								<td>#getProblemData.other_id_number# <cfset whereAmI = "#getProblemData.other_id_number#"></td>
-								<td>#getProblemData.attribute# <cfset whereAmI = "attribute"></td>
-								<td>#getProblemData.attribute_value#<cfif cfcatch.detail CONTAINS "attribute_value"> <cfset whereAmI = "#getProblemData.attribute_value#">
-									</cfif></td>
+								<td>#getProblemData.institution_acronym# </td>
+								<td>#getProblemData.collection_cde# </td>
+								<td>#getProblemData.other_id_type#</td>
+								<td>#getProblemData.other_id_number#</td>
+								<td>#getProblemData.attribute# </td>
+								<td <cfif whereAmI is true>class="font-weight-bold"</cfif>>#getProblemData.attribute_value# </td>
 								<td>#getProblemData.attribute_units# <cfif cfcatch.detail CONTAINS "Attributes with units">Attribute Unit issue</cfif></td>
 								<td>#getProblemData.attribute_date# <cfset whereAmI = "#getProblemData.attribute_date#"></td>
 								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_meth#"></td>
