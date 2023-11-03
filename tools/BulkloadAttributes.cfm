@@ -320,6 +320,7 @@
 			<cfset attributes_updates = 0>
 				<cftransaction>
 					<cfloop query="getTempData">
+						
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
 							INSERT into attributes (
 							COLLECTION_OBJECT_ID,ATTRIBUTE_TYPE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,DETERMINED_DATE,DETERMINATION_METHOD, DETERMINED_BY_AGENT_ID,ATTRIBUTE_REMARK
@@ -328,9 +329,16 @@
 							)
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
+						<cfset whereAmI = "updateAttributes.attribute_units">
 					</cfloop>
 				</cftransaction>
+				<cfif cfcatch.detail CONTAINS "ORA-20001: Attribute with units must be numeric">
+					<cfset message = "attribute_units">
+				</cfif>
 				<h2 class="h3">Updated #attributes_updates# attributes.</h2>
+			<cfcatch>
+				<cfset message="#message# in row #whereAmI#">
+			</cfcatch>
 			<cfcatch>
 				<h2 class="h3">There was a problem updating attributes.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -339,7 +347,7 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
-				<cfif cfcatch.detail CONTAINS "ORA-20001: Attribute with units must be numeric">
+				
 					<table class='sortable table-danger table table-responsive table-striped d-lg-table'>
 					<thead>
 						<tr>
@@ -367,7 +375,7 @@
 
 					</tbody>
 					</table>
-				</cfif>
+		
 				<cfset message="#message# in row #whereAmI#">	
 			</cfcatch>
 		
