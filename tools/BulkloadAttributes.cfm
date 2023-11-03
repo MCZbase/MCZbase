@@ -1,5 +1,5 @@
 <!--- special case handling to dump problem data as csv --->
-<!---<cfif isDefined("action") AND action is "dumpProblems">
+<cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks
 		FROM cf_temp_attributes 
@@ -10,7 +10,7 @@
 	<cfheader name="Content-Type" value="text/csv">
 	<cfoutput>#csv#</cfoutput>
 	<cfabort>
-</cfif>--->
+</cfif>
 <!--- end special case dump of problems --->
 <cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
@@ -346,7 +346,6 @@
 						</tr> 
 					</thead>
 					<tbody>
-				
 						<tr>
 							<cfloop query="getProblemData">
 								<td>#getProblemData.institution_acronym# <cfset whereAmI = "#institution_acronym#"></td>
@@ -377,8 +376,6 @@
 						</tr> 
 					</tbody>
 				</table>
-
-					
 
 			</cfcatch>
 			</cftry>	
