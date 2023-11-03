@@ -3633,7 +3633,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<cfif getcurrentvalues.recordcount NEQ 1>
 					<cfthrow message="Matched other than one record in user search table.">
 				</cfif>
-				<cfquery name="remove" datasource="cf_dbuser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="remove_result" timeout="#Application.short_timeout#">
+				<cfquery name="remove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="remove_result" timeout="#Application.short_timeout#">
 					DELETE FROM
 						user_search_table
 					WHERE
@@ -3644,7 +3644,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				<cfif remove_result.recordcount NEQ 1>
 					<cfthrow message="Tried to remove other than one record in user search table.">
 				</cfif>
-				<cfquery name="movepagedown" datasource="cf_dbuser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="movepagedown_result" timeout="#Application.short_timeout#">
+				<cfquery name="movepagedown" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="movepagedown_result" timeout="#Application.short_timeout#">
 					UPDATE
 						user_search_table
 					SET
