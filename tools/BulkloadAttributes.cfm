@@ -355,7 +355,7 @@
 								<td>#getProblemData.attribute# <cfset whereAmI = "attribute #attribute# is not valid"></td>
 								<td>#getProblemData.attribute_value# <cfset whereAmI = "attribute_value #getProblemData.attribute_value# is not valid">
 								</td>
-								<td>#getProblemData.attribute_units# <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
+								<td>#getProblemData.attribute_units# <cfset whereAmI = "getProblemData.attribute_units #getProblemData.attribute_units# is not valid"></td>
 								<td>#getProblemData.attribute_date#  <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
 								<td>#getProblemData.attribute_meth# <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
 								<td>#getProblemData.determiner# <cfset whereAmI = "#getProblemData.attribute_units# is not valid"></td>
