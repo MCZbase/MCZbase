@@ -346,9 +346,9 @@
 						</tr> 
 					</thead>
 					<tbody>
-					
-						<cfloop query="getProblemData">
-							<tr>
+				
+						<tr>
+							<cfloop query="getProblemData">
 								<td>#getProblemData.institution_acronym# <cfset whereAmI = "#institution_acronym#"></td>
 								<td>#getProblemData.collection_cde# <cfset whereAmI = "#collection_cde#"></td>
 								<td>#getProblemData.other_id_type# <cfset whereAmI = "#other_id_type#"></td>
@@ -361,22 +361,26 @@
 								<td>#getProblemData.determiner#</td>
 								<td>#getProblemData.remarks#</td>
 								<td>#getProblemData.status#</td>
-							</tr> 
-						</cfloop>
+					
+							</cfloop>
+						</tr> 
 					</tbody>
 				</table>
 				<cfif cfcatch.detail CONTAINS "Invalid attribute_type">
+					
 					<h3 class="text-danger">
 						One of the attribute types is not used in your collection. See <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm?table=CTATTRIBUTE_TYPE" target="_blank">attribute type controlled vocabulary</a>. 
 					</h3>
+					<cfrethrow>
 				</cfif>
 					
 				<cfif cfcatch.detail CONTAINS "ORA-20001: Invalid ATTRIBUTE_UNITS">
 					<h3 class="text-danger">
 						One of the attribute units is missing or not used in your collection. Find the appropriate attribute units in the <a href="https://mczbase-dev.rc.fas.harvard.edu/vocabularies/ControlledVocabulary.cfm">controlled vocabulary</a> list. 
 					</h3>
+					<cfrethrow>
 				</cfif>
-				<cfrethrow>
+	
 			</cfcatch>
 			</cftry>	
 			<h2>#attributes_updates# attribute(s) passed checks</h2>
