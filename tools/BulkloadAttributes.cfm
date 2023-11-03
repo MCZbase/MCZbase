@@ -329,7 +329,6 @@
 							)
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
-						<cfset whereAmI = "updateAttributes.attribute_units">
 					</cfloop>
 				</cftransaction>
 				<cfif cfcatch.detail CONTAINS "ORA-20001: Attribute with units must be numeric">
