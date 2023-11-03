@@ -366,12 +366,12 @@
 										<h3 class="text-danger">
 											#whereAmI#
 										</h3>
-										<cfthrow>
+										
 									</cfif>
 						</cfloop>
 						
 					</tbody>
-				</table>
+				</table><cfrethrow>
 			</cfcatch>
 			</cftry>	
 		
