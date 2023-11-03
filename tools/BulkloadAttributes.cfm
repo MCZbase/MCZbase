@@ -366,7 +366,7 @@
 							</tr>
 							<cfif cfcatch.detail CONTAINS "attribute">
 								<h3 class="text-danger">
-									<cfset errormessages = "#whereAmI#">
+									<cfset errormessage = " errors: #whereAmI#">
 								</h3>
 							</cfif>
 						</cfloop>
@@ -374,7 +374,7 @@
 				</table>
 			</cfcatch>
 		</cftry>
-		<cfif errormessage is 'error_messages'>
+		<cfif errormessage contains 'error_messages'>
 			<h2 class="text-danger mt-2">Fix the problems and try again: <cfloop query="getProblemData">#whereAmI#,</cfloop>.</h2>
 		<cfelse>
 			<h2 class="text-success">Success, changes applied.</h2>
