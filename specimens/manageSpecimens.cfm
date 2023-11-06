@@ -91,6 +91,9 @@ limitations under the License.
 									<a href="/grouping/addToNamedCollection.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs">Add To Named Group</a>
 								</li>
 								<li class="nav-item mb-1">
+									<a href="/grouping/removeFromNamedCollection.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs">Remove From Named Group</a>
+								</li>
+								<li class="nav-item mb-1">
 									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
 								</li>
 								<li class="nav-item mb-1">
