@@ -2626,7 +2626,7 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
-						<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', removeFixedCellRenderer, width: #width#, cellclassname: fixedcellclass, hidable:false, hidden: false }">
+						<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', removeFixedCellRenderer, width: 100, cellclassname: fixedcellclass, hidable:false, hidden: false }">
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
 							<cfset cellrenderer = "">
