@@ -1818,6 +1818,7 @@ limitations under the License.
 						collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 				</cfquery>
 				<cfloop query="getCollEventUp">
+					<div>
 					<div class="border-bottom float-left pb-2 h4">
 						<div class="col-12 col-xl-2 px-0">Higher Geography:</div> 
 						<div class="font-weight-normal col-12 col-xl-10 px-0 float-left">#higher_geog# </div>
@@ -1851,7 +1852,7 @@ limitations under the License.
 						<div class="col-12 px-0">Event:</div>
 						<div class="font-weight-normal col-12 px-0 float-left">#datebit# #collecting_method# #collecting_source# [#verbatim_locality#]</span></div>
 					</div>
-						
+						</div>
 				</cfloop>
 			<cfcatch>
 				<div class="border-bottom float-left pb-2 h4">Error: #cfcatch.type# #cfcatch.message#</div> 
