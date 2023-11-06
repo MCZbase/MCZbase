@@ -1,6 +1,6 @@
 <cfset pageTitle="Administer Users">
 <cfinclude template = "/shared/_header.cfm">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 
 <cfif not isDefined("username")><cfset username=""></cfif>
 <cfif not isDefined("action")><cfset action=""></cfif>
