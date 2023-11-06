@@ -116,7 +116,7 @@ limitations under the License.
 									Edit Collecting Event#extra#
 									<a role="button" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">View</a>
 								</h1>
-								<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 pt-3">
+								<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 pt-3 pb-3">
 									<cfquery name="collectingEventUses" datasource="uam_god">
 										SELECT
 											count(cataloged_item.cat_num) numOfSpecs,
@@ -202,7 +202,7 @@ limitations under the License.
 											<ul class="px-2 pl-xl-4 ml-xl-1 small95">
 												<cfloop query="collectingEventUses">
 													<li>
-															<cfif numOfSpecs EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+														<cfif numOfSpecs EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 														<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#&nestdepth2=2&JoinOperator2=and&field2=CATALOGED_ITEM%3ACOLLECTION_CDE&searchText2=%3D#collectingEventUses.collection_cde#">
 															#numOfSpecs# #collection_cde# specimen#plural#
 														</a>
@@ -212,7 +212,7 @@ limitations under the License.
 										</cfif>
 									</div>
 								</div>
-								<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
+								<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 pt-3 pb-2">
 									<cfset summary = getCollectingEventSummary(collecting_event_id="#collecting_event_id#")>
 									<div id="summary" class="small95 px-2 pb-2"><span class="sr-only">Summary: </span>#summary#</div>
 								</div>
