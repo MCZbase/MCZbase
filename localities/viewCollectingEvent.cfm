@@ -80,7 +80,7 @@ limitations under the License.
 			<div class="col-12 px-0">
 				<div class="row mx-0">
 					<div class="col-12 mt-4 pb-2 mb-3 border-bottom">
-						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">Collecting Event [#encodeForHtml(collecting_event_id)#]</h1>
+						<h1 class="h2 mr-2 mb-0 col-6 px-1 mt-0 float-left">Collecting Event [#encodeForHtml(collecting_event_id)#]</h1>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
 							<a role="button" href="/localities/CollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">Edit Collecting Event</a>
 						</cfif>
