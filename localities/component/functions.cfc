@@ -4845,7 +4845,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<cfif not isdefined("collecting_method")><cfset collecting_method = ""></cfif>
 						<input type="text" name="collecting_method" id="collecting_method" value="#encodeForHTML(collecting_method)#" class="data-entry-input" maxlength="255">
 					</div>
-					<div class="col-12 col-md-12">
+					<div class="col-12 col-md-12 mb-2">
 						<label for="habitat_desc" class="data-entry-label">Habitat</label>
 						<cfif not isDefined("habitat_desc")><cfset habitat_desc = ""></cfif>
 						<input type="text" name="habitat_desc" id="habitat_desc" value="#encodeForHTML(HABITAT_DESC)#" class="data-entry-input" maxlength="500">

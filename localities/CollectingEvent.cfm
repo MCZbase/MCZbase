@@ -135,10 +135,10 @@ limitations under the License.
 											collection.collection_cde,
 											collection.collection_id,
 											locality_id
-								  	</cfquery>
+									</cfquery>
 									<div>
 										<cfif #collectingEventUses.recordcount# is 0>
-											<h2 class="h4 px-2">
+											<h2 class="h4 px-1">
 												This CollectingEvent (#collecting_event_id#) contains no specimens. 
 												Please delete it if you don&apos;t have plans for it!
 											</h2>
@@ -183,7 +183,7 @@ limitations under the License.
 												</div>
 											</cfif>
 										<cfelseif #collectingEventUses.recordcount# is 1>
-											<h2 class="h4 px-2">
+											<h2 class="h4 px-1">
 												This CollectingEvent (#collecting_event_id#) contains 
 												<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">
 													#collectingEventUses.numOfSpecs# #collectingEventUses.collection_cde# specimens
