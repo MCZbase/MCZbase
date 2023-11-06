@@ -1818,15 +1818,15 @@ limitations under the License.
 						collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 				</cfquery>
 				<cfloop query="getCollEventUp">
-					<div class="h2">
-						Higher Geography: #higher_geog# 
+					<h3 class="border-bottom pb-2">
+						Higher Geography: <span class="font-weight-normal">#higher_geog#</span> 
 						<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a>
-					</div>
+					</h3>
 					<cfset locality = getLocalitySummary(locality_id="#getCollEventUp.locality_id#")>
-					<div class="h2">
-						Locality: #locality#
+					<h3 class="border-bottom pb-2">
+						Locality: <span class="font-weight-normal">#locality#</span>
 						<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a>
-					</div>
+					</h3>
 					<cfset datebit = "">
 					<cfif len(began_date) GT 0>
 						<cfif began_date EQ ended_date>
