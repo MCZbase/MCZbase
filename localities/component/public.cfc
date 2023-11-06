@@ -1819,7 +1819,7 @@ limitations under the License.
 				</cfquery>
 				<cfloop query="getCollEventUp">
 					<div class="border-bottom pb-3 h4">
-						Higher Geography: <span class="font-weight-normal">#higher_geog#</span> 
+						Higher Geography: <div class="font-weight-normal" style="width: 75%; d-inline-block">#higher_geog#</div> 
 						<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a>
 					</div>
 					<cfset locality = getLocalitySummary(locality_id="#getCollEventUp.locality_id#")>
