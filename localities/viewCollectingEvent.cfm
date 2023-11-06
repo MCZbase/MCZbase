@@ -75,7 +75,7 @@ limitations under the License.
 
 <cfoutput query="getCollectingEvent">
 	<cfset locality_id = getCollectingEvent.locality_id>
-	<main class="container-xl " id="content">
+	<main class="container-fluid px-0 px-xl-3 container-xl " id="content">
 		<div class="row mx-0">
 			<div class="col-12 px-0">
 				<div class="row mx-0">
