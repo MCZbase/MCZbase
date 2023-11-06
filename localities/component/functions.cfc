@@ -4891,7 +4891,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<input type="text" name="verbatimLongitude" value="#encodeForHTML(verbatimLongitude)#" id="verbatimLongitude" class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="verbatimSRS" class="data-entry-label">Verbatim SRS (includes ellipsoid model/Datum)</label>
+						<label for="verbatimSRS" class="data-entry-label">Verbatim SRS (ellipsoid model/datum)</label>
 						<cfif not isDefined("verbatimSRS")><cfset verbatimSRS = ""></cfif>
 						<input type="text" name="verbatimSRS" value="#encodeForHTML(verbatimSRS)#" id="verbatimSRS" class="data-entry-input">
 					</div>
