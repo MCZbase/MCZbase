@@ -2902,7 +2902,7 @@ a.wrapurl {
 ul li.list-unstyled span:last-child {
 	display:none;
 }
-span.sortarrow:before,
+/*span.sortarrow:before,
 span.sortarrow:after {
 	border: 4px solid transparent;
 	content: "";
@@ -2920,7 +2920,7 @@ span.sortarrow:before {
 span.sortarrow:after {
 	border-top-color: #0460c1;
 	margin-top: 1px;
-}
+}*/
 
 
 
