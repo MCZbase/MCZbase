@@ -1823,15 +1823,16 @@ limitations under the License.
 						<div class="col-12 col-xl-2 px-0">Higher Geography:</div> 
 						<div class="font-weight-normal col-12 col-md-11 px-0 float-left">#higher_geog# </div>
 						<div class="font-weight-normal col-12 col-md-1 px-0 float-left">
-							<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-xs btn-primary" target="_blank" >View</a>
+							<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-xs btn-primary text-center" target="_blank" >View</a>
 						</div> 
 					</div>
 					<cfset locality = getLocalitySummary(locality_id="#getCollEventUp.locality_id#")>
 					<div class="border-bottom float-left col-12 pb-2 h4">
-						<div class="col-12 col-3 px-0">Locality:</div>	<div class="font-weight-normal col-12 col-md-1 px-0 float-right">
-							<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary" target="_blank" >View</a>
+						<div class="col-12 col-md-2 float-left px-0">Locality:</div>	
+						<div class="font-weight-normal col-12 col-md-1 px-0 float-right pb-1">
+							<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary text-center" target="_blank" >View</a>
 						</div>
-						<div class="font-weight-normal col-12 col-md-12 px-0 float-left">#locality# </div>
+						<div class="font-weight-normal col-12 col-md-11 px-0 float-left">#locality# </div>
 					
 					</div>
 					<cfset datebit = "">
