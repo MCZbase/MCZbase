@@ -1819,12 +1819,17 @@ limitations under the License.
 				</cfquery>
 				<cfloop query="getCollEventUp">
 					<div class="border-bottom pb-3 h4">
-						<div class="col-12 col-xl-2 px-0">Higher Geography:</div> <div class="font-weight-normal col-12 col-xl-10 px-0">#higher_geog# <a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a></div> 
+						<div class="col-12 col-xl-1 px-0">Higher Geography:</div> 
+						<div class="font-weight-normal col-12 col-xl-11 px-0">#higher_geog# 
+							<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a>
+						</div> 
 					</div>
 					<cfset locality = getLocalitySummary(locality_id="#getCollEventUp.locality_id#")>
 					<div class="border-bottom pb-3 h4">
-						Locality: <span class="font-weight-normal">#locality#</span>
-						<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a>
+						<div class="col-12 col-xl-1 px-0">Locality:</div>
+						<div class="font-weight-normal col-12 col-xl-11 px-0">#locality# 
+							<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a>
+						</div>
 					</div>
 					<cfset datebit = "">
 					<cfif len(began_date) GT 0>
