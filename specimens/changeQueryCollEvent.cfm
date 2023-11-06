@@ -329,7 +329,7 @@ limitations under the License.
 				<cfelse>
 					<h2 class="h2 px-3">Change collecting event for all cataloged items [in #encodeForHtml(result_id)#]#filterTextForHead#</h2>
 				</cfif>
-				<table class="table table-responsive-lg sortable" id="catItemsTable">
+				<table class="table table-responsive-lg sortable w-100" id="catItemsTable">
 					<thead class="thead-light">
 						<tr>
 							<th>Higher Geog (ID)</th>
