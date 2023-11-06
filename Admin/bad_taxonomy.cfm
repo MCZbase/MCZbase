@@ -19,7 +19,7 @@ alter table bad_taxonomy add family varchar2(255);
 
 --->
 <cfinclude template="/includes/_header.cfm">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 <cfif action is "nothing">
 <cfoutput>
 	This form provides a means to locate taxon names which do not fit the rules implemented
