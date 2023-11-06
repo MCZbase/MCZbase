@@ -261,7 +261,7 @@
 	<cflocation url="loccardscan.cfm" addtoken="false">
 </cfif>
 <cfif action is "list">
-	<script src="/includes/sorttable.js"></script>
+	<script src="/lib/misc/sorttable.js"></script>
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from loc_card_scan
 	</cfquery>
