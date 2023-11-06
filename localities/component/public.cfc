@@ -1827,9 +1827,9 @@ limitations under the License.
 					<cfset locality = getLocalitySummary(locality_id="#getCollEventUp.locality_id#")>
 					<div class="border-bottom pb-3 h4">
 						<div class="col-12 px-0">Locality:</div>
-						<div class="font-weight-normal col-12 col-xl-11 px-0">#locality# </div>
-						<div class="font-weight-normal col-12 col-xl-1 px-0">
-							<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a>
+						<div class="font-weight-normal col-12 col-xl-11 px-0 float-left">#locality# </div>
+						<div class="font-weight-normal col-12 col-xl-1 px-0 float-left">
+							<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary" target="_blank" >View</a>
 						</div>
 					</div>
 					<cfset datebit = "">
