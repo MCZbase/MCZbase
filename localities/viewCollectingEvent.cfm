@@ -94,12 +94,12 @@ limitations under the License.
 							<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right mr-1">Edit Locality</a>
 						</cfif>
 					</div>
-					<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
+					<div class="float-left border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 						<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
 						<div id="summary" class="small95 px-2 mb-0"><span class="sr-only">Locality Summary: </span>#summary#</div>
 					</div>
 
-					<div class="col-12 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+					<div class="float-left col-12 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 						<!--- TODO: event details --->
 						<ul class="sd list-unstyled bg-light row mx-0 px-2 pt-1 mb-0 border-top">
 							<cfif len(collecting_source) gt 0>
@@ -191,7 +191,7 @@ limitations under the License.
 					</div>
 
 					<cfif ListContains(encumber,"mask collector") GT 0>
-						<div class="col-12 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+						<div class="float-left col-12 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 							[Masked]
 						</div>
 					<cfelse>
@@ -207,7 +207,7 @@ limitations under the License.
 								coll_event_number.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 						</cfquery>
 						<cfif getCollEventNumbers.recordcount GT 0>
-							<div class="col-12 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+							<div class="float-left col-12 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 								<h2 class="h3">Collector Numbers/Field Numbers for this event</h2>
 								<ul>
 									<cfloop query="getCollEventNumbers">
@@ -237,7 +237,7 @@ limitations under the License.
 								agent_name
 						</cfquery>
 						
-						<div class="col-12 px-3 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+						<div class="float-left col-12 px-3 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 							<h2 class="h3">Collectors in this event</h2>
 							<ul>
 								<cfif getCollectors.recordcount EQ 0>
@@ -258,7 +258,7 @@ limitations under the License.
 						WHERE
 							collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 					</cfquery>
-					<div class="col-12 px-3 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+					<div class="float-left col-12 px-3 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 						<h2 class="h3">
 							Material collected in this event 
 							<cfif getItemCount.ct EQ 0>
