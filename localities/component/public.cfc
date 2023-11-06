@@ -1819,9 +1819,9 @@ limitations under the License.
 				</cfquery>
 				<cfloop query="getCollEventUp">
 					<div class="form-row">
-					<div class="border-bottom float-left col-12 pb-2 h4">
+					<div class="border-bottom float-left col-12 pb-2 h5">
 						<div class="col-12 col-xl-2 px-0">Higher Geography:</div> 
-						<div class="font-weight-normal col-12 col-xl-11 px-0 float-left smaller">#higher_geog# </div>
+						<div class="font-weight-normal col-12 col-xl-11 px-0 float-left">#higher_geog# </div>
 						<div class="font-weight-normal col-12 col-xl-1 px-0 float-left">
 							<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-xs btn-primary" target="_blank" >View</a>
 						</div> 
@@ -1829,7 +1829,7 @@ limitations under the License.
 					<cfset locality = getLocalitySummary(locality_id="#getCollEventUp.locality_id#")>
 					<div class="border-bottom float-left col-12 pb-2 h4">
 						<div class="col-12 px-0">Locality:</div>
-						<div class="font-weight-normal col-12 col-xl-11 px-0 float-left smaller">#locality# </div>
+						<div class="font-weight-normal col-12 col-xl-11 px-0 float-left">#locality# </div>
 						<div class="font-weight-normal col-12 col-xl-1 px-0 float-left">
 							<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary" target="_blank" >View</a>
 						</div>
@@ -1850,7 +1850,7 @@ limitations under the License.
 					</cfif>
 					<div class="float-left pb-0 col-12 h4">
 						<div class="col-12 px-0">Event:</div>
-						<div class="font-weight-normal col-12 px-0 float-left smaller">#datebit# #collecting_method# #collecting_source# [#verbatim_locality#]</span></div>
+						<div class="font-weight-normal col-12 px-0 float-left">#datebit# #collecting_method# #collecting_source# [#verbatim_locality#]</span></div>
 					</div>
 						</div>
 				</cfloop>
