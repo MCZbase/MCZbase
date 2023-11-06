@@ -110,8 +110,8 @@ limitations under the License.
 			<cfoutput>
 				<main class="container-fluid my-2" id="content">
 					<section class="row">
-						<div class="col-12 mt-2 mb-1 form-row">
-							<div class="col-12 col-md-10 col-xl-9 pr-3">
+						<div class="col-12 mt-2 mb-1">
+							<div class="col-12 col-md-10 col-xl-9 pl-xl-0 float-left">
 								<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">
 									Edit Collecting Event#extra#
 									<a role="button" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">View</a>
@@ -277,7 +277,7 @@ limitations under the License.
 									<a class="btn btn-xs btn-secondary" target="_blank" href="/localities/CollectingEvent.cfm?action=new&clone_from_collecting_event_id=#collecting_event_id#">Clone</a>
 								</div>
 							</div>
-							<section class="col-12 px-md-0 col-md-2 col-xl-3">
+							<section class="col-12 px-md-0 col-md-2 col-xl-3 float-left">
 								<!--- map --->
 								<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 									<cfset map = getLocalityMapHtml(locality_id="#lookupEvent.locality_id#",extraText="For Locality")>
