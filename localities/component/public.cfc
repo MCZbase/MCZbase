@@ -1818,7 +1818,7 @@ limitations under the License.
 						collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 				</cfquery>
 				<cfloop query="getCollEventUp">
-					<div class="border-bottom pb-3 h4">
+					<div class="border-bottom float-left pb-2 h4">
 						<div class="col-12 col-xl-2 px-0">Higher Geography:</div> 
 						<div class="font-weight-normal col-12 col-xl-10 px-0 float-left">#higher_geog# </div>
 						<div class="font-weight-normal col-12 col-xl-1 px-0 float-left">
@@ -1826,7 +1826,7 @@ limitations under the License.
 						</div> 
 					</div>
 					<cfset locality = getLocalitySummary(locality_id="#getCollEventUp.locality_id#")>
-					<div class="border-bottom float-left pb-3 h4">
+					<div class="border-bottom float-left pb-2 h4">
 						<div class="col-12 px-0">Locality:</div>
 						<div class="font-weight-normal col-12 col-xl-11 px-0 float-left">#locality# </div>
 						<div class="font-weight-normal col-12 col-xl-1 px-0 float-left">
