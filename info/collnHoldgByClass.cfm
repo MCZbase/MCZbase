@@ -1,7 +1,7 @@
 <cfinclude template = "/includes/_header.cfm">
 <cfset title = "Collections Holdings By Class">
 <cfoutput>
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 <cfquery name="d" datasource="uam_god">
 	select 
 		nvl(phylclass,'NULL') phylclass,

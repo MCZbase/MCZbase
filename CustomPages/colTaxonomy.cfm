@@ -1,6 +1,6 @@
 <cfinclude template="/includes/_header.cfm">
 <cfset title="COL taxonomy">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 <cfif not isdefined('sql')>
 	<cfset sql="select * from ttaxonomy where rownum<10">
 </cfif>
