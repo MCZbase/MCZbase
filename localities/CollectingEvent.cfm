@@ -116,7 +116,7 @@ limitations under the License.
 									Edit Collecting Event#extra#
 									<a role="button" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">View</a>
 								</h1>
-								<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
+								<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 pt-3">
 									<cfquery name="collectingEventUses" datasource="uam_god">
 										SELECT
 											count(cataloged_item.cat_num) numOfSpecs,
