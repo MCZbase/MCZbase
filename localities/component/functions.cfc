@@ -4956,7 +4956,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 					WHERE
 						coll_event_number.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 				</cfquery>
-				<h3>Collector/Field Numbers (identifying collecting events)</h3>
+				<h3 class="h4">Collector/Field Numbers (identifying collecting events)</h3>
 				<ul>
 					<cfloop query="colEventNumbers">
 						<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#) <input type="button" value="Delete" class="btn btn-xs btn-danger" onclick=" deleteCollEventNumber(#coll_event_number_id#); "></span></li>
