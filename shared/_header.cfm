@@ -249,7 +249,7 @@ limitations under the License.
 	<a href="##content" class="sr-only btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
 	
 	<div class="branding clearfix bg-black">
-		<a href="http://www.harvard.edu/" aria-label="link to Harvard website">
+		<a href="http://www.harvard.edu/" aria-label="Harvard University Harvard.edu">
 			<span class="branding-left justify-content-start"><img class="shield mr-1" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield"><span class="d-inline-block parent">Harvard University</span></span>
 			<span class="branding-right justify-content-end font-weight-bold"> HARVARD.EDU</span>
 		</a>
