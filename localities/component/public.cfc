@@ -1850,6 +1850,7 @@ limitations under the License.
 					<div class="border-bottom float-left pb-2 h4">
 						<div class="col-12 px-0">Event:</div>
 						<div class="font-weight-normal col-12 px-0 float-left">#datebit# #collecting_method# #collecting_source# [#verbatim_locality#]</span></div>
+					</div>
 						
 				</cfloop>
 			<cfcatch>
