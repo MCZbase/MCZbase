@@ -237,7 +237,7 @@ limitations under the License.
 								agent_name
 						</cfquery>
 						
-						<div class="col-12 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+						<div class="col-12 px-2 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 							<h2 class="h3">Collectors in this event</h2>
 							<ul>
 								<cfif getCollectors.recordcount EQ 0>
@@ -248,7 +248,6 @@ limitations under the License.
 								</cfloop>
 							</ul>
 						</div>
-
 					</cfif>
 
 					<!--- Summary of cataloged item records --->
@@ -259,7 +258,7 @@ limitations under the License.
 						WHERE
 							collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 					</cfquery>
-					<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+					<div class="col-12 px-2 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 						<h2 class="h3">
 							Material collected in this event 
 							<cfif getItemCount.ct EQ 0>
