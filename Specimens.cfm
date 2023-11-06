@@ -2397,6 +2397,12 @@ Target JSON:
 			}
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+displayValue+'</span>';
 		};
+
+		// TODO: Testing remove row
+		var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			console.log(row);
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick="$(\'##jqxgrid\').jqxGrid(\'deleterow\'', '+ row +');" class="btn btn-xs btm-warning" value="Remove"/></span>';
+		};
 		
 		// cellclass function 
 		// NOTE: Since there are three grids, and the cellclass api does not pass a reference to the grid, a separate
@@ -2454,7 +2460,7 @@ Target JSON:
 	
 		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
-						/* Setup jqxgrid for fixed Search */
+			/* Setup jqxgrid for fixed Search */
 			$('##fixedSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
 			
@@ -2554,7 +2560,27 @@ Target JSON:
 						loadError: function(jqXHR, textStatus, error) {
 							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 						},
-						async: true
+						async: true,
+						deleterow: function (rowid, commit) {
+							console.log(rowid);
+							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+		        			$.ajax({
+            				url: "/specimens/component/search.cfc",
+            				data: { 
+									method: 'removeItemFromResult', 
+									result_id: $('##result_id_fixedSearch').val(),
+									collection_object_id: collobtoremove
+								},
+								dataType: 'json',
+           					success : function (data) { 
+									console.log(data);
+									commit(true);
+								},
+            				error : function (jqXHR, textStatus, error) {
+          				     handleFail(jqXHR,textStatus,error,"removing row from result set");
+            				}
+         				});
+						} 
 					};
 				};
 	
@@ -2600,6 +2626,8 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
+						<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', removeFixedCellRenderer, width: 100, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+						#removerow#
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
 							<cfset cellrenderer = "">
