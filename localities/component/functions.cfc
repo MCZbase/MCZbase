@@ -4876,7 +4876,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<input type="text" name="verbatimCoordinates" value="#encodeForHTML(verbatimCoordinates)#" id="verbatimCoordinates"  class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-3 mb-2">
-						<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System (e.g., decimal degrees)</label>
+						<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate Sys. (e.g., decimal degrees)</label>
 						<cfif not isDefined("verbatimCoordinateSystem")><cfset verbatimCoordinateSystem = ""></cfif>
 						<input type="text" name="verbatimCoordinateSystem" value="#encodeForHTML(verbatimCoordinateSystem)#" id="verbatimCoordinateSystem" class="data-entry-input">
 					</div>

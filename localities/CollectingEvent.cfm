@@ -279,7 +279,7 @@ limitations under the License.
 							</div>
 							<section class="col-12 px-md-0 col-md-2 col-xl-3 float-left">
 								<!--- map --->
-								<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+								<div class="col-12 px-1 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 									<cfset map = getLocalityMapHtml(locality_id="#lookupEvent.locality_id#",extraText="For Locality")>
 									<div id="mapDiv">#map#</div>
 								</div>
