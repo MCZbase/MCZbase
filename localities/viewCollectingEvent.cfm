@@ -87,7 +87,7 @@ limitations under the License.
 					</div>
 
 				</div>
-				<section class="col-12 col-md-9 col-xl-8 float-left">
+				<section class="col-12 col-md-7 col-xl-8 float-left">
 					<div class="col-12 mt-2 float-left">
 						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">In Locality [<a href="/localities/viewLocality.cfm?locality_id=#encodeForUrl(locality_id)#">#encodeForHtml(locality_id)#</a>]</h1>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
@@ -305,7 +305,7 @@ limitations under the License.
 						</ul>
 					</div>
 				</section>
-				<section class="col-12 col-md-3 col-xl-4 mt-3 mt-md-2 pl-md-0 float-left">
+				<section class="col-12 col-md-5 col-xl-4 mt-3 mt-md-2 pl-md-0 float-left">
 					<cfif ListContains(encumber,"mask coordinates") GT 0>
 						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 							[Masked]
