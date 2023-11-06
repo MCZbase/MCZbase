@@ -273,7 +273,7 @@ limitations under the License.
 										};
 									</script>
 								</div>
-								<div class="border rounded p-1 my-1 ">
+								<div class="border rounded p-2 my-1 ">
 									<a class="btn btn-xs btn-secondary" target="_blank" href="/localities/CollectingEvent.cfm?action=new&clone_from_collecting_event_id=#collecting_event_id#">Clone</a>
 								</div>
 							</div>
