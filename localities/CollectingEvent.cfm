@@ -212,7 +212,7 @@ limitations under the License.
 										</cfif>
 									</div>
 								</div>
-								<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 pt-3 pb-1">
+								<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 pt-2 pb-1">
 									<cfset summary = getCollectingEventSummary(collecting_event_id="#collecting_event_id#")>
 									<div id="summary" class="p-2"><span class="sr-only">Summary: </span>#summary#</div>
 								</div>
