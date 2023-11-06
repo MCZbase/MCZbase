@@ -538,7 +538,7 @@ limitations under the License.
 <div class="container-fluid">
 	<div class="row mx-0">
 		<div class="col-12">
-			<table class="table table-responsive-lg sortable" id="specimensTable">
+			<table class="table table-responsive-lg sortable w-100" id="specimensTable">
 				<thead class="thead-light">
 					<tr>
 						<th>Catalog Number</th>
