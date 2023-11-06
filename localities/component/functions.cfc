@@ -4722,7 +4722,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							</script>
 						</div>
 					<cfelse>
-						<div class="col-10">
+						<div class="col-10 mb-2">
 							<label class="data-entry-label" for="locality_id">Locality</label>
 							<input type="text" name="locality" id="locality" class="data-entry-input reqdClr" disabled value="#higher_geog#: #spec_locality# (#locality_id#)">
 							<input type="hidden" name="locality_id" id="locality_id" value="#locality_id#">
@@ -4730,7 +4730,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<input type="hidden" id="reset_locality" value="#higher_geog#: #spec_locality# (#locality_id#)">
 							<input type="hidden" id="reset_state" value="0">
 						</div>
-						<div class="col-2">
+						<div class="col-2 mb-2">
 							<label class="data-entry-label">&nbsp;</label>
 							<button type="button" class="btn btn-xs btn-secondary" onclick="toggleChangeLocality();" id="editLocalityToggle">Change Locality</button>
 							<script>
@@ -4759,7 +4759,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							</script>
 						</div>
 					</cfif>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label for="verbatim_date" class="data-entry-label">
 							Verbatim Date
 							<span onClick="fillDatesFromVerbatim()">[ copy ]</span>
@@ -4772,22 +4772,22 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							} 
 						</script>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label for="began_date" class="data-entry-label">Began Date</label>
 						<cfif not isDefined("began_date")><cfset began_date = ""></cfif>
 					    <input type="text" name="began_date" id="began_date"  class="reqdClr data-entry-input" required="required" value="#encodeForHTML(began_date)#">
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 					    <label for="ended_date" class="data-entry-label">Ended Date</label>
 						<cfif not isDefined("ended_date")><cfset ended_date = ""></cfif>
 					    <input type="text" name="ended_date" id="ended_date" class="reqdClr data-entry-input" required="required" value="#encodeForHTML(ended_date)#" >
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label for="collecting_time" class="data-entry-label">Collecting Time</label>
 						<cfif not isDefined("collecting_time")><cfset collecting_time = ""></cfif>
 						<input type="text" name="collecting_time" id="collecting_time"  class="data-entry-input" value="#encodeForHtml(collecting_time)#">
 					</div>
-					<div class="col-12 col-md-2">
+					<div class="col-12 col-md-2 mb-2">
 						<label for="startDayOfYear" class="data-entry-label">Start Day of Year</label>
 						<cfif not isDefined("startDayOfYear")><cfset startDayOfYear = ""></cfif>
 						<input type="text" name="startDayOfYear" id="startDayOfYear" value="#encodeForHTML(startDayOfYear)#" class="data-entry-input">
@@ -4797,7 +4797,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<cfif not isDefined("endDayOfYear")><cfset endDayOfYear = ""></cfif>
 						<input type="text" name="endDayOfYear" id="endDayOfYear" class="data-entry-input" value="#encodeForHTML(endDayOfYear)#">
 					</div>
-					<div class="col-12 col-md-2">
+					<div class="col-12 col-md-2 mb-2">
 						<label for="date_determined_by_agent_id" class="data-entry-label">Event Date Determined By</label>
 						<cfif not isDefined("date_determined_by_agent_id") OR len(date_determined_by_agent_id) EQ 0>
 							<cfset date_determined_by_agent_id = "">
@@ -4824,7 +4824,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label for="collecting_source" class="data-entry-label">Collecting Source</label>
 						<cfif isdefined("collecting_source")> <cfset collsrc = collecting_source> <cfelse> <cfset collsrc = ""> </cfif>
 						<select name="collecting_source" id="collecting_source" size="1" class="reqdClr data-entry-select" required="required" >
@@ -4835,12 +4835,12 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							</cfloop>
 						</select>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label for="fish_field_number" class="data-entry-label">Fish Field Number (Ich only)</label>
 						<cfif not isDefined("fish_field_number")><cfset fish_field_number = ""></cfif>
 						<input type="text" name="fish_field_number" value="#encodeForHTML(fish_field_number)#" id="fish_field_number" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-12">
+					<div class="col-12 col-md-12 mb-2">
 						<label for="collecting_method" class="data-entry-label">Collecting Method</label>
 						<cfif not isdefined("collecting_method")><cfset collecting_method = ""></cfif>
 						<input type="text" name="collecting_method" id="collecting_method" value="#encodeForHTML(collecting_method)#" class="data-entry-input" maxlength="255">
@@ -4850,7 +4850,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<cfif not isDefined("habitat_desc")><cfset habitat_desc = ""></cfif>
 						<input type="text" name="habitat_desc" id="habitat_desc" value="#encodeForHTML(HABITAT_DESC)#" class="data-entry-input" maxlength="500">
 					</div>
-					<div class="col-12">
+					<div class="col-12 mb-2">
 				     	<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
 						<cfset vl_value="">
 						<cfif isdefined("variables.verbatim_locality")>
@@ -4860,43 +4860,43 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						</cfif>
 		     			<input type="text" name="verbatim_locality" id="verbatim_locality" class="data-entry-input" value="#encodeForHtml(vl_value)#">
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label for="verbatimDepth" class="data-entry-label">Verbatim Depth</label>
 						<cfif not isDefined("verbatimDepth")><cfset verbatimDepth = ""></cfif>
 						<input type="text" name="verbatimDepth" value="#encodeForHTML(verbatimDepth)#" id="verbatimDepth" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label for="verbatimElevation" class="data-entry-label">Verbatim Elevation</label>
 						<cfif not isDefined("verbatimElevation")><cfset verbatimElevation = ""></cfif>
 						<input type="text" name="verbatimElevation" value="#encodeForHTML(verbatimElevation)#" id="verbatimElevation" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label for="verbatimCoordinates" class="data-entry-label">Verbatim Coordinates</label>
 						<cfif not isDefined("verbatimCoordinates")><cfset verbatimCoordinates = ""></cfif>
 						<input type="text" name="verbatimCoordinates" value="#encodeForHTML(verbatimCoordinates)#" id="verbatimCoordinates"  class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System (e.g., decimal degrees)</label>
 						<cfif not isDefined("verbatimCoordinateSystem")><cfset verbatimCoordinateSystem = ""></cfif>
 						<input type="text" name="verbatimCoordinateSystem" value="#encodeForHTML(verbatimCoordinateSystem)#" id="verbatimCoordinateSystem" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label for="verbatimLatitude" class="data-entry-label">Verbatim Latitude</label>
 						<cfif not isDefined("verbatimLatitude")><cfset verbatimLatitude = ""></cfif>
 						<input type="text" name="verbatimLatitude" value="#encodeForHTML(verbatimLatitude)#" id="verbatimLatitude" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-3 mb-2">
 						<label for="verbatimLongitude" class="data-entry-label">Verbatim Longitude</label>
 						<cfif not isDefined("verbatimLongitude")><cfset verbatimLongitude = ""></cfif>
 						<input type="text" name="verbatimLongitude" value="#encodeForHTML(verbatimLongitude)#" id="verbatimLongitude" class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="verbatimSRS">Verbatim SRS (includes ellipsoid model/Datum)</label>
+						<label for="verbatimSRS" class="data-entry-label">Verbatim SRS (ellipsoid model/datum)</label>
 						<cfif not isDefined("verbatimSRS")><cfset verbatimSRS = ""></cfif>
 						<input type="text" name="verbatimSRS" value="#encodeForHTML(verbatimSRS)#" id="verbatimSRS" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-3">
-						<label for="valid_distribution_fg">Valid Distribution</label>
+					<div class="col-12 col-md-3 mb-2">
+						<label for="valid_distribution_fg" class="data-entry-label">Valid Distribution</label>
 						<cfif not isDefined("variables.valid_distribution_fg")>
 							<cfset variables.valid_distribution_fg = "1">
 						</cfif>
@@ -4907,7 +4907,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 							<option value="0" #selected#>No, material from this event does not represent distribution in the wild</option>
 						</select>
 					</div>
-					<div class="col-12">
+					<div class="col-12 mb-2">
 						<label for="coll_event_remarks" class="data-entry-label">Remarks</label>
 						<cfif not isDefined("coll_event_remarks")><cfset coll_event_remarks = ""></cfif>
 						<textarea name="coll_event_remarks" id="coll_event_remarks" class="autogrow border rounded w-100">#encodeForHTML(coll_event_remarks)#</textarea>

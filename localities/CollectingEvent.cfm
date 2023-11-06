@@ -108,10 +108,10 @@ limitations under the License.
 		<cfif lookupEvent.recordcount EQ 1>
 			<cfset extra=" (#lookupEvent.collecting_event_id#)">
 			<cfoutput>
-				<main class="container-fluid container-xl my-2" id="content">
+				<main class="container-fluid my-2" id="content">
 					<section class="row">
 						<div class="col-12 mt-2 mb-1 form-row">
-							<div class="col-12 col-md-10 col-xl-9">
+							<div class="col-12 col-md-10 col-xl-9 pr-3">
 								<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">
 									Edit Collecting Event#extra#
 									<a role="button" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">View</a>
