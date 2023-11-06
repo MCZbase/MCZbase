@@ -312,9 +312,9 @@ limitations under the License.
 									<div id="mediaDialogDiv"></div>
 								</div>
 							</div>
-							<div class="col-12 px-0 pr-md-3 pl-md-0 ">
+							<div class="col-12">
 								<div class="border bg-light rounded p-3 my-2">
-									<h2 class="h3 mt-3 pl-1 ml-2" id="formheading">Collectors in this Collecting Event</h2>
+									<h3 class="h4" id="formheading">Collectors in this Collecting Event</h2>
 									<cfquery name="getCollectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollectors_result">
 										SELECT
 											count(cataloged_item.collection_object_id) ct, 
