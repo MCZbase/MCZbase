@@ -10,7 +10,7 @@ body, html {
 a:link {
 	color: #0460c1;
 	cursor: pointer;
-	text-decoration: underline dotted gray;
+	text-decoration: underline dotted #bac5c6;
 }
 a:visited {
 	color: purple;
