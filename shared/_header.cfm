@@ -249,7 +249,7 @@ limitations under the License.
 	<a href="##content" class="sr-only btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
 	
 	<div class="branding clearfix bg-black">
-		<a href="http://www.harvard.edu/" aria-label="link to Harvard website">
+		<a href="http://www.harvard.edu/" aria-label="Harvard University Harvard.edu">
 			<span class="branding-left justify-content-start"><img class="shield mr-1" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield"><span class="d-inline-block parent">Harvard University</span></span>
 			<span class="branding-right justify-content-end font-weight-bold"> HARVARD.EDU</span>
 		</a>
@@ -274,7 +274,7 @@ limitations under the License.
 			<div class="col-12 pb-2">
 				<h1 class="h2 text-center text-danger mt-5 mt-md-3">MCZbase requires Javascript to function.</h1>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					<a href="/login.cfm?action=signOut" class="btn btn-outline-success py-0 px-2" aria-label="logout">Log out #session.username#
+					<a href="/login.cfm?action=signOut" class="btn btn-outline-success py-0 px-2" aria-label="log out username (Last login: date)">Log out #session.username#
 					<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
 						<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
 					</cfif>

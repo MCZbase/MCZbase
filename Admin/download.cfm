@@ -1,5 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
 		$("#bdate").datepicker();

@@ -112,7 +112,7 @@ limitations under the License.
 					<section class="row">
 						<div class="col-12 px-0 mt-2 px-md-3 mb-1">
 							<div class="col-12 col-md-10 col-xl-9 pl-xl-0 float-left">
-								<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">
+								<h1 class="h2 mt-2 pl-1 ml-2" id="formheading">
 									Edit Collecting Event#extra#
 									<a role="button" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">View</a>
 								</h1>

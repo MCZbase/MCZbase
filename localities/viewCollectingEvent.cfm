@@ -75,31 +75,31 @@ limitations under the License.
 
 <cfoutput query="getCollectingEvent">
 	<cfset locality_id = getCollectingEvent.locality_id>
-	<main class="container-xl " id="content">
+	<main class="container-fluid px-0 px-xl-3 container-xl " id="content">
 		<div class="row mx-0">
 			<div class="col-12 px-0">
 				<div class="row mx-0">
-					<div class="col-12 mt-4 pb-2 border-bottom border-dark">
-						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">Collecting Event [#encodeForHtml(collecting_event_id)#]</h1>
+					<div class="col-12 mt-4 pb-2 mb-3 border-bottom">
+						<h1 class="h2 mr-2 mb-0 col-6 px-1 mt-0 float-left">Collecting Event [#encodeForHtml(collecting_event_id)#]</h1>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
 							<a role="button" href="/localities/CollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">Edit Collecting Event</a>
 						</cfif>
 					</div>
-					<div class="col-12 mt-4 pb-2 border-bottom border-dark">
-						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">In Locality [<a href="/localities/viewLocality.cfm?locality_id=#encodeForUrl(locality_id)#">#encodeForHtml(locality_id)#</a>]</h1>
+
+				</div>
+				<section class="col-12 col-md-7 col-xl-8 float-left">
+					<div class="col-12 float-left">
+						<h1 class="h2 mr-2 mb-0 col-6 px-1 mt-0 float-left">In Locality [<a href="/localities/viewLocality.cfm?locality_id=#encodeForUrl(locality_id)#">#encodeForHtml(locality_id)#</a>]</h1>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
 							<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right mr-1">Edit Locality</a>
 						</cfif>
 					</div>
-				</div>
-				<section class="col-12 col-md-9 col-xl-8 float-left">
-					
-					<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
+					<div class="float-left border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
 						<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
 						<div id="summary" class="small95 px-2 mb-0"><span class="sr-only">Locality Summary: </span>#summary#</div>
 					</div>
 
-					<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+					<div class="float-left col-12 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 						<!--- TODO: event details --->
 						<ul class="sd list-unstyled bg-light row mx-0 px-2 pt-1 mb-0 border-top">
 							<cfif len(collecting_source) gt 0>
@@ -136,7 +136,8 @@ limitations under the License.
 							</cfif>
 							<cfif len(date_determined_by_agent_id) gt 0>
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Date Determined By: </li>
-								<li class="list-group-item col-7 col-xl-8 px-0 last"><a href="/agents/Agent.cfm?agent_id="#date_determined_by_agent_id#">#agent_name#</a></li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">
+									<a href="/agents/Agent.cfm?agent_id='#date_determined_by_agent_id#'">#agent_name#</a></li>
 							</cfif>
 							<cfif isdefined("valid_distribution_flag") AND len(valid_distribution_flag) gt 0>
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Valid Distribution: </li>
@@ -190,7 +191,7 @@ limitations under the License.
 					</div>
 
 					<cfif ListContains(encumber,"mask collector") GT 0>
-						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+						<div class="float-left col-12 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 							[Masked]
 						</div>
 					<cfelse>
@@ -206,7 +207,7 @@ limitations under the License.
 								coll_event_number.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 						</cfquery>
 						<cfif getCollEventNumbers.recordcount GT 0>
-							<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+							<div class="float-left col-12 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 								<h2 class="h3">Collector Numbers/Field Numbers for this event</h2>
 								<ul>
 									<cfloop query="getCollEventNumbers">
@@ -236,7 +237,7 @@ limitations under the License.
 								agent_name
 						</cfquery>
 						
-						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+						<div class="float-left col-12 px-3 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 							<h2 class="h3">Collectors in this event</h2>
 							<ul>
 								<cfif getCollectors.recordcount EQ 0>
@@ -247,7 +248,6 @@ limitations under the License.
 								</cfloop>
 							</ul>
 						</div>
-
 					</cfif>
 
 					<!--- Summary of cataloged item records --->
@@ -258,7 +258,7 @@ limitations under the License.
 						WHERE
 							collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 					</cfquery>
-					<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+					<div class="float-left col-12 px-3 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 						<h2 class="h3">
 							Material collected in this event 
 							<cfif getItemCount.ct EQ 0>
@@ -305,14 +305,14 @@ limitations under the License.
 						</ul>
 					</div>
 				</section>
-				<section class="mt-3 mt-md-2 col-12 col-md-3 col-xl-4 pl-md-0 float-left">
+				<section class="col-12 col-md-5 col-xl-4 mt-3 mt-md-0 pl-md-0 float-left">
 					<cfif ListContains(encumber,"mask coordinates") GT 0>
 						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 							[Masked]
 						</div>
 					<cfelse>
 						<!--- map --->
-						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+						<div class="col-12 px-3 bg-light pt-0 pb-1 mb-2 border rounded">
 							<cfset map = getLocalityMapHtml(locality_id="#getCollectingEvent.locality_id#")>
 							<div id="mapDiv">#map#</div>
 						</div>

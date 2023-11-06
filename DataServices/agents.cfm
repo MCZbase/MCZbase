@@ -193,7 +193,7 @@ sho err
 ---->
 </cfif>
 <cfif action is "validate">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 <style>
 	.cfcatch{
 		font-size:.9em;

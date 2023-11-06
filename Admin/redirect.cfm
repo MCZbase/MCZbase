@@ -1,6 +1,6 @@
 <cfinclude template="/includes/_header.cfm">
     <div style="width: 30em;margin:0 auto; padding: 1em 0 3em;">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 <cfparam name="old_path" default="">
 <cfparam name="new_path" default="">
 <cfoutput>

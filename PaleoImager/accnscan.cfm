@@ -117,7 +117,7 @@
 	<cflocation url="accnscan.cfm" addtoken="false">
 </cfif>
 <cfif action is "list">
-	<script src="/includes/sorttable.js"></script>
+	<script src="/lib/misc/sorttable.js"></script>
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from accn_scan
 	</cfquery>

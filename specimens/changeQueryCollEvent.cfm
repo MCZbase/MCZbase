@@ -19,7 +19,7 @@ limitations under the License.
 <cfset pageTitle = "Change Collecting Events for Search Result">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided for result set on which to change collecting events.">
@@ -329,7 +329,7 @@ limitations under the License.
 				<cfelse>
 					<h2 class="h2 px-3">Change collecting event for all cataloged items [in #encodeForHtml(result_id)#]#filterTextForHead#</h2>
 				</cfif>
-				<table class="table table-responsive-lg sortable" id="catItemsTable">
+				<table class="table table-responsive-lg sortable w-100" id="catItemsTable">
 					<thead class="thead-light">
 						<tr>
 							<th>Higher Geog (ID)</th>
@@ -538,7 +538,7 @@ limitations under the License.
 <div class="container-fluid">
 	<div class="row mx-0">
 		<div class="col-12">
-			<table class="table table-responsive-lg sortable" id="specimensTable">
+			<table class="table table-responsive-lg sortable w-100" id="specimensTable">
 				<thead class="thead-light">
 					<tr>
 						<th>Catalog Number</th>
