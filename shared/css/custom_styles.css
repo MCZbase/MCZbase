@@ -2902,6 +2902,16 @@ a.wrapurl {
 ul li.list-unstyled span:last-child {
 	display:none;
 }
+span.sortarrow {
+	border: 4px solid transparent;
+	content: "";
+	display: block;
+	height: 0;
+	right: 5px;
+	top: 50%;
+	position: relative;
+	width: 0;
+}
 /*span.sortarrow:before,
 span.sortarrow:after {
 	border: 4px solid transparent;
