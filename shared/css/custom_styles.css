@@ -23,7 +23,7 @@ a:hover {
 a:focus { 
 	color: purple;
 	text-decoration: underline;
-	text-decoration: underline dotted #a93fa9;
+	text-decoration: underline dotted #bac5c6;
 }
 a:active {
 	color: #0460c1;
