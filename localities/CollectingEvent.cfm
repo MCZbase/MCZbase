@@ -110,7 +110,7 @@ limitations under the License.
 			<cfoutput>
 				<main class="container-fluid my-2" id="content">
 					<section class="row">
-						<div class="col-12 px-0 mt-2 px-md-2 mb-1">
+						<div class="col-12 px-0 mt-2 px-md-3 mb-1">
 							<div class="col-12 col-md-10 col-xl-9 pl-xl-0 float-left">
 								<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">
 									Edit Collecting Event#extra#
@@ -285,7 +285,7 @@ limitations under the License.
 								</div>
 							</section>
 						</div>
-						<div class="col-12 form-row">
+						<div class="col-12 px-0 px-md-3 form-row">
 							<div class="col-12">
 								<div class="border rounded px-2 p-3 my-2" arial-labeledby="formheading">
 									<cfset blocknumbers = getEditCollectingEventNumbersHtml(collecting_event_id="#collecting_event_id#")>
