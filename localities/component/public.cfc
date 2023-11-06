@@ -1828,11 +1828,11 @@ limitations under the License.
 					</div>
 					<cfset locality = getLocalitySummary(locality_id="#getCollEventUp.locality_id#")>
 					<div class="border-bottom float-left col-12 pb-2 h4">
-						<div class="col-12 px-0">Locality:</div>
-						<div class="font-weight-normal col-12 col-md-11 px-0 float-left">#locality# </div>
-						<div class="font-weight-normal col-12 col-md-1 px-0 float-left">
+						<div class="col-12 col-3 px-0">Locality:</div>	<div class="font-weight-normal col-12 col-md-1 px-0 float-right">
 							<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary" target="_blank" >View</a>
 						</div>
+						<div class="font-weight-normal col-12 col-md-12 px-0 float-left">#locality# </div>
+					
 					</div>
 					<cfset datebit = "">
 					<cfif len(began_date) GT 0>
