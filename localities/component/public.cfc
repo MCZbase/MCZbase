@@ -1825,7 +1825,7 @@ limitations under the License.
 						</div> 
 					</div>
 					<cfset locality = getLocalitySummary(locality_id="#getCollEventUp.locality_id#")>
-					<div class="border-bottom pb-3 h4">
+					<div class="border-bottom float-left pb-3 h4">
 						<div class="col-12 px-0">Locality:</div>
 						<div class="font-weight-normal col-12 col-xl-11 px-0 float-left">#locality# </div>
 						<div class="font-weight-normal col-12 col-xl-1 px-0 float-left">
