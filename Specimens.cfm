@@ -2563,7 +2563,7 @@ Target JSON:
 						async: true,
 						deleterow: function (rowid, commit) {
 							console.log(rowid);
-							var collobjtoremove = $('#fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 		        			$.ajax({
             				url: "/specimens/component/search.cfc",
             				data: { 
