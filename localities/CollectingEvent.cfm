@@ -216,7 +216,7 @@ limitations under the License.
 									<cfset summary = getCollectingEventSummary(collecting_event_id="#collecting_event_id#")>
 									<div id="summary" class="p-2"><span class="sr-only">Summary: </span>#summary#</div>
 								</div>
-								<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
+								<div class="border rounded px-2 my-2 p-2" arial-labeledby="formheading">
 									<cfset blockform = getCollectingEventFormHtml(collecting_event_id = "#collecting_event_id#",mode="edit")>
 									<form name="editCollectingEventForm" id="editCollectingEventForm">
 										<input type="hidden" name="method" value="updateCollectingEvent">
