@@ -3129,7 +3129,9 @@ Target JSON:
 				if (hideable == true) {
 					var listRow = { label: text, value: datafield, checked: show };
 					var inCategory = columnCategoryPlacements.get(datafield);
-					columnSections.get(inCategory).push(listRow);
+					if (inCategory) { 
+						columnSections.get(inCategory).push(listRow);
+					}
 				}
 			}
 			console.log(columnSections);
