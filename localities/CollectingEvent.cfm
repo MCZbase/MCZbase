@@ -286,13 +286,13 @@ limitations under the License.
 							</section>
 						</div>
 						<div class="col-12 form-row">
-							<div class="col-12 px-0 pr-md-3 pl-md-0 ">
-								<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
+							<div class="col-12">
+								<div class="border rounded px-2 p-3 my-2" arial-labeledby="formheading">
 									<cfset blocknumbers = getEditCollectingEventNumbersHtml(collecting_event_id="#collecting_event_id#")>
 									<div id="collEventNumbersDiv">#blocknumbers#</div>
 								</div>
 							</div>
-							<div class="col-12 px-0 pr-md-3 pl-md-0 ">
+							<div class="col-12">
 								<div class="border bg-light rounded p-3 my-2">
 									<cfset media = getCollectingEventMediaHtml(collecting_event_id="#collecting_event_id#")>
 									<div id="mediaDiv" class="row">#media#</div>
