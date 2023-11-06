@@ -19,7 +19,7 @@ limitations under the License.
 <cfset pageTitle = "Change Localities for Search Result">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided for result set on which to change localities.">
