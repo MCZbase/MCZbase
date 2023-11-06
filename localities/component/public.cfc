@@ -1853,7 +1853,7 @@ limitations under the License.
 						
 				</cfloop>
 			<cfcatch>
-				<div class="h4 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div class="border-bottom float-left pb-2 h4">Error: #cfcatch.type# #cfcatch.message#</div> 
 				<div>#cfcatch.detail#</div>
 			</cfcatch>
 			</cftry>
