@@ -99,7 +99,7 @@ limitations under the License.
 						<div id="summary" class="small95 px-2 mb-0"><span class="sr-only">Locality Summary: </span>#summary#</div>
 					</div>
 
-					<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+					<div class="col-12 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 						<!--- TODO: event details --->
 						<ul class="sd list-unstyled bg-light row mx-0 px-2 pt-1 mb-0 border-top">
 							<cfif len(collecting_source) gt 0>
@@ -136,7 +136,8 @@ limitations under the License.
 							</cfif>
 							<cfif len(date_determined_by_agent_id) gt 0>
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Date Determined By: </li>
-								<li class="list-group-item col-7 col-xl-8 px-0 last"><a href="/agents/Agent.cfm?agent_id="#date_determined_by_agent_id#">#agent_name#</a></li>
+								<li class="list-group-item col-7 col-xl-8 px-0 last">
+									<a href="/agents/Agent.cfm?agent_id='#date_determined_by_agent_id#'">#agent_name#</a></li>
 							</cfif>
 							<cfif isdefined("valid_distribution_flag") AND len(valid_distribution_flag) gt 0>
 								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Valid Distribution: </li>
@@ -190,7 +191,7 @@ limitations under the License.
 					</div>
 
 					<cfif ListContains(encumber,"mask collector") GT 0>
-						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+						<div class="col-12 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 							[Masked]
 						</div>
 					<cfelse>
@@ -206,7 +207,7 @@ limitations under the License.
 								coll_event_number.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 						</cfquery>
 						<cfif getCollEventNumbers.recordcount GT 0>
-							<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+							<div class="col-12 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 								<h2 class="h3">Collector Numbers/Field Numbers for this event</h2>
 								<ul>
 									<cfloop query="getCollEventNumbers">
@@ -236,7 +237,7 @@ limitations under the License.
 								agent_name
 						</cfquery>
 						
-						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+						<div class="col-12 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 							<h2 class="h3">Collectors in this event</h2>
 							<ul>
 								<cfif getCollectors.recordcount EQ 0>
