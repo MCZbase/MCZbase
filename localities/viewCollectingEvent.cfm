@@ -237,7 +237,7 @@ limitations under the License.
 								agent_name
 						</cfquery>
 						
-						<div class="col-12 px-2 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+						<div class="col-12 px-3 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 							<h2 class="h3">Collectors in this event</h2>
 							<ul>
 								<cfif getCollectors.recordcount EQ 0>
@@ -258,7 +258,7 @@ limitations under the License.
 						WHERE
 							collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 					</cfquery>
-					<div class="col-12 px-2 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+					<div class="col-12 px-3 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 						<h2 class="h3">
 							Material collected in this event 
 							<cfif getItemCount.ct EQ 0>
@@ -305,14 +305,14 @@ limitations under the License.
 						</ul>
 					</div>
 				</section>
-				<section class="mt-3 mt-md-2 col-12 col-md-3 col-xl-4 pl-md-0 float-left">
+				<section class="col-12 col-md-3 col-xl-4 mt-3 mt-md-2 pl-md-0 float-left">
 					<cfif ListContains(encumber,"mask coordinates") GT 0>
 						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 							[Masked]
 						</div>
 					<cfelse>
 						<!--- map --->
-						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+						<div class="col-12 px-3 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 							<cfset map = getLocalityMapHtml(locality_id="#getCollectingEvent.locality_id#")>
 							<div id="mapDiv">#map#</div>
 						</div>
