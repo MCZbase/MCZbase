@@ -79,13 +79,13 @@ limitations under the License.
 		<div class="row mx-0">
 			<div class="col-12 px-0">
 				<div class="row mx-0">
-					<div class="col-12 mt-4 pb-2 border-bottom border-dark">
+					<div class="col-12 mt-4 pb-2 mb-3 border-bottom">
 						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">Collecting Event [#encodeForHtml(collecting_event_id)#]</h1>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
 							<a role="button" href="/localities/CollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">Edit Collecting Event</a>
 						</cfif>
 					</div>
-					<div class="col-12 mt-4 pb-2 border-bottom border-dark">
+					<div class="col-12 mt-4 pb-2">
 						<h1 class="h2 mr-2 mb-0 col-10 px-1 mt-0 float-left">In Locality [<a href="/localities/viewLocality.cfm?locality_id=#encodeForUrl(locality_id)#">#encodeForHtml(locality_id)#</a>]</h1>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
 							<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right mr-1">Edit Locality</a>
