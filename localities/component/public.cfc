@@ -1819,7 +1819,7 @@ limitations under the License.
 				</cfquery>
 				<cfloop query="getCollEventUp">
 					<div class="form-row">
-					<div class="border-bottom float-left col-12 pb-2 h5">
+					<div class="border-bottom float-left col-12 pb-2 h4">
 						<div class="col-12 col-xl-2 px-0">Higher Geography:</div> 
 						<div class="font-weight-normal col-12 col-xl-11 px-0 float-left">#higher_geog# </div>
 						<div class="font-weight-normal col-12 col-xl-1 px-0 float-left">
