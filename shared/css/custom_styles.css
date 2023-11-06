@@ -10,21 +10,21 @@ body, html {
 a:link {
 	color: #0460c1;
 	cursor: pointer;
-	text-decoration: underline dotted #bac5c6;
+	text-decoration: underline dotted #aaa;
 }
 a:visited {
 	color: purple;
-	text-decoration: underline dotted #bac5c6;
+	text-decoration: underline dotted #aaa;
 }
 a:hover {
 	color: #0460c1;
 	text-decoration: underline;
-	text-decoration: underline dotted #bac5c6;
+	text-decoration: underline dotted #aaa;
 }
 a:focus { 
 	color: purple;
 	text-decoration: underline;
-	text-decoration: underline dotted #bac5c6;
+	text-decoration: underline dotted #aaa;
 }
 a:active {
 	color: #0460c1;
