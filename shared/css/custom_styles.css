@@ -2910,7 +2910,7 @@ span.sortarrow:after {
 	height: 0;
 	right: 5px;
 	top: 50%;
-	position: absolute;
+	position: relative;
 	width: 0;
 }
 span.sortarrow:before {
