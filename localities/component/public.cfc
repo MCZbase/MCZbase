@@ -1818,12 +1818,12 @@ limitations under the License.
 						collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 				</cfquery>
 				<cfloop query="getCollEventUp">
-					<h3 class="border-bottom pb-2">
+					<h3 class="border-bottom pb-2 h4">
 						Higher Geography: <span class="font-weight-normal">#higher_geog#</span> 
 						<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a>
 					</h3>
 					<cfset locality = getLocalitySummary(locality_id="#getCollEventUp.locality_id#")>
-					<h3 class="border-bottom pb-2">
+					<h3 class="border-bottom pb-2 h4">
 						Locality: <span class="font-weight-normal">#locality#</span>
 						<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a>
 					</h3>
@@ -1841,7 +1841,7 @@ limitations under the License.
 					<cfif len(verbatim_date) GT 0>
 						<cfset datebit = "#datebit# [#verbatim_date#]">
 					</cfif>
-					<h3 class="">Event: <span class="font-weight-normal">#datebit# #collecting_method# #collecting_source# [#verbatim_locality#]</span><h3>
+					<h3 class="h4">Event: <span class="font-weight-normal">#datebit# #collecting_method# #collecting_source# [#verbatim_locality#]</span><h3>
 				</cfloop>
 			<cfcatch>
 				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
