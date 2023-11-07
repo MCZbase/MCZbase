@@ -1694,7 +1694,7 @@ limitations under the License.
 				<div>
 					<cfif #collectingEventUses.recordcount# is 0>
 						<h2 class="h4 px-2">
-							This CollectingEvent (#collecting_event_id#) contains no specimens. 
+							This Collecting Event (#collecting_event_id#) contains no specimens. 
 							<cfif isDefined("context") and context EQ "edit">
 								Please delete it if you don&apos;t have plans for it!
 							</cfif>
@@ -1740,11 +1740,11 @@ limitations under the License.
 						</cfif>
 					<cfelseif #collectingEventUses.recordcount# is 1>
 						<h2 class="h4 px-2">
-							This CollectingEvent (#collecting_event_id#) contains 
+							This Collecting Event (#collecting_event_id#) contains 
 							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">
-								#collectingEventUses.numOfSpecs# #collectingEventUses.collection_cde# specimens
+								#collectingEventUses.numOfSpecs# #collectingEventUses.collection_cde# specimens.
 							</a>
-							see <a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#collectingEventUses.locality_id#&include_counts=true&include_ce_counts=true">other collecting events at this locality</a>.
+							<span> See <a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#collectingEventUses.locality_id#&include_counts=true&include_ce_counts=true">other collecting events at this locality</a>.</span>
 						</h2>
 					<cfelse>
 						<cfset totalSpecimens=0>
