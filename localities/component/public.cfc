@@ -1850,7 +1850,7 @@ limitations under the License.
 					<cfif len(verbatim_date) GT 0>
 						<cfset datebit = "#datebit# [#verbatim_date#]">
 					</cfif>
-					<div class="float-left pb-0 col-12 h4">
+					<div class="float-left pb-0 col-12 h4 mb-0">
 						<div class="col-12 px-0">Event:</div>
 						<div class="font-weight-normal col-12 px-0 float-left">#datebit# #collecting_method# #collecting_source# [#verbatim_locality#]</span></div>
 					</div>
