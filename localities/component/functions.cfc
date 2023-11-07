@@ -498,7 +498,7 @@ Delete an existing collecting event number record.
 				</div>
 			</div>
 			<div class="form-row border rounded m-1 p-1">
-				<div class="col-12 col-md-2 py-2">
+				<div class="col-12 col-md-2 py-1">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
 					<label class="data-entry-label" for="section_part"><span class="font-weight-lessbold">PLSS: </span> Section Part</label>
 					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" placeholder="NE 1/4" >
@@ -535,7 +535,7 @@ Delete an existing collecting event number record.
 				<cfelse>
 					<cfset remarksClass = "">
 				</cfif>
-				<div class="col-12 py-2 #remarksClass#">
+				<div class="col-12 py-1 #remarksClass#">
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
 					<label class="data-entry-label" for="locality_remarks">Locality Remarks (<span id="length_locality_remarks"></span>)</label>
 					<textarea name="locality_remarks" id="locality_remarks" 
