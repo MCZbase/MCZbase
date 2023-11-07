@@ -1,6 +1,6 @@
 <cfset pageTitle="Edit Bulkloaded Data">
 <cfinclude template="/shared/_header.cfm">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 <cfset MAX_BULK_ROWS = 450>
 <cfif not isdefined("action")>
 	<cfset action="nothing">

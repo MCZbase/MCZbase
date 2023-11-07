@@ -1587,8 +1587,8 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif isDefined("context") and context EQ "edit" and isdefined("session.roles") and listfindnocase(session.roles,"manage_locality")>
-					<form name="createNewCollEventForm" id="createNewCollEventForm" method="post" action="/Locality.cfm">
-						<input type="hidden" name="action" value="newCollEvent">
+					<form name="createNewCollEventForm" id="createNewCollEventForm" method="post" action="/localities/CollectingEvent.cfm">
+						<input type="hidden" name="action" value="new">
 						<input type="hidden" name="locality_id" value="#locality_id#">
 					</form>
 					<input type="button" class="btn btn-secondary btn-xs" onClick=" $('##createNewCollEventForm').submit(); " value="Add a Collecting Event to this Locality">
@@ -1818,14 +1818,23 @@ limitations under the License.
 						collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 				</cfquery>
 				<cfloop query="getCollEventUp">
-					<div class="h2">
-						Higher Geography: #higher_geog# 
-						<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a>
+					<div class="form-row">
+					<div class="border-bottom float-left col-12 pb-2 h4">
+						<div class="col-12 col-md-2 float-left px-0">Higher Geography:</div> 
+						<div class="font-weight-normal col-12 col-md-1 px-0 pt-1 float-right">
+							<a href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" class="btn btn-xs btn-primary text-center" target="_blank" >View</a>
+						</div> 
+						<div class="font-weight-normal col-12 col-md-11 px-0 float-left">#higher_geog# </div>
+					
 					</div>
 					<cfset locality = getLocalitySummary(locality_id="#getCollEventUp.locality_id#")>
-					<div class="h2">
-						Locality: #locality#
-						<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary float-right" target="_blank" >View</a>
+					<div class="border-bottom float-left col-12 pb-2 h4">
+						<div class="col-12 col-md-2 float-left px-0">Locality:</div>	
+						<div class="font-weight-normal col-12 col-md-1 px-0 pt-1 float-right">
+							<a href="/localities/viewLocality.cfm?locality_id=#locality_id#" class="btn btn-xs btn-primary text-center" target="_blank" >View</a>
+						</div>
+						<div class="font-weight-normal col-12 col-md-11 px-0 float-left">#locality# </div>
+					
 					</div>
 					<cfset datebit = "">
 					<cfif len(began_date) GT 0>
@@ -1841,10 +1850,14 @@ limitations under the License.
 					<cfif len(verbatim_date) GT 0>
 						<cfset datebit = "#datebit# [#verbatim_date#]">
 					</cfif>
-					<div class="h2">Event: #datebit# #collecting_method# #collecting_source# [#verbatim_locality#]</div>
+					<div class="float-left pb-0 col-12 h4">
+						<div class="col-12 px-0">Event:</div>
+						<div class="font-weight-normal col-12 px-0 float-left">#datebit# #collecting_method# #collecting_source# [#verbatim_locality#]</span></div>
+					</div>
+						</div>
 				</cfloop>
 			<cfcatch>
-				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div class="border-bottom float-left pb-2 h4">Error: #cfcatch.type# #cfcatch.message#</div> 
 				<div>#cfcatch.detail#</div>
 			</cfcatch>
 			</cftry>

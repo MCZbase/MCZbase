@@ -3603,4 +3603,190 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	</cfif>
 	<cfreturn retval>
 </cffunction>
+
+<!--- remove a single record from the current user's user_search_table 
+@param result_id the result from which to remove the row.
+@param collection_object_id the collection object to remove from the result.
+@return a json struct data with status:deleted, count:1 or an http 500
+--->
+<cffunction name="removeItemFromResult" access="remote" returntype="any" returnformat="json">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset variables.result_id = arguments.result_id>
+	<cfset variables.collection_object_id = arguments.collection_object_id>
+
+	<cfset data = ArrayNew(1)>
+	<cfif isdefined("session.username") and len(#session.username#) gt 0>
+		<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	   <cfthread name="removeItemFromResultThread_#tn#" >
+			<cftransaction>
+			<cftry>
+				<cfquery name="getcurrentvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getcurrentvalues_result" timeout="#Application.short_timeout#">
+					SELECT pagesort
+					FROM user_search_table
+					WHERE 
+						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
+						AND
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+				</cfquery>
+				<cfif getcurrentvalues.recordcount NEQ 1>
+					<cfthrow message="Matched other than one record in user search table.">
+				</cfif>
+				<cfquery name="remove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="remove_result" timeout="#Application.short_timeout#">
+					DELETE FROM
+						user_search_table
+					WHERE
+						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
+						AND
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.collection_object_id#">
+				</cfquery>
+				<cfif remove_result.recordcount NEQ 1>
+					<cfthrow message="Tried to remove other than one record in user search table.">
+				</cfif>
+				<cfquery name="movepagedown" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="movepagedown_result" timeout="#Application.short_timeout#">
+					UPDATE
+						user_search_table
+					SET
+						pagesort = pagesort - 1
+					WHERE
+						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
+						AND
+						pagesort > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getcurrentvalues.pagesort#">
+				</cfquery>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "deleted">
+				<cfset row["id"] = "#result_id#">
+				<cfset row["count"] = "1">
+				<cfset data[1] = row>
+				<cftransaction action="commit">
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfoutput>
+					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+					<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfset function_called = "#GetFunctionCalledName()#">
+					<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				</cfoutput>
+			</cfcatch>
+			</cftry>
+			</cftransaction>
+		</cfthread>
+		<cfthread action="join" name="removeItemFromResultThread_#tn#" />
+	</cfif>
+	<cfif ArrayIsEmpty(data)>
+		<cfreturn cfthread["removeItemFromResultThread_#tn#"].output>
+	<cfelse>
+		<cfreturn #serializeJSON(data)#>
+	</cfif>
+</cffunction>
+
+
+<!--- remove multiple records matching some grouping criterion from 
+  the current user's user_search_table 
+@param result_id the result from which to remove the row.
+@param grouping_criterion the grouping criterion to identify collection objects to 
+  remove from the result.
+@param grouping_value the value of the grouping criterion to identify collection 
+  objects to remove from the result.
+@return a json struct data with status:deleted, count:{number removed} or an http 500
+--->
+<cffunction name="removeItemsFromResult" access="remote" returntype="any" returnformat="json">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="grouping_criterion" type="string" required="yes">
+	<cfargument name="grouping_value" type="string" required="yes">
+
+	<cfset variables.result_id = arguments.result_id>
+	<cfset variables.grouping_criterion = arguments.grouping_criterion>
+	<cfset variables.grouping_value = arguments.grouping_value>
+
+	<cfset data = ArrayNew(1)>
+	<cfif isdefined("session.username") and len(#session.username#) gt 0>
+		<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	   <cfthread name="removeItemsFromResultThread_#tn#" >
+			<cftransaction>
+			<cftry>
+				<cfquery name="getRemoveList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRemoveList_result" timeout="#Application.short_timeout#">
+					SELECT collection_object_id
+					FROM user_search_table
+					WHERE 
+						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
+						AND
+						<cfif variables.grouping_criterion EQ ("collection_cde")>
+							collection_object_id IN (
+								SELECT collection_object_id 
+								FROM cataloged_item 
+								WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.grouping_value#">
+							)
+						<cfelse>
+							<cfthrow message="Unsupported grouping criterion.">
+						</cfif>
+				</cfquery>
+				<cfif getRemoveList.recordcount EQ 0>
+					<cfthrow message="No records identified to remove from search results.">
+				</cfif>
+				<cfset removedCounter = 0>
+				<cfloop query="getRemoveList">
+					<cfquery name="getcurrentvalues" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getcurrentvalues_result" timeout="#Application.short_timeout#">
+						SELECT pagesort
+						FROM user_search_table
+						WHERE 
+							result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
+							AND
+							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getRemoveList.collection_object_id#">
+					</cfquery>
+					<cfif getcurrentvalues.recordcount NEQ 1>
+						<cfthrow message="Matched other than one record in user search table by collection_object_id.">
+					</cfif>
+					<cfquery name="remove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="remove_result" timeout="#Application.short_timeout#">
+						DELETE FROM
+							user_search_table
+						WHERE
+							result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
+							AND
+							collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getRemoveList.collection_object_id#">
+					</cfquery>
+					<cfif remove_result.recordcount NEQ 1>
+						<cfthrow message="Tried to remove other than one record in user search table by collection_object_id.">
+					<cfelse>
+						<cfset removedCounter = removedCounter + remove_result.recordcount>
+					</cfif>
+					<cfquery name="movepagedown" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="movepagedown_result" timeout="#Application.short_timeout#">
+						UPDATE
+							user_search_table
+						SET
+							pagesort = pagesort - 1
+						WHERE
+							result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.result_id#">
+							AND
+							pagesort > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getcurrentvalues.pagesort#">
+					</cfquery>
+				</cfloop>
+				<cfset row = StructNew()>
+				<cfset row["status"] = "deleted">
+				<cfset row["id"] = "#result_id#">
+				<cfset row["count"] = "#removedCounter#">
+				<cfset data[1] = row>
+				<cftransaction action="commit">
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfoutput>
+					<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+					<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfset function_called = "#GetFunctionCalledName()#">
+					<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				</cfoutput>
+			</cfcatch>
+			</cftry>
+			</cftransaction>
+		</cfthread>
+		<cfthread action="join" name="removeItemsFromResultThread_#tn#" />
+	</cfif>
+	<cfif ArrayIsEmpty(data)>
+		<cfreturn cfthread["removeItemsFromResultThread_#tn#"].output>
+	<cfelse>
+		<cfreturn #serializeJSON(data)#>
+	</cfif>
+</cffunction>
+
 </cfcomponent>

@@ -1,7 +1,7 @@
 <!--- Deprecated --->
 <!--- Replaced with native grid functionality in /transactions/reviewLoanItems.cfm --->
 <cfinclude template="/includes/_header.cfm">
-<script src="/includes/sorttable.js"></script>
+<script src="/lib/misc/sorttable.js"></script>
 <cfset title="Flatten Parts">
 <cfoutput>
 <cfif not isdefined("transaction_id")>

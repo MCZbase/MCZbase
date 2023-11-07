@@ -203,7 +203,6 @@
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 										<a class="dropdown-item" target="_top" href="/localities/HigherGeographies.cfm">Geography</a> 
 										<a class="dropdown-item" target="_top" href="/localities/Localities.cfm">Localities</a> 
-										<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findCO">Collecting Events (old)</a>
 										<a class="dropdown-item" target="_top" href="/localities/CollectingEvents.cfm">Collecting Events</a> 
 									</cfif>
 									<a class="dropdown-item" target="_top" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
@@ -238,6 +237,7 @@
 									<div style="float:left; width: 33.2%;">
 										<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 											<a class="dropdown-item" target="_top" href="/Encumbrances.cfm">Encumbrances</a>
+											<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a>
 											<a class="dropdown-item" target="_top" href="/Admin/Collection.cfm">Manage Collection</a>
 											<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING"))>
 												<a class="dropdown-item" target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>

@@ -2,7 +2,7 @@
  <cfinclude template="includes/_header.cfm">
      <div style="width: 80em; margin: 0 auto; padding: 2em 0 3em 0;">
 	<script type='text/javascript' src='/includes/_loanReview.js'></script>
-	<script src="/includes/sorttable.js"></script>
+	<script src="/lib/misc/sorttable.js"></script>
 <cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>

@@ -1981,7 +1981,11 @@ limitations under the License.
 						collecting_event.valid_distribution_fg,
 						collecting_event.collecting_source,
 						collecting_event.collecting_method,
-						collecting_event.habitat_desc,
+						<cfif maskCoordinates>
+							'[Masked]' as  habitat_desc,
+						<cfelse>
+							collecting_event.habitat_desc,
+						</cfif>
 						MCZBASE.get_agentnameoftype(collecting_event.date_determined_by_agent_id) as date_determiner,
 						collecting_event.date_determined_by_agent_id,
 						collecting_event.fish_field_number,
@@ -2014,7 +2018,11 @@ limitations under the License.
 							locality.section,
 							locality.section_part,
 						</cfif>
-						locality.spec_locality,
+						<cfif maskCoordinates>
+							'[Masked]' as spec_locality,
+						<cfelse>
+							locality.spec_locality,
+						</cfif>
 						locality.locality_remarks,
 						locality.legacy_spec_locality_fg,
 						locality.depth_units,
@@ -2068,8 +2076,12 @@ limitations under the License.
 				<cfset microhabitat = "">
 				<cfset sep = "">
 				<cfloop query="microhabitatlookup">
-					<cfset microhabitat = "#microhabitat##sep##microhabitatlookup.habitat#">
-					<cfset sep = ";">
+					<cfif maskCoordinates>
+						<cfset microhabitat = "[Masked]">
+					<cfelse>
+						<cfset microhabitat = "#microhabitat##sep##microhabitatlookup.habitat#">
+						<cfset sep = ";">
+					</cfif>
 				</cfloop>
 				<cfquery name="coordlookup"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT

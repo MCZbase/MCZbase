@@ -108,15 +108,15 @@ limitations under the License.
 		<cfif lookupEvent.recordcount EQ 1>
 			<cfset extra=" (#lookupEvent.collecting_event_id#)">
 			<cfoutput>
-				<main class="container-fluid container-xl my-2" id="content">
+				<main class="container-fluid my-2" id="content">
 					<section class="row">
-						<div class="col-12 mt-2 mb-1 form-row">
-							<div class="col-12 col-md-10 col-xl-9">
-								<h1 class="h2 mt-3 pl-1 ml-2" id="formheading">
+						<div class="col-12 px-0 mt-2 px-md-3 mb-1">
+							<div class="col-12 col-md-10 col-xl-9 pl-xl-0 float-left">
+								<h1 class="h2 mt-2 pl-1 ml-2" id="formheading">
 									Edit Collecting Event#extra#
 									<a role="button" href="/localities/viewCollectingEvent.cfm?collecting_event_id=#encodeForURL(collecting_event_id)#" class="btn btn-primary btn-xs float-right mr-1">View</a>
 								</h1>
-								<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
+								<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 pt-3 pb-2">
 									<cfquery name="collectingEventUses" datasource="uam_god">
 										SELECT
 											count(cataloged_item.cat_num) numOfSpecs,
@@ -135,10 +135,10 @@ limitations under the License.
 											collection.collection_cde,
 											collection.collection_id,
 											locality_id
-								  	</cfquery>
+									</cfquery>
 									<div>
 										<cfif #collectingEventUses.recordcount# is 0>
-											<h2 class="h4 px-2">
+											<h2 class="h4 px-1">
 												This CollectingEvent (#collecting_event_id#) contains no specimens. 
 												Please delete it if you don&apos;t have plans for it!
 											</h2>
@@ -183,7 +183,7 @@ limitations under the License.
 												</div>
 											</cfif>
 										<cfelseif #collectingEventUses.recordcount# is 1>
-											<h2 class="h4 px-2">
+											<h2 class="h4 px-1">
 												This CollectingEvent (#collecting_event_id#) contains 
 												<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">
 													#collectingEventUses.numOfSpecs# #collectingEventUses.collection_cde# specimens
@@ -202,7 +202,7 @@ limitations under the License.
 											<ul class="px-2 pl-xl-4 ml-xl-1 small95">
 												<cfloop query="collectingEventUses">
 													<li>
-															<cfif numOfSpecs EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+														<cfif numOfSpecs EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 														<a href="/Specimens.cfm?execute=true&builderMaxRows=2&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#&nestdepth2=2&JoinOperator2=and&field2=CATALOGED_ITEM%3ACOLLECTION_CDE&searchText2=%3D#collectingEventUses.collection_cde#">
 															#numOfSpecs# #collection_cde# specimen#plural#
 														</a>
@@ -212,11 +212,11 @@ limitations under the License.
 										</cfif>
 									</div>
 								</div>
-								<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3">
+								<div class="border-top border-right border-left border-bottom border-success rounded px-3 my-3 pt-2 pb-1">
 									<cfset summary = getCollectingEventSummary(collecting_event_id="#collecting_event_id#")>
-									<div id="summary" class="small95 px-2 pb-2"><span class="sr-only">Summary: </span>#summary#</div>
+									<div id="summary" class="p-2"><span class="sr-only">Summary: </span>#summary#</div>
 								</div>
-								<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
+								<div class="border rounded px-2 my-2 p-2" arial-labeledby="formheading">
 									<cfset blockform = getCollectingEventFormHtml(collecting_event_id = "#collecting_event_id#",mode="edit")>
 									<form name="editCollectingEventForm" id="editCollectingEventForm">
 										<input type="hidden" name="method" value="updateCollectingEvent">
@@ -273,26 +273,26 @@ limitations under the License.
 										};
 									</script>
 								</div>
-								<div class="border rounded p-1 my-1 ">
+								<div class="border rounded p-2 my-1 ">
 									<a class="btn btn-xs btn-secondary" target="_blank" href="/localities/CollectingEvent.cfm?action=new&clone_from_collecting_event_id=#collecting_event_id#">Clone</a>
 								</div>
 							</div>
-							<section class="col-12 px-md-0 col-md-2 col-xl-3">
+							<section class="col-12 px-md-0 col-md-2 col-xl-3 float-left">
 								<!--- map --->
-								<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
+								<div class="col-12 px-1 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 									<cfset map = getLocalityMapHtml(locality_id="#lookupEvent.locality_id#",extraText="For Locality")>
 									<div id="mapDiv">#map#</div>
 								</div>
 							</section>
 						</div>
-						<div class="col-12 form-row">
-							<div class="col-12 px-0 pr-md-3 pl-md-0 ">
-								<div class="border rounded px-2 my-2 pt-3 pb-2" arial-labeledby="formheading">
+						<div class="col-12 px-0 px-md-3 form-row">
+							<div class="col-12">
+								<div class="border rounded px-2 p-3 my-2" arial-labeledby="formheading">
 									<cfset blocknumbers = getEditCollectingEventNumbersHtml(collecting_event_id="#collecting_event_id#")>
 									<div id="collEventNumbersDiv">#blocknumbers#</div>
 								</div>
 							</div>
-							<div class="col-12 px-0 pr-md-3 pl-md-0 ">
+							<div class="col-12">
 								<div class="border bg-light rounded p-3 my-2">
 									<cfset media = getCollectingEventMediaHtml(collecting_event_id="#collecting_event_id#")>
 									<div id="mediaDiv" class="row">#media#</div>
@@ -312,9 +312,9 @@ limitations under the License.
 									<div id="mediaDialogDiv"></div>
 								</div>
 							</div>
-							<div class="col-12 px-0 pr-md-3 pl-md-0 ">
+							<div class="col-12">
 								<div class="border bg-light rounded p-3 my-2">
-									<h2 class="h3 mt-3 pl-1 ml-2" id="formheading">Collectors in this Collecting Event</h2>
+									<h3 class="h4" id="formheading">Collectors in this Collecting Event</h2>
 									<cfquery name="getCollectors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollectors_result">
 										SELECT
 											count(cataloged_item.collection_object_id) ct, 
