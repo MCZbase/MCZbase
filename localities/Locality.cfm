@@ -109,7 +109,7 @@ limitations under the License.
 				<div class="row mx-0">
 				<section class="col-12 col-md-9 px-md-0 col-xl-8 px-xl-0">
 					<div class="col-12 px-0 pl-md-0 pr-md-3">
-			  			<h1 class="h2 mt-3 mb-0 px-3">
+			  			<h1 class="h2 mt-2 mb-0 px-3">
 							Edit Locality 
 							[<a href="/localities/viewLocality.cfm?locality_id=#localityExists.locality_id#" target="_blank">#encodeForHtml(locality_id)#</a>]
 							<i class="fas fa-info-circle" onClick="getMCZDocs('Edit_Locality')" aria-label="help link"></i>
