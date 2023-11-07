@@ -2401,9 +2401,9 @@ Target JSON:
 		// TODO: Testing remove row
 		var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			console.log(row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick="$(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +');" class="btn btn-xs btn-warning" value="Remove"/></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmAction(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){  $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); }; " class="btn btn-xs btn-warning" value="Remove"/></span>';
 		};
-		
+		<!--- " --->
 		// cellclass function 
 		// NOTE: Since there are three grids, and the cellclass api does not pass a reference to the grid, a separate
 		// function is needed for each grid.  Unlike the cell renderer, the same function is used for all columns.
@@ -2629,7 +2629,7 @@ Target JSON:
 					},
 					columns: [
 						<cfif findNoCase('master',Session.gitBranch) EQ 0>
-							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 100, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 80, cellclassname: fixedcellclass, hidable:false, hidden: false },">
 							#removerow#
 						</cfif>
 						<cfset lastrow ="">
