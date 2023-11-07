@@ -139,7 +139,7 @@ limitations under the License.
 									<div>
 										<cfif #collectingEventUses.recordcount# is 0>
 											<h2 class="h4 px-1">
-												This CollectingEvent (#collecting_event_id#) contains no specimens. 
+												This Collecting Event (#collecting_event_id#) contains no specimens. 
 												Please delete it if you don&apos;t have plans for it!
 											</h2>
 											<cfquery name="deleteBlocks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -186,9 +186,9 @@ limitations under the License.
 											<h2 class="h4 px-1">
 												This CollectingEvent (#collecting_event_id#) contains 
 												<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">
-													#collectingEventUses.numOfSpecs# #collectingEventUses.collection_cde# specimens
+													#collectingEventUses.numOfSpecs# #collectingEventUses.collection_cde# specimens.
 												</a>
-												see <a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#collectingEventUses.locality_id#&include_counts=true&include_ce_counts=true">other collecting events at this locality</a>.
+												<span> See <a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#collectingEventUses.locality_id#&include_counts=true&include_ce_counts=true">other collecting events at this locality</a>.</span>
 											</h2>
 										<cfelse>
 											<cfset totalSpecimens=0>
@@ -196,7 +196,7 @@ limitations under the License.
 												<cfset totalSpecimens=totalSpecimens+collectingEventUses.numOfSpecs>
 											</cfloop>
 											<h2 class="h4 px-2">
-												This CollectingEvent (#collecting_event_id#)
+												This Collecting Event (#collecting_event_id#)
 												contains the following <a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">#totalSpecimens# specimens</a>
 											</h2>
 											<ul class="px-2 pl-xl-4 ml-xl-1 small95">

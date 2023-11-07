@@ -1752,7 +1752,7 @@ limitations under the License.
 							<cfset totalSpecimens=totalSpecimens+collectingEventUses.numOfSpecs>
 						</cfloop>
 						<h2 class="h4 px-2">
-							This CollectingEvent (#collecting_event_id#)
+							This Collecting Event (#collecting_event_id#)
 							contains the following <a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">#totalSpecimens# specimens</a>
 						</h2>
 						<ul class="px-2 pl-xl-4 ml-xl-1 small95">
