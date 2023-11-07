@@ -2401,7 +2401,7 @@ Target JSON:
 		// TODO: Testing remove row
 		var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			console.log(row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick="$(\'##jqxgrid\').jqxGrid(\'deleterow\'', '+ row +');" class="btn btn-xs btm-warning" value="Remove"/></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick="$(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +');" class="btn btn-xs btn-warning" value="Remove"/></span>';
 		};
 		
 		// cellclass function 
@@ -2563,7 +2563,9 @@ Target JSON:
 						async: true,
 						deleterow: function (rowid, commit) {
 							console.log(rowid);
+							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
 							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+							console.log(collobjtoremove);
 		        			$.ajax({
             				url: "/specimens/component/search.cfc",
             				data: { 
@@ -2626,8 +2628,10 @@ Target JSON:
 						return dataAdapter.records;
 					},
 					columns: [
-						<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', removeFixedCellRenderer, width: 100, cellclassname: fixedcellclass, hidable:false, hidden: false },">
-						#removerow#
+						<cfif findNoCase('master',Session.gitBranch) EQ 0>
+							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 100, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+							#removerow#
+						</cfif>
 						<cfset lastrow ="">
 						<cfloop query="getFieldMetadata">
 							<cfset cellrenderer = "">
@@ -3129,7 +3133,9 @@ Target JSON:
 				if (hideable == true) {
 					var listRow = { label: text, value: datafield, checked: show };
 					var inCategory = columnCategoryPlacements.get(datafield);
-					columnSections.get(inCategory).push(listRow);
+					if (inCategory) { 
+						columnSections.get(inCategory).push(listRow);
+					}
 				}
 			}
 			console.log(columnSections);
