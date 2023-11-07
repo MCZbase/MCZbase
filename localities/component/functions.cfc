@@ -1970,17 +1970,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<cfset noGeoRef = " (#checkNoGeorefBecause.nogeorefbecause#)">
 					</cfif>
 					<div class="w-100">
-						<ul>
+						<ul class="mb-1">
 							<li>None #noGeoRef#</li>
 						</ul>
-							<button type="button" class="btn btn-xs btn-secondary" 
-									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', #callback_name#) " 
-									aria-label = "Add a georeference to this locality"
-							>Add</button>
-							<button type="button" class="btn btn-xs btn-secondary" 
-								onClick=" openAddGeoreferenceDialog('addGeorefDialog1', '#locality_id#', #callback_name#, 'yes') " 
-								aria-label = "Add another georeference to this locality going straight to GeoLocate"
-							>Add using GeoLocate</button>
+						<button type="button" class="btn btn-xs btn-secondary" 
+							onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', #callback_name#) " 
+							aria-label = "Add a georeference to this locality">Add</button>
+						<button type="button" class="btn btn-xs btn-secondary" 
+							onClick=" openAddGeoreferenceDialog('addGeorefDialog1', '#locality_id#', #callback_name#, 'yes') " 
+							aria-label = "Add another georeference to this locality going straight to GeoLocate">Add using GeoLocate</button>
 					</div>
 				<cfelse>
 					<div class="w-100">
@@ -2086,11 +2084,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								</script>
 							</cfloop>
 					</div>
-						<button type="button" class="btn btn-xs btn-secondary mt-3" 
+						<button type="button" class="btn btn-xs btn-secondary mt-2" 
 							onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', #callback_name#) " 
 							aria-label = "Add another georeference to this locality"
 						>Add</button>
-						<button type="button" class="btn btn-xs btn-secondary mt-3" 
+						<button type="button" class="btn btn-xs btn-secondary mt-2" 
 							onClick=" openAddGeoreferenceDialog('addGeorefDialog1', '#locality_id#', #callback_name#, 'yes') " 
 							aria-label = "Add another georeference to this locality going straight to GeoLocate"
 						>Add using GeoLocate</button>
