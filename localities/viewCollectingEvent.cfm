@@ -94,7 +94,7 @@ limitations under the License.
 							<a role="button" href="/localities/Locality.cfm?locality_id=#locality_id#" class="btn btn-primary btn-xs float-right mr-1">Edit Locality</a>
 						</cfif>
 					</div>
-					<div class="float-left border-top border-right border-left border-bottom border-success rounded px-3 my-3 py-3 w-100">
+					<div class="float-left border-top border-right border-left border-bottom border-success rounded px-3 mt-3 mb-2 py-3 w-100">
 						<cfset summary = getLocalitySummary(locality_id="#locality_id#")>
 						<div id="summary" class="small95 px-2 mb-0"><span class="sr-only">Locality Summary: </span>#summary#</div>
 					</div>
