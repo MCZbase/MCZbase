@@ -335,7 +335,7 @@ limitations under the License.
 										ORDER BY 
 											MCZBASE.get_agentnameoftype(agent.agent_id)
 									</cfquery>
-									<ul>
+									<ul class="mb-1">
 										<cfif getCollectors.recordcount EQ 0>
 											<li>None</li>
 										</cfif>
