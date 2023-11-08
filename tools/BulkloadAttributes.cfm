@@ -262,7 +262,7 @@
 			<cfif getType.attribute is 'sex'>
 				<cfquery name="act1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
-					SET status = 'attribute value for sex is valid for Ent'
+					SET status = 'attribute value for sex is not valid for Ent; check capitalization'
 					WHERE attribute = 'sex' and attribute_value not in (select sex_cde from ctsex_cde where cf_temp_attributes.collection_cde = ctsex_cde.collection_cde )
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -321,7 +321,7 @@
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadAttributes.cfm?action=load">click to continue</a> if it all looks good.
 				</h2>
 			</cfif>
-			<table class='sortable table table-responsive table-striped d-lg-table'>
+			<table class='sortable table table-responsive table-striped d-xl-table w-100'>
 				<thead>
 					<tr>
 						<th>INSTITUTION_ACRONYM</th>
