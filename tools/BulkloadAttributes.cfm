@@ -369,9 +369,10 @@
 							</cfloop>
 						</tbody>
 					</table>
+					#cfcatch.detail#
 			</cfcatch>
 			</cftry>
-						#cfcatch.detail#
+						
 			<h2 class="text-success">Success</h2>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
