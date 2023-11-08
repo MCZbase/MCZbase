@@ -284,7 +284,7 @@
 			<cfif getType.attribute is 'life stage'>
 				<cfquery name="act3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
-					SET status = 'attribute value is not in life stage table'
+					SET status = 'attribute value is not in age class table'
 					WHERE attribute = 'life stage' and attribute_value not in (select age_class from ctage_class where cf_temp_attributes.collection_cde = ctage_class.collection_cde )
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
