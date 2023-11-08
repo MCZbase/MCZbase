@@ -281,14 +281,14 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-<!---			<cfif getType.attribute is 'sex'>
+			<cfif getType.attribute is 'life stage'>
 				<cfquery name="act3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
-					SET status = 'attribute value not valid'
-					WHERE attribute = '' and attribute_value not in (select sex_cde from ctassociated_grants where cf_temp_attributes.collection_cde = ctsex_cde.collection_cde )
+					SET status = 'attribute value is not in life stage table'
+					WHERE attribute = 'life stage' and attribute_value not in (select age_class from ctlife_stage where cf_temp_attributes.collection_cde = ctlife_stage.collection_cde )
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			</cfif>--->
+			</cfif>
 <!---			<cfif getType.attribute is 'Associated MCZ Collection'>
 				<cfquery name="act4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
