@@ -275,14 +275,14 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-			<cfif getType.attribute is 'age class'>
+<!---			<cfif getType.attribute is 'sex'>
 				<cfquery name="act3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
 					SET status = 'attribute value not valid'
-					WHERE attribute_value not in (select sex_cde from ctassociated_grants where cf_temp_attributes.collection_cde = ctsex_cde.collection_cde )
+					WHERE attribute = '' and attribute_value not in (select sex_cde from ctassociated_grants where cf_temp_attributes.collection_cde = ctsex_cde.collection_cde )
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			</cfif>
+			</cfif>--->
 <!---			<cfif getType.attribute is 'Associated MCZ Collection'>
 				<cfquery name="act4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
@@ -291,14 +291,14 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>--->
-			<cfif getType.attribute is 'age class'>
+<!---			<cfif getType.attribute is 'age class'>
 				<cfquery name="act5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
 					SET status = 'attribute value, age class, is valid'
 					WHERE atribute_value = 'age class' and attribute_value not in (select age_class from ctage_class where cf_temp_attributes.collection_cde = ctage_class.collection_cde )
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			</cfif>
+			</cfif>--->
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date, attribute_meth,determiner,remarks,status
 				FROM cf_temp_attributes
