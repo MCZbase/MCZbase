@@ -287,7 +287,7 @@
 					UPDATE cf_temp_attributes
 					SET status = 'attribute value is not in age class table'
 					WHERE attribute = 'life stage' 
-					and attribute_value not in (select age_class from ctage_class where cf_temp_attributes.collection_cde = ctage_class.collection_cde )
+					and attribute_value not in (select age_class from ctage_class where ctage_class.collection_cde = cf_temp_attributes.collection_cde)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
