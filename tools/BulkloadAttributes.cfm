@@ -233,6 +233,12 @@
 					determined_by_agent_id= (select agent_id from preferred_agent_name where agent_name = cf_temp_attributes.determiner)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="avm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_attributes
+				SET status = 'agent value missing'
+				WHERE determiner is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
 				SET status = 'attribute_type does not match the code table; check capitalization and spelling'
@@ -252,13 +258,46 @@
 				WHERE attribute_value is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+	
 			<cfif getType.attribute is 'sex'>
-			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_attributes
-				SET status = 'attribute value not valid'
-				WHERE attribute_value not in (select sex_cde from ctsex_cde where cf_temp_attributes.collection_cde = ctsex_cde.collection_cde )
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+				<cfquery name="act1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_attributes
+					SET status = 'attribute value not valid'
+					WHERE attribute_value not in (select sex_cde from ctsex_cde where cf_temp_attributes.collection_cde = ctsex_cde.collection_cde )
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfif>
+			<cfif getType.attribute is 'associated grant'>
+				<cfquery name="act2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_attributes
+					SET status = 'attribute value not valid'
+					WHERE attribute_value not in (select associated_grant from ctassociated_grants where cf_temp_attributes.associated_grant = ctassociated_grant.collection_cde )
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfif>
+			<cfif getType.attribute is 'age class'>
+				<cfquery name="act3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_attributes
+					SET status = 'attribute value not valid'
+					WHERE attribute_value not in (select sex_cde from ctassociated_grants where cf_temp_attributes.collection_cde = ctsex_cde.collection_cde )
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfif>
+			<cfif getType.attribute is 'Associated MCZ Collection'>
+				<cfquery name="act4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_attributes
+					SET status = 'attribute value not in Associated MCZ Collection table'
+					WHERE attribute_value not in (select collection from ctcollections_full_names)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfif>
+			<cfif getType.attribute is 'age class'>
+				<cfquery name="act5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_attributes
+					SET status = 'attribute value not in units code table'
+					WHERE attribute_value not in (select sex_cde from ctassociated_grants where cf_temp_attributes.collection_cde = ctsex_cde.collection_cde )
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 			</cfif>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date, attribute_meth,determiner,remarks,status
