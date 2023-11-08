@@ -277,7 +277,8 @@
 				<cfquery name="act2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
 					SET status = 'attribute value not valid'
-					WHERE attribute_value not in (select associated_grant from ctassociated_grants where cf_temp_attributes.associated_grant = ctassociated_grant.collection_cde )
+					WHERE attribute = 'associated grant' 
+					and attribute_value not in (select associated_grant from ctassociated_grants where cf_temp_attributes.associated_grant = ctassociated_grant.collection_cde )
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
@@ -285,7 +286,8 @@
 				<cfquery name="act3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
 					SET status = 'attribute value is not in age class table'
-					WHERE attribute = 'life stage' and attribute_value not in (select age_class from ctage_class where cf_temp_attributes.collection_cde = ctage_class.collection_cde )
+					WHERE attribute = 'life stage' 
+					and attribute_value not in (select age_class from ctage_class where cf_temp_attributes.collection_cde = ctage_class.collection_cde )
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
