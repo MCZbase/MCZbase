@@ -337,7 +337,7 @@
 			<cfcatch>
 				
 				<h2 class="h3">There was a problem updating attributes.</h2>
-				#cfcatch.detail#
+
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 					FROM cf_temp_attributes 
@@ -371,7 +371,7 @@
 					</table>
 			</cfcatch>
 			</cftry>
-		
+						#cfcatch.detail#
 			<h2 class="text-success">Success</h2>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes
