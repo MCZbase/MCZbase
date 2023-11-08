@@ -197,7 +197,7 @@
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select other_id_type
+				select other_id_type, attribute
 				from cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -250,6 +250,13 @@
 				UPDATE cf_temp_attributes
 				SET status = 'attribute_not_found'
 				WHERE attribute_value is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfif attribute is 
+			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_attributes
+				SET status = 'attribute value not valid'
+				WHERE attribute_value not in (select attribute from )
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
