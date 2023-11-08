@@ -278,7 +278,7 @@
 					UPDATE cf_temp_attributes
 					SET status = 'attribute value not valid'
 					WHERE attribute = 'associated grant' 
-					and attribute_value not in (select associated_grant from ctassociated_grants where cf_temp_attributes.associated_grant = ctassociated_grant.collection_cde )
+					and attribute_value not in (select associated_grant from ctassociated_grants)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
@@ -291,22 +291,6 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-<!---			<cfif getType.attribute is 'Associated MCZ Collection'>
-				<cfquery name="act4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_attributes
-					SET status = 'attribute value not in Associated MCZ Collection table'
-					WHERE attribute_value not in (select collection.collection from collection)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfif>--->
-<!---			<cfif getType.attribute is 'age class'>
-				<cfquery name="act5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_attributes
-					SET status = 'attribute value, age class, is valid'
-					WHERE atribute_value = 'age class' and attribute_value not in (select age_class from ctage_class where cf_temp_attributes.collection_cde = ctage_class.collection_cde )
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfif>--->
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date, attribute_meth,determiner,remarks,status
 				FROM cf_temp_attributes
