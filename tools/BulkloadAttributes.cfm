@@ -287,7 +287,7 @@
 				<cfquery name="act4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
 					SET status = 'attribute value not in Associated MCZ Collection table'
-					WHERE attribute_value not in (select collection.collection from ctcollections_full_names,collection where collection.collection = ctcollections_full_names.collection_name)
+					WHERE attribute_value not in (select collection.collection from collection)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
