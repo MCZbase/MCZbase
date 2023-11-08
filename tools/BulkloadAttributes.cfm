@@ -249,8 +249,7 @@
 				UPDATE cf_temp_attributes 
 				SET status = 'attribute_type does not match the code table; check capitalization and spelling'
 				WHERE attribute not in (select attribute_type from ctattribute_type)
-				and collection_cde not in (select collection_cde from ctattribute_type)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
