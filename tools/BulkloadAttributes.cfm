@@ -294,8 +294,8 @@
 			<cfif getType.attribute is 'age class'>
 				<cfquery name="act5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
-					SET status = 'attribute value not in units code table'
-					WHERE attribute_value not in (select sex_cde from ctassociated_grants where cf_temp_attributes.collection_cde = ctsex_cde.collection_cde )
+					SET status = 'attribute value, age class, is valid'
+					WHERE atribute_value = 'age class' and attribute_value not in (select age_class from ctage_class where cf_temp_attributes.collection_cde = ctage_class.collection_cde )
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
