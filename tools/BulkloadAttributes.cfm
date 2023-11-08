@@ -242,7 +242,7 @@
 			</cfquery>
 			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
-				SET institution_acronym = (UCase(cf_temp_attributes.institution_acronym))
+				SET institution_acronym = writeOutput(UCase(cf_temp_attributes.institution_acronym))
 			</cfquery>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
