@@ -269,7 +269,7 @@
 				<cfquery name="act1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
 					SET status = 'attribute value for sex is not valid for Ent; check capitalization'
-					WHERE attribute = 'sex' and attribute_value not in (select sex_cde from ctsex_cde where cf_temp_attributes.collection_cde = ctsex_cde.collection_cde )
+					WHERE attribute = 'sex' and attribute_value not in (select sex_cde from ctsex_cde where ctsex_cde.collection_cde = cf_temp_attributes.collection_cde)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
