@@ -334,6 +334,11 @@
 					</cfloop>
 				</cftransaction>
 				<h2 class="h3">Updated #attributes_updates# attributes.</h2>
+				<h2 class="text-success">Success</h2>
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+				DELETE FROM cf_temp_attributes
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfcatch>
 				
 				<h2 class="h3">There was a problem updating attributes.</h2>
@@ -373,11 +378,7 @@
 			</cfcatch>
 			</cftry>
 						
-			<h2 class="text-success">Success</h2>
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_attributes
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+
 		</cfoutput>
 	</cfif>
 
