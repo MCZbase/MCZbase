@@ -283,14 +283,14 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-			<cfif getType.attribute is 'Associated MCZ Collection'>
+<!---			<cfif getType.attribute is 'Associated MCZ Collection'>
 				<cfquery name="act4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
 					SET status = 'attribute value not in Associated MCZ Collection table'
 					WHERE attribute_value not in (select collection.collection from collection)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			</cfif>
+			</cfif>--->
 			<cfif getType.attribute is 'age class'>
 				<cfquery name="act5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
