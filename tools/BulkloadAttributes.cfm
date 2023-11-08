@@ -252,13 +252,14 @@
 				WHERE attribute_value is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif attribute is 
+			<cfif getType.attribute is 'sex'>
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
 				SET status = 'attribute value not valid'
-				WHERE attribute_value not in (select attribute from )
+				WHERE attribute_value not in (select sex_cde from ctsex_cde where cf_temp_attributes.collection_cde = ctsex_cde.collection_cde )
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			</cfif>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date, attribute_meth,determiner,remarks,status
 				FROM cf_temp_attributes
