@@ -266,7 +266,7 @@
 			</cfquery>
 	
 			<cfif getType.attribute is 'sex'>
-				<cfquery nhcame="act1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="act1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
 					SET status = 'attribute value for sex is not valid for Ent; check capitalization'
 					WHERE attribute = 'sex' and attribute_value not in (select sex_cde from ctsex_cde where ctsex_cde.collection_cde = cf_temp_attributes.collection_cde)
@@ -411,23 +411,23 @@
 				<cfrethrow>
 			</cfcatch>
 			</cftry>
-<!---			<cfset problem_key = "">
+			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfset attributes_updates = 0>--->
-<!---					<cfloop query="getTempData">
+					<cfset attributes_updates = 0>
+					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
-					</cfloop>--->
-<!---					<cftransaction action="commit">
+					</cfloop>
+					<cftransaction action="commit">
 				<cfcatch>
-					<cftransaction action="rollback">--->
-					<!---<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cftransaction action="rollback">
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 						FROM cf_temp_attributes 
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>--->
-					<!---<h3>Error updating row (#attributes_updates + 1#): #cfcatch.message#</h3>
+					</cfquery>
+					<h3>Error updating row (#attributes_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
@@ -452,18 +452,18 @@
 								</tr> 
 							</cfloop>
 						</tbody>
-					</table>--->
-<!---					<cfrethrow>
+					</table>
+					<cfrethrow>
 				</cfcatch>
 				</cftry>
-			</cftransaction>--->
-<!---			<h2>Updated #attributes_updates# attributes.</h2>
-			<h2>Success, changes applied.</h2>--->
-			<!--- cleanup --->
-	<!---		<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+			</cftransaction>
+			<h2>Updated #attributes_updates# attributes.</h2>
+			<h2>Success, changes applied.</h2>
+			 cleanup 
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>--->
+			</cfquery>
 		</cfoutput>
 	</cfif>
 
