@@ -2457,7 +2457,7 @@ Target JSON:
 		  return json;
 		}
 	
-				function doRemove(collobjoremove, commit) { 
+				function doRemove(collobjtoremove, commit) { 
 							console.log(collobjtoremove);
 		        			$.ajax({
             				url: "/specimens/component/search.cfc",
