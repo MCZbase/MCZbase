@@ -2470,7 +2470,7 @@ Target JSON:
            					success : function (data) { 
 									console.log(data);
 									var paginginformation = $('##fixedsearchResultsGrid').jqxGrid('getpaginginformation');
-									$('##fixedsearchResultsGrid').jqxGrid('gotopage',getpaginginformation.pagenum);
+									$('##fixedsearchResultsGrid').jqxGrid('gotopage',paginginformation.pagenum);
 								},
             				error : function (jqXHR, textStatus, error) {
           				     handleFail(jqXHR,textStatus,error,"removing row from result set");
