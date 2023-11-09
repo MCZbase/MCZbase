@@ -2464,7 +2464,7 @@ Target JSON:
             				data: { 
 									method: 'removeItemFromResult', 
 									result_id: $('##result_id_fixedSearch').val(),
-									collection_object_id: collobtoremove
+									collection_object_id: collobjtoremove
 								},
 								dataType: 'json',
            					success : function (data) { 
