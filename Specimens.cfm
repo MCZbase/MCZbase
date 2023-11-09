@@ -2457,6 +2457,25 @@ Target JSON:
 		  return json;
 		}
 	
+				function doRemove(collobjoremove, commit) { 
+							console.log(collobjtoremove);
+		        			$.ajax({
+            				url: "/specimens/component/search.cfc",
+            				data: { 
+									method: 'removeItemFromResult', 
+									result_id: $('##result_id_fixedSearch').val(),
+									collection_object_id: collobtoremove
+								},
+								dataType: 'json',
+           					success : function (data) { 
+									console.log(data);
+									commit(true);
+								},
+            				error : function (jqXHR, textStatus, error) {
+          				     handleFail(jqXHR,textStatus,error,"removing row from result set");
+            				}
+         				});
+				};
 	
 		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
@@ -2571,25 +2590,6 @@ Target JSON:
 					};
 				};
 	
-				function doRemove(collobjoremove, commit) { 
-							console.log(collobjtoremove);
-		        			$.ajax({
-            				url: "/specimens/component/search.cfc",
-            				data: { 
-									method: 'removeItemFromResult', 
-									result_id: $('##result_id_fixedSearch').val(),
-									collection_object_id: collobtoremove
-								},
-								dataType: 'json',
-           					success : function (data) { 
-									console.log(data);
-									commit(true);
-								},
-            				error : function (jqXHR, textStatus, error) {
-          				     handleFail(jqXHR,textStatus,error,"removing row from result set");
-            				}
-         				});
-				};
 
 				var dataAdapter = new $.jqx.dataAdapter(search);
 				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
