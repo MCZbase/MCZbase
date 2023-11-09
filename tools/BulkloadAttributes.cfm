@@ -413,7 +413,7 @@
 					</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cfif getProblemData.recordcount gt 0>
+			<cfif attributes_updates is null>
 				ERROR
 			<cfelse>
 			<h2>Updated #attributes_updates# attributes.</h2>
