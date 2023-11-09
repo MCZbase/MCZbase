@@ -414,11 +414,6 @@
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfset attributes_updates = 0>
-					<cfloop query="getTempData">
-						<cfset problem_key = getTempData.key>
-						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
-					</cfloop>
 					<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
@@ -427,7 +422,7 @@
 						FROM cf_temp_attributes 
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<h3>Error updating row (#attributes_updates + 1#): #cfcatch.message#</h3>
+					<h3>Error updating row (#getProblemData + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
