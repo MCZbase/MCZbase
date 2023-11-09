@@ -378,7 +378,7 @@
 					</cfloop>
 									<cfquery name="updateAttributes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select attribute_type from attributes 
-									where DETERMINED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">
+									where DETERMINED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent_id#">
 									group by attribute_type
 									having count(*) > 1
 								</cfquery>
