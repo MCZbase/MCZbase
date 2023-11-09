@@ -380,12 +380,8 @@
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 						<cfif updateAttributes1_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
-							<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 						<cfelse>
 							<cftransaction action="COMMIT">
-							<cfif getTempData.recordcount eq attributes_updates>
-								<h2 class="text-success">Success - loaded</h2>
-							</cfif>
 						</cfif>
 					</cfloop>
 					<p>Number of attributes updated: #attributes_updates#</p>
