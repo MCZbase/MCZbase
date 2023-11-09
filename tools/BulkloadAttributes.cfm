@@ -382,7 +382,7 @@
 						<cfset attributes_updates1 = attributes_updates1 + updateAttributes1_result.recordcount>	
 					</cfloop>
 									<p>Update number: #attributes_updates#</p>
-									<p>greater than  1: #attributes_updates#</p>
+									<p>How many sets of these attributes have been loaded: #attributes_updates1#</p>
 						<cftransaction action="COMMIT">
 						
 					<cfcatch>
