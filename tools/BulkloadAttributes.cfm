@@ -362,6 +362,7 @@
 			<cftransaction>
 				<cftry>
 					<cfset attributes_updates = 0>
+					<cfset attributes_updates1 = 0>
 					<cfloop query="getTempData">
 						<cfset getProblemData=getTempData.key>
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
