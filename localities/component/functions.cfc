@@ -419,12 +419,12 @@ Delete an existing collecting event number record.
 					<a id="details_button" role="button" class="btn btn-xs mt-3 btn-info #otherClass#" href="/localities/viewHigherGeography.cfm?geog_auth_rec_id=#geog_auth_rec_id#" target="_blank"
 >Details</a>
 				</div>
-				<div class="col-12 mb-2 mt-1">
+				<div class="col-12 mb-2 mt-0">
 					<label class="data-entry-label" for="spec_locality">Specific Locality</label>
 					<cfif NOT isdefined("spec_locality")><cfset spec_locality=""></cfif>
 					<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input reqdClr" value="#encodeForHTML(spec_locality)#" required>
 				</div>
-				<div class="col-12 col-md-4 mb-2 mt-1">
+				<div class="col-12 col-md-4 mb-0 mt-0">
 					<cfif NOT isdefined("sovereign_nation")><cfset sovereign_nation=""></cfif>
 					<label class="data-entry-label" for="sovereign_nation">
 						Sovereign Nation
@@ -437,7 +437,7 @@ Delete an existing collecting event number record.
 						});
 					</script>
 				</div>
-				<div class="col-12 col-md-2 mb-2 mt-1">
+				<div class="col-12 col-md-2 my-0">
 					<label class="data-entry-label" for="curated_fg">Vetted</label>
 					<select name="curated_fg" id="curated_fg" size="1" class="data-entry-select reqdClr">
 						<cfif not isDefined("curated_fg") OR (isdefined("curated_fg") AND curated_fg NEQ 1) ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -446,7 +446,7 @@ Delete an existing collecting event number record.
 						<option value="1" #selected#>Yes (*)</option>
 					</select>
 				</div>
-				<div class="col-12 col-md-6 mb-2 mt-1">
+				<div class="col-12 col-md-6 my-0">
 					<cfif NOT isdefined("nogeorefbecause")><cfset nogeorefbecause=""></cfif>
 					<label class="data-entry-label" for="nogeorefbecause">
 						No Georeference Because
@@ -455,18 +455,18 @@ Delete an existing collecting event number record.
 					<input type="text" name="nogeorefbecause" id="nogeorefbecause" class="data-entry-input" value="#encodeForHTML(nogeorefbecause)#">
 				</div>
 			</div>
-			<div class="form-row mx-0 mb-0">
-				<div class="col-12 col-md-2 py-2 mt-1">
+			<div class="form-row m-0">
+				<div class="col-12 col-md-2 py-1 mt-0">
 					<cfif NOT isdefined("minimum_elevation")><cfset minimum_elevation=""></cfif> 
 					<label class="data-entry-label" for="minimum_elevation"><span class="font-weight-lessbold">Elevation:</span> Minimum</label>
 					<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHTML(minimum_elevation)#" >
 				</div>
-				<div class="col-12 col-md-2 py-2 mt-1">
+				<div class="col-12 col-md-2 py-1 mt-0">
 					<cfif NOT isdefined("maximum_elevation")><cfset maximum_elevation=""></cfif>
 					<label class="data-entry-label" for="maximum_elevation">Maximum Elevation</label>
 					<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input" value="#encodeForHTML(maximum_elevation)#" >
 				</div>
-				<div class="col-12 col-md-2 py-2 mt-1">
+				<div class="col-12 col-md-2 py-1 mt-0">
 					<label class="data-entry-label" for="orig_elev_units">Elevation Units</label>
 					<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
 						<option value=""></option>
@@ -476,17 +476,17 @@ Delete an existing collecting event number record.
 						</cfloop>
 					</select>
 				</div>
-				<div class="col-12 col-md-2 py-2 mt-1">
+				<div class="col-12 col-md-2 py-1 mt-0">
 					<cfif NOT isdefined("min_depth")><cfset min_depth=""></cfif> 
 					<label class="data-entry-label" for="min_depth"><span class="font-weight-lessbold">Depth:</span> Minimum</label>
 					<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHTML(min_depth)#" >
 				</div>
-				<div class="col-12 col-md-2 py-2 mt-1">
+				<div class="col-12 col-md-2 py-1 mt-0">
 					<cfif NOT isdefined("max_depth")><cfset max_depth=""></cfif>
 					<label class="data-entry-label" for="max_depth">Maximum Depth</label>
 					<input type="text" name="max_depth" id="max_depth" class="data-entry-input" value="#encodeForHTML(max_depth)#" >
 				</div>
-				<div class="col-12 col-md-2 py-2 mt-1">
+				<div class="col-12 col-md-2 py-1 mt-0">
 					<label class="data-entry-label" for="depth_units">Depth Units</label>
 					<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
 						<option value=""></option>
@@ -498,32 +498,32 @@ Delete an existing collecting event number record.
 				</div>
 			</div>
 			<div class="form-row border rounded m-1 p-1">
-				<div class="col-12 col-md-2 py-2">
+				<div class="col-12 col-md-2 py-1">
 					<cfif NOT isdefined("section_part")><cfset section_part=""></cfif>
 					<label class="data-entry-label" for="section_part"><span class="font-weight-lessbold">PLSS: </span> Section Part</label>
 					<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHTML(section_part)#" placeholder="NE 1/4" >
 				</div>
-				<div class="col-12 col-md-2 py-2">
+				<div class="col-12 col-md-2 py-1">
 					<cfif NOT isdefined("section")><cfset section=""></cfif>
 					<label class="data-entry-label" for="section">Section</label>
 					<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHTML(section)#" pattern="[0-3]{0,1}[0-9]{0,1}" >
 				</div>
-				<div class="col-12 col-md-2 py-2">
+				<div class="col-12 col-md-2 py-1">
 					<cfif NOT isdefined("township")><cfset township=""></cfif>
 					<label class="data-entry-label" for="township">Township</label>
 					<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHTML(township)#" pattern="[0-9]+" >
 				</div>
-				<div class="col-12 col-md-2 py-2">
+				<div class="col-12 col-md-2 py-1">
 					<cfif NOT isdefined("township_direction")><cfset township_direction=""></cfif>
 					<label class="data-entry-label" for="township_direction">Township Direction</label>
 					<input type="text" name="township_direction" id="township_direction" class="data-entry-input" value="#encodeForHTML(township_direction)#" >
 				</div>
-				<div class="col-12 col-md-2 py-2">
+				<div class="col-12 col-md-2 py-1">
 					<cfif NOT isdefined("range")><cfset range=""></cfif>
 					<label class="data-entry-label" for="range">Range</label>
 					<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHTML(range)#" pattern="[0-9]+">
 				</div>
-				<div class="col-12 col-md-2 py-2">
+				<div class="col-12 col-md-2 py-1">
 					<cfif NOT isdefined("range_direction")><cfset range_direction=""></cfif>
 					<label class="data-entry-label" for="range_direction">Range Direction</label>
 					<input type="text" name="range_direction" id="range_direction" class="data-entry-input" value="#encodeForHTML(range_direction)#" >
@@ -535,7 +535,7 @@ Delete an existing collecting event number record.
 				<cfelse>
 					<cfset remarksClass = "">
 				</cfif>
-				<div class="col-12 py-2 #remarksClass#">
+				<div class="col-12 py-1 #remarksClass#">
 					<cfif NOT isdefined("locality_remarks")><cfset locality_remarks=""></cfif>
 					<label class="data-entry-label" for="locality_remarks">Locality Remarks (<span id="length_locality_remarks"></span>)</label>
 					<textarea name="locality_remarks" id="locality_remarks" 
@@ -1970,17 +1970,15 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						<cfset noGeoRef = " (#checkNoGeorefBecause.nogeorefbecause#)">
 					</cfif>
 					<div class="w-100">
-						<ul>
+						<ul class="mb-1">
 							<li>None #noGeoRef#</li>
 						</ul>
-							<button type="button" class="btn btn-xs btn-secondary" 
-									onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', #callback_name#) " 
-									aria-label = "Add a georeference to this locality"
-							>Add</button>
-							<button type="button" class="btn btn-xs btn-secondary" 
-								onClick=" openAddGeoreferenceDialog('addGeorefDialog1', '#locality_id#', #callback_name#, 'yes') " 
-								aria-label = "Add another georeference to this locality going straight to GeoLocate"
-							>Add using GeoLocate</button>
+						<button type="button" class="btn btn-xs btn-secondary" 
+							onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', #callback_name#) " 
+							aria-label = "Add a georeference to this locality">Add</button>
+						<button type="button" class="btn btn-xs btn-secondary" 
+							onClick=" openAddGeoreferenceDialog('addGeorefDialog1', '#locality_id#', #callback_name#, 'yes') " 
+							aria-label = "Add another georeference to this locality going straight to GeoLocate">Add using GeoLocate</button>
 					</div>
 				<cfelse>
 					<div class="w-100">
@@ -2086,11 +2084,11 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 								</script>
 							</cfloop>
 					</div>
-						<button type="button" class="btn btn-xs btn-secondary mt-3" 
+						<button type="button" class="btn btn-xs btn-secondary mt-2" 
 							onClick=" openAddGeoreferenceDialog('addGeorefDialog', '#locality_id#', #callback_name#) " 
 							aria-label = "Add another georeference to this locality"
 						>Add</button>
-						<button type="button" class="btn btn-xs btn-secondary mt-3" 
+						<button type="button" class="btn btn-xs btn-secondary mt-2" 
 							onClick=" openAddGeoreferenceDialog('addGeorefDialog1', '#locality_id#', #callback_name#, 'yes') " 
 							aria-label = "Add another georeference to this locality going straight to GeoLocate"
 						>Add using GeoLocate</button>
@@ -4957,7 +4955,7 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 						coll_event_number.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 				</cfquery>
 				<h3 class="h4">Collector/Field Numbers (identifying collecting events)</h3>
-				<ul>
+				<ul class="mb-1">
 					<cfloop query="colEventNumbers">
 						<li><span id="collEventNumber_#coll_event_number_id#">#coll_event_number# (#number_series#, #collector_agent#) <input type="button" value="Delete" class="btn btn-xs btn-danger" onclick=" deleteCollEventNumber(#coll_event_number_id#); "></span></li>
 					</cfloop>
