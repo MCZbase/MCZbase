@@ -384,7 +384,7 @@
 							FROM cf_temp_attributes 
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<cfif get
+						
 						<h3>Error updating row (#attributes_updates + 1#): #cfcatch.message#</h3>
 						<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
 							<p> (Red striped table means insert did not work and it rolled back.)</p>
@@ -418,6 +418,7 @@
 				</cftry>
 			</cftransaction>
 				<h2>Updated #attributes_updates# attributes.</h2>
+				<cfif getTempData.recordcount eq attributes_updates>Success</cfif>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
