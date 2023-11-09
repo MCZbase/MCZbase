@@ -266,7 +266,7 @@
 			</cfquery>
 	
 			<cfif getType.attribute is 'sex'>
-				<cfquery name="act1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery nhcame="act1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
 					SET status = 'attribute value for sex is not valid for Ent; check capitalization'
 					WHERE attribute = 'sex' and attribute_value not in (select sex_cde from ctsex_cde where ctsex_cde.collection_cde = cf_temp_attributes.collection_cde)
@@ -376,20 +376,14 @@
 				</cftransaction>
 				<h2 class="h3">Updated #attributes_updates# attributes.</h2>
 				<h2 class="text-success">Success</h2>
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_attributes
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<cfcatch>
-				
 				<h2 class="h3">There was a problem updating attributes.</h2>
-
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 					FROM cf_temp_attributes 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
+				<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>) (Red striped table means insert did not work and it rolled back.)</h3>
 					<table class='sortable table-danger table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
@@ -418,8 +412,59 @@
 					#cfcatch.detail#
 			</cfcatch>
 			</cftry>
-						
-
+			<cfset problem_key = "">
+			<cftransaction>
+				<cftry>
+					<cfset attributes_updates = 0>
+					<cfloop query="getTempData">
+						<cfset problem_key = getTempData.key>
+						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
+					</cfloop>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,status
+						FROM cf_temp_attributes 
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<h3>Error updating row (#attributes_updates + 1#): #cfcatch.message#</h3>
+					<table class='sortable table table-responsive table-striped d-lg-table'>
+						<thead>
+							<tr>
+								<th>institution_acronym</th><th>collection_cde</th><th>other_id_type</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_date</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
+							</tr> 
+						</thead>
+						<tbody>
+							<cfloop query="getProblemData">
+								<tr>
+									<td>#getProblemData.institution_acronym#</td>
+									<td>#getProblemData.collection_cde#</td>
+									<td>#getProblemData.other_id_type#</td>
+									<td>#getProblemData.other_id_number#</td>
+									<td>#getProblemData.attribute#</td>
+									<td>#getProblemData.attribute_value#</td>
+									<td>#getProblemData.attribute_units#</td>
+									<td>#getProblemData.attribute_date#</td>
+									<td>#getProblemData.attribute_meth#</td>
+									<td>#getProblemData.determiner#</td>
+									<td>#getProblemData.remarks#</td>
+									<td>#getProblemData.status#</td>
+								</tr> 
+							</cfloop>
+						</tbody>
+					</table>
+					<cfrethrow>
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<h2>Updated #attributes_updates# attributes.</h2>
+			<h2>Success, changes applied.</h2>
+			<!--- cleanup --->
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+				DELETE FROM cf_temp_attributes 
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 		</cfoutput>
 	</cfif>
 
