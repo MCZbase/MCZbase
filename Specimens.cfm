@@ -2346,9 +2346,11 @@ Target JSON:
 		var fixed_GuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
 			var mediaMarker = "";
-			var media = rowData['MEDIA'];
-			if (media.includes("shows cataloged_item")) { 
-				mediaMarker = " <a href='/media/findMedia.cfm?execute=true&method=getMedia&related_cataloged_item="+ rowData['GUID'] +"' target='_blank'><img src='/shared/images/Image-x-generic.png' height='20' width='20'></a>"
+			if (rowData) { 
+				var media = rowData['MEDIA'];
+				if (media.includes("shows cataloged_item")) { 
+					mediaMarker = " <a href='/media/findMedia.cfm?execute=true&method=getMedia&related_cataloged_item="+ rowData['GUID'] +"' target='_blank'><img src='/shared/images/Image-x-generic.png' height='20' width='20'></a>"
+				}
 			}
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '">'+value+'</a>'+mediaMarker+'</span>';
 		};
