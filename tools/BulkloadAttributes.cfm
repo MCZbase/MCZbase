@@ -380,7 +380,7 @@
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 						<cfset attributes_updates1 = attributes_updates1 + updateAttributes1_result.recordcount>	
-						<cfset priorattributes = attributes_updates1_result.recordcount - attributes_update_result.recordcount>
+						<cfset priorattributes = attributes_updates1 - attributes_updates>
 					</cfloop>
 						<p>Number of attributes to be updated: #attributes_updates#</p>
 						<p>How many sets of these attributes have been loaded prior to this load: #priorattributes#</p>
