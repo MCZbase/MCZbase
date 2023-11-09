@@ -373,7 +373,7 @@
 							)
 						</cfquery>
 						<cfquery name="updateAttributes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select attribute_type from attributes 
+							select attribute_type,attribute_value,collection_object_id from attributes 
 							where DETERMINED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent_id#">
 							group by attribute_type
 							having count(*) > 1
@@ -382,7 +382,7 @@
 						<cfset attributes_updates1 = attributes_updates1 + updateAttributes1.recordcount>	
 					</cfloop>
 						<p>Number of attributes to be updated: #attributes_updates#</p>
-						<p>How many sets of these attributes have been loaded: #attributes_updates1#</p>
+						<p>How many sets of these attributes have been loaded prior to this load: #attributes_updates1#</p>
 						<cftransaction action="COMMIT">
 						<cfif attributes_updates1 gt attributes_updates><cftransaction action = "ROLLBACK"></cfif>
 					<cfcatch>
