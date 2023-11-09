@@ -2401,7 +2401,7 @@ Target JSON:
 		// TODO: Testing remove row
 		var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			console.log(row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){  $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="btn btn-xs btn-warning" value="Remove"/></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="btn btn-xs btn-warning" value="Remove"/></span>';
 		};
 		<!--- " --->
 		// cellclass function 
@@ -2456,27 +2456,6 @@ Target JSON:
 		  });
 		  return json;
 		}
-	
-				function doRemove(collobjtoremove) { 
-							console.log(collobjtoremove);
-		        			$.ajax({
-            				url: "/specimens/component/search.cfc",
-            				data: { 
-									method: 'removeItemFromResult', 
-									result_id: $('##result_id_fixedSearch').val(),
-									collection_object_id: collobjtoremove
-								},
-								dataType: 'json',
-           					success : function (data) { 
-									console.log(data);
-									var paginginformation = $('##fixedsearchResultsGrid').jqxGrid('getpaginginformation');
-									$('##fixedsearchResultsGrid').jqxGrid('gotopage',paginginformation.pagenum);
-								},
-            				error : function (jqXHR, textStatus, error) {
-          				     handleFail(jqXHR,textStatus,error,"removing row from result set");
-            				}
-         				});
-				};
 	
 		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
@@ -2586,8 +2565,23 @@ Target JSON:
 							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
 							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 							console.log(collobjtoremove);
-							doRemove(collobjtoremove);
-							commit(true);
+		        			$.ajax({
+            				url: "/specimens/component/search.cfc",
+            				data: { 
+									method: 'removeItemFromResult', 
+									result_id: $('##result_id_fixedSearch').val(),
+									collection_object_id: collobjtoremove
+								},
+								dataType: 'json',
+           					success : function (data) { 
+									console.log(data);
+									commit(true);
+								},
+            				error : function (jqXHR, textStatus, error) {
+          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+									commit(false);
+            				}
+         				});
 						} 
 					};
 				};
