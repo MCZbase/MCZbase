@@ -388,9 +388,9 @@
 						<p>Number of attributes to be updated: #attributes_updates#</p>
 						<p>Have these attributes already been loaded:</p>
 						<cfif updateAttributes1_result.recordcount gt 0>
-							<h2>Yes - not loaded.</h2>
+							<h2 class="h4">Yes - not loaded.</h2>
 						<cfelse>
-							<h2>No - Loaded</h2>
+							<h2 class="h4">No - Load</h2>
 						</cfif>
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
