@@ -641,7 +641,7 @@ limitations under the License.
 				<cfelse>
 					<div class="h3 pt-2 text-danger px-2">No accepted georeferences</div>
 				</cfif>
-				<div class="mb-2 col-12 px-0" style="height: 360px;">
+				<div class="mb-2 col-12 px-1" style="height: 360px;">
 					<div id="mapdiv_#REReplace(locality_id,'[^0-9]','','All')#" style="height:100%;"></div>
 				</div>
 				<div class="mb-2 col-12 px-1 px-md-3 ">
@@ -1694,7 +1694,7 @@ limitations under the License.
 				<div>
 					<cfif #collectingEventUses.recordcount# is 0>
 						<h2 class="h4 px-2">
-							This CollectingEvent (#collecting_event_id#) contains no specimens. 
+							This Collecting Event (#collecting_event_id#) contains no specimens. 
 							<cfif isDefined("context") and context EQ "edit">
 								Please delete it if you don&apos;t have plans for it!
 							</cfif>
@@ -1740,11 +1740,11 @@ limitations under the License.
 						</cfif>
 					<cfelseif #collectingEventUses.recordcount# is 1>
 						<h2 class="h4 px-2">
-							This CollectingEvent (#collecting_event_id#) contains 
+							This Collecting Event (#collecting_event_id#) contains 
 							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">
-								#collectingEventUses.numOfSpecs# #collectingEventUses.collection_cde# specimens
+								#collectingEventUses.numOfSpecs# #collectingEventUses.collection_cde# specimens.
 							</a>
-							see <a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#collectingEventUses.locality_id#&include_counts=true&include_ce_counts=true">other collecting events at this locality</a>.
+							<span> See <a href="/localities/CollectingEvents.cfm?execute=true&locality_id=#collectingEventUses.locality_id#&include_counts=true&include_ce_counts=true">other collecting events at this locality</a>.</span>
 						</h2>
 					<cfelse>
 						<cfset totalSpecimens=0>
@@ -1752,7 +1752,7 @@ limitations under the License.
 							<cfset totalSpecimens=totalSpecimens+collectingEventUses.numOfSpecs>
 						</cfloop>
 						<h2 class="h4 px-2">
-							This CollectingEvent (#collecting_event_id#)
+							This Collecting Event (#collecting_event_id#)
 							contains the following <a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=COLLECTING_EVENT%3ACE_COLLECTING_EVENT_ID&searchText1=#collecting_event_id#">#totalSpecimens# specimens</a>
 						</h2>
 						<ul class="px-2 pl-xl-4 ml-xl-1 small95">
@@ -1850,7 +1850,7 @@ limitations under the License.
 					<cfif len(verbatim_date) GT 0>
 						<cfset datebit = "#datebit# [#verbatim_date#]">
 					</cfif>
-					<div class="float-left pb-0 col-12 h4">
+					<div class="float-left pb-0 col-12 h4 mb-0">
 						<div class="col-12 px-0">Event:</div>
 						<div class="font-weight-normal col-12 px-0 float-left">#datebit# #collecting_method# #collecting_source# [#verbatim_locality#]</span></div>
 					</div>
