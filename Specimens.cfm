@@ -2407,7 +2407,7 @@ Target JSON:
 		// TODO: Testing remove row
 		var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			console.log(row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="btn btn-xs btn-warning" value="Remove"/></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="btn btn-xs btn-warning" value="X" aria-label="Remove"/></span>';
 		};
 		<!--- " --->
 		// cellclass function 
@@ -2639,7 +2639,7 @@ Target JSON:
 					},
 					columns: [
 						<cfif findNoCase('master',Session.gitBranch) EQ 0>
-							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 80, cellclassname: fixedcellclass, hidable:false, hidden: false },">
+							<cfset removerow = "{text: 'Remove', datafield: 'RemoveRow', cellsrenderer:removeFixedCellRenderer, width: 40, cellclassname: fixedcellclass, hidable:false, hidden: false },">
 							#removerow#
 						</cfif>
 						<cfset lastrow ="">
