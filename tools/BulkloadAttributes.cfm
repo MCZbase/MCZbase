@@ -389,6 +389,13 @@
 						</cfif>
 					</cfloop>
 					<p>Number of attributes updated: #attributes_updates#</p>
+						<cfif updateAttributes1_result.recordcount gt 0>
+							<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+						<cfelse>
+							<cfif getTempData.recordcount eq attributes_updates>
+								<h2 class="text-success">Success - loaded</h2>
+							</cfif>
+						</cfif>
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
 						<h2 class="h3">There was a problem updating attributes.</h2>
