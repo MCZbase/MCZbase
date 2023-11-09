@@ -2469,6 +2469,8 @@ Target JSON:
 								dataType: 'json',
            					success : function (data) { 
 									console.log(data);
+									var paginginformation = $('##fixedsearchResultsGrid').jqxGrid('getpaginginformation');
+									$('##fixedsearchResultsGrid').jqxGrid('gotopage',getpaginginformation.pagenum);
 								},
             				error : function (jqXHR, textStatus, error) {
           				     handleFail(jqXHR,textStatus,error,"removing row from result set");
