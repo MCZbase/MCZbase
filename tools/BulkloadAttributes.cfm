@@ -384,7 +384,7 @@
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
-					<p>Number of attributes updated: #attributes_updates#</p>
+					<p>Number of attributes to update: #attributes_updates#</p>
 						<cfif updateAttributes1_result.recordcount gt 0>
 							<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 						<cfelse>
