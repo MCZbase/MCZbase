@@ -2404,12 +2404,13 @@ Target JSON:
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+displayValue+'</span>';
 		};
 
-		// TODO: Testing remove row
+		// Remove row from result set 
 		var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-			console.log(row);
+			// Removes a row, then jqwidgets invokes the deleterow callback defined for the dataadaptor
 			return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
 		};
 		<!--- " --->
+
 		// cellclass function 
 		// NOTE: Since there are three grids, and the cellclass api does not pass a reference to the grid, a separate
 		// function is needed for each grid.  Unlike the cell renderer, the same function is used for all columns.
@@ -2532,7 +2533,31 @@ Target JSON:
 						loadError: function(jqXHR, textStatus, error) {
 							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
 						},
-						async: true
+						async: true,
+						deleterow: function (rowid, commit) {
+							console.log(rowid);
+							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
+							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
+							console.log(collobjtoremove);
+		        			$.ajax({
+            				url: "/specimens/component/search.cfc",
+            				data: { 
+									method: 'removeItemFromResult', 
+									result_id: $('##result_id_fixedSearch').val(),
+									collection_object_id: collobjtoremove
+								},
+								dataType: 'json',
+           					success : function (data) { 
+									console.log(data);
+									commit(true);
+									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
+								},
+            				error : function (jqXHR, textStatus, error) {
+          				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
+									commit(false);
+            				}
+         				});
+						} 
 					};
 				} else { 
 					search = 
