@@ -2423,11 +2423,13 @@ Target JSON:
 		var fixedcellclass = function (row, columnfield, value) {
 			if (row>-1) { 
 				var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
-				var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-				if (toptypestatuskind=='Primary') { 
-					return "primaryTypeCell";
-				} else if (toptypestatuskind=='Secondary') { 
-					return "secondaryTypeCell";
+				if (rowData) { 
+					var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+					if (toptypestatuskind=='Primary') { 
+						return "primaryTypeCell";
+					} else if (toptypestatuskind=='Secondary') { 
+						return "secondaryTypeCell";
+					}
 				}
 			}
 		};
