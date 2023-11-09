@@ -378,10 +378,10 @@
 									having count(*) > 1
 								</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
-							
+						<cfset attributes_updates1 = attributes_updates1 + updateAttributes1_result.recordcount>	
 					</cfloop>
 									<p>Update number: #attributes_updates#</p>
-									<p>greater than  1: #updateAttributes1_result.recordcount#</p>
+									<p>greater than  1: #attributes_updates#</p>
 						<cftransaction action="COMMIT">
 						
 					<cfcatch>
