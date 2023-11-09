@@ -2407,7 +2407,7 @@ Target JSON:
 		// TODO: Testing remove row
 		var removeFixedCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			console.log(row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="btn btn-xs btn-warning" value="X" aria-label="Remove"/></span>';
+			return '<span style="margin-top: 4px; margin-left: 4px; float: ' + columnproperties.cellsalign + '; "><input type="button" onClick=" confirmDialog(&apos;Remove this row from these search results&apos;,&apos;Confirm Remove Row&apos;, function(){ var commit = $(&apos;##fixedsearchResultsGrid&apos;).jqxGrid(&apos;deleterow&apos;, '+ row +'); } ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/></span>';
 		};
 		<!--- " --->
 		// cellclass function 
