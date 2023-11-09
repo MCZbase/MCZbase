@@ -413,10 +413,8 @@
 					</cfcatch>
 				</cftry>
 			</cftransaction>
-	
-			<h2>Updated #attributes_updates# attributes.</h2>
-			<h2 class="text-success">Success, changes applied.</h2>
-
+				<h2>Updated #attributes_updates# attributes.</h2>
+				<cfif getTempData.recordcount eq attributes_updates>Success</cfif>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
