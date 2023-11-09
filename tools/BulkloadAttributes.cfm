@@ -411,17 +411,17 @@
 				<cfrethrow>
 			</cfcatch>
 			</cftry>
-			<cfset problem_key = "">
+<!---			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfset attributes_updates = 0>
+					<cfset attributes_updates = 0>--->
 <!---					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 					</cfloop>--->
-					<cftransaction action="commit">
+<!---					<cftransaction action="commit">
 				<cfcatch>
-					<cftransaction action="rollback">
+					<cftransaction action="rollback">--->
 					<!---<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 						FROM cf_temp_attributes 
@@ -453,10 +453,10 @@
 							</cfloop>
 						</tbody>
 					</table>--->
-					<cfrethrow>
+<!---					<cfrethrow>
 				</cfcatch>
 				</cftry>
-			</cftransaction>
+			</cftransaction>--->
 <!---			<h2>Updated #attributes_updates# attributes.</h2>
 			<h2>Success, changes applied.</h2>--->
 			<!--- cleanup --->
