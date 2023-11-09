@@ -452,7 +452,7 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cfif len(#catch.detail#) gt 0>
+			<cfif getProblemData.recordcount gt 0>
 				ERROR
 			<cfelse>
 			<h2>Updated #attributes_updates# attributes.</h2>
