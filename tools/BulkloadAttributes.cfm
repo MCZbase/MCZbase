@@ -366,8 +366,7 @@
 					<cfloop query="getTempData">
 						<cfset getProblemData=getTempData.key>
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
-							INSERT into attributes (
-							COLLECTION_OBJECT_ID,ATTRIBUTE_TYPE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,DETERMINED_DATE,DETERMINATION_METHOD, DETERMINED_BY_AGENT_ID,ATTRIBUTE_REMARK
+							INSERT into attributes (COLLECTION_OBJECT_ID,ATTRIBUTE_TYPE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,DETERMINED_DATE,DETERMINATION_METHOD, DETERMINED_BY_AGENT_ID,ATTRIBUTE_REMARK
 							)VALUES(
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_date#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 							)
@@ -379,15 +378,15 @@
 							having count(*) > 1
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
-
-					</cfloop>
-						<p>Number of attributes to be updated: #attributes_updates#</p>
-						<p>Have these attributes already been loaded: <cfif updateAttributes1_result.recordcount gt 0>Yes<cfelse>No</cfif></p>
 						<cfif updateAttributes1_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
+					</cfloop>
+						<p>Number of attributes to be updated: #attributes_updates#</p>
+						<p>Have these attributes already been loaded: <cfif updateAttributes1_result.recordcount gt 0>Yes<cfelse>No</cfif></p>
+						
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
 						<h2 class="h3">There was a problem updating attributes.</h2>
