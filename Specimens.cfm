@@ -2584,6 +2584,7 @@ Target JSON:
            					success : function (data) { 
 									console.log(data);
 									commit(true);
+									$('##fixedsearchResultsGrid').jqxGrid('updatebounddata');
 								},
             				error : function (jqXHR, textStatus, error) {
           				   	handleFail(jqXHR,textStatus,error,"removing row from result set");
