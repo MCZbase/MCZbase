@@ -380,18 +380,15 @@
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 						<cfif updateAttributes1_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
+							<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 						<cfelse>
 							<cftransaction action="COMMIT">
-								<cfif getTempData.recordcount eq attributes_updates><h2>Success</h2></cfif>
+							<cfif getTempData.recordcount eq attributes_updates>
+								<h2 class="text-success">Success - loaded</h2>
+							</cfif>
 						</cfif>
 					</cfloop>
-						<p>Number of attributes to be updated: #attributes_updates#</p>
-						<p>Have these attributes already been loaded:</p>
-						<cfif updateAttributes1_result.recordcount gt 0>
-							<h2 class="h4">Yes - not loaded.</h2>
-						<cfelse>
-							<h2 class="h4">No - Load</h2>
-						</cfif>
+					<p>Number of attributes updated: #attributes_updates#</p>
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
 						<h2 class="h3">There was a problem updating attributes.</h2>
