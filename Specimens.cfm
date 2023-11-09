@@ -2566,6 +2566,13 @@ Target JSON:
 							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
 							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 							console.log(collobjtoremove);
+							doRemove(collobjtoremove, commit);
+						} 
+					};
+				};
+	
+				function doRemove(collobjoremove, commit) { 
+							console.log(collobjtoremove);
 		        			$.ajax({
             				url: "/specimens/component/search.cfc",
             				data: { 
@@ -2582,10 +2589,8 @@ Target JSON:
           				     handleFail(jqXHR,textStatus,error,"removing row from result set");
             				}
          				});
-						} 
-					};
 				};
-	
+
 				var dataAdapter = new $.jqx.dataAdapter(search);
 				var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 					// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
