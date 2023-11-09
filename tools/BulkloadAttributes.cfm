@@ -427,7 +427,7 @@
 						FROM cf_temp_attributes 
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>--->
-					<h3>Error updating row (#attributes_updates + 1#): #cfcatch.message#</h3>
+					<!---<h3>Error updating row (#attributes_updates + 1#): #cfcatch.message#</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
@@ -452,7 +452,7 @@
 								</tr> 
 							</cfloop>
 						</tbody>
-					</table>
+					</table>--->
 					<cfrethrow>
 				</cfcatch>
 				</cftry>
