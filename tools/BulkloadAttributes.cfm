@@ -372,16 +372,16 @@
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_date#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 							)
 						</cfquery>
-						
+						<cfquery name="updateAttributes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select attribute_type from attributes 
+							where DETERMINED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent_id#">
+							group by attribute_type
+							having count(*) > 1
+						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
-						<cfset attributes_updates1 = attributes_updates1 + updateAttributes1_result.recordcount>	
+						<cfset attributes_updates1 = attributes_updates1 + updateAttributes1.recordcount>	
 					</cfloop>
-									<cfquery name="updateAttributes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select attribute_type from attributes 
-									where DETERMINED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent_id#">
-									group by attribute_type
-									having count(*) > 1
-								</cfquery>
+		
 									<p>Update number: #attributes_updates#</p>
 									<p>How many sets of these attributes have been loaded: #attributes_updates1#</p>
 						<cftransaction action="COMMIT">
