@@ -379,11 +379,10 @@
 							having count(*) > 1
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
-						<cfset attributes_updates1 = attributes_updates + updateAttributes1_result.recordcount>	
-						<cfset priorattributes = attributes_updates1 - attributes_updates>
+
 					</cfloop>
 						<p>Number of attributes to be updated: #attributes_updates#</p>
-						<p>How many sets of these attributes have been loaded prior to this load: #priorattributes#</p>
+						<p>Have these attributes already been loaded: <cfif updateAttributes1_result.recordcount gt 0>Yes</cfif></p>
 						<cfif attributes_updates1 gt attributes_updates>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
