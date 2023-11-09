@@ -409,7 +409,7 @@
 							</cfloop>
 						</tbody>
 					</table>
-					#cfcatch.detail#
+				<cfrethrow>
 			</cfcatch>
 			</cftry>
 			<cfset problem_key = "">
