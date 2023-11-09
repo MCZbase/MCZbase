@@ -2457,7 +2457,7 @@ Target JSON:
 		  return json;
 		}
 	
-				function doRemove(collobjtoremove, commit) { 
+				function doRemove(collobjtoremove) { 
 							console.log(collobjtoremove);
 		        			$.ajax({
             				url: "/specimens/component/search.cfc",
@@ -2469,7 +2469,6 @@ Target JSON:
 								dataType: 'json',
            					success : function (data) { 
 									console.log(data);
-									commit(true);
 								},
             				error : function (jqXHR, textStatus, error) {
           				     handleFail(jqXHR,textStatus,error,"removing row from result set");
@@ -2585,7 +2584,8 @@ Target JSON:
 							console.log($('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid));
 							var collobjtoremove = $('##fixedsearchResultsGrid').jqxGrid('getRowData',rowid)['COLLECTION_OBJECT_ID'];
 							console.log(collobjtoremove);
-							doRemove(collobjtoremove, commit);
+							doRemove(collobjtoremove);
+							commit(true);
 						} 
 					};
 				};
