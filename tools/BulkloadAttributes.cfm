@@ -360,9 +360,10 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cftry>
-			<cfset attributes_updates = 0>
 				<cftransaction>
+					<cfset attributes_updates = 0>
 					<cfloop query="getTempData">
+						<cfset getProblemData=getTempData.key>
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
 							INSERT into attributes (
 							COLLECTION_OBJECT_ID,ATTRIBUTE_TYPE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,DETERMINED_DATE,DETERMINATION_METHOD, DETERMINED_BY_AGENT_ID,ATTRIBUTE_REMARK
@@ -372,85 +373,46 @@
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 					</cfloop>
-				</cftransaction>
-				<h2 class="h3">Updated #attributes_updates# attributes.</h2>
-				<h2 class="text-success">Success</h2>
-			<cfcatch>
-				<h2 class="h3">There was a problem updating attributes.</h2>
-				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
-					FROM cf_temp_attributes 
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>) (Red striped table means insert did not work and it rolled back.)</h3>
-					<table class='sortable table-danger table table-responsive table-striped d-lg-table'>
-						<thead>
-							<tr>
-								<th>institution_acronym</th><th>collection_cde</th><th>other_id_type</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_date</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
-							</tr> 
-						</thead>
-						<tbody>
-							<cfloop query="getProblemData">
-								<tr>
-									<td>#getProblemData.institution_acronym# </td>
-									<td>#getProblemData.collection_cde# </td>
-									<td>#getProblemData.other_id_type#</td>
-									<td>#getProblemData.other_id_number#</td>
-									<td>#getProblemData.attribute# </td>
-									<td>#getProblemData.attribute_value# </td>
-									<td>#getProblemData.attribute_units# </td>
-									<td>#getProblemData.attribute_date#</td>
-									<td>#getProblemData.attribute_meth# </td>
-									<td>#getProblemData.determiner# </td>
-									<td>#getProblemData.remarks# </td>
-									<td>#getProblemData.status# </td>
-								</tr>
-							</cfloop>
-						</tbody>
-					</table>
-	<!---			<cfrethrow>--->#cfcatch.detail#
-			</cfcatch>
-			</cftry>
-			<cfset problem_key = "">
-			<cftransaction>
-				<cftry>
-					<cftransaction action="commit">
+					<cftransaction action="COMMIT">
 				<cfcatch>
 					<cftransaction action="rollback">
+					<h2 class="h3">There was a problem updating attributes.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks,status
+						SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 						FROM cf_temp_attributes 
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<h3>Error updating row (#getProblemData + 1#): #cfcatch.message#</h3>
-					<table class='sortable table table-responsive table-striped d-lg-table'>
-						<thead>
-							<tr>
-								<th>institution_acronym</th><th>collection_cde</th><th>other_id_type</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_date</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
-							</tr> 
-						</thead>
-						<tbody>
-							<cfloop query="getProblemData">
+					<h3>Error updating row (#attributes_updates + 1#): #cfcatch.message#</h3>
+					<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>) (Red striped table means insert did not work and it rolled back.)</h3>
+						<table class='sortable table-danger table table-responsive table-striped d-lg-table'>
+							<thead>
 								<tr>
-									<td>#getProblemData.institution_acronym#</td>
-									<td>#getProblemData.collection_cde#</td>
-									<td>#getProblemData.other_id_type#</td>
-									<td>#getProblemData.other_id_number#</td>
-									<td>#getProblemData.attribute#</td>
-									<td>#getProblemData.attribute_value#</td>
-									<td>#getProblemData.attribute_units#</td>
-									<td>#getProblemData.attribute_date#</td>
-									<td>#getProblemData.attribute_meth#</td>
-									<td>#getProblemData.determiner#</td>
-									<td>#getProblemData.remarks#</td>
-									<td>#getProblemData.status#</td>
+									<th>institution_acronym</th><th>collection_cde</th><th>other_id_type</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_date</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
 								</tr> 
-							</cfloop>
-						</tbody>
-					</table>
-				<!---	<cfrethrow>--->#cfcatch.detail#
+							</thead>
+							<tbody>
+								<cfloop query="getProblemData">
+									<tr>
+										<td>#getProblemData.institution_acronym# </td>
+										<td>#getProblemData.collection_cde# </td>
+										<td>#getProblemData.other_id_type#</td>
+										<td>#getProblemData.other_id_number#</td>
+										<td>#getProblemData.attribute# </td>
+										<td>#getProblemData.attribute_value# </td>
+										<td>#getProblemData.attribute_units# </td>
+										<td>#getProblemData.attribute_date#</td>
+										<td>#getProblemData.attribute_meth# </td>
+										<td>#getProblemData.determiner# </td>
+										<td>#getProblemData.remarks# </td>
+										<td>#getProblemData.status# </td>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
+					<!---<cfrethrow>--->
+					#cfcatch.detail#
 				</cfcatch>
-				</cftry>
+			</cftry>
 			</cftransaction>
 			<cfif getProblemData.recordcount gt 0>
 				ERROR
@@ -464,6 +426,5 @@
 			</cfquery>
 		</cfoutput>
 	</cfif>
-
 </main>
 <cfinclude template="/shared/_footer.cfm">
