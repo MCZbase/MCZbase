@@ -372,19 +372,23 @@
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_date#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 							)
 						</cfquery>
-						<cfquery name="updateAttributes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="updateAttributes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes1_result">
 							select attribute_type,attribute_value,collection_object_id from attributes 
 							where DETERMINED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent_id#">
 							group by attribute_type,attribute_value,collection_object_id
 							having count(*) > 1
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
-						<cfset attributes_updates1 = attributes_updates1 + updateAttributes1.recordcount>	
+						<cfset attributes_updates1 = attributes_updates1 + updateAttributes1_result.recordcount>	
+						<cfset priorattributes = attributes_updates1_result.recordcount - attributes_update_result.recordcount>
 					</cfloop>
 						<p>Number of attributes to be updated: #attributes_updates#</p>
-						<p>How many sets of these attributes have been loaded prior to this load: #attributes_updates1#</p>
-						<cftransaction action="COMMIT">
-						<cfif attributes_updates1 gt attributes_updates><cftransaction action = "ROLLBACK"></cfif>
+						<p>How many sets of these attributes have been loaded prior to this load: #priorattributes#</p>
+						<cfif attributes_updates1 gt attributes_updates>
+							<cftransaction action = "ROLLBACK">
+						<cfelse>
+							<cftransaction action="COMMIT">
+						</cfif>
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
 						<h2 class="h3">There was a problem updating attributes.</h2>
