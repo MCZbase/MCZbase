@@ -370,7 +370,10 @@
 							)VALUES(
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_date#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 							)
-							where not exists (select * from attributes where attribute_type = getTempData.attribute)
+							SELECT collection_object_id, '#attribute_type#', '#attribute_value#'
+							FROM dual
+							WHERE NOT EXISTS (
+								SELECT * FROM attributes WHERE attributes.collection_object_id = #getTempData.collection_object_id#)
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 						
