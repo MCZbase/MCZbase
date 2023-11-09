@@ -377,8 +377,11 @@
 									group by attribute_type
 									having count(*) > 1
 								</cfquery>
-						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount + updateAttributes1_result.recordcount>
+						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
+							
 					</cfloop>
+									<p>Update number: #attributes_updates#</p>
+									<p>greater than  1: #updateAttributes1_result.recordcount#</p>
 						<cftransaction action="COMMIT">
 						
 					<cfcatch>
