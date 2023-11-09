@@ -381,11 +381,10 @@
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
 						<cfset attributes_updates1 = attributes_updates1 + updateAttributes1.recordcount>	
 					</cfloop>
-		
-									<p>Update number: #attributes_updates#</p>
-									<p>How many sets of these attributes have been loaded: #attributes_updates1#</p>
+						<p>Number of attributes to be updated: #attributes_updates#</p>
+						<p>How many sets of these attributes have been loaded: #attributes_updates1#</p>
 						<cftransaction action="COMMIT">
-						
+						<cfif attributes_updates1 gt attributes_updates><cftransaction action = "ROLLBACK"></cfif>
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
 						<h2 class="h3">There was a problem updating attributes.</h2>
