@@ -382,7 +382,6 @@
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
-							<small>Updated #attributes_updates# attributes.</small>
 								<cfif getTempData.recordcount eq attributes_updates><h2>Success</h2></cfif>
 						</cfif>
 					</cfloop>
