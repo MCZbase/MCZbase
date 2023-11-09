@@ -383,7 +383,7 @@
 					</cfloop>
 						<p>Number of attributes to be updated: #attributes_updates#</p>
 						<p>Have these attributes already been loaded: <cfif updateAttributes1_result.recordcount gt 0>Yes<cfelse>No</cfif></p>
-						<cfif attributes_updates1 gt attributes_updates>
+						<cfif updateAttributes1_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
