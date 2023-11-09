@@ -379,7 +379,7 @@
 							having count(*) > 1
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
-						<cfset attributes_updates1 = attributes_updates1 + updateAttributes1_result.recordcount>	
+						<cfset attributes_updates1 = attributes_updates + updateAttributes1_result.recordcount>	
 						<cfset priorattributes = attributes_updates1 - attributes_updates>
 					</cfloop>
 						<p>Number of attributes to be updated: #attributes_updates#</p>
