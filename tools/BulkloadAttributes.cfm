@@ -74,11 +74,6 @@
 				</select>
 				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
 			</cfform>
-<!---			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
-				<input type="hidden" name="Action" value="getFile">
-				<input type="file" name="FiletoUpload" size="45">
-				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
-			</cfform>--->
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
@@ -456,10 +451,8 @@
 									</tr> 
 								</thead>
 								<tbody>
-									<cfset i = 1>
 									<cfloop query="getProblemData">
 										<tr>
-											<td>#i#</td>
 											<td>#getProblemData.institution_acronym# </td>
 											<td>#getProblemData.collection_cde# </td>
 											<td>#getProblemData.other_id_type#</td>
@@ -473,7 +466,6 @@
 											<td>#getProblemData.remarks# </td>
 											<td>#getProblemData.status# </td>
 										</tr>
-										<cfset i=i+1>
 									</cfloop>
 								</tbody>
 							</table>
