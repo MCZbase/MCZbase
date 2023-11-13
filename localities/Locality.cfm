@@ -134,7 +134,7 @@ limitations under the License.
 								function reloadLocalityBlocks() { 
 									updateLocalitySummary('#locality_id#','summary');	
 									reloadGeology();
-									reloadGeoreferences();
+									reloadGeoreferences(); // also does uses and delete bit
 								}
 								function reloadGeology()  {
 									loadGeologyHTML('#locality_id#','geologyDiv', 'reloadGeology');
@@ -146,10 +146,12 @@ limitations under the License.
 									loadGeoreferencesHTML('#locality_id#','georeferencesDiv', 'reloadGeoreferences');
 									reloadMap();
 									updateLocalityUses('#locality_id#','relatedTo');	
+									updateLocalityDeleteBit('#locality_id#','deleteButtonBit');
 								}
 								function reloadMedia()  {
 									loadLocalityMediaHTML('#locality_id#','mediaDiv');
 									updateLocalityUses('#locality_id#','relatedto');	
+									updateLocalityDeleteBit('#locality_id#','deleteButtonBit');
 								}
 								function saveEdits(){ 
 									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
@@ -178,17 +180,9 @@ limitations under the License.
 								</div>
 							</cfif>
 							<div class="row mx-0">
-								<div class="col-12 px-1 mt-1">
-									<cfif countUses.total_uses EQ "0">
-										<button type="button" 
-										onClick="confirmDialog('Delete this Locality?', 'Confirm Delete Locality', function() { location.assign('/localities/Locality.cfm?action=delete&locality_id=#encodeForUrl(locality_id)#'); } );" 
-										class="btn btn-xs btn-danger" >
-										Delete Locality
-										</button>
-									<cfelseif localityUses.numOfCollEvents EQ 0>
-										<!--- please delete me message is shown, but delete button is not enabled --->
-										<span class="small85 text-dark-gray">Localities with collecting events, media, or georeferences can not be deleted.</span>
-									</cfif>
+								<cfset blockDeleteButton = getLocalityDeleteBitHtml(locality_id = "#locality_id#")>
+								<div class="col-12 px-1 mt-1" id="deleteButtonBit">
+									#blockDeleteButton#
 								</div>
 							</div>
 						</div>
