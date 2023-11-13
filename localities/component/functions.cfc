@@ -4535,11 +4535,9 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 
 <cffunction name="getLocalityDeleteBitHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="locality_id" type="string" required="yes">
-	<cfargument name="context" type="string" required="no" default="view">
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-	<cfset variables.collecting_event_id = arguments.collecting_event_id>
-	<cfset variables.context = arguments.context>
+	<cfset variables.locality_id = arguments.locality_id>
 	<cfthread name="collectingEventDeleteBitThread#tn#">
 		<cfoutput>
 			<cftry>
