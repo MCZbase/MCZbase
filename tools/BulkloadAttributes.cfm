@@ -234,7 +234,7 @@
 			</cfquery>
 			<cfquery name="avm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET status = 'Institution Acronym is not: MCZ'
+				SET status = 'Institution Acronym is not: "MCZ" (check case)'
 				WHERE institution_acronym <> 'MCZ'
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -404,6 +404,10 @@
 						</cfquery>
 							<h3>Error updating row (<span class="text-danger">#attributes_updates + 1#</span>): 
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_VALUE for ATTRIBUTE_TYPE">Invalid ATTRIBUTE_VALUE for ATTRIBUTE_TYPE for this collection</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid attribute_type for this collection</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid attribute_type for this collection</cfif></span>
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid attribute_type for this collection</cfif></span>
 							#cfcatch.detail#
