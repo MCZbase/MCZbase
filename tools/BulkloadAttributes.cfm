@@ -417,6 +417,7 @@
 							SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 							FROM cf_temp_attributes 
 							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+							and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 							<h3>Error updating row (<span class="text-danger">#attributes_updates + 1#</span>): 
 								
@@ -442,11 +443,10 @@
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "no data">No data or the wrong data</cfif></span>
 							</h3>
-						<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
+					<!---	<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>--->
 							<table class='sortable table-danger table table-responsive table-striped d-lg-table'>
 								<thead>
 									<tr>
-										<th>count</th>
 										<th>institution_acronym</th><th>collection_cde</th><th>other_id_type</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_date</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
 									</tr> 
 								</thead>
