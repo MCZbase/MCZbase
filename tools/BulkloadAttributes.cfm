@@ -322,7 +322,7 @@
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
 				FROM data 
-				WHERE status is null
+				WHERE status is not null
 			</cfquery>
 			<cfif pf.c gt 0>
 				<h2>
