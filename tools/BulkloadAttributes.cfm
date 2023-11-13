@@ -381,11 +381,11 @@
 				SELECT * FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
 					<cfset attributes_updates = 0>
 					<cfset attributes_updates1 = 0>
-				
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
