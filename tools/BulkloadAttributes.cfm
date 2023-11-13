@@ -306,7 +306,7 @@
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>).
 				</h2>
 				<h3>
-					Fix the problems in the data and <a href="/tools/BulkloadAttributes.cfm">start again</a>.
+					Fix the problems noted in the status column and <a href="/tools/BulkloadAttributes.cfm">start again</a>.
 				</h3>
 			<cfelse>
 				<h2>
