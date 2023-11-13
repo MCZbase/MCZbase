@@ -388,7 +388,7 @@
 					<cfset attributes_updates1 = 0>
 				
 					<cfloop query="getTempData">
-						<cfset getProblemData=getTempData.key>
+					<!---	<cfset getProblemData=getTempData.key>--->
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
 							INSERT into attributes (COLLECTION_OBJECT_ID,ATTRIBUTE_TYPE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,DETERMINED_DATE,DETERMINATION_METHOD, DETERMINED_BY_AGENT_ID,ATTRIBUTE_REMARK
 							)VALUES(
