@@ -363,6 +363,7 @@
 				<cftry>
 					<cfset attributes_updates = 0>
 					<cfset attributes_updates1 = 0>
+					<cfset i = 1>
 					<cfloop query="getTempData">
 						<cfset getProblemData=getTempData.key>
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
@@ -383,6 +384,7 @@
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
+						<cfset i=i+1>
 					</cfloop>
 					<p>Number of attributes to update: #attributes_updates#</p>
 						<cfif updateAttributes1_result.recordcount gt 0>
@@ -404,13 +406,14 @@
 						<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
 							<table class='sortable table-danger table table-responsive table-striped d-lg-table'>
 								<thead>
-									<tr>
+									<tr><th>count</th>
 										<th>institution_acronym</th><th>collection_cde</th><th>other_id_type</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_date</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
 									</tr> 
 								</thead>
 								<tbody>
 									<cfloop query="getProblemData">
 										<tr>
+											<td>#i#</td>
 											<td>#getProblemData.institution_acronym# </td>
 											<td>#getProblemData.collection_cde# </td>
 											<td>#getProblemData.other_id_type#</td>
