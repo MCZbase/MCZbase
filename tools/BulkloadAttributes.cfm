@@ -444,7 +444,7 @@
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "no data">No data or the wrong data</cfif></span>
 							</h3>
 					<!---	<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>--->
-							<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-2'>
+							<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
 								<thead>
 									<tr>
 										<th>institution_acronym</th><th>collection_cde</th><th>other_id_type</th><th>other_id_number</th><th>attribute</th><th>attribute_value</th><th>attribute_units</th><th>attribute_date</th><th>attribute_meth</th><th>determiner</th><th>remarks</th><th>status</th>
