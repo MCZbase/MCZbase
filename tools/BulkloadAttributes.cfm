@@ -409,7 +409,8 @@
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid attribute_type for this collection</cfif></span>
 								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid attribute_type for this collection</cfif></span>
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "no data">No data or the wrong data</cfif></span>
+								<br>
 							#cfcatch.detail#
 							</h3>
 						<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
