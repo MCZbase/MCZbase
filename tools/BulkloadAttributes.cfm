@@ -67,7 +67,7 @@
 				<select name="cSet" id="cSet" required class="reqdClr">
 					<option selected></option>
 					<option value="utf-8" >utf-8</option>
-					<option value="windows-1252">windows-1252</option>
+					<option value="windows-1252" selected>windows-1252</option>
 					<option value="MacRoman">MacRoman</option>
 					<option value="utf-16">utf-16</option>
 					<option value="unicode">unicode</option>
