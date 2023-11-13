@@ -435,7 +435,7 @@
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_units">Invalid or missing ATTRIBUTE_UNITS</cfif></span>
 								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_value">Invalid with ATTRIBUTE_VALUE for ATTRIBUTE_TYPE; check capitalization, spelling, and controlled vocabulary for collection</cfif></span>
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_value">Invalid with ATTRIBUTE_VALUE for ATTRIBUTE_TYPE</cfif></span>
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_meth">Problem with ATTRIBUTE_METH</cfif></span>
 								
