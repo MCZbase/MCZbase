@@ -333,7 +333,7 @@
 			</cfif>
 			<table class='sortable table table-responsive table-striped d-xl-table w-100'>
 				<thead>
-					<tr>
+					<tr><th>CT</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -451,13 +451,15 @@
 					<!---	<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>--->
 							<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
 								<thead>
-									<tr>
+									<tr><th>COUNT</th>
 										<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>ATTRIBUTE</th><th>ATTRIBUTE_VALUE</th><th>ATTRIBUTE_UNITS</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th><th>STATUS</th>
 									</tr> 
 								</thead>
 								<tbody>
+									<cfset i=1>
 									<cfloop query="getProblemData">
 										<tr>
+											<td>#i#</td>
 											<td>#getProblemData.institution_acronym# </td>
 											<td>#getProblemData.collection_cde# </td>
 											<td>#getProblemData.other_id_type#</td>
@@ -471,6 +473,7 @@
 											<td>#getProblemData.remarks# </td>
 											<td>#getProblemData.status# </td>
 										</tr>
+										<cfset i= i+1>
 									</cfloop>
 								</tbody>
 							</table>
