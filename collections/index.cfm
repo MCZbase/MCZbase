@@ -20,7 +20,6 @@ limitations under the License.
 -->
 <cfset metaDesc="Links to individual collections web pages and loan policy.">
 <cfinclude template = "/shared/_header.cfm">
-<script src="/includes/sorttable.js"></script>
 
 <cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
 	select
