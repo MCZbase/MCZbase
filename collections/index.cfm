@@ -41,7 +41,7 @@ limitations under the License.
 		<section class="row" >
 			<div class="col-12 mt-3">
 				<h1 class="h2 px-2">MCZbase Holdings</h1>
-				<table class="table table-responsive table-striped d-lg-table" id="t">
+				<table class="table table-responsive table-striped d-lg-table sortable" id="t">
 					<thead>
 						<tr>
 							<th>
