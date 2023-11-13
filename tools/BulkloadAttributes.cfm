@@ -405,9 +405,17 @@
 							<h3>Error updating row (<span class="text-danger">#attributes_updates + 1#</span>): 
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_VALUE for ATTRIBUTE_TYPE">Invalid ATTRIBUTE_VALUE for ATTRIBUTE_TYPE for this collection</cfif></span>
 								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid attribute_type for this collection</cfif></span>
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid attribute_type for this collection; check controlled vocabulary (Help menu)</cfif></span>
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "DETERMINED_BY_AGENT_ID">Determiner does not match preferred agent name</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_date">Problem with attribute date</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_value">Problem with attribute_value; limit is 4000 characters</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_meth">Problem with attribute method; limit is 255 characters</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_remarks">Problem with attribute remarks; limit is 255 characters</cfif></span>
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "no data">No data or the wrong data</cfif></span>
 								<br>
