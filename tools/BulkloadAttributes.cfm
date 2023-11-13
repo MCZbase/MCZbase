@@ -400,7 +400,8 @@
 							FROM cf_temp_attributes 
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<h3>Error updating row (#attributes_updates + 1#): <cfif catch.detail contains "attribute_type">Hello</cfif></h3>
+						<cfset detail eq #cfcatch.detail#>
+						<h3>Error updating row (#attributes_updates + 1#): substr(detail,instr(detail,'/',-30)) as detail</h3>
 						<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
 							<table class='sortable table-danger table table-responsive table-striped d-lg-table'>
 								<thead>
@@ -427,7 +428,7 @@
 									</cfloop>
 								</tbody>
 							</table>
-						<!---<cfrethrow>--->#cfcatch.detail#
+						<!---<cfrethrow>--->#detail#
 					</cfcatch>
 				</cftry>
 			</cftransaction>
