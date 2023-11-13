@@ -57,6 +57,20 @@
 					<li class="#class#">#field#</li>
 				</cfloop>
 			</ul>
+			<cfform name="fileUploadForm" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="action" value="getFile">
+				<cfinput type="file" name="FiletoUpload" id="fileToUpload" size="45" >
+				<label for="cSet">Character Set:</label> 
+				<select name="cSet" id="cSet" required class="reqdClr">
+					<option selected></option>
+					<option value="utf-8" >utf-8</option>
+					<option value="windows-1252">windows-1252</option>
+					<option value="MacRoman">MacRoman</option>
+					<option value="utf-16">utf-16</option>
+					<option value="unicode">unicode</option>
+				</select>
+				<input type="submit" value="Upload this file" class="savBtn">
+			</cfform>
 			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadAttributes.cfm">
 				<input type="hidden" name="Action" value="getFile">
 				<input type="file" name="FiletoUpload" size="45">
