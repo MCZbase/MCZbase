@@ -250,7 +250,7 @@
 					cf_temp_attributes
 				SET status = 'collection_cde not valid'
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and collection_cde in (select collection_cde from collection)
+				and collection_cde not in (select collection_cde from collection)
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
