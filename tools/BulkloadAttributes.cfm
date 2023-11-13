@@ -40,7 +40,7 @@
 			<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv. It ignores rows that are exactly the same. Additional columns will be ignored.</p>
 				
 			<p>The attributes and attribute values must appear as they do on the <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists for ATTRIBUTE_TYPE and ATTRIBUTE_CODE_TABLES. </p>
-			<p>The attributes and attribute values must appear as they do on the <a href="https://mczbase.mcz.harvard.edu/vocabularies/ControlledVocabulary.cfm?" class="font-weight-bold">controlled vocabularies</a> lists for ATTRIBUTE_TYPE and ATTRIBUTE_CODE_TABLES. </p>
+		
 			<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="display:none;margin: 1em 0;">
