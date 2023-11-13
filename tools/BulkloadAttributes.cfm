@@ -363,7 +363,7 @@
 				<cftry>
 					<cfset attributes_updates = 0>
 					<cfset attributes_updates1 = 0>
-					<cfset i = 1>
+				
 					<cfloop query="getTempData">
 						<cfset getProblemData=getTempData.key>
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
@@ -384,7 +384,7 @@
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
-						<cfset i=i+1>
+						
 					</cfloop>
 					<p>Number of attributes to update: #attributes_updates#</p>
 						<cfif updateAttributes1_result.recordcount gt 0>
@@ -411,6 +411,7 @@
 									</tr> 
 								</thead>
 								<tbody>
+									<cfset i = 1>
 									<cfloop query="getProblemData">
 										<tr>
 											<td>#i#</td>
@@ -427,6 +428,7 @@
 											<td>#getProblemData.remarks# </td>
 											<td>#getProblemData.status# </td>
 										</tr>
+										<cfset i=i+1>
 									</cfloop>
 								</tbody>
 							</table>
