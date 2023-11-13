@@ -48,7 +48,7 @@
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
-			<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
+			<p class="mt-3">Columns in <span class="text-danger">red</span> are required; others are optional:</p>
 			<ul>
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfif listContains(requiredfieldlist,field,",")>
