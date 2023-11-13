@@ -20,7 +20,6 @@ limitations under the License.
 -->
 <cfset metaDesc="Links to individual collections web pages and loan policy.">
 <cfinclude template = "/shared/_header.cfm">
-<script src="/lib/misc/sorttable.js"></script>
 
 <cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
 	select
@@ -41,7 +40,7 @@ limitations under the License.
 		<section class="row" >
 			<div class="col-12 mt-3">
 				<h1 class="h2 px-2">MCZbase Holdings</h1>
-				<table class="table table-responsive table-striped d-lg-table sortable" id="t">
+				<table class="table table-responsive table-striped d-lg-table" id="t">
 					<thead>
 						<tr>
 							<th>
