@@ -145,9 +145,11 @@ limitations under the License.
 								function reloadGeoreferences() {
 									loadGeoreferencesHTML('#locality_id#','georeferencesDiv', 'reloadGeoreferences');
 									reloadMap();
+									updateLocalityUses('#locality_id#','relatedTo');	
 								}
 								function reloadMedia()  {
 									loadLocalityMediaHTML('#locality_id#','mediaDiv');
+									updateLocalityUses('#locality_id#','relatedto');	
 								}
 								function saveEdits(){ 
 									saveEditsFromFormCallback("#formId#","/localities/component/functions.cfc","#outputDiv#","saving locality record",reloadLocalityBlocks);
