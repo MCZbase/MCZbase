@@ -428,7 +428,7 @@
 							<h3>Error updating row (<span class="text-danger">#attributes_updates + 1#</span>): 
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_VALUE for ATTRIBUTE_TYPE">Invalid ATTRIBUTE_VALUE for ATTRIBUTE_TYPE for this collection</cfif></span>
 								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)</cfif></span>
+						<!---		<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)</cfif></span>--->
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "collection_cde">COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP</cfif></span>
 								
@@ -440,7 +440,7 @@
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_date">Problem with ATTRIBUTE_DATE</cfif></span>
 								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_value">Problem with ATTRIBUTE_VALUE; check capitalization, spelling, and controlled vocabulary</cfif></span>
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_value">Problem with ATTRIBUTE_VALUE for ATTRIBUTE_TYPE; check capitalization, spelling, and controlled vocabulary for collection</cfif></span>
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_meth">Problem with ATTRIBUTE_METH</cfif></span>
 								
