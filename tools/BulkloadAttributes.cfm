@@ -200,7 +200,7 @@
 			</cfloop>
 		
 			<h3 class="h3">
-				Successfully loaded #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadAttributes.cfm?action=validate">click to validate</a>.
+				Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadAttributes.cfm?action=validate">click to validate</a>.
 			</h3>
 		</cfoutput>
 	</cfif>
