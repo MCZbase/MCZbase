@@ -348,8 +348,9 @@
 						<th>STATUS</th>
 					</tr>
 				<tbody>
+					<cfset i=1>
 					<cfloop query="data">
-						<tr>
+						<tr><td>#i#</td>
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
@@ -363,6 +364,7 @@
 							<td>#data.REMARKS#</td>
 							<td><strong>#STATUS#</strong></td>
 						</tr>
+						<cfset i=i+1>
 					</cfloop>
 				</tbody>
 			</table>
