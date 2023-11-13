@@ -322,7 +322,7 @@
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
 				FROM data 
-				WHERE status is not null
+				WHERE status is null
 			</cfquery>
 			<cfif pf.c gt 0>
 				<h2>
@@ -426,7 +426,6 @@
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 							<h3>Error updating row (<span class="text-danger">#attributes_updates + 1#</span>): 
-								<!---<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_VALUE for ATTRIBUTE_TYPE">Invalid ATTRIBUTE_VALUE for ATTRIBUTE_TYPE for this collection</cfif></span>--->
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)</cfif></span>
 								
@@ -440,7 +439,7 @@
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_date">Problem with ATTRIBUTE_DATE</cfif></span>
 								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_value">Problem with ATTRIBUTE_VALUE for ATTRIBUTE_TYPE; check capitalization, spelling, and controlled vocabulary for collection</cfif></span>
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_value">Invalid with ATTRIBUTE_VALUE for ATTRIBUTE_TYPE; check capitalization, spelling, and controlled vocabulary for collection</cfif></span>
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_meth">Problem with ATTRIBUTE_METH</cfif></span>
 								
