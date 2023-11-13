@@ -355,7 +355,6 @@
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset getProblemData="">
-			<cfset detail = "">
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -401,8 +400,7 @@
 							FROM cf_temp_attributes 
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<cfset detail eq #cfcatch.detail#>
-						<h3>Error updating row (#attributes_updates + 1#): substr(#detail#,instr(#detail#,'/',-30)) as detail</h3>
+						<h3>Error updating row (#attributes_updates + 1#): cfcatch.snippet</h3>
 						<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>
 							<table class='sortable table-danger table table-responsive table-striped d-lg-table'>
 								<thead>
@@ -429,7 +427,6 @@
 									</cfloop>
 								</tbody>
 							</table>
-						<!---<cfrethrow>--->#detail#
 					</cfcatch>
 				</cftry>
 			</cftransaction>
