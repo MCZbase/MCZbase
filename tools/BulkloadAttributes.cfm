@@ -80,7 +80,7 @@
 	<cfif #action# is "getFile">
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<cfoutput>
-			<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
+			<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 			<cfset fileContent=replace(fileContent,"'","''","all")>
 			<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 		
