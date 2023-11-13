@@ -419,7 +419,7 @@
 							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 							and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-							<h3>Error updating row (<span class="text-danger">#attributes_updates + 1#</span>): 
+							<h3>Error updating row (<span class="text-danger">#attributes_updates + 1#</span>) from CSV: 
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)</cfif></span>
 								
