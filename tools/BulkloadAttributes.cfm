@@ -418,9 +418,8 @@
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 							FROM cf_temp_attributes 
-							WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
-							and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery>
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery><!---key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">--->
 							<h3>Error updating the table with row (<span class="text-danger">#attributes_updates + 1#</span>) from the CSV: 
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)</cfif></span>
