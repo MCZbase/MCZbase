@@ -321,7 +321,7 @@
 					and attribute_value not in (select associated_grant from ctassociated_grants)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="act2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="act3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
 					SET status = 'attribute units should be empty'
 					WHERE attribute = 'associated grant' 
@@ -330,11 +330,42 @@
 				</cfquery>
 			</cfif>
 			<cfif getType.attribute is 'life stage'>
-				<cfquery name="act3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="ls1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
-					SET status = 'attribute value is not in age class table'
+					SET status = 'attribute value is not in life stage table'
 					WHERE attribute = 'life stage' 
-					and attribute_value not in (select age_class from ctage_class where ctage_class.collection_cde = cf_temp_attributes.collection_cde)
+					and attribute_value not in (select age_class from ctlife_stage where ctlife_stage.collection_cde = cf_temp_attributes.collection_cde)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="ls2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_attributes
+					SET status = 'attribute units should be empty'
+					WHERE attribute = 'life stage' 
+					and attribute_units is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+			</cfif>
+			<cfif getType.attribute is 'sex'>
+				<cfquery name="ls1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_attributes
+					SET status = 'attribute value is not in sex code table'
+					WHERE attribute = 'life stage' 
+					and attribute_value not in (select sex_cde from ctsex_cde where ctage_class.collection_cde = cf_temp_attributes.collection_cde)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="ls2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_attributes
+					SET status = 'attribute units should be empty'
+					WHERE attribute = 'life stage' 
+					and attribute_units is not null
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+					
+				<cfquery name="att0" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_attributes
+					SET status = 'attribute units should be empty'
+					WHERE attribute_type in (select concatattribute(attribute_type) from dual)
+					and attribute_type is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
