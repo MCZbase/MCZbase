@@ -240,7 +240,7 @@
 			</cfloop>
 			<cfquery name="avm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET status = 'agent value missing'
+				SET status = 'agent value (preferred name) is missing in DETERMINER column'
 				WHERE determiner is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -282,12 +282,18 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				and collection_cde not in (select collection_cde from collection)
 			</cfquery>
+			<cfquery name="getAID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE
+					cf_temp_attributes
+				SET status = 'collection_cde is missing'
+				WHERE COLLECTION_CDE is null
+				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
-				SET status = 'attribute_type does not match the code table; check capitalization and spelling'
+				SET status = 'attribute_type does not match the code table'
 				WHERE attribute not in (select attribute_type from ctattribute_type)
-				and collection_cde not in (select collection_cde from ctattribute_type)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
@@ -301,14 +307,12 @@
 				WHERE attribute_value is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif getType.attribute is 'sex'>
-				<cfquery name="act1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_attributes
-					SET status = 'attribute value for sex is not valid for Ent; check capitalization'
-					WHERE attribute = 'sex' and attribute_value not in (select sex_cde from ctsex_cde where ctsex_cde.collection_cde = cf_temp_attributes.collection_cde)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfif>
+			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_attributes
+				SET status = 'attribute value missing'
+				WHERE attribute_date is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfif getType.attribute is 'associated grant'>
 				<cfquery name="act2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
@@ -351,7 +355,7 @@
 			</cfif>
 			<table class='sortable table table-responsive table-striped d-xl-table w-100'>
 				<thead>
-					<tr><th>CT</th>
+					<tr><th>##</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -468,7 +472,7 @@
 					<!---	<h3>Problematic Rows (<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>)</h3>--->
 							<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
 								<thead>
-									<tr><th>COUNT</th>
+									<tr><th>##</th>
 										<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>ATTRIBUTE</th><th>ATTRIBUTE_VALUE</th><th>ATTRIBUTE_UNITS</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th><th>STATUS</th>
 									</tr> 
 								</thead>
