@@ -286,8 +286,8 @@
 			<!---ATTRIBUTE--->
 			<cfquery name="m7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
-				SET status = 'this attribute is not valid'
-				where attribute not in (select attribute_type from ctattribute_type)
+				SET status = 'this attribute is not valid; not in ctattribute_type'
+				where attribute not in (select attribute_type from ctattribute_type where cf_temp_attributes.collection_cde = ctattribute_type.collection_cde)
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---ATTRIBUTE_VALUE--->
