@@ -353,13 +353,13 @@
 			<cfquery name="attCryo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
 				SET status = 'attribute value not in code table for this collection333'
-				WHERE attribute not in (select attribute_type from ctattribute_type where collection_cde = ct_temp_attributes.collection_cde)
+				WHERE attribute not in (select attribute_type from ctattribute_type where collection_cde = cf_temp_attributes.collection_cde)
 				and attribute is not null
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
-				SET status = 'attribute_type does not match the code table'
+				SET status = 'attribute does not match the code table'
 				WHERE attribute not in (select attribute_type from ctattribute_type)
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
