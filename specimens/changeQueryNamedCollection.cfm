@@ -1,5 +1,5 @@
 <!---
-grouping/removeFromNamedCollection.cfm
+grouping/changeQueryNamedCollection.cfm
 
 For managing arbitrary groupings of collection objects, allows add or remove 
 items from the group.
@@ -80,7 +80,7 @@ limitations under the License.
 								function changeItemsSubmitHandler() { 
 									if ($('##underscore_collection_id').val() == ''){ 
 										messageDialog('Error: You must select a named group from the Select a Named Group picklist before you can add or remove items.' ,'Error: Select a named group.');
-									if ($('##action').val() == ''){ 
+									} else if ($('##action').val() == ''){ 
 										messageDialog('Error: You must select an action to take on these items.' ,'Error: Select Add or Remove.');
 									} else { 
 										$('##changeItemsForm').removeAttr('onsubmit'); 
@@ -88,7 +88,7 @@ limitations under the License.
 									}
 								}
 							</script>
-							<form id="changeItemsForm" name="changeItems" method="post" action="/grouping/removeFromNamedCollection.cfm" onsubmit="return noenter();">
+							<form id="changeItemsForm" name="changeItems" method="post" action="/grouping/changeQueryNamedCollection.cfm" onsubmit="return noenter();">
 								<input type="hidden" name="recordcount" value="#getItems.recordcount#">
 								<input type="hidden" name="pass" value="#pass#">
 								<cfif isdefined("collection_object_id") AND len(collection_object_id) GT 0 >
@@ -117,7 +117,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12 mt-3" style="padding-top: 2px;">
-										<input type="button" id="remove_button" value="Remove Items" class="btn btn-xs btn-primary" onclick=" changeItemsSubmitHandler(); ">
+										<input type="button" id="remove_button" value="Change" class="btn btn-xs btn-primary" onclick=" changeItemsSubmitHandler(); ">
 									</div>
 								</div>
 							</form>
@@ -332,7 +332,7 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 	<cfdefaultcase>
-		<cfthrow message="Action for removeFromNamedCollection.cfm not recognized.">
+		<cfthrow message="Action for changeQueryNamedCollection.cfm not recognized.">
 	</cfdefaultcase>
 </cfswitch>
 <cfinclude template = "/shared/_footer.cfm">

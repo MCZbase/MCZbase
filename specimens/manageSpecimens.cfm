@@ -88,7 +88,7 @@ limitations under the License.
 									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Modify Parts</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="/grouping/removeFromNamedCollection.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs">Named Group</a>
+									<a href="/grouping/changeQueryNamedCollection.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs">Named Group</a>
 								</li>
 								<li class="nav-item mb-1">
 									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
