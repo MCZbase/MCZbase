@@ -346,7 +346,7 @@
 						</cfquery>
 						<cfquery name="m6h" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_attributes
-							SET status = 'attribute units should be empty m6h'
+							SET status = 'attribute units should be empty [6h]'
 							WHERE attribute = 'life stage' 
 							and attribute_units is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
