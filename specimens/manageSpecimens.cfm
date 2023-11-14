@@ -53,11 +53,12 @@ limitations under the License.
 										<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Accession</a>
 									</li>
 									<li class="nav-item mb-1">
-										<a href="javascript:void(0)" class="nav-link btn btn-xs btn-secondary disabled">Deaccession</a>
-										<!---
-											TODO: In progress, BugID:  
-											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Deaccession</a>
-										--->
+										<cfif findNoCase('master',Session.gitBranch) EQ 0>
+											<!--- TODO: In progress, BugID:  --->
+											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Deaccession (in progress)</a>
+										<cfelse>
+											<a href="javascript:void(0)" class="nav-link btn btn-xs btn-secondary disabled">Deaccession</a>
+										</cfif>
 									</li>
 								</cfif>
 								<li class="nav-item mb-1">
@@ -88,13 +89,13 @@ limitations under the License.
 									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Modify Parts</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="/specimens/changeQueryNamedCollection.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs">Named Group</a>
+									<a href="/specimens/changeQueryNamedCollection.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Named Group</a>
 								</li>
 								<li class="nav-item mb-1">
 									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="/specimens/changeQuerySpecimenRemark.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs">Append Cataloged Item Remarks</a>
+									<a href="/specimens/changeQuerySpecimenRemark.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Append Cataloged Item Remarks</a>
 								</li>
 								<li class="nav-item mb-1">
 									<cfset crlf = chr(13) & chr(10) >
