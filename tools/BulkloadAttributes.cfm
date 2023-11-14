@@ -401,7 +401,7 @@
 					FROM data 
 					WHERE status is not null
 				</cfquery>
-				#status# #i#, 	
+				#i#(#status#), 	
 				
 				<cfset i=i+1>
 			</cfloop>
