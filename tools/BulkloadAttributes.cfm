@@ -325,7 +325,7 @@
 						<cfquery name="m6e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_attributes
 							SET status = 'sex value is not in ctsex_cde [6e]'
-							WHERE attribute_value not in (select sex_cde from ctsex_cde where ctsex_cde.collection_cde = cf_temp_attributes.collection_cde)
+							WHERE attribute_value not in (select sex_cde from ctsex_cde)
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<cfquery name="m6f" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
