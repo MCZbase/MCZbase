@@ -373,6 +373,7 @@
 				UPDATE cf_temp_attributes 
 				SET status = 'this attribute references another code table for the value (e.g., ctsex_code, ctage_class, ctassociated_grants, ct_collections_full_names)'
 				where attribute in (select attribute_type from ctattribute_code_tables where ctattribute_code_tables.attribute_type = cf_temp_attributes.attribute and units_code_table is null and value_code_table is not null)
+				and attribute_value is null
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
