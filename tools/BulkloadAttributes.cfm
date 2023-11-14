@@ -362,8 +362,13 @@
 			<cfquery name="m7b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
 				SET status = 'invalid attribute_units; not in ctlength_units [7b]'
-				where (attribute_units not in (select length_units from ctlength_units)
-				or attribute_units not in (select weight_units from ctweight_units))
+				where attribute_units not in (select length_units from ctlength_units)
+				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="m7c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_attributes 
+				SET status = 'invalid attribute_units; not in ctweight_units [7b]'
+				where attribute_units not in (select weight_units from ctweight_units)
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---ATTRIBUTE_DATE--->
