@@ -209,7 +209,7 @@
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select other_id_type, attribute
+				select other_id_type,collection_cde
 				from cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -238,6 +238,12 @@
 					</cfquery>
 				</cfif>
 			</cfloop>
+			<cfquery name="getType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks
+				from cf_temp_attributes
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfloop query="getType2">
 			<cfquery name="avm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
 				SET status = 'agent value (preferred name) is missing in DETERMINER column'
@@ -289,7 +295,6 @@
 				WHERE COLLECTION_CDE is null
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
 				SET status = 'attribute value missing'
@@ -323,7 +328,7 @@
 					UPDATE cf_temp_attributes
 					SET status = 'attribute value is not in life stage table'
 					WHERE attribute = 'life stage' 
-					and attribute_value not in (select age_class from ctlife_stage where ctlife_stage.collection_cde = cf_temp_attributes.collection_cde)
+					and attribute_value not in (select age_class from ctage_class where ctage_class.collection_cde = cf_temp_attributes.collection_cde)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="ls2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -338,14 +343,14 @@
 				<cfquery name="ls1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
 					SET status = 'attribute value is not in sex code table'
-					WHERE attribute = 'life stage' 
-					and attribute_value not in (select sex_cde from ctsex_cde where ctage_class.collection_cde = cf_temp_attributes.collection_cde)
+					WHERE attribute = 'sex' 
+					and attribute_value not in (select sex_cde from ctsex_cde where ctsex_cde.collection_cde = cf_temp_attributes.collection_cde)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="ls2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
 					SET status = 'attribute units should be empty'
-					WHERE attribute = 'life stage' 
+					WHERE attribute = 'sex' 
 					and attribute_units is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -381,6 +386,7 @@
 				FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			</cfloop>
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
 				FROM data 
