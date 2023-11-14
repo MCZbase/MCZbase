@@ -324,7 +324,7 @@
 					<cfif getType.attribute is 'sex'>
 						<cfquery name="m6e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE cf_temp_attributes
-							SET status = 'attribute value is not in sex code table for collection in row [6e]'
+							SET status = 'sex value is not in ctsex_cde [6e]'
 							WHERE attribute = 'sex' 
 							and attribute not in (select sex_cde from ctsex_cde where ctsex_cde.collection_cde = cf_temp_attributes.collection_cde)
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
