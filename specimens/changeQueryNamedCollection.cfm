@@ -168,6 +168,9 @@ limitations under the License.
 		<cfif NOT isdefined("pass") OR len(pass) EQ 0>
 			<cfthrow message="Error: No means included by which to add to named group.  File a bug report.">
 		</cfif>
+		<cfset numberInResult = 0>
+		<cfset numberChanged = 0>
+		<cfset collectionName = "">
 		<cfif pass EQ "result_id">
 			<cftransaction>
 				<cfquery name="countToAdd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -178,12 +181,14 @@ limitations under the License.
 				<cfif countToAdd.ct NEQ recordcount>
 					<cfthrow message="Add failed.  Discrepancy between the expected and actual number of records to add, result set modified since search was run.">
 				</cfif>
+				<cfset numberInResult = countToAdd.ct>
 				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT underscore_collection.underscore_collection_id as id
+					SELECT underscore_collection.underscore_collection_id as id, collection_name
 					FROM underscore_collection
 					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				</cfquery>
 				<cfset idToAdd = unColl.id>
+				<cfset collectionName = undColl.collection_name>
 				<cfif unColl.recordcount NEQ 1>
 					<cfthrow message="No such named group found, unable to add cataloged items">
 				</cfif>
@@ -194,6 +199,7 @@ limitations under the License.
 						FROM user_search_table
 						WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				</cfquery>
+				<cfset numberChanged = add_result.recordcount>
 			</cftransaction>
 		<cfelseif pass EQ "collection_object" OR pass EQ "collection_object list">
 			<cfif NOT (isdefined("collection_object_id") AND listlen(collection_object_id) GT 0) >
@@ -213,12 +219,14 @@ limitations under the License.
 				<cfif countToAdd.ct NEQ recordcount>
 					<cfthrow message="Add failed.  Discrepancy between the expected and actual number of records to add.">
 				</cfif>
+				<cfset numberInResult = countToAdd.ct>
 				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT underscore_collection.underscore_collection_id as id
+					SELECT underscore_collection.underscore_collection_id as id, collection_name
 					FROM underscore_collection
 					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				</cfquery>
 				<cfset idToAdd = unColl.id>
+				<cfset collectionName = undColl.collection_name>
 				<cfif unColl.recordcount NEQ 1>
 					<cfthrow message="No such named group found, unable to add cataloged items">
 				</cfif>
@@ -234,12 +242,27 @@ limitations under the License.
 								cataloged_item.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
 							</cfif>
 				</cfquery>
+				<cfset numberChanged = add_result.recordcount>
 			</cftransaction>
 		<cfelse>
 			<cfthrow message="Error: Unknown means by which to add to named group.  File a bug report.">
 		</cfif>
 		<cfoutput>
-			<cflocation url="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#" addtoken="false">
+			<div class="container-fluid">
+				<div class="row mx-0">
+					<div class="col-12 px-4 mt-3">
+						<h2 class="h2">Added #numberChanged# cataloged items [in #encodeForHtml(result_id)#] to Named Group #collectionName#</h2>
+						<ul class="col-12 list-group list-group-horizontal">
+							<cfif numberInResult NEQ numberChanged>
+								<p>Some of these specimens were already in this named group, manage from this result can not easily reverse the addition of the others.</p>
+							</cfif>
+							<li class="list-group-item d-flex justify-content-between align-items-center">
+								<a href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#">View Named Group #collectionName#</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</cfoutput>
 	</cfcase>
 	<cfcase value="removeItems">
@@ -254,6 +277,9 @@ limitations under the License.
 		<cfif NOT isdefined("pass") OR len(pass) EQ 0>
 			<cfthrow message="Error: No means included by which to remove from named group.  File a bug report.">
 		</cfif>
+		<cfset numberInResult = 0>
+		<cfset numberChanged = 0>
+		<cfset collectionName = "">
 		<cfif pass EQ "result_id">
 			<cftransaction>
 				<cfquery name="countToRemove" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -264,12 +290,14 @@ limitations under the License.
 				<cfif countToRemove.ct NEQ recordcount>
 					<cfthrow message="Remove failed.  Discrepancy between the expected and actual number of records to remove, result set modified since search was run.">
 				</cfif>
+				<cfset numberInResult = countToRemove.ct>
 				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT underscore_collection.underscore_collection_id as id
+					SELECT underscore_collection.underscore_collection_id as id, collection_name
 					FROM underscore_collection
 					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				</cfquery>
 				<cfset idToRemove = unColl.id>
+				<cfset collectionName = unColl.collection_name>
 				<cfif unColl.recordcount NEQ 1>
 					<cfthrow message="No such named group found, unable to remove cataloged items">
 				</cfif>
@@ -284,6 +312,7 @@ limitations under the License.
 							WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 						)
 				</cfquery>
+				<cfset numberChanged = remove_result.recordcount>
 			</cftransaction>
 		<cfelseif pass EQ "collection_object" OR pass EQ "collection_object list">
 			<cfif NOT (isdefined("collection_object_id") AND listlen(collection_object_id) GT 0) >
@@ -303,12 +332,14 @@ limitations under the License.
 				<cfif countToRemove.ct NEQ recordcount>
 					<cfthrow message="Remove failed.  Discrepancy between the expected and actual number of records to remove.">
 				</cfif>
+				<cfset numberInResult = countToRemove.ct>
 				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT underscore_collection.underscore_collection_id as id
+					SELECT underscore_collection.underscore_collection_id as id, collection_name
 					FROM underscore_collection
 					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				</cfquery>
 				<cfset idToRemove = unColl.id>
+				<cfset collectionName = unColl.collection_name>
 				<cfif unColl.recordcount NEQ 1>
 					<cfthrow message="No such named group found, unable to remove cataloged items">
 				</cfif>
@@ -323,11 +354,27 @@ limitations under the License.
 							collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
 						</cfif>
 				</cfquery>
+				<cfset numberChanged = remove_result.recordcount>
 			</cftransaction>
 		<cfelse>
 			<cfthrow message="Error: Unknown means by which to remove from named group.  File a bug report.">
 		</cfif>
 		<cfoutput>
+			<div class="container-fluid">
+				<div class="row mx-0">
+					<div class="col-12 px-4 mt-3">
+						<h2 class="h2">Removed #numberChanged# cataloged items [in #encodeForHtml(result_id)#] from Named Group #collectionName#</h2>
+						<cfif numberInResult NEQ numberChanged>
+							<p>Some of these specimens were not this named group, manage from this result can not easily reverse the removal of the others.</p>
+						</cfif>
+						<ul class="col-12 list-group list-group-horizontal">
+							<li class="list-group-item d-flex justify-content-between align-items-center">
+								<a href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#">View Named Group #collectionName#</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
 			<cflocation url="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
