@@ -140,7 +140,31 @@ limitations under the License.
 							</ul>
 						</nav>
 						<h2 class="h3 mt-4">Summary of #results.ct# cataloged item records that will be affected: </h2>
+						<script>
+							function removeCollection (collection_cde) {
+								console.log(collection_cde);
+			        			$.ajax({
+         	   				url: "/specimens/component/search.cfc",
+            					data: { 
+										method: 'removeItemsFromResult', 
+										result_id: '#result_id#',
+										grouping_criterion: 'collection_cde',
+										grouping_value: collection_cde 
+									},
+									dataType: 'json',
+      	     					success : function (data) { 
+										console.log(data);
+										// TODO: Trigger reload of summary section.
+										// TODO: Trigger $('##fixedsearchResultsGrid').jqxGrid('updatebounddata'); etc on grid.
+									},
+            					error : function (jqXHR, textStatus, error) {
+          				   		handleFail(jqXHR,textStatus,error,"removing records from result set");
+     		       				}
+         					});
+							} 
+						</script>
 						<div class="rounded redbox">
+							<!--- TODO: Move to backing method, add ajax reload --->
 							<div class="card bg-light border-secondary mb-3">
 								<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collections_result">
 									SELECT count(*) ct, 
@@ -155,7 +179,14 @@ limitations under the License.
 								<div class="card-body">
 									<ul class="list-group list-group-horizontal d-flex flex-wrap">
 										<cfloop query="collections">
-											<li class="list-group-item">#collections.collection_cde# (#collections.ct#);</li>
+											<li class="list-group-item">
+												<cfif findNoCase('master',Session.gitBranch) EQ 0>
+												<cfif collections.recordcount GT 0>
+													<input type="button" onClick=" confirmDialog('Remove all records from #collections.collection_cde# from these search results','Confirm Remove By Collection Code', function() { removeCollection ('#collection_cde#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
+												</cfif>
+												</cfif>
+												#collections.collection_cde# (#collections.ct#);
+											</li>
 										</cfloop>
 									</ul>
 								</div>

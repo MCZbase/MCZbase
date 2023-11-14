@@ -29,6 +29,53 @@ function suggestSovereignNation(geog_auth_rec_id, pasteTarget) {
    });
 }
 
+/** given a locality_id, look up the uses for the locality
+ determine if it can be deleted, and present either a delete 
+ button or a message.
+ @param locality_id the locality to look up.
+ @param pasteTarget the id in the dom, without a leading pound selector
+   the content of which to replace with the returned uses.
+**/
+function updateLocalityDeleteBit(locality_id,pasteTarget) {
+	jQuery.ajax({
+		url: "/localities/component/functions.cfc",
+		data : {
+			method : "getLocalityDeleteBitHtml",
+			locality_id: locality_id
+		},
+		success: function (result) {
+			$("#"+pasteTarget).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining delete button or message for a locality");
+		},
+		dataType: "html"
+	});
+};
+
+/** given a locality_id, look up the uses for the locality
+ and set it as the content of a target div.
+ @param locality_id the locality to look up.
+ @param pasteTarget the id in the dom, without a leading pound selector
+   the content of which to replace with the returned uses.
+**/
+function updateLocalityUses(locality_id,pasteTarget) {
+	jQuery.ajax({
+		url: "/localities/component/search.cfc",
+		data : {
+			method : "getLocalityUsesHtml",
+			locality_id: locality_id
+		},
+		success: function (result) {
+			$("#"+pasteTarget).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining uses for a locality");
+		},
+		dataType: "html"
+	});
+};
+
 /** given a locality_id, look up the summary for the locality
  and set it as the content of a target div.
  @param locality_id the locality to look up.

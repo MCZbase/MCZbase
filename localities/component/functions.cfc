@@ -4532,6 +4532,66 @@ Does not provide the enclosing form.  Expected context provided by calling page:
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+
+<cffunction name="getLocalityDeleteBitHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="locality_id" type="string" required="yes">
+	
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfset variables.locality_id = arguments.locality_id>
+	<cfthread name="collectingEventDeleteBitThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="localityUses" datasource="uam_god">
+					SELECT
+						count(distinct collecting_event.collecting_event_id) numOfCollEvents
+					from
+						collecting_event
+					WHERE
+						collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+				</cfquery>
+				<cfquery name="countUses" datasource="uam_god">
+					SELECT 
+						sum(ct) total_uses
+					FROM (
+						SELECT
+							count(*) ct
+						FROM 
+							collecting_event
+						WHERE
+							locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						UNION
+						SELECT
+							count(*) ct
+						FROM
+							media_relations
+						WHERE
+							related_primary_key =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+							AND
+							media_relationship like '%locality'
+					)
+				</cfquery>
+				<cfif countUses.total_uses EQ "0">
+					<button type="button" 
+					onClick="confirmDialog('Delete this Locality?', 'Confirm Delete Locality', function() { location.assign('/localities/Locality.cfm?action=delete&locality_id=#encodeForUrl(locality_id)#'); } );" 
+					class="btn btn-xs btn-danger" >
+					Delete Locality
+					</button>
+				<cfelseif localityUses.numOfCollEvents EQ 0>
+					<!--- please delete me message is shown, but delete button is not enabled --->
+					<span class="small85 text-dark-gray">Localities with collecting events, media, or georeferences can not be deleted.</span>
+				</cfif>
+			<cfcatch>
+				<h2 class="h3 text-danger">Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="collectingEventDeleteBitThread#tn#" />
+
+	<cfreturn cfthread["collectingEventDeleteBitThread#tn#"].output>
+</cffunction>
+
 <!--- obtain html form content for creating, cloning, or editing a collecting event. 
 --->
 <cffunction name="getCollectingEventFormHtml" returntype="string" access="remote" returnformat="plain">
