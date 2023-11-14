@@ -359,7 +359,7 @@
 			<cfquery name="m7a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
 				SET status = 'this attribute needs units [7a]'
-				where attribute in (select attribute_type from ctattribute_code_tables where attribute_type = cf_temp_attributes.attribute and units_code_table is not null)
+				where attribute in (select attribute_type from ctattribute_code_tables where units_code_table is not null)
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="m7b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
