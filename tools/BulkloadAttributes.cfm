@@ -394,16 +394,13 @@
 				FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset i=1>
-				<cfloop query="data">
+
+			<cfloop query="data">
 				<cfquery name="pf" dbtype="query">
 					SELECT count(*) c 
 					FROM data 
 					WHERE status is not null
 				</cfquery>
-				#i#(#status#), 	
-				
-				<cfset i=i+1>
 			</cfloop>
 			<cfif pf.c gt 0>
 				<h2>
