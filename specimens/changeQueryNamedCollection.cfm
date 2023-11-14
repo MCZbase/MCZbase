@@ -1,5 +1,5 @@
 <!---
-grouping/changeQueryNamedCollection.cfm
+specimens/changeQueryNamedCollection.cfm
 
 For managing arbitrary groupings of collection objects, allows add or remove 
 items from the group.
@@ -88,7 +88,7 @@ limitations under the License.
 									}
 								}
 							</script>
-							<form id="changeItemsForm" name="changeItems" method="post" action="/grouping/changeQueryNamedCollection.cfm" onsubmit="return noenter();">
+							<form id="changeItemsForm" name="changeItems" method="post" action="/specimens/changeQueryNamedCollection.cfm" onsubmit="return noenter();">
 								<input type="hidden" name="recordcount" value="#getItems.recordcount#">
 								<input type="hidden" name="pass" value="#pass#">
 								<cfif isdefined("collection_object_id") AND len(collection_object_id) GT 0 >
