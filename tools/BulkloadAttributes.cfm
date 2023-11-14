@@ -238,12 +238,8 @@
 					</cfquery>
 				</cfif>
 			</cfloop>
-			<cfquery name="getType2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks
-				from cf_temp_attributes
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfloop query="getType2">
+<!---Validation ERROR messages--->
+<!---TO: LOOP THROUGH AND CONCATATE ERROS--->
 			<cfquery name="m1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
 				SET status = 'agent value (preferred name) is missing in DETERMINER column'
@@ -387,13 +383,17 @@
 				FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfset i=1>
+				<cfloop query="data">
+				<cfquery name="pf" dbtype="query">
+					SELECT count(*) c 
+					FROM data 
+					WHERE status is not null
+				</cfquery>
+				#status# #i#<br>	
+				
+				<cfset i=i+1>
 			</cfloop>
-			<cfset messages = "#m1.status# + #m2.status# + #m3.status# + #m4.status#">
-			<cfquery name="pf" dbtype="query">
-				SELECT count(*) c 
-				FROM data 
-				WHERE status is not null
-			</cfquery>
 			<cfif pf.c gt 0>
 				<h2>
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. <!---(<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>).--->
