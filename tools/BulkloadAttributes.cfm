@@ -359,7 +359,7 @@
 				and attribute_units is null
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfif getType.attribute contains 'length'>
+			<cfif getType.attribute is 'length'>
 			<cfquery name="m7b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
 				SET status = 'invalid attribute_units; not in ctlength_units [7b]'
