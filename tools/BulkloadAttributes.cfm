@@ -289,18 +289,7 @@
 				WHERE COLLECTION_CDE is null
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_attributes 
-				SET status = 'attribute_type does not match the code table'
-				WHERE attribute not in (select attribute_type from ctattribute_type)
-				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_attributes 
-				SET status = 'units problem'
-				where attribute_units not in (select length_units from ctlength_units)
-				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
 				SET status = 'attribute value missing'
@@ -361,38 +350,25 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cfif>
-			<cfquery name="attHerp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_attributes
-				SET status = 'attribute value not in code table for Herp'
-				WHERE attribute_type not in (select attribute_type from cctattribute_type1)
-				and attribute_type is not null
-				and collection_cde = 'Herp'
-				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="attEnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_attributes
-				SET status = 'attribute value not in code table for Ent'
-				WHERE attribute_type not in (select attribute_type from ctattribute_type where collection_cde = 'Cryo')
-				and attribute_type is not null
-				and collection_cde = 'Ent'
-				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="attSC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_attributes
-				SET status = 'attribute value not in code table for SC'
-				WHERE attribute_type not in (select attribute_type from ctattribute_type where collection_cde = 'Herp')
-				and attribute_type is not null
-				and collection_cde = 'Herp'
-				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<cfquery name="attCryo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
 				SET status = 'attribute value not in code table for this collection333'
-				WHERE attribute_type not in (select attribute_type from ctattribute_type where collection_cde = ct_temp_attributes.collection_cde)
+				WHERE attribute not in (select attribute_type from ctattribute_type where collection_cde = ct_temp_attributes.collection_cde)
 				and attribute_type is not null
 				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			
+			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_attributes 
+				SET status = 'attribute_type does not match the code table'
+				WHERE attribute not in (select attribute_type from ctattribute_type)
+				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="miaa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_attributes 
+				SET status = 'units problem'
+				where attribute_units not in (select length_units from ctlength_units)
+				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date, attribute_meth,determiner,remarks,status
 				FROM cf_temp_attributes
