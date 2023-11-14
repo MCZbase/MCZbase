@@ -287,7 +287,7 @@
 			<cfquery name="m5a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
 				SET status = 'this attribute is not valid for this collection; not in ctattribute_type [5a]'
-				where attribute not in (select attribute_type from ctattribute_type where cf_temp_attributes.collection_cde = ctattribute_type.collection_cde)
+				where attribute not in (select attribute_type from ctattribute_type, cf_temp_attributes where cf_temp_attributes.collection_cde = ctattribute_type.collection_cde)
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---ATTRIBUTE_VALUE--->
