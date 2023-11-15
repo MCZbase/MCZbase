@@ -220,7 +220,7 @@ limitations under the License.
 							<li>Unique Identifier Suffix: #suffix#</li>
 							<li>Label Suffix: #label_suffix#</li>
 							<li>(First) Error At Number: #barcode#</li>
-							<li>(First) Error At Unique Identifier: #prefix##barcode##suffix#</li>
+							<li>(First) Error At Unique Identifier: <strong>#prefix##barcode##suffix#</strong></li>
 							<li>(First) Error At Label: #label_prefix##barcode##label_suffix#</li>
 							<li>Error: #cfcatch.message#</li>
 							<cfif structKeyExists(cfcatch,"Cause") AND structKeyExists(cfcatch.cause,"Message")>
@@ -229,6 +229,21 @@ limitations under the License.
 									<li><strong>One or More of the Unique Identifiers you are trying to create already exists.</strong></li>
 								</cfif>
 							</cfif>
+							<cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT container_label. container_id
+								FROM 
+									container 
+								WHERE
+									container_id = 
+									<cfif len(#parent_container_id#) GT 0>
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
+									<cfelse>
+										1
+									</cfif>
+							</cfquery>
+							<cfloop query="getParent">
+								<li>Parent Container: #getParent.container_label# (#getParent.container_id#)</li>
+							</cfloop>
 					</div>
 				</div>
 			</cfcatch>
@@ -238,6 +253,21 @@ limitations under the License.
 			<div class="row mx-0">
 				<div class="col-12 px-0">
 					<h1 class="h2 mt-3 mb-0 px-3">The series of container records with barcodes from #beginBarcode# to #endBarcode# have been created.</h1>
+					<cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT container_label. container_id
+						FROM 
+							container 
+						WHERE
+							container_id = 
+							<cfif len(#parent_container_id#) GT 0>
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
+							<cfelse>
+								1
+							</cfif>
+					</cfquery>
+					<cfloop query="getParent">
+						<p>Created as children of Parent Container: #getParent.container_label# (#getParent.container_id#)</p>
+					</cfloop>
 					<p>
 						<a href="CreateContainersForBarcodes.cfm">Bulk create more containers</a>
 					</p>
