@@ -364,7 +364,9 @@ limitations under the License.
 				<div class="row mx-0">
 					<div class="col-12 px-4 mt-3">
 						<h2 class="h2">Removed #numberChanged# cataloged items [in #encodeForHtml(result_id)#] from Named Group #collectionName#</h2>
-						<cfif numberInResult NEQ numberChanged>
+						<cfif numberChanged EQ 0>
+							<p>None these specimens were in this named group.</p>
+						<cfelseif numberInResult NEQ numberChanged>
 							<p>Some of these specimens were not this named group, manage from this result can not easily reverse the removal of the others.</p>
 						</cfif>
 						<ul class="col-12 list-group list-group-horizontal">
