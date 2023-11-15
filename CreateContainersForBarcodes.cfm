@@ -169,9 +169,9 @@ limitations under the License.
 		</cftransaction>
 		<div class="row mx-0">
 			<div class="col-12 px-0">
-				<h1 class="h2 mt-3 mb-0 px-3">The series of barcodes from #beginBarcode# to #endBarcode# have been created.</h1>
+				<h1 class="h2 mt-3 mb-0 px-3">The series of container records with barcodes from #beginBarcode# to #endBarcode# have been created.</h1>
 				<p>
-					<a href="CreateContainersForBarcodes.cfm?action=set">Load more barcodes</a>
+					<a href="CreateContainersForBarcodes.cfm?action=set">Bulk create more containers</a>
 				</p>
 			</div>
 		</div>
