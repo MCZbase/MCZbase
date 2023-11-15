@@ -65,11 +65,6 @@
 				</select>
 				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
 			</cfform>
-<!---			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadNewParts.cfm">
-				<input type="hidden" name="Action" value="getFile">
-				<input type="file" name="FiletoUpload" size="45">
-				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
-			</cfform>--->
 		</cfoutput>
 	</cfif>	
 		
@@ -240,69 +235,6 @@
 					</cfquery>
 				</cfif>
 			</cfloop>
-			
-<!---		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select * from cf_temp_parts where 
-			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		</cfquery>
-		<cfloop query="data">
-			<cfif #other_id_type# is "catalog number"><!---Checks to see if the catalog record exists--->
-				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_parts set collection_object_id = 
-					(select cataloged_item.collection_object_id
-					FROM
-						cataloged_item, collection
-					WHERE
-						cataloged_item.collection_id = collection.collection_id and
-						collection.collection_cde = '#data.collection_cde#' and
-						collection.institution_acronym = '#institution_acronym#' and
-						cat_num='#data.other_id_number#')
-				</cfquery>
-			<cfelse>
-				<cfquery name="collObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_parts set collection_object_id = 
-					(SELECT
-						coll_obj_other_id_num.collection_object_id
-					FROM
-						coll_obj_other_id_num,
-						cataloged_item,
-						collection
-					WHERE
-						coll_obj_other_id_num.collection_object_id = cataloged_item.collection_object_id and
-						cataloged_item.collection_id = collection.collection_id and
-						collection.collection_cde = #data.collection_cde# and
-						collection.institution_acronym = '#data.institution_acronym#' and
-						other_id_type = '#other_id_type#' and
-						display_value = '#data.other_id_number#'
-					)
-				</cfquery>
-			</cfif>
-		</cfloop>--->
-
-			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT INSTITUTION_ACRONYM,OTHER_ID_TYPE,OTHER_ID_NUMBER,COLLECTION_CDE,PART_NAME,PRESERVE_METHOD,LOT_COUNT_MODIFIER,LOT_COUNT,CONDITION,DISPOSITION,CONTAINER_UNIQUE_ID,VALIDATED_STATUS 
-				FROM cf_temp_parts
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="pf" dbtype="query">
-				SELECT count(*) c 
-				FROM data 
-				WHERE validated_status is not null
-			</cfquery>
-			<cfif pf.c gt 0>
-				<h2>
-					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. (<a href="/tools/BulkloadNewParts.cfm?action=dumpProblems">download</a>).
-				</h2>
-				<h3>
-					Fix the problems in the data and <a href="/tools/BulkloadNewParts.cfm">start again</a>.
-				</h3>
-			<cfelse>
-				<h2>
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good.
-				</h2>
-			</cfif>
-				
-				
 		<!---ERROR MESSAGES--->
 		<!---INSTITUTION_ACRONYM--->			
 			<cfquery name="m1a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -319,18 +251,16 @@
 			</cfquery>
 			<!---COLLECTION_CDE--->	
 			<cfquery name="m2a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE
-					cf_temp_parts
+				UPDATE cf_temp_parts
 				SET status = 'collection_cde not valid [2a]'
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and collection_cde not in (select collection_cde from collection)
+					AND collection_cde not in (select collection_cde from collection)
 			</cfquery>
 			<cfquery name="m2b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE
-					cf_temp_parts
+				UPDATE cf_temp_parts
 				SET status = 'collection_cde is missing [2b]'
 				WHERE COLLECTION_CDE is null
-				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---OTHER_ID_TYPE--->
 			<cfquery name="m3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -351,8 +281,8 @@
 				UPDATE cf_temp_parts
 				SET status = 'this part_name is not valid for this collection; not in ctspecimen_part_name [5a]'
 				where part_name not in (select part_name from ctspecimen_part_name, cf_temp_parts where cf_temp_parts.collection_cde = ctspecimen.collection_cde)
-				and part_name is not null
-				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				AND part_name is not null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="m5b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_parts
@@ -360,7 +290,7 @@
 				WHERE part_name is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<!---ATTRIBUTE_VALUE--->
+			<!---PRESERVE METHOD--->
 			<cfquery name="m6a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_parts
 				SET status = 'preserve method is missing [6a]'
@@ -372,56 +302,29 @@
 				SET status = 'invalid preserve method; not in ctspecimen_preserv_method [6b]'
 				where preserve_method not in (select preserve_method from ctspecimen_preserv_method where collection_cde = cf_temp_parts.collection_cde)
 				and preserve_method is not null
-				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<!---ATTRIBUTE_UNITS--->
-			<cfquery name="m7a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_parts
-				SET status = 'this attribute uses controlled_vocabulary [7a]'
-				where attribute in (select attribute_type from ctattribute_code_tables where units_code_table is not null)
-				and attribute_units is null
-				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfif getType.attribute contains 'length'>
-			<cfquery name="m7b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_parts 
-				SET status = 'invalid attribute_units; not in ctlength_units [7b]'
-				where attribute_units not in (select length_units from ctlength_units)
-				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			</cfif>
-			<cfif getType.attribute is 'weight'>
-				<cfquery name="m7c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_parts 
-					SET status = 'invalid attribute_units; not in ctweight_units [7b]'
-					where attribute_units not in (select weight_units from ctweight_units)
-					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-			</cfif>
-			<!---ATTRIBUTE_DATE--->
-			<cfquery name="m8a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_parts
-				SET status = 'attribute date missing [8a]'
-				WHERE attribute_date is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			
-			<!---DETERMINER--->
-			<cfquery name="m9a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE
-					cf_temp_parts
-				SET
-					determined_by_agent_id= (select agent_id from preferred_agent_name where agent_name = cf_temp_attributes.determiner)
+			<!---CONDITION--->
+			<cfquery name="m7a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_parts
+				SET status = 'condition is null [7a]'
+				where condition is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<!---DISPOSITION--->
+			<cfquery name="m8a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_parts
+				SET status = 'disposition is null '
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="m9b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="m8b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_parts
 				SET status = 'agent value (preferred name) is missing in DETERMINER column [9b]'
 				WHERE determiner is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date, attribute_meth,determiner,remarks,status
+				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,lot_count_modifier,lot_count,condition,disposition,status
 				FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -435,17 +338,13 @@
 					There is a problem with #pf.c# of #data.recordcount# row(s). See the STATUS column. <!---(<a href="/tools/BulkloadAttributes.cfm?action=dumpProblems">download</a>).--->
 				</h2>
 				<h3>
-					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadAttributes.cfm">start again</a>.
+					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadNewParts.cfm">start again</a>.
 				</h3>
 			<cfelse>
 				<h2>
-					Validation checks passed. Look over the table below and <a href="/tools/BulkloadAttributes.cfm?action=load">click to continue</a> if it all looks good.
+					Validation checks passed. Look over the table below and <a href="/tools/BulkloadNewParts.cfm?action=load">click to continue</a> if it all looks good.
 				</h2>
 			</cfif>
-				
-				
-				
-				
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
@@ -459,7 +358,6 @@
 						<th>LOT_COUNT</th>
 						<th>CONDITION</th>
 						<th>DISPOSITION</th>
-						<th>Container_UNIQUE_ID</th>
 						<th>VALIDATED_STATUS</th>
 					</tr>
 				<tbody>
@@ -475,7 +373,6 @@
 							<td>#data.lot_count#</td>
 							<td>#data.condition#</td>
 							<td>#data.disposition#</td>
-							<td>#data.container_unique_ID#</td>
 							<td><strong>#VALIDATED_STATUS#</strong></td>
 						</tr>
 					</cfloop>
@@ -489,13 +386,14 @@
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT *
-				FROM cf_temp_parts
+				SELECT * FROM cf_temp_parts
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfset problem_key = "">
 			<cfquery name="NEXTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select sq_collection_object_id.nextval NEXTID from coll_object
 			</cfquery>
+			<cftransaction>
 			<cftry>
 				<cfset part_updates = 0>
 					<cftransaction>

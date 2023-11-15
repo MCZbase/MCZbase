@@ -436,7 +436,7 @@
 			</cfif>
 			<table class='sortable table table-responsive table-striped d-xl-table w-100'>
 				<thead>
-					<tr><th>CT</th>
+					<tr><th>Count</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
