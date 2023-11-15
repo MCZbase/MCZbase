@@ -188,7 +188,7 @@ limitations under the License.
 					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				</cfquery>
 				<cfset idToAdd = unColl.id>
-				<cfset collectionName = undColl.collection_name>
+				<cfset collectionName = unColl.collection_name>
 				<cfif unColl.recordcount NEQ 1>
 					<cfthrow message="No such named group found, unable to add cataloged items">
 				</cfif>
@@ -226,7 +226,7 @@ limitations under the License.
 					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				</cfquery>
 				<cfset idToAdd = unColl.id>
-				<cfset collectionName = undColl.collection_name>
+				<cfset collectionName = unColl.collection_name>
 				<cfif unColl.recordcount NEQ 1>
 					<cfthrow message="No such named group found, unable to add cataloged items">
 				</cfif>
