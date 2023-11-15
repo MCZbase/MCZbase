@@ -128,47 +128,71 @@ limitations under the License.
 </cfif>
 <!----------------------------------------------------------------------------------->
 <cfif action is "create">
+	<cfif NOT isDefined(prefix)><cfset prefix=""></cfif>
+	<cfif NOT isDefined(suffix)><cfset suffix=""></cfif>
+	<cfif NOT isDefined(label_prefix)><cfset label_prefix=""></cfif>
+	<cfif NOT isDefined(label_suffix)><cfset label_suffix=""></cfif>
 	<cfset num = #endBarcode# - #beginBarcode#>
 	<cfset barcode = "#beginBarcode#">
 	<cfoutput>
 		<cfset num = #num# + 1>
 		<cftransaction>
-			<cfif isdefined("cryoBarcode")>
-				<cfloop index="index" from="1" to = "#num#">
-					<cfset mczbarcode=left(numberFormat(barcode,00000000),4) & "PLACE" & right(numberFormat(barcode,00000000),4)>
-					<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						INSERT INTO 
-							container 
+			<cftry>
+				<cfif isdefined("cryoBarcode")>
+					<cfloop index="index" from="1" to = "#num#">
+						<cfset mczbarcode=left(numberFormat(barcode,00000000),4) & "PLACE" & right(numberFormat(barcode,00000000),4)>
+						<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							INSERT INTO 
+								container 
+								(container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym)
+								VALUES 
+								(sq_container_id.nextval, <cfif len(#parent_container_id#) GT 0>#parent_container_id#<cfelse>1</cfif>, '#container_type#', '#mczbarcode#', '#mczbarcode#','#remarks#',0,'#institution_acronym#')
+						</cfquery>
+						<cfset num = #num# + 1>
+						<cfset barcode = #barcode# + 1>
+					</cfloop>
+					<cftransaction action="commit">
+				<cfelse>
+					<cfloop index="index" from="1" to = "#num#">
+						<cfif #label_prefix# EQ "" and LEN(#prefix#) GT 0>
+							<cfset label_prefix=prefix>
+						</cfif>
+						<cfif #label_suffix# EQ "" and LEN(#suffix#) GT 0>
+							<cfset label_suffix=suffix>
+						</cfif>
+						<cfif left(#beginBarcode#,1) EQ "0" and isNumeric(#beginBarcode#)>
+							<cfset numberMask=RepeatString("0",len(#beginBarcode#))>
+							<cfset barcode=NumberFormat(barcode, numberMask)>
+						</cfif>
+						<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							INSERT INTO 
+								container 
 							(container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym)
 							VALUES 
-							(sq_container_id.nextval, <cfif len(#parent_container_id#) GT 0>#parent_container_id#<cfelse>1</cfif>, '#container_type#', '#mczbarcode#', '#mczbarcode#','#remarks#',0,'#institution_acronym#')
-					</cfquery>
-					<cfset num = #num# + 1>
-					<cfset barcode = #barcode# + 1>
-				</cfloop>
-			<cfelse>
-				<cfloop index="index" from="1" to = "#num#">
-					<cfif #label_prefix# EQ "" and LEN(#prefix#) GT 0>
-						<cfset label_prefix=prefix>
-					</cfif>
-					<cfif #label_suffix# EQ "" and LEN(#suffix#) GT 0>
-						<cfset label_suffix=suffix>
-					</cfif>
-					<cfif left(#beginBarcode#,1) EQ "0" and isNumeric(#beginBarcode#)>
-						<cfset numberMask=RepeatString("0",len(#beginBarcode#))>
-						<cfset barcode=NumberFormat(barcode, numberMask)>
-					</cfif>
-					<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						INSERT INTO 
-							container 
-						(container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym)
-						VALUES 
-						(sq_container_id.nextval, <cfif len(#parent_container_id#) GT 0>#parent_container_id#<cfelse>1</cfif>, '#container_type#', '#prefix##barcode##suffix#', '#label_prefix##barcode##label_suffix#','#remarks#',0,'#institution_acronym#')
-					</cfquery>
-					<cfset num = #num# + 1>
-					<cfset barcode = #barcode# + 1>
-				</cfloop>
-			</cfif>
+							(sq_container_id.nextval, <cfif len(#parent_container_id#) GT 0>#parent_container_id#<cfelse>1</cfif>, '#container_type#', '#prefix##barcode##suffix#', '#label_prefix##barcode##label_suffix#','#remarks#',0,'#institution_acronym#')
+						</cfquery>
+						<cfset num = #num# + 1>
+						<cfset barcode = #barcode# + 1>
+					</cfloop>
+					<cftransaction action="commit">
+				</cfif>
+			<cfcatch>
+				<cftransaction action="rollback">
+				<div class="row mx-0">
+					<div class="col-12 px-0">
+						<h1 class="h2 mt-3 mb-0 px-3">Error: Unable To Create Container Records</h1>
+						<ul>
+							<li>Start Number: #beginBarcode#</li>
+							<li>End Number: #endBarcode#</li>
+							<li>(First) Error At Number: #barcode#</li>
+							<li>(First) Error At Unique Identifier: #prefix##barcode##suffix#</li>
+							<li>(First) Error At Label: #label_prefix##barcode##label_suffix#</li>
+							<li>Error: #cfcatch.message#</li>
+					</div>
+				</div>
+				
+			</cfcatch>
+			</cftry>
 		</cftransaction>
 		<div class="row mx-0">
 			<div class="col-12 px-0">
