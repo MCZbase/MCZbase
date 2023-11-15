@@ -128,10 +128,10 @@ limitations under the License.
 </cfif>
 <!----------------------------------------------------------------------------------->
 <cfif action is "create">
-	<cfif NOT isDefined(prefix)><cfset prefix=""></cfif>
-	<cfif NOT isDefined(suffix)><cfset suffix=""></cfif>
-	<cfif NOT isDefined(label_prefix)><cfset label_prefix=""></cfif>
-	<cfif NOT isDefined(label_suffix)><cfset label_suffix=""></cfif>
+	<cfif NOT isDefined("prefix")><cfset prefix=""></cfif>
+	<cfif NOT isDefined("suffix")><cfset suffix=""></cfif>
+	<cfif NOT isDefined("label_prefix")><cfset label_prefix=""></cfif>
+	<cfif NOT isDefined("label_suffix")><cfset label_suffix=""></cfif>
 	<cfset num = #endBarcode# - #beginBarcode#>
 	<cfset barcode = "#beginBarcode#">
 	<cfset success=false>
@@ -191,8 +191,10 @@ limitations under the License.
 							<li>(First) Error At Unique Identifier: #prefix##barcode##suffix#</li>
 							<li>(First) Error At Label: #label_prefix##barcode##label_suffix#</li>
 							<li>Error: #cfcatch.message#</li>
+							<cfif structKeyExists(cfcatch,"Cause") AND structKeyExists(cfcatch.cause,"Message")>
+								<li>Error: #cfcatch.cause.message#</li>
+							</cfif>
 					</div>
-<cfdump var="#cfcatch#">
 				</div>
 			</cfcatch>
 			</cftry>
