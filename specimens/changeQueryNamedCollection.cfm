@@ -251,7 +251,7 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row mx-0">
 					<div class="col-12 px-4 mt-3">
-						<h2 class="h2">Added #numberChanged# cataloged items [in #encodeForHtml(result_id)#] to Named Group #collectionName#</h2>
+						<h2 class="h2">Added #numberChanged# cataloged items [in #encodeForHtml(result_id)#] to Named Group: #collectionName#</h2>
 						<ul class="col-12 list-group list-group-horizontal">
 							<cfif numberInResult NEQ numberChanged>
 								<p>Some of these specimens were already in this named group, manage from this result can not easily reverse the addition of the others.</p>
@@ -363,7 +363,7 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row mx-0">
 					<div class="col-12 px-4 mt-3">
-						<h2 class="h2">Removed #numberChanged# cataloged items [in #encodeForHtml(result_id)#] from Named Group #collectionName#</h2>
+						<h2 class="h2">Removed #numberChanged# cataloged items [in #encodeForHtml(result_id)#] from Named Group: #collectionName#</h2>
 						<cfif numberChanged EQ 0>
 							<p>None these specimens were in this named group.</p>
 						<cfelseif numberInResult NEQ numberChanged>
