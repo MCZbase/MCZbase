@@ -53,6 +53,11 @@ limitations under the License.
 					enter <strong>exactly</strong> what the scanner
 					will read, including all spaces!
 				</p>
+				<p>
+					Label Prefix, Label Suffix, Unique Identifier Prefix, and Unique Identifier Suffix are the non-numeric parts of the label and identifier
+					applied to each container in the form: Label = Prefix{number}Suffix, and Unique Identifier = Prefix{Number}Suffix.
+					The Label and Unique identifier text may contain spaces if desired, convention is to use underscore _ instead of spaces in the Unique Identifier.
+				</p>
 			</div>
 			<div class="col-12 px-0">
 				<form name="form1" method="post" action="CreateContainersForBarcodes.cfm?action=create">
@@ -72,33 +77,33 @@ limitations under the License.
 						<div class="col-12 col-md-8 mt-2">
 							<input type="checkbox" name="cryoBarcode" value="cryoBarcode"> Create "PLACE" barcodes for Cryo Collection</input>
 						</div>
-						<div class="col-12 col-md-6">
-							<label for="beginBarcode">Low number in series</label>
-							<input type="text" class="data-entry-input" name="beginBarcode" id="beginBarcode">
-						</div>
-						<div class="col-12 col-md-6">
-							<label class="data-entry-label" for="endBarcode">High number in series</label>
-							<input type="text" class="data-entry-input" name="endBarcode" id="endBarcode">
-						</div>
-						<div class="col-12 col-md-6">
-							<label class="data-entry-label" for="prefix">Unique Identifier Prefix (non-numeric leading bit-include spaces if you want them)</label>
-							<input type="text" class="data-entry-input" name="prefix" id="prefix">
-						</div>
-						<div class="col-12 col-md-6">
-							<label class="data-entry-label" for="suffix">Unique Identifier Suffix (non-numeric trailing bit-include spaces if you want them) </label>
-							<input type="text" class="data-entry-input" name="suffix" id="suffix">
-						</div>
-						<div class="col-12 col-md-6">
-							<label class="data-entry-label" for="label_prefix">Label Prefix (non-numeric leading bit-include spaces if you want them)</label>
+						<div class="col-12 col-md-2">
+							<label class="data-entry-label" for="label_prefix">Label Prefix</label>
 							<input type="text" class="data-entry-input" name="label_prefix" id="label_prefix">
 						</div>
-						<div class="col-12 col-md-6">
-							<label class="data-entry-label" for="label_suffix">Label Suffix (non-numeric trailing bit-include spaces if you want them)</label>
+						<div class="col-12 col-md-2">
+							<label class="data-entry-label" for="prefix">Unique Identifier Prefix</label>
+							<input type="text" class="data-entry-input" name="prefix" id="prefix">
+						</div>
+						<div class="col-12 col-md-2">
+							<label for="beginBarcode">Low number in series</label>
+							<input type="text" class="data-entry-input reqdClr" name="beginBarcode" id="beginBarcode" required>
+						</div>
+						<div class="col-12 col-md-2">
+							<label class="data-entry-label" for="endBarcode">High number in series</label>
+							<input type="text" class="data-entry-input reqdClr" name="endBarcode" id="endBarcode" required>
+						</div>
+						<div class="col-12 col-md-2">
+							<label class="data-entry-label" for="suffix">Unique Identifier Suffix</label>
+							<input type="text" class="data-entry-input" name="suffix" id="suffix">
+						</div>
+						<div class="col-12 col-md-2">
+							<label class="data-entry-label" for="label_suffix">Label Suffix</label>
 							<input type="text" class="data-entry-input" name="label_suffix" id="label_suffix">
 						</div>
 						<div class="col-12">
 							<label class="data-entry-label" for="container_type">Container Type</label>
-							<select name="container_type" size="1" id="container_type" class="data-entry-select">
+							<select name="container_type" size="1" id="container_type" class="data-entry-select reqdClr" required>
 								<option value=""></option>
 								<cfloop query="ctContainer_Type">
 									<option value="#ctContainer_Type.Container_Type#">#ctContainer_Type.Container_Type#</option>
@@ -106,8 +111,8 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12">
-							<label class="data-entry-label" for="remarks">Remarks</label>
-							<input type="text" class="data-entry-input" name="remarks" id="remarks">
+							<label class="data-entry-label" for="remarks">Container Remarks (for each container)</label>
+							<input type="text" class="data-entry-input" name="remarks" id="remarks" maxLength="1000">
 						</div>
 						<div class="col-12">
 							<input type="submit" value="Create Series" class="insBtn">
