@@ -63,14 +63,14 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="institution_acronym" class="data-entry-label">Institution Acronym</label>
-							<select name="institution_acronym" id="institution_acronym" class="data-entry-select reqdClr" style="width:110px;">
+							<select name="institution_acronym" id="institution_acronym" class="data-entry-select reqdClr" style="width:110px;" required>
 								<cfloop query="ctinstitution_acronym">
 									<option value="#institution_acronym#">#institution_acronym#</option>
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-8">
-							<input type="checkbox" name="cryoBarcode" value="cryoBarcode">Create "PLACE" barcodes for Cryo Collection</input>
+						<div class="col-12 col-md-8 mt-2">
+							<input type="checkbox" name="cryoBarcode" value="cryoBarcode"> Create "PLACE" barcodes for Cryo Collection</input>
 						</div>
 						<div class="col-12 col-md-6">
 							<label for="beginBarcode">Low number in series</label>
@@ -98,7 +98,7 @@ limitations under the License.
 						</div>
 						<div class="col-12">
 							<label class="data-entry-label" for="container_type">Container Type</label>
-							<select name="container_type" size="1" id="container_type">
+							<select name="container_type" size="1" id="container_type" class="data-entry-select">
 								<option value=""></option>
 								<cfloop query="ctContainer_Type">
 									<option value="#ctContainer_Type.Container_Type#">#ctContainer_Type.Container_Type#</option>
