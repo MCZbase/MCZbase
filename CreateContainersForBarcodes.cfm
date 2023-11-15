@@ -188,7 +188,11 @@ limitations under the License.
 							VALUES 
 							(
 							sq_container_id.nextval, 
-							<cfif len(#parent_container_id#) GT 0>#parent_container_id#<cfelse>1</cfif>, 
+							<cfif len(#parent_container_id#) GT 0>
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
+							<cfelse>
+								1
+							</cfif>, 
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_type#">, 
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix##barcode##suffix#">, 
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label_prefix##barcode##label_suffix#">,
@@ -223,7 +227,7 @@ limitations under the License.
 								<li>Error: #cfcatch.cause.message#</li>
 								<cfif Find("ORA-00001: unique constraint (MCZBASE.U_BARCODE) violated",cfcatch.cause.message) GT 0>
 									<li><strong>One or More of the Unique Identifiers you are trying to create already exists.</strong></li>
-								<cfif>
+								</cfif>
 							</cfif>
 					</div>
 				</div>
