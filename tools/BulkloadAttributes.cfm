@@ -302,7 +302,11 @@
 				and attribute_value is null
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-				<!---ATTRIBUTE_VALUE BASED ON ATTRIBUTE_TYPE--->
+						<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select other_id_type, attribute
+				from cf_temp_attributes
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>	<!---ATTRIBUTE_VALUE BASED ON ATTRIBUTE_TYPE--->
 				<cfif getType.attribute is 'associated grant'>
 					<cfquery name="m6c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_attributes

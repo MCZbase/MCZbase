@@ -361,10 +361,10 @@
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="m6b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_attributes 
-				SET status = 'this attribute references another code table for the value (e.g., ctsex_code, ctage_class, ctassociated_grants, ct_collections_full_names) [6b]'
-				where attribute = (select attribute_type from ctattribute_code_tables where value_code_table is not null)
-				and attribute_value is null
+				UPDATE cf_temp_parts 
+				SET status = 'invalid preserve method; not in ctspecimen_preserv_method [6b]'
+				where preserve_method not in (select preserve_method from ctspecimen_preserv_method where collection_cde = cf_temp_parts.collection_cde)
+				and preserve_method is not null
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 				<!---ATTRIBUTE_VALUE BASED ON ATTRIBUTE_TYPE--->
