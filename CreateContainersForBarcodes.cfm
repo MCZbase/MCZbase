@@ -134,6 +134,7 @@ limitations under the License.
 	<cfif NOT isDefined(label_suffix)><cfset label_suffix=""></cfif>
 	<cfset num = #endBarcode# - #beginBarcode#>
 	<cfset barcode = "#beginBarcode#">
+	<cfset success=false>
 	<cfoutput>
 		<cfset num = #num# + 1>
 		<cftransaction>
@@ -152,6 +153,7 @@ limitations under the License.
 						<cfset barcode = #barcode# + 1>
 					</cfloop>
 					<cftransaction action="commit">
+					<cfset success=true>
 				<cfelse>
 					<cfloop index="index" from="1" to = "#num#">
 						<cfif #label_prefix# EQ "" and LEN(#prefix#) GT 0>
@@ -175,6 +177,7 @@ limitations under the License.
 						<cfset barcode = #barcode# + 1>
 					</cfloop>
 					<cftransaction action="commit">
+					<cfset success=true>
 				</cfif>
 			<cfcatch>
 				<cftransaction action="rollback">
@@ -189,19 +192,21 @@ limitations under the License.
 							<li>(First) Error At Label: #label_prefix##barcode##label_suffix#</li>
 							<li>Error: #cfcatch.message#</li>
 					</div>
+<cfdump var="#cfcatch#">
 				</div>
-				
 			</cfcatch>
 			</cftry>
 		</cftransaction>
-		<div class="row mx-0">
-			<div class="col-12 px-0">
-				<h1 class="h2 mt-3 mb-0 px-3">The series of container records with barcodes from #beginBarcode# to #endBarcode# have been created.</h1>
-				<p>
-					<a href="CreateContainersForBarcodes.cfm">Bulk create more containers</a>
-				</p>
+		<cfif success>
+			<div class="row mx-0">
+				<div class="col-12 px-0">
+					<h1 class="h2 mt-3 mb-0 px-3">The series of container records with barcodes from #beginBarcode# to #endBarcode# have been created.</h1>
+					<p>
+						<a href="CreateContainersForBarcodes.cfm">Bulk create more containers</a>
+					</p>
+				</div>
 			</div>
-		</div>
+		</cfif>
 	</cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------->
