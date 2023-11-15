@@ -375,7 +375,6 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			<cflocation url="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#underscore_collection_id#" addtoken="false">
 		</cfoutput>
 	</cfcase>
 	<cfdefaultcase>
