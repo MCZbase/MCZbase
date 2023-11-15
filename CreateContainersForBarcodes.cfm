@@ -12,7 +12,7 @@
 		</cfquery>
 		<h2 class="wikilink">Create Containers for Barcodes</h2>
 		<p>
-			Containers (things that you can stick barcode to) in Arctos must exist (generally as some type of
+			Containers (things that you can stick barcode to) in MCZbase should exist (generally as some type of
  			label) before they may be used. This form allows creation of series of containers. 
 		</p>
 		<p>You should use this form if you:</p>
