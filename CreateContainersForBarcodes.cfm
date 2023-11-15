@@ -143,11 +143,25 @@ limitations under the License.
 					<cfloop index="index" from="1" to = "#num#">
 						<cfset mczbarcode=left(numberFormat(barcode,00000000),4) & "PLACE" & right(numberFormat(barcode,00000000),4)>
 						<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							INSERT INTO 
-								container 
-								(container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym)
-								VALUES 
-								(sq_container_id.nextval, <cfif len(#parent_container_id#) GT 0>#parent_container_id#<cfelse>1</cfif>, '#container_type#', '#mczbarcode#', '#mczbarcode#','#remarks#',0,'#institution_acronym#')
+							INSERT INTO container 
+							(
+								container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym
+							)
+							VALUES 
+							(
+								sq_container_id.nextval, 
+								<cfif len(#parent_container_id#) GT 0>
+									<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_container_id#">
+								<cfelse>
+									1
+								</cfif>, 
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_type#">, 
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mczbarcode#">, 
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mczbarcode#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">,
+								0,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
+							)
 						</cfquery>
 						<cfset num = #num# + 1>
 						<cfset barcode = #barcode# + 1>
@@ -167,11 +181,21 @@ limitations under the License.
 							<cfset barcode=NumberFormat(barcode, numberMask)>
 						</cfif>
 						<cfquery name="AddLabels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							INSERT INTO 
-								container 
-							(container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym)
+							INSERT INTO container 
+							(
+								container_id, parent_container_id, container_type, barcode, label, container_remarks,locked_position,institution_acronym
+							)
 							VALUES 
-							(sq_container_id.nextval, <cfif len(#parent_container_id#) GT 0>#parent_container_id#<cfelse>1</cfif>, '#container_type#', '#prefix##barcode##suffix#', '#label_prefix##barcode##label_suffix#','#remarks#',0,'#institution_acronym#')
+							(
+							sq_container_id.nextval, 
+							<cfif len(#parent_container_id#) GT 0>#parent_container_id#<cfelse>1</cfif>, 
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#container_type#">, 
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#prefix##barcode##suffix#">, 
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label_prefix##barcode##label_suffix#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">,
+							0,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#institution_acronym#">
+							)
 						</cfquery>
 						<cfset num = #num# + 1>
 						<cfset barcode = #barcode# + 1>
@@ -185,14 +209,21 @@ limitations under the License.
 					<div class="col-12 px-0">
 						<h1 class="h2 mt-3 mb-0 px-3">Error: Unable To Create Container Records</h1>
 						<ul>
+							<li>Label Prefix: #label_prefix#</li>
+							<li>Unique Identifier Prefix: #prefix#</li>
 							<li>Start Number: #beginBarcode#</li>
 							<li>End Number: #endBarcode#</li>
+							<li>Unique Identifier Suffix: #suffix#</li>
+							<li>Label Suffix: #label_suffix#</li>
 							<li>(First) Error At Number: #barcode#</li>
 							<li>(First) Error At Unique Identifier: #prefix##barcode##suffix#</li>
 							<li>(First) Error At Label: #label_prefix##barcode##label_suffix#</li>
 							<li>Error: #cfcatch.message#</li>
 							<cfif structKeyExists(cfcatch,"Cause") AND structKeyExists(cfcatch.cause,"Message")>
 								<li>Error: #cfcatch.cause.message#</li>
+								<cfif Find("ORA-00001: unique constraint (MCZBASE.U_BARCODE) violated",cfcatch.cause.message) GT 0>
+									<li><strong>One or More of the Unique Identifiers you are trying to create already exists.</strong></li>
+								<cfif>
 							</cfif>
 					</div>
 				</div>
