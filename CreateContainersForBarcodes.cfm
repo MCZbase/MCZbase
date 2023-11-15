@@ -77,27 +77,30 @@ limitations under the License.
 						<div class="col-12 col-md-8 mt-2">
 							<input type="checkbox" name="cryoBarcode" value="cryoBarcode"> Create "PLACE" barcodes for Cryo Collection</input>
 						</div>
-						<div class="col-12 col-md-2">
-							<label class="data-entry-label" for="label_prefix">Label Prefix</label>
-							<input type="text" class="data-entry-input" name="label_prefix" id="label_prefix">
-						</div>
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-3">
 							<label class="data-entry-label" for="prefix">Unique Identifier Prefix</label>
 							<input type="text" class="data-entry-input" name="prefix" id="prefix">
 						</div>
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-3">
 							<label for="beginBarcode">Low number in series</label>
 							<input type="text" class="data-entry-input reqdClr" name="beginBarcode" id="beginBarcode" required>
 						</div>
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-3">
 							<label class="data-entry-label" for="endBarcode">High number in series</label>
 							<input type="text" class="data-entry-input reqdClr" name="endBarcode" id="endBarcode" required>
 						</div>
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-3">
 							<label class="data-entry-label" for="suffix">Unique Identifier Suffix</label>
 							<input type="text" class="data-entry-input" name="suffix" id="suffix">
 						</div>
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-3">
+							<label class="data-entry-label" for="label_prefix">Label Prefix</label>
+							<input type="text" class="data-entry-input" name="label_prefix" id="label_prefix">
+						</div>
+						<div class="col-12 col-md-6">
+							&nbsp;<!--- placeholder to line up prefix-suffix with start-end numbers --->
+						</div>
+						<div class="col-12 col-md-3">
 							<label class="data-entry-label" for="label_suffix">Label Suffix</label>
 							<input type="text" class="data-entry-input" name="label_suffix" id="label_suffix">
 						</div>
