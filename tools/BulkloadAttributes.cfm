@@ -90,6 +90,17 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			
+						<cfquery name="getCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select attribute_type, decode(value_code_table, null, units_code_table,value_code_table) code_table  from ctattribute_code_tables
+			</cfquery>
+			<cfset ctstruct=StructNew()>
+			<cfloop query="getCodeTables">
+				<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
+			</cfloop>
+			<!---cfscript>
+				writedump(ctstruct.find("sex"));
+			</cfscript--->
+				
 			<!--- check for required fields in header line --->
 			<cfset institution_acronym_exists = false>
 			<cfset collection_cde_exists = false>
@@ -257,8 +268,8 @@
 				UPDATE
 					cf_temp_attributes
 				SET status = 'collection_cde not valid [2a]'
-				WHERE collection_cde not in (select collection_cde from collection)username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				 and
+				WHERE collection_cde not in (select collection_cde from collection) AND 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="m2b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE
