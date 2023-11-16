@@ -90,16 +90,16 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			
-						<cfquery name="getCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select attribute_type, decode(value_code_table, null, units_code_table,value_code_table) code_table  from ctattribute_code_tables
 			</cfquery>
 			<cfset ctstruct=StructNew()>
 			<cfloop query="getCodeTables">
 				<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
 			</cfloop>
-			<!---cfscript>
+			<cfscript>
 				writedump(ctstruct.find("sex"));
-			</cfscript--->
+			</cfscript
 				
 			<!--- check for required fields in header line --->
 			<cfset institution_acronym_exists = false>
@@ -156,7 +156,7 @@
 					<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 					<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
 					<h3 class="h4">Found #arrayLen(colNameArray)# matching columns in header of csv file.</h3>
-					<ul class="geol_hier">
+					<ul class="">
 						<cfloop list="#fieldlist#" index="field" delimiters=",">
 							<cfif listContains(requiredfieldlist,field,",")>
 								<cfset class="text-danger">
