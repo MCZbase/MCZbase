@@ -504,7 +504,7 @@
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, 
-							to_date('<cfqueryparam cfsqltype="CF_SQL_DATE" value="#attribute_date#">','yyyy-mm-dd'),
+							<cfqueryparam cfsqltype="CF_SQL_DATE" value="#attribute_date#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
