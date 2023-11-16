@@ -565,7 +565,7 @@
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "no data">No data or the wrong data</cfif></span>
 								<!--- use this to find errors that were missed above--->
-							
+							#cfcatch.detail#
 							</h3>
 							<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
 								<thead>
