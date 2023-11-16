@@ -54,34 +54,29 @@ sho err
 <cfset tempTableColumns = "agent_type,preferred_name,first_name,middle_name,last_name,birth_date,death_date,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agent_remark,agentguid_guid_type,agentguid">
 
 <cfinclude template="/includes/_header.cfm">
-    <div style="width: 56em;margin: 0 auto; padding: 1em 0 4em 0;">
+	<div style="width: 56em;margin: 0 auto; padding: 1em 0 4em 0;">
 <cfif action is "nothing">
 	<h3 class="wikilink">Bulkload Agents</h3>
-    <p>Upload a comma-delimited text file (csv). 
-	Include column headings, spelled exactly as below. 
-    </p>
-    <p>
-	NOTE: This application currently handles only agent_type='person'
-    </p>
-  
-    <cfset agentNameTypes = "">
-    <cfset separator = "">
-    <cfloop query="ctagent_name_type">
-       <cfset agentNameTypes = agentNameTypes & separator & ctagent_name_type.agent_name_type>
-       <cfset separator = ", ">
-    </cfloop>
-    <cfset agentTypes = "">
-    <cfset separator = "">
-    <cfloop query="ctagent_type">
-       <cfset agentTypes = agentTypes & separator & ctagent_type.agent_type>
-       <cfset separator = ", ">
-    </cfloop>
-    <cfset agentguidTypes = "">
-    <cfset separator = "">
-    <cfloop query="ctguid_type">
-       <cfset agentguidTypes = agentguidTypes & separator & ctguid_type.guid_type & " (" & ctguid_type.placeholder & ")" >
-       <cfset separator = ", ">
-    </cfloop>
+	<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
+	<p>NOTE: This application currently handles only agent_type='person'</p>
+	<cfset agentNameTypes = "">
+	<cfset separator = "">
+	<cfloop query="ctagent_name_type">
+		<cfset agentNameTypes = agentNameTypes & separator & ctagent_name_type.agent_name_type>
+		<cfset separator = ", ">
+	</cfloop>
+	<cfset agentTypes = "">
+	<cfset separator = "">
+	<cfloop query="ctagent_type">
+		<cfset agentTypes = agentTypes & separator & ctagent_type.agent_type>
+		<cfset separator = ", ">
+	</cfloop>
+	<cfset agentguidTypes = "">
+	<cfset separator = "">
+	<cfloop query="ctguid_type">
+		<cfset agentguidTypes = agentguidTypes & separator & ctguid_type.guid_type & " (" & ctguid_type.placeholder & ")" >
+		<cfset separator = ", ">
+	</cfloop>
 	<cfoutput>
 		<p><a href="/info/ctDocumentation.cfm?table=ctagent_name_type">Valid agent name types</a> (#agentNameTypes#)</p>
 		<p><a href="/info/ctDocumentation.cfm?table=ctagent_type">Valid agent types</a> (#agentTypes#)</p>
@@ -114,19 +109,15 @@ sho err
 		<li>agentguid_guid_type</li>
 		<li>agentguid</li>
 	</ul>
-	
-	
 	<cfform name="atts" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="Action" value="getFile">
 		<input type="file" name="FiletoUpload" size="45">
 		<input type="submit" value="Upload this file" class="savBtn">
 	</cfform>
-
 </cfif>
 <cfif action is "getFile">
 <cfoutput>
 	<!--- put this in a temp table --->
-
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
 	<cfset fileContent=replace(fileContent,"'","''","all")>
 	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
@@ -280,15 +271,15 @@ sho err
 </script>
 	<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from ds_temp_agent 
-		where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+		where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfquery name="p" dbtype="query">
 		select distinct(agent_type) agent_type from d
 	</cfquery>
-	<cfif valuelist(p.agent_type) is not "person">
+<!---	<cfif valuelist(p.agent_type) is not "person">
 		<div class="error">Sorry, we can only deal with agent type=person here.</div>
 		<cfabort>
-	</cfif>
+	</cfif>--->
 	<cfquery name="rpn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) c from ds_temp_agent where preferred_name is null
 		and creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
