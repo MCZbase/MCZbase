@@ -284,10 +284,10 @@ sho err
 	<cfquery name="p" dbtype="query">
 		select distinct(agent_type) agent_type from d
 	</cfquery>
-	<cfif valuelist(p.agent_type) is not "person">
+	<!---<cfif valuelist(p.agent_type) is not "person">
 		<div class="error">Sorry, we can only deal with agent type=person here.</div>
 		<cfabort>
-	</cfif>
+	</cfif>--->
 	<cfquery name="rpn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) c from ds_temp_agent where preferred_name is null
 		and creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
