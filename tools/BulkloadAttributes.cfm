@@ -99,7 +99,7 @@
 			</cfloop>
 			<cfscript>
 				writedump(ctstruct.find("sex"));
-			</cfscript
+				</cfscript>
 				
 			<!--- check for required fields in header line --->
 			<cfset institution_acronym_exists = false>
