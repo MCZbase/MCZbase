@@ -53,11 +53,12 @@ limitations under the License.
 										<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Accession</a>
 									</li>
 									<li class="nav-item mb-1">
-										<a href="javascript:void(0)" class="nav-link btn btn-xs btn-secondary disabled">Deaccession</a>
-										<!---
-											TODO: In progress, BugID:  
-											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Deaccession</a>
-										--->
+										<cfif findNoCase('master',Session.gitBranch) EQ 0>
+											<!--- TODO: In progress, BugID:  --->
+											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Deaccession (in progress)</a>
+										<cfelse>
+											<a href="javascript:void(0)" class="nav-link btn btn-xs btn-secondary disabled">Deaccession</a>
+										</cfif>
 									</li>
 								</cfif>
 								<li class="nav-item mb-1">
@@ -88,16 +89,13 @@ limitations under the License.
 									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Modify Parts</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="/grouping/addToNamedCollection.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs">Add To Named Group</a>
-								</li>
-								<li class="nav-item mb-1">
-									<a href="/grouping/removeFromNamedCollection.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs">Remove From Named Group</a>
+									<a href="/specimens/changeQueryNamedCollection.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Named Group</a>
 								</li>
 								<li class="nav-item mb-1">
 									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="/specimens/changeQuerySpecimenRemark.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs">Append Cataloged Item Remarks</a>
+									<a href="/specimens/changeQuerySpecimenRemark.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Append Cataloged Item Remarks</a>
 								</li>
 								<li class="nav-item mb-1">
 									<cfset crlf = chr(13) & chr(10) >
@@ -181,7 +179,7 @@ limitations under the License.
 										<cfloop query="collections">
 											<li class="list-group-item">
 												<cfif findNoCase('master',Session.gitBranch) EQ 0>
-												<cfif collections.recordcount GT 0>
+												<cfif collections.recordcount GT 1>
 													<input type="button" onClick=" confirmDialog('Remove all records from #collections.collection_cde# from these search results','Confirm Remove By Collection Code', function() { removeCollection ('#collection_cde#'); }  ); " class="p-1 btn btn-xs btn-warning" value="&##8998;" aria-label="Remove"/>
 												</cfif>
 												</cfif>
