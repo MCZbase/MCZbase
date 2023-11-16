@@ -255,18 +255,16 @@
 			</cfquery>
 			<!---COLLECTION_CDE--->	
 			<cfquery name="m2a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE
-					cf_temp_attributes
+				UPDATE cf_temp_attributes
 				SET status = 'collection_cde not valid [2a]'
-				WHERE collection_cde not in (select collection_cde from collection) AND 
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				WHERE collection_cde not in (select collection_cde from collection) 
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="m2b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE
-					cf_temp_attributes
+				UPDATE cf_temp_attributes
 				SET status = 'collection_cde is missing [2b]'
 				WHERE COLLECTION_CDE is null
-				AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---OTHER_ID_TYPE--->
 			<cfquery name="m3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -286,8 +284,10 @@
 			<cfquery name="m5a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
 				SET status = 'this attribute is not valid for this collection; not in ctattribute_type [5a]'
-				where attribute not in (select attribute_type from ctattribute_type, cf_temp_attributes where cf_temp_attributes.collection_cde = ctattribute_type.collection_cde)
-				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				where attribute not in (
+					select attribute_type from ctattribute_type, cf_temp_attributes where cf_temp_attributes.collection_cde = ctattribute_type.collection_cde
+				)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---ATTRIBUTE_VALUE--->
 			<cfquery name="m6a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -301,7 +301,7 @@
 				SET status = 'this attribute references another code table for the value (e.g., ctsex_code, ctage_class, ctassociated_grants, ct_collections_full_names) [6b]'
 				where attribute = (select attribute_type from ctattribute_code_tables where value_code_table is not null)
 				and attribute_value is null
-				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 				<!---ATTRIBUTE_VALUE BASED ON ATTRIBUTE_TYPE--->
 				<cfif getType.attribute is 'associated grant'>
@@ -324,7 +324,7 @@
 					<cfquery name="m6e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_attributes
 						SET status = 'sex value is not in ctsex_cde [6e]'
-						WHERE attribute_value not in (select sex_cde from ctsex_cde)where ctage_class.collection_cde = cf_temp_attributes.collection_cde
+						WHERE attribute_value not in (select sex_cde from ctsex_cde where ctage_class.collection_cde = cf_temp_attributes.collection_cde)
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<cfquery name="m6f" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -490,9 +490,24 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
-							INSERT into attributes (COLLECTION_OBJECT_ID,ATTRIBUTE_TYPE,ATTRIBUTE_VALUE,ATTRIBUTE_UNITS,DETERMINED_DATE,DETERMINATION_METHOD, DETERMINED_BY_AGENT_ID,ATTRIBUTE_REMARK
+							INSERT into attributes (
+							COLLECTION_OBJECT_ID,
+							ATTRIBUTE_TYPE,
+							ATTRIBUTE_VALUE,
+							ATTRIBUTE_UNITS,
+							DETERMINED_DATE,
+							DETERMINATION_METHOD,
+							DETERMINED_BY_AGENT_ID,
+							ATTRIBUTE_REMARK
 							)VALUES(
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_date#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, 
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_date#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 							)
 						</cfquery>
 						<cfquery name="updateAttributes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes1_result">
@@ -550,7 +565,7 @@
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "no data">No data or the wrong data</cfif></span>
 								<!--- use this to find errors that were missed above--->
-							#cfcatch.detail#
+							
 							</h3>
 							<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
 								<thead>
