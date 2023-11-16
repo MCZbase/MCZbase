@@ -93,13 +93,6 @@
 			<cfquery name="getCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select attribute_type, decode(value_code_table, null, units_code_table,value_code_table) code_table  from ctattribute_code_tables
 			</cfquery>
-			<cfset ctstruct=StructNew()>
-			<cfloop query="getCodeTables">
-				<cfset StructInsert(ctstruct, #attribute_type#, #code_table#)>
-			</cfloop>
-			<cfscript>
-				writedump(ctstruct.find("sex"));
-				</cfscript>
 				
 			<!--- check for required fields in header line --->
 			<cfset institution_acronym_exists = false>
