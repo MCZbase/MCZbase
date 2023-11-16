@@ -117,6 +117,10 @@ sho err
 </cfif>
 <cfif action is "getFile">
 <cfoutput>
+	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		delete from ds_temp_agent 
+		where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+	</cfquery>
 	<!--- put this in a temp table --->
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
 	<cfset fileContent=replace(fileContent,"'","''","all")>
@@ -174,10 +178,7 @@ sho err
 			</cfquery>
 		</cfif>
 	</cfloop>
-		<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		delete from ds_temp_agent 
-		where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-	</cfquery>
+
 </cfoutput>
 <cflocation url="/DataServices/agents.cfm?action=validate" addtoken="false">
 
