@@ -128,7 +128,7 @@ sho err
 	<!--- put this in a temp table --->
 	<cfquery name="killOld" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		delete from ds_temp_agent 
-		where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+		where creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
 	<cfset fileContent=replace(fileContent,"'","''","all")>
@@ -290,7 +290,7 @@ sho err
 	</cfif>
 	<cfquery name="rpn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) c from ds_temp_agent where preferred_name is null
-		and creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
+		and creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfif rpn.c is not 0>
 		<div class="error">Preferred name is required for every agent.</div>
