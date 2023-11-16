@@ -90,9 +90,6 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			
-			<cfquery name="getCodeTables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select attribute_type, decode(value_code_table, null, units_code_table,value_code_table) code_table  from ctattribute_code_tables
-			</cfquery>
 				
 			<!--- check for required fields in header line --->
 			<cfset institution_acronym_exists = false>
@@ -354,7 +351,7 @@
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
-							<cfif getType.attribute is 'life stage'>
+				<cfif getType.attribute is 'life stage'>
 					<cfquery name="m6g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_attributes
 						SET status = 'attribute value is not in life stage table [6g]'
