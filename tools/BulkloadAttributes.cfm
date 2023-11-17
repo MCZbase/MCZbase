@@ -569,7 +569,7 @@
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "no data">No data or the wrong data</cfif></span>
 								<cfelse>
 									Check Date Format
-								</cfelse>
+								</cfif>
 								<!--- use this to find errors that were missed above--->
 						<!---	#cfcatch.detail#--->
 							</h3>
