@@ -65,10 +65,12 @@ Function getContainerAutocomplete.  Search for agents by name with a substring m
 </cffunction>
 
 <!---
-Function getContainerAutocompleteMeta.  Search for agents by name with a substring match on label or barcode, returning json suitable for jquery-ui autocomplete.
+Function getContainerAutocompleteMeta.  Search for agents by name with a substring match on label or barcode, 
+  or exact match on container_id, returning json suitable for jquery-ui autocomplete.
 
-@param term container label or barcode to search for.
-@return a json structure containing id and value, with matching container with matched barcode in value and  type, label, and barcode in meta and container_id in id.
+@param term container label or barcode or container_id to search for.
+@return a json structure containing id and value, with matching container with matched barcode in value and  
+  type, label, and barcode in meta and container_id in id.
 --->
 <cffunction name="getContainerAutocompleteMeta" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
@@ -87,6 +89,10 @@ Function getContainerAutocompleteMeta.  Search for agents by name with a substri
 				upper(label) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 				OR
 				upper(barcode) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+				<cfif REFind('^[0-9]+$',term) GT 0>
+					OR
+					upper(container_id) <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#term#">
+				<cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
