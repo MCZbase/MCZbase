@@ -15,7 +15,20 @@
 <cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 <cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_DATE,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_date,determiner">
+<script>
+	function validateDate(){
 
+	var dt = document.forms["Form_Name"]["Date_Field"].value;
+	var pattern =/^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})$/;
+	if (dt == null || dt == "" || !pattern.test(dt))
+	{
+		alert("invalid date");
+		return false;
+	}
+	else{
+		return true
+	}
+	</script>
 <!--- special case handling to dump column headers as csv --->
 <cfif isDefined("action") AND action is "getCSVHeader">
 	<cfset csv = "">
@@ -392,19 +405,14 @@
 				</cfquery>
 			</cfif>
 			<!---ATTRIBUTE_DATE--->
+			<cfset attribute_date=DateFormat(attribute_date,"yyyy-mm-dd")>
 			<cfquery name="m8a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
 				SET status = 'attribute date missing [8a]'
 				WHERE attribute_date is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset regex = '[0-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]'>
-			<cfset myDate = attribute_date>
-			<cfset MatchedDate = REMatchNoCase(regex, myDate)>
-			<cfif arrayLen(MatchedDate) AND isDate(myDate) AND MatchedDate[1] EQ myDate>
-				Valid date
-			<cfelse>
-				<cfquery name="m8a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="m8a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
 				SET status = 'attribute date missing [8a]'
 				WHERE attribute_date is not null
