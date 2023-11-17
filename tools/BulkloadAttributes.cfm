@@ -195,7 +195,7 @@
 						<cfset loadedRows = loadedRows + insert_result.recordcount>
 					<cfcatch>
 						<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
-							<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_date">Problem with ATTRIBUTE_DATE</cfif></span>
+							#cfcatch.detail#
 					</cfcatch>
 					</cftry>
 				</cfif>
