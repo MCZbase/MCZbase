@@ -93,7 +93,7 @@ Function getContainerAutocompleteMeta.  Search for agents by name with a substri
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.container_id#" >
-			<cfset row["value"] = "#search.container_type#: #search.label# (#search.barcode#)" >
+			<cfset row["meta"] = "#search.container_type#: #search.label# (#search.barcode#)" >
 			<cfset row["value"] = "#search.barcode#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
