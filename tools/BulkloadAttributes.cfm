@@ -194,8 +194,31 @@
 						</cfquery>
 						<cfset loadedRows = loadedRows + insert_result.recordcount>
 					<cfcatch>
-						<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
-							#cfcatch.detail#
+						<!---<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
+							#cfcatch.detail#--->
+							<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "collection_cde">COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "institution_acronym">INSTITUTION_ACRONYM does not match MCZ (all caps)</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "other_id_type">OTHER_ID_TYPE is not valid</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "DETERMINED_BY_AGENT_ID">DETERMINER does not match preferred agent name</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_date">Problem with ATTRIBUTE_DATE</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_units">Invalid or missing ATTRIBUTE_UNITS</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_value">Invalid with ATTRIBUTE_VALUE for ATTRIBUTE_TYPE</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_meth">Problem with ATTRIBUTE_METH</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "OTHER_ID_NUMBER">Problem with OTHER_ID_NUMBER</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_remarks">Problem with ATTRIBUTE_REMARKS</cfif></span>
+								
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "no data">No data or the wrong data</cfif></span>
 					</cfcatch>
 					</cftry>
 				</cfif>
