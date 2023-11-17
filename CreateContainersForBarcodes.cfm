@@ -21,6 +21,7 @@ limitations under the License.
 	<cfset action="nothing">
 </cfif>
 
+<cfset pageHasContainers="true"><!--- enable /containers/js/containers.js --->
 <cfset pageTitle = "Bulk Create Containers">
 <cfinclude template = "/shared/_header.cfm">
 
@@ -63,9 +64,15 @@ limitations under the License.
 				<form name="form1" method="post" action="CreateContainersForBarcodes.cfm?action=create">
 					<div class="form-row">
 						<div class="col-12">
- 							<label for="parent_container_id" class="data-entry-label">Parent Container ID for series</label>
-							<input type="text" name="parent_container_id" id="parent_container_id" class="data-entry-input">
+ 							<label for="parent_container_id" class="data-entry-label">Parent Container for new series</label>
+							<input type="hidden" name="parent_container_id" id="parent_container_id" class="data-entry-input">
+							<input type="text" name="parent_container" id="parent_container" class="data-entry-input">
 						</div>
+						<script>
+							$(document).ready(function() {
+								makeContainerAutocompleteMeta("parent_container", "parent_container_id", clear=true);
+							});
+						</script>
 						<div class="col-12 col-md-4">
 							<label for="institution_acronym" class="data-entry-label">Institution Acronym</label>
 							<select name="institution_acronym" id="institution_acronym" class="data-entry-select reqdClr" style="width:110px;" required>
