@@ -48,7 +48,7 @@ Function getContainerAutocomplete.  Search for agents by name with a substring m
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
+			<cfset row["id"] = "#search.container_id#" >
 			<cfset row["value"] = "#search.container_type#: #search.label# (#search.barcode#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
@@ -92,7 +92,7 @@ Function getContainerAutocompleteMeta.  Search for agents by name with a substri
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
+			<cfset row["id"] = "#search.container_id#" >
 			<cfset row["value"] = "#search.container_type#: #search.label# (#search.barcode#)" >
 			<cfset row["value"] = "#search.barcode#" >
 			<cfset data[i]  = row>
