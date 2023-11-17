@@ -89,7 +89,7 @@ sho err
 
 	<p>
 	Columns in <span style="color:red">red</span> are required; others are optional:</p>	
-	<ul class="geol_hier" style="padding-bottom: 2em;">
+	<ul class="geol_hier" style="padding-bottom: 2em;margin-left: 3rem;">
 		<li style="color:red">agent_type</li>
 		<li style="color:red">preferred_name</li>
 		<li>first_name (agent_type="person" only)</li>
@@ -277,7 +277,7 @@ sho err
 	<cfquery name="p" dbtype="query">
 		select distinct(agent_type) agent_type from d
 	</cfquery>
-<!---	<cfif valuelist(p.agent_type) is not "person">
+	<!---<cfif valuelist(p.agent_type) is not "person">
 		<div class="error">Sorry, we can only deal with agent type=person here.</div>
 		<cfabort>
 	</cfif>--->
