@@ -543,7 +543,7 @@
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery><!---key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">--->
 							<h3>Error loading row (<span class="text-danger">#attributes_updates + 1#</span>) from the CSV: 
-								
+								<cfif cfcatch.detail is not null>
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)</cfif></span>
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "collection_cde">COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP</cfif></span>
@@ -567,6 +567,9 @@
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_remarks">Problem with ATTRIBUTE_REMARKS</cfif></span>
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "no data">No data or the wrong data</cfif></span>
+								<cfelse>
+									Check Date Format
+								</cfelse>
 								<!--- use this to find errors that were missed above--->
 						<!---	#cfcatch.detail#--->
 							</h3>
