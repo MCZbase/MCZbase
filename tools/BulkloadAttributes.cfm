@@ -399,7 +399,7 @@
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset regex = '[0-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]'>
-			<cfset myDate eq attribute_date>
+			<cfset myDate = attribute_date>
 			<cfset MatchedDate = REMatchNoCase(regex, myDate)>
 			<cfif arrayLen(MatchedDate) AND isDate(myDate) AND MatchedDate[1] EQ myDate>
 				Valid date
