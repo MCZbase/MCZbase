@@ -364,7 +364,7 @@ Typical use:
 							<div class="col-12 col-md-3 col-xl-4 px-3 pl-md-3 pr-md-2 py-1">
 								<cfif not isDefined("spec_locality")><cfset spec_locality=""></cfif>
 								<label for="spec_locality" class="data-entry-label">Specific Locality</label>
-								<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input" value="#encodeForHtml(encodeForHtml(spec_locality))#">
+								<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input" value="#encodeForHtml(spec_locality)#">
 							</div>
 							<cfif #showExtraFields# IS 1>
 								<div class="col-12 col-md-3 col-xl-2 px-3 px-md-0 py-1">
