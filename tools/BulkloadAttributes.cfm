@@ -568,7 +568,7 @@
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "no data">No data or the wrong data</cfif></span>
 								<cfelse>
-									<span class="border-bottom border-danger font-weight-normal">Check Date Format</span>
+									<span class="border-bottom border-danger font-weight-normal">Check Date Format in CSV column</span>
 								</cfif>
 								<!--- use this to find errors that were missed above--->
 						<!---	#cfcatch.detail#--->
