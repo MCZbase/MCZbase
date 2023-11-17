@@ -210,7 +210,7 @@
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select other_id_type,attribute
+				select other_id_type,attribute,attribute_date
 				from cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -400,7 +400,7 @@
 			</cfquery>
 			<cfquery name="m8a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET attribute_date = '#dateformat(attribute_date,"YYYY-MM-DD")#'
+				SET attribute_date = '#dateformat(getType.attribute_date,"YYYY-MM-DD")#'
 				WHERE attribute_date is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
