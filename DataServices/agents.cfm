@@ -54,7 +54,7 @@ sho err
 <cfset tempTableColumns = "agent_type,preferred_name,first_name,middle_name,last_name,birth_date,death_date,prefix,suffix,other_name_1,other_name_type_1,other_name_2,other_name_type_2,other_name_3,other_name_type_3,agent_remark,agentguid_guid_type,agentguid">
 
 <cfinclude template="/includes/_header.cfm">
-    <div style="width: 56em;margin: 0 auto; padding: 1em 0 4em 0;">
+    <div style="width: 97%;margin: 0 auto; padding: 1em 2em 4em 2em;">
 <cfif action is "nothing">
 	<h3 class="wikilink">Bulkload Agents</h3>
     <p>Upload a comma-delimited text file (csv). 
@@ -94,7 +94,7 @@ sho err
 
 	<p>
 	Columns in <span style="color:red">red</span> are required; others are optional:</p>	
-	<ul class="geol_hier" style="padding-bottom: 2em;">
+	<ul class="geol_hier" style="padding-bottom: 2em;margin-left: 3rem;">
 		<li style="color:red">agent_type</li>
 		<li style="color:red">preferred_name</li>
 		<li>first_name (agent_type="person" only)</li>
@@ -284,10 +284,10 @@ sho err
 	<cfquery name="p" dbtype="query">
 		select distinct(agent_type) agent_type from d
 	</cfquery>
-	<cfif valuelist(p.agent_type) is not "person">
+	<!---<cfif valuelist(p.agent_type) is not "person">
 		<div class="error">Sorry, we can only deal with agent type=person here.</div>
 		<cfabort>
-	</cfif>
+	</cfif>--->
 	<cfquery name="rpn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) c from ds_temp_agent where preferred_name is null
 		and creating_username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
