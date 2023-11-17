@@ -141,7 +141,6 @@
 				<cfif #row# is 1>
 					<!--- first row, obtain column headers --->
 					<!--- strip off the leading separator --->
-					<cfset attribute_date=LSDateFormat(attribute_date,"yyyy-mm-dd")>
 					<cfset colNames=replace(colNames,",","","first")>
 					<cfset colNameArray = listToArray(ucase(colNames))><!--- the list of columns/fields found in the input file --->
 					<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
