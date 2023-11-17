@@ -394,13 +394,13 @@
 			<!---ATTRIBUTE_DATE--->
 			<cfquery name="m8a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET status = "attribute date is invalid"
+				SET status = 'attribute date is invalid'
 				WHERE attribute_date is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="m8b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET attribute_date = "#dateformat(getType.attribute_date,"YYYY-MM-DD")#"
+				SET attribute_date = '#dateformat(getType.attribute_date,"YYYY-MM-DD")#'
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---DETERMINER--->
