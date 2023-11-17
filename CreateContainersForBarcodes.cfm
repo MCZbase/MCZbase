@@ -64,13 +64,13 @@ limitations under the License.
 				<form name="form1" method="post" action="CreateContainersForBarcodes.cfm?action=create">
 					<div class="form-row">
 						<div class="col-12">
- 							<label for="parent_container_id" class="data-entry-label">Parent Container for new series</label>
+ 							<label for="parent_container_id" class="data-entry-label">Select the Parent Container for the new series</label>
 							<input type="hidden" name="parent_container_id" id="parent_container_id" class="data-entry-input">
-							<input type="text" name="parent_container" id="parent_container" class="data-entry-input">
+							<input type="text" name="parent_container" id="parent_container" class="data-entry-input reqdClr" required>
 						</div>
 						<script>
 							$(document).ready(function() {
-								makeContainerAutocompleteMeta("parent_container", "parent_container_id", clear=true);
+								makeContainerAutocompleteMeta("parent_container", "parent_container_id", clear=false);
 							});
 						</script>
 						<div class="col-12 col-md-4">
@@ -249,7 +249,7 @@ limitations under the License.
 									</cfif>
 							</cfquery>
 							<cfloop query="getParent">
-								<li>Parent Container: #getParent.label# (#getParent.container_id#)</li>
+								<li>Parent Container: <a href="/findContainer.cfm?barcode=#getParent.barcode#">#getParent.label#</a> (#getParent.container_id#)</li>
 							</cfloop>
 					</div>
 				</div>
@@ -273,7 +273,7 @@ limitations under the License.
 							</cfif>
 					</cfquery>
 					<cfloop query="getParent">
-						<p>Created as children of Parent Container: #getParent.label# (#getParent.container_id#)</p>
+						<p>Created as children of Parent Container: <a href="/findContainer.cfm?barcode=#getParent.barcode#">#getParent.label#</a> (#getParent.container_id#)</p>
 					</cfloop>
 					<p>
 						<a href="CreateContainersForBarcodes.cfm">Bulk create more containers</a>
