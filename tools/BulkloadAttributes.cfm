@@ -433,6 +433,7 @@
 				</h2>
 				<h3>
 					Fix the problem(s) noted in the status column and <a href="/tools/BulkloadAttributes.cfm">start again</a>.
+							<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_date">Problem with ATTRIBUTE_DATE</cfif></span>
 				</h3>
 			<cfelse>
 				<h2>
