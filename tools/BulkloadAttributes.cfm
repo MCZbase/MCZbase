@@ -196,7 +196,7 @@
 					<cfcatch>
 						<!---<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
 							#cfcatch.detail#--->
-							<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)</cfif></span>
+							<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "ATTRIBUTE_TYPE">Invalid ATTRIBUTE_TYPE for this collection in row 2</cfif></span>
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "collection_cde">COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP</cfif></span>
 								
