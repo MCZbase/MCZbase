@@ -92,7 +92,7 @@ Function getContainerAutocompleteMeta.  Search for agents by name with a substri
 				<cfif REFind('^[0-9]+$',term) GT 0>
 					OR
 					upper(container_id) <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#term#">
-				<cfif>
+				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
