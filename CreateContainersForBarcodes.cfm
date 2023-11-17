@@ -71,7 +71,7 @@ limitations under the License.
 						</div>
 						<script>
 							$(document).ready(function() {
-								makeContainerAutocompleteMeta("parent_container", "parent_container_id", clear=false);
+								makeContainerAutocompleteMetaExcludeCO("parent_container", "parent_container_id", clear=false);
 							});
 						</script>
 						<div class="col-12 col-md-4">

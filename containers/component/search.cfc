@@ -28,7 +28,7 @@ Function getContainerAutocomplete.  Search for agents by name with a substring m
 --->
 <cffunction name="getContainerAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
-	<!--- perform wildcard search anywhere in agent_name.agent_name --->
+	<!--- perform wildcard search anywhere in barcode or label --->
 	<cfset name = "%#term#%"> 
 
 	<cfset data = ArrayNew(1)>
@@ -43,6 +43,10 @@ Function getContainerAutocomplete.  Search for agents by name with a substring m
 				upper(label) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 				OR
 				upper(barcode) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+				<cfif REFind('^[0-9]+$',term) GT 0>
+					OR
+					upper(container_id) <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#term#">
+				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -74,9 +78,14 @@ Function getContainerAutocompleteMeta.  Search for agents by name with a substri
 --->
 <cffunction name="getContainerAutocompleteMeta" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
-	<!--- perform wildcard search anywhere in agent_name.agent_name --->
+	<cfargument name="exclude_coll_objects" type="string" required="no">
+	<!--- perform wildcard search anywhere in barcode or label --->
 	<cfset name = "%#term#%"> 
 
+	<cfif not isDefined("exclude_coll_objects") OR len(exclude_coll_objects) EQ 0>
+		<cfset exclude_coll_objects = "false">
+	</cfif>	
+	
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
@@ -86,12 +95,20 @@ Function getContainerAutocompleteMeta.  Search for agents by name with a substri
 			FROM 
 				container
 			WHERE
+				<cfif exclude_coll_objects EQ "true">
+					container_type <> 'collection object'
+					AND
+					(
+				</cfif>
 				upper(label) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 				OR
 				upper(barcode) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 				<cfif REFind('^[0-9]+$',term) GT 0>
 					OR
 					upper(container_id) <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#term#">
+				</cfif>
+				<cfif exclude_coll_objects EQ "true">
+					)
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
