@@ -398,7 +398,25 @@
 				WHERE attribute_date is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			
+			<cfset regex = '[0-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]'>
+			<cfset myDate = '2006-12-39'>
+			<cfset MatchedDate = REMatchNoCase(regex, attribute_date)>
+			<cfif arrayLen(MatchedDate) AND isDate(attribute_date) AND MatchedDate[1] EQ attribute_date>
+				
+			<cfelse>
+				<cfquery name="m8a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_attributes
+				SET status = 'attribute date missing [8a]'
+				WHERE attribute_date is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			</cfif>
+			<cfquery name="m8a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_attributes
+				SET status = 'attribute date missing [8a]'
+				WHERE attribute_date is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<!---DETERMINER--->
 			<cfquery name="m9a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE
