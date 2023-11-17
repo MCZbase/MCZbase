@@ -164,7 +164,6 @@
 				<cfelse>
 					<!--- subsequent rows, data --->
 					<!--- strip off the leading separator --->
-					<cfset attribute_date=str_to_date(attribute_date,"YYYY-MM-DD")>
 					<cfset colVals=replace(colVals,",","","first")>
 					<cfset colValArray=listToArray(colVals)>
 					<cftry>
