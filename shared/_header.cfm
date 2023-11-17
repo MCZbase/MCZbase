@@ -173,6 +173,9 @@ limitations under the License.
 <cfif CGI.script_name IS "/Specimens.cfm">
 	<script type="text/javascript" src="/specimens/js/search.js"></script> 
 </cfif>
+<cfif isDefined("pageHasContainers") AND pageHasContainers EQ "true">
+	<script type="text/javascript" src="/containers/js/containers.js"></script>
+</cfif>
 <cfif isDefined("pageHasTabs") AND pageHasTabs EQ "true">
 	<script type="text/javascript" src="/shared/js/tabs.js"></script>
 </cfif>
