@@ -195,11 +195,9 @@
 						<cfset loadedRows = loadedRows + insert_result.recordcount>
 					<cfcatch>
 						<span class="font-weight-normal border-bottom border-danger">
-						
-						<cfthrow message="<cfif cfcatch.detail contains "#colVals#">Error inserting data from line #row#  --check formatting of cells (all should be general except YYYY-MM-DD for date</cfif>">
-						<!---<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">--->
-						
-							
+						<cfif cfcatch.detail contains "date">Error inserting data from line #row#  --check formatting of date cells (all should be general except YYYY-MM-DD for date)</cfif>
+					<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
+
 					</cfcatch>
 					</cftry>
 				</cfif>
