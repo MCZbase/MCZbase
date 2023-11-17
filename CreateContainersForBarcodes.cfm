@@ -60,6 +60,11 @@ limitations under the License.
 					The Label and Unique identifier text may contain spaces if desired, convention is to use underscore _ instead of spaces in the Unique Identifier.
 					If unique identifier prefix and suffix are specified, but label prefix or suffix are not, the unique identifier values will be used in the labels.
 				</p>
+				<p>
+					You must pick a parent container for the created series of containers.
+					You can pick the parent container for this series of containers with the label, barcode, or container_id for the parent container.  If 
+					unplaced at the time of creation, use 'The Museum of Comparative Zoology' as the parent.  
+				</p> 
 			</div>
 			<div class="col-12 px-0">
 				<form name="form1" method="post" action="CreateContainersForBarcodes.cfm?action=create">
