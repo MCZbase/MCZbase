@@ -194,7 +194,7 @@
 						</cfquery>
 						<cfset loadedRows = loadedRows + insert_result.recordcount>
 					<cfcatch>
-						<span class="font-weight-normal border-bottom border-danger">
+				
 						<cfif cfcatch.detail contains "date">Error inserting data from line #row#  --check formatting of date cells (all should be general except YYYY-MM-DD for date)</cfif>
 					<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
 
