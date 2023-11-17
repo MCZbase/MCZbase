@@ -36,7 +36,7 @@ limitations under the License.
 			select institution_acronym from collection group by institution_acronym order by institution_acronym
 		</cfquery>
 		<h1 class="h2 mt-3 mb-0 px-3">Create Containers for Barcodes</h1>
-		<div class="row border mx-0">
+		<div class="row border rounded mx-0 p-2">
 			<div class="col-12 px-0">
 				<p>
 					Containers (things that you can stick barcode to) in MCZbase should exist (generally as some type of
