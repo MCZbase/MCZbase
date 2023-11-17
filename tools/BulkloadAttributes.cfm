@@ -554,7 +554,7 @@
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "DETERMINED_BY_AGENT_ID">DETERMINER does not match preferred agent name</cfif></span>
 								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_date">Problem with ATTRIBUTE_DATE</cfif></span>
+								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "date">Problem with ATTRIBUTE_DATE</cfif></span>
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_units">Invalid or missing ATTRIBUTE_UNITS</cfif></span>
 								
@@ -568,7 +568,7 @@
 								
 								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "no data">No data or the wrong data</cfif></span>
 								<!--- use this to find errors that were missed above--->
-							#cfcatch.detail#
+						<!---	#cfcatch.detail#--->
 							</h3>
 							<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
 								<thead>
