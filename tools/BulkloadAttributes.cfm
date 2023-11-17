@@ -395,8 +395,8 @@
 			
 			<cfquery name="m8a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET status = 'attribute date missing [8a]'
-				WHERE attribute_date is null
+				SET attribute_date = DateFormat(attribute_date,"YYYY-MM-DD"])
+				WHERE attribute_date is not null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 
