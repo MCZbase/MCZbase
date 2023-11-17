@@ -25,7 +25,7 @@ limitations under the License.
 <cfset pageTitle = "Bulk Create Containers">
 <cfinclude template = "/shared/_header.cfm">
 
-<main class="container-fluid mt-3 mb-5 pb-5" id="content">
+<main class="container mt-3 mb-5 pb-5" id="content">
 <!----------------------------------------------------------------------------------->
 <cfif action is "nothing">
 	<cfoutput>
@@ -35,9 +35,9 @@ limitations under the License.
 		<cfquery name="ctinstitution_acronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select institution_acronym from collection group by institution_acronym order by institution_acronym
 		</cfquery>
-		<div class="row mx-0">
+		<h1 class="h2 mt-3 mb-0 px-3">Create Containers for Barcodes</h1>
+		<div class="row border mx-0">
 			<div class="col-12 px-0">
-				<h1 class="h2 mt-3 mb-0 px-3">Create Containers for Barcodes</h1>
 				<p>
 					Containers (things that you can stick barcode to) in MCZbase should exist (generally as some type of
  					label) before they may be used. This form allows creation of series of containers. 
@@ -58,6 +58,7 @@ limitations under the License.
 					Label Prefix, Label Suffix, Unique Identifier Prefix, and Unique Identifier Suffix are the non-numeric parts of the label and identifier
 					applied to each container in the form: Label = Prefix{number}Suffix, and Unique Identifier = Prefix{Number}Suffix.
 					The Label and Unique identifier text may contain spaces if desired, convention is to use underscore _ instead of spaces in the Unique Identifier.
+					If unique identifier prefix and suffix are specified, but label prefix or suffix are not, the unique identifier values will be used in the labels.
 				</p>
 			</div>
 			<div class="col-12 px-0">
