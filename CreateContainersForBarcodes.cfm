@@ -261,7 +261,7 @@ limitations under the License.
 				<div class="col-12 px-0">
 					<h1 class="h2 mt-3 mb-0 px-3">The series of container records with barcodes from #beginBarcode# to #endBarcode# have been created.</h1>
 					<cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT container_label, container_id
+						SELECT label, barcode, container_id
 						FROM 
 							container 
 						WHERE
@@ -273,7 +273,7 @@ limitations under the License.
 							</cfif>
 					</cfquery>
 					<cfloop query="getParent">
-						<p>Created as children of Parent Container: #getParent.container_label# (#getParent.container_id#)</p>
+						<p>Created as children of Parent Container: #getParent.label# (#getParent.container_id#)</p>
 					</cfloop>
 					<p>
 						<a href="CreateContainersForBarcodes.cfm">Bulk create more containers</a>
