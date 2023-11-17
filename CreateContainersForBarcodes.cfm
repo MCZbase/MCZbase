@@ -237,7 +237,7 @@ limitations under the License.
 								</cfif>
 							</cfif>
 							<cfquery name="getParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT container_label. container_id
+								SELECT label, barcode, container_id
 								FROM 
 									container 
 								WHERE
@@ -249,7 +249,7 @@ limitations under the License.
 									</cfif>
 							</cfquery>
 							<cfloop query="getParent">
-								<li>Parent Container: #getParent.container_label# (#getParent.container_id#)</li>
+								<li>Parent Container: #getParent.label# (#getParent.container_id#)</li>
 							</cfloop>
 					</div>
 				</div>
