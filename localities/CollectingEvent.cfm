@@ -372,15 +372,20 @@ limitations under the License.
 		<cfset extra = "">
 		<cfif isDefined("locality_id") AND len(locality_id) GT 0 AND NOT (isDefined("clone_from_collecting_event_id") and len(clone_from_collecting_event_id) GT 0)>
 			<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT higher_geog, spec_locality
+				SELECT higher_geog, spec_locality, locality.geog_auth_rec_id
 				FROM 
 					locality
 					join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 				WHERE 
 					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 			</cfquery>
+			<cfif lookupLocality.recordcount EQ 0>
+				<cfthrow message="No locality found for the provided locality_id #encodeForHtml(locality_id)#">
+			</cfif>
+			<cfset geog_auth_rec_id = "">
 			<cfloop query="lookupLocality">
 				<cfset extra = " within #lookupLocality.higher_geog# #lookupLocality.spec_locality#">
+				<cfset geog_auth_rec_id = "#lookupLocality.geog_auth_rec_id#">
 			</cfloop>
 			<cfset blockform = getCollectingEventFormHtml(geog_auth_rec_id = "#geog_auth_rec_id#",mode="create")>
 		<cfelseif isDefined("clone_from_collecting_event_id") and len(clone_from_collecting_event_id) GT 0>
