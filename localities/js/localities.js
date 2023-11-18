@@ -61,7 +61,7 @@ function updateLocalityDeleteBit(locality_id,pasteTarget) {
 **/
 function updateLocalityUses(locality_id,pasteTarget) {
 	jQuery.ajax({
-		url: "/localities/component/search.cfc",
+		url: "/localities/component/public.cfc",
 		data : {
 			method : "getLocalityUsesHtml",
 			locality_id: locality_id
