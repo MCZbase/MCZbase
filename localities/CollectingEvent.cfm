@@ -372,7 +372,7 @@ limitations under the License.
 		<cfset extra = "">
 		<cfif isDefined("locality_id") AND len(locality_id) GT 0 AND NOT (isDefined("clone_from_collecting_event_id") and len(clone_from_collecting_event_id) GT 0)>
 			<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT higher_geog, spec_locality, locality.geog_auth_rec
+				SELECT higher_geog, spec_locality, locality.geog_auth_rec_id
 				FROM 
 					locality
 					join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
