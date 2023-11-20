@@ -248,12 +248,15 @@
 				</cfif>
 				<cfif len(getType.attribute_date)gt 0>	
 					<cfset checkdate= "#isdate(getType.attribute_date)#">
+				<cftry>
 					<cfquery name="getDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_attributes
 						SET attribute_date = #DateFormat(attribute_date,"YYYY-MM-DD")#
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>	
-
+					<cfcatch>Not a valid date</cfcatch>
+				</cftry>
+				</cftry>
 				</cfif>
 				<cfset D = "#attribute_date#">
 				<script type="text/javascript">
@@ -262,7 +265,7 @@
 					var n = date.toISOString().substring(0,10);
 					document.write('date: ' +n);
 				</script>
-					<cftry>#DateFormat(attribute_date,"YYYY-MM-DD")#<cfcatch>Not a valid date</cfcatch></cftry></p>
+
 			</cfloop>
 	
 					
