@@ -240,6 +240,8 @@
 					</cfquery>
 				</cfif>
 				<cfset attDate = isDate(attribute_date)>
+					
+					#attribute_date# ;; #attDate#
 				<cfif attribute_date eq attdate>
 					<cftry>
 						Hello
