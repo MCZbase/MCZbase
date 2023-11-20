@@ -239,68 +239,64 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
+			<!---DATE ERROR MESSAGE--->
 				<cfset attDate = isDate(attribute_date)>
-				<cfset datecheck = "#attribute_date#--#attDate#">
-			<cfif #attdate# eq 'NO'>
-			<cfquery name="getDID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE
-					cf_temp_attributes
-				SET status = 'DATE #attdate#T VALID in row #i#'
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-			</cfquery>	
-			<cfelse>
-				
-			</cfif>
-			<cfset i=i + 1>
+				<cfif #attdate# eq 'NO'>
+				<cfquery name="getDID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE
+						cf_temp_attributes
+					SET status = 'DATE #attdate#T VALID in row #i#'
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+				</cfquery>	
+				<cfelse>
+				</cfif>
+				<cfset i=i + 1>
 			</cfloop>
-
-
-				
-		<!---ERROR MESSAGE--->
+		<!---REST OF ERROR MESSAGES--->
 		<!---INSTITUTION_ACRONYM--->			
 			<cfquery name="m1a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET status = 'INSTITUTION_ACRONYM is missing [1a]'
+				SET status = 'INSTITUTION_ACRONYM is missing'
 				WHERE institution_acronym is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="m1b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET status = 'Institution Acronym is not: "MCZ" (check case) [1b]'
+				SET status = 'Institution Acronym is not: "MCZ" (check case)'
 				WHERE institution_acronym <> 'MCZ'
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---COLLECTION_CDE--->	
 			<cfquery name="m2a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET status = 'collection_cde not valid [2a]'
+				SET status = 'collection_cde not valid'
 				WHERE collection_cde not in (select collection_cde from collection) 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="m2b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET status = 'collection_cde is missing [2b]'
+				SET status = 'collection_cde is missing'
 				WHERE COLLECTION_CDE is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---OTHER_ID_TYPE--->
 			<cfquery name="m3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET status = 'OTHER_ID_TYPE is missing [3]'
+				SET status = 'OTHER_ID_TYPE is missing'
 				WHERE OTHER_ID_TYPE is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---OTHER_ID_NUMBER--->
 			<cfquery name="m4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET status = 'OTHER_ID_NUMBER is missing [4]'
+				SET status = 'OTHER_ID_NUMBER is missing'
 				WHERE OTHER_ID_NUMBER is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---ATTRIBUTE--->
 			<cfquery name="m5a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
-				SET status = 'this attribute is not valid for this collection; not in ctattribute_type [5a]'
+				SET status = 'this attribute is not valid for this collection; not in ctattribute_type'
 				where attribute not in (
 					select attribute_type from ctattribute_type, cf_temp_attributes where cf_temp_attributes.collection_cde = ctattribute_type.collection_cde
 				)
@@ -309,13 +305,13 @@
 			<!---ATTRIBUTE_VALUE--->
 			<cfquery name="m6a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET status = 'attribute value missing [6a]'
+				SET status = 'attribute value missing'
 				WHERE attribute_value is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="m6b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
-				SET status = 'this attribute references another code table for the value (e.g., ctsex_code, ctage_class, ctassociated_grants, ct_collections_full_names) [6b]'
+				SET status = 'this attribute references another code table for the value (e.g., ctsex_code, ctage_class, ctassociated_grants, ct_collections_full_names)'
 				where attribute = (select attribute_type from ctattribute_code_tables where value_code_table is not null)
 				and attribute_value is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -324,14 +320,14 @@
 			<cfif getType.attribute is 'associated grant'>
 				<cfquery name="m6c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
-					SET status = 'attribute value not valid [6c]'
+					SET status = 'attribute value not valid'
 					WHERE attribute = 'associated grant' 
 					and attribute_value not in (select associated_grant from ctassociated_grants)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="m6d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
-					SET status = 'attribute units should be empty [6d]'
+					SET status = 'attribute units should be empty'
 					WHERE attribute = 'associated grant' 
 					and attribute_units is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -340,13 +336,13 @@
 			<cfif getType.attribute is 'sex'>
 				<cfquery name="m6e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
-					SET status = 'sex value is not in ctsex_cde [6e]'
+					SET status = 'sex value is not in ctsex_cde'
 					WHERE attribute_value not in (select sex_cde from ctsex_cde where ctage_class.collection_cde = cf_temp_attributes.collection_cde)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="m6f" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
-					SET status = 'attribute units should be empty [6f]'
+					SET status = 'attribute units should be empty'
 					WHERE attribute = 'sex' 
 					and attribute_units is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -355,14 +351,14 @@
 			<cfif getType.attribute is 'life stage'>
 				<cfquery name="m6g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
-					SET status = 'attribute value is not in life stage table [6g]'
+					SET status = 'attribute value is not in life stage table'
 					WHERE attribute = 'life stage' 
 					and attribute_value not in (select age_class from ctage_class where ctage_class.collection_cde = cf_temp_attributes.collection_cde)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="m6h" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
-					SET status = 'attribute units should be empty [6h]'
+					SET status = 'attribute units should be empty'
 					WHERE attribute = 'life stage' 
 					and attribute_units is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -371,14 +367,14 @@
 			<cfif getType.attribute is 'life stage'>
 				<cfquery name="m6g" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
-					SET status = 'attribute value is not in life stage table [6g]'
+					SET status = 'attribute value is not in life stage table'
 					WHERE attribute = 'life stage' 
 					and attribute_value not in (select age_class from ctage_class where ctage_class.collection_cde = cf_temp_attributes.collection_cde)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="m6h" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
-					SET status = 'attribute units should be empty [6h]'
+					SET status = 'attribute units should be empty'
 					WHERE attribute = 'life stage' 
 					and attribute_units is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -387,7 +383,7 @@
 			<!---ATTRIBUTE_UNITS--->
 			<cfquery name="m7a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
-				SET status = 'this attribute uses controlled_vocabulary [7a]'
+				SET status = 'this attribute uses controlled_vocabulary'
 				where attribute in (select attribute_type from ctattribute_code_tables where units_code_table is not null)
 				and attribute_units is null
 				and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -395,7 +391,7 @@
 			<cfif getType.attribute contains 'length'>
 				<cfquery name="m7b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes 
-					SET status = 'invalid attribute_units; not in ctlength_units [7b]'
+					SET status = 'invalid attribute_units; not in ctlength_units'
 					where attribute_units not in (select length_units from ctlength_units)
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -403,7 +399,7 @@
 			<cfif getType.attribute is 'weight'>
 				<cfquery name="m7c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes 
-					SET status = 'invalid attribute_units; not in ctweight_units [7b]'
+					SET status = 'invalid attribute_units; not in ctweight_units'
 					where attribute_units not in (select weight_units from ctweight_units)
 					and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -423,7 +419,7 @@
 			</cfquery>
 			<cfquery name="m9b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET status = 'agent value (preferred name) is missing in DETERMINER column [9b]'
+				SET status = 'agent value (preferred name) is missing in DETERMINER column'
 				WHERE determiner is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
