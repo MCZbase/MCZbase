@@ -246,7 +246,7 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
-				<cfif isDefined(attribute_date)>
+				<cfif len(attribute_date)gt 0>
 					update
 						cf_temp_attributes
 					set attribute_date = #DateFormat(attribute_date,"yyyy-mm-dd")#
