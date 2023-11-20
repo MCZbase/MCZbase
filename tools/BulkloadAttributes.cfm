@@ -246,8 +246,7 @@
 					UPDATE
 						cf_temp_attributes
 					SET status = 'date #attdate#T valid in row #i#'
-					WHERE attribute_date <> #DateFormat(attribute_date)#
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>	
 				<cfelse>
 				</cfif>
