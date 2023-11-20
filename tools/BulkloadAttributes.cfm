@@ -240,9 +240,9 @@
 					</cfquery>
 				</cfif>
 				<cfset attDate = isDate(attribute_date)>
-				<cfif attribute_date contains "/">
+				<cfif attribute_date eq attdate>
 					<cftry>
-
+						Hello
 						<cfcatch>
 							<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								UPDATE
