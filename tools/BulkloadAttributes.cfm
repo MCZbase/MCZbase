@@ -248,6 +248,8 @@
 				SET status = '#attdate#'
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>	
+				<cfelse>
+				
 			</cfif>
 			</cfloop>
 
