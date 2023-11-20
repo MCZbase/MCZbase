@@ -239,7 +239,7 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
-				<cfset attDate = isDate(attribute_date,'YYYY-MM-DD')></cfset>
+				<cfset attDate = isDate(attribute_date,'YYYY-MM-DD')>
 				
 			</cfloop>
 						
