@@ -241,7 +241,6 @@
 				</cfif>
 				<cfset attDate = isDate(attribute_date)>
 				<cfset datecheck = "#attribute_date#--#attDate#">
-			</cfloop>
 			<cfif #attdate# eq 'NO'>
 			<cfquery name="getDID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE
@@ -250,6 +249,8 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>	
 			</cfif>
+			</cfloop>
+
 
 				
 		<!---ERROR MESSAGE--->
