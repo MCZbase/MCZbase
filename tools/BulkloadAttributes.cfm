@@ -243,11 +243,11 @@
 							<cftry>
 				#attDate#
 				<cfcatch>
-					<cfif attdate contains "NO">
+					<cfif #attdate# contains "NO">
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_attributes
-						SET status = 'not a valid date'
+						SET status = '#attDate#'
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and attribute_date is not null
 					</cfquery>
