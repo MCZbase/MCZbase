@@ -221,7 +221,7 @@
 				from cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset date = CreateDate(getType.attribute_date)>
+		
 			<cfset result = isDate(date)>
 				<cfoutput>#result#</cfoutput>
 			<cfloop query="getType">
