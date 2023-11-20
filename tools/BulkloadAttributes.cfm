@@ -241,7 +241,7 @@
 				</cfif>
 				<cfset attDate = isDate(attribute_date)>
 			<cftry>
-				<cfif #attdate# contains "YES">
+				<cfif #attdate# contains "Terrible">
 					Good Date
 				</cfif>	
 				<cfcatch>
