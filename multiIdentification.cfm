@@ -9,6 +9,13 @@
 </script>
 
 <script type='text/javascript' src='/includes/_editIdentification.js'></script>
+<cfif isDefined("result_id") and len(result_id) GT 0>
+	<cfset mode="result_id">
+<cfelseif isDefined("collection_object_id") and len(collection_object_id) GT 0>
+	<cfset mode="collection_object_id">
+<cfelse>
+	<cfthrow message="No specimens identified (by either collection_object_id or result_id) to add identifications to.">
+</cfif>
 <!--------------------------------------------------------------------------------------------------->
 <cfif Action is "nothing">
 	<div style = "width: 58em; margin: 0 auto; padding: 2em 0 3em 0;">
@@ -176,6 +183,7 @@
 					state_prov,
 					county,
 					quad,
+					spec_locality,
 					institution_acronym,
 					collection.collection
 				FROM
@@ -192,12 +200,22 @@
 					AND cataloged_item.collection_object_id = identification.collection_object_id
 					and accepted_id_fg=1
 					AND cataloged_item.collection_id = collection.collection_id
-					AND cataloged_item.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+					<cfif mode EQ "result_id">
+						AND cataloged_item.collection_object_id IN (
+							SELECT collection_object_id 
+							FROM user_search_table 
+							WHERE
+								result_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#result_id#">
+							)
+					<cfelse>
+						AND cataloged_item.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+					</cfif>
 				ORDER BY
 					collection_object_id
 			</cfquery>
 			<br>
-			<b>#specimenList.recordcount# Specimens Being Re-Identified:</b>
+			<cfif specimenList.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
+			<b>#specimenList.recordcount# Specimen#plural# Being Re-Identified:</b>
 		</cfoutput>
 	
 		<table width="95%" border="1">
@@ -209,6 +227,7 @@
 				<th><strong>State</strong></th>
 				<th><strong>County</strong></th>
 				<th><strong>Quad</strong></th>
+				<th><strong>Locality</strong></th>
 			</tr>
 			<cfoutput query="specimenList" group="collection_object_id">
 				<tr>
@@ -219,6 +238,7 @@
 					<td>#State_Prov#&nbsp;</td>
 					<td>#county#&nbsp;</td>
 					<td>#quad#&nbsp;</td>
+					<td>#spec_locality#&nbsp;</td>
 				</tr>
 			</cfoutput>
 		</table>
@@ -261,11 +281,28 @@
 		</cfif>
 		<!--- loop through the collection_object_list and update things one at a time--->
 		<cftransaction>
-			<cfloop list="#collection_object_id#" index="i">
+			<cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					collection_object_id
+				FROM
+					cataloged_item 
+				WHERE
+					<cfif mode EQ "result_id">
+						 cataloged_item.collection_object_id IN (
+							SELECT collection_object_id 
+							FROM user_search_table 
+							WHERE
+								result_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#result_id#">
+							)
+					<cfelse>
+						cataloged_item.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+					</cfif>
+			</cfquery>
+			<cfloop query="specimenList">
 				<cfquery name="upOldID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE identification 
 					SET ACCEPTED_ID_FG=0 
-					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
+					WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#specimenList.collection_object_id#">
 				</cfquery>
 				<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO identification (
@@ -283,7 +320,7 @@
 						,scientific_name
 					) VALUES (
 						sq_identification_id.nextval,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#specimenList.collection_object_id#">
 						<cfif len(#MADE_DATE#) gt 0>
 							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#MADE_DATE#">
 						</cfif>
