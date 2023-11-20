@@ -239,14 +239,12 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
-					
-			
-
+				<cfset attDate = isDate(attribute_date,'YYYY-MM-DD')></cfset>
+				
 			</cfloop>
+						
 			<cftry>
-				<cfquery name="getDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select TO_DATE(attribute_date,'YYYY-MM-DD') as attdate from dual
-				</cfquery>
+				#attDate#
 				<cfcatch>
 					<cfif cfcatch.message contains "year%month%day">
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -254,6 +252,7 @@
 							cf_temp_attributes
 						SET status = 'not a valid date'
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and attribute_date is not null
 					</cfquery>
 					</cfif>	
 				</cfcatch>
