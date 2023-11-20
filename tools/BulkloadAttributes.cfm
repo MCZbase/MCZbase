@@ -247,10 +247,12 @@
 					</cfquery>
 				</cfif>
 				<cfif len(attribute_date)gt 0>
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update
 						cf_temp_attributes
 					set attribute_date = #DateFormat(attribute_date,"yyyy-mm-dd")#
 					where username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
 				</cfif>
 			</cfloop>
 		<!---ERROR MESSAGE--->
