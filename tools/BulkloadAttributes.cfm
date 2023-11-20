@@ -214,7 +214,7 @@
 				from cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-
+			<cfset i= 1>
 			<cfloop query="getType">
 				<cfif getType.other_id_type eq 'catalog number'>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -245,12 +245,13 @@
 			<cfquery name="getDID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE
 					cf_temp_attributes
-				SET status = '#attdate#'
+				SET status = '#attdate#[i]'
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 			</cfquery>	
-				<cfelse>
+			<cfelse>
 				
 			</cfif>
+			<cfset i=i + 1>
 			</cfloop>
 
 
