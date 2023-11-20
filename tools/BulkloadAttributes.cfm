@@ -243,7 +243,7 @@
 							<cftry>
 				#attDate#
 				<cfcatch>
-					<cfif cfcatch.message contains "year%month%day">
+					<cfif attdate contains "NO">
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_attributes
