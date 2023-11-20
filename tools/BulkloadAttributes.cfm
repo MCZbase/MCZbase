@@ -25,7 +25,7 @@
 		<cfset separator = ",">
 	</cfloop>
 	<cfheader name="Content-Type" value="text/csv">
-	<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
+		<cfoutput>#csv##chr(13)##chr(10)#</cfoutput>
 	<cfabort>
 </cfif>
 
@@ -221,12 +221,9 @@
 				from cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-		
-		<!---	<cfset result = DateFormat(getType.attribute_date, "YYYY-MM-DD")>
-			<cfset dates = isDate(#result#)>--->
-		
+
 			<cfloop query="getType">
-				<cfoutput>#isdate(getType.attribute_date)#; #isValid("date",getType.attribute_date)#</cfoutput>
+				<cfset datecheck ="#isdate(getType.attribute_date)#">
 				<cfif getType.other_id_type eq 'catalog number'>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
@@ -417,12 +414,16 @@
 				SET status = 'attribute date is invalid'
 				WHERE attribute_date is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>		
+			</cfquery>	
+			<cfquery name="m8a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_attributes
+				SET status = 'attribute date is incorrectly formatted or invalid'
+				WHERE getType.datecheck is 'NO'
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>	
 			<cfquery name="m9a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE
-					cf_temp_attributes
-				SET
-					determined_by_agent_id= (select agent_id from preferred_agent_name where agent_name = cf_temp_attributes.determiner)
+				UPDATE cf_temp_attributes
+				SET determined_by_agent_id= (select agent_id from preferred_agent_name where agent_name = cf_temp_attributes.determiner)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfquery name="m9b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
