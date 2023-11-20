@@ -239,21 +239,26 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE
-							cf_temp_attributes
-						SET
-							attribute_date = TO_DATE(attribute_date,'YYYY-MM-DD')
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
+					
 			
 
 			</cfloop>
+			<cftry>
 				<cfquery name="getDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				
-							select TO_DATE(attribute_date,'YYYY-MM-DD') as attdate from dual
+					select TO_DATE(attribute_date,'YYYY-MM-DD') as attdate from dual
+				</cfquery>
+				<cfcatch>
+					<cfif cfcatch.message contains "year%month%day">
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE
+							cf_temp_attributes
+						SET status = 'not a valid date'
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					#getDate.attdate#
+					</cfif>	
+				</cfcatch>
+			</cftry>
+				
 		<!---ERROR MESSAGE--->
 		<!---INSTITUTION_ACRONYM--->			
 			<cfquery name="m1a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
