@@ -268,7 +268,7 @@
 					var n = date.toISOString().substring(0,10);
 					document.write('Javascript: ' + n);
 					</script>
-					<p>DateFormat("#D#") = <cftry>#n#<cfcatch>Not a valid date</cfcatch></cftry></p>
+					<p>DateFormat("#D#") = <cftry>#DateFormat(n)#<cfcatch>Not a valid date</cfcatch></cftry></p>
 			</cfloop>
 		
 					
