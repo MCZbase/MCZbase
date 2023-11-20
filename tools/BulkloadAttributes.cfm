@@ -262,7 +262,7 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>	--->
 				</cfif>
-					<cfset D = "attribute_date">
+					<cfset D = "#attribute_date#">
 				<script type="text/javascript">
 					var date = new Date("#D#");
 					var n = date.toDateString();
