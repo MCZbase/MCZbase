@@ -223,7 +223,6 @@
 			</cfquery>
 
 			<cfloop query="getType">
-				<cfset datecheck ="#isdate(getType.attribute_date)#">
 				<cfif getType.other_id_type eq 'catalog number'>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
