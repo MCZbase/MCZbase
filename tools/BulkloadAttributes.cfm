@@ -262,7 +262,8 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>	--->
 				</cfif>
-					<p>DateFormat("#attribute_date#") = <cftry>#DateFormat(attribute_date)#<cfcatch>Not a valid date</cfcatch></cftry></p>
+				
+					<p>DateFormat("#attribute_date#","YYYY-MM-DD") = <cftry>#DateFormat(attribute_date)#<cfcatch>Not a valid date</cfcatch></cftry></p>
 			</cfloop>
 		
 					
