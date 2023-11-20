@@ -256,15 +256,14 @@
 					</cfquery>	
 					<cfcatch>Not a valid date</cfcatch>
 				</cftry>
-				</cftry>
 				</cfif>
 				<cfset D = "#attribute_date#">
-				<script type="text/javascript">
-					
-					var date = new Date("#D#");
-					var n = date.toISOString().substring(0,10);
-					document.write('date: ' +n);
-				</script>
+					<script type="text/javascript">
+
+						var date = new Date("#D#");
+						var n = date.toISOString().substring(0,10);
+						document.write('date: ' +n);
+					</script>
 
 			</cfloop>
 	
