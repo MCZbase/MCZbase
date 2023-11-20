@@ -2121,7 +2121,7 @@ limitations under the License.
 												collection.collection_id
 											from 
 												coll_object
-												left join cataloged_item on coll_object.collection_object_id = cataloged_item.collection_object_id
+												join cataloged_item on coll_object.collection_object_id = cataloged_item.collection_object_id
 												left join collection on cataloged_item.collection_id=collection.collection_id
 											where
 												ENTERED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -2176,7 +2176,7 @@ limitations under the License.
 												collection.collection_id
 											from 
 												coll_object
-												left join cataloged_item on coll_object.collection_object_id = cataloged_item.collection_object_id
+												join cataloged_item on coll_object.collection_object_id = cataloged_item.collection_object_id
 												left join collection on cataloged_item.collection_id=collection.collection_id
 											where 
 												LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
