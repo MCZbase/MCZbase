@@ -248,7 +248,7 @@
 				</cfif>
 
 			</cfloop>
-			<cfif len(attribute_date)gt 0>
+			<cfif len(getType.attribute_date)gt 0>
 					
 				<cfset checkdate= "#isdate(getType.attribute_date)#">
 				<cfquery name="getDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
