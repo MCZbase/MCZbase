@@ -252,7 +252,7 @@
 				<cfquery name="getDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
 					SET status = 'attribute date is incorrectly formatted or invalid'
-					WHERE "#checkdate#" =  "NO"
+					WHERE '#checkdate#' =  'NO'
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>	
 				</cfif>
