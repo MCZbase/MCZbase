@@ -222,7 +222,7 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		
-			<cfset result = isDate(DateFormat(getType.attribute_date, "YYYY-MM-DD"))>
+			
 		
 			<cfloop query="getType">
 				<cfoutput>#result#: #getType.attribute_date#</cfoutput>
