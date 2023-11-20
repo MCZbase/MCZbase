@@ -225,7 +225,7 @@
 			<cfset result = isDate(DateFormat(getType.attribute_date, "YYYY-MM-DD"))>
 		
 			<cfloop query="getType">
-				<cfoutput>#result#</cfoutput>
+				<cfoutput>#result#: #getType.attribute_date#</cfoutput>
 				<cfif getType.other_id_type eq 'catalog number'>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
