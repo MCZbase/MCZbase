@@ -209,7 +209,7 @@
 							SELECT collection_object_id 
 							FROM user_search_table 
 							WHERE
-								result_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#result_id#">
+								result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 							)
 					<cfelse>
 						AND cataloged_item.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
@@ -296,7 +296,7 @@
 							SELECT collection_object_id 
 							FROM user_search_table 
 							WHERE
-								result_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#result_id#">
+								result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 							)
 					<cfelse>
 						cataloged_item.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
