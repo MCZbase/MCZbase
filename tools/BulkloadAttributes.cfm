@@ -248,7 +248,7 @@
 				</cfif>
 				<cfset checkdate= "#isdate(getType.attribute_date)#">
 			</cfloop>
-			<cfif #checkdate# = "NO">
+			<cfif #checkdate# is "NO">
 				<cfquery name="getDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
 					SET status = 'attribute date is incorrectly formatted or invalid'
