@@ -240,10 +240,7 @@
 					</cfquery>
 				</cfif>
 				<cfset attDate = isDate(attribute_date)>
-				
-			</cfloop>
-						
-			<cftry>
+							<cftry>
 				#attDate#
 				<cfcatch>
 					<cfif cfcatch.message contains "year%month%day">
@@ -257,6 +254,9 @@
 					</cfif>	
 				</cfcatch>
 			</cftry>
+			</cfloop>
+						
+
 				
 		<!---ERROR MESSAGE--->
 		<!---INSTITUTION_ACRONYM--->			
