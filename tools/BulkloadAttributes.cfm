@@ -239,7 +239,7 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
-			<!---DATE ERROR MESSAGE--->
+		<!---DATE ERROR MESSAGE--->
 				<cfset attDate = isDate(attribute_date)>
 				<cfif #attdate# eq 'NO'>
 				<cfquery name="getDID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -253,7 +253,8 @@
 				<cfset i=i + 1>
 			</cfloop>
 		<!---REST OF ERROR MESSAGES--->
-		<!---INSTITUTION_ACRONYM--->			
+		<!---TO DO -- GET ATTRIBUTE SUB-CODE TABLE SCALABLE e.g, life stage, sex--->			
+			<!---INSTITUTION_ACRONYM--->			
 			<cfquery name="m1a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
 				SET status = 'INSTITUTION_ACRONYM is missing'
