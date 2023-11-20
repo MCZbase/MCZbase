@@ -241,20 +241,15 @@
 				</cfif>
 				<cfset attDate = isDate(attribute_date)>
 					
-					#attribute_date# ;; #attDate#
-				<cfif attribute_date eq attdate>
-					<cftry>
-						Hello
-						<cfcatch>
-							<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								UPDATE
-									cf_temp_attributes
-								SET status = '#attDate#'
-								WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								and attribute_date is not null
-							</cfquery>
-						</cfcatch>
-					</cftry>
+				<cfset datecheck = "#attribute_date#--#attDate#">
+				<cfif datecheck contains "NO">
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE
+							cf_temp_attributes
+						SET status = 'Invalid Date: #datecheck#'
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and attribute_date is not null
+					</cfquery>
 				</cfif>
 			</cfloop>
 						
