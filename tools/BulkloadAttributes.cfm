@@ -249,8 +249,11 @@
 			
 
 			</cfloop>
-	
-					
+				<cfquery name="getDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				
+							select TO_DATE(attribute_date,'YYYY-MM-DD') as attdate from dual
+					</cfquery>
+					#getDate.attdate#
 		<!---ERROR MESSAGE--->
 		<!---INSTITUTION_ACRONYM--->			
 			<cfquery name="m1a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
