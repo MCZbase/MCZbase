@@ -419,7 +419,7 @@
 				<cfquery name="getDID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE
 						cf_temp_attributes
-					SET dateval = #attdate#
+					SET dateval = '#attdate#'
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
