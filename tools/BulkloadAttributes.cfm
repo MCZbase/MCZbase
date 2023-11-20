@@ -247,11 +247,6 @@
 					</cfquery>
 				</cfif>
 				<cfif len(attribute_date)gt 0>
-				<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select 
-					from cf_temp_attributes
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
 					
 				<cfset checkdate= "#isdate(getType.attribute_date)#">
 				<cfquery name="getDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
