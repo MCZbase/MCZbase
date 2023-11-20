@@ -240,17 +240,7 @@
 					</cfquery>
 				</cfif>
 				<cfset attDate = isDate(attribute_date)>
-					
 				<cfset datecheck = "#attribute_date#--#attDate#">
-				<cfif datecheck contains "NO">
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE
-							cf_temp_attributes
-						SET status = 'Invalid Date: #datecheck#'
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and attribute_date is not null
-					</cfquery>
-				</cfif>
 			</cfloop>
 						
 
@@ -426,11 +416,18 @@
 				WHERE determiner is null
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+				<cfquery name="getDID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE
+						cf_temp_attributes
+					SET dateval = #attdate#
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+				</cfquery>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date, attribute_meth,determiner,remarks,status
 				FROM cf_temp_attributes
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			
 			<cfquery name="pf" dbtype="query">
 				SELECT count(*) c 
 				FROM data 
