@@ -265,10 +265,10 @@
 					<cfset D = "#attribute_date#">
 				<script type="text/javascript">
 					var date = new Date("#D#");
-					var n = date.toISOString();
+					var n = date.toISOString().substring(0,10);
 					document.write('Javascript: ' + n);
 					</script>
-					<p>DateFormat("#D#") = <cftry>#DateFormat(D)#<cfcatch>Not a valid date</cfcatch></cftry></p>
+					<p>DateFormat("#D#") = <cftry>#n#<cfcatch>Not a valid date</cfcatch></cftry></p>
 			</cfloop>
 		
 					
