@@ -240,7 +240,7 @@
 					</cfquery>
 				</cfif>
 				<cfset attDate = isDate(attribute_date)>
-				<cfif #attdate# contains "Terrible">
+				<cfif attribute_date contains "/">
 					<cftry>
 
 						<cfcatch>
