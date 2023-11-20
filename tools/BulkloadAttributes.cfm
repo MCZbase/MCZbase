@@ -255,21 +255,17 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>	
 
-					<cfquery name="getDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE cf_temp_attributes
-						SET status = 'attribute date is incorrectly formatted or invalid'
-						WHERE #checkdate# = 'NO'
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>	--->
+					--->
 				</cfif>
-					<cfset D = "#attribute_date#">
+				<cfset D = "#attribute_date#">
 				<script type="text/javascript">
 					var date = new Date("#D#");
 					var n = date.toISOString().substring(0,10);
-					</script>
-					<p>DateFormat("#n#") = <cftry>#DateFormat(D)#/ #n#<cfcatch>Not a valid date</cfcatch></cftry></p>
+					document.write('date: ' +n);
+				</script>
+					<cftry>#DateFormat(attribute_date,"short")#<cfcatch>Not a valid date</cfcatch></cftry></p>
 			</cfloop>
-		
+	
 					
 		<!---ERROR MESSAGE--->
 		<!---INSTITUTION_ACRONYM--->			
