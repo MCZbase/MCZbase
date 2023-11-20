@@ -245,7 +245,7 @@
 				<cfquery name="getDID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE
 						cf_temp_attributes
-					SET status = 'DATE #attdate#T VALID in row #i#'
+					SET status = 'date #attdate#T valid in row #i#'
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>	
 				<cfelse>
@@ -297,7 +297,7 @@
 			<!---ATTRIBUTE--->
 			<cfquery name="m5a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes 
-				SET status = 'this attribute is not valid for this collection; not in ctattribute_type'
+				SET status = 'Attribute is not valid for this collection; not in ctattribute_type'
 				where attribute not in (
 					select attribute_type from ctattribute_type, cf_temp_attributes where cf_temp_attributes.collection_cde = ctattribute_type.collection_cde
 				)
