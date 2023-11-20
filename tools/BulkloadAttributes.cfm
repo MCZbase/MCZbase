@@ -222,10 +222,11 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		
-			
+			<cfset result = DateFormat(getType.attribute_date, "YYYY-MM-DD")>
+			<cfset dates = isDate(#result#)>
 		
 			<cfloop query="getType">
-				<cfoutput>#result#: #getType.attribute_date#</cfoutput>
+				<cfoutput>#dates# #result#: #getType.attribute_date#</cfoutput>
 				<cfif getType.other_id_type eq 'catalog number'>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
