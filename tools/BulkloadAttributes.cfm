@@ -243,9 +243,7 @@
 						UPDATE
 							cf_temp_attributes
 						SET
-							attribute_date = (
-								select TO_DATE(attribute_date,'YYYY-MM-DD') from getType
-							)
+							attribute_date = TO_DATE(attribute_date,'YYYY-MM-DD')
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 			
