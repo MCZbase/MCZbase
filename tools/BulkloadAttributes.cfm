@@ -256,10 +256,11 @@
 						document.write('date: ' +n);
 						}
 					</script>
+						dateconv("#attribute_date#")
 				<cftry>
 					<cfquery name="getDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE cf_temp_attributes
-						SET attribute_date = dateconv("#attribute_date#")
+						SET attribute_date = 
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>	
 					<cfcatch>Not a valid date</cfcatch>
