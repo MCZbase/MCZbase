@@ -35,7 +35,11 @@
 			<h3>Add Identification For <font size="+1"><i>All</i></font> specimens listed below:</h3>
 			<form name="newID" method="post" action="multiIdentification.cfm">
 				<input type="hidden" name="Action" value="createManyNew">
-				<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
+				<cfif mode EQ "result_id">
+					<input type="hidden" name="result_id" value="#result_id#" >
+				<cfelse>
+					<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
+				</cfif>
 				<table>
 					<tr>
 						<td>
@@ -394,7 +398,11 @@
 				</cfif>
 			</cfloop>
 		</cftransaction>
-		<cflocation url="multiIdentification.cfm?collection_object_id=#collection_object_id#" addtoken="no">
+		<cfif mode EQ "result_id">
+			<cflocation url="multiIdentification.cfm?result_id=#result_id#" addtoken="no">
+		<cfelse>
+			<cflocation url="multiIdentification.cfm?collection_object_id=#collection_object_id#" addtoken="no">
+		</cfif>
 	</cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------->
