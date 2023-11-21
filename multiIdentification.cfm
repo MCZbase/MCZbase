@@ -19,8 +19,6 @@
 <!--------------------------------------------------------------------------------------------------->
 <cfif Action is "nothing">
 	<div style = "width: 58em; margin: 0 auto; padding: 2em 0 3em 0;">
-		<!--- edit IDs for a list of specimens passed in from specimenresults --->
-		<!--- no security --->
 		<cfset title = "Edit Identification">
 		<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT nature_of_id 
@@ -32,7 +30,7 @@
 			ORDER BY taxa_formula
 		</cfquery>
 		<cfoutput> 
-			<h3>Add Identification For <font size="+1"><i>All</i></font> specimens listed below:</h3>
+			<h3>Add a new Current Identification to <strong>All</strong> specimens listed below:</h3>
 			<form name="newID" method="post" action="multiIdentification.cfm">
 				<input type="hidden" name="Action" value="createManyNew">
 				<cfif mode EQ "result_id">
@@ -406,4 +404,4 @@
 	</cfoutput>
 </cfif>
 <!----------------------------------------------------------------------------------->
-<cfinclude template="includes/_footer.cfm">
+<cfinclude template="/includes/_footer.cfm">
