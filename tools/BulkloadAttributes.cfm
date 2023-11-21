@@ -259,7 +259,7 @@
 				WHERE institution_acronym <> 'MCZ'
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfset attDate = isDate(attribute_date)>
+			<cfset attDate = isDate(getType.attribute_date)>
 			<cfif #attdate# eq 'NO'>
 				<cfquery name="getDID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE
