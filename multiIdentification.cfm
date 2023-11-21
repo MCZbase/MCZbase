@@ -184,10 +184,12 @@
 					country,
 					state_prov,
 					county,
-					quad,
 					spec_locality,
 					institution_acronym,
-					collection.collection
+					collection.collection,
+					collection.collection_cde,
+					identification.nature_of_id,
+					identification.made_date
 				FROM
 					identification,
 					collecting_event,
@@ -224,23 +226,23 @@
 			<tr>
 				<th><strong>Catalog Number</strong></th>
 				<th><strong><cfoutput>#session.CustomOtherIdentifier#</cfoutput></strong></th>
-				<th><strong>Accepted Scientific Name</strong></th>
+				<th><strong>Current Identification</strong></th>
+				<th><strong>Made</strong></th>
 				<th><strong>Country</strong></th>
 				<th><strong>State</strong></th>
 				<th><strong>County</strong></th>
-				<th><strong>Quad</strong></th>
 				<th><strong>Locality</strong></th>
 			</tr>
 			<cfoutput query="specimenList" group="collection_object_id">
 				<tr>
-					<td>#collection#&nbsp;#cat_num#</td>
-					<td>#CustomID#&nbsp;</td>
+					<td><a href="/guid/MCZ:#collection_cde#:#cat_num#" target="_blank">MCZ:#collection_cde#:#cat_num#</a></td>
+					<td>#CustomID#</td>
 					<td><i>#Scientific_Name#</i></td>
-					<td>#Country#&nbsp;</td>
-					<td>#State_Prov#&nbsp;</td>
-					<td>#county#&nbsp;</td>
-					<td>#quad#&nbsp;</td>
-					<td>#spec_locality#&nbsp;</td>
+					<td>#made_date# (#nature_of_id#)</td>
+					<td>#Country#</td>
+					<td>#State_Prov#</td>
+					<td>#county#</td>
+					<td>#spec_locality#</td>
 				</tr>
 			</cfoutput>
 		</table>
