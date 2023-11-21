@@ -241,7 +241,7 @@
 				</cfif>
 		<!---DATE ERROR MESSAGE--->
 				<cfset attDate = isDate(attribute_date)>
-				<cfif #attdate# eq 'NO'>
+				<cfif #attdate# eq 'YES'>
 				<cfquery name="getDID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE
 						cf_temp_attributes
