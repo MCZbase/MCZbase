@@ -249,7 +249,6 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>	
 				<cfelse>
-	
 				</cfif>
 				<cfset i=i + 1>
 			</cfloop>
