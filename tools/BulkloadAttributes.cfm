@@ -241,11 +241,13 @@
 				</cfif>
 		<!---DATE ERROR MESSAGE--->
 				<cfset attDate = isDate(attribute_date)>
+				<cfset dateFormat = parseDateTime(attribute_type)>
 				<cfif #attdate# eq 'NO'>
 				<cfquery name="getDID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE
 						cf_temp_attributes
-					SET status = 'Date #attdate#T valid in row #i#'and attribute_type = #attribute# 
+					SET status = 'Date #attdate#T valid in row #i#'
+					and attribute_type like '%#dateFormat#%'
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>	
 				<cfelse>
