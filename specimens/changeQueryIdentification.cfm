@@ -31,7 +31,7 @@
 		</cfquery>
 		<cfoutput> 
 			<h3>Add a new Current Identification to <strong>All</strong> specimens listed below:</h3>
-			<form name="newID" method="post" action="multiIdentification.cfm">
+			<form name="newID" method="post" action="/specimens/changeQueryIdentification.cfm">
 				<input type="hidden" name="Action" value="createManyNew">
 				<cfif mode EQ "result_id">
 					<input type="hidden" name="result_id" value="#result_id#" >
@@ -399,9 +399,9 @@
 			</cfloop>
 		</cftransaction>
 		<cfif mode EQ "result_id">
-			<cflocation url="multiIdentification.cfm?result_id=#result_id#" addtoken="no">
+			<cflocation url="/specimens/changeQueryIdentification.cfm?result_id=#result_id#" addtoken="no">
 		<cfelse>
-			<cflocation url="multiIdentification.cfm?collection_object_id=#collection_object_id#" addtoken="no">
+			<cflocation url="/specimens/changeQueryIdentification.cfm?collection_object_id=#collection_object_id#" addtoken="no">
 		</cfif>
 	</cfoutput>
 </cfif>
