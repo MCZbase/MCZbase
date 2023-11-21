@@ -241,11 +241,7 @@
 				</cfif>
 		<!---DATE ERROR MESSAGE--->
 				<cfset attDate = isDate(attribute_date)>
-				<cfset dateFormat = DateFormat(attribute_date, "YYYY-MM-DD")>
-				<cfset theDay = listGetAt(attribute_date,1,"-")>
-				<cfset theMonth = listGetAt(attribute_date,2,"-")>
-				<cfset theYear = listGetAt(attribute_date,3,"-")>
-				<cfif attribute_date  neq '#dateFormat#' and attribute_date contains #theYear#>
+				<cfif #attdate# eq 'NO'>
 				<cfquery name="getDID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE
 						cf_temp_attributes
