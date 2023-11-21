@@ -245,16 +245,11 @@
 				<cfquery name="getDID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE
 						cf_temp_attributes
-					SET status = 'Date #attdate#T valid in row #i#'
+					SET status = 'Date #attdate#T valid in row #i#'and attribute_type = #attribute# 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 				</cfquery>	
 				<cfelse>
-					<cfquery name="getDID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE
-						cf_temp_attributes
-					SET status = 'Good Date'
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-				</cfquery>	
+	
 				</cfif>
 				<cfset i=i + 1>
 			</cfloop>
