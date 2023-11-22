@@ -374,6 +374,7 @@ limitations under the License.
 				 	cataloged_item.collection_object_id as collection_object_id,
 					cat_num,
 					concatSingleOtherId(cataloged_item.collection_object_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.CustomOtherIdentifier#">) AS CustomID,
+					concattypestatus(cataloged_item.collection_object_id) as type_status,
 					scientific_name,
 					country,
 					state_prov,
@@ -427,6 +428,7 @@ limitations under the License.
 				<th><strong>State</strong></th>
 				<th><strong>County</strong></th>
 				<th><strong>Locality</strong></th>
+				<th><strong>Type Status</strong></th>
 			</tr>
 			<cfoutput query="specimenList" group="collection_object_id">
 				<tr>
@@ -439,6 +441,7 @@ limitations under the License.
 					<td>#State_Prov#</td>
 					<td>#county#</td>
 					<td>#spec_locality#</td>
+					<td>#type_status#</td>
 				</tr>
 			</cfoutput>
 		</table>
