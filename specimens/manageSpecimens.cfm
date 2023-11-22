@@ -74,7 +74,7 @@ limitations under the License.
 									<a href="/specimens/changeQueryEncumbrance.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Encumbrances</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="/specimens/changeQueeryIdentification.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Identifications</a>
+									<a href="/specimens/changeQueryIdentification.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Identifications</a>
 								</li>
 								<li class="nav-item mb-1">
 									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Map By Locality</a>
