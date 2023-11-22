@@ -374,9 +374,6 @@ limitations under the License.
 								$('textarea.autogrow').keyup();
 							});
 						</script> 
-						<div class="form-row">
-							<div class="form-group col-12 mb-3 pt-1 mt-1">
-								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 						<div class="col-12">
 							<input type="submit" value="Add Identification to all listed specimens" class="btn btn-xs btn-primary">
 						</div>
