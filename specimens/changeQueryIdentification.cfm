@@ -319,6 +319,7 @@ limitations under the License.
 						<div class="col-12 col-md-4">
 							<label for="nature_of_id" class="data-entry-label">Nature of ID: </label>
 								<select name="nature_of_id" id="nature_of_id" class="data-entry-select reqdClr" required>
+									<option value=""></option>
 									<cfloop query="ctnature">
 										<option value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
 									</cfloop>
