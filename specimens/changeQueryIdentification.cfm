@@ -49,33 +49,15 @@ limitations under the License.
 				<cfset scientific_name = user_identification>
 			<cfelseif taxa_formula is "A">
 				<cfset scientific_name = taxona>
-			<cfelseif taxa_formula is "A or B">
-				<cfset scientific_name = "#taxona# or #taxonb#">
-			<cfelseif taxa_formula is "A and B">
-				<cfset scientific_name = "#taxona# and #taxonb#">
-			<cfelseif taxa_formula is "A x B">
-				<cfset scientific_name = "#taxona# x #taxonb#">
-			<cfelseif taxa_formula is "A ?">
-				<cfset scientific_name = "#taxona# ?">
-			<cfelseif taxa_formula is "A sp.">
-				<cfset scientific_name = "#taxona# sp.">
-			<cfelseif taxa_formula is "A ssp.">
-				<cfset scientific_name = "#taxona# ssp.">
-			<cfelseif taxa_formula is "A sp. nov.">
-				<cfset scientific_name = "#taxona# sp. nov.">
-			<cfelseif taxa_formula is "A ssp. nov.">
-				<cfset scientific_name = "#taxona# ssp. nov.">
-			<cfelseif taxa_formula is "A cf.">
-				<cfset scientific_name = "#taxona# cf.">
-			<cfelseif taxa_formula is "A aff.">
-				<cfset scientific_name = "#taxona# aff.">
-			<cfelseif taxa_formula is "A nr.">
-				<cfset scientific_name = "#taxona# nr.">
-			<cfelseif taxa_formula is "A / B intergrade">
-				<cfset scientific_name = "#taxona# / #taxonb# intergrade">
+			<cfelseif Find("B",taxa_formula) GT 0>
+				<cfif Find("A",taxa_formula) LT Find("B",taxa_formula)>
+					<cfset scientific_name = Replace(taxa_formula,"B",taxonb, "one")>
+					<cfset scientific_name = Replace(scientific_name,"A",taxona,"one")>
+				<cfelse>
+					<cfthrow message="The taxa formula you entered isn&apos;t handled yet! Please submit a bug report.">
+				</cfif>
 			<cfelse>
-				The taxa formula you entered isn&apos;t handled yet! Please submit a bug report.
-				<cfabort>
+				<cfset scientific_name = Replace(taxa_formula,"A",taxona, "one")>
 			</cfif>
 			<cfset success=false>
 			<cfset errorMessage ="">
@@ -293,7 +275,7 @@ limitations under the License.
 								<input type="hidden" name="newIdById" id="newIdById">
 							</div>
 							<div class="col-12 col-md-1">
-								<span class="btn btn-xs btn-secondary" onclick="addNewIdBy('two');">more...</span>
+								<span class="btn btn-xs btn-secondary mt-3" onclick="addNewIdBy('two');">more...</span>
 							</div>
 							<script>
 								$(document).ready(function() { 
@@ -309,7 +291,7 @@ limitations under the License.
 								<input type="hidden" name="newIdById_two" id="newIdById_two">
 							</div>
 							<div class="col-12 col-md-1 determiner_block_two" style="display:none;">
-								<span class="btn btn-xs btn-secondary" onclick="addNewIdBy('three');">more...</span>
+								<span class="btn btn-xs btn-secondary mt-3" onclick="addNewIdBy('three');">more...</span>
 							</div>
 							<script>
 								$(document).ready(function() { 
@@ -372,6 +354,7 @@ limitations under the License.
 					collection.collection,
 					collection.collection_cde,
 					identification.nature_of_id,
+					concatIdAgent(identification.identification_id) as determiners,
 					identification.made_date
 				FROM
 					identification,
@@ -411,6 +394,7 @@ limitations under the License.
 				<th><strong><cfoutput>#session.CustomOtherIdentifier#</cfoutput></strong></th>
 				<th><strong>Current Identification</strong></th>
 				<th><strong>Made</strong></th>
+				<th><strong>Made By</strong></th>
 				<th><strong>Country</strong></th>
 				<th><strong>State</strong></th>
 				<th><strong>County</strong></th>
@@ -422,6 +406,7 @@ limitations under the License.
 					<td>#CustomID#</td>
 					<td><i>#Scientific_Name#</i></td>
 					<td>#made_date# (#nature_of_id#)</td>
+					<td>#determiers#</td>
 					<td>#Country#</td>
 					<td>#State_Prov#</td>
 					<td>#county#</td>
