@@ -229,7 +229,7 @@ limitations under the License.
 
 				<div id="addressDialogDiv"></div>
 
-				<h3 class="h4 pt-1">Add New Address</h3>
+				<h3 class="h4 mt-2 pt-1">Add New Address</h3>
 				<div class="form-row">
 					<div class="col-12 col-md-4">
 						<label for="new_address_type" class="data-entry-label mb-0">Address Type</label>
@@ -555,7 +555,7 @@ limitations under the License.
 				</cfif>
 				<div id="newRelationshipDiv" class="col-12 px-0 mb-3">
 					<label for="new_relation" class="data-entry-label mb-0 sr-only">Add Relationship</label>
-					<h3 class="h4 pt-1">Add Relationship</h3>
+					<h3 class="h4 pt-1 mt-2">Add Relationship</h3>
 					<div class="form-row">
 						<div class="col-12 col-md-2">
 							<label class="data-entry-label mb-0 px-0">&nbsp;Current Agent</label>
@@ -605,7 +605,7 @@ limitations under the License.
 						});
 					</script>
 				</div>
-				<h3 class="h4">Relationships from other agents</h3>
+				<h3 class="h4">Relationships from Other Agents</h3>
 				<cfquery name="revRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="revRelations_result">
 					select
 						preferred_agent_name.agent_name,
@@ -1102,7 +1102,7 @@ limitations under the License.
 						agent_name_type,
 						agent_name
 				</cfquery>
-				<h3 class="h4 mb-0">Other Names</h3>
+				<h3 class="h4 mt-2 mb-0">Other Names</h3>
 				<label class="data-entry-label mb-0 sr-only">Other Names</label>
 				<span class="hints text-success small px-1">(add a space between initials for all forms with two initials)</span>
 				<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
