@@ -287,32 +287,36 @@ limitations under the License.
 							<input type="text" name="user_identification" id="user_identification" class="data-entry-input">
 						</div>
 						<div class="col-12 form-row" id="determiners">
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-3">
 								<label for="idBy" class="data-entry-label">Identified By:</label>
 								<input type="text" name="idBy" id="idBy" class="data-entry-input reqdClr" required>
 								<input type="hidden" name="newIdById" id="newIdById">
-								<span class="infoLink" onclick="addNewIdBy('two');">more...</span>
+							</div>
+							<div class="col-12 col-md-1">
+								<span class="btn btn-xs btn-secondary" onclick="addNewIdBy('two');">more...</span>
 							</div>
 							<script>
 								$(document).ready(function() { 
 									makeAgentAutocompleteMeta("idBy", "newIdById");
 								});
 							</script>
-							<div class="col-12 col-md-4" id="addNewIdBy_two" style="display:none;">
+							<div class="col-12 col-md-3 determiner_block_two"  id="addNewIdBy_two" style="display:none;">
 								<label for="idBy_two" class="data-entry-label">
 									ID By:
 									<span class="infoLink" onclick="clearNewIdBy('two');"> clear</span>
 								</label>
 								<input type="text" name="idBy_two" id="idBy_two" class="data-entry-input reqdClr">
 								<input type="hidden" name="newIdById_two" id="newIdById_two">
-								<span class="infoLink" onclick="addNewIdBy('three');">more...</span>
+							</div>
+							<div class="col-12 col-md-1 determiner_block_two" style="display:none;">
+								<span class="btn btn-xs btn-secondary" onclick="addNewIdBy('three');">more...</span>
 							</div>
 							<script>
 								$(document).ready(function() { 
 									makeAgentAutocompleteMeta("idBy_two","newIdById_two");
 								});
 							</script>
-							<div class="col-12 col-md-4" id="addNewIdBy_three" style="display:none;">
+							<div class="col-12 col-md-4 determiner_block_three" id="addNewIdBy_three" style="display:none;">
 								<label for="idBy_three" class="data-entry-label">
 										ID By:
 										<span class="infoLink" onclick="clearNewIdBy('three');"> clear</span>

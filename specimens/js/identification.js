@@ -4,11 +4,11 @@
 
 */
 function addNewIdBy(n) {
-	$('#addNewIdBy_' + n).show();
+	$('.determiner_block_' + n).show();
 	$('#newIdBy_' + n).addClass('reqdClr');
 }
 function clearNewIdBy (n) {
-	$('#addNewIdBy_' + n).hide();
+	$('.determiner_block_' + n).hide();
 	$('#newIdBy_' + n).val('').removeClass('reqdClr');
 }
 function newIdFormula (f) {
@@ -16,7 +16,7 @@ function newIdFormula (f) {
 	var b_val = document.getElementById('taxonb');
 	var b_id = document.getElementById('taxonb_id');
 			
-	if (f && f.includes('B') { 
+	if (f && f.includes('B')) { 
 		// enable B inputs
 		bTr.style.display='';
 		b_val.className='reqdClr';
