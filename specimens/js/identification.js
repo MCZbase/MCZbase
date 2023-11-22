@@ -21,7 +21,7 @@ function newIdFormula (f) {
 		$("#taxonb").val("");
 		$("#taxonb_id").val("");
 	} else {
-		$("#taxonb").addClass('reqdClr');
+		$("#taxonb").removeClass('reqdClr');
 		$("#taxonb").prop('required',false);
 		$("#taxonb").prop('disabled',true);
 		$("#taxonb").val("");
