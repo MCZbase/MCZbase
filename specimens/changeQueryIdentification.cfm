@@ -231,7 +231,8 @@ limitations under the License.
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-2">
 							<label for="taxa_formula" class="data-entry-label">
-								<a href="javascript:void(0);" class="novisit" onClick="getDocs('identification','id_formula')">ID Formula:</a>
+								ID Formula: 
+								<a href="/vocabularies/ControlledVocabulary.cfm?table=CTTAXA_FORMULA" target="_blank"><i class="fas fa-info-circle" aria-label="help link"></i></a>
 							</label>
 							<cfif not isdefined("taxa_formula")>
 								<cfset taxa_formula='A'>
@@ -384,11 +385,10 @@ limitations under the License.
 				ORDER BY
 					collection_object_id
 			</cfquery>
-			<br>
 			<cfif specimenList.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-			<b>#specimenList.recordcount# Specimen#plural# Being Re-Identified:</b>
 		</cfoutput>
 	
+		<h1 class="h2">#specimenList.recordcount# Specimen#plural# to be Re-Identified:</h1>
 		<table width="95%" border="1">
 			<tr>
 				<th><strong>Catalog Number</strong></th>
