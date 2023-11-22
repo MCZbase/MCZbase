@@ -247,7 +247,7 @@ limitations under the License.
 						<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 					</cfif>
 					<div class="form-row mb-2">
-						<div class="col-12">
+						<div class="col-12 col-md-2">
 							<label for="taxa_formula" class="data-entry-label">
 								<a href="javascript:void(0);" class="novisit" onClick="getDocs('identification','id_formula')">ID Formula:</a>
 							</label>
@@ -261,7 +261,7 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12">
+						<div class="col-12 col-md-5">
 							<label class="data-entry-label" for="taxona">Taxon A: </label>
 							<input type="text" name="taxona" id="taxona" class="data-entry-input reqdClr" required>
 							<input type="hidden" name="taxona_id" id="taxona_id">
@@ -271,11 +271,7 @@ limitations under the License.
 								makeScientificNameAutocompleteMeta("taxona","taxona_id");
 							});
 						</script>
-						<div class="col-12" id="userID" style="display:none;">
-							<label class="data-entry-label" for="user_identification">Identification: </label>
-							<input type="text" name="user_identification" id="user_identification" class="data-entry-input">
-						</div>
-						<div class="col-12" id="taxon_b_row" style="display:none;">
+						<div class="col-12 col-md-5" id="taxon_b_row">
 							<label class="data-entry-label" for="taxonb">Taxon B: </label>
 							<input type="text" name="taxonb" id="taxonb" class="data-entry-input reqdClr" required>
 							<input type="hidden" name="taxonb_id" id="taxonb_id">
@@ -285,49 +281,56 @@ limitations under the License.
 								makeScientificNameAutocompleteMeta("taxonb","taxonb_id");
 							});
 						</script>
-						<div class="col-12">
-							<label for="idBy" class="data-entry-label">Identified By:</label>
-							<input type="text" name="idBy" id="idBy" class="data-entry-input reqdClr" required>
-							<input type="hidden" name="newIdById" id="newIdById">
-							<span class="infoLink" onclick="addNewIdBy('two');">more...</span>
+						<div class="col-12" id="userID" style="display:none;">
+							<!--- unused feature A {string} pattern --->
+							<label class="data-entry-label" for="user_identification">Custom Identification: </label>
+							<input type="text" name="user_identification" id="user_identification" class="data-entry-input">
 						</div>
-						<script>
-							$(document).ready(function() { 
-								makeAgentAutocompleteMeta("idBy", "newIdById");
-							});
-						</script>
-						<div class="col-12" id="addNewIdBy_two" style="display:none;">
-							<label for="idBy_two" class="data-entry-label">
-								ID By:
-								<span class="infoLink" onclick="clearNewIdBy('two');"> clear</span>
-							</label>
-							<input type="text" name="idBy_two" id="idBy_two" class="data-entry-input reqdClr">
-							<input type="hidden" name="newIdById_two" id="newIdById_two">
-							<span class="infoLink" onclick="addNewIdBy('three');">more...</span>
-						</div>
-						<script>
-							$(document).ready(function() { 
-								makeAgentAutocompleteMeta("idBy_two","newIdById_two");
-							});
-						</script>
-						<div class="col-12" id="addNewIdBy_three" style="display:none;">
-							<label for="idBy_three" class="data-entry-label">
+						<div class="col-12 form-row" id="determiners">
+							<div class="col-12 col-md-4">
+								<label for="idBy" class="data-entry-label">Identified By:</label>
+								<input type="text" name="idBy" id="idBy" class="data-entry-input reqdClr" required>
+								<input type="hidden" name="newIdById" id="newIdById">
+								<span class="infoLink" onclick="addNewIdBy('two');">more...</span>
+							</div>
+							<script>
+								$(document).ready(function() { 
+									makeAgentAutocompleteMeta("idBy", "newIdById");
+								});
+							</script>
+							<div class="col-12 col-md-4" id="addNewIdBy_two" style="display:none;">
+								<label for="idBy_two" class="data-entry-label">
 									ID By:
-									<span class="infoLink" onclick="clearNewIdBy('three');"> clear</span>
-							</label>
-							<input type="text" name="idBy_three" id="idBy_three" class="data-entry-input reqdClr">
-							<input type="hidden" name="newIdById_three" id="newIdById_three">
+									<span class="infoLink" onclick="clearNewIdBy('two');"> clear</span>
+								</label>
+								<input type="text" name="idBy_two" id="idBy_two" class="data-entry-input reqdClr">
+								<input type="hidden" name="newIdById_two" id="newIdById_two">
+								<span class="infoLink" onclick="addNewIdBy('three');">more...</span>
+							</div>
+							<script>
+								$(document).ready(function() { 
+									makeAgentAutocompleteMeta("idBy_two","newIdById_two");
+								});
+							</script>
+							<div class="col-12 col-md-4" id="addNewIdBy_three" style="display:none;">
+								<label for="idBy_three" class="data-entry-label">
+										ID By:
+										<span class="infoLink" onclick="clearNewIdBy('three');"> clear</span>
+								</label>
+								<input type="text" name="idBy_three" id="idBy_three" class="data-entry-input reqdClr">
+								<input type="hidden" name="newIdById_three" id="newIdById_three">
+							</div>
+							<script>
+								$(document).ready(function() { 
+									makeAgentAutocompleteMeta("idBy_three","newIdById_three");
+								});
+							</script>
 						</div>
-						<script>
-							$(document).ready(function() { 
-								makeAgentAutocompleteMeta("idBy_three","newIdById_three");
-							});
-						</script>
-						<div class="col-12">
+						<div class="col-12 col-md-4">
 							<label for="made_date" class="data-entry-label">Date Identified</label>
 							<input type="text" name="made_date" id="made_date" class="data-entry-input">
 						</div>
-						<div class="col-12">
+						<div class="col-12 col-md-4">
 							<label for="nature_of_id" class="data-entry-label">Nature of ID: </label>
 								<select name="nature_of_id" id="nature_of_id" class="data-entry-select reqdClr" required>
 									<cfloop query="ctnature">
