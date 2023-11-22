@@ -64,6 +64,7 @@ limitations under the License.
 			<!--- loop through the collection_object_list and update things one at a time--->
 			<cftransaction>
 				<cftry>
+					<!--- result_id needs user_login, this prevents update of stored_as_fg in same transaction --->
 					<cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							collection_object_id
@@ -87,13 +88,6 @@ limitations under the License.
 							SET ACCEPTED_ID_FG=0 
 							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#specimenList.collection_object_id#">
 						</cfquery>
-						<cfif isDefined("stored_as_fg") and stored_as_fg EQ "1">
-							<cfquery name="clearStoredAs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								UPDATE identification 
-								SET STORED_AS_FG=0 
-								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#specimenList.collection_object_id#">
-							</cfquery>
-						</cfif>
 						<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							INSERT INTO identification (
 								IDENTIFICATION_ID,
@@ -108,9 +102,6 @@ limitations under the License.
 								</cfif>
 								,taxa_formula
 								,scientific_name
-								<cfif isDefined("stored_as_fg") and stored_as_fg EQ "1">
-									,stored_as_fg
-								</cfif>
 								<cfif isDefined("publication_id") and len(publication_id) GT 0>
 									,publication_id
 								</cfif>
@@ -127,9 +118,6 @@ limitations under the License.
 								</cfif>
 								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">
 								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">
-								<cfif isDefined("stored_as_fg") and stored_as_fg EQ "1">
-									,1
-								</cfif>
 								<cfif isDefined("publication_id") and len(publication_id) GT 0>
 									,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 								</cfif>
@@ -356,9 +344,8 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="stored_as_fg" class="data-entry-label">Stored As Name: </label>
-							<select name="stored_as_fg" id="stored_as_fg" class="data-entry-select">
-								<option value="">No Change</option>
-								<option value="1">All Stored Under This Name</option>
+							<select name="stored_as_fg" id="stored_as_fg" class="data-entry-select" disabled>
+								<option value="" selected>No Change</option>
 							</select>
 						</div>
 						<div class="col-12 col-md-4">
