@@ -4,6 +4,8 @@ checkcfquery.py
 cache
 mediaUploads
 specimen_images
+metrics/datafiles/
+metrics/R/datafiles/
 _notes/
 /bower_components/
 /node_modules/
