@@ -406,7 +406,7 @@ limitations under the License.
 					<td>#CustomID#</td>
 					<td><i>#Scientific_Name#</i></td>
 					<td>#made_date# (#nature_of_id#)</td>
-					<td>#determiers#</td>
+					<td>#determiners#</td>
 					<td>#Country#</td>
 					<td>#State_Prov#</td>
 					<td>#county#</td>
