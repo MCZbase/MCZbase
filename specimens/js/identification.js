@@ -30,11 +30,13 @@ function newIdFormula (f) {
 		b_id.className='';
 	}
 	if(f=='A {string}') {
-		$('#userID').style.display='';
-		$('#user_identification').className='reqdClr';
+		$('#userID').show();
+		$('#user_identification').addClass('reqdClr');
+		$('#user_identification').prop('required',true);
 	} else {
-		$('#userID').style.display='none';
-		$('#user_identification').className='';
+		$('#userID').hide();
+		$('#user_identification').removeClass('reqdClr');
+		$('#user_identification').prop('required',false);
 	}
 }
 function removeIdentifier ( identification_id,num  ) {
