@@ -268,7 +268,7 @@ limitations under the License.
 						</div>
 						<script>
 							$(document).ready(function() { 
-								makeTaxonAutocomplete("taxona_id","taxona");
+								makeTaxonAutocomplete("taxona","taxona_id");
 							});
 						</script>
 						<div class="col-12" id="userID" style="display:none;">
@@ -282,7 +282,7 @@ limitations under the License.
 						</div>
 						<script>
 							$(document).ready(function() { 
-								makeScientificNameAutocompleteMeta("taxonb_id","taxonb");
+								makeScientificNameAutocompleteMeta("taxonb","taxonb_id");
 							});
 						</script>
 						<div class="col-12">
@@ -293,7 +293,7 @@ limitations under the License.
 						</div>
 						<script>
 							$(document).ready(function() { 
-								makeAgentAutocompleteMeta("newIdById","idBy");
+								makeAgentAutocompleteMeta("idBy", "newIdById");
 							});
 						</script>
 						<div class="col-12" id="addNewIdBy_two" style="display:none;">
@@ -307,7 +307,7 @@ limitations under the License.
 						</div>
 						<script>
 							$(document).ready(function() { 
-								makeAgentAutocompleteMeta("newIdById_two","idBy_two");
+								makeAgentAutocompleteMeta("idBy_two","newIdById_two");
 							});
 						</script>
 						<div class="col-12" id="addNewIdBy_three" style="display:none;">
@@ -320,7 +320,7 @@ limitations under the License.
 						</div>
 						<script>
 							$(document).ready(function() { 
-								makeAgentAutocompleteMeta("newIdById_three","idBy_three");
+								makeAgentAutocompleteMeta("idBy_three","newIdById_three");
 							});
 						</script>
 						<div class="col-12">
