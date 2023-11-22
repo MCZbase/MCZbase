@@ -429,37 +429,37 @@ limitations under the License.
 					collection_object_id
 			</cfquery>
 			<cfif specimenList.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-		</cfoutput>
 	
-		<h1 class="h2">#specimenList.recordcount# Specimen#plural# to be Re-Identified:</h1>
-		<table width="95%" border="1">
-			<tr>
-				<th><strong>Catalog Number</strong></th>
-				<th><strong><cfoutput>#session.CustomOtherIdentifier#</cfoutput></strong></th>
-				<th><strong>Current Identification</strong></th>
-				<th><strong>Made By</strong></th>
-				<th><strong>Made Date</strong></th>
-				<th><strong>Country</strong></th>
-				<th><strong>State</strong></th>
-				<th><strong>County</strong></th>
-				<th><strong>Locality</strong></th>
-				<th><strong>Type Status</strong></th>
-			</tr>
-			<cfoutput query="specimenList" group="collection_object_id">
+			<h1 class="h2">#specimenList.recordcount# Specimen#plural# to be Re-Identified:</h1>
+			<table width="95%" border="1">
 				<tr>
-					<td><a href="/guid/MCZ:#collection_cde#:#cat_num#" target="_blank">MCZ:#collection_cde#:#cat_num#</a></td>
-					<td>#CustomID#</td>
-					<td><i>#Scientific_Name#</i></td>
-					<td>#determiners#</td>
-					<td>#made_date# (#nature_of_id#)</td>
-					<td>#Country#</td>
-					<td>#State_Prov#</td>
-					<td>#county#</td>
-					<td>#spec_locality#</td>
-					<td>#type_status#</td>
+					<th><strong>Catalog Number</strong></th>
+					<th><strong><cfoutput>#session.CustomOtherIdentifier#</cfoutput></strong></th>
+					<th><strong>Current Identification</strong></th>
+					<th><strong>Made By</strong></th>
+					<th><strong>Made Date</strong></th>
+					<th><strong>Country</strong></th>
+					<th><strong>State</strong></th>
+					<th><strong>County</strong></th>
+					<th><strong>Locality</strong></th>
+					<th><strong>Type Status</strong></th>
 				</tr>
-			</cfoutput>
-		</table>
+				<cfloop query="specimenList">
+					<tr>
+						<td><a href="/guid/MCZ:#collection_cde#:#cat_num#" target="_blank">MCZ:#collection_cde#:#cat_num#</a></td>
+						<td>#CustomID#</td>
+						<td><i>#Scientific_Name#</i></td>
+						<td>#determiners#</td>
+						<td>#made_date# (#nature_of_id#)</td>
+						<td>#Country#</td>
+						<td>#State_Prov#</td>
+						<td>#county#</td>
+						<td>#spec_locality#</td>
+						<td>#type_status#</td>
+					</tr>
+				</cfloop>
+			</table>
+		</cfoutput>
 	</section>
 </main>
 <cfinclude template="/shared/_footer.cfm">
