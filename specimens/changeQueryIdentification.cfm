@@ -356,9 +356,27 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="col-12">
-							<label for="identification_remarks" class="data-entry-label">Remarks:</label>
-							<input type="text" name="identification_remarks" id="identificaiton_remarks" class="data-entry-input" maxlength="4000">
+							<label for="identification_remarks" class="data-entry-label">
+								Remarks:
+								(<span id="length_identification_remarks"></span>)
+							</label>
+							<textarea name="identification_remarks" id="identification_remarks" rows="2" 
+								onkeyup="countCharsLeft('identification_remarks', 4000, 'length_identification_remarks');"
+								class="data-entry-textarea autogrow mb-1" 
+								></textarea>
 						</div>
+						<script>
+							// make selected textareas autogrow as text is entered.
+							$(document).ready(function() {
+								// bind the autogrow function to the keyup event
+								$('textarea.autogrow').keyup(autogrow);
+								// trigger keyup event to size textareas to existing text
+								$('textarea.autogrow').keyup();
+							});
+						</script> 
+						<div class="form-row">
+							<div class="form-group col-12 mb-3 pt-1 mt-1">
+								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 						<div class="col-12">
 							<input type="submit" value="Add Identification to all listed specimens" class="btn btn-xs btn-primary">
 						</div>
