@@ -393,8 +393,8 @@ limitations under the License.
 				<th><strong>Catalog Number</strong></th>
 				<th><strong><cfoutput>#session.CustomOtherIdentifier#</cfoutput></strong></th>
 				<th><strong>Current Identification</strong></th>
-				<th><strong>Made</strong></th>
 				<th><strong>Made By</strong></th>
+				<th><strong>Made Date</strong></th>
 				<th><strong>Country</strong></th>
 				<th><strong>State</strong></th>
 				<th><strong>County</strong></th>
@@ -405,8 +405,8 @@ limitations under the License.
 					<td><a href="/guid/MCZ:#collection_cde#:#cat_num#" target="_blank">MCZ:#collection_cde#:#cat_num#</a></td>
 					<td>#CustomID#</td>
 					<td><i>#Scientific_Name#</i></td>
-					<td>#made_date# (#nature_of_id#)</td>
 					<td>#determiners#</td>
+					<td>#made_date# (#nature_of_id#)</td>
 					<td>#Country#</td>
 					<td>#State_Prov#</td>
 					<td>#county#</td>
