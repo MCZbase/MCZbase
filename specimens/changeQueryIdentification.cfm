@@ -29,7 +29,7 @@ limitations under the License.
 	});
 </script>
 
-<script type='text/javascript' src='/includes/_editIdentification.js'></script>
+<script type='text/javascript' src='/specimens/js/identification.js'></script>
 
 <cfif isDefined("result_id") and len(result_id) GT 0>
 	<cfset mode="result_id">
