@@ -74,7 +74,7 @@ limitations under the License.
 									<a href="/specimens/changeQueryEncumbrance.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Encumbrances</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Identifications</a>
+									<a href="/specimens/changeQueryIdentification.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Identifications</a>
 								</li>
 								<li class="nav-item mb-1">
 									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Map By Locality</a>
@@ -114,7 +114,7 @@ limitations under the License.
 
 	Encumbrances - Implemented
 
-	<option value="/multiIdentification.cfm"> works only with collection_object_id 
+	<option value="/specimens/changeQueryIdentification.cfm"> works only with collection_object_id -- moved
 	Identification
 
 	<option value="/bnhmMaps/SpecimensByLocality.cfm"> works only on session search table, passed as table_name 

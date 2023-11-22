@@ -102,7 +102,6 @@ Disallow: /locDownload.cfm
 Disallow: /media.cfm
 Disallow: /moveContainer.cfm
 Disallow: /MSBMammLabels.cfm
-Disallow: /multiIdentification.cfm
 Disallow: /nothing.cfm
 Disallow: /part2container.cfm
 Disallow: /Permit.cfm

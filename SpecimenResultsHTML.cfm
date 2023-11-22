@@ -1497,15 +1497,8 @@ document.getElementById('saveme').submit();
 <cfif getBasic.recordcount lt 1000>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfoutput>
-		<!---
-			<option  value="/CustomPages/ALALabels.cfm">ALA Labels</option>
-			<option  value="/CustomPages/ALALabelsOnline.cfm">ALA Labels online</option>
-		--->
 	<form name="goSomewhereElseNow" method="post">
 		<select name="goWhere" size="1">
-			<option value="UamMammalVialLabels_pdffile.cfm?collection_object_id=#collObjIdList#">
-				UAM Mammals Vial Labels
-			</option>
 			<option value="mammalLabels.cfm?collection_object_id=#collObjIdList#&action=box">
 				UAM Mammals Box Labels
 			</option>
@@ -1514,9 +1507,6 @@ document.getElementById('saveme').submit();
 			</option>
 			<option value="wideLabels.cfm?collection_object_id=#collObjIdList#">
 				MVZ wide Labels
-			</option>
-			<option value="editIdentification.cfm?collection_object_id=#collObjIdList#&Action=multi">
-				Identification
 			</option>
 			<option value="findContainer.cfm?collection_object_id=#collObjIdList#&srch=part">
 				Part Locations
