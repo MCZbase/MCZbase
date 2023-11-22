@@ -268,7 +268,7 @@ limitations under the License.
 						</div>
 						<script>
 							$(document).ready(function() { 
-								makeTaxonAutocomplete("taxona","taxona_id");
+								makeScientificNameAutocompleteMeta("taxona","taxona_id");
 							});
 						</script>
 						<div class="col-12" id="userID" style="display:none;">
