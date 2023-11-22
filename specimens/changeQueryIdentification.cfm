@@ -21,14 +21,6 @@ limitations under the License.
 <cfset pageTitle = "Manage: Add new current identification">
 <cfinclude template="/shared/_header.cfm">
 
-<script language="JavaScript" type="text/javascript">
-	jQuery(document).ready(function() {
-		jQuery("#made_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
-			buttonImageOnly: true });
-	});
-</script>
-
 <script type='text/javascript' src='/specimens/js/identification.js'></script>
 
 <cfif isDefined("result_id") and len(result_id) GT 0>
@@ -326,6 +318,11 @@ limitations under the License.
 						<div class="col-12 col-md-4">
 							<label for="made_date" class="data-entry-label">Date Identified</label>
 							<input type="text" name="made_date" id="made_date" class="data-entry-input">
+							<script>
+								$(document).ready(function() { 
+									$("##made_date").datepicker({ dateFormat: 'yy-mm-dd'});
+								});
+							</script>
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="nature_of_id" class="data-entry-label">Nature of ID: </label>
