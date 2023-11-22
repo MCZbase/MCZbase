@@ -347,8 +347,8 @@ limitations under the License.
 						<div class="col-12 col-md-4">
 							<label for="stored_as_fg" class="data-entry-label">Stored As Name: </label>
 							<select name="stored_as_fg" id="stored_as_fg" class="data-entry-select">
-								<option value="">No Change<option>
-								<option value="1">All Stored Under This Name<option>
+								<option value="">No Change</option>
+								<option value="1">All Stored Under This Name</option>
 							</select>
 						</div>
 						<div class="col-12">
