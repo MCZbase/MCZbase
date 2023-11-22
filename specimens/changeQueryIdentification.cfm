@@ -87,6 +87,13 @@ limitations under the License.
 							SET ACCEPTED_ID_FG=0 
 							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#specimenList.collection_object_id#">
 						</cfquery>
+						<cfif isDefined("stored_as_fg") and stored_as_fg EQ "1">
+							<cfquery name="clearStoredAs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								UPDATE identification 
+								SET STORED_AS_FG=0 
+								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#specimenList.collection_object_id#">
+							</cfquery>
+						</cfif>
 						<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							INSERT INTO identification (
 								IDENTIFICATION_ID,
@@ -101,6 +108,9 @@ limitations under the License.
 								</cfif>
 								,taxa_formula
 								,scientific_name
+								<cfif isDefined("stored_as_fg") and stored_as_fg EQ "1">
+									,stored_as_fg
+								</cfif>
 							) VALUES (
 								sq_identification_id.nextval,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#specimenList.collection_object_id#">
@@ -114,6 +124,9 @@ limitations under the License.
 								</cfif>
 								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxa_formula#">
 								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">
+								<cfif isDefined("stored_as_fg") and stored_as_fg EQ "1">
+									,1
+								</cfif>
 							)
 						</cfquery>
 						<cfquery name="newIdAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -319,17 +332,24 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="nature_of_id" class="data-entry-label">Nature of ID: </label>
-								<select name="nature_of_id" id="nature_of_id" class="data-entry-select reqdClr" required>
-									<option value=""></option>
-									<cfloop query="ctnature">
-										<option value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
-									</cfloop>
-								</select>
-								<img class="likeLink"
-									src="/images/ctinfo.gif"
-									border="0"
-									alt="Code Table Value Definition"
-									onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">
+							<select name="nature_of_id" id="nature_of_id" class="data-entry-select reqdClr" required>
+								<option value=""></option>
+								<cfloop query="ctnature">
+									<option value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
+								</cfloop>
+							</select>
+							<img class="likeLink"
+								src="/images/ctinfo.gif"
+								border="0"
+								alt="Code Table Value Definition"
+								onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="stored_as_fg" class="data-entry-label">Stored As Name: </label>
+							<select name="stored_as_fg" id="stored_as_fg" class="data-entry-select">
+								<option value="">No Change<option>
+								<option value="1">All Stored Under This Name<option>
+							</select>
 						</div>
 						<div class="col-12">
 							<label for="identification_remarks" class="data-entry-label">Remarks:</label>
