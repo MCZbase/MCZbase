@@ -1508,9 +1508,6 @@ document.getElementById('saveme').submit();
 			<option value="wideLabels.cfm?collection_object_id=#collObjIdList#">
 				MVZ wide Labels
 			</option>
-			<option value="/specimens/changeQueryIdentification.cfm?collection_object_id=#collObjIdList#">
-				Identification
-			</option>
 			<option value="findContainer.cfm?collection_object_id=#collObjIdList#&srch=part">
 				Part Locations
 			</option>
