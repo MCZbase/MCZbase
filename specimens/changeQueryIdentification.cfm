@@ -111,6 +111,9 @@ limitations under the License.
 								<cfif isDefined("stored_as_fg") and stored_as_fg EQ "1">
 									,stored_as_fg
 								</cfif>
+								<cfif isDefined("publication_id") and len(publication_id) GT 0>
+									,publication_id
+								</cfif>
 							) VALUES (
 								sq_identification_id.nextval,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#specimenList.collection_object_id#">
@@ -126,6 +129,9 @@ limitations under the License.
 								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#">
 								<cfif isDefined("stored_as_fg") and stored_as_fg EQ "1">
 									,1
+								</cfif>
+								<cfif isDefined("publication_id") and len(publication_id) GT 0>
+									,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 								</cfif>
 							)
 						</cfquery>
@@ -350,6 +356,16 @@ limitations under the License.
 								<option value="">No Change</option>
 								<option value="1">All Stored Under This Name</option>
 							</select>
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="publication" class="data-entry-label">Sensu</label>
+							<input type="text" name="publication" id="publication" class="data-entry-input">
+							<input type="hidden" name="publication_id" id="publication_id" class="data-entry-input">
+							<script>
+								$(document).ready(function() { 
+									makePublicationAutocompleteMeta('publication', 'publication_id');
+								});
+							</script>
 						</div>
 						<div class="col-12">
 							<label for="identification_remarks" class="data-entry-label">Remarks:</label>
