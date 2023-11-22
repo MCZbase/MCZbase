@@ -12,24 +12,23 @@ function clearNewIdBy (n) {
 	$('#newIdBy_' + n).val('').removeClass('reqdClr');
 }
 function newIdFormula (f) {
-	var bTr = document.getElementById('taxon_b_row');
-	var b_val = document.getElementById('taxonb');
-	var b_id = document.getElementById('taxonb_id');
 			
 	if (f && f.includes('B')) { 
 		// enable B inputs
-		bTr.style.display='';
-		b_val.className='reqdClr';
-		b_val.value='';
-		b_id.className='reqdClr';
+		$("#taxonb").addClass('reqdClr');
+		$("#taxonb").prop('required',true);
+		$("#taxonb").prop('disabled',false);
+		$("#taxonb").val("");
+		$("#taxonb_id").val("");
 	} else {
-		bTr.style.display='none';
-		b_val.style.value='';
-		b_val.className='';
-		b_id.style.value='';
-		b_id.className='';
+		$("#taxonb").addClass('reqdClr');
+		$("#taxonb").prop('required',false);
+		$("#taxonb").prop('disabled',true);
+		$("#taxonb").val("");
+		$("#taxonb_id").val("");
 	}
 	if(f=='A {string}') {
+		// unused special case
 		$('#userID').show();
 		$('#user_identification').addClass('reqdClr');
 		$('#user_identification').prop('required',true);

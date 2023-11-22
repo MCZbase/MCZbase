@@ -273,7 +273,7 @@ limitations under the License.
 						</script>
 						<div class="col-12 col-md-5" id="taxon_b_row">
 							<label class="data-entry-label" for="taxonb">Taxon B: </label>
-							<input type="text" name="taxonb" id="taxonb" class="data-entry-input reqdClr" required>
+							<input type="text" name="taxonb" id="taxonb" class="data-entry-input" disabled >
 							<input type="hidden" name="taxonb_id" id="taxonb_id">
 						</div>
 						<script>
