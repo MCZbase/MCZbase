@@ -345,7 +345,7 @@ limitations under the License.
 								<option value="" selected>Current Id cannot be marked &apos;Stored As&apos;</option>
 							</select>
 						</div>
-						<div class="col-12 col-md-4">
+						<div class="col-12">
 							<label for="publication" class="data-entry-label">Sensu</label>
 							<input type="text" name="publication" id="publication" class="data-entry-input">
 							<input type="hidden" name="publication_id" id="publication_id" class="data-entry-input">
