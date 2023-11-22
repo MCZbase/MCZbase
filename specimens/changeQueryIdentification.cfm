@@ -208,7 +208,11 @@ limitations under the License.
 							<cfset errorMessage = "#errorMessage# #cfcatch.cause.message#">
 						</cfif>
 						<cfif isDefined("cfcatch.cause.tagcontext")>
-							<cfset errorMessage = "#errorMessage# #cfcatch.cause.tagcontext#">
+							<cftry>
+								<cfset errorMessage = "#errorMessage# Line:#cfcatch.cause.tagcontext[1].line#">
+							<cfcatch>
+							</cfcatch>
+							</cftry>
 						</cfif>
 					</cfif>
 				</cfcatch>
