@@ -282,13 +282,13 @@ limitations under the License.
 						</div>
 						<script>
 							$(document).ready(function() { 
-								makeTaxonAutocomplete("taxonb_id","taxonb");
+								makeScientificNameAutocompleteMeta("taxonb_id","taxonb");
 							});
 						</script>
 						<div class="col-12">
 							<label for="idBy" class="data-entry-label">Identified By:</label>
 							<input type="text" name="idBy" id="idBy" class="data-entry-input reqdClr" required>
-							<input type="hidden" name="newIdById">
+							<input type="hidden" name="newIdById" id="newIdById">
 							<span class="infoLink" onclick="addNewIdBy('two');">more...</span>
 						</div>
 						<script>
