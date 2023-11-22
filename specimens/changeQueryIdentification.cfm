@@ -64,7 +64,6 @@ limitations under the License.
 			<!--- loop through the collection_object_list and update things one at a time--->
 			<cftransaction>
 				<cftry>
-					<!--- result_id needs user_login, this prevents update of stored_as_fg in same transaction --->
 					<cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							collection_object_id
@@ -343,9 +342,10 @@ limitations under the License.
 								onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">
 						</div>
 						<div class="col-12 col-md-4">
+							<!--- buisness logic in TR_STORED_AS_FG prevents current identification from being stored as --->
 							<label for="stored_as_fg" class="data-entry-label">Stored As Name: </label>
 							<select name="stored_as_fg" id="stored_as_fg" class="data-entry-select" disabled>
-								<option value="" selected>No Change</option>
+								<option value="" selected>Current Id cannot be marked &apos;Stored As&apos;</option>
 							</select>
 						</div>
 						<div class="col-12 col-md-4">
