@@ -306,7 +306,7 @@ limitations under the License.
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				<cfquery name="ctAttribute_code_tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select upper(value_code_table), upper(units_code_table) 
+					select upper(value_code_table) as value_code_table, upper(units_code_table) as units_code_table
 					FROM ctattribute_code_tables
 					WHERE attribute_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.attribute#">
 				</cfquery>
