@@ -144,12 +144,28 @@ limitations under the License.
 			</cfif>
 			<cfset colNames="">
 			<cfset loadedRows = 0>
+			<cfset foundHighCount = 0>
+			<cfset foundHighAscii = "">
+			<cfset foundMultiByte = "">
 			<!--- get the headers from the first row of the input, then iterate through the remaining rows inserting the data into the temp table. --->
 			<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
 				<!--- obtain the values in the current row --->
 				<cfset colVals="">
 				<cfloop from="1" to ="#ArrayLen(arrResult[row])#" index="col">
 					<cfset thisBit=arrResult[row][col]>
+					<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
+						<!--- high ASCII --->
+						<cfif foundHighCount LT 6>
+							<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+							<cfset foundHighCount = foundHighCount + 1>
+						</cfif>
+					<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
+						<!--- multibyte --->
+						<cfif foundHighCount LT 6>
+							<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+							<cfset foundHighCount = foundHighCount + 1>
+						</cfif>
+					</cfif>
 					<cfif #row# is 1>
 						<cfset colNames="#colNames#,#thisBit#">
 					<cfelse>
@@ -219,6 +235,18 @@ limitations under the License.
 				</cfif>
 			</cfloop>
 		
+			<cfif foundHighCount GT 0>
+				<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
+				<div>
+					Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
+					you probably want to <a href="/tools/BulkloadAttributes.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
+					you selected the correct encoding and can continue to validate or load.
+				</div>
+				<ul class="py-1" style="font-size: 1.2rem;">
+					#foundHighAscii#
+					#foundMultiByte#
+				</ul>
+			</cfif>
 			<h3 class="h3">
 				Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadAttributes.cfm?action=validate">click to validate</a>.
 			</h3>
