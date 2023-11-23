@@ -94,16 +94,20 @@ sho err
 		<li>
 			created by agent=Jane Doe;assigned to project=Vocal variation in Pipilo maculatus;shows cataloged_item=MCZ:Bird:12345
 		</li>
-	</ul>
+		<li>
+                        created by agent=Jane Doe;documents collecting_event=Baker-Foster Stickleback Collection Field Number|B93-3
+                </li>
+                <li>
+                        created by agent=Jane Doe;documents collecting_event=1524028
+                </li>
+        </ul>
     <p style="margin-top:.5em;font-weight:bold;">Acceptable values are:</p>
-	<ul class="geol_hier" style="padding-bottom:1em;padding-top:.25em;">
-		<li>Agent Name (must resolve to one agent_id)</li>
-		<li>Project Title (exact string match)</li>
-		<li>Cataloged Item (DWC triplet)</li>
-		<li>Collecting Event (collecting_event_id)</li>
-	</ul>
-
-
+        <ul class="geol_hier" style="padding-bottom:1em;padding-top:.25em;">
+                <li>Agent Name (must resolve to one agent_id)</li>
+                <li>Project Title (exact string match)</li>
+                <li>Cataloged Item (DWC triplet)</li>
+                <li>Collecting Event (collecting_event_id OR Collecting Event Number Series Type|Collecting Event Number)</li>
+        </ul>
 
     <p>The format for MEDIA_LABELS is {media_label}={value}[;{media_label}={value}]</p>
 	 <p>See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">the MEDIA_LABEL controlled vocabulary</a> for a list of allowed values.</p>
@@ -342,25 +346,63 @@ sho err
 						<cfset rec_stat=listappend(rec_stat,'locality_id #lv# matched #c.recordcount# records.',";")>
 					</cfif>
 				<cfelseif table_name is "collecting_event">
-					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select collecting_event_id from collecting_event where collecting_event_id ='#lv#'
-					</cfquery>
-					<cfif c.recordcount is 1 and len(c.collecting_event_id) gt 0>
-						<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							insert into cf_temp_media_relations (
- 								key,
-								MEDIA_RELATIONSHIP,
-								CREATED_BY_AGENT_ID,
-								RELATED_PRIMARY_KEY
-							) values (
-								#key#,
-								'#ln#',
-								#session.myAgentId#,
-								#c.collecting_event_id#
-							)
-						</cfquery>
+					<cfif isnumeric(lv)>
+						<cfset idtype = "collecting_event_id">
+						<cfset idvalue = lv>
 					<cfelse>
-						<cfset rec_stat=listappend(rec_stat,'collecting_event #lv# matched #c.recordcount# records.',";")>
+						<cfset idtype=trim(listfirst(lv,"|"))>
+						<cfset idvalue=trim(listlast(lv,"|"))>
+					</cfif>
+					<cfif idtype EQ "collecting_event_id">
+						<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select collecting_event_id from collecting_event where collecting_event_id ='#idvalue#'
+						</cfquery>
+						<cfif c.recordcount is 1 and len(c.collecting_event_id) gt 0>
+							<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								insert into cf_temp_media_relations (
+	 								key,
+									MEDIA_RELATIONSHIP,
+									CREATED_BY_AGENT_ID,
+									RELATED_PRIMARY_KEY
+								) values (
+									#key#,
+									'#ln#',
+									#session.myAgentId#,
+									#c.collecting_event_id#
+								)
+							</cfquery>
+						<cfelse>
+							<cfset rec_stat=listappend(rec_stat,'collecting_event #lv# matched #c.recordcount# records.',";")>
+						</cfif>
+					<cfelse>
+						<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select collecting_event_id 
+							from coll_event_num_series ns 
+    							join coll_event_number n  on ns.coll_event_num_series_id = n.coll_event_num_series_id
+    							where ns.number_series = '#idtype#'
+    							and n.coll_event_number = '#idvalue#'
+						</cfquery>
+						<cfif c.recordcount gt 0>
+							<cfloop query="c">
+								<cfif len(c.collecting_event_id) gt 0>
+                                                        	<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                                                                	insert into cf_temp_media_relations (
+                                                                        	key,
+                                                                        	MEDIA_RELATIONSHIP,
+                                                                        	CREATED_BY_AGENT_ID,
+                                                                        	RELATED_PRIMARY_KEY
+                                                                	) values (
+                                                                        	#d.key#,
+                                                                        	'#ln#',
+                                                                        	#session.myAgentId#,
+                                                                        	#c.collecting_event_id#
+                                                                	)
+                                                        	</cfquery>
+								</cfif>
+							</cfloop>							
+						<cfelse>
+							<cfset rec_stat=listappend(rec_stat,'collecting event number #lv# matched #c.recordcount# records.',";")>
+						</cfif>
 					</cfif>
 				<cfelseif table_name is "project">
 					<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
