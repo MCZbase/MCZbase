@@ -397,7 +397,7 @@ limitations under the License.
 				</cfloop>
 			</cfloop>
 			<!--- qc checks independent of attributes, includes presence of values in required columns --->
-			<cfloop list="requiredfieldlist" index="requiredField">
+			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_attributes
 					SET 
