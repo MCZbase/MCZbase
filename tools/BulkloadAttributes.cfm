@@ -396,7 +396,6 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 			</cfloop>
-			</cfquery>
 			<!--- qc checks independent of attributes, includes presence of values in required columns --->
 			<cfloop list="requiredfieldlist" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
