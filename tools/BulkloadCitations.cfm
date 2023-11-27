@@ -286,7 +286,7 @@
 							where publication.publication_title = cf_temp_citation.publication_title
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+					
 					</cfquery>
 				<cfelse>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -298,7 +298,7 @@
 							where publication.publication_id = cf_temp_citation.publication_id 
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+							
 					</cfquery>
 				</cfif>
 				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -306,7 +306,7 @@
 						(select taxonomy.taxon_name_id from taxonomy,taxonomy_publication where taxonomy.taxon_name_id = taxonomy_publication.TAXON_NAME_ID
 						AND taxonomy_publication.publication_id = cf_temp_citation.publication_id AND taxonomy.scientific_name=cf_temp_citation.cited_scientific_name)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+						
 				</cfquery>
 			</cfloop>
 			<!--- obtain the information needed to QC each row --->
