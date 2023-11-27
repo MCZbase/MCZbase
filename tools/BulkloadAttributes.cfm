@@ -235,7 +235,11 @@ limitations under the License.
 						<cfset loadedRows = loadedRows + insert_result.recordcount>
 					<cfcatch>
 						<!--- identify the problematic row --->
-						<cfthrow message="#COLUMN_ERR# from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
+						<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#colVals#] <br>Error: #cfcatch.message#">
+						<cfif isDefined("cfcatch.queryError">
+							<cfset error_message = "#error_message# #cfcatch.query_error#">
+						</cfif>
+						<cfthrow message = "#error_message#">
 					</cfcatch>
 					</cftry>
 				</cfif>
