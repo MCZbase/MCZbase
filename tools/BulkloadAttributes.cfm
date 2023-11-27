@@ -390,7 +390,7 @@ limitations under the License.
 					WHERE 
 						attribute IS NOT NULL
 						AND attribute NOT IN (
-							SELECT attribute 
+							SELECT attribute_type 
 							FROM ctattribute_type 
 							WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_cde#">
 						)
