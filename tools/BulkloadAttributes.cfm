@@ -265,6 +265,9 @@ limitations under the License.
 					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadAttributes.cfm">reload</a>
 				</h3>
 				<cfif isDefined("arrResult")>
+					<cfset foundHighCount = 0>
+					<cfset foundHighAscii = "">
+					<cfset foundMultiByte = "">
 					<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 						<cfset thisBit=arrResult[1][col]>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
