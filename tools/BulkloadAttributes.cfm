@@ -236,7 +236,7 @@ limitations under the License.
 					<cfcatch>
 						<!--- identify the problematic row --->
 						<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#colVals#] <br>Error: #cfcatch.message#">
-						<cfif isDefined("cfcatch.queryError">
+						<cfif isDefined("cfcatch.queryError")>
 							<cfset error_message = "#error_message# #cfcatch.query_error#">
 						</cfif>
 						<cfthrow message = "#error_message#">
