@@ -278,19 +278,7 @@
 				</cfif>
 			</cfloop>
 			<cfloop query="getTempTableTypes">
-				<cfif getTempTableTypes.publication_id is not null>
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update 
-							cf_temp_citation 
-						set publication_id =
-							(select publication.publication_id 
-							from publication
-							where publication.publication_id = cf_temp_citation.publication_id 
-							)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
-					</cfquery>
-				<cfelse>
+				<cfif getTempTableTypes.publication_id is null>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_citation
@@ -301,6 +289,18 @@
 							where publication.publication_title = cf_temp_citation.publication_title
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				<cfelse>
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update 
+							cf_temp_citation 
+						set publication_id =
+							(select publication.publication_id 
+							from publication
+							where publication.publication_id = cf_temp_citation.publication_id 
+							)
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
 			</cfloop>
