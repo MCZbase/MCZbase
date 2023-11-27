@@ -312,7 +312,7 @@
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					taxon_name_id, key, cited_taxon_name_id, type_status
+					cited_taxon_name_id, key, cited_taxon_name_id, type_status
 				FROM 
 					cf_temp_citation
 				WHERE 
