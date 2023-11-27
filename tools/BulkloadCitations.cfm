@@ -233,7 +233,7 @@
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
-	<cfif #action# is "validate">
+<!---	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -404,7 +404,7 @@
 				</tbody>
 			</table>
 		</cfoutput>
-	</cfif>
+	</cfif>--->
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
@@ -533,3 +533,6 @@
 			</cfquery>
 		</cfoutput>
 	</cfif>
+						
+</main>
+<cfinclude template="/shared/_footer.cfm">
