@@ -335,8 +335,7 @@ limitations under the License.
 								select collection_object_id 
 								from cataloged_item 
 								where cat_num = cf_temp_attributes.other_id_number and collection_cde = cf_temp_attributes.collection_cde
-							),
-							status = null
+							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
@@ -352,8 +351,7 @@ limitations under the License.
 								and cataloged_item.collection_cde = cf_temp_attributes.collection_cde 
 								and display_value= cf_temp_attributes.other_id_number
 								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
-							),
-							status = null
+							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
