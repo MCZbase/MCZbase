@@ -383,7 +383,7 @@ limitations under the License.
 					</cfquery>	
 				</cfif>
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
-				<cfquery name="flatAttributeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="flatAttributeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatAttributeProblems_result">
 					UPDATE cf_temp_attributes
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'invalid attribute for collection_cde ' || collection_cde)
