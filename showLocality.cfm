@@ -172,7 +172,7 @@
 						<cfif len(collecting_event_id) gt 0>
 							<span class="infoLink" onclick="expand('collecting_event_id', #collecting_event_id#)">[&nbsp;details&nbsp;]</span>
 							<a class="infoLink" href="/SpecimenResults.cfm?collecting_event_id=#collecting_event_id#">[&nbsp;specimens&nbsp;]</a>
-							<a href="showLocality.cfm?action=srch&collecting_event_id=#collecting_event_id#">
+							<a href="/localities/viewCollectingEvent.cfm?collecting_event_id=#collecting_event_id#">
 							<cfif len(verbatim_locality) gt 0>
 								#verbatim_locality#
 							<cfelse>
