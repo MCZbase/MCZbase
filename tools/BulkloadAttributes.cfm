@@ -507,10 +507,11 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---COLLECTION_CDE--->	
-			<cfquery name="m2a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<!--- concat before other messages, as it is cause for unknown attribute for collection etc --->
+			<cfquery name="flagUnknownCollectionCde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
 				SET 
-					status = concat(nvl2(status, status || '; ', ''),'invalid collection_cde')
+					status = concat('Invalid collection_cde', nvl2(status, status || '; ', ''))
 				WHERE collection_cde not in (select collection_cde from collection) 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
