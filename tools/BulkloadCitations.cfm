@@ -246,7 +246,7 @@
 			</cfquery>
 			<cfset i= 1>
 			<cfloop query="getTempTableTypes">
-				<cfif getType.other_id_type eq 'catalog number'>
+				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update 
 							cf_temp_citation 
