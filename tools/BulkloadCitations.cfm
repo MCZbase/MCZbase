@@ -277,7 +277,7 @@
 				</cfif>
 			</cfloop>
 			<cfloop query="getPublication">
-				<cfif getType.publication_id is not null>
+				<cfif getTempTableTypes.publication_id is not null>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update 
 							cf_temp_citation 
