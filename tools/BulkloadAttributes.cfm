@@ -628,7 +628,7 @@ limitations under the License.
 					<cfset attributes_updates = 0>
 					<cfset attributes_updates1 = 0>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_attributes).  <a href='/tools/BullkloadAttributes.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_attributes).  <a href='/tools/BulkloadAttributes.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
