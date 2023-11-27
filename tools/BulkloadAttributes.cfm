@@ -287,7 +287,7 @@ limitations under the License.
 					<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
 						<h3 class="h3">Found characters with unexpected encoding in the header row.  This is probably the cause of your error.</h3>
 						<div>
-							Showing #foundHighCount# examples.  Did you select utf-16 for the encoding for a file that does not have multibyte encoding?
+							Showing #foundHighCount# examples.  Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
 						</div>
 						<ul class="py-1" style="font-size: 1.2rem;">
 							#foundHighAscii#
