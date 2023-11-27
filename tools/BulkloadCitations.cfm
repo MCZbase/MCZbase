@@ -62,6 +62,15 @@
 			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadCitations.cfm">
 				<input type="hidden" name="Action" value="getFile">
 				<input type="file" name="FiletoUpload" size="45">
+				<label for="cSet">Character Set:</label> 
+				<select name="cSet" id="cSet" required class="reqdClr">
+					<option selected></option>
+					<option value="utf-8" >utf-8</option>
+					<option value="windows-1252">windows-1252</option>
+					<option value="MacRoman">MacRoman</option>
+					<option value="utf-16">utf-16</option>
+					<option value="unicode">unicode</option>
+				</select>
 				<input type="submit" value="Upload this file" class="btn btn-primary btn-xs">
 			</cfform>
 		</cfoutput>
@@ -72,7 +81,7 @@
 	<cfif #action# is "getFile">
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<cfoutput>
-			<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
+			<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 			<cfset fileContent=replace(fileContent,"'","''","all")>
 			<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 		
@@ -116,12 +125,28 @@
 			</cfif>
 			<cfset colNames="">
 			<cfset loadedRows = 0>
+			<cfset foundHighCount = 0>
+			<cfset foundHighAscii = "">
+			<cfset foundMultiByte = "">
 			<!--- get the headers from the first row of the input, then iterate through the remaining rows inserting the data into the temp table. --->
 			<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
 				<!--- obtain the values in the current row --->
 				<cfset colVals="">
 				<cfloop from="1" to ="#ArrayLen(arrResult[row])#" index="col">
 					<cfset thisBit=arrResult[row][col]>
+					<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
+						<!--- high ASCII --->
+						<cfif foundHighCount LT 6>
+							<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+							<cfset foundHighCount = foundHighCount + 1>
+						</cfif>
+					<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
+						<!--- multibyte --->
+						<cfif foundHighCount LT 6>
+							<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+							<cfset foundHighCount = foundHighCount + 1>
+						</cfif>
+					</cfif>
 					<cfif #row# is 1>
 						<cfset colNames="#colNames#,#thisBit#">
 					<cfelse>
@@ -137,7 +162,7 @@
 					<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
 					<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
 					<h3 class="h4">Found #arrayLen(colNameArray)# matching columns in header of csv file.</h3>
-					<ul class="geol_hier">
+					<ul class="">
 						<cfloop list="#fieldlist#" index="field" delimiters=",">
 							<cfif listContains(requiredfieldlist,field,",")>
 								<cfset class="text-danger">
@@ -160,7 +185,9 @@
 					<cftry>
 						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
-							insert into cf_temp_citation (#fieldlist#,username) values (
+							insert into cf_temp_attributes
+								(#fieldlist#,username)
+							values (
 								<cfset separator = "">
 								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
 									<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
@@ -188,7 +215,18 @@
 					</cftry>
 				</cfif>
 			</cfloop>
-		
+			<cfif foundHighCount GT 0>
+				<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
+				<div>
+					Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
+					you probably want to <a href="/tools/BulkloadAttributes.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
+					you selected the correct encoding and can continue to validate or load.
+				</div>
+				<ul class="py-1" style="font-size: 1.2rem;">
+					#foundHighAscii#
+					#foundMultiByte#
+				</ul>
+			</cfif>
 			<h3 class="h3">
 				Successfully loaded #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadCitations.cfm?action=validate">click to validate</a>.
 			</h3>
@@ -198,12 +236,16 @@
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
-			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select other_id_type
-				from cf_temp_citation
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					other_id_type, publication_id, key
+				FROM 
+					cf_temp_citation
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop query="getType">
+			<cfset i= 1>
+			<cfloop query="getTempTableTypes">
 				<cfif getType.other_id_type eq 'catalog number'>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update 
@@ -215,6 +257,7 @@
 							and cataloged_item.cat_num = cf_temp_citation.other_id_number
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				<cfelse>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -233,22 +276,70 @@
 					</cfquery>
 				</cfif>
 			</cfloop>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfloop query="getPublication">
+				<cfif getType.publication_id is not null>
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update 
+							cf_temp_citation 
+						set publication_id =
+							(select publication.publication_id 
+							from publication
+							where publication.publication_id = cf_temp_citation.publication_id 
+							)
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+					</cfquery>
+				<cfelse>
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE
+							cf_temp_citation
+						SET
+							publication_id= (
+								select publication.publication_id
+							from publication
+							where publication.publication_title = cf_temp_citation.publication_title
+							)
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+				</cfif>
+			</cfloop>
+			<!--- obtain the information needed to QC each row --->
+			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					taxon_name_id, key, cited_taxon_name_id, type_status
+				FROM 
+					cf_temp_citation
+				WHERE 
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+				
+			<cfquery name="TypeStatusProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_citation
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'invalid type_status for')
+				WHERE 
+					cited_taxon_name_id IS NOT NULL
+					AND cited_taxon_name_id NOT IN (
+						SELECT cited_taxon_name_id 
+						FROM ctcitation_type_status 
+						WHERE type_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.type_status#">
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+			</cfquery>
+			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_citation 
+				SET status = concat(nvl2(status, status || '; ', ''),'invalid type_status for')
+				WHERE type_status is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="citTNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_citation set cited_taxon_name_id =
 				(select taxonomy.taxon_name_id from taxonomy,taxonomy_publication where taxonomy.taxon_name_id = taxonomy_publication.TAXON_NAME_ID
 				AND taxonomy_publication.publication_id = cf_temp_citation.publication_id AND taxonomy.scientific_name=cf_temp_citation.cited_scientific_name)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				update cf_temp_citation set type_status = (select type_status from CTCITATION_TYPE_STATUS where CTCITATION_TYPE_STATUS.type_status = cf_temp_citation.type_status)
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_citation 
-				SET status = 'type_status_not_found'
-				WHERE type_status is null
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+	
 			<cfquery name="miap" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_citation 
 				SET status = 'collection_object_id_not_found'
