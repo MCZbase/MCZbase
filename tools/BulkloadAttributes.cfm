@@ -99,158 +99,215 @@ limitations under the License.
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
+		<!--- Set some constants to identify error cases in cfcatch block --->
+		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
+		<cfset COLUMN_ERR = "Error inserting data">
 		<cfoutput>
-			<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
-			<cfset fileContent=replace(fileContent,"'","''","all")>
-			<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-		
-			<!--- cleanup any incomplete work by the same user --->
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_attributes 
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			<cftry>
+				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
+				<cfset fileContent=replace(fileContent,"'","''","all")>
+				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 			
+				<!--- cleanup any incomplete work by the same user --->
+				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+					DELETE FROM cf_temp_attributes 
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				
-			<!--- check for required fields in header line --->
-			<cfset institution_acronym_exists = false>
-			<cfset collection_cde_exists = false>
-			<cfset other_id_type_exists = false>
-			<cfset other_id_number_exists = false>
-			<cfset attribute_exists = false>
-			<cfset attribute_value_exists = false>
-			<cfset attribute_date_exists = false>
-			<cfset determiner_exists = false>
-			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
-				<cfset header = arrResult[1][col]>
-				<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
-				<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
-				<cfif ucase(header) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
-				<cfif ucase(header) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
-				<cfif ucase(header) EQ 'attribute'><cfset attribute_exists=true></cfif>
-				<cfif ucase(header) EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
-				<cfif ucase(header) EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
-				<cfif ucase(header) EQ 'determiner'><cfset determiner_exists=true></cfif>
-			</cfloop>
-			<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
-				<cfset message = "One or more required fields are missing in the header line of the csv file.">
-				<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
-				<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
-				<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
-				<cfif not other_id_number_exists><cfset message = "#message# other_id_number is missing."></cfif>
-				<cfif not attribute_exists><cfset message = "#message# attribute is missing."></cfif>
-				<cfif not attribute_value_exists><cfset message = "#message# attribute_value is missing."></cfif>
-				<cfif not attribute_date_exists><cfset message = "#message# attribute_date is missing."></cfif>
-				<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
-				<cfthrow message="#message#">
-			</cfif>
-			<cfset colNames="">
-			<cfset loadedRows = 0>
-			<cfset foundHighCount = 0>
-			<cfset foundHighAscii = "">
-			<cfset foundMultiByte = "">
-			<!--- get the headers from the first row of the input, then iterate through the remaining rows inserting the data into the temp table. --->
-			<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
-				<!--- obtain the values in the current row --->
-				<cfset colVals="">
-				<cfloop from="1" to ="#ArrayLen(arrResult[row])#" index="col">
-					<cfset thisBit=arrResult[row][col]>
-					<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
-						<!--- high ASCII --->
-						<cfif foundHighCount LT 6>
-							<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
-							<cfset foundHighCount = foundHighCount + 1>
+					
+				<!--- check for required fields in header line --->
+				<cfset institution_acronym_exists = false>
+				<cfset collection_cde_exists = false>
+				<cfset other_id_type_exists = false>
+				<cfset other_id_number_exists = false>
+				<cfset attribute_exists = false>
+				<cfset attribute_value_exists = false>
+				<cfset attribute_date_exists = false>
+				<cfset determiner_exists = false>
+				<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
+					<cfset header = arrResult[1][col]>
+					<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
+					<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
+					<cfif ucase(header) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
+					<cfif ucase(header) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
+					<cfif ucase(header) EQ 'attribute'><cfset attribute_exists=true></cfif>
+					<cfif ucase(header) EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
+					<cfif ucase(header) EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
+					<cfif ucase(header) EQ 'determiner'><cfset determiner_exists=true></cfif>
+				</cfloop>
+				<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
+					<cfset message = "#NO_COLUMN_ERR#">
+					<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
+					<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
+					<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
+					<cfif not other_id_number_exists><cfset message = "#message# other_id_number is missing."></cfif>
+					<cfif not attribute_exists><cfset message = "#message# attribute is missing."></cfif>
+					<cfif not attribute_value_exists><cfset message = "#message# attribute_value is missing."></cfif>
+					<cfif not attribute_date_exists><cfset message = "#message# attribute_date is missing."></cfif>
+					<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
+					<cfthrow message="#message#">
+				</cfif>
+				<cfset colNames="">
+				<cfset loadedRows = 0>
+				<cfset foundHighCount = 0>
+				<cfset foundHighAscii = "">
+				<cfset foundMultiByte = "">
+				<!--- get the headers from the first row of the input, then iterate through the remaining rows inserting the data into the temp table. --->
+				<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
+					<!--- obtain the values in the current row --->
+					<cfset colVals="">
+					<cfloop from="1" to ="#ArrayLen(arrResult[row])#" index="col">
+						<cfset thisBit=arrResult[row][col]>
+						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
+							<!--- high ASCII --->
+							<cfif foundHighCount LT 6>
+								<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+								<cfset foundHighCount = foundHighCount + 1>
+							</cfif>
+						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
+							<!--- multibyte --->
+							<cfif foundHighCount LT 6>
+								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+								<cfset foundHighCount = foundHighCount + 1>
+							</cfif>
 						</cfif>
-					<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
-						<!--- multibyte --->
-						<cfif foundHighCount LT 6>
-							<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
-							<cfset foundHighCount = foundHighCount + 1>
+						<cfif #row# is 1>
+							<cfset colNames="#colNames#,#thisBit#">
+						<cfelse>
+							<!--- quote values to ensure all columns have content, will need to strip out later to insert values --->
+							<cfset colVals="#colVals#,'#thisBit#'">
 						</cfif>
-					</cfif>
+					</cfloop>
 					<cfif #row# is 1>
-						<cfset colNames="#colNames#,#thisBit#">
+						<!--- first row, obtain column headers --->
+						<!--- strip off the leading separator --->
+						<cfset colNames=replace(colNames,",","","first")>
+						<cfset colNameArray = listToArray(ucase(colNames))><!--- the list of columns/fields found in the input file --->
+						<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
+						<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
+						<h3 class="h4">Found #arrayLen(colNameArray)# matching columns in header of csv file.</h3>
+						<ul class="">
+							<cfloop list="#fieldlist#" index="field" delimiters=",">
+								<cfif listContains(requiredfieldlist,field,",")>
+									<cfset class="text-danger">
+								<cfelse>
+									<cfset class="text-dark">
+								</cfif>
+								<li class="#class#">
+									#field#
+									<cfif arrayFindNoCase(colNameArray,field) GT 0>
+										<strong>Present in CSV</strong>
+									</cfif>
+								</li>
+							</cfloop>
+						</ul>
 					<cfelse>
-						<!--- quote values to ensure all columns have content, will need to strip out later to insert values --->
-						<cfset colVals="#colVals#,'#thisBit#'">
+						<!--- subsequent rows, data --->
+						<!--- strip off the leading separator --->
+						<cfset colVals=replace(colVals,",","","first")>
+						<cfset colValArray=listToArray(colVals)>
+						<cftry>
+							<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
+							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
+								insert into cf_temp_attributes
+									(#fieldlist#,username)
+								values (
+									<cfset separator = "">
+									<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
+										<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
+											<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
+											<cfset val=trim(colValArray[col])>
+											<cfset val=rereplace(val,"^'+",'')>
+											<cfset val=rereplace(val,"'+$",'')>
+											<cfif val EQ ""> 
+												#separator#NULL
+											<cfelse>
+												#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#val#">
+											</cfif>
+										<cfelse>
+											#separator#NULL
+										</cfif>
+										<cfset separator = ",">
+									</cfloop>
+									#separator#<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								)
+							</cfquery>
+							<cfset loadedRows = loadedRows + insert_result.recordcount>
+						<cfcatch>
+							<!--- identify the problematic row --->
+							<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#colVals#] <br>Error: #cfcatch.message#"><!--- " --->
+							<cfif isDefined("cfcatch.queryError")>
+								<cfset error_message = "#error_message# #cfcatch.queryError#">
+							</cfif>
+							<cfthrow message = "#error_message#">
+						</cfcatch>
+						</cftry>
 					</cfif>
 				</cfloop>
-				<cfif #row# is 1>
-					<!--- first row, obtain column headers --->
-					<!--- strip off the leading separator --->
-					<cfset colNames=replace(colNames,",","","first")>
-					<cfset colNameArray = listToArray(ucase(colNames))><!--- the list of columns/fields found in the input file --->
-					<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
-					<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
-					<h3 class="h4">Found #arrayLen(colNameArray)# matching columns in header of csv file.</h3>
-					<ul class="">
-						<cfloop list="#fieldlist#" index="field" delimiters=",">
-							<cfif listContains(requiredfieldlist,field,",")>
-								<cfset class="text-danger">
-							<cfelse>
-								<cfset class="text-dark">
+			
+				<cfif foundHighCount GT 0>
+					<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
+					<div>
+						Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
+						you probably want to <a href="/tools/BulkloadAttributes.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
+						you selected the correct encoding and can continue to validate or load.
+					</div>
+					<ul class="py-1" style="font-size: 1.2rem;">
+						#foundHighAscii#
+						#foundMultiByte#
+					</ul>
+				</cfif>
+				<h3 class="h3">
+					Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadAttributes.cfm?action=validate">click to validate</a>.
+				</h3>
+			<cfcatch>
+				<h3 class="h3">
+					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadAttributes.cfm">reload</a>
+				</h3>
+				<cfif isDefined("arrResult")>
+					<cfset foundHighCount = 0>
+					<cfset foundHighAscii = "">
+					<cfset foundMultiByte = "">
+					<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
+						<cfset thisBit=arrResult[1][col]>
+						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
+							<!--- high ASCII --->
+							<cfif foundHighCount LT 6>
+								<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
-							<li class="#class#">
-								#field#
-								<cfif arrayFindNoCase(colNameArray,field) GT 0>
-									<strong>Present in CSV</strong>
-								</cfif>
-							</li>
-						</cfloop>
+						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
+							<!--- multibyte --->
+							<cfif foundHighCount LT 6>
+								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+								<cfset foundHighCount = foundHighCount + 1>
+							</cfif>
+						</cfif>
+					</cfloop>
+					<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
+						<h3 class="h3">Found characters with unexpected encoding in the header row.  This is probably the cause of your error.</h3>
+						<div>
+							Showing #foundHighCount# examples.  Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
+						</div>
+						<ul class="py-1" style="font-size: 1.2rem;">
+							#foundHighAscii#
+							#foundMultiByte#
+						</ul>
+					</cfif>
+				</cfif>
+				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
+					<ul class="py-1" style="font-size: 1.2rem;">
+						<li>#cfcatch.message#</li>
+					</ul>
+				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
+					<ul class="py-1" style="font-size: 1.2rem;">
+						<li>#cfcatch.message#</li>
 					</ul>
 				<cfelse>
-					<!--- subsequent rows, data --->
-					<!--- strip off the leading separator --->
-					<cfset colVals=replace(colVals,",","","first")>
-					<cfset colValArray=listToArray(colVals)>
-					<cftry>
-						<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
-						<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
-							insert into cf_temp_attributes
-								(#fieldlist#,username)
-							values (
-								<cfset separator = "">
-								<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
-									<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
-										<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
-										<cfset val=trim(colValArray[col])>
-										<cfset val=rereplace(val,"^'+",'')>
-										<cfset val=rereplace(val,"'+$",'')>
-										<cfif val EQ ""> 
-											#separator#NULL
-										<cfelse>
-											#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#val#">
-										</cfif>
-									<cfelse>
-										#separator#NULL
-									</cfif>
-									<cfset separator = ",">
-								</cfloop>
-								#separator#<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							)
-						</cfquery>
-						<cfset loadedRows = loadedRows + insert_result.recordcount>
-					<cfcatch>
-						<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
-					</cfcatch>
-					</cftry>
+					<cfdump var="#cfcatch#">
 				</cfif>
-			</cfloop>
-		
-			<cfif foundHighCount GT 0>
-				<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
-				<div>
-					Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-					you probably want to <a href="/tools/BulkloadAttributes.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
-					you selected the correct encoding and can continue to validate or load.
-				</div>
-				<ul class="py-1" style="font-size: 1.2rem;">
-					#foundHighAscii#
-					#foundMultiByte#
-				</ul>
-			</cfif>
-			<h3 class="h3">
-				Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadAttributes.cfm?action=validate">click to validate</a>.
-			</h3>
+			</cfcatch>
+			</cftry>
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
@@ -274,7 +331,12 @@ limitations under the License.
 						UPDATE
 							cf_temp_attributes
 						SET
-							collection_object_id= (select collection_object_id from cataloged_item where cat_num = cf_temp_attributes.other_id_number and collection_cde = cf_temp_attributes.collection_cde) 
+							collection_object_id = (
+								select collection_object_id 
+								from cataloged_item 
+								where cat_num = cf_temp_attributes.other_id_number and collection_cde = cf_temp_attributes.collection_cde
+							),
+							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
@@ -290,7 +352,8 @@ limitations under the License.
 								and cataloged_item.collection_cde = cf_temp_attributes.collection_cde 
 								and display_value= cf_temp_attributes.other_id_number
 								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
-							)
+							),
+							status = null
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
@@ -320,14 +383,14 @@ limitations under the License.
 					</cfquery>	
 				</cfif>
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
-				<cfquery name="flatAttributeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="flatAttributeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatAttributeProblems_result">
 					UPDATE cf_temp_attributes
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'invalid attribute for collection_cde ' || collection_cde)
 					WHERE 
 						attribute IS NOT NULL
 						AND attribute NOT IN (
-							SELECT attribute 
+							SELECT attribute_type 
 							FROM ctattribute_type 
 							WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_cde#">
 						)
@@ -444,23 +507,42 @@ limitations under the License.
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!---COLLECTION_CDE--->	
-			<cfquery name="m2a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<!--- concat before other messages, as it is cause for unknown attribute for collection etc --->
+			<cfquery name="flagUnknownCollectionCde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
 				SET 
-					status = concat(nvl2(status, status || '; ', ''),'invalid collection_cde')
+					status = concat('Invalid collection_cde: ' || collection_cde, nvl2(status, '; ' || status, ''))
 				WHERE collection_cde not in (select collection_cde from collection) 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<!--- found a collection object --->
+			<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_attributes
+				SET 
+					status = concat(nvl2(status, status || '; ', ''),' no match to a cataloged item on [' || other_id_type || ']=[' || other_id_number || '] in collection ' || collection_cde)
+				WHERE collection_object_id IS NULL
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 
-			<cfquery name="m9a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<!--- Determiner Agent --->
+			<cfquery name="setAgentIDForDetermier" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
 				SET determined_by_agent_id= (select agent_id from preferred_agent_name where agent_name = cf_temp_attributes.determiner)
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfquery name="m9b" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="flagEmptyAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
-				SET status = 'agent value (preferred name) is missing in DETERMINER column'
+				SET 
+					status = concat(nvl2(status, status || '; ', ''), 'agent value (preferred name) is missing in DETERMINER column')
 				WHERE determiner is null
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="flagNotMatchedAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_attributes
+				SET 
+					status = concat(nvl2(status, status || '; ', ''), 'unknown agent (no match to preferred name) in DETERMINER column')
+				WHERE determiner IS NOT NULL
+					AND determined_by_agent_id IS NULL
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 
@@ -490,7 +572,9 @@ limitations under the License.
 			</cfif>
 			<table class='sortable table table-responsive table-striped d-xl-table w-100'>
 				<thead>
-					<tr><th>Row</th>
+					<tr>
+						<th>Row</th>
+						<th>STATUS</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -502,12 +586,13 @@ limitations under the License.
 						<th>ATTRIBUTE_METH</th>
 						<th>DETERMINER</th>
 						<th>REMARKS</th>
-						<th>STATUS</th>
 					</tr>
 				<tbody>
 					<cfset i=1>
 					<cfloop query="data">
-						<tr><td>#i#</td>
+						<tr>
+							<td>#i#</td>
+							<td><strong>#STATUS#</strong></td>
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
@@ -519,7 +604,6 @@ limitations under the License.
 							<td>#data.ATTRIBUTE_METH#</td>
 							<td>#data.DETERMINER#</td>
 							<td>#data.REMARKS#</td>
-							<td><strong>#STATUS#</strong></td>
 						</tr>
 						<cfset i=i+1>
 					</cfloop>
@@ -531,15 +615,22 @@ limitations under the License.
 	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT * FROM cf_temp_attributes
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<cfset problem_key = "">
 			<cftransaction>
+				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT * FROM cf_temp_attributes
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_attributes
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<cftry>
 					<cfset attributes_updates = 0>
 					<cfset attributes_updates1 = 0>
+					<cfif getTempData.recordcount EQ 0>
+						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_attributes).  <a href='/tools/BulkloadAttributes.cfm'>Start over</a>"><!--- " --->
+					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
@@ -576,82 +667,90 @@ limitations under the License.
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
-					<p>Number of attributes to update: #attributes_updates#</p>
-						<cfif updateAttributes1_result.recordcount gt 0>
-							<h2 class="text-danger">Not loaded - these have already been loaded</h2>
-						<cfelse>
-							<cfif getTempData.recordcount eq attributes_updates>
-								<h2 class="text-success">Success - loaded</h2>
-							</cfif>
+					<p>Number of attributes to update: #attributes_updates# (on #getCounts.ctobj# cataloged items)</p>
+					<cfif updateAttributes1_result.recordcount gt 0>
+						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+					<cfelse>
+						<cfif getTempData.recordcount eq attributes_updates>
+							<h2 class="text-success">Success - loaded</h2>
 						</cfif>
-					<cfcatch>
-						<cftransaction action="ROLLBACK">
-						<h2 class="h3">There was a problem updating the attributes. Errors are displayed one row at a time.</h2>
-						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
-							FROM cf_temp_attributes 
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery><!---key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">--->
-							<h3>Error loading row (<span class="text-danger">#attributes_updates + 1#</span>) from the CSV: 
-								<cfif len(cfcatch.detail)gt 0>
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "collection_cde">COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "institution_acronym">INSTITUTION_ACRONYM does not match MCZ (all caps)</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "other_id_type">OTHER_ID_TYPE is not valid</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "DETERMINED_BY_AGENT_ID">DETERMINER does not match preferred agent name</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "date">Problem with ATTRIBUTE_DATE</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_units">Invalid or missing ATTRIBUTE_UNITS</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_value">Invalid with ATTRIBUTE_VALUE for ATTRIBUTE_TYPE</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_meth">Problem with ATTRIBUTE_METH</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "OTHER_ID_NUMBER">Problem with OTHER_ID_NUMBER</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_remarks">Problem with ATTRIBUTE_REMARKS</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "no data">No data or the wrong data</cfif></span>
-								<cfelse>
-									<span class="border-bottom border-danger font-weight-normal">Check Date Format in CSV column</span>
-								</cfif>
-								<!--- use this to find errors that were missed above--->
-						<!---	#cfcatch.detail#--->
-							</h3>
-							<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
-								<thead>
-									<tr><th>COUNT</th>
-										<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>ATTRIBUTE</th><th>ATTRIBUTE_VALUE</th><th>ATTRIBUTE_UNITS</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th><th>STATUS</th>
-									</tr> 
-								</thead>
-								<tbody>
-									<cfset i=1>
-									<cfloop query="getProblemData">
-										<tr>
-											<td>#i#</td>
-											<td>#getProblemData.institution_acronym# </td>
-											<td>#getProblemData.collection_cde# </td>
-											<td>#getProblemData.other_id_type#</td>
-											<td>#getProblemData.other_id_number#</td>
-											<td>#getProblemData.attribute# </td>
-											<td>#getProblemData.attribute_value# </td>
-											<td>#getProblemData.attribute_units# </td>
-											<td>#getProblemData.attribute_date#</td>
-											<td>#getProblemData.attribute_meth# </td>
-											<td>#getProblemData.determiner# </td>
-											<td>#getProblemData.remarks# </td>
-											<td>#getProblemData.status# </td>
-										</tr>
-										<cfset i= i+1>
-									</cfloop>
-								</tbody>
-							</table>
-					</cfcatch>
+					</cfif>
+				<cfcatch>
+					<cftransaction action="ROLLBACK">
+					<h2 class="h3">There was a problem updating the attributes.</h2>
+					<div>#cfcatch.message#</div>
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
+						FROM cf_temp_attributes 
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<cfif getProblemData.recordcount GT 0>
+ 						<h2 class="h3">Errors are displayed one row at a time.</h2>
+						<h3>
+							Error loading row (<span class="text-danger">#attributes_updates + 1#</span>) from the CSV: 
+							<cfif len(cfcatch.detail)gt 0>
+								<span class="font-weight-normal border-bottom border-danger">
+									<cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">
+										Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)
+									<cfelseif cfcatch.detail contains "collection_cde">
+										COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP)
+									<cfelseif cfcatch.detail contains "institution_acronym">
+										INSTITUTION_ACRONYM does not match MCZ (all caps)
+									<cfelseif cfcatch.detail contains "other_id_type">
+										OTHER_ID_TYPE is not valid
+									<cfelseif cfcatch.detail contains "DETERMINED_BY_AGENT_ID">
+										DETERMINER does not match preferred agent name
+									<cfelseif cfcatch.detail contains "date">
+										Problem with ATTRIBUTE_DATE, Check Date Format in CSV. (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "attribute_units">
+										Invalid or missing ATTRIBUTE_UNITS
+									<cfelseif cfcatch.detail contains "attribute_value">
+										Invalid with ATTRIBUTE_VALUE for ATTRIBUTE_TYPE
+									<cfelseif cfcatch.detail contains "attribute_meth">
+										Problem with ATTRIBUTE_METH (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "OTHER_ID_NUMBER">
+										Problem with OTHER_ID_NUMBER (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "attribute_remarks">
+										Problem with ATTRIBUTE_REMARKS (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "no data">
+										No data or the wrong data (#cfcatch.detail#)
+									<cfelse>
+										<!--- provide the raw error message if it isn't readily interpretable --->
+										#cfcatch.detail#
+									</cfif>
+								</span>
+							</cfif>
+						</h3>
+						<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
+							<thead>
+								<tr><th>COUNT</th>
+									<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>ATTRIBUTE</th><th>ATTRIBUTE_VALUE</th><th>ATTRIBUTE_UNITS</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th><th>STATUS</th>
+								</tr> 
+							</thead>
+							<tbody>
+								<cfset i=1>
+								<cfloop query="getProblemData">
+									<tr>
+										<td>#i#</td>
+										<td>#getProblemData.institution_acronym# </td>
+										<td>#getProblemData.collection_cde# </td>
+										<td>#getProblemData.other_id_type#</td>
+										<td>#getProblemData.other_id_number#</td>
+										<td>#getProblemData.attribute# </td>
+										<td>#getProblemData.attribute_value# </td>
+										<td>#getProblemData.attribute_units# </td>
+										<td>#getProblemData.attribute_date#</td>
+										<td>#getProblemData.attribute_meth# </td>
+										<td>#getProblemData.determiner# </td>
+										<td>#getProblemData.remarks# </td>
+										<td>#getProblemData.status# </td>
+									</tr>
+									<cfset i= i+1>
+								</cfloop>
+							</tbody>
+						</table>
+					</cfif>
+				</cfcatch>
 				</cftry>
 			</cftransaction>
 			
