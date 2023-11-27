@@ -233,7 +233,7 @@
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
-<!---	<cfif #action# is "validate">
+	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -304,7 +304,7 @@
 				</cfif>
 			</cfloop>
 			<!--- obtain the information needed to QC each row --->
-			<!---<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
 					taxon_name_id, key, cited_taxon_name_id, type_status
 				FROM 
@@ -312,7 +312,6 @@
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-				
 			<cfquery name="TypeStatusProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_citation
 				SET
@@ -404,9 +403,9 @@
 				</tbody>
 			</table>
 		</cfoutput>
-	</cfif>--->
+	</cfif>
 	<!-------------------------------------------------------------------------------------------->
-	<!---<cfif action is "load">
+	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -526,13 +525,13 @@
 			</cftransaction>
 			<h2>#citation_updates# citations passed checks.</h2>
 			<h2 class="text-success">Success, changes applied.</h2>
-			<!--- cleanup --->
-			<!--- <cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+			cleanup 
+			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_citation
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
-	</cfif>--->
-						
+	</cfif>
+
 </main>
 <cfinclude template="/shared/_footer.cfm">
