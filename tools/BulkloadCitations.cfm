@@ -245,6 +245,7 @@
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset i= 1>
+			<cfset getTempTableTypes.publication_id = "">
 			<cfloop query="getTempTableTypes">
 				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
