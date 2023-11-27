@@ -676,13 +676,15 @@ limitations under the License.
 					</cfif>
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
-					<h2 class="h3">There was a problem updating the attributes. Errors are displayed one row at a time.</h2>
+					<h2 class="h3">There was a problem updating the attributes.</h2>
+					<div>#cfthrow.message#</div>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
 						FROM cf_temp_attributes 
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
+ 						<h2 class="h3">Errors are displayed one row at a time.</h2>
 						<h3>
 							Error loading row (<span class="text-danger">#attributes_updates + 1#</span>) from the CSV: 
 							<cfif len(cfcatch.detail)gt 0>
