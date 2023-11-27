@@ -491,7 +491,9 @@ limitations under the License.
 			</cfif>
 			<table class='sortable table table-responsive table-striped d-xl-table w-100'>
 				<thead>
-					<tr><th>Row</th>
+					<tr>
+						<th>Row</th>
+						<th>STATUS</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -503,12 +505,13 @@ limitations under the License.
 						<th>ATTRIBUTE_METH</th>
 						<th>DETERMINER</th>
 						<th>REMARKS</th>
-						<th>STATUS</th>
 					</tr>
 				<tbody>
 					<cfset i=1>
 					<cfloop query="data">
-						<tr><td>#i#</td>
+						<tr>
+							<td>#i#</td>
+							<td><strong>#STATUS#</strong></td>
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
@@ -520,7 +523,6 @@ limitations under the License.
 							<td>#data.ATTRIBUTE_METH#</td>
 							<td>#data.DETERMINER#</td>
 							<td>#data.REMARKS#</td>
-							<td><strong>#STATUS#</strong></td>
 						</tr>
 						<cfset i=i+1>
 					</cfloop>
