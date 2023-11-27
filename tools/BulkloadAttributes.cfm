@@ -264,29 +264,33 @@ limitations under the License.
 				<h3 class="h3">
 					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadAttributes.cfm">reload</a>
 				</h3>
-				<cfset thisBit=arrResult[1][col]>
-				<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
-					<!--- high ASCII --->
-					<cfif foundHighCount LT 6>
-						<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
-						<cfset foundHighCount = foundHighCount + 1>
+				<cfif isDefined("arrResult")>
+					<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
+						<cfset thisBit=arrResult[1][col]>
+						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
+							<!--- high ASCII --->
+							<cfif foundHighCount LT 6>
+								<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+								<cfset foundHighCount = foundHighCount + 1>
+							</cfif>
+						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
+							<!--- multibyte --->
+							<cfif foundHighCount LT 6>
+								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+								<cfset foundHighCount = foundHighCount + 1>
+							</cfif>
+						</cfif>
+					</cfloop>
+					<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
+						<h3 class="h3">Found characters with unexpected encoding in the header row.  This is probably the cause of your error.</h3>
+						<div>
+							Showing #foundHighCount# examples.  Did you select utf-16 for the encoding for a file that does not have multibyte encoding?
+						</div>
+						<ul class="py-1" style="font-size: 1.2rem;">
+							#foundHighAscii#
+							#foundMultiByte#
+						</ul>
 					</cfif>
-				<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
-					<!--- multibyte --->
-					<cfif foundHighCount LT 6>
-						<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
-						<cfset foundHighCount = foundHighCount + 1>
-					</cfif>
-				</cfif>
-				<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
-					<h3 class="h3">Found characters with unexpected encoding in the header row.  This is probably the cause of your error.</h3>
-					<div>
-						Showing #foundHighCount# examples.  Did you select utf-16 for the encoding for a file that does not have multibyte encoding?
-					</div>
-					<ul class="py-1" style="font-size: 1.2rem;">
-						#foundHighAscii#
-						#foundMultiByte#
-					</ul>
 				</cfif>
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
 					<ul class="py-1" style="font-size: 1.2rem;">
