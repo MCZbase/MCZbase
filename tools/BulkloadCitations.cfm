@@ -276,19 +276,19 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
-			
-			<!---		<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
+					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_citation
 						SET
 							publication_id= (
 								select publication.publication_id
-							from publication
+							from publication, 
 							where publication.publication_title = cf_temp_citation.publication_title
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>--->
-<!---				<cfelse>
+					</cfquery>
+				<cfelse>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update 
 							cf_temp_citation 
@@ -300,14 +300,14 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							
 					</cfquery>
-				</cfif>--->
-<!---				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				</cfif>
+				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_citation set cited_taxon_name_id =
 						(select taxonomy.taxon_name_id from taxonomy,taxonomy_publication where taxonomy.taxon_name_id = taxonomy_publication.TAXON_NAME_ID
 						AND taxonomy_publication.publication_id = cf_temp_citation.publication_id AND taxonomy.scientific_name=cf_temp_citation.cited_scientific_name)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						
-				</cfquery>--->
+				</cfquery>
 			</cfloop>
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
