@@ -511,7 +511,7 @@ limitations under the License.
 			<cfquery name="flagUnknownCollectionCde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_attributes
 				SET 
-					status = concat('Invalid collection_cde: ' || collection_cde || '. ', nvl2(status, status || '; ', ''))
+					status = concat('Invalid collection_cde: ' || collection_cde, nvl2(status, '; ' || status, ''))
 				WHERE collection_cde not in (select collection_cde from collection) 
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
