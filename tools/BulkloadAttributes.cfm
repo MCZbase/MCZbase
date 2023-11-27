@@ -614,12 +614,16 @@ limitations under the License.
 	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT * FROM cf_temp_attributes
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
 			<cfset problem_key = "">
 			<cftransaction>
+				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT * FROM cf_temp_attributes
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_attributes
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<cftry>
 					<cfset attributes_updates = 0>
 					<cfset attributes_updates1 = 0>
@@ -659,7 +663,7 @@ limitations under the License.
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
-					<p>Number of attributes to update: #attributes_updates#</p>
+					<p>Number of attributes to update: #attributes_updates# (on #getCounts.ctobj# cataloged items)</p>
 						<cfif updateAttributes1_result.recordcount gt 0>
 							<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 						<cfelse>
