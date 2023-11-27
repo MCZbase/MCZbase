@@ -627,6 +627,9 @@ limitations under the License.
 				<cftry>
 					<cfset attributes_updates = 0>
 					<cfset attributes_updates1 = 0>
+					<cfif getTempData.recordcount EQ 0>
+						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_attributes).  <a href='/tools/BullkloadAttributes.cfm'>Start over</a>"><!--- " --->
+					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes_result">
@@ -664,81 +667,87 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<p>Number of attributes to update: #attributes_updates# (on #getCounts.ctobj# cataloged items)</p>
-						<cfif updateAttributes1_result.recordcount gt 0>
-							<h2 class="text-danger">Not loaded - these have already been loaded</h2>
-						<cfelse>
-							<cfif getTempData.recordcount eq attributes_updates>
-								<h2 class="text-success">Success - loaded</h2>
-							</cfif>
+					<cfif updateAttributes1_result.recordcount gt 0>
+						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+					<cfelse>
+						<cfif getTempData.recordcount eq attributes_updates>
+							<h2 class="text-success">Success - loaded</h2>
 						</cfif>
-					<cfcatch>
-						<cftransaction action="ROLLBACK">
-						<h2 class="h3">There was a problem updating the attributes. Errors are displayed one row at a time.</h2>
-						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
-							FROM cf_temp_attributes 
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery><!---key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">--->
-							<h3>Error loading row (<span class="text-danger">#attributes_updates + 1#</span>) from the CSV: 
-								<cfif len(cfcatch.detail)gt 0>
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "collection_cde">COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "institution_acronym">INSTITUTION_ACRONYM does not match MCZ (all caps)</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "other_id_type">OTHER_ID_TYPE is not valid</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "DETERMINED_BY_AGENT_ID">DETERMINER does not match preferred agent name</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "date">Problem with ATTRIBUTE_DATE</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_units">Invalid or missing ATTRIBUTE_UNITS</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_value">Invalid with ATTRIBUTE_VALUE for ATTRIBUTE_TYPE</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_meth">Problem with ATTRIBUTE_METH</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "OTHER_ID_NUMBER">Problem with OTHER_ID_NUMBER</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "attribute_remarks">Problem with ATTRIBUTE_REMARKS</cfif></span>
-								
-								<span class="font-weight-normal border-bottom border-danger"><cfif cfcatch.detail contains "no data">No data or the wrong data</cfif></span>
-								<cfelse>
-									<span class="border-bottom border-danger font-weight-normal">Check Date Format in CSV column</span>
-								</cfif>
-								<!--- use this to find errors that were missed above--->
-						<!---	#cfcatch.detail#--->
-							</h3>
-							<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
-								<thead>
-									<tr><th>COUNT</th>
-										<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>ATTRIBUTE</th><th>ATTRIBUTE_VALUE</th><th>ATTRIBUTE_UNITS</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th><th>STATUS</th>
-									</tr> 
-								</thead>
-								<tbody>
-									<cfset i=1>
-									<cfloop query="getProblemData">
-										<tr>
-											<td>#i#</td>
-											<td>#getProblemData.institution_acronym# </td>
-											<td>#getProblemData.collection_cde# </td>
-											<td>#getProblemData.other_id_type#</td>
-											<td>#getProblemData.other_id_number#</td>
-											<td>#getProblemData.attribute# </td>
-											<td>#getProblemData.attribute_value# </td>
-											<td>#getProblemData.attribute_units# </td>
-											<td>#getProblemData.attribute_date#</td>
-											<td>#getProblemData.attribute_meth# </td>
-											<td>#getProblemData.determiner# </td>
-											<td>#getProblemData.remarks# </td>
-											<td>#getProblemData.status# </td>
-										</tr>
-										<cfset i= i+1>
-									</cfloop>
-								</tbody>
-							</table>
-					</cfcatch>
+					</cfif>
+				<cfcatch>
+					<cftransaction action="ROLLBACK">
+					<h2 class="h3">There was a problem updating the attributes. Errors are displayed one row at a time.</h2>
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
+						FROM cf_temp_attributes 
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<cfif getProblemData.recordcount GT 0>
+						<h3>
+							Error loading row (<span class="text-danger">#attributes_updates + 1#</span>) from the CSV: 
+							<cfif len(cfcatch.detail)gt 0>
+								<span class="font-weight-normal border-bottom border-danger">
+									<cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">
+										Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)
+									<cfelseif cfcatch.detail contains "collection_cde">
+										COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP)
+									<cfelseif cfcatch.detail contains "institution_acronym">
+										INSTITUTION_ACRONYM does not match MCZ (all caps)
+									<cfelseif cfcatch.detail contains "other_id_type">
+										OTHER_ID_TYPE is not valid
+									<cfelseif cfcatch.detail contains "DETERMINED_BY_AGENT_ID">
+										DETERMINER does not match preferred agent name
+									<cfelseif cfcatch.detail contains "date">
+										Problem with ATTRIBUTE_DATE, Check Date Format in CSV. (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "attribute_units">
+										Invalid or missing ATTRIBUTE_UNITS
+									<cfelseif cfcatch.detail contains "attribute_value">
+										Invalid with ATTRIBUTE_VALUE for ATTRIBUTE_TYPE
+									<cfelseif cfcatch.detail contains "attribute_meth">
+										Problem with ATTRIBUTE_METH (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "OTHER_ID_NUMBER">
+										Problem with OTHER_ID_NUMBER (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "attribute_remarks">
+										Problem with ATTRIBUTE_REMARKS (#cfcatch.detail#)
+									<cfelseif cfcatch.detail contains "no data">
+										No data or the wrong data (#cfcatch.detail#)
+									<cfelse>
+										<!--- provide the raw error message if it isn't readily interpretable --->
+										#cfcatch.detail#
+									</cfif>
+								</span>
+							</cfif>
+						</h3>
+						<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
+							<thead>
+								<tr><th>COUNT</th>
+									<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>ATTRIBUTE</th><th>ATTRIBUTE_VALUE</th><th>ATTRIBUTE_UNITS</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th><th>STATUS</th>
+								</tr> 
+							</thead>
+							<tbody>
+								<cfset i=1>
+								<cfloop query="getProblemData">
+									<tr>
+										<td>#i#</td>
+										<td>#getProblemData.institution_acronym# </td>
+										<td>#getProblemData.collection_cde# </td>
+										<td>#getProblemData.other_id_type#</td>
+										<td>#getProblemData.other_id_number#</td>
+										<td>#getProblemData.attribute# </td>
+										<td>#getProblemData.attribute_value# </td>
+										<td>#getProblemData.attribute_units# </td>
+										<td>#getProblemData.attribute_date#</td>
+										<td>#getProblemData.attribute_meth# </td>
+										<td>#getProblemData.determiner# </td>
+										<td>#getProblemData.remarks# </td>
+										<td>#getProblemData.status# </td>
+									</tr>
+									<cfset i= i+1>
+								</cfloop>
+							</tbody>
+						</table>
+					</cfif>
+				</cfcatch>
 				</cftry>
 			</cftransaction>
 			
