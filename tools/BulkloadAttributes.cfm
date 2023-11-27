@@ -99,7 +99,11 @@ limitations under the License.
 	<!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
+		<!--- Set some constants to identify error cases in cfcatch block --->
+		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
+		<cfset COLUMN_ERR = "Error inserting data">
 		<cfoutput>
+		<cftry>
 			<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 			<cfset fileContent=replace(fileContent,"'","''","all")>
 			<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
@@ -132,7 +136,7 @@ limitations under the License.
 				<cfif ucase(header) EQ 'determiner'><cfset determiner_exists=true></cfif>
 			</cfloop>
 			<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
-				<cfset message = "One or more required fields are missing in the header line of the csv file.">
+				<cfset message = "#NO_COLUMN_ERR#">
 				<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
 				<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
 				<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
@@ -230,7 +234,8 @@ limitations under the License.
 						</cfquery>
 						<cfset loadedRows = loadedRows + insert_result.recordcount>
 					<cfcatch>
-						<cfthrow message="Error inserting data from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
+						<!--- identify the problematic row --->
+						<cfthrow message="#COLUMN_ERR# from line #row# in input file.  Header:[#colNames#] Row:[#colVals#] Error: #cfcatch.message#">
 					</cfcatch>
 					</cftry>
 				</cfif>
@@ -251,6 +256,23 @@ limitations under the License.
 			<h3 class="h3">
 				Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadAttributes.cfm?action=validate">click to validate</a>.
 			</h3>
+		<cfcatch>
+			<h3 class="h3">
+				Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadAttributes.cfm">reload</a>
+			</h3>
+			<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
+				<ul class="py-1" style="font-size: 1.2rem;">
+					<li>#cfcatch.message#</li>
+				</ul>
+			<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
+				<ul class="py-1" style="font-size: 1.2rem;">
+					<li>#cfcatch.message#</li>
+				</ul>
+			<cfelse>
+				<cfdump var="#cfcatch#">
+			</cfif>
+		</cfcatch>
+		</cftry>
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
