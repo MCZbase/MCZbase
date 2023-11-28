@@ -24,6 +24,9 @@ limitations under the License.
 <cfif isDefined("result_id") and len(result_id) GT 0>
 	<cfset table_name="user_search_table">
 </cfif>
+<cfif not isdefined("action")>
+	<cfset action="entryPoint">
+</cfif>
 
 <cfif not isdefined("table_name")>
 	<cfthrow message="You need to do a search first before using the part downloader">
@@ -107,9 +110,19 @@ limitations under the License.
 <cfquery name="dispositions" dbtype="query">
 	select distinct DISPOSITION from getParts
 </cfquery>
-	
+
 <!--------------------------------------------------------------------->
-<cfif action is "nothing">
+<cfif action is "downloadBulkloader">
+	<cfset strOutput = QueryToCSV(getParts, "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CURRENT_REMARKS,CONDITION") />
+	<cfheader name="Content-disposition" value="attachment;filename=PARTS_downloadBulk.csv">
+	<cfcontent type="text/csv"><cfoutput>#strOutput#</cfoutput>
+	<!--------------------------------------------------------------------->
+<cfelseif action is "download">
+	<cfset strOutput2 = QueryToCSV(getParts, "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CURRENT_REMARKS,CONTAINER_BARCODE,P1_BARCODE,P2_BARCODE,P3_BARCODE,P4_BARCODE,P5_BARCODE,P6_BARCODE,CONDITION") />
+	<cfheader name="Content-disposition" value="attachment;filename=PARTS_download.csv">
+	<cfcontent type="text/csv"><cfoutput>#strOutput2#</cfoutput>
+	<!--------------------------------------------------------------------->
+<cfelse>
 	<cfoutput>
 		<form name="filterResults">
 			<table>
@@ -229,12 +242,4 @@ limitations under the License.
 		</table>
 	</cfoutput>
 	<cfinclude template="/includes/_footer.cfm">
-<cfelseif action is "downloadBulkloader">
-	<cfset strOutput = QueryToCSV(getParts, "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CURRENT_REMARKS,CONDITION") />
-	<cfheader name="Content-disposition" value="attachment;filename=PARTS_downloadBulk.csv">
-	<cfcontent type="text/csv"><cfoutput>#strOutput#</cfoutput>
-<cfelseif action is "download">
-	<cfset strOutput2 = QueryToCSV(getParts, "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CURRENT_REMARKS,CONTAINER_BARCODE,P1_BARCODE,P2_BARCODE,P3_BARCODE,P4_BARCODE,P5_BARCODE,P6_BARCODE,CONDITION") />
-	<cfheader name="Content-disposition" value="attachment;filename=PARTS_download.csv">
-	<cfcontent type="text/csv"><cfoutput>#strOutput2#</cfoutput>
 </cfif>
