@@ -197,56 +197,58 @@ limitations under the License.
 
 			<div class="row">
 				<script>
+					var toggleState = "show";
 					function toggleColumn(n) {
-						var currentClass = document.getElementById("tre").className;
-						if (currentClass.indexOf("show"+n) != -1) {
-							document.getElementById("tre").className = currentClass.replace("show"+n, "");
+						if (toggleState=="show") {
+							$(".contcoll").hide();
+							toggleState = "hidden";
 						} else {
-							document.getElementById("tre").className += " " + "show"+n;
+							$(".contcoll").show();
+							toggleState = "show";
 						}
 					}
 				</script>
 				<table border class="sortable" id="tre" style="empty-cells:show;">
 					<tr>
-						<th class="col1" style="background: ##eee;color:##666;">INSTITUTION_ACRONYM</th>
-						<th class="col2" style="background: ##eee;color:##666;">COLLECTION_CDE</th>
+						<th>INSTITUTION_ACRONYM</th>
+						<th>COLLECTION_CDE</th>
 						<!---th>OTHER_ID_TYPE</th--->
-						<th class="col3" style="background: ##eee;color:##666;">CATALOG_NUMBER</th>
-						<th class="col4" style="background: ##eee;color:##666;">PART_NAME</th>
-						<th class="col5" style="background: ##eee;color:##666;">PRESERVE_METHOD</th>
-						<th class="col6" style="background: ##eee;color:##666;">DISPOSITION</th>
-						<th class="col7" style="background: ##eee;color:##666;">LOT_COUNT_MODIFIER</th>
-						<th class="col8" style="background: ##eee;color:##666;">LOT_COUNT</th>
-						<th class="col9" style="background: ##eee;color:##666;">CURRENT_REMARKS</th>
-						<th class="col10" style="background: ##eee;color:##666;">PART CONTAINER</th>
-						<th class="col11" style="background: ##eee;color:##666;">PARENT CONTAINER</th>
-						<th class="col12" style="background: ##eee;color:##666;">P2 CONTAINER</th>
-						<th class="col13" style="background: ##eee;color:##666;">P3 CONTAINER</th>
-						<th class="col14" style="background: ##eee;color:##666;">P4 CONTAINER</th>
-						<th class="col15" style="background: ##eee;color:##666;">P5_CONTAINER</th>
-						<th class="col16" style="background: ##eee;color:##666;">P6 CONTAINER</th>
-						<th class="col17" style="background: ##eee;color:##666;">CONDITION</th>
+						<th>CATALOG_NUMBER</th>
+						<th>PART_NAME</th>
+						<th>PRESERVE_METHOD</th>
+						<th>DISPOSITION</th>
+						<th>LOT_COUNT_MODIFIER</th>
+						<th>LOT_COUNT</th>
+						<th>CURRENT_REMARKS</th>
+						<th class="contcoll">PART CONTAINER</th>
+						<th class="contcoll ">PARENT CONTAINER</th>
+						<th class="contcoll">P2 CONTAINER</th>
+						<th class="contcoll">P3 CONTAINER</th>
+						<th class="contcoll">P4 CONTAINER</th>
+						<th class="contcoll">P5_CONTAINER</th>
+						<th class="contcoll">P6 CONTAINER</th>
+						<th>CONDITION</th>
 					</tr>
 					<cfloop query="getParts">
 						<tr>
-							<td class="col1">#getParts.INSTITUTION_ACRONYM#</td>
-							<td class="col2">#COLLECTION_CDE#</td>
+							<td>#getParts.INSTITUTION_ACRONYM#</td>
+							<td>#COLLECTION_CDE#</td>
 							<!---td>#OTHER_ID_TYPE#</td--->
-							<td class="col3">#OTHER_ID_NUMBER#</td>
-							<td class="col4">#PART_NAME#</td>
-							<td class="col5">#PRESERVE_METHOD#</td>
-							<td class="col6">#DISPOSITION#</td>
-							<td class="col7">#LOT_COUNT_MODIFIER#</td>
-							<td class="col8">#LOT_COUNT#</td>
-							<td class="col9">#CURRENT_REMARKS#</td>
-							<td class="col10">#CONTAINER_BARCODE#</td>
-							<td class="col11">#P1_BARCODE#</td>
-							<td class="col12">#P2_BARCODE#</td>
-							<td class="col13">#P3_BARCODE#</td>
-							<td class="col14">#P4_BARCODE#</td>
-							<td class="col15">#P5_BARCODE#</td>
-							<td class="col16">#P6_BARCODE#</td>
-							<td class="col17">#CONDITION#</td>
+							<td>#OTHER_ID_NUMBER#</td>
+							<td>#PART_NAME#</td>
+							<td>#PRESERVE_METHOD#</td>
+							<td>#DISPOSITION#</td>
+							<td>#LOT_COUNT_MODIFIER#</td>
+							<td>#LOT_COUNT#</td>
+							<td>#CURRENT_REMARKS#</td>
+							<td class="contcoll">#CONTAINER_BARCODE#</td>
+							<td class="contcoll">#P1_BARCODE#</td>
+							<td class="contcoll">#P2_BARCODE#</td>
+							<td class="contcoll">#P3_BARCODE#</td>
+							<td class="contcoll">#P4_BARCODE#</td>
+							<td class="contcoll">#P5_BARCODE#</td>
+							<td class="contcoll">#P6_BARCODE#</td>
+							<td>#CONDITION#</td>
 						</tr>
 					</cfloop>
 				</table>
