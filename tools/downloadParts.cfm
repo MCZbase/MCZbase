@@ -49,7 +49,7 @@ limitations under the License.
 			nvl(pc4.barcode,pc4.label) as P4_BARCODE,
 			nvl(pc5.barcode,pc5.label) as P5_BARCODE,
 			nvl(pc6.barcode,pc6.label) as P6_BARCODE,
-		<cfif>
+		</cfif>
 		CO.CONDITION
 	from
 		flat f, 
