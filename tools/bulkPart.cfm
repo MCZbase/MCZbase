@@ -1,6 +1,9 @@
 <cfinclude template="/includes/_header.cfm">
 <!--------------------------------------------------------------------->
 <cfset title="Bulk Modify Parts">
+<cfif isDefined("result_id") and len(result_id) GT 0>
+	<cfset table_name="user_search_table">
+</cfif>
 <cfif action is "nothing">
 <cfoutput>
 	<cfset numParts=3>
