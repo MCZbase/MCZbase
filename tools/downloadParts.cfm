@@ -183,7 +183,7 @@ limitations under the License.
 						<input type="text" id="filterBarcode" name="filterBarcode" class="data-entry-input" value="#filterBARCODE#">
 					</div>
 					<div class="col-12 col-md-2">
-						<button class="btn btn-xs btn-secondary" value="Toggle Containers" onclick="toggleColumn(10);toggleColumn(11);toggleColumn(12);toggleColumn(13);toggleColumn(14);toggleColumn(15);toggleColumn(16);">Toggle Containers</button>
+						<button type="button" class="btn btn-xs btn-secondary" onclick="toggleColumn(10);toggleColumn(11);toggleColumn(12);toggleColumn(13);toggleColumn(14);toggleColumn(15);toggleColumn(16);">Toggle Containers</button>
 					</div>
 				</div>
 				<div class="form-row">
