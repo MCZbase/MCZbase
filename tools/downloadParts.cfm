@@ -4,11 +4,15 @@
 
 <cfset title="Download Parts">
 
+	<cfif isDefined("result_id") and len(result_id) GT 0>
+		<cfset table_name="user_search_table">
+	</cfif>
+
 	<cfif not isdefined("table_name")>
 		You need to do a search first before using the part downloader
 	<cfelse>
 		<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select F.INSTITUTION_ACRONYM,
+			select F.INSTITUTION_ACRONYM,
 				F.COLLECTION_CDE,
 				'catalog number' as OTHER_ID_TYPE,
 				F.CAT_NUM as OTHER_ID_NUMBER,
@@ -28,9 +32,22 @@
                                 nvl(pc6.barcode,pc6.label) as P6_BARCODE,
             
 				CO.CONDITION
-		from
-				flat f, specimen_part sp, coll_object_remark cor, CTSPECIMEN_PART_NAME pn, COLL_OBJ_CONT_HIST ch, container c, container pc, COLL_OBJECT co, #table_name# T, container PC1, container PC2, container PC3, container PC4, container PC5, container PC6
-		where f.collection_object_id = SP.DERIVED_FROM_CAT_ITEM
+			from
+				flat f, 
+				specimen_part sp, 
+				coll_object_remark cor, 
+				CTSPECIMEN_PART_NAME pn, 
+				COLL_OBJ_CONT_HIST ch, 
+				container c, 
+				container pc, 
+				COLL_OBJECT co, 
+				#table_name# T, 
+				container PC1, container PC2, container PC3, container PC4, container PC5, container PC6
+			where 
+				f.collection_object_id = SP.DERIVED_FROM_CAT_ITEM
+				<cfif isDefined("result_id") and len(result_id) GT 0>
+					and T.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				</cfif>
 				and SP.COLLECTION_OBJECT_ID = COR.COLLECTION_OBJECT_ID(+)
 				and SP.PART_NAME = PN.PART_NAME
 				and pn.collection_cde = F.COLLECTION_CDE
@@ -46,21 +63,21 @@
 				and SP.COLLECTION_OBJECT_ID = CO.COLLECTION_OBJECT_ID
 				AND F.COLLECTION_OBJECT_ID = T.COLLECTION_OBJECT_ID
 				<cfif isdefined("filterPartName") and len(#filterPartName#) GT 0>
-					and sp.part_name='#filterPartName#'
+					and sp.part_name= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filterPartName#">
 				</cfif>
 				<cfif isdefined("filterPreserveMethod") and len(#filterPreserveMethod#) GT 0>
-					and sp.PRESERVE_METHOD='#filterPreserveMethod#'
+					and sp.PRESERVE_METHOD= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filterPreserveMethod#">
 				</cfif>
 				<cfif isdefined("filterDisposition") and len(#filterDisposition#) GT 0>
-					and CO.COLL_OBJ_DISPOSITION='#filterDisposition#'
+					and CO.COLL_OBJ_DISPOSITION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#filterDisposition#">
 				</cfif>
                 <cfif isdefined("filterBarcode") and len(#filterBarcode#) GT 0>
-					and upper(PC.BARCODE) like '%#ucase(filterBARCODE)#%'
+					and upper(PC.BARCODE) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(filterBARCODE)#%">
 				</cfif>
 				<cfif isdefined("searchRemarks") and len(#searchRemarks#) GT 0>
-					and upper(COR.COLL_OBJECT_REMARKS) like '%#ucase(searchRemarks)#%'
+					and upper(COR.COLL_OBJECT_REMARKS) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(searchRemarks)#%">
 				</cfif>
-		order by F.CAT_NUM_INTEGER
+			order by F.CAT_NUM_INTEGER
 		</cfquery>
 
 		<cfquery name="partnames" dbtype="query">
@@ -81,9 +98,11 @@
 
 		<table>
 		<form name="filterResults">
-		<input type="hidden" name="table_name" value="#table_name#">
-		<input type="hidden" name="action" value="nothing" id="action">
-
+			<input type="hidden" name="table_name" value="#table_name#">
+			<input type="hidden" name="action" value="nothing" id="action">
+			<cfif isDefined("result_id") and len(result_id) GT 0>
+				<input type="hidden" name="result_id" value="#encodeForHtml(result_id)#" id="result_id">
+			</cfif>
 			<tr>
 				<td>Part Name:
 				<select name="filterPartName" style="width:150px">
@@ -205,5 +224,3 @@ function toggleColumn(n) {
 			<cfcontent type="text/csv"><cfoutput>#strOutput2#</cfoutput>
 		</cfif>
 	</cfif>
-
-
