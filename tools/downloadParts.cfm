@@ -234,6 +234,7 @@ limitations under the License.
 						<th>LOT_COUNT_MODIFIER</th>
 						<th>LOT_COUNT</th>
 						<th>CURRENT_REMARKS</th>
+						<th>CONDITION</th>
 						<th class="contcoll">PART CONTAINER</th>
 						<th class="contcoll ">PARENT CONTAINER</th>
 						<th class="contcoll">P2 CONTAINER</th>
@@ -241,7 +242,6 @@ limitations under the License.
 						<th class="contcoll">P4 CONTAINER</th>
 						<th class="contcoll">P5_CONTAINER</th>
 						<th class="contcoll">P6 CONTAINER</th>
-						<th>CONDITION</th>
 					</tr>
 					<cfloop query="getParts">
 						<tr>
@@ -255,6 +255,7 @@ limitations under the License.
 							<td>#LOT_COUNT_MODIFIER#</td>
 							<td>#LOT_COUNT#</td>
 							<td>#CURRENT_REMARKS#</td>
+							<td>#CONDITION#</td>
 							<td class="contcoll">#CONTAINER_BARCODE#</td>
 							<td class="contcoll">#P1_BARCODE#</td>
 							<td class="contcoll">#P2_BARCODE#</td>
@@ -262,7 +263,6 @@ limitations under the License.
 							<td class="contcoll">#P4_BARCODE#</td>
 							<td class="contcoll">#P5_BARCODE#</td>
 							<td class="contcoll">#P6_BARCODE#</td>
-							<td>#CONDITION#</td>
 						</tr>
 					</cfloop>
 				</table>
