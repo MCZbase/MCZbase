@@ -172,28 +172,24 @@ limitations under the License.
 							</cfloop>
 						</select>
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-2">
 						<label class="data-entry-label" for="searchRemarks">Search Remarks (substring):</label>
 						<cfif not isdefined("searchremarks")><cfset searchremarks=""></cfif>
 						<input type="text" id="searchremarks" name="searchremarks" class="data-entry-input" value="#searchremarks#">
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-2">
 						<label class="data-entry-label" for="filterBarcode">Part Container:</label>
 						<cfif not isdefined("filterBarcode")><cfset filterBarcode=""></cfif>
 						<input type="text" id="filterBarcode" name="filterBarcode" class="data-entry-input" value="#filterBARCODE#">
 					</div>
-				</div>
-				<div class="form-row">
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-md-2">
 						<button class="btn btn-xs btn-secondary" value="Toggle Containers" onclick="toggleColumn(10);toggleColumn(11);toggleColumn(12);toggleColumn(13);toggleColumn(14);toggleColumn(15);toggleColumn(16);">Toggle Containers</button>
 					</div>
-					<div class="col-12 col-md-3">
+				</div>
+				<div class="form-row">
+					<div class="col-12">
 						<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
-					</div>
-					<div class="col-12 col-md-3">
 						<input type="button" value="Download Parts" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
-					</div>
-					<div class="col-12 col-md-3">
 						<input type="button" value="Download Parts with Containers" onClick='document.getElementById("action").value="download";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
 					</div>
 				</div>			
