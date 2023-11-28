@@ -39,13 +39,17 @@ limitations under the License.
 		CO.LOT_COUNT_MODIFIER,
 		CO.LOT_COUNT,
 		COR.COLL_OBJECT_REMARKS as CURRENT_REMARKS,
-		pc.barcode as CONTAINER_BARCODE,
-		nvl(pc1.barcode,pc1.label) as P1_BARCODE,
-		nvl(pc2.barcode,pc2.label) as P2_BARCODE,
-		nvl(pc3.barcode,pc3.label) as P3_BARCODE,
-		nvl(pc4.barcode,pc4.label) as P4_BARCODE,
-		nvl(pc5.barcode,pc5.label) as P5_BARCODE,
-		nvl(pc6.barcode,pc6.label) as P6_BARCODE,
+		<cfif action IS "downloadBulkloader">
+			pc.barcode as CONTAINER_UNIQUE_ID,
+		<cfelse>
+			pc.barcode as CONTAINER_BARCODE,
+			nvl(pc1.barcode,pc1.label) as P1_BARCODE,
+			nvl(pc2.barcode,pc2.label) as P2_BARCODE,
+			nvl(pc3.barcode,pc3.label) as P3_BARCODE,
+			nvl(pc4.barcode,pc4.label) as P4_BARCODE,
+			nvl(pc5.barcode,pc5.label) as P5_BARCODE,
+			nvl(pc6.barcode,pc6.label) as P6_BARCODE,
+		<cfif>
 		CO.CONDITION
 	from
 		flat f, 
@@ -111,7 +115,7 @@ limitations under the License.
 <cfif action is "downloadBulkloader">
 	<!--- download csv without the storage heirarchy suitable for rountrip edits with the part bulkloader --->
 	<cfinclude template="/shared/component/functions.cfc">
-	<cfset strOutput = QueryToCSV(getParts, "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CURRENT_REMARKS,CONDITION") />
+	<cfset strOutput = QueryToCSV(getParts)>
 	<cfheader name="Content-Type" value="text/csv">
 	<cfheader name="Content-disposition" value="attachment;filename=PARTS_downloadBulk.csv">
 	<cfoutput>#strOutput#</cfoutput>
@@ -120,7 +124,7 @@ limitations under the License.
 <cfelseif action is "download">
 	<!--- download csv including the storage heirarchy --->
 	<cfinclude template="/shared/component/functions.cfc">
-	<cfset strOutput2 = QueryToCSV(getParts, "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CURRENT_REMARKS,CONTAINER_BARCODE,P1_BARCODE,P2_BARCODE,P3_BARCODE,P4_BARCODE,P5_BARCODE,P6_BARCODE,CONDITION") />
+	<cfset strOutput2 = QueryToCSV(getParts)>
 	<cfheader name="Content-Type" value="text/csv">
 	<cfheader name="Content-disposition" value="attachment;filename=PARTS_download.csv">
 	<cfoutput>#strOutput2#</cfoutput>
@@ -138,6 +142,9 @@ limitations under the License.
 					(manage result #result_id#)
 				</cfif>
 			</h1>
+			<div>
+				Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a>Tool.
+			</div>
 			<form name="filterResults">
 				<div class="form-row">
 					<input type="hidden" name="table_name" value="#table_name#">
@@ -183,14 +190,14 @@ limitations under the License.
 						<input type="text" id="filterBarcode" name="filterBarcode" class="data-entry-input" value="#filterBARCODE#">
 					</div>
 					<div class="col-12 col-md-2">
-						<button type="button" class="btn btn-xs btn-secondary" onclick="toggleColumn(10);toggleColumn(11);toggleColumn(12);toggleColumn(13);toggleColumn(14);toggleColumn(15);toggleColumn(16);">Toggle Containers</button>
+						<button type="button" id="toggleButton" class="btn btn-xs btn-secondary mt-3" onclick="toggleColumns();">Show Containers</button>
 					</div>
 				</div>
 				<div class="form-row">
 					<div class="col-12">
 						<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
-						<input type="button" value="Download Parts" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
-						<input type="button" value="Download Parts with Containers" onClick='document.getElementById("action").value="download";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
+						<input type="button" value="Download Parts CSV" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
+						<input type="button" value="Download Parts CSV including Containers" onClick='document.getElementById("action").value="download";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
 					</div>
 				</div>			
 			</form>
@@ -198,15 +205,22 @@ limitations under the License.
 			<div class="row">
 				<script>
 					var toggleState = "show";
-					function toggleColumn(n) {
+					function toggleColumns() {
 						if (toggleState=="show") {
 							$(".contcoll").hide();
 							toggleState = "hidden";
+							$("##toggleButton").html("Show Containers");
 						} else {
 							$(".contcoll").show();
 							toggleState = "show";
+							$("##toggleButton").html("Hide Containers");
 						}
 					}
+					$(document).ready(function() { 
+						$(".contcoll").hide();
+						toggleState = "hidden";
+						$("##toggleButton").html("Show Containers");
+					});
 				</script>
 				<table border class="sortable" id="tre" style="empty-cells:show;">
 					<tr>
