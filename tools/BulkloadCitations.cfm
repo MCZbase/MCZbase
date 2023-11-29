@@ -291,8 +291,7 @@
 				<cfelse>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update 
-							cf_temp_citation 
-						set publication_id =
+							cf_temp_citation set publication_id =
 							(select publication.publication_id 
 							from publication
 							where publication.publication_id = cf_temp_citation.publication_id 
@@ -301,12 +300,11 @@
 							
 					</cfquery>
 				</cfif>
-				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getCTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update cf_temp_citation set cited_taxon_name_id =
-						(select taxonomy.taxon_name_id from taxonomy, taxonomy_publication,publication
-							where taxonomy.taxon_name_id = taxonomy_publication.TAXON_NAME_ID
-							and PUBLICATION.PUBLICATION_ID = taxonomy_publication.PUBLICATION_ID
-							and (publication.publication_title = cf_temp_citation.publication_title OR publication.publication_ID = cf_temp_citation.publication_ID)
+						(
+							select taxonomy.TAXON_NAME_ID from taxonomy
+							where cited_scientific_name = taxonomy.scientific_name
 						)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
