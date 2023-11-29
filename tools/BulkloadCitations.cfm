@@ -311,7 +311,7 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<!--- obtain the information needed to QC each row --->
-			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
 					cited_taxon_name_id, key, cited_taxon_name_id, type_status
 				FROM 
@@ -332,7 +332,7 @@
 					)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-			</cfquery>
+			</cfquery>--->
 <!---			<cfquery name="miac" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_citation 
 				SET status = concat(nvl2(status, status || '; ', ''),'invalid type_status for')
