@@ -86,7 +86,7 @@ limitations under the License.
 									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Change Part Locations</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Modify Parts</a>
+									<a href="/tools/bulkPart.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Modify Parts</a>
 								</li>
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQueryNamedCollection.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Named Group</a>
