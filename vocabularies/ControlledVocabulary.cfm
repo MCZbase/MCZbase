@@ -195,6 +195,23 @@
 				</cfloop>
 				</tbody>
 			</table>
+		<cfelseif table is "ctlat_long_units">
+			<table class="table table-responsive table-striped d-lg-table">
+				<thead class="thead-light">
+				<tr>
+					<th>
+						Orig Lat Long Units
+					</th>
+				</tr>
+				</thead>
+				<tbody>
+				<cfloop query="docs">
+					<tr>
+						<td>#orig_lat_long_units#</td>
+					</tr>
+				</cfloop>
+				</tbody>
+			</table>
 		<cfelseif table is "cttrans_agent_role">
 			<table class="table table-responsive table-striped d-lg-table">
 				<thead class="thead-light">
