@@ -40,6 +40,16 @@
 					<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
 					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#">#name#</a> (#getCTRows.ct# values)</li>
 				</cfif>
+				<cfif getCtName.table_name EQ "ORIG_LAT_LONG_UNITS">
+					<cfloop query="latlongunits">
+						<cfquery name="getLLUnits" datasource="uam_god">
+							select orig_lat_long_units from ctlat_long_units order by orig_lat_long_units desc
+						</cfquery>
+					</cfloop>
+					<ul>
+						<li>#getLLUnits.orig_lat_long_units# </li>
+					</ul>
+				</cfif>
 			</cfloop>
 		</ul>
 			</div>
@@ -47,7 +57,7 @@
 	</div>
 <cfelse>
 	<cfif table is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
-		<cflocation url="/vocabularies/showGeologicalHierarchies.cfm" addtoken="false">
+		<cflocation url="/vocabularies/showGeologicalHierarchies.cfm" addtoken="false">		
 	</cfif>
 	<cfif refind('^CT[A-Z_]+$',ucase(table)) EQ 0>
 		<cfthrow message="This page can only be used for viewing the controlled vocabularies in code tables.">
