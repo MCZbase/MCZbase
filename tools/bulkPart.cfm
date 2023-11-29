@@ -22,7 +22,8 @@
 			</cfquery>
 		<cfelse>
 			<cfquery name="colcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select distinct(collection_cde) from #table_name#
+				select distinct(collection_cde) 
+				from #table_name#
 			</cfquery>
 		</cfif>
 		<cfset colcdes = valuelist(colcde.collection_cde)>
@@ -39,7 +40,8 @@
 			</cfquery>
 		<cfelse>
 			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select count(*) c from #table_name#
+				select count(*) c 
+				from #table_name#
 			</cfquery>
 		</cfif>
 		<cfif c.c gte 1000>
@@ -720,7 +722,17 @@
 <cfif action is "newPart">
 <cfoutput>
 	<cfquery name="ids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct collection_object_id from #table_name#
+		SELECT DISTINCT 
+			collection_object_id 
+		<cfif isDefined("result_id") and len(result_id) GT 0>
+		FROM
+			user_search_table
+		WHERE
+			user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+		<cfelse>
+		FROM
+			#table_name#
+		</cfif>
 	</cfquery>
 	<cftransaction>
 		<cfloop query="ids">
