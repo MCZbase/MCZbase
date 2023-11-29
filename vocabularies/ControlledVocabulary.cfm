@@ -31,7 +31,7 @@
 						<cfif getCtName.table_name EQ "CTGEOLOGY_ATTRIBUTE_HIERARCHY">
 							GEOLOGY_ATTRIBUTE_HIERARCHY
 						<cfelseif getCtName.table_name EQ "ORIG_LAT_LONG_UNITS">
-							ORIG_LAT_LONG_UNITS
+							(select ORIG_LAT_LONG_UNITS from ctlat_long_units)
 						<cfelse>
 							#getCtName.table_name#
 						</cfif>
