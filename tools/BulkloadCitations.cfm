@@ -276,7 +276,7 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
-				<cfif len(getTempTableTypes.publication_id) eq 0>
+<!---				<cfif len(getTempTableTypes.publication_id) eq 0>
 					<cfquery name="getPID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_citation
@@ -299,7 +299,7 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							
 					</cfquery>
-				</cfif>
+				</cfif>--->
 		
 			</cfloop>
 			<cfquery name="getCTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
