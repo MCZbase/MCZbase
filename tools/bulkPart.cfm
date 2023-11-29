@@ -635,6 +635,9 @@
 		<form name="modPart" method="post" action="bulkPart.cfm">
 			<input type="hidden" name="action" value="modPart2">
 			<input type="hidden" name="table_name" value="#table_name#">
+			<cfif isDefined("result_id") and len(result_id) GT 0>
+				<input type="hidden" name="result_id" value="#result_id#">
+			</cfif>
 			<input type="hidden" name="exist_part_name" value="#exist_part_name#">
 			<input type="hidden" name="new_part_name" value="#new_part_name#">
 			<input type="hidden" name="exist_preserve_method" value="#exist_preserve_method#">
