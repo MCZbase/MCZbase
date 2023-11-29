@@ -800,21 +800,19 @@ limitations under the License.
 															<cfset yearbit=" in years #getAgentCollScope.startyear#-#getAgentCollScope.endyear#">
 														</cfif>
 														<cfif len(getAgentCollScope.collection_cde) GT 0>
-															<!--- TODO: Until redesigned specimen search is public, pick which search to link to --->
-															<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-																<li class="list-group-item">#getAgentCollScope.collection_cde# (<a href="/Specimens.cfm?execute=true&action=fixedSearch&collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope.ct# record#plural#</a>) #yearbit#</li>
-															<cfelse>
-																<li class="list-group-item">#getAgentCollScope.collection_cde# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope.ct# record#plural#</a>) #yearbit#</li>
-															</cfif>
+															<li class="list-group-item">#getAgentCollScope.collection_cde# (<a href="/Specimens.cfm?execute=true&action=fixedSearch&collector_agent_id=#agent_id#&collection_id=#getAgentCollScope.collection_id#" target="_blank">#getAgentCollScope.ct# record#plural#</a>) #yearbit#</li>
 														</cfif>
 													</cfloop>
+													<cfif getAgentCollScope.recordcount GT 1>
+														<li class="list-group-item"><a href="/Specimens.cfm?execute=true&action=fixedSearch&collector_agent_id=#agent_id#" target="_blank">All</a></li>
+													</cfif>
 												</ul>
 												<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
 													<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
 														<h3 class="small95 mt-1 px-2 mb-0">Range of years collected is greater than 80 (#earlyeststart#-#latestend#) </h3>
 													</cfif>
 												</cfif>
-											</cfif><!--- getAgentCollScope.recordcount > 1 --->
+											</cfif><!--- getAgentCollScope.recordcount > 0 --->
 										</div>
 									</div><!--- end collectorCardBodyWrap --->
 								</div>
@@ -992,12 +990,7 @@ limitations under the License.
 																<cfset yearbit=" in years #getAgentFamilyScope.startyear#-#getAgentFamilyScope.endyear#">
 															</cfif>
 															<cfif len(getAgentFamilyScope.family) GT 0>
-																<!--- TODO: Until redesigned specimen search is public, pick which search to link to --->
-																<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-																	<li class="list-group-item">#getAgentFamilyScope.phylclass#: #getAgentFamilyScope.family# (<a href="/Specimens.cfm?execute=true&action=fixedSearch&collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
-																<cfelse>
-																	<li class="list-group-item">#getAgentFamilyScope.phylclass#: #getAgentFamilyScope.family# (<a href="/SpecimenResults.cfm?collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
-																</cfif>
+																<li class="list-group-item">#getAgentFamilyScope.phylclass#: #getAgentFamilyScope.family# (<a href="/Specimens.cfm?execute=true&action=fixedSearch&collector_agent_id=#agent_id#&family=#getAgentFamilyScope.family#" target="_blank">#getAgentFamilyScope.ct# record#plural#</a>) #yearbit#</li>
 															<cfelse>
 																<!--- TODO: Until redesigned specimen search is public, pick which search to link to --->
 																<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
@@ -1091,12 +1084,7 @@ limitations under the License.
 															<cfset yearbit=" in years #getAgentPrepScope.startyear#-#getAgentPrepScope.endyear#">
 														</cfif>
 														<cfif len(getAgentPrepScope.collection_cde) GT 0>
-															<!--- TODO: Until redesigned specimen search is public, pick which search to link to --->
-															<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-																<li class="list-group-item">#getAgentPrepScope.collection_cde# (<a href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=0&field1=AGENT%3ACOLLECTORS_AGENT_ID&searchText1=#encodeForURL(getAgent.preferred_agent_name)#&searchId1=#getAgent.agent_id#&JoinOperator2=and&field2=COLLECTOR%3ACOLLECTOR_ROLE&searchText2=%3Dp&JoinOperator3=and&field3=CATALOGED_ITEM%3ACATALOGED ITEM_COLLECTION_ID&searchText3=#getAgentPrepScope.collection_id#" target="_blank">#getAgentPrepScope.ct# record#plural#</a>) #yearbit#</li>
-															<cfelse>
-																<li class="list-group-item">#getAgentPrepScope.collection_cde# (<a href="/SpecimenResults.cfm?coll_role=p&coll=#encodeForURL(getAgent.preferred_agent_name)#&collection_id=#getAgentPrepScope.collection_id#" target="_blank">#getAgentPrepScope.ct# record#plural#</a>) #yearbit#</li>
-															</cfif>
+															<li class="list-group-item">#getAgentPrepScope.collection_cde# (<a href="/Specimens.cfm?execute=true&builderMaxRows=3&action=builderSearch&nestdepth1=0&field1=AGENT%3ACOLLECTORS_AGENT_ID&searchText1=#encodeForURL(getAgent.preferred_agent_name)#&searchId1=#getAgent.agent_id#&JoinOperator2=and&field2=COLLECTOR%3ACOLLECTOR_ROLE&searchText2=%3Dp&JoinOperator3=and&field3=CATALOGED_ITEM%3ACATALOGED ITEM_COLLECTION_ID&searchText3=#getAgentPrepScope.collection_id#" target="_blank">#getAgentPrepScope.ct# record#plural#</a>) #yearbit#</li>
 														</cfif>
 													</cfloop>
 												</ul>
