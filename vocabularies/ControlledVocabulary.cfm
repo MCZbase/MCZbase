@@ -41,14 +41,14 @@
 					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#">#name#</a> (#getCTRows.ct# values)</li>
 				</cfif>
 				<cfif getCtName.table_name EQ "ORIG_LAT_LONG_UNITS">
-					<cfloop query="latlongunits">
-						<cfquery name="getLLUnits" datasource="uam_god">
-							select orig_lat_long_units from ctlat_long_units order by orig_lat_long_units desc
-						</cfquery>
+					<cfquery name="getLLUnits" datasource="uam_god">
+						select orig_lat_long_units from ctlat_long_units order by orig_lat_long_units desc
+					</cfquery>
+					<cfloop query="getLLUnits">
+						<ul>
+							<li>#getLLUnits.orig_lat_long_units# </li>
+						</ul>
 					</cfloop>
-					<ul>
-						<li>#getLLUnits.orig_lat_long_units# </li>
-					</ul>
 				</cfif>
 			</cfloop>
 		</ul>
