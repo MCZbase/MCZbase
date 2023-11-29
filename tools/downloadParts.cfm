@@ -16,11 +16,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfinclude template="/includes/_header.cfm">
-<script src="/lib/misc/sorttable.js"></script>
-
-<cfset title="Download Parts">
-
 <cfif isDefined("result_id") and len(result_id) GT 0>
 	<cfset table_name="user_search_table">
 </cfif>
@@ -31,6 +26,7 @@ limitations under the License.
 <cfif not isdefined("table_name")>
 	<cfthrow message="You need to do a search first before using the part downloader">
 </cfif>
+<cf_rolecheck>
 <cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select F.INSTITUTION_ACRONYM,
 		F.COLLECTION_CDE,
@@ -43,13 +39,17 @@ limitations under the License.
 		CO.LOT_COUNT_MODIFIER,
 		CO.LOT_COUNT,
 		COR.COLL_OBJECT_REMARKS as CURRENT_REMARKS,
-		pc.barcode as CONTAINER_BARCODE,
-		nvl(pc1.barcode,pc1.label) as P1_BARCODE,
-		nvl(pc2.barcode,pc2.label) as P2_BARCODE,
-		nvl(pc3.barcode,pc3.label) as P3_BARCODE,
-		nvl(pc4.barcode,pc4.label) as P4_BARCODE,
-		nvl(pc5.barcode,pc5.label) as P5_BARCODE,
-		nvl(pc6.barcode,pc6.label) as P6_BARCODE,
+		<cfif action IS "downloadBulkloader">
+			pc.barcode as CONTAINER_UNIQUE_ID,
+		<cfelse>
+			pc.barcode as CONTAINER_BARCODE,
+			nvl(pc1.barcode,pc1.label) as P1_BARCODE,
+			nvl(pc2.barcode,pc2.label) as P2_BARCODE,
+			nvl(pc3.barcode,pc3.label) as P3_BARCODE,
+			nvl(pc4.barcode,pc4.label) as P4_BARCODE,
+			nvl(pc5.barcode,pc5.label) as P5_BARCODE,
+			nvl(pc6.barcode,pc6.label) as P6_BARCODE,
+		</cfif>
 		CO.CONDITION
 	from
 		flat f, 
@@ -113,133 +113,161 @@ limitations under the License.
 
 <!--------------------------------------------------------------------->
 <cfif action is "downloadBulkloader">
-	<cfset strOutput = QueryToCSV(getParts, "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CURRENT_REMARKS,CONDITION") />
+	<!--- download csv without the storage heirarchy suitable for rountrip edits with the part bulkloader --->
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset strOutput = QueryToCSV(getParts)>
+	<cfheader name="Content-Type" value="text/csv">
 	<cfheader name="Content-disposition" value="attachment;filename=PARTS_downloadBulk.csv">
-	<cfcontent type="text/csv"><cfoutput>#strOutput#</cfoutput>
+	<cfoutput>#strOutput#</cfoutput>
+	<cfabort>
 	<!--------------------------------------------------------------------->
 <cfelseif action is "download">
-	<cfset strOutput2 = QueryToCSV(getParts, "INSTITUTION_ACRONYM,COLLECTION_CDE,OTHER_ID_TYPE,OTHER_ID_NUMBER,PART_NAME,PRESERVE_METHOD,DISPOSITION,LOT_COUNT_MODIFIER,LOT_COUNT,CURRENT_REMARKS,CONTAINER_BARCODE,P1_BARCODE,P2_BARCODE,P3_BARCODE,P4_BARCODE,P5_BARCODE,P6_BARCODE,CONDITION") />
+	<!--- download csv including the storage heirarchy --->
+	<cfinclude template="/shared/component/functions.cfc">
+	<cfset strOutput2 = QueryToCSV(getParts)>
+	<cfheader name="Content-Type" value="text/csv">
 	<cfheader name="Content-disposition" value="attachment;filename=PARTS_download.csv">
-	<cfcontent type="text/csv"><cfoutput>#strOutput2#</cfoutput>
+	<cfoutput>#strOutput2#</cfoutput>
+	<cfabort>
 	<!--------------------------------------------------------------------->
 <cfelse>
+	<cfset pageTitle = "Download Parts">
+	<cfinclude template="/shared/_header.cfm">
+	<script src="/lib/misc/sorttable.js"></script>
 	<cfoutput>
-		<form name="filterResults">
-			<table>
-				<input type="hidden" name="table_name" value="#table_name#">
-				<input type="hidden" name="action" value="nothing" id="action">
+		<main class="container-fluid px-5 py-3" id="content">
+			<h1 class="h2 mt-2">
+				List/Download Parts from a Specimen Search
 				<cfif isDefined("result_id") and len(result_id) GT 0>
-					<input type="hidden" name="result_id" value="#encodeForHtml(result_id)#" id="result_id">
+					(manage result #result_id#)
 				</cfif>
-				<tr>
-					<td>
-						Part Name:
-						<select name="filterPartName" style="width:150px">
+			</h1>
+			<div>
+				Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a>Tool.
+			</div>
+			<form name="filterResults">
+				<div class="form-row">
+					<input type="hidden" name="table_name" value="#table_name#">
+					<input type="hidden" name="action" value="nothing" id="action">
+					<cfif isDefined("result_id") and len(result_id) GT 0>
+						<input type="hidden" name="result_id" value="#encodeForHtml(result_id)#" id="result_id">
+					</cfif>
+					<div class="col-12 col-md-2">
+						<label class="data-entry-label" for="filterPartName">Part Name:</label>
+						<select name="filterPartName" id="filterPartName" class="data-entry-select">
 							<option></option>
 							<cfloop query="partnames">
 								<option <cfif isdefined("filterPartName") and #part_name# EQ #filterPartName#>selected</cfif>>#part_name#</option>
 							</cfloop>
 						</select>
-					</td>
-					<td>
-						Preserve Method:
-						<select name="filterPreserveMethod" style="width:150px">
+					</div>
+					<div class="col-12 col-md-2">
+						<label class="data-entry-label" for="filterPreserveMethod">Preserve Method:</label>
+						<select name="filterPreserveMethod" id="filterPreserveMehtod" class="data-entry-select">
 							<option></option>
 							<cfloop query="preservemethods">
 								<option <cfif isdefined("filterPreserveMethod") and #preserve_method# EQ #filterPreserveMethod#>selected</cfif>>#preserve_method#</option>
 							</cfloop>
 						</select>
-					</td>
-					<td>
-						Disposition:
-						<select name="filterDisposition" style="width:150px">
+					</div>
+					<div class="col-12 col-md-2">
+						<label class="data-entry-label" for="filterDisposition">Disposition:</label>
+						<select name="filterDisposition" id="filterDisposition" class="data-entry-select">
 							<option></option>
 							<cfloop query="dispositions">
 								<option <cfif isdefined("filterDisposition") and #DISPOSITION# EQ #filterDisposition#>selected</cfif>>#DISPOSITION#</option>
 							</cfloop>
 						</select>
-					</td>
-					<td>
-						Search Remarks (substring):
-						<input type="text" style="width:200px" name="searchremarks" <cfif isdefined("searchremarks") and len(#searchremarks#) GT 0>value="#searchremarks#"</cfif></input>
-					</td>
-					<td>
-						Part Container:
-						<input type="text" style="width:200px" name="filterBarcode" <cfif isdefined("filterBarcode") and len(#filterBarcode#) GT 0>value="#filterBARCODE#"</cfif></input>
-					</td>
-					<td>
-						<input type="button" style="width:auto" value="Toggle Containers" onclick="toggleColumn(10);toggleColumn(11);toggleColumn(12);toggleColumn(13);toggleColumn(14);toggleColumn(15);toggleColumn(16);"></input>
-					</td>
-					<td>
-						<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();'></input>
-					</td>
-					<td>
-						<input type="button" value="Download Parts" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();'></input>
-					</td>
-					<td>
-						<input type="button" value="Download Parts with Containers" onClick='document.getElementById("action").value="download";document.forms["filterResults"].submit();'></input>
-					</td>	
-				</tr>
-			</table>
-		</form>
-		
-		<script>
-			function toggleColumn(n) {
-				var currentClass = document.getElementById("tre").className;
-				if (currentClass.indexOf("show"+n) != -1) {
-					document.getElementById("tre").className = currentClass.replace("show"+n, "");
-				} else {
-					document.getElementById("tre").className += " " + "show"+n;
-				}
-			}
-		</script>
-		<!--- <div style="width: 640px;border: 1px solid gray;padding: .5em;">
-			<a class="schBtn" onclick="toggleColumn(1);toggleColumn(2);toggleColumn(3);toggleColumn(4);toggleColumn(5);toggleColumn(6);toggleColumn(7);">Show/Hide: Containers</a>
-		</div>--->
-		<table border class="specResultTab sortable" id="tre" style="empty-cells:show;">
-			<tr>
-				<th class="col1" style="background: ##eee;color:##666;">INSTITUTION_ACRONYM</th>
-				<th class="col2" style="background: ##eee;color:##666;">COLLECTION_CDE</th>
-				<!---th>OTHER_ID_TYPE</th--->
-				<th class="col3" style="background: ##eee;color:##666;">CATALOG_NUMBER</th>
-				<th class="col4" style="background: ##eee;color:##666;">PART_NAME</th>
-				<th class="col5" style="background: ##eee;color:##666;">PRESERVE_METHOD</th>
-				<th class="col6" style="background: ##eee;color:##666;">DISPOSITION</th>
-				<th class="col7" style="background: ##eee;color:##666;">LOT_COUNT_MODIFIER</th>
-				<th class="col8" style="background: ##eee;color:##666;">LOT_COUNT</th>
-				<th class="col9" style="background: ##eee;color:##666;">CURRENT_REMARKS</th>
-				<th class="col10" style="background: ##eee;color:##666;">PART CONTAINER</th>
-				<th class="col11" style="background: ##eee;color:##666;">PARENT CONTAINER</th>
-				<th class="col12" style="background: ##eee;color:##666;">P2 CONTAINER</th>
-				<th class="col13" style="background: ##eee;color:##666;">P3 CONTAINER</th>
-				<th class="col14" style="background: ##eee;color:##666;">P4 CONTAINER</th>
-				<th class="col15" style="background: ##eee;color:##666;">P5_CONTAINER</th>
-				<th class="col16" style="background: ##eee;color:##666;">P6 CONTAINER</th>
-				<th class="col17" style="background: ##eee;color:##666;">CONDITION</th>
-			</tr>
-			<cfloop query="getParts">
-			<tr>
-				<td class="col1">#getParts.INSTITUTION_ACRONYM#</td>
-				<td class="col2">#COLLECTION_CDE#</td>
-				<!---td>#OTHER_ID_TYPE#</td--->
-				<td class="col3">#OTHER_ID_NUMBER#</td>
-				<td class="col4">#PART_NAME#</td>
-				<td class="col5">#PRESERVE_METHOD#</td>
-				<td class="col6">#DISPOSITION#</td>
-				<td class="col7">#LOT_COUNT_MODIFIER#</td>
-				<td class="col8">#LOT_COUNT#</td>
-				<td class="col9">#CURRENT_REMARKS#</td>
-				<td class="col10">#CONTAINER_BARCODE#</td>
-				<td class="col11">#P1_BARCODE#</td>
-				<td class="col12">#P2_BARCODE#</td>
-				<td class="col13">#P3_BARCODE#</td>
-				<td class="col14">#P4_BARCODE#</td>
-				<td class="col15">#P5_BARCODE#</td>
-				<td class="col16">#P6_BARCODE#</td>
-				<td class="col17">#CONDITION#</td>
-			</tr>
-			</cfloop>
-		</table>
+					</div>
+					<div class="col-12 col-md-2">
+						<label class="data-entry-label" for="searchRemarks">Search Remarks (substring):</label>
+						<cfif not isdefined("searchremarks")><cfset searchremarks=""></cfif>
+						<input type="text" id="searchremarks" name="searchremarks" class="data-entry-input" value="#searchremarks#">
+					</div>
+					<div class="col-12 col-md-2">
+						<label class="data-entry-label" for="filterBarcode">Part Container:</label>
+						<cfif not isdefined("filterBarcode")><cfset filterBarcode=""></cfif>
+						<input type="text" id="filterBarcode" name="filterBarcode" class="data-entry-input" value="#filterBARCODE#">
+					</div>
+					<div class="col-12 col-md-2">
+						<button type="button" id="toggleButton" class="btn btn-xs btn-secondary mt-3" onclick="toggleColumns();">Show Containers</button>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12">
+						<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
+						<input type="button" value="Download Parts CSV" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
+						<input type="button" value="Download Parts CSV including Containers" onClick='document.getElementById("action").value="download";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
+					</div>
+				</div>			
+			</form>
+
+			<div class="row">
+				<script>
+					var toggleState = "show";
+					function toggleColumns() {
+						if (toggleState=="show") {
+							$(".contcoll").hide();
+							toggleState = "hidden";
+							$("##toggleButton").html("Show Containers");
+						} else {
+							$(".contcoll").show();
+							toggleState = "show";
+							$("##toggleButton").html("Hide Containers");
+						}
+					}
+					$(document).ready(function() { 
+						$(".contcoll").hide();
+						toggleState = "hidden";
+						$("##toggleButton").html("Show Containers");
+					});
+				</script>
+				<table border class="sortable" id="tre" style="empty-cells:show;">
+					<tr>
+						<th>INSTITUTION_ACRONYM</th>
+						<th>COLLECTION_CDE</th>
+						<!---th>OTHER_ID_TYPE</th--->
+						<th>CATALOG_NUMBER</th>
+						<th>PART_NAME</th>
+						<th>PRESERVE_METHOD</th>
+						<th>DISPOSITION</th>
+						<th>LOT_COUNT_MODIFIER</th>
+						<th>LOT_COUNT</th>
+						<th>CURRENT_REMARKS</th>
+						<th>CONDITION</th>
+						<th class="contcoll">PART CONTAINER</th>
+						<th class="contcoll ">PARENT CONTAINER</th>
+						<th class="contcoll">P2 CONTAINER</th>
+						<th class="contcoll">P3 CONTAINER</th>
+						<th class="contcoll">P4 CONTAINER</th>
+						<th class="contcoll">P5_CONTAINER</th>
+						<th class="contcoll">P6 CONTAINER</th>
+					</tr>
+					<cfloop query="getParts">
+						<tr>
+							<td>#getParts.INSTITUTION_ACRONYM#</td>
+							<td>#COLLECTION_CDE#</td>
+							<!---td>#OTHER_ID_TYPE#</td--->
+							<td>#OTHER_ID_NUMBER#</td>
+							<td>#PART_NAME#</td>
+							<td>#PRESERVE_METHOD#</td>
+							<td>#DISPOSITION#</td>
+							<td>#LOT_COUNT_MODIFIER#</td>
+							<td>#LOT_COUNT#</td>
+							<td>#CURRENT_REMARKS#</td>
+							<td>#CONDITION#</td>
+							<td class="contcoll">#CONTAINER_BARCODE#</td>
+							<td class="contcoll">#P1_BARCODE#</td>
+							<td class="contcoll">#P2_BARCODE#</td>
+							<td class="contcoll">#P3_BARCODE#</td>
+							<td class="contcoll">#P4_BARCODE#</td>
+							<td class="contcoll">#P5_BARCODE#</td>
+							<td class="contcoll">#P6_BARCODE#</td>
+						</tr>
+					</cfloop>
+				</table>
+			</div>
+		</main>
 	</cfoutput>
-	<cfinclude template="/includes/_footer.cfm">
+	<cfinclude template="/shared/_footer.cfm">
 </cfif>
