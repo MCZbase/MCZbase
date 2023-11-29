@@ -16,6 +16,8 @@
 							and owner = 'MCZBASE'
 						UNION 
 							select 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name from dual
+						UNION
+							select 'ORIG_LAT_LONG_UNITS' table_name from dual
 						ORDER BY table_name
 					</cfquery>
 				<ul>
