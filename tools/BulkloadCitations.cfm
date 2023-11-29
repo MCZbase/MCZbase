@@ -304,7 +304,7 @@
 					update cf_temp_citation set cited_taxon_name_id =
 						(
 							select taxonomy.TAXON_NAME_ID from taxonomy
-							where cited_scientific_name = taxonomy.scientific_name
+							where cf_temp_citation.cited_scientific_name = taxonomy.scientific_name
 						)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
