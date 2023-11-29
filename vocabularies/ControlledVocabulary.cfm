@@ -30,6 +30,8 @@
 					FROM 
 						<cfif getCtName.table_name EQ "CTGEOLOGY_ATTRIBUTE_HIERARCHY">
 							GEOLOGY_ATTRIBUTE_HIERARCHY
+						<cfelseif getCtName.table_name EQ "ORIG_LAT_LONG_UNITS">
+							ORIG_LAT_LONG_UNITS
 						<cfelse>
 							#getCtName.table_name#
 						</cfif>
@@ -48,7 +50,7 @@
 		<cflocation url="/vocabularies/showGeologicalHierarchies.cfm" addtoken="false">
 	</cfif>
 	<cfif refind('^CT[A-Z_]+$',ucase(table)) EQ 0>
-		<cfthrow message="This page can only be used for viewing the controled vocabularies in code tables.">
+		<cfthrow message="This page can only be used for viewing the controlled vocabularies in code tables.">
 	</cfif>
 
 	<cfset tableName = right(table,len(table)-2)>
