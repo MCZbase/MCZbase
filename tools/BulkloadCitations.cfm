@@ -238,7 +238,7 @@
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					other_id_type, other_id_number, key
+					other_id_type, other_id_number, publication_id, key
 				FROM 
 					cf_temp_citation
 				WHERE 
@@ -276,8 +276,8 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				</cfif>
-				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfif len(getTempTableTypes.publication_id) eq 0>
+					<cfquery name="getPID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_citation
 						SET
@@ -289,7 +289,7 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 				<cfelse>
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getPID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update 
 							cf_temp_citation set publication_id =
 							(select publication.publication_id 
@@ -300,15 +300,16 @@
 							
 					</cfquery>
 				</cfif>
-				<cfquery name="getCTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update cf_temp_citation set cited_taxon_name_id =
-						(
-							select taxonomy.TAXON_NAME_ID from taxonomy
-							where cf_temp_citation.cited_scientific_name = taxonomy.scientific_name
-						)
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
+		
 			</cfloop>
+			<cfquery name="getCTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update cf_temp_citation set cited_taxon_name_id =
+					(
+						select taxonomy.TAXON_NAME_ID from taxonomy
+						where cf_temp_citation.cited_scientific_name = taxonomy.scientific_name
+					)
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
