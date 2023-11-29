@@ -306,6 +306,7 @@
 						(select taxonomy.taxon_name_id from taxonomy, taxonomy_publication,publication
 							where taxonomy.taxon_name_id = taxonomy_publication.TAXON_NAME_ID
 							and PUBLICATION.PUBLICATION_ID = taxonomy_publication.PUBLICATION_ID
+							and (publication.publication_title = cf_temp_citation.publication_title OR publication.publication_ID = cf_temp_citation.publication_ID)
 						)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
