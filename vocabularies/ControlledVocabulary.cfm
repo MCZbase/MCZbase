@@ -46,7 +46,7 @@
 		<cflocation url="/vocabularies/showGeologicalHierarchies.cfm" addtoken="false">
 	</cfif>
 	<cfif refind('^CT[A-Z_]+$',ucase(table)) EQ 0>
-		<cfthrow message="This page can only be used for viewing the controled vocabularies in code tables.">
+		<cfthrow message="This page can only be used for viewing the controlled vocabularies in code tables.">
 	</cfif>
 
 	<cfset tableName = right(table,len(table)-2)>
