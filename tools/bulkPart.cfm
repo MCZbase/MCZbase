@@ -469,7 +469,7 @@
 				cataloged_item.collection_id=collection.collection_id and
 				<cfif isDefined("result_id") and len(result_id) GT 0>
 					cataloged_item.collection_object_id=user_search_table.collection_object_id and
-					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
 				<cfelse>
 					cataloged_item.collection_object_id=#table_name#.collection_object_id and
 				</cfif>
@@ -613,7 +613,7 @@
 				cataloged_item.collection_id=collection.collection_id and
 				<cfif isDefined("result_id") and len(result_id) GT 0>
 					cataloged_item.collection_object_id=user_search_table.collection_object_id and
-					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
 				<cfelse>
 					cataloged_item.collection_object_id=#table_name#.collection_object_id and
 				</cfif>
