@@ -40,16 +40,7 @@
 					<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
 					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#">#name#</a> (#getCTRows.ct# values)</li>
 				</cfif>
-				<cfif getCtName.table_name EQ "ORIG_LAT_LONG_UNITS">
-					<cfquery name="getLLUnits" datasource="uam_god">
-						select orig_lat_long_units from ctlat_long_units order by orig_lat_long_units desc
-					</cfquery>
-					<cfloop query="getLLUnits">
-						<ul>
-							<li>#getLLUnits.orig_lat_long_units# </li>
-						</ul>
-					</cfloop>
-				</cfif>
+				
 			</cfloop>
 		</ul>
 			</div>
@@ -79,7 +70,19 @@
 			table_name like 'CT%'
 			and table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#table#">
 			and  owner = 'MCZBASE'
+		UNION
+			select 'ORIG_LAT_LONG_UNITS' table_name from dual
 	</cfquery>
+	<cfif getCtName.table_name EQ "ORIG_LAT_LONG_UNITS">
+		<cfquery name="getLLUnits" datasource="uam_god">
+			select orig_lat_long_units  from ctlat_long_units order by orig_lat_long_units desc
+		</cfquery>
+		<cfloop query="getLLUnits">
+			<ul>
+				<li>#getLLUnits.orig_lat_long_units# </li>
+			</ul>
+		</cfloop>
+	</cfif>
 	<cfif confirm.recordcount NEQ 1>
 		<cfthrow message="Unknown controlled vocabulary table">
 	</cfif>
