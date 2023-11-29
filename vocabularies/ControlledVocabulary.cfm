@@ -16,8 +16,6 @@
 							and owner = 'MCZBASE'
 						UNION 
 							select 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name from dual
-						UNION
-							select 'ORIG_LAT_LONG_UNITS' table_name from dual
 						ORDER BY table_name
 					</cfquery>
 				<ul>
@@ -30,8 +28,6 @@
 					FROM 
 						<cfif getCtName.table_name EQ "CTGEOLOGY_ATTRIBUTE_HIERARCHY">
 							GEOLOGY_ATTRIBUTE_HIERARCHY
-						<cfelseif getCtName.table_name EQ "ORIG_LAT_LONG_UNITS">
-							(select ORIG_LAT_LONG_UNITS from ctlat_long_units)
 						<cfelse>
 							#getCtName.table_name#
 						</cfif>
@@ -40,7 +36,6 @@
 					<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
 					<li><a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#">#name#</a> (#getCTRows.ct# values)</li>
 				</cfif>
-				
 			</cfloop>
 		</ul>
 			</div>
@@ -48,7 +43,7 @@
 	</div>
 <cfelse>
 	<cfif table is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
-		<cflocation url="/vocabularies/showGeologicalHierarchies.cfm" addtoken="false">		
+		<cflocation url="/vocabularies/showGeologicalHierarchies.cfm" addtoken="false">
 	</cfif>
 	<cfif refind('^CT[A-Z_]+$',ucase(table)) EQ 0>
 		<cfthrow message="This page can only be used for viewing the controlled vocabularies in code tables.">
@@ -70,19 +65,7 @@
 			table_name like 'CT%'
 			and table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#table#">
 			and  owner = 'MCZBASE'
-		UNION
-			select 'ORIG_LAT_LONG_UNITS' table_name from dual
 	</cfquery>
-	<cfif getCtName.table_name EQ "ORIG_LAT_LONG_UNITS">
-		<cfquery name="getLLUnits" datasource="uam_god">
-			select orig_lat_long_units  from ctlat_long_units order by orig_lat_long_units desc
-		</cfquery>
-		<cfloop query="getLLUnits">
-			<ul>
-				<li>#getLLUnits.orig_lat_long_units# </li>
-			</ul>
-		</cfloop>
-	</cfif>
 	<cfif confirm.recordcount NEQ 1>
 		<cfthrow message="Unknown controlled vocabulary table">
 	</cfif>
