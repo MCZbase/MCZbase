@@ -16,8 +16,6 @@
 							and owner = 'MCZBASE'
 						UNION 
 							select 'CTGEOLOGY_ATTRIBUTE_HIERARCHY' table_name from dual
-						UNION
-							select 'ORIG_LAT_LONG_UNITS' table_name from dual
 						ORDER BY table_name
 					</cfquery>
 				<ul>
@@ -30,8 +28,6 @@
 					FROM 
 						<cfif getCtName.table_name EQ "CTGEOLOGY_ATTRIBUTE_HIERARCHY">
 							GEOLOGY_ATTRIBUTE_HIERARCHY
-						<cfelseif getCtName.table_name EQ "ORIG_LAT_LONG_UNITS">
-							(select ORIG_LAT_LONG_UNITS from ctlat_long_units)
 						<cfelse>
 							#getCtName.table_name#
 						</cfif>
@@ -50,7 +46,7 @@
 		<cflocation url="/vocabularies/showGeologicalHierarchies.cfm" addtoken="false">
 	</cfif>
 	<cfif refind('^CT[A-Z_]+$',ucase(table)) EQ 0>
-		<cfthrow message="This page can only be used for viewing the controlled vocabularies in code tables.">
+		<cfthrow message="This page can only be used for viewing the controled vocabularies in code tables.">
 	</cfif>
 
 	<cfset tableName = right(table,len(table)-2)>
