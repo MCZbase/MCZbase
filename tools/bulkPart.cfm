@@ -167,6 +167,9 @@
 		<form name="modPart" method="post" action="bulkPart.cfm">
 			<input type="hidden" name="action" value="modPart">
 			<input type="hidden" name="table_name" value="#table_name#">
+			<cfif isDefined("result_id") and len(result_id) GT 0>
+				<input type="hidden" name="result_id" value="#result_id#">
+			</cfif>
 			<table border>
 				<tr>
 					<td></td>
@@ -278,6 +281,9 @@
 		<form name="delPart" method="post" action="bulkPart.cfm">
 			<input type="hidden" name="action" value="delPart">
 			<input type="hidden" name="table_name" value="#table_name#">
+			<cfif isDefined("result_id") and len(result_id) GT 0>
+				<input type="hidden" name="result_id" value="#result_id#">
+			</cfif>
 			<label for="exist_part_name">Existing Part Name</label>
 			<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr">
 				<option selected="selected" value=""></option>
@@ -341,6 +347,7 @@
 				cataloged_item.collection_id=collection.collection_id and
 				<cfif isDefined("result_id") and len(result_id) GT 0>
 					cataloged_item.collection_object_id=user_search_table.collection_object_id and
+					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"> and
 				<cfelse>
 					cataloged_item.collection_object_id=#table_name#.collection_object_id and
 				</cfif>
@@ -408,20 +415,25 @@
 				</tr>
 			</cfloop>
 		</table>
-</cfoutput>
+	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------->
 <cfif action is "delPart2">
 	<cfoutput>
 		<cftransaction>
-			<cfloop list="#partID#" index="i">
-				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					delete from specimen_part where collection_object_id=#i#
-				</cfquery>
-			</cfloop>
+			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				DELETE FROM
+					specimen_part 
+				WHERE
+					collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#" list="yes">)
+			</cfquery>
 		</cftransaction>
 	</cfoutput>
-	<cflocation url="bulkPart.cfm?table_name=#table_name#" addtoken="false">
+	<cfif isDefined("result_id") and len(result_id) GT 0>
+		<cflocation url="/tools/bulkPart.cfm?result_id=#result_id#" addtoken="false">
+	<cfelse>
+		<cflocation url="/tools/bulkPart.cfm?table_name=#table_name#" addtoken="false">
+	</cfif>
 </cfif>
 <!---------------------------------------------------------------------------->
 <cfif action is "delPart">
@@ -446,10 +458,19 @@
 				specimen_part,
 				identification,
 				coll_object_remark,
-				#table_name#
+				<cfif isDefined("result_id") and len(result_id) GT 0>
+					user_search_table
+				<cfelse>
+					#table_name#
+				</cfif>
 			where
 				cataloged_item.collection_id=collection.collection_id and
-				cataloged_item.collection_object_id=#table_name#.collection_object_id and
+				<cfif isDefined("result_id") and len(result_id) GT 0>
+					cataloged_item.collection_object_id=user_search_table.collection_object_id and
+					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				<cfelse>
+					cataloged_item.collection_object_id=#table_name#.collection_object_id and
+				</cfif>
 				cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
 				specimen_part.collection_object_id=coll_object.collection_object_id and
 				specimen_part.collection_object_id=coll_object_remark.collection_object_id (+) and
@@ -471,6 +492,9 @@
 		<form name="modPart" method="post" action="bulkPart.cfm">
 			<input type="hidden" name="action" value="delPart2">
 			<input type="hidden" name="table_name" value="#table_name#">
+			<cfif isDefined("result_id") and len(result_id) GT 0>
+				<input type="hidden" name="result_id" value="#result_id#">
+			</cfif>
 			<input type="hidden" name="partID" value="#valuelist(d.partID)#">
 			<input type="submit" value="Looks good - do it" class="savBtn">
 		</form>
@@ -546,14 +570,17 @@
 			</cfif>
 		</cfloop>
 		</cftransaction>
-		<cflocation url="bulkPart.cfm?table_name=#table_name#" addtoken="false">
+		<cfif isDefined("result_id") and len(result_id) GT 0>
+			<cflocation url="/tools/bulkPart.cfm?result_id=#result_id#" addtoken="false">
+		<cfelse>
+			<cflocation url="/tools/bulkPart.cfm?table_name=#table_name#" addtoken="false">
+		</cfif>
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------->
 <cfif action is "modPart">
 	<cfif len(exist_part_name) is 0 or len(new_part_name) is 0>
-		Not enough information.
-		<cfabort>
+		<cfthrow message="Not enough information.  [exist_part_name or new_part_name not provided]">
 	</cfif>
 	<cfoutput>
 		<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -575,10 +602,19 @@
 				specimen_part,
 				identification,
 				coll_object_remark,
-				#table_name#
+				<cfif isDefined("result_id") and len(result_id) GT 0>
+					user_search_table
+				<cfelse>
+					#table_name#
+				</cfif>
 			where
 				cataloged_item.collection_id=collection.collection_id and
-				cataloged_item.collection_object_id=#table_name#.collection_object_id and
+				<cfif isDefined("result_id") and len(result_id) GT 0>
+					cataloged_item.collection_object_id=user_search_table.collection_object_id and
+					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				<cfelse>
+					cataloged_item.collection_object_id=#table_name#.collection_object_id and
+				</cfif>
 				cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
 				specimen_part.collection_object_id=coll_object.collection_object_id and
 				specimen_part.collection_object_id=coll_object_remark.collection_object_id (+) and
