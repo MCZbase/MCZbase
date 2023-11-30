@@ -144,10 +144,10 @@ limitations under the License.
 							(manage result #result_id#)
 						</cfif>
 					</h1>
-					<div class= "col-12 my-2">
+					<p class= "col-12 mt-2">
 						Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a> tool.
-					</div>
-					<form name="filterResults">
+					</p>
+						<form name="filterResults">
 						<div class="form-row my-3">
 							<input type="hidden" name="table_name" value="#table_name#">
 							<input type="hidden" name="action" value="nothing" id="action">
@@ -203,6 +203,7 @@ limitations under the License.
 							</div>
 						</div>			
 					</form>
+					</div>
 				</div>
 				<div class="row mx-0">
 					<script>
