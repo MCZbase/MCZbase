@@ -602,6 +602,8 @@
 									Problem with CITATION_REMARKS (#cfcatch.detail#)
 								<cfelseif cfcatch.detail contains "no data">
 									No data or the wrong data (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "NULL">
+									Missing Data (#cfcatch.detail#)
 								<cfelse>
 									 provide the raw error message if it isn't readily interpretable 
 								 	#cfcatch.detail#
