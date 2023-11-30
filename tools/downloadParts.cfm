@@ -142,11 +142,11 @@ limitations under the License.
 					(manage result #result_id#)
 				</cfif>
 			</h1>
-			<div>
-				Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a>Tool.
+			<div class= "my-2">
+				Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a> tool.
 			</div>
 			<form name="filterResults">
-				<div class="form-row">
+				<div class="form-row my-3">
 					<input type="hidden" name="table_name" value="#table_name#">
 					<input type="hidden" name="action" value="nothing" id="action">
 					<cfif isDefined("result_id") and len(result_id) GT 0>
