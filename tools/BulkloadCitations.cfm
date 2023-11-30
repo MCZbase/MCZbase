@@ -256,7 +256,7 @@
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 			</cfquery>
 			<cfloop query="getTempTableQC">
-				<cfif getTempTableQC.other_id_type eq 'catalog number'>
+				<cfif getTempTableQC.other_id_type is not null and getTempTableQC.other_id_type eq 'catalog number'>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update 
 							cf_temp_citation 
@@ -271,8 +271,6 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 					</cfquery>
-				<cfelseif len(getTempTableQC.other_id_type) lt 1>
-					<h3>Missing value</h3>
 				<cfelse>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
