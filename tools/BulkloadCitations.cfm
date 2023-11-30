@@ -266,6 +266,7 @@
 								from cataloged_item 
 								where cataloged_item.collection_cde = cf_temp_citation.collection_cde 
 								and cataloged_item.cat_num = cf_temp_citation.other_id_number
+								and cf_temp_citation.other_id_type = 'catalog_number'
 								)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
