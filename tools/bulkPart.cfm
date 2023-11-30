@@ -106,7 +106,7 @@ limitations under the License.
 							</a>
 						</h2>
 					</div>
-					<div id="collapseOne" class="collapse" aria-labelledby="headingOptionOne" data-parent="##partActionAccordion">
+					<div id="collapseOne" class="collapse show" aria-labelledby="headingOptionOne" data-parent="##partActionAccordion">
 						<div class="card-body px-4">
 							<form name="newPart" method="post" action="bulkPart.cfm">
 								<input type="hidden" name="action" value="newPart">
