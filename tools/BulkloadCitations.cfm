@@ -428,7 +428,7 @@
 			<cftry>
 				<cfset citation_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the citations bulkloader table (cf_temp_citations).  <a href='/tools/BulkloadCitations.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the citations bulkloader table (cf_temp_citations).  <a href='/tools/BulkloadCitations.cfm'>Start over</a>">
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
@@ -608,8 +608,8 @@
 				</cfcatch>
 				</cftry>--->
 			</cftransaction>
-			<h2>#citation_updates# citations passed checks.</h2>
-			<h2 class="text-success">Success, changes applied.</h2>
+<!---			<h2>#citation_updates# citations passed checks.</h2>
+			<h2 class="text-success">Success, changes applied.</h2>--->
 			cleanup 
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_citation
@@ -617,6 +617,5 @@
 			</cfquery>
 		</cfoutput>
 	</cfif>
-
 </main>
 <cfinclude template="/shared/_footer.cfm">
