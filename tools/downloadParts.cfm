@@ -138,7 +138,7 @@ limitations under the License.
 		<main class="container-fluid px-4 py-3" id="content">
 			<div class="col-12 px-0">
 				<div class="row mx-0">
-					<h1 class="h2 mt-2">
+					<h1 class="h2 mt-2 mx-xl-3">
 						List/Download Parts from a Specimen Search
 						<cfif isDefined("result_id") and len(result_id) GT 0>
 							(manage result #result_id#)
@@ -148,7 +148,7 @@ limitations under the License.
 						Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a> tool.
 					</p>
 						<form name="filterResults">
-						<div class="form-row my-3">
+						<div class="form-row mt-2 mb-3 mx-xl-2">
 							<input type="hidden" name="table_name" value="#table_name#">
 							<input type="hidden" name="action" value="nothing" id="action">
 							<cfif isDefined("result_id") and len(result_id) GT 0>
@@ -164,7 +164,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-2">
-								<label class="data-entry-label" for="filterPreserveMethod">Preserve Method:</label>
+								<label class="data-entry-label mt-1 mt-md-0" for="filterPreserveMethod">Preserve Method:</label>
 								<select name="filterPreserveMethod" id="filterPreserveMehtod" class="data-entry-select">
 									<option></option>
 									<cfloop query="preservemethods">
@@ -173,7 +173,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-2">
-								<label class="data-entry-label" for="filterDisposition">Disposition:</label>
+								<label class="data-entry-label mt-1 mt-md-0" for="filterDisposition">Disposition:</label>
 								<select name="filterDisposition" id="filterDisposition" class="data-entry-select">
 									<option></option>
 									<cfloop query="dispositions">
@@ -182,21 +182,21 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-2">
-								<label class="data-entry-label" for="searchRemarks">Search Remarks (substring):</label>
+								<label class="data-entry-label mt-1 mt-md-0" for="searchRemarks">Search Remarks (substring):</label>
 								<cfif not isdefined("searchremarks")><cfset searchremarks=""></cfif>
 								<input type="text" id="searchremarks" name="searchremarks" class="data-entry-input" value="#searchremarks#">
 							</div>
 							<div class="col-12 col-md-2">
-								<label class="data-entry-label" for="filterBarcode">Part Container:</label>
+								<label class="data-entry-label mt-1 mt-md-0" for="filterBarcode">Part Container:</label>
 								<cfif not isdefined("filterBarcode")><cfset filterBarcode=""></cfif>
 								<input type="text" id="filterBarcode" name="filterBarcode" class="data-entry-input" value="#filterBARCODE#">
 							</div>
 							<div class="col-12 col-md-2">
-								<button type="button" id="toggleButton" class="btn btn-xs btn-secondary mt-3" onclick="toggleColumns();">Show Containers</button>
+								<button type="button" id="toggleButton" class="btn btn-xs btn-secondary mt-1 mt-xl-3" onclick="toggleColumns();">Show Containers</button>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="col-12">
+							<div class="col-12 px-xl-3">
 								<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Download Parts CSV" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Download Parts CSV including Containers" onClick='document.getElementById("action").value="download";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
