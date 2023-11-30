@@ -557,6 +557,8 @@
 									Problem with TYPE_STATUS
 								<cfelseif cfcatch.detail contains "CITATION_PAGE_URI">
 									Problem with CITATION_PAGE_URI (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
+									Problem with OTHER_ID_TYPE or OTHER_ID_NUMBER (#cfcatch.detail#)
 								<cfelseif cfcatch.detail contains "CITATION_REMARKS">
 									Problem with CITATION_REMARKS (#cfcatch.detail#)
 								<cfelseif cfcatch.detail contains "no data">
