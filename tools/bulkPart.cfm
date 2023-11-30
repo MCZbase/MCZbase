@@ -838,6 +838,7 @@ limitations under the License.
 	</cfcase>
 	</cfswitch>
 <cfcatch>
+	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 	<h2 class="h3">Error</h2>
 	<cfoutput>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
