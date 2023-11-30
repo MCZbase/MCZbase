@@ -244,7 +244,16 @@
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-		
+			<cfquery name="TypeStatusProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_citation
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'invalid type_status for')
+				WHERE 
+					other_id_number IS NULL
+			
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+			</cfquery>
 			<cfloop query="getTempTableTypes">
 				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -302,6 +311,34 @@
 				</cfif>--->
 		
 			</cfloop>
+			<cfquery name="TypeStatusProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_citation
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'invalid type_status for')
+				WHERE 
+					cited_taxon_name_id IS NOT NULL
+					AND cited_taxon_name_id NOT IN (
+						SELECT cited_taxon_name_id 
+						FROM ctcitation_type_status 
+						WHERE type_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.type_status#">
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+			</cfquery>
+			<cfquery name="TypeStatusProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_citation
+				SET
+					status = concat(nvl2(status, status || '; ', ''),'invalid type_status for')
+				WHERE 
+					cited_taxon_name_id IS NOT NULL
+					AND cited_taxon_name_id NOT IN (
+						SELECT cited_taxon_name_id 
+						FROM ctcitation_type_status 
+						WHERE type_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.type_status#">
+					)
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+			</cfquery>
 			<cfquery name="getCTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update cf_temp_citation set cited_taxon_name_id =
 					(
@@ -556,7 +593,7 @@
 								<cfelseif cfcatch.detail contains "TYPE_STATUS">
 									Problem with TYPE_STATUS
 								<cfelseif cfcatch.detail contains "CITATION_PAGE_URI">
-									Problem with CITATION_PAGE_URI (#cfcatch.message#)
+									Problem with CITATION_PAGE_URI (#cfcatch.detail#)
 								<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
 									Problem with OTHER_ID_TYPE or OTHER_ID_NUMBER (#cfcatch.detail#)
 								<cfelseif cfcatch.detail contains "CITATION_REMARKS">
