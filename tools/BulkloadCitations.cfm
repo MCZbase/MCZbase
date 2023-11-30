@@ -256,7 +256,7 @@
 					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 			</cfquery>
 			<cfloop query="getTempTableQC">
-				<cfif getTempTableQC.other_id_type is not null and getTempTableQC.other_id_type eq 'catalog number'>
+				<cfif len(getTempTableQC.other_id_type) gt 0 and getTempTableQC.other_id_type eq 'catalog number'>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update 
 							cf_temp_citation 
