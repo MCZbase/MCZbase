@@ -144,7 +144,7 @@ limitations under the License.
 							(manage result #result_id#)
 						</cfif>
 					</h1>
-					<div class= "my-2">
+					<div class= "col-12 my-2">
 						Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a> tool.
 					</div>
 					<form name="filterResults">
