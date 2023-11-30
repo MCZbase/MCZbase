@@ -428,7 +428,7 @@
 			<cftry>
 				<cfset citation_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_attributes).  <a href='/tools/BulkloadAttributes.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the citations bulkloader table (cf_temp_citations).  <a href='/tools/BulkloadCitations.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
