@@ -131,7 +131,7 @@ limitations under the License.
 											<div class="form-row">
 												<div class="col-12">
 													<label for="part_name_#i#" class="data-entry-label">Add Part (#i#)</label>
-													<input type="text" name="part_name_#i#" id="part_name_#i#" class="data-entry-input #reqireClass#" #require#>
+													<input type="text" name="part_name_#i#" id="part_name_#i#" class="data-entry-input #requireClass#" #require#>
 													<script>
 														$(document).ready(function() {
 															makeCTAutocompleteColl("part_name_#i#","SPECIMEN_PART_NAME","#colcdes#") { 
