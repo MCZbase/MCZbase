@@ -101,7 +101,7 @@ limitations under the License.
 				<div class="card">
 					<div class="card-header py-0" id="headingOptionOne">
 						<h2 class="h4 my-1 px-3">
-							<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
+							<a class="btn-link text-left active" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" tabindex="0" aria-controls="collapseOne">
 								Add Part(s)
 							</a>
 						</h2>
@@ -130,15 +130,28 @@ limitations under the License.
 											<h3 class="h3">Add part #i# #additional#</h3>
 											<div class="form-row">
 												<div class="col-12">
-													<label for="part_name_#i#" class="data-entry-label">Add Part (#i#)</label>
+													<label for="part_name_#i#" class="data-entry-label">
+														Add Part (#i#)
+														<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##part_name_#i#').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+													</label>
 													<input type="text" name="part_name_#i#" id="part_name_#i#" class="data-entry-input #requireClass#" #require#>
 													<script>
 														$(document).ready(function() {
 															makeCTAutocompleteColl("part_name_#i#","SPECIMEN_PART_NAME","#colcdes#");
+															<cfif i GT 1>
+																// enable/disable additional parts entry
+																$("##part_name_#i#").on("input",function() { 
+																	if ($("##part_name_#i#").val()!="") { 
+																		$(".forpart#i#").show();
+																	} else { 
+																		$(".forpart#i#").hide();
+																	} 
+																});
+															</cfif>
 														});
 													</script>
 												</div>
-												<div class="col-12">
+												<div class="col-12 forpart#i#">
 													<label for="preserve_method_#i#" class="data-entry-label">Preserve Method (#i#)</label>
 													<select name="preserve_method_#i#" id="preserve_method_#i#" size="1" class="data-entry-select #requireClass#" #require#>
 														<option></option>
@@ -147,7 +160,7 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-12">
+												<div class="col-12 forpart#i#">
 													<label for="lot_count_modifier_#i#" class="data-entry-label">Count Modifier (#i#)</label>
 													<select name="lot_count_modifier_#i#" id="lot_count_modifier_#i#" class="data-entry-select">
 														<option value=""></option>
@@ -156,11 +169,11 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-12">
+												<div class="col-12 forpart#i#">
 										   		<label for="lot_count_#i#" class="data-entry-label">Part Count (#i#)</label>
 										   		<input type="text" name="lot_count_#i#" id="lot_count_#i#" class="data-entry-input #requireClass#" #require# pattern="^[0-9]+$">
 												</div>
-												<div class="col-12">
+												<div class="col-12 forpart#i#">
 										   		<label for="coll_obj_disposition_#i#" class="data-entry-label">Disposition (#i#)</label>
 										   		<select name="coll_obj_disposition_#i#" id="coll_obj_disposition_#i#" size="1"  class="data-entry-select #requireClass#" #require#>
 														<option value=""></option>
@@ -169,11 +182,11 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-12">
+												<div class="col-12 forpart#i#">
 													<label for="condition_#i#" class="data-entry-input">Condition (#i#)</label>
 										   		<input type="text" name="condition_#i#" id="condition_#i#" class="data-entry-input #requireClass#" #require#>
 												</div>
-												<div class="col-12">
+												<div class="col-12 forpart#i#">
 										   		<label for="coll_object_remarks_#i#" class="data-entry-label">Remark (#i#)</label>
 										   		<input type="text" name="coll_object_remarks_#i#" id="coll_object_remarks_#i#" class="data-entry-input">
 												</div>
