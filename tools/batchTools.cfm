@@ -50,12 +50,12 @@
 								</div>
 							</cfform>
 				<h2 class="h3">Batch Tools</h2>
-				<div class="accordion mb-4" id="accordionExample">
+				<div class="accordion mb-4" id="batchToolAccordion">
 					<div class="card">
 						<div class="card-header py-0" id="headingEight">
 						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseEight" aria-expanded="false" aria-controls="collapseEight"> &nbsp;Bulk Add Agents </a> </h2>
 					</div>
-						<div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="##accordionExample">
+						<div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="##batchToolAccordion">
 						<div class="card-body px-4">
 							<h2 class="h3">Bulk Add Agents</h2>
 							<h3 class="h5">Add Agents (type='person') to Existing Specimen Records</h3>
@@ -339,7 +339,7 @@
 						<div class="card-header py-0" id="headingThree">
 							<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" name="addAttributes" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree"> &nbsp;Bulk Add Attributes </a> </h2>
 						</div>
-						<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
+						<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##batchToolAccordion">
 							<div class="card-body px-4">
 								<h2 class="h3">Bulk Add Attributes</h2>
 								<h3 class="h5">Add Attributes to Existing Specimen Records</h3>
@@ -535,7 +535,7 @@
 						<div class="card-header py-0" id="headingFour">
 							<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseFour" aria-expanded="false" aria-controls="collapseFour"> &nbsp;Bulk Add Citations </a> </h2>
 						</div>
-						<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="##accordionExample">
+						<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="##batchToolAccordion">
 							<div class="card-body px-4 pb-4">
 								<h2 class="h3">Bulk Add Citations</h2>
 								<h3 class="h5">Add citations to existing specimen records.</h3>
@@ -715,7 +715,7 @@
 								<div class="card-header py-0" id="headingTen">
 									<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTen" aria-expanded="false" aria-controls="collapseTen"> &nbsp;Bulk Add Identifications </a> </h2>
 								</div>
-								<div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="##accordionExample">
+								<div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="##batchToolAccordion">
 									<div class="card-body px-4">
 										<h2 class="h3">Bulk Add Identifications</h2>
 										<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
@@ -991,7 +991,7 @@
 						<div class="card-header py-0" id="headingFive">
 							<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFive" aria-expanded="false" aria-controls="collapseFive"> &nbsp;Bulk Add Identifiers </a> </h2>
 						</div>
-						<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="##accordionExample">
+						<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="##batchToolAccordion">
 							<div class="card-body px-4">
 								<h2 class="h3">Bulk Add Identifiers</h2>
 								<h3 class="h5">Add Identifiers (other IDs) to Existing Specimen Records</h3>
@@ -1132,7 +1132,7 @@
 					<div class="card-header py-0" id="headingFourteen">
 						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen"> &nbsp;Bulk Add Georeferences </a> </h2>
 					</div>
-					<div id="collapseFourteen" class="collapse" aria-labelledby="headingFourteen" data-parent="##accordionExample">
+					<div id="collapseFourteen" class="collapse" aria-labelledby="headingFourteen" data-parent="##batchToolAccordion">
 						<div class="card-body px-4">
 							<h2 class="h3">Bulk Add Georeferences</h2>
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
@@ -1407,7 +1407,7 @@
 						<div class="card-header py-0" id="headingSix">
 							<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseSix" aria-expanded="false" aria-controls="collapseSix"> &nbsp;Bulk Add Loans </a> </h2>
 						</div>
-						<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="##accordionExample">
+						<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="##batchToolAccordion">
 							<div class="card-body px-4">
 								<h2 class="h3">Bulk Add Loans</h2>
 								<h3 class="h5">Add Loans to Existing Specimen Records</h3>
@@ -1593,7 +1593,7 @@
 						<div class="card-header py-0" id="headingSeven">
 							<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseSeven" aria-expanded="false" aria-controls="collapseSeven"> &nbsp;Add Data Loans </a> </h2>
 						</div>
-						<div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="##accordionExample">
+						<div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="##batchToolAccordion">
 							<div class="card-body px-4">
 								<h2 class="h3">Bulk Add Data Loans</h2>
 								<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
@@ -1910,7 +1910,7 @@
 					<div class="card-header py-0" id="headingSeventeen">
 						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseSeventeen" aria-expanded="false" aria-controls="collapseSeventeen"> &nbsp;Add Media </a> </h2>
 					</div>
-					<div id="collapseSeventeen" class="collapse" aria-labelledby="headingSeventeen" data-parent="##accordionExample">
+					<div id="collapseSeventeen" class="collapse" aria-labelledby="headingSeventeen" data-parent="##batchToolAccordion">
 						<div class="card-body px-4">
 							<h2 class="h3">Bulk Add Media</h2>
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
@@ -2227,7 +2227,7 @@
 						<div class="card-header py-0" id="headingOne">
 							<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" name="addNewParts" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne"> &nbsp;Add New Parts </a> </h2>
 						</div>
-						<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
+						<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##batchToolAccordion">
 							<div class="card-body px-4">
 								<h2 class="h3">Bulk Add New Parts</h2>
 								<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
@@ -2544,7 +2544,7 @@
 						<div class="card-header py-0" id="headingTwo">
 							<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" name="editParts" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> &nbsp;Edit Parts </a> </h2>
 						</div>
-						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
+						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##batchToolAccordion">
 							<div class="card-body px-4">
 								<h2 class="h3">Bulk Modify Parts</h2>
 								<h3 class="h5">Update existing part and/or append remark to existing remarks.</h3>
@@ -2783,7 +2783,7 @@
 					<div class="card-header py-0" id="headingEleven">
 						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseEleven" aria-expanded="false" aria-controls="collapseEleven"> &nbsp;Edit or Move Parts </a> </h2>
 					</div>
-					<div id="collapseEleven" class="collapse" aria-labelledby="headingEleven" data-parent="##accordionExample">
+					<div id="collapseEleven" class="collapse" aria-labelledby="headingEleven" data-parent="##batchToolAccordion">
 						<div class="card-body px-4">
 							<h2 class="h3">Bulk Modify Parts</h2>
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
@@ -3101,7 +3101,7 @@
 					<div class="card-header py-0" id="headingNine">
 						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseNine" aria-expanded="false" aria-controls="collapseNine"> &nbsp;Add Part Containers </a> </h2>
 					</div>
-					<div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="##accordionExample">
+					<div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="##batchToolAccordion">
 						<div class="card-body px-4">
 							<h2 class="h3">Bulk Add Part Containers</h2>
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
@@ -3418,7 +3418,7 @@
 					<div class="card-header py-0" id="headingThirteen">
 						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen"> &nbsp;Add Biological or Administrative Record Relationships </a> </h2>
 					</div>
-					<div id="collapseThirteen" class="collapse" aria-labelledby="headingThirteen" data-parent="##accordionExample">
+					<div id="collapseThirteen" class="collapse" aria-labelledby="headingThirteen" data-parent="##batchToolAccordion">
 						<div class="card-body px-4">
 							<h2 class="h3">Bulk Add Relationships</h2>
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
@@ -3735,7 +3735,7 @@
 					<div class="card-header py-0" id="headingFifteen">
 						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFifteen" aria-expanded="false" aria-controls="collapseFifteen"> &nbsp;Add or Edit Taxonomy </a> </h2>
 					</div>
-					<div id="collapseFifteen" class="collapse" aria-labelledby="headingFifteen" data-parent="##accordionExample">
+					<div id="collapseFifteen" class="collapse" aria-labelledby="headingFifteen" data-parent="##batchToolAccordion">
 						<div class="card-body px-4">
 							<h2 class="h3">Bulk Modify Taxonomy</h2>
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
