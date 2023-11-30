@@ -415,19 +415,65 @@
 	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
-			<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT * FROM cf_temp_citation
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			<cfset problem_key = "">
+			<cftransaction>
+				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT * FROM cf_temp_citation
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_citation
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 			<cftry>
 				<cfset citation_updates = 0>
-				<cftransaction>
+					<cfif getTempData.recordcount EQ 0>
+						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_attributes).  <a href='/tools/BulkloadAttributes.cfm'>Start over</a>"><!--- " --->
+					</cfif>
 					<cfloop query="getTempData">
+						<cfset problem_key = getTempData.key>
 						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							insert into citation (publication_id,collection_object_id,cited_taxon_name_id,cit_current_fg,occurs_page_number,type_status,citation_remarks,citation_page_uri)values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#">,1,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">)
+							INSERT into citation (
+								PUBLICATION_ID,
+								COLLECTION_OBJECT_ID,
+								CITED_TAXON_NAME_ID,
+								CIT_CURRENT_FG,
+								OCCURS_PAGE_NUMBER,
+								TYPE_STATUS,
+								CITATION_REMARKS,
+								CITATION_PAGE_URI
+							) values (
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#">,
+								1,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">
+							)
+						</cfquery>
+						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitation1_result">
+							select publication_id,cited_taxon_name_id,collection_object_id from citation 
+							where publication_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.publication_id#">
+							group by publication_id,cited_taxon_name_id,collection_object_id
+							having count(*) > 1
 						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
+						<cfif updateCitations1_result.recordcount gt 0>
+							<cftransaction action = "ROLLBACK">
+						<cfelse>
+							<cftransaction action="COMMIT">
+						</cfif>
 					</cfloop>
+					<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
+					<cfif updateCitation1_result.recordcount gt 0>
+						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+					<cfelse>
+						<cfif getTempData.recordcount eq attributes_updates>
+							<h2 class="text-success">Success - loaded</h2>
+						</cfif>
+					</cfif>
 				</cftransaction>
 				<h2>Updated #citation_updates# citations.</h2>
 			<cfcatch>
@@ -489,7 +535,40 @@
 						FROM cf_temp_citation 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
-					<h3 class="text-danger">Error updating row (#citation_updates + 1#): #cfcatch.message#</h3>
+					<h3 class="text-danger">Error updating row (#citation_updates + 1#): 
+						<cfif len(cfcatch.detail)gt 0>
+							<span class="font-weight-normal border-bottom border-danger">
+								<cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">
+									Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)
+								<cfelseif cfcatch.detail contains "collection_cde">
+									COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP)
+								<cfelseif cfcatch.detail contains "institution_acronym">
+									INSTITUTION_ACRONYM does not match MCZ (all caps)
+								<cfelseif cfcatch.detail contains "other_id_type">
+									OTHER_ID_TYPE is not valid
+								<cfelseif cfcatch.detail contains "DETERMINED_BY_AGENT_ID">
+									DETERMINER does not match preferred agent name
+								<cfelseif cfcatch.detail contains "date">
+									Problem with ATTRIBUTE_DATE, Check Date Format in CSV. (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "attribute_units">
+									Invalid or missing ATTRIBUTE_UNITS
+								<cfelseif cfcatch.detail contains "attribute_value">
+									Invalid with ATTRIBUTE_VALUE for ATTRIBUTE_TYPE
+								<cfelseif cfcatch.detail contains "attribute_meth">
+									Problem with ATTRIBUTE_METH (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "OTHER_ID_NUMBER">
+									Problem with OTHER_ID_NUMBER (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "attribute_remarks">
+									Problem with ATTRIBUTE_REMARKS (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "no data">
+									No data or the wrong data (#cfcatch.detail#)
+								<cfelse>
+									<!--- provide the raw error message if it isn't readily interpretable --->
+									#cfcatch.detail#
+								</cfif>
+							</span>
+						</cfif>
+					</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
