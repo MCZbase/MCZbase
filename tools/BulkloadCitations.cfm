@@ -470,7 +470,7 @@
 					<cfif updateCitation1_result.recordcount gt 0>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					<cfelse>
-						<cfif getTempData.recordcount eq attributes_updates>
+						<cfif getTempData.recordcount eq citation_updates>
 							<h2 class="text-success">Success - loaded</h2>
 						</cfif>
 					</cfif>
@@ -538,28 +538,28 @@
 					<h3 class="text-danger">Error updating row (#citation_updates + 1#): 
 						<cfif len(cfcatch.detail)gt 0>
 							<span class="font-weight-normal border-bottom border-danger">
-								<cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">
-									Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)
+								<cfif cfcatch.detail contains "Invalid PUBLICATION_TITLE">
+									Invalid PUBLICATION_TITLE for this collection; check controlled vocabulary (Help menu)
 								<cfelseif cfcatch.detail contains "collection_cde">
 									COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP)
 								<cfelseif cfcatch.detail contains "institution_acronym">
 									INSTITUTION_ACRONYM does not match MCZ (all caps)
 								<cfelseif cfcatch.detail contains "other_id_type">
 									OTHER_ID_TYPE is not valid
-								<cfelseif cfcatch.detail contains "DETERMINED_BY_AGENT_ID">
-									DETERMINER does not match preferred agent name
-								<cfelseif cfcatch.detail contains "date">
-									Problem with ATTRIBUTE_DATE, Check Date Format in CSV. (#cfcatch.detail#)
-								<cfelseif cfcatch.detail contains "attribute_units">
-									Invalid or missing ATTRIBUTE_UNITS
-								<cfelseif cfcatch.detail contains "attribute_value">
-									Invalid with ATTRIBUTE_VALUE for ATTRIBUTE_TYPE
-								<cfelseif cfcatch.detail contains "attribute_meth">
-									Problem with ATTRIBUTE_METH (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "PUBLICATION_ID">
+									PUBLICATION_ID does not match a publication ID
 								<cfelseif cfcatch.detail contains "OTHER_ID_NUMBER">
-									Problem with OTHER_ID_NUMBER (#cfcatch.detail#)
-								<cfelseif cfcatch.detail contains "attribute_remarks">
-									Problem with ATTRIBUTE_REMARKS (#cfcatch.detail#)
+									Problem with OTHER_ID_NUMBER, check to see the correct other_id_type was entered
+								<cfelseif cfcatch.detail contains "CITED_SCIENTIFIC_NAME">
+									Invalid or missing CITED_SCIENTIFIC_NAME
+								<cfelseif cfcatch.detail contains "OCCURS_PAGE_NUMBER">
+									Invalid with OCCURS_PAGE_NUMBER
+								<cfelseif cfcatch.detail contains "TYPE_STATUS">
+									Problem with TYPE_STATUS
+								<cfelseif cfcatch.detail contains "CITATION_PAGE_URI">
+									Problem with CITATION_PAGE_URI (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "CITATION_REMARKS">
+									Problem with CITATION_REMARKS (#cfcatch.detail#)
 								<cfelseif cfcatch.detail contains "no data">
 									No data or the wrong data (#cfcatch.detail#)
 								<cfelse>
