@@ -270,7 +270,7 @@
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
 					</cfquery>
-				<cfelse>
+				<cfelseif>
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_citation
@@ -285,6 +285,8 @@
 							)
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
+					<cfelse>
+						<h3>Missing value</h3>
 				</cfif>
 <!---				<cfif len(getTempTableTypes.publication_id) eq 0>
 					<cfquery name="getPID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
