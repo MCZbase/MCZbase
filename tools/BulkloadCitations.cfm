@@ -239,7 +239,7 @@
 		<cfoutput>
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					other_id_type, key
+					other_id_type,type_status, other_id_number, key
 				FROM 
 					cf_temp_citation
 				WHERE 
