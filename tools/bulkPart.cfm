@@ -134,7 +134,7 @@ limitations under the License.
 													<input type="text" name="part_name_#i#" id="part_name_#i#" class="data-entry-input #requireClass#" #require#>
 													<script>
 														$(document).ready(function() {
-															makeCTAutocompleteColl("part_name_#i#","SPECIMEN_PART_NAME","#colcdes#") { 
+															makeCTAutocompleteColl("part_name_#i#","SPECIMEN_PART_NAME","#colcdes#");
 														});
 													</script>
 												</div>
