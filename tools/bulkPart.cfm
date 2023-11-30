@@ -147,6 +147,7 @@ limitations under the License.
 																		$(".forpart#i#").hide();
 																	} 
 																});
+																$(".forpart#i#").hide();
 															</cfif>
 														});
 													</script>
