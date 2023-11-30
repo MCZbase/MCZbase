@@ -135,7 +135,7 @@ limitations under the License.
 	<cfinclude template="/shared/_header.cfm">
 	<script src="/lib/misc/sorttable.js"></script>
 	<cfoutput>
-		<main class="container-fluid px-5 py-3" id="content">
+		<main class="container-fluid px-4 py-3" id="content">
 			<h1 class="h2 mt-2">
 				List/Download Parts from a Specimen Search
 				<cfif isDefined("result_id") and len(result_id) GT 0>
@@ -195,14 +195,14 @@ limitations under the License.
 				</div>
 				<div class="form-row">
 					<div class="col-12">
-						<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
-						<input type="button" value="Download Parts CSV" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
-						<input type="button" value="Download Parts CSV including Containers" onClick='document.getElementById("action").value="download";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
+						<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+						<input type="button" value="Download Parts CSV" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+						<input type="button" value="Download Parts CSV including Containers" onClick='document.getElementById("action").value="download";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 					</div>
 				</div>			
 			</form>
 
-			<div class="row">
+			<div class="row mx-0">
 				<script>
 					var toggleState = "show";
 					function toggleColumns() {
@@ -222,7 +222,7 @@ limitations under the License.
 						$("##toggleButton").html("Show Containers");
 					});
 				</script>
-				<table border class="sortable" id="tre" style="empty-cells:show;">
+				<table class="sortable table table-responsive table-striped d-xl-table w-100" id="tre" style="empty-cells:show;">
 					<tr>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
