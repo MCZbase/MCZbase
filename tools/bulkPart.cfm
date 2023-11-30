@@ -839,8 +839,10 @@ limitations under the License.
 	</cfswitch>
 <cfcatch>
 	<h2 class="h3">Error</h2>
-	<div>#cfcatch.message#</div>
-	<cfdump var="#cfcatch#">
+	<cfoutput>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<div>#error_message#</div>
+	</cfoutput>
 </cfcatch>
 </cftry>
 
