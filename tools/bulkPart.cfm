@@ -27,6 +27,7 @@ limitations under the License.
 	<cfset action="entryPoint">
 </cfif>
 
+<main class="container-fluid px-4 py-3" id="content">
 <cftry>
 	<cfswitch expression="#action#">
 	<cfcase value="entryPoint">
@@ -846,5 +847,6 @@ limitations under the License.
 	</cfoutput>
 </cfcatch>
 </cftry>
+</main>
 
 <cfinclude template="/shared/_footer.cfm">
