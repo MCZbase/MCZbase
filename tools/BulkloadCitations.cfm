@@ -523,7 +523,7 @@
 				<cfrethrow>
 			</cfcatch>
 			</cftry>
-	<!---		<cfset problem_key = "">
+			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
 					<cftransaction action="commit">
@@ -562,8 +562,8 @@
 								<cfelseif cfcatch.detail contains "no data">
 									No data or the wrong data (#cfcatch.detail#)
 								<cfelse>
-									<!--- provide the raw error message if it isn't readily interpretable --->
-								<!--- 	#cfcatch.detail#
+									 provide the raw error message if it isn't readily interpretable 
+								 	#cfcatch.detail#
 								</cfif>
 							</span>
 						</cfif>
@@ -606,7 +606,7 @@
 					</table>
 					<cfrethrow>
 				</cfcatch>
-				</cftry>--->
+				</cftry>
 			</cftransaction>
 <!---			<h2>#citation_updates# citations passed checks.</h2>
 			<h2 class="text-success">Success, changes applied.</h2>--->
