@@ -51,6 +51,11 @@ limitations under the License.
 			nvl(pc6.barcode,pc6.label) as P6_BARCODE,
 		</cfif>
 		CO.CONDITION
+		<cfif action IS "downloadBulkloader">
+			, '' as APPEND_TO_REMARKS
+			, '' AS CHANGED_DATE
+			, '' AS NEW_PRESERVE_METHOD
+		</cfif>
 	from
 		flat f, 
 		specimen_part sp, 

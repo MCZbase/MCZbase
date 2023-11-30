@@ -14,41 +14,37 @@
 <ul class="geol_hier" style="padding-bottom: .25em;">
 	<li style="color:red">institution_acronym</li>
 	<li style="color:red">collection_cde</li>
-	<li style="color:red">other_id_type ("catalog number" is OK)</li>
+	<li style="color:red">other_id_type</li>
+		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
+				<li>To match records by catalog number, use "catalog number" for other_id_type, and the catalog number in other_id_number.</li>
+				<li>To match by other id types, put the type in other_id_type, and the value in other_id_number.</li>
+		</ul>
+	</li>
 	<li style="color:red">other_id_number</li>
 	<li style="color:red">part_name</li>
 	<li style="color:red">preserve_method</li>
-	<li style="color:red">disposition
-   </li>
+	<li style="color:red">disposition</li>
 	<li>lot_count_modifier</li>
-	<li style="color:red">lot_count
-
-    </li>
-	<!---li>current_remarks</li>
-    	<li style="color:red">use_existing
-    	<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-        	<li>Set value = "1"</li>
-        </ul>
-        </li--->
+	<li style="color:red">lot_count</li>
 	<li>container_unique_id
 		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 				<li>Container Unique ID in which to place this part</li>
 		</ul>
 	</li>
-	<li style="color:red">condition
-
-     </li>
-     <li>current_remarks
-         <ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
-           <li>Notes in the remarks field on the specimen record now. Copy and paste into the spreadsheet if possible.
-           They must match the remarks on the record.</li>
-         </ul>
-       </li>
+	<li style="color:red">condition</li>
+	<li>current_remarks
+		<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
+			<li>
+				Notes in the remarks field on the specimen record now. Copy and paste into the spreadsheet if possible.
+				They must match the remarks on the record.
+			</li>
+		</ul>
+	</li>
 	<li>append_to_remarks
 			<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 				<li>Anything in this field will be appended to the current remarks. It will be automatically separated by a semicolon.</li>
 			</ul>
-    </li>
+	</li>
 	<li>changed_date
 			<ul style="margin-left:1em;padding-bottom: .5em;font-size: 14px;">
 				<li>If the date the part preservation was changed is different than today, use this field to mark the preservation history correctly, otherwise leave blank. Format = YYYY-MM-DD</li>
@@ -60,7 +56,9 @@
 			</ul>
 	</li>
 </ul>
-    <br>
+
+<br>
+
 <cfform name="atts" method="post" enctype="multipart/form-data" action="BulkloadEditedParts.cfm">
 			<input type="hidden" name="Action" value="getFile">
 			  <input type="file"
