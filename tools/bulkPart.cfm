@@ -101,7 +101,7 @@ limitations under the License.
 				<div class="card">
 					<div class="card-header py-0" id="headingOptionOne">
 						<h2 class="h4 my-1 px-3">
-							<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseOne" aria-expanded="false" aria-controls="collapseOne">
+							<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
 								Add Part(s)
 							</a>
 						</h2>
@@ -115,49 +115,73 @@ limitations under the License.
 								<cfif isDefined("result_id") and len(result_id) GT 0>
 									<input type="hidden" name="result_id" value="#result_id#">
 								</cfif>
-								<table border width="90%">
-									<tr>
-										<td>Add Part 1</td>
-										<td>Add part 2 (optional)</td>
-										<td>Add part 3 (optional)</td>
-									</tr>
-									<tr>
-										<cfloop from="1" to="#numParts#" index="i">
-											<td>
-												<label for="part_name_#i#">Add Part (#i#)</label>
-												<input type="text" name="part_name_#i#" id="part_name_#i#" class="reqdClr"
-													onchange="findPart(this.id,this.value,'#colcdes#');"
-													onkeypress="return noenter(event);">
-												<label for="preserve_method_#i#">Preserve Method (#i#)</label>
-												<select name="preserve_method_#i#" id="preserve_method_#i#" size="1">
-													<cfloop query="ctPreserveMethod">
-														<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
-													</cfloop>
-												</select>
-												<label for="lot_count_modifier_#i#">Count Modifier (#i#)</label>
-												<select name="lot_count_modifier_#i#" id="lot_count_modifier_#i#" size="1">
-													<option value=""></option>
-													<cfloop query="ctNumericModifiers">
-														<option value="#ctNumericModifiers.modifier#">#ctNumericModifiers.modifier#</option>
-													</cfloop>
-												</select>
-										   		<label for="lot_count_#i#">Part Count (#i#)</label>
-										   		<input type="text" name="lot_count_#i#" id="lot_count_#i#" class="reqdClr" size="2">
-										   		<label for="coll_obj_disposition_#i#">Disposition (#i#)</label>
-										   		<select name="coll_obj_disposition_#i#" id="coll_obj_disposition_#i#" size="1"  class="reqdClr">
-													<cfloop query="ctDisp">
-														<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-													</cfloop>
-												</select>
-												<label for="condition_#i#">Condition (#i#)</label>
-										   		<input type="text" name="condition_#i#" id="condition_#i#" class="reqdClr">
-										   		<label for="coll_object_remarks_#i#">Remark (#i#)</label>
-										   		<input type="text" name="coll_object_remarks_#i#" id="coll_object_remarks_#i#">
-											</td>
-										</cfloop>
-									</tr>
-								</table>
-								<input type="submit" value="Add Parts" class="savBtn">
+								<div class="form-row">
+									<cfloop from="1" to="#numParts#" index="i">
+										<div class="col-12 col-md-4 border">
+											<cfif i EQ 1>
+												<cfset additional = "">
+												<cfset requireClass = "reqdClr">
+												<cfset require = "required">
+											<cfelse>
+												<cfset additional = "(optional)">
+												<cfset requireClass = "">
+												<cfset require = "">
+											</cfif>
+											<h3 class="h3">Add part #i# #additional#</h3>
+											<div class="form-row">
+												<div class="col-12">
+													<label for="part_name_#i#" class="data-entry-label">Add Part (#i#)</label>
+													<input type="text" name="part_name_#i#" id="part_name_#i#" class="data-entry-input #reqireClass#" #require#>
+													<script>
+														$(document).ready(function() {
+															makeCTAutocompleteColl("part_name_#i#","SPECIMEN_PART_NAME","#colcdes#") { 
+														});
+													</script>
+												</div>
+												<div class="col-12">
+													<label for="preserve_method_#i#" class="data-entry-label">Preserve Method (#i#)</label>
+													<select name="preserve_method_#i#" id="preserve_method_#i#" size="1" class="data-entry-select #requireClass#" #require#>
+														<option></option>
+														<cfloop query="ctPreserveMethod">
+															<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12">
+													<label for="lot_count_modifier_#i#" class="data-entry-label">Count Modifier (#i#)</label>
+													<select name="lot_count_modifier_#i#" id="lot_count_modifier_#i#" class="data-entry-select">
+														<option value=""></option>
+														<cfloop query="ctNumericModifiers">
+															<option value="#ctNumericModifiers.modifier#">#ctNumericModifiers.modifier#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12">
+										   		<label for="lot_count_#i#" class="data-entry-label">Part Count (#i#)</label>
+										   		<input type="text" name="lot_count_#i#" id="lot_count_#i#" class="data-entry-input #requireClass#" #require# pattern="^[0-9]+$">
+												</div>
+												<div class="col-12">
+										   		<label for="coll_obj_disposition_#i#" class="data-entry-label">Disposition (#i#)</label>
+										   		<select name="coll_obj_disposition_#i#" id="coll_obj_disposition_#i#" size="1"  class="data-entry-select #requireClass#" #require#>
+														<option value=""></option>
+														<cfloop query="ctDisp">
+															<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12">
+													<label for="condition_#i#" class="data-entry-input">Condition (#i#)</label>
+										   		<input type="text" name="condition_#i#" id="condition_#i#" class="data-entry-input #requireClass#" #require#>
+												</div>
+												<div class="col-12">
+										   		<label for="coll_object_remarks_#i#" class="data-entry-label">Remark (#i#)</label>
+										   		<input type="text" name="coll_object_remarks_#i#" id="coll_object_remarks_#i#" class="data-entry-input">
+												</div>
+											</div>
+										</div>
+									</cfloop>
+								</div>
+								<input type="submit" value="Add Parts" class="btn btn-xs btn-primary">
 							</form>
 						</div>
 					</div>
