@@ -147,7 +147,7 @@ limitations under the License.
 																		$(".forpart#i#").hide();
 																	} 
 																});
-																$("##part_name_#i#").on("change",function() { 
+																$("##part_name_#i#").on("autocompleteselect",function() { 
 																	if ($("##part_name_#i#").val()!="") { 
 																		$(".forpart#i#").show();
 																	} else { 
