@@ -474,7 +474,6 @@
 							<h2 class="text-success">Success - loaded</h2>
 						</cfif>
 					</cfif>
-				</cftransaction>
 				<h2>Updated #citation_updates# citations.</h2>
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
@@ -524,7 +523,7 @@
 				<cfrethrow>
 			</cfcatch>
 			</cftry>
-			<cfset problem_key = "">
+	<!---		<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
 					<cftransaction action="commit">
@@ -564,7 +563,7 @@
 									No data or the wrong data (#cfcatch.detail#)
 								<cfelse>
 									<!--- provide the raw error message if it isn't readily interpretable --->
-									#cfcatch.detail#
+								<!--- 	#cfcatch.detail#
 								</cfif>
 							</span>
 						</cfif>
@@ -607,7 +606,7 @@
 					</table>
 					<cfrethrow>
 				</cfcatch>
-				</cftry>
+				</cftry>--->
 			</cftransaction>
 			<h2>#citation_updates# citations passed checks.</h2>
 			<h2 class="text-success">Success, changes applied.</h2>
