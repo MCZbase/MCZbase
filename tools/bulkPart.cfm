@@ -124,7 +124,7 @@ limitations under the License.
 												<cfset require = "required">
 											<cfelse>
 												<cfset additional = "(optional)">
-												<cfset requireClass = "">
+												<cfset requireClass = " requirable#i#">
 												<cfset require = "">
 											</cfif>
 											<h3 class="h3">Add part #i# #additional#</h3>
@@ -136,23 +136,29 @@ limitations under the License.
 													</label>
 													<input type="text" name="part_name_#i#" id="part_name_#i#" class="data-entry-input #requireClass#" #require#>
 													<script>
+														<cfif i GT 1>
+															function togglePart#i#() { 
+																if ($("##part_name_#i#").val()!="") { 
+																	$(".forpart#i#").show();
+																	$(".requirable#i#").addClass("reqdClr");
+																	$(".requirable#i#").prop('required',true);
+																} else { 
+																	$(".forpart#i#").hide();
+																	$(".requirable#i#").removeClass("reqdClr");
+																	$(".requirable#i#").prop('required',false);
+																} 
+															}
+														</cfif>
 														$(document).ready(function() {
 															makeCTAutocompleteColl("part_name_#i#","SPECIMEN_PART_NAME","#colcdes#");
 															<cfif i GT 1>
-																// enable/disable additional parts entry
+																// enable/disable additional parts entry 
+																// (input when typing, blur when picking from dropped list)
 																$("##part_name_#i#").on("input",function() { 
-																	if ($("##part_name_#i#").val()!="") { 
-																		$(".forpart#i#").show();
-																	} else { 
-																		$(".forpart#i#").hide();
-																	} 
+																	togglePart#i#();
 																});
 																$("##part_name_#i#").on("blur",function() { 
-																	if ($("##part_name_#i#").val()!="") { 
-																		$(".forpart#i#").show();
-																	} else { 
-																		$(".forpart#i#").hide();
-																	} 
+																	togglePart#i#();
 																});
 																$(".forpart#i#").hide();
 															</cfif>
@@ -267,10 +273,16 @@ limitations under the License.
 									coll_object.coll_obj_disposition
 							</cfquery>
 							<cfquery name="existLotCount" dbtype="query">
-								select lot_count from existCO group by lot_count order by lot_count
+								SELECT lot_count 
+								FROM existCO
+								GROUP BY lot_count 
+								ORDER BY lot_count
 							</cfquery>
 							<cfquery name="existDisp" dbtype="query">
-								select coll_obj_disposition from existCO group by coll_obj_disposition order by coll_obj_disposition
+								SELECT coll_obj_disposition 
+								FROM existCO 
+								GROUP BY coll_obj_disposition 
+								ORDER BY coll_obj_disposition
 							</cfquery>
 					
 							<form name="modPart" method="post" action="bulkPart.cfm">
