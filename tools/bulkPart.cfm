@@ -228,6 +228,70 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
+				<!--- queries used for picklists on modify and delete forms --->
+				<cfquery name="existParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						count(specimen_part.collection_object_id) partcount,
+						specimen_part.part_name
+					FROM
+						specimen_part
+						<cfif isDefined("result_id") and len(result_id) GT 0>
+							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
+					WHERE
+							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						<cfelse>
+							JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
+					</cfif>
+					GROUP BY specimen_part.part_name
+					ORDER BY specimen_part.part_name
+				</cfquery>
+				<cfquery name="existPreserve" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						count(specimen_part.collection_object_id) partcount,
+						specimen_part.preserve_method
+					FROM
+						specimen_part
+						<cfif isDefined("result_id") and len(result_id) GT 0>
+							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
+					WHERE
+							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						<cfelse>
+							JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
+						</cfif>
+					GROUP BY specimen_part.preserve_method
+					ORDER BY specimen_part.preserve_method
+				</cfquery>
+				<!--- TODO: Split into two queries, this group on then group on again paired queries may not produce the expected results. --->
+				<cfquery name="existCO" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						coll_object.lot_count,
+						coll_object.coll_obj_disposition
+					FROM
+						specimen_part
+						JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+						<cfif isDefined("result_id") and len(result_id) GT 0>
+							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
+					WHERE
+							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+						<cfelse>
+							JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
+						</cfif>
+					GROUP BY 
+						coll_object.lot_count,
+						coll_object.coll_obj_disposition
+				</cfquery>
+				<cfquery name="existLotCount" dbtype="query">
+					SELECT lot_count 
+					FROM existCO
+					GROUP BY lot_count 
+					ORDER BY lot_count
+				</cfquery>
+				<cfquery name="existDisp" dbtype="query">
+					SELECT coll_obj_disposition 
+					FROM existCO 
+					GROUP BY coll_obj_disposition 
+					ORDER BY coll_obj_disposition
+				</cfquery>
 				<div class="card">
 					<div class="card-header py-0" id="headingOptionTwo">
 						<h2 class="h4 my-1 px-3">
@@ -239,68 +303,6 @@ limitations under the License.
 					<div id="collapseTwo" class="collapse" aria-labelledby="headingOptionTwo" data-parent="##partActionAccordion">
 						<div class="card-body px-4">
 							<div>You will be able to review changes on the next screen.</div>
-							<cfquery name="existParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									count(specimen_part.collection_object_id) partcount,
-									specimen_part.part_name
-								FROM
-									specimen_part
-									<cfif isDefined("result_id") and len(result_id) GT 0>
-										JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
-								WHERE
-										user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-									<cfelse>
-										JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
-								</cfif>
-								GROUP BY specimen_part.part_name
-								ORDER BY specimen_part.part_name
-							</cfquery>
-							<cfquery name="existPreserve" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									count(specimen_part.collection_object_id) partcount,
-									specimen_part.preserve_method
-								FROM
-									specimen_part
-									<cfif isDefined("result_id") and len(result_id) GT 0>
-										JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
-								WHERE
-										user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-									<cfelse>
-										JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
-									</cfif>
-								GROUP BY specimen_part.preserve_method
-								ORDER BY specimen_part.preserve_method
-							</cfquery>
-							<cfquery name="existCO" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									coll_object.lot_count,
-									coll_object.coll_obj_disposition
-								FROM
-									specimen_part
-									JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
-									<cfif isDefined("result_id") and len(result_id) GT 0>
-										JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
-								WHERE
-										user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-									<cfelse>
-										JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
-									</cfif>
-								GROUP BY 
-									coll_object.lot_count,
-									coll_object.coll_obj_disposition
-							</cfquery>
-							<cfquery name="existLotCount" dbtype="query">
-								SELECT lot_count 
-								FROM existCO
-								GROUP BY lot_count 
-								ORDER BY lot_count
-							</cfquery>
-							<cfquery name="existDisp" dbtype="query">
-								SELECT coll_obj_disposition 
-								FROM existCO 
-								GROUP BY coll_obj_disposition 
-								ORDER BY coll_obj_disposition
-							</cfquery>
 					
 							<form name="modPart" method="post" action="bulkPart.cfm">
 								<input type="hidden" name="action" value="modPart">
@@ -438,7 +440,7 @@ limitations under the License.
 										<select name="exist_part_name" id="exist_part_name" size="1" class="data-entry-select one_must_be_filled_in">
 											<option selected="selected" value=""></option>
 											<cfloop query="existParts">
-										    	<option value="#Part_Name#">#Part_Name#</option>
+										    	<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
 											</cfloop>
 										</select>
 									</div>
@@ -447,7 +449,7 @@ limitations under the License.
 										<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="data-entry-select one_must_be_filled_in">
 											<option selected="selected" value=""></option>
 											<cfloop query="existPreserve">
-										    	<option value="#preserve_method#">#preserve_method#</option>
+										    	<option value="#preserve_method#">#preserve_method# (#existPreserve.partCount# parts)</option>
 											</cfloop>
 										</select>
 									</div>
