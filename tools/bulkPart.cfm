@@ -108,6 +108,14 @@ limitations under the License.
 					</div>
 					<div id="collapseOne" class="collapse show" aria-labelledby="headingOptionOne" data-parent="##partActionAccordion">
 						<div class="card-body px-4">
+							<div>
+								Add one to three new parts to each cataloged item.  
+								<cfif getCount.ct EQ 1>
+									This set of parts will be added to the cataloged item.
+								<cfelse>
+									The same set of parts will be added to each of the #getCount.ct# cataloged items.
+								</cfif>
+							</div>
 							<form name="newPart" method="post" action="bulkPart.cfm">
 								<input type="hidden" name="action" value="newPart">
 								<input type="hidden" name="table_name" value="#table_name#">
@@ -119,15 +127,22 @@ limitations under the License.
 									<cfloop from="1" to="#numParts#" index="i">
 										<div class="col-12 col-md-4 border">
 											<cfif i EQ 1>
-												<cfset additional = "">
 												<cfset requireClass = "reqdClr">
 												<cfset require = "required">
 											<cfelse>
-												<cfset additional = "(optional)">
 												<cfset requireClass = " requirable#i#">
 												<cfset require = "">
 											</cfif>
-											<h3 class="h3">Add part #i# #additional#</h3>
+											<h3 class="h3">
+												<cfif i EQ 1>
+													First
+												<cfelseif i EQ 2>
+													Second
+												<cfelseif i EQ 2>
+													Third
+												</cfif>
+												Part To Add
+											</h3>
 											<div class="form-row">
 												<div class="col-12">
 													<label for="part_name_#i#" class="data-entry-label">
@@ -407,40 +422,70 @@ limitations under the License.
 					</div>
 					<div id="collapseThree" class="collapse" aria-labelledby="headingOptionThree" data-parent="##partActionAccordion">
 						<div class="card-body px-4">
-							<form name="delPart" method="post" action="bulkPart.cfm">
+							<div>Identify existing parts to be deleted from all the #getCount.ct# cataloged items.  You must provide at least one filter condition for deletion.  You will be able to review and confirm on the next screen.</div>
+							<h3 class="h4">Select values to identify the existing parts to be deleted</h3>
+							<form name="delPart" id="deletePartForm" method="post" action="bulkPart.cfm">
 								<input type="hidden" name="action" value="delPart">
 								<input type="hidden" name="table_name" value="#table_name#">
 								<cfif isDefined("result_id") and len(result_id) GT 0>
 									<input type="hidden" name="result_id" value="#result_id#">
 								</cfif>
-								<label for="exist_part_name">Existing Part Name</label>
-								<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr">
-									<option selected="selected" value=""></option>
-										<cfloop query="existParts">
-									    	<option value="#Part_Name#">#Part_Name#</option>
-										</cfloop>
-								</select>
-								<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="reqdClr">
-									<option selected="selected" value=""></option>
-										<cfloop query="existPreserve">
-									    	<option value="#preserve_method#">#preserve_method#</option>
-										</cfloop>
-								</select>
-								<label for="existing_lot_count">Existing Lot Count</label>
-								<select name="existing_lot_count" id="existing_lot_count" size="1" class="reqdClr">
-									<option selected="selected" value="">ignore</option>
-										<cfloop query="existLotCount">
-									    	<option value="#lot_count#">#lot_count#</option>
-										</cfloop>
-								</select>
-								<label for="existing_coll_obj_disposition">Existing Disposition</label>
-								<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="reqdClr">
-									<option selected="selected" value="">ignore</option>
-										<cfloop query="existDisp">
-									    	<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
-										</cfloop>
-								</select>
-								<br><input type="submit" value="Delete Parts" class="delBtn">
+								<div class="form-row">
+									<div class="col-12 col-md-3">
+										<label for="exist_part_name" class="data-entry-label">Part Name</label>
+										<select name="exist_part_name" id="exist_part_name" size="1" class="data-entry-select">
+											<option selected="selected" value=""></option>
+											<cfloop query="existParts">
+										    	<option value="#Part_Name#">#Part_Name#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="exist_preserve_method" class="data-entry-label">Preserve Method</label>
+										<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="data-entry-select">
+											<option selected="selected" value=""></option>
+											<cfloop query="existPreserve">
+										    	<option value="#preserve_method#">#preserve_method#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="existing_lot_count" class="data-entry-label">Lot Count</label>
+										<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select">
+											<option selected="selected" value=""></option>
+											<cfloop query="existLotCount">
+								   		 	<option value="#lot_count#">#lot_count#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="existing_coll_obj_disposition" class="data-entry-label">Disposition</label>
+										<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="data-entry-select">
+											<option selected="selected" value=""></option>
+											<cfloop query="existDisp">
+										    	<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
+											</cfloop>
+										</select>
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="col-12">
+										<script>
+											$(document).ready(function () { 
+												$("##deletePartForm").on("submit",function(e) { 
+													e.preventDefault();
+													var valuesArray = $('##deletePartForm :select').get().map(e => e.value)
+													if (valuesArray.every(element => element == "")){ 
+														messageDialog("No Delete Criteria Provided.","Error: You must specify at least one value to specify which parts to delete.");
+													} else { 
+														$("##deletePartForm").submit();
+													}
+												});
+											});
+										</script>
+										<input type="submit" value="Delete Parts" class="btn btn-xs btn-danger" onClick=" validateDelete(evt); ">
+									</div>
+								</div>
 							</form>
 						</div>
 					</div>
