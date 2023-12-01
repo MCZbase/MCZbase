@@ -102,7 +102,7 @@ limitations under the License.
 					<div class="card-header py-0" id="headingOptionOne">
 						<h2 class="h4 my-1 px-3">
 							<a class="btn-link text-left active" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" tabindex="0" aria-controls="collapseOne">
-								Add Part(s)
+								Add Parts
 							</a>
 						</h2>
 					</div>
