@@ -606,11 +606,11 @@ limitations under the License.
 		<h2 class="h2">Succesfully deleted #delete_result.recordcount# parts</h2>
 		<div>
 			<cfif isDefined("result_id") and len(result_id) GT 0>
-				<cfset url="/tools/bulkPart.cfm?result_id=#result_id#">
+				<cfset targeturl="/tools/bulkPart.cfm?result_id=#result_id#">
 			<cfelse>
-				<cfset url="/tools/bulkPart.cfm?table_name=#table_name#">
+				<cfset targeturl="/tools/bulkPart.cfm?table_name=#table_name#">
 			</cfif>
-			<a href="#url#">Return to bulk part editor</a>
+			<a href="#targeturl#">Return to bulk part editor</a>
 		</div>
 	</cfcase>
 	<!---------------------------------------------------------------------------->
@@ -980,11 +980,11 @@ limitations under the License.
 			<h2 class="h2">Succesfully Added new parts</h2>
 			<div>
 				<cfif isDefined("result_id") and len(result_id) GT 0>
-					<cfset url="/tools/bulkPart.cfm?result_id=#result_id#">
+					<cfset targeturl="/tools/bulkPart.cfm?result_id=#result_id#">
 				<cfelse>
-					<cfset url="/tools/bulkPart.cfm?table_name=#table_name#">
+					<cfset targeturl="/tools/bulkPart.cfm?table_name=#table_name#">
 				</cfif>
-				<a href="#url#">Return to bulk part editor</a>
+				<a href="#targeturl#">Return to bulk part editor</a>
 			</div>
 		</cfoutput>
 	</cfcase>
