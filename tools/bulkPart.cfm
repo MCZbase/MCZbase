@@ -138,7 +138,7 @@ limitations under the License.
 													First
 												<cfelseif i EQ 2>
 													Second
-												<cfelseif i EQ 2>
+												<cfelseif i EQ 3>
 													Third
 												</cfif>
 												Part To Add
