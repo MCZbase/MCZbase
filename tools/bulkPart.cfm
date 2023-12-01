@@ -657,7 +657,7 @@ limitations under the License.
 					specimen_part.collection_object_id=coll_object.collection_object_id and
 					specimen_part.collection_object_id=coll_object_remark.collection_object_id (+) and
 					cataloged_item.collection_object_id=identification.collection_object_id and
-					accepted_id_fg=1 and
+					accepted_id_fg=1 
 					<cfif len(exist_preserve_method) gt 0>
 						and part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_part_name#">
 					</cfif>
