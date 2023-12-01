@@ -241,6 +241,7 @@ limitations under the License.
 							<div>You will be able to review changes on the next screen.</div>
 							<cfquery name="existParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
+									count(specimen_part.collection_object_id) partcount,
 									specimen_part.part_name
 								FROM
 									specimen_part
@@ -256,6 +257,7 @@ limitations under the License.
 							</cfquery>
 							<cfquery name="existPreserve" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
+									count(specimen_part.collection_object_id) preservecount,
 									specimen_part.preserve_method
 								FROM
 									specimen_part
@@ -322,7 +324,7 @@ limitations under the License.
 									   		<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr">
 												<option selected="selected" value=""></option>
 													<cfloop query="existParts">
-												    	<option value="#Part_Name#">#Part_Name#</option>
+												    	<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)#</option>
 													</cfloop>
 											</select>
 										</td>
@@ -338,7 +340,7 @@ limitations under the License.
 									   		<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="reqdClr">
 												<option selected="selected" value=""></option>
 													<cfloop query="existPreserve">
-												    	<option value="#Preserve_method#">#Preserve_method#</option>
+												    	<option value="#Preserve_method#">#Preserve_method# (#existPreserve.partCount# parts)</option>
 													</cfloop>
 											</select>
 										</td>
