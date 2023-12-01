@@ -681,6 +681,14 @@ limitations under the License.
 				<input type="hidden" name="partID" value="#valuelist(d.partID)#">
 				<input type="submit" value="Delete these Parts" class="btn btn-xs btn-danger">
 			</form>
+			<cfif isDefined("result_id") and len(result_id) GT 0>
+				<cfset targeturl="/tools/bulkPart.cfm?result_id=#result_id#">
+			<cfelse>
+				<cfset targeturl="/tools/bulkPart.cfm?table_name=#table_name#">
+			</cfif>
+			<div>
+				Or return to the Bulk Part Management tool <a href="#targeturl#">without making changes</a>.
+			</div>
 			<table border>
 				<tr>
 					<th>Specimen</th>
