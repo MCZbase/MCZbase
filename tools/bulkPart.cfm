@@ -324,7 +324,7 @@ limitations under the License.
 									   		<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr">
 												<option selected="selected" value=""></option>
 													<cfloop query="existParts">
-												    	<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)#</option>
+												    	<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
 													</cfloop>
 											</select>
 										</td>
