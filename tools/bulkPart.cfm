@@ -257,7 +257,7 @@ limitations under the License.
 							</cfquery>
 							<cfquery name="existPreserve" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
-									count(specimen_part.collection_object_id) preservecount,
+									count(specimen_part.collection_object_id) partcount,
 									specimen_part.preserve_method
 								FROM
 									specimen_part
