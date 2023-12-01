@@ -663,6 +663,7 @@ limitations under the License.
 				order by
 					collection.collection,cataloged_item.cat_num
 			</cfquery>
+			<h2 class="h2">Found #d.recordcount# parts to delete.</h2>
 			<form name="modPart" method="post" action="bulkPart.cfm">
 				<input type="hidden" name="action" value="delPart2">
 				<input type="hidden" name="table_name" value="#table_name#">
@@ -670,7 +671,7 @@ limitations under the License.
 					<input type="hidden" name="result_id" value="#result_id#">
 				</cfif>
 				<input type="hidden" name="partID" value="#valuelist(d.partID)#">
-				<input type="submit" value="Looks good - do it" class="savBtn">
+				<input type="submit" value="Delete these Parts" class="btn btn-xs btn-danger">
 			</form>
 			<table border>
 				<tr>
