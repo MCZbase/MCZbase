@@ -596,18 +596,22 @@ limitations under the License.
 	<!---------------------------------------------------------------------------->
 	<cfcase value="delPart2">
 		<cfoutput>
-			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
 				DELETE FROM
 					specimen_part 
 				WHERE
 					collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#" list="yes">)
 			</cfquery>
 		</cfoutput>
-		<cfif isDefined("result_id") and len(result_id) GT 0>
-			<cflocation url="/tools/bulkPart.cfm?result_id=#result_id#" addtoken="false">
-		<cfelse>
-			<cflocation url="/tools/bulkPart.cfm?table_name=#table_name#" addtoken="false">
-		</cfif>
+		<h2 class="h2">Succesfully deleted #delete_result.recordcount# parts</h2>
+		<div>
+			<cfif isDefined("result_id") and len(result_id) GT 0>
+				<cfset url="/tools/bulkPart.cfm?result_id=#result_id#">
+			<cfelse>
+				<cfset url="/tools/bulkPart.cfm?table_name=#table_name#">
+			</cfif>
+			<a href="#url#">Return to bulk part editor</a>
+		</div>
 	</cfcase>
 	<!---------------------------------------------------------------------------->
 	<cfcase value="delPart">
