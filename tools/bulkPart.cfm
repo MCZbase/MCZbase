@@ -404,7 +404,7 @@ limitations under the License.
 									</tr>
 									<tr>
 										<td colspan="3" align="center">
-											<input type="submit" value="Update Parts" class="savBtn">
+											<input type="submit" value="Update Parts" class="btn btn-xs btn-secondary">
 										</td>
 									</tr>
 							  	</table>
@@ -476,7 +476,7 @@ limitations under the License.
 													e.preventDefault();
 													var valuesArray = $('##deletePartForm .one_must_be_filled_in').get().map(e => e.value);
 													if (valuesArray.every(element => element == "")){ 
-														messageDialog("No Delete Criteria Provided.","Error: You must specify at least one value to specify which parts to delete.");
+														messageDialog("Error: You must specify at least one value to specify which parts to delete.","No Delete Criteria Provided.");
 													} else { 
 														$("##deletePartForm").submit();
 													}
