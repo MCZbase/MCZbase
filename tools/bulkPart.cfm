@@ -658,63 +658,74 @@ limitations under the License.
 					specimen_part.collection_object_id=coll_object_remark.collection_object_id (+) and
 					cataloged_item.collection_object_id=identification.collection_object_id and
 					accepted_id_fg=1 and
-					part_name='#exist_part_name#'
 					<cfif len(exist_preserve_method) gt 0>
-						and preserve_method='#exist_preserve_method#'
+						and part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_part_name#">
+					</cfif>
+					<cfif len(exist_preserve_method) gt 0>
+						and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_preserve_method#">
 					</cfif>
 					<cfif len(existing_lot_count) gt 0>
-						and lot_count=#existing_lot_count#
+						and lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existing_lot_count#">
 					</cfif>
 					<cfif len(existing_coll_obj_disposition) gt 0>
-						and coll_obj_disposition='#existing_coll_obj_disposition#'
+						and coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#existing_coll_obj_disposition#">
+					</cfif>
+					<cfif len(exist_preserve_method) EQ 0 AND len(exist_preserve_method) EQ 0 AND len(existing_lot_count) EQ 0 AND len(existing_coll_obj_disposition) EQ 0>
+						and 0=1
 					</cfif>
 				order by
 					collection.collection,cataloged_item.cat_num
 			</cfquery>
 			<h2 class="h2">Found #d.recordcount# parts to delete.</h2>
-			<form name="modPart" method="post" action="bulkPart.cfm">
-				<input type="hidden" name="action" value="delPart2">
-				<input type="hidden" name="table_name" value="#table_name#">
-				<cfif isDefined("result_id") and len(result_id) GT 0>
-					<input type="hidden" name="result_id" value="#result_id#">
-				</cfif>
-				<input type="hidden" name="partID" value="#valuelist(d.partID)#">
-				<input type="submit" value="Delete these Parts" class="btn btn-xs btn-danger">
-			</form>
 			<cfif isDefined("result_id") and len(result_id) GT 0>
 				<cfset targeturl="/tools/bulkPart.cfm?result_id=#result_id#">
 			<cfelse>
 				<cfset targeturl="/tools/bulkPart.cfm?table_name=#table_name#">
 			</cfif>
-			<div>
-				Or return to the Bulk Part Management tool <a href="#targeturl#">without making changes</a>.
-			</div>
-			<table border>
-				<tr>
-					<th>Specimen</th>
-					<th>ID</th>
-					<th>PartToBeDeleted</th>
-					<th>PreserveMethod</th>
-					<th>Condition</th>
-					<th>CntMod</th>
-					<th>Cnt</th>
-					<th>Dispn</th>
-					<th>Remark</th>
-				</tr>
-				<cfloop query="d">
+			<cfif d.recordcount EQ 0>
+				<div>
+					Return to the Bulk Part Management tool <a href="#targeturl#">to change your criteria</a>.
+				</div>
+			<cfelse>
+				<form name="modPart" method="post" action="bulkPart.cfm">
+					<input type="hidden" name="action" value="delPart2">
+					<input type="hidden" name="table_name" value="#table_name#">
+					<cfif isDefined("result_id") and len(result_id) GT 0>
+						<input type="hidden" name="result_id" value="#result_id#">
+					</cfif>
+					<input type="hidden" name="partID" value="#valuelist(d.partID)#">
+					<input type="submit" value="Delete these Parts" class="btn btn-xs btn-danger">
+				</form>
+				<div>
+					Or return to the Bulk Part Management tool <a href="#targeturl#">without making changes</a>.
+				</div>
+				<table border>
 					<tr>
-						<td>#collection# #cat_num#</td>
-						<td>#scientific_name#</td>
-						<td>#part_name#</td>
-						<td>#preserve_method#</td>
-						<td>#condition#</td>
-						<td>#lot_count_modifier#</td>
-						<td>#lot_count#</td>
-						<td>#coll_obj_disposition#</td>
-						<td>#coll_object_remarks#</td>
+						<th>Specimen</th>
+						<th>ID</th>
+						<th>PartToBeDeleted</th>
+						<th>PreserveMethod</th>
+						<th>Condition</th>
+						<th>CntMod</th>
+						<th>Cnt</th>
+						<th>Dispn</th>
+						<th>Remark</th>
 					</tr>
-				</cfloop>
-			</table>
+					<cfloop query="d">
+						<tr>
+							<td>#collection# #cat_num#</td>
+							<td>#scientific_name#</td>
+							<td>#part_name#</td>
+							<td>#preserve_method#</td>
+							<td>#condition#</td>
+							<td>#lot_count_modifier#</td>
+							<td>#lot_count#</td>
+							<td>#coll_obj_disposition#</td>
+							<td>#coll_object_remarks#</td>
+						</tr>
+					</cfloop>
+				</table>
+			</cfif>
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------->
