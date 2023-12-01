@@ -731,6 +731,8 @@ limitations under the License.
 	<!---------------------------------------------------------------------------->
 	<cfcase value="modPart2">
 		<cfoutput>
+		<cfset partUpdateCount = 0>
+		<cfset remarkCount = 0>
 		<cftransaction>
 			<cfloop list="#partID#" index="i">
 				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -758,6 +760,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif len(new_remark) gt 0>
+					<!--- TODO: Evaluate if this treatment of remarks is correct.  Should append? --->
 					<cftry>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							insert into coll_object_remark (collection_object_id,coll_object_remarks) values (#i#,'#new_remark#')
@@ -769,13 +772,18 @@ limitations under the License.
 					</cfcatch>
 					</cftry>
 				</cfif>
+				<cfset partUpdateCount = partUpdateCount + 1>
 			</cfloop>
 			</cftransaction>
-			<cfif isDefined("result_id") and len(result_id) GT 0>
-				<cflocation url="/tools/bulkPart.cfm?result_id=#result_id#" addtoken="false">
-			<cfelse>
-				<cflocation url="/tools/bulkPart.cfm?table_name=#table_name#" addtoken="false">
-			</cfif>
+			<h2 class="h2">Succesfully updated #partUpdateCount# parts</h2>
+			<div>
+				<cfif isDefined("result_id") and len(result_id) GT 0>
+					<cfset targeturl="/tools/bulkPart.cfm?result_id=#result_id#">
+				<cfelse>
+					<cfset targeturl="/tools/bulkPart.cfm?table_name=#table_name#">
+				</cfif>
+				<a href="#targeturl#">Return to bulk part editor</a>
+			</div>
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------->
