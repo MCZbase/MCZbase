@@ -659,16 +659,16 @@ limitations under the License.
 					cataloged_item.collection_object_id=identification.collection_object_id and
 					accepted_id_fg=1 
 					<cfif len(exist_preserve_method) gt 0>
-						and part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#urlDecode(exist_part_name)#">
+						and part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_part_name#">
 					</cfif>
 					<cfif len(exist_preserve_method) gt 0>
-						and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#urlDecode(exist_preserve_method)#">
+						and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_preserve_method#">
 					</cfif>
 					<cfif len(existing_lot_count) gt 0>
 						and lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existing_lot_count#">
 					</cfif>
 					<cfif len(existing_coll_obj_disposition) gt 0>
-						and coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#urlDecode(existing_coll_obj_disposition)#">
+						and coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#existing_coll_obj_disposition#">
 					</cfif>
 					<cfif len(exist_preserve_method) EQ 0 AND len(exist_preserve_method) EQ 0 AND len(existing_lot_count) EQ 0 AND len(existing_coll_obj_disposition) EQ 0>
 						and 0=1
