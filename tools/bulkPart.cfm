@@ -473,12 +473,10 @@ limitations under the License.
 										<script>
 											$(document).ready(function () { 
 												$("##deletePartForm").on("submit",function(e) { 
-													e.preventDefault();
 													var valuesArray = $('##deletePartForm .one_must_be_filled_in').get().map(e => e.value);
 													if (valuesArray.every(element => element == "")){ 
+														e.preventDefault();
 														messageDialog("Error: You must specify at least one value to specify which parts to delete.","No Delete Criteria Provided.");
-													} else { 
-														$("##deletePartForm").submit();
 													}
 												});
 											});
@@ -909,65 +907,80 @@ limitations under the License.
 					#table_name#
 				</cfif>
 			</cfquery>
+			<cfset partCounter = 0>
+			<cfset remarkCounter = 0>
 			<cftransaction>
-				<cfloop query="ids">
-					<cfloop from="1" to="#numParts#" index="n">
-						<cfset thisPartName = #evaluate("part_name_" & n)#>
-						<cfset thisPreserveMethod = #evaluate("preserve_method_" & n)#>
-						<cfset thisLotCountModifier = #evaluate("lot_count_modifier_" & n)#>
-						<cfset thisLotCount = #evaluate("lot_count_" & n)#>
-						<cfset thisDisposition = #evaluate("coll_obj_disposition_" & n)#>
-						<cfset thisCondition = #evaluate("condition_" & n)#>
-						<cfset thisRemark = #evaluate("coll_object_remarks_" & n)#>
-						<cfif len(#thisPartName#) gt 0>
-							<cfquery name="insCollPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								INSERT INTO coll_object (
-									COLLECTION_OBJECT_ID,
-									COLL_OBJECT_TYPE,
-									ENTERED_PERSON_ID,
-									COLL_OBJECT_ENTERED_DATE,
-									LAST_EDITED_PERSON_ID,
-									COLL_OBJ_DISPOSITION,
-									lot_count_modifier,
-									LOT_COUNT,
-									CONDITION,
-									FLAGS )
-								VALUES (
-									sq_collection_object_id.nextval,
-									'SP',
-									#session.myAgentId#,
-									sysdate,
-									#session.myAgentId#,
-									'#thisDisposition#',
-									'#thisLotCountModifier#',
-									#thisLotCount#,
-									'#thisCondition#',
-									0 )
-							</cfquery>
-							<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								INSERT INTO specimen_part (
-									  COLLECTION_OBJECT_ID,
-									  PART_NAME,
-									  Preserve_method
-										,DERIVED_FROM_cat_item)
+				<cftry>
+					<cfloop query="ids">
+						<cfloop from="1" to="#numParts#" index="n">
+							<cfset thisPartName = #evaluate("part_name_" & n)#>
+							<cfset thisPreserveMethod = #evaluate("preserve_method_" & n)#>
+							<cfset thisLotCountModifier = #evaluate("lot_count_modifier_" & n)#>
+							<cfset thisLotCount = #evaluate("lot_count_" & n)#>
+							<cfset thisDisposition = #evaluate("coll_obj_disposition_" & n)#>
+							<cfset thisCondition = #evaluate("condition_" & n)#>
+							<cfset thisRemark = #evaluate("coll_object_remarks_" & n)#>
+							<cfif len(#thisPartName#) gt 0>
+								<cfquery name="insCollPart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									INSERT INTO coll_object (
+										COLLECTION_OBJECT_ID,
+										COLL_OBJECT_TYPE,
+										ENTERED_PERSON_ID,
+										COLL_OBJECT_ENTERED_DATE,
+										LAST_EDITED_PERSON_ID,
+										COLL_OBJ_DISPOSITION,
+										lot_count_modifier,
+										LOT_COUNT,
+										CONDITION,
+										FLAGS )
 									VALUES (
-										sq_collection_object_id.currval,
-									  '#thisPartName#',
-									  '#thisPreserveMethod#'
-										,#ids.collection_object_id#)
-							</cfquery>
-							<cfif len(#thisRemark#) gt 0>
-								<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-									VALUES (sq_collection_object_id.currval, '#thisRemark#')
+										sq_collection_object_id.nextval,
+										'SP',
+										#session.myAgentId#,
+										sysdate,
+										#session.myAgentId#,
+										'#thisDisposition#',
+										'#thisLotCountModifier#',
+										#thisLotCount#,
+										'#thisCondition#',
+										0 )
 								</cfquery>
+								<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									INSERT INTO specimen_part (
+										  COLLECTION_OBJECT_ID,
+										  PART_NAME,
+										  Preserve_method
+											,DERIVED_FROM_cat_item)
+										VALUES (
+											sq_collection_object_id.currval,
+										  '#thisPartName#',
+										  '#thisPreserveMethod#'
+											,#ids.collection_object_id#)
+								</cfquery>
+								<cfif len(#thisRemark#) gt 0>
+									<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
+										VALUES (sq_collection_object_id.currval, '#thisRemark#')
+									</cfquery>
+								</cfif>
 							</cfif>
-						</cfif>
+						</cfloop>
 					</cfloop>
-				</cfloop>
+				<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+				</cfcatch>
+				</cftry>
 			</cftransaction>
-			Success!
-			<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(ids.collection_object_id)#">Return to SpecimenResults</a>
+			<h2 class="h2">Succesfully Added new parts</h2>
+			<div>
+				<cfif isDefined("result_id") and len(result_id) GT 0>
+					<cfset url="/tools/bulkPart.cfm?result_id=#result_id#">
+				<cfelse>
+					<cfset url="/tools/bulkPart.cfm?table_name=#table_name#">
+				</cfif>
+				<a href="#url#">Return to bulk part editor</a>
+			</div>
 		</cfoutput>
 	</cfcase>
 	</cfswitch>
