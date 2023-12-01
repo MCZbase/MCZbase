@@ -606,16 +606,16 @@ limitations under the License.
 				WHERE
 					collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#" list="yes">)
 			</cfquery>
+			<h2 class="h2">Succesfully deleted #delete_result.recordcount# parts</h2>
+			<div>
+				<cfif isDefined("result_id") and len(result_id) GT 0>
+					<cfset targeturl="/tools/bulkPart.cfm?result_id=#result_id#">
+				<cfelse>
+					<cfset targeturl="/tools/bulkPart.cfm?table_name=#table_name#">
+				</cfif>
+				<a href="#targeturl#">Return to bulk part editor</a>
+			</div>
 		</cfoutput>
-		<h2 class="h2">Succesfully deleted #delete_result.recordcount# parts</h2>
-		<div>
-			<cfif isDefined("result_id") and len(result_id) GT 0>
-				<cfset targeturl="/tools/bulkPart.cfm?result_id=#result_id#">
-			<cfelse>
-				<cfset targeturl="/tools/bulkPart.cfm?table_name=#table_name#">
-			</cfif>
-			<a href="#targeturl#">Return to bulk part editor</a>
-		</div>
 	</cfcase>
 	<!---------------------------------------------------------------------------->
 	<cfcase value="delPart">
