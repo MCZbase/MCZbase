@@ -483,7 +483,7 @@ limitations under the License.
 												});
 											});
 										</script>
-										<input type="submit" value="Delete Parts" class="btn btn-xs btn-danger" onClick=" validateDelete(evt); ">
+										<input type="submit" value="Delete Parts" class="btn btn-xs btn-danger">
 									</div>
 								</div>
 							</form>
