@@ -323,7 +323,7 @@ limitations under the License.
 										<div class="form-row">
 											<div class="col-12">
 												<label for="exist_part_name" class="data-entry-label">Part Name</label>
-								   			<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr data-entry-select">
+								   			<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr data-entry-select" required>
 													<option selected="selected" value=""></option>
 													<cfloop query="existParts">
 												    	<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
@@ -332,7 +332,7 @@ limitations under the License.
 											</div>
 											<div class="col-12">
 												<label for="exist_preserve_method" class="data-entry-label">Presserve Method</label>
-									   		<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="data-entry-select reqdClr">
+									   		<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="data-entry-select">
 													<option selected="selected" value=""></option>
 													<cfloop query="existPreserve">
 												    	<option value="#Preserve_method#">#Preserve_method# (#existPreserve.partCount# parts)</option>
@@ -341,7 +341,7 @@ limitations under the License.
 											</div>
 											<div class="col-12">
 												<label for="existing_lot_count" class="data-entry-label">Lot Count</label>
-												<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select reqdClr">
+												<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select">
 													<option selected="selected" value="">ignore</option>
 													<cfloop query="existLotCount">
 												    	<option value="#lot_count#">#lot_count#</option>
@@ -350,7 +350,7 @@ limitations under the License.
 											</div>
 											<div class="col-12">
 												<label for="existing_coll_obj_disposition" class="data-entry-label">Disposition</label>
-												<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="data-entry-select reqdClr">
+												<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="data-entry-select">
 													<option selected="selected" value="">ignore</option>
 													<cfloop query="existDisp">
 												    	<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
@@ -363,10 +363,10 @@ limitations under the License.
 										<div class="form-row">
 											<div class="col-12">
 												<label for="new_part_name" class="data-entry-label">
-													Part Name
+													New Part Name
 													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##new_part_name').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 												</label>
-												<input type="text" name="new_part_name" id="new_part_name" class="data-entry-input reqdClr">
+												<input type="text" name="new_part_name" id="new_part_name" class="data-entry-input reqdClr" required>
 												<script>
 													$(document).ready(function() {
 														makeCTAutocompleteColl("new_part_name","SPECIMEN_PART_NAME","#colcdes#");
@@ -374,8 +374,8 @@ limitations under the License.
 												</script>
 											</div>
 											<div class="col-12">
-												<label for="new_preserve_method" class="data-entry-label">Presserve Method</label>
-												<select name="new_preserve_method" id="new_preserve_method" size="1"  class="reqdClr">
+												<label for="new_preserve_method" class="data-entry-label">New Preserve Method</label>
+												<select name="new_preserve_method" id="new_preserve_method" size="1"  class="data-entry-select">
 													<option value="">no update</option>
 													<cfloop query="ctPreserveMethod">
 														<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
@@ -383,7 +383,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12">
-												<label for="new_lot_count" class="data-entry-label">Lot Count</label>
+												<label for="new_lot_count" class="data-entry-label">New Lot Count</label>
 												<input type="text" name="new_lot_count" id="new_lot_count" class="data-entry-input">
 											</div>
 											<div class="col-12">
