@@ -871,7 +871,7 @@ limitations under the License.
 						<th>OldCondition</th>
 						<th>NewCondition</th>
 						<th>OldCnt</th>
-						<th>NewdCnt</th>
+						<th>NewCnt</th>
 						<th>OldDispn</th>
 						<th>NewDispn</th>
 						<th>OldRemark</th>
