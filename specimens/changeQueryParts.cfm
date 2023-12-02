@@ -487,6 +487,8 @@ limitations under the License.
 				SELECT
 					cataloged_item.collection_object_id,
 					collection.collection,
+					collection.collection_cde,
+					collection.institution_acronym,
 					cataloged_item.cat_num,
 					identification.scientific_name,
 					specimen_part.part_name,
@@ -539,7 +541,7 @@ limitations under the License.
 				</tr>
 				<cfloop query="getCatItems">
 					<tr>
-						<td><a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a></td>
+						<td><a href="/guid/#institution_acronym#:#collection_cde#:#cat_num#">#collection# #cat_num#</a></td>
 						<td>#scientific_name#</td>
 						<cfquery name="getParts" dbtype="query">
 							select
