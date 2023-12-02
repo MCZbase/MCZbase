@@ -995,6 +995,7 @@ limitations under the License.
 										  '#thisPreserveMethod#'
 											,#ids.collection_object_id#)
 								</cfquery>
+								<cfset partCounter = partCounter + 1>
 								<cfif len(#thisRemark#) gt 0>
 									<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
@@ -1010,7 +1011,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2 class="h2">Succesfully Added new parts</h2>
+			<h2 class="h2">Succesfully Added #partCounter# new parts.</h2>
 			<div>
 				<cfif isDefined("result_id") and len(result_id) GT 0>
 					<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
