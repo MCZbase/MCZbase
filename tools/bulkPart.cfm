@@ -480,8 +480,6 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-
-			<hr>
 	
 			<h2 class="h3">Specimens to be Updated</h2>
 		
