@@ -483,52 +483,6 @@ limitations under the License.
 				</div>
 			</div>
 
-<!--- as accordion 
-
-			<div class="accordion mb-4" id="partActionAccordion">
-				<div class="card">
-					<div class="card-header py-0" id="headingOptionOne">
-						<h2 class="h4 my-1 px-3">
-							<a class="btn-link text-left active" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" tabindex="0" aria-controls="collapseOne">
-								Add Parts
-							</a>
-						</h2>
-					</div>
-					<div id="collapseOne" class="collapse show" aria-labelledby="headingOptionOne" data-parent="##partActionAccordion">
-						<div class="card-body px-4">
-						</div>
-					</div>
-				</div>
-				<div class="card">
-					<div class="card-header py-0" id="headingOptionTwo">
-						<h2 class="h4 my-1 px-3">
-							<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-								Modify Existing Parts
-							</a>
-						</h2>
-					</div>
-					<div id="collapseTwo" class="collapse" aria-labelledby="headingOptionTwo" data-parent="##partActionAccordion">
-						<div class="card-body px-4">
-						</div>
-					</div>
-				</div>
-				<div class="card">
-					<div class="card-header py-0" id="headingOptionThree">
-						<h2 class="h4 my-1 px-3">
-							<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
-								Delete Parts
-							</a>
-						</h2>
-					</div>
-					<div id="collapseThree" class="collapse" aria-labelledby="headingOptionThree" data-parent="##partActionAccordion">
-						<div class="card-body px-4">
-						</div>
-					</div>
-				</div><!--- end card --->
-			</div><!--- end accordion --->
-	
---->
-
 			<hr>
 	
 			<h2 class="h3">Specimens to be Updated</h2>
