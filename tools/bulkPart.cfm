@@ -309,108 +309,101 @@ limitations under the License.
 							<cfif isDefined("result_id") and len(result_id) GT 0>
 								<input type="hidden" name="result_id" value="#result_id#">
 							</cfif>
-							<table border>
+							<table>
 								<tr>
-									<td></td>
+									<th>
+										Filter specimens for parts matching...
+									</th>
 									<td>
-										Filter specimens for part...
-									</td>
-									<td>
-										Update to...
-									</td>
-								</tr>
-								<tr>
-									<td>Part Name</td>
-									<td>
-								   		<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr">
-											<option selected="selected" value=""></option>
-												<cfloop query="existParts">
-											    	<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
-												</cfloop>
-										</select>
-									</td>
-									<td>
-										<input type="text" name="new_part_name" id="new_part_name" class="reqdClr"
-											onchange="findPart(this.id,this.value,'#colcdes#');"
-											onkeypress="return noenter(event);">
+										Update matching parts to...
 									</td>
 								</tr>
 								<tr>
-									<td>Preserve Method</td>
 									<td>
-								   		<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="reqdClr">
-											<option selected="selected" value=""></option>
-												<cfloop query="existPreserve">
-											    	<option value="#Preserve_method#">#Preserve_method# (#existPreserve.partCount# parts)</option>
-												</cfloop>
-										</select>
+										<div class="form-row">
+											<div class="col-12">
+												<label for="exist_part_name" class="data-entry-label">Part Name</label>
+								   			<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr data-entry-select">
+													<option selected="selected" value=""></option>
+													<cfloop query="existParts">
+												    	<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12">
+												<label for="exist_preserve_method" class="data-entry-label">Presserve Method</label>
+									   		<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="data-entry-select reqdClr">
+													<option selected="selected" value=""></option>
+													<cfloop query="existPreserve">
+												    	<option value="#Preserve_method#">#Preserve_method# (#existPreserve.partCount# parts)</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12">
+												<label for="existing_lot_count" class="data-entry-label">Lot Count</label>
+												<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select reqdClr">
+													<option selected="selected" value="">ignore</option>
+													<cfloop query="existLotCount">
+												    	<option value="#lot_count#">#lot_count#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12">
+												<label for="existing_coll_obj_disposition" class="data-entry-label">Disposition</label>
+												<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="data-entry-select reqdClr">
+													<option selected="selected" value="">ignore</option>
+													<cfloop query="existDisp">
+												    	<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
+													</cfloop>
+												</select>
+
+
+											</div>
+										</div>
 									</td>
 									<td>
-										<select name="new_preserve_method" id="new_preserve_method" size="1"  class="reqdClr">
-											<option value="">no update</option>
-											<cfloop query="ctPreserveMethod">
-												<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
-											</cfloop>
-										</select>
+										<div class="form-row">
+											<div class="col-12">
+												<label for="new_part_name" class="data-entry-label">Part Name</label>
+												<input type="text" name="new_part_name" id="new_part_name" class="reqdClr"
+													onchange="findPart(this.id,this.value,'#colcdes#');"
+													onkeypress="return noenter(event);">
+											</div>
+											<div class="col-12">
+												<label for="new_preserve_method" class="data-entry-label">Presserve Method</label>
+												<select name="new_preserve_method" id="new_preserve_method" size="1"  class="reqdClr">
+													<option value="">no update</option>
+													<cfloop query="ctPreserveMethod">
+														<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12">
+												<label for="new_lot_count" class="data-entry-label">Lot Count</label>
+												<input type="text" name="new_lot_count" id="new_lot_count" class="data-entry-input">
+											</div>
+											<div class="col-12">
+												<label for="new_coll_obj_disposition" class="data-entry-label">Disposition</label>
+												<select name="new_coll_obj_disposition" id="new_coll_obj_disposition" size="1"  class="data-entry-select reqdClr">
+													<option value="">no update</option>
+													<cfloop query="ctDisp">
+														<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12">
+												<label for="new_condition" class="data-entry-label">Condition</label>
+												<input type="text" name="new_condition" id="new_condition" class="data-entry-input">
+											</div>
+											<div class="col-12">
+												<label for="new_remark" class="data-entry-label">Condition</label>
+												<input type="text" name="new_remark" id="new_remark" class="data-entry-input">
+											</div>
+										</div>
 									</td>
 								</tr>
-					    		<tr>
-									<td>Lot Count</td>
-									<td>
-										<select name="existing_lot_count" id="existing_lot_count" size="1" class="reqdClr">
-											<option selected="selected" value="">ignore</option>
-												<cfloop query="existLotCount">
-											    	<option value="#lot_count#">#lot_count#</option>
-												</cfloop>
-										</select>
-									</td>
-									<td>
-										<input type="text" name="new_lot_count" id="new_lot_count">
-									</td>
-								</tr>
-								<tr>
-									<td>Disposition</td>
-									<td>
-										<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="reqdClr">
-											<option selected="selected" value="">ignore</option>
-												<cfloop query="existDisp">
-											    	<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
-												</cfloop>
-										</select>
-									</td>
-									<td>
-										<select name="new_coll_obj_disposition" id="new_coll_obj_disposition" size="1"  class="reqdClr">
-											<option value="">no update</option>
-											<cfloop query="ctDisp">
-												<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-											</cfloop>
-										</select>
-									</td>
-								</tr>
-								<tr>
-									<td>Condition</td>
-									<td>
-										Existing CONDITION will be ignored
-									</td>
-									<td>
-										<input type="text" name="new_condition" id="new_condition">
-									</td>
-								</tr>
-								<tr>
-									<td>Remark</td>
-									<td>
-										Existing REMARKS will be ignored
-									</td>
-									<td>
-										<input type="text" name="new_remark" id="new_remark">
-									</td>
-								</tr>
-								<tr>
-									<td colspan="3" align="center">
-										<input type="submit" value="Update Parts" class="btn btn-xs btn-secondary">
-									</td>
-								</tr>
-						  	</table>
+							</table>
+							<input type="submit" value="Update Parts" class="btn btn-xs btn-secondary">
 						</form>
 					</div>
 					<!--- Delete Parts tab panel ****************************** --->
