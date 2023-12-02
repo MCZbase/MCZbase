@@ -100,13 +100,13 @@ limitations under the License.
 
 			<div class="tabs card-header tab-card-header px-1 pb-0" id="partActionTabs">
 				<div class="tab-headers tabList" role="tablist" aria-label="Tabs for bulk Add, Edit, or Delete Parts options">
-					<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0 active" id="tab-1" tabid="1" role="tab" aria-controls="addPartsPanel" aria-selected="true" tabindex="0">
+					<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0 active" id="tab-1" tabid="1" role="tab" aria-controls="addPanel" aria-selected="true" tabindex="0">
 						Add Parts
 					</button>
-					<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0" id="tab-2" tabid="2" role="tab" aria-controls="panel-2" aria-selected="false" tabindex="-1">
+					<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0" id="tab-2" tabid="2" role="tab" aria-controls="modifyPanel" aria-selected="false" tabindex="-1">
 						Modify Existing Parts
 					</button>
-					<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0" id="tab-3" tabid="3" role="tab" aria-controls="panel-3" aria-selected="false" tabindex="-1">
+					<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0" id="tab-3" tabid="3" role="tab" aria-controls="deletePanel" aria-selected="false" tabindex="-1">
 						Delete Parts
 					</button>
 				</div>
@@ -114,7 +114,7 @@ limitations under the License.
 				<!--- Tab content div --->
 				<div class="tab-content"> 
 					<!--- Add Parts tab panel --->
-					<div id="addPartsPanel" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="mx-0 active" >
+					<div id="addPanel" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="mx-0 active" >
 						<h2 class="h3 card-title my-0" >Add New Parts to Each Cataloged Item</h2>
 						<div>
 							Add one to three new parts to each cataloged item.  
@@ -299,7 +299,7 @@ limitations under the License.
 						ORDER BY coll_obj_disposition
 					</cfquery>
 					<!--- Modify Parts tab panel --->
-					<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="mx-0 " tabindex="0" hidden>
+					<div id="modifyPanel" role="tabpanel" aria-labelledby="tab-2" class="mx-0 " tabindex="0" hidden>
 						<h2 class="h3 card-title my-0">Modify Selected Existing Parts</h2>
 						<div>You will be able to review changes on the next screen.</div>
 				
@@ -414,8 +414,8 @@ limitations under the License.
 						</form>
 					</div>
 					<!--- Modify Parts tab panel --->
-					<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="mx-0 " tabindex="0" hidden>
-						<h2 class="h3 card-title my-0">Modify Selected Existing Parts</h2>
+					<div id="deletePanel" role="tabpanel" aria-labelledby="tab-3" class="mx-0 " tabindex="0" hidden>
+						<h2 class="h3 card-title my-0">Delete Selected Parts</h2>
 						<div>Identify existing parts to be deleted from all the #getCount.ct# cataloged items.  You must provide at least one filter condition for deletion.  You will be able to review and confirm on the next screen.</div>
 						<h3 class="h4">Select values to identify the existing parts to be deleted</h3>
 						<form name="delPart" id="deletePartForm" method="post" action="bulkPart.cfm">
