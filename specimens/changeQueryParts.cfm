@@ -343,7 +343,7 @@ limitations under the License.
 											<div class="col-12">
 												<label for="existing_lot_count" class="data-entry-label">Lot Count Matches</label>
 												<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select">
-													<option selected="selected" value="">ignore</option>
+													<option selected="selected" value=""></option>
 													<cfloop query="existLotCount">
 												    	<option value="#lot_count#">#lot_count#</option>
 													</cfloop>
@@ -352,7 +352,7 @@ limitations under the License.
 											<div class="col-12">
 												<label for="existing_coll_obj_disposition" class="data-entry-label">Disposition Matches</label>
 												<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="data-entry-select">
-													<option selected="selected" value="">ignore</option>
+													<option selected="selected" value=""></option>
 													<cfloop query="existDisp">
 												    	<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
 													</cfloop>
@@ -377,7 +377,7 @@ limitations under the License.
 											<div class="col-12">
 												<label for="new_preserve_method" class="data-entry-label">New Preserve Method</label>
 												<select name="new_preserve_method" id="new_preserve_method" size="1"  class="data-entry-select">
-													<option value="">no update</option>
+													<option value=""></option>
 													<cfloop query="ctPreserveMethod">
 														<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
 													</cfloop>
@@ -390,7 +390,7 @@ limitations under the License.
 											<div class="col-12">
 												<label for="new_coll_obj_disposition" class="data-entry-label">Disposition</label>
 												<select name="new_coll_obj_disposition" id="new_coll_obj_disposition" size="1"  class="data-entry-select">
-													<option value="">no update</option>
+													<option value=""></option>
 													<cfloop query="ctDisp">
 														<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
 													</cfloop>
