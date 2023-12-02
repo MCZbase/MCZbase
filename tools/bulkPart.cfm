@@ -657,7 +657,7 @@ limitations under the License.
 					<cfif len(existing_coll_obj_disposition) gt 0>
 						and coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#existing_coll_obj_disposition#">
 					</cfif>
-					<cfif len(exist_preserve_method) EQ 0 AND len(exist_preserve_method) EQ 0 AND len(existing_lot_count) EQ 0 AND len(existing_coll_obj_disposition) EQ 0>
+					<cfif len(exist_part_name) EQ 0 AND len(exist_preserve_method) EQ 0 AND len(existing_lot_count) EQ 0 AND len(existing_coll_obj_disposition) EQ 0>
 						and 0=1
 					</cfif>
 				order by
