@@ -320,7 +320,7 @@ limitations under the License.
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td valign="top">
 										<div class="form-row">
 											<div class="col-12">
 												<label for="exist_part_name" class="data-entry-label">Part Name</label>
