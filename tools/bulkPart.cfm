@@ -826,92 +826,107 @@ limitations under the License.
 				order by
 					collection.collection,cataloged_item.cat_num
 			</cfquery>
-			<form name="modPart" method="post" action="bulkPart.cfm">
-				<input type="hidden" name="action" value="modPart2">
-				<input type="hidden" name="table_name" value="#table_name#">
-				<cfif isDefined("result_id") and len(result_id) GT 0>
-					<input type="hidden" name="result_id" value="#result_id#">
-				</cfif>
-				<input type="hidden" name="exist_part_name" value="#exist_part_name#">
-				<input type="hidden" name="new_part_name" value="#new_part_name#">
-				<input type="hidden" name="exist_preserve_method" value="#exist_preserve_method#">
-				<input type="hidden" name="new_preserve_method" value="#new_preserve_method#">
-				<input type="hidden" name="existing_lot_count" value="#existing_lot_count#">
-				<input type="hidden" name="new_lot_count" value="#new_lot_count#">
-				<input type="hidden" name="existing_coll_obj_disposition" value="#existing_coll_obj_disposition#">
-				<input type="hidden" name="new_coll_obj_disposition" value="#new_coll_obj_disposition#">
-				<input type="hidden" name="new_condition" value="#new_condition#">
-				<input type="hidden" name="new_remark" value="#new_remark#">
-				<input type="hidden" name="partID" value="#valuelist(d.partID)#">
-				<input type="submit" value="Looks good - do it" class="savBtn">
-			</form>
-			<table border>
-				<tr>
-					<th>Specimen</th>
-					<th>ID</th>
-					<th>OldPart</th>
-					<th>NewPart</th>
-					<th>OldPresMethod</th>
-					<th>NewPresMethod</th>
-					<th>OldCondition</th>
-					<th>NewCondition</th>
-					<th>OldCnt</th>
-					<th>NewdCnt</th>
-					<th>OldDispn</th>
-					<th>NewDispn</th>
-					<th>OldRemark</th>
-					<th>NewRemark</th>
-				</tr>
-				<cfloop query="d">
+			<cfif isDefined("result_id") and len(result_id) GT 0>
+				<cfset targeturl="/tools/bulkPart.cfm?result_id=#result_id#">
+			<cfelse>
+				<cfset targeturl="/tools/bulkPart.cfm?table_name=#table_name#">
+			</cfif>
+			<h2 class="h2">Found #d.recordcount# parts to modifiy.</h2>
+			<cfif d.recordcount EQ 0>
+				<div>
+					Return to the Bulk Part Management tool <a href="#targeturl#">to change your criteria</a>.
+				</div>
+			<cfelse>
+				<form name="modPart" method="post" action="bulkPart.cfm">
+					<input type="hidden" name="action" value="modPart2">
+					<input type="hidden" name="table_name" value="#table_name#">
+					<cfif isDefined("result_id") and len(result_id) GT 0>
+						<input type="hidden" name="result_id" value="#result_id#">
+					</cfif>
+					<input type="hidden" name="exist_part_name" value="#exist_part_name#">
+					<input type="hidden" name="new_part_name" value="#new_part_name#">
+					<input type="hidden" name="exist_preserve_method" value="#exist_preserve_method#">
+					<input type="hidden" name="new_preserve_method" value="#new_preserve_method#">
+					<input type="hidden" name="existing_lot_count" value="#existing_lot_count#">
+					<input type="hidden" name="new_lot_count" value="#new_lot_count#">
+					<input type="hidden" name="existing_coll_obj_disposition" value="#existing_coll_obj_disposition#">
+					<input type="hidden" name="new_coll_obj_disposition" value="#new_coll_obj_disposition#">
+					<input type="hidden" name="new_condition" value="#new_condition#">
+					<input type="hidden" name="new_remark" value="#new_remark#">
+					<input type="hidden" name="partID" value="#valuelist(d.partID)#">
+					<input type="submit" value="Change all of these parts" class="btn btn-xs btn-warning">
+				</form>
+				<div>
+					Or return to the Bulk Part Management tool <a href="#targeturl#">without making changes</a>.
+				</div>
+				<table border>
 					<tr>
-						<td>#collection# #cat_num#</td>
-						<td>#scientific_name#</td>
-						<td>#part_name#</td>
-						<td>#new_part_name#</td>
-						<td>#preserve_method#</td>
-						<td>
-							<cfif len(new_preserve_method) gt 0>
-								#new_preserve_method#
-							<cfelse>
-								NOT UPDATED
-							</cfif>
-						</td>
-						<td>#condition#</td>
-						<td>
-							<cfif len(new_condition) gt 0>
-								#new_condition#
-							<cfelse>
-								NOT UPDATED
-							</cfif>
-						</td>
-						<td>#lot_count#</td>
-						<td>
-							<cfif len(new_lot_count) gt 0>
-								#new_lot_count#
-							<cfelse>
-								NOT UPDATED
-							</cfif>
-						</td>
-						<td>#coll_obj_disposition#</td>
-						<td>
-							<cfif len(new_coll_obj_disposition) gt 0>
-								#new_coll_obj_disposition#
-							<cfelse>
-								NOT UPDATED
-							</cfif>
-						</td>
-						<td>#coll_object_remarks#</td>
-						<td>
-							<cfif len(new_remark) gt 0>
-								#new_remark#
-							<cfelse>
-								NOT UPDATED
-							</cfif>
-						</td>
-	
+						<th>Specimen</th>
+						<th>ID</th>
+						<th>OldPart</th>
+						<th>NewPart</th>
+						<th>OldPresMethod</th>
+						<th>NewPresMethod</th>
+						<th>OldCondition</th>
+						<th>NewCondition</th>
+						<th>OldCnt</th>
+						<th>NewdCnt</th>
+						<th>OldDispn</th>
+						<th>NewDispn</th>
+						<th>OldRemark</th>
+						<th>NewRemark</th>
 					</tr>
-				</cfloop>
-			</table>
+					<cfloop query="d">
+						<tr>
+							<td>#collection# #cat_num#</td>
+							<td>#scientific_name#</td>
+							<td>#part_name#</td>
+							<td>#new_part_name#</td>
+							<td>#preserve_method#</td>
+							<td>
+								<cfif len(new_preserve_method) gt 0>
+									#new_preserve_method#
+								<cfelse>
+									NOT UPDATED
+								</cfif>
+							</td>
+							<td>#condition#</td>
+							<td>
+								<cfif len(new_condition) gt 0>
+									#new_condition#
+								<cfelse>
+									NOT UPDATED
+								</cfif>
+							</td>
+							<td>#lot_count#</td>
+							<td>
+								<cfif len(new_lot_count) gt 0>
+									#new_lot_count#
+								<cfelse>
+									NOT UPDATED
+								</cfif>
+							</td>
+							<td>#coll_obj_disposition#</td>
+							<td>
+								<cfif len(new_coll_obj_disposition) gt 0>
+									#new_coll_obj_disposition#
+								<cfelse>
+									NOT UPDATED
+								</cfif>
+							</td>
+							<td>#coll_object_remarks#</td>
+							<td>
+								<cfif len(new_remark) gt 0>
+									#new_remark#
+								<cfelse>
+									NOT UPDATED
+								</cfif>
+							</td>
+		
+						</tr>
+					</cfloop>
+				</table>
+			</cfif>
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------->
