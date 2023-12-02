@@ -113,7 +113,7 @@ limitations under the License.
 				<!--- End tab header div ---> 
 				<!--- Tab content div --->
 				<div class="tab-content"> 
-					<!--- Add Parts tab panel --->
+					<!--- Add Parts tab panel **************************************** --->
 					<div id="addPanel" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="mx-0 active" >
 						<h2 class="h3 card-title my-0" >Add New Parts to Each Cataloged Item</h2>
 						<div>
@@ -298,7 +298,7 @@ limitations under the License.
 						GROUP BY coll_obj_disposition 
 						ORDER BY coll_obj_disposition
 					</cfquery>
-					<!--- Modify Parts tab panel --->
+					<!--- Modify Parts tab panel ****************************** --->
 					<div id="modifyPanel" role="tabpanel" aria-labelledby="tab-2" class="mx-0 " tabindex="0" hidden>
 						<h2 class="h3 card-title my-0">Modify Selected Existing Parts</h2>
 						<div>You will be able to review changes on the next screen.</div>
@@ -413,7 +413,7 @@ limitations under the License.
 						  	</table>
 						</form>
 					</div>
-					<!--- Modify Parts tab panel --->
+					<!--- Delete Parts tab panel ****************************** --->
 					<div id="deletePanel" role="tabpanel" aria-labelledby="tab-3" class="mx-0 " tabindex="0" hidden>
 						<h2 class="h3 card-title my-0">Delete Selected Parts</h2>
 						<div>Identify existing parts to be deleted from all the #getCount.ct# cataloged items.  You must provide at least one filter condition for deletion.  You will be able to review and confirm on the next screen.</div>
