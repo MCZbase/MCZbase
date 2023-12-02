@@ -397,11 +397,11 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12">
-												<label for="new_condition" class="data-entry-label">Condition</label>
+												<label for="new_condition" class="data-entry-label">New Condition</label>
 												<input type="text" name="new_condition" id="new_condition" class="data-entry-input">
 											</div>
 											<div class="col-12">
-												<label for="new_remark" class="data-entry-label">Condition</label>
+												<label for="new_remark" class="data-entry-label">Add Remark</label>
 												<input type="text" name="new_remark" id="new_remark" class="data-entry-input">
 											</div>
 										</div>
