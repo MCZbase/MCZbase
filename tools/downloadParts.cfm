@@ -51,6 +51,11 @@ limitations under the License.
 			nvl(pc6.barcode,pc6.label) as P6_BARCODE,
 		</cfif>
 		CO.CONDITION
+		<cfif action IS "downloadBulkloader">
+			, '' as APPEND_TO_REMARKS
+			, '' AS CHANGED_DATE
+			, '' AS NEW_PRESERVE_METHOD
+		</cfif>
 	from
 		flat f, 
 		specimen_part sp, 
@@ -135,74 +140,77 @@ limitations under the License.
 	<cfinclude template="/shared/_header.cfm">
 	<script src="/lib/misc/sorttable.js"></script>
 	<cfoutput>
-		<main class="container-fluid px-5 py-3" id="content">
-			<h1 class="h2 mt-2">
-				List/Download Parts from a Specimen Search
-				<cfif isDefined("result_id") and len(result_id) GT 0>
-					(manage result #result_id#)
-				</cfif>
-			</h1>
-			<div>
-				Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a>Tool.
-			</div>
-			<form name="filterResults">
-				<div class="form-row">
-					<input type="hidden" name="table_name" value="#table_name#">
-					<input type="hidden" name="action" value="nothing" id="action">
-					<cfif isDefined("result_id") and len(result_id) GT 0>
-						<input type="hidden" name="result_id" value="#encodeForHtml(result_id)#" id="result_id">
-					</cfif>
-					<div class="col-12 col-md-2">
-						<label class="data-entry-label" for="filterPartName">Part Name:</label>
-						<select name="filterPartName" id="filterPartName" class="data-entry-select">
-							<option></option>
-							<cfloop query="partnames">
-								<option <cfif isdefined("filterPartName") and #part_name# EQ #filterPartName#>selected</cfif>>#part_name#</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="col-12 col-md-2">
-						<label class="data-entry-label" for="filterPreserveMethod">Preserve Method:</label>
-						<select name="filterPreserveMethod" id="filterPreserveMehtod" class="data-entry-select">
-							<option></option>
-							<cfloop query="preservemethods">
-								<option <cfif isdefined("filterPreserveMethod") and #preserve_method# EQ #filterPreserveMethod#>selected</cfif>>#preserve_method#</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="col-12 col-md-2">
-						<label class="data-entry-label" for="filterDisposition">Disposition:</label>
-						<select name="filterDisposition" id="filterDisposition" class="data-entry-select">
-							<option></option>
-							<cfloop query="dispositions">
-								<option <cfif isdefined("filterDisposition") and #DISPOSITION# EQ #filterDisposition#>selected</cfif>>#DISPOSITION#</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="col-12 col-md-2">
-						<label class="data-entry-label" for="searchRemarks">Search Remarks (substring):</label>
-						<cfif not isdefined("searchremarks")><cfset searchremarks=""></cfif>
-						<input type="text" id="searchremarks" name="searchremarks" class="data-entry-input" value="#searchremarks#">
-					</div>
-					<div class="col-12 col-md-2">
-						<label class="data-entry-label" for="filterBarcode">Part Container:</label>
-						<cfif not isdefined("filterBarcode")><cfset filterBarcode=""></cfif>
-						<input type="text" id="filterBarcode" name="filterBarcode" class="data-entry-input" value="#filterBARCODE#">
-					</div>
-					<div class="col-12 col-md-2">
-						<button type="button" id="toggleButton" class="btn btn-xs btn-secondary mt-3" onclick="toggleColumns();">Show Containers</button>
-					</div>
+		<main class="container-fluid px-4 py-3" id="content">
+			<div class="col-12 px-0">
+				<div class="row mx-0">
+					<h1 class="h2 mt-2 mx-xl-3">
+						List/Download Parts from a Specimen Search
+						<cfif isDefined("result_id") and len(result_id) GT 0>
+							(manage result #result_id#)
+						</cfif>
+					</h1>
+					<p class= "col-12 mt-2">
+						Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a> tool.
+					</p>
+					<form name="filterResults">
+						<div class="form-row mt-2 mb-3 mx-xl-2">
+							<input type="hidden" name="table_name" value="#table_name#">
+							<input type="hidden" name="action" value="nothing" id="action">
+							<cfif isDefined("result_id") and len(result_id) GT 0>
+								<input type="hidden" name="result_id" value="#encodeForHtml(result_id)#" id="result_id">
+							</cfif>
+							<div class="col-12 col-md-2">
+								<label class="data-entry-label" for="filterPartName">Part Name:</label>
+								<select name="filterPartName" id="filterPartName" class="data-entry-select">
+									<option></option>
+									<cfloop query="partnames">
+										<option <cfif isdefined("filterPartName") and #part_name# EQ #filterPartName#>selected</cfif>>#part_name#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-2">
+								<label class="data-entry-label mt-1 mt-md-0" for="filterPreserveMethod">Preserve Method:</label>
+								<select name="filterPreserveMethod" id="filterPreserveMehtod" class="data-entry-select">
+									<option></option>
+									<cfloop query="preservemethods">
+										<option <cfif isdefined("filterPreserveMethod") and #preserve_method# EQ #filterPreserveMethod#>selected</cfif>>#preserve_method#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-2">
+								<label class="data-entry-label mt-1 mt-md-0" for="filterDisposition">Disposition:</label>
+								<select name="filterDisposition" id="filterDisposition" class="data-entry-select">
+									<option></option>
+									<cfloop query="dispositions">
+										<option <cfif isdefined("filterDisposition") and #DISPOSITION# EQ #filterDisposition#>selected</cfif>>#DISPOSITION#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-2">
+								<label class="data-entry-label mt-1 mt-md-0" for="searchRemarks">Search Remarks (substring):</label>
+								<cfif not isdefined("searchremarks")><cfset searchremarks=""></cfif>
+								<input type="text" id="searchremarks" name="searchremarks" class="data-entry-input" value="#searchremarks#">
+							</div>
+							<div class="col-12 col-md-2">
+								<label class="data-entry-label mt-1 mt-md-0" for="filterBarcode">Part Container:</label>
+								<cfif not isdefined("filterBarcode")><cfset filterBarcode=""></cfif>
+								<input type="text" id="filterBarcode" name="filterBarcode" class="data-entry-input" value="#filterBARCODE#">
+							</div>
+							<div class="col-12 col-md-2">
+								<button type="button" id="toggleButton" class="btn btn-xs btn-secondary mt-1 mt-xl-3" onclick="toggleColumns();">Show Containers</button>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="col-12 px-xl-3">
+								<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+								<input type="button" value="Download Parts CSV" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+								<input type="button" value="Download Parts CSV including Containers" onClick='document.getElementById("action").value="download";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
+							</div>
+						</div>			
+					</form>
 				</div>
-				<div class="form-row">
-					<div class="col-12">
-						<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
-						<input type="button" value="Download Parts CSV" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
-						<input type="button" value="Download Parts CSV including Containers" onClick='document.getElementById("action").value="download";document.forms["filterResults"].submit();' class="btn btn-xs btn-secondary"></input>
-					</div>
-				</div>			
-			</form>
-
-			<div class="row">
+			</div>
+			<div class="row mx-0">
 				<script>
 					var toggleState = "show";
 					function toggleColumns() {
@@ -222,7 +230,7 @@ limitations under the License.
 						$("##toggleButton").html("Show Containers");
 					});
 				</script>
-				<table border class="sortable" id="tre" style="empty-cells:show;">
+				<table class="sortable table table-responsive table-striped d-xl-table w-100 mx-0 px-0" id="tre" style="empty-cells:show;">
 					<tr>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>

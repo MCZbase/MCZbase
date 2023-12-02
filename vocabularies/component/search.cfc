@@ -140,11 +140,13 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 
 @param term to search for.
 @param codetable the name of the codetable to search for, without the leading CT.
+@param collection_cde 
 @return a json structure containing id and value, with matching with matched value in both value and id.
 --->
 <cffunction name="getCTAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
 	<cfargument name="codetable" type="string" required="yes">
+	<cfargument name="collection_cde" type="string" required="yes">
 
 	<!--- perform wildcard search anywhere in target field --->
 	<cfset name = "%#term#%"> 
@@ -163,6 +165,12 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 		<cfset codetable = "CT#codetable#">
 	<cfelseif codetable EQ "SPECPART_ATTRIBUTE_TYPE">
 		<cfset fieldname = "ATTRIBUTE_TYPE">
+		<cfset codetable = "CT#codetable#">
+	<cfelseif codetable EQ "SPECIMEN_PART_NAME">
+		<cfset fieldname = "PART_NAME">
+		<cfset codetable = "CT#codetable#">
+	<cfelseif codetable EQ "SPECIMEN_PRESERV_METHOD">
+		<cfset fieldname = "PRESERVE_METHOD">
 		<cfset codetable = "CT#codetable#">
 	<cfelseif codetable EQ "CONTINENT_OCEAN">
 		<cfset codetable = "CONTINENT">
@@ -196,6 +204,23 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 				<cfthrow message="Error, unsupported code table for this autocomplete, CT{codetable} must have PK field {codetable}. [#getCTField.recordcount#]">
 			</cfif>
 		</cfif>
+		<cfset limitCollection = false>
+		<cfif isDefined("collection_cde") AND len(collection_cde) GT 0>
+			<cfquery name="checkForCollection_cde" datasource="uam_god">
+				SELECT
+					table_name, column_name
+				FROM
+					sys.all_tab_columns
+				WHERE
+					table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(codetable)#"> and
+					column_name = 'COLLECTION_CDE' and
+					data_type = 'VARCHAR2' and
+					owner = 'MCZBASE'
+			</cfquery>
+			<cfif checkForCollection_cde.recordcount EQ 1>
+				<cfset limitCollection = true>
+			</cfif>
+		</cfif>
 		<cfloop query="getCTField">
    	   <cfset rows = 0>
 			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
@@ -205,6 +230,13 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 					#getCTField.table_name#
 				WHERE
 					upper(#getCTField.column_name#) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+					<cfif limitCollection>
+						and (
+							upper(collection_cde) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(collection_cde)#">
+							or 
+							upper(collection_cde) = 'ALL'
+						)
+					</cfif>
 				ORDER BY
 					#getCTField.column_name#
 			</cfquery>

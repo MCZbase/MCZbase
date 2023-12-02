@@ -623,6 +623,47 @@ function makeCTAutocomplete(fieldId,codetable) {
 		return $("<li>").append( "<span>" + item.value + "</span>").appendTo( ul );
 	};
 };
+/** makeCTAutocompleteColl make an input control into a picker for a code table 
+ *  where the code table name matches the field name (some other cases are handled)
+ *  and can be limited by collection.  
+ *  Intended as a picker for code table controled data entry inputs, clears
+ *  the input if the selected value is edited to one not on the list.
+ * @param fieldId the id for the input without a leading # selector.
+ * @param codetable the name of the codetable and field without a leading CT.
+ * @param collection_cde the collection code to limit possible results
+**/
+function makeCTAutocompleteColl(fieldId,codetable,collection_cde) { 
+	jQuery("#"+fieldId).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/vocabularies/component/search.cfc",
+				data: { 
+					term: request.term, 
+					codetable: codetable, 
+					collection_cde: collection_cde, 
+					method: 'getCTAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a code table search autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+fieldId).val(result.item.value);
+		},
+		change: function(event,ui) { 
+			if(!ui.item){
+				// handle a change that isn't a selection from the pick list, clear the input
+				$('#'+fieldId).val("");
+			}
+		},
+		minLength: 1
+	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		return $("<li>").append( "<span>" + item.value + "</span>").appendTo( ul );
+	};
+};
 
 /** makeGeogAutocomplete make an input control into a picker for a geog_auth_rec field of arbitrary rank.
  *  This version of the function returns the value selected from the picklist, and is

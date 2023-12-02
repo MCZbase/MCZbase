@@ -86,7 +86,7 @@ limitations under the License.
 									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Change Part Locations</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Modify Parts</a>
+									<a href="/specimens/changeQueryParts.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Modify Parts</a>
 								</li>
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQueryNamedCollection.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Named Group</a>
@@ -108,26 +108,23 @@ limitations under the License.
 
 	Agents - Implmemented (as Collectors/Preparators)
 
-	Localities - Implemented [testing]
+	Localities - Implemented
 
-	Collecting Events - Implemented [testing]
+	Collecting Events - Implemented, retained in old
 
 	Encumbrances - Implemented
 
-	<option value="/specimens/changeQueryIdentification.cfm"> works only with collection_object_id -- moved
-	Identification
+	Identification - Implemented
 
 	<option value="/bnhmMaps/SpecimensByLocality.cfm"> works only on session search table, passed as table_name 
 	Map By Locality [Warning: No Tabs]
 
-	<option value="/tools/downloadParts.cfm"> works only on session search table, passed as table_name 
-	Parts (Report) [Warning: No Tabs]
+	Parts (Report) [Warning: No Tabs] - Implemented, retained in old
 
 	<option value="/findContainer.cfm?showControl=1"> looks like it works only with collection_object_id, but downstream code has reference to session.username and passed table name 
 	Parts (Locations)
 
-	<option value="/tools/bulkPart.cfm"> works only on session search table, passed as table_name 
-	Parts (Modify) [Warning: No Tabs]
+	Parts (Modify) - Implemented
 
 	Add To Named Group - Implemented, old not removed yet.
 
