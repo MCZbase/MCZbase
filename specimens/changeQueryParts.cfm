@@ -528,10 +528,10 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="getCatItems" dbtype="query">
 				SELECT 
-					collection_object_id,collection,cat_num,scientific_name 
+					collection_object_id,collection,cat_num,scientific_name,institution_acronym,collection_cde
 				FROM getCollObjList
 				GROUP BY
-					 collection_object_id,collection,cat_num,scientific_name
+					 collection_object_id,collection,cat_num,scientific_name,instutution_acronym,collection_cde
 			</cfquery>
 			<table border class="table">
 				<tr>
