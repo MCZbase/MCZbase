@@ -1,5 +1,5 @@
 <!--- 
-  tools/bulkPart.cfm manage parts in bulk.
+  specimens/changeQueryPart.cfm manage parts in bulk.
 
 Copyright 2008-2017 Contributors to Arctos
 Copyright 2008-2023 President and Fellows of Harvard College
@@ -125,7 +125,7 @@ limitations under the License.
 								The same set of parts will be added to each of the #getCount.ct# cataloged items.
 							</cfif>
 						</div>
-						<form name="newPart" method="post" action="bulkPart.cfm">
+						<form name="newPart" method="post" action="/specimens/changeQueryParts.cfm">
 							<input type="hidden" name="action" value="newPart">
 							<input type="hidden" name="table_name" value="#table_name#">
 							<input type="hidden" name="numParts" value="#numParts#">
@@ -304,7 +304,7 @@ limitations under the License.
 						<h2 class="h3 card-title my-0">Modify Selected Existing Parts</h2>
 						<div>You will be able to review changes on the next screen.</div>
 				
-						<form name="modPart" method="post" action="bulkPart.cfm">
+						<form name="modPart" method="post" action="/specimens/changeQueryParts.cfm">
 							<input type="hidden" name="action" value="modPart">
 							<input type="hidden" name="table_name" value="#table_name#">
 							<cfif isDefined("result_id") and len(result_id) GT 0>
@@ -416,7 +416,7 @@ limitations under the License.
 						<h2 class="h3 card-title my-0">Delete Selected Parts</h2>
 						<div>Identify existing parts to be deleted from all the #getCount.ct# cataloged items.  You must provide at least one filter condition for deletion.  You will be able to review and confirm on the next screen.</div>
 						<h3 class="h4">Select values to identify the existing parts to be deleted</h3>
-						<form name="delPart" id="deletePartForm" method="post" action="bulkPart.cfm">
+						<form name="delPart" id="deletePartForm" method="post" action="/specimens/changeQueryParts.cfm">
 							<input type="hidden" name="action" value="delPart">
 							<input type="hidden" name="table_name" value="#table_name#">
 							<cfif isDefined("result_id") and len(result_id) GT 0>
@@ -594,9 +594,9 @@ limitations under the License.
 			<h2 class="h2">Succesfully deleted #delete_result.recordcount# parts</h2>
 			<div>
 				<cfif isDefined("result_id") and len(result_id) GT 0>
-					<cfset targeturl="/tools/bulkPart.cfm?result_id=#result_id#">
+					<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
 				<cfelse>
-					<cfset targeturl="/tools/bulkPart.cfm?table_name=#table_name#">
+					<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
 				</cfif>
 				<a href="#targeturl#">Return to bulk part editor</a>
 			</div>
@@ -663,16 +663,16 @@ limitations under the License.
 			</cfquery>
 			<h2 class="h2">Found #d.recordcount# parts to delete.</h2>
 			<cfif isDefined("result_id") and len(result_id) GT 0>
-				<cfset targeturl="/tools/bulkPart.cfm?result_id=#result_id#">
+				<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
 			<cfelse>
-				<cfset targeturl="/tools/bulkPart.cfm?table_name=#table_name#">
+				<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
 			</cfif>
 			<cfif d.recordcount EQ 0>
 				<div>
 					Return to the Bulk Part Management tool <a href="#targeturl#">to change your criteria</a>.
 				</div>
 			<cfelse>
-				<form name="modPart" method="post" action="bulkPart.cfm">
+				<form name="modPart" method="post" action="/specimens/changeQueryParts.cfm">
 					<input type="hidden" name="action" value="delPart2">
 					<input type="hidden" name="table_name" value="#table_name#">
 					<cfif isDefined("result_id") and len(result_id) GT 0>
@@ -763,9 +763,9 @@ limitations under the License.
 			<h2 class="h2">Succesfully updated #partUpdateCount# parts</h2>
 			<div>
 				<cfif isDefined("result_id") and len(result_id) GT 0>
-					<cfset targeturl="/tools/bulkPart.cfm?result_id=#result_id#">
+					<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
 				<cfelse>
-					<cfset targeturl="/tools/bulkPart.cfm?table_name=#table_name#">
+					<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
 				</cfif>
 				<a href="#targeturl#">Return to bulk part editor</a>
 			</div>
@@ -825,9 +825,9 @@ limitations under the License.
 					collection.collection,cataloged_item.cat_num
 			</cfquery>
 			<cfif isDefined("result_id") and len(result_id) GT 0>
-				<cfset targeturl="/tools/bulkPart.cfm?result_id=#result_id#">
+				<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
 			<cfelse>
-				<cfset targeturl="/tools/bulkPart.cfm?table_name=#table_name#">
+				<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
 			</cfif>
 			<h2 class="h2">Found #d.recordcount# parts to modifiy.</h2>
 			<cfif d.recordcount EQ 0>
@@ -835,7 +835,7 @@ limitations under the License.
 					Return to the Bulk Part Management tool <a href="#targeturl#">to change your criteria</a>.
 				</div>
 			<cfelse>
-				<form name="modPart" method="post" action="bulkPart.cfm">
+				<form name="modPart" method="post" action="/specimens/changeQueryParts.cfm">
 					<input type="hidden" name="action" value="modPart2">
 					<input type="hidden" name="table_name" value="#table_name#">
 					<cfif isDefined("result_id") and len(result_id) GT 0>
@@ -1011,9 +1011,9 @@ limitations under the License.
 			<h2 class="h2">Succesfully Added new parts</h2>
 			<div>
 				<cfif isDefined("result_id") and len(result_id) GT 0>
-					<cfset targeturl="/tools/bulkPart.cfm?result_id=#result_id#">
+					<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
 				<cfelse>
-					<cfset targeturl="/tools/bulkPart.cfm?table_name=#table_name#">
+					<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
 				</cfif>
 				<a href="#targeturl#">Return to bulk part editor</a>
 			</div>
