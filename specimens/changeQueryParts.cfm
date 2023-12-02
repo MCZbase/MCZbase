@@ -675,7 +675,7 @@ limitations under the License.
 					Return to the Bulk Part Management tool <a href="#targeturl#">to change your criteria</a>.
 				</div>
 			<cfelse>
-				<form name="modPart" method="post" action="/specimens/changeQueryParts.cfm">
+				<form name="deletePartForm" method="post" action="/specimens/changeQueryParts.cfm">
 					<input type="hidden" name="action" value="delPart2">
 					<input type="hidden" name="table_name" value="#table_name#">
 					<cfif isDefined("result_id") and len(result_id) GT 0>
@@ -886,7 +886,7 @@ limitations under the License.
 							<td>#preserve_method#</td>
 							<td>
 								<cfif len(new_preserve_method) gt 0>
-									#new_preserve_method#
+									<strong>#new_preserve_method#</strong>
 								<cfelse>
 									NOT UPDATED
 								</cfif>
@@ -894,7 +894,7 @@ limitations under the License.
 							<td>#condition#</td>
 							<td>
 								<cfif len(new_condition) gt 0>
-									#new_condition#
+									<strong>#new_condition#</strong>
 								<cfelse>
 									NOT UPDATED
 								</cfif>
@@ -902,7 +902,7 @@ limitations under the License.
 							<td>#lot_count#</td>
 							<td>
 								<cfif len(new_lot_count) gt 0>
-									#new_lot_count#
+									<strong>#new_lot_count#</strong>
 								<cfelse>
 									NOT UPDATED
 								</cfif>
@@ -910,7 +910,7 @@ limitations under the License.
 							<td>#coll_obj_disposition#</td>
 							<td>
 								<cfif len(new_coll_obj_disposition) gt 0>
-									#new_coll_obj_disposition#
+									<strong>#new_coll_obj_disposition#</strong>
 								<cfelse>
 									NOT UPDATED
 								</cfif>
@@ -918,7 +918,7 @@ limitations under the License.
 							<td>#coll_object_remarks#</td>
 							<td>
 								<cfif len(new_remark) gt 0>
-									#new_remark#
+									<strong>#new_remark#</strong>
 								<cfelse>
 									NOT UPDATED
 								</cfif>
