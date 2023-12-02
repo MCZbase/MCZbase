@@ -362,7 +362,10 @@ limitations under the License.
 									<td>
 										<div class="form-row">
 											<div class="col-12">
-												<label for="new_part_name" class="data-entry-label">Part Name</label>
+												<label for="new_part_name" class="data-entry-label">
+													Part Name
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##new_part_name').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+												</label>
 												<input type="text" name="new_part_name" id="new_part_name" class="data-entry-input reqdClr">
 												<script>
 													$(document).ready(function() {
