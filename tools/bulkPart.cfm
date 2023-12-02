@@ -18,6 +18,7 @@ limitations under the License.
 
 --->
 <cfset pageTitle="Bulk Modify Parts">
+<cfset pageHasTabs="true">
 <cfinclude template="/shared/_header.cfm">
 <!--------------------------------------------------------------------->
 <cfif isDefined("result_id") and len(result_id) GT 0>
