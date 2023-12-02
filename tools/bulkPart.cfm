@@ -50,9 +50,9 @@ limitations under the License.
 			</cfif>
 			<h1 class="h2">Bulk Part Management</h1>
 			<cfif isDefined("result_id") and len(result_id) GT 0>
-				<div>Add, Modify, or Delete Parts on #getCount.ct# cataloged items from specimen search result [#result_id#]</div>
+				<div class="mb-1">Add, Modify, or Delete Parts on #getCount.ct# cataloged items from specimen search result [#result_id#]</div>
 			<cfelse>
-				<div>Add, Modify, or Delete parts on list of #getCount.ct# cataloged items.</div>
+				<div class="mb-1">Add, Modify, or Delete parts on list of #getCount.ct# cataloged items.</div>
 			</cfif>
 			<cfif getCount.ct gte 1000>
 				<cfthrow message="You can only use this form on up to 1000 specimens at a time. Please <a href='/Specimens.cfm'>revise your search</a>."><!--- " --->
