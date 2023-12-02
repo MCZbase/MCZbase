@@ -587,6 +587,7 @@ limitations under the License.
 	<!---------------------------------------------------------------------------->
 	<cfcase value="delPart2">
 		<cfoutput>
+			<!--- Delete fires TR_SPECIMENPART_AD for cleanup of related tables --->
 			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
 				DELETE FROM
 					specimen_part 
