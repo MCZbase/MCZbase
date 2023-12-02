@@ -323,7 +323,7 @@ limitations under the License.
 									<td valign="top">
 										<div class="form-row">
 											<div class="col-12">
-												<label for="exist_part_name" class="data-entry-label">Part Name</label>
+												<label for="exist_part_name" class="data-entry-label">Part Name Matches</label>
 								   			<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr data-entry-select" required>
 													<option selected="selected" value=""></option>
 													<cfloop query="existParts">
@@ -332,7 +332,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12">
-												<label for="exist_preserve_method" class="data-entry-label">Presserve Method</label>
+												<label for="exist_preserve_method" class="data-entry-label">Presserve Method Matches</label>
 									   		<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="data-entry-select">
 													<option selected="selected" value=""></option>
 													<cfloop query="existPreserve">
@@ -341,7 +341,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12">
-												<label for="existing_lot_count" class="data-entry-label">Lot Count</label>
+												<label for="existing_lot_count" class="data-entry-label">Lot Count Matches</label>
 												<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select">
 													<option selected="selected" value="">ignore</option>
 													<cfloop query="existLotCount">
@@ -350,7 +350,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12">
-												<label for="existing_coll_obj_disposition" class="data-entry-label">Disposition</label>
+												<label for="existing_coll_obj_disposition" class="data-entry-label">Disposition Matches</label>
 												<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="data-entry-select">
 													<option selected="selected" value="">ignore</option>
 													<cfloop query="existDisp">
@@ -389,7 +389,7 @@ limitations under the License.
 											</div>
 											<div class="col-12">
 												<label for="new_coll_obj_disposition" class="data-entry-label">Disposition</label>
-												<select name="new_coll_obj_disposition" id="new_coll_obj_disposition" size="1"  class="data-entry-select reqdClr">
+												<select name="new_coll_obj_disposition" id="new_coll_obj_disposition" size="1"  class="data-entry-select">
 													<option value="">no update</option>
 													<cfloop query="ctDisp">
 														<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
