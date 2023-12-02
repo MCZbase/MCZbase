@@ -531,7 +531,7 @@ limitations under the License.
 					collection_object_id,collection,cat_num,scientific_name,institution_acronym,collection_cde
 				FROM getCollObjList
 				GROUP BY
-					 collection_object_id,collection,cat_num,scientific_name,instutution_acronym,collection_cde
+					 collection_object_id,collection,cat_num,scientific_name,institution_acronym,collection_cde
 			</cfquery>
 			<table border class="table">
 				<tr>
