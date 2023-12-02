@@ -356,8 +356,6 @@ limitations under the License.
 												    	<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
 													</cfloop>
 												</select>
-
-
 											</div>
 										</div>
 									</td>
@@ -365,9 +363,12 @@ limitations under the License.
 										<div class="form-row">
 											<div class="col-12">
 												<label for="new_part_name" class="data-entry-label">Part Name</label>
-												<input type="text" name="new_part_name" id="new_part_name" class="reqdClr"
-													onchange="findPart(this.id,this.value,'#colcdes#');"
-													onkeypress="return noenter(event);">
+												<input type="text" name="new_part_name" id="new_part_name" class="data-entry-input reqdClr">
+												<script>
+													$(document).ready(function() {
+														makeCTAutocompleteColl("new_part_name","SPECIMEN_PART_NAME","#colcdes#");
+													});
+												</script>
 											</div>
 											<div class="col-12">
 												<label for="new_preserve_method" class="data-entry-label">Presserve Method</label>
