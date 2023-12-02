@@ -97,6 +97,394 @@ limitations under the License.
 				WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colcdes#">
 			</cfquery>
 
+
+			<div class="tabs card-header tab-card-header px-1 pb-0" id="partActionTabs">
+				<div class="tab-headers tabList" role="tablist" aria-label="Tabs for bulk Add, Edit, or Delete Parts options">
+					<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0 active" id="tab-1" tabid="1" role="tab" aria-controls="addPartsPanel" aria-selected="true" tabindex="0">
+						Add Parts
+					</button>
+					<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0" id="tab-2" tabid="2" role="tab" aria-controls="panel-2" aria-selected="false" tabindex="-1">
+						Modify Existing Parts
+					</button>
+					<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0" id="tab-3" tabid="3" role="tab" aria-controls="panel-3" aria-selected="false" tabindex="-1">
+						Delete Parts
+					</button>
+				</div>
+				<!--- End tab header div ---> 
+				<!--- Tab content div --->
+				<div class="tab-content"> 
+					<!--- Add Parts tab panel --->
+					<div id="addPartsPanel" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="mx-0 active" >
+						<h2 class="h3 card-title my-0" >Add New Parts to Each Cataloged Item</h2>
+						<div>
+							Add one to three new parts to each cataloged item.  
+							<cfif getCount.ct EQ 1>
+								This set of parts will be added to the cataloged item.
+							<cfelse>
+								The same set of parts will be added to each of the #getCount.ct# cataloged items.
+							</cfif>
+						</div>
+						<form name="newPart" method="post" action="bulkPart.cfm">
+							<input type="hidden" name="action" value="newPart">
+							<input type="hidden" name="table_name" value="#table_name#">
+							<input type="hidden" name="numParts" value="#numParts#">
+							<cfif isDefined("result_id") and len(result_id) GT 0>
+								<input type="hidden" name="result_id" value="#result_id#">
+							</cfif>
+							<div class="form-row">
+								<cfloop from="1" to="#numParts#" index="i">
+									<div class="col-12 col-md-4 border">
+										<cfif i EQ 1>
+											<cfset requireClass = "reqdClr">
+											<cfset require = "required">
+										<cfelse>
+											<cfset requireClass = " requirable#i#">
+											<cfset require = "">
+										</cfif>
+										<h3 class="h3">
+											<cfif i EQ 1>
+												First
+											<cfelseif i EQ 2>
+												Second
+											<cfelseif i EQ 3>
+												Third
+											</cfif>
+											Part To Add
+										</h3>
+										<div class="form-row">
+											<div class="col-12">
+												<label for="part_name_#i#" class="data-entry-label">
+													Add Part (#i#)
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##part_name_#i#').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+												</label>
+												<input type="text" name="part_name_#i#" id="part_name_#i#" class="data-entry-input #requireClass#" #require#>
+												<script>
+													<cfif i GT 1>
+														function togglePart#i#() { 
+															if ($("##part_name_#i#").val()!="") { 
+																$(".forpart#i#").show();
+																$(".requirable#i#").addClass("reqdClr");
+																$(".requirable#i#").prop('required',true);
+															} else { 
+																$(".forpart#i#").hide();
+																$(".requirable#i#").removeClass("reqdClr");
+																$(".requirable#i#").prop('required',false);
+															} 
+														}
+													</cfif>
+													$(document).ready(function() {
+														makeCTAutocompleteColl("part_name_#i#","SPECIMEN_PART_NAME","#colcdes#");
+														<cfif i GT 1>
+															// enable/disable additional parts entry 
+															// (input when typing, blur when picking from dropped list)
+															$("##part_name_#i#").on("input",function() { 
+																togglePart#i#();
+															});
+															$("##part_name_#i#").on("blur",function() { 
+																togglePart#i#();
+															});
+															$(".forpart#i#").hide();
+														</cfif>
+													});
+												</script>
+											</div>
+											<div class="col-12 forpart#i#">
+												<label for="preserve_method_#i#" class="data-entry-label">Preserve Method (#i#)</label>
+												<select name="preserve_method_#i#" id="preserve_method_#i#" size="1" class="data-entry-select #requireClass#" #require#>
+													<option></option>
+													<cfloop query="ctPreserveMethod">
+														<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 forpart#i#">
+												<label for="lot_count_modifier_#i#" class="data-entry-label">Count Modifier (#i#)</label>
+												<select name="lot_count_modifier_#i#" id="lot_count_modifier_#i#" class="data-entry-select">
+													<option value=""></option>
+													<cfloop query="ctNumericModifiers">
+														<option value="#ctNumericModifiers.modifier#">#ctNumericModifiers.modifier#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 forpart#i#">
+									   		<label for="lot_count_#i#" class="data-entry-label">Part Count (#i#)</label>
+									   		<input type="text" name="lot_count_#i#" id="lot_count_#i#" class="data-entry-input #requireClass#" #require# pattern="^[0-9]+$">
+											</div>
+											<div class="col-12 forpart#i#">
+									   		<label for="coll_obj_disposition_#i#" class="data-entry-label">Disposition (#i#)</label>
+									   		<select name="coll_obj_disposition_#i#" id="coll_obj_disposition_#i#" size="1"  class="data-entry-select #requireClass#" #require#>
+													<option value=""></option>
+													<cfloop query="ctDisp">
+														<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 forpart#i#">
+												<label for="condition_#i#" class="data-entry-input">Condition (#i#)</label>
+									   		<input type="text" name="condition_#i#" id="condition_#i#" class="data-entry-input #requireClass#" #require#>
+											</div>
+											<div class="col-12 forpart#i#">
+									   		<label for="coll_object_remarks_#i#" class="data-entry-label">Remark (#i#)</label>
+									   		<input type="text" name="coll_object_remarks_#i#" id="coll_object_remarks_#i#" class="data-entry-input">
+											</div>
+										</div>
+									</div>
+								</cfloop>
+							</div>
+							<input type="submit" value="Add Parts" class="btn btn-xs btn-primary">
+						</form>
+					</div>
+					<!--- queries used for picklists on modify and delete forms --->
+					<cfquery name="existParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							count(specimen_part.collection_object_id) partcount,
+							specimen_part.part_name
+						FROM
+							specimen_part
+							<cfif isDefined("result_id") and len(result_id) GT 0>
+								JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
+						WHERE
+								user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+							<cfelse>
+								JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
+						</cfif>
+						GROUP BY specimen_part.part_name
+						ORDER BY specimen_part.part_name
+					</cfquery>
+					<cfquery name="existPreserve" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							count(specimen_part.collection_object_id) partcount,
+							specimen_part.preserve_method
+						FROM
+							specimen_part
+							<cfif isDefined("result_id") and len(result_id) GT 0>
+								JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
+						WHERE
+								user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+							<cfelse>
+								JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
+							</cfif>
+						GROUP BY specimen_part.preserve_method
+						ORDER BY specimen_part.preserve_method
+					</cfquery>
+					<!--- TODO: Split into two queries, this group on then group on again paired queries may not produce the expected results. --->
+					<cfquery name="existCO" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							coll_object.lot_count,
+							coll_object.coll_obj_disposition
+						FROM
+							specimen_part
+							JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+							<cfif isDefined("result_id") and len(result_id) GT 0>
+								JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
+						WHERE
+								user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+							<cfelse>
+								JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
+							</cfif>
+						GROUP BY 
+							coll_object.lot_count,
+							coll_object.coll_obj_disposition
+					</cfquery>
+					<cfquery name="existLotCount" dbtype="query">
+						SELECT lot_count 
+						FROM existCO
+						GROUP BY lot_count 
+						ORDER BY lot_count
+					</cfquery>
+					<cfquery name="existDisp" dbtype="query">
+						SELECT coll_obj_disposition 
+						FROM existCO 
+						GROUP BY coll_obj_disposition 
+						ORDER BY coll_obj_disposition
+					</cfquery>
+					<!--- Modify Parts tab panel --->
+					<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="mx-0 " tabindex="0" hidden>
+						<h2 class="h3 card-title my-0">Modify Selected Existing Parts</h2>
+						<div>You will be able to review changes on the next screen.</div>
+				
+						<form name="modPart" method="post" action="bulkPart.cfm">
+							<input type="hidden" name="action" value="modPart">
+							<input type="hidden" name="table_name" value="#table_name#">
+							<cfif isDefined("result_id") and len(result_id) GT 0>
+								<input type="hidden" name="result_id" value="#result_id#">
+							</cfif>
+							<table border>
+								<tr>
+									<td></td>
+									<td>
+										Filter specimens for part...
+									</td>
+									<td>
+										Update to...
+									</td>
+								</tr>
+								<tr>
+									<td>Part Name</td>
+									<td>
+								   		<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr">
+											<option selected="selected" value=""></option>
+												<cfloop query="existParts">
+											    	<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
+												</cfloop>
+										</select>
+									</td>
+									<td>
+										<input type="text" name="new_part_name" id="new_part_name" class="reqdClr"
+											onchange="findPart(this.id,this.value,'#colcdes#');"
+											onkeypress="return noenter(event);">
+									</td>
+								</tr>
+								<tr>
+									<td>Preserve Method</td>
+									<td>
+								   		<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="reqdClr">
+											<option selected="selected" value=""></option>
+												<cfloop query="existPreserve">
+											    	<option value="#Preserve_method#">#Preserve_method# (#existPreserve.partCount# parts)</option>
+												</cfloop>
+										</select>
+									</td>
+									<td>
+										<select name="new_preserve_method" id="new_preserve_method" size="1"  class="reqdClr">
+											<option value="">no update</option>
+											<cfloop query="ctPreserveMethod">
+												<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+											</cfloop>
+										</select>
+									</td>
+								</tr>
+					    		<tr>
+									<td>Lot Count</td>
+									<td>
+										<select name="existing_lot_count" id="existing_lot_count" size="1" class="reqdClr">
+											<option selected="selected" value="">ignore</option>
+												<cfloop query="existLotCount">
+											    	<option value="#lot_count#">#lot_count#</option>
+												</cfloop>
+										</select>
+									</td>
+									<td>
+										<input type="text" name="new_lot_count" id="new_lot_count">
+									</td>
+								</tr>
+								<tr>
+									<td>Disposition</td>
+									<td>
+										<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="reqdClr">
+											<option selected="selected" value="">ignore</option>
+												<cfloop query="existDisp">
+											    	<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
+												</cfloop>
+										</select>
+									</td>
+									<td>
+										<select name="new_coll_obj_disposition" id="new_coll_obj_disposition" size="1"  class="reqdClr">
+											<option value="">no update</option>
+											<cfloop query="ctDisp">
+												<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+											</cfloop>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>Condition</td>
+									<td>
+										Existing CONDITION will be ignored
+									</td>
+									<td>
+										<input type="text" name="new_condition" id="new_condition">
+									</td>
+								</tr>
+								<tr>
+									<td>Remark</td>
+									<td>
+										Existing REMARKS will be ignored
+									</td>
+									<td>
+										<input type="text" name="new_remark" id="new_remark">
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3" align="center">
+										<input type="submit" value="Update Parts" class="btn btn-xs btn-secondary">
+									</td>
+								</tr>
+						  	</table>
+						</form>
+					</div>
+					<!--- Modify Parts tab panel --->
+					<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="mx-0 " tabindex="0" hidden>
+						<h2 class="h3 card-title my-0">Modify Selected Existing Parts</h2>
+						<div>Identify existing parts to be deleted from all the #getCount.ct# cataloged items.  You must provide at least one filter condition for deletion.  You will be able to review and confirm on the next screen.</div>
+						<h3 class="h4">Select values to identify the existing parts to be deleted</h3>
+						<form name="delPart" id="deletePartForm" method="post" action="bulkPart.cfm">
+							<input type="hidden" name="action" value="delPart">
+							<input type="hidden" name="table_name" value="#table_name#">
+							<cfif isDefined("result_id") and len(result_id) GT 0>
+								<input type="hidden" name="result_id" value="#result_id#">
+							</cfif>
+							<div class="form-row">
+								<div class="col-12 col-md-3">
+									<label for="exist_part_name" class="data-entry-label">Part Name</label>
+									<select name="exist_part_name" id="exist_part_name" size="1" class="data-entry-select one_must_be_filled_in">
+										<option selected="selected" value=""></option>
+										<cfloop query="existParts">
+									    	<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-3">
+									<label for="exist_preserve_method" class="data-entry-label">Preserve Method</label>
+									<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="data-entry-select one_must_be_filled_in">
+										<option selected="selected" value=""></option>
+										<cfloop query="existPreserve">
+									    	<option value="#preserve_method#">#preserve_method# (#existPreserve.partCount# parts)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-3">
+									<label for="existing_lot_count" class="data-entry-label">Lot Count</label>
+									<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select one_must_be_filled_in">
+										<option selected="selected" value=""></option>
+										<cfloop query="existLotCount">
+							   		 	<option value="#lot_count#">#lot_count#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-3">
+									<label for="existing_coll_obj_disposition" class="data-entry-label">Disposition</label>
+									<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="data-entry-select one_must_be_filled_in">
+										<option selected="selected" value=""></option>
+										<cfloop query="existDisp">
+									    	<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
+										</cfloop>
+									</select>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col-12">
+									<script>
+										$(document).ready(function () { 
+											$("##deletePartForm").on("submit",function(e) { 
+												var valuesArray = $('##deletePartForm .one_must_be_filled_in').get().map(e => e.value);
+												if (valuesArray.every(element => element == "")){ 
+													e.preventDefault();
+													messageDialog("Error: You must specify at least one value to specify which parts to delete.","No Delete Criteria Provided.");
+												}
+											});
+										});
+									</script>
+									<input type="submit" value="Delete Parts" class="btn btn-xs btn-danger">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+<!--- as accordion 
+
 			<div class="accordion mb-4" id="partActionAccordion">
 				<div class="card">
 					<div class="card-header py-0" id="headingOptionOne">
@@ -108,190 +496,9 @@ limitations under the License.
 					</div>
 					<div id="collapseOne" class="collapse show" aria-labelledby="headingOptionOne" data-parent="##partActionAccordion">
 						<div class="card-body px-4">
-							<div>
-								Add one to three new parts to each cataloged item.  
-								<cfif getCount.ct EQ 1>
-									This set of parts will be added to the cataloged item.
-								<cfelse>
-									The same set of parts will be added to each of the #getCount.ct# cataloged items.
-								</cfif>
-							</div>
-							<form name="newPart" method="post" action="bulkPart.cfm">
-								<input type="hidden" name="action" value="newPart">
-								<input type="hidden" name="table_name" value="#table_name#">
-								<input type="hidden" name="numParts" value="#numParts#">
-								<cfif isDefined("result_id") and len(result_id) GT 0>
-									<input type="hidden" name="result_id" value="#result_id#">
-								</cfif>
-								<div class="form-row">
-									<cfloop from="1" to="#numParts#" index="i">
-										<div class="col-12 col-md-4 border">
-											<cfif i EQ 1>
-												<cfset requireClass = "reqdClr">
-												<cfset require = "required">
-											<cfelse>
-												<cfset requireClass = " requirable#i#">
-												<cfset require = "">
-											</cfif>
-											<h3 class="h3">
-												<cfif i EQ 1>
-													First
-												<cfelseif i EQ 2>
-													Second
-												<cfelseif i EQ 3>
-													Third
-												</cfif>
-												Part To Add
-											</h3>
-											<div class="form-row">
-												<div class="col-12">
-													<label for="part_name_#i#" class="data-entry-label">
-														Add Part (#i#)
-														<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##part_name_#i#').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-													</label>
-													<input type="text" name="part_name_#i#" id="part_name_#i#" class="data-entry-input #requireClass#" #require#>
-													<script>
-														<cfif i GT 1>
-															function togglePart#i#() { 
-																if ($("##part_name_#i#").val()!="") { 
-																	$(".forpart#i#").show();
-																	$(".requirable#i#").addClass("reqdClr");
-																	$(".requirable#i#").prop('required',true);
-																} else { 
-																	$(".forpart#i#").hide();
-																	$(".requirable#i#").removeClass("reqdClr");
-																	$(".requirable#i#").prop('required',false);
-																} 
-															}
-														</cfif>
-														$(document).ready(function() {
-															makeCTAutocompleteColl("part_name_#i#","SPECIMEN_PART_NAME","#colcdes#");
-															<cfif i GT 1>
-																// enable/disable additional parts entry 
-																// (input when typing, blur when picking from dropped list)
-																$("##part_name_#i#").on("input",function() { 
-																	togglePart#i#();
-																});
-																$("##part_name_#i#").on("blur",function() { 
-																	togglePart#i#();
-																});
-																$(".forpart#i#").hide();
-															</cfif>
-														});
-													</script>
-												</div>
-												<div class="col-12 forpart#i#">
-													<label for="preserve_method_#i#" class="data-entry-label">Preserve Method (#i#)</label>
-													<select name="preserve_method_#i#" id="preserve_method_#i#" size="1" class="data-entry-select #requireClass#" #require#>
-														<option></option>
-														<cfloop query="ctPreserveMethod">
-															<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="col-12 forpart#i#">
-													<label for="lot_count_modifier_#i#" class="data-entry-label">Count Modifier (#i#)</label>
-													<select name="lot_count_modifier_#i#" id="lot_count_modifier_#i#" class="data-entry-select">
-														<option value=""></option>
-														<cfloop query="ctNumericModifiers">
-															<option value="#ctNumericModifiers.modifier#">#ctNumericModifiers.modifier#</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="col-12 forpart#i#">
-										   		<label for="lot_count_#i#" class="data-entry-label">Part Count (#i#)</label>
-										   		<input type="text" name="lot_count_#i#" id="lot_count_#i#" class="data-entry-input #requireClass#" #require# pattern="^[0-9]+$">
-												</div>
-												<div class="col-12 forpart#i#">
-										   		<label for="coll_obj_disposition_#i#" class="data-entry-label">Disposition (#i#)</label>
-										   		<select name="coll_obj_disposition_#i#" id="coll_obj_disposition_#i#" size="1"  class="data-entry-select #requireClass#" #require#>
-														<option value=""></option>
-														<cfloop query="ctDisp">
-															<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="col-12 forpart#i#">
-													<label for="condition_#i#" class="data-entry-input">Condition (#i#)</label>
-										   		<input type="text" name="condition_#i#" id="condition_#i#" class="data-entry-input #requireClass#" #require#>
-												</div>
-												<div class="col-12 forpart#i#">
-										   		<label for="coll_object_remarks_#i#" class="data-entry-label">Remark (#i#)</label>
-										   		<input type="text" name="coll_object_remarks_#i#" id="coll_object_remarks_#i#" class="data-entry-input">
-												</div>
-											</div>
-										</div>
-									</cfloop>
-								</div>
-								<input type="submit" value="Add Parts" class="btn btn-xs btn-primary">
-							</form>
 						</div>
 					</div>
 				</div>
-				<!--- queries used for picklists on modify and delete forms --->
-				<cfquery name="existParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						count(specimen_part.collection_object_id) partcount,
-						specimen_part.part_name
-					FROM
-						specimen_part
-						<cfif isDefined("result_id") and len(result_id) GT 0>
-							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
-					WHERE
-							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-						<cfelse>
-							JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
-					</cfif>
-					GROUP BY specimen_part.part_name
-					ORDER BY specimen_part.part_name
-				</cfquery>
-				<cfquery name="existPreserve" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						count(specimen_part.collection_object_id) partcount,
-						specimen_part.preserve_method
-					FROM
-						specimen_part
-						<cfif isDefined("result_id") and len(result_id) GT 0>
-							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
-					WHERE
-							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-						<cfelse>
-							JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
-						</cfif>
-					GROUP BY specimen_part.preserve_method
-					ORDER BY specimen_part.preserve_method
-				</cfquery>
-				<!--- TODO: Split into two queries, this group on then group on again paired queries may not produce the expected results. --->
-				<cfquery name="existCO" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						coll_object.lot_count,
-						coll_object.coll_obj_disposition
-					FROM
-						specimen_part
-						JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
-						<cfif isDefined("result_id") and len(result_id) GT 0>
-							JOIN user_search_table on specimen_part.derived_from_cat_item = user_search_table.collection_object_id
-					WHERE
-							user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-						<cfelse>
-							JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
-						</cfif>
-					GROUP BY 
-						coll_object.lot_count,
-						coll_object.coll_obj_disposition
-				</cfquery>
-				<cfquery name="existLotCount" dbtype="query">
-					SELECT lot_count 
-					FROM existCO
-					GROUP BY lot_count 
-					ORDER BY lot_count
-				</cfquery>
-				<cfquery name="existDisp" dbtype="query">
-					SELECT coll_obj_disposition 
-					FROM existCO 
-					GROUP BY coll_obj_disposition 
-					ORDER BY coll_obj_disposition
-				</cfquery>
 				<div class="card">
 					<div class="card-header py-0" id="headingOptionTwo">
 						<h2 class="h4 my-1 px-3">
@@ -302,117 +509,6 @@ limitations under the License.
 					</div>
 					<div id="collapseTwo" class="collapse" aria-labelledby="headingOptionTwo" data-parent="##partActionAccordion">
 						<div class="card-body px-4">
-							<div>You will be able to review changes on the next screen.</div>
-					
-							<form name="modPart" method="post" action="bulkPart.cfm">
-								<input type="hidden" name="action" value="modPart">
-								<input type="hidden" name="table_name" value="#table_name#">
-								<cfif isDefined("result_id") and len(result_id) GT 0>
-									<input type="hidden" name="result_id" value="#result_id#">
-								</cfif>
-								<table border>
-									<tr>
-										<td></td>
-										<td>
-											Filter specimens for part...
-										</td>
-										<td>
-											Update to...
-										</td>
-									</tr>
-									<tr>
-										<td>Part Name</td>
-										<td>
-									   		<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr">
-												<option selected="selected" value=""></option>
-													<cfloop query="existParts">
-												    	<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
-													</cfloop>
-											</select>
-										</td>
-										<td>
-											<input type="text" name="new_part_name" id="new_part_name" class="reqdClr"
-												onchange="findPart(this.id,this.value,'#colcdes#');"
-												onkeypress="return noenter(event);">
-										</td>
-									</tr>
-									<tr>
-										<td>Preserve Method</td>
-										<td>
-									   		<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="reqdClr">
-												<option selected="selected" value=""></option>
-													<cfloop query="existPreserve">
-												    	<option value="#Preserve_method#">#Preserve_method# (#existPreserve.partCount# parts)</option>
-													</cfloop>
-											</select>
-										</td>
-										<td>
-											<select name="new_preserve_method" id="new_preserve_method" size="1"  class="reqdClr">
-												<option value="">no update</option>
-												<cfloop query="ctPreserveMethod">
-													<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
-												</cfloop>
-											</select>
-										</td>
-									</tr>
-						    		<tr>
-										<td>Lot Count</td>
-										<td>
-											<select name="existing_lot_count" id="existing_lot_count" size="1" class="reqdClr">
-												<option selected="selected" value="">ignore</option>
-													<cfloop query="existLotCount">
-												    	<option value="#lot_count#">#lot_count#</option>
-													</cfloop>
-											</select>
-										</td>
-										<td>
-											<input type="text" name="new_lot_count" id="new_lot_count">
-										</td>
-									</tr>
-									<tr>
-										<td>Disposition</td>
-										<td>
-											<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="reqdClr">
-												<option selected="selected" value="">ignore</option>
-													<cfloop query="existDisp">
-												    	<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
-													</cfloop>
-											</select>
-										</td>
-										<td>
-											<select name="new_coll_obj_disposition" id="new_coll_obj_disposition" size="1"  class="reqdClr">
-												<option value="">no update</option>
-												<cfloop query="ctDisp">
-													<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-												</cfloop>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td>Condition</td>
-										<td>
-											Existing CONDITION will be ignored
-										</td>
-										<td>
-											<input type="text" name="new_condition" id="new_condition">
-										</td>
-									</tr>
-									<tr>
-										<td>Remark</td>
-										<td>
-											Existing REMARKS will be ignored
-										</td>
-										<td>
-											<input type="text" name="new_remark" id="new_remark">
-										</td>
-									</tr>
-									<tr>
-										<td colspan="3" align="center">
-											<input type="submit" value="Update Parts" class="btn btn-xs btn-secondary">
-										</td>
-									</tr>
-							  	</table>
-							</form>
 						</div>
 					</div>
 				</div>
@@ -426,74 +522,13 @@ limitations under the License.
 					</div>
 					<div id="collapseThree" class="collapse" aria-labelledby="headingOptionThree" data-parent="##partActionAccordion">
 						<div class="card-body px-4">
-							<div>Identify existing parts to be deleted from all the #getCount.ct# cataloged items.  You must provide at least one filter condition for deletion.  You will be able to review and confirm on the next screen.</div>
-							<h3 class="h4">Select values to identify the existing parts to be deleted</h3>
-							<form name="delPart" id="deletePartForm" method="post" action="bulkPart.cfm">
-								<input type="hidden" name="action" value="delPart">
-								<input type="hidden" name="table_name" value="#table_name#">
-								<cfif isDefined("result_id") and len(result_id) GT 0>
-									<input type="hidden" name="result_id" value="#result_id#">
-								</cfif>
-								<div class="form-row">
-									<div class="col-12 col-md-3">
-										<label for="exist_part_name" class="data-entry-label">Part Name</label>
-										<select name="exist_part_name" id="exist_part_name" size="1" class="data-entry-select one_must_be_filled_in">
-											<option selected="selected" value=""></option>
-											<cfloop query="existParts">
-										    	<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
-											</cfloop>
-										</select>
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="exist_preserve_method" class="data-entry-label">Preserve Method</label>
-										<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="data-entry-select one_must_be_filled_in">
-											<option selected="selected" value=""></option>
-											<cfloop query="existPreserve">
-										    	<option value="#preserve_method#">#preserve_method# (#existPreserve.partCount# parts)</option>
-											</cfloop>
-										</select>
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="existing_lot_count" class="data-entry-label">Lot Count</label>
-										<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select one_must_be_filled_in">
-											<option selected="selected" value=""></option>
-											<cfloop query="existLotCount">
-								   		 	<option value="#lot_count#">#lot_count#</option>
-											</cfloop>
-										</select>
-									</div>
-									<div class="col-12 col-md-3">
-										<label for="existing_coll_obj_disposition" class="data-entry-label">Disposition</label>
-										<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="data-entry-select one_must_be_filled_in">
-											<option selected="selected" value=""></option>
-											<cfloop query="existDisp">
-										    	<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
-											</cfloop>
-										</select>
-									</div>
-								</div>
-								<div class="form-row">
-									<div class="col-12">
-										<script>
-											$(document).ready(function () { 
-												$("##deletePartForm").on("submit",function(e) { 
-													var valuesArray = $('##deletePartForm .one_must_be_filled_in').get().map(e => e.value);
-													if (valuesArray.every(element => element == "")){ 
-														e.preventDefault();
-														messageDialog("Error: You must specify at least one value to specify which parts to delete.","No Delete Criteria Provided.");
-													}
-												});
-											});
-										</script>
-										<input type="submit" value="Delete Parts" class="btn btn-xs btn-danger">
-									</div>
-								</div>
-							</form>
 						</div>
 					</div>
 				</div><!--- end card --->
 			</div><!--- end accordion --->
 	
+--->
+
 			<hr>
 	
 			<h2 class="h3">Specimens to be Updated</h2>
