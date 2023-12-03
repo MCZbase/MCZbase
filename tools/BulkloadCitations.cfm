@@ -239,7 +239,7 @@
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					other_id_type, publication_id,key
+					other_id_type, key
 				FROM 
 					cf_temp_citation
 				WHERE 
@@ -282,30 +282,25 @@
 					</cfquery>
 				</cfif>
 			</cfloop>
+			
 			<!--- obtain the information needed to QC each row --->
-			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					key, collection_cde, collection_object_id
+					key, collection_cde
 				FROM 
 					cf_temp_citation
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop query="getTempTableTypes">
+			<cfloop query="getTempTableQC">
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
 				<cfquery name="flatCitationProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatCitationProblems_result">
-					UPDATE cf_temp_citation
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'invalid attribute for publication_id ' || publication_id)
-					WHERE 
-						publication_id IS NOT NULL
-						AND publication_id NOT IN (
-							SELECT 
-							FROM taxonomy_publication 
-							WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.publication_id#">
-						)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#">
+					UPDATE
+							cf_temp_citation
+						SET 
+							status = concat(nvl2(status, status || '; ', ''),'invalid collection_cde')
+						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
 				</cfquery>
 				
 				<cfquery name="ctType_status_code_tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -316,11 +311,6 @@
 			
 			</cfloop>
 				
-				
-				
-			
-
-
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks,collection_object_id,status
 				FROM cf_temp_citation
