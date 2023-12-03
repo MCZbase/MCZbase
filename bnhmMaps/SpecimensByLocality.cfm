@@ -40,7 +40,7 @@ Retrieving map data - please wait....
 		 		WHERE
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			)
-	</cfqury>
+	</cfquery>
 	<cfquery name="loc" dbtype="query">
 		select
 			dec_lat,
