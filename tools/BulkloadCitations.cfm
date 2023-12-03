@@ -312,73 +312,12 @@
 					FROM ctcitation_type_status
 					WHERE type_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.type_status#">
 				</cfquery>
-				<cfloop query="ctAttribute_code_tables">
-
-
-				</cfloop>
+			
 			</cfloop>
 				
 				
 				
-				
-			<cfloop query="getTempTableQC">
-				<cfif len(getTempTableQC.other_id_type) gt 0 and getTempTableQC.other_id_type eq 'catalog number'>
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update 
-							cf_temp_citation 
-						set 
-							collection_object_id =
-								(select cataloged_item.collection_object_id 
-								from cataloged_item 
-								where cataloged_item.collection_cde = cf_temp_citation.collection_cde 
-								and cataloged_item.cat_num = cf_temp_citation.other_id_number
-								and cf_temp_citation.other_id_type = 'catalog_number'
-								)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableQC.key#"> 
-					</cfquery>
-				<cfelse>
-					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE
-							cf_temp_citation
-						SET
-							collection_object_id= 
-								(select cataloged_item.collection_object_id 
-								from cataloged_item,coll_obj_other_id_num 
-								where coll_obj_other_id_num.other_id_type = cf_temp_citation.other_id_type 
-								and cataloged_item.collection_cde = cf_temp_citation.collection_cde 
-								and display_value= cf_temp_citation.other_id_number
-								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
-							)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-				</cfif>
-<!---				<cfif len(getTempTableTypes.publication_id) eq 0>
-					<cfquery name="getPID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						UPDATE
-							cf_temp_citation
-						SET
-							publication_id= (
-								select publication.publication_id
-							from publication 
-							where publication.publication_title = cf_temp_citation.publication_title
-							)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-				<cfelse>
-					<cfquery name="getPID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update 
-							cf_temp_citation set publication_id =
-							(select publication.publication_id 
-							from publication
-							where publication.publication_id = cf_temp_citation.publication_id 
-							)
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-							
-					</cfquery>
-				</cfif>--->
-		
-			</cfloop>
+			
 
 
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
