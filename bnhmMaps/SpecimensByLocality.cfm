@@ -29,7 +29,7 @@ Retrieving map data - please wait....
 		 		flat 
 			<cfelse>
 				filtered_flat
-			</cfif> as flatTable
+			</cfif> flatTable
 		 	JOIN lat_long ON flatTable.locality_id = lat_long.locality_id
 		 WHERE
 		 	flatTable.locality_id IN (
@@ -39,7 +39,7 @@ Retrieving map data - please wait....
 				 		flat 
 					<cfelse>
 						filtered_flat
-					</cfif> as flatTable
+					</cfif> flatTable
 					JOIN user_search_table ON flatTable.collection_object_id = user_search_table.collection_object_id 
 		 		WHERE
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
