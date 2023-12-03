@@ -300,7 +300,7 @@
 						SET 
 							status = concat(nvl2(status, status || '; ', ''),'invalid collection_cde')
 						WHERE 
-						attribute IS NOT NULL
+						collection_cde IS NOT NULL
 						AND attribute NOT IN (
 							SELECT collection_cde 
 							FROM ctcollection_cde 
