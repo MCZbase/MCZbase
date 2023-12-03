@@ -550,9 +550,6 @@ If your item needs to be sorted in a special way, then do that here. --->
 						Identification
 					</option>
 					--->
-                     <option value="/bnhmMaps/SpecimensByLocality.cfm"><!--- works only on session search table, passed as table_name --->
-						Map By Locality [Warning: No Tabs]
-					</option>
 					<option value="/tools/downloadParts.cfm"><!--- works only on session search table, passed as table_name --->
 						Parts (Report) [Warning: No Tabs]
 					</option>
