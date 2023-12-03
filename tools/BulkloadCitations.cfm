@@ -303,11 +303,6 @@
 							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
 				</cfquery>
 				
-				<cfquery name="ctType_status_code_tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select upper(type_status) as type_status
-					FROM ctcitation_type_status
-					WHERE type_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.type_status#">
-				</cfquery>
 			
 			</cfloop>
 				
