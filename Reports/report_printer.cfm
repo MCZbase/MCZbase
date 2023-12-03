@@ -1,4 +1,15 @@
 <cfoutput>
+<cfif isDefined("result_id") AND len(result_id) GT 0>
+	<cfquery name="getCollectionObjectIdList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select collection_object_id
+		from user_search_table
+		where 
+			result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+	</cfquery>
+	<cfif getCollectionObjectIdList.recordcount GT 0>
+		<cfset collection_object_id = ValueList(getCollectionObjectIdList.collection_object_id)> 
+	</cfif>
+</cfif>
 <cfif not isdefined("collection_object_id")>
     <cfset collection_object_id="">
 </cfif>
