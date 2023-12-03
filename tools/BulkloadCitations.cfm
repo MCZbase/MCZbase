@@ -283,7 +283,7 @@
 				</cfif>
 			</cfloop>
 			<!--- obtain the information needed to QC each row --->
-			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
 					key, collection_cde, collection_object_id
 				FROM 
@@ -291,7 +291,7 @@
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<cfloop query="getTempTableQC">
+			<cfloop query="getTempTableTypes">
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
 				<cfquery name="flatCitationProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatCitationProblems_result">
 					UPDATE cf_temp_citation
@@ -302,15 +302,15 @@
 						AND publication_id NOT IN (
 							SELECT 
 							FROM taxonomy_publication 
-							WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.publication_id#">
+							WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.publication_id#">
 						)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#">
 				</cfquery>
 				<cfquery name="ctType_status_code_tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select upper(type_status) as type_status
 					FROM ctcitation_type_status
-					WHERE type_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.type_status#">
+					WHERE type_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableTypes.type_status#">
 				</cfquery>
 			
 			</cfloop>
