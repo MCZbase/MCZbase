@@ -239,7 +239,7 @@
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					other_id_type, key
+					other_id_type, publication_id,key
 				FROM 
 					cf_temp_citation
 				WHERE 
@@ -307,6 +307,7 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableTypes.key#">
 				</cfquery>
+				
 				<cfquery name="ctType_status_code_tables" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select upper(type_status) as type_status
 					FROM ctcitation_type_status
