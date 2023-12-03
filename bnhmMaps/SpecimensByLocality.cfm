@@ -35,8 +35,12 @@ Retrieving map data - please wait....
 		 	flatTable.locality_id IN (
 		 		SELECT flatTable.locality_id 
 				FROM 
-					user_search_table 
-					JOIN flatTable ON user_search_table.collection_object_id = flatTable.collection_object_id 
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				 		flat 
+					<cfelse>
+						filtered_flat
+					</cfif> as flatTable
+					JOIN user_search_table ON flatTable.collection_object_id = user_search_table.collection_object_id 
 		 		WHERE
 					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			)
