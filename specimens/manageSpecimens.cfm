@@ -77,7 +77,7 @@ limitations under the License.
 									<a href="/specimens/changeQueryIdentification.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Identifications</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Map By Locality</a>
+									<a href="/bnhmMaps/SpecimensByLocality.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs">Map Localities</a>
 								</li>
 								<li class="nav-item mb-1">
 									<a href="/tools/downloadParts.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Parts Report/Download</a>
@@ -116,8 +116,7 @@ limitations under the License.
 
 	Identification - Implemented
 
-	<option value="/bnhmMaps/SpecimensByLocality.cfm"> works only on session search table, passed as table_name 
-	Map By Locality [Warning: No Tabs]
+	Map By Locality - Implemented
 
 	Parts (Report) [Warning: No Tabs] - Implemented, retained in old
 

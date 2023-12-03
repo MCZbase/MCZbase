@@ -6,6 +6,9 @@ Retrieving map data - please wait....
 	<cfelse>
 		<cfset flatTableName = "filtered_flat">
 	</cfif>
+	<cfif isDefined("result_id") and len(result_id) GT 0>
+		<cfset table_name = "user_search_table">
+	</cfif>
 	<cfset dlPath = "#Application.webDirectory#/bnhmMaps/tabfiles/">
 	<cfset dlFile = "tabfile#cfid##cftoken#.txt">
 	<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -33,7 +36,11 @@ Retrieving map data - please wait....
 		 	#flatTableName#.locality_id = lat_long.locality_id and
 		 	#flatTableName#.locality_id IN (
 		 		select #flatTableName#.locality_id from #table_name#,#flatTableName#
-		 		where #flatTableName#.collection_object_id = #table_name#.collection_object_id)
+		 		where #flatTableName#.collection_object_id = #table_name#.collection_object_id
+				<cfif table_name EQ "user_search_table">
+					and user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+				</cfif>
+			)
 	</cfquery>
 	<cfquery name="loc" dbtype="query">
 		select
