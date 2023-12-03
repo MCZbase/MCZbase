@@ -308,6 +308,20 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
+				<cfquery name="flatCitationProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatCitationProblems_result">
+					UPDATE cf_temp_citation
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'invalid cited_taxon_name_id ' || cited_taxon_name_id)
+					WHERE 
+						cited_taxon_name_id IS NOT NULL
+						AND cited_taxon_name_id NOT IN (
+							SELECT cited_taxon_name_id 
+							FROM taxonomy
+							WHERE cited_scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.scientific_name#">
+						)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
 				
 			
 			</cfloop>
