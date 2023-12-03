@@ -239,7 +239,7 @@
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					other_id_type, key
+					other_id_type, cited_scientific_name, key
 				FROM 
 					cf_temp_citation
 				WHERE 
@@ -281,8 +281,22 @@
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
+				<!--- For each row, set the target collection_object_id --->
+				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE
+						cf_temp_citation
+					SET
+						cited_taxon_name_id = (
+							select taxon_name_id 
+							from taxonomy
+							where scientific_name = cf_temp_citation.cited_scientific_name 
+							and = cf_temp_citation.collection_cde
+						),
+						status = null
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+				</cfquery>
 			</cfloop>
-			
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
