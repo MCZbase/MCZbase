@@ -295,19 +295,18 @@
 			<cfloop query="getTempTableQC">
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
 				<cfquery name="flatCitationProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatCitationProblems_result">
-					UPDATE
-							cf_temp_citation
-						SET 
-							status = concat(nvl2(status, status || '; ', ''),'invalid collection_cde')
-						WHERE 
-						collection_cde NOT IN (
+					UPDATE cf_temp_citation
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'invalid collection_cde ' || collection_cde)
+					WHERE 
+						collection_cde IS NOT NULL
+						AND collection_cde NOT IN (
 							SELECT collection_cde 
 							FROM ctcollection_cde 
 							WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_cde#">
 						)
-					
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
-							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
 				
 			
