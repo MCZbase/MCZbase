@@ -300,8 +300,7 @@
 						SET 
 							status = concat(nvl2(status, status || '; ', ''),'invalid collection_cde')
 						WHERE 
-						collection_cde IS NOT NULL
-						AND collection_cde NOT IN (
+						collection_cde NOT IN (
 							SELECT collection_cde 
 							FROM ctcollection_cde 
 							WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_cde#">
