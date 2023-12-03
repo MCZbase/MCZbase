@@ -286,11 +286,10 @@
 					UPDATE
 						cf_temp_citation
 					SET
-						cited_taxon_name_id = (
+						taxon_name_id = (
 							select taxon_name_id 
 							from taxonomy
 							where scientific_name = cf_temp_citation.cited_scientific_name 
-							and = cf_temp_citation.collection_cde
 						),
 						status = null
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
