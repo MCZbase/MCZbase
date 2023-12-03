@@ -299,7 +299,15 @@
 							cf_temp_citation
 						SET 
 							status = concat(nvl2(status, status || '; ', ''),'invalid collection_cde')
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
+						WHERE 
+						attribute IS NOT NULL
+						AND attribute NOT IN (
+							SELECT collection_cde 
+							FROM ctcollection_cde 
+							WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.collection_cde#">
+						)
+					
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#"> 
 							and key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#"> 
 				</cfquery>
 				
