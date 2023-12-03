@@ -286,7 +286,7 @@
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					key, collection_cde
+					key, collection_cde, cited_scientific_name
 				FROM 
 					cf_temp_citation
 				WHERE 
