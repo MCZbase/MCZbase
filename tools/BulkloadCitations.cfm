@@ -288,7 +288,7 @@
 				UPDATE
 					cf_temp_citation
 				SET
-					taxon_name_id = (
+					cited_taxon_name_id = (
 						select taxon_name_id 
 						from taxonomy 
 						where scientific_name = cf_temp_citation.cited_scientific_name 
