@@ -98,7 +98,6 @@ limitations under the License.
 				WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colcdes#">
 			</cfquery>
 
-
 			<div class="tabs card-header tab-card-header px-1 pb-0" id="partActionTabs">
 				<div class="tab-headers tabList" role="tablist" aria-label="Tabs for bulk Add, Edit, or Delete Parts options">
 					<button class="px-5 px-sm-3 px-md-5 col-12 col-md-auto mb-1 mb-md-0 active" id="tab-1" tabid="1" role="tab" aria-controls="addPanel" aria-selected="true" tabindex="0">
@@ -117,14 +116,14 @@ limitations under the License.
 					<!--- Add Parts tab panel **************************************** --->
 					<div id="addPanel" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="mx-0 active" >
 						<h2 class="h3 card-title my-0" >Add New Parts to Each Cataloged Item</h2>
-						<div>
+						<p class="px-2">
 							Add one to three new parts to each cataloged item.  
 							<cfif getCount.ct EQ 1>
 								This set of parts will be added to the cataloged item.
 							<cfelse>
 								The same set of parts will be added to each of the #getCount.ct# cataloged items.
 							</cfif>
-						</div>
+						</p>
 						<form name="newPart" method="post" action="/specimens/changeQueryParts.cfm">
 							<input type="hidden" name="action" value="newPart">
 							<input type="hidden" name="table_name" value="#table_name#">
@@ -134,7 +133,7 @@ limitations under the License.
 							</cfif>
 							<div class="form-row">
 								<cfloop from="1" to="#numParts#" index="i">
-									<div class="col-12 col-md-4 border">
+									<div class="col-12 col-md-4 border-left border-bottom">
 										<cfif i EQ 1>
 											<cfset requireClass = "reqdClr">
 											<cfset require = "required">
@@ -189,7 +188,7 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-12 forpart#i#">
+											<div class="col-12 forpart#i# pt-1">
 												<label for="preserve_method_#i#" class="data-entry-label">Preserve Method (#i#)</label>
 												<select name="preserve_method_#i#" id="preserve_method_#i#" size="1" class="data-entry-select #requireClass#" #require#>
 													<option></option>
@@ -198,7 +197,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 forpart#i#">
+											<div class="col-12 forpart#i# pt-1">
 												<label for="lot_count_modifier_#i#" class="data-entry-label">Count Modifier (#i#)</label>
 												<select name="lot_count_modifier_#i#" id="lot_count_modifier_#i#" class="data-entry-select">
 													<option value=""></option>
@@ -207,32 +206,32 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 forpart#i#">
-									   		<label for="lot_count_#i#" class="data-entry-label">Part Count (#i#)</label>
-									   		<input type="text" name="lot_count_#i#" id="lot_count_#i#" class="data-entry-input #requireClass#" #require# pattern="^[0-9]+$">
+											<div class="col-12 forpart#i# pt-1">
+											<label for="lot_count_#i#" class="data-entry-label">Part Count (#i#)</label>
+											<input type="text" name="lot_count_#i#" id="lot_count_#i#" class="data-entry-input #requireClass#" #require# pattern="^[0-9]+$">
 											</div>
-											<div class="col-12 forpart#i#">
-									   		<label for="coll_obj_disposition_#i#" class="data-entry-label">Disposition (#i#)</label>
-									   		<select name="coll_obj_disposition_#i#" id="coll_obj_disposition_#i#" size="1"  class="data-entry-select #requireClass#" #require#>
+											<div class="col-12 forpart#i# pt-1">
+											<label for="coll_obj_disposition_#i#" class="data-entry-label">Disposition (#i#)</label>
+											<select name="coll_obj_disposition_#i#" id="coll_obj_disposition_#i#" size="1"  class="data-entry-select #requireClass#" #require#>
 													<option value=""></option>
 													<cfloop query="ctDisp">
 														<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 forpart#i#">
-												<label for="condition_#i#" class="data-entry-input">Condition (#i#)</label>
-									   		<input type="text" name="condition_#i#" id="condition_#i#" class="data-entry-input #requireClass#" #require#>
+											<div class="col-12 forpart#i# pt-1">
+												<label for="condition_#i#" class="data-entry-label">Condition (#i#)</label>
+											<input type="text" name="condition_#i#" id="condition_#i#" class="data-entry-input #requireClass#" #require#>
 											</div>
-											<div class="col-12 forpart#i#">
-									   		<label for="coll_object_remarks_#i#" class="data-entry-label">Remark (#i#)</label>
-									   		<input type="text" name="coll_object_remarks_#i#" id="coll_object_remarks_#i#" class="data-entry-input">
+											<div class="col-12 forpart#i# pt-1">
+											<label for="coll_object_remarks_#i#" class="data-entry-label">Remark (#i#)</label>
+											<input type="text" name="coll_object_remarks_#i#" id="coll_object_remarks_#i#" class="data-entry-input">
 											</div>
 										</div>
 									</div>
 								</cfloop>
 							</div>
-							<input type="submit" value="Add Parts" class="btn btn-xs btn-primary">
+							<input type="submit" value="Add Parts" class="btn ml-2 mt-1 btn-xs btn-primary">
 						</form>
 					</div>
 					<!--- queries used for picklists on modify and delete forms --->
@@ -324,16 +323,16 @@ limitations under the License.
 										<div class="form-row">
 											<div class="col-12">
 												<label for="exist_part_name" class="data-entry-label">Part Name Matches</label>
-								   			<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr data-entry-select" required>
+											<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr data-entry-select" required>
 													<option selected="selected" value=""></option>
 													<cfloop query="existParts">
-												    	<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
+														<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
 													</cfloop>
 												</select>
 											</div>
 											<div class="col-12">
-												<label for="exist_preserve_method" class="data-entry-label">Presserve Method Matches</label>
-									   		<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="data-entry-select">
+												<label for="exist_preserve_method" class="data-entry-label">Preserve Method Matches</label>
+											<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="data-entry-select">
 													<option selected="selected" value=""></option>
 													<cfloop query="existPreserve">
 												    	<option value="#Preserve_method#">#Preserve_method# (#existPreserve.partCount# parts)</option>
@@ -428,7 +427,7 @@ limitations under the License.
 									<select name="exist_part_name" id="exist_part_name" size="1" class="data-entry-select one_must_be_filled_in">
 										<option selected="selected" value=""></option>
 										<cfloop query="existParts">
-									    	<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
+											<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
 										</cfloop>
 									</select>
 								</div>
@@ -533,7 +532,7 @@ limitations under the License.
 				GROUP BY
 					 collection_object_id,collection,cat_num,scientific_name,institution_acronym,collection_cde
 			</cfquery>
-			<table border class="table">
+			<table border class="table table-responsive d-xl-table">
 				<tr>
 					<th>Specimen</th>
 					<th>ID</th>
@@ -601,7 +600,7 @@ limitations under the License.
 				<cfelse>
 					<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
 				</cfif>
-				<a href="#targeturl#">Return to bulk part editor</a>
+				<a href="#targeturl#">Return to bulk part editor (see parts added)</a>
 			</div>
 		</cfoutput>
 	</cfcase>
