@@ -116,7 +116,7 @@
 				<cfif ucase(header) EQ 'cited_scientific_name'><cfset cited_scientific_name_exists=true></cfif>
 				<cfif ucase(header) EQ 'type_status'><cfset type_status_exists=true></cfif>				
 			</cfloop>
-			<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND publication_title_exists AND publication_id_exists AND cited_scientific_name_exists AND type_status_exists)>
+			<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND cited_scientific_name_exists AND type_status_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
 				<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
 				<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
