@@ -677,8 +677,7 @@ limitations under the License.
 				order by
 					collection.collection,cataloged_item.cat_num
 			</cfquery>
-			<div class="container">
-				<div class="row">
+				<div class="row mx-0">
 					<div class="col-12">
 						<h2 class="mt-2">Found #d.recordcount# parts to delete</h2>
 						<cfif isDefined("result_id") and len(result_id) GT 0>
@@ -700,42 +699,41 @@ limitations under the License.
 								<input type="hidden" name="partID" value="#valuelist(d.partID)#">
 								<input type="submit" value="Delete these Parts" class="btn btn-xs btn-danger">
 							</form>
-							<h3 class="h4 mt-2">
-								Or return to the Bulk Part Management tool <a href="#targeturl#">without making changes</a>.
-							</h3>
-							<table class="table table-responsive table-striped d-xl-table">
-								<thead class="thead-light">
+						<h3 class="h4 mt-2">
+							Or return to the Bulk Part Management tool <a href="#targeturl#">without making changes</a>.
+						</h3>
+						<table class="table table-responsive table-striped d-xl-table">
+							<thead class="thead-light">
+							<tr>
+								<th>Specimen</th>
+								<th>ID</th>
+								<th>PartToBeDeleted</th>
+								<th>PreserveMethod</th>
+								<th>Condition</th>
+								<th>CntMod</th>
+								<th>Cnt</th>
+								<th>Dispn</th>
+								<th>Remark</th>
+							</tr>
+							</thead>
+							<tbody>
+							<cfloop query="d">
 								<tr>
-									<th>Specimen</th>
-									<th>ID</th>
-									<th>PartToBeDeleted</th>
-									<th>PreserveMethod</th>
-									<th>Condition</th>
-									<th>CntMod</th>
-									<th>Cnt</th>
-									<th>Dispn</th>
-									<th>Remark</th>
+									<td>#collection# #cat_num#</td>
+									<td>#scientific_name#</td>
+									<td>#part_name#</td>
+									<td>#preserve_method#</td>
+									<td>#condition#</td>
+									<td>#lot_count_modifier#</td>
+									<td>#lot_count#</td>
+									<td>#coll_obj_disposition#</td>
+									<td>#coll_object_remarks#</td>
 								</tr>
-								</thead>
-								<tbody>
-								<cfloop query="d">
-									<tr>
-										<td>#collection# #cat_num#</td>
-										<td>#scientific_name#</td>
-										<td>#part_name#</td>
-										<td>#preserve_method#</td>
-										<td>#condition#</td>
-										<td>#lot_count_modifier#</td>
-										<td>#lot_count#</td>
-										<td>#coll_obj_disposition#</td>
-										<td>#coll_object_remarks#</td>
-									</tr>
-								</cfloop>
-								</tbody>
-							</table>
-						</div>
-					</div>						
-				</div>
+							</cfloop>
+							</tbody>
+						</table>
+					</div>
+				</div>						
 			</cfif>
 		</cfoutput>
 	</cfcase>
@@ -786,15 +784,20 @@ limitations under the License.
 				<cfset partUpdateCount = partUpdateCount + 1>
 			</cfloop>
 			</cftransaction>
-			<h2 class="h2">Succesfully updated #partUpdateCount# parts</h2>
-			<div>
-				<cfif isDefined("result_id") and len(result_id) GT 0>
-					<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
-				<cfelse>
-					<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
-				</cfif>
-				<a href="#targeturl#">Return to bulk part editor</a>
+			<div class="row mx-0">
+				<div class="col-12">
+					<h2 class="h2 pt-2">Succesfully updated #partUpdateCount# parts</h2>
+					<h3 class="h4 pt-2">
+						<cfif isDefined("result_id") and len(result_id) GT 0>
+							<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
+						<cfelse>
+							<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
+						</cfif>
+						<a href="#targeturl#">Return to bulk part editor</a>
+					</h3>
+				</div>
 			</div>
+
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------->
