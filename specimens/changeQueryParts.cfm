@@ -133,7 +133,7 @@ limitations under the License.
 							</cfif>
 							<div class="form-row">
 								<cfloop from="1" to="#numParts#" index="i">
-									<div class="col-12 col-md-4 border-left border-bottom p-2">
+									<div class="col-12 col-md-4 border-left border-bottom border-top p-2">
 										<cfif i EQ 1>
 											<cfset requireClass = "reqdClr">
 											<cfset require = "required">
@@ -141,7 +141,7 @@ limitations under the License.
 											<cfset requireClass = " requirable#i#">
 											<cfset require = "">
 										</cfif>
-										<h3 class="h3">
+										<h3 class="h4 pt-2 pb-1 px-3" style="color: ##495057;background-color: #e9ecef!important;border:#dee2e6;border:#dee2e6;">
 											<cfif i EQ 1>
 												First
 											<cfelseif i EQ 2>
@@ -151,8 +151,8 @@ limitations under the License.
 											</cfif>
 											Part To Add
 										</h3>
-										<div class="form-row">
-											<div class="col-12">
+										<div class="form-row mx-0 p-2">
+											<div class="col-12 pt-1">
 												<label for="part_name_#i#" class="data-entry-label">
 													Add Part (#i#)
 													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##part_name_#i#').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -223,7 +223,7 @@ limitations under the License.
 												<label for="condition_#i#" class="data-entry-label">Condition (#i#)</label>
 											<input type="text" name="condition_#i#" id="condition_#i#" class="data-entry-input #requireClass#" #require#>
 											</div>
-											<div class="col-12 forpart#i# pt-1">
+											<div class="col-12 forpart#i# py-1">
 											<label for="coll_object_remarks_#i#" class="data-entry-label">Remark (#i#)</label>
 											<input type="text" name="coll_object_remarks_#i#" id="coll_object_remarks_#i#" class="data-entry-input">
 											</div>
