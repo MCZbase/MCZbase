@@ -284,6 +284,9 @@ limitations under the License.
 	<!------------------------------------------------------>
 	<cfcase value="print">
 		<cfoutput>
+			<cfif not isDefined("report_id") or len(report_id) EQ 0>
+				<cfthrow message="No report_id was specified for a report to print.">
+			</cfif>
 			<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT * 
 				FROM cf_report_sql 
