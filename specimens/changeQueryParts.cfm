@@ -312,10 +312,10 @@ limitations under the License.
 							<table class="table table-responsive d-xl-table">
 								<thead class="thead-light">
 									<tr>
-										<th>
+										<th class="h4">
 											Filter specimens for parts matching...
 										</th>
-										<th>
+										<th class="h4">
 											Update matching parts to...
 										</th>
 									</tr>
@@ -402,7 +402,7 @@ limitations under the License.
 													<label for="new_condition" class="data-entry-label">New Condition</label>
 													<input type="text" name="new_condition" id="new_condition" class="data-entry-input">
 												</div>
-												<div class="col-12 pt-1">
+												<div class="col-12 py-1">
 													<label for="new_remark" class="data-entry-label">Add Remark</label>
 													<input type="text" name="new_remark" id="new_remark" class="data-entry-input">
 												</div>
