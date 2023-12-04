@@ -259,10 +259,18 @@ limitations under the License.
 				<div>
 					There are a total of #e.recordcount# reports for printing labels.
 					<cfif NOT show_all is "true">
-							Only reports relevant to collections you work with are shown<br/>
-						<a href='report_printer.cfm?&show_all=true&collection_object_id=#collection_object_id#&container_id=#container_id#&transaction_id=#transaction_id#&sort=#sort#'>Show all Reports</a>
+						Only reports relevant to collections you work with are shown<br/>
+						<cfif isDefined("result_id") AND len(result_id) GT 0>
+							<a href='report_printer.cfm?&show_all=true&result_id=#result_id#&container_id=#container_id#&transaction_id=#transaction_id#&sort=#sort#'>Show all Reports</a>
+						<cfelse>
+							<a href='report_printer.cfm?&show_all=true&collection_object_id=#collection_object_id#&container_id=#container_id#&transaction_id=#transaction_id#&sort=#sort#'>Show all Reports</a>
+						</cfif>
 					<cfelse>
-						<a href='report_printer.cfm?&show_all=false&collection_object_id=#collection_object_id#&container_id=#container_id#&transaction_id=#transaction_id#&sort=#sort#'>Show just reports for my collections</a>
+						<cfif isDefined("result_id") AND len(result_id) GT 0>
+							<a href='report_printer.cfm?&show_all=false&result_id=#result_id#&container_id=#container_id#&transaction_id=#transaction_id#&sort=#sort#'>Show just reports for my collections</a>
+						<cfelse>
+							<a href='report_printer.cfm?&show_all=false&collection_object_id=#collection_object_id#&container_id=#container_id#&transaction_id=#transaction_id#&sort=#sort#'>Show just reports for my collections</a>
+						</cfif>
 					</cfif>
 				</div>
 				<div>See the <a href="/Reports/listReports.cfm" target="_blank">summary of all reports</a> to see descriptions of all reports.</div>
