@@ -111,7 +111,7 @@ limitations under the License.
 				<input type="hidden" name="container_id" value="#container_id#">
 				<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 				<label for="report_id">Print....</label>
-				<table border='0'>
+				<table border='0' class="table table-responsive w-100">
 					<tr>
 						<td>
 							<select name="report_id" id="report_id" size="36">
@@ -206,8 +206,8 @@ limitations under the License.
 								});
 							</script>
 						</td>
-						<td style='vertical-align: top;'>
-							<input type="submit" value="Print Report">
+						<td style='vertical-align: top;' class="w-100">
+							<input type="submit" value="Print Report" class="btn btn-xs btn-primary">
 							<div id="preserve_limit_section">
 								<cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
 									<label for="preserve_limit">Limit to Preservation Type:</label>
