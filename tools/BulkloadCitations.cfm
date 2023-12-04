@@ -101,8 +101,6 @@
 			<cfset collection_cde_exists = false>
 			<cfset other_id_type_exists = false>
 			<cfset other_id_number_exists = false>
-			<cfset publication_title_exists = false>
-			<cfset publication_ID_exists = false>
 			<cfset cited_scientific_name_exists = false>
 			<cfset type_status_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
@@ -111,8 +109,6 @@
 				<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 				<cfif ucase(header) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
 				<cfif ucase(header) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
-				<cfif ucase(header) EQ 'publication_title'><cfset publication_title_exists=true></cfif>
-				<cfif ucase(header) EQ 'publication_ID'><cfset publication_ID_exists=true></cfif>
 				<cfif ucase(header) EQ 'cited_scientific_name'><cfset cited_scientific_name_exists=true></cfif>
 				<cfif ucase(header) EQ 'type_status'><cfset type_status_exists=true></cfif>				
 			</cfloop>
@@ -122,8 +118,6 @@
 				<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
 				<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
 				<cfif not other_id_number_exists><cfset message = "#message# other_id_number is missing."></cfif>
-				<cfif not publication_title_exists><cfset message = "#message# publication_title is missing."></cfif>
-				<cfif not publication_id_exists><cfset message = "#message# publication_id is missing."></cfif>
 				<cfif not cited_scientific_name_exists><cfset message = "#message# cited_scientific_name is missing."></cfif>
 				<cfif not type_status_exists><cfset message = "#message# type_status is missing."></cfif>
 				<cfthrow message="#message#">
