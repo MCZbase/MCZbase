@@ -390,7 +390,7 @@
 				</cfquery>
 			
 			</cfloop>
-				<cfset publication_id=''>
+				<!---<cfset publication_id=''>--->
 				<cfquery name="getTempTablePID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						publication_id
@@ -415,7 +415,7 @@
 							SET
 								publication_id= (
 									select publication.publication_id from publication
-									where publication.publication_title = cf_temp_citation.publication_title
+									where publication.publication_title = getTempTablePID2.publication_title
 								),
 								status = null
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
