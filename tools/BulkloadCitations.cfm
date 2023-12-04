@@ -360,7 +360,7 @@
 			</cfquery>
 			<cfloop query="getTempTableQC">
 				<!--- for each row, evaluate the attribute against expectations and provide an error message --->
-				<cfquery name="citationProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="flatCitationProblems_result">
+				<cfquery name="citationProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citationProblems_result">
 					UPDATE cf_temp_citation
 					SET
 						status = concat(nvl2(status, status || '; ', ''),'invalid collection_cde ' || collection_cde)
