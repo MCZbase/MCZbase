@@ -81,6 +81,8 @@
 <!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
+		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
+		<cfset COLUMN_ERR = "Error inserting data">
 		<cfoutput>
 			<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 			<cfset fileContent=replace(fileContent,"'","''","all")>
