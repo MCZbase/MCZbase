@@ -141,7 +141,7 @@ limitations under the License.
 											<cfset requireClass = " requirable#i#">
 											<cfset require = "">
 										</cfif>
-										<h3 class="h4 pt-2 pb-1 px-3" style="color: ##495057;background-color: #e9ecef!important;border:#dee2e6;border:#dee2e6;">
+										<h3 class="h4 pt-2 pb-1 px-3" style="color: ##495057;background-color: ##e9ecef!important;border:##dee2e6;border:##dee2e6;">
 											<cfif i EQ 1>
 												First
 											<cfelseif i EQ 2>
