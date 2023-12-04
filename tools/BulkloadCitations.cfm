@@ -511,9 +511,10 @@
 					<cfelse>
 						<cfif getTempData.recordcount eq citation_updates>
 							<h2 class="text-success">Success - loaded</h2>
+							<h2>Updated #citation_updates# citations.</h2>
 						</cfif>
 					</cfif>
-				<h2>Updated #citation_updates# citations.</h2>
+				
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
