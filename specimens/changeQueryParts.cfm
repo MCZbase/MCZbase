@@ -689,9 +689,9 @@ limitations under the License.
 							<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
 						</cfif>
 						<cfif d.recordcount EQ 0>
-							<div>
+							<h4 class="mt-2">
 								Return to the Bulk Part Management tool <a href="#targeturl#">to change your criteria</a>.
-							</div>
+							</h4>
 						<cfelse>
 							<form name="deletePartForm" method="post" action="/specimens/changeQueryParts.cfm">
 								<input type="hidden" name="action" value="delPart2">
@@ -702,9 +702,9 @@ limitations under the License.
 								<input type="hidden" name="partID" value="#valuelist(d.partID)#">
 								<input type="submit" value="Delete these Parts" class="btn btn-xs btn-danger">
 							</form>
-							<p class="px-2">
+							<h4 class="mt-2">
 								Or return to the Bulk Part Management tool <a href="#targeturl#">without making changes</a>.
-							</p>
+							</h4>
 							<table class="table table-responsive table-striped d-xl-table">
 								<thead class="thead-light">
 								<tr>
