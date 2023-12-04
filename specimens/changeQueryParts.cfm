@@ -698,7 +698,8 @@ limitations under the License.
 				<div>
 					Or return to the Bulk Part Management tool <a href="#targeturl#">without making changes</a>.
 				</div>
-				<table border>
+				<table class="table table-responsive">
+					<thead class="thead-light">
 					<tr>
 						<th>Specimen</th>
 						<th>ID</th>
@@ -710,6 +711,8 @@ limitations under the License.
 						<th>Dispn</th>
 						<th>Remark</th>
 					</tr>
+					</thead>
+					<tbody>
 					<cfloop query="d">
 						<tr>
 							<td>#collection# #cat_num#</td>
@@ -723,6 +726,7 @@ limitations under the License.
 							<td>#coll_object_remarks#</td>
 						</tr>
 					</cfloop>
+					</tbody>
 				</table>
 			</cfif>
 		</cfoutput>
