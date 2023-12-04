@@ -164,7 +164,9 @@ limitations under the License.
 									<cfset reportsWithPartNameRewrite = "(#reportsWithPartNameRewrite#)">
 								  </cfif>
 								<script>
-										$("##report_id").change( function () { 
+										$("##report_id").change( function () {
+											$("##printReportButton").prop('disabled', false); 
+											$("##printReportButton").removeClass('disabled'); 
 											var sel = $(this).find(":selected").text();
 											var match = sel.match(/^#reportsWithPreserveRewrite#$/);
 											if (match!=null && match.length>0) { 
@@ -208,7 +210,7 @@ limitations under the License.
 								</script>
 							</td>
 							<td style='vertical-align: top;' class="w-100">
-								<input type="submit" value="Print Report" class="btn btn-xs btn-primary">
+								<input id="printReportButton" type="submit" value="Print Report" class="btn btn-xs btn-primary disabled" disabled>
 								<div id="preserve_limit_section">
 									<cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
 										<label for="preserve_limit">Limit to Preservation Type:</label>
