@@ -92,7 +92,7 @@ limitations under the License.
 									<a href="/specimens/changeQueryNamedCollection.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Named Group</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="/Reports/report_printer.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs">Print Labels</a>
+									<a href="/Reports/report_printer.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Print Labels</a>
 								</li>
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQuerySpecimenRemark.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Append Cataloged Item Remarks</a>
