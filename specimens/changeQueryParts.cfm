@@ -131,9 +131,9 @@ limitations under the License.
 							<cfif isDefined("result_id") and len(result_id) GT 0>
 								<input type="hidden" name="result_id" value="#result_id#">
 							</cfif>
-							<div class="form-row">
+							<div class="form-row mx-0">
 								<cfloop from="1" to="#numParts#" index="i">
-									<div class="col-12 col-md-4 border-left border-bottom border-top p-2">
+									<div class="col-12 col-md-4 border-left border-bottom border-top px-0">
 										<cfif i EQ 1>
 											<cfset requireClass = "reqdClr">
 											<cfset require = "required">
