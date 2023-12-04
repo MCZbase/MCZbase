@@ -605,7 +605,7 @@ limitations under the License.
 				WHERE
 					collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#" list="yes">)
 			</cfquery>
-			<h2 class="h2">Succesfully deleted #delete_result.recordcount# parts</h2>
+			<h2 class="h2">Successfully deleted #delete_result.recordcount# parts</h2>
 			<div>
 				
 				<cfif isDefined("result_id") and len(result_id) GT 0>
@@ -1032,15 +1032,22 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2 class="h2">Succesfully Added #partCounter# new parts.</h2>
-			<p class="px-2">
-				<cfif isDefined("result_id") and len(result_id) GT 0>
-					<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
-				<cfelse>
-					<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
-				</cfif>
-				<a href="#targeturl#">Return to bulk part editor</a>
-			</p>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12">
+						<h2>Successfully added #partCounter# new parts.</h2>
+						<h3 class="px-2">
+							<cfif isDefined("result_id") and len(result_id) GT 0>
+								<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
+							<cfelse>
+								<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
+							</cfif>
+							<a href="#targeturl#">Return to bulk part editor</a>
+						</h3>
+					</div>
+				</div>
+	
+			</div>
 		</cfoutput>
 	</cfcase>
 	</cfswitch>
