@@ -310,102 +310,106 @@ limitations under the License.
 								<input type="hidden" name="result_id" value="#result_id#">
 							</cfif>
 							<table>
-								<tr>
-									<th>
-										Filter specimens for parts matching...
-									</th>
-									<td>
-										Update matching parts to...
-									</td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<div class="form-row">
-											<div class="col-12">
-												<label for="exist_part_name" class="data-entry-label">Part Name Matches</label>
-											<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr data-entry-select" required>
-													<option selected="selected" value=""></option>
-													<cfloop query="existParts">
-														<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
-													</cfloop>
-												</select>
+								<thead>
+									<tr>
+										<th>
+											Filter specimens for parts matching...
+										</th>
+										<th>
+											Update matching parts to...
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td valign="top">
+											<div class="form-row">
+												<div class="col-12 pt-1">
+													<label for="exist_part_name" class="data-entry-label">Part Name Matches</label>
+												<select name="exist_part_name" id="exist_part_name" size="1" class="reqdClr data-entry-select" required>
+														<option selected="selected" value=""></option>
+														<cfloop query="existParts">
+															<option value="#Part_Name#">#Part_Name# (#existParts.partCount# parts)</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 pt-1">
+													<label for="exist_preserve_method" class="data-entry-label">Preserve Method Matches</label>
+												<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="data-entry-select">
+														<option selected="selected" value=""></option>
+														<cfloop query="existPreserve">
+															<option value="#Preserve_method#">#Preserve_method# (#existPreserve.partCount# parts)</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 pt-1">
+													<label for="existing_lot_count" class="data-entry-label">Lot Count Matches</label>
+													<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select">
+														<option selected="selected" value=""></option>
+														<cfloop query="existLotCount">
+															<option value="#lot_count#">#lot_count#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12 pt-1">
+													<label for="existing_coll_obj_disposition" class="data-entry-label">Disposition Matches</label>
+													<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="data-entry-select">
+														<option selected="selected" value=""></option>
+														<cfloop query="existDisp">
+															<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
+														</cfloop>
+													</select>
+												</div>
 											</div>
-											<div class="col-12">
-												<label for="exist_preserve_method" class="data-entry-label">Preserve Method Matches</label>
-											<select name="exist_preserve_method" id="exist_preserve_method" size="1" class="data-entry-select">
-													<option selected="selected" value=""></option>
-													<cfloop query="existPreserve">
-												    	<option value="#Preserve_method#">#Preserve_method# (#existPreserve.partCount# parts)</option>
-													</cfloop>
-												</select>
+										</td>
+										<td>
+											<div class="form-row">
+												<div class="col-12">
+													<label for="new_part_name" class="data-entry-label">
+														New Part Name
+														<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##new_part_name').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+													</label>
+													<input type="text" name="new_part_name" id="new_part_name" class="data-entry-input reqdClr" required>
+													<script>
+														$(document).ready(function() {
+															makeCTAutocompleteColl("new_part_name","SPECIMEN_PART_NAME","#colcdes#");
+														});
+													</script>
+												</div>
+												<div class="col-12">
+													<label for="new_preserve_method" class="data-entry-label">New Preserve Method</label>
+													<select name="new_preserve_method" id="new_preserve_method" size="1"  class="data-entry-select">
+														<option value=""></option>
+														<cfloop query="ctPreserveMethod">
+															<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12">
+													<label for="new_lot_count" class="data-entry-label">New Lot Count</label>
+													<input type="text" name="new_lot_count" id="new_lot_count" class="data-entry-input">
+												</div>
+												<div class="col-12">
+													<label for="new_coll_obj_disposition" class="data-entry-label">Disposition</label>
+													<select name="new_coll_obj_disposition" id="new_coll_obj_disposition" size="1"  class="data-entry-select">
+														<option value=""></option>
+														<cfloop query="ctDisp">
+															<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+														</cfloop>
+													</select>
+												</div>
+												<div class="col-12">
+													<label for="new_condition" class="data-entry-label">New Condition</label>
+													<input type="text" name="new_condition" id="new_condition" class="data-entry-input">
+												</div>
+												<div class="col-12">
+													<label for="new_remark" class="data-entry-label">Add Remark</label>
+													<input type="text" name="new_remark" id="new_remark" class="data-entry-input">
+												</div>
 											</div>
-											<div class="col-12">
-												<label for="existing_lot_count" class="data-entry-label">Lot Count Matches</label>
-												<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select">
-													<option selected="selected" value=""></option>
-													<cfloop query="existLotCount">
-												    	<option value="#lot_count#">#lot_count#</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="col-12">
-												<label for="existing_coll_obj_disposition" class="data-entry-label">Disposition Matches</label>
-												<select name="existing_coll_obj_disposition" id="existing_coll_obj_disposition" size="1" class="data-entry-select">
-													<option selected="selected" value=""></option>
-													<cfloop query="existDisp">
-												    	<option value="#coll_obj_disposition#">#coll_obj_disposition#</option>
-													</cfloop>
-												</select>
-											</div>
-										</div>
-									</td>
-									<td>
-										<div class="form-row">
-											<div class="col-12">
-												<label for="new_part_name" class="data-entry-label">
-													New Part Name
-													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##new_part_name').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-												</label>
-												<input type="text" name="new_part_name" id="new_part_name" class="data-entry-input reqdClr" required>
-												<script>
-													$(document).ready(function() {
-														makeCTAutocompleteColl("new_part_name","SPECIMEN_PART_NAME","#colcdes#");
-													});
-												</script>
-											</div>
-											<div class="col-12">
-												<label for="new_preserve_method" class="data-entry-label">New Preserve Method</label>
-												<select name="new_preserve_method" id="new_preserve_method" size="1"  class="data-entry-select">
-													<option value=""></option>
-													<cfloop query="ctPreserveMethod">
-														<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="col-12">
-												<label for="new_lot_count" class="data-entry-label">New Lot Count</label>
-												<input type="text" name="new_lot_count" id="new_lot_count" class="data-entry-input">
-											</div>
-											<div class="col-12">
-												<label for="new_coll_obj_disposition" class="data-entry-label">Disposition</label>
-												<select name="new_coll_obj_disposition" id="new_coll_obj_disposition" size="1"  class="data-entry-select">
-													<option value=""></option>
-													<cfloop query="ctDisp">
-														<option value="#ctDisp.coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="col-12">
-												<label for="new_condition" class="data-entry-label">New Condition</label>
-												<input type="text" name="new_condition" id="new_condition" class="data-entry-input">
-											</div>
-											<div class="col-12">
-												<label for="new_remark" class="data-entry-label">Add Remark</label>
-												<input type="text" name="new_remark" id="new_remark" class="data-entry-input">
-											</div>
-										</div>
-									</td>
-								</tr>
+										</td>
+									</tr>
+								</tbody>
 							</table>
 							<input type="submit" value="Update Parts" class="btn btn-xs btn-secondary">
 						</form>
@@ -532,7 +536,7 @@ limitations under the License.
 				GROUP BY
 					 collection_object_id,collection,cat_num,scientific_name,institution_acronym,collection_cde
 			</cfquery>
-			<table class="table table-responsive d-xl-table">
+			<table class="table table-responsive table-striped d-xl-table">
 				<thead class="thead-light"
 					<tr>
 						<th>Specimen</th>
