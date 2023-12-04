@@ -44,7 +44,7 @@ limitations under the License.
 	<cfset show_all = "false" >
 </cfif>
 <cfif not isdefined("action")>
-	<cfset show_all = "entryPoint" >
+	<cfset action = "entryPoint" >
 </cfif>
 
 <cfset pageTitle="Print Labels">
