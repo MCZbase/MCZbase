@@ -48,7 +48,7 @@ limitations under the License.
 					from #table_name#
 				</cfquery>
 			</cfif>
-			<h1 class="h2">Bulk Part Management</h1>
+			<h1 class="h2 px-2">Bulk Part Management</h1>
 			<cfif isDefined("result_id") and len(result_id) GT 0>
 				<p class="px-2 mb-1">Add, Modify, or Delete Parts on #getCount.ct# cataloged items from specimen search result [#result_id#]</p>
 			<cfelse>
