@@ -607,14 +607,14 @@ limitations under the License.
 			</cfquery>
 			<div class="container">
 				<div class="row">
-					<div class="col-12">
+					<div class="col-12 mt-2">
 						<h2>Successfully deleted #delete_result.recordcount# parts</h2>
 						<cfif isDefined("result_id") and len(result_id) GT 0>
 							<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
 						<cfelse>
 							<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
 						</cfif>
-						<a href="#targeturl#">Return to bulk part editor (see remaining parts)</a>
+						<h4 class="mt-2"><a href="#targeturl#">Return to bulk part editor (see remaining parts)</a></h4>
 					</div>
 				</div>
 			</div>
