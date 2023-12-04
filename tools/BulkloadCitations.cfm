@@ -420,7 +420,7 @@
 								cf_temp_citation
 							SET
 								publication_id= (
-									select publication.publication_id from publication_id
+									select publication.publication_id from publication
 									where publication.publication_title = cf_temp_citation.publication_title
 								),
 								status = null
