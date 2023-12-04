@@ -133,7 +133,7 @@ limitations under the License.
 							</cfif>
 							<div class="form-row">
 								<cfloop from="1" to="#numParts#" index="i">
-									<div class="col-12 col-md-4 border-left border-bottom">
+									<div class="col-12 col-md-4 border-left border-bottom p-2">
 										<cfif i EQ 1>
 											<cfset requireClass = "reqdClr">
 											<cfset require = "required">
@@ -231,7 +231,7 @@ limitations under the License.
 									</div>
 								</cfloop>
 							</div>
-							<input type="submit" value="Add Parts" class="btn ml-2 mt-1 btn-xs btn-primary">
+							<input type="submit" value="Add Parts" class="btn ml-2 mt-2 btn-xs btn-primary">
 						</form>
 					</div>
 					<!--- queries used for picklists on modify and delete forms --->
@@ -532,12 +532,15 @@ limitations under the License.
 				GROUP BY
 					 collection_object_id,collection,cat_num,scientific_name,institution_acronym,collection_cde
 			</cfquery>
-			<table border class="table table-responsive d-xl-table">
-				<tr>
-					<th>Specimen</th>
-					<th>ID</th>
-					<th>Parts</th>
-				</tr>
+			<table class="table table-responsive d-xl-table">
+				<thead class="thead-light"
+					<tr>
+						<th>Specimen</th>
+						<th>ID</th>
+						<th>Parts</th>
+					</tr>
+				</thead>
+				<tbody>
 				<cfloop query="getCatItems">
 					<tr>
 						<td><a href="/guid/#institution_acronym#:#collection_cde#:#cat_num#">#collection# #cat_num#</a></td>
@@ -580,6 +583,7 @@ limitations under the License.
 						</td>
 					</tr>
 				</cfloop>
+				</tbody>
 			</table>
 		</cfoutput>
 	</cfcase>
