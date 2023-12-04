@@ -364,7 +364,7 @@ limitations under the License.
 										</td>
 										<td>
 											<div class="form-row">
-												<div class="col-12">
+												<div class="col-12 pt-1">
 													<label for="new_part_name" class="data-entry-label">
 														New Part Name
 														<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##new_part_name').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -376,7 +376,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="col-12">
+												<div class="col-12 pt-1">
 													<label for="new_preserve_method" class="data-entry-label">New Preserve Method</label>
 													<select name="new_preserve_method" id="new_preserve_method" size="1"  class="data-entry-select">
 														<option value=""></option>
@@ -385,11 +385,11 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-12">
+												<div class="col-12 pt-1">
 													<label for="new_lot_count" class="data-entry-label">New Lot Count</label>
 													<input type="text" name="new_lot_count" id="new_lot_count" class="data-entry-input">
 												</div>
-												<div class="col-12">
+												<div class="col-12 pt-1">
 													<label for="new_coll_obj_disposition" class="data-entry-label">Disposition</label>
 													<select name="new_coll_obj_disposition" id="new_coll_obj_disposition" size="1"  class="data-entry-select">
 														<option value=""></option>
@@ -398,11 +398,11 @@ limitations under the License.
 														</cfloop>
 													</select>
 												</div>
-												<div class="col-12">
+												<div class="col-12 pt-1">
 													<label for="new_condition" class="data-entry-label">New Condition</label>
 													<input type="text" name="new_condition" id="new_condition" class="data-entry-input">
 												</div>
-												<div class="col-12">
+												<div class="col-12 pt-1">
 													<label for="new_remark" class="data-entry-label">Add Remark</label>
 													<input type="text" name="new_remark" id="new_remark" class="data-entry-input">
 												</div>
