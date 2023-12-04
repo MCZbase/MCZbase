@@ -506,7 +506,7 @@
 							select cited_taxon_name_id,publication_id,collection_object_id from citation 
 							where publication_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.publication_id#">
 							group by cited_taxon_name_id,publication_id,collection_object_id
-							having count(*) > 1
+							having count(*) > 0
 						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 						<cfif updateCitations1_result.recordcount gt 0>
