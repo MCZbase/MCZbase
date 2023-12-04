@@ -849,9 +849,9 @@ limitations under the License.
 			</cfif>
 			<h2 class="h2">Found #d.recordcount# parts to modifiy.</h2>
 			<cfif d.recordcount EQ 0>
-				<div>
+				<p class="px-2">
 					Return to the Bulk Part Management tool <a href="#targeturl#">to change your criteria</a>.
-				</div>
+				</p>
 			<cfelse>
 				<form name="modPart" method="post" action="/specimens/changeQueryParts.cfm">
 					<input type="hidden" name="action" value="modPart2">
@@ -872,10 +872,11 @@ limitations under the License.
 					<input type="hidden" name="partID" value="#valuelist(d.partID)#">
 					<input type="submit" value="Change all of these parts" class="btn btn-xs btn-warning">
 				</form>
-				<div>
+				<p class="px-2">
 					Or return to the Bulk Part Management tool <a href="#targeturl#">without making changes</a>.
-				</div>
-				<table border>
+				</p>
+				<table class="table table-responsive">
+					<thead class="thead-light">
 					<tr>
 						<th>Specimen</th>
 						<th>ID</th>
@@ -892,6 +893,8 @@ limitations under the License.
 						<th>OldRemark</th>
 						<th>NewRemark</th>
 					</tr>
+					</thead>
+					<tbody>
 					<cfloop query="d">
 						<tr>
 							<td>#collection# #cat_num#</td>
@@ -941,6 +944,7 @@ limitations under the License.
 		
 						</tr>
 					</cfloop>
+					</tbody>
 				</table>
 			</cfif>
 		</cfoutput>
@@ -1028,14 +1032,14 @@ limitations under the License.
 				</cftry>
 			</cftransaction>
 			<h2 class="h2">Succesfully Added #partCounter# new parts.</h2>
-			<div>
+			<p class="px-2">
 				<cfif isDefined("result_id") and len(result_id) GT 0>
 					<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
 				<cfelse>
 					<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
 				</cfif>
 				<a href="#targeturl#">Return to bulk part editor</a>
-			</div>
+			</p>
 		</cfoutput>
 	</cfcase>
 	</cfswitch>
@@ -1044,7 +1048,7 @@ limitations under the License.
 	<h2 class="h3">Error</h2>
 	<cfoutput>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-		<div>#error_message#</div>
+		<p class="px-2">#error_message#</p>
 	</cfoutput>
 </cfcatch>
 </cftry>
