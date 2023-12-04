@@ -301,7 +301,7 @@ limitations under the License.
 					<!--- Modify Parts tab panel ****************************** --->
 					<div id="modifyPanel" role="tabpanel" aria-labelledby="tab-2" class="mx-0 " tabindex="0" hidden>
 						<h2 class="h3 card-title my-0">Modify Selected Existing Parts</h2>
-						<div>You will be able to review changes on the next screen.</div>
+						<p class="px-2">You will be able to review changes on the next screen.</p>
 				
 						<form name="modPart" method="post" action="/specimens/changeQueryParts.cfm">
 							<input type="hidden" name="action" value="modPart">
@@ -309,8 +309,8 @@ limitations under the License.
 							<cfif isDefined("result_id") and len(result_id) GT 0>
 								<input type="hidden" name="result_id" value="#result_id#">
 							</cfif>
-							<table>
-								<thead>
+							<table class="table table-responsive d-xl-table">
+								<thead class="thead-light">
 									<tr>
 										<th>
 											Filter specimens for parts matching...
@@ -411,7 +411,7 @@ limitations under the License.
 									</tr>
 								</tbody>
 							</table>
-							<input type="submit" value="Update Parts" class="btn btn-xs btn-secondary">
+							<input type="submit" value="Update Parts" class="btn ml-2 mt-2 btn-xs btn-secondary">
 						</form>
 					</div>
 					<!--- Delete Parts tab panel ****************************** --->
