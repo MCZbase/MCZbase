@@ -418,7 +418,7 @@ limitations under the License.
 					<div id="deletePanel" role="tabpanel" aria-labelledby="tab-3" class="mx-0 " tabindex="0" hidden>
 						<h2 class="h3 card-title">Delete Selected Parts</h2>
 						<p class="px-2">Identify existing parts to be deleted from all the #getCount.ct# cataloged items.  You must provide at least one filter condition for deletion.  You will be able to review and confirm on the next screen.</p>
-						<h3 class="h4 p-2">Select values to identify the existing parts to be deleted</h3>
+						<h3 class="h4 p-2">Select values to identify the existing parts to be deleted.</h3>
 						<form name="delPart" id="deletePartForm" method="post" action="/specimens/changeQueryParts.cfm">
 							<input type="hidden" name="action" value="delPart">
 							<input type="hidden" name="table_name" value="#table_name#">
