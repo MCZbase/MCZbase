@@ -391,9 +391,10 @@
 			
 			</cfloop>
 				<cfset publication_id=''>
+				<cfset publication_title = ''>
 				<cfquery name="getTempTablePID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
-						publication_id
+						publication_id, publication_title
 					FROM 
 						cf_temp_citation
 					WHERE 
