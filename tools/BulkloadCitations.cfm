@@ -336,7 +336,7 @@
 				</cfif>
 				<!--- For each row, set the target collection_object_id --->
 			</cfloop>
-			<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getCTNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE
 					cf_temp_citation
 				SET
@@ -373,6 +373,14 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
+				<cfif len(publication_id) lt 1 and len(publication_title)lt 1>
+					<h3>You need to have at publication_title or pubication_id entered.</h3>
+				<cfelseif len(publication_id) gt 0 and len(pubication_title) lt 0>
+					Publication_id requirement satisfied.
+				<cfelse>
+					Need code to create the publication_id
+					
+				</cfif>
 				<cfquery name="citationProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citationProblems_result">
 					UPDATE cf_temp_citation
 					SET
