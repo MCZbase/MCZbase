@@ -882,9 +882,9 @@ limitations under the License.
 					<input type="hidden" name="partID" value="#valuelist(d.partID)#">
 					<input type="submit" value="Change all of these parts" class="btn btn-xs btn-warning">
 				</form>
-				<h4 class="px-2 mt-2">
+				<h3 class="h4 px-3 mt-2">
 					Or return to the Bulk Part Management tool <a href="#targeturl#">without making changes</a>.
-				</h4>
+				</h3>
 				<table class="table table-responsive table-striped d-xl-table">
 					<thead class="thead-light">
 					<tr>
