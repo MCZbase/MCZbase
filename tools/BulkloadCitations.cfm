@@ -375,18 +375,18 @@
 				</cfquery>
 				<cfquery name="getTempTablePID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT 
-							*
+							publication_id
 						FROM 
 							cf_temp_citation
 						WHERE 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-				<cfif len(publication_id) lt 1 and len(publication_title)lt 1>
+				<cfif len(getTempTablePID.publication_id) lt 1 and len(getTempTablePID.publication_title)lt 1>
 					<h3>You need to have at publication_title or pubication_id entered.</h3>
 				<cfelseif len(publication_id) gt 0 and len(publication_title) lt 0>
 					Publication_id requirement satisfied.
 				<cfelse>
-					<cfquery name="getTempTablePID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getTempTablePID2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT 
 							key, publication_title
 						FROM 
@@ -406,7 +406,7 @@
 								),
 								status = null
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTablePID.key#"> 
+								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTablePID2.key#"> 
 						</cfquery>
 					</cfloop>
 				</cfif>
