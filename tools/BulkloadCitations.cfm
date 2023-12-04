@@ -402,7 +402,7 @@
 				<cfif len(getTempTablePID.publication_id) eq 0>
 					<cfquery name="getTempTablePID2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT 
-							key, publication_title
+							publication_title
 						FROM 
 							cf_temp_citation
 						WHERE 
@@ -419,7 +419,6 @@
 								),
 								status = null
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTablePID2.key#"> 
 						</cfquery>
 					</cfloop>
 				</cfif>
