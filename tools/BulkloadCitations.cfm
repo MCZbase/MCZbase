@@ -502,21 +502,21 @@
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">
 							)
 						</cfquery>
-<!---						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations1_result">
+						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations1_result">
 							select collection_object_id from citation 
 							where collection_object_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 							group by collection_object_id
 							having count(*) > 0
-						</cfquery>--->
+						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
-						<cfif updateCitations_result.recordcount gt 0>
+						<cfif updateCitations1_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
 					<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif updateCitations_result.recordcount gt 0>
+					<cfif updateCitations1_result.recordcount gt 0>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					<cfelse>
 						<cfif getTempData.recordcount eq citation_updates>
@@ -578,7 +578,7 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT institution_acronym, collection_cde, other_id_type, other_id_number, publication_title, publication_id, cited_scientific_name, occurs_page_number,citation_page_uri, type_status, citation_remarks
+						SELECT *
 						FROM cf_temp_citation 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
@@ -660,6 +660,8 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
+<!---			<h2>#citation_updates# citations passed checks.</h2>
+			<h2 class="text-success">Success, changes applied.</h2>--->
 			cleanup 
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_citation
