@@ -1042,7 +1042,7 @@ limitations under the License.
 							<cfelse>
 								<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
 							</cfif>
-							<a href="#targeturl#">Return to bulk part editor</a>
+							<a href="#targeturl#">Return to bulk part editor (see added parts)</a>
 						</h3>
 					</div>
 				</div>
