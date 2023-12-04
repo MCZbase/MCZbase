@@ -578,7 +578,7 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT *
+						SELECT institution_acronym, collection_cde, other_id_type, other_id_number, publication_title, publication_id, cited_scientific_name, occurs_page_number,citation_page_uri, type_status, citation_remarks
 						FROM cf_temp_citation 
 						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 					</cfquery>
@@ -660,8 +660,6 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-<!---			<h2>#citation_updates# citations passed checks.</h2>
-			<h2 class="text-success">Success, changes applied.</h2>--->
 			cleanup 
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_citation
