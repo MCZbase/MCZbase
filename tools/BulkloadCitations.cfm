@@ -502,7 +502,6 @@
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">
 							)
 						</cfquery>
-						
 					</cfloop>
 						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations1_result">
 							select type_status from citation 
@@ -510,7 +509,7 @@
 							group by type_status
 							having count(*) > 1
 						</cfquery>
-						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
+						<cfset citation_updates1 = citation_updates1 + updateCitations1_result.recordcount>
 						<cfif updateCitations1_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
