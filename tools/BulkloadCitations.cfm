@@ -390,7 +390,7 @@
 				</cfquery>
 			
 			</cfloop>
-				<!---<cfset publication_id=''>--->
+				<cfset publication_id=''>
 				<cfquery name="getTempTablePID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						publication_id
