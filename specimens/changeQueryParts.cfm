@@ -417,8 +417,8 @@ limitations under the License.
 					<!--- Delete Parts tab panel ****************************** --->
 					<div id="deletePanel" role="tabpanel" aria-labelledby="tab-3" class="mx-0 " tabindex="0" hidden>
 						<h2 class="h3 card-title my-0">Delete Selected Parts</h2>
-						<div>Identify existing parts to be deleted from all the #getCount.ct# cataloged items.  You must provide at least one filter condition for deletion.  You will be able to review and confirm on the next screen.</div>
-						<h3 class="h4">Select values to identify the existing parts to be deleted</h3>
+						<p class="px-2">Identify existing parts to be deleted from all the #getCount.ct# cataloged items.  You must provide at least one filter condition for deletion.  You will be able to review and confirm on the next screen.</p>
+						<h3 class="h4 p-2">Select values to identify the existing parts to be deleted</h3>
 						<form name="delPart" id="deletePartForm" method="post" action="/specimens/changeQueryParts.cfm">
 							<input type="hidden" name="action" value="delPart">
 							<input type="hidden" name="table_name" value="#table_name#">
@@ -1042,11 +1042,10 @@ limitations under the License.
 							<cfelse>
 								<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
 							</cfif>
-							<a href="#targeturl#">Return to bulk part editor</a>
+							<a href="#targeturl#">Return to bulk part editor (see added parts)</a>
 						</h3>
 					</div>
 				</div>
-	
 			</div>
 		</cfoutput>
 	</cfcase>
