@@ -226,7 +226,7 @@
 					<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
 					<div>
 						Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-						you probably want to <a href="/tools/BulkloadAttributes.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
+						you probably want to <a href="/tools/BulkloadCitations.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
 						you selected the correct encoding and can continue to validate or load.
 					</div>
 					<ul class="py-1" style="font-size: 1.2rem;">
@@ -235,11 +235,11 @@
 					</ul>
 				</cfif>
 				<h3 class="h3">
-					Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadAttributes.cfm?action=validate">click to validate</a>.
+					Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadCitations.cfm?action=validate">click to validate</a>.
 				</h3>
 			<cfcatch>
 				<h3 class="h3">
-					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadAttributes.cfm">reload</a>
+					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadCitations.cfm">reload</a>
 				</h3>
 				<cfif isDefined("arrResult")>
 					<cfset foundHighCount = 0>
