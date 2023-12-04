@@ -502,6 +502,8 @@
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">
 							)
 						</cfquery>
+						
+					</cfloop>
 						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations1_result">
 							select type_status from citation 
 							where type_status= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.type_status#">
@@ -514,7 +516,6 @@
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
-					</cfloop>
 					<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif updateCitations1_result.recordcount gt 0>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
