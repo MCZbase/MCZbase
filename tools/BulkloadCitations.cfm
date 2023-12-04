@@ -400,7 +400,7 @@
 				</cfquery>
 				<cfif len(getTempTablePID.publication_id) lt 1 and len(getTempTablePID.publication_title)lt 1>
 					<h3>You need to have at publication_title or pubication_id entered.</h3>
-				<cfelseif len(publication_id) gt 0 and len(publication_title) lt 0>
+				<cfelseif len(getTempTablePID.publication_id) gt 0 and len(getTempTablePID.publication_title) lt 0>
 					Publication_id requirement satisfied.
 				<cfelse>
 					<cfquery name="getTempTablePID2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
