@@ -77,23 +77,25 @@
 		</cfoutput>
 	</cfif>	
 	
-	
-<!------------------------------------------------------->
+		<!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
+		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data">
 		<cfoutput>
-			<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
-			<cfset fileContent=replace(fileContent,"'","''","all")>
-			<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-		
-			<!--- cleanup any incomplete work by the same user --->
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_citation 
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			<cftry>
+				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
+				<cfset fileContent=replace(fileContent,"'","''","all")>
+				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 			
+				<!--- cleanup any incomplete work by the same user --->
+				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+					DELETE FROM cf_temp_citation
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				
+					
 			<!--- check for required fields in header line --->
 			<cfset institution_acronym_exists = false>
 			<cfset collection_cde_exists = false>
@@ -228,7 +230,7 @@
 					<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
 					<div>
 						Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-						you probably want to <a href="/tools/BulkloadCitations.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
+						you probably want to <a href="/tools/BulkloadCitatons.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
 						you selected the correct encoding and can continue to validate or load.
 					</div>
 					<ul class="py-1" style="font-size: 1.2rem;">
@@ -289,7 +291,8 @@
 			</cftry>
 		</cfoutput>
 	</cfif>
-	<!------------------------------------------------------->
+<!------------------------------------------------------->
+
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 		<cfoutput>
