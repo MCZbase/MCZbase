@@ -1034,7 +1034,7 @@ limitations under the License.
 			</cftransaction>
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-12">
+					<div class="col-12 mt-3">
 						<h2>Successfully added #partCounter# new parts.</h2>
 						<h3 class="px-2">
 							<cfif isDefined("result_id") and len(result_id) GT 0>
