@@ -390,7 +390,6 @@
 				</cfquery>
 			
 			</cfloop>
-				<cfset publication_id=''>
 				<cfquery name="getTempTablePID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						publication_id
@@ -399,7 +398,8 @@
 					WHERE 
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfif len(getTempTablePID.publication_id) eq 0>
+					#getTempTablePID.publication_id#
+			<!---	<cfif len(getTempTablePID.publication_id) eq 0>
 					<cfquery name="getTempTablePID2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT 
 							publication_title
@@ -421,7 +421,7 @@
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 					</cfloop>
-				</cfif>
+				</cfif>--->
 			<!--- qc checks independent of attributes, includes presence of values in required columns --->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
