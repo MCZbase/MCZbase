@@ -502,18 +502,27 @@
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">
 							)
 						</cfquery>
+						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations1_result">
+							select cited_taxon_name_id,publication_id,collection_object_id from citation 
+							where publication_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.publication_id#">
+							group by cited_taxon_name_id,publication_id,collection_object_id
+							having count(*) > 1
+						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
-						
+						<cfif updateCitations1_result.recordcount gt 0>
+							<cftransaction action = "ROLLBACK">
+						<cfelse>
+							<cftransaction action="COMMIT">
+						</cfif>
 					</cfloop>
 					<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif updateCitations_result.recordcount gt 0>
+					<cfif updateCitations1_result.recordcount gt 0>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					<cfelse>
 						<cfif getTempData.recordcount eq citation_updates>
 							<h2 class="text-success">Success - loaded</h2>
 						</cfif>
 					</cfif>
-				<!---<h2>Updated #citation_updates# citations.</h2>--->
 			<cfcatch>
 				<h2>There was a problem updating citations.</h2>
 				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
