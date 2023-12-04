@@ -503,11 +503,7 @@
 							)
 						</cfquery>
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
-						<cfif updateCitations_result.recordcount gt 0>
-							<cftransaction action = "ROLLBACK">
-						<cfelse>
-							<cftransaction action="COMMIT">
-						</cfif>
+						
 					</cfloop>
 					<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif updateCitation_result.recordcount gt 0>
