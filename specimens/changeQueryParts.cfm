@@ -561,24 +561,28 @@ limitations under the License.
 						</cfquery>
 						<td>
 							<table border width="100%">
-								<th>Part</th>
-								<th>Preserve Method</th>
-								<th>Condition</th>
-								<th>Count Modifier</th>
-								<th>Count</th>
-								<th>Dispn</th>
-								<th>Remark</th>
-								<cfloop query="getParts">
-									<tr>
-										<td>#part_name#</td>
-										<td>#preserve_method#</td>
-										<td>#condition#</td>
-										<td>#lot_count_modifier#</td>
-										<td>#lot_count#</td>
-										<td>#coll_obj_disposition#</td>
-										<td>#coll_object_remarks#</td>
-									</tr>
-								</cfloop>
+								<thead class="thead-dark">
+									<th>Part</th>
+									<th>Preserve Method</th>
+									<th>Condition</th>
+									<th>Count Modifier</th>
+									<th>Count</th>
+									<th>Dispn</th>
+									<th>Remark</th>
+								</thead>
+								<tbody>
+									<cfloop query="getParts">
+										<tr>
+											<td>#part_name#</td>
+											<td>#preserve_method#</td>
+											<td>#condition#</td>
+											<td>#lot_count_modifier#</td>
+											<td>#lot_count#</td>
+											<td>#coll_obj_disposition#</td>
+											<td>#coll_object_remarks#</td>
+										</tr>
+									</cfloop>
+								</tbody>
 							</table>
 						</td>
 					</tr>
