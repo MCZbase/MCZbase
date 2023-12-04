@@ -682,7 +682,7 @@ limitations under the License.
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<h2>Found #d.recordcount# parts to delete</h2>
+						<h2 class="mt-2">Found #d.recordcount# parts to delete</h2>
 						<cfif isDefined("result_id") and len(result_id) GT 0>
 							<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
 						<cfelse>
