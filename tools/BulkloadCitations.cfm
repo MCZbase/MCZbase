@@ -373,9 +373,17 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
+				<cfquery name="getTempTablePID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT 
+							*
+						FROM 
+							cf_temp_citation
+						WHERE 
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
 				<cfif len(publication_id) lt 1 and len(publication_title)lt 1>
 					<h3>You need to have at publication_title or pubication_id entered.</h3>
-				<cfelseif len(publication_id) gt 0 and len(pubication_title) lt 0>
+				<cfelseif len(publication_id) gt 0 and len(publication_title) lt 0>
 					Publication_id requirement satisfied.
 				<cfelse>
 					<cfquery name="getTempTablePID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -386,6 +394,7 @@
 						WHERE 
 							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
+					
 					<cfloop query="getTempTablePID">
 						<cfquery name="getPID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE
