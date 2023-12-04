@@ -85,7 +85,6 @@ limitations under the License.
 						</div>
 					</cfif>
 				</cfif>
-				<a href="/Reports/reporter.cfm" target="_blank">Manage Reports</a><br/>
 				<!-- Obtain the list of reports -->
 				<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT * 
@@ -267,6 +266,10 @@ limitations under the License.
 					</cfif>
 				</div>
 				<div>See the <a href="/Reports/listReports.cfm" target="_blank">summary of all reports</a> to see descriptions of all reports.</div>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
+					<!--- TODO: Need a separate role for report management --->
+					<div><a href="/Reports/reporter.cfm" target="_blank">Manage Reports</a></div>
+				</cfif>
 			</main>
 		</cfoutput>
 	</cfcase>
