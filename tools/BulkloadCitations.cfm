@@ -373,14 +373,31 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
+				
+				<cfquery name="citationProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citationProblems_result">
+					UPDATE cf_temp_citation
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'invalid cited_taxon_name_id ' || cited_taxon_name_id)
+					WHERE 
+						cited_taxon_name_id IS NOT NULL
+						AND cited_taxon_name_id NOT IN (
+							SELECT taxon_name_id 
+							FROM taxonomy
+							WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.cited_scientific_name#">
+						)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
+			
+			</cfloop>
 				<cfquery name="getTempTablePID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT 
-							publication_id
-						FROM 
-							cf_temp_citation
-						WHERE 
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
+					SELECT 
+						publication_id
+					FROM 
+						cf_temp_citation
+					WHERE 
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<cfif len(getTempTablePID.publication_id) lt 1 and len(getTempTablePID.publication_title)lt 1>
 					<h3>You need to have at publication_title or pubication_id entered.</h3>
 				<cfelseif len(publication_id) gt 0 and len(publication_title) lt 0>
@@ -410,22 +427,6 @@
 						</cfquery>
 					</cfloop>
 				</cfif>
-				<cfquery name="citationProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citationProblems_result">
-					UPDATE cf_temp_citation
-					SET
-						status = concat(nvl2(status, status || '; ', ''),'invalid cited_taxon_name_id ' || cited_taxon_name_id)
-					WHERE 
-						cited_taxon_name_id IS NOT NULL
-						AND cited_taxon_name_id NOT IN (
-							SELECT taxon_name_id 
-							FROM taxonomy
-							WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.cited_scientific_name#">
-						)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-				</cfquery>
-			
-			</cfloop>
 			<!--- qc checks independent of attributes, includes presence of values in required columns --->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
