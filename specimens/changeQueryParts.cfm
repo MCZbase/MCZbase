@@ -857,7 +857,7 @@ limitations under the License.
 			<cfelse>
 				<cfset targeturl="/specimens/changeQueryParts.cfm?table_name=#table_name#">
 			</cfif>
-			<h2 class="h2">Found #d.recordcount# parts to modifiy.</h2>
+			<h2 class="h2 mt-2">Found #d.recordcount# parts to modifiy.</h2>
 			<cfif d.recordcount EQ 0>
 				<p class="px-2">
 					Return to the Bulk Part Management tool <a href="#targeturl#">to change your criteria</a>.
@@ -882,10 +882,10 @@ limitations under the License.
 					<input type="hidden" name="partID" value="#valuelist(d.partID)#">
 					<input type="submit" value="Change all of these parts" class="btn btn-xs btn-warning">
 				</form>
-				<p class="px-2">
+				<h4 class="px-2 mt-2">
 					Or return to the Bulk Part Management tool <a href="#targeturl#">without making changes</a>.
-				</p>
-				<table class="table table-responsive">
+				</h4>
+				<table class="table table-responsive table-striped d-xl-table">
 					<thead class="thead-light">
 					<tr>
 						<th>Specimen</th>
