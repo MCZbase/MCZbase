@@ -83,7 +83,10 @@ limitations under the License.
 									<a href="/tools/downloadParts.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Parts Report/Download</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="/findContainer.cfm?showControl=1&result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">View Storage Locations</a>
+									<a href="/findContainer.cfm?showControl=1&result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">View Part Containers</a>
+								</li>
+								<li class="nav-item mb-1">
+									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled" target="_blank">Change Part Containers</a>
 								</li>
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQueryParts.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Modify Parts</a>
@@ -120,8 +123,7 @@ limitations under the License.
 
 	Parts (Report) [Warning: No Tabs] - Implemented, retained in old
 
-	<option value="/findContainer.cfm?showControl=1"> looks like it works only with collection_object_id, but downstream code has reference to session.username and passed table name 
-	Parts (Locations)
+	Parts (Locations) - Implemented
 
 	Parts (Modify) - Implemented
 
