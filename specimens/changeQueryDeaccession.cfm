@@ -131,7 +131,6 @@
 						</form>
 					</div>
 				</section>
-<!--- TODO: Rework from here --->
 				<section class="row"> 
 					<div class="col-12 pb-4">
 						<table class="table table-responsive table-striped d-xl-table">
@@ -178,54 +177,67 @@
 			<cfthrow message="No transaction_id specified,  Can't update specimens">
 		</cfif>
 		<cftransaction>
-			<cfquery name="countCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT count(distinct collection_object_id) ct
-				FROM user_search_table
-				WHERE
-					result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-			</cfquery>
-			<cfquery name="getDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT deaccession.TRANSACTION_ID
-				FROM deaccession
-					LEFT JOIN trans on deaccession.TRANSACTION_ID=trans.TRANSACTION_ID
-				WHERE
-					deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_id#">
-					and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-			</cfquery>
-			<cfif accn.recordcount is 1 and accn.transaction_id gt 0>
-				<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT specimen_part.collection_object_id 
+			<cftry>
+				<cfquery name="countCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT count(distinct collection_object_id) ct
 					FROM user_search_table
-						join specimen_part on user_search_table.collection_object_id = specimen_part.derived_from_cat_item
 					WHERE
 						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-						and 
-							-- TODO conditions for deaccessioning
 				</cfquery>
-				<cfloop query="getParts">
-				<cfquery name="addToDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upAccn_result">
-					INSERT INTO deacc_item (
-						transaction_id,
-						collection_object_id
-					) values ( 
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn.transaction_id#">
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParts.collection_object_id#">
-					)
-				</cfquery>
-				</cfloop>
-				<cfif countCheck.ct GT addToDeacc_result.recordcount>
-					<cfthrow message="Error: Query would update more rows (#upAccn_result.recordcount#) than there are in the result (#countCheck.ct#).">
+				<cfif countCheck.ct EQ 0>
+					<cfthrow message="No records to update identified by result_id=#encodeForHtml(result_id)#">
 				</cfif>
-				<cftransaction action="commit">
+				<cfquery name="getDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT deaccession.TRANSACTION_ID
+					FROM deaccession
+						LEFT JOIN trans on deaccession.TRANSACTION_ID=trans.TRANSACTION_ID
+					WHERE
+						deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_id#">
+						and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+				</cfquery>
+				<cfif getDeacc.recordcount is 1>
+					<cfset targetDeaccession = getDeacc.transaction_id>
+					<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT specimen_part.collection_object_id 
+						FROM user_search_table
+							join specimen_part on user_search_table.collection_object_id = specimen_part.derived_from_cat_item
+						WHERE
+							result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+							AND
+							specimen_part.collection_object_id NOT IN (
+								SELECT collection_object_id 
+								FROM deacc_item
+							)
+							-- TODO conditions for deaccessioning
+					</cfquery>
+					<cfset insertCounter = 0>
+					<cfloop query="getParts">
+						<cfquery name="addToDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addToDeacc_result">
+							INSERT INTO deacc_item (
+								transaction_id,
+								collection_object_id
+							) values ( 
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targetDeaccession#">
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParts.collection_object_id#">
+							)
+						</cfquery>
+						<cfset insertCounter = insertCounter + addToDeaccResult.recordcount>
+					</cfloop>
+					<cfif countCheck.ct LT insertCounter>
+					<cfthrow message="Error: Query would update more rows (#insertCounter#) than there are in the result (#countCheck.ct#).">
+					<cftransaction action="commit">
+				</cfif>
 			<cfelse>
-				<cftransaction action="rollback">
-				<cfthrow message="Accession [#encodeForHtml(accn_number)#] in collection #encodeForHtml(collection_id)# was not found!">
+				<cfthrow message="Deaccession [transaction id=#encodeForHtml(trans_id)#] in collection #encodeForHtml(collection_id)# was not found!">
 			</cfif>
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfdump var="#cfcatch#">
+			</cfcatch>
+			</cftry>
 		</cftransaction>
-		
 		<cflocation url="/specimens/changeQueryAccession.cfm?result_id=#encodeForURL(result_id)#" addtoken="false">
 	</cfcase>
-
 </cfswitch>
 
 <cfinclude template="/shared/_footer.cfm">
