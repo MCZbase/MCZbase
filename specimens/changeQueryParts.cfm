@@ -289,6 +289,12 @@ limitations under the License.
 									coll_object.lot_count,
 									coll_object.coll_obj_disposition
 							</cfquery>
+							<cfquery name="existLotCountModifier" dbtype="query">
+								SELECT lot_count_modifier
+								FROM existCO
+								GROUP BY lot_count_modifier
+								ORDER BY lot_count_modifier
+							</cfquery>
 							<cfquery name="existLotCount" dbtype="query">
 								SELECT lot_count 
 								FROM existCO
