@@ -83,7 +83,10 @@ limitations under the License.
 									<a href="/tools/downloadParts.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Parts Report/Download</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Change Part Locations</a>
+									<a href="/findContainer.cfm?showControl=1&result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">View Part Containers</a>
+								</li>
+								<li class="nav-item mb-1">
+									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled" target="_blank">Change Part Containers</a>
 								</li>
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQueryParts.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Modify Parts</a>
@@ -92,7 +95,7 @@ limitations under the License.
 									<a href="/specimens/changeQueryNamedCollection.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Named Group</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
+									<a href="/Reports/report_printer.cfm?result_id=#encodeForUrl(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Print Labels</a>
 								</li>
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQuerySpecimenRemark.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Append Cataloged Item Remarks</a>
@@ -120,15 +123,13 @@ limitations under the License.
 
 	Parts (Report) [Warning: No Tabs] - Implemented, retained in old
 
-	<option value="/findContainer.cfm?showControl=1"> looks like it works only with collection_object_id, but downstream code has reference to session.username and passed table name 
-	Parts (Locations)
+	Parts (Locations) - Implemented
 
 	Parts (Modify) - Implemented
 
 	Add To Named Group - Implemented, old not removed yet.
 
-	<option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#"> works only with collection_object_id 
-	Print Any Report
+	Print Any Report - Implemented, old not removed yet.
 
 	--->
 							</ul>
