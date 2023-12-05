@@ -99,7 +99,7 @@
 							<input type="hidden" name="Action" value="deaccessionItems">
 							<input type="hidden" name="result_id" value="#result_id#">
 							<div class="form-row mb-2">
-								<div class="col-12 col-md-4 col-lg-4 pb-2">
+								<div class="col-12 col-md-3 pb-2">
 									<label for="collection_id" class="data-entry-label">Collection</label>
 									<select name="collection_id" id="collection_id" size="1" class="data-entry-select reqdClr" required>
 										<cfloop query="ctcoll">
@@ -112,7 +112,7 @@
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-4 col-lg-4">
+								<div class="col-12 col-md-3">
 									<label for="deacc_number" class="data-entry-label mt-2 mt-md-0">Deaccession</label>
 									<input type="text" name="deacc_number" id="deacc_number" class="data-entry-input reqdClr" required>
 									<input type="hidden" name="trans_id" id="trans_id">
@@ -123,7 +123,11 @@
 										});
 									</script>
 								</div>
-								<div class="col-12 col-md-4 col-lg-4 mb-2 mb-md-0">
+								<div class="col-12 col-md-3">
+									<label for="deacc_item_remarks" class="data-entry-label mt-2 mt-md-0">Remarks to add to each item</label>
+									<input type="text" name="deacc_item_remarks" id="deacc_item_remarks" class="data-entry-input" maxlength="255">
+								</div>
+								<div class="col-12 col-md-3 col-lg-4 mb-2 mb-md-0">
 									<div class="data-entry-label">&nbsp;</div>
 									<input type="submit" id="s_btn" value="Deaccession" class="btn btn-xs btn-warning">
 								</div>
@@ -214,11 +218,17 @@
 					<cfloop query="getParts">
 						<cfquery name="addToDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addToDeacc_result">
 							INSERT INTO deacc_item (
-								transaction_id,
-								collection_object_id
+								transaction_id
+								,collection_object_id
+								<cfif isDefined("deacc_item_remarks") and len(deacc_item_remarks) GT 0>
+									,deacc_item_remarks
+								</cfif>
 							) values ( 
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targetDeaccession#">
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParts.collection_object_id#">
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParts.collection_object_id#">
+								<cfif isDefined("deacc_item_remarks") and len(deacc_item_remarks) GT 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_item_remarks#">
+								</cfif>
 							)
 						</cfquery>
 						<cfset insertCounter = insertCounter + addToDeaccResult.recordcount>
