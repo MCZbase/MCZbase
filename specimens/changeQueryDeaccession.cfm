@@ -111,25 +111,26 @@
 										</cfloop>
 									</select>
 								</div>
-<!--- TODO: Rework from here --->
 								<div class="col-12 col-md-4 col-lg-4">
-									<label for="accn_number" class="data-entry-label mt-2 mt-md-0">Accession</label>
-									<input type="text" name="accn_number" id="accn_number" class="data-entry-input reqdClr" required>
+									<label for="deacc_number" class="data-entry-label mt-2 mt-md-0">Deaccession</label>
+									<input type="text" name="deacc_number" id="deacc_number" class="data-entry-input reqdClr" required>
 									<input type="hidden" name="trans_id" id="trans_id">
 									<script>
 										jQuery(document).ready(function() {
-											makeAccessionAutocompleteLimitedMeta("accn_number", "trans_id","collection_id");
+											// makeAccessionAutocompleteLimitedMeta("deacc_number", "trans_id","collection_id");
+											makeDeaccessionAutocompleteMeta("deacc_number","trans_id") { 
 										});
 									</script>
 								</div>
 								<div class="col-12 col-md-4 col-lg-4 mb-2 mb-md-0">
 									<div class="data-entry-label">&nbsp;</div>
-									<input type="submit" id="s_btn" value="Change Accession" class="btn btn-xs btn-warning">
+									<input type="submit" id="s_btn" value="Deaccession" class="btn btn-xs btn-warning">
 								</div>
 							</div>
 						</form>
 					</div>
 				</section>
+<!--- TODO: Rework from here --->
 				<section class="row"> 
 					<div class="col-12 pb-4">
 						<div class="rounded redbox">
