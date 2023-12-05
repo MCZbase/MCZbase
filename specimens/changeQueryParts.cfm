@@ -760,7 +760,7 @@ limitations under the License.
 						</cfif>
 					where collection_object_id=#i#
 				</cfquery>
-				<cfif len(new_lot_count) gt 0 or len(new_coll_obj_disposition) gt 0 or len(new_condition) gt 0>
+				<cfif len(new_lot_count_modifier) gt 0 or len(new_lot_count) gt 0 or len(new_coll_obj_disposition) gt 0 or len(new_condition) gt 0>
 					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update coll_object set
 							flags=flags
