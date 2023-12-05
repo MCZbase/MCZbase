@@ -575,7 +575,7 @@ limitations under the License.
 											<th>Part</th>
 											<th>Preserve Method</th>
 											<th>Condition</th>
-											<th>Count Modifier</th>
+											<th style="width:10%;">CtMod</th>
 											<th>Count</th>
 											<th>Dispn</th>
 											<th>Remark</th>
@@ -586,7 +586,7 @@ limitations under the License.
 													<td>#part_name#</td>
 													<td>#preserve_method#</td>
 													<td>#condition#</td>
-													<td>#lot_count_modifier#</td>
+													<td style="width:10%">#lot_count_modifier#</td>
 													<td>#lot_count#</td>
 													<td>#coll_obj_disposition#</td>
 													<td>#coll_object_remarks#</td>
