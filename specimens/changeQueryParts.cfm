@@ -573,7 +573,7 @@ limitations under the License.
 									<table border width="100%">
 										<thead class="thead-dark">
 											<th style="width:10%">Part</th>
-											<th style="width:10%">Preserve Meth.</th>
+											<th style="width:13%">Preserve Method</th>
 											<th style="width:6%">Condition</th>
 											<th style="width:6%;">Ct Mod</th>
 											<th style="width:6%">Count</th>
@@ -584,7 +584,7 @@ limitations under the License.
 											<cfloop query="getParts">
 												<tr>
 													<td style="width:10%">#part_name#</td>
-													<td style="width:10%">#preserve_method#</td>
+													<td style="width:13%">#preserve_method#</td>
 													<td style="width:6%">#condition#</td>
 													<td style="width:6%">#lot_count_modifier#</td>
 													<td style="width:6%">#lot_count#</td>
