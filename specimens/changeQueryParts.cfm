@@ -819,7 +819,6 @@ limitations under the License.
 					specimen_part.part_name,
 					specimen_part.preserve_method,
 					coll_object.condition,
-					coll_object.lot_count_modifier,
 					coll_object.lot_count,
 					coll_object.coll_obj_disposition,
 					coll_object_remark.coll_object_remarks
@@ -849,9 +848,6 @@ limitations under the License.
 					cataloged_item.collection_object_id=identification.collection_object_id and
 					accepted_id_fg=1 and
 					part_name='#exist_part_name#'
-					<cfif len(existing_lot_count_modifier) gt 0>
-						and lot_count=#existing_lot_count_modifier#
-					</cfif>
 					<cfif len(existing_lot_count) gt 0>
 						and lot_count=#existing_lot_count#
 					</cfif>
@@ -882,8 +878,6 @@ limitations under the License.
 					<input type="hidden" name="new_part_name" value="#new_part_name#">
 					<input type="hidden" name="exist_preserve_method" value="#exist_preserve_method#">
 					<input type="hidden" name="new_preserve_method" value="#new_preserve_method#">
-					<input type="hidden" name="existing_lot_count_modifier" value="#existing_lot_count_modifier#">
-					<input type="hidden" name="new_lot_count_modifier" value="#new_lot_count_modifier#">
 					<input type="hidden" name="existing_lot_count" value="#existing_lot_count#">
 					<input type="hidden" name="new_lot_count" value="#new_lot_count#">
 					<input type="hidden" name="existing_coll_obj_disposition" value="#existing_coll_obj_disposition#">
@@ -907,8 +901,6 @@ limitations under the License.
 						<th>NewPresMethod</th>
 						<th>OldCondition</th>
 						<th>NewCondition</th>
-						<th>OldCntMod</th>
-						<th>NewCntMod</th>
 						<th>OldCnt</th>
 						<th>NewCnt</th>
 						<th>OldDispn</th>
@@ -936,14 +928,6 @@ limitations under the License.
 							<td>
 								<cfif len(new_condition) gt 0>
 									<strong>#new_condition#</strong>
-								<cfelse>
-									NOT UPDATED
-								</cfif>
-							</td>
-							<td>#lot_count_modifier#</td>
-							<td>
-								<cfif len(new_lot_count_modifier) gt 0>
-									<strong>#new_lot_count_modifer#</strong>
 								<cfelse>
 									NOT UPDATED
 								</cfif>
