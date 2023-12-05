@@ -118,7 +118,7 @@
 									<script>
 										jQuery(document).ready(function() {
 											// makeAccessionAutocompleteLimitedMeta("deacc_number", "trans_id","collection_id");
-											makeDeaccessionAutocompleteMeta("deacc_number","trans_id") { 
+											makeDeaccessionAutocompleteMeta("deacc_number","trans_id");
 										});
 									</script>
 								</div>
