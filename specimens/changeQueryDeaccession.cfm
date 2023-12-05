@@ -89,9 +89,9 @@
 					<div class="col-12 pt-4">
 						<h1 class="h3 px-1" id="formheading" >
 							<cfif getItemCount.ct GT getItems.recordcount>
-								Deaccession all parts from all (#getItemCount.ct#) catloged items in this result (first #getItems.recordcount# are listed below):
+								Deaccession all parts from all (#getItemCount.ct#) cataloged items in this result (first #getItems.recordcount# are listed below):
 							<cfelse>
-								Deaccession all parts of all the catloged items listed below (#getItems.recordcount#):
+								Deaccession all parts of all the cataloged items listed below (#getItems.recordcount#):
 							</cfif>
 						</h1>
 						<form name="addItems" method="post" action="/specimens/changeQueryDeaccession.cfm">
