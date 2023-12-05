@@ -38,7 +38,7 @@
 				user_search_table 
 				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id 
 				JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
-				JOIN deacc_item on specimen_part.collection_object_id = deaccession_item.collection_object_id
+				JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
 				JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
 				JOIN trans on deaccession.transaction_id = trans.transaction_id 
 				JOIN collection trans_coll on trans.collection_id=accn_coll.collection_id
