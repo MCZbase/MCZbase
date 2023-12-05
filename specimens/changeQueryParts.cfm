@@ -573,9 +573,9 @@ limitations under the License.
 									<table border width="100%">
 										<thead class="thead-dark">
 											<th style="width:10%">Part</th>
-											<th style="width:10%">Preserve Method</th>
+											<th style="width:10%">Preserve Meth.</th>
 											<th style="width:6%">Condition</th>
-											<th style="width:6%;">Count Modifier</th>
+											<th style="width:6%;">Ct Modifier</th>
 											<th style="width:6%">Count</th>
 											<th style="width:10%">Disposition</th>
 											<th style="30%;">Remark</th>
