@@ -765,7 +765,7 @@ limitations under the License.
 						update coll_object set
 							flags=flags
 							<cfif len(new_lot_count) gt 0>
-								,lot_count_modifier=#new_lot_count_modifier#
+								,lot_count_modifier='#new_lot_count_modifier#'
 							</cfif>
 							<cfif len(new_lot_count) gt 0>
 								,lot_count=#new_lot_count#
