@@ -64,7 +64,7 @@ limitations under the License.
 					<cfset numParts=3>
 					<cfif not isdefined("table_name")>
 						<!--- TODO: Remove support for table_name --->
-						<cfthrow message="Unable to identify parts to work on [required variable table_name or result_id not defined].">
+						<p class="px-2 mb-1"><cfthrow message="Unable to identify parts to work on [required variable table_name or result_id not defined]."></p>
 					</cfif>
 					<cfif isDefined("result_id") and len(result_id) GT 0>
 						<cfquery name="colcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
