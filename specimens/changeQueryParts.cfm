@@ -572,23 +572,23 @@ limitations under the License.
 								<td>
 									<table border width="100%">
 										<thead class="thead-dark">
-											<th>Part</th>
-											<th>Preserve Method</th>
-											<th>Condition</th>
+											<th style="width:6%">Part</th>
+											<th style="width:6%">Preserve Method</th>
+											<th style="width:6%">Condition</th>
 											<th style="width:6%;">CtMod</th>
-											<th>Count</th>
-											<th>Dispn</th>
+											<th style="width:6%">Count</th>
+											<th style="width:6%">Dispn</th>
 											<th style="30%;">Remark</th>
 										</thead>
 										<tbody>
 											<cfloop query="getParts">
 												<tr>
-													<td>#part_name#</td>
-													<td>#preserve_method#</td>
-													<td>#condition#</td>
+													<td style="width:6%">#part_name#</td>
+													<td style="width:6%">#preserve_method#</td>
+													<td style="width:6%">#condition#</td>
 													<td style="width:6%">#lot_count_modifier#</td>
-													<td>#lot_count#</td>
-													<td>#coll_obj_disposition#</td>
+													<td style="width:6%">#lot_count#</td>
+													<td style="width:6%">#coll_obj_disposition#</td>
 													<td style="30%;">#coll_object_remarks#</td>
 												</tr>
 											</cfloop>
