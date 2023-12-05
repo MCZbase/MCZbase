@@ -114,7 +114,7 @@
 								</div>
 								<div class="col-12 col-md-3">
 									<label for="deacc_number" class="data-entry-label mt-2 mt-md-0">Deaccession</label>
-									<input type="text" name="deacc_number" id="deacc_number" class="data-entry-input reqdClr" required>
+									<input type="text" name="deacc_number" id="deacc_number" class="data-entry-input reqdClr" required placeholder="Dyyyy-n-Col">
 									<input type="hidden" name="trans_id" id="trans_id">
 									<script>
 										jQuery(document).ready(function() {
@@ -212,7 +212,6 @@
 								SELECT collection_object_id 
 								FROM deacc_item
 							)
-							-- TODO conditions for deaccessioning
 					</cfquery>
 					<cfset insertCounter = 0>
 					<cfloop query="getParts">
