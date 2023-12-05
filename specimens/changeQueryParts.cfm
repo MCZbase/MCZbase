@@ -575,7 +575,7 @@ limitations under the License.
 											<th style="width:10%">Part</th>
 											<th style="width:10%">Preserve Meth.</th>
 											<th style="width:6%">Condition</th>
-											<th style="width:6%;">Ct Modifier</th>
+											<th style="width:6%;">Ct Mod</th>
 											<th style="width:6%">Count</th>
 											<th style="width:10%">Disposition</th>
 											<th style="30%;">Remark</th>
