@@ -1,6 +1,10 @@
 <cfset pageTitle = "Deaccession cataloged items in Search Result">
 <cfinclude template="/shared/_header.cfm">
 
+<cfif findNoCase('master',Session.gitBranch) GT 0>
+	<cfthrow message="Not ready for production use.">
+</cfif>
+
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided for result set to deaccession.">
 </cfif>
@@ -42,7 +46,6 @@
 			GROUP BY deacc_number, trans_coll.collection, nvl(to_char(trans.trans_date,'YYYY'),'[no date]')
 			ORDER BY deacc_number
 		</cfquery>
-TODO: Rework from here
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				cataloged_item.collection_object_id,
@@ -85,9 +88,9 @@ TODO: Rework from here
 					<div class="col-12 pt-4">
 						<h1 class="h3 px-1" id="formheading" >
 							<cfif getItemCount.ct GT getItems.recordcount>
-								Move all (#getItemCount.ct#) catloged items in this result (first #getItems.recordcount# are listed below) to accession:
+								Deaccession all (#getItemCount.ct#) catloged items in this result (first #getItems.recordcount# are listed below):
 							<cfelse>
-								Move all the catloged items listed below (#getItems.recordcount#) to accession:
+								Deaccession all the catloged items listed below (#getItems.recordcount#):
 							</cfif>
 						</h1>
 						<form name="addItems" method="post" action="/specimens/changeQueryDeaccession.cfm">
@@ -107,6 +110,7 @@ TODO: Rework from here
 										</cfloop>
 									</select>
 								</div>
+<!--- TODO: Rework from here --->
 								<div class="col-12 col-md-4 col-lg-4">
 									<label for="accn_number" class="data-entry-label mt-2 mt-md-0">Accession</label>
 									<input type="text" name="accn_number" id="accn_number" class="data-entry-input reqdClr" required>
