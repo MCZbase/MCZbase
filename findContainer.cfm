@@ -177,7 +177,7 @@
 				}
 				showSpecTreeOnly('#url.collection_object_id#');
 			</script>
-	<cfif isdefined("url.result_id") and len(url.result_id) GT 0>
+	<cfelseif isdefined("url.result_id") and len(url.result_id) GT 0>
 		<cfset collection_object_id = "">
 		<cfquery name="getCollectionObjectIdList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT collection_object_id 
