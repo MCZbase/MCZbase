@@ -64,7 +64,8 @@
 				trans.institution_acronym transInst,
 				trans.transaction_id,
 				collection.collection,
-				accn_coll.collection accnColln
+				accn_coll.collection accnColln,
+				MCZBASE.GET_SHORT_PARTS_LIST_CONCAT(cataloged_item.collection_object_id) parts
 			FROM
 				user_search_table 
 				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id 
@@ -133,33 +134,16 @@
 <!--- TODO: Rework from here --->
 				<section class="row"> 
 					<div class="col-12 pb-4">
-						<div class="rounded redbox">
-							<div class="card bg-light border-secondary mb-0 pb-1">
-								<cfif getDeaccessions.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-								<div class="card-header h4">Currently in accession#plural#:</div>
-								<div class="card-body">
-									<ul class="list-group list-group-horizontal d-flex flex-wrap">
-										<cfloop query="getDeaccessions">
-											<li class="list-group-item">#getDeaccessions.collection# #getDeaccessions.accn_number#&thinsp;:&thinsp;#getDeaccessions.year# (#getDeaccessions.ct#);</li>
-										</cfloop>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
-				<section class="row"> 
-					<div class="col-12 pb-4">
 						<table class="table table-responsive table-striped d-xl-table">
 							<thead class="thead-light">
 								<tr>
 									<th>Cat Num</th>
 									<th>Scientific Name</th>
-									<th class="redbox">Accession</th>
-									<th class="redbox">Date Received</th>
-									<th>Collectors</th>
+									<th>Accession</th>
+									<th>Parts</th>
 									<th>Geog</th>
 									<th>Spec Loc</th>
+									<th>Collectors</th>
 									<th>Date Coll</th>
 								</tr>
 							</thead>
@@ -168,9 +152,12 @@
 									<tr>
 										<td>#getItems.collection# <a href="/guid/MCZ:#collection_cde#:#cat_num#" target="_blank">MCZ:#collection_cde#:#cat_num#</a></td>
 										<td style="width: 200px;">#scientific_name#</td>
-										<td><a href="/SpecimenResults.cfm?Accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a></td>
-										<td>#accn_type# #received_date#</td>
-										<td style="width: 200px;">#getItems.collectors#</td>
+										<td>
+											<a href="/Specimens.cfm?execute=true&action=fixedSearch&accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a>
+											#accn_type# #received_date#
+										</td>
+										<td>#getItems.parts#</td>
+										<td>#getItems.collectors#</td>
 										<td>#higher_geog#</td>
 										<td>#spec_locality#</td>
 										<td style="width:100px;">#verbatim_date#</td>
