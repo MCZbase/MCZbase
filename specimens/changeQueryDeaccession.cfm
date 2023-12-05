@@ -1,6 +1,10 @@
 <cfset pageTitle = "Deaccession cataloged items in Search Result">
 <cfinclude template="/shared/_header.cfm">
 
+<cfif findNoCase('master',Session.gitBranch) GT 0>
+	<cfthrow message="Not ready for production use.">
+</cfif>
+
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided for result set to deaccession.">
 </cfif>
@@ -33,16 +37,16 @@
 			FROM
 				user_search_table 
 				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id 
-				JOIN deaccession_item
-				JOIN deaccession on deaccession_item.transaction_id = deaccession.transaction_id
+				JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+				JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
+				JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
 				JOIN trans on deaccession.transaction_id = trans.transaction_id 
-				JOIN collection trans_coll on trans.collection_id=accn_coll.collection_id
+				JOIN collection trans_coll on trans.collection_id=trans_coll.collection_id
 			WHERE
 				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 			GROUP BY deacc_number, trans_coll.collection, nvl(to_char(trans.trans_date,'YYYY'),'[no date]')
 			ORDER BY deacc_number
 		</cfquery>
-TODO: Rework from here
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				cataloged_item.collection_object_id,
@@ -85,9 +89,9 @@ TODO: Rework from here
 					<div class="col-12 pt-4">
 						<h1 class="h3 px-1" id="formheading" >
 							<cfif getItemCount.ct GT getItems.recordcount>
-								Move all (#getItemCount.ct#) catloged items in this result (first #getItems.recordcount# are listed below) to accession:
+								Deaccession all (#getItemCount.ct#) catloged items in this result (first #getItems.recordcount# are listed below):
 							<cfelse>
-								Move all the catloged items listed below (#getItems.recordcount#) to accession:
+								Deaccession all the catloged items listed below (#getItems.recordcount#):
 							</cfif>
 						</h1>
 						<form name="addItems" method="post" action="/specimens/changeQueryDeaccession.cfm">
@@ -107,6 +111,7 @@ TODO: Rework from here
 										</cfloop>
 									</select>
 								</div>
+<!--- TODO: Rework from here --->
 								<div class="col-12 col-md-4 col-lg-4">
 									<label for="accn_number" class="data-entry-label mt-2 mt-md-0">Accession</label>
 									<input type="text" name="accn_number" id="accn_number" class="data-entry-input reqdClr" required>
