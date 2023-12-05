@@ -854,7 +854,7 @@ limitations under the License.
 					accepted_id_fg=1 and
 					part_name='#exist_part_name#'
 					<cfif len(existing_lot_count_modifier) gt 0>
-						and lot_count=#existing_lot_count_modifier#
+						and lot_count='#existing_lot_count_modifier#'
 					</cfif>
 					<cfif len(existing_lot_count) gt 0>
 						and lot_count=#existing_lot_count#
