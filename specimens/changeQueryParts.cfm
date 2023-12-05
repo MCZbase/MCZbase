@@ -64,7 +64,7 @@ limitations under the License.
 					<cfset numParts=3>
 					<cfif not isdefined("table_name")>
 						<!--- TODO: Remove support for table_name --->
-						<p class="px-2 mb-1"><cfthrow message="Unable to identify parts to work on [required variable table_name or result_id not defined]."></p>
+						<cfthrow message="Unable to identify parts to work on [required variable table_name or result_id not defined].">
 					</cfif>
 					<cfif isDefined("result_id") and len(result_id) GT 0>
 						<cfquery name="colcde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1064,7 +1064,7 @@ limitations under the License.
 	</cfswitch>
 <cfcatch>
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
-	<h2 class="h3">Error</h2>
+	<h2 class="h3 px-2 mt-1">Error</h2>
 	<cfoutput>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 		<p class="px-2">#error_message#</p>
