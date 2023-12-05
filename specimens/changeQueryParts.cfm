@@ -346,6 +346,15 @@ limitations under the License.
 															</select>
 														</div>
 														<div class="col-12 pt-1">
+															<label for="existing_lot_count_modifier" class="data-entry-label">Lot Count Modifier Matches</label>
+															<select name="existing_lot_count_modifier" id="existing_lot_count_modifier" size="1" class="data-entry-select">
+																<option selected="selected" value=""></option>
+																<cfloop query="existLotCountModifier">
+																	<option value="#lot_count_modifier#">#lot_count_modifier#</option>
+																</cfloop>
+															</select>
+														</div>
+														<div class="col-12 pt-1">
 															<label for="existing_lot_count" class="data-entry-label">Lot Count Matches</label>
 															<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select">
 																<option selected="selected" value=""></option>
@@ -672,6 +681,9 @@ limitations under the License.
 					</cfif>
 					<cfif len(exist_preserve_method) gt 0>
 						and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_preserve_method#">
+					</cfif>
+					<cfif len(existing_lot_count_modifier) gt 0>
+						and lot_count_modifier = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existing_lot_count_modifier#">
 					</cfif>
 					<cfif len(existing_lot_count) gt 0>
 						and lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existing_lot_count#">
