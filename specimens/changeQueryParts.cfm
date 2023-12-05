@@ -273,8 +273,10 @@ limitations under the License.
 							<!--- TODO: Split into two queries, this group on then group on again paired queries may not produce the expected results. --->
 							<cfquery name="existCO" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
+									coll_object.lot_count_modifier,
 									coll_object.lot_count,
 									coll_object.coll_obj_disposition
+									
 								FROM
 									specimen_part
 									JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
@@ -286,6 +288,7 @@ limitations under the License.
 										JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
 									</cfif>
 								GROUP BY 
+									coll_object.lot_count_modifier,
 									coll_object.lot_count,
 									coll_object.coll_obj_disposition
 							</cfquery>
