@@ -800,12 +800,28 @@ limitations under the License.
 							<cfif len(new_preserve_method) gt 0>
 									preserve_method=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_preserve_method#">
 							</cfif>
-						WHERE collection_object_id=#i#
+						WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
 					</cfquery>
 				</cfif>
 				<cfif len(new_lot_count_modifier) gt 0 or len(new_lot_count) gt 0 or len(new_coll_obj_disposition) gt 0 or len(new_condition) gt 0>
+					<!--- fields in coll_object table 
+					   (	"COLLECTION_OBJECT_ID" NUMBER NOT NULL ENABLE, 
+						"COLL_OBJECT_TYPE" CHAR(2 CHAR) NOT NULL ENABLE, 
+						"ENTERED_PERSON_ID" NUMBER NOT NULL ENABLE, 
+						"COLL_OBJECT_ENTERED_DATE" DATE NOT NULL ENABLE, 
+						"LAST_EDITED_PERSON_ID" NUMBER, 
+						"LAST_EDIT_DATE" DATE, 
+						"COLL_OBJ_DISPOSITION" VARCHAR2(40 CHAR), 
+						"LOT_COUNT" NUMBER NOT NULL ENABLE, 
+						"CONDITION" VARCHAR2(255 CHAR), 
+						"FLAGS" VARCHAR2(20 CHAR), 
+						"LOT_COUNT_MODIFIER" VARCHAR2(5 CHAR), 
+						"FIX_ENTERED_DATE" DATE, 
+						"CONDITION_REMARKS" VARCHAR2(4000), 
+					--->
 					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update coll_object set
+						UPDATE coll_object 
+						SET
 							flags=flags
 							<cfif len(new_lot_count) gt 0>
 								<cfif new_lot_count EQ "NULL">
@@ -815,7 +831,7 @@ limitations under the License.
 								</cfif>
 							</cfif>
 							<cfif len(new_lot_count) gt 0>
-								,lot_count=#new_lot_count#
+								,lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_lot_count#">
 							</cfif>
 							<cfif len(new_coll_obj_disposition) gt 0>
 								,coll_obj_disposition=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_coll_obj_disposition#">
@@ -823,7 +839,7 @@ limitations under the License.
 							<cfif len(new_condition) gt 0>
 								,condition=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_condition#">
 							</cfif>
-						where collection_object_id=#i#
+						WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
 					</cfquery>
 				</cfif>
 				<cfif len(new_remark) gt 0>
@@ -852,7 +868,11 @@ limitations under the License.
 			</cftransaction>
 			<div class="row mx-0">
 				<div class="col-12">
-					<h2 class="h2 pt-2">Succesfully updated #partUpdateCount# parts</h2>
+					<cfif partUpdateCount EQ 0>
+						<h2 class="h2 pt-2">Error: No parts added.</h2>
+					<cfelse>
+						<h2 class="h2 pt-2">Succesfully updated #partUpdateCount# parts</h2>
+					</cfif>
 					<h3 class="h4 pt-2">
 						<cfif isDefined("result_id") and len(result_id) GT 0>
 							<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
