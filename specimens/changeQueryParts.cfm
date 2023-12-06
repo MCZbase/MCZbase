@@ -592,7 +592,7 @@ limitations under the License.
 									from
 										getCollObjList
 									where
-										collection_object_id=#collection_object_id#
+										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">
 								</cfquery>
 								<td>
 									<table border width="100%">
@@ -792,13 +792,13 @@ limitations under the License.
 						UPDATE specimen_part
 						SET
 							<cfif len(new_part_name) gt 0>
-								part_name='#new_part_name#'
+								part_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_part_name#">
 							</cfif>
 							<cfif len(new_part_name) GT 0 AND len(new_preserve_method) gt 0>
 								,
 							</cfif>
 							<cfif len(new_preserve_method) gt 0>
-									preserve_method='#new_preserve_method#'
+									preserve_method=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_preserve_method#">
 							</cfif>
 						WHERE collection_object_id=#i#
 					</cfquery>
@@ -811,30 +811,38 @@ limitations under the License.
 								<cfif new_lot_count) EQ "NULL">
 									,lot_count_modifier = NULL
 								<cfelse>
-									,lot_count_modifier = '#new_lot_count_modifier#'
+									,lot_count_modifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_lot_count_modifier#">
 								</cfif>
 							</cfif>
 							<cfif len(new_lot_count) gt 0>
 								,lot_count=#new_lot_count#
 							</cfif>
 							<cfif len(new_coll_obj_disposition) gt 0>
-								,coll_obj_disposition='#new_coll_obj_disposition#'
+								,coll_obj_disposition=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_coll_obj_disposition#">
 							</cfif>
 							<cfif len(new_condition) gt 0>
-								,condition='#new_condition#'
+								,condition=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_condition#">
 							</cfif>
 						where collection_object_id=#i#
 					</cfquery>
 				</cfif>
 				<cfif len(new_remark) gt 0>
-					<!--- TODO: Evaluate if this treatment of remarks is correct.  Should append? --->
+<!--- TODO: Append only to existing remarks, maintain one to one relationship. --->
 					<cftry>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							insert into coll_object_remark (collection_object_id,coll_object_remarks) values (#i#,'#new_remark#')
+							insert into coll_object_remark 
+							(
+								collection_object_id,coll_object_remarks
+							) values (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_remark#">
+							)
 						</cfquery>
 					<cfcatch>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update coll_object_remark set coll_object_remarks='#new_remark#' where collection_object_id=#i#
+							UPDATE coll_object_remark 
+							SET coll_object_remarks=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_remark#"> 
+							WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
 						</cfquery>
 					</cfcatch>
 					</cftry>
@@ -902,15 +910,15 @@ limitations under the License.
 					specimen_part.collection_object_id=coll_object_remark.collection_object_id (+) and
 					cataloged_item.collection_object_id=identification.collection_object_id and
 					accepted_id_fg=1 and
-					part_name='#exist_part_name#'
+					part_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_part_name#">
 					<cfif len(existing_lot_count_modifier) gt 0>
-						and lot_count_modifier='#existing_lot_count_modifier#'
+						and lot_count_modifier=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#existing_lot_count_modifier#">
 					</cfif>
 					<cfif len(existing_lot_count) gt 0>
-						and lot_count=#existing_lot_count#
+						and lot_count=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existing_lot_count#">
 					</cfif>
 					<cfif len(existing_coll_obj_disposition) gt 0>
-						and coll_obj_disposition='#existing_coll_obj_disposition#'
+						and coll_obj_disposition=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#existing_coll_obj_disposition#">
 					</cfif>
 				order by
 					collection.collection,cataloged_item.cat_num
@@ -1078,29 +1086,31 @@ limitations under the License.
 									VALUES (
 										sq_collection_object_id.nextval,
 										'SP',
-										#session.myAgentId#,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 										sysdate,
-										#session.myAgentId#,
-										'#thisDisposition#',
-										'#thisLotCountModifier#',
-										#thisLotCount#,
-										'#thisCondition#',
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDisposition#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLotCountModifier#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisLotCount#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisCondition#">,
 										0 )
 								</cfquery>
 								<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									INSERT INTO specimen_part (
-										  COLLECTION_OBJECT_ID,
-										  PART_NAME,
-										  Preserve_method
-											,DERIVED_FROM_cat_item)
-										VALUES (
-											sq_collection_object_id.currval,
-										  '#thisPartName#',
-										  '#thisPreserveMethod#'
-											,#ids.collection_object_id#)
+										COLLECTION_OBJECT_ID,
+										PART_NAME,
+										Preserve_method
+										,DERIVED_FROM_cat_item
+									) VALUES (
+										sq_collection_object_id.currval,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisPartName#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisPreserveMethod#">,
+										,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ids.collection_object_id#">
+									)
 								</cfquery>
 								<cfset partCounter = partCounter + 1>
 								<cfif len(#thisRemark#) gt 0>
+<!--- TODO: Append, with no more than one coll_object_remark record for the collection object --->
 									<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
 										VALUES (sq_collection_object_id.currval, '#thisRemark#')
