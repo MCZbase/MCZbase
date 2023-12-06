@@ -21,7 +21,7 @@
 			<cfset #action# = "run">
 			<div class="container">
 				<div class="row">
-					<div class="col-12 pb-3">
+					<div class="col-12">
 						<form method="post" action="">
 							<input type="hidden" name="action" value="run">
 							<h1 class="h2 mt-3">SQL</h1>
@@ -49,7 +49,7 @@
 				</cfloop>
 				<div class="container-fluid">
 					<div class="row mx-0">
-						<div class="col-12">
+						<div class="col-12 pb-5">
 							<h3>Result:</h3>
 							<cfif unsafeSql(sql)>
 								<div class="error">
