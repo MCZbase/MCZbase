@@ -426,8 +426,8 @@ limitations under the License.
 			<cfif specimenList.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 			<div class="row mx-0">
 				<div class="col-12">
-					<h1 class="h2">#specimenList.recordcount# Specimen#plural# to be Re-Identified:</h1>
-					<table width="95%" border="1">
+					<h1 class="h2 mt-2">#specimenList.recordcount# Specimen#plural# to be Re-Identified:</h1>
+					<table class="table table-responsive table-striped d-xl-table">
 				<tr>
 					<th><strong>Catalog Number</strong></th>
 					<th><strong><cfoutput>#session.CustomOtherIdentifier#</cfoutput></strong></th>
