@@ -232,7 +232,7 @@ limitations under the License.
 					</cfif>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-2">
-							<label for="taxa_formula" class="data-entry-label">
+							<label for="taxa_formula" class="data-entry-label mt-1">
 								ID Formula: 
 								<a href="/vocabularies/ControlledVocabulary.cfm?table=CTTAXA_FORMULA" target="_blank"><i class="fas fa-info-circle" aria-label="help link to controlled vocabulariy for taxon formula"></i></a>
 							</label>
@@ -247,7 +247,7 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-md-5">
-							<label class="data-entry-label" for="taxona">Taxon A: </label>
+							<label class="data-entry-label mt-1" for="taxona">Taxon A: </label>
 							<input type="text" name="taxona" id="taxona" class="data-entry-input reqdClr" required>
 							<input type="hidden" name="taxona_id" id="taxona_id">
 						</div>
@@ -257,7 +257,7 @@ limitations under the License.
 							});
 						</script>
 						<div class="col-12 col-md-5" id="taxon_b_row">
-							<label class="data-entry-label" for="taxonb">Taxon B: </label>
+							<label class="data-entry-label mt-1" for="taxonb">Taxon B: </label>
 							<input type="text" name="taxonb" id="taxonb" class="data-entry-input" disabled >
 							<input type="hidden" name="taxonb_id" id="taxonb_id">
 						</div>
@@ -268,12 +268,12 @@ limitations under the License.
 						</script>
 						<div class="col-12" id="userID" style="display:none;">
 							<!--- unused feature A {string} pattern --->
-							<label class="data-entry-label" for="user_identification">Custom Identification: </label>
+							<label class="data-entry-label mt-1" for="user_identification">Custom Identification: </label>
 							<input type="text" name="user_identification" id="user_identification" class="data-entry-input">
 						</div>
 						<div class="col-12 form-row" id="determiners">
 							<div class="col-12 col-md-3">
-								<label for="idBy" class="data-entry-label">Identified By:</label>
+								<label for="idBy" class="data-entry-label mt-1">Identified By:</label>
 								<input type="text" name="idBy" id="idBy" class="data-entry-input reqdClr" required>
 								<input type="hidden" name="newIdById" id="newIdById">
 							</div>
@@ -286,7 +286,7 @@ limitations under the License.
 								});
 							</script>
 							<div class="col-12 col-md-3 determiner_block_two"  id="addNewIdBy_two" style="display:none;">
-								<label for="idBy_two" class="data-entry-label">
+								<label for="idBy_two" class="data-entry-label mt-1">
 									ID By:
 									<span class="infoLink" onclick="clearNewIdBy('two');"> clear</span>
 								</label>
@@ -302,7 +302,7 @@ limitations under the License.
 								});
 							</script>
 							<div class="col-12 col-md-4 determiner_block_three" id="addNewIdBy_three" style="display:none;">
-								<label for="idBy_three" class="data-entry-label">
+								<label for="idBy_three" class="data-entry-label mt-1">
 										ID By:
 										<span class="infoLink" onclick="clearNewIdBy('three');"> clear</span>
 								</label>
@@ -316,7 +316,7 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="col-12 col-md-4">
-							<label for="made_date" class="data-entry-label">Date Identified</label>
+							<label for="made_date" class="data-entry-label mt-1">Date Identified</label>
 							<input type="text" name="made_date" id="made_date" class="data-entry-input">
 							<script>
 								$(document).ready(function() { 
@@ -325,7 +325,7 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="col-12 col-md-4">
-							<label for="nature_of_id" class="data-entry-label">
+							<label for="nature_of_id" class="data-entry-label mt-1">
 								Nature of ID: 
 								<a href="/vocabularies/ControlledVocabulary.cfm?table=CTNATURE_OF_ID" target="_blank"><i class="fas fa-info-circle" aria-label="help link to controlled vocabulary for nature of id"></i></a>
 							</label>
@@ -338,13 +338,13 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-4">
 							<!--- buisness logic in TR_STORED_AS_FG prevents current identification from being stored as --->
-							<label for="stored_as_fg" class="data-entry-label">Stored As Name: </label>
+							<label for="stored_as_fg" class="data-entry-label mt-1">Stored As Name: </label>
 							<select name="stored_as_fg" id="stored_as_fg" class="data-entry-select" disabled>
 								<option value="" selected>Current Id cannot be marked &apos;Stored As&apos;</option>
 							</select>
 						</div>
 						<div class="col-12">
-							<label for="publication" class="data-entry-label">Sensu</label>
+							<label for="publication" class="data-entry-label mt-1">Sensu</label>
 							<input type="text" name="publication" id="publication" class="data-entry-input">
 							<input type="hidden" name="publication_id" id="publication_id" class="data-entry-input">
 							<script>
@@ -354,7 +354,7 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="col-12">
-							<label for="identification_remarks" class="data-entry-label">
+							<label for="identification_remarks" class="data-entry-label mt-1">
 								Remarks:
 								(<span id="length_identification_remarks"></span>)
 							</label>
