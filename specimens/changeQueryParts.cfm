@@ -1119,13 +1119,13 @@ limitations under the License.
 									INSERT INTO specimen_part (
 										COLLECTION_OBJECT_ID,
 										PART_NAME,
-										Preserve_method
-										,DERIVED_FROM_cat_item
+										Preserve_method,
+										DERIVED_FROM_cat_item
 									) VALUES (
 										sq_collection_object_id.currval,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisPartName#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisPreserveMethod#">,
-										,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ids.collection_object_id#">
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ids.collection_object_id#">,
 									)
 								</cfquery>
 								<cfset partCounter = partCounter + 1>
@@ -1142,16 +1142,21 @@ limitations under the License.
 				<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
-					<h2 class="px-2">Error. Failed to add new parts.</h2>
-					<div>#cfcatch.message#</div>
-					<cfdump var="#cfcatch#">
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
 			<div class="row mx-0">
 				<div class="col-12 mt-3">
-					<cfif partCounter GT 0>
-						<h2 class="px-2">Successfully added #partCounter# new parts.</h2>
+					<cfif isDefined("error_message") and len(error_message) GT 0>
+						<h2 class="px-2">Error. Failed to add new parts.</h2>
+						<div>#cfcatch.message#</div>
+					<cfelse>
+						<cfif partCounter GT 0>
+							<h2 class="px-2">Successfully added #partCounter# new parts.</h2>
+						<cfelse>
+							<h2 class="px-2">No new parts added.</h2>
+						</cfif>
 					</cfif>
 					<h3 class="p-2">
 						<cfif isDefined("result_id") and len(result_id) GT 0>
