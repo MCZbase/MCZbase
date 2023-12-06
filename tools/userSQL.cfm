@@ -20,7 +20,7 @@
 					<div class="col-12">
 						<form method="post" action="">
 							<input type="hidden" name="action" value="run">
-							<h1>SQL</h1>
+							<h1 class="h2 mt-3">SQL</h1>
 							<label for="sql" class="data_entry_label d-none">SQL</label>
 							<textarea name="sql" id="sql" rows="10" cols="80" wrap="soft" class="form-control">#sql#</textarea>
 							<h2>Result: &nbsp; &nbsp;
@@ -34,7 +34,8 @@
 			<cfif #action# is "run">
 				<hr>
 				<!--- check the SQL to see if they're doing anything naughty --->
-				<cfset nono="update,insert,delete,drop,create,alter,set,execute,exec,begin,end,declare,all_tables,v$session">
+				<cfset nono="update,
+							 insert,delete,drop,create,alter,set,execute,exec,begin,end,declare,all_tables,v$session">
 				<cfset dels="';','|'">
 				<cfset safe=0>
 				<cfloop index="i" list="#sql#" delimiters=" .,?!:%$&""'/|[]{}()">
