@@ -19,7 +19,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<form method="post" action="run">
+						<form method="post" action="">
 							<input type="hidden" name="action" value="run">
 							<h1 class="h2 mt-3">SQL</h1>
 							<label for="sql" class="data_entry_label d-none">SQL</label>
