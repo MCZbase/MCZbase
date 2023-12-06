@@ -3,6 +3,7 @@
 <style>
 	table.cfdump_query {width: 100%;}
 </style>
+		<cfset action="">
 		<cfif not isdefined("sql")>
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
@@ -15,7 +16,7 @@
 			<cfset format = "table">
 		</cfif>
 		<cfoutput>
-			<cfset action="">
+		
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
