@@ -278,7 +278,7 @@ limitations under the License.
 								<input type="hidden" name="newIdById" id="newIdById">
 							</div>
 							<div class="col-12 col-md-1 mt-1 mt-xl-1">
-								<span class="btn btn-xs btn-secondary mt-xl-3" onclick="addNewIdBy('two');">more...</span>
+								<span class="btn btn-xs btn-secondary mt-1 mt-xl-3" onclick="addNewIdBy('two');">more...</span>
 							</div>
 							<script>
 								$(document).ready(function() { 
@@ -286,7 +286,7 @@ limitations under the License.
 								});
 							</script>
 							<div class="col-12 col-md-3 determiner_block_two"  id="addNewIdBy_two" style="display:none;">
-								<label for="idBy_two" class="data-entry-label mt-1">
+								<label for="idBy_two" class="data-entry-label mt-1 mt-xl-3">
 									ID By:
 									<span class="infoLink" onclick="clearNewIdBy('two');"> clear</span>
 								</label>
@@ -294,7 +294,7 @@ limitations under the License.
 								<input type="hidden" name="newIdById_two" id="newIdById_two">
 							</div>
 							<div class="col-12 col-md-1 determiner_block_two" style="display:none;">
-								<span class="btn btn-xs btn-secondary mt-3" onclick="addNewIdBy('three');">more...</span>
+								<span class="btn btn-xs btn-secondary mt-1 mt-xl-3" onclick="addNewIdBy('three');">more...</span>
 							</div>
 							<script>
 								$(document).ready(function() { 
@@ -302,7 +302,7 @@ limitations under the License.
 								});
 							</script>
 							<div class="col-12 col-md-4 determiner_block_three" id="addNewIdBy_three" style="display:none;">
-								<label for="idBy_three" class="data-entry-label mt-1">
+								<label for="idBy_three" class="data-entry-label mt-1 mt-xl-3">
 										ID By:
 										<span class="infoLink" onclick="clearNewIdBy('three');"> clear</span>
 								</label>
