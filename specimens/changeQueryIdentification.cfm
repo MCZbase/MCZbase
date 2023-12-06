@@ -316,7 +316,7 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="col-12 col-md-4">
-							<label for="made_date" class="data-entry-label mt-1">Date Identified</label>
+							<label for="made_date" class="data-entry-label mt-2">Date Identified</label>
 							<input type="text" name="made_date" id="made_date" class="data-entry-input">
 							<script>
 								$(document).ready(function() { 
@@ -325,7 +325,7 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="col-12 col-md-4">
-							<label for="nature_of_id" class="data-entry-label mt-1">
+							<label for="nature_of_id" class="data-entry-label mt-2">
 								Nature of ID: 
 								<a href="/vocabularies/ControlledVocabulary.cfm?table=CTNATURE_OF_ID" target="_blank"><i class="fas fa-info-circle" aria-label="help link to controlled vocabulary for nature of id"></i></a>
 							</label>
@@ -338,7 +338,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-4">
 							<!--- buisness logic in TR_STORED_AS_FG prevents current identification from being stored as --->
-							<label for="stored_as_fg" class="data-entry-label mt-1">Stored As Name: </label>
+							<label for="stored_as_fg" class="data-entry-label mt-2">Stored As Name: </label>
 							<select name="stored_as_fg" id="stored_as_fg" class="data-entry-select" disabled>
 								<option value="" selected>Current Id cannot be marked &apos;Stored As&apos;</option>
 							</select>
