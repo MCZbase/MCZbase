@@ -808,7 +808,7 @@ limitations under the License.
 						update coll_object set
 							flags=flags
 							<cfif len(new_lot_count) gt 0>
-								<cfif new_lot_count) EQ "NULL">
+								<cfif new_lot_count EQ "NULL">
 									,lot_count_modifier = NULL
 								<cfelse>
 									,lot_count_modifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_lot_count_modifier#">
