@@ -1,5 +1,5 @@
 	<cfset pageTitle="User SQL">
-	<cfinclude template = "/shared/css/custom_styles.css">
+	<cfinclude template = "/includes/_header.cfm">
 		<cfif not isdefined("sql")>
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
@@ -92,4 +92,4 @@
 				</cfif>
 			</cfif>
 		</cfoutput>
-<cfinclude template = "/shared/_footer.cfm">
+<cfinclude template = "/includes/_footer.cfm">
