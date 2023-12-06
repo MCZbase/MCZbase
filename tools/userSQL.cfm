@@ -1,12 +1,9 @@
 <cfset pageTitle="User SQL">
 <cfinclude template="/shared/_header.cfm">
-<script type="text/javascript" language="javascript" src="/includes/jquery/jquery-1.3.2.min.js"></script>
-	<script type="text/javascript" language="javascript" src="/includes/ajax.min.js"></script>
 <style>
 	table.cfdump_query {width: 100%;}
-	
 </style>
-	<cfset action="">
+	<cfset action="nothing">
 		<cfif not isdefined("sql")>
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
