@@ -868,8 +868,8 @@ limitations under the License.
 			</cftransaction>
 			<div class="row mx-0">
 				<div class="col-12">
-					<cfif partUpdateCount LT 1>
-						<h2 class="h2 pt-2">Error: No parts added.</h2>
+					<cfif partUpdateCount EQ 0>
+						<h2 class="h2 pt-2">No parts updated.</h2>
 					<cfelse>
 						<h2 class="h2 pt-2">Succesfully updated #partUpdateCount# parts</h2>
 					</cfif>
@@ -1142,12 +1142,17 @@ limitations under the License.
 				<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
+					<h2 class="px-2">Error. Failed to add new parts.</h2>
+					<div>#cfcatch.message#</div>
+					<cfdump var="#cfcatch#">
 				</cfcatch>
 				</cftry>
 			</cftransaction>
 			<div class="row mx-0">
 				<div class="col-12 mt-3">
-					<h2 class="px-2">Successfully added #partCounter# new parts.</h2>
+					<cfif partCounter GT 0>
+						<h2 class="px-2">Successfully added #partCounter# new parts.</h2>
+					</cfif>
 					<h3 class="p-2">
 						<cfif isDefined("result_id") and len(result_id) GT 0>
 							<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
