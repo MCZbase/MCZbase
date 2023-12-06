@@ -428,32 +428,36 @@ limitations under the License.
 				<div class="col-12">
 					<h1 class="h2 mt-2">#specimenList.recordcount# Specimen#plural# to be Re-Identified:</h1>
 					<table class="table table-responsive table-striped d-xl-table">
-				<tr>
-					<th><strong>Catalog Number</strong></th>
-					<th><strong><cfoutput>#session.CustomOtherIdentifier#</cfoutput></strong></th>
-					<th><strong>Current Identification</strong></th>
-					<th><strong>Made By</strong></th>
-					<th><strong>Made Date</strong></th>
-					<th><strong>Country</strong></th>
-					<th><strong>State</strong></th>
-					<th><strong>County</strong></th>
-					<th><strong>Locality</strong></th>
-					<th><strong>Type Status</strong></th>
-				</tr>
-				<cfloop query="specimenList">
-					<tr>
-						<td><a href="/guid/MCZ:#collection_cde#:#cat_num#" target="_blank">MCZ:#collection_cde#:#cat_num#</a></td>
-						<td>#CustomID#</td>
-						<td><i>#Scientific_Name#</i></td>
-						<td>#determiners#</td>
-						<td>#made_date# (#nature_of_id#)</td>
-						<td>#Country#</td>
-						<td>#State_Prov#</td>
-						<td>#county#</td>
-						<td>#spec_locality#</td>
-						<td>#type_status#</td>
-					</tr>
-				</cfloop>
+						<thead class="thead-light">
+							<tr>
+								<th><strong>Catalog Number</strong></th>
+								<th><strong><cfoutput>#session.CustomOtherIdentifier#</cfoutput></strong></th>
+								<th><strong>Current Identification</strong></th>
+								<th><strong>Made By</strong></th>
+								<th><strong>Made Date</strong></th>
+								<th><strong>Country</strong></th>
+								<th><strong>State</strong></th>
+								<th><strong>County</strong></th>
+								<th><strong>Locality</strong></th>
+								<th><strong>Type Status</strong></th>
+							</tr>
+						</thead>
+					<cfloop query="specimenList">
+						<tbody>
+							<tr>
+								<td><a href="/guid/MCZ:#collection_cde#:#cat_num#" target="_blank">MCZ:#collection_cde#:#cat_num#</a></td>
+								<td>#CustomID#</td>
+								<td><i>#Scientific_Name#</i></td>
+								<td>#determiners#</td>
+								<td>#made_date# (#nature_of_id#)</td>
+								<td>#Country#</td>
+								<td>#State_Prov#</td>
+								<td>#county#</td>
+								<td>#spec_locality#</td>
+								<td>#type_status#</td>
+							</tr>
+						</tbody>
+					</cfloop>
 			</table>
 				</div>
 			</div>
