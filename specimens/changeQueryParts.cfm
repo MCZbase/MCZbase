@@ -20,6 +20,7 @@ limitations under the License.
 <cfset pageTitle="Bulk Modify Parts">
 <cfset pageHasTabs="true">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <!--------------------------------------------------------------------->
 <cfif isDefined("result_id") and len(result_id) GT 0>
 	<cfset table_name="user_search_table">
@@ -1172,7 +1173,6 @@ limitations under the License.
 	</cfcase>
 	</cfswitch>
 <cfcatch>
-	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 	<h2 class="h3 px-2 mt-1">Error</h2>
 	<cfoutput>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
