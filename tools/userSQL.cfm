@@ -94,4 +94,4 @@
 				</cfif>
 			</cfif>
 		</cfoutput>
-<cfinclude template = "/includes/_footer.cfm">
+<cfinclude template = "/shared/_footer.cfm">
