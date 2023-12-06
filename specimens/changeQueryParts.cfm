@@ -273,8 +273,10 @@ limitations under the License.
 							<!--- TODO: Split into two queries, this group on then group on again paired queries may not produce the expected results. --->
 							<cfquery name="existCO" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
+									coll_object.lot_count_modifier,
 									coll_object.lot_count,
 									coll_object.coll_obj_disposition
+									
 								FROM
 									specimen_part
 									JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
@@ -286,8 +288,15 @@ limitations under the License.
 										JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
 									</cfif>
 								GROUP BY 
+									coll_object.lot_count_modifier,
 									coll_object.lot_count,
 									coll_object.coll_obj_disposition
+							</cfquery>
+							<cfquery name="existLotCountModifier" dbtype="query">
+								SELECT lot_count_modifier
+								FROM existCO
+								GROUP BY lot_count_modifier
+								ORDER BY lot_count_modifier
 							</cfquery>
 							<cfquery name="existLotCount" dbtype="query">
 								SELECT lot_count 
@@ -346,6 +355,15 @@ limitations under the License.
 															</select>
 														</div>
 														<div class="col-12 pt-1">
+															<label for="existing_lot_count_modifier" class="data-entry-label">Lot Count Modifier Matches</label>
+															<select name="existing_lot_count_modifier" id="existing_lot_count_modifier" size="1" class="data-entry-select">
+																<option selected="selected" value=""></option>
+																<cfloop query="existLotCountModifier">
+																	<option value="#lot_count_modifier#">#lot_count_modifier#</option>
+																</cfloop>
+															</select>
+														</div>
+														<div class="col-12 pt-1">
 															<label for="existing_lot_count" class="data-entry-label">Lot Count Matches</label>
 															<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select">
 																<option selected="selected" value=""></option>
@@ -387,6 +405,10 @@ limitations under the License.
 																	<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
 																</cfloop>
 															</select>
+														</div>
+														<div class="col-12 pt-1">
+															<label for="new_lot_count_modifier" class="data-entry-label">New Lot Count Modifier</label>
+															<input type="text" name="new_lot_count_modifier" id="new_lot_count_modifier" class="data-entry-input">
 														</div>
 														<div class="col-12 pt-1">
 															<label for="new_lot_count" class="data-entry-label">New Lot Count</label>
@@ -568,24 +590,24 @@ limitations under the License.
 								<td>
 									<table border width="100%">
 										<thead class="thead-dark">
-											<th>Part</th>
-											<th>Preserve Method</th>
-											<th>Condition</th>
-											<th>Count Modifier</th>
-											<th>Count</th>
-											<th>Dispn</th>
-											<th>Remark</th>
+											<th style="width:15%">Part</th>
+											<th style="width:15%">Preserve Method</th>
+											<th style="width:12%">Condition</th>
+											<th style="width:6%;">Ct Mod</th>
+											<th style="width:6%">Count</th>
+											<th style="width:15%">Disposition</th>
+											<th style="30%;">Remark</th>
 										</thead>
 										<tbody>
 											<cfloop query="getParts">
 												<tr>
-													<td>#part_name#</td>
-													<td>#preserve_method#</td>
-													<td>#condition#</td>
-													<td>#lot_count_modifier#</td>
-													<td>#lot_count#</td>
-													<td>#coll_obj_disposition#</td>
-													<td>#coll_object_remarks#</td>
+													<td style="width:13%">#part_name#</td>
+													<td style="width:13%">#preserve_method#</td>
+													<td style="width:10%">#condition#</td>
+													<td style="width:6%">#lot_count_modifier#</td>
+													<td style="width:6%">#lot_count#</td>
+													<td style="width:10%">#coll_obj_disposition#</td>
+													<td style="30%;">#coll_object_remarks#</td>
 												</tr>
 											</cfloop>
 										</tbody>
@@ -668,6 +690,9 @@ limitations under the License.
 					</cfif>
 					<cfif len(exist_preserve_method) gt 0>
 						and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_preserve_method#">
+					</cfif>
+					<cfif len(existing_lot_count_modifier) gt 0>
+						and lot_count_modifier = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existing_lot_count_modifier#">
 					</cfif>
 					<cfif len(existing_lot_count) gt 0>
 						and lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existing_lot_count#">
@@ -756,10 +781,13 @@ limitations under the License.
 						</cfif>
 					where collection_object_id=#i#
 				</cfquery>
-				<cfif len(new_lot_count) gt 0 or len(new_coll_obj_disposition) gt 0 or len(new_condition) gt 0>
+				<cfif len(new_lot_count_modifier) gt 0 or len(new_lot_count) gt 0 or len(new_coll_obj_disposition) gt 0 or len(new_condition) gt 0>
 					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update coll_object set
 							flags=flags
+							<cfif len(new_lot_count) gt 0>
+								,lot_count_modifier='#new_lot_count_modifier#'
+							</cfif>
 							<cfif len(new_lot_count) gt 0>
 								,lot_count=#new_lot_count#
 							</cfif>
@@ -819,6 +847,7 @@ limitations under the License.
 					specimen_part.part_name,
 					specimen_part.preserve_method,
 					coll_object.condition,
+					coll_object.lot_count_modifier,
 					coll_object.lot_count,
 					coll_object.coll_obj_disposition,
 					coll_object_remark.coll_object_remarks
@@ -848,6 +877,9 @@ limitations under the License.
 					cataloged_item.collection_object_id=identification.collection_object_id and
 					accepted_id_fg=1 and
 					part_name='#exist_part_name#'
+					<cfif len(existing_lot_count_modifier) gt 0>
+						and lot_count_modifier='#existing_lot_count_modifier#'
+					</cfif>
 					<cfif len(existing_lot_count) gt 0>
 						and lot_count=#existing_lot_count#
 					</cfif>
@@ -878,6 +910,8 @@ limitations under the License.
 					<input type="hidden" name="new_part_name" value="#new_part_name#">
 					<input type="hidden" name="exist_preserve_method" value="#exist_preserve_method#">
 					<input type="hidden" name="new_preserve_method" value="#new_preserve_method#">
+					<input type="hidden" name="existing_lot_count_modifier" value="#existing_lot_count_modifier#">
+					<input type="hidden" name="new_lot_count_modifier" value="#new_lot_count_modifier#">
 					<input type="hidden" name="existing_lot_count" value="#existing_lot_count#">
 					<input type="hidden" name="new_lot_count" value="#new_lot_count#">
 					<input type="hidden" name="existing_coll_obj_disposition" value="#existing_coll_obj_disposition#">
@@ -901,6 +935,8 @@ limitations under the License.
 						<th>NewPresMethod</th>
 						<th>OldCondition</th>
 						<th>NewCondition</th>
+						<th>OldCntMod</th>
+						<th>NewCntMod</th>
 						<th>OldCnt</th>
 						<th>NewCnt</th>
 						<th>OldDispn</th>
@@ -932,6 +968,14 @@ limitations under the License.
 									NOT UPDATED
 								</cfif>
 							</td>
+							<td>#lot_count_modifier#</td>
+							<td>
+								<cfif len(new_lot_count_modifier) gt 0>
+									<strong>#new_lot_count_modifer#</strong>
+								<cfelse>
+									NOT UPDATED
+								</cfif>
+							</td>
 							<td>#lot_count#</td>
 							<td>
 								<cfif len(new_lot_count) gt 0>
@@ -956,7 +1000,6 @@ limitations under the License.
 									NOT UPDATED
 								</cfif>
 							</td>
-		
 						</tr>
 					</cfloop>
 					</tbody>
