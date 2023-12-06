@@ -277,8 +277,8 @@ limitations under the License.
 								<input type="text" name="idBy" id="idBy" class="data-entry-input reqdClr" required>
 								<input type="hidden" name="newIdById" id="newIdById">
 							</div>
-							<div class="col-12 col-md-1">
-								<span class="btn btn-xs btn-secondary mt-1 mt-xl-3" onclick="addNewIdBy('two');">more...</span>
+							<div class="col-12 col-md-1 mt-1 mt-md-3">
+								<span class="btn btn-xs btn-secondary mt-1" onclick="addNewIdBy('two');">more...</span>
 							</div>
 							<script>
 								$(document).ready(function() { 
