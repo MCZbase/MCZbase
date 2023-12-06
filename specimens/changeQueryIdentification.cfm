@@ -424,10 +424,9 @@ limitations under the License.
 					collection_object_id
 			</cfquery>
 			<cfif specimenList.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-			<div class="row mx-0">
 				<div class="col-12 px-3 px-xl-4">
-					<h1 class="h2 mt-2">#specimenList.recordcount# Specimen#plural# to be Re-Identified:</h1>
-					<table class="table table-responsive table-striped d-xl-table">
+					<h2 class="mt-2">#specimenList.recordcount# Specimen#plural# to be Re-Identified:</h2>
+					<table class="table table-responsive table-striped d-md-table">
 						<thead class="thead-light">
 							<tr>
 								<th><strong>Catalog Number</strong></th>
