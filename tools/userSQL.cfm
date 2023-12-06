@@ -3,7 +3,6 @@
 <style>
 	table.cfdump_query {width: 100%;}
 </style>
-	<cfset action="sql">
 		<cfif not isdefined("sql")>
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
@@ -19,7 +18,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<form method="post" action="">
+						<form method="post" action="run">
 							<input type="hidden" name="action" value="run">
 							<h1 class="h2 mt-3">SQL</h1>
 							<label for="sql" class="data_entry_label d-none">SQL</label>
