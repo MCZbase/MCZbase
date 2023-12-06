@@ -390,7 +390,7 @@ limitations under the License.
 																New Part Name
 																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##new_part_name').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 															</label>
-															<input type="text" name="new_part_name" id="new_part_name" class="data-entry-input reqdClr" required>
+															<input type="text" name="new_part_name" id="new_part_name" class="data-entry-input">
 															<script>
 																$(document).ready(function() {
 																	makeCTAutocompleteColl("new_part_name","SPECIMEN_PART_NAME","#colcdes#");
@@ -409,6 +409,13 @@ limitations under the License.
 														<div class="col-12 pt-1">
 															<label for="new_lot_count_modifier" class="data-entry-label">New Lot Count Modifier</label>
 															<input type="text" name="new_lot_count_modifier" id="new_lot_count_modifier" class="data-entry-input">
+															<select name="new_lot_count_modifier" id="new_lot_count_modifier" class="data-entry-select">
+																<option value=""></option>
+																<option value="NULL">No Value</option>
+																<cfloop query="ctNumericModifiers">
+																	<option value="#ctNumericModifiers.modifier#">#ctNumericModifiers.modifier#</option>
+																</cfloop>
+															</select>
 														</div>
 														<div class="col-12 pt-1">
 															<label for="new_lot_count" class="data-entry-label">New Lot Count</label>
@@ -593,8 +600,7 @@ limitations under the License.
 											<th style="width:15%">Part</th>
 											<th style="width:15%">Preserve Method</th>
 											<th style="width:12%">Condition</th>
-											<th style="width:6%;">Ct Mod</th>
-											<th style="width:6%">Count</th>
+											<th style="width:12%">Count</th>
 											<th style="width:15%">Disposition</th>
 											<th style="30%;">Remark</th>
 										</thead>
@@ -604,8 +610,7 @@ limitations under the License.
 													<td style="width:13%">#part_name#</td>
 													<td style="width:13%">#preserve_method#</td>
 													<td style="width:10%">#condition#</td>
-													<td style="width:6%">#lot_count_modifier#</td>
-													<td style="width:6%">#lot_count#</td>
+													<td style="width:12%">#lot_count# #lot_count_modifier#</td>
 													<td style="width:10%">#coll_obj_disposition#</td>
 													<td style="30%;">#coll_object_remarks#</td>
 												</tr>
@@ -773,20 +778,41 @@ limitations under the License.
 		<cfset remarkCount = 0>
 		<cftransaction>
 			<cfloop list="#partID#" index="i">
-				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update specimen_part set
-						part_name='#new_part_name#'
-						<cfif len(new_preserve_method) gt 0>
-								,preserve_method='#new_preserve_method#'
-						</cfif>
-					where collection_object_id=#i#
-				</cfquery>
+				<cfif len(new_part_name) gt 0 or len(new_preserve_method) gt 0>
+					<!--- Fields in specimen part:
+						"COLLECTION_OBJECT_ID" NUMBER NOT NULL ENABLE, 
+						"PART_NAME" VARCHAR2(255 CHAR) NOT NULL ENABLE, 
+						"PART_MODIFIER" VARCHAR2(60 CHAR), 
+						"SAMPLED_FROM_OBJ_ID" NUMBER, 
+						"PRESERVE_METHOD" VARCHAR2(50 CHAR), 
+						"DERIVED_FROM_CAT_ITEM" NUMBER NOT NULL ENABLE, 
+						"IS_TISSUE" NUMBER,
+					---> 
+					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE specimen_part
+						SET
+							<cfif len(new_part_name) gt 0>
+								part_name='#new_part_name#'
+							</cfif>
+							<cfif len(new_part_name) GT 0 AND len(new_preserve_method) gt 0>
+								,
+							</cfif>
+							<cfif len(new_preserve_method) gt 0>
+									preserve_method='#new_preserve_method#'
+							</cfif>
+						WHERE collection_object_id=#i#
+					</cfquery>
+				</cfif>
 				<cfif len(new_lot_count_modifier) gt 0 or len(new_lot_count) gt 0 or len(new_coll_obj_disposition) gt 0 or len(new_condition) gt 0>
 					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						update coll_object set
 							flags=flags
 							<cfif len(new_lot_count) gt 0>
-								,lot_count_modifier='#new_lot_count_modifier#'
+								<cfif new_lot_count) EQ "NULL">
+									,lot_count_modifier = NULL
+								<cfelse>
+									,lot_count_modifier = '#new_lot_count_modifier#'
+								</cfif>
 							</cfif>
 							<cfif len(new_lot_count) gt 0>
 								,lot_count=#new_lot_count#
