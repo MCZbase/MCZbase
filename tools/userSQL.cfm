@@ -45,12 +45,6 @@
 					</cfif>
 				</cfloop>
 				<div class="container-fluid">
-<!---					<div class="row mx-0">
-						<div class="col-12">
-							<h3>SQL:</h3>
-							<pre>#sql#</pre>
-						</div>
-					</div>--->
 					<div class="row mx-0">
 						<div class="col-12">
 							<h3>Result:</h3>
