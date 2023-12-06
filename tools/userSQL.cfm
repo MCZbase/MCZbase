@@ -1,6 +1,6 @@
 	<cfset pageTitle="User SQL">
 <cfinclude template="/shared/_header.cfm">
-		<script type="text/javascript" language="javascript" src="/includes/jquery/jquery-1.3.2.min.js"></script>
+
 		<cfif not isdefined("sql")>
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
@@ -13,6 +13,7 @@
 			<cfset format = "table">
 		</cfif>
 		<cfoutput>
+			<cfset action = "">
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
