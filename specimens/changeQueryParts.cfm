@@ -1126,7 +1126,7 @@ limitations under the License.
 										sq_collection_object_id.currval,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisPartName#">,
 										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisPreserveMethod#">,
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ids.collection_object_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ids.collection_object_id#">
 									)
 								</cfquery>
 								<cfset partCounter = partCounter + 1>
