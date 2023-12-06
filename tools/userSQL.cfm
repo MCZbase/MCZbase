@@ -3,7 +3,8 @@
 <script type="text/javascript" language="javascript" src="/includes/jquery/jquery-1.3.2.min.js"></script>
 	<script type="text/javascript" language="javascript" src="/includes/ajax.min.js"></script>
 <style>
-	table.cfdump_query {width: 100%;}	
+	table.cfdump_query {width: 100%;}
+	
 </style>
 		<cfif not isdefined("sql")>
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
@@ -20,7 +21,7 @@
 			<cfset #action# = "run">
 			<div class="container">
 				<div class="row">
-					<div class="col-12">
+					<div class="col-12 pb-3">
 						<form method="post" action="">
 							<input type="hidden" name="action" value="run">
 							<h1 class="h2 mt-3">SQL</h1>
