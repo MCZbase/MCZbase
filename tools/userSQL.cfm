@@ -15,6 +15,7 @@
 			<cfset format = "table">
 		</cfif>
 		<cfoutput>
+		
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
@@ -26,7 +27,7 @@
 							<h2>Result Output Format: &nbsp; &nbsp;
 							Table <input type="radio" name="format" value="table" <cfif #format# is "table"> checked="checked" </cfif>> &nbsp;&nbsp;
 							CSV <input type="radio" name="format" value="csv" <cfif #format# is "csv"> checked="checked" </cfif>></h2>
-							<input type="submit" value="Run Query" action="run" class="btn btn-xs btn-primary">
+							<input type="submit" value="Run Query" class="btn btn-xs btn-primary">
 						</form>
 					</div>
 				</div>
