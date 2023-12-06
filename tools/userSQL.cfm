@@ -37,10 +37,10 @@
 				<cfset nono="update,
 							 insert,delete,drop,create,alter,set,execute,exec,begin,end,declare,all_tables,v$session">
 				<cfset dels="';','|'">
-				<cfset unsafeSql=0>
+				<cfset safe=0>
 				<cfloop index="i" list="#sql#" delimiters=" .,?!:%$&""'/|[]{}()">
 					<cfif ListFindNoCase(nono, i)>
-						<cfset unsafeSql=1>
+						<cfset safe=1>
 					</cfif>
 				</cfloop>
 
