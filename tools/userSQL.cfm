@@ -1,4 +1,4 @@
-	<cfset pageTitle="User SQL">
+<cfset pageTitle="User SQL">
 <cfinclude template="/shared/_header.cfm">
 <script type="text/javascript" language="javascript" src="/includes/jquery/jquery-1.3.2.min.js"></script>
 	<script type="text/javascript" language="javascript" src="/includes/ajax.min.js"></script>
@@ -24,7 +24,7 @@
 							<h1 class="h2 mt-3">SQL</h1>
 							<label for="sql" class="data_entry_label d-none">SQL</label>
 							<textarea name="sql" id="sql" rows="10" cols="80" wrap="soft" class="form-control">#sql#</textarea>
-							<h2>Result: &nbsp; &nbsp;
+							<h2>Result Output Format: &nbsp; &nbsp;
 							Table <input type="radio" name="format" value="table" <cfif #format# is "table"> checked="checked" </cfif>> &nbsp;&nbsp;
 							CSV <input type="radio" name="format" value="csv" <cfif #format# is "csv"> checked="checked" </cfif>></h2>
 							<input type="submit" value="Run Query" class="btn btn-xs btn-primary">
@@ -44,14 +44,7 @@
 						<cfset safe=1>
 					</cfif>
 				</cfloop>
-
 				<div class="container-fluid">
-					<div class="row mx-0">
-						<div class="col-12">
-							<h3>SQL:</h3>
-							<pre>#sql#</pre>
-						</div>
-					</div>
 					<div class="row mx-0">
 						<div class="col-12">
 							<h3>Result:</h3>
@@ -102,8 +95,6 @@
 						</div>
 					</div>
 				</div>
-				
-				
 			</cfif>
 		</cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
