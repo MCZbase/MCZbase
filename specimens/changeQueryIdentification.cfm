@@ -221,7 +221,7 @@ limitations under the License.
 			ORDER BY taxa_formula
 		</cfquery>
 		<cfoutput> 
-			<div class="col-12 pt-4">
+			<div class="col-12 px-3 px-xl-4 pt-4">
 				<h1 class="h2" id="formHead">Add a new Current Identification to <strong>All</strong> specimens listed below:</h1>
 				<form name="newID" method="post" action="/specimens/changeQueryIdentification.cfm">
 					<input type="hidden" name="Action" value="createManyNew">
@@ -373,7 +373,7 @@ limitations under the License.
 							});
 						</script> 
 						<div class="col-12">
-							<input type="submit" value="Add Identification to all listed specimens" class="btn btn-xs btn-primary">
+							<input type="submit" value="Add Identification to all listed specimens" class="btn btn-xs mt-2 btn-primary">
 						</div>
 					</div>
 				</form>
@@ -425,7 +425,7 @@ limitations under the License.
 			</cfquery>
 			<cfif specimenList.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 			<div class="row mx-0">
-				<div class="col-12">
+				<div class="col-12 px-3 px-xl-4">
 					<h1 class="h2 mt-2">#specimenList.recordcount# Specimen#plural# to be Re-Identified:</h1>
 					<table class="table table-responsive table-striped d-xl-table">
 						<thead class="thead-light">
