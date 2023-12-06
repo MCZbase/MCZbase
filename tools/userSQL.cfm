@@ -24,7 +24,7 @@
 							<h1 class="h2 mt-3">SQL</h1>
 							<label for="sql" class="data_entry_label d-none">SQL</label>
 							<textarea name="sql" id="sql" rows="10" cols="80" wrap="soft" class="form-control">#sql#</textarea>
-							<h2>Result: &nbsp; &nbsp;
+							<h2>Result Output: &nbsp; &nbsp;
 							Table <input type="radio" name="format" value="table" <cfif #format# is "table"> checked="checked" </cfif>> &nbsp;&nbsp;
 							CSV <input type="radio" name="format" value="csv" <cfif #format# is "csv"> checked="checked" </cfif>></h2>
 							<input type="submit" value="Run Query" class="btn btn-xs btn-primary">
