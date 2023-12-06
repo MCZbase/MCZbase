@@ -344,7 +344,7 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12">
-							<label for="publication" class="data-entry-label mt-2">Sensu</label>
+							<label for="publication" class="data-entry-label mt-1">Sensu</label>
 							<input type="text" name="publication" id="publication" class="data-entry-input">
 							<input type="hidden" name="publication_id" id="publication_id" class="data-entry-input">
 							<script>
@@ -354,7 +354,7 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="col-12">
-							<label for="identification_remarks" class="data-entry-label mt-2">
+							<label for="identification_remarks" class="data-entry-label mt-1">
 								Remarks:
 								(<span id="length_identification_remarks"></span>)
 							</label>
