@@ -21,10 +21,12 @@
 	<cfcase value="entryPoint">
 		<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
-				count(cataloged_item.collection_object_id) ct
+				count(cataloged_item.collection_object_id) ct,
+				count(specimen_part.collection_object_id) partct
 			FROM
 				user_search_table 
 				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+				JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item_id
 			WHERE
 				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
@@ -90,7 +92,7 @@
 					<div class="col-12 pt-4">
 						<h1 class="h3 px-1" id="formheading" >
 							<cfif getItemCount.ct GT getItems.recordcount>
-								Deaccession all parts from all (#getItemCount.ct#) cataloged items in this result (first #getItems.recordcount# are listed below):
+								Deaccession all parts (#getItemCount.partCt#) from all (#getItemCount.ct#) cataloged items in this result (first #getItems.recordcount# are listed below):
 							<cfelse>
 								Deaccession all parts of all the cataloged items listed below (#getItems.recordcount#):
 							</cfif>
