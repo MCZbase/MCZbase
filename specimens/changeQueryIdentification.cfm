@@ -32,7 +32,7 @@ limitations under the License.
 </cfif>
 
 
-<main class="container" id="content">
+<main class="container-fluid" id="content">
 	<!----------------------------------------------------------------------------------->
 	<cfif isDefined("action") AND #action# is "createManyNew">
 		<cfoutput>
@@ -197,7 +197,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<section class="row" aria-labelledby="resultHead">
+			<section class="row mx-0" aria-labelledby="resultHead">
 				<div class="col-12 pt-4">	
 					<cfif success>
 						<h2 class="h2" id="resultHead">Added new current identification to these specimens.</h2> 
@@ -424,9 +424,10 @@ limitations under the License.
 					collection_object_id
 			</cfquery>
 			<cfif specimenList.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-	
-			<h1 class="h2">#specimenList.recordcount# Specimen#plural# to be Re-Identified:</h1>
-			<table width="95%" border="1">
+			<div class="row mx-0">
+				<div class="col-12">
+					<h1 class="h2">#specimenList.recordcount# Specimen#plural# to be Re-Identified:</h1>
+					<table width="95%" border="1">
 				<tr>
 					<th><strong>Catalog Number</strong></th>
 					<th><strong><cfoutput>#session.CustomOtherIdentifier#</cfoutput></strong></th>
@@ -454,6 +455,8 @@ limitations under the License.
 					</tr>
 				</cfloop>
 			</table>
+				</div>
+			</div>
 		</cfoutput>
 	</section>
 </main>
