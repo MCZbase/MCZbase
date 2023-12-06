@@ -1151,7 +1151,7 @@ limitations under the License.
 				<div class="col-12 mt-3">
 					<cfif isDefined("error_message") and len(error_message) GT 0>
 						<h2 class="px-2">Error. Failed to add new parts.</h2>
-						<div>#cfcatch.message#</div>
+						<div>#error_message#</div>
 					<cfelse>
 						<cfif partCounter GT 0>
 							<h2 class="px-2">Successfully added #partCounter# new parts.</h2>
