@@ -1,4 +1,4 @@
-	<cfset pageTitle="User SQL">
+<cfset pageTitle="User SQL">
 <cfinclude template="/shared/_header.cfm">
 <script type="text/javascript" language="javascript" src="/includes/jquery/jquery-1.3.2.min.js"></script>
 	<script type="text/javascript" language="javascript" src="/includes/ajax.min.js"></script>
