@@ -14,7 +14,7 @@
 			<cfset format = "table">
 		</cfif>
 		<cfoutput>
-			<cfset action = "">
+			<cfset action = "run">
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
