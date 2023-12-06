@@ -2,7 +2,10 @@
 <cfinclude template="/shared/_header.cfm">
 <script type="text/javascript" language="javascript" src="/includes/jquery/jquery-1.3.2.min.js"></script>
 	<script type="text/javascript" language="javascript" src="/includes/ajax.min.js"></script>
-
+<style>
+	table.cfdump_query {width: 100%;}
+	
+</style>
 		<cfif not isdefined("sql")>
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
@@ -46,7 +49,7 @@
 				</cfloop>
 				<div class="container-fluid">
 					<div class="row mx-0">
-						<div class="col-12">
+						<div class="col-12 pb-5">
 							<h3>Result:</h3>
 							<cfif unsafeSql(sql)>
 								<div class="error">
