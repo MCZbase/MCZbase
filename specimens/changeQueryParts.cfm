@@ -868,7 +868,7 @@ limitations under the License.
 			</cftransaction>
 			<div class="row mx-0">
 				<div class="col-12">
-					<cfif partUpdateCount EQ 0>
+					<cfif partUpdateCount LT 1>
 						<h2 class="h2 pt-2">Error: No parts added.</h2>
 					<cfelse>
 						<h2 class="h2 pt-2">Succesfully updated #partUpdateCount# parts</h2>
