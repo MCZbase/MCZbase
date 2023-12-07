@@ -205,7 +205,7 @@
 	<!--- open main tag is above before cfswitch block --->
 		<section class="row mx-0"> 
 			<div class="col-12 pb-4">
-				<table class="table table-responsive table-striped d-xl-table">
+				<table class="table table-responsive-md table-striped">
 					<thead class="thead-light">
 						<tr>
 							<td><strong>GUID</strong></td>
