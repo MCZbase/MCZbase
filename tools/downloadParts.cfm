@@ -231,7 +231,7 @@ limitations under the License.
 						$("##toggleButton").html("Show Containers");
 					});
 				</script>
-					<table class="sortable table table-responsive table-striped w-100 px-2" id="tre" style="empty-cells:show;">
+					<table class="sortable table table-responsive table-striped w-100" id="tre" style="empty-cells:show;">
 						<thead class="thead-light"
 							<tr>
 								<th>INSTITUTION_ACRONYM</th>
