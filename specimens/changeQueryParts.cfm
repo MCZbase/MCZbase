@@ -871,7 +871,7 @@ limitations under the License.
 							<cfset new_remark = "#getRemarks.old_remarks#; #new_remark#">
 						</cfif>
 						<cfif len(new_remark GT 4000)>
-							<cfthrow message="Error: Unable to append, remarks would exceed 4000 characters (for #id#)">
+							<cfthrow message="Error: Unable to append, remarks would exceed 4000 characters (for #i#)">
 						</cfif>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE coll_object_remark 
