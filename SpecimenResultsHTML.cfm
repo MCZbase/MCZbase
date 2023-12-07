@@ -321,19 +321,18 @@
 	<cfset cfidAndToken= "#cfid##session.reencodedToken#">
 
 	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
-		select * from #session.SpecSrchTab#
+		select * from SpecRes#cfid##cftoken#
 	</cfquery>
 	<cfquery name="mapCount#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
-		select * from #session.SpecSrchTab#
+		select * from SpecRes#cfid##cftoken#
 	</cfquery>
 </cfif>
 <cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
-	select * from #session.SpecSrchTab#
+	select * from SpecRes#cfid##cftoken#
 </cfquery>
 
 <cfquery name="getBasic" dbtype="query">
-	select * from #session.SpecSrchTab#
-	order by #order_by# #order_order#
+	select * from SpecRes#cfid##cftoken# order by #order_by# #order_order#
 </cfquery>
 <!---
 <cfif #getBasic.recordcount# is 1 and #action# is "nothing">
