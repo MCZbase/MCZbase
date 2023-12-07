@@ -1,5 +1,9 @@
 <cfset pageTitle="User SQL">
 <cfinclude template="/shared/_header.cfm">
+<cfif not (isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens"))>
+	<!--- extra check to ensure access only by authorized users --->
+	<cfthrow message="Inadequate Permissions.">
+</cfif>
 <cfif not isDefined("action")>
 	<cfset action = "nothing"> 
 <cfelse>
@@ -44,7 +48,7 @@
 			</div>
 		</div>
 	</div>
-	<cfif #action# is "run">
+	<cfif action IS "run">
 		<div class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12 my-3">
@@ -92,7 +96,7 @@
 								</cfloop>
 								<a href="/download.cfm?file=#fileName#" class="h3">Click to download</a>
 							<cfelse>
-								<cfdump var=#user_sql#>
+								<cfdump var="#user_sql#">
 							</cfif>
 						<cfcatch>
 							<div class="error">
