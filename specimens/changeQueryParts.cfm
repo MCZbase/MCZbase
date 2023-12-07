@@ -64,7 +64,6 @@ limitations under the License.
 						<cfthrow message="You can only use this form on up to 1000 specimens at a time. Please <a href='/Specimens.cfm'>revise your search</a>."><!--- " --->
 					</cfif>
 
-
 					<cfset numParts=3>
 					<cfif not isdefined("table_name")>
 						<!--- TODO: Remove support for table_name --->
@@ -588,7 +587,7 @@ limitations under the License.
 								<td><a href="/guid/#institution_acronym#:#collection_cde#:#cat_num#">#collection# #cat_num#</a></td>
 								<td>#scientific_name#</td>
 								<cfquery name="getParts" dbtype="query">
-									select
+									SELECT
 										part_name,
 										preserve_method,
 										condition,
@@ -596,10 +595,12 @@ limitations under the License.
 										lot_count,
 										coll_obj_disposition,
 										coll_object_remarks
-									from
+									FROM
 										getCollObjList
-									where
+									WHERE
 										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">
+									ORDER BY
+										part_name, preserve_method, lot_count
 								</cfquery>
 								<td>
 									<table border width="100%">
