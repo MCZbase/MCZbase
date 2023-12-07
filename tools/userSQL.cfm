@@ -34,7 +34,7 @@
 				</div>
 			</div>
 		</cfif>
-		<cfif #action# = "run">
+		<cfif #action# is "run">
 			<cfoutput>
 				<hr>
 				<!--- check the SQL to see if they're doing anything naughty --->
