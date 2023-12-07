@@ -29,7 +29,7 @@
 					<h1 class="h2">SQL</h1>
 					<p class="">Modify this query to your needs. Retain the user_search_table.result_id in the query to modify your original search result or eliminate it to extend the query to the entire database.</p>
 					<label for="sql" class="data_entry_label d-none">SQL</label>
-					<textarea name="sql" id="sql" rows="10" cols="80" wrap="soft" class="form-control">#sql#</textarea>
+					<textarea name="sql" spellcheck="false" id="sql" rows="10" cols="80" wrap="soft" class="form-control text-info">#sql#</textarea>
 					<h2 class="h3">Result Output Format: &nbsp; &nbsp;
 					Table <input type="radio" name="format" value="table" <cfif #format# is "table"> checked="checked" </cfif>> &nbsp;&nbsp;
 					CSV <input type="radio" name="format" value="csv" <cfif #format# is "csv"> checked="checked" </cfif>></h2>
