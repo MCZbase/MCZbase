@@ -10,9 +10,8 @@
 	<cfswitch expression="#action#">
 
 
-		<cfcase value="entryPoint">
+
 			<cfoutput>
-				<cfset sql = "">
 				<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 				<cfif isDefined("input_sql") and len(input_sql) GT 0> 
 					<cfset sql = input_sql>
@@ -39,7 +38,7 @@
 				</div>
 			</div>
 			</cfoutput>
-		</cfcase>
+
 		<cfcase value="run">
 			<cfoutput>
 				<hr>
