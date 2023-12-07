@@ -8,7 +8,7 @@
 </cfif>
 
 	<cfswitch expression="#action#">
-		<cfif value="entryPoint">
+		<cfif action="entryPoint">
 			<cfif sql = "">
 		</cfif>
 		<cfcase value="entryPoint">
