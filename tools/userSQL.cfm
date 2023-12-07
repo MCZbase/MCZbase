@@ -101,8 +101,8 @@
 							</div>
 						</div>
 					</div>
+				</cfcase>
 			</cfoutput>
-		</cfcase>
 	</cfswitch>
 	<cfcatch>
 		<h2 class="h3 px-2 mt-1">Error</h2>
