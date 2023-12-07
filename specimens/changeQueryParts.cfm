@@ -225,7 +225,9 @@ limitations under the License.
 													</div>
 													<div class="col-12 forpart#i# pt-1">
 														<label for="condition_#i#" class="data-entry-label">Condition (#i#)</label>
-													<input type="text" name="condition_#i#" id="condition_#i#" class="data-entry-input #requireClass#" #require#>
+														<input type="text" name="condition_#i#" id="condition_#i#" class="data-entry-input #requireClass#" #require#>
+														<!--- TODO: Change to controlled vocabulary, see Redmine 882 --->
+														<!--- "CONDITION_REMARKS" VARCHAR2(4000), -- TODO: Add when controlled vocabulary for condition is implemented See Redmine 882 --->
 													</div>
 													<div class="col-12 forpart#i# py-1">
 													<label for="coll_object_remarks_#i#" class="data-entry-label">Remark (#i#)</label>
@@ -433,6 +435,8 @@ limitations under the License.
 														<div class="col-12 pt-1">
 															<label for="new_condition" class="data-entry-label">New Condition</label>
 															<input type="text" name="new_condition" id="new_condition" class="data-entry-input">
+															<!--- TODO: Change to controlled vocabulary, see Redmine 882 --->
+															<!--- "CONDITION_REMARKS" VARCHAR2(4000), -- TODO: Add when controlled vocabulary for condition is implemented See Redmine 882 --->
 														</div>
 														<div class="col-12 py-1">
 															<label for="new_remark" class="data-entry-label">Add Remark</label>
@@ -777,13 +781,13 @@ limitations under the License.
 			<cfloop list="#partID#" index="i">
 				<cfif len(new_part_name) gt 0 or len(new_preserve_method) gt 0>
 					<!--- Fields in specimen part:
-						"COLLECTION_OBJECT_ID" NUMBER NOT NULL ENABLE, 
-						"PART_NAME" VARCHAR2(255 CHAR) NOT NULL ENABLE, 
-						"PART_MODIFIER" VARCHAR2(60 CHAR), 
-						"SAMPLED_FROM_OBJ_ID" NUMBER, 
+						"COLLECTION_OBJECT_ID" NUMBER NOT NULL ENABLE, -- Key
+						"PART_NAME" VARCHAR2(255 CHAR) NOT NULL ENABLE,  
+						"PART_MODIFIER" VARCHAR2(60 CHAR),  -- deprecated
+						"SAMPLED_FROM_OBJ_ID" NUMBER,  -- can not sensibly edit from here
 						"PRESERVE_METHOD" VARCHAR2(50 CHAR), 
 						"DERIVED_FROM_CAT_ITEM" NUMBER NOT NULL ENABLE, 
-						"IS_TISSUE" NUMBER,
+						"IS_TISSUE" NUMBER, -- deprecated 
 					---> 
 					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE specimen_part
@@ -802,24 +806,25 @@ limitations under the License.
 				</cfif>
 				<cfif len(new_lot_count_modifier) gt 0 or len(new_lot_count) gt 0 or len(new_coll_obj_disposition) gt 0 or len(new_condition) gt 0>
 					<!--- fields in coll_object table 
-					   (	"COLLECTION_OBJECT_ID" NUMBER NOT NULL ENABLE, 
-						"COLL_OBJECT_TYPE" CHAR(2 CHAR) NOT NULL ENABLE, 
-						"ENTERED_PERSON_ID" NUMBER NOT NULL ENABLE, 
-						"COLL_OBJECT_ENTERED_DATE" DATE NOT NULL ENABLE, 
+					   (	"COLLECTION_OBJECT_ID" NUMBER NOT NULL ENABLE, -- PK 
+						"COLL_OBJECT_TYPE" CHAR(2 CHAR) NOT NULL ENABLE, -- Table Typing 
+						"ENTERED_PERSON_ID" NUMBER NOT NULL ENABLE,  -- Not updated
+						"COLL_OBJECT_ENTERED_DATE" DATE NOT NULL ENABLE, -- Not updated
 						"LAST_EDITED_PERSON_ID" NUMBER, 
 						"LAST_EDIT_DATE" DATE, 
 						"COLL_OBJ_DISPOSITION" VARCHAR2(40 CHAR), 
 						"LOT_COUNT" NUMBER NOT NULL ENABLE, 
 						"CONDITION" VARCHAR2(255 CHAR), 
-						"FLAGS" VARCHAR2(20 CHAR), 
+						"FLAGS" VARCHAR2(20 CHAR), -- data quality flags, not set from here
 						"LOT_COUNT_MODIFIER" VARCHAR2(5 CHAR), 
-						"FIX_ENTERED_DATE" DATE, 
-						"CONDITION_REMARKS" VARCHAR2(4000), 
+						"FIX_ENTERED_DATE" DATE, -- Not to be changed here
+						"CONDITION_REMARKS" VARCHAR2(4000), -- TODO: Add when controlled vocabulary for condition is implemented See Redmine 882
 					--->
 					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE coll_object 
 						SET
-							flags=flags
+							LAST_EDITED_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+							,LAST_EDIT_DATE = sysdate
 							<cfif len(new_lot_count) gt 0>
 								<cfif new_lot_count EQ "NULL">
 									,lot_count_modifier = NULL
