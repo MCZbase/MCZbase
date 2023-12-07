@@ -603,7 +603,7 @@ limitations under the License.
 										part_name, preserve_method, lot_count
 								</cfquery>
 								<td>
-									<table border width="100%">
+									<table class="table">
 										<thead class="thead-dark">
 											<th style="width:15%">Part</th>
 											<th style="width:15%">Preserve Method</th>
