@@ -116,7 +116,7 @@ limitations under the License.
 											<option value="removeItems">Remove From Named Group</option>
 										</select>
 									</div>
-									<div class="col-12 mt-3" style="padding-top: 2px;">
+									<div class="col-12 mt-3">
 										<input type="button" id="remove_button" value="Change" class="btn btn-xs btn-primary" onclick=" changeItemsSubmitHandler(); ">
 									</div>
 								</div>
@@ -124,9 +124,9 @@ limitations under the License.
 						</div>
 		
 							<div class="form-row mb-5">
-								<table class="table table-responsive-sm">
-									<thead>
-									<tr>
+								<table class="table table-responsive-md table-striped">
+									<thead class="thead-light">
+										<tr>
 										<th>Cat Num</th>
 										<th>Scientific Name</th>
 										<th>Collectors</th>
@@ -134,7 +134,7 @@ limitations under the License.
 										<th>Spec Loc</th>
 										<th>Date</th>
 									</tr>
-								</thead>
+									</thead>
 									<tbody>
 									<cfloop query="getItems" group="collection_object_id">
 									<tr>
