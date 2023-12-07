@@ -21,6 +21,7 @@
 				<cfset format = "table">
 			</cfif>
 		</cfcase>
+		<cfcase value = "run">
 			<cfoutput>
 				<div class="container">
 					<div class="row">
@@ -38,7 +39,7 @@
 						</div>
 					</div>
 				</div>
-				<cfcase value = "run">
+				
 					<hr>
 					<!--- check the SQL to see if they're doing anything naughty --->
 					<cfset nono="update,
@@ -101,14 +102,15 @@
 							</div>
 						</div>
 					</div>
-				</cfcase>
+			
 			</cfoutput>
+		</cfcase>
 	</cfswitch>
 	<cfcatch>
 		<h2 class="h3 px-2 mt-1">Error</h2>
 		<cfoutput>
-			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-			<p class="px-2">#error_message#</p>
+<!---			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<p class="px-2">#error_message#</p>--->
 		</cfoutput>
 	</cfcatch>
 </cftry>
