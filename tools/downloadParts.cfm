@@ -140,9 +140,9 @@ limitations under the License.
 	<cfinclude template="/shared/_header.cfm">
 	<script src="/lib/misc/sorttable.js"></script>
 	<cfoutput>
-		<main class="container-fluid px-4 py-3" id="content">
-			<div class="row px-0">
-				<div class="col-12 mx-0">
+		<main class="container-fluid py-3" id="content">
+			<div class="row mx-0">
+				<div class="col-12">
 					<h1 class="h2 mt-2 mx-xl-3">
 						List/Download Parts from a Specimen Search
 						<cfif isDefined("result_id") and len(result_id) GT 0>
@@ -153,7 +153,7 @@ limitations under the License.
 						Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a> tool.
 					</p>
 					<form name="filterResults">
-						<div class="form-row mt-2 mb-3 mx-xl-2">
+						<div class="form-row mt-2 mb-3 mx-0">
 							<input type="hidden" name="table_name" value="#table_name#">
 							<input type="hidden" name="action" value="nothing" id="action">
 							<cfif isDefined("result_id") and len(result_id) GT 0>
@@ -201,7 +201,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mx-0">
-							<div class="col-12 px-xl-3">
+							<div class="col-12">
 								<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Download Parts CSV" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Download Parts CSV including Containers" onClick='document.getElementById("action").value="download";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
@@ -231,50 +231,54 @@ limitations under the License.
 						$("##toggleButton").html("Show Containers");
 					});
 				</script>
-					<table class="sortable table table-responsive table-striped w-100 px-2" id="tre" style="empty-cells:show;">
-					<tr>
-						<th>INSTITUTION_ACRONYM</th>
-						<th>COLLECTION_CDE</th>
-						<!---th>OTHER_ID_TYPE</th--->
-						<th>CATALOG_NUMBER</th>
-						<th>PART_NAME</th>
-						<th>PRESERVE_METHOD</th>
-						<th>DISPOSITION</th>
-						<th>LOT_COUNT_MODIFIER</th>
-						<th>LOT_COUNT</th>
-						<th>CURRENT_REMARKS</th>
-						<th>CONDITION</th>
-						<th class="contcoll">PART CONTAINER</th>
-						<th class="contcoll ">PARENT CONTAINER</th>
-						<th class="contcoll">P2 CONTAINER</th>
-						<th class="contcoll">P3 CONTAINER</th>
-						<th class="contcoll">P4 CONTAINER</th>
-						<th class="contcoll">P5_CONTAINER</th>
-						<th class="contcoll">P6 CONTAINER</th>
-					</tr>
-					<cfloop query="getParts">
-						<tr>
-							<td>#getParts.INSTITUTION_ACRONYM#</td>
-							<td>#COLLECTION_CDE#</td>
-							<!---td>#OTHER_ID_TYPE#</td--->
-							<td>#OTHER_ID_NUMBER#</td>
-							<td>#PART_NAME#</td>
-							<td>#PRESERVE_METHOD#</td>
-							<td>#DISPOSITION#</td>
-							<td>#LOT_COUNT_MODIFIER#</td>
-							<td>#LOT_COUNT#</td>
-							<td>#CURRENT_REMARKS#</td>
-							<td>#CONDITION#</td>
-							<td class="contcoll">#CONTAINER_BARCODE#</td>
-							<td class="contcoll">#P1_BARCODE#</td>
-							<td class="contcoll">#P2_BARCODE#</td>
-							<td class="contcoll">#P3_BARCODE#</td>
-							<td class="contcoll">#P4_BARCODE#</td>
-							<td class="contcoll">#P5_BARCODE#</td>
-							<td class="contcoll">#P6_BARCODE#</td>
-						</tr>
-					</cfloop>
-				</table>
+					<table class="sortable table table-responsive table-striped w-100" id="tre" style="empty-cells:show;">
+						<thead class="thead-light"
+							<tr>
+								<th>INSTITUTION_ACRONYM</th>
+								<th>COLLECTION_CDE</th>
+								<!---th>OTHER_ID_TYPE</th--->
+								<th>CATALOG_NUMBER</th>
+								<th>PART_NAME</th>
+								<th>PRESERVE_METHOD</th>
+								<th>DISPOSITION</th>
+								<th>LOT_COUNT_MODIFIER</th>
+								<th>LOT_COUNT</th>
+								<th>CURRENT_REMARKS</th>
+								<th>CONDITION</th>
+								<th class="contcoll">PART CONTAINER</th>
+								<th class="contcoll ">PARENT CONTAINER</th>
+								<th class="contcoll">P2 CONTAINER</th>
+								<th class="contcoll">P3 CONTAINER</th>
+								<th class="contcoll">P4 CONTAINER</th>
+								<th class="contcoll">P5_CONTAINER</th>
+								<th class="contcoll">P6 CONTAINER</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop query="getParts">
+								<tr>
+									<td>#getParts.INSTITUTION_ACRONYM#</td>
+									<td>#COLLECTION_CDE#</td>
+									<!---td>#OTHER_ID_TYPE#</td--->
+									<td>#OTHER_ID_NUMBER#</td>
+									<td>#PART_NAME#</td>
+									<td>#PRESERVE_METHOD#</td>
+									<td>#DISPOSITION#</td>
+									<td>#LOT_COUNT_MODIFIER#</td>
+									<td>#LOT_COUNT#</td>
+									<td>#CURRENT_REMARKS#</td>
+									<td>#CONDITION#</td>
+									<td class="contcoll">#CONTAINER_BARCODE#</td>
+									<td class="contcoll">#P1_BARCODE#</td>
+									<td class="contcoll">#P2_BARCODE#</td>
+									<td class="contcoll">#P3_BARCODE#</td>
+									<td class="contcoll">#P4_BARCODE#</td>
+									<td class="contcoll">#P5_BARCODE#</td>
+									<td class="contcoll">#P6_BARCODE#</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</main>
