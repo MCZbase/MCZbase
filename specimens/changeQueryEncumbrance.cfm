@@ -203,7 +203,7 @@
 			cataloged_item.collection_object_id
 	</cfquery>
 	<!--- open main tag is above before cfswitch block --->
-		<section class="row"> 
+		<section class="row mx-0"> 
 			<div class="col-12 pb-4">
 				<table class="table table-responsive table-striped d-xl-table">
 					<thead class="thead-light">
