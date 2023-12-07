@@ -3,8 +3,12 @@
 <style>
 	table.cfdump_query {width: 100%;}
 </style>
-	<cfif not isDefined("action")>
-
+		<cfif not isDefined("action")>
+			<cfset #action# is "nothing"> 
+		<cfelse>
+			<cfset #action# is "run">
+		</cfif>
+		</cfif>
 		<cfif not isdefined("sql")>
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
@@ -34,9 +38,8 @@
 				</div>
 			</div>
 	
-			<cfif #action# is "run" OR #action# is "nothing">
+			<cfif #action# is "run">
 				<hr>
-
 				<!--- check the SQL to see if they're doing anything naughty --->
 				<cfset nono="update,insert,delete,drop,create,alter,set,execute,exec,begin,end,declare,all_tables,v$session">
 				<cfset dels="';','|',">
