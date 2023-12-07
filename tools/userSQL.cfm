@@ -3,11 +3,12 @@
 <style>
 	table.cfdump_query {width: 100%;}
 </style>
+<cfif not isDefined("action")>
+	<cfset action="entryPoint">
+</cfif>
 
-
-		<cfif #action# is "nothing">
-		</cfif>
-		<cfif #action# is "run">
+		<cfif #action# is "entryPoint">
+	
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
 				<cfset sql = input_sql>
@@ -33,15 +34,17 @@
 					</div>
 				</div>
 			</div>
-
-			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
+		Hello
+		</cfif>
+		<cfif #action# is "run">
+<!---			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
 				<cfset sql = input_sql>
 			<cfelse>
 				<cfset sql = "SELECT 'test' FROM dual">
 			</cfif>
 			<cfif not isdefined("format")>
 				<cfset format = "table">
-			</cfif>
+			</cfif>--->
 			<cfoutput>
 				<hr>
 				<!--- check the SQL to see if they're doing anything naughty --->
