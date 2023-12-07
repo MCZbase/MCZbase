@@ -823,7 +823,7 @@ limitations under the License.
 					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE coll_object 
 						SET
-							LAST_EDITED_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">,
+							LAST_EDITED_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
 							,LAST_EDIT_DATE = sysdate
 							<cfif len(new_lot_count) gt 0>
 								<cfif new_lot_count EQ "NULL">
