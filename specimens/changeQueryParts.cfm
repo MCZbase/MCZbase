@@ -875,7 +875,7 @@ limitations under the License.
 						</cfif>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE coll_object_remark 
-							SET coll_object_remarks = coll_object_remarks || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_remark#"> 
+							SET coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_remark#"> 
 							WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
 						</cfquery>
 					</cfif>
