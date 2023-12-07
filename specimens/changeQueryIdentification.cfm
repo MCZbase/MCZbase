@@ -210,7 +210,7 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!--------------------------------------------------------------------------------------------------->
-	<section class="row" aria-labelledby="formHead">
+	<section class="row mx-0" aria-labelledby="formHead">
 		<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT nature_of_id 
 			FROM ctnature_of_id
