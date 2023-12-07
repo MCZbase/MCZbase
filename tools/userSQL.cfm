@@ -5,14 +5,13 @@
 <cfelse>
 	<cfset action = "run"> 
 </cfif>
-<cfset guidanceText = "">
+<cfset guidanceText = "This tool allows you to run arbitrary queries on MCZbase. ">
 <cfif not isdefined("sql")>
 	<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 	<cfif isDefined("input_sql") and len(input_sql) GT 0> 
 		<cfset guidanceText = "Modify this query to your needs. Retain the user_search_table.result_id in the query to ask questions about your original search result or eliminate it to extend the query results to the entire database. ">
 		<cfset sql = input_sql>
 	<cfelse>
-		<cfset guidanceText = "This tool allows you to run arbitrary queries on MCZbase. ">
 		<cfset sql = "SELECT 'test' FROM dual">
 	</cfif>
 </cfif>
