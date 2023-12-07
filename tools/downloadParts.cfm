@@ -153,7 +153,7 @@ limitations under the License.
 						Obtain a list of parts, including CSV downloads suitable for editing and reload into the <a href="/tools/BulkloadEditedParts.cfm" target="_blank">Bulkload Edited Parts</a> tool.
 					</p>
 					<form name="filterResults">
-						<div class="form-row mt-2 mb-3 mx-xl-2">
+						<div class="form-row mt-2 mb-3 mx-0">
 							<input type="hidden" name="table_name" value="#table_name#">
 							<input type="hidden" name="action" value="nothing" id="action">
 							<cfif isDefined("result_id") and len(result_id) GT 0>
