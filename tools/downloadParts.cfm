@@ -200,7 +200,7 @@ limitations under the License.
 								<button type="button" id="toggleButton" class="btn btn-xs btn-secondary mt-1 mt-xl-3" onclick="toggleColumns();">Show Containers</button>
 							</div>
 						</div>
-						<div class="form-row">
+						<div class="form-row mx-0">
 							<div class="col-12 px-xl-3">
 								<input type="submit" value="Filter Parts" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
 								<input type="button" value="Download Parts CSV" onClick='document.getElementById("action").value="downloadBulkloader";document.forms["filterResults"].submit();' class="btn btn-xs mb-2 btn-secondary"></input>
@@ -230,7 +230,7 @@ limitations under the License.
 						$("##toggleButton").html("Show Containers");
 					});
 				</script>
-				<table class="sortable table table-responsive table-striped w-100 mx-0 px-0" id="tre" style="empty-cells:show;">
+				<table class="sortable table table-responsive table-striped w-100 px-2" id="tre" style="empty-cells:show;">
 					<tr>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
