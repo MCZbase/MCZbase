@@ -6,27 +6,27 @@
 <cfif not isDefined("action")>
 	<cfset action="entryPoint">
 </cfif>
-
-		<cfif #action# is "entryPoint">
-	
+		<cfif not isdefined("sql")>
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
 				<cfset sql = input_sql>
 			<cfelse>
 				<cfset sql = "SELECT 'test' FROM dual">
 			</cfif>
-			<cfif not isdefined("format")>
-				<cfset format = "table">
-			</cfif>
+		</cfif>
+		<cfif not isdefined("format")>
+			<cfset format = "table">
+		</cfif>
+		<cfoutput>
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
 						<form method="post" action="">
 							<input type="hidden" name="action" value="run">
-							<h1 class="h2 mt-3">SQL</h1>
+							<h1>SQL</h1>
 							<label for="sql" class="data_entry_label d-none">SQL</label>
 							<textarea name="sql" id="sql" rows="10" cols="80" wrap="soft" class="form-control">#sql#</textarea>
-							<h2>Result Output Format: &nbsp; &nbsp;
+							<h2>Result: &nbsp; &nbsp;
 							Table <input type="radio" name="format" value="table" <cfif #format# is "table"> checked="checked" </cfif>> &nbsp;&nbsp;
 							CSV <input type="radio" name="format" value="csv" <cfif #format# is "csv"> checked="checked" </cfif>></h2>
 							<input type="submit" value="Run Query" class="btn btn-xs btn-primary">
@@ -34,30 +34,24 @@
 					</div>
 				</div>
 			</div>
-		Hello
-		</cfif>
-		<cfif #action# is "run">
-<!---			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
-				<cfset sql = input_sql>
-			<cfelse>
-				<cfset sql = "SELECT 'test' FROM dual">
-			</cfif>
-			<cfif not isdefined("format")>
-				<cfset format = "table">
-			</cfif>--->
-			<cfoutput>
+			<cfif #action# is "run">
 				<hr>
+
 				<!--- check the SQL to see if they're doing anything naughty --->
-				<cfset nono="update,
-							 insert,delete,drop,create,alter,set,execute,exec,begin,end,declare,all_tables,v$session">
-				<cfset dels="';','|'">
+				<cfset nono="update,insert,delete,drop,create,alter,set,execute,exec,begin,end,declare,all_tables,v$session">
+				<cfset dels="';','|',">
 				<cfset safe=0>
 				<cfloop index="i" list="#sql#" delimiters=" .,?!:%$&""'/|[]{}()">
 					<cfif ListFindNoCase(nono, i)>
 						<cfset safe=1>
 					</cfif>
 				</cfloop>
-				<h3>Result:</h3>
+
+				<div style="font-size:smaller;background-color:lightgray">
+					SQL:<br>
+					#sql#
+				</div>
+				Result:<br>
 				<cfif unsafeSql(sql)>
 					<div class="error">
 						The code you submitted contains illegal characters.
@@ -102,6 +96,7 @@
 					</cfcatch>
 					</cftry>
 				</cfif>
-			</cfoutput>
-		</cfif>	
+			</cfif>
+		</cfoutput>
+<cfinclude template = "/includes/_footer.cfm">
 <cfinclude template = "/shared/_footer.cfm">
