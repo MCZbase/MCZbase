@@ -696,9 +696,6 @@ limitations under the License.
 					<cfif len(exist_preserve_method) gt 0>
 						and preserve_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_preserve_method#">
 					</cfif>
-					<cfif len(existing_lot_count_modifier) gt 0>
-						and lot_count_modifier = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existing_lot_count_modifier#">
-					</cfif>
 					<cfif len(existing_lot_count) gt 0>
 						and lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existing_lot_count#">
 					</cfif>
