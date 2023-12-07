@@ -232,49 +232,53 @@ limitations under the License.
 					});
 				</script>
 					<table class="sortable table table-responsive table-striped w-100 px-2" id="tre" style="empty-cells:show;">
-					<tr>
-						<th>INSTITUTION_ACRONYM</th>
-						<th>COLLECTION_CDE</th>
-						<!---th>OTHER_ID_TYPE</th--->
-						<th>CATALOG_NUMBER</th>
-						<th>PART_NAME</th>
-						<th>PRESERVE_METHOD</th>
-						<th>DISPOSITION</th>
-						<th>LOT_COUNT_MODIFIER</th>
-						<th>LOT_COUNT</th>
-						<th>CURRENT_REMARKS</th>
-						<th>CONDITION</th>
-						<th class="contcoll">PART CONTAINER</th>
-						<th class="contcoll ">PARENT CONTAINER</th>
-						<th class="contcoll">P2 CONTAINER</th>
-						<th class="contcoll">P3 CONTAINER</th>
-						<th class="contcoll">P4 CONTAINER</th>
-						<th class="contcoll">P5_CONTAINER</th>
-						<th class="contcoll">P6 CONTAINER</th>
-					</tr>
-					<cfloop query="getParts">
-						<tr>
-							<td>#getParts.INSTITUTION_ACRONYM#</td>
-							<td>#COLLECTION_CDE#</td>
-							<!---td>#OTHER_ID_TYPE#</td--->
-							<td>#OTHER_ID_NUMBER#</td>
-							<td>#PART_NAME#</td>
-							<td>#PRESERVE_METHOD#</td>
-							<td>#DISPOSITION#</td>
-							<td>#LOT_COUNT_MODIFIER#</td>
-							<td>#LOT_COUNT#</td>
-							<td>#CURRENT_REMARKS#</td>
-							<td>#CONDITION#</td>
-							<td class="contcoll">#CONTAINER_BARCODE#</td>
-							<td class="contcoll">#P1_BARCODE#</td>
-							<td class="contcoll">#P2_BARCODE#</td>
-							<td class="contcoll">#P3_BARCODE#</td>
-							<td class="contcoll">#P4_BARCODE#</td>
-							<td class="contcoll">#P5_BARCODE#</td>
-							<td class="contcoll">#P6_BARCODE#</td>
-						</tr>
-					</cfloop>
-				</table>
+						<thead class="thead-light"
+							<tr>
+								<th>INSTITUTION_ACRONYM</th>
+								<th>COLLECTION_CDE</th>
+								<!---th>OTHER_ID_TYPE</th--->
+								<th>CATALOG_NUMBER</th>
+								<th>PART_NAME</th>
+								<th>PRESERVE_METHOD</th>
+								<th>DISPOSITION</th>
+								<th>LOT_COUNT_MODIFIER</th>
+								<th>LOT_COUNT</th>
+								<th>CURRENT_REMARKS</th>
+								<th>CONDITION</th>
+								<th class="contcoll">PART CONTAINER</th>
+								<th class="contcoll ">PARENT CONTAINER</th>
+								<th class="contcoll">P2 CONTAINER</th>
+								<th class="contcoll">P3 CONTAINER</th>
+								<th class="contcoll">P4 CONTAINER</th>
+								<th class="contcoll">P5_CONTAINER</th>
+								<th class="contcoll">P6 CONTAINER</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop query="getParts">
+								<tr>
+									<td>#getParts.INSTITUTION_ACRONYM#</td>
+									<td>#COLLECTION_CDE#</td>
+									<!---td>#OTHER_ID_TYPE#</td--->
+									<td>#OTHER_ID_NUMBER#</td>
+									<td>#PART_NAME#</td>
+									<td>#PRESERVE_METHOD#</td>
+									<td>#DISPOSITION#</td>
+									<td>#LOT_COUNT_MODIFIER#</td>
+									<td>#LOT_COUNT#</td>
+									<td>#CURRENT_REMARKS#</td>
+									<td>#CONDITION#</td>
+									<td class="contcoll">#CONTAINER_BARCODE#</td>
+									<td class="contcoll">#P1_BARCODE#</td>
+									<td class="contcoll">#P2_BARCODE#</td>
+									<td class="contcoll">#P3_BARCODE#</td>
+									<td class="contcoll">#P4_BARCODE#</td>
+									<td class="contcoll">#P5_BARCODE#</td>
+									<td class="contcoll">#P6_BARCODE#</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</main>
