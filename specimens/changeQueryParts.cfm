@@ -1022,7 +1022,13 @@ limitations under the License.
 							<td>#collection# #cat_num#</td>
 							<td>#scientific_name#</td>
 							<td>#part_name#</td>
-							<td>#new_part_name#</td>
+							<td>
+								<cfif len(new_part_name) gt 0>
+									<strong>#new_part_name#</strong>
+								<cfelse>
+									NOT UPDATED
+								</cfif>
+							</td>
 							<td>#preserve_method#</td>
 							<td>
 								<cfif len(new_preserve_method) gt 0>
