@@ -1025,7 +1025,7 @@ limitations under the License.
 							<td>#lot_count_modifier#</td>
 							<td>
 								<cfif len(new_lot_count_modifier) gt 0>
-									<strong>#new_lot_count_modifer#</strong>
+									<strong>#new_lot_count_modifier#</strong>
 								<cfelse>
 									NOT UPDATED
 								</cfif>
