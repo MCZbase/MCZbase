@@ -7,8 +7,8 @@
 	<cfset action="entryPoint">
 </cfif>
 
-
-<!---		<cfif value="entryPoint">
+	<cfswitch expression="#action#">
+	<!---		<cfif value="entryPoint">
 			<cfif not isdefined("sql")>
 		</cfif>--->
 		<cfcase value="entryPoint">
