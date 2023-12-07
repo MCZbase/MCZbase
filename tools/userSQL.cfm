@@ -8,11 +8,11 @@
 </cfif>
 
 	<cfswitch expression="#action#">
-		<cfif action="entryPoint">
-			<cfif sql = "">
-		</cfif>
+
+
 		<cfcase value="entryPoint">
 			<cfoutput>
+				<cfset sql = "">
 				<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 				<cfif isDefined("input_sql") and len(input_sql) GT 0> 
 					<cfset sql = input_sql>
