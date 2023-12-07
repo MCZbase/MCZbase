@@ -40,6 +40,9 @@
 			<cfelse>
 				<cfset sql = "SELECT 'test' FROM dual">
 			</cfif>
+			<cfif not isdefined("format")>
+				<cfset format = "table">
+			</cfif>
 			<cfoutput>
 				<hr>
 				<!--- check the SQL to see if they're doing anything naughty --->
