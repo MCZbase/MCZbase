@@ -3646,7 +3646,7 @@ limitations under the License.
 						collecting_event.habitat_desc,
 						case when
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-							and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+							and (concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' OR concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%')
 							and collecting_event.coll_event_remarks is not null
 						then 
 							'Masked'
@@ -3659,7 +3659,7 @@ limitations under the License.
 						locality.orig_elev_units,
 						case when
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
-							and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+							and (concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' OR concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%')
 							and locality.spec_locality is not null
 						then 
 							'Masked'
@@ -3668,7 +3668,7 @@ limitations under the License.
 						end spec_locality,
 						case when
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
-							and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
+							and (concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' OR concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%')
 							and accepted_lat_long.orig_lat_long_units is not null
 						then 
 							'Masked'
@@ -3684,7 +3684,7 @@ limitations under the License.
 						end VerbatimLatitude,
 						case when
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-							and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+							and (concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' OR concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%')
 							and accepted_lat_long.orig_lat_long_units is not null
 						then 
 							'Masked'
@@ -3737,7 +3737,7 @@ limitations under the License.
 						concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 						case when
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-							and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
+							and (concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' OR concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%')
 							and locality.locality_remarks is not null
 						then 
 							'Masked'
@@ -3746,7 +3746,7 @@ limitations under the License.
 						end locality_remarks,
 						case when
 							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
-							and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+							and (concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' OR concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%')
 							and verbatim_locality is not null
 						then 
 							'Masked'

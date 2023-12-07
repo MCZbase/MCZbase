@@ -52,7 +52,7 @@ limitations under the License.
 						MCZBASE.GET_SCIENTIFIC_NAME_AUTHS_PL(cataloged_item.collection_object_id) as sci_name, MCZBASE.get_pretty_date(collecting_event.verbatim_date,collecting_event.began_date,collecting_event.ended_date,1,0) as pretty_date,
 						MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
 						geog_auth_rec.higher_geog,
-						<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail) >
+						<cfif oneOfUs EQ 0 AND (Findnocase("mask locality", check.encumbranceDetail) OR Findnocase("mask coordinates", check.encumbranceDetail)) >
 							'[Masked]' as spec_locality,
 						<cfelse>
 							locality.spec_locality,
@@ -1951,7 +1951,7 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<cfset maskCoordinates = false>
-				<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail)>
+				<cfif oneOfUs EQ 0 AND (Findnocase("mask locality", check.encumbranceDetail) OR Findnocase("mask coordinates", check.encumbranceDetail))>
 					<cfset maskCoordinates = true>
 				</cfif>
 				<cfquery name="loc_collevent"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

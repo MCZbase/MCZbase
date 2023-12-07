@@ -749,7 +749,7 @@ limitations under the License.
 							collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 					</cfquery>
 					<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
-					<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number. --->
+					<!--- potentially relevant actions: mask collector, [mask coordinates]mask locality, mask original field number. --->
 				</cfif>
 				<cfquery name="lookupLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
@@ -760,7 +760,7 @@ limitations under the License.
 						min_depth, max_depth, depth_units,
 						to_meters(max_depth, depth_units) max_depth_in_m,
 						to_meters(min_depth, depth_units) min_depth_in_m,
-						<cfif ListContains(encumber,"mask coordinates")>
+						<cfif ListContains(encumber,"mask locality") OR ListContains(encumber,"mask coordinates")>
 							'[Masked]' as section_part, 
 							'' as section, '' as township, '' as township_direction, '' as range, '' as range_direction,
 							'[Masked]' as plss,
@@ -1054,9 +1054,9 @@ limitations under the License.
 							collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 					</cfquery>
 					<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
-					<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number. --->
+					<!--- potentially relevant actions: mask collector, [mask coordinates]mask locality, mask original field number. --->
 				</cfif>
-				<cfif ListContains(encumber,"mask coordinates")>
+				<cfif ListContains(encumber,"mask locality") OR ListContains(encumber,"mask coordinates")>
 					<div class="w-100">
 						<ul class="small95">
 							<li>[Masked]</li>
@@ -1469,7 +1469,7 @@ limitations under the License.
 				collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		</cfquery>
 		<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
-		<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number, mask locality. --->
+		<!--- potentially relevant actions: mask collector, [mask coordinates]mask locality, mask original field number, mask locality. --->
 	</cfif>
 	
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
@@ -1525,7 +1525,7 @@ limitations under the License.
 				<cfelse>
 					<div class="h4">Verbatim coordinate values</div>
 					<ul class="px-2 pl-xl-4 ml-xl-1">
-						<cfif ListContains(encumber,"mask coordinates") GT 0>
+						<cfif ListContains(encumber,"mask locality") GT 0 OR ListContains(encumber,"mask coordinates") GT 0>
 							[Masked]
 						<cfelse>
 							<cfloop query="getVerbatimGeoref">
@@ -1802,7 +1802,7 @@ limitations under the License.
 					</cfquery>
 					<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
 				</cfif>
-				<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number. --->
+				<!--- potentially relevant actions: mask collector, [mask coordinates]mask locality, mask original field number. --->
 				<cfquery name="getCollEventUp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCollEventUp_result">
 					SELECT higher_geog, geog_auth_rec.geog_auth_rec_id,
 						began_date, ended_date,
