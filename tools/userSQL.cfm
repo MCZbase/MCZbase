@@ -5,6 +5,7 @@
 <cfelse>
 	<cfset action = "run"> 
 </cfif>
+<cfset guidanceText = "">
 <cfif not isdefined("sql")>
 	<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 	<cfif isDefined("input_sql") and len(input_sql) GT 0> 
