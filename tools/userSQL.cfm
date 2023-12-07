@@ -17,7 +17,7 @@
 	<!--- typical copy/paste problem, query with normal ; termination, strip off the ; to allow query to pass checks --->
 	<cfset sql=Trim(sql)>
 	<cfif Right(sql,1) EQ ";">
-		<cfset = sql = REReplace(sql,";$","")>
+		<cfset sql = REReplace(sql,";$","")>
 	</cfif>
 </cfif>
 <cfif not isdefined("format")>
