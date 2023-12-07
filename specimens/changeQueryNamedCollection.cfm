@@ -71,8 +71,8 @@ limitations under the License.
 					</cfif>
 				ORDER BY cataloged_item.collection_object_id
 			</cfquery>
-			<div class="container mt-2 mb-3">
-				<div class="row">
+			<div class="container-fluid mt-2 mb-3">
+				<div class="row mx-0">
 					<div class="col-12">
 						<div role="region" aria-labeled-by="formheading">
 							<h1 class="h2 mt-3" id="formheading">Add or Remove all the items (#getItems.recordcount#) listed below to/from the selected named group of cataloged items.</h1>
