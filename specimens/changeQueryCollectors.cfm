@@ -77,8 +77,8 @@
 				ORDER BY 
 					MCZBASE.GET_AGENTNAMEOFTYPE(collector.agent_id)
 			</cfquery>
-			<main class="container-xl" id="content">
-				<section class="row" aria-labelledby="formheading">
+			<main class="container-fluid" id="content">
+				<section class="row mx-0" aria-labelledby="formheading">
 					<div class="col-12 pt-3">
 						<h1 class="h3 px-1" id="formheading" >
 							<cfif getItemCount.ct GT getItems.recordcount>
@@ -143,7 +143,7 @@
 						</div>
 					</div>
 				</section>
-				<section class="row"> 
+				<section class="row mx-0"> 
 					<div class="col-12 pb-4">
 						<div class="rounded redbox">
 							<div class="card bg-light border-secondary mb-3 pb-1">
@@ -171,7 +171,7 @@
 						</div>
 					</div>
 				</section>
-				<section class="row"> 
+				<section class="row mx-0"> 
 					<div class="col-12 pb-4">
 						<table class="table table-responsive table-striped d-xl-table">
 							<thead class="thead-light">
@@ -189,7 +189,7 @@
 							</thead>
 							<tbody>
 							<cfloop query="getItems">
-			    				<tr>
+								<tr>
 									<td><a href="/guid/MCZ:#collection_cde#:#cat_num#" target="_blank">MCZ:#collection_cde#:#cat_num#</a></td>
 									<cfif len(session.CustomOtherIdentifier)gt 0><td>#CustomID#&nbsp;</td></cfif>
 									<td><i>#Scientific_Name#</i></td>
