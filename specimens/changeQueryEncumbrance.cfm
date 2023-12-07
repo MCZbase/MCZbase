@@ -8,7 +8,7 @@
 	<cfset action="entryPoint">
 </cfif>
 <cfoutput>
-	<main class="container-xl" id="content">
+	<main class="container-fluid" id="content">
 </cfoutput>
 
 <!--------------------------------------------------------------------------------->
@@ -31,7 +31,7 @@
 								result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 						) 
 			</cfquery>
-			<section class="row" aria-labelledby="formheading">
+			<section class="row mx-0" aria-labelledby="formheading">
 				<div class="col-12 pt-4">
 					<h1 class="h3 px-1" id="formheading" >
 						Add or Remove an Encumbrance to the (#countItems.ct#) cataloged items listed below.

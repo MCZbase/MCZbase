@@ -117,7 +117,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12 mt-3">
-										<input type="button" id="remove_button" value="Change" class="btn btn-xs btn-primary" onclick=" changeItemsSubmitHandler(); ">
+										<input type="button" id="remove_button" value="Change" class="btn btn-xs btn-primary" onclick="changeItemsSubmitHandler();">
 									</div>
 								</div>
 							</form>
@@ -127,28 +127,27 @@ limitations under the License.
 								<table class="table table-responsive-md table-striped">
 									<thead class="thead-light">
 										<tr>
-										<th>Cat Num</th>
-										<th>Scientific Name</th>
-										<th>Collectors</th>
-										<th>Geog</th>
-										<th>Spec Loc</th>
-										<th>Date</th>
-									</tr>
+											<th>Cat Num</th>
+											<th>Scientific Name</th>
+											<th>Collectors</th>
+											<th>Geog</th>
+											<th>Spec Loc</th>
+											<th>Date</th>
+										</tr>
 									</thead>
 									<tbody>
 									<cfloop query="getItems" group="collection_object_id">
-									<tr>
-										<td>#collection# #cat_num#</td>
-										<td style="width: 200px;">#scientific_name#</td>
-										<td style="width: 200px;">#collectors#</td>
-										<td>#higher_geog#</td>
-										<td>#spec_locality#</td>
-										<td style="width:100px;">#verbatim_date#</td>
-									</tr>
+										<tr>
+											<td>#collection# #cat_num#</td>
+											<td style="width: 200px;">#scientific_name#</td>
+											<td style="width: 200px;">#collectors#</td>
+											<td>#higher_geog#</td>
+											<td>#spec_locality#</td>
+											<td style="width:100px;">#verbatim_date#</td>
+										</tr>
 									</cfloop>
 									</tbody>
 								</table>
-		
 							</div>
 						</div>
 					</div>
