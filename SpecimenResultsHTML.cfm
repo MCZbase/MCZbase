@@ -290,11 +290,7 @@
 	</cfif>
 	<CFSETTING ENABLECFOUTPUTONLY=0>
 
-	<!--- deal with uuid tokens --->
-	<cfset reencodedToken = binaryencode(binarydecode(replace(cftoken,"-","","All"),"Hex"),"Base64Url")>
-	<!--- Base64Url is ^[A-Za-z0-9_-]+$, oracle table names are ^[A-Za-z0-9_#\$]+$, so replace - with # --->
-	<cfset reencodedToken = replace(reencodedToken,"-","##","All")>
-	<cfset cfidAndToken=cfid & '_' & left(replace(reencodedToken,"-",""),maxavailable) & '_' & rand>
+	<cfset cfidAndToken= "#cfid##session.reencodedToken#">
 
 	<!---- clear old queries from cache and cache flatquery ---->
 	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
@@ -321,11 +317,8 @@
 </cfif>
 
 <cfif isdefined("newSearch") and #newSearch# is 1>
-	<!--- deal with uuid tokens --->
-	<cfset reencodedToken = binaryencode(binarydecode(replace(cftoken,"-","","All"),"Hex"),"Base64Url")>
-	<!--- Base64Url is ^[A-Za-z0-9_-]+$, oracle table names are ^[A-Za-z0-9_#\$]+$, so replace - with # --->
-	<cfset reencodedToken = replace(reencodedToken,"-","##","All")>
-	<cfset cfidAndToken=cfid & '_' & left(replace(reencodedToken,"-",""),maxavailable) & '_' & rand>
+
+	<cfset cfidAndToken= "#cfid##session.reencodedToken#">
 
 	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
 		select * from SpecRes#cfid##cftoken#

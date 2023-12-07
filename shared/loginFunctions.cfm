@@ -87,6 +87,7 @@ limitations under the License.
 	<!--- Base64Url is ^[A-Za-z0-9_-]+$, oracle table names are ^[A-Za-z0-9_#\$]+$, so replace - with # --->
 	<cfset reencodedToken = replace(reencodedToken,"-","##","All")>
 	<cfset temp=cfid & '_' & left(replace(reencodedToken,"-",""),maxavailable) & '_' & rand>
+	<cfset session.reencodedToken = reencodedToken>
 	<cfset session.SpecSrchTab="SpecSrch" & temp>
 	<cfset session.MediaSrchTab="MediaSrch" & temp>
 	<cfset session.TaxSrchTab="TaxSrch" & temp>
