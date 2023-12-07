@@ -409,7 +409,6 @@ limitations under the License.
 														</div>
 														<div class="col-12 pt-1">
 															<label for="new_lot_count_modifier" class="data-entry-label">New Lot Count Modifier</label>
-															<input type="text" name="new_lot_count_modifier" id="new_lot_count_modifier" class="data-entry-input">
 															<select name="new_lot_count_modifier" id="new_lot_count_modifier" class="data-entry-select">
 																<option value=""></option>
 																<option value="NULL">No Value</option>
