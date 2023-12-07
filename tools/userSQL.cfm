@@ -41,7 +41,7 @@
 	<cfif #action# is "run">
 		<div class="container-fluid">
 			<div class="row mx-0">
-				<div class="col-12 mt-3">
+				<div class="col-12 my-3">
 					<hr>
 					<!--- check the SQL to see if they're doing anything naughty --->
 					<cfset nono="update,insert,delete,drop,create,alter,set,execute,exec,begin,end,declare,all_tables,v$session">
