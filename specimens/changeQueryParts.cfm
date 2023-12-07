@@ -843,8 +843,14 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif len(new_remark) gt 0>
-<!--- TODO: Append only to existing remarks, maintain one to one relationship. --->
-					<cftry>
+					<!--- Insert a coll_object_record if none exists, otherwise concatenate field value to existing record. --->
+					<cfquery name="checkForRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT count(*) ct
+						FROM coll_object_remark
+						WHERE
+							collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
+					</cfquery>
+					<cfif checkForRemarks.ct EQ 0>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							insert into coll_object_remark 
 							(
@@ -854,14 +860,25 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_remark#">
 							)
 						</cfquery>
-					<cfcatch>
+					<cfelse>
+						<cfquery name="getRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT coll_object_remarks as old_remarks
+							FROM coll_object_remark
+							WHERE
+								collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
+						</cfquery>
+						<cfif len(getRemarks.old_remarks) GT 0>
+							<cfset new_remark = "#getRemarks.old_remarks#; #new_remark#>
+						</cfif>
+						<cfif len(new_remark GT 4000)>
+							<cfthrow message = "Error: Unable to append, remarks would exceed 4000 characters (for #id#)">
+						</cfif>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE coll_object_remark 
-							SET coll_object_remarks=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_remark#"> 
+							SET coll_object_remarks = coll_object_remarks || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_remark#"> 
 							WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
 						</cfquery>
-					</cfcatch>
-					</cftry>
+					</cfif>
 				</cfif>
 				<cfset partUpdateCount = partUpdateCount + 1>
 			</cfloop>
@@ -1049,6 +1066,7 @@ limitations under the License.
 							<td>#coll_object_remarks#</td>
 							<td>
 								<cfif len(new_remark) gt 0>
+									#coll_object_remarks#
 									<strong>#new_remark#</strong>
 								<cfelse>
 									NOT UPDATED
@@ -1081,6 +1099,7 @@ limitations under the License.
 			<cfset remarkCounter = 0>
 			<cftransaction>
 				<cftry>
+					<!--- Insert new coll_object, specimen_part, and optionally coll_object_remark records for each specified cataloged item --->
 					<cfloop query="ids">
 						<cfloop from="1" to="#numParts#" index="n">
 							<cfset thisPartName = #evaluate("part_name_" & n)#>
@@ -1130,10 +1149,15 @@ limitations under the License.
 								</cfquery>
 								<cfset partCounter = partCounter + 1>
 								<cfif len(#thisRemark#) gt 0>
-<!--- TODO: Append, with no more than one coll_object_remark record for the collection object --->
+									<!--- Adding a new collection object record for the part, so also insert a coll_object_remark record. --->
 									<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-										VALUES (sq_collection_object_id.currval, '#thisRemark#')
+										INSERT INTO coll_object_remark 
+										(
+											collection_object_id, coll_object_remarks
+										) VALUES (
+											sq_collection_object_id.currval, 
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisRemark#">
+										)
 									</cfquery>
 								</cfif>
 							</cfif>
