@@ -10,14 +10,13 @@
 	<cfswitch expression="#action#">
 
 
-
-
-				<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
-				<cfif isDefined("input_sql") and len(input_sql) GT 0> 
-					<cfset sql = input_sql>
-				<cfelse>
-					<cfset sql = "SELECT 'test' FROM dual">
-				</cfif>
+		<cfcase value="defaultcase">
+			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
+			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
+				<cfset sql = input_sql>
+			<cfelse>
+				<cfset sql = "SELECT 'test' FROM dual">
+			</cfif>
 			<cfif not isdefined("format")>
 				<cfset format = "table">
 			</cfif>
@@ -37,8 +36,7 @@
 					</div>
 				</div>
 			</div>
-
-
+		</cfcase>
 		<cfcase value="run">
 			<cfoutput>
 				<hr>
