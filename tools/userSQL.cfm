@@ -3,6 +3,7 @@
 <style>
 	table.cfdump_query {width: 100%;}
 </style>
+	<cfif not isDefined("action")>
 
 		<cfif not isdefined("sql")>
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
@@ -97,5 +98,5 @@
 				</cfif>
 			</cfif>
 		</cfoutput>
-<cfinclude template = "/includes/_footer.cfm">
+	</cfif>
 <cfinclude template = "/shared/_footer.cfm">
