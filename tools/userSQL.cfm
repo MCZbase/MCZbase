@@ -38,7 +38,7 @@
 					</div>
 				</div>
 			</div>
-			</output>
+			</cfoutput>
 		</cfcase>
 		<cfcase value="run">
 			<cfoutput>
