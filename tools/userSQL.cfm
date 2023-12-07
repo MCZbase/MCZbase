@@ -1,9 +1,5 @@
 <cfset pageTitle="User SQL">
 <cfinclude template="/shared/_header.cfm">
-<style>
-	table.cfdump_query { width: 100%; }
-	table.cfdump_query td.query { width: 100px; }
-</style>
 <cfif not isDefined("action")>
 	<cfset action = "nothing"> 
 <cfelse>
@@ -86,6 +82,11 @@
 								</cfloop>
 								<a href="/download.cfm?file=#fileName#" class="h3">Click to download</a>
 							<cfelse>
+								<!--- CAUTION: table.cfdump_query is a reference to coldfusion internals, it may go away or change without notice --->
+								<style>
+									table.cfdump_query { width: 100%; }
+									table.cfdump_query td.query { width: 100px; }
+								</style>
 								<cfdump var=#user_sql#>
 							</cfif>
 						<cfcatch>
