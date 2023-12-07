@@ -7,10 +7,10 @@
 	<cfset action="entryPoint">
 </cfif>
 
-	<cfswitch expression="#action#">
-		<cfif value="entryPoint">
+
+<!---		<cfif value="entryPoint">
 			<cfif not isdefined("sql")>
-		</cfif>
+		</cfif>--->
 		<cfcase value="entryPoint">
 			<cfoutput>
 				<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
