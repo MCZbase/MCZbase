@@ -34,7 +34,7 @@
 				</div>
 			</div>
 	
-			<cfif #action# is "run" and #action# is "nothing">
+			<cfif #action# is "run" OR #action# is "nothing">
 				<hr>
 
 				<!--- check the SQL to see if they're doing anything naughty --->
