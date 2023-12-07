@@ -338,10 +338,6 @@
 <cfquery name="mappable" dbtype="query">
 	select count(distinct(collection_object_id)) as cnt from getBasic where dec_long is not null and
 	dec_lat is not null
-	<!---
-	and
-	encumbrance_action <> 'mask coordinates'
-	--->
 </cfquery>
 <cfset mapCount = #mappable.cnt#>
 <!---- error reporting ---->
