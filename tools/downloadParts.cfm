@@ -141,8 +141,8 @@ limitations under the License.
 	<script src="/lib/misc/sorttable.js"></script>
 	<cfoutput>
 		<main class="container-fluid px-4 py-3" id="content">
-			<div class="col-12 px-0">
-				<div class="row mx-0">
+			<div class="row px-0">
+				<div class="col-12 mx-0">
 					<h1 class="h2 mt-2 mx-xl-3">
 						List/Download Parts from a Specimen Search
 						<cfif isDefined("result_id") and len(result_id) GT 0>
@@ -230,7 +230,7 @@ limitations under the License.
 						$("##toggleButton").html("Show Containers");
 					});
 				</script>
-				<table class="sortable table table-responsive table-striped d-xl-table w-100 mx-0 px-0" id="tre" style="empty-cells:show;">
+				<table class="sortable table table-responsive table-striped w-100 mx-0 px-0" id="tre" style="empty-cells:show;">
 					<tr>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>

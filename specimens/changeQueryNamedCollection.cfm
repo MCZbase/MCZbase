@@ -71,8 +71,8 @@ limitations under the License.
 					</cfif>
 				ORDER BY cataloged_item.collection_object_id
 			</cfquery>
-			<div class="container mt-2 mb-3">
-				<div class="row">
+			<div class="container-fluid mt-2 mb-3">
+				<div class="row mx-0">
 					<div class="col-12">
 						<div role="region" aria-labeled-by="formheading">
 							<h1 class="h2 mt-3" id="formheading">Add or Remove all the items (#getItems.recordcount#) listed below to/from the selected named group of cataloged items.</h1>
@@ -116,39 +116,38 @@ limitations under the License.
 											<option value="removeItems">Remove From Named Group</option>
 										</select>
 									</div>
-									<div class="col-12 mt-3" style="padding-top: 2px;">
-										<input type="button" id="remove_button" value="Change" class="btn btn-xs btn-primary" onclick=" changeItemsSubmitHandler(); ">
+									<div class="col-12 mt-3">
+										<input type="button" id="remove_button" value="Change" class="btn btn-xs btn-primary" onclick="changeItemsSubmitHandler();">
 									</div>
 								</div>
 							</form>
 						</div>
 		
 							<div class="form-row mb-5">
-								<table class="table table-responsive-sm">
-									<thead>
-									<tr>
-										<th>Cat Num</th>
-										<th>Scientific Name</th>
-										<th>Collectors</th>
-										<th>Geog</th>
-										<th>Spec Loc</th>
-										<th>Date</th>
-									</tr>
-								</thead>
+								<table class="table table-responsive-md table-striped">
+									<thead class="thead-light">
+										<tr>
+											<th>Cat Num</th>
+											<th>Scientific Name</th>
+											<th>Collectors</th>
+											<th>Geog</th>
+											<th>Spec Loc</th>
+											<th>Date</th>
+										</tr>
+									</thead>
 									<tbody>
 									<cfloop query="getItems" group="collection_object_id">
-									<tr>
-										<td>#collection# #cat_num#</td>
-										<td style="width: 200px;">#scientific_name#</td>
-										<td style="width: 200px;">#collectors#</td>
-										<td>#higher_geog#</td>
-										<td>#spec_locality#</td>
-										<td style="width:100px;">#verbatim_date#</td>
-									</tr>
+										<tr>
+											<td>#collection# #cat_num#</td>
+											<td style="width: 200px;">#scientific_name#</td>
+											<td style="width: 200px;">#collectors#</td>
+											<td>#higher_geog#</td>
+											<td>#spec_locality#</td>
+											<td style="width:100px;">#verbatim_date#</td>
+										</tr>
 									</cfloop>
 									</tbody>
 								</table>
-		
 							</div>
 						</div>
 					</div>
