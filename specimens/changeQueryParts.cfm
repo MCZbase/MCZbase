@@ -622,7 +622,7 @@ limitations under the License.
 													<td style="width:10%">#coll_obj_disposition#</td>
 									<!---				<td style="width:30%;">#coll_object_remarks#</td>--->
 												</tr>
-												<tr><table><tr><td>#coll_object_remarks#</td></tr></table></tr>
+												<tr><table>#coll_object_remarks#</table></tr>
 											</cfloop>
 										</tbody>
 									</table>
