@@ -19,7 +19,6 @@
 				<cfelse>
 					<cfset sql = "SELECT 'test' FROM dual">
 				</cfif>
-			</cfif>
 			<cfif not isdefined("format")>
 				<cfset format = "table">
 			</cfif>
