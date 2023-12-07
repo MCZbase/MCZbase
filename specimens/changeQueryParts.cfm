@@ -888,8 +888,8 @@ limitations under the License.
 	</cfcase>
 	<!---------------------------------------------------------------------------->
 	<cfcase value="modPart">
-		<cfif len(exist_part_name) is 0 or len(new_part_name) is 0>
-			<cfthrow message="Not enough information.  [exist_part_name or new_part_name not provided]">
+		<cfif len(exist_part_name) is 0>
+			<cfthrow message="Not enough information.  [exist_part_name not provided]">
 		</cfif>
 		<cfoutput>
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
