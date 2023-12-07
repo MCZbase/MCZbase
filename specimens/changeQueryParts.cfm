@@ -873,14 +873,16 @@ limitations under the License.
 								collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
 						</cfquery>
 						<cfif len(getRemarks.old_remarks) GT 0>
-							<cfset new_remark = "#getRemarks.old_remarks#; #new_remark#">
+							<cfset update_remark_value = "#getRemarks.old_remarks#; #new_remark#">
+						<cfelse>
+							<cfset update_remark_value = "#new_remark#">
 						</cfif>
-						<cfif len(new_remark) GT 4000>
+						<cfif len(update_remark_value) GT 4000>
 							<cfthrow message="Error: Unable to append, remarks would exceed 4000 characters (for #i#)">
 						</cfif>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							UPDATE coll_object_remark 
-							SET coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_remark#"> 
+							SET coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#update_remark_value#"> 
 							WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
 						</cfquery>
 					</cfif>
