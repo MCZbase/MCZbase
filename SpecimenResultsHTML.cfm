@@ -290,12 +290,17 @@
 	</cfif>
 	<CFSETTING ENABLECFOUTPUTONLY=0>
 
+	<!--- deal with uuid tokens --->
+	<cfset reencodedToken = binaryencode(binarydecode(replace(cftoken,"-","","All"),"Hex"),"Base64Url")>
+	<!--- Base64Url is ^[A-Za-z0-9_-]+$, oracle table names are ^[A-Za-z0-9_#\$]+$, so replace - with # --->
+	<cfset reencodedToken = replace(reencodedToken,"-","##","All")>
+	<cfset cfidAndToken=cfid & '_' & left(replace(reencodedToken,"-",""),maxavailable) & '_' & rand>
 
-<!---- clear old queries from cache and cache flatquery ---->
-	<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
+	<!---- clear old queries from cache and cache flatquery ---->
+	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
 		select * from getData where collection_object_id > 0
 	</cfquery>
-	<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
+	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
 		select * from getData where collection_object_id > 0
 	</cfquery>
 	<cfquery name="uCollObj" dbtype="query">
@@ -316,14 +321,20 @@
 </cfif>
 
 <cfif isdefined("newSearch") and #newSearch# is 1>
-	<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
+	<!--- deal with uuid tokens --->
+	<cfset reencodedToken = binaryencode(binarydecode(replace(cftoken,"-","","All"),"Hex"),"Base64Url")>
+	<!--- Base64Url is ^[A-Za-z0-9_-]+$, oracle table names are ^[A-Za-z0-9_#\$]+$, so replace - with # --->
+	<cfset reencodedToken = replace(reencodedToken,"-","##","All")>
+	<cfset cfidAndToken=cfid & '_' & left(replace(reencodedToken,"-",""),maxavailable) & '_' & rand>
+
+	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
 		select * from SpecRes#cfid##cftoken#
 	</cfquery>
-	<cfquery name="mapCount#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
+	<cfquery name="mapCount#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
 		select * from SpecRes#cfid##cftoken#
 	</cfquery>
 </cfif>
-<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
+<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
 	select * from SpecRes#cfid##cftoken#
 </cfquery>
 
