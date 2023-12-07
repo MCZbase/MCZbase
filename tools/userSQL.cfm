@@ -8,12 +8,14 @@
 <cfif not isdefined("sql")>
 	<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 	<cfif isDefined("input_sql") and len(input_sql) GT 0> 
-		<cfset guidanceText = "Modify this query to your needs. Retain the user_search_table.result_id in the query to modify your original search result or eliminate it to extend the query results to the entire database.">
+		<cfset guidanceText = "Modify this query to your needs. Retain the user_search_table.result_id in the query to modify your original search result or eliminate it to extend the query results to the entire database. ">
 		<cfset sql = input_sql>
 	<cfelse>
+		<cfset guidanceText = "This tool allows you to run arbitrary queries on MCZbase. ">
 		<cfset sql = "SELECT 'test' FROM dual">
 	</cfif>
 </cfif>
+<cfset guidanceText = "#guidanceText# The <a href='' target='_blank'>E-R Diagrams</a>, <a href='https://github.com/MCZbase/DDL/tree/master/TABLE' target='_blank'>Schema documentation</a>, and <a href='https://github.com/MCZbase/queries_MCZbase' target='_blank'>Example Query Library</a> may help in formulating queries."> <!--- " --->
 <cfif isDefined("sql")>
 	<!--- prevent typical copy/paste problem that users encounter, a query with normal ; termination. Strip off the ; to allow query to pass checks --->
 	<cfset sql=Trim(sql)>
