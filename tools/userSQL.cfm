@@ -100,5 +100,4 @@
 				</cfif>
 			</cfif>
 		</cfoutput>
-	</cfif>
 <cfinclude template = "/shared/_footer.cfm">
