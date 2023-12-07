@@ -3,7 +3,12 @@
 <style>
 	table.cfdump_query {width: 100%;}
 </style>
-	<cfset action = "nothing">
+<cfif not isDefined("action")>
+	<cfset action="entryPoint">
+</cfif>
+<cftry>
+	<cfswitch expression="#action#">
+	<cfcase value="entryPoint">
 		<cfif not isdefined("sql")>
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
@@ -15,12 +20,12 @@
 		<cfif not isdefined("format")>
 			<cfset format = "table">
 		</cfif>
+	</cfcase>
 		<cfoutput>
-		
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<form method="post" action="run">
+						<form method="post" action="">
 							<input type="hidden" name="action" value="run">
 							<h1 class="h2 mt-3">SQL</h1>
 							<label for="sql" class="data_entry_label d-none">SQL</label>
@@ -33,7 +38,7 @@
 					</div>
 				</div>
 			</div>
-			<cfif #action# is "run">
+			<cfcase value = "run">
 				<hr>
 				<!--- check the SQL to see if they're doing anything naughty --->
 				<cfset nono="update,
@@ -96,6 +101,7 @@
 						</div>
 					</div>
 				</div>
-			</cfif>
+			</cfcase>
 		</cfoutput>
+	
 <cfinclude template = "/shared/_footer.cfm">
