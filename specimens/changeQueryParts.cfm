@@ -43,6 +43,9 @@ limitations under the License.
 						user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				</cfquery>
 			<cfelse>
+				<cfif not isdefined("table_name")>
+					<cfthrow message="Unable to identify parts to work on [required variable table_name or result_id not defined].">
+				</cfif>
 				<!--- TODO: Remove support for table_name --->
 				<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select count(*) ct
