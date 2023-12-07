@@ -6,7 +6,7 @@
 <cfif not isDefined("action")>
 	<cfset action="entryPoint">
 </cfif>
-<cftry>
+
 	<cfswitch expression="#action#">
 		<cfcase value="entryPoint">
 			<cfif not isdefined("sql")>
@@ -50,66 +50,52 @@
 						<cfset safe=1>
 					</cfif>
 				</cfloop>
-				<div class="container-fluid">
-					<div class="row mx-0">
-						<div class="col-12 pb-5">
-							<h3>Result:</h3>
-							<cfif unsafeSql(sql)>
-								<div class="error">
-									The code you submitted contains illegal characters.
-								</div> 
-							<cfelse>
-								<cftry>
-									<cfif session.username is "uam" or session.username is "uam_update">
-										<cfabort>
-									</cfif>
-									 <cfquery name="user_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										#preservesinglequotes(sql)#
-									</cfquery>
-									<cfif format is "csv">
-										<cfset ac = user_sql.columnlist>
-										<cfset fileDir = "#Application.webDirectory#/download/">
-										<cfset fileName = "MCZbaseUserSql_#cfid#_#cftoken#.csv">
-										<cfset header=#trim(ac)#>
-										<cffile action="write" file="#fileDir##fileName#" addnewline="yes" output="#header#">
-										<cfloop query="user_sql">
-											<cfset oneLine = "">
-											<cfloop list="#ac#" index="z">
-												<cfset thisData = #replace(replace(evaluate(z),'"','""','All'),'\n','','All')#>
-												<cfif len(#oneLine#) is 0>
-													<cfset oneLine = '"#thisData#"'>
-												<cfelse>
-													<cfset oneLine = '#oneLine#,"#thisData#"'>
-												</cfif>
-											</cfloop>
-											<cfset oneLine = trim(oneLine)>
-											<cffile action="append" file="#fileDir##fileName#" addnewline="yes" output="#oneLine#">
-										</cfloop>
-										<a href="/download.cfm?file=#fileName#">Click to download</a>
+				<h3>Result:</h3>
+				<cfif unsafeSql(sql)>
+					<div class="error">
+						The code you submitted contains illegal characters.
+					</div> 
+				<cfelse>
+					<cftry>
+						<cfif session.username is "uam" or session.username is "uam_update">
+							<cfabort>
+						</cfif>
+						 <cfquery name="user_sql" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							#preservesinglequotes(sql)#
+						</cfquery>
+						<cfif format is "csv">
+							<cfset ac = user_sql.columnlist>
+							<cfset fileDir = "#Application.webDirectory#/download/">
+							<cfset fileName = "MCZbaseUserSql_#cfid#_#cftoken#.csv">
+							<cfset header=#trim(ac)#>
+							<cffile action="write" file="#fileDir##fileName#" addnewline="yes" output="#header#">
+							<cfloop query="user_sql">
+								<cfset oneLine = "">
+								<cfloop list="#ac#" index="z">
+									<cfset thisData = #replace(replace(evaluate(z),'"','""','All'),'\n','','All')#>
+									<cfif len(#oneLine#) is 0>
+										<cfset oneLine = '"#thisData#"'>
 									<cfelse>
-										<cfdump var=#user_sql#>
+										<cfset oneLine = '#oneLine#,"#thisData#"'>
 									</cfif>
-								<cfcatch>
-									<div class="error">
-										#cfcatch.message#
-										<br>
-										#cfcatch.detail#
-									</div>
-								</cfcatch>
-								</cftry>
-							</cfif>
+								</cfloop>
+								<cfset oneLine = trim(oneLine)>
+								<cffile action="append" file="#fileDir##fileName#" addnewline="yes" output="#oneLine#">
+							</cfloop>
+							<a href="/download.cfm?file=#fileName#">Click to download</a>
+						<cfelse>
+							<cfdump var=#user_sql#>
+						</cfif>
+					<cfcatch>
+						<div class="error">
+							#cfcatch.message#
+							<br>
+							#cfcatch.detail#
 						</div>
-					</div>
-				</div>
+					</cfcatch>
+					</cftry>
+				</cfif>
 			</cfoutput>
 		</cfcase>
-	</cfswitch>
-	<cfcatch>
-		<h2 class="h3 px-2 mt-1">Error</h2>
-		<cfoutput>
-<!---			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-			<p class="px-2">#error_message#</p>--->
-		</cfoutput>
-	</cfcatch>
-</cftry>
+	</cfswitch>			
 <cfinclude template = "/shared/_footer.cfm">
