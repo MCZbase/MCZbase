@@ -1,5 +1,8 @@
 <cfset pageTitle="User SQL">
 <cfinclude template="/shared/_header.cfm">
+<style>
+	table.cfdump_query { width: 100%; }
+</style>
 <cfif not isDefined("action")>
 	<cfset action = "nothing"> 
 <cfelse>
