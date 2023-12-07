@@ -41,7 +41,7 @@ limitations under the License.
 			cataloged_item.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 	</cfquery>
 	<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
-	<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number. --->
+	<!--- potentially relevant actions: mask collector, [mask coordinates] mask locality, mask original field number. --->
 </cfif>
 <!--- TODO: Remove when edit collecting event is ready for production --->
 <cftry>
@@ -306,7 +306,7 @@ limitations under the License.
 					</div>
 				</section>
 				<section class="col-12 col-md-5 col-xl-4 mt-3 mt-md-0 pl-md-0 float-left">
-					<cfif ListContains(encumber,"mask coordinates") GT 0>
+					<cfif ListContains(encumber,"mask locality") GT 0 OR ListContains(encumber,"mask coordinates") GT 0>
 						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 							[Masked]
 						</div>
