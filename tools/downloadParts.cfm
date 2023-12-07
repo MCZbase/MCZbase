@@ -159,7 +159,7 @@ limitations under the License.
 							<cfif isDefined("result_id") and len(result_id) GT 0>
 								<input type="hidden" name="result_id" value="#encodeForHtml(result_id)#" id="result_id">
 							</cfif>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-4 col-xl-2">
 								<label class="data-entry-label" for="filterPartName">Part Name:</label>
 								<select name="filterPartName" id="filterPartName" class="data-entry-select">
 									<option></option>
@@ -168,7 +168,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-4 col-xl-2">
 								<label class="data-entry-label mt-1 mt-md-0" for="filterPreserveMethod">Preserve Method:</label>
 								<select name="filterPreserveMethod" id="filterPreserveMehtod" class="data-entry-select">
 									<option></option>
@@ -177,7 +177,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-4 col-xl-2">
 								<label class="data-entry-label mt-1 mt-md-0" for="filterDisposition">Disposition:</label>
 								<select name="filterDisposition" id="filterDisposition" class="data-entry-select">
 									<option></option>
@@ -186,17 +186,17 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-4 col-xl-2">
 								<label class="data-entry-label mt-1 mt-md-0" for="searchRemarks">Search Remarks (substring):</label>
 								<cfif not isdefined("searchremarks")><cfset searchremarks=""></cfif>
 								<input type="text" id="searchremarks" name="searchremarks" class="data-entry-input" value="#searchremarks#">
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-4 col-xl-2">
 								<label class="data-entry-label mt-1 mt-md-0" for="filterBarcode">Part Container:</label>
 								<cfif not isdefined("filterBarcode")><cfset filterBarcode=""></cfif>
 								<input type="text" id="filterBarcode" name="filterBarcode" class="data-entry-input" value="#filterBARCODE#">
 							</div>
-							<div class="col-12 col-md-12">
+							<div class="col-12 col-md-12 col-xl-2">
 								<button type="button" id="toggleButton" class="btn btn-xs btn-secondary mt-1 mt-xl-3" onclick="toggleColumns();">Show Containers</button>
 							</div>
 						</div>
