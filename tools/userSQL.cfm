@@ -31,7 +31,7 @@
 							<h2 class="h3">Result Output Format: &nbsp; &nbsp;
 							Table <input type="radio" name="format" value="table" <cfif #format# is "table"> checked="checked" </cfif>> &nbsp;&nbsp;
 							CSV <input type="radio" name="format" value="csv" <cfif #format# is "csv"> checked="checked" </cfif>></h2>
-							<input type="submit" value="Run Query" class="btn btn-xs btn-primary">
+							<input type="submit" value="Run Query" class="btn btn-xs btn-primary mt-2">
 						</form>
 					</div>
 				</div>
