@@ -8,13 +8,14 @@
 <cfif not isdefined("sql")>
 	<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 	<cfif isDefined("input_sql") and len(input_sql) GT 0> 
+		<cfset guidanceText = "Modify this query to your needs. Retain the user_search_table.result_id in the query to modify your original search result or eliminate it to extend the query results to the entire database.">
 		<cfset sql = input_sql>
 	<cfelse>
 		<cfset sql = "SELECT 'test' FROM dual">
 	</cfif>
 </cfif>
 <cfif isDefined("sql")>
-	<!--- typical copy/paste problem, query with normal ; termination, strip off the ; to allow query to pass checks --->
+	<!--- prevent typical copy/paste problem that users encounter, a query with normal ; termination. Strip off the ; to allow query to pass checks --->
 	<cfset sql=Trim(sql)>
 	<cfif Right(sql,1) EQ ";">
 		<cfset sql = REReplace(sql,";$","")>
@@ -30,9 +31,9 @@
 				<form method="post" action="">
 					<input type="hidden" name="action" value="run">
 					<h1 class="h2">SQL</h1>
-					<p class="">Modify this query to your needs. Retain the user_search_table.result_id in the query to modify your original search result or eliminate it to extend the query results to the entire database.</p>
+					<p class="">#guidanceText#</p>
 					<label for="sql" class="data_entry_label d-none">SQL</label>
-					<textarea name="sql" spellcheck="false" id="sql" rows="10" cols="80" wrap="soft" class="form-control text-info">#sql#</textarea>
+					<textarea name="sql" spellcheck="false" id="sql" rows="10" cols="80" wrap="soft" class="form-control">#sql#</textarea>
 					<h2 class="h3">Result Output Format: &nbsp; &nbsp;
 					Table <input type="radio" name="format" value="table" <cfif #format# is "table"> checked="checked" </cfif>> &nbsp;&nbsp;
 					CSV <input type="radio" name="format" value="csv" <cfif #format# is "csv"> checked="checked" </cfif>></h2>
@@ -89,11 +90,6 @@
 								</cfloop>
 								<a href="/download.cfm?file=#fileName#" class="h3">Click to download</a>
 							<cfelse>
-								<!--- CAUTION: table.cfdump_query is a reference to coldfusion internals, it may go away or change without notice --->
-								<style>
-									table.cfdump_query { width: 100%; }
-									table.cfdump_query td.query { width: 100px; }
-								</style>
 								<cfdump var=#user_sql#>
 							</cfif>
 						<cfcatch>
