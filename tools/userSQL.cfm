@@ -7,7 +7,7 @@
 		<cfset action="entryPoint">
 	</cfif>
 
-		<cfif #action#= "entryPoint">
+		<cfif #action# is "entryPoint">
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
 				<cfset sql = input_sql>
