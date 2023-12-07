@@ -4,9 +4,9 @@
 	table.cfdump_query {width: 100%;}
 </style>
 		<cfif not isDefined("action")>
-			<cfset #action# is "nothing"> 
+			<cfset action = "nothing"> 
 		<cfelse>
-			<cfset #action# is "run">
+			<cfset action = "run"> 
 		</cfif>
 		<cfif not isdefined("sql")>
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
