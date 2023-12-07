@@ -102,7 +102,11 @@ limitations under the License.
 								</li>
 								<li class="nav-item mb-1">
 									<cfset crlf = chr(13) & chr(10) >
-									<cfset query="SELECT count(flat.collection_object_id) ct, flat.scientific_name, flat.collection, flat.cat_num, flat.collectors, flat.spec_locality, flat.country, flat.author_text, flat.toptypestatus #crlf#FROM user_search_table#crlf#JOIN flat ON user_search_table.collection_object_id = flat.collection_object_id#crlf#WHERE user_search_table.result_id='#result_id#'#crlf#GROUP BY flat.scientific_name, flat.collection, flat.cat_num, flat.collectors, flat.spec_locality, flat.country,flat.author_text, flat.toptypestatus ORDER BY count(flat.collection_object_id) desc">
+									<!--- could use a longer query, but idea is to give them just a very short one that includes the result_id, and does something useful that the search result doesn (show counts of distinct taxa), they can work with the schema to figure out what other fields they may want to answer other questions --->
+									<!---  
+									<cfset query="SELECT count(flat.collection_object_id) ct, flat.scientific_name, flat.collection, flat.collectors, flat.spec_locality, flat.country, flat.author_text, flat.toptypestatus #crlf#FROM user_search_table#crlf#JOIN flat ON user_search_table.collection_object_id = flat.collection_object_id#crlf#WHERE user_search_table.result_id='#result_id#'#crlf#GROUP BY flat.scientific_name, flat.collection, flat.collectors, flat.spec_locality, flat.country,flat.author_text, flat.toptypestatus#crlf#ORDER BY count(flat.collection_object_id) desc">
+									---->
+									<cfset query="SELECT count(flat.collection_object_id) ct, scientific_name, author_text sciname_author #crlf#FROM user_search_table#crlf#JOIN flat ON user_search_table.collection_object_id = flat.collection_object_id#crlf#WHERE user_search_table.result_id='#result_id#'#crlf#GROUP BY scientific_name, author_text#crlf#ORDER BY count(flat.collection_object_id) desc">
 									<a href="/tools/userSQL.cfm?input_sql=#encodeForURL(query)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Run SQL Queries on this Result</a>
 								</li>
 	<!---
