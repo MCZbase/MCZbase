@@ -123,7 +123,7 @@ limitations under the License.
 							</form>
 						</div>
 		
-							<div class="form-row mb-5">
+							<div class="form-row mx-0 mb-5">
 								<table class="table table-responsive-md table-striped">
 									<thead class="thead-light">
 										<tr>
