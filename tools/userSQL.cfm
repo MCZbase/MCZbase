@@ -8,9 +8,7 @@
 </cfif>
 
 		<cfif #action# is "entryPoint">
-			Hello
-		</cfif>
-		<cfif #action# is "run">
+	
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
 				<cfset sql = input_sql>
@@ -36,7 +34,9 @@
 					</div>
 				</div>
 			</div>
-
+		Hello
+		</cfif>
+		<cfif #action# is "run">
 <!---			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
 				<cfset sql = input_sql>
 			<cfelse>
