@@ -211,7 +211,8 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="row mx-0">
-				<script>
+				<div class="col-12">
+					<script>
 					var toggleState = "show";
 					function toggleColumns() {
 						if (toggleState=="show") {
@@ -230,7 +231,7 @@ limitations under the License.
 						$("##toggleButton").html("Show Containers");
 					});
 				</script>
-				<table class="sortable table table-responsive table-striped w-100 px-2" id="tre" style="empty-cells:show;">
+					<table class="sortable table table-responsive table-striped w-100 px-2" id="tre" style="empty-cells:show;">
 					<tr>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
@@ -274,6 +275,7 @@ limitations under the License.
 						</tr>
 					</cfloop>
 				</table>
+				</div>
 			</div>
 		</main>
 	</cfoutput>
