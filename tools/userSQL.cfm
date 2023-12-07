@@ -2,6 +2,7 @@
 <cfinclude template="/shared/_header.cfm">
 <style>
 	table.cfdump_query { width: 100%; }
+	table.cfdump_query td.query { width: 100px; }
 </style>
 <cfif not isDefined("action")>
 	<cfset action = "nothing"> 
