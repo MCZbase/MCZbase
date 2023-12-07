@@ -7,7 +7,7 @@
 		<cfset action="entryPoint">
 	</cfif>
 
-		<cfif action="entryPoint">
+		<cfif #action#= "entryPoint">
 			<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
 			<cfif isDefined("input_sql") and len(input_sql) GT 0> 
 				<cfset sql = input_sql>
@@ -34,7 +34,7 @@
 				</div>
 			</div>
 		</cfif>
-		<cfif action = "run">
+		<cfif #action# = "run">
 			<cfoutput>
 				<hr>
 				<!--- check the SQL to see if they're doing anything naughty --->
