@@ -722,7 +722,7 @@
 				</cftry>
 			</cftransaction>
 			<h2>#citation_updates# citations evaluated.</h2>
-			<cfif #citation_updates# gt 0> 
+			<cfif #updateCitationsX_result.recordcount# eq 0 and #citation_updates# gt 0> 
 				<h2 class="text-success">Success, changes applied.</h2> 
 			</cfif>
 			
