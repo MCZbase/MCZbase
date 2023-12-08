@@ -595,6 +595,7 @@
 						WHERE status is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
+					<cfif #citation_updates# gt 0>
 					<h3 class="text-danger">Problematic Rows (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>)</h3>
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
@@ -632,6 +633,9 @@
 							</cfloop>
 						</tbody>
 					</table>
+					<cfelse>
+						
+					</cfif>
 				</cfcatch>
 			</cftry>
 			<cfset problem_key = "">
