@@ -340,7 +340,7 @@
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
-				<cfif publication_title is not null and publication_id is null>
+				<cfif len(publication_title) gt 0 and len(publication_id) eq 0>
 					<cfquery name="getPNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_citation
