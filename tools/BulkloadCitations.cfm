@@ -724,9 +724,9 @@
 				</cftry>
 			</cftransaction>
 			<cfif #citation_updates# eq 0>
-				<h2>#citation_updates# citations loaded - They were already in MCZbase.</h2>
+				<h2 class="mt-2">#citation_updates# citations loaded - They were already in MCZbase.</h2>
 			<cfelse>
-				<h2>#citation_updates# citations evaluated.</h2>
+				<h2 class="h3 mt-2">#citation_updates# citations evaluated.</h2>
 				<h2 class="text-success">Success, changes applied.</h2> 
 			</cfif>
 			
