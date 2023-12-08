@@ -40,7 +40,7 @@ limitations under the License.
 		JOIN specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
 		JOIN flat on specimen_part.derived_from_cat_item = flat.collection_object_id
 	WHERE
-		trans_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 </cfquery>
 
 <!--------------------------------------------------------------------------------->
