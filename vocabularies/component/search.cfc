@@ -146,7 +146,7 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 <cffunction name="getCTAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
 	<cfargument name="codetable" type="string" required="yes">
-	<cfargument name="collection_cde" type="string" required="yes">
+	<cfargument name="collection_cde" type="string" required="no">
 
 	<!--- perform wildcard search anywhere in target field --->
 	<cfset name = "%#term#%"> 
