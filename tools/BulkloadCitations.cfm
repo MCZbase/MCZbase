@@ -563,12 +563,6 @@
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">
 							)
 						</cfquery>
-<!---						<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations1_result">
-							select collection_object_id from citation 
-							where collection_object_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-							group by collection_object_id
-							having count(*) > 0
-						</cfquery>--->
 						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 						<cfif updateCitations_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
