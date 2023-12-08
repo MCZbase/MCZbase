@@ -568,7 +568,7 @@
 						from citation 
 						where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 						group by collection_object_id,publication_id,cited_taxon_name_id
-						having count(*) > 0
+						having count(*) > 1
 					</cfquery>
 					<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
 					<cfif updateCitationsX_result.recordcount gt 0>
