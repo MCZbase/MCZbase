@@ -7,6 +7,7 @@
 		ORDER BY key
 	</cfquery>
 	<cfinclude template="/shared/component/functions.cfc">
+	<cfinclude template="/shared/functionLib.cfm">
 	<cfset csv = queryToCSV(getProblemData)>
 	<cfheader name="Content-Type" value="text/csv">
 	<cfoutput>#csv#</cfoutput>
@@ -485,8 +486,8 @@
 					Validation checks passed. Look over the table below and <a href="/tools/BulkloadCitations.cfm?action=load">click to continue</a> if it all looks good.
 				</h2>
 			</cfif>
-			<table class='sortable table table-responsive table-striped d-lg-table'>
-				<thead>
+			<table class='sortable table table-responsive table-striped d-lg-table w-100'>
+				<thead class="thead-light">
 					<tr>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
