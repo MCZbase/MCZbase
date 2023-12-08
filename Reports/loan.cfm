@@ -25,7 +25,7 @@ limitations under the License.
 </cfif>
 
 <cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT loan_number, loan_status, return_due_date
+	SELECT loan_number, loan_status, to_char(return_due_date,'yyyy-mm-dd') return_due_date
 		collection, collection_cde
 	FROM trans 
 		JOIN loan on trans.transaction_id = loan.transaction_id
@@ -34,9 +34,10 @@ limitations under the License.
 		trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 </cfquery>
 <cfquery name="getLoanItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT guid, part_name
-	FROM trans_item
-		JOIN specimen_part on trans_item.collection_object_id = specimen_part.collection_object_id
+	SELECT guid, part_name,
+		to_char(reconciled_date,'yyyy-mm-dd') reconciled_date 
+	FROM loan_item
+		JOIN specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
 		JOIN flat on specimen_part.derived_from_cat_item = flat.collection_object_id
 	WHERE
 		trans_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
@@ -69,7 +70,7 @@ limitations under the License.
 		<cfdocumentsection name="Items In Loan">
 			<h1>Item Invoice</h1>
 			<cfloop query="getLoanItems">
-				#guid# #part_name#
+				#guid# #part_name# #reconciled_date#
 			</cfloop>
 		</cfdocumentsection>
 
