@@ -292,7 +292,7 @@
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					other_id_type, cited_scientific_name, key
+					other_id_type, cited_scientific_name, publication_title, key
 				FROM 
 					cf_temp_citation
 				WHERE 
