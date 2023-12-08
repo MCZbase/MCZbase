@@ -568,10 +568,9 @@
 						from citation 
 						where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 						group by collection_object_id,publication_id,cited_taxon_name_id
-						having count(*) > 1
+						having count(*) > 0
 					</cfquery>
 					<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
-					<cfset citation_updatesX = citation_updatesX + updateCitationsX_result.recordcount>
 					<cfif updateCitationsX_result.recordcount gt 0>
 						<cftransaction action = "ROLLBACK">
 					<cfelse>
@@ -722,7 +721,7 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>#citation_updates# citations loaded. See problematic rows. If none show, they could already be in the citations table.</h2>
+			<h2>#citation_updates# citations loaded. See problematic rows. If none show, they are already in the citations table.</h2>
 			<cfif #citation_updates# gt 0> 
 				<h2 class="text-success">Success, changes applied.</h2> 
 			</cfif>
