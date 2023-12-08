@@ -723,7 +723,11 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>#citation_updates# citations evaluated.</h2>
+			<cfif citation_updatesX gt 0>
+				<h2>#citation_updates# citations already loaded</h2>
+			<cfelse>
+				<h2>#citation_updates# citations evaluated.</h2>
+			</cfif>
 			<cfif #citation_updates# gt 0> 
 				<h2 class="text-success">Success, changes applied.</h2> 
 			</cfif>
