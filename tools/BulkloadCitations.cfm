@@ -578,7 +578,7 @@
 					</cfif>
 				</cfloop>
 				<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
-				<cfif updateCitationsX_result.recordcount gt 0>
+				<cfif updateCitations_result.recordcount gt 0>
 					<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 				<cfelse>
 					<cfif getTempData.recordcount eq citation_updates>
@@ -675,8 +675,6 @@
 									No data or the wrong data (#cfcatch.detail#)
 								<cfelseif cfcatch.detail contains "NULL">
 									Missing Data (#cfcatch.detail#)
-								<cfelseif cfcatch.detail contains "UNIQUE CONSTRAINT">
-									These were already loaded (#cfcatch.detail#)
 								<cfelse>
 									 provide the raw error message if it isn't readily interpretable 
 								 	#cfcatch.detail#
