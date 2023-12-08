@@ -25,7 +25,7 @@ limitations under the License.
 </cfif>
 
 <cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT loan_number, loan_status, to_char(return_due_date,'yyyy-mm-dd') return_due_date
+	SELECT loan_number, loan_status, to_char(return_due_date,'yyyy-mm-dd') return_due_date,
 		collection, collection_cde
 	FROM trans 
 		JOIN loan on trans.transaction_id = loan.transaction_id
