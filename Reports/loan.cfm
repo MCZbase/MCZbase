@@ -36,7 +36,7 @@ limitations under the License.
 <cfquery name="getLoanItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT guid, part_name
 	FROM trans_item
-		JOIN specimen_part on trans_item.collection_object_id
+		JOIN specimen_part on trans_item.collection_object_id = specimen_part.collection_object_id
 		JOIN flat on specimen_part.derived_from_cat_item = flat.collection_object_id
 	WHERE
 		trans_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
