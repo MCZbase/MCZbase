@@ -406,7 +406,20 @@
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
-			
+				<cfquery name="citationProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citationProblems_result">
+					UPDATE cf_temp_citation
+					SET
+						status = concat(nvl2(status, status || '; ', ''),'invalid cited_scientific_name ' || cited_scientific_name)
+					WHERE 
+						cited_scientific_name IS NOT NULL
+						AND cited_scientific_name NOT IN (
+							SELECT scientific_name 
+							FROM taxonomy
+							WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.cited_scientific_name#">
+						)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
+				</cfquery>
 			</cfloop>
 			<!--- qc checks independent of attributes, includes presence of values in required columns --->
 			<cfloop list="#requiredfieldlist#" index="requiredField">
@@ -434,20 +447,7 @@
 					AND type_status not in (select type_status from ctcitation_type_status)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>	
-			<cfquery name="citationProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citationProblems_result">
-				UPDATE cf_temp_citation
-				SET
-					status = concat(nvl2(status, status || '; ', ''),'invalid cited_scientific_name ' || cited_scientific_name)
-				WHERE 
-					cited_scientific_name IS NOT NULL
-					AND cited_scientific_name NOT IN (
-						SELECT scientific_name 
-						FROM taxonomy
-						WHERE scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempTableQC.cited_scientific_name#">
-					)
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
-			</cfquery>
+
 			<!--- found a collection object --->
 			<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_citation
@@ -460,13 +460,6 @@
 				UPDATE cf_temp_citation
 				SET 
 					status = concat(nvl2(status, status || '; ', ''),' no match to a publication_title or publication_id ')
-				WHERE publication_id IS NULL and publication_title IS NULL
-					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="flagNoPublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE cf_temp_citation
-				SET 
-					status = concat(nvl2(status, status || '; ', ''),' no match to a scientific_name ')
 				WHERE publication_id IS NULL and publication_title IS NULL
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>		
