@@ -536,7 +536,7 @@
 				</cfquery>
 			<cftry>
 				<cfset citation_updates = 0>
-				<cfset citation_updates1 = 0>
+				<cfset citation_updatesX = 0>
 				<cfif getTempData.recordcount EQ 0>
 					<cfthrow message="You have no rows to load in the citations bulkloader table (cf_temp_citations).  <a href='/tools/BulkloadCitations.cfm'>Start over</a>">
 				</cfif>
