@@ -571,7 +571,7 @@
 						having count(*) > 1
 					</cfquery>
 					<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
-					<cfif updateCitationsX_result.recordcount gt 0>
+					<cfif updateCitationsX_result.recordcount gt 1>
 						<cftransaction action = "ROLLBACK">
 					<cfelse>
 						<cftransaction action="COMMIT">
