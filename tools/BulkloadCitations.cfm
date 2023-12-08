@@ -568,16 +568,16 @@
 						from citation 
 						where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 						group by cited_taxon_name_id,publication_id,collection_object_id
-						having count(*) > 0
+						having count(*) > 1
 					</cfquery>
-					<cfset citation_updates1 = citation_updates1 +  updateCitations1_result.recordcount>
+					<cfset citation_updates = citation_updates +  updateCitations_result.recordcount>
 					<cfif  updateCitations1_result.recordcount gt 0>
 						<cftransaction action = "ROLLBACK">
 					<cfelse>
 						<cftransaction action="COMMIT">
 					</cfif>
 				</cfloop>
-				<p>Number of citations to update: #citation_updates1# (on #getCounts.ctobj# cataloged items)</p>
+				<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
 				<cfif updateCitations1_result.recordcount gt 0>
 					<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 				<cfelse>
@@ -640,9 +640,9 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT *
+						SELECT institution_acronym, collection_cde, other_id_type, other_id_number, publication_title, publication_id, cited_scientific_name, occurs_page_number,citation_page_uri, type_status, citation_remarks
 						FROM cf_temp_citation 
-						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+						WHERE username= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<h3 class="text-danger">Error updating row (#citation_updates + 1#): 
 						<cfif len(cfcatch.detail)gt 0>
