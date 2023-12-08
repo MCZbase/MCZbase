@@ -727,8 +727,6 @@
 				<h2>#citation_updates# citations - They were already loaded</h2>
 			<cfelse>
 				<h2>#citation_updates# citations evaluated.</h2>
-			</cfif>
-			<cfif #citation_updates# gt 0> 
 				<h2 class="text-success">Success, changes applied.</h2> 
 			</cfif>
 			
