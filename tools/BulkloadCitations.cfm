@@ -427,7 +427,6 @@
 						status = concat(nvl2(status, status || '; ', ''),'missing cited_scientific_name ' || cited_scientific_name)
 					WHERE 
 						cited_scientific_name IS NOT NULL
-						)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						AND key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempTableQC.key#">
 				</cfquery>
