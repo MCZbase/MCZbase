@@ -571,6 +571,7 @@
 						having count(*) > 1
 					</cfquery>
 					<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
+					<cfset citation_updatesX = citation_updatesX + updateCitationsX_result.recordcount>
 					<cfif updateCitationsX_result.recordcount gt 1>
 						<cftransaction action = "ROLLBACK">
 					<cfelse>
@@ -630,7 +631,6 @@
 							</cfloop>
 						</tbody>
 					</table>
-					<cfrethrow>
 				</cfcatch>
 			</cftry>
 			<cfset problem_key = "">
