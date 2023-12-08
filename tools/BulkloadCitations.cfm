@@ -536,95 +536,101 @@
 				</cfquery>
 			<cftry>
 				<cfset citation_updates = 0>
-						<cfset citation_updates1 = 0>
-					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the citations bulkloader table (cf_temp_citations).  <a href='/tools/BulkloadCitations.cfm'>Start over</a>">
-					</cfif>
-					<cfloop query="getTempData">
-						<cfset problem_key = getTempData.key>
-						<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
-							INSERT into citation (
-								PUBLICATION_ID,
-								COLLECTION_OBJECT_ID,
-								CITED_TAXON_NAME_ID,
-								CIT_CURRENT_FG,
-								OCCURS_PAGE_NUMBER,
-								TYPE_STATUS,
-								CITATION_REMARKS,
-								CITATION_PAGE_URI
-							) values (
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#">,
-								1,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">
-							)
-						</cfquery>
-						<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
-						<cfif updateCitations_result.recordcount gt 0>
-							<cftransaction action = "ROLLBACK">
-						<cfelse>
-							<cftransaction action="COMMIT">
-						</cfif>
-					</cfloop>
-					<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif updateCitations_result.recordcount gt 0>
-						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+				<cfset citation_updates1 = 0>
+				<cfif getTempData.recordcount EQ 0>
+					<cfthrow message="You have no rows to load in the citations bulkloader table (cf_temp_citations).  <a href='/tools/BulkloadCitations.cfm'>Start over</a>">
+				</cfif>
+				<cfloop query="getTempData">
+					<cfset problem_key = getTempData.key>
+					<cfquery name="updateCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateCitations_result">
+						INSERT into citation (
+							PUBLICATION_ID,
+							COLLECTION_OBJECT_ID,
+							CITED_TAXON_NAME_ID,
+							CIT_CURRENT_FG,
+							OCCURS_PAGE_NUMBER,
+							TYPE_STATUS,
+							CITATION_REMARKS,
+							CITATION_PAGE_URI
+						) values (
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_taxon_name_id#">,
+							1,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#occurs_page_number#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_remarks#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">
+						)
+					</cfquery>
+					<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result=" updateCitations1_result">
+						select attribute_type,attribute_value,collection_object_id from attributes 
+						where DETERMINED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent_id#">
+						group by attribute_type,attribute_value,collection_object_id
+						having count(*) > 1
+					</cfquery>
+					<cfset citation_updates = citation_updates +  updateCitations1_result.recordcount>
+					<cfif  updateCitations1_result.recordcount gt 0>
+						<cftransaction action = "ROLLBACK">
 					<cfelse>
-						<cfif getTempData.recordcount eq citation_updates>
-							<h2 class="text-success">Success - loaded</h2>
-						</cfif>
+						<cftransaction action="COMMIT">
 					</cfif>
-			<cfcatch>
-				<h2>There was a problem updating citations.</h2>
-				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT institution_acronym, collection_cde, other_id_type, other_id_number, publication_title, publication_id, cited_scientific_name, occurs_page_number,citation_page_uri, type_status, citation_remarks
-					FROM cf_temp_citation 
-					WHERE status is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<h3 class="text-danger">Problematic Rows (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>)</h3>
-				<table class='sortable table table-responsive table-striped d-lg-table'>
-					<thead>
-						<tr>
-							<th>institution_acronym</th>
-							<th>collection_cde</th>
-							<th>other_id_type</th>
-							<th>other_id_number</th>
-							<th>publication_title</th>
-							<th>publication_id</th>
-							<th>cited_scientific_name</th>
-							<th>occurs_page_number</th>
-							<th>citation_page_uri</th>
-							<th>type_status</th>
-							<th>citation_remarks</th>
-							<th>status</th>
-						</tr> 
-					</thead>
-					<tbody>
-						<cfloop query="getProblemData">
+				</cfloop>
+				<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
+				<cfif updateCitations1_result.recordcount gt 0>
+					<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+				<cfelse>
+					<cfif getTempData.recordcount eq citation_updates>
+						<h2 class="text-success">Success - loaded</h2>
+					</cfif>
+				</cfif>
+				<cfcatch>
+					<h2>There was a problem updating citations.</h2>
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT institution_acronym, collection_cde, other_id_type, other_id_number, publication_title, publication_id, cited_scientific_name, occurs_page_number,citation_page_uri, type_status, citation_remarks
+						FROM cf_temp_citation 
+						WHERE status is not null
+							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<h3 class="text-danger">Problematic Rows (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>)</h3>
+					<table class='sortable table table-responsive table-striped d-lg-table'>
+						<thead>
 							<tr>
-								<td>#getProblemData.institution_acronym#</td>
-								<td>#getProblemData.collection_cde#</td>
-								<td>#getProblemData.other_id_type#</td>
-								<td>#getProblemData.other_id_number#</td>
-								<td>#getProblemData.publication_title#</td>
-								<td>#getProblemData.publication_id#</td>
-								<td>#getProblemData.cited_scientific_name#</td>
-								<td>#getProblemData.occurs_page_number#</td>
-								<td>#getProblemData.citation_page_uri#</td>
-								<td>#getProblemData.type_status#</td>
-								<td>#getProblemData.citation_remarks#</td>
-								<td>#getProblemData.status#</td>
+								<th>institution_acronym</th>
+								<th>collection_cde</th>
+								<th>other_id_type</th>
+								<th>other_id_number</th>
+								<th>publication_title</th>
+								<th>publication_id</th>
+								<th>cited_scientific_name</th>
+								<th>occurs_page_number</th>
+								<th>citation_page_uri</th>
+								<th>type_status</th>
+								<th>citation_remarks</th>
+								<th>status</th>
 							</tr> 
-						</cfloop>
-					</tbody>
-				</table>
-				<cfrethrow>
-			</cfcatch>
+						</thead>
+						<tbody>
+							<cfloop query="getProblemData">
+								<tr>
+									<td>#getProblemData.institution_acronym#</td>
+									<td>#getProblemData.collection_cde#</td>
+									<td>#getProblemData.other_id_type#</td>
+									<td>#getProblemData.other_id_number#</td>
+									<td>#getProblemData.publication_title#</td>
+									<td>#getProblemData.publication_id#</td>
+									<td>#getProblemData.cited_scientific_name#</td>
+									<td>#getProblemData.occurs_page_number#</td>
+									<td>#getProblemData.citation_page_uri#</td>
+									<td>#getProblemData.type_status#</td>
+									<td>#getProblemData.citation_remarks#</td>
+									<td>#getProblemData.status#</td>
+								</tr> 
+							</cfloop>
+						</tbody>
+					</table>
+					<cfrethrow>
+				</cfcatch>
 			</cftry>
 			<cfset problem_key = "">
 			<cftransaction>
@@ -715,8 +721,8 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-<!---			<h2>#citation_updates# citations passed checks.</h2>
-			<h2 class="text-success">Success, changes applied.</h2>--->
+			<h2>#citation_updates# citations passed checks.</h2>
+			<h2 class="text-success">Success, changes applied.</h2>
 			cleanup 
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_citation
