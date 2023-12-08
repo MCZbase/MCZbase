@@ -579,7 +579,7 @@
 					</cfif>
 				</cfloop>
 				<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
-				<cfif updateCitationsX_result.recordcount gt 0>
+				<cfif updateCitationsX.recordcount gt 0>
 					<h2 class="text-danger">These have already been loaded - not loaded</h2>
 				<cfelse>
 					<cfif getTempData.recordcount eq citation_updates>
@@ -722,7 +722,7 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>#citation_updates# citations passed checks.</h2>
+			<h2>#citation_updates# citations loaded. See problematic rows. If none show, they could already be in the citations table.</h2>
 			<cfif #citation_updates# gt 0> 
 				<h2 class="text-success">Success, changes applied.</h2> 
 			</cfif>
