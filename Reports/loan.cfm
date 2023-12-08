@@ -26,6 +26,7 @@ limitations under the License.
 
 <cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT loan_number, loan_status, to_char(return_due_date,'yyyy-mm-dd') return_due_date,
+		concattransagent(trans.transaction_id, 'recipient institution')  recipientInstitutionName,
 		collection, collection_cde
 	FROM trans 
 		JOIN loan on trans.transaction_id = loan.transaction_id
@@ -47,20 +48,29 @@ limitations under the License.
 </cfquery>
 
 <!--------------------------------------------------------------------------------->
-<cfdocument format="pdf">
+<cfdocument format="pdf" saveAsName="MCZ_Loan_#getLoan.loan_number#.pdf" pageType="letter" marginTop="0.5" marginBottom="0.5" marginLeft="0.5" marginRight="0.5" fontEmbed="yes">
 	<cfoutput>
 
 		<cfdocumentitem type="header">
-			Museum of Comparative Zoology Loan #getLoan.loan_number#
+			<div style="text-align: center; font-size: small;">
+				Museum of Comparative Zoology Loan #getLoan.loan_number#
+			</div>
 		</cfdocumentitem>
 		
 		<cfdocumentitem type="footer">
-			#dateFormat(now(),'yyyy-mm-dd')#
+			<div style="text-align: center; font-size: x-small;">
+				Produced: #dateFormat(now(),'yyyy-mm-dd')#
+			</div>
 		</cfdocumentitem>
 
 		<cfdocumentsection name="Loan Header">
-			<h1>Loan of #getLoan.collection# Specimens</h1>
-			<ul>
+			<h1 style="text-align: center;">
+				Loan of #getLoan.collection# Specimens
+			</h1>
+			<div>
+				Loan To: #getLoan.recipientInstitutionName#
+			</div>
+			<ul style="text-align: right;">
 				<li>Status: #getLoan.loan_status#</li>
 				<li>Due Date: #getLoan.return_due_date#</li>
 			</ul>
