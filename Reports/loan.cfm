@@ -33,6 +33,9 @@ limitations under the License.
 	WHERE
 		trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 </cfquery>
+<cfif getLoan.recordcount EQ 0>
+	<cfthrow message = "No loan found for provided transaction_id [#encodeForHtml(transaction_id)#].">
+</cfif>
 <cfquery name="getLoanItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT guid, part_name,
 		to_char(reconciled_date,'yyyy-mm-dd') reconciled_date 
@@ -56,10 +59,10 @@ limitations under the License.
 		</cfdocumentitem>
 
 		<cfdocumentsection name="Loan Header">
-			<h1>Loan of #collection# Specimens</h1>
+			<h1>Loan of #getLoan.collection# Specimens</h1>
 			<ul>
-				<li>Status: #loan_status#</li>
-				<li>Due Date: #return_due_date#</li>
+				<li>Status: #getLoan.loan_status#</li>
+				<li>Due Date: #getLoan.return_due_date#</li>
 			</ul>
 		</cfdocumentsection>
 
