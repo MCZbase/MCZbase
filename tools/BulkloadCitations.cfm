@@ -104,6 +104,7 @@
 			<cfset cited_scientific_name_exists = false>
 			<cfset type_status_exists = false>
 			<cfset publication_title_exists = false>
+			<cfset publication_id_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
 				<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
