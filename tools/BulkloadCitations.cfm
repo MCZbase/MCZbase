@@ -724,7 +724,7 @@
 				</cftry>
 			</cftransaction>
 			<cfif #citation_updates# eq 0>
-				<h2>#citation_updates# citations already loaded</h2>
+				<h2>#citation_updates# citations - They were already loaded</h2>
 			<cfelse>
 				<h2>#citation_updates# citations evaluated.</h2>
 			</cfif>
