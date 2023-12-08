@@ -113,8 +113,9 @@
 				<cfif ucase(header) EQ 'cited_scientific_name'><cfset cited_scientific_name_exists=true></cfif>
 				<cfif ucase(header) EQ 'type_status'><cfset type_status_exists=true></cfif>
 				<cfif ucase(header) EQ 'publication_title'><cfset publication_title_exists=true></cfif>	
+				<cfif ucase(header) EQ 'publication_id'><cfset publication_id_exists=true></cfif>	
 			</cfloop>
-			<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND cited_scientific_name_exists AND type_status_exists)>
+			<cfif not (institution_acronym_exists AND collection_cde_exists AND publication_id_exists AND other_id_type_exists AND other_id_number_exists AND cited_scientific_name_exists AND type_status_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
 				<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
 				<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
@@ -123,6 +124,7 @@
 				<cfif not cited_scientific_name_exists><cfset message = "#message# cited_scientific_name is missing."></cfif>
 				<cfif not type_status_exists><cfset message = "#message# type_status is missing."></cfif>
 				<cfif not publication_title_exists><cfset message = "#message# publication_title is missing."></cfif>
+				<cfif not publication_id_exists><cfset message = "#message# publication_id is missing."></cfif>
 				<cfthrow message="#message#">
 			</cfif>
 				<cfset colNames="">
@@ -295,7 +297,7 @@
 		<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					other_id_type, cited_scientific_name, publication_title, key
+					other_id_type, cited_scientific_name, publication_title, publication_id, key
 				FROM 
 					cf_temp_citation
 				WHERE 
@@ -337,8 +339,7 @@
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
-				
-					<cfquery name="getPNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getPNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE
 						cf_temp_citation
 					SET
@@ -349,9 +350,7 @@
 						)
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
-
-					</cfquery>
-			
+				</cfquery>
 				<!--- For each row, set the target collection_object_id --->
 			</cfloop>
 			<cfquery name="getCTNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
