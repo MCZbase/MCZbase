@@ -571,16 +571,15 @@
 						having count(*) > 1
 					</cfquery>
 					<cfset citation_updates = citation_updates + updateCitations_result.recordcount>
-					<cfset citation_updatesX = citation_updatesX + updateCitationsX_result.recordcount>
-					<cfif updateCitationsX_result.recordcount gt 1>
+					<cfif updateCitationsX_result.recordcount gt 0>
 						<cftransaction action = "ROLLBACK">
 					<cfelse>
 						<cftransaction action="COMMIT">
 					</cfif>
 				</cfloop>
 				<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
-				<cfif updateCitationsX_result.recordcount gt 0>
-					<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+				<cfif citation_updatesX.recordcount gt 0>
+					<h2 class="text-danger">These have already been loaded - not loaded</h2>
 				<cfelse>
 					<cfif getTempData.recordcount eq citation_updates>
 						<h2 class="text-success">Success - loaded</h2>
