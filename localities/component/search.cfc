@@ -3199,7 +3199,7 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 				collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		</cfquery>
 		<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
-		<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number. --->
+		<!--- potentially relevant actions: mask collector, [mask coordinates]mask locality, mask original field number. --->
 	</cfif>
 
 	<cfset retval = "">
@@ -3215,7 +3215,7 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 			min_depth,
 			max_Depth,
 			depth_units,
-			<cfif ListContains(encumber,'mask coordinates') GT 0>
+			<cfif ListContains(encumber,'mask locality') GT 0 OR ListContains(encumber,'mask coordinates') GT 0>
 				'[Masked]' as plss,
 			<cfelse>
 				trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
@@ -3223,7 +3223,7 @@ Function suggestSovereignNation.  Search for sovereign_nation appropriate for a 
 			listagg(geology_attributes.geology_attribute || nvl2(geology_attributes.geology_attribute, ':', '') || geo_att_value,'; ') within group (order by geo_att_value) over (partition by locality.locality_id) geolAtts,
 			nogeorefbecause,
 			locality_remarks,
-			<cfif ListContains(encumber,'mask coordinates') GT 0>
+			<cfif ListContains(encumber,'mask locality') GT 0 OR ListContains(encumber,'mask coordinates') GT 0>
 				'' as lat_long_id,
 				'[Masked]' as dec_lat,
 				'[Masked]' as dec_long,

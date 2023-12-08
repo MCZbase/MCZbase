@@ -290,12 +290,13 @@
 	</cfif>
 	<CFSETTING ENABLECFOUTPUTONLY=0>
 
+	<cfset cfidAndToken= "#cfid##session.reencodedToken#">
 
-<!---- clear old queries from cache and cache flatquery ---->
-	<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
+	<!---- clear old queries from cache and cache flatquery ---->
+	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
 		select * from getData where collection_object_id > 0
 	</cfquery>
-	<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
+	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
 		select * from getData where collection_object_id > 0
 	</cfquery>
 	<cfquery name="uCollObj" dbtype="query">
@@ -316,19 +317,22 @@
 </cfif>
 
 <cfif isdefined("newSearch") and #newSearch# is 1>
-	<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
-		select * from SpecRes#cfid##cftoken#
+
+	<cfset cfidAndToken= "#cfid##session.reencodedToken#">
+
+	<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
+		select * from SpecRes#cfidAndToken#
 	</cfquery>
-	<cfquery name="mapCount#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
-		select * from SpecRes#cfid##cftoken#
+	<cfquery name="mapCount#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,0,0)#">
+		select * from SpecRes#cfidAndToken#
 	</cfquery>
 </cfif>
-<cfquery name="SpecRes#cfid##cftoken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
-	select * from SpecRes#cfid##cftoken#
+<cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
+	select * from SpecRes#cfidAndToken#
 </cfquery>
 
 <cfquery name="getBasic" dbtype="query">
-	select * from SpecRes#cfid##cftoken# order by #order_by# #order_order#
+	select * from SpecRes#cfidAndToken# order by #order_by# #order_order#
 </cfquery>
 <!---
 <cfif #getBasic.recordcount# is 1 and #action# is "nothing">
@@ -338,10 +342,6 @@
 <cfquery name="mappable" dbtype="query">
 	select count(distinct(collection_object_id)) as cnt from getBasic where dec_long is not null and
 	dec_lat is not null
-	<!---
-	and
-	encumbrance_action <> 'mask coordinates'
-	--->
 </cfquery>
 <cfset mapCount = #mappable.cnt#>
 <!---- error reporting ---->

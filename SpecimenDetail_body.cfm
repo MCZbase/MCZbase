@@ -56,7 +56,7 @@
 		collecting_event.habitat_desc,
 		case when
 			#oneOfUs# != 1 and
-				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+				(concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' OR concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%') and
 					collecting_event.coll_event_remarks is not null
 				then 'Masked'
 		else
@@ -68,7 +68,7 @@
 		locality.orig_elev_units,
 		case when
 			#oneOfUs# != 1 and
-				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+				(concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' OR concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%') and
 					locality.spec_locality is not null
 				then 'Masked'
 		else
@@ -76,7 +76,7 @@
 		end spec_locality,
 		case when
 			#oneOfUs# != 1 and
-				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+				(concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' OR concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%') and
 					accepted_lat_long.orig_lat_long_units is not null
 				then 'Masked'
 		else
@@ -91,7 +91,7 @@
 		end VerbatimLatitude,
 		case when
 			#oneOfUs# != 1 and
-				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+				(concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' OR concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%') and
 					accepted_lat_long.orig_lat_long_units is not null
 				then 'Masked'
 		else
@@ -144,7 +144,7 @@
 		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 		case when
 			#oneOfUs# != 1 and
-				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+				(concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' OR concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%') and
 					locality.locality_remarks is not null
 				then 'Masked'
 		else
@@ -152,7 +152,7 @@
 		end locality_remarks,
 		case when
 			#oneOfUs# != 1 and
-				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+				(concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' OR concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%') and
 					verbatim_locality is not null
 				then 'Masked'
 		else
@@ -160,7 +160,7 @@
 		end verbatim_locality,
 		case when
 			#oneOfUs# != 1 and
-				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+				(concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' OR concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%') and
 					verbatimdepth is not null
 				then 'Masked'
 		else
@@ -168,7 +168,7 @@
 		end verbatimdepth,
 		case when
 			#oneOfUs# != 1 and
-				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+				(concatencumbrances(cataloged_item.collection_object_id) like '%mask locality%' OR concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%') and
 					verbatimelevation is not null
 				then 'Masked'
 		else

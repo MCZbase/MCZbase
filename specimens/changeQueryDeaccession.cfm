@@ -21,10 +21,12 @@
 	<cfcase value="entryPoint">
 		<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
-				count(cataloged_item.collection_object_id) ct
+				count(cataloged_item.collection_object_id) ct,
+				count(specimen_part.collection_object_id) partct
 			FROM
 				user_search_table 
 				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+				JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item_id
 			WHERE
 				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
@@ -64,7 +66,8 @@
 				trans.institution_acronym transInst,
 				trans.transaction_id,
 				collection.collection,
-				accn_coll.collection accnColln
+				accn_coll.collection accnColln,
+				MCZBASE.GET_SHORT_PARTS_LIST_CONCAT(cataloged_item.collection_object_id) parts
 			FROM
 				user_search_table 
 				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id 
@@ -89,16 +92,16 @@
 					<div class="col-12 pt-4">
 						<h1 class="h3 px-1" id="formheading" >
 							<cfif getItemCount.ct GT getItems.recordcount>
-								Deaccession all parts from all (#getItemCount.ct#) catloged items in this result (first #getItems.recordcount# are listed below):
+								Deaccession all parts (#getItemCount.partCt#) from all (#getItemCount.ct#) cataloged items in this result (first #getItems.recordcount# are listed below):
 							<cfelse>
-								Deaccession all parts of all the catloged items listed below (#getItems.recordcount#):
+								Deaccession all parts of all the cataloged items listed below (#getItems.recordcount#):
 							</cfif>
 						</h1>
 						<form name="addItems" method="post" action="/specimens/changeQueryDeaccession.cfm">
 							<input type="hidden" name="Action" value="deaccessionItems">
 							<input type="hidden" name="result_id" value="#result_id#">
 							<div class="form-row mb-2">
-								<div class="col-12 col-md-4 col-lg-4 pb-2">
+								<div class="col-12 col-md-3 pb-2">
 									<label for="collection_id" class="data-entry-label">Collection</label>
 									<select name="collection_id" id="collection_id" size="1" class="data-entry-select reqdClr" required>
 										<cfloop query="ctcoll">
@@ -111,9 +114,9 @@
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-4 col-lg-4">
+								<div class="col-12 col-md-3">
 									<label for="deacc_number" class="data-entry-label mt-2 mt-md-0">Deaccession</label>
-									<input type="text" name="deacc_number" id="deacc_number" class="data-entry-input reqdClr" required>
+									<input type="text" name="deacc_number" id="deacc_number" class="data-entry-input reqdClr" required placeholder="Dyyyy-n-Col">
 									<input type="hidden" name="trans_id" id="trans_id">
 									<script>
 										jQuery(document).ready(function() {
@@ -122,30 +125,16 @@
 										});
 									</script>
 								</div>
-								<div class="col-12 col-md-4 col-lg-4 mb-2 mb-md-0">
+								<div class="col-12 col-md-3">
+									<label for="deacc_item_remarks" class="data-entry-label mt-2 mt-md-0">Remarks to add to each item</label>
+									<input type="text" name="deacc_item_remarks" id="deacc_item_remarks" class="data-entry-input" maxlength="255">
+								</div>
+								<div class="col-12 col-md-3 col-lg-4 mb-2 mb-md-0">
 									<div class="data-entry-label">&nbsp;</div>
 									<input type="submit" id="s_btn" value="Deaccession" class="btn btn-xs btn-warning">
 								</div>
 							</div>
 						</form>
-					</div>
-				</section>
-<!--- TODO: Rework from here --->
-				<section class="row"> 
-					<div class="col-12 pb-4">
-						<div class="rounded redbox">
-							<div class="card bg-light border-secondary mb-0 pb-1">
-								<cfif getDeaccessions.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-								<div class="card-header h4">Currently in accession#plural#:</div>
-								<div class="card-body">
-									<ul class="list-group list-group-horizontal d-flex flex-wrap">
-										<cfloop query="getDeaccessions">
-											<li class="list-group-item">#getDeaccessions.collection# #getDeaccessions.accn_number#&thinsp;:&thinsp;#getDeaccessions.year# (#getDeaccessions.ct#);</li>
-										</cfloop>
-									</ul>
-								</div>
-							</div>
-						</div>
 					</div>
 				</section>
 				<section class="row"> 
@@ -155,11 +144,11 @@
 								<tr>
 									<th>Cat Num</th>
 									<th>Scientific Name</th>
-									<th class="redbox">Accession</th>
-									<th class="redbox">Date Received</th>
-									<th>Collectors</th>
+									<th>Accession</th>
+									<th>Parts</th>
 									<th>Geog</th>
 									<th>Spec Loc</th>
+									<th>Collectors</th>
 									<th>Date Coll</th>
 								</tr>
 							</thead>
@@ -168,9 +157,12 @@
 									<tr>
 										<td>#getItems.collection# <a href="/guid/MCZ:#collection_cde#:#cat_num#" target="_blank">MCZ:#collection_cde#:#cat_num#</a></td>
 										<td style="width: 200px;">#scientific_name#</td>
-										<td><a href="/SpecimenResults.cfm?Accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a></td>
-										<td>#accn_type# #received_date#</td>
-										<td style="width: 200px;">#getItems.collectors#</td>
+										<td>
+											<a href="/Specimens.cfm?execute=true&action=fixedSearch&accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a>
+											#accn_type# #received_date#
+										</td>
+										<td>#getItems.parts#</td>
+										<td>#getItems.collectors#</td>
 										<td>#higher_geog#</td>
 										<td>#spec_locality#</td>
 										<td style="width:100px;">#verbatim_date#</td>
@@ -191,54 +183,72 @@
 			<cfthrow message="No transaction_id specified,  Can't update specimens">
 		</cfif>
 		<cftransaction>
-			<cfquery name="countCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT count(distinct collection_object_id) ct
-				FROM user_search_table
-				WHERE
-					result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-			</cfquery>
-			<cfquery name="getDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT deaccession.TRANSACTION_ID
-				FROM deaccession
-					LEFT JOIN trans on deaccession.TRANSACTION_ID=trans.TRANSACTION_ID
-				WHERE
-					deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_id#">
-					and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-			</cfquery>
-			<cfif accn.recordcount is 1 and accn.transaction_id gt 0>
-				<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT specimen_part.collection_object_id 
+			<cftry>
+				<cfquery name="countCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT count(distinct collection_object_id) ct
 					FROM user_search_table
-						join specimen_part on user_search_table.collection_object_id = specimen_part.derived_from_cat_item
 					WHERE
 						result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-						and 
-							-- TODO conditions for deaccessioning
 				</cfquery>
-				<cfloop query="getParts">
-				<cfquery name="addToDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="upAccn_result">
-					INSERT INTO deacc_item (
-						transaction_id,
-						collection_object_id
-					) values ( 
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn.transaction_id#">
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParts.collection_object_id#">
-					)
-				</cfquery>
-				</cfloop>
-				<cfif countCheck.ct GT addToDeacc_result.recordcount>
-					<cfthrow message="Error: Query would update more rows (#upAccn_result.recordcount#) than there are in the result (#countCheck.ct#).">
+				<cfif countCheck.ct EQ 0>
+					<cfthrow message="No records to update identified by result_id=#encodeForHtml(result_id)#">
 				</cfif>
-				<cftransaction action="commit">
+				<cfquery name="getDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT deaccession.TRANSACTION_ID
+					FROM deaccession
+						LEFT JOIN trans on deaccession.TRANSACTION_ID=trans.TRANSACTION_ID
+					WHERE
+						deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_id#">
+						and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+				</cfquery>
+				<cfif getDeacc.recordcount is 1>
+					<cfset targetDeaccession = getDeacc.transaction_id>
+					<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT specimen_part.collection_object_id 
+						FROM user_search_table
+							join specimen_part on user_search_table.collection_object_id = specimen_part.derived_from_cat_item
+						WHERE
+							result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+							AND
+							specimen_part.collection_object_id NOT IN (
+								SELECT collection_object_id 
+								FROM deacc_item
+							)
+					</cfquery>
+					<cfset insertCounter = 0>
+					<cfloop query="getParts">
+						<cfquery name="addToDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addToDeacc_result">
+							INSERT INTO deacc_item (
+								transaction_id
+								,collection_object_id
+								<cfif isDefined("deacc_item_remarks") and len(deacc_item_remarks) GT 0>
+									,deacc_item_remarks
+								</cfif>
+							) values ( 
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#targetDeaccession#">
+								,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getParts.collection_object_id#">
+								<cfif isDefined("deacc_item_remarks") and len(deacc_item_remarks) GT 0>
+									,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_item_remarks#">
+								</cfif>
+							)
+						</cfquery>
+						<cfset insertCounter = insertCounter + addToDeaccResult.recordcount>
+					</cfloop>
+					<cfif countCheck.ct LT insertCounter>
+					<cfthrow message="Error: Query would update more rows (#insertCounter#) than there are in the result (#countCheck.ct#).">
+					<cftransaction action="commit">
+				</cfif>
 			<cfelse>
-				<cftransaction action="rollback">
-				<cfthrow message="Accession [#encodeForHtml(accn_number)#] in collection #encodeForHtml(collection_id)# was not found!">
+				<cfthrow message="Deaccession [transaction id=#encodeForHtml(trans_id)#] in collection #encodeForHtml(collection_id)# was not found!">
 			</cfif>
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfdump var="#cfcatch#">
+			</cfcatch>
+			</cftry>
 		</cftransaction>
-		
 		<cflocation url="/specimens/changeQueryAccession.cfm?result_id=#encodeForURL(result_id)#" addtoken="false">
 	</cfcase>
-
 </cfswitch>
 
 <cfinclude template="/shared/_footer.cfm">

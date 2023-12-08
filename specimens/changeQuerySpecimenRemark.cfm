@@ -45,8 +45,8 @@
 			ORDER BY cataloged_item.collection_cde, cataloged_item.cat_num
 		</cfquery>
 		<cfoutput>
-			<main class="container-xl" id="content">
-				<section class="row" aria-labelledby="formheading">
+			<main class="container-fluid" id="content">
+				<section class="row mx-0" aria-labelledby="formheading">
 					<div class="col-12 pt-4">
 						<h1 class="h3 px-1" id="formheading" >
 							Append a specimen remark to the (#getItems.recordcount#) cataloged items listed below:
@@ -74,9 +74,9 @@
 						</form>
 					</div>
 				</section>
-				<section class="row"> 
+				<section class="row mx-0"> 
 					<div class="col-12 pb-4">
-						<table class="table table-responsive table-striped d-xl-table">
+						<table class="table table-responsive-md table-striped">
 							<thead class="thead-light">
 								<tr>
 									<th>Cat Num</th>

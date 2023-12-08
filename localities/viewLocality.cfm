@@ -55,7 +55,7 @@ limitations under the License.
 			collecting_event.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 	</cfquery>
 	<cfset encumber = ValueList(checkForEncumbrances.encumbrance_action)>
-	<!--- potentially relevant actions: mask collector, mask coordinates, mask original field number, mask locality. --->
+	<!--- potentially relevant actions: mask collector, [mask coordinates]mask locality, mask original field number, mask locality. --->
 </cfif>
 
 <cfoutput>
@@ -90,7 +90,7 @@ limitations under the License.
 						</div>
 						<span class="border-bottom-grey d-block d-md-none w-100"></span>
 							<div class="col-12 col-md-6 px-3 pt-3 pb-2">
-								<cfif ListContains(encumber,"mask coordinates") GT 0>
+								<cfif ListContains(encumber,"mask locality") GT 0 OR ListContains(encumber,"mask coordinates") GT 0>
 									[Masked]
 								<cfelse>
 									<cfset georeferences = getLocalityGeoreferenceDetailsHtml(locality_id="#locality_id#")>
@@ -209,7 +209,7 @@ limitations under the License.
 					</div>
 					<div class="row mx-0">
 						<div class="col-12 col-md-6 px-2 py-3">
-							<cfif ListContains(encumber,"mask coordinates") GT 0>
+							<cfif ListContains(encumber,"mask locality") GT 0 OR ListContains(encumber,"mask coordinates") GT 0>
 								[Masked]
 							<cfelse>
 								<!--- TODO: list collecting events linking out to collecting event details. --->
@@ -232,7 +232,7 @@ limitations under the License.
 					</div>
 				</section>
 				<section class="mt-3 mt-md-2 col-12 col-md-3 col-xl-4 pl-md-0 float-left">
-					<cfif ListContains(encumber,"mask coordinates") GT 0>
+					<cfif ListContains(encumber,"mask locality") GT 0 OR ListContains(encumber,"mask coordinates") GT 0>
 						<div class="col-12 px-0 bg-light pt-0 pb-1 mt-2 mb-2 border rounded">
 							[Masked]
 						</div>

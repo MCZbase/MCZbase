@@ -20,6 +20,7 @@ limitations under the License.
 <cfset pageTitle="Bulk Modify Parts">
 <cfset pageHasTabs="true">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <!--------------------------------------------------------------------->
 <cfif isDefined("result_id") and len(result_id) GT 0>
 	<cfset table_name="user_search_table">
@@ -42,6 +43,9 @@ limitations under the License.
 						user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				</cfquery>
 			<cfelse>
+				<cfif not isdefined("table_name")>
+					<cfthrow message="Unable to identify parts to work on [required variable table_name or result_id not defined].">
+				</cfif>
 				<!--- TODO: Remove support for table_name --->
 				<cfquery name="getCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select count(*) ct
@@ -59,7 +63,6 @@ limitations under the License.
 					<cfif getCount.ct gte 1000>
 						<cfthrow message="You can only use this form on up to 1000 specimens at a time. Please <a href='/Specimens.cfm'>revise your search</a>."><!--- " --->
 					</cfif>
-
 
 					<cfset numParts=3>
 					<cfif not isdefined("table_name")>
@@ -224,7 +227,9 @@ limitations under the License.
 													</div>
 													<div class="col-12 forpart#i# pt-1">
 														<label for="condition_#i#" class="data-entry-label">Condition (#i#)</label>
-													<input type="text" name="condition_#i#" id="condition_#i#" class="data-entry-input #requireClass#" #require#>
+														<input type="text" name="condition_#i#" id="condition_#i#" class="data-entry-input #requireClass#" #require#>
+														<!--- TODO: Change to controlled vocabulary, see Redmine 882 --->
+														<!--- "CONDITION_REMARKS" VARCHAR2(4000), -- TODO: Add when controlled vocabulary for condition is implemented See Redmine 882 --->
 													</div>
 													<div class="col-12 forpart#i# py-1">
 													<label for="coll_object_remarks_#i#" class="data-entry-label">Remark (#i#)</label>
@@ -273,8 +278,10 @@ limitations under the License.
 							<!--- TODO: Split into two queries, this group on then group on again paired queries may not produce the expected results. --->
 							<cfquery name="existCO" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
+									coll_object.lot_count_modifier,
 									coll_object.lot_count,
 									coll_object.coll_obj_disposition
+									
 								FROM
 									specimen_part
 									JOIN coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
@@ -286,8 +293,15 @@ limitations under the License.
 										JOIN #table_name# on specimen_part.derived_from_cat_item=#table_name#.collection_object_id
 									</cfif>
 								GROUP BY 
+									coll_object.lot_count_modifier,
 									coll_object.lot_count,
 									coll_object.coll_obj_disposition
+							</cfquery>
+							<cfquery name="existLotCountModifier" dbtype="query">
+								SELECT lot_count_modifier
+								FROM existCO
+								GROUP BY lot_count_modifier
+								ORDER BY lot_count_modifier
 							</cfquery>
 							<cfquery name="existLotCount" dbtype="query">
 								SELECT lot_count 
@@ -346,6 +360,15 @@ limitations under the License.
 															</select>
 														</div>
 														<div class="col-12 pt-1">
+															<label for="existing_lot_count_modifier" class="data-entry-label">Lot Count Modifier Matches</label>
+															<select name="existing_lot_count_modifier" id="existing_lot_count_modifier" size="1" class="data-entry-select">
+																<option selected="selected" value=""></option>
+																<cfloop query="existLotCountModifier">
+																	<option value="#lot_count_modifier#">#lot_count_modifier#</option>
+																</cfloop>
+															</select>
+														</div>
+														<div class="col-12 pt-1">
 															<label for="existing_lot_count" class="data-entry-label">Lot Count Matches</label>
 															<select name="existing_lot_count" id="existing_lot_count" size="1" class="data-entry-select">
 																<option selected="selected" value=""></option>
@@ -372,7 +395,7 @@ limitations under the License.
 																New Part Name
 																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##new_part_name').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 															</label>
-															<input type="text" name="new_part_name" id="new_part_name" class="data-entry-input reqdClr" required>
+															<input type="text" name="new_part_name" id="new_part_name" class="data-entry-input">
 															<script>
 																$(document).ready(function() {
 																	makeCTAutocompleteColl("new_part_name","SPECIMEN_PART_NAME","#colcdes#");
@@ -385,6 +408,16 @@ limitations under the License.
 																<option value=""></option>
 																<cfloop query="ctPreserveMethod">
 																	<option value="#ctPreserveMethod.preserve_method#">#ctPreserveMethod.preserve_method#</option>
+																</cfloop>
+															</select>
+														</div>
+														<div class="col-12 pt-1">
+															<label for="new_lot_count_modifier" class="data-entry-label">New Lot Count Modifier</label>
+															<select name="new_lot_count_modifier" id="new_lot_count_modifier" class="data-entry-select">
+																<option value=""></option>
+																<option value="NULL">No Value</option>
+																<cfloop query="ctNumericModifiers">
+																	<option value="#ctNumericModifiers.modifier#">#ctNumericModifiers.modifier#</option>
 																</cfloop>
 															</select>
 														</div>
@@ -404,6 +437,8 @@ limitations under the License.
 														<div class="col-12 pt-1">
 															<label for="new_condition" class="data-entry-label">New Condition</label>
 															<input type="text" name="new_condition" id="new_condition" class="data-entry-input">
+															<!--- TODO: Change to controlled vocabulary, see Redmine 882 --->
+															<!--- "CONDITION_REMARKS" VARCHAR2(4000), -- TODO: Add when controlled vocabulary for condition is implemented See Redmine 882 --->
 														</div>
 														<div class="col-12 py-1">
 															<label for="new_remark" class="data-entry-label">Add Remark</label>
@@ -552,7 +587,7 @@ limitations under the License.
 								<td><a href="/guid/#institution_acronym#:#collection_cde#:#cat_num#">#collection# #cat_num#</a></td>
 								<td>#scientific_name#</td>
 								<cfquery name="getParts" dbtype="query">
-									select
+									SELECT
 										part_name,
 										preserve_method,
 										condition,
@@ -560,33 +595,34 @@ limitations under the License.
 										lot_count,
 										coll_obj_disposition,
 										coll_object_remarks
-									from
+									FROM
 										getCollObjList
-									where
-										collection_object_id=#collection_object_id#
+									WHERE
+										collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">
+									ORDER BY
+										part_name, preserve_method, lot_count
 								</cfquery>
 								<td>
-									<table border width="100%">
+									<table class="table table">
 										<thead class="thead-dark">
-											<th>Part</th>
-											<th>Preserve Method</th>
-											<th>Condition</th>
-											<th>Count Modifier</th>
-											<th>Count</th>
-											<th>Dispn</th>
-											<th>Remark</th>
+											<th colspan="1">Part</th>
+											<th colspan="1">Preserve Method</th>
+											<th colspan="1">Condition</th>
+											<th colspan="1">Count</th>
+											<th colspan="1">Disposition</th>
+											<th colspan="5">Remark</th>
 										</thead>
 										<tbody>
 											<cfloop query="getParts">
 												<tr>
-													<td>#part_name#</td>
-													<td>#preserve_method#</td>
-													<td>#condition#</td>
-													<td>#lot_count_modifier#</td>
-													<td>#lot_count#</td>
-													<td>#coll_obj_disposition#</td>
-													<td>#coll_object_remarks#</td>
+													<td colspan="1">#part_name#</td>
+													<td colspan="1">#preserve_method#</td>
+													<td colspan="1">#condition#</td>
+													<td colspan="1">#lot_count# #lot_count_modifier#</td>
+													<td colspan="1">#coll_obj_disposition#</td>
+													<td colspan="5">#coll_object_remarks#</td>
 												</tr>
+										
 											</cfloop>
 										</tbody>
 									</table>
@@ -748,49 +784,121 @@ limitations under the License.
 		<cfset remarkCount = 0>
 		<cftransaction>
 			<cfloop list="#partID#" index="i">
-				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update specimen_part set
-						part_name='#new_part_name#'
-						<cfif len(new_preserve_method) gt 0>
-								,preserve_method='#new_preserve_method#'
-						</cfif>
-					where collection_object_id=#i#
-				</cfquery>
-				<cfif len(new_lot_count) gt 0 or len(new_coll_obj_disposition) gt 0 or len(new_condition) gt 0>
+				<cfif len(new_part_name) gt 0 or len(new_preserve_method) gt 0>
+					<!--- Fields in specimen part:
+						"COLLECTION_OBJECT_ID" NUMBER NOT NULL ENABLE, -- Key
+						"PART_NAME" VARCHAR2(255 CHAR) NOT NULL ENABLE,  
+						"PART_MODIFIER" VARCHAR2(60 CHAR),  -- deprecated
+						"SAMPLED_FROM_OBJ_ID" NUMBER,  -- can not sensibly edit from here
+						"PRESERVE_METHOD" VARCHAR2(50 CHAR), 
+						"DERIVED_FROM_CAT_ITEM" NUMBER NOT NULL ENABLE, 
+						"IS_TISSUE" NUMBER, -- deprecated 
+					---> 
 					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update coll_object set
-							flags=flags
+						UPDATE specimen_part
+						SET
+							<cfif len(new_part_name) gt 0>
+								part_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_part_name#">
+							</cfif>
+							<cfif len(new_part_name) GT 0 AND len(new_preserve_method) gt 0>
+								,
+							</cfif>
+							<cfif len(new_preserve_method) gt 0>
+									preserve_method=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_preserve_method#">
+							</cfif>
+						WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
+					</cfquery>
+				</cfif>
+				<cfif len(new_lot_count_modifier) gt 0 or len(new_lot_count) gt 0 or len(new_coll_obj_disposition) gt 0 or len(new_condition) gt 0>
+					<!--- fields in coll_object table 
+					   (	"COLLECTION_OBJECT_ID" NUMBER NOT NULL ENABLE, -- PK 
+						"COLL_OBJECT_TYPE" CHAR(2 CHAR) NOT NULL ENABLE, -- Table Typing 
+						"ENTERED_PERSON_ID" NUMBER NOT NULL ENABLE,  -- Not updated
+						"COLL_OBJECT_ENTERED_DATE" DATE NOT NULL ENABLE, -- Not updated
+						"LAST_EDITED_PERSON_ID" NUMBER, 
+						"LAST_EDIT_DATE" DATE, 
+						"COLL_OBJ_DISPOSITION" VARCHAR2(40 CHAR), 
+						"LOT_COUNT" NUMBER NOT NULL ENABLE, 
+						"CONDITION" VARCHAR2(255 CHAR), 
+						"FLAGS" VARCHAR2(20 CHAR), -- data quality flags, not set from here
+						"LOT_COUNT_MODIFIER" VARCHAR2(5 CHAR), 
+						"FIX_ENTERED_DATE" DATE, -- Not to be changed here
+						"CONDITION_REMARKS" VARCHAR2(4000), -- TODO: Add when controlled vocabulary for condition is implemented See Redmine 882
+					--->
+					<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						UPDATE coll_object 
+						SET
+							LAST_EDITED_PERSON_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.myAgentId#">
+							,LAST_EDIT_DATE = sysdate
 							<cfif len(new_lot_count) gt 0>
-								,lot_count=#new_lot_count#
+								<cfif new_lot_count EQ "NULL">
+									,lot_count_modifier = NULL
+								<cfelse>
+									,lot_count_modifier = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_lot_count_modifier#">
+								</cfif>
+							</cfif>
+							<cfif len(new_lot_count) gt 0>
+								,lot_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_lot_count#">
 							</cfif>
 							<cfif len(new_coll_obj_disposition) gt 0>
-								,coll_obj_disposition='#new_coll_obj_disposition#'
+								,coll_obj_disposition=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_coll_obj_disposition#">
 							</cfif>
 							<cfif len(new_condition) gt 0>
-								,condition='#new_condition#'
+								,condition=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_condition#">
 							</cfif>
-						where collection_object_id=#i#
+						WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
 					</cfquery>
 				</cfif>
 				<cfif len(new_remark) gt 0>
-					<!--- TODO: Evaluate if this treatment of remarks is correct.  Should append? --->
-					<cftry>
+					<!--- Insert a coll_object_record if none exists, otherwise concatenate field value to existing record. --->
+					<cfquery name="checkForRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT count(*) ct
+						FROM coll_object_remark
+						WHERE
+							collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
+					</cfquery>
+					<cfif checkForRemarks.ct EQ 0>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							insert into coll_object_remark (collection_object_id,coll_object_remarks) values (#i#,'#new_remark#')
+							insert into coll_object_remark 
+							(
+								collection_object_id,coll_object_remarks
+							) values (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_remark#">
+							)
 						</cfquery>
-					<cfcatch>
+					<cfelse>
+						<cfquery name="getRemarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT coll_object_remarks as old_remarks
+							FROM coll_object_remark
+							WHERE
+								collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
+						</cfquery>
+						<cfif len(getRemarks.old_remarks) GT 0>
+							<cfset update_remark_value = "#getRemarks.old_remarks#; #new_remark#">
+						<cfelse>
+							<cfset update_remark_value = "#new_remark#">
+						</cfif>
+						<cfif len(update_remark_value) GT 4000>
+							<cfthrow message="Error: Unable to append, remarks would exceed 4000 characters (for #i#)">
+						</cfif>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update coll_object_remark set coll_object_remarks='#new_remark#' where collection_object_id=#i#
+							UPDATE coll_object_remark 
+							SET coll_object_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#update_remark_value#"> 
+							WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">
 						</cfquery>
-					</cfcatch>
-					</cftry>
+					</cfif>
 				</cfif>
 				<cfset partUpdateCount = partUpdateCount + 1>
 			</cfloop>
 			</cftransaction>
 			<div class="row mx-0">
 				<div class="col-12">
-					<h2 class="h2 pt-2">Succesfully updated #partUpdateCount# parts</h2>
+					<cfif partUpdateCount EQ 0>
+						<h2 class="h2 pt-2">No parts updated.</h2>
+					<cfelse>
+						<h2 class="h2 pt-2">Succesfully updated #partUpdateCount# parts</h2>
+					</cfif>
 					<h3 class="h4 pt-2">
 						<cfif isDefined("result_id") and len(result_id) GT 0>
 							<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
@@ -806,8 +914,8 @@ limitations under the License.
 	</cfcase>
 	<!---------------------------------------------------------------------------->
 	<cfcase value="modPart">
-		<cfif len(exist_part_name) is 0 or len(new_part_name) is 0>
-			<cfthrow message="Not enough information.  [exist_part_name or new_part_name not provided]">
+		<cfif len(exist_part_name) is 0>
+			<cfthrow message="Not enough information.  [exist_part_name not provided]">
 		</cfif>
 		<cfoutput>
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -819,6 +927,7 @@ limitations under the License.
 					specimen_part.part_name,
 					specimen_part.preserve_method,
 					coll_object.condition,
+					coll_object.lot_count_modifier,
 					coll_object.lot_count,
 					coll_object.coll_obj_disposition,
 					coll_object_remark.coll_object_remarks
@@ -847,12 +956,15 @@ limitations under the License.
 					specimen_part.collection_object_id=coll_object_remark.collection_object_id (+) and
 					cataloged_item.collection_object_id=identification.collection_object_id and
 					accepted_id_fg=1 and
-					part_name='#exist_part_name#'
+					part_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_part_name#">
+					<cfif len(existing_lot_count_modifier) gt 0>
+						and lot_count_modifier=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#existing_lot_count_modifier#">
+					</cfif>
 					<cfif len(existing_lot_count) gt 0>
-						and lot_count=#existing_lot_count#
+						and lot_count=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#existing_lot_count#">
 					</cfif>
 					<cfif len(existing_coll_obj_disposition) gt 0>
-						and coll_obj_disposition='#existing_coll_obj_disposition#'
+						and coll_obj_disposition=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#existing_coll_obj_disposition#">
 					</cfif>
 				order by
 					collection.collection,cataloged_item.cat_num
@@ -878,6 +990,8 @@ limitations under the License.
 					<input type="hidden" name="new_part_name" value="#new_part_name#">
 					<input type="hidden" name="exist_preserve_method" value="#exist_preserve_method#">
 					<input type="hidden" name="new_preserve_method" value="#new_preserve_method#">
+					<input type="hidden" name="existing_lot_count_modifier" value="#existing_lot_count_modifier#">
+					<input type="hidden" name="new_lot_count_modifier" value="#new_lot_count_modifier#">
 					<input type="hidden" name="existing_lot_count" value="#existing_lot_count#">
 					<input type="hidden" name="new_lot_count" value="#new_lot_count#">
 					<input type="hidden" name="existing_coll_obj_disposition" value="#existing_coll_obj_disposition#">
@@ -901,6 +1015,8 @@ limitations under the License.
 						<th>NewPresMethod</th>
 						<th>OldCondition</th>
 						<th>NewCondition</th>
+						<th>OldCntMod</th>
+						<th>NewCntMod</th>
 						<th>OldCnt</th>
 						<th>NewCnt</th>
 						<th>OldDispn</th>
@@ -915,7 +1031,13 @@ limitations under the License.
 							<td>#collection# #cat_num#</td>
 							<td>#scientific_name#</td>
 							<td>#part_name#</td>
-							<td>#new_part_name#</td>
+							<td>
+								<cfif len(new_part_name) gt 0>
+									<strong>#new_part_name#</strong>
+								<cfelse>
+									NOT UPDATED
+								</cfif>
+							</td>
 							<td>#preserve_method#</td>
 							<td>
 								<cfif len(new_preserve_method) gt 0>
@@ -928,6 +1050,14 @@ limitations under the License.
 							<td>
 								<cfif len(new_condition) gt 0>
 									<strong>#new_condition#</strong>
+								<cfelse>
+									NOT UPDATED
+								</cfif>
+							</td>
+							<td>#lot_count_modifier#</td>
+							<td>
+								<cfif len(new_lot_count_modifier) gt 0>
+									<strong>#new_lot_count_modifier#</strong>
 								<cfelse>
 									NOT UPDATED
 								</cfif>
@@ -951,12 +1081,12 @@ limitations under the License.
 							<td>#coll_object_remarks#</td>
 							<td>
 								<cfif len(new_remark) gt 0>
+									#coll_object_remarks#
 									<strong>#new_remark#</strong>
 								<cfelse>
 									NOT UPDATED
 								</cfif>
 							</td>
-		
 						</tr>
 					</cfloop>
 					</tbody>
@@ -984,6 +1114,7 @@ limitations under the License.
 			<cfset remarkCounter = 0>
 			<cftransaction>
 				<cftry>
+					<!--- Insert new coll_object, specimen_part, and optionally coll_object_remark records for each specified cataloged item --->
 					<cfloop query="ids">
 						<cfloop from="1" to="#numParts#" index="n">
 							<cfset thisPartName = #evaluate("part_name_" & n)#>
@@ -1009,32 +1140,39 @@ limitations under the License.
 									VALUES (
 										sq_collection_object_id.nextval,
 										'SP',
-										#session.myAgentId#,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
 										sysdate,
-										#session.myAgentId#,
-										'#thisDisposition#',
-										'#thisLotCountModifier#',
-										#thisLotCount#,
-										'#thisCondition#',
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDisposition#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLotCountModifier#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisLotCount#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisCondition#">,
 										0 )
 								</cfquery>
 								<cfquery name="newTiss" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									INSERT INTO specimen_part (
-										  COLLECTION_OBJECT_ID,
-										  PART_NAME,
-										  Preserve_method
-											,DERIVED_FROM_cat_item)
-										VALUES (
-											sq_collection_object_id.currval,
-										  '#thisPartName#',
-										  '#thisPreserveMethod#'
-											,#ids.collection_object_id#)
+										COLLECTION_OBJECT_ID,
+										PART_NAME,
+										Preserve_method,
+										DERIVED_FROM_cat_item
+									) VALUES (
+										sq_collection_object_id.currval,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisPartName#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisPreserveMethod#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ids.collection_object_id#">
+									)
 								</cfquery>
 								<cfset partCounter = partCounter + 1>
 								<cfif len(#thisRemark#) gt 0>
+									<!--- Adding a new collection object record for the part, so also insert a coll_object_remark record. --->
 									<cfquery name="newCollRem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										INSERT INTO coll_object_remark (collection_object_id, coll_object_remarks)
-										VALUES (sq_collection_object_id.currval, '#thisRemark#')
+										INSERT INTO coll_object_remark 
+										(
+											collection_object_id, coll_object_remarks
+										) VALUES (
+											sq_collection_object_id.currval, 
+											<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisRemark#">
+										)
 									</cfquery>
 								</cfif>
 							</cfif>
@@ -1043,12 +1181,22 @@ limitations under the License.
 				<cftransaction action="commit">
 				<cfcatch>
 					<cftransaction action="rollback">
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
 			<div class="row mx-0">
 				<div class="col-12 mt-3">
-					<h2 class="px-2">Successfully added #partCounter# new parts.</h2>
+					<cfif isDefined("error_message") and len(error_message) GT 0>
+						<h2 class="px-2">Error. Failed to add new parts.</h2>
+						<div>#error_message#</div>
+					<cfelse>
+						<cfif partCounter GT 0>
+							<h2 class="px-2">Successfully added #partCounter# new parts.</h2>
+						<cfelse>
+							<h2 class="px-2">No new parts added.</h2>
+						</cfif>
+					</cfif>
 					<h3 class="p-2">
 						<cfif isDefined("result_id") and len(result_id) GT 0>
 							<cfset targeturl="/specimens/changeQueryParts.cfm?result_id=#result_id#">
@@ -1063,7 +1211,6 @@ limitations under the License.
 	</cfcase>
 	</cfswitch>
 <cfcatch>
-	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 	<h2 class="h3 px-2 mt-1">Error</h2>
 	<cfoutput>
 		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
