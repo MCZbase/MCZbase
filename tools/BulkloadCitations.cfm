@@ -567,7 +567,7 @@
 						select cited_taxon_name_id,publication_id,collection_object_id from citation 
 						where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 						group by cited_taxon_name_id,publication_id,collection_object_id
-						having count(*) > 1
+						having count(*) > 0
 					</cfquery>
 					<cfset citation_updates1 = citation_updates1 +  updateCitations1_result.recordcount>
 					<cfif  updateCitations1_result.recordcount gt 0>
@@ -576,7 +576,7 @@
 						<cftransaction action="COMMIT">
 					</cfif>
 				</cfloop>
-				<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
+				<p>Number of citations to update: #citation_updates1# (on #getCounts.ctobj# cataloged items)</p>
 				<cfif updateCitations1_result.recordcount gt 0>
 					<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 				<cfelse>
