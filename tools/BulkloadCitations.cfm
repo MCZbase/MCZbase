@@ -569,7 +569,7 @@
 						group by cited_taxon_name_id,publication_id,collection_object_id
 						having count(*) > 1
 					</cfquery>
-					<cfset citation_updates = citation_updates +  updateCitations1_result.recordcount>
+					<cfset citation_updates1 = citation_updates1 +  updateCitations1_result.recordcount>
 					<cfif  updateCitations1_result.recordcount gt 0>
 						<cftransaction action = "ROLLBACK">
 					<cfelse>
@@ -580,7 +580,7 @@
 				<cfif updateCitations1_result.recordcount gt 0>
 					<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 				<cfelse>
-					<cfif getTempData.recordcount eq citation_updates>
+					<cfif getTempData.recordcount eq citation_updates1>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
 				</cfif>
