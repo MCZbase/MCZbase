@@ -675,6 +675,8 @@
 									No data or the wrong data (#cfcatch.detail#)
 								<cfelseif cfcatch.detail contains "NULL">
 									Missing Data (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "UNIQUE CONSTRAINT">
+									These were already loaded (#cfcatch.detail#)
 								<cfelse>
 									 provide the raw error message if it isn't readily interpretable 
 								 	#cfcatch.detail#
