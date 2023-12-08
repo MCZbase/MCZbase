@@ -1,7 +1,7 @@
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,publication_id,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks
+		SELECT institution_acronym,collection_cde,other_id_type,other_id_number,publication_title,cited_scientific_name,occurs_page_number,citation_page_uri,type_status,citation_remarks
 		FROM cf_temp_citation 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		ORDER BY key
@@ -60,7 +60,7 @@
 					<li class="#class#">#field#</li>
 				</cfloop>
 			</ul>
-			<cfform name="atts" method="post" enctype="multipart/form-data" action="/tools/BulkloadCitations.cfm">
+			<cfform name="cits" method="post" enctype="multipart/form-data" action="/tools/BulkloadCitations.cfm">
 				<input type="hidden" name="Action" value="getFile">
 				<input type="file" name="FiletoUpload" size="45">
 				<label for="cSet">Character Set:</label> 
@@ -103,6 +103,7 @@
 			<cfset other_id_number_exists = false>
 			<cfset cited_scientific_name_exists = false>
 			<cfset type_status_exists = false>
+			<cfset publication_title_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
 				<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
@@ -110,7 +111,8 @@
 				<cfif ucase(header) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
 				<cfif ucase(header) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
 				<cfif ucase(header) EQ 'cited_scientific_name'><cfset cited_scientific_name_exists=true></cfif>
-				<cfif ucase(header) EQ 'type_status'><cfset type_status_exists=true></cfif>				
+				<cfif ucase(header) EQ 'type_status'><cfset type_status_exists=true></cfif>
+				<cfif ucase(header) EQ 'publication_title'><cfset publication_title_exists=true></cfif>	
 			</cfloop>
 			<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND cited_scientific_name_exists AND type_status_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
@@ -120,6 +122,7 @@
 				<cfif not other_id_number_exists><cfset message = "#message# other_id_number is missing."></cfif>
 				<cfif not cited_scientific_name_exists><cfset message = "#message# cited_scientific_name is missing."></cfif>
 				<cfif not type_status_exists><cfset message = "#message# type_status is missing."></cfif>
+				<cfif not publication_title_exists><cfset message = "#message# publication_title is missing."></cfif>
 				<cfthrow message="#message#">
 			</cfif>
 				<cfset colNames="">
