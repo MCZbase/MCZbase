@@ -328,7 +328,7 @@
 	</cfquery>
 </cfif>
 <cfquery name="SpecRes#cfidAndToken#" dbtype="query" cachedwithin="#createtimespan(0,0,120,0)#">
-	select * from SpecRes#cfidAndTken#
+	select * from SpecRes#cfidAndToken#
 </cfquery>
 
 <cfquery name="getBasic" dbtype="query">
