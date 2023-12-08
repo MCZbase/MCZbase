@@ -25,7 +25,8 @@ limitations under the License.
 </cfif>
 
 <cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT loan_number, collection, collection_id 
+	SELECT loan_number, loan_status, return_due_date
+		collection, collection_cde
 	FROM trans 
 		JOIN loan on trans.transaction_id = loan.transaction_id
 		JOIN collection on trans.collection_id = collection.collection_id
@@ -49,12 +50,16 @@ limitations under the License.
 			Museum of Comparative Zoology Loan #getLoan.loan_number#
 		</cfdocumentitem>
 		
-		<cfdocumentitem type="header">
+		<cfdocumentitem type="footer">
 			#dateFormat(now(),'yyyy-mm-dd')#
 		</cfdocumentitem>
 
 		<cfdocumentsection name="Loan Header">
 			<h1>Loan of #collection# Specimens</h1>
+			<ul>
+				<li>Status: #loan_status#</li>
+				<li>Due Date: #return_due_date#</li>
+			</ul>
 		</cfdocumentsection>
 
 		<cfdocumentsection name="Loan Conditions">
@@ -62,7 +67,7 @@ limitations under the License.
 		</cfdocumentsection>
 
 		<cfdocumentsection name="Items In Loan">
-			<h1>Items in Loan</h1>
+			<h1>Item Invoice</h1>
 			<cfloop query="getLoanItems">
 				#guid# #part_name#
 			</cfloop>
