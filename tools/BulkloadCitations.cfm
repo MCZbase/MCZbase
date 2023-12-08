@@ -352,20 +352,21 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 				</cfquery>
+				<cfquery name="getCTNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE
+						cf_temp_citation
+					SET
+						cited_taxon_name_id = (
+							select taxon_name_id 
+							from taxonomy 
+							where scientific_name = cf_temp_citation.cited_scientific_name 
+						),
+						status = null
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+				</cfquery>
 			</cfloop>
-			<cfquery name="getCTNID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE
-					cf_temp_citation
-				SET
-					cited_taxon_name_id = (
-						select taxon_name_id 
-						from taxonomy 
-						where scientific_name = cf_temp_citation.cited_scientific_name 
-					),
-					status = null
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
-			</cfquery>
+
 
 			<!--- obtain the information needed to QC each row --->
 			<cfquery name="getTempTableQC" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
