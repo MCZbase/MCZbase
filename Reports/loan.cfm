@@ -31,7 +31,7 @@ limitations under the License.
 		JOIN loan on trans.transaction_id = loan.transaction_id
 		JOIN collection on trans.collection_id = collection.collection_id
 	WHERE
-		transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 </cfquery>
 <cfquery name="getLoanItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT guid, part_name
@@ -39,7 +39,7 @@ limitations under the License.
 		JOIN specimen_part on trans_item.collection_object_id
 		JOIN flat on specimen_part.derived_from_cat_item = flat.collection_object_id
 	WHERE
-		transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		trans_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 </cfquery>
 
 <!--------------------------------------------------------------------------------->
