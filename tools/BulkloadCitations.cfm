@@ -722,8 +722,11 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>#citation_updatesX# and #citation_updates# citations passed checks.</h2>
-			<h2 class="text-success">Success, changes applied.</h2>
+			<h2>#citation_updates# citations passed checks.</h2>
+			<cfif #citation_updates# gt 0> 
+				<h2 class="text-success">Success, changes applied.</h2> 
+			</cfif>
+			
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_citation
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
