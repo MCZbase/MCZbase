@@ -564,9 +564,9 @@
 						)
 					</cfquery>
 					<cfquery name="updateCitations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result=" updateCitations1_result">
-						select attribute_type,attribute_value,collection_object_id from attributes 
-						where DETERMINED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent_id#">
-						group by attribute_type,attribute_value,collection_object_id
+						select cited_taxon_name_id,publication_id,collection_object_id from citation 
+						where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+						group by cited_taxon_name_id,publication_id,collection_object_id
 						having count(*) > 1
 					</cfquery>
 					<cfset citation_updates = citation_updates +  updateCitations1_result.recordcount>
