@@ -550,15 +550,21 @@ If your item needs to be sorted in a special way, then do that here. --->
 						Identification
 					</option>
 					--->
+					<!--- 
 					<option value="/tools/downloadParts.cfm"><!--- works only on session search table, passed as table_name --->
 						Parts (Report) [Warning: No Tabs]
 					</option>
+					--->
+					<!--- 
 					<option value="/findContainer.cfm?showControl=1"><!--- looks like it works only with collection_object_id, but downstream code has reference to session.username and passed table name --->
 						Parts (Locations)
 					</option>
+					--->
+					<!--- 
 					<option value="/specimens/changeQueryParts.cfm"><!--- works only on session search table, passed as table_name --->
 						Parts (Modify) [Warning: No Tabs]
 					</option>
+					--->
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 						<option value="/grouping/addToNamedCollection.cfm"><!--- works with either, collection_objecT_id has priority, session search table looked up, not passed --->
 							Add To Named Group [Warning: No Tabs]

@@ -32,7 +32,7 @@ limitations under the License.
 </cfif>
 
 
-<main class="container" id="content">
+<main class="container-fluid" id="content">
 	<!----------------------------------------------------------------------------------->
 	<cfif isDefined("action") AND #action# is "createManyNew">
 		<cfoutput>
@@ -197,7 +197,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<section class="row" aria-labelledby="resultHead">
+			<section class="row mx-0" aria-labelledby="resultHead">
 				<div class="col-12 pt-4">	
 					<cfif success>
 						<h2 class="h2" id="resultHead">Added new current identification to these specimens.</h2> 
@@ -210,7 +210,7 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!--------------------------------------------------------------------------------------------------->
-	<section class="row" aria-labelledby="formHead">
+	<section class="row mx-0" aria-labelledby="formHead">
 		<cfquery name="ctnature" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT nature_of_id 
 			FROM ctnature_of_id
@@ -221,7 +221,7 @@ limitations under the License.
 			ORDER BY taxa_formula
 		</cfquery>
 		<cfoutput> 
-			<div class="col-12 pt-4">
+			<div class="col-12 px-3 px-xl-4 pt-4">
 				<h1 class="h2" id="formHead">Add a new Current Identification to <strong>All</strong> specimens listed below:</h1>
 				<form name="newID" method="post" action="/specimens/changeQueryIdentification.cfm">
 					<input type="hidden" name="Action" value="createManyNew">
@@ -232,7 +232,7 @@ limitations under the License.
 					</cfif>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-2">
-							<label for="taxa_formula" class="data-entry-label">
+							<label for="taxa_formula" class="data-entry-label mt-1">
 								ID Formula: 
 								<a href="/vocabularies/ControlledVocabulary.cfm?table=CTTAXA_FORMULA" target="_blank"><i class="fas fa-info-circle" aria-label="help link to controlled vocabulariy for taxon formula"></i></a>
 							</label>
@@ -247,7 +247,7 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-md-5">
-							<label class="data-entry-label" for="taxona">Taxon A: </label>
+							<label class="data-entry-label mt-1" for="taxona">Taxon A: </label>
 							<input type="text" name="taxona" id="taxona" class="data-entry-input reqdClr" required>
 							<input type="hidden" name="taxona_id" id="taxona_id">
 						</div>
@@ -257,7 +257,7 @@ limitations under the License.
 							});
 						</script>
 						<div class="col-12 col-md-5" id="taxon_b_row">
-							<label class="data-entry-label" for="taxonb">Taxon B: </label>
+							<label class="data-entry-label mt-1" for="taxonb">Taxon B: </label>
 							<input type="text" name="taxonb" id="taxonb" class="data-entry-input" disabled >
 							<input type="hidden" name="taxonb_id" id="taxonb_id">
 						</div>
@@ -268,17 +268,17 @@ limitations under the License.
 						</script>
 						<div class="col-12" id="userID" style="display:none;">
 							<!--- unused feature A {string} pattern --->
-							<label class="data-entry-label" for="user_identification">Custom Identification: </label>
+							<label class="data-entry-label mt-1" for="user_identification">Custom Identification: </label>
 							<input type="text" name="user_identification" id="user_identification" class="data-entry-input">
 						</div>
 						<div class="col-12 form-row" id="determiners">
 							<div class="col-12 col-md-3">
-								<label for="idBy" class="data-entry-label">Identified By:</label>
+								<label for="idBy" class="data-entry-label mt-1">Identified By:</label>
 								<input type="text" name="idBy" id="idBy" class="data-entry-input reqdClr" required>
 								<input type="hidden" name="newIdById" id="newIdById">
 							</div>
-							<div class="col-12 col-md-1">
-								<span class="btn btn-xs btn-secondary mt-3" onclick="addNewIdBy('two');">more...</span>
+							<div class="col-12 col-md-1 mt-1 mt-md-3">
+								<span class="btn btn-xs btn-secondary mt-1" onclick="addNewIdBy('two');">more...</span>
 							</div>
 							<script>
 								$(document).ready(function() { 
@@ -286,7 +286,7 @@ limitations under the License.
 								});
 							</script>
 							<div class="col-12 col-md-3 determiner_block_two"  id="addNewIdBy_two" style="display:none;">
-								<label for="idBy_two" class="data-entry-label">
+								<label for="idBy_two" class="data-entry-label mt-1 mt-xl-3">
 									ID By:
 									<span class="infoLink" onclick="clearNewIdBy('two');"> clear</span>
 								</label>
@@ -294,7 +294,7 @@ limitations under the License.
 								<input type="hidden" name="newIdById_two" id="newIdById_two">
 							</div>
 							<div class="col-12 col-md-1 determiner_block_two" style="display:none;">
-								<span class="btn btn-xs btn-secondary mt-3" onclick="addNewIdBy('three');">more...</span>
+								<span class="btn btn-xs btn-secondary mt-1 mt-xl-3" onclick="addNewIdBy('three');">more...</span>
 							</div>
 							<script>
 								$(document).ready(function() { 
@@ -302,7 +302,7 @@ limitations under the License.
 								});
 							</script>
 							<div class="col-12 col-md-4 determiner_block_three" id="addNewIdBy_three" style="display:none;">
-								<label for="idBy_three" class="data-entry-label">
+								<label for="idBy_three" class="data-entry-label mt-1 mt-xl-3">
 										ID By:
 										<span class="infoLink" onclick="clearNewIdBy('three');"> clear</span>
 								</label>
@@ -316,7 +316,7 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="col-12 col-md-4">
-							<label for="made_date" class="data-entry-label">Date Identified</label>
+							<label for="made_date" class="data-entry-label mt-2">Date Identified</label>
 							<input type="text" name="made_date" id="made_date" class="data-entry-input">
 							<script>
 								$(document).ready(function() { 
@@ -325,7 +325,7 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="col-12 col-md-4">
-							<label for="nature_of_id" class="data-entry-label">
+							<label for="nature_of_id" class="data-entry-label mt-2">
 								Nature of ID: 
 								<a href="/vocabularies/ControlledVocabulary.cfm?table=CTNATURE_OF_ID" target="_blank"><i class="fas fa-info-circle" aria-label="help link to controlled vocabulary for nature of id"></i></a>
 							</label>
@@ -338,13 +338,13 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-4">
 							<!--- buisness logic in TR_STORED_AS_FG prevents current identification from being stored as --->
-							<label for="stored_as_fg" class="data-entry-label">Stored As Name: </label>
+							<label for="stored_as_fg" class="data-entry-label mt-2">Stored As Name: </label>
 							<select name="stored_as_fg" id="stored_as_fg" class="data-entry-select" disabled>
 								<option value="" selected>Current Id cannot be marked &apos;Stored As&apos;</option>
 							</select>
 						</div>
 						<div class="col-12">
-							<label for="publication" class="data-entry-label">Sensu</label>
+							<label for="publication" class="data-entry-label mt-1">Sensu</label>
 							<input type="text" name="publication" id="publication" class="data-entry-input">
 							<input type="hidden" name="publication_id" id="publication_id" class="data-entry-input">
 							<script>
@@ -354,7 +354,7 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="col-12">
-							<label for="identification_remarks" class="data-entry-label">
+							<label for="identification_remarks" class="data-entry-label mt-1">
 								Remarks:
 								(<span id="length_identification_remarks"></span>)
 							</label>
@@ -373,7 +373,7 @@ limitations under the License.
 							});
 						</script> 
 						<div class="col-12">
-							<input type="submit" value="Add Identification to all listed specimens" class="btn btn-xs btn-primary">
+							<input type="submit" value="Add Identification to all listed specimens" class="btn btn-xs mt-2 btn-primary">
 						</div>
 					</div>
 				</form>
@@ -424,36 +424,42 @@ limitations under the License.
 					collection_object_id
 			</cfquery>
 			<cfif specimenList.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-	
-			<h1 class="h2">#specimenList.recordcount# Specimen#plural# to be Re-Identified:</h1>
-			<table width="95%" border="1">
-				<tr>
-					<th><strong>Catalog Number</strong></th>
-					<th><strong><cfoutput>#session.CustomOtherIdentifier#</cfoutput></strong></th>
-					<th><strong>Current Identification</strong></th>
-					<th><strong>Made By</strong></th>
-					<th><strong>Made Date</strong></th>
-					<th><strong>Country</strong></th>
-					<th><strong>State</strong></th>
-					<th><strong>County</strong></th>
-					<th><strong>Locality</strong></th>
-					<th><strong>Type Status</strong></th>
-				</tr>
-				<cfloop query="specimenList">
-					<tr>
-						<td><a href="/guid/MCZ:#collection_cde#:#cat_num#" target="_blank">MCZ:#collection_cde#:#cat_num#</a></td>
-						<td>#CustomID#</td>
-						<td><i>#Scientific_Name#</i></td>
-						<td>#determiners#</td>
-						<td>#made_date# (#nature_of_id#)</td>
-						<td>#Country#</td>
-						<td>#State_Prov#</td>
-						<td>#county#</td>
-						<td>#spec_locality#</td>
-						<td>#type_status#</td>
-					</tr>
-				</cfloop>
+				<div class="col-12 px-3 px-xl-4">
+					<h2 class="mt-2">#specimenList.recordcount# Specimen#plural# to be Re-Identified:</h2>
+					<table class="table table-responsive-md table-striped">
+						<thead class="thead-light">
+							<tr>
+								<th><strong>Catalog Number</strong></th>
+								<th><strong><cfoutput>#session.CustomOtherIdentifier#</cfoutput></strong></th>
+								<th><strong>Current Identification</strong></th>
+								<th><strong>Made By</strong></th>
+								<th><strong>Made Date</strong></th>
+								<th><strong>Country</strong></th>
+								<th><strong>State</strong></th>
+								<th><strong>County</strong></th>
+								<th><strong>Locality</strong></th>
+								<th><strong>Type Status</strong></th>
+							</tr>
+						</thead>
+					<cfloop query="specimenList">
+						<tbody>
+							<tr>
+								<td><a href="/guid/MCZ:#collection_cde#:#cat_num#" target="_blank">MCZ:#collection_cde#:#cat_num#</a></td>
+								<td>#CustomID#</td>
+								<td><i>#Scientific_Name#</i></td>
+								<td>#determiners#</td>
+								<td>#made_date# (#nature_of_id#)</td>
+								<td>#Country#</td>
+								<td>#State_Prov#</td>
+								<td>#county#</td>
+								<td>#spec_locality#</td>
+								<td>#type_status#</td>
+							</tr>
+						</tbody>
+					</cfloop>
 			</table>
+				</div>
+			</div>
 		</cfoutput>
 	</section>
 </main>

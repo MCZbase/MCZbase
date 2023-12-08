@@ -111,6 +111,25 @@ limitations under the License.
 		<cfreturn false>
     </cfif>
 </cffunction>
+		
+<!------------------------------------------------------------------------------------->
+<cffunction name="unsafeSql" access="public" output="false" returntype="boolean">
+    <cfargument name="sql" required="true" type="string">
+    <cfset nono="update,insert,delete,drop,create,alter,set,execute,exec,begin,declare,all_tables,v$session,all_users">
+    <cfset dels="';','|',">
+    <cfset safe=0>
+    <cfloop index="i" list="#sql#" delimiters=" .,?!;:%$&""'/|[]{}()#chr(10)##chr(13)##chr(9)#">
+	    <cfif ListFindNoCase(nono, i)>
+	        <cfset safe=1>
+	    </cfif>
+    </cfloop>
+    <cfif safe gt 0>
+        <cfreturn true>
+    <cfelse>
+        <cfreturn false>
+    </cfif>
+</cffunction>
+<!----------------------------------------------------->
 <!----------------------------------------------------->
 <cffunction name="getMediaRelations" access="public" output="false" returntype="Query">
 	<cfargument name="media_id" required="true" type="numeric">

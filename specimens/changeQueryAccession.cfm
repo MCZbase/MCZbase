@@ -78,8 +78,8 @@
 			SELECT distinct collection from getItems
 		</cfquery>
 		<cfoutput>
-			<main class="container-xl" id="content">
-				<section class="row" aria-labelledby="formheading">
+			<main class="container-fluid" id="content">
+				<section class="row mx-0" aria-labelledby="formheading">
 					<div class="col-12 pt-4">
 						<h1 class="h3 px-1" id="formheading" >
 							<cfif getItemCount.ct GT getItems.recordcount>
@@ -123,7 +123,7 @@
 						</form>
 					</div>
 				</section>
-				<section class="row"> 
+				<section class="row mx-0"> 
 					<div class="col-12 pb-4">
 						<div class="rounded redbox">
 							<div class="card bg-light border-secondary mb-0 pb-1">
@@ -140,9 +140,9 @@
 						</div>
 					</div>
 				</section>
-				<section class="row"> 
+				<section class="row mx-0"> 
 					<div class="col-12 pb-4">
-						<table class="table table-responsive table-striped d-xl-table">
+						<table class="table table-responsive-md table-striped">
 							<thead class="thead-light">
 								<tr>
 									<th>Cat Num</th>
