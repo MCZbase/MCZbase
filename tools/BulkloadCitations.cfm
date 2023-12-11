@@ -413,7 +413,7 @@
 			<cfquery name="flagNotMatchedTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_citation
 				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'Unknown type_status')
+					status = concat(nvl2(status, status || '; ', ''), 'Unknown type_status&mdash;not on list')
 				WHERE type_status is not null 
 					AND type_status not in (select type_status from ctcitation_type_status)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
