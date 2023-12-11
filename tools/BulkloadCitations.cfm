@@ -451,6 +451,15 @@
 						AND type_status not in (select type_status from ctcitation_type_status)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				<cfquery name="flagNotMatchedOther_ID_Type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE cf_temp_citation
+					SET 
+						status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type')
+					WHERE other_id_type is not null 
+						AND other_id_type is not 'catalog number'
+						AND other_id_type not in (select other_id_type from ctother_id_type)
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET 
