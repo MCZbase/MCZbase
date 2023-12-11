@@ -65,9 +65,9 @@ limitations under the License.
 			</h1>
 			<table>
 				<tr>
-					<td>
+					<td style="width: 55%; vertical-align: top;">
 						<div>
-							This document acknowledges the #loan_type# of specimens to: #getLoan.recipientInstitutionName#.
+							This document acknowledges the Loan of specimens to: #getLoan.recipientInstitutionName#.
 						</div>
 						<div>			
 							<strong>Borrower</strong> #recAgentName#
@@ -78,7 +78,7 @@ limitations under the License.
 							#outside_email_address#<br>#outside_phone_number#
 						</div>
 					</td>
-					<td>
+					<td style="width: 45%; vertical-align: top;">
 						<dl style="text-align: left;">
 							<dt>Category:</dt><dd>#getLoan.loan_type#</dd>
 							<dt>Loan Number:</dt><dd>#getLoan.loan_number#</dd>
@@ -105,7 +105,7 @@ limitations under the License.
 			</div>
 			<table>
 				<tr>
-					<td>
+					<td style="width: 50%; vertical-align: top;">
 						<h2>UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
 						<div>
 							#replace(shipped_from_address,chr(10),"<br>","all")# 
@@ -118,7 +118,7 @@ limitations under the License.
 							</cfif>
 						</div>
 					</td>
-					<td>
+					<td style="width: 50%; vertical-align: top;">
 						<div>Borrower (noted above) acknowledges reading and agreeing to the terms and conditions noted in this document.<div>
 						<div><strong>Expected return date: #dateformat(return_due_date,"dd mmmm yyyy")#</strong></div>
 						<div>Borrower&amp;s Signature: _______________________</div>
