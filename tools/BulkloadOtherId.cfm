@@ -437,7 +437,7 @@
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateOtherid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherid_result">
-							insert into coll_obj_other_id_num (COLLECTION_OBJECT_ID,OTHER_ID_TYPE,OTHER_ID_PREFIX,OTHER_ID_NUMBER,OTHER_ID_SUFFIX,DISPLAY_VALUE,COLL_OBJ_OTHER_ID_NUM_ID)values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECT_ID#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_ID_PREFIX#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#OTHER_ID_SUFFIX#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DISPLAY_VALUE#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_OBJ_OTHER_ID_NUM_ID#">)
+							insert into coll_obj_other_id_num (COLLECTION_OBJECT_ID,OTHER_ID_TYPE,OTHER_ID_PREFIX,OTHER_ID_NUMBER,OTHER_ID_SUFFIX,DISPLAY_VALUE,COLL_OBJ_OTHER_ID_NUM_ID)values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECT_ID#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DISPLAY_VALUE#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_OBJ_OTHER_ID_NUM_ID#">)
 						</cfquery>
 						<cfset otherid_updates = otherid_updates + updateOtherid_result.recordcount>
 					</cfloop>
