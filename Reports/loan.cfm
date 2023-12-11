@@ -109,7 +109,7 @@ limitations under the License.
 						<h2>UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
 						<div>
 							#replace(shipped_from_address,chr(10),"<br>","all")# 
-							<cfif>loan_type EQ "exhibition">
+							<cfif loan_type EQ "exhibition">
 								#addInHouseContactPhEmail#
 							<cfelse>
 								#inside_phone_number#
