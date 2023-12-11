@@ -432,11 +432,11 @@
 			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT * FROM cf_temp_citation
+					SELECT * FROM cf_temp_oids
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_citation
+					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_oids
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cftry>
@@ -447,9 +447,7 @@
 							(
 							COLLECTION_OBJECT_ID,
 							OTHER_ID_TYPE,
-							OTHER_ID_PREFIX,
 							OTHER_ID_NUMBER,
-							OTHER_ID_SUFFIX,
 							DISPLAY_VALUE
 							)
 							values
@@ -457,15 +455,15 @@
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECT_ID#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">
 							)
 						</cfquery>
 						
 						<cfquery name="updateOtheridX" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtheridX_result">
-						select collection_object_id,publication_id,cited_taxon_name_id 
-						from citation 
+						select collection_object_id,other_id_type,display_value 
+						from coll_obj_other_id_num 
 						where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-						group by collection_object_id,publication_id,cited_taxon_name_id
+						group by collection_object_id,other_id_type,display_value
 						having count(*) > 1
 					</cfquery>
 					<cfset otherid_updates = otherid_updates + updateOtherid_result.recordcount>
@@ -485,10 +483,10 @@
 					</cfif>
 				</cfif>
 				<cfcatch>
-					<h2>There was a problem updating citations.</h2>
+					<h2>There was a problem updating other IDs.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT institution_acronym, collection_cde, existing_other_id_type, existing_other_id_number, new_other_id_type, new_other_id_number
-						FROM cf_temp_citation 
+						FROM cf_temp_oids 
 						WHERE status is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
@@ -517,7 +515,6 @@
 										<td>#data.existing_other_id_number#</td>
 										<td>#data.new_other_id_type#</td>
 										<td>#data.new_other_id_number#</td>
-										
 									</tr> 
 								</cfloop>
 							</tbody>
@@ -528,61 +525,77 @@
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
-					<cfset otherid_updates = 0>
-					<cfloop query="getTempData">
-						<cfset problem_key = getTempData.key>
-						<cfquery name="updateOtherid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherid_result">
-							insert into coll_obj_other_id_num (collection_object_id,other_id_type,other_id_prefix,other_id_number,other_id_suffix,display_value)values(#collection_object_id#,#other_id_type#,#other_id_prefix#,#other_id_number#,#other_id_suffix#,#display_value#)
-						</cfquery>
-						<cfset otherid_updates = otherid_updates + updateOtherid_result.recordcount>
-					</cfloop>
 					<cftransaction action="commit">
-						<cfcatch>
-							<cftransaction action="rollback">
-							<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT *
-								FROM cf_temp_oids 
-								WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
-							</cfquery>
-							<h3>Error updating row (#otherid_updates + 1#): #cfcatch.message#</h3>
-							<table class='sortable table table-responsive table-striped d-lg-table'>
-								<thead>
-									<tr>
-										<th>collection_object_id</th>
-										<th>collection_cde</th>
-										<th>institution_acronym</th>
-										<th>existing_other_id_type</th>
-										<th>existing_other_id_number</th>
-										<th>new_other_id_type</th>
-										<th>new_other_id_number</th>
-										<th>status</th>
-									</tr> 
-								</thead>
-								<tbody>
-									<cfloop query="getProblemData">
-										<tr>
-											<td>#data.collection_object_id#</td>
-											<td>#data.collection_cde#</td>
-											<td>#data.institution_acronym#</td>
-											<td>#data.existing_other_id_type#</td>
-											<td>#data.existing_other_id_number#</td>
-											<td>#data.new_other_id_type#</td>
-											<td>#data.new_other_id_number#</td>
-											<td>#data.status#</td>
-										</tr> 
-									</cfloop>
-								</tbody>
-							</table>
-							<cfrethrow>
-						</cfcatch>
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT institution_acronym, collection_cde, existing_other_id_type, existing_other_id_number, new_other_id_type, new_other_id_number
+						FROM cf_temp_oids 
+						WHERE username= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<h3 class="text-danger">Error updating row (#otherid_updates + 1#): 
+						<cfif len(cfcatch.detail)gt 0>
+							<span class="font-weight-normal border-bottom border-danger">
+								<cfif cfcatch.detail contains "other_id_type">
+									Invalid OTHER_ID_TYPE; check controlled vocabulary (Help menu)
+								<cfelseif cfcatch.detail contains "collection_cde">
+									COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP)
+								<cfelseif cfcatch.detail contains "institution_acronym">
+									INSTITUTION_ACRONYM does not match MCZ (all caps)
+								<cfelseif cfcatch.detail contains "OTHER_ID_NUMBER">
+									Problem with OTHER_ID_NUMBER, check to see the correct other_id_type was entered
+								<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
+									Problem with OTHER_ID_TYPE or OTHER_ID_NUMBER (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "no data">
+									No data or the wrong data (#cfcatch.detail#)
+								<cfelseif cfcatch.detail contains "NULL">
+									Missing Data (#cfcatch.detail#)
+								<cfelse>
+									 provide the raw error message if it isn't readily interpretable 
+								 	#cfcatch.detail#
+								</cfif>
+							</span>
+						</cfif>
+					</h3>
+					<table class='sortable table table-responsive table-striped d-lg-table'>
+						<thead>
+							<tr>
+								<th>status</th>
+								<th>institution_acronym</th>
+								<th>collection_cde</th>
+								<th>existing_other_id_type</th>
+								<th>existing_other_id_number</th>
+								<th>new_other_id_type</th>
+								<th>new_other_id_number</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop query="getProblemData">
+								<tr>
+									<td>#getProblemData.status#</td>
+									<td>#getProblemData.institution_acronym#</td>
+									<td>#getProblemData.collection_cde#</td>
+									<td>#getProblemData.existing_other_id_type#</td>
+									<td>#getProblemData.existing_other_id_number#</td>
+									<td>#getProblemData.new_other_id_type#</td>
+									<td>#getProblemData.new_other_id_number#</td>
+								</tr> 
+							</cfloop>
+						</tbody>
+					</table>
+					<cfrethrow>
+				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<h2>Updated #otherid_updates# Other IDs.</h2>
-			<h2>Success, changes applied.</h2>
-			<!--- cleanup --->
+			<cfif #otherid_updates# eq 0>
+				<h2 class="mt-2">#otherid_updates# other IDs loaded - They were already in MCZbase.</h2>
+			<cfelse>
+				<h2 class="h3 mt-2">#otherid_updates# other IDs evaluated.</h2>
+				<h2 class="text-success">Success, changes applied.</h2> 
+			</cfif>
+			
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_oids
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-		</cfoutput>
 	</cfif>
