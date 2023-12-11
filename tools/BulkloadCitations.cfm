@@ -383,7 +383,7 @@
 				<cfquery name="FlagCdeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citationProblems_result">
 					UPDATE cf_temp_citation
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'invalid collection_cde: ' || collection_cde)
+						status = concat(nvl2(status, status || '; ', ''),'Invalid collection_cde: "' || collection_cde ||")
 					WHERE 
 						collection_cde IS NOT NULL
 						AND collection_cde NOT IN (
@@ -397,7 +397,7 @@
 				<cfquery name="FlagTaxonidProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citationProblems_result">
 					UPDATE cf_temp_citation
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'invalid cited_taxon_name_id ' || cited_taxon_name_id)
+						status = concat(nvl2(status, status || '; ', ''),'invalid cited_taxon_name_id: "' || cited_taxon_name_id ||")
 					WHERE 
 						cited_taxon_name_id IS NOT NULL
 						AND cited_taxon_name_id NOT IN (
@@ -411,7 +411,7 @@
 				<cfquery name="FlagSciNameProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citationProblems_result">
 					UPDATE cf_temp_citation
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'invalid cited_scientific_name ' || cited_scientific_name)
+						status = concat(nvl2(status, status || '; ', ''),'Invalid cited_scientific_name: "' || cited_scientific_name||")
 					WHERE 
 						cited_scientific_name IS NOT NULL
 						AND cited_scientific_name NOT IN (
@@ -432,7 +432,7 @@
 				<cfquery name="flagNotMatchedTypeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'unknown type_status')
+						status = concat(nvl2(status, status || '; ', ''), 'Unknown type_status')
 					WHERE type_status is not null 
 						AND type_status not in (select type_status from ctcitation_type_status)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -440,7 +440,7 @@
 				<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET 
-						status = concat(nvl2(status, status || '; ', ''),' no match to a cataloged item on [' || other_id_type || ']=[' || other_id_number || '] in collection ' || collection_cde)
+						status = concat(nvl2(status, status || '; ', ''),' There is no match to a cataloged item on [' || other_id_type || ']=[' || other_id_number || '] in collection "' || collection_cde ||")
 					WHERE collection_object_id IS NULL
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
