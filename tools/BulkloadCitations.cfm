@@ -425,6 +425,13 @@
 				WHERE publication_id IS NULL and publication_title IS NULL
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="flagNoPublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_citation
+				SET 
+					status = concat(nvl2(status, status || '; ', ''),' The publication_title entered does not match an existing title')
+				WHERE publication_title IS NOT NULL and publication_ID IS NULL
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_citation
 				SET 
