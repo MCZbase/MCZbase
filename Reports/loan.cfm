@@ -58,12 +58,16 @@ limitations under the License.
 		</cfdocumentitem>
 
 		<cfdocumentsection name="Loan Header">
-			<h1 style="text-align: center;">
+			<h1 style="text-align: center; font-size: 12pt;">
 				Invoice of Specimens
-				#getLoan.collection#
-				Museum of Comparative Zoology, Harvard University
 			</h1>
-			<table>
+			<h2 style="text-align: center; font-size: 12pt;">
+				#getLoan.collection#
+			</h2>
+			<h2 style="text-align: center; font-size; 12pt;">
+				Museum of Comparative Zoology, Harvard University
+			</h2>
+			<table style="font-size: 10pt;">
 				<tr>
 					<td style="width: 55%; vertical-align: top;">
 						<div>
@@ -103,7 +107,7 @@ limitations under the License.
 			<div>
 				<strong>Instructions:</strong> #loan_instructions#
 			</div>
-			<table>
+			<table style="font-size: 10pt;">
 				<tr>
 					<td style="width: 50%; vertical-align: top;">
 						<h2>UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
