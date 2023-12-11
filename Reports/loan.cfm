@@ -40,8 +40,8 @@ limitations under the License.
 	where preserve_method like '%thanol%' or preserve_method like '%alcohol%'
 </cfquery>
 <cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct restriction_summary, permit_id, permit_num from (
-	select permit.restriction_summary, permit.permit_id, permit.permit_num
+	select distinct restriction_summary, permit_id, permit_num, source from (
+	select permit.restriction_summary, permit.permit_id, permit.permit_num, 'accession' as source,
 	from loan_item li 
 		join specimen_part sp on li.collection_object_id = sp.collection_object_id
 		join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
@@ -51,7 +51,7 @@ limitations under the License.
 	where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 		and permit.restriction_summary is not null
 	union
-	select permit.restriction_summary, permit.permit_id, permit.permit_num
+	select permit.restriction_summary, permit.permit_id, permit.permit_num, 'loan shipment' as source
 	from loan
 		join shipment on loan.transaction_id = shipment.transaction_id
 		join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
@@ -172,7 +172,7 @@ limitations under the License.
 						<div>Borrower (noted above) acknowledges reading and agreeing to the terms and conditions noted in this document.<div>
 						<div><strong>Expected return date: #dateformat(return_due_date,"dd mmmm yyyy")#</strong></div>
 						<br>
-						<div style="text-align: right;">Borrower&##39;s Signature: _________________________</div>
+						<div style="text-align: right;">Borrower&##39;s Signature: ___________________________</div>
 						<div style="text-align: right;">#recAgentName#</div>
 					</td>
 				</tr>
@@ -181,10 +181,14 @@ limitations under the License.
 
 		<cfif getRestrictions.recordcount GT 0>
 			<cfdocumentsection name="Additional Restrictions">
-				<h1>Restrictions imposed by original collecting agreements</h1>
+				<h1>Summary of restrictions imposed by original collecting agreements</h1>
 				<ul>
 					<cfloop query="getRestrictions">
-						<li>#restriction_summary#</li>
+						<cfif getRestrictions.source EQ "accession">
+							<li><strong>#permit_num#</strong>#restriction_summary#</li>
+						<cfelse>
+							<li><strong>#permit_num# Applies to all material in this loan:</strong>#restriction_summary#</li>
+						</cfif>
 					</cfloop>
 				</ul>
 			</cfdocumentsection>
@@ -227,6 +231,28 @@ limitations under the License.
 						<td style="width: 25%; vertical-align: top;">
 							#lot_count# #part_modifier# #part_name#
 							<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+							<cfif getRestrictions.recordcount GT 0>
+								<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select permit.permit_num
+									from loan_item li 
+										join specimen_part sp on li.collection_object_id = sp.collection_object_id
+										join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+										join accn on ci.accn_id = accn.transaction_id
+										join permit_trans on accn.transaction_id = permit_trans.transaction_id
+										join permit on permit_trans.permit_id = permit.permit_id
+									where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+										and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItems.collection_object_id#">
+										and permit.restriction_summary is not null
+								<cfquery>
+								<cfif getSpecificRestrictions.recordcount GT 0>
+									<div>
+										<strong>Use Restricted By:</strong>
+										<cfloop query="getSpecificRestrictions">
+											#getSpecificRestrictions.permit_num#
+										</cfloop>
+									</div>
+								</cfif>
+							</cfif>
 						</td>
 					</div>
 					<cfset totalSpecimens = totalSpecimens + 1>
