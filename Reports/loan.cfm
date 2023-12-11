@@ -25,7 +25,7 @@ limitations under the License.
 </cfif>
 
 <cf_getLoanFormInfo>
-<cfquery name="getLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getLoan" dbtype="query">
    select * from getLoanMCZ
 </cfquery>
 <cfif getLoan.recordcount EQ 0>
