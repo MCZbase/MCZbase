@@ -183,7 +183,8 @@ limitations under the License.
 				<cfloop query="getLoanItems">
 					<tr>
 						<td style="width: 25%; vertical-align: top;">
-							#institution_acronym#:#collection_cde#:#cat_num# #reconciled_date#
+							#institution_acronym#:#collection_cde#:#cat_num#
+							<cfif getLoan.loan_status EQ "closed">#reconciled_date#</cfif>
 						</td>
 						<td style="width: 50%; vertical-align: top;">
 							<div>
