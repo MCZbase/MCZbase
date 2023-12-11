@@ -41,7 +41,7 @@ limitations under the License.
 </cfquery>
 <cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct restriction_summary, permit_id, permit_num, source from (
-	select permit.restriction_summary, permit.permit_id, permit.permit_num, 'accession' as source,
+	select permit.restriction_summary, permit.permit_id, permit.permit_num, 'accession' as source
 	from loan_item li 
 		join specimen_part sp on li.collection_object_id = sp.collection_object_id
 		join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
