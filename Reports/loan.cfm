@@ -105,19 +105,19 @@ limitations under the License.
 					<td style="width: 45%; vertical-align: top;">
 						<ul style="text-align: left; list-style: none;">
 							<cfif NOT (loan_status EQ "open" OR loan_status EQ "in process") >
-								<li><strong>Status:</strong> #loan_status#</strong>
+								<li style="list-style-type: none"><strong>Status:</strong> #loan_status#</strong>
 							</cfif>
-							<li><strong>Category:</strong> #getLoan.loan_type#</strong>
-							<li><strong>Loan Number:</strong> #getLoan.loan_number#</strong>
-							<li><strong>Loan Date:</strong> #trans_date#</strong>
-							<li><strong>Approved By:</strong> #authAgentName#</strong>
-							<li><strong>Packed By:</strong> #processed_by_name#</strong>
-							<li><strong>Method of Shipment:</strong> #shipped_carrier_method#</strong>
-							<li><strong>Number of Packages:</strong> #no_of_packages#</strong>
-							<li><strong>Number of Specimens:</strong> #num_specimens#</strong>
-							<li><strong>Number of Lots:</strong> #num_lots#</strong>
+							<li style="list-style-type: none"><strong>Category:</strong> #getLoan.loan_type#</strong>
+							<li style="list-style-type: none"><strong>Loan Number:</strong> #getLoan.loan_number#</strong>
+							<li style="list-style-type: none"><strong>Loan Date:</strong> #trans_date#</strong>
+							<li style="list-style-type: none"><strong>Approved By:</strong> #authAgentName#</strong>
+							<li style="list-style-type: none"><strong>Packed By:</strong> #processed_by_name#</strong>
+							<li style="list-style-type: none"><strong>Method of Shipment:</strong> #shipped_carrier_method#</strong>
+							<li style="list-style-type: none"><strong>Number of Packages:</strong> #no_of_packages#</strong>
+							<li style="list-style-type: none"><strong>Number of Specimens:</strong> #num_specimens#</strong>
+							<li style="list-style-type: none"><strong>Number of Lots:</strong> #num_lots#</strong>
 							<cfif len(foruse_by_name) GT 0>
-								<li><strong>For Use By:</strong> #foruse_by_name#</strong>
+								<li style="list-style-type: none"><strong>For Use By:</strong> #foruse_by_name#</strong>
 							</cfif>
 						</ul>
 					</td>
