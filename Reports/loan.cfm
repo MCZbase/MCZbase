@@ -58,15 +58,15 @@ limitations under the License.
 		</cfdocumentitem>
 
 		<cfdocumentsection name="Loan Header">
-			<h1 style="text-align: center; font-size: 1em;">
+			<div style="text-align: center; font-size: 1em;">
 				Invoice of Specimens
-			</h1>
-			<h2 style="text-align: center; font-size: 1em;">
+			</div>
+			<div style="text-align: center; font-size: 1em;">
 				#getLoan.collection#
-			</h2>
-			<h2 style="text-align: center; font-size; 1em;">
+			</div>
+			<div style="text-align: center; font-size; 1em;">
 				Museum of Comparative Zoology, Harvard University
-			</h2>
+			</div>
 			<table style="font-size: small;">
 				<tr>
 					<td style="width: 55%; vertical-align: top;">
@@ -98,16 +98,18 @@ limitations under the License.
 					</td>
 				</tr>
 			</table>
-			<div>
-				<strong>Nature of Material:</strong> #nature_of_material#
-			</div>
-			<cfif len(loan_description) GT 0>
+			<div style="font-size: small;">
 				<div>
-					<strong>Description:</strong> #loan_description#
+					<strong>Nature of Material:</strong> #nature_of_material#
 				</div>
-			</cfif>
-			<div>
-				<strong>Instructions:</strong> #loan_instructions#
+				<cfif len(loan_description) GT 0>
+					<div>
+						<strong>Description:</strong> #loan_description#
+					</div>
+				</cfif>
+				<div>
+					<strong>Instructions:</strong> #loan_instructions#
+				</div>
 			</div>
 			<table style="font-size: small;">
 				<tr>
@@ -127,7 +129,8 @@ limitations under the License.
 					<td style="width: 50%; vertical-align: top;">
 						<div>Borrower (noted above) acknowledges reading and agreeing to the terms and conditions noted in this document.<div>
 						<div><strong>Expected return date: #dateformat(return_due_date,"dd mmmm yyyy")#</strong></div>
-						<div>Borrower&amp;s Signature: _______________________</div>
+						<br>
+						<div style="text-align: right;">Borrower&apos;s Signature: _______________________</div>
 						<div style="text-align: right;">#recAgentName#</div>
 					</td>
 				</tr>
