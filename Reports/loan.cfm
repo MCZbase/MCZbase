@@ -85,7 +85,7 @@ limitations under the License.
 							<dt>Loan Date:</dt><dd>#trans_date#</dd>
 							<dt>Approved By:</dt><dd>#authAgentName#</dd>
 							<dt>Packed By:</dt><dd>#processed_by_name#</dd>
-							<dt>Method of Shipment:</dt><dd>#shipped_carrier_name#</dd>
+							<dt>Method of Shipment:</dt><dd>#shipped_carrier_method#</dd>
 							<dt>Number of Packages:</dt><dd>#no_of_packages#</dd>
 							<dt>Number of Specimens:</dt><dd>#num_specimens#</dd>
 							<dt>Number of Lots:</dt><dd>#num_lots#</dd>
