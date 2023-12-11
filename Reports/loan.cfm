@@ -91,7 +91,7 @@ limitations under the License.
 				<tr>
 					<td style="width: 55%; vertical-align: top;">
 						<div>
-							This document acknowledges the Loan of specimens to: #getLoan.recipientInstitutionName#.
+							This document acknowledges the Loan of specimens <strong>To:</strong> #getLoan.recipientInstitutionName#.
 						</div>
 						<div>			
 							<strong>Borrower:</strong> #recAgentName#
@@ -185,9 +185,9 @@ limitations under the License.
 				<ul>
 					<cfloop query="getRestrictions">
 						<cfif getRestrictions.source EQ "accession">
-							<li><strong>#permit_num#</strong>#restriction_summary#</li>
+							<li><strong>#permit_num#</strong> #restriction_summary#</li>
 						<cfelse>
-							<li><strong>#permit_num# Applies to all material in this loan:</strong>#restriction_summary#</li>
+							<li><strong>#permit_num# Applies to all material in this loan:</strong> #restriction_summary#</li>
 						</cfif>
 					</cfloop>
 				</ul>
