@@ -64,10 +64,10 @@ limitations under the License.
 			<h2 style="text-align: center; font-size: 12pt;">
 				#getLoan.collection#
 			</h2>
-			<h2 style="text-align: center; font-size; 12pt;">
+			<h2 style="text-align: center; font-size; 10pt;">
 				Museum of Comparative Zoology, Harvard University
 			</h2>
-			<table style="font-size: 10pt;">
+			<table style="font-size: small;">
 				<tr>
 					<td style="width: 55%; vertical-align: top;">
 						<div>
