@@ -383,7 +383,7 @@
 				<cfquery name="FlagCdeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citationProblems_result">
 					UPDATE cf_temp_citation
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Invalid collection_cde: "' || collection_cde ||")
+						status = concat(nvl2(status, status || '; ', ''),'Invalid collection_cde: "' || collection_cde ||'"')
 					WHERE 
 						collection_cde IS NOT NULL
 						AND collection_cde NOT IN (
