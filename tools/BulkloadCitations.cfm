@@ -452,7 +452,7 @@
 				<cfquery name="flagNotMatchedOther_ID_Type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type: "<span class="text-danger">' || other_id_type ||'</span>"')
+						status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type: <span class="text-danger">"' || other_id_type ||'"</span>')
 					WHERE other_id_type is not null 
 						AND other_id_type <> 'catalog number'
 						AND other_id_type not in (select other_id_type from ctcoll_other_id_type)
@@ -461,7 +461,7 @@
 				<cfquery name="FlagCdeProblems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citationProblems_result">
 					UPDATE cf_temp_citation
 					SET
-						status = concat(nvl2(status, status || '; ', ''),'Invalid collection_cde: "' || collection_cde ||'"')
+						status = concat(nvl2(status, status || '; ', ''),'Invalid collection_cde: <span class="text-danger">"' || collection_cde ||'"</span>')
 					WHERE 
 						collection_cde IS NOT NULL
 						AND collection_cde NOT IN (
