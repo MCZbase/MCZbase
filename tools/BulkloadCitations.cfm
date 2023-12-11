@@ -488,7 +488,7 @@
 			<table class='sortable table table-responsive table-striped d-lg-table w-100'>
 				<thead class="thead-light">
 					<tr>
-						<th style="width: 200px;">STATUS</th>
+						<th>STATUS&nbsp; &nbsp; &nbsp; &nbsp;</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -504,7 +504,7 @@
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td style="width: 200px;"><strong>#STATUS#</strong></td>
+							<td><strong>#STATUS#&nbsp; &nbsp; &nbsp; &nbsp;</strong></td>
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
