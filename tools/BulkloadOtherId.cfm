@@ -491,7 +491,7 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateOtherid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherid_result">
-							insert into coll_obj_other_id_num (collection_object_id,other_id_type,other_id_prefix,other_id_number,other_id_suffix,display_value,coll_obj_other_id_num_id)values(#collection_object_id#,#other_id_type#,#other_id_prefix#,#other_id_number#,#other_id_suffix#,#display_value#,#coll_obj_other_id_num_id#)
+							insert into coll_obj_other_id_num (collection_object_id,other_id_type,other_id_prefix,other_id_number,other_id_suffix,display_value)values(#collection_object_id#,#other_id_type#,#other_id_prefix#,#other_id_number#,#other_id_suffix#,#display_value#)
 						</cfquery>
 						<cfset otherid_updates = otherid_updates + updateOtherid_result.recordcount>
 					</cfloop>
