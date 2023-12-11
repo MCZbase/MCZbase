@@ -53,7 +53,7 @@ limitations under the License.
 		
 		<cfdocumentitem type="footer">
 			<div style="text-align: center; font-size: x-small;">
-				Printed: #dateFormat(now(),'yyyy-mm-dd')#
+				PDF Generated: #dateFormat(now(),'yyyy-mm-dd')#  Page #cfdocument.currentPageNumber# of #cfdocument.totalPageCount#
 			</div>
 		</cfdocumentitem>
 
@@ -70,7 +70,7 @@ limitations under the License.
 							This document acknowledges the #loan_type# of specimens to: #getLoan.recipientInstitutionName#.
 						</div>
 						<div>			
-							<strong><cfif loan_type eq "gift" OR loan_type eq "transfer">Recipient<cfelse>Borrower</cfif></strong> #recAgentName#
+							<strong>Borrower</strong> #recAgentName#
 						</div>
 						<div>
 							<strong>Shipped To:</strong><br>
@@ -79,10 +79,17 @@ limitations under the License.
 						</div>
 					</td>
 					<td>
-						<ul style="text-align: left;">
-							<li>Category: #getLoan.loan_type#</li>
-							<li>Status: #getLoan.loan_status#</li>
-							<li>Due Date: #getLoan.return_due_date#</li>
+						<dl style="text-align: left;">
+							<dt>Category:</dt><dd>#getLoan.loan_type#</dd>
+							<dt>Loan Number:</dt><dd>#getLoan.loan_number#</dd>
+							<dt>Loan Date:</dt><dd>#trans_date#</dd>
+							<dt>Approved By:</dt><dd>#authAgentName#</dd>
+							<dt>Packed By:</dt><dd>#processed_by_name#</dd>
+							<dt>Method of Shipment:</dt><dd>#shipped_carrier_name#</dd>
+							<dt>Number of Packages:</dt><dd>#no_of_packages#</dd>
+							<dt>Number of Specimens:</dt><dd>#num_specimens#</dd>
+							<dt>Number of Lots:</dt><dd>#num_lots#</dd>
+							<dt>For Use By:</dt><dd>#foruse_by_name#</dd>
 						</ul>
 					</td>
 				</tr>
@@ -96,22 +103,45 @@ limitations under the License.
 			<div>
 				<strong>Instructions:</strong> #loan_instructions#
 			</div>
+			<table>
+				<tr>
+					<td>
+						<h2>UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
+						<div>
+							#replace(shipped_from_address,chr(10),"<br>","all")# 
+							<cfif>loan_type EQ "exhibition">
+								#addInHouseContactPhEmail#
+							<cfelse>
+								#inside_phone_number#
+								<br>
+								#inside_email_address#
+							</cfif>
+						</div>
+					</td>
+					<td>
+						<div>Borrower (noted above) acknowledges reading and agreeing to the terms and conditions noted in this document.<div>
+						<div><strong>Expected return date: #dateformat(return_due_date,"dd mmmm yyyy")#</strong></div>
+						<div>Borrower&amp;s Signature: _______________________</div>
+						<div style="text-align: right;">#recAgentName#</div>
+					</td>
+				</tr>
+			</table>
 		</cfdocumentsection>
 
 		<cfdocumentsection name="Loan Conditions">
 			<h1>Terms and Conditions</h1>
 			<ol>
-				<li>1.  Specimens from the collections of the Museum of Comparative Zoology are loaned at the discretion of the museum.</li>
-				<li>2.  Specimens are loaned to bona fide institutions, not to individuals.</li>
-				<li>3.  Borrowing institutions must demonstrate the ability properly unpack, care for, use, and return the borrowed specimens before a loan is granted.</li>
-				<li>4.  The specimens must be returned by the date stated on the invoice unless a loan renewal is granted in writing by the loaning department.</li>
-				<li>5.  Specimens on loan must be cared for according to standard best practices of collection care and handling.</li>
-				<li>6.  Loans may not be transferred to another institution without the express written permission of the curator of the loaning department.</li>
-				<li>7.  No invasive procedures (e.g., penetrations of the body wall or removal of any parts) of a loaned specimen may be conducted without the express written permission of the curator of the loaning department.</li>
-				<li>8.  Express written permission must be obtained before a loaned specimen, image, mold or cast of the specimen may be used for any purpose other than scholarly research.</li>
-				<li>9.  Loaned specimens must be packed for return in accordance with professional standards and be legally shipped to the Museum of Comparative Zoology.</li>
-				<li>10. A loan may be recalled by the Museum of Comparative Zoology at any time at the discretion of the curator of the lending department or the Director of the MCZ.</li>
-				<li>11. Copies of all publications, reports, or other citations of the loaned specimens must be sent promptly to the Museum of Comparative Zoology.</li>
+				<li>Specimens from the collections of the Museum of Comparative Zoology are loaned at the discretion of the museum.</li>
+				<li>Specimens are loaned to bona fide institutions, not to individuals.</li>
+				<li>Borrowing institutions must demonstrate the ability properly unpack, care for, use, and return the borrowed specimens before a loan is granted.</li>
+				<li>The specimens must be returned by the date stated on the invoice unless a loan renewal is granted in writing by the loaning department.</li>
+				<li>Specimens on loan must be cared for according to standard best practices of collection care and handling.</li>
+				<li>Loans may not be transferred to another institution without the express written permission of the curator of the loaning department.</li>
+				<li>No invasive procedures (e.g., penetrations of the body wall or removal of any parts) of a loaned specimen may be conducted without the express written permission of the curator of the loaning department.</li>
+				<li>Express written permission must be obtained before a loaned specimen, image, mold or cast of the specimen may be used for any purpose other than scholarly research.</li>
+				<li>Loaned specimens must be packed for return in accordance with professional standards and be legally shipped to the Museum of Comparative Zoology.</li>
+				<li>A loan may be recalled by the Museum of Comparative Zoology at any time at the discretion of the curator of the lending department or the Director of the MCZ.</li>
+				<li>Copies of all publications, reports, or other citations of the loaned specimens must be sent promptly to the Museum of Comparative Zoology.</li>
 			</ol>
 		</cfdocumentsection>
 
