@@ -90,7 +90,7 @@
 			
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-					DELETE FROM cf_temp_citation
+					DELETE FROM cf_temp_oids
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				
@@ -183,7 +183,7 @@
 						<cftry>
 							<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
-								insert into cf_temp_citation
+								insert into cf_temp_oids
 									(#fieldlist#,username)
 								values (
 									<cfset separator = "">
@@ -223,7 +223,7 @@
 					<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
 					<div>
 						Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
-						you probably want to <a href="/tools/BulkloadCitatons.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
+						you probably want to <a href="/tools/BulkloadOtherId.cfm">reload this file</a> selecting a different encoding.  If these appear as expected, then 
 						you selected the correct encoding and can continue to validate or load.
 					</div>
 					<ul class="py-1" style="font-size: 1.2rem;">
@@ -232,11 +232,11 @@
 					</ul>
 				</cfif>
 				<h3 class="h3">
-					Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadCitations.cfm?action=validate">click to validate</a>.
+					Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadOtherId.cfm?action=validate">click to validate</a>.
 				</h3>
 			<cfcatch>
 				<h3 class="h3">
-					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadCitations.cfm">reload</a>
+					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadOtherId.cfm">reload</a>
 				</h3>
 				<cfif isDefined("arrResult")>
 					<cfset foundHighCount = 0>
