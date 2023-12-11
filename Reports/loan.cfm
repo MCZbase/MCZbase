@@ -129,7 +129,7 @@ limitations under the License.
 				<tr>
 					<td style="width: 50%; vertical-align: top;">
 						<h2>UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
-						<div>&#39;
+						<div>
 							#replace(shipped_from_address,chr(10),"<br>","all")# 
 							<cfif loan_type EQ "exhibition">
 								#addInHouseContactPhEmail#
