@@ -184,7 +184,7 @@ limitations under the License.
 				<h1>Restrictions imposed by original collecting agreements</h1>
 				<ul>
 					<cfloop query="getRestrictions">
-						<li>#restrictions_summary#</li>
+						<li>#restriction_summary#</li>
 					</cfloop>
 				</ul>
 			</cfdocumentsection>
