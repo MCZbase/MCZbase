@@ -456,7 +456,7 @@
 					SET 
 						status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type')
 					WHERE other_id_type is not null 
-						AND other_id_type is not 'catalog number'
+						AND other_id_type <> 'catalog number'
 						AND other_id_type not in (select other_id_type from ctother_id_type)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
