@@ -437,46 +437,46 @@
 				</cfquery>
 				<cftry>
 					<cfset otherid_updates = 0>
-					<cfloop query="getTempData">
-						<cfquery name="updateOtherid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherid_result">
-							insert into coll_obj_other_id_num 
-							(
-							COLLECTION_OBJECT_ID,
-							OTHER_ID_TYPE,
-							OTHER_ID_NUMBER,
-							DISPLAY_VALUE
-							)
-							values
-							(
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECT_ID#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">
-							)
-						</cfquery>
-						
-						<cfquery name="updateOtheridX" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtheridX_result">
-						select collection_object_id,other_id_type,display_value 
-						from coll_obj_other_id_num 
-						where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-						group by collection_object_id,other_id_type,display_value
-						having count(*) > 1
-					</cfquery>
-					<cfset otherid_updates = otherid_updates + updateOtherid_result.recordcount>
-					<cfif updateOtheridX_result.recordcount gt 0>
-						<cftransaction action = "ROLLBACK">
-					<cfelse>
-						<cftransaction action="COMMIT">
-					</cfif>
-					</cfloop>
-					<p>Number of other IDs to update: #otherid_updates# (on #getCounts.ctobj# cataloged items)</p>
-				<cfif updateOtheridX_result.recordcount gt 0>
-					<h2 class="text-danger">These have already been loaded - not loaded</h2>
-				<cfelse>
-					<cfif getTempData.recordcount eq otherid_updates>
-						<h2 class="text-success">Success - loaded</h2>
-					</cfif>
-				</cfif>
+						<cfloop query="getTempData">
+							<cfquery name="updateOtherid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherid_result">
+								insert into coll_obj_other_id_num 
+								(
+								COLLECTION_OBJECT_ID,
+								OTHER_ID_TYPE,
+								OTHER_ID_NUMBER,
+								DISPLAY_VALUE
+								)
+								values
+								(
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECT_ID#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">
+								)
+							</cfquery>
+
+							<cfquery name="updateOtheridX" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtheridX_result">
+							select collection_object_id,other_id_type,display_value 
+							from coll_obj_other_id_num 
+							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+							group by collection_object_id,other_id_type,display_value
+							having count(*) > 1
+							</cfquery>
+							<cfset otherid_updates = otherid_updates + updateOtherid_result.recordcount>
+							<cfif updateOtheridX_result.recordcount gt 0>
+								<cftransaction action = "ROLLBACK">
+							<cfelse>
+								<cftransaction action="COMMIT">
+							</cfif>
+						</cfloop>
+						<p>Number of other IDs to update: #otherid_updates# (on #getCounts.ctobj# cataloged items)</p>
+						<cfif updateOtheridX_result.recordcount gt 0>
+							<h2 class="text-danger">These have already been loaded - not loaded</h2>
+						<cfelse>
+							<cfif getTempData.recordcount eq otherid_updates>
+								<h2 class="text-success">Success - loaded</h2>
+							</cfif>
+						</cfif>
 					<cfcatch>
 						<h2>There was a problem updating other IDs.</h2>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -485,7 +485,7 @@
 							WHERE status is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<cfif #citation_updates# gt 0>
+						<cfif #otherid_updates# gt 0>
 						<h3 class="text-danger">Problematic Rows (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>)</h3>
 						<table class='sortable table table-responsive table-striped d-lg-table'>
 							<thead class="thead-light">
@@ -514,7 +514,9 @@
 									</cfloop>
 								</tbody>
 							</table>
-						<cfrethrow>
+						<cfelse>
+						
+						</cfif>
 					</cfcatch>
 				</cftry>
 			<cfset problem_key = "">
