@@ -58,13 +58,13 @@ limitations under the License.
 		</cfdocumentitem>
 
 		<cfdocumentsection name="Loan Header">
-			<h1 style="text-align: center; font-size: 12pt;">
+			<h1 style="text-align: center; font-size: 1em;">
 				Invoice of Specimens
 			</h1>
-			<h2 style="text-align: center; font-size: 12pt;">
+			<h2 style="text-align: center; font-size: 1em;">
 				#getLoan.collection#
 			</h2>
-			<h2 style="text-align: center; font-size; 10pt;">
+			<h2 style="text-align: center; font-size; 1em;">
 				Museum of Comparative Zoology, Harvard University
 			</h2>
 			<table style="font-size: small;">
@@ -74,7 +74,7 @@ limitations under the License.
 							This document acknowledges the Loan of specimens to: #getLoan.recipientInstitutionName#.
 						</div>
 						<div>			
-							<strong>Borrower</strong> #recAgentName#
+							<strong>Borrower:</strong> #recAgentName#
 						</div>
 						<div>
 							<strong>Shipped To:</strong><br>
@@ -83,17 +83,17 @@ limitations under the License.
 						</div>
 					</td>
 					<td style="width: 45%; vertical-align: top;">
-						<dl style="text-align: left;">
-							<dt>Category:</dt><dd>#getLoan.loan_type#</dd>
-							<dt>Loan Number:</dt><dd>#getLoan.loan_number#</dd>
-							<dt>Loan Date:</dt><dd>#trans_date#</dd>
-							<dt>Approved By:</dt><dd>#authAgentName#</dd>
-							<dt>Packed By:</dt><dd>#processed_by_name#</dd>
-							<dt>Method of Shipment:</dt><dd>#shipped_carrier_method#</dd>
-							<dt>Number of Packages:</dt><dd>#no_of_packages#</dd>
-							<dt>Number of Specimens:</dt><dd>#num_specimens#</dd>
-							<dt>Number of Lots:</dt><dd>#num_lots#</dd>
-							<dt>For Use By:</dt><dd>#foruse_by_name#</dd>
+						<ul style="text-align: left;">
+							<li><strong>Category:</strong> #getLoan.loan_type#</strong>
+							<li><strong>Loan Number:</strong> #getLoan.loan_number#</strong>
+							<li><strong>Loan Date:</strong> #trans_date#</strong>
+							<li><strong>Approved By:</strong> #authAgentName#</strong>
+							<li><strong>Packed By:</strong> #processed_by_name#</strong>
+							<li><strong>Method of Shipment:</strong> #shipped_carrier_method#</strong>
+							<li><strong>Number of Packages:</strong> #no_of_packages#</strong>
+							<li><strong>Number of Specimens:</strong> #num_specimens#</strong>
+							<li><strong>Number of Lots:</strong> #num_lots#</strong>
+							<li><strong>For Use By:</strong> #foruse_by_name#</strong>
 						</ul>
 					</td>
 				</tr>
@@ -101,13 +101,15 @@ limitations under the License.
 			<div>
 				<strong>Nature of Material:</strong> #nature_of_material#
 			</div>
-			<div>
-				<strong>Description:</strong> #loan_description#
-			</div>
+			<cfif len(loan_description) GT 0>
+				<div>
+					<strong>Description:</strong> #loan_description#
+				</div>
+			</cfif>
 			<div>
 				<strong>Instructions:</strong> #loan_instructions#
 			</div>
-			<table style="font-size: 10pt;">
+			<table style="font-size: small;">
 				<tr>
 					<td style="width: 50%; vertical-align: top;">
 						<h2>UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
