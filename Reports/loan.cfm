@@ -31,14 +31,8 @@ limitations under the License.
 <cfif getLoan.recordcount EQ 0>
 	<cfthrow message = "No loan found for provided transaction_id [#encodeForHtml(transaction_id)#].">
 </cfif>
-<cfquery name="getLoanItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT guid, part_name,
-		to_char(reconciled_date,'yyyy-mm-dd') reconciled_date 
-	FROM loan_item
-		JOIN specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-		JOIN flat on specimen_part.derived_from_cat_item = flat.collection_object_id
-	WHERE
-		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+<cfquery name="getLoanItems" dbtype="query">
+   select * from getLoanItemsMCZ
 </cfquery>
 
 <!--------------------------------------------------------------------------------->
@@ -144,7 +138,7 @@ limitations under the License.
 						<div>Borrower (noted above) acknowledges reading and agreeing to the terms and conditions noted in this document.<div>
 						<div><strong>Expected return date: #dateformat(return_due_date,"dd mmmm yyyy")#</strong></div>
 						<br>
-						<div style="text-align: right;">Borrower&##39;s Signature: _________________</div>
+						<div style="text-align: right;">Borrower&##39;s Signature: _________________________</div>
 						<div style="text-align: right;">#recAgentName#</div>
 					</td>
 				</tr>
@@ -170,11 +164,32 @@ limitations under the License.
 
 		<cfdocumentsection name="Items In Loan">
 			<h1>Item Invoice</h1>
+			<table>
 			<cfloop query="getLoanItems">
-				<div>
-					#guid# #part_name# #reconciled_date#
+				<tr>
+					<td style="width: 25%;">
+						#institution_acronym#:#collection_cde#:#cat_num#  #reconciled_date#
+					</td>
+					<td style="width: 50%;">
+						<div>
+							<em>#scientific_name#</em>
+							<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
+							#higher_geog#
+							<cfif FindNoCase('Paleontology', collection) GT 0>
+								#chronostrat##lithostrat#
+							</cfif>
+							<cfif Len(spec_locality) GT 0><BR>#spec_locality#</cfif>
+							<cfif Len(collectors) GT 0><BR>#collectors</cfif>
+							<cfif(Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+						</div>
+					</td>
+					<td style="width: 25%;">
+						#lot_count# #part_modifier# #part_name#
+						<cfif(len(preserve_method) GT 0>(#preserve_method#)</cfif>
+					</td>
 				</div>
 			</cfloop>
+			</table>
 		</cfdocumentsection>
 
 	</cfoutput>

@@ -141,6 +141,7 @@ select
 		 lot_count,
 		 condition,
 		 item_instructions,
+		to_char(reconciled_date,'yyyy-mm-dd') reconciled_date,
 		 HTF.escape_sc(loan_item_remarks) loan_item_remarks,
 		 coll_obj_disposition,
 		 scientific_name,
