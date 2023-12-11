@@ -437,14 +437,6 @@
 						AND type_status not in (select type_status from ctcitation_type_status)
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfquery name="flagNotMatchedCollCde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE cf_temp_citation
-					SET 
-						status = concat(nvl2(status, status || '; ', ''), 'unknown collection_cde')
-					WHERE collection_cde is not null 
-						AND collection_cde not in (select collection_cde from ctcollection_cde)
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>	
 				<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_citation
 					SET 
@@ -496,7 +488,7 @@
 			<table class='sortable table table-responsive table-striped d-lg-table w-100'>
 				<thead class="thead-light">
 					<tr>
-						<th>STATUS</th>
+						<th style="width: 120px;">STATUS</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -512,7 +504,7 @@
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td><strong>#STATUS#</strong></td>
+							<td style="width: 120px;"><strong>#STATUS#</strong></td>
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
@@ -608,7 +600,7 @@
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
-								<th>status</th>
+								<th style="width: 120px;">status</th>
 								<th>institution_acronym</th>
 								<th>collection_cde</th>
 								<th>other_id_type</th>
@@ -625,7 +617,7 @@
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
-									<td>#getProblemData.status#</td>
+									<td style="width: 120px;">#getProblemData.status#</td>
 									<td>#getProblemData.institution_acronym#</td>
 									<td>#getProblemData.collection_cde#</td>
 									<td>#getProblemData.other_id_type#</td>
