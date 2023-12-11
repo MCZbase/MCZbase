@@ -78,6 +78,9 @@ limitations under the License.
 					</td>
 					<td style="width: 45%; vertical-align: top;">
 						<ul style="text-align: left;">
+							<cfif NOT (loan_status EQ "open" OR loan_status EQ "in process") >
+								<li><strong>Status:</strong> #loan_status#</strong>
+							</cfif>
 							<li><strong>Category:</strong> #getLoan.loan_type#</strong>
 							<li><strong>Loan Number:</strong> #getLoan.loan_number#</strong>
 							<li><strong>Loan Date:</strong> #trans_date#</strong>
