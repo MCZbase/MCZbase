@@ -35,7 +35,6 @@
 <cfif not isDefined("action") OR len(action) EQ 0><cfset action="nothing"></cfif>
 <main class="container py-3" id="content">
 	<h1 class="h2 mt-2">Bulkload Other IDs</h1>
-
 	<cfif #action# is "nothing">
 		<cfoutput>
 			<p>This tool is used to bulkload Other IDs.</p>
@@ -74,9 +73,7 @@
 			</cfform>
 		</cfoutput>
 	</cfif>	
-	
-	
-		<!------------------------------------------------------->
+<!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Set some constants to identify error cases in cfcatch block --->
@@ -430,7 +427,6 @@
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
-			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT * FROM cf_temp_oids
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
