@@ -488,7 +488,7 @@
 			<table class='sortable table w-100'>
 				<thead class="thead-light">
 					<tr>
-						<th>STATUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+						<th>STATUS&nbsp;OF&nbsp;CITATION&nbsp;BULKLOAD</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
