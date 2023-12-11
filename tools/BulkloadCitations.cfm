@@ -521,7 +521,7 @@
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td><strong>#STATUS#&nbsp; &nbsp; &nbsp; &nbsp;</strong></td>
+							<td><strong>#STATUS#</strong></td>
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
@@ -617,7 +617,7 @@
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
-								<th style="width: 200px;">status</th>
+								<th>status</th>
 								<th>institution_acronym</th>
 								<th>collection_cde</th>
 								<th>other_id_type</th>
@@ -634,7 +634,7 @@
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
-									<td style="width: 200px;">#getProblemData.status#</td>
+									<td>#getProblemData.status#</td>
 									<td>#getProblemData.institution_acronym#</td>
 									<td>#getProblemData.collection_cde#</td>
 									<td>#getProblemData.other_id_type#</td>
