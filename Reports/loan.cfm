@@ -87,7 +87,9 @@ limitations under the License.
 							<li><strong>Number of Packages:</strong> #no_of_packages#</strong>
 							<li><strong>Number of Specimens:</strong> #num_specimens#</strong>
 							<li><strong>Number of Lots:</strong> #num_lots#</strong>
-							<li><strong>For Use By:</strong> #foruse_by_name#</strong>
+							<cfif len(foruse_by_name) GT 0>
+								<li><strong>For Use By:</strong> #foruse_by_name#</strong>
+							</cfif>
 						</ul>
 					</td>
 				</tr>
@@ -122,7 +124,7 @@ limitations under the License.
 			<table style="font-size: small;">
 				<tr>
 					<td style="width: 50%; vertical-align: top;">
-						<h2>UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
+						<h2 style="font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
 						<div>
 							#replace(shipped_from_address,chr(10),"<br>","all")# 
 							<cfif loan_type EQ "exhibition">
@@ -163,33 +165,48 @@ limitations under the License.
 		</cfdocumentsection>
 
 		<cfdocumentsection name="Items In Loan">
-			<h1>Item Invoice</h1>
+			<h1>Invoice of Specimens</h1>
+			<div>
+				Retain in 70% ethanol unless noted otherwise.
+			</div>
 			<table>
-			<cfloop query="getLoanItems">
 				<tr>
-					<td style="width: 25%;">
-						#institution_acronym#:#collection_cde#:#cat_num# #reconciled_date#
-					</td>
-					<td style="width: 50%;">
-						<div>
-							<em>#scientific_name#</em>
-							<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
-							#higher_geog#
-							<cfif FindNoCase('Paleontology', collection) GT 0>
-								#chronostrat##lithostrat#
-							</cfif>
-							<cfif Len(spec_locality) GT 0><BR>#spec_locality#</cfif>
-							<cfif Len(collectors) GT 0><BR>#collectors#</cfif>
-							<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
-						</div>
-					</td>
-					<td style="width: 25%;">
-						#lot_count# #part_modifier# #part_name#
-						<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
-					</td>
-				</div>
-			</cfloop>
+					<th style="width: 25%;">MCZ Number</th>
+					<th style="width: 50%;">Taxon, Locality</th>
+					<th style="width: 25%;">Specimen Count</th>
+				</tr>
+				<cfset totalSpecimens = 0>
+				<cfset totalLotCount = 0>
+				<cfloop query="getLoanItems">
+					<tr>
+						<td style="width: 25%; vertical-align: top;">
+							#institution_acronym#:#collection_cde#:#cat_num# #reconciled_date#
+						</td>
+						<td style="width: 50%; vertical-align: top;">
+							<div>
+								<em>#scientific_name#</em>
+								<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
+								#higher_geog#
+								<cfif FindNoCase('Paleontology', collection) GT 0>
+									#chronostrat##lithostrat#
+								</cfif>
+								<cfif Len(spec_locality) GT 0><BR>#spec_locality#</cfif>
+								<cfif Len(collectors) GT 0><BR>#collectors#</cfif>
+								<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+							</div>
+						</td>
+						<td style="width: 25%; vertical-align: top;">
+							#lot_count# #part_modifier# #part_name#
+							<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+						</td>
+					</div>
+					<cfset totalSpecimens = totalSpecimens + 1>
+					<cfset totalLotCount = totalLotCount + lot_count>
+				</cfloop>
 			</table>
+			<div>
+				Total of #TotalSpecimens# specimens in #TotalLotCount# lots.
+			</div>
 		</cfdocumentsection>
 
 	</cfoutput>
