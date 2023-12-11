@@ -243,7 +243,7 @@ limitations under the License.
 									where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 										and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItems.collection_object_id#">
 										and permit.restriction_summary is not null
-								<cfquery>
+								</cfquery>
 								<cfif getSpecificRestrictions.recordcount GT 0>
 									<div>
 										<strong>Use Restricted By:</strong>
