@@ -489,6 +489,7 @@
 			<table class='sortable table table-responsive table-striped d-lg-table w-100'>
 				<thead class="thead-light">
 					<tr>
+						<th>STATUS</th>
 						<th>INSTITUTION_ACRONYM</th>
 						<th>COLLECTION_CDE</th>
 						<th>OTHER_ID_TYPE</th>
@@ -500,11 +501,11 @@
 						<th>CITATION_PAGE_URI</th>
 						<th>TYPE_STATUS</th>
 						<th>CITATION_REMARKS</th>
-						<th>STATUS</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
 						<tr>
+							<td><strong>#STATUS#</strong></td>
 							<td>#data.INSTITUTION_ACRONYM#</td>
 							<td>#data.COLLECTION_CDE#</td>
 							<td>#data.OTHER_ID_TYPE#</td>
@@ -516,7 +517,6 @@
 							<td>#data.CITATION_PAGE_URI#</td>
 							<td>#data.TYPE_STATUS#</td>
 							<td>#data.CITATION_REMARKS#</td>
-							<td><strong>#STATUS#</strong></td>
 						</tr>
 					</cfloop>
 				</tbody>
@@ -601,6 +601,7 @@
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
+								<th>status</th>
 								<th>institution_acronym</th>
 								<th>collection_cde</th>
 								<th>other_id_type</th>
@@ -612,12 +613,12 @@
 								<th>citation_page_uri</th>
 								<th>type_status</th>
 								<th>citation_remarks</th>
-								<th>status</th>
-							</tr> 
+							</tr>
 						</thead>
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
+									<td>#getProblemData.status#</td>
 									<td>#getProblemData.institution_acronym#</td>
 									<td>#getProblemData.collection_cde#</td>
 									<td>#getProblemData.other_id_type#</td>
@@ -629,8 +630,7 @@
 									<td>#getProblemData.citation_page_uri#</td>
 									<td>#getProblemData.type_status#</td>
 									<td>#getProblemData.citation_remarks#</td>
-									<td>#getProblemData.status#</td>
-								</tr> 
+								</tr>
 							</cfloop>
 						</tbody>
 					</table>
