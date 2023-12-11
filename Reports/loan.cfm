@@ -110,12 +110,26 @@ limitations under the License.
 				<div>
 					<strong>Instructions:</strong> #loan_instructions#
 				</div>
+				<h2 style="font-size: small;">Terms and Conditions</h2>
+				<ol>
+					<li>Specimens from the collections of the Museum of Comparative Zoology are loaned at the discretion of the museum.</li>
+					<li>Specimens are loaned to bona fide institutions, not to individuals.</li>
+					<li>Borrowing institutions must demonstrate the ability properly unpack, care for, use, and return the borrowed specimens before a loan is granted.</li>
+					<li>The specimens must be returned by the date stated on the invoice unless a loan renewal is granted in writing by the loaning department.</li>
+					<li>Specimens on loan must be cared for according to standard best practices of collection care and handling.</li>
+					<li>Loans may not be transferred to another institution without the express written permission of the curator of the loaning department.</li>
+					<li>No invasive procedures (e.g., penetrations of the body wall or removal of any parts) of a loaned specimen may be conducted without the express written permission of the curator of the loaning department.</li>
+					<li>Express written permission must be obtained before a loaned specimen, image, mold or cast of the specimen may be used for any purpose other than scholarly research.</li>
+					<li>Loaned specimens must be packed for return in accordance with professional standards and be legally shipped to the Museum of Comparative Zoology.</li>
+					<li>A loan may be recalled by the Museum of Comparative Zoology at any time at the discretion of the curator of the lending department or the Director of the MCZ.</li>
+					<li>Copies of all publications, reports, or other citations of the loaned specimens must be sent promptly to the Museum of Comparative Zoology.</li>
+				</ol>
 			</div>
 			<table style="font-size: small;">
 				<tr>
 					<td style="width: 50%; vertical-align: top;">
 						<h2>UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
-						<div>
+						<div>&#39;
 							#replace(shipped_from_address,chr(10),"<br>","all")# 
 							<cfif loan_type EQ "exhibition">
 								#addInHouseContactPhEmail#
@@ -130,7 +144,7 @@ limitations under the License.
 						<div>Borrower (noted above) acknowledges reading and agreeing to the terms and conditions noted in this document.<div>
 						<div><strong>Expected return date: #dateformat(return_due_date,"dd mmmm yyyy")#</strong></div>
 						<br>
-						<div style="text-align: right;">Borrower&apos;s Signature: _______________________</div>
+						<div style="text-align: right;">Borrower&##39;s Signature: <span style="text-decoration: underline; white-space: pre;">              </span></div>
 						<div style="text-align: right;">#recAgentName#</div>
 					</td>
 				</tr>
