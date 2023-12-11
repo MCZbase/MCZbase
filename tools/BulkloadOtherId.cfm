@@ -473,8 +473,7 @@
 						<cftransaction action="COMMIT">
 					</cfif>
 					</cfloop>
-				</cftransaction>
-				<p>Number of citations to update: #otherid_updates# (on #getCounts.ctobj# cataloged items)</p>
+				<p>Number of other IDs to update: #otherid_updates# (on #getCounts.ctobj# cataloged items)</p>
 				<cfif updateOtheridX_result.recordcount gt 0>
 					<h2 class="text-danger">These have already been loaded - not loaded</h2>
 				<cfelse>
@@ -598,4 +597,7 @@
 				DELETE FROM cf_temp_oids
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+		</cfoutput>
 	</cfif>
+</main>
+<cfinclude template="/shared/_footer.cfm">
