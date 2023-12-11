@@ -34,6 +34,32 @@ limitations under the License.
 <cfquery name="getLoanItems" dbtype="query">
    select * from getLoanItemsMCZ
 </cfquery>
+<cfquery name="getHasFluid" dbtype="query">
+	select count(*) ct 
+	from getLoanItemsMCZ
+	where preserve_method like '%thanol%' or preserve_method like '%alcohol%'
+</cfquery>
+<cfquery name="getRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select distinct restriction_summary, permit_id, permit_num from (
+	select permit.restriction_summary, permit.permit_id, permit.permit_num
+	from loan_item li 
+		join specimen_part sp on li.collection_object_id = sp.collection_object_id
+		join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+		join accn on ci.accn_id = accn.transaction_id
+		join permit_trans on accn.transaction_id = permit_trans.transaction_id
+		join permit on permit_trans.permit_id = permit.permit_id
+	where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+		and permit.restriction_summary is not null
+	union
+	select permit.restriction_summary, permit.permit_id, permit.permit_num
+	from loan
+		join shipment on loan.transaction_id = shipment.transaction_id
+		join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+		join permit on permit_shipment.permit_id = permit.permit_id
+	where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+		and permit.restriction_summary is not null
+	)
+</cfquery>
 
 <!--------------------------------------------------------------------------------->
 <cfdocument format="pdf" saveAsName="MCZ_Loan_#getLoan.loan_number#.pdf" pageType="letter" marginTop="0.5" marginBottom="0.5" marginLeft="0.5" marginRight="0.5" fontEmbed="yes">
@@ -77,7 +103,7 @@ limitations under the License.
 						</div>
 					</td>
 					<td style="width: 45%; vertical-align: top;">
-						<ul style="text-align: left;">
+						<ul style="text-align: left; list-style: none;">
 							<cfif NOT (loan_status EQ "open" OR loan_status EQ "in process") >
 								<li><strong>Status:</strong> #loan_status#</strong>
 							</cfif>
@@ -122,6 +148,9 @@ limitations under the License.
 					<li>Loaned specimens must be packed for return in accordance with professional standards and be legally shipped to the Museum of Comparative Zoology.</li>
 					<li>A loan may be recalled by the Museum of Comparative Zoology at any time at the discretion of the curator of the lending department or the Director of the MCZ.</li>
 					<li>Copies of all publications, reports, or other citations of the loaned specimens must be sent promptly to the Museum of Comparative Zoology.</li>
+					<cfif getRestrictions.recordcount GT 0>
+						<li>Additional Restrictions on use from original permits apply, see attached summary.</li>
+					</cfif>
 				</ol>
 			</div>
 			<table style="font-size: small;">
@@ -150,28 +179,24 @@ limitations under the License.
 			</table>
 		</cfdocumentsection>
 
-		<cfdocumentsection name="Loan Conditions">
-			<h1>Terms and Conditions</h1>
-			<ol>
-				<li>Specimens from the collections of the Museum of Comparative Zoology are loaned at the discretion of the museum.</li>
-				<li>Specimens are loaned to bona fide institutions, not to individuals.</li>
-				<li>Borrowing institutions must demonstrate the ability properly unpack, care for, use, and return the borrowed specimens before a loan is granted.</li>
-				<li>The specimens must be returned by the date stated on the invoice unless a loan renewal is granted in writing by the loaning department.</li>
-				<li>Specimens on loan must be cared for according to standard best practices of collection care and handling.</li>
-				<li>Loans may not be transferred to another institution without the express written permission of the curator of the loaning department.</li>
-				<li>No invasive procedures (e.g., penetrations of the body wall or removal of any parts) of a loaned specimen may be conducted without the express written permission of the curator of the loaning department.</li>
-				<li>Express written permission must be obtained before a loaned specimen, image, mold or cast of the specimen may be used for any purpose other than scholarly research.</li>
-				<li>Loaned specimens must be packed for return in accordance with professional standards and be legally shipped to the Museum of Comparative Zoology.</li>
-				<li>A loan may be recalled by the Museum of Comparative Zoology at any time at the discretion of the curator of the lending department or the Director of the MCZ.</li>
-				<li>Copies of all publications, reports, or other citations of the loaned specimens must be sent promptly to the Museum of Comparative Zoology.</li>
-			</ol>
-		</cfdocumentsection>
+		<cfif getRestrictions.recordcount GT 0>
+			<cfdocumentsection name="Additional Restrictions">
+				<h1>Restrictions imposed by original collecting agreements</h1>
+				<ul>
+					<cfloop query="getRestrictions">
+						<li>#restrictions_summary#</li>
+					</cfloop>
+				</ul>
+			</cfdocumentsection>
+		</cfif>
 
 		<cfdocumentsection name="Items In Loan">
 			<h1>Invoice of Specimens</h1>
-			<div>
-				Retain in 70% ethanol unless noted otherwise.
-			</div>
+			<cfif getHasFluid.ct GT 0>
+				<div>
+					Retain in 70% ethanol unless noted otherwise.
+				</div>
+			</cfif>
 			<table>
 				<tr>
 					<th style="width: 25%;">MCZ Number</th>
