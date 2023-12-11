@@ -423,7 +423,7 @@
 		</cfoutput>
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
-	<cfif action is "load">
+	<cfif #action# is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
 			<cfset problem_key = "">
