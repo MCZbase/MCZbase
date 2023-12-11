@@ -707,7 +707,7 @@
 					<table class='sortable table table-responsive table-striped d-lg-table'>
 						<thead>
 							<tr>
-								<th style="width: 200px;">publication_title</th>
+								<th>publication_title</th>
 								<th>publication_id</th>
 								<th>cited_scientific_name</th>
 								<th>occurs_page_number</th>
@@ -724,7 +724,7 @@
 						<tbody>
 							<cfloop query="getProblemData">
 								<tr>
-									<td style="width: 200px;">#getProblemData.publication_title#</td>
+									<td>#getProblemData.publication_title#</td>
 									<td>#getProblemData.publication_id#</td>
 									<td>#getProblemData.cited_scientific_name#</td>
 									<td>#getProblemData.occurs_page_number#</td>

@@ -428,7 +428,7 @@
 	<!-------------------------------------------------------------------------------------------->
 	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
-			<cfoutput>
+		<cfoutput>
 			<cfset problem_key = "">
 			<cftransaction>
 				<cfquery name="getTempData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -473,7 +473,7 @@
 						<cftransaction action="COMMIT">
 					</cfif>
 					</cfloop>
-				<p>Number of other IDs to update: #otherid_updates# (on #getCounts.ctobj# cataloged items)</p>
+					<p>Number of other IDs to update: #otherid_updates# (on #getCounts.ctobj# cataloged items)</p>
 				<cfif updateOtheridX_result.recordcount gt 0>
 					<h2 class="text-danger">These have already been loaded - not loaded</h2>
 				<cfelse>
@@ -481,46 +481,46 @@
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
 				</cfif>
-				<cfcatch>
-					<h2>There was a problem updating other IDs.</h2>
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT institution_acronym, collection_cde, existing_other_id_type, existing_other_id_number, new_other_id_type, new_other_id_number
-						FROM cf_temp_oids 
-						WHERE status is not null
-							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-					<cfif #citation_updates# gt 0>
-					<h3 class="text-danger">Problematic Rows (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>)</h3>
-					<table class='sortable table table-responsive table-striped d-lg-table'>
-						<thead class="thead-light">
-							<tr>
-								<th>status</th>
-									<th>collection_object_id</th>
-									<th>collection_cde</th>
-									<th>institution_acronym</th>
-									<th>existing_other_id_type</th>
-									<th>existing_other_id_number</th>
-									<th>new_other_id_type</th>
-									<th>new_other_id_number</th>
-								</tr> 
-							</thead>
-							<tbody>
-								<cfloop query="getProblemData">
-									<tr>
-										<td>#data.status#</td>
-										<td>#data.institution_acronym#</td>
-										<td>#data.collection_cde#</td>
-										<td>#data.existing_other_id_type#</td>
-										<td>#data.existing_other_id_number#</td>
-										<td>#data.new_other_id_type#</td>
-										<td>#data.new_other_id_number#</td>
+					<cfcatch>
+						<h2>There was a problem updating other IDs.</h2>
+						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT institution_acronym, collection_cde, existing_other_id_type, existing_other_id_number, new_other_id_type, new_other_id_number
+							FROM cf_temp_oids 
+							WHERE status is not null
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+						<cfif #citation_updates# gt 0>
+						<h3 class="text-danger">Problematic Rows (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>)</h3>
+						<table class='sortable table table-responsive table-striped d-lg-table'>
+							<thead class="thead-light">
+								<tr>
+									<th>status</th>
+										<th>collection_object_id</th>
+										<th>collection_cde</th>
+										<th>institution_acronym</th>
+										<th>existing_other_id_type</th>
+										<th>existing_other_id_number</th>
+										<th>new_other_id_type</th>
+										<th>new_other_id_number</th>
 									</tr> 
-								</cfloop>
-							</tbody>
-						</table>
+								</thead>
+								<tbody>
+									<cfloop query="getProblemData">
+										<tr>
+											<td>#data.status#</td>
+											<td>#data.institution_acronym#</td>
+											<td>#data.collection_cde#</td>
+											<td>#data.existing_other_id_type#</td>
+											<td>#data.existing_other_id_number#</td>
+											<td>#data.new_other_id_type#</td>
+											<td>#data.new_other_id_number#</td>
+										</tr> 
+									</cfloop>
+								</tbody>
+							</table>
 						<cfrethrow>
 					</cfcatch>
-			</cftry>
+				</cftry>
 			<cfset problem_key = "">
 			<cftransaction>
 				<cftry>
