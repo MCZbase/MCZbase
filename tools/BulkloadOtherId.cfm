@@ -13,7 +13,7 @@
 </cfif>
 <!--- end special case dump of problems --->
 
-<cfset fieldlist = "collection_object_id,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number,status"><cfset fieldTypes ="CF_SQL_DECIMAL,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
+<cfset fieldlist = "institution_acronym,collection_cde,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number"><cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number">
 
 <!--- special case handling to dump column headers as csv --->
@@ -95,25 +95,26 @@
 				</cfquery>
 				
 			<!--- check for required fields in header line --->
-			<cfset collection_cde_exists = false>
+			
 			<cfset institution_acronym_exists = false>
+			<cfset collection_cde_exists = false>
 			<cfset existing_other_id_type_exists = false>
 			<cfset existing_other_id_number_exists = false>
 			<cfset new_other_id_type_exists = false>
 			<cfset new_other_id_number_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
-					<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 				<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
+				<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 				<cfif ucase(header) EQ 'existing_other_id_type'><cfset existing_other_id_type_exists=true></cfif>
 				<cfif ucase(header) EQ 'existing_other_id_number'><cfset existing_other_id_number_exists=true></cfif>
 				<cfif ucase(header) EQ 'new_other_id_type'><cfset new_other_id_type_exists=true></cfif>
 				<cfif ucase(header) EQ 'new_other_id_number'><cfset new_other_id_number_exists=true></cfif>
 			</cfloop>
-		<cfif not (collection_cde_exists AND institution_acronym_exists AND  existing_other_id_type_exists AND existing_other_id_number_exists AND new_other_id_type_exists AND new_other_id_number_exists)>
+		<cfif not (institution_acronym_exists AND collection_cde_exists AND existing_other_id_type_exists AND existing_other_id_number_exists AND new_other_id_type_exists AND new_other_id_number_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
-				<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
 				<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
+				<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
 				<cfif not existing_other_id_type_exists><cfset message = "#message# existing_other_id_type is missing."></cfif>
 				<cfif not existing_other_id_number_exists><cfset message = "#message# existing_other_id_number is missing."></cfif>
 				<cfif not new_other_id_type_exists><cfset message = "#message# new_other_id_type is missing."></cfif>
@@ -289,14 +290,14 @@
 			<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					other_id_type, cited_scientific_name, publication_title, publication_id, key
+					new_other_id_type, key
 				FROM 
 					cf_temp_oids
 				WHERE 
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfloop query="getTempTableTypes">
-				<cfif getTempTableTypes.other_id_type eq 'catalog number'>
+				<cfif getTempTableTypes.existing_other_id_type eq 'catalog number'>
 					<!--- either based on catalog_number --->
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
@@ -305,7 +306,7 @@
 							collection_object_id = (
 								select collection_object_id 
 								from cataloged_item 
-								where cat_num = cf_temp_oids.other_id_number 
+								where cat_num = cf_temp_oids.existing_other_id_number 
 								and collection_cde = cf_temp_oids.collection_cde
 							),
 							status = null
@@ -320,9 +321,9 @@
 						SET
 							collection_object_id= (
 								select cataloged_item.collection_object_id from cataloged_item,coll_obj_other_id_num 
-								where coll_obj_other_id_num.other_id_type = cf_temp_oids.other_id_type 
+								where coll_obj_other_id_num.existing_other_id_type = cf_temp_oids.existing_other_id_type 
 								and cataloged_item.collection_cde = cf_temp_oids.collection_cde 
-								and display_value= cf_temp_oids.other_id_number
+								and display_value= cf_temp_oids.existing_other_id_number
 								and cataloged_item.collection_object_id = coll_obj_other_id_num.COLLECTION_OBJECT_ID
 							),
 							status = null
@@ -437,7 +438,7 @@
 				<cftransaction>
 					<cfloop query="getTempData">
 						<cfquery name="updateOtherid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherid_result">
-							insert into coll_obj_other_id_num (COLLECTION_OBJECT_ID,OTHER_ID_TYPE,OTHER_ID_PREFIX,OTHER_ID_NUMBER,OTHER_ID_SUFFIX,DISPLAY_VALUE,COLL_OBJ_OTHER_ID_NUM_ID)values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECT_ID#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DISPLAY_VALUE#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_OBJ_OTHER_ID_NUM_ID#">)
+							insert into coll_obj_other_id_num (COLLECTION_OBJECT_ID,OTHER_ID_TYPE,OTHER_ID_PREFIX,OTHER_ID_NUMBER,OTHER_ID_SUFFIX,DISPLAY_VALUE,COLL_OBJ_OTHER_ID_NUM_ID)values(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECT_ID#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_OBJ_OTHER_ID_NUM_ID#">)
 						</cfquery>
 						<cfset otherid_updates = otherid_updates + updateOtherid_result.recordcount>
 					</cfloop>
