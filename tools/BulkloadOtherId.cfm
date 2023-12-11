@@ -120,7 +120,7 @@
 				<cfif not new_other_id_number_exists><cfset message = "#message# new_other_id_number is missing."></cfif>
 				<cfthrow message="#message#">
 			</cfif>
-		<cfset colNames="">
+				<cfset colNames="">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
 				<cfset foundHighAscii = "">
@@ -206,19 +206,19 @@
 								)
 							</cfquery>
 							<cfset loadedRows = loadedRows + insert_result.recordcount>
-						<cfcatch>
-							<!--- identify the problematic row --->
-							<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#colVals#] <br>Error: #cfcatch.message#"><!--- " --->
-							<cfif isDefined("cfcatch.queryError")>
-								<cfset error_message = "#error_message# #cfcatch.queryError#">
-							</cfif>
-							<cfthrow message = "#error_message#">
-						</cfcatch>
+							<cfcatch>
+								<!--- identify the problematic row --->
+								<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#colVals#] <br>Error: #cfcatch.message#"><!--- " --->
+								<cfif isDefined("cfcatch.queryError")>
+									<cfset error_message = "#error_message# #cfcatch.queryError#">
+								</cfif>
+								<cfthrow message = "#error_message#">
+							</cfcatch>
 						</cftry>
 					</cfif>
 				</cfloop>
 		
-			<cfif foundHighCount GT 0>
+				<cfif foundHighCount GT 0>
 					<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
 					<div>
 						Showing #foundHighCount# examples.  If these do not appear as the correct characters, the file likely has a different encoding from the one you selected and
@@ -233,53 +233,53 @@
 				<h3 class="h3">
 					Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadCitations.cfm?action=validate">click to validate</a>.
 				</h3>
-			<cfcatch>
-				<h3 class="h3">
-					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadCitations.cfm">reload</a>
-				</h3>
-				<cfif isDefined("arrResult")>
-					<cfset foundHighCount = 0>
-					<cfset foundHighAscii = "">
-					<cfset foundMultiByte = "">
-					<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
-						<cfset thisBit=arrResult[1][col]>
-						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
-							<!--- high ASCII --->
-							<cfif foundHighCount LT 6>
-								<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
-								<cfset foundHighCount = foundHighCount + 1>
+				<cfcatch>
+					<h3 class="h3">
+						Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadCitations.cfm">reload</a>
+					</h3>
+					<cfif isDefined("arrResult")>
+						<cfset foundHighCount = 0>
+						<cfset foundHighAscii = "">
+						<cfset foundMultiByte = "">
+						<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
+							<cfset thisBit=arrResult[1][col]>
+							<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
+								<!--- high ASCII --->
+								<cfif foundHighCount LT 6>
+									<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+									<cfset foundHighCount = foundHighCount + 1>
+								</cfif>
+							<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
+								<!--- multibyte --->
+								<cfif foundHighCount LT 6>
+									<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+									<cfset foundHighCount = foundHighCount + 1>
+								</cfif>
 							</cfif>
-						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
-							<!--- multibyte --->
-							<cfif foundHighCount LT 6>
-								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
-								<cfset foundHighCount = foundHighCount + 1>
-							</cfif>
+						</cfloop>
+						<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
+							<h3 class="h3">Found characters with unexpected encoding in the header row.  This is probably the cause of your error.</h3>
+							<div>
+								Showing #foundHighCount# examples.  Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
+							</div>
+							<ul class="py-1" style="font-size: 1.2rem;">
+								#foundHighAscii#
+								#foundMultiByte#
+							</ul>
 						</cfif>
-					</cfloop>
-					<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
-						<h3 class="h3">Found characters with unexpected encoding in the header row.  This is probably the cause of your error.</h3>
-						<div>
-							Showing #foundHighCount# examples.  Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
-						</div>
-						<ul class="py-1" style="font-size: 1.2rem;">
-							#foundHighAscii#
-							#foundMultiByte#
-						</ul>
 					</cfif>
-				</cfif>
-				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
-						<li>#cfcatch.message#</li>
-					</ul>
-				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-					<ul class="py-1" style="font-size: 1.2rem;">
-						<li>#cfcatch.message#</li>
-					</ul>
-				<cfelse>
-					<cfdump var="#cfcatch#">
-				</cfif>
-			</cfcatch>
+					<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
+						<ul class="py-1" style="font-size: 1.2rem;">
+							<li>#cfcatch.message#</li>
+						</ul>
+					<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
+						<ul class="py-1" style="font-size: 1.2rem;">
+							<li>#cfcatch.message#</li>
+						</ul>
+					<cfelse>
+						<cfdump var="#cfcatch#">
+					</cfif>
+				</cfcatch>
 			</cftry>
 		</cfoutput>
 	</cfif>
@@ -443,45 +443,45 @@
 					</cfloop>
 				</cftransaction>
 				<h2>Updated #otherid_updates# Other IDs.</h2>
-			<cfcatch>
-				<h2>There was a problem updating Other IDs.</h2>
-				<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT *
-					FROM cf_temp_oids 
-					WHERE status is not null
-						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
-				<h3>Problematic Rows (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>)</h3>
-				<table class='sortable table table-responsive table-striped d-lg-table'>
-					<thead>
-						<tr>
-							<th>collection_object_id</th>
-							<th>collection_cde</th>
-							<th>institution_acronym</th>
-							<th>existing_other_id_type</th>
-							<th>existing_other_id_number</th>
-							<th>new_other_id_type</th>
-							<th>new_other_id_number</th>
-							<th>status</th>
-						</tr> 
-					</thead>
-					<tbody>
-						<cfloop query="getProblemData">
-							<tr>
-								<td>#data.collection_object_id#</td>
-								<td>#data.collection_cde#</td>
-								<td>#data.institution_acronym#</td>
-								<td>#data.existing_other_id_type#</td>
-								<td>#data.existing_other_id_number#</td>
-								<td>#data.new_other_id_type#</td>
-								<td>#data.new_other_id_number#</td>
-								<td>#data.status#</td>
-							</tr> 
-						</cfloop>
-					</tbody>
-				</table>
-				<cfrethrow>
-			</cfcatch>
+					<cfcatch>
+						<h2>There was a problem updating Other IDs.</h2>
+						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT *
+							FROM cf_temp_oids 
+							WHERE status is not null
+								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+						<h3>Problematic Rows (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>)</h3>
+						<table class='sortable table table-responsive table-striped d-lg-table'>
+							<thead>
+								<tr>
+									<th>collection_object_id</th>
+									<th>collection_cde</th>
+									<th>institution_acronym</th>
+									<th>existing_other_id_type</th>
+									<th>existing_other_id_number</th>
+									<th>new_other_id_type</th>
+									<th>new_other_id_number</th>
+									<th>status</th>
+								</tr> 
+							</thead>
+							<tbody>
+								<cfloop query="getProblemData">
+									<tr>
+										<td>#data.collection_object_id#</td>
+										<td>#data.collection_cde#</td>
+										<td>#data.institution_acronym#</td>
+										<td>#data.existing_other_id_type#</td>
+										<td>#data.existing_other_id_number#</td>
+										<td>#data.new_other_id_type#</td>
+										<td>#data.new_other_id_number#</td>
+										<td>#data.status#</td>
+									</tr> 
+								</cfloop>
+							</tbody>
+						</table>
+						<cfrethrow>
+					</cfcatch>
 			</cftry>
 			<cfset problem_key = "">
 			<cftransaction>
@@ -495,44 +495,44 @@
 						<cfset otherid_updates = otherid_updates + updateOtherid_result.recordcount>
 					</cfloop>
 					<cftransaction action="commit">
-				<cfcatch>
-					<cftransaction action="rollback">
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT *
-						FROM cf_temp_oids 
-						WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
-					</cfquery>
-					<h3>Error updating row (#otherid_updates + 1#): #cfcatch.message#</h3>
-					<table class='sortable table table-responsive table-striped d-lg-table'>
-						<thead>
-							<tr>
-								<th>collection_object_id</th>
-								<th>collection_cde</th>
-								<th>institution_acronym</th>
-								<th>existing_other_id_type</th>
-								<th>existing_other_id_number</th>
-								<th>new_other_id_type</th>
-								<th>new_other_id_number</th>
-								<th>status</th>
-							</tr> 
-						</thead>
-						<tbody>
-							<cfloop query="getProblemData">
-								<tr>
-									<td>#data.collection_object_id#</td>
-									<td>#data.collection_cde#</td>
-									<td>#data.institution_acronym#</td>
-									<td>#data.existing_other_id_type#</td>
-									<td>#data.existing_other_id_number#</td>
-									<td>#data.new_other_id_type#</td>
-									<td>#data.new_other_id_number#</td>
-									<td>#data.status#</td>
-								</tr> 
-							</cfloop>
-						</tbody>
-					</table>
-					<cfrethrow>
-				</cfcatch>
+						<cfcatch>
+							<cftransaction action="rollback">
+							<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT *
+								FROM cf_temp_oids 
+								WHERE key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
+							</cfquery>
+							<h3>Error updating row (#otherid_updates + 1#): #cfcatch.message#</h3>
+							<table class='sortable table table-responsive table-striped d-lg-table'>
+								<thead>
+									<tr>
+										<th>collection_object_id</th>
+										<th>collection_cde</th>
+										<th>institution_acronym</th>
+										<th>existing_other_id_type</th>
+										<th>existing_other_id_number</th>
+										<th>new_other_id_type</th>
+										<th>new_other_id_number</th>
+										<th>status</th>
+									</tr> 
+								</thead>
+								<tbody>
+									<cfloop query="getProblemData">
+										<tr>
+											<td>#data.collection_object_id#</td>
+											<td>#data.collection_cde#</td>
+											<td>#data.institution_acronym#</td>
+											<td>#data.existing_other_id_type#</td>
+											<td>#data.existing_other_id_number#</td>
+											<td>#data.new_other_id_type#</td>
+											<td>#data.new_other_id_number#</td>
+											<td>#data.status#</td>
+										</tr> 
+									</cfloop>
+								</tbody>
+							</table>
+							<cfrethrow>
+						</cfcatch>
 				</cftry>
 			</cftransaction>
 			<h2>Updated #otherid_updates# Other IDs.</h2>
