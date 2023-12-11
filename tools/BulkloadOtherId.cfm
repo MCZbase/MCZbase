@@ -76,24 +76,25 @@
 	</cfif>	
 	
 	
-<!------------------------------------------------------->
+		<!------------------------------------------------------->
 	<cfif #action# is "getFile">
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
+		<!--- Set some constants to identify error cases in cfcatch block --->
+		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
+		<cfset COLUMN_ERR = "Error inserting data">
 		<cfoutput>
-			<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
-			<cfset COLUMN_ERR = "Error inserting data">
-			<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
-			<cfset fileContent=replace(fileContent,"'","''","all")>
-			<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-		
-			<!--- cleanup any incomplete work by the same user --->
-			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_oids 
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
+			<cftry>
+				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
+				<cfset fileContent=replace(fileContent,"'","''","all")>
+				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 			
+				<!--- cleanup any incomplete work by the same user --->
+				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+					DELETE FROM cf_temp_citation
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				
 			<!--- check for required fields in header line --->
-			
 			<cfset collection_cde_exists = false>
 			<cfset institution_acronym_exists = false>
 			<cfset existing_other_id_type_exists = false>
@@ -102,15 +103,14 @@
 			<cfset new_other_id_number_exists = false>
 			<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 				<cfset header = arrResult[1][col]>
-				
-				<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
+					<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 				<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 				<cfif ucase(header) EQ 'existing_other_id_type'><cfset existing_other_id_type_exists=true></cfif>
 				<cfif ucase(header) EQ 'existing_other_id_number'><cfset existing_other_id_number_exists=true></cfif>
 				<cfif ucase(header) EQ 'new_other_id_type'><cfset new_other_id_type_exists=true></cfif>
 				<cfif ucase(header) EQ 'new_other_id_number'><cfset new_other_id_number_exists=true></cfif>
 			</cfloop>
-			<cfif not (collection_cde_exists AND institution_acronym_exists AND  existing_other_id_type_exists AND existing_other_id_number_exists AND new_other_id_type_exists AND new_other_id_number_exists)>
+		<cfif not (collection_cde_exists AND institution_acronym_exists AND  existing_other_id_type_exists AND existing_other_id_number_exists AND new_other_id_type_exists AND new_other_id_number_exists)>
 				<cfset message = "One or more required fields are missing in the header line of the csv file.">
 				<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
 				<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
@@ -206,18 +206,18 @@
 								)
 							</cfquery>
 							<cfset loadedRows = loadedRows + insert_result.recordcount>
-							<cfcatch>
-								<!--- identify the problematic row --->
-								<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#colVals#] <br>Error: #cfcatch.message#"><!--- " --->
-								<cfif isDefined("cfcatch.queryError")>
-									<cfset error_message = "#error_message# #cfcatch.queryError#">
-								</cfif>
-								<cfthrow message = "#error_message#">
-							</cfcatch>
+						<cfcatch>
+							<!--- identify the problematic row --->
+							<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#colVals#] <br>Error: #cfcatch.message#"><!--- " --->
+							<cfif isDefined("cfcatch.queryError")>
+								<cfset error_message = "#error_message# #cfcatch.queryError#">
+							</cfif>
+							<cfthrow message = "#error_message#">
+						</cfcatch>
 						</cftry>
 					</cfif>
 				</cfloop>
-		
+			
 				<cfif foundHighCount GT 0>
 					<h3 class="h3">Found characters where the encoding is probably important in the input data.</h3>
 					<div>
@@ -233,57 +233,57 @@
 				<h3 class="h3">
 					Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadCitations.cfm?action=validate">click to validate</a>.
 				</h3>
-				<cfcatch>
-					<h3 class="h3">
-						Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadCitations.cfm">reload</a>
-					</h3>
-					<cfif isDefined("arrResult")>
-						<cfset foundHighCount = 0>
-						<cfset foundHighAscii = "">
-						<cfset foundMultiByte = "">
-						<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
-							<cfset thisBit=arrResult[1][col]>
-							<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
-								<!--- high ASCII --->
-								<cfif foundHighCount LT 6>
-									<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
-									<cfset foundHighCount = foundHighCount + 1>
-								</cfif>
-							<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
-								<!--- multibyte --->
-								<cfif foundHighCount LT 6>
-									<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
-									<cfset foundHighCount = foundHighCount + 1>
-								</cfif>
+			<cfcatch>
+				<h3 class="h3">
+					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadCitations.cfm">reload</a>
+				</h3>
+				<cfif isDefined("arrResult")>
+					<cfset foundHighCount = 0>
+					<cfset foundHighAscii = "">
+					<cfset foundMultiByte = "">
+					<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
+						<cfset thisBit=arrResult[1][col]>
+						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
+							<!--- high ASCII --->
+							<cfif foundHighCount LT 6>
+								<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
-						</cfloop>
-						<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
-							<h3 class="h3">Found characters with unexpected encoding in the header row.  This is probably the cause of your error.</h3>
-							<div>
-								Showing #foundHighCount# examples.  Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
-							</div>
-							<ul class="py-1" style="font-size: 1.2rem;">
-								#foundHighAscii#
-								#foundMultiByte#
-							</ul>
+						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
+							<!--- multibyte --->
+							<cfif foundHighCount LT 6>
+								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+								<cfset foundHighCount = foundHighCount + 1>
+							</cfif>
 						</cfif>
-					</cfif>
-					<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
+					</cfloop>
+					<cfif isDefined("foundHighCount") AND foundHighCount GT 0>
+						<h3 class="h3">Found characters with unexpected encoding in the header row.  This is probably the cause of your error.</h3>
+						<div>
+							Showing #foundHighCount# examples.  Did you select utf-16 or unicode for the encoding for a file that does not have multibyte encoding?
+						</div>
 						<ul class="py-1" style="font-size: 1.2rem;">
-							<li>#cfcatch.message#</li>
+							#foundHighAscii#
+							#foundMultiByte#
 						</ul>
-					<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
-						<ul class="py-1" style="font-size: 1.2rem;">
-							<li>#cfcatch.message#</li>
-						</ul>
-					<cfelse>
-						<cfdump var="#cfcatch#">
 					</cfif>
-				</cfcatch>
+				</cfif>
+				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
+					<ul class="py-1" style="font-size: 1.2rem;">
+						<li>#cfcatch.message#</li>
+					</ul>
+				<cfelseif Find("#COLUMN_ERR#",cfcatch.message) GT 0>
+					<ul class="py-1" style="font-size: 1.2rem;">
+						<li>#cfcatch.message#</li>
+					</ul>
+				<cfelse>
+					<cfdump var="#cfcatch#">
+				</cfif>
+			</cfcatch>
 			</cftry>
 		</cfoutput>
 	</cfif>
-	<!------------------------------------------------------->
+<!------------------------------------------------------->
 	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 			<cfoutput>
