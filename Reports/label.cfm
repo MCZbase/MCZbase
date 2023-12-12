@@ -73,8 +73,8 @@ limitations under the License.
 							<div style="#labelStyle# font: 1em serif;">
 								<cfswitch expression = "#target#">
 									<cfcase value="Dry_Large_Type__All">
-										<div><strong>MCZ:#collection_cde#:#catalog_number#</strong></div>
-										<div><strong>#sci_name_with_auth#</strong></div>
+										<div><strong style="font: 1em 'Liberation Serif' serif;">MCZ:#collection_cde#:#catalog_number#</strong></div>
+										<div><strong style="font: 1em Verdana sans-serif">#sci_name_with_auth#</strong></div>
 										<div style="height: 1.38in;">#tsname#</div>
 										<div style="text-align:center;">Museum of Comparative Zoology</div>
 									</cfcase>
