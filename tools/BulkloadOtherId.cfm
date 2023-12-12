@@ -466,7 +466,7 @@
 								where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#"> 
 								and display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.new_other_id_number#">
 								group by collection_object_id,other_id_type,display_value
-								having count(*) > 1
+								having count(*) > 0
 							</cfquery>
 							<cfset otherid_updates = otherid_updates + updateOtherid_result.recordcount>
 							<cfif updateOtheridX_result.recordcount gt 0>
