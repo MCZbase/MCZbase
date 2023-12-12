@@ -743,7 +743,6 @@ limitations under the License.
 										<td>#getProblemData.attribute_meth# </td>
 										<td>#getProblemData.determiner# </td>
 										<td>#getProblemData.remarks# </td>
-										
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
