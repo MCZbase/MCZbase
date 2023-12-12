@@ -597,7 +597,7 @@
 					</cfif>
 				</cfloop>
 				<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
-				<cfif getTempData.recordcount eq citation_updates and updateCitationsX_result.recordcount eq 0>
+					<cfif getTempData.recordcount eq citation_updates and updateCitationsX_result.recordcount eq 0>
 						<h2 class="h3 text-success">Success - loaded</h2>
 					</cfif>
 					<cfif updateCitationsX_result.recordcount gt 0>
