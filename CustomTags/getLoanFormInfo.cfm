@@ -103,7 +103,7 @@
 				trans.transaction_id = 	project_trans.transaction_id (+) and
 				project_trans.project_id =	project_sponsor.project_id (+) and
 				project_sponsor.agent_name_id = sponsor_name.agent_name_id (+) and
-				loan.transaction_id=#transaction_id#
+				loan.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
         --- use the shipment with the print flag set, failover to print first entered shipment.
         order by shipment.print_flag desc, shipment.shipment_id asc
         ) where rownum < 2
@@ -141,6 +141,7 @@ select
 		 lot_count,
 		 condition,
 		 item_instructions,
+		to_char(reconciled_date,'yyyy-mm-dd') reconciled_date,
 		 HTF.escape_sc(loan_item_remarks) loan_item_remarks,
 		 coll_obj_disposition,
 		 scientific_name,
@@ -208,7 +209,7 @@ select
 		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
 		locality.locality_id = accepted_lat_long.locality_id (+) AND
 		cataloged_item.collection_id = collection.collection_id AND
-	  loan_item.transaction_id = #transaction_id#
+		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 </cfquery>
 <!--- Sort order is now configurable and handled by sort parameter of Reports/report_printer.cfm.  --->
 <!--- /*ORDER BY catalog_number_prefix, catalog_number*/ --->
@@ -299,7 +300,7 @@ select
 				project_trans.project_id =	project_sponsor.project_id (+) and
 				project_sponsor.agent_name_id = sponsor_name.agent_name_id (+) and
 				trans.collection_id = collection.collection_id AND
-				deaccession.transaction_id=#transaction_id#
+				deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
         ---  get the shipment with the print flag set, failover to the first entered shipment
         ---    (by shipment_id, assuming that is sequential) is the outgoing shipment
         order by shipment.print_flag desc, shipment.shipment_id asc
@@ -404,7 +405,7 @@ select
 		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
 		locality.locality_id = accepted_lat_long.locality_id (+) AND
 		cataloged_item.collection_id = collection.collection_id AND
-	  deacc_item.transaction_id = #transaction_id#
+		deacc_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 	  ORDER BY cat_num
 </cfquery>
 <!---  getAccMCZ - information for accession invoice headers.   --->
@@ -476,7 +477,7 @@ select
 		left join agent_name sponsor_name on project_sponsor.agent_name_id = sponsor_name.agent_name_id
 	WHERE
 		outside_trans_agent.trans_agent_role='received from' and
-		accn.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		accn.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 	ORDER BY 
 		shipment.print_flag desc, shipment.shipment_id asc
 </cfquery>

@@ -1231,7 +1231,7 @@ limitations under the License.
 									<p class="px-3">Restrictions on use from one or more permissions and rights document apply to one or more items in this loan.</p>
 									<ul>
 										<cfloop query="getRestrictions">
-											<li><a href="/transactions/Permit.cfm?action=view&#getRestrictions.permit_id#" target="_blank">#getRestrictions.permit_num#</a>#getRestrictions.restriction_summary#</li>
+											<li><a href="/transactions/Permit.cfm?action=view&permit_id=#getRestrictions.permit_id#" target="_blank">#getRestrictions.permit_num#</a>#getRestrictions.restriction_summary#</li>
 										</cfloop>
 									</ul>
 								</div>
