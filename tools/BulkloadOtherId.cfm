@@ -584,10 +584,10 @@
 				</cftry>
 			</cftransaction>
 			<cfif #otherid_updates# eq 0>
-				<h2 class="mt-2">#otherid_updates# other IDs loaded - They were already in MCZbase.</h2>
+				<h2 class="mt-2 h3">#otherid_updates# other IDs loaded - They were already in MCZbase.</h2>
 			<cfelse>
 				<h2 class="h3 mt-2">#otherid_updates# other IDs evaluated.</h2>
-				<h2 class="text-success">Success, changes applied.</h2> 
+				<h2 class="h3 text-success">Success, changes applied.</h2> 
 			</cfif>
 			
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
