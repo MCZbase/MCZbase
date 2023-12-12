@@ -446,12 +446,16 @@
 								insert into coll_obj_other_id_num (
 								collection_object_id, 
 								other_id_type,
+								other_id_prefix,
 								other_id_number,
+								other_id_suffix,
 								display_value
 								)values(
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECT_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">
+									'',
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">,
+									'',
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">
 								)
 							</cfquery>
@@ -459,7 +463,8 @@
 							<cfquery name="updateOtheridX" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtheridX_result">
 								select collection_object_id,other_id_type,display_value 
 								from coll_obj_other_id_num 
-								where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#"> and display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.new_other_id_number#">
+								where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#"> 
+								and display_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.new_other_id_number#">
 								group by collection_object_id,other_id_type,display_value
 								having count(*) > 1
 							</cfquery>
