@@ -661,9 +661,9 @@ limitations under the License.
 							having count(*) > 1
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
-						Att1 rec ct:	#updateAttributes1_result.recordcount#<br>
+			<!---			Att1 rec ct:	#updateAttributes1_result.recordcount#<br>
 						attributes_updates: #attributes_updates#<br>
-						getTempdata rec ct: #getTempData.recordcount#
+						getTempdata rec ct: #getTempData.recordcount#--->
 						<cfif updateAttributes1_result.recordcount gt 0>
 							
 							
@@ -675,11 +675,11 @@ limitations under the License.
 					<p>Number of attributes to update: #attributes_updates# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif updateAttributes1_result.recordcount gt 0>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
-					<cfelse>
-						<cfif getTempData.recordcount eq attributes_updates>
-							<h2 class="text-success">Success - loaded</h2>
-						</cfif>
 					</cfif>
+					<cfif getTempData.recordcount eq attributes_updates>
+						<h2 class="text-success">Success - loaded</h2>
+					</cfif>
+			
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the attributes.</h2>
