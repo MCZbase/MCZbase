@@ -428,7 +428,7 @@
 							<td>#data.existing_other_id_type#</td>
 							<td>#data.existing_other_id_number#</td>
 							<td>#data.new_other_id_type#</td>
-							<td>#data.display_value#</td>
+							<td>#data.new_other_id_number#</td>
 						</tr>
 					</cfloop>
 				</tbody>
