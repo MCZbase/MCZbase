@@ -577,7 +577,7 @@
 									<td>#getProblemData.existing_other_id_type#</td>
 									<td>#getProblemData.existing_other_id_number#</td>
 									<td>#getProblemData.new_other_id_type#</td>
-									<td>#getProblemData.display_value#</td>
+									<td>#getProblemData.new_other_id_number#</td>
 								</tr> 
 							</cfloop>
 						</tbody>
