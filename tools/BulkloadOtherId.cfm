@@ -335,6 +335,13 @@
 				WHERE institution_acronym <> 'MCZ'
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE cf_temp_oids
+				SET 
+					status = concat(nvl2(status, status || '; ', ''),'INSTIUTION_ACRONYM is not "Cryo, Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP" (check case)')
+				WHERE collection_cde <> 'MCZ'
+					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
 			<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_oids
 				SET 
