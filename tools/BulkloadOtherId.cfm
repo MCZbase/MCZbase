@@ -407,7 +407,7 @@
 				<tbody>
 					<cfloop query="data">
 						<tr>
-							<td>#data.status#</td>
+							<td><strong>#data.status#</strong></td>
 							<td>#data.collection_object_id#</td>
 							<td>#data.collection_cde#</td>
 							<td>#data.institution_acronym#</td>
