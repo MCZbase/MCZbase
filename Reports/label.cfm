@@ -43,7 +43,7 @@ limitations under the License.
 		JOIN collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
 	WHERE
 		identification.accepted_id_fg = 1 AND
-		user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#result_id#">
+		user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 	ORDER BY cat_num
 </cfquery>
 
