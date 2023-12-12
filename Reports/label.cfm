@@ -74,7 +74,7 @@ limitations under the License.
 						<td>
 							<div style="#labelStyle#">
 								#collection_cde# #cat_num#
-								#phyluym#:#family#
+								#phylum#:#family#
 								#typestatus#
 								#typestatus#
 								#scientific_name#
