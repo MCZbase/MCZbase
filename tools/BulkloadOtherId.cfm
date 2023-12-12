@@ -483,12 +483,11 @@
 							</cfif>
 						</cfloop>
 						<p>Number of other IDs to update: #otherid_updates# (on #getCounts.ctobj# cataloged items)</p>
+						<cfif getTempData.recordcount eq otherid_updates and updateOtheridX_result.recordcount eq 0>
+							<h2 class="h3 text-success">Success - loaded</h2>
+						</cfif>
 						<cfif updateOtheridX_result.recordcount gt 0>
-							<h2 class="text-danger">These have already been loaded - not loaded</h2>
-						<cfelse>
-							<cfif getTempData.recordcount eq otherid_updates>
-								<h2 class="text-success">Success - loaded</h2>
-							</cfif>
+							<h2 class="h3 text-danger">Not loaded - these have already been loaded</h2>
 						</cfif>
 					<cfcatch>
 						<h2 class="h3">There was a problem updating other IDs.</h2>
@@ -498,8 +497,14 @@
 							WHERE status is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<h3 class="text-danger">Problematic Rows (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>)</h3>
-						<table class='sortable table table-responsive table-striped d-lg-table'>
+						<cfif getProblemData.recordcount eq 0>
+							<h2 class="h3 text-danger">Not loaded - these have already been loaded</h2>
+						</cfif>
+						<cfif getProblemData.recordcount eq 0>
+							<h3 class="text-danger">
+								Problematic Rows (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>)
+							</h3>
+							<table class='sortable table table-responsive table-striped d-lg-table'>
 							<thead class="thead-light">
 								<tr>
 									<th>status</th>
@@ -526,6 +531,7 @@
 									</cfloop>
 								</tbody>
 							</table>
+						</cfif>
 					</cfcatch>
 				</cftry>
 			<cfset problem_key = "">
@@ -593,12 +599,6 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cfif #otherid_updates# eq 0>
-				<h2 class="mt-2 h3">#otherid_updates# other IDs loaded - They were already in MCZbase.</h2>
-			<cfelse>
-				<h2 class="h3 mt-2">#otherid_updates# other IDs evaluated.</h2>
-				<h2 class="h3 text-success">Success, changes applied.</h2> 
-			</cfif>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_oids
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
