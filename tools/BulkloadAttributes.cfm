@@ -661,9 +661,11 @@ limitations under the License.
 							having count(*) > 1
 						</cfquery>
 						<cfset attributes_updates = attributes_updates + updateAttributes_result.recordcount>
-			<!---			Att1 rec ct:	#updateAttributes1_result.recordcount#<br>
+			<!---		Att1 rec ct:	#updateAttributes1_result.recordcount#<br>
 						attributes_updates: #attributes_updates#<br>
 						getTempdata rec ct: #getTempData.recordcount#--->
+							
+							#determined_by_agent_id#<br>
 						<cfif updateAttributes1_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
@@ -675,9 +677,9 @@ limitations under the License.
 					<cfif getTempData.recordcount eq attributes_updates>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
-						<p>Att1 rec ct:#updateAttributes1_result.recordcount#<br>
+<!---						<p>Att1 rec ct:#updateAttributes1_result.recordcount#<br>
 						attributes_updates: #attributes_updates#<br>
-							getTempdata rec ct: #getTempData.recordcount#</p>	
+							getTempdata rec ct: #getTempData.recordcount#</p>	--->
 						<cfif updateAttributes1_result.recordcount gt 0>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
