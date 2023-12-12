@@ -387,7 +387,7 @@
 				</cfquery>
 			</cfloop>
 			<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT collection_object_id,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number,status
+				SELECT collection_object_id,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,display_value,status
 				FROM cf_temp_oids
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -428,7 +428,7 @@
 							<td>#data.existing_other_id_type#</td>
 							<td>#data.existing_other_id_number#</td>
 							<td>#data.new_other_id_type#</td>
-							<td>#data.new_other_id_number#</td>
+							<td>#data.display_value#</td>
 						</tr>
 					</cfloop>
 				</tbody>
@@ -456,7 +456,7 @@
 								(
 								COLLECTION_OBJECT_ID,
 								OTHER_ID_TYPE,
-								OTHER_ID_NUMBER,
+								NEW_OTHER_ID_PREFIX,
 								DISPLAY_VALUE
 								)
 								values
@@ -493,7 +493,7 @@
 					<cfcatch>
 						<h2 class="h3">There was a problem updating other IDs.</h2>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT institution_acronym, collection_cde, existing_other_id_type, existing_other_id_number, new_other_id_type, new_other_id_number
+							SELECT institution_acronym, collection_cde, existing_other_id_type, existing_other_id_number, new_other_id_type, display_value
 							FROM cf_temp_oids 
 							WHERE status is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
@@ -522,7 +522,7 @@
 											<td>#data.existing_other_id_type#</td>
 											<td>#data.existing_other_id_number#</td>
 											<td>#data.new_other_id_type#</td>
-											<td>#data.new_other_id_number#</td>
+											<td>#data.display_value#</td>
 										</tr> 
 									</cfloop>
 								</tbody>
@@ -539,7 +539,7 @@
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT institution_acronym, collection_cde, existing_other_id_type, existing_other_id_number, new_other_id_type, new_other_id_number
+						SELECT institution_acronym, collection_cde, existing_other_id_type, existing_other_id_number, new_other_id_type, display_value
 						FROM cf_temp_oids 
 						WHERE username= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
@@ -588,7 +588,7 @@
 									<td>#getProblemData.existing_other_id_type#</td>
 									<td>#getProblemData.existing_other_id_number#</td>
 									<td>#getProblemData.new_other_id_type#</td>
-									<td>#getProblemData.new_other_id_number#</td>
+									<td>#getProblemData.display_value#</td>
 								</tr> 
 							</cfloop>
 						</tbody>
