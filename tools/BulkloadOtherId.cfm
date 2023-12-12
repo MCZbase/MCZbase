@@ -352,7 +352,7 @@
 			<cfquery name="flagNotMatchedExistOther_ID_Type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_oids
 				SET 
-					status = concat(nvl2(status, status || '; ', ''), 'Unknown other_id_type: "' || existing_other_id_type ||'"&mdash;not on list')
+					status = concat(nvl2(status, status || '; ', ''), 'Unknown existing_other_id_type: "' || existing_other_id_type ||'"&mdash;not on list')
 				WHERE existing_other_id_type is not null 
 					AND existing_other_id_type <> 'catalog number'
 					AND existing_other_id_type not in (select other_id_type from ctcoll_other_id_type)
