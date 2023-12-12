@@ -486,7 +486,7 @@
 						<cfif getProblemData.recordcount eq 0>
 							<h2 class="h3 text-danger">Not loaded - these have already been loaded</h2>
 						</cfif>
-						<cfif getProblemData.recordcount eq 0>
+						<cfif getProblemData.recordcount gt 0>
 							<h3 class="text-danger">
 								Problematic Rows (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>)
 							</h3>
