@@ -494,9 +494,8 @@
 							<thead class="thead-light">
 								<tr>
 									<th>status</th>
-									<th>collection_object_id</th>
-									<th>collection_cde</th>
 									<th>institution_acronym</th>
+									<th>collection_cde</th>
 									<th>existing_other_id_type</th>
 									<th>existing_other_id_number</th>
 									<th>new_other_id_type</th>
