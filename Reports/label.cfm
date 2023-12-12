@@ -69,7 +69,7 @@ limitations under the License.
 		<cfdocumentsection name="Lables">
 			<table>
 				<tr>
-					<cfset columCounter = 0;
+					<cfset columCounter = 0>
 					<cfloop query="getItems">
 						<td>
 							<div style="#labelStyle#">
