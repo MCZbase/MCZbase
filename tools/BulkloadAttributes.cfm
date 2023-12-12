@@ -656,7 +656,7 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="updateAttributes1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttributes1_result">
 							select attribute_type,attribute_value,collection_object_id from attributes 
-							where DETERMINED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.determined_by_agent_id#">
+							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 							group by attribute_type,attribute_value,collection_object_id
 							having count(*) > 1
 						</cfquery>
@@ -668,19 +668,18 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 					<p>Number of attributes to update: #attributes_updates# (on #getCounts.ctobj# cataloged items)</p>
+					<cfif getTempData.recordcount eq attributes_updates and updateAttributes1_result.recordcount eq 0>
+						<h2 class="text-success">Success - loaded</h2>
+					</cfif>
 					<cfif updateAttributes1_result.recordcount gt 0>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
-					<cfelse>
-						<cfif getTempData.recordcount eq attributes_updates>
-							<h2 class="text-success">Success - loaded</h2>
-						</cfif>
 					</cfif>
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the attributes.</h2>
 					<div>#cfcatch.message#</div>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks,status
+						SELECT status,institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks
 						FROM cf_temp_attributes 
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
@@ -688,7 +687,7 @@ limitations under the License.
  						<h2 class="h3">Errors are displayed one row at a time.</h2>
 						<h3>
 							Error loading row (<span class="text-danger">#attributes_updates + 1#</span>) from the CSV: 
-							<cfif len(cfcatch.detail)gt 0>
+							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "Invalid ATTRIBUTE_TYPE">
 										Invalid ATTRIBUTE_TYPE for this collection; check controlled vocabulary (Help menu)
@@ -723,8 +722,8 @@ limitations under the License.
 						</h3>
 						<table class='sortable table-danger table table-responsive table-striped d-lg-table mt-3'>
 							<thead>
-								<tr><th>COUNT</th>
-									<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>ATTRIBUTE</th><th>ATTRIBUTE_VALUE</th><th>ATTRIBUTE_UNITS</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th><th>STATUS</th>
+								<tr><th>COUNT</th><th>STATUS</th>
+									<th>INSTITUTION_ACRONYM</th><th>COLLECTION_CDE</th><th>OTHER_ID_TYPE</th><th>OTHER_ID_NUMBER</th><th>ATTRIBUTE</th><th>ATTRIBUTE_VALUE</th><th>ATTRIBUTE_UNITS</th><th>ATTRIBUTE_DATE</th><th>ATTRIBUTE_METH</th><th>DETERMINER</th><th>REMARKS</th>
 								</tr> 
 							</thead>
 							<tbody>
@@ -732,6 +731,7 @@ limitations under the License.
 								<cfloop query="getProblemData">
 									<tr>
 										<td>#i#</td>
+										<td>#getProblemData.status# </td>
 										<td>#getProblemData.institution_acronym# </td>
 										<td>#getProblemData.collection_cde# </td>
 										<td>#getProblemData.other_id_type#</td>
@@ -743,7 +743,6 @@ limitations under the License.
 										<td>#getProblemData.attribute_meth# </td>
 										<td>#getProblemData.determiner# </td>
 										<td>#getProblemData.remarks# </td>
-										<td>#getProblemData.status# </td>
 									</tr>
 									<cfset i= i+1>
 								</cfloop>
