@@ -21,32 +21,35 @@ limitations under the License.
 	<cfthrow message = "No result_id provided for query selecting labels to print.">
 </cfif>
 
-<cfset orientation = "portrait">
+<cfset target = "Dry_Large_Type__All">
 
-<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT DISTINCT
-		cataloged_item.collection_object_id,
-		cataloged_item.collection_cde,
-		cataloged_item.cat_num,
-		MCZBASE.get_top_typestatus(cataloged_item.collection_object_id) as typestatus,
-		identification.scientific_name,
-		specimen_part.part_name,
-		MCZBASE.GET_PART_PREP(specimen_part.collection_object_id) as part_prep,
-		MCZBASE.GET_PART_COUNT_MOD_FOR_PART(specimen_part.collection_object_id) as lot_count_mod,
-		get_taxonomy(cataloged_item.collection_object_id,'family') as family,
-		get_taxonomy(cataloged_item.collection_object_id,'phylum') as phylum
-	 FROM
-		user_search_table
-		JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
-		JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
-		JOIN identification on cataloged_item.collection_object_id = identification.collection_object_id
-		JOIN collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
-	WHERE
-		identification.accepted_id_fg = 1 AND
-		user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
-	ORDER BY cat_num
-</cfquery>
+<cfswitch expression = "#target#">
+	<cfcase value="Dry_Large_Type__All">
+		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT DISTINCT
+				get_scientific_name_auths(cataloged_item.collection_object_id) sci_name_with_auth,
+				concatAcceptedIdentifyingAgent(cataloged_item.collection_object_id) identified_by,
+				MCZBASE.CONCATTYPESTATUS_LABEL(cataloged_item.collection_object_id) as tsname,
+				MCZBASE.CONCATTYPESTATUS_WORDS(cataloged_item.collection_object_id) as type_status,
+				cat_num as catalog_number,
+				collection_cde
+			FROM
+				user_search_table
+				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
+			WHERE
+				user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			ORDER BY
+				lpad(cat_num,10)
+		</cfquery>
+		<cfset orientation = "portrait">
+		<cfset columns = 2>
+		<cfset labelWidth = 'width: 3.5in;'>
+		<cfset labelBorder = 'border: 1px;'>
+		<cfset labelHeight = 'height: 2.0in;'>
+	</cfcase>
+<cfswitch>
 
+<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 <cfdocument format="pdf" pagetype="letter" margintop=".25" marginbottom=".25" marginleft=".25" marginright=".25" orientation="#orientation#" fontembed="yes" saveAsName="MCZ_labels_#result_id#.pdf">
 	<cfoutput>
 		<cfdocumentitem type="header">
@@ -61,11 +64,6 @@ limitations under the License.
 			</div>
 		</cfdocumentitem>
 
-		<cfset columns = 2>
-		<cfset labelWidth = 'width: 3.3in;'>
-		<cfset labelBorder = 'border: 1px;'>
-		<cfset labelHeight = 'height: 2.5in;'>
-		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 		<cfdocumentsection name="Lables">
 			<table>
 				<tr>
@@ -73,12 +71,14 @@ limitations under the License.
 					<cfloop query="getItems">
 						<td>
 							<div style="#labelStyle#">
-								#collection_cde# #cat_num#
-								#phylum#:#family#
-								#typestatus#
-								#typestatus#
-								#scientific_name#
-								#part_name# #part_prep# #lot_count_mod#
+								<cfswitch expression = "#target#">
+									<cfcase value="Dry_Large_Type__All">
+										<div><strong>MCZ:#collection_cde#:#catalog_number#</strong></div>
+										<div><strong>#sci_name_with_auth#</strong></div>
+										<div style="height: 1.38in;">#tsname#</div>
+										<div style="text-align:center;">Museum of Comparative Zoology</div>
+									</cfcase>
+								</cfswitch>
 							</div>
 						</td>
 						<cfset columnCounter = columnCounter + 1>
@@ -87,8 +87,12 @@ limitations under the License.
 							<cfset columnCounter = 0>
 						</cfif>
 					</cfloop>
-				<!--- TODO: if not closed, close tr --->>
-				</tr>
+				<cfif columnCounter NEQ 0>
+					<cfloop i from columnCounter to columns>
+						<td></td>
+					</cfloop>
+					</tr>
+				</cfif>	
 			</table>
 		</cfdocumentsection>
 	</cfoutput>
