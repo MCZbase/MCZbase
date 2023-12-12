@@ -514,7 +514,7 @@
 								</tbody>
 							</table>
 						<cfelse>
-						<h3 class="h4">Matched collection_object_id, other_id_type, and display_value in MCZbase</h3>
+						<p>At least one row matched a collection_object_id, other_id_type, and display_value in MCZbase</p>
 						</cfif>
 					</cfcatch>
 				</cftry>
