@@ -446,10 +446,12 @@
 								insert into coll_obj_other_id_num (
 								collection_object_id, 
 								other_id_type,
+								other_id_number,
 								display_value
 								)values(
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECT_ID#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">
 								)
 							</cfquery>
