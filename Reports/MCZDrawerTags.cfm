@@ -139,7 +139,7 @@ Change to: <select name="format">
     <cfset orientiation = 'landscape'>
     <cfset textClass = "times12">
     <cfset textHClass = "times12b">
-    <cfset dateStyle = "dd mmm<br>yyyy">
+    <cfset dateStyle = "dd mmm<br>yyyy"><!--- " --->
     <cfset dateWidth = "width: 60px;">
 
 	 <cfif format is "Cryo-Sheet-R">
@@ -171,7 +171,7 @@ Change to: <select name="format">
     '>
     <cfset pageFooter = '
     </table>
-    '>
+    '><!--- ' --->
 
     <!--- Document tags --->
     <cfdocument
