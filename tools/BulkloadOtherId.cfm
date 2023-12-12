@@ -1,7 +1,7 @@
 <!--- special case handling to dump problem data as csv --->
 <cfif isDefined("action") AND action is "dumpProblems">
 	<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT collection_object_id,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number,status
+		SELECT status,collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number
 		FROM cf_temp_OIDS 
 		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
@@ -12,7 +12,6 @@
 	<cfabort>
 </cfif>
 <!--- end special case dump of problems --->
-
 <cfset fieldlist = "institution_acronym,collection_cde,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number"><cfset fieldTypes ="CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR,CF_SQL_VARCHAR">
 <cfset requiredfieldlist = "collection_cde,institution_acronym,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number">
 
@@ -396,6 +395,7 @@
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
+						<th>status</th>
 						<th>collection_object_id</th>
 						<th>collection_cde</th>
 						<th>institution_acronym</th>
@@ -403,11 +403,11 @@
 						<th>existing_other_id_number</th>
 						<th>new_other_id_type</th>
 						<th>new_other_id_number</th>
-						<th>status</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
 						<tr>
+							<td>#data.status#</td>
 							<td>#data.collection_object_id#</td>
 							<td>#data.collection_cde#</td>
 							<td>#data.institution_acronym#</td>
@@ -415,7 +415,6 @@
 							<td>#data.existing_other_id_number#</td>
 							<td>#data.new_other_id_type#</td>
 							<td>#data.new_other_id_number#</td>
-							<td>#data.status#</td>
 						</tr>
 					</cfloop>
 				</tbody>
@@ -491,15 +490,15 @@
 							<thead class="thead-light">
 								<tr>
 									<th>status</th>
-										<th>collection_object_id</th>
-										<th>collection_cde</th>
-										<th>institution_acronym</th>
-										<th>existing_other_id_type</th>
-										<th>existing_other_id_number</th>
-										<th>new_other_id_type</th>
-										<th>new_other_id_number</th>
-									</tr> 
-								</thead>
+									<th>collection_object_id</th>
+									<th>collection_cde</th>
+									<th>institution_acronym</th>
+									<th>existing_other_id_type</th>
+									<th>existing_other_id_number</th>
+									<th>new_other_id_type</th>
+									<th>new_other_id_number</th>
+								</tr> 
+							</thead>
 								<tbody>
 									<cfloop query="getProblemData">
 										<tr>
@@ -515,7 +514,7 @@
 								</tbody>
 							</table>
 						<cfelse>
-						
+						<h3>Already in MCZbase</h3>
 						</cfif>
 					</cfcatch>
 				</cftry>
