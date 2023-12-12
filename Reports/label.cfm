@@ -88,7 +88,7 @@ limitations under the License.
 						</cfif>
 					</cfloop>
 				<cfif columnCounter NEQ 0>
-					<cfloop index="i" from=columnCounter to=columns>
+					<cfloop index="i" from="#columnCounter#" to="#columns#">
 						<td></td>
 					</cfloop>
 					</tr>
