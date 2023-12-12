@@ -611,7 +611,7 @@
 						WHERE status is not null
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
-					<cfif getProblemData.recordcount gt 0>
+					<cfif getProblemData.recordcount eq 0>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
 					<h3 class="text-danger">Problematic Rows (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>)</h3>
