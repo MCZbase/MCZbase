@@ -614,44 +614,46 @@
 					<cfif getProblemData.recordcount eq 0>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
-					<h3 class="text-danger">Problematic Rows (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>)</h3>
-					
-					<table class='sortable table table-responsive table-striped d-lg-table'>
-						<thead>
-							<tr>
-								<th>status</th>
-								<th>institution_acronym</th>
-								<th>collection_cde</th>
-								<th>other_id_type</th>
-								<th>other_id_number</th>
-								<th>publication_title</th>
-								<th>publication_id</th>
-								<th>cited_scientific_name</th>
-								<th>occurs_page_number</th>
-								<th>citation_page_uri</th>
-								<th>type_status</th>
-								<th>citation_remarks</th>
-							</tr>
-						</thead>
-						<tbody>
-							<cfloop query="getProblemData">
+						
+					<cfif getProblemData.recordcount gt 0>
+						<h3 class="text-danger">Problematic Rows (<a href="/tools/BulkloadCitations.cfm?action=dumpProblems">download</a>)</h3>
+						<table class='sortable table table-responsive table-striped d-lg-table'>
+							<thead>
 								<tr>
-									<td>#getProblemData.status#</td>
-									<td>#getProblemData.institution_acronym#</td>
-									<td>#getProblemData.collection_cde#</td>
-									<td>#getProblemData.other_id_type#</td>
-									<td>#getProblemData.other_id_number#</td>
-									<td>#getProblemData.publication_title#</td>
-									<td>#getProblemData.publication_id#</td>
-									<td>#getProblemData.cited_scientific_name#</td>
-									<td>#getProblemData.occurs_page_number#</td>
-									<td>#getProblemData.citation_page_uri#</td>
-									<td>#getProblemData.type_status#</td>
-									<td>#getProblemData.citation_remarks#</td>
+									<th>status</th>
+									<th>institution_acronym</th>
+									<th>collection_cde</th>
+									<th>other_id_type</th>
+									<th>other_id_number</th>
+									<th>publication_title</th>
+									<th>publication_id</th>
+									<th>cited_scientific_name</th>
+									<th>occurs_page_number</th>
+									<th>citation_page_uri</th>
+									<th>type_status</th>
+									<th>citation_remarks</th>
 								</tr>
-							</cfloop>
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								<cfloop query="getProblemData">
+									<tr>
+										<td>#getProblemData.status#</td>
+										<td>#getProblemData.institution_acronym#</td>
+										<td>#getProblemData.collection_cde#</td>
+										<td>#getProblemData.other_id_type#</td>
+										<td>#getProblemData.other_id_number#</td>
+										<td>#getProblemData.publication_title#</td>
+										<td>#getProblemData.publication_id#</td>
+										<td>#getProblemData.cited_scientific_name#</td>
+										<td>#getProblemData.occurs_page_number#</td>
+										<td>#getProblemData.citation_page_uri#</td>
+										<td>#getProblemData.type_status#</td>
+										<td>#getProblemData.citation_remarks#</td>
+									</tr>
+								</cfloop>
+							</tbody>
+						</table>
+					</cfif>
 				</cfcatch>
 			</cftry>
 			<cfset problem_key = "">
