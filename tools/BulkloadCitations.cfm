@@ -598,13 +598,13 @@
 				</cfloop>
 				<p>Number of citations to update: #citation_updates# (on #getCounts.ctobj# cataloged items)</p>
 				<cfif getTempData.recordcount eq citation_updates and updateCitationsX_result.recordcount eq 0>
-						<h2 class="text-success">Success - loaded</h2>
+						<h2 class="h3 text-success">Success - loaded</h2>
 					</cfif>
 					<cfif updateCitationsX_result.recordcount gt 0>
-						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+						<h2 class="h3 text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
 				<cfcatch>
-					<h2>There was a problem updating citations.</h2>
+					<h2 class="h3">There was a problem updating citations.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT institution_acronym, collection_cde, other_id_type, other_id_number, publication_title, publication_id, cited_scientific_name, occurs_page_number,citation_page_uri, type_status, citation_remarks
 						FROM cf_temp_citation 
@@ -612,7 +612,7 @@
 							AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<cfif getProblemData.recordcount eq 0>
-						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+						<h2 class="h3 text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
 						
 					<cfif getProblemData.recordcount gt 0>
