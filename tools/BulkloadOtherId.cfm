@@ -498,7 +498,6 @@
 							WHERE status is not null
 								AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<cfif #otherid_updates# gt 0>
 						<h3 class="text-danger">Problematic Rows (<a href="/tools/BulkloadOtherId.cfm?action=dumpProblems">download</a>)</h3>
 						<table class='sortable table table-responsive table-striped d-lg-table'>
 							<thead class="thead-light">
@@ -527,9 +526,6 @@
 									</cfloop>
 								</tbody>
 							</table>
-						<cfelse>
-						<p>At least one row matched a collection_object_id, other_id_type, and display_value in MCZbase</p>
-						</cfif>
 					</cfcatch>
 				</cftry>
 			<cfset problem_key = "">
@@ -603,7 +599,6 @@
 				<h2 class="h3 mt-2">#otherid_updates# other IDs evaluated.</h2>
 				<h2 class="h3 text-success">Success, changes applied.</h2> 
 			</cfif>
-			
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_oids
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
