@@ -47,7 +47,7 @@ limitations under the License.
 		<cfset labelBorder = 'border: 1px;'>
 		<cfset labelHeight = 'height: 2.0in;'>
 	</cfcase>
-<cfswitch>
+</cfswitch>
 
 <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 <cfdocument format="pdf" pagetype="letter" margintop=".25" marginbottom=".25" marginleft=".25" marginright=".25" orientation="#orientation#" fontembed="yes" saveAsName="MCZ_labels_#result_id#.pdf">
