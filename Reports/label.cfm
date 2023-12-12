@@ -49,12 +49,12 @@ limitations under the License.
 	</cfcase>
 </cfswitch>
 
-<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
+<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px;'>
 <cfdocument format="pdf" pagetype="letter" margintop=".25" marginbottom=".25" marginleft=".25" marginright=".25" orientation="#orientation#" fontembed="yes" saveAsName="MCZ_labels_#result_id#.pdf">
 	<cfoutput>
 		<cfdocumentitem type="header">
 			<div style="text-align: center; font-size: x-small;">
-				Museum of Comparative Zoology
+				Museum of Comparative Zoology #target#
 			</div>
 		</cfdocumentitem>
 		
