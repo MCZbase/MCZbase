@@ -44,7 +44,7 @@ limitations under the License.
 		<cfset orientation = "portrait">
 		<cfset columns = 2>
 		<cfset labelWidth = 'width: 3.5in;'>
-		<cfset labelBorder = 'border: 1px;'>
+		<cfset labelBorder = 'border: 1px solid black;'>
 		<cfset labelHeight = 'height: 2.0in;'>
 	</cfcase>
 </cfswitch>
