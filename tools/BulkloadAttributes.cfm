@@ -665,17 +665,13 @@ limitations under the License.
 						attributes_updates: #attributes_updates#<br>
 						getTempdata rec ct: #getTempData.recordcount#--->
 						<cfif updateAttributes1_result.recordcount gt 0>
-							
-							
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
 					<p>Number of attributes to update: #attributes_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif updateAttributes1_result.recordcount gt 0>
-						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
-					</cfif>
+				
 					<cfif getTempData.recordcount eq attributes_updates>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
@@ -683,6 +679,9 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the attributes.</h2>
+					<cfif updateAttributes1_result.recordcount gt 0>
+						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+					</cfif>
 					<div>#cfcatch.message#</div>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT status,institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks
