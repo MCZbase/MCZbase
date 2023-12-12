@@ -502,7 +502,7 @@
 								<tbody>
 									<cfloop query="getProblemData">
 										<tr>
-											<td>#data.status#</td>
+											<td><strong>#data.status#</strong></td>
 											<td>#data.institution_acronym#</td>
 											<td>#data.collection_cde#</td>
 											<td>#data.existing_other_id_type#</td>
