@@ -533,25 +533,23 @@
 						<table class='sortable table table-responsive table-striped d-lg-table'>
 							<thead>
 								<tr>
-									<th>status</th>
-									<th>institution_acronym</th>
-									<th>collection_cde</th>
-									<th>existing_other_id_type</th>
-									<th>existing_other_id_number</th>
-									<th>new_other_id_type</th>
-									<th>new_other_id_number</th>
+							
+						
+									<th>other_id_type</th>
+									<th>other_id_number</th>
+									<th>display_value</th>
+									<th>collection_object_id</th>
 								</tr>
 							</thead>
 							<tbody>
 								<cfloop query="getProblemData">
 									<tr>
-										<td>#getProblemData.status#</td>
-										<td>#getProblemData.institution_acronym#</td>
-										<td>#getProblemData.collection_cde#</td>
-										<td>#getProblemData.existing_other_id_type#</td>
-										<td>#getProblemData.existing_other_id_number#</td>
-										<td>#getProblemData.new_other_id_type#</td>
-										<td>#getProblemData.new_other_id_number#</td>
+					
+										<td>#getProblemData.other_id_type#</td>
+										<td>#getProblemData.other_id_number#</td>
+										<td>#getProblemData.display_value#</td>
+										<td>#getProblemData.collection_object_id#</td>
+										
 									</tr> 
 								</cfloop>
 							</tbody>
