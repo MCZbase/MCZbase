@@ -459,6 +459,7 @@
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
 						</cfstoredproc>
+								<cfprocresult>#new_other_id_number#</cfprocresult>
 						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
 							insert into coll_obj_other_id_num (
 								COLLECTION_OBJECT_ID, 
