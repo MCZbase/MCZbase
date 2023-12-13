@@ -479,7 +479,7 @@
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
 						</cfstoredproc>
-						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId1_result">
+						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
 							select new_other_id_type,new_other_id_number,collection_object_id from coll_obj_other_id_num 
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 							group by new_other_id_type,new_other_id_number,collection_object_id
