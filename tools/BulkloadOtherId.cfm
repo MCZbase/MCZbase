@@ -465,8 +465,6 @@
 			
 					<cfif #testParse.recordcount# eq 0>
 						<h2 class="text-success mt-2 h3">Success - Loaded</h2>
-					<cfelse>
-						<h2 class="text-danger mt-2 h3">Failed - Not loaded because they are already in MCZbase</h2>
 					</cfif>
 				
 					<cfcatch>
@@ -504,6 +502,9 @@
 									</span>
 								</cfif>
 							</h3>
+							<cfif #cfcatch.detail# contains 'unique contraint'>
+								<h3>This already exists in MCZbase for this specimen record.</h3>
+							</cfif>
 							<table class='sortable table table-responsive table-striped d-lg-table'>
 								<thead>
 									<tr>
