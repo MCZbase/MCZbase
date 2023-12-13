@@ -451,7 +451,7 @@
 						<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
 						<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
 					</cfstoredproc>
-					<cfset otherid_updates = 0>
+					
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Other IDs bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>"><!--- " --->
 					</cfif>
@@ -486,7 +486,7 @@
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
-					<p>Number of Other IDs to update: #otherid_updates# (on #getCounts.ctobj# cataloged items)</p>
+					<p>Number of Other IDs to update: (on #getCounts.ctobj# cataloged items)</p>
 					<cfif getTempData.recordcount gt 0 and updateOtherId.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
@@ -505,7 +505,7 @@
 					<cfif getProblemData.recordcount GT 0>
  						<h2 class="h3">Errors are displayed one row at a time.</h2>
 						<h3>
-							Error loading row (<span class="text-danger">#otherid_updates + 1#</span>) from the CSV: 
+							Error loading row (<span class="text-danger"></span>) from the CSV: 
 							<cfif len(cfcatch.detail) gt 0>
 								<span class="font-weight-normal border-bottom border-danger">
 									<cfif cfcatch.detail contains "other_id_type">
