@@ -452,7 +452,6 @@
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-		
 						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
 							insert into coll_obj_other_id_num (
 								COLLECTION_OBJECT_ID, 
@@ -464,12 +463,12 @@
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECT_ID#">,
 								'<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">',
 								'',
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEW_OTHER_ID_NUMBER#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">,
 								''
 								)
 						</cfquery>
 						<cfquery name="updateOtherId_result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select collection_object_id, other_id_type, other_id_number
+							select display_value
 							from COLL_OBJ_OTHER_ID_NUM
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
