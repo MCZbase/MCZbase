@@ -465,6 +465,8 @@
 			
 					<cfif #testParse.recordcount# eq 0>
 						<h2 class="text-success mt-2 h3">Success - Loaded</h2>
+					<cfelse>
+						<h2 class="text-danger mt-2 h3">Failed - Not loaded because they are already in MCZbase</h2>
 					</cfif>
 				
 					<cfcatch>
