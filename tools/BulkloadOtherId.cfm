@@ -445,9 +445,8 @@
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_oids
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-			<cftry>
+				<cftry>
 					<cfset otherid_updates = 0>
-					<cfset otherid_updates1 = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Other IDs bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>"><!--- " --->
 					</cfif>
@@ -476,6 +475,7 @@
 							having count(*) > 1
 						</cfquery>
 						<cfset otherid_updates = otherid_updates + updateOtherId_result.recordcount>
+						
 						<cfif updateOtherId1_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
