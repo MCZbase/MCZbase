@@ -454,12 +454,26 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 							
-<!---						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
+						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
-						</cfstoredproc>--->
-						
+						</cfstoredproc>
+						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
+							insert into coll_obj_other_id_num (
+								COLLECTION_OBJECT_ID, 
+								OTHER_ID_TYPE,
+								OTHER_ID_PREFIX,
+								OTHER_ID_NUMBER,
+								OTHER_ID_SUFFIX
+								)values(
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECT_ID#">,
+								'<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">',
+								'<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="">',
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#NEW_OTHER_ID_NUMBER#">,
+								'<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="">'
+								)
+						</cfquery>
 						<cfquery name="updateOtherId1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId1_result">
 							SELECT other_id_type,other_id_number,collection_object_id 
 							FROM coll_obj_other_id_num 
@@ -467,7 +481,7 @@
 							GROUP BY other_id_type,other_id_number,collection_object_id
 							having count(*) > 1
 						</cfquery>
-							#other_id_number#
+						
 						<cfset otherid_updates = otherid_updates + updateOtherId_result.recordcount>
 						<cfif updateOtherId1_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
