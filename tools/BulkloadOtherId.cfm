@@ -460,69 +460,70 @@
 							having count(*) > 1
 					</cfquery>
 				</cfloop>
-				<cfoutput>
-					<cfif testParse.recordcount gt 0><h2 class="text-success mt-2 h3">Success - Loaded</h2></cfif>
-				</cfoutput>
-				<cfcatch>
-					<cftransaction action="ROLLBACK">
-					<h2 class="h3">There was a problem updating the Other IDs.</h2>
-					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT other_id_type,other_id_number,display_value,collection_object_id
-						FROM coll_obj_other_id_num
-						WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-					</cfquery>
-					<cfif getProblemData.recordcount GT 0>
- 						<h2 class="h3">Errors are displayed one row at a time.</h2>
-						<h3>
-							Error loading row (<span class="text-danger"></span>) from the CSV: 
-							<cfif len(cfcatch.detail) gt 0>
-								<span class="font-weight-normal border-bottom border-danger">
-									<cfif cfcatch.detail contains "other_id_type">
-										Invalid OTHER_ID_TYPE; check controlled vocabulary (Help menu)
-									<cfelseif cfcatch.detail contains "collection_cde">
-										COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP)
-									<cfelseif cfcatch.detail contains "institution_acronym">
-										INSTITUTION_ACRONYM does not match MCZ (all caps)
-									<cfelseif cfcatch.detail contains "NEW_OTHER_ID_NUMBER">
-										Problem with NEW_OTHER_ID_NUMBER, check to see the correct other_id_type was entered
-									<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
-										Problem with EXISTING_OTHER_ID_TYPE or EXISTING_OTHER_ID_NUMBER (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "no data">
-										No data or the wrong data (#cfcatch.detail#)
-									<cfelseif cfcatch.detail contains "NULL">
-										Missing Data (#cfcatch.detail#)
-									<cfelse>
-										 provide the raw error message if it isn't readily interpretable 
-										#cfcatch.detail#
-									</cfif>
-								</span>
-							</cfif>
-						</h3>
-						<table class='sortable table table-responsive table-striped d-lg-table'>
-							<thead>
-								<tr>
-									<th>other_id_type</th>
-									<th>other_id_number</th>
-									<th>display_value</th>
-									<th>collection_object_id</th>
-								</tr>
-							</thead>
-							<tbody>
-								<cfloop query="getProblemData">
-									<tr>
-										<td>#getProblemData.other_id_type#</td>
-										<td>#getProblemData.other_id_number#</td>
-										<td>#getProblemData.display_value#</td>
-										<td>#getProblemData.collection_object_id#</td>
-									</tr> 
-								</cfloop>
-							</tbody>
-						</table>
+			
+					<cfif len(testParse.recordcount) gt 0>
+						<h2 class="text-success mt-2 h3">Success - Loaded</h2>
 					</cfif>
-				</cfcatch>
+				
+					<cfcatch>
+						<cftransaction action="ROLLBACK">
+						<h2 class="h3">There was a problem updating the Other IDs.</h2>
+						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT other_id_type,other_id_number,display_value,collection_object_id
+							FROM coll_obj_other_id_num
+							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+						</cfquery>
+						<cfif getProblemData.recordcount GT 0>
+							<h2 class="h3">Errors are displayed one row at a time.</h2>
+							<h3>
+								Error loading row (<span class="text-danger"></span>) from the CSV: 
+								<cfif len(cfcatch.detail) gt 0>
+									<span class="font-weight-normal border-bottom border-danger">
+										<cfif cfcatch.detail contains "other_id_type">
+											Invalid OTHER_ID_TYPE; check controlled vocabulary (Help menu)
+										<cfelseif cfcatch.detail contains "collection_cde">
+											COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP)
+										<cfelseif cfcatch.detail contains "institution_acronym">
+											INSTITUTION_ACRONYM does not match MCZ (all caps)
+										<cfelseif cfcatch.detail contains "NEW_OTHER_ID_NUMBER">
+											Problem with NEW_OTHER_ID_NUMBER, check to see the correct other_id_type was entered
+										<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
+											Problem with EXISTING_OTHER_ID_TYPE or EXISTING_OTHER_ID_NUMBER (#cfcatch.detail#)
+										<cfelseif cfcatch.detail contains "no data">
+											No data or the wrong data (#cfcatch.detail#)
+										<cfelseif cfcatch.detail contains "NULL">
+											Missing Data (#cfcatch.detail#)
+										<cfelse>
+											 provide the raw error message if it isn't readily interpretable 
+											#cfcatch.detail#
+										</cfif>
+									</span>
+								</cfif>
+							</h3>
+							<table class='sortable table table-responsive table-striped d-lg-table'>
+								<thead>
+									<tr>
+										<th>other_id_type</th>
+										<th>other_id_number</th>
+										<th>display_value</th>
+										<th>collection_object_id</th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfloop query="getProblemData">
+										<tr>
+											<td>#getProblemData.other_id_type#</td>
+											<td>#getProblemData.other_id_number#</td>
+											<td>#getProblemData.display_value#</td>
+											<td>#getProblemData.collection_object_id#</td>
+										</tr> 
+									</cfloop>
+								</tbody>
+							</table>
+						</cfif>
+					</cfcatch>
 				</cftry>
 			</cftransaction>
-			
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 				DELETE FROM cf_temp_attributes 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
