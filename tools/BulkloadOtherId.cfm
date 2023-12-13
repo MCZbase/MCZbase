@@ -497,7 +497,7 @@
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
 					<h2 class="h3">There was a problem updating the Other IDs.</h2>--->
-					<!---<div>#cfcatch.message#</div>--->
+					<div>#cfcatch.message#</div>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT other_id_type,other_id_number,display_value,collection_object_id
 						FROM coll_obj_other_id_num
@@ -533,8 +533,6 @@
 						<table class='sortable table table-responsive table-striped d-lg-table'>
 							<thead>
 								<tr>
-							
-						
 									<th>other_id_type</th>
 									<th>other_id_number</th>
 									<th>display_value</th>
@@ -544,12 +542,10 @@
 							<tbody>
 								<cfloop query="getProblemData">
 									<tr>
-					
 										<td>#getProblemData.other_id_type#</td>
 										<td>#getProblemData.other_id_number#</td>
 										<td>#getProblemData.display_value#</td>
 										<td>#getProblemData.collection_object_id#</td>
-										
 									</tr> 
 								</cfloop>
 							</tbody>
