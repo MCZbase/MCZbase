@@ -454,11 +454,11 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 							
-						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
+<!---						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
 							<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
-						</cfstoredproc>
+						</cfstoredproc>--->
 						
 						<cfquery name="updateOtherId1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId1_result">
 							SELECT other_id_type,other_id_number,collection_object_id 
@@ -467,7 +467,7 @@
 							GROUP BY other_id_type,other_id_number,collection_object_id
 							having count(*) > 1
 						</cfquery>
-							#updateOtherId1.other_id_number#
+							#other_id_number#
 						<cfset otherid_updates = otherid_updates + updateOtherId_result.recordcount>
 						<cfif updateOtherId1_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
