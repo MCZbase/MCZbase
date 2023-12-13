@@ -625,7 +625,7 @@ limitations under the License.
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_attributes
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cftry>
+			<cftry>
 					<cfset attributes_updates = 0>
 					<cfset attributes_updates1 = 0>
 					<cfif getTempData.recordcount EQ 0>
@@ -677,7 +677,7 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the attributes.</h2>
-					<div>#cfcatch.message#</div>
+					<!---<div>#cfcatch.message#</div>--->
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT status,institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks
 						FROM cf_temp_attributes 
