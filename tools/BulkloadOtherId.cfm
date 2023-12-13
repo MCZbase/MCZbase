@@ -478,7 +478,7 @@
 							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#"> 
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.key#"> 
 						</cfquery>
-						<cfset otherid_updates = otherid_updates + updateOtherId_result.recordcount>
+						<cfset otherid_updates = otherid_updates + 1>
 						
 						<cfif updateOtherId1_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
