@@ -452,7 +452,8 @@
 						<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
 						<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
 					</cfstoredproc>
-	
+					
+				
 				</cfloop>
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
