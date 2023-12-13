@@ -452,52 +452,22 @@
 						<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
 						<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
 					</cfstoredproc>
-				<!---	<cfset otherid_updates = 0>
-					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the Other IDs bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>">
-					</cfif>
-			
-						<cfset problem_key = getTempData.key>
-						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
-							insert into coll_obj_other_id_num (
-								COLLECTION_OBJECT_ID, 
-								OTHER_ID_TYPE,
-								OTHER_ID_PREFIX,
-								OTHER_ID_NUMBER,
-								OTHER_ID_SUFFIX
-								)values(
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECT_ID#">,
-								'<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">',
-								'',
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">,
-								''
-								)
-						</cfquery>
-						<cfquery name="updateOtherId_result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select COLLECTION_OBJECT_ID,OTHER_ID_TYPE,OTHER_ID_NUMBER,display_value
-							from COLL_OBJ_OTHER_ID_NUM
-							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#"> 
-							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.key#"> 
-						</cfquery>
-						<cfset otherid_updates = otherid_updates + updateOtherId_result.recordcount>
-						
-						<cfif updateOtherId1_result.recordcount gt 0>
+					<cfquery name="updateOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherID_result">
+						select new_other_id_number,new_other_id_type,collection_object_id from coll_obj_other_id_num 
+						where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+						group by new_other_id_number,new_other_id_type,collection_object_id
+						having count(*) > 1
+					</cfquery>
+					<cfset otherid_updates = otherid_updates + updateOtherID_result.recordcount>
+						<cfif updateOtherID_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
-						</cfif>--->
-					</cfloop>
+						</cfif>
+				</cfloop>
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
-				<!---	<p>Number of Other IDs to update: #otherid_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq otherid_updates and updateOtherId1_result.recordcount eq 0>
-						<h2 class="text-success">Success - loaded</h2>
-					</cfif>
-					<cfif updateOtherId1_result.recordcount gt 0>
-						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
-					</cfif>
-					<h2 class="h3">There was a problem updating the Other IDs.</h2>--->
-					<div>#cfcatch.message#</div>
+					<h2 class="h3">There was a problem updating the Other IDs.</h2>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT other_id_type,other_id_number,display_value,collection_object_id
 						FROM coll_obj_other_id_num
