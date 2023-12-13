@@ -472,25 +472,25 @@
 								''
 								)
 						</cfquery>--->
-						<cfquery name="updateOtherId_result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId">
 							select COLLECTION_OBJECT_ID,OTHER_ID_TYPE,OTHER_ID_NUMBER,display_value
 							from COLL_OBJ_OTHER_ID_NUM
 							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#"> 
 							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.key#"> 
 						</cfquery>
-						<cfset otherid_updates = otherid_updates + 1>
+						<!---<cfset otherid_updates = otherid_updates + updateOtherId_result.recordcount>--->
 						
-						<cfif updateOtherId1_result.recordcount gt 0>
+						<cfif updateOtherId_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
 					<p>Number of Other IDs to update: #otherid_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq otherid_updates and updateOtherId1_result.recordcount eq 0>
+					<cfif getTempData.recordcount gt 0 and updateOtherId.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
-					<cfif updateOtherId1_result.recordcount gt 0>
+					<cfif updateOtherId_result.recordcount gt 0>
 						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 					</cfif>
 				<cfcatch>
