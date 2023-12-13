@@ -460,7 +460,9 @@
 							having count(*) > 1
 					</cfquery>
 				</cfloop>
-				<cfif testParse.recordcount gt 0><h2 class="text-success mt-2 h3">Success - Loaded</h2></cfif>
+				<cfoutput>
+					<cfif testParse.recordcount gt 0><h2 class="text-success mt-2 h3">Success - Loaded</h2></cfif>
+				</cfoutput>
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the Other IDs.</h2>
