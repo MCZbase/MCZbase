@@ -453,30 +453,6 @@
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-					<!---	<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
-							INSERT into attributes (
-							COLLECTION_OBJECT_ID,
-							ATTRIBUTE_TYPE,
-							ATTRIBUTE_VALUE,
-							ATTRIBUTE_UNITS,
-							DETERMINED_DATE,
-							DETERMINATION_METHOD,
-							DETERMINED_BY_AGENT_ID,
-							ATTRIBUTE_REMARK
-							)VALUES(
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_value#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_units#">, 
-							<cfqueryparam cfsqltype="CF_SQL_DATE" value="#attribute_date#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute_meth#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#determined_by_agent_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
-							)
-						</cfquery>--->
-		<!---					<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
-		 						EXEC parse_other_id(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">, '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.new_other_id_type#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.new_other_id_number#">')
-							</cfquery>--->
 							
 						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
 							<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
@@ -524,10 +500,10 @@
 										COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP)
 									<cfelseif cfcatch.detail contains "institution_acronym">
 										INSTITUTION_ACRONYM does not match MCZ (all caps)
-									<cfelseif cfcatch.detail contains "OTHER_ID_NUMBER">
-										Problem with OTHER_ID_NUMBER, check to see the correct other_id_type was entered
+									<cfelseif cfcatch.detail contains "NEW_OTHER_ID_NUMBER">
+										Problem with NEW_OTHER_ID_NUMBER, check to see the correct other_id_type was entered
 									<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
-										Problem with OTHER_ID_TYPE or OTHER_ID_NUMBER (#cfcatch.detail#)
+										Problem with EXISTING_OTHER_ID_TYPE or EXISTING_OTHER_ID_NUMBER (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "no data">
 										No data or the wrong data (#cfcatch.detail#)
 									<cfelseif cfcatch.detail contains "NULL">
