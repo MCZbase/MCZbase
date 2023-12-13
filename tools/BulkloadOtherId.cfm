@@ -462,11 +462,6 @@
 						</cfquery>
 						<cfset testParser = testParser + testParse_result.recordcount>
 					</cfloop>
-			
-					<cfif #testParse.recordcount# eq 0>
-						<h2 class="text-success mt-2 h3">Success - Loaded</h2>
-					</cfif>
-				
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
 						<h2 class="h3">There was a problem updating the Other IDs.</h2>
@@ -487,8 +482,10 @@
 											COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP)
 										<cfelseif cfcatch.detail contains "institution_acronym">
 											INSTITUTION_ACRONYM does not match MCZ (all caps)
-										<cfelseif cfcatch.detail contains "NEW_OTHER_ID_NUMBER">
-											Problem with NEW_OTHER_ID_NUMBER, check to see the correct other_id_type was entered
+										<cfelseif cfcatch.detail contains "OTHER_ID_NUMBER">
+											Problem with OTHER_ID_NUMBER, check to see the correct other_id_type was entered
+										<cfelseif cfcatch.detail contains "unique constraint">
+											Problem with OTHER_ID_NUMBER, already entered
 										<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
 											Problem with EXISTING_OTHER_ID_TYPE or EXISTING_OTHER_ID_NUMBER (#cfcatch.detail#)
 										<cfelseif cfcatch.detail contains "no data">
