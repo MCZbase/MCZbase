@@ -474,26 +474,30 @@
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 							)
 						</cfquery>--->
-						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
+		 						EXEC parse_other_id(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">, '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.new_other_id_type#">', '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.new_other_id_number#">')
+							</cfquery>
+							
+<!---						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
-						</cfstoredproc>
-						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
+						</cfstoredproc>--->
+						<cfquery name="updateOtherId1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
 							select new_other_id_type,new_other_id_number,collection_object_id from coll_obj_other_id_num 
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 							group by new_other_id_type,new_other_id_number,collection_object_id
 							having count(*) > 1
 						</cfquery>
 						<cfset otherid_updates = otherid_updates + updateOtherId_result.recordcount>
-						<cfif updateOtherId_result.recordcount gt 0>
+						<cfif updateOtherId1_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
 					<p>Number of Other IDs to update: #otherid_updates# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq otherid_updates and updateOtherId_result.recordcount eq 0>
+					<cfif getTempData.recordcount eq otherid_updates and updateOtherId1_result.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
 					<cfif updateOtherId1_result.recordcount gt 0>
