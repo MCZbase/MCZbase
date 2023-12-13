@@ -461,11 +461,11 @@
 								DISPLAY_VALUE
 								)values(
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTION_OBJECT_ID#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">,
+								'<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_TYPE#">',
 									'',
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">,
+								'<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">',
 									'',
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">
+								'<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">'
 								)
 						</cfquery>
 						<cfquery name="updateOtherId1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId1_result">
