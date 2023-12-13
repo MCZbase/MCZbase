@@ -446,6 +446,7 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cftry>
+				<cfloop query="getTempData">
 					<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
@@ -455,7 +456,7 @@
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Other IDs bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>">
 					</cfif>
-					<cfloop query="getTempData">
+			
 						<cfset problem_key = getTempData.key>
 						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
 							insert into coll_obj_other_id_num (
