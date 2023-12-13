@@ -493,7 +493,7 @@
 					<h2 class="h3">There was a problem updating the Other IDs.</h2>
 					<div>#cfcatch.message#</div>
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT institution_acronym, collection_cde, existing_other_id_type, existing_other_id_number, new_other_id_type, new_other_id_number
+						SELECT *
 						FROM cf_temp_oids 
 						WHERE status is not null
 						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
