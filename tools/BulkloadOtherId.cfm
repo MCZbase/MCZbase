@@ -496,7 +496,7 @@
 						SELECT institution_acronym, collection_cde, existing_other_id_type, existing_other_id_number, new_other_id_type, new_other_id_number
 						FROM cf_temp_oids 
 						WHERE status is not null
-						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
 					<cfif getProblemData.recordcount GT 0>
  						<h2 class="h3">Errors are displayed one row at a time.</h2>
