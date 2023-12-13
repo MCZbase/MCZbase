@@ -446,13 +446,18 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cftry>
+					<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
+						<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
+					</cfstoredproc>
 					<cfset otherid_updates = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Other IDs bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
+<!---						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
 							insert into coll_obj_other_id_num (
 								COLLECTION_OBJECT_ID, 
 								OTHER_ID_TYPE,
@@ -466,12 +471,12 @@
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NEW_OTHER_ID_NUMBER#">,
 								''
 								)
-						</cfquery>
+						</cfquery>--->
 						<cfquery name="updateOtherId_result" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select display_value
+							select COLLECTION_OBJECT_ID,OTHER_ID_TYPE,OTHER_ID_NUMBER,display_value
 							from COLL_OBJ_OTHER_ID_NUM
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-								and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getTempData.collection_object_id#"> 
+							AND key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempData.key#"> 
 						</cfquery>
 						<cfset otherid_updates = otherid_updates + updateOtherId_result.recordcount>
 						
