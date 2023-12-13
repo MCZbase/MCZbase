@@ -463,7 +463,7 @@
 						<cfset testParser = testParser + testParse_result.recordcount>
 					</cfloop>
 			
-					<cfif #testParse.recordcount# gt 0>
+					<cfif #testParse.recordcount# eq 0>
 						<h2 class="text-success mt-2 h3">Success - Loaded</h2>
 					</cfif>
 				
