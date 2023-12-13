@@ -446,22 +446,22 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cftry>
-				<cfloop query="getTempData">
-					<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-						<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
-						<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
-					</cfstoredproc>
-					<cfquery name="testParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct display_value 
-							from coll_obj_other_id_num 
-							where collection_object_id =<cfquery name="getCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							group by display_value
-							having count(*) > 1
-					</cfquery>
-				</cfloop>
+					<cfloop query="getTempData">
+						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
+							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
+						</cfstoredproc>
+						<cfquery name="testParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select distinct display_value 
+								from coll_obj_other_id_num 
+								where collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+								group by display_value
+								having count(*) > 1
+						</cfquery>
+					</cfloop>
 			
-					<cfif len(testParse.recordcount) gt 0>
+					<cfif #testParse.recordcount# gt 0>
 						<h2 class="text-success mt-2 h3">Success - Loaded</h2>
 					</cfif>
 				
