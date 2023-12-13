@@ -460,9 +460,10 @@
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
 						</cfstoredproc>
 						<cfquery name="updateOtherId1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
-							select other_id_type,other_id_number,collection_object_id from coll_obj_other_id_num 
-							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-							group by new_other_id_type,other_id_number,collection_object_id
+							SELECT other_id_type,other_id_number,collection_object_id 
+							FROM coll_obj_other_id_num 
+							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+							GROUP BY other_id_type,other_id_number,collection_object_id
 							having count(*) > 1
 						</cfquery>
 						<cfset otherid_updates = otherid_updates + updateOtherId_result.recordcount>
@@ -484,7 +485,7 @@
 					<h2 class="h3">There was a problem updating the Other IDs.</h2>
 					<!---<div>#cfcatch.message#</div>--->
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT status,institution_acronym,collection_cde,existing_other_id_type,existing_other_id_number,new_other_id_type,new_other_id_number,collection_object_id
+						SELECT status, institution_acronym,collection_cde,existing_other_id_type, existing_other_id_number,new_other_id_type,new_other_id_number,collection_object_id
 						FROM cf_temp_oids 
 						WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					</cfquery>
