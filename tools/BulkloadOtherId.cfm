@@ -452,18 +452,7 @@
 						<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
 						<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
 					</cfstoredproc>
-					<cfquery name="updateOtherID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherID_result">
-						select other_id_number,other_id_type,collection_object_id from coll_obj_other_id_num 
-						where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-						group by other_id_number,other_id_type,collection_object_id
-						having count(*) > 1
-					</cfquery>
-					<cfset otherid_updates = otherid_updates + updateOtherID_result.recordcount>
-						<cfif updateOtherID_result.recordcount gt 0>
-							<cftransaction action = "ROLLBACK">
-						<cfelse>
-							<cftransaction action="COMMIT">
-						</cfif>
+	
 				</cfloop>
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
