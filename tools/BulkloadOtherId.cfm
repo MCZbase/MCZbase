@@ -453,9 +453,9 @@
 					</cfif>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-							<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<!---				<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		 						EXEC parse_other_id(#collection_object_id#, '#new_other_id_number#', '#new_other_id_type#')
-							</cfquery>
+							</cfquery>--->
 				<!---		<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parse_other_id_result">
 							<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
