@@ -31,7 +31,7 @@
 			FROM
 				user_search_table 
 				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
-				JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item_id
+				JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 			WHERE
 				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
