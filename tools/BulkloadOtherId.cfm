@@ -453,7 +453,7 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 							<cfquery name="newID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		 						EXEC parse_other_id(#collection_object_id#,'#new_other_id_type#','#new_other_id_number#')
+		 						EXEC parse_other_id(#getTempData.collection_object_id#,'#getTempData.new_other_id_type#','#getTempData.new_other_id_number#')
 							</cfquery>
 <!---						<cfquery name="updateOtherId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateOtherId_result">
 							insert into coll_obj_other_id_num (
