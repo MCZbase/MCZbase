@@ -454,7 +454,7 @@
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 							
-						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cfprocresult="parse_other_id_result">
+						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="parse_other_id_result">
 							<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
