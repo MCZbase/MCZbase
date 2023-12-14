@@ -188,9 +188,9 @@
 								values (
 									<cfset separator = "">
 									<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
-										<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
+										<cfif arrayFindNoCase(colNameArray,fieldArray["col"]) GT 0>
 											<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
-											<cfset val=trim(colValArray["fieldPos"])>
+											<cfset val=trim(colValArray[fieldPos])>
 											<cfset val=rereplace(val,"^'+",'')>
 											<cfset val=rereplace(val,"'+$",'')>
 											<cfif val EQ ""> 
