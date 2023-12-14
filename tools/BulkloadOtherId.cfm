@@ -453,15 +453,15 @@
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
 						</cfstoredproc>
-						<cfquery name="testParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="testParse_result">
+						<cfquery name="updateParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="testParse_result">
 							select distinct other_id_number 
 								from coll_obj_other_id_num 
 								where collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 								group by other_id_number
 								having count(*) > 1
 						</cfquery>
-						<cfset testParse = testParse + testParse_result.recordcount>
-						<cfif testParse_result.recordcount gt 0>
+						<cfset testParse = testParse + updateParse_result.recordcount>
+						<cfif updateParse_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
