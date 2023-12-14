@@ -70,7 +70,7 @@ limitations under the License.
 					<cfset columnCounter = 0>
 					<cfloop query="getItems">
 						<td>
-							<div style="#labelStyle# font: 1em 'Times New Roman' serif;">
+							<div style="#labelStyle#">
 								<cfswitch expression = "#target#">
 									<cfcase value="Dry_Large_Type__All">
 										<div><strong style="font: 1.1em 'Times New Roman' serif;">MCZ:#collection_cde#:#catalog_number#</strong></div>
