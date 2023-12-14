@@ -446,7 +446,7 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cftry>
-					<cfset testParser = 0>
+					<cfset testParse = 0>
 					<cfloop query="getTempData">
 						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
@@ -460,7 +460,7 @@
 								group by display_value
 								having count(*) > 1
 						</cfquery>
-						<cfset testParser = testParser + testParse_result.recordcount>
+						<cfset testParse = testParse + testParse_result.recordcount>
 					</cfloop>
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
