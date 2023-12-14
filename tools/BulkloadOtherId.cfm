@@ -454,10 +454,10 @@
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
 						</cfstoredproc>
 						<cfquery name="testParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="testParse_result">
-							select distinct display_value 
+							select distinct other_id_number 
 								from coll_obj_other_id_num 
 								where collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-								group by display_value
+								group by other_id_number
 								having count(*) > 1
 						</cfquery>
 						<cfset testParse = testParse + testParse_result.recordcount>
