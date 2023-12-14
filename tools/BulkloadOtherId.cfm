@@ -505,7 +505,7 @@
 										<cfelseif cfcatch.detail contains "unique constraint">
 											Problem with NEW_OTHER_ID_NUMBER, already entered
 										<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
-											Problem with EXISTING_OTHER_ID_TYPE or EXISTING_OTHER_ID_NUMBER (couldn not find collection_object_id) (#cfcatch.detail#)
+											Problem with EXISTING_OTHER_ID_TYPE or EXISTING_OTHER_ID_NUMBER (couldn not find collection_object_id) 
 										<cfelseif cfcatch.detail contains "no data">
 											No data or the wrong data (#cfcatch.detail#)
 										<cfelseif cfcatch.detail contains "NULL">
