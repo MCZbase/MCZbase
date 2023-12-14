@@ -243,7 +243,7 @@
 					<cfset foundHighAscii = "">
 					<cfset foundMultiByte = "">
 					<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
-						<cfset thisBit='arrResult[1][col]'>
+						<cfset thisBit=arrResult[1][col]>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
@@ -333,6 +333,15 @@
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				</cfif>
+				<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE
+						cf_temp_oids
+					SET
+						new_other_id_number = '#new_other_id_number#',
+						status = null
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
+				</cfquery>
 			</cfloop>
 			<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_oids
