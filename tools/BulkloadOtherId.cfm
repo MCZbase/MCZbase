@@ -84,7 +84,7 @@
 		<cfoutput>
 			<cftry>
 				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
-				<cfset fileContent=replace(fileContent,"'","''","all")>
+				<cfset fileContent=replace(fileContent,"'","","all")>
 				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 			
 				<!--- cleanup any incomplete work by the same user --->
