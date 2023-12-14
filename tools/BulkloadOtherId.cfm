@@ -480,7 +480,7 @@
 						<cftransaction action="ROLLBACK">
 						<h2 class="h3">There was a problem updating the Other IDs.</h2>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT new_other_id_type,new_other_id_number,collection_object_id
+							SELECT institution_acronym, collection_cde,existing_other_id_type, existing_other_id_number, new_other_id_type,new_other_id_number,collection_object_id
 							FROM cf_temp_oids
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
@@ -516,6 +516,10 @@
 							<table class='sortable table table-responsive table-striped d-lg-table'>
 								<thead>
 									<tr>
+										<th>institution_acronym</th>
+										<th>collection_cde</th>
+										<th>existing_other_id_type</th>
+										<th>existing_other_id_number</th>
 										<th>new_other_id_type</th>
 										<th>new_other_id_number</th>
 										<th>collection_object_id</th>
@@ -524,10 +528,14 @@
 								<tbody>
 									<cfloop query="getProblemData">
 										<tr>
+											<td>#getProblemData.institution_acronym#</td>
+											<td>#getProblemData.collection_cde#</td>
+											<td>#getProblemData.existing_other_id_type#</td>
+											<td>#getProblemData.existing_other_id_number#</td>
 											<td>#getProblemData.new_other_id_type#</td>
 											<td>#getProblemData.new_other_id_number#</td>
 											<td>#getProblemData.collection_object_id#</td>
-										</tr> 
+										</tr>
 									</cfloop>
 								</tbody>
 							</table>
