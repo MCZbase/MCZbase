@@ -483,7 +483,7 @@
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
 						<h2 class="h3">There was a problem updating the Other IDs. #cfcatch.detail#</h2>
-						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProblemData_result">
 							SELECT institution_acronym, collection_cde,existing_other_id_type, existing_other_id_number, new_other_id_type,new_other_id_number,collection_object_id
 							FROM cf_temp_oids
 							WHERE key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#problem_key#">
@@ -491,7 +491,7 @@
 						
 							<h2 class="h3">Errors are displayed one row at a time.</h2>
 							<h3>
-								Error loading row (<span class="text-danger">#i#</span>) from the CSV: 
+								Error loading row (<span class="text-danger">#getProblemData_result.recordcount#</span>) from the CSV: 
 								<cfif len(cfcatch.detail) gt 0>
 									<span class="font-weight-normal border-bottom border-danger">
 										<cfif cfcatch.detail contains "NEW_OTHER_ID_TYPE">
