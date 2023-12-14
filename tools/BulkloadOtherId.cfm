@@ -448,7 +448,7 @@
 				<cftry>
 					<cfset testParse = 0>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_attributes).  <a href='/tools/BulkloadAttributes.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the Other ID bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
 						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParseOtherid_result">
@@ -490,18 +490,18 @@
 								Error loading row (<span class="text-danger">#testParse + 1#</span>) from the CSV: 
 								<cfif len(cfcatch.detail) gt 0>
 									<span class="font-weight-normal border-bottom border-danger">
-										<cfif cfcatch.detail contains "other_id_type">
-											Invalid OTHER_ID_TYPE; check controlled vocabulary (Help menu)
-										<cfelseif cfcatch.detail contains "collection_cde">
+										<cfif cfcatch.detail contains "NEW_OTHER_ID_TYPE">
+											Invalid MEW_OTHER_ID_TYPE; check controlled vocabulary (Help menu)
+										<cfelseif cfcatch.detail contains "COLLECTION_CDE">
 											COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP)
-										<cfelseif cfcatch.detail contains "institution_acronym">
+										<cfelseif cfcatch.detail contains "INSTITUTION_ACRONYM">
 											INSTITUTION_ACRONYM does not match MCZ (all caps)
-										<cfelseif cfcatch.detail contains "OTHER_ID_NUMBER">
-											Problem with OTHER_ID_NUMBER, check to see the correct other_id_type was entered
+										<cfelseif cfcatch.detail contains "NEW_OTHER_ID_NUMBER">
+											Problem with NEW_OTHER_ID_NUMBER, check to see the correct other_id_number was entered
 										<cfelseif cfcatch.detail contains "unique constraint">
-											Problem with OTHER_ID_NUMBER, already entered
+											Problem with NEW_OTHER_ID_NUMBER, already entered
 										<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
-											Problem with EXISTING_OTHER_ID_TYPE or EXISTING_OTHER_ID_NUMBER (#cfcatch.detail#)
+											Problem with EXISTING_OTHER_ID_TYPE or EXISTING_OTHER_ID_NUMBER (couldn not find collection_object_id) (#cfcatch.detail#)
 										<cfelseif cfcatch.detail contains "no data">
 											No data or the wrong data (#cfcatch.detail#)
 										<cfelseif cfcatch.detail contains "NULL">
@@ -536,7 +536,7 @@
 				</cftry>
 			</cftransaction>
 			<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-				DELETE FROM cf_temp_attributes 
+				DELETE FROM cf_temp_oids 
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
