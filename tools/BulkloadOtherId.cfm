@@ -201,13 +201,13 @@
 										<cfelse>
 											#separator#NULL
 										</cfif>
-										<cfset separator = " ">
+										<cfset separator = ",">
 									</cfloop>
 									#separator#<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								)
 							</cfquery>
 							<cfset loadedRows = loadedRows + insert_result.recordcount>
-								#colVals#
+								"#colVals#"
 						<cfcatch>
 							<!--- identify the problematic row --->
 							<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#colVals#] <br>Error: #cfcatch.message#"><!--- " --->
