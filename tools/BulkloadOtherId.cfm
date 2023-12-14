@@ -472,7 +472,7 @@
 						</cfif>
 					</cfloop>
 					<p>Number of attributes to update: #testParse# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq testParse and updateParse_result eq 0>
+					<cfif getTempData.recordcount eq testParse and updateParse_result.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
 					<cfif updateParse_result.recordcount gt 0>
