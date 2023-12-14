@@ -70,12 +70,12 @@ limitations under the License.
 					<cfset columnCounter = 0>
 					<cfloop query="getItems">
 						<td>
-							<div style="#labelStyle# font: 1em Times serif;">
+							<div style="#labelStyle# font: 1em 'Times New Roman' serif;">
 								<cfswitch expression = "#target#">
 									<cfcase value="Dry_Large_Type__All">
-										<div><strong style="font: 1.1em Times serif;">MCZ:#collection_cde#:#catalog_number#</strong></div>
-										<div><strong style="font: 1em Times serif;">#sci_name_with_auth#</strong></div>
-										<div style="height: 1.38in; font: 1em Times serif;">#tsname#</div>
+										<div><strong style="font: 1.1em 'Times New Roman' serif;">MCZ:#collection_cde#:#catalog_number#</strong></div>
+										<div><strong style="font: 1em Arial serif;">#sci_name_with_auth#</strong></div>
+										<div style="height: 1.38in; font: 1em 'Arial, Helvetica' serif;">#tsname#</div>
 										<div style="text-align:center;">Museum of Comparative Zoology</div>
 									</cfcase>
 								</cfswitch>
