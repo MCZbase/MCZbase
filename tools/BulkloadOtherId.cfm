@@ -458,10 +458,10 @@
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
 						</cfstoredproc>
 						<cfquery name="updateParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParse_result">
-							select distinct other_id_number 
+							select distinct display_value
 								from coll_obj_other_id_num 
 								where collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
-								group by other_id_number
+								group by display_value
 								having count(*) > 1
 						</cfquery>
 						<cfset testParse = testParse + 1>
