@@ -177,7 +177,7 @@
 					<cfelse>
 						<!--- subsequent rows, data --->
 						<!--- strip off the leading separator --->
-						<cfset colVals=replace(colVals,","," ","first")>
+						<cfset colVals=replace(colVals,",","","first")>
 						<cfset colValArray=listToArray(colVals)>
 						<cftry>
 							<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
@@ -189,8 +189,8 @@
 									<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
 										<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
 											<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
-											<cfset val=trim(colValArray[fieldPos])>
-											<cfset val=rereplace(val,"^'+",'')>
+											<cfset val1=trim(colValArray[fieldPos])>
+											<cfset val=rereplace(val1,"^'+",'')>
 											<cfset val=rereplace(val,"'+$",'')>
 											<cfif val EQ ""> 
 												#separator#NULL
