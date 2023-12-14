@@ -464,7 +464,7 @@
 								group by other_id_number
 								having count(*) > 1
 						</cfquery>
-						<cfset testParse = testParse + #i#>
+						<cfset testParse = testParse + #i + 1#>
 						<cfif #i# gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
