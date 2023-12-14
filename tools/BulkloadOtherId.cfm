@@ -497,7 +497,7 @@
 										<cfelseif cfcatch.detail contains "INSTITUTION_ACRONYM">
 											INSTITUTION_ACRONYM does not match MCZ (all caps)
 										<cfelseif cfcatch.detail contains "NEW_OTHER_ID_NUMBER">
-											Problem with NEW_OTHER_ID_NUMBER, check to see the correct other_id_number was entered
+											Problem with NEW_OTHER_ID_NUMBER, check to see the correct new_other_id_number was entered
 										<cfelseif cfcatch.detail contains "unique constraint">
 											Problem with NEW_OTHER_ID_NUMBER, already entered
 										<cfelseif cfcatch.detail contains "COLLECTION_OBJECT_ID">
