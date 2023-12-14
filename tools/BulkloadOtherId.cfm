@@ -37,10 +37,10 @@
 	<h1 class="h2 mt-2">Bulkload Other IDs</h1>
 	<cfif #action# is "nothing">
 		<cfoutput>
-			<p>This tool is used to bulkload Other IDs.</p>
-			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored.</p>
-			<p>Pay attention to capitalization where it is required. Messages will help to navigate problems with the data in the .csv file. </p>
-			<p>Check the help page <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a> for entries ("catalog number" can also be used)</p>
+			<p>This tool is used to bulkload Other IDs. Click view template download a comma-delimited text file (csv) to enter and upload data.</p>
+			<p>OR, create a csv by including column headings spelled exactly as listed below.  Additional colums will be ignored.</p>
+			<p>Pay attention to capitalization where it is required. Messages will help to navigate problems with the data in the uploaded .csv file. </p>
+			<p>Check the help page <a href="/vocabularies/ControlledVocabulary.cfm?table=CTCOLL_OTHER_ID_TYPE">CTCOLL_OTHER_ID_TYPE</a> for types ("catalog number" can also be used). Values can be combinations of letters, special characters, and numbers or just numbers</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
 			<div id="template" style="margin: 1rem 0;display:none;">
 				<label for="templatearea" class="data-entry-label mb-1">
@@ -56,7 +56,7 @@
 					<cfelse>
 						<cfset class="text-danger">
 					</cfif>
-					<li class="#class#">#field#</li>
+					<li class="#class#">'#field#'</li>
 				</cfloop>
 			</ul>
 			<cfform name="cits" method="post" enctype="multipart/form-data" action="/tools/BulkloadOtherId.cfm">
