@@ -451,19 +451,19 @@
 						<cfthrow message="You have no rows to load in the attributes bulkloader table (cf_temp_attributes).  <a href='/tools/BulkloadAttributes.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
-						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParseOtherid_result">
 							<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
 						</cfstoredproc>
-						<cfquery name="updateParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="testParse_result">
+						<cfquery name="updateParse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParse_result">
 							select distinct other_id_number 
 								from coll_obj_other_id_num 
 								where collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 								group by other_id_number
 								having count(*) > 1
 						</cfquery>
-						<cfset testParse = testParse + updateParse_result.recordcount>
+						<cfset testParse = testParse + updateParseOtherid_result.recordcount>
 						<cfif updateParse_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
