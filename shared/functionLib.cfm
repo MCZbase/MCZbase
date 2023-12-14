@@ -347,8 +347,7 @@ limitations under the License.
 				</cfif>
 			<cfelse>
 				<cfif (Left( LOCAL.Token, 1 ) EQ ARGUMENTS.Qualifier)>
-				<!---	<cfset LOCAL.Token = LOCAL.Token.ReplaceFirst( "^,.{1}", "") />--->
-					<cfset LOCAL.Token = LOCAL.Token.ReplaceAll( ".{1},", "") />
+					<cfset LOCAL.Token = LOCAL.Token.ReplaceFirst( "^.{1}", "") />
 					<cfset LOCAL.Token = LOCAL.Token.ReplaceAll( "\#ARGUMENTS.Qualifier#{2}", "{QUALIFIER}") />
 					<cfif (Right( LOCAL.Token, 1 ) EQ ARGUMENTS.Qualifier)>
 						<cfset ArrayAppend( LOCAL.Return[ LOCAL.RowIndex ], LOCAL.Token.ReplaceFirst( ".{1}$", "")) />
