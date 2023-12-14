@@ -337,7 +337,7 @@
 					UPDATE
 						cf_temp_oids
 					SET
-						new_other_id_number = '#new_other_id_number#',
+						new_other_id_number = '#cf_temp_oids.new_other_id_number#',
 						status = null
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
