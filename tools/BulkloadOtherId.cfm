@@ -480,7 +480,7 @@
 						<cftransaction action="ROLLBACK">
 						<h2 class="h3">There was a problem updating the Other IDs.</h2>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT other_id_type,other_id_number,collection_object_id
+							SELECT new_other_id_type,new_other_id_number,collection_object_id
 							FROM cf_temp_oids
 							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
