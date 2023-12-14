@@ -50,9 +50,9 @@
 			<ul class="geol_hier">
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfif listContains(requiredfieldlist,field,",")>
-						<cfset class="text-danger">
-					<cfelse>
 						<cfset class="text-dark">
+					<cfelse>
+						<cfset class="text-danger">
 					</cfif>
 					<li class="#class#">#field#</li>
 				</cfloop>
