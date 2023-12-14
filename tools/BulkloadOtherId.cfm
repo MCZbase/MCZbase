@@ -348,7 +348,7 @@
 			<cfquery name="flagNoCollectionObject" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_oids
 				SET 
-					status = concat(nvl2(status, status || '; ', ''),' There is no match to a cataloged item on [' || existing_other_id_type || ']=[' || existing_other_id_number || '] in collection "' || collection_cde ||'"')
+					status = concat(nvl2(status, status || '; ', ''),' There is no match to a cataloged item on ""' || existing_other_id_type || '" = ""' || existing_other_id_number || '" in collection "' || collection_cde ||'"')
 				WHERE collection_object_id IS NULL
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
