@@ -196,7 +196,7 @@
 											<cfif val EQ ""> 
 												#separator#NULL
 											<cfelse>
-												#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#val#">
+												#separator#"<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#val#">"
 											</cfif>
 										<cfelse>
 											#separator#NULL
