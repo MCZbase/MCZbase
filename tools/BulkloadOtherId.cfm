@@ -461,12 +461,17 @@
 								having count(*) > 1
 						</cfquery>
 						<cfset testParse = testParse + testParse_result.recordcount>
+						<cfif testParse_result.recordcount gt 0>
+							<cftransaction action = "ROLLBACK">
+						<cfelse>
+							<cftransaction action="COMMIT">
+						</cfif>
 					</cfloop>
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
 						<h2 class="h3">There was a problem updating the Other IDs.</h2>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT other_id_type,other_id_number,display_value,collection_object_id
+							SELECT other_id_type,other_id_number,collection_object_id
 							FROM coll_obj_other_id_num
 							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
 						</cfquery>
