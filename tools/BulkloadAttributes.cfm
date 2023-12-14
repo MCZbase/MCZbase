@@ -63,7 +63,7 @@ limitations under the License.
 			<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
 			<p>Use "catalog number" as the value of other_id_type to match on catalog number.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-			<div id="template" class="my-3">
+			<div id="template" style="margin: 1rem 0;display:none;">
 				<label for="templatearea" class="data-entry-label mb-1">
 					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadAttributes.cfm?action=getCSVHeader">download</a>)
 				</label>
