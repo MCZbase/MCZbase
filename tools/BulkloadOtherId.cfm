@@ -482,7 +482,7 @@
 				
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
-						<h2 class="h3">There was a problem updating the Other IDs. #cfcatch.detail#</h2>
+						<h2 class="h3">There was a problem updating the Other IDs.</h2>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProblemData_result">
 							SELECT institution_acronym, collection_cde,existing_other_id_type, existing_other_id_number, new_other_id_type,new_other_id_number,collection_object_id
 							FROM cf_temp_oids
