@@ -183,15 +183,15 @@
 							<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
 							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
 								insert into cf_temp_oids
-									('#fieldlist#',username)
+									(#fieldlist#,username)
 								values (
 									<cfset separator = "">
 									<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
 										<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
 											<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
 											<cfset val=trim(colValArray[fieldPos])>
-											<cfset val=rereplace(val,"^'+",'')>
-											<cfset val=rereplace(val,"'+$",'')>
+											<cfset val=rereplace('val',"^'+",'')>
+											<cfset val=rereplace('val',"'+$",'')>
 											<cfif val EQ ""> 
 												#separator#NULL
 											<cfelse>
