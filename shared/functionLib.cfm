@@ -320,7 +320,7 @@ limitations under the License.
 	<cfset var LOCAL = StructNew() />
 	<cfset ARGUMENTS.Delimiter = Left( ARGUMENTS.Delimiter, 1 ) />
 	<cfif Len( ARGUMENTS.Qualifier )>
- 	    <cfset ARGUMENTS.Qualifier = Left( ARGUMENTS.Qualifier, 1 ) />
+ 	    <cfset ARGUMENTS.Qualifier = Left( ARGUMENTS.Qualifier, 2 ) />
 	</cfif>
 	<cfset LOCAL.LineDelimiter = Chr( 13 ) />
 	<cfset ARGUMENTS.CSV = ARGUMENTS.CSV.ReplaceAll( "\r?\n", LOCAL.LineDelimiter) />
