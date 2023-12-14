@@ -449,9 +449,10 @@
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Other ID bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>"><!--- " --->
 					</cfif>
+					<cfset i = 0>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
-						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParseOtherid_result">
+						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_type#">
@@ -463,15 +464,15 @@
 								group by other_id_number
 								having count(*) > 1
 						</cfquery>
-						<cfset testParse = testParse + updateParseOtherid_result.recordcount>
-						<cfif updateParse_result.recordcount gt 0>
+						<cfset testParse = testParse + #i#>
+						<cfif #i# gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
 					</cfloop>
 					<p>Number of attributes to update: #testParse# (on #getCounts.ctobj# cataloged items)</p>
-					<cfif getTempData.recordcount eq testParse and updateParse_result.recordcount eq 0>
+					<cfif getTempData.recordcount eq testParse and #i# eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
 					<cfif updateParse_result.recordcount gt 0>
