@@ -190,7 +190,7 @@
 									<cfloop from="1" to ="#ArrayLen(fieldArray)#" index="col">
 										<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
 											<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
-											<cfset val=trim(colValArray[fieldPos])>
+											<cfset val=trim(colValArray["fieldPos"])>
 											<cfset val=rereplace(val,"^'+",'')>
 											<cfset val=rereplace(val,"'+$",'')>
 											<cfif val EQ ""> 
@@ -207,7 +207,7 @@
 								)
 							</cfquery>
 							<cfset loadedRows = loadedRows + insert_result.recordcount>
-								"#colVals#"
+								#colVals#
 						<cfcatch>
 							<!--- identify the problematic row --->
 							<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#colVals#] <br>Error: #cfcatch.message#"><!--- " --->
