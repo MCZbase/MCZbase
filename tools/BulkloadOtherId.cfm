@@ -469,10 +469,10 @@
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
-						<cfif getTempData.recordcount eq attributes_updates and updateAttributes1_result.recordcount eq 0>
+						<cfif getTempData.recordcount eq testParse and updateParse_result.recordcount eq 0>
 							<h2 class="text-success">Success - loaded</h2>
 						</cfif>
-						<cfif updateAttributes1_result.recordcount gt 0>
+						<cfif updateParse_result.recordcount gt 0>
 							<h2 class="text-danger">Not loaded - these have already been loaded</h2>
 						</cfif>
 					</cfloop>
