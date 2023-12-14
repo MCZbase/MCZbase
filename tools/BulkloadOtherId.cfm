@@ -243,7 +243,7 @@
 					<cfset foundHighAscii = "">
 					<cfset foundMultiByte = "">
 					<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
-						<cfset thisBit=arrResult[1][col]>
+						<cfset thisBit='arrResult[1][col]'>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
@@ -253,7 +253,7 @@
 						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
 							<!--- multibyte --->
 							<cfif foundHighCount LT 6>
-								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>'#thisBit#'</li>"><!--- " --->
+								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						</cfif>
