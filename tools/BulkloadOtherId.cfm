@@ -84,7 +84,7 @@
 		<cfoutput>
 			<cftry>
 				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
-				<cfset fileContent=replace(fileContent,"'","''","all")>
+				<cfset fileContent=replace(fileContent,",","''","all")>
 				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 			
 				<!--- cleanup any incomplete work by the same user --->
@@ -270,7 +270,7 @@
 						</ul>
 					</cfif>
 				</cfif>
-									#thisbit#
+								
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
 					<ul class="py-1" style="font-size: 1.2rem;">
 						<li>#cfcatch.message#</li>
