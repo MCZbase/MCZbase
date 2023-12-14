@@ -405,13 +405,13 @@
 			<table class='sortable table table-responsive table-striped d-lg-table'>
 				<thead>
 					<tr>
-						<th>status</th>
-						<th>institution_acronym</th>
-						<th>collection_cde</th>
-						<th>existing_other_id_type</th>
-						<th>existing_other_id_number</th>
-						<th>new_other_id_type</th>
-						<th>new_other_id_number</th>
+						<th>BULKLOADING STATUS</th>
+						<th>INSTITUTION_ACRONYM</th>
+						<th>COLLECTION_CDE</th>
+						<th>EXISTING_OTHER_ID_TYPE</th>
+						<th>EXISTING_OTHER_ID_NUMBER</th>
+						<th>NEW_OTHER_ID_TYPE</th>
+						<th>NEW_OTHER_ID_NUMBER</th>
 					</tr>
 				<tbody>
 					<cfloop query="data">
