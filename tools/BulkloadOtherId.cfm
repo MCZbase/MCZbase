@@ -92,7 +92,7 @@
 					DELETE FROM cf_temp_oids
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				arrResult: #arrResult#
+				<br>arrResult: #arrResult#
 			<!--- check for required fields in header line --->
 			
 			<cfset institution_acronym_exists = false>
