@@ -63,13 +63,13 @@ limitations under the License.
 			<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
 			<p>Use "catalog number" as the value of other_id_type to match on catalog number.</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-			<div id="template" style="display:none;margin: 1em 0;">
-				<label for="templatearea" class="data-entry-label">
+			<div id="template" class="my-3">
+				<label for="templatearea" class="data-entry-label mb-1">
 					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadAttributes.cfm?action=getCSVHeader">download</a>)
 				</label>
 				<textarea rows="2" cols="90" id="templatearea" class="w-100 data-entry-textarea">#fieldlist#</textarea>
 			</div>
-			<p class="mt-3">Columns in <span class="text-danger">red</span> are required; others are optional:</p>
+			<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
 			<ul>
 				<cfloop list="#fieldlist#" index="field" delimiters=",">
 					<cfif listContains(requiredfieldlist,field,",")>
