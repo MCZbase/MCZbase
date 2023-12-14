@@ -445,8 +445,8 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			<cftry>
-					<cfset testParse = 0>
-					<cfif getTempData.recordcount EQ 0>
+					<cfset testParse = 1>
+					<cfif getTempData.recordcount EQ 1>
 						<cfthrow message="You have no rows to load in the Other ID bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfset i = 0>
@@ -490,7 +490,7 @@
 						
 							<h2 class="h3">Errors are displayed one row at a time.</h2>
 							<h3>
-								Error loading row (<span class="text-danger">#testParse + 1#</span>) from the CSV: 
+								Error loading row (<span class="text-danger">#testParse#</span>) from the CSV: 
 								<cfif len(cfcatch.detail) gt 0>
 									<span class="font-weight-normal border-bottom border-danger">
 										<cfif cfcatch.detail contains "NEW_OTHER_ID_TYPE">
