@@ -445,8 +445,8 @@
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			<cftry>
-					<cfset testParse = 1>
-					<cfif getTempData.recordcount EQ 1>
+					<cfset testParse = 0>
+					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Other ID bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfset i = 0>
@@ -464,14 +464,15 @@
 								group by other_id_number
 								having count(*) > 1
 						</cfquery>
-						<cfset testParse = testParse + #i#>
-						<cfif #i# gt 0>
+						<cfset testParse = testParse + 1>
+						<cfif updateParse_result.recordcount gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
+						<cfset i = i+1>
 					</cfloop>
-					<p>Number of attributes to update: #testParse# (on #getCounts.ctobj# cataloged items)</p>
+					<p>Number of attributes to update: #i# (on #getCounts.ctobj# cataloged items)</p>
 					<cfif getTempData.recordcount eq testParse and updateParse_result.recordcount eq 0>
 						<h2 class="text-success">Success - loaded</h2>
 					</cfif>
