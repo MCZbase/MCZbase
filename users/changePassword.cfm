@@ -325,6 +325,9 @@
 										user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isGoodEmail.user_id#">
 								</cfquery>
 								<cftry>
+									<cfquery name="unlock" datasource="uam_god">
+                                                                                alter user #isGoodEmail.username# account unlock
+                                                                        </cfquery>
 									<cfquery name="db" datasource="uam_god">
 										alter user #isGoodEmail.username# identified by <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newPass#">
 									</cfquery>
