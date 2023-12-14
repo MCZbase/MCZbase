@@ -341,7 +341,7 @@
 			<cfquery name="flagMczAcronym" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE cf_temp_oids
 				SET 
-					status = concat(nvl2(status, status || '; ', ''),'COLLECTION_CDE is not "Cryo, Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP" (check case)')
+					status = concat(nvl2(status, status || '; ', ''),'COLLECTION_CDE does not match Cryo, Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, or VP (check case)')
 				WHERE collection_cde not in (select collection_cde from ctcollection_cde)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
@@ -497,7 +497,7 @@
 										<cfif cfcatch.detail contains "NEW_OTHER_ID_TYPE">
 											Invalid MEW_OTHER_ID_TYPE; check controlled vocabulary (Help menu)
 										<cfelseif cfcatch.detail contains "COLLECTION_CDE">
-											COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, VP)
+											COLLECTION_CDE does not match abbreviated collection (e.g., Ent, Herp, Ich, IP, IZ, Mala, Mamm, Orn, SC, or VP)
 										<cfelseif cfcatch.detail contains "INSTITUTION_ACRONYM">
 											INSTITUTION_ACRONYM does not match MCZ (all caps)
 										<cfelseif cfcatch.detail contains "NEW_OTHER_ID_NUMBER">
