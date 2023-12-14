@@ -177,7 +177,7 @@
 					<cfelse>
 						<!--- subsequent rows, data --->
 						<!--- strip off the leading separator --->
-						<cfset colVals=replace(colVals,",","","first")>
+						<cfset colVals=replace(colVals,","," ","first")>
 						<cfset colValArray=listToArray(colVals)>
 						<cftry>
 							<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
