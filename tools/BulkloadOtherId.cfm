@@ -145,7 +145,7 @@
 							</cfif>
 						</cfif>
 						<cfif #row# is 1>
-							<cfset colNames="#colNames#,#thisBit#">
+							<cfset colNames="#colNames#,'#thisBit#'">
 						<cfelse>
 							<!--- quote values to ensure all columns have content, will need to strip out later to insert values --->
 							<cfset colVals="#colVals#,'#thisBit#'">
