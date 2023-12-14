@@ -491,7 +491,7 @@
 						
 							<h2 class="h3">Errors are displayed one row at a time.</h2>
 							<h3>
-								Error loading row (<span class="text-danger">#testParse#</span>) from the CSV: 
+								Error loading row (<span class="text-danger">#i#</span>) from the CSV: 
 								<cfif len(cfcatch.detail) gt 0>
 									<span class="font-weight-normal border-bottom border-danger">
 										<cfif cfcatch.detail contains "NEW_OTHER_ID_TYPE">
