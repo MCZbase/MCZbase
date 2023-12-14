@@ -86,12 +86,13 @@
 				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 				<cfset fileContent=replace(fileContent,"'","''","all")>
 				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-			File content: #fileContent#
+			
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_oids
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
+				
 			<!--- check for required fields in header line --->
 			
 			<cfset institution_acronym_exists = false>
