@@ -430,8 +430,7 @@
 		</cfoutput>
 	</cfif>
 	<!-------------------------------------------------------------------------------------------->
-				
-				
+
 	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
@@ -445,12 +444,13 @@
 					SELECT count(distinct collection_object_id) ctobj FROM cf_temp_oids
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cftry>
+			<cftry>
 					<cfset testParse = 0>
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Other ID bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>"><!--- " --->
 					</cfif>
 					<cfloop query="getTempData">
+						<cfset problem_key = getTempData.key>
 						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateParseOtherid_result">
 							<cfprocparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 							<cfprocparam cfsqltype="cf_sql_varchar" value="#new_other_id_number#">
@@ -469,20 +469,22 @@
 						<cfelse>
 							<cftransaction action="COMMIT">
 						</cfif>
-						<cfif getTempData.recordcount eq testParse and updateParse_result.recordcount eq 0>
-							<h2 class="text-success">Success - loaded</h2>
-						</cfif>
-						<cfif updateParse_result.recordcount gt 0>
-							<h2 class="text-danger">Not loaded - these have already been loaded</h2>
-						</cfif>
 					</cfloop>
+					<p>Number of attributes to update: #testParse# (on #getCounts.ctobj# cataloged items)</p>
+					<cfif getTempData.recordcount eq testParse and updateParse_result.recordcount eq 0>
+						<h2 class="text-success">Success - loaded</h2>
+					</cfif>
+					<cfif updateParse_result.recordcount gt 0>
+						<h2 class="text-danger">Not loaded - these have already been loaded</h2>
+					</cfif>
+				
 					<cfcatch>
 						<cftransaction action="ROLLBACK">
 						<h2 class="h3">There was a problem updating the Other IDs.</h2>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT institution_acronym, collection_cde,existing_other_id_type, existing_other_id_number, new_other_id_type,new_other_id_number,collection_object_id
 							FROM cf_temp_oids
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							WHERE  key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#problem_key#">
 						</cfquery>
 						<cfif getProblemData.recordcount GT 0>
 							<h2 class="h3">Errors are displayed one row at a time.</h2>
