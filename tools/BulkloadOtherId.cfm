@@ -406,8 +406,8 @@
 				<thead>
 					<tr>
 						<th>status</th>
-						<th>collection_cde</th>
 						<th>institution_acronym</th>
+						<th>collection_cde</th>
 						<th>existing_other_id_type</th>
 						<th>existing_other_id_number</th>
 						<th>new_other_id_type</th>
@@ -417,8 +417,8 @@
 					<cfloop query="data">
 						<tr>
 							<td><strong>#data.status#</strong></td>
-							<td>#data.collection_cde#</td>
 							<td>#data.institution_acronym#</td>
+							<td>#data.collection_cde#</td>
 							<td>#data.existing_other_id_type#</td>
 							<td>#data.existing_other_id_number#</td>
 							<td>#data.new_other_id_type#</td>
