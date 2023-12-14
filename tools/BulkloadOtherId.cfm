@@ -40,7 +40,7 @@
 			<p>This tool is used to bulkload Other IDs.</p>
 			<p>Upload a comma-delimited text file (csv).  Include column headings, spelled exactly as below.  Additional colums will be ignored</p>
 			<span class="btn btn-xs btn-info" onclick="document.getElementById('template').style.display='block';">View template</span>
-			<div id="template" class="my-3">
+			<div id="template" class="d-none my-3">
 				<label for="templatearea" class="data-entry-label mb-1">
 					Copy this header line and save it as a .csv file (<a href="/tools/BulkloadOtherId.cfm?action=getCSVHeader">download</a>)
 				</label>
