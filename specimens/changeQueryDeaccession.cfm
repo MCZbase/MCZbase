@@ -19,6 +19,11 @@
 <!--------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="entryPoint">
+		<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT coll_obj_disposition 
+			FROM ctcoll_obj_disp
+		</cfquery>
+<!--- TODO: Check if items are on loan and have a disposition on loan, if so, prevent deaccessioning. --->
 		<cfquery name="getItemCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				count(cataloged_item.collection_object_id) ct,
@@ -26,7 +31,7 @@
 			FROM
 				user_search_table 
 				JOIN cataloged_item on user_search_table.collection_object_id = cataloged_item.collection_object_id
-				JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item_id
+				JOIN specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 			WHERE
 				result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 		</cfquery>
@@ -125,9 +130,18 @@
 										});
 									</script>
 								</div>
-								<div class="col-12 col-md-3">
+								<div class="col-12 col-md-6">
 									<label for="deacc_item_remarks" class="data-entry-label mt-2 mt-md-0">Remarks to add to each item</label>
 									<input type="text" name="deacc_item_remarks" id="deacc_item_remarks" class="data-entry-input" maxlength="255">
+								</div>
+								<div class="col-12 col-md-4">
+									<label for="coll_obj_disposition" class="data-entry-label">Change disposition of each item to</label>
+									<select name="coll_obj_disposition" id="coll_obj_disposition" class="data-entry-select">
+										<option value=""><option>
+										<cfloop query="ctDisp">
+											<option value="#coll_obj_disposition#">#ctDisp.coll_obj_disposition#</option>
+										</cfloop>				
+									</select>
 								</div>
 								<div class="col-12 col-md-3 col-lg-4 mb-2 mb-md-0">
 									<div class="data-entry-label">&nbsp;</div>
@@ -232,6 +246,13 @@
 								</cfif>
 							)
 						</cfquery>
+						<cfif isDefined("coll_obj_disposition") AND len(coll_obj_disposition) GT 0>
+							<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								UPDATE coll_object 
+								SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
+								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getParts.collection_object_id#">
+							</cfquery>
+						</cfif>
 						<cfset insertCounter = insertCounter + addToDeaccResult.recordcount>
 					</cfloop>
 					<cfif countCheck.ct LT insertCounter>

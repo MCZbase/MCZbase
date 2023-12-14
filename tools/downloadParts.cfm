@@ -231,26 +231,26 @@ limitations under the License.
 						$("##toggleButton").html("Show Containers");
 					});
 				</script>
-					<table class="sortable table table-responsive-md table-striped w-100" id="tre" style="empty-cells:show;">
+					<table class="sortable table table-responsive table-striped w-100" id="tre" style="empty-cells:show;">
 						<thead class="thead-light"
 							<tr>
-								<th>INSTITUTION_ACRONYM</th>
-								<th>COLLECTION_CDE</th>
+								<th>INSTITUTION ACRONYM</th>
+								<th>COLLECTION CDE</th>
 								<!---th>OTHER_ID_TYPE</th--->
-								<th>CATALOG_NUMBER</th>
-								<th>PART_NAME</th>
-								<th>PRESERVE_METHOD</th>
+								<th>CATALOG NUMBER</th>
+								<th>PART NAME</th>
+								<th>PRESERVE METHOD</th>
 								<th>DISPOSITION</th>
-								<th>LOT_COUNT_MODIFIER</th>
-								<th>LOT_COUNT</th>
-								<th>CURRENT_REMARKS</th>
+								<th>LOT COUNT MODIFIER</th>
+								<th>LOT COUNT</th>
+								<th>CURRENT REMARKS</th>
 								<th>CONDITION</th>
 								<th class="contcoll">PART CONTAINER</th>
 								<th class="contcoll ">PARENT CONTAINER</th>
 								<th class="contcoll">P2 CONTAINER</th>
 								<th class="contcoll">P3 CONTAINER</th>
 								<th class="contcoll">P4 CONTAINER</th>
-								<th class="contcoll">P5_CONTAINER</th>
+								<th class="contcoll">P5 CONTAINER</th>
 								<th class="contcoll">P6 CONTAINER</th>
 							</tr>
 						</thead>
