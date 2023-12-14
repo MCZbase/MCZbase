@@ -196,7 +196,7 @@
 											<cfif val EQ ""> 
 												#separator#NULL
 											<cfelse>
-												#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value=""#val#"">
+												#separator#<cfqueryparam cfsqltype="#typeArray[fieldPos]#" value="#val#">
 											</cfif>
 										<cfelse>
 											#separator#NULL
@@ -270,6 +270,7 @@
 						</ul>
 					</cfif>
 				</cfif>
+									#thisbit#
 				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
 					<ul class="py-1" style="font-size: 1.2rem;">
 						<li>#cfcatch.message#</li>
