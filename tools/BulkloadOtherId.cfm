@@ -191,7 +191,7 @@
 										<cfif arrayFindNoCase(colNameArray,fieldArray[col]) GT 0>
 											<cfset fieldPos=arrayFind(colNameArray,fieldArray[col])>
 											<cfset val=trim(colValArray[fieldPos])>
-											<cfset val=rereplace(val,"^'+",'""')>
+											<cfset val=rereplace(val,"^'+",'')>
 											<cfset val=rereplace(val,"'+$",'')>
 											<cfif val EQ ""> 
 												#separator#NULL
@@ -201,7 +201,7 @@
 										<cfelse>
 											#separator#NULL
 										</cfif>
-										<cfset separator = ",">
+										<cfset separator = " ">
 									</cfloop>
 									#separator#<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 								)
