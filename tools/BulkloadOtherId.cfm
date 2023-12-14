@@ -481,8 +481,8 @@
 						<h2 class="h3">There was a problem updating the Other IDs.</h2>
 						<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT other_id_type,other_id_number,collection_object_id
-							FROM coll_obj_other_id_num
-							WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTempData.collection_object_id#">
+							FROM cf_temp_oids
+							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<cfif getProblemData.recordcount GT 0>
 							<h2 class="h3">Errors are displayed one row at a time.</h2>
@@ -513,24 +513,19 @@
 									</span>
 								</cfif>
 							</h3>
-							<cfif #cfcatch.detail# contains 'unique contraint'>
-								<h3>This already exists in MCZbase for this specimen record.</h3>
-							</cfif>
 							<table class='sortable table table-responsive table-striped d-lg-table'>
 								<thead>
 									<tr>
-										<th>other_id_type</th>
-										<th>other_id_number</th>
-										<th>display_value</th>
+										<th>new_other_id_type</th>
+										<th>new_other_id_number</th>
 										<th>collection_object_id</th>
 									</tr>
 								</thead>
 								<tbody>
 									<cfloop query="getProblemData">
 										<tr>
-											<td>#getProblemData.other_id_type#</td>
-											<td>#getProblemData.other_id_number#</td>
-											<td>#getProblemData.display_value#</td>
+											<td>#getProblemData.new_other_id_type#</td>
+											<td>#getProblemData.new_other_id_number#</td>
 											<td>#getProblemData.collection_object_id#</td>
 										</tr> 
 									</cfloop>
