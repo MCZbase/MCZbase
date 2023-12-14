@@ -449,7 +449,7 @@
 					<cfif getTempData.recordcount EQ 0>
 						<cfthrow message="You have no rows to load in the Other ID bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>"><!--- " --->
 					</cfif>
-					<cfset i = 0>
+					<cfset i = 1>
 					<cfloop query="getTempData">
 						<cfset problem_key = getTempData.key>
 						<cfstoredproc procedure="parse_other_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -464,7 +464,7 @@
 								group by other_id_number
 								having count(*) > 1
 						</cfquery>
-						<cfset testParse = testParse + #i + 1#>
+						<cfset testParse = testParse + #i#>
 						<cfif #i# gt 0>
 							<cftransaction action = "ROLLBACK">
 						<cfelse>
