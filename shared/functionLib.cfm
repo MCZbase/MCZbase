@@ -314,7 +314,7 @@ limitations under the License.
 
 <cffunction name="CSVToArray" access="public" returntype="array" output="false" hint="Converts the given CSV string to an array of arrays.">
 	<cfargument name="CSV" type="string" required="true" hint="This is the CSV string that will be manipulated." />
-	<cfargument name="Delimiter" type="string" required="false" default="," hint="This is the delimiter that will separate the fields within the CSV value." />
+	<cfargument name="Delimiter" type="string" required="false" default=" " hint="This is the delimiter that will separate the fields within the CSV value." />
 	<cfargument name="Qualifier" type="string" required="false" default="""" hint="This is the qualifier that will wrap around fields that have special characters embeded." />
 
 	<cfset var LOCAL = StructNew() />
