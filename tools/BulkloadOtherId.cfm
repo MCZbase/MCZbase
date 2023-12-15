@@ -88,10 +88,9 @@
 <cftry>
 	
 <!---     create a reader--->
-    <cfset reader = csvFormat.newBufferedReader(Paths.get("#FiletoUpload#"))>
-	<cfset csvReader = new CSVReader(reader)>
+    <cfset reader = new FileReader("#FiletoUpload#")>
+	<cfset records = CSVFormat.RFC4180.parse(in)>
 	<cfset list = csvReader.readAll()>
-	<cfset csvReader.close()>
     <cfset reader.close()>
 
 
