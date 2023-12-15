@@ -69,7 +69,7 @@ limitations under the License.
 				<tr>
 					<cfset columnCounter = 0>
 					<cfloop query="getItems">
-						<td>
+						<td style="#labelHeight# #labelWidth#">
 							<div style="#labelStyle# position: relative;">
 								<cfswitch expression = "#target#">
 									<cfcase value="Dry_Large_Type__All">
