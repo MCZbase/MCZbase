@@ -677,7 +677,6 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="ROLLBACK">
 					<h2 class="h3">There was a problem updating the attributes.</h2>
-					<!---<div>#cfcatch.message#</div>--->
 					<cfquery name="getProblemData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT status,institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value, attribute_units,attribute_date,attribute_meth,determiner,remarks
 						FROM cf_temp_attributes 
@@ -749,6 +748,7 @@ limitations under the License.
 							</tbody>
 						</table>
 					</cfif>
+					<div>#cfcatch.message#</div>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
