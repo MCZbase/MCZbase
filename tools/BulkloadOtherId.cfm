@@ -81,8 +81,12 @@
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data">
+			<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" > 
+			<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
+
 		<cfoutput>
-<cftry> 
+<cftry>
+	
 <!---     create a reader--->
     <cfset reader = FileReader.newBufferedReader(Paths.get("#FiletoUpload#"))>
 	<cfset csvReader = new CSVReader(reader)>
