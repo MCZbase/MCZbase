@@ -96,16 +96,14 @@
 
 		</cfscript>
 		<cfdump var="#csvData#" />
-			<!---	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />--->
-		
-				<!--- cleanup any incomplete work by the same user --->
-				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+
+<!---				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_oids
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				
-			<!--- check for required fields in header line --->
-			
+				--->
+	
+<!---			
 			<cfset institution_acronym_exists = false>
 			<cfset collection_cde_exists = false>
 			<cfset existing_other_id_type_exists = false>
@@ -136,39 +134,38 @@
 				<cfset foundHighCount = 0>
 				<cfset foundHighAscii = "">
 				<cfset foundMultiByte = "">
-				<!--- get the headers from the first row of the input, then iterate through the remaining rows inserting the data into the temp table. --->
+		
 				<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
-					<!--- obtain the values in the current row --->
+		
 					<cfset colVals="">
 					<cfloop from="1" to ="#ArrayLen(arrResult[row])#" index="col">
 						<cfset thisBit=arrResult[row][col]>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
-							<!--- high ASCII --->
+				
 							<cfif foundHighCount LT 6>
-								<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+								<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>">
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
-							<!--- multibyte --->
+					
 							<cfif foundHighCount LT 6>
-								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>">
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						</cfif>
 						<cfif #row# is 1>
 							<cfset colNames="#colNames#,#thisBit#">
 						<cfelse>
-							<!--- quote values to ensure all columns have content, will need to strip out later to insert values --->
+						
 							<cfset colVals="#colVals#,'#thisBit#'">
 						</cfif>
 					</cfloop>
 					<cfif #row# is 1>
-						<!--- first row, obtain column headers --->
-						<!--- strip off the leading separator --->
+					
 						<cfset colNames=replace(colNames,",","","first")>
-						<cfset colNameArray = listToArray(ucase(colNames))><!--- the list of columns/fields found in the input file --->
-						<cfset fieldArray = listToArray(ucase(fieldlist))><!--- the full list of fields --->
-						<cfset typeArray = listToArray(fieldTypes)><!--- the types for the full list of fields --->
+						<cfset colNameArray = listToArray(ucase(colNames))>
+						<cfset fieldArray = listToArray(ucase(fieldlist))>
+						<cfset typeArray = listToArray(fieldTypes)>
 						<h3 class="h4">Found #arrayLen(colNameArray)# matching columns in header of csv file.</h3>
 						<ul class="">
 							<cfloop list="#fieldlist#" index="field" delimiters=",">
@@ -187,12 +184,11 @@
 										
 						</ul>
 					<cfelse>
-						<!--- subsequent rows, data --->
-						<!--- strip off the leading separator --->
+				
 						<cfset colVals=replace(colVals,",","","first")>
 						<cfset colValArray=listToArray(colVals)>
 						<cftry>
-							<!--- construct insert for row with a line for each entry in fieldlist using cfqueryparam if column header is in fieldlist, otherwise using null --->
+					
 							<cfquery name="insert" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insert_result">
 								insert into cf_temp_oids
 									(#fieldlist#,username)
@@ -220,8 +216,8 @@
 							<cfset loadedRows = loadedRows + insert_result.recordcount>
 								#colVals#
 						<cfcatch>
-							<!--- identify the problematic row --->
-							<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#colVals#] <br>Error: #cfcatch.message#"><!--- " --->
+				
+							<cfset error_message="#COLUMN_ERR# from line #row# in input file.  <br>Header:[#colNames#] <br>Row:[#colVals#] <br>Error: #cfcatch.message#">
 							<cfif isDefined("cfcatch.queryError")>
 								<cfset error_message = "#error_message# #cfcatch.queryError#">
 							</cfif>
@@ -257,13 +253,13 @@
 					<cfloop from="1" to ="#ArrayLen(arrResult[1])#" index="col">
 						<cfset thisBit=arrResult[1][col]>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
-							<!--- high ASCII --->
+						
 							<cfif foundHighCount LT 6>
 								<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
 								<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
-							<!--- multibyte --->
+					
 							<cfif foundHighCount LT 6>
 								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
 								<cfset foundHighCount = foundHighCount + 1>
@@ -293,14 +289,14 @@
 				<cfelse>
 					<cfdump var="#cfcatch#">
 				</cfif>
-			</cfcatch>
+			</cfcatch>--->
 			</cftry>
 		</cfoutput>
 	</cfif>
 <!-------------------------------------------------------------------------------------------->
 <!-------------------------------------------------------------------------------------------->
 <!------------------------------------------------------->
-	<cfif #action# is "validate">
+<!---	<cfif #action# is "validate">
 		<h2 class="h3">Second step: Data Validation</h2>
 			<cfoutput>
 			<cfquery name="getTempTableTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -313,7 +309,7 @@
 			</cfquery>
 			<cfloop query="getTempTableTypes">
 				<cfif getTempTableTypes.existing_other_id_type eq 'catalog number'>
-					<!--- either based on catalog_number --->
+				
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_oids
@@ -329,7 +325,7 @@
 							and key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#getTempTableTypes.key#"> 
 					</cfquery>
 				<cfelse>
-					<!--- or on specified other identifier --->
+		
 					<cfquery name="getCID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						UPDATE
 							cf_temp_oids
@@ -386,7 +382,7 @@
 					AND new_other_id_type not in (select other_id_type from ctcoll_other_id_type)
 					AND username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
-			<!---Missing data in required fields--->
+		
 			<cfloop list="#requiredfieldlist#" index="requiredField">
 				<cfquery name="checkRequired" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE cf_temp_oids
@@ -444,9 +440,9 @@
 				</tbody>
 			</table>
 		</cfoutput>
-	</cfif>
+	</cfif>--->
 	<!-------------------------------------------------------------------------------------------->
-
+<!---
 	<cfif action is "load">
 		<h2 class="h3">Third step: Apply changes.</h2>
 		<cfoutput>
@@ -463,7 +459,7 @@
 			<cftry>
 					<cfset testParse = 0>
 					<cfif getTempData.recordcount EQ 0>
-						<cfthrow message="You have no rows to load in the Other ID bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>"><!--- " --->
+						<cfthrow message="You have no rows to load in the Other ID bulkloader table (cf_temp_oids).  <a href='/tools/BulkloadOtherId.cfm'>Start over</a>">
 					</cfif>
 					<cfset i = 0>
 					<cfloop query="getTempData">
@@ -559,7 +555,7 @@
 									</cfloop>
 								</tbody>
 							</table>
-				<!---		<cfrethrow>--->
+			
 					</cfcatch>
 				</cftry>
 			</cftransaction>
@@ -568,7 +564,7 @@
 				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 		</cfoutput>
-	</cfif>
+	</cfif>--->
 </main>
 
 <cfinclude template="/shared/_footer.cfm">
