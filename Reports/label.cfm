@@ -76,7 +76,7 @@ limitations under the License.
 										<div><strong style="font: 1.1em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong></div>
 										<div><strong style="height: 0.25in; font: 1em Helvetica; overflow: hidden;">#sci_name_with_auth#</strong></div>
 										<div style="height: 1.38in; font: 1em Helvetica; overflow: hidden;">#tsname#</div>
-										<div style="text-align:center; font: 0.9em 'Times-Roman'; position: absolute; bottom:0; left: 0;">Museum of Comparative Zoology</div>
+										<div style="text-align:center; font: 0.9em 'Times-Roman'; position: absolute; bottom:1px;">Museum of Comparative Zoology</div>
 									</cfcase>
 								</cfswitch>
 							</div>
