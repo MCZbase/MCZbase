@@ -82,21 +82,18 @@
 		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data">
 		<cfoutput>
-			<cftry>
-			
-				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
-				<cfset fileContent=replace(fileContent,"'","''","all")>
-				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" > 
-				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >
+<cftry> {
+<!---     create a reader--->
+    <cfset reader = Files.newBufferedReader(Paths.get("#FiletoUpload#"))>
+	<cfset csvReader = new CSVReader(reader)>
+	<cfset list = csvReader.readAll()>
+	<cfset csvReader.close()>
+    <cfset reader.close()>
 
-		<cfscript>
-			csvFile = ExpandPath("#fileContent#");
-			csvData = [];
-
-
-		</cfscript>
-		<cfdump var="#csvData#" />
-
+<cfcatch> 
+	<cfdump var="#cfcatch.detail#">
+</cfcatch>
+	</cftry>
 <!---				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_oids
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
