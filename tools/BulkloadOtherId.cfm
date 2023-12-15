@@ -83,14 +83,33 @@
 		<cfset COLUMN_ERR = "Error inserting data">
 		<cfoutput>
 			<cftry>
+			
 				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 				<cfset fileContent=replace(fileContent,"'","''","all")>
-				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" > 
-				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >
+	<!---			<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" > 
+				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >--->
 
-				<cfset arrResult = csvParser.parse(fileContent, CSVFormat.EXCEL)>
-				<cfset listRecords = parser.getRecords()>
-					#listRecords#
+		<cfscript>
+			csvFile = ExpandPath("#FiletoUpload#");
+			csvData = [];
+
+			// FileReader
+			fileReader = createobject("java","java.io.FileReader");
+			fileReader.init(csvFile);
+
+			// use JavaLoader to load OpenCSV
+			paths = [ExpandPath("/opencsv-2.2/deploy/opencsv-2.2.jar")];
+			loader = CreateObject("component", "javaloader.JavaLoader").init(paths);
+
+			csvReader = loader.create("au.com.bytecode.opencsv.CSVReader");
+			csvReader.init(fileReader);
+			csvData = csvReader.readAll();
+
+			// release system resources
+			csvReader.close();
+			fileReader.close();
+		</cfscript>
+		<cfdump var="#csvData#" />
 			<!---	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />--->
 		
 				<!--- cleanup any incomplete work by the same user --->
