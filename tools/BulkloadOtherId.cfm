@@ -90,7 +90,7 @@
 				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >
 
 		<cfscript>
-			csvFile = ExpandPath(#fileContent#");
+			csvFile = ExpandPath("#fileContent#");
 			csvData = [];
 
 
