@@ -93,21 +93,7 @@
 			csvFile = ExpandPath("#FiletoUpload#");
 			csvData = [];
 
-			// FileReader
-			fileReader = createobject("java","java.io.FileReader");
-			fileReader.init(csvFile);
 
-			// use JavaLoader to load OpenCSV
-			paths = [ExpandPath("/opencsv-2.2/deploy/opencsv-2.2.jar")];
-			loader = CreateObject("component", "javaloader.JavaLoader").init(paths);
-
-			csvReader = loader.create("au.com.bytecode.opencsv.CSVReader");
-			csvReader.init(fileReader);
-			csvData = csvReader.readAll();
-
-			// release system resources
-			csvReader.close();
-			fileReader.close();
 		</cfscript>
 		<cfdump var="#csvData#" />
 			<!---	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />--->
