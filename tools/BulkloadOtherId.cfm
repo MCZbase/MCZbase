@@ -86,11 +86,11 @@
 			
 				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 				<cfset fileContent=replace(fileContent,"'","''","all")>
-	<!---			<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" > 
-				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >--->
+				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" > 
+				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >
 
 		<cfscript>
-			csvFile = ExpandPath(#FiletoUpload#);
+			csvFile = ExpandPath(#fileContent#");
 			csvData = [];
 
 
