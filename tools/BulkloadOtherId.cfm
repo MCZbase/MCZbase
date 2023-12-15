@@ -89,14 +89,8 @@
 	<!---			<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" > 
 				<cfobject type="Java" name="csvParser" class="org.apache.commons.csv.CSVParser" >--->
 
-		<cfscript>
-			csvFile = ExpandPath("#FiletoUpload#");
-			csvData = [];
-
-
-		</cfscript>
-		<cfdump var="#csvData#" />
-			<!---	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />--->
+	
+				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
 		
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
