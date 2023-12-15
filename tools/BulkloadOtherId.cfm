@@ -82,9 +82,9 @@
 		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data">
 		<cfoutput>
-<cftry> {
+<cftry> 
 <!---     create a reader--->
-    <cfset reader = Files.newBufferedReader(Paths.get("#FiletoUpload#"))>
+    <cfset reader = FileReader.newBufferedReader(Paths.get("#FiletoUpload#"))>
 	<cfset csvReader = new CSVReader(reader)>
 	<cfset list = csvReader.readAll()>
 	<cfset csvReader.close()>
