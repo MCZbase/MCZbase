@@ -728,6 +728,9 @@ limitations under the License.
 	<cfargument name="permit_remarks" default="">
 	<cfargument name="permit_id" default="">
 	<cfargument name="ContactAgent" default="">
+	<cfargument name="restriction_summary" default="">
+	<cfargument name="benefits_summary" default="">
+	<cfargument name="benefits_provided" default="">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -850,6 +853,33 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
 					AND permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+				</cfif>
+				<cfif isdefined("restriction_summary") AND len(#restriction_summary#) gt 0>
+					<cfif isdefined("restriction_summary") AND restriction_summary EQ "NULL">
+						and restriction_summary IS NULL
+					<cfelseif isdefined("restriction_summary") AND restriction_summary EQ "NOT NULL">
+						and restriction_summary IS NOT NULL
+					<cfelse>
+						AND upper(restriction_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(restriction_summary)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("benefits_summary") AND len(#benefits_summary#) gt 0>
+					<cfif isdefined("benefits_summary") AND benefits_summary EQ "NULL">
+						and benefits_summary IS NULL
+					<cfelseif isdefined("benefits_summary") AND benefits_summary EQ "NOT NULL">
+						and benefits_summary IS NOT NULL
+					<cfelse>
+						AND upper(benefits_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(benefits_summary)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("benefits_provided") AND len(#benefits_provided#) gt 0>
+					<cfif isdefined("benefits_provided") AND benefits_provided EQ "NULL">
+						and benefits_provided IS NULL
+					<cfelseif isdefined("benefits_provided") AND benefits_provided EQ "NOT NULL">
+						and benefits_provided IS NOT NULL
+					<cfelse>
+						AND upper(benefits_provided) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(benefits_provided)#%">
+					</cfif>
 				</cfif>
 		</cfquery>
 		<cfset i = 1>

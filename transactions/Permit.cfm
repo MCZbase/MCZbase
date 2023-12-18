@@ -108,6 +108,9 @@ limitations under the License.
 				<cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
 				<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
 				<cfif not isdefined("permit_remarks")><cfset permit_remarks=""></cfif>
+				<cfif not isdefined("benefits_provided")><cfset benefits_provided=""></cfif>
+				<cfif not isdefined("benefits_summary")><cfset benefits_summary=""></cfif>
+				<cfif not isdefined("restriction_summary")><cfset restriction_summary=""></cfif>
 				<!--- Search Form --->
 				<cfoutput>
 					<section class="container-fluid" role="search" aria-labelledby="formheading">
@@ -118,7 +121,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 px-4 py-1">
 									<p class="my-2 small" tabindex="0">Search for permits and other documents related to permissions and rights (access benefit sharing agreements,
-									material transfer agreements, collecting permits, salvage permits, etc.) Any part of names accepted, case isn't important.  
+									material transfer agreements, collecting permits, salvage permits, etc.) Any part of names accepted, case is not important.  
 									</p>
 									<form name="searchForm" id="searchForm"> 
 										<input type="hidden" name="method" value="getPermits" class="keeponclear">
@@ -238,6 +241,39 @@ limitations under the License.
 											<div class="col-md-4">
 												<label for="permit_remarks" class="data-entry-label" id="permit_remarks_label">Remarks:</label>
 												<input type="text" id="permit_remarks" name="permit_remarks" class="data-entry-input" value="#permit_remarks#" aria-labelledby="permit_remarks_label" >					
+											</div>
+											<div class="col-md-4">
+												<label for="restriction_summary" class="data-entry-label" id="restriction_summary_label">
+													Summary of Restrictions on Use
+													<span class="small">(
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##restriction_summary').val('NULL'); return false;" >NULL<span class="sr-only">use NULL to find permissions and rights documents with no values in restrictions on use</span></a>
+													,
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##restriction_summary').val('NOT NULL'); return false;" >NOT NULL<span class="sr-only">use NOT NULL to find permissions and rights documents with any restrictions on use</span></a>
+													)</span>
+												</label>
+												<input type="text" id="restriction_summary" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" aria-labelledby="restriction_summary_label" >					
+											</div>
+											<div class="col-md-4">
+												<label for="benefits_summary" class="data-entry-label" id="benefits_summary_label">
+													Summary of Agreed Benefits
+													<span class="small">(
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##benefits_summary').val('NULL'); return false;" >NULL<span class="sr-only">use NULL to find permissions and rights documents with no values in agreed benefits</span></a>
+													,
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##benefits_summary').val('NOT NULL'); return false;" >NOT NULL<span class="sr-only">use NOT NULL to find permissions and rights documents with any agreed benefits</span></a>
+													)</span>
+												</label>
+												<input type="text" id="benefits_summary" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" aria-labelledby="benefits_summary_label" >					
+											</div>
+											<div class="col-md-4">
+												<label for="benefits_provided" class="data-entry-label" id="benefits_provided_label">
+													Benefits Provided
+													<span class="small">(
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##benefits_provided').val('NULL'); return false;" >NULL<span class="sr-only">use NULL to find permissions and rights documents with no benefits provided</span></a>
+													,
+													<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##benefits_provided').val('NOT NULL'); return false;" >NOT NULL<span class="sr-only">use NOT NULL to find permissions and rights documents with any benefits provided</span></a>
+													)</span>
+												</label>
+												<input type="text" id="benefits_provided" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" aria-labelledby="benefits_provided_label" >					
 											</div>
 										</div>
 										<div class="form-row my-2 mx-0">
