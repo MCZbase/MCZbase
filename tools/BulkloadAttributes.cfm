@@ -109,8 +109,8 @@ limitations under the License.
 <cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
 
 <cfset tempFile = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
-<cfset tempFileOutputStream = CreateObject("java","java.io.FileOutputStream").Init(#tempFile#) >
-<cfset records = csvFormat.parse(#tempFileOutputStream#,csvFormat.DEFAULT)>
+<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#tempFile#) >
+<cfset records = csvFormat.parse(#tempFileInputStream#,csvFormat.DEFAULT)>
 <cfset headers = records.getHeaderMap()>
 <cfdump var="#headers#">
 				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
