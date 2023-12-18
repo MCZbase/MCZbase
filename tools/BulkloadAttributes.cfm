@@ -121,7 +121,7 @@ limitations under the License.
 <cfdump var="#headers.size()#">
 <cfloop index="i" from="1" to="#headers.size()#">
 	#headers.get(i)#,
-<cfloop>
+</cfloop>
 				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 				<cfset fileContent=replace(fileContent,"'","''","all")>
 				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
