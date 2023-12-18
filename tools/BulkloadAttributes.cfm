@@ -112,26 +112,33 @@ limitations under the License.
 				<cfobject type="Java" name="standardCharsets"  class="java.nio.charset.StandardCharsets" >
 				<cfset tempFile = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
 				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#tempFile#) >
-				<cfset defaultFormat = csvFormat.DEFAULT.withHeader() >
+				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
+				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
+				<cfset defaultFormat = csvFormat.DEFAULT >
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = csvParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
 				<cfset iterator = records.iterator()>
-				<!---
+				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				<cfdump var="#headers#">
 				<cfdump var="#headers.size()#">
-				<cfloop index="i" from="0" to="#headers.size() - 1#">
-					#headers.get(JavaCast("int",i))#,
-					 TODO: Match the provided headers to the expected headers 
+				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+					#headers.get(JavaCast("int",actualColumnNumber))#,
+					<!--- TODO: Match the provided headers to the expected headers --->
 				</cfloop>
-				--->
+				<br>
+				<!--- Iterate through the remaining lines in the file --->
 				<cfloop condition="#iterator.hasNext()#">
 					<cfset row = iterator.next()>
-					<!--- Example, obtaining fields by name, will use order in fieldlist, not column header order --->
-					<cfloop list="#fieldlist#" index="field" delimiters=",">
-						#row.get(JavaCast("string",field))#,
+					<!--- as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number --->
+					<!--- TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber ---> 
+					<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+						#row.get(JavaCast("int",actualColumnNumber))#,
+						<!--- TODO: Test for multibyte characters --->
+						<!--- TODO: Create insert statement --->
 					</cfloop>
+					<br>
 				</cfloop>
 				<!--- End proof of concept code --->
 
