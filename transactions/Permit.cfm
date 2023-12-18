@@ -263,6 +263,7 @@ limitations under the License.
 													)</span>
 												</label>
 												<input type="text" id="benefits_summary" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" aria-labelledby="benefits_summary_label" >					
+											</div>
 											<div class="col-md-4">
 												<label for="benefits_provided" class="data-entry-label" id="benefits_provided_label">
 													Benefits Provided
@@ -273,6 +274,7 @@ limitations under the License.
 													)</span>
 												</label>
 												<input type="text" id="benefits_provided" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" aria-labelledby="benefits_provided_label" >					
+											</div>
 										</div>
 										<div class="form-row my-2 mx-0">
 											<div class="col-12 px-0">
