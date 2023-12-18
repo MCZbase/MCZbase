@@ -108,6 +108,9 @@ limitations under the License.
 				<cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
 				<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
 				<cfif not isdefined("permit_remarks")><cfset permit_remarks=""></cfif>
+				<cfif not isdefined("benefits_provided")><cfset benefits_provided=""></cfif>
+				<cfif not isdefined("benefits_summary")><cfset benefits_summary=""></cfif>
+				<cfif not isdefined("restriction_summary")><cfset restriction_summary=""></cfif>
 				<!--- Search Form --->
 				<cfoutput>
 					<section class="container-fluid" role="search" aria-labelledby="formheading">
