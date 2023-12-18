@@ -112,18 +112,20 @@ limitations under the License.
 				<cfobject type="Java" name="standardCharsets"  class="java.nio.charset.StandardCharsets" >
 				<cfset tempFile = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
 				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#tempFile#) >
-				<cfset defaultFormat = csvFormat.DEFAULT >
+				<cfset defaultFormat = csvFormat.DEFAULT.withHeader() >
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = csvParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
 				<cfset iterator = records.iterator()>
+				<!---
 				<cfset headers = iterator.next()>
 				<cfdump var="#headers#">
 				<cfdump var="#headers.size()#">
 				<cfloop index="i" from="0" to="#headers.size() - 1#">
 					#headers.get(JavaCast("int",i))#,
-					<!--- TODO: Match the provided headers to the expected headers --->
+					 TODO: Match the provided headers to the expected headers 
 				</cfloop>
+				--->
 				<cfloop condition="#iterator.hasNext()#">
 					<cfset row = iterator.next()>
 					<!--- Example, obtaining fields by name, will use order in fieldlist, not column header order --->
