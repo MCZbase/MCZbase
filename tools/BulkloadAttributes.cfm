@@ -109,7 +109,6 @@ limitations under the License.
 <cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
 <cfobject type="Java" name="javaCharset"  class="java.nio.charset.Charset" >
 <cfobject type="Java" name="standardCharsets"  class="java.nio.charset.StandardCharsets" >
-
 <cfset tempFile = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
 <cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#tempFile#) >
 <cfset defaultFormat = csvFormat.DEFAULT >
@@ -119,6 +118,10 @@ limitations under the License.
 <cfset iterator = recordList.iterator()>
 <cfset headers = iterator.next()>
 <cfdump var="#headers#">
+<cfdump var="#headers.size()#">
+<cfloop index="i" from="1" to="#headers.size()#">
+	#headers.get(i)#,
+<cfloop>
 				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 				<cfset fileContent=replace(fileContent,"'","''","all")>
 				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
