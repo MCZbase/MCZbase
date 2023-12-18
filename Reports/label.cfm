@@ -43,6 +43,7 @@ limitations under the License.
 		</cfquery>
 		<cfset orientation = "portrait">
 		<cfset columns = 2>
+		<cfset tableWidth = 'width: 7in;'>
 		<cfset labelWidth = 'width: 3.5in;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
 		<cfset labelHeight = 'height: 2.0in;'>
@@ -50,7 +51,7 @@ limitations under the License.
 </cfswitch>
 
 <cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px;'>
-<cfdocument format="pdf" pagetype="letter" margintop=".25" marginbottom=".25" marginleft=".25" marginright=".25" orientation="#orientation#" fontembed="yes" saveAsName="MCZ_labels_#result_id#.pdf">
+<cfdocument format="pdf" pagetype="letter" margintop=".25" marginbottom=".25" marginleft=".5" marginright=".5" orientation="#orientation#" fontembed="yes" saveAsName="MCZ_labels_#result_id#.pdf">
 	<cfoutput>
 		<cfdocumentitem type="header">
 			<div style="text-align: center; font-size: x-small;">
@@ -65,18 +66,18 @@ limitations under the License.
 		</cfdocumentitem>
 
 		<cfdocumentsection name="Lables">
-			<table>
+			<table style="#tableWidth#">
 				<tr>
 					<cfset columnCounter = 0>
 					<cfloop query="getItems">
-						<td>
-							<div style="#labelStyle# font: 1em Times serif;">
+						<td style="#labelHeight# #labelWidth#">
+							<div style="#labelStyle# position: relative;">
 								<cfswitch expression = "#target#">
 									<cfcase value="Dry_Large_Type__All">
-										<div><strong style="font: 1.1em Times serif;">MCZ:#collection_cde#:#catalog_number#</strong></div>
-										<div><strong style="font: 1em Times serif;">#sci_name_with_auth#</strong></div>
-										<div style="height: 1.38in; font: 1em Times serif;">#tsname#</div>
-										<div style="text-align:center;">Museum of Comparative Zoology</div>
+										<div><strong style="font: 1.1em 'Times-Roman';">MCZ:#collection_cde#:#catalog_number#</strong></div>
+										<div><strong style="font: 1em Helvetica;">#sci_name_with_auth#</strong></div>
+										<div style="height: 1.38in; font: 1em Helvetica; overflow: hidden;">#tsname#</div>
+										<div style="font: 0.9em 'Times-Roman'; position: absolute; bottom: 1px; left: 6em;">Museum of Comparative Zoology</div>
 									</cfcase>
 								</cfswitch>
 							</div>

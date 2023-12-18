@@ -380,6 +380,22 @@
 
     </div><!---ends primaryType or secondaryType or defaultType--->
     </div><!---end primaryCont or secondaryCont or defaultCont--->
+	<!--- NOTE: List of files invoked with loadEditApp, search on filename.cfm won't find the loadEditApp(filename) references --->
+	<!--- Do not remove or rename these files until loadEditApp references have also been addressed: 
+				editIdentification.cfm referenced with loadEditApp
+				addAccn.cfm referenced with loadEditApp
+				changeCollEvent.cfm referenced with loadEditApp
+				specLocality.cfm referenced with loadEditApp
+				editColls.cfm referenced with loadEditApp
+				editRelationship.cfm referenced with loadEditApp
+				editParts.cfm referenced with loadEditApp
+				findContainer.cfm referenced with loadEditApp
+				editBiolIndiv.cfm referenced with loadEditApp
+				editIdentifiers.cfm referenced with loadEditApp
+				MediaSearch.cfm referenced with loadEditApp
+				Encumbrances.cfm referenced with loadEditApp
+				catalog.cfm referenced with loadEditApp
+	--->
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<script language="javascript" type="text/javascript">
 
