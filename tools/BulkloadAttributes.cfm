@@ -128,7 +128,7 @@ limitations under the License.
 					<cfset row = iterator.next()>
 					<!--- Example, obtaining fields by name, will use order in fieldlist, not column header order --->
 					<cfloop list="#fieldlist#" index="field" delimiters=",">
-						#row.get(JavaCast("string",field)#,
+						#row.get(JavaCast("string",field))#,
 					</cfloop>
 				</cfloop>
 				<!--- End proof of concept code --->
