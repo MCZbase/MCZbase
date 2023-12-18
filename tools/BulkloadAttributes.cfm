@@ -116,7 +116,7 @@ limitations under the License.
 <cfset javaSelectedCharset = standardCharsets.UTF_8 >
 <cfset records = csvParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
 <cfset headers = records.getHeaderMap()>
-<cfset cfdump var="#headers#">
+<cfdump var="#headers#">
 				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 				<cfset fileContent=replace(fileContent,"'","''","all")>
 				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
