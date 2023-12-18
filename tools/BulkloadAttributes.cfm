@@ -104,6 +104,15 @@ limitations under the License.
 		<cfset COLUMN_ERR = "Error inserting data">
 		<cfoutput>
 			<cftry>
+<cfset fileProxy = CreateObject("java","java.io.File") >
+<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
+<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
+
+<cfset tempFile = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
+<cfset tempFileOutputStream = CreateObject("java","java.io.FileOutputStream").Init(#tempFile#) >
+<cfset records = csvFormat.DEFAULT.withFirstRecordAsHeader().parse(#tempFileOutputStream#)>
+<cfset headers = records.getHeaderMap()>
+<cfdump var="#headers#">
 				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 				<cfset fileContent=replace(fileContent,"'","''","all")>
 				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
