@@ -119,7 +119,7 @@ limitations under the License.
 <cfset headers = iterator.next()>
 <cfdump var="#headers#">
 <cfdump var="#headers.size()#">
-<cfloop index="i" from="1" to="#headers.size()#">
+<cfloop index="i" from="0" to="#headers.size()#">
 	#headers.get(JavaCast("int",i))#,
 </cfloop>
 				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
