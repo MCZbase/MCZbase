@@ -112,7 +112,7 @@ limitations under the License.
 
 <cfset tempFile = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
 <cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#tempFile#) >
-<cfset defaultFormat = csvFormat.DEFAULT >
+<cfset defaultFormat = csvFormat.DEFAULT.withHeader() >
 <cfset javaSelectedCharset = standardCharsets.UTF_8 >
 <cfset records = csvParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
 <cfset headers = records.getHeaderMap()>
