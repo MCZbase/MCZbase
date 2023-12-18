@@ -120,7 +120,7 @@ limitations under the License.
 <cfdump var="#headers#">
 <cfdump var="#headers.size()#">
 <cfloop index="i" from="1" to="#headers.size()#">
-	#headers.get(i)#,
+	#headers.get(JavaCast("int",i))#,
 </cfloop>
 				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 				<cfset fileContent=replace(fileContent,"'","''","all")>
