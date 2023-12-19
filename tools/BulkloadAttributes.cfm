@@ -121,7 +121,7 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
-				<cfdump var="#headers#">
+				<!--- number of colums actually found --->
 				<cfdump var="#headers.size()#">
 				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 					#headers.get(JavaCast("int",actualColumnNumber))#,
