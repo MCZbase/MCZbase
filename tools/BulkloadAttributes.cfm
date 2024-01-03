@@ -124,7 +124,7 @@ limitations under the License.
 				<!--- number of colums actually found --->
 				<cfdump var="#headers.size()#">
 				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-					#headers.get(JavaCast("int",actualColumnNumber))#,
+					Row Number: #headers.get(JavaCast("int",actualColumnNumber))#<br>
 					<!--- TODO: Match the provided headers to the expected headers --->
 				</cfloop>
 				<br>
