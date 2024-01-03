@@ -135,7 +135,7 @@ limitations under the License.
 					<!--- TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber ---> 
 					<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 					
-					Row Date:	#row.get(JavaCast("int",actualColumnNumber))# <br>
+					Row:	#row.get(JavaCast("int",actualColumnNumber))# <br>
 						<!--- TODO: Test for multibyte characters --->
 						<!--- TODO: Create insert statement --->
 					</cfloop>
