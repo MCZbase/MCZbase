@@ -134,8 +134,8 @@ limitations under the License.
 					<!--- as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number --->
 					<!--- TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber ---> 
 					<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-					
-					Row:	#row.get(JavaCast("int",actualColumnNumber))# <br>
+					Row: #index#
+					Value:	#row.get(JavaCast("int",actualColumnNumber))# <br>
 						<!--- TODO: Test for multibyte characters --->
 						<!--- TODO: Create insert statement --->
 					</cfloop>
