@@ -122,7 +122,7 @@ limitations under the License.
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				<!--- number of colums actually found --->
-				<cfdump var="#headers.size()#">
+				Column Number: <cfdump var="#headers.size()#"><br>
 				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 					Row Number: #headers.get(JavaCast("int",actualColumnNumber))#<br>
 					<!--- TODO: Match the provided headers to the expected headers --->
