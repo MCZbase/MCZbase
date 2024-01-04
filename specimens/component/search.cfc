@@ -1067,6 +1067,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="collection" type="string" required="no">
 	<cfargument name="cat_num" type="string" required="no">
 	<cfargument name="coll_object_entered_date" type="string" required="no">
+	<cfargument name="entered_by" type="string" required="no"><!--- Not supported yet --->
+	<cfargument name="entered_by_agent_id" type="string" required="no">
 	<cfargument name="last_edit_date" type="string" required="no">
 	<cfargument name="media_type" type="string" required="no">
 	<cfargument name="biol_indiv_relationship" type="string" required="no">
@@ -1300,6 +1302,15 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset field = '"field": "coll_object_entered_date"'>
 		<cfset searchText = reformatDateSearchTerm(searchText="#coll_object_entered_date#") >
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("entered_by_id") AND len(entered_by_id) GT 0>
+		<cfset field = '"field": "ENTERED_PERSON_ID"'>
+		<cfset comparator = '"comparator": "="'>
+		<cfset value = encodeForJSON(entered_by_id)>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>

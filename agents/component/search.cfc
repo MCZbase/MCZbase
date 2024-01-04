@@ -712,7 +712,7 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 @param term agent name to search for.
 @param constraint limit agents to those agents where the constraint applies, supports:  permit_issued_by_agent,
 	permit_issued_to_agent, permit_contact_agent, transaction_agent, project_agent, media_agent, media_creator_agent, 
-	determiner, collector, preparator, author, editor.
+	determiner, collector, preparator, author, editor, entered_by.
 @param show_agent_id if no value provided, then do not include the agent_id in the meta, otherwise included the agent_id in the meta.
 @return a json structure containing id and value, with matching agents with matched name in value and agent_id in id, and matched name 
   with * and preferred name in meta.
@@ -785,6 +785,9 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				<cfif isdefined("constraint") AND constraint EQ 'ce_date_determiner'>
 					join collecting_event on agent.agent_id = collecting_event.date_determined_by_agent_id
 				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'entered_by'>
+					left join coll_object on agent.agent_id = coll_object.entered_person_id
+				</cfif>
 			WHERE
 				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 				<cfif isdefined("constraint") AND (constraint EQ 'permit_issued_to_agent' or constraint EQ 'permit_issued_by_agent' or constraint EQ 'permit_contact_agent' )>
@@ -829,6 +832,9 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				</cfif>
 				<cfif isdefined("constraint") AND constraint EQ 'ce_date_determiner'>
 					and collecting_event.date_determined_by_agent_id is not null
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'entered_by'>
+					and coll_object.entered_person_id is not null
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>

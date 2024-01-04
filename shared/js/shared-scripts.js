@@ -557,7 +557,22 @@ function makeConstrainedRichAgentPickerConfig(nameControl, idControl, iconContro
  *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
  *  @param constraint to limit the agents returned, see getAgentAutocompleteMeta for supported values
  */
-function makeConstrainedAgentPicker(nameControl, idControl, constraint) { 
+function makeConstrainedAgentPicker(nameControl, idControl, constraint) {
+	makeConstrainedAgentPickerConfig(nameControl, idControl, constraint, false); 
+} 
+	 
+/** Make a paired hidden agent_id and text agent_name control into an autocomplete agent picker, intended for use
+ *  with agent controls for editing or searches, to limit selections to relevant agent names, configurable to allow 
+ *  a text value not on the list without an id value, as in a name substring, or to only support selections from the 
+ *  picklist.
+ *
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
+ *  @param constraint to limit the agents returned, see getAgentAutocompleteMeta for supported values
+ *  @param clearBoth boolean if true clear both controls when not selecting from the picklist, if false then 
+ *    leave the value in nameControl but clear the id control.
+ */
+function makeConstrainedAgentPickerConfig(nameControl, idControl, constraint, clearBoth) { 
 	$('#'+nameControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
@@ -587,7 +602,11 @@ function makeConstrainedAgentPicker(nameControl, idControl, constraint) {
 			$('#'+idControl).val(result.item.id);
 		},
 		change: function(event,ui) { 
-			if(!ui.item){
+			if (!ui.item && clearBoth) {
+				// handle a change that isn't a selection from the pick list, clear the controls.
+				$('#'+idControl).val("");
+				$('#'+nameControl).val("");
+			} else if(!ui.item) {
 				// handle a change that isn't a selection from the pick list, clear the id control.
 				$('#'+idControl).val("");
 			}
