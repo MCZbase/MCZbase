@@ -126,11 +126,13 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
-				<cfset rowCount = iterator.size()>
+					
+				<cfset mapValues = records.iterator.toMap()>
+				
 				<!--- number of colums actually found --->
 					
 				Column Number: <cfdump var="#headers.size()#"><br>
-					#rowCount#
+					
 				<table class="table">
 					<thead>
 						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
@@ -149,6 +151,7 @@ limitations under the License.
 								<!--- TODO: Test for multibyte characters --->
 								<!--- TODO: Create insert statement --->
 							</cfloop>
+							#mapValues#
 						</cfloop>
 					<!--- End proof of concept code --->
 					</tbody>
