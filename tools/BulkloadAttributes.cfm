@@ -151,7 +151,6 @@ limitations under the License.
 								<!--- TODO: Test for multibyte characters --->
 								<!--- TODO: Create insert statement --->
 							</cfloop>
-							#mapValues#
 						</cfloop>
 					<!--- End proof of concept code --->
 					</tbody>
