@@ -129,26 +129,28 @@ limitations under the License.
 				<!--- number of colums actually found --->
 					
 				Column Number: <cfdump var="#headers.size()#"><br>
-				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-					Column Headers: #headers.get(JavaCast("int",actualColumnNumber))#<br>
-					<!--- TODO: Match the provided headers to the expected headers --->
-				</cfloop>
-				<br>
-				<!--- Iterate through the remaining lines in the file --->
-				<cfloop condition="#iterator.hasNext()#">
-					<cfset row = iterator.next()>
-					<!--- as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number --->
-					<!--- TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber ---> 
-					<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-				
-					Value:	#row.get(JavaCast("int",actualColumnNumber))# <br>
-						<!--- TODO: Test for multibyte characters --->
-						<!--- TODO: Create insert statement --->
-					</cfloop>
-					<br>
-				</cfloop>
-				<!--- End proof of concept code --->
-
+				<table class="table">
+					<thead>
+						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+							<th>#headers.get(JavaCast("int",actualColumnNumber))#</th>
+							<!--- TODO: Match the provided headers to the expected headers --->
+						</cfloop>
+					</thead>
+					<tbody>
+						<!--- Iterate through the remaining lines in the file --->
+						<cfloop condition="#iterator.hasNext()#">
+							<cfset row = iterator.next()>
+							<!--- as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number --->
+							<!--- TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber ---> 
+							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+								<td>#row.get(JavaCast("int",actualColumnNumber))#</td>
+								<!--- TODO: Test for multibyte characters --->
+								<!--- TODO: Create insert statement --->
+							</cfloop>
+						</cfloop>
+					<!--- End proof of concept code --->
+					</tbody>
+				</table>
 		<!---		 Existing parser code starts here.  TODO: Rewrite using commons csv. --->
 				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 				<cfset fileContent=replace(fileContent,"'","''","all")>
