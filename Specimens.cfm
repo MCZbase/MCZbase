@@ -1036,7 +1036,6 @@ limitations under the License.
 														<label for="coll_object_entered_date" class="data-entry-label small">Date Entered</label>
 														<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
 													</div>
-TODO: Entered by
 													<div class="col-12 mb-1 col-md-2">
 														<label for="coll_object_entered_date" class="data-entry-label small">Entered By</label>
 														<cfif not isdefined("entered_by")><cfset entered_by=""></cfif>
@@ -1057,7 +1056,9 @@ TODO: Entered by
 														<input type="text" id="entered_by" name="entered_by" class="data-entry-input inputHeight" value="#encodeForHtml(entered_by)#" >
 														<script>
 															jQuery(document).ready(function() {
-																makeConstrainedAgentPicker('entered_by', 'entered_by_id', 'entered_by');
+																// backing doesn't include a join to support substring search, so use picker configured to clear both fields.
+																// makeConstrainedAgentPicker('entered_by', 'entered_by_id', 'entered_by');
+																makeConstrainedAgentPickerConfig('entered_by', 'entered_by_id', 'entered_by', true);
 															});
 														</script>
 													</div>
