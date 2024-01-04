@@ -125,8 +125,7 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
-				<cfset reader = Files.newBufferedReader(Paths.get(#tempFileInputStream#))>
-				<cfset records2 = CSVFormat.defaultFormat.parse(reader).getRecords()>
+	
 				<!--- number of colums actually found --->
 					
 				Column Number: <cfdump var="#headers.size()#"><br>
