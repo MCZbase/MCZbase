@@ -117,7 +117,7 @@ limitations under the License.
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
 				<!---<cfset defaultFormat = csvFormat.DEFAULT >--->
-				<cfset defaultFormat = CSVFormat.EXCEL.withHeader(#fieldlist#) ><!--- *** --->
+				<cfset defaultFormat = CSVFormat.EXCEL><!--- *** --->
 				
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
