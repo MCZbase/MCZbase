@@ -1124,7 +1124,7 @@ limitations under the License.
 										<td colspan="6" class="border-top-0 mt-0 py-0">
 											<cfloop query="partAttributes">
 												<div class="small90 pl-3 line-height-sm">
-													#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
+													#attribute_type# = <span class="">#attribute_value#</span> &nbsp;
 												<cfif len(attribute_units) gt 0>
 													#attribute_units# &nbsp;
 												</cfif>
@@ -1287,9 +1287,9 @@ limitations under the License.
 											<td colspan="6" class="border-top-0 mt-0 pb-2 pt-1">
 												<cfloop query="partAttributes">
 													<div class="small90 pl-3 pb-2 line-height-sm">
-														#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
+														#attribute_type#&nbsp;=&nbsp;<span class="">#attribute_value#</span>
 													<cfif len(attribute_units) gt 0>
-														#attribute_units# &nbsp;
+													#attribute_units#&nbsp;
 													</cfif>
 													<cfif len(determined_date) gt 0>
 														determined date=<span class="">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
