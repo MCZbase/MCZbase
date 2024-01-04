@@ -113,11 +113,10 @@ limitations under the License.
 				<cfobject type="Java" name="standardCharsets"  class="java.nio.charset.StandardCharsets" >
 				<cfset tempFile = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
 				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#tempFile#) >
-				
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
-				<!---<cfset defaultFormat = csvFormat.DEFAULT >--->
-				<cfset defaultFormat = CSVFormat.EXCEL><!--- *** --->
+				<cfset defaultFormat = csvFormat.DEFAULT >
+		
 				
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
@@ -126,8 +125,8 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
-					
-		
+				<cfset reader = Files.newBufferedReader(Paths.get(#tempFileInputStream#))>
+				<cfset records2 = CSVFormat.defaultFormat.parse(reader).getRecords()>
 				<!--- number of colums actually found --->
 					
 				Column Number: <cfdump var="#headers.size()#"><br>
