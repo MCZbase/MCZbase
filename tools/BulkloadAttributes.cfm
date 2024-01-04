@@ -116,10 +116,14 @@ limitations under the License.
 				
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
-				<cfset defaultFormat = csvFormat.DEFAULT >
+				<!---<cfset defaultFormat = csvFormat.DEFAULT >--->
+				<cfset defaultFormat = CSVFormat.EXCEL.withHeader(#fieldlist#) ><!--- *** --->
+				
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-				<cfset records = csvParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
+				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
+				<cfset CSVrecord = parser.getRecords().get(0)><!--- *** --->
+				
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
@@ -146,11 +150,15 @@ limitations under the License.
 				</cfloop>
 				<!--- End proof of concept code --->
 
-				<!--- Existing parser code starts here.  TODO: Rewrite using commons csv. --->
+		<!---		 Existing parser code starts here.  TODO: Rewrite using commons csv. --->
 				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 				<cfset fileContent=replace(fileContent,"'","''","all")>
 				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
-			
+				
+					
+					
+					
+					
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
