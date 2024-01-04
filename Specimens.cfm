@@ -1083,8 +1083,6 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-1 col-md-2">
-													</div>
 													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<div class="col-12 mb-1 col-md-2">
 															<label class="data-entry-label small" for="debug1">Debug JSON</label>
