@@ -127,8 +127,8 @@ limitations under the License.
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 					
-				<cfset mapValues = records.iterator.toMap()>
-				
+				<cfset mapValues = headers.toMap()>
+				#mapValues#
 				<!--- number of colums actually found --->
 					
 				Column Number: <cfdump var="#headers.size()#"><br>
