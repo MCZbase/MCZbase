@@ -133,9 +133,10 @@ limitations under the License.
 				
 						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 							#headers.get(JavaCast("int",actualColumnNumber))#
-							<!--- TODO: Match the provided headers to the expected headers --->
+							
 						</cfloop>
-				
+						<!--- TODO: Match the provided headers to the expected headers --->
+					
 						<!--- Iterate through the remaining lines in the file --->
 						<cfloop condition="#iterator.hasNext()#">
 							<cfset row = iterator.next()>
@@ -185,7 +186,7 @@ limitations under the License.
 
 					<!--- Create a Java object for reading CSV using Apache Commons CSV --->
 					<cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
-					<cfset csvParser = createObject("java", "org.apache.commons.csv.CSVParser").init(fileReader, createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT)>
+					<cfset csvParser = createObject("java", "org.apache.commons.csv.CSVParser").init(fileReader, createObject("java", "org.apache.commons.csv.CSVFormat").defaultFormat)>
 
 					<!--- Read the headers --->
 					<cfset columnHeaders = csvParser.getHeaderMap().keySet().toArray()>
