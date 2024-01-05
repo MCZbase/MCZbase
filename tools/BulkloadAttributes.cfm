@@ -148,7 +148,7 @@ limitations under the License.
 							</cfloop>
 						</cfloop>
 						<!--- End proof of concept code --->
-						<cfset filePath = "#tempFileInputStream#">
+						<cfset filePath = "#tempFile#">
 						<cfset fileReaderClass = createObject("java", "java.io.FileReader")>
 						<cfset bufferedReaderClass = createObject("java", "java.io.BufferedReader")>
 
