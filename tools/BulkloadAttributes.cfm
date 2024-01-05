@@ -176,55 +176,7 @@ limitations under the License.
 						<cfset fileReader.close()>
 							
 							<br><br><br>
-							<h4>Example of Ordering the Columns</h4>
-						<!-- ****************************** -->
-						<!-- Example of Ordering the columns -->	
-						<!-- ****************************** -->
-						<cfset csvFilePath = "#tempFile#">
-						<cfset columnOrder = "#fieldlist#"> <!-- column names on CSV -->
 
-						<cfset data = fileRead(csvFilePath, ",")>
-
-						<!-- Get the column indexes -->
-						<cfset columnIndexMap = {}>
-						<cfloop list="#columnOrder#" index="columnName">
-							<cfset columnIndexMap[columnName] = listFindNoCase(data[1], columnName)>
-						</cfloop>
-
-						<!-- Reorder the columns -->
-						<cfset reorderedData = []>
-						<cfloop from="2" to="#arrayLen(data)#" index="rowIndex">
-							<cfset newRow = []>
-							<cfloop list="#columnOrder#" index="columnName">
-								<cfset columnIndex = columnIndexMap[columnName]>
-								<cfset arrayAppend(newRow, data[rowIndex][columnIndex])>
-							</cfloop>
-							<cfset arrayAppend(reorderedData, newRow)>
-						</cfloop>
-
-						<!-- Display the reordered data -->
-						<cfdump var="#reorderedData#">
-
-				
-					<cfset filePath = "#tempFile#">
-					<cfset csvData = fileRead(filePath)>
-
-					<!--- Assuming the first row contains column headers --->
-					<cfset columnHeaders = listToArray(listFirst(csvData, Chr(10)), ",")>
-
-					<cfset parsedData = []>
-					<cfloop index="row" list="#listRest(csvData, Chr(10))#" delimiters="#Chr(10)#">
-						<cfset rowData = listToArray(row, ",")>
-						<cfset rowObject = {}>
-
-						<cfloop index="col" from="1" to="#arrayLen(columnHeaders)#">
-							<cfset rowObject[columnHeaders[col]] = rowData[col]>
-						</cfloop>
-
-						<cfset arrayAppend(parsedData, rowObject)>
-					</cfloop>
-							
-							<br><br><br>
 					<!-- ****************************** -->
 					<!-- Example of Apache Commons -->	
 					<!-- ****************************** -->
