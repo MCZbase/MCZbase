@@ -202,9 +202,14 @@ limitations under the License.
 						<cfloop from="1" to="#headerRecord.size()#" index="i">
 							<cfset actualHeaders[i] = javacast("string", headerIterator.next())>
 						</cfloop>
-
+						<cfset actualHeaders = arrayMap("trim", actualHeaders)>
+						<cfset expectedHeaders = arrayMap("trim", expectedHeaders)>
+						<cfset actualHeadersLower = arrayMap("toLowerCase", actualHeaders)>
+						<cfset expectedHeadersLower = arrayMap("toLowerCase", expectedHeaders)>
+							
 						<!--- Check if actual headers match expected headers --->
-						<cfset headersMatch = compareArrays(expectedHeaders, actualHeaders)>
+						<cfset headersMatch = arrayEquals(expectedHeadersLower, actualHeadersLower)>
+						<!---<cfset headersMatch = arrayEquals(expectedHeaders, actualHeaders)>--->
 
 						<cfif headersMatch>
 							<cfoutput>Headers match!</cfoutput>
@@ -224,7 +229,7 @@ limitations under the License.
 						</cfif>
 
 						<!--- Function to compare two arrays --->
-						<cffunction name="compareArrays" returnType="boolean" output="false">
+						<cffunction name="arrayEquals" returnType="boolean" output="false">
 							<cfargument name="array1" type="array">
 							<cfargument name="array2" type="array">
 
