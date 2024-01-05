@@ -154,7 +154,7 @@ limitations under the License.
 						<!-- *********************************** -->	
 						<!-- Example of Parsing and Reading Data -->	
 						<!-- *********************************** -->
-							<h4>Example of Parsing and Reading Data into Rows</h4>
+							<h3>Example of Parsing and Reading Data into Rows</h3>
 						<cfset filePath = "#tempFile#">
 						<cfset fileReaderClass = createObject("java", "java.io.FileReader")>
 						<cfset bufferedReaderClass = createObject("java", "java.io.BufferedReader")>
@@ -179,7 +179,7 @@ limitations under the License.
 							
 							<br><br><br>
 
-						<h4>Header comparisons</h4>
+						<h3>Header comparisons</h3>
 							
 						<cfparam name="filePath" default="#tempFile#">
 						<cfset expectedHeaderString ="institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
@@ -207,7 +207,7 @@ limitations under the License.
 							<cfset headersMatch = compareArrays(columnHeadersArray, actualHeaders)>
 
 							<cfif headersMatch>
-								<cfoutput>Headers match!</cfoutput>
+								<cfoutput><h4 class="text-success">Headers Match!</h4></cfoutput>
 
 								<!--- Process the rest of the CSV data based on column indices --->
 								<cfloop from="1" to="#csvParser.getRecords().size()#" index="rowIndex">
@@ -220,7 +220,7 @@ limitations under the License.
 								</cfloop>
 
 							<cfelse>
-								<cfoutput>Headers do not match the expected headers.</cfoutput>
+								<cfoutput><h4 class="text-danger">Headers do not match the expected headers.</h4></cfoutput>
 							</cfif>
 
 							<!--- Function to compare two arrays --->
