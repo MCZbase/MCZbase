@@ -154,7 +154,7 @@ limitations under the License.
 						<!-- *********************************** -->	
 						<!-- Example of Parsing and Reading Data -->	
 						<!-- *********************************** -->
-							<h4>Example of Parsing and Reading Data</h4>
+							<h4>Example of Parsing and Reading Data into Rows</h4>
 						<cfset filePath = "#tempFile#">
 						<cfset fileReaderClass = createObject("java", "java.io.FileReader")>
 						<cfset bufferedReaderClass = createObject("java", "java.io.BufferedReader")>
