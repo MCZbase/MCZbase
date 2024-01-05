@@ -128,30 +128,34 @@ limitations under the License.
 	
 				<!--- number of colums actually found --->
 					
-				Column Number: <cfdump var="#headers.size()#"><br>
+				<h3>Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
 					
-				<table class="table">
-					<thead>
+				
 						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-							<th>#headers.get(JavaCast("int",actualColumnNumber))#</th>
+							#headers.get(JavaCast("int",actualColumnNumber))#
 							<!--- TODO: Match the provided headers to the expected headers --->
 						</cfloop>
-					</thead>
-					<tbody>
+				
 						<!--- Iterate through the remaining lines in the file --->
 						<cfloop condition="#iterator.hasNext()#">
 							<cfset row = iterator.next()>
 							<!--- as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number --->
 							<!--- TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber ---> 
 							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-								<td>#row.get(JavaCast("int",actualColumnNumber))#</td>
+								#row.get(JavaCast("int",actualColumnNumber))#
 								<!--- TODO: Test for multibyte characters --->
 								<!--- TODO: Create insert statement --->
 							</cfloop>
 						</cfloop>
 					<!--- End proof of concept code --->
 					</tbody>
-				</table>
+				
+					
+				<cfscript>
+				
+				Reader in = new FileReader("#tempFileInputStream#");
+		
+				</cfscript>
 		<!---		 Existing parser code starts here.  TODO: Rewrite using commons csv. --->
 				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 				<cfset fileContent=replace(fileContent,"'","''","all")>
