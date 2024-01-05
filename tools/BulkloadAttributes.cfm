@@ -195,6 +195,7 @@ limitations under the License.
 						<!--- Process headers manually --->
 						<cfset headerRecord = csvParser.iterator().next()>
 						<cfset actualHeaders = []>
+						<cfset origExpectedHeaders = []>
 
 						<!--- Iterate over the iterator to extract headers --->
 						<cfset headerIterator = headerRecord.iterator()>
@@ -203,7 +204,7 @@ limitations under the License.
 						</cfloop>
 
 					<!---	<cfset actualHeaders = arrayMap("trim", actualHeaders)>--->
-						<cfset expectedHeaders = arrayMap("array", listToArray(origExpectedHeaders, ","))>
+						<cfset expectedHeaders = arrayMap("trim", listToArray(origExpectedHeaders, ","))>
 						<cfset newArray = javacast("array", expectedHeaders)>
 							<cfdump var="#newArray#" label="Trimmed Array">
 						<cfset actualHeadersLower = arrayMap("toLowerCase", actualHeaders)>
