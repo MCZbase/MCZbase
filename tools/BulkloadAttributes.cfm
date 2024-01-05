@@ -182,7 +182,8 @@ limitations under the License.
 						<h4>Header comparisons</h4>
 							
 						<cfparam name="filePath" default="#tempFile#">
-						<cfset expectedHeaders =["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner,remarks"]>
+						<cfset expectedHeaderString ="institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
+						<cfset columnHeadersArray = createObject("java", "java.lang.String").valueOf(expectedHeaderString).split(",")>
 
 							<!--- Load Apache Commons CSV library --->
 							<cfobject type="java" class="org.apache.commons.csv.CSVParser" name="csvParser">
@@ -203,7 +204,7 @@ limitations under the License.
 							</cfloop>
 
 							<!--- Check if actual headers match expected headers --->
-							<cfset headersMatch = compareArrays(expectedHeaders, actualHeaders)>
+							<cfset headersMatch = compareArrays(columnHeadersArray, actualHeaders)>
 
 							<cfif headersMatch>
 								<cfoutput>Headers match!</cfoutput>
