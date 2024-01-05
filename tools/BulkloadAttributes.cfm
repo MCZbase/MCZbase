@@ -202,15 +202,15 @@ limitations under the License.
 							<cfset actualHeaders[i] = javacast("string", headerIterator.next())>
 						</cfloop>
 
-						<cfset actualHeaders = arrayMap("trim", actualHeaders)>
+					<!---	<cfset actualHeaders = arrayMap("trim", actualHeaders)>--->
 						<cfset expectedHeaders = arrayMap("trim", listToArray(origExpectedHeaders, ","))>
 						<cfset newArray = javacast("array", expectedHeaders)>
 							<cfdump var="#newArray#" label="Trimmed Array">
 						<cfset actualHeadersLower = arrayMap("toLowerCase", actualHeaders)>
-						<cfset expectedHeadersLower = arrayMap("toLowerCase", expectedHeaders)>
+						<!---<cfset expectedHeadersLower = arrayMap("toLowerCase", expectedHeaders)>--->
 
 						<!--- Check if actual headers match expected headers --->
-						<cfset headersMatch = arrayEquals(expectedHeadersLower, actualHeadersLower)>
+						<cfset headersMatch = arrayEquals(newArrary, actualHeadersLower)>
 
 						<cfif headersMatch>
 							<cfoutput>Headers match!</cfoutput>
