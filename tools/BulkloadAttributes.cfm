@@ -106,35 +106,35 @@ limitations under the License.
 			<cftry>
 				<!--- Proof of concept parsing CSV with Java using Commons CSV library included with coldfusion --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
-				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
+		<!---		<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
-				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >
+				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >--->
 				<cfobject type="Java" name="javaCharset"  class="java.nio.charset.Charset" >
 				<cfobject type="Java" name="standardCharsets"  class="java.nio.charset.StandardCharsets" >
 				<cfset tempFile = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
 				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#tempFile#) >
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
-				<cfset defaultFormat = csvFormat.DEFAULT >
+			<!---	<cfset defaultFormat = csvFormat.DEFAULT >--->
 		
 				
 				<!--- TODO: Select charset based on cSet variable from user --->
-				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
+		<!---		<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
 				
 				<cfset iterator = records.iterator()>
-				<!--- Obtain the first line of the file as the header line --->
-				<cfset headers = iterator.next()>
+				
+				<cfset headers = iterator.next()>---><!--- Obtain the first line of the file as the header line --->
 	
 				<!--- number of colums actually found --->
 					
-				<h3>Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
+			<!---	<h3>Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>--->
 					
 				
-						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+			<!---			<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 							#headers.get(JavaCast("int",actualColumnNumber))#
 							
-						</cfloop>
+						</cfloop>--->
 						
 <!--- TODO: Match the provided headers to the expected headers --->
 				<!--- Define the path to the CSV file and expected headers --->
