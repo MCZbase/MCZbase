@@ -179,7 +179,7 @@ limitations under the License.
 							
 							<br><br><br>
 
-							
+							<h4>Header comparisons</h4>
 							
 						<cfparam name="filePath" default="#tempFile#">
 						<cfset expectedHeaders =["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner,remarks"]>
