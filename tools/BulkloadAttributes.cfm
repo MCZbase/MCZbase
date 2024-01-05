@@ -106,8 +106,8 @@ limitations under the License.
 			<cftry>
 				<!--- Proof of concept parsing CSV with Java using Commons CSV library included with coldfusion --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
-		<!---		<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
-				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
+	<!---			<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >--->
+			<!---<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
 				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >--->
 				<cfobject type="Java" name="javaCharset"  class="java.nio.charset.Charset" >
 				<cfobject type="Java" name="standardCharsets"  class="java.nio.charset.StandardCharsets" >
@@ -146,7 +146,7 @@ limitations under the License.
 
 					<!--- Create a Java object for Apache Commons CSV --->
 				<cfset csvFormatClass = createObject("java", "org.apache.commons.csv.CSVFormat")>
-				<cfset csvFormat = csvFormatClass.DEFAULT>
+				<cfset csvFormat = csvFormatClass.DEFAULT.withHeader(javacast("boolean",true))>
 				<cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
 				<cfset csvParserClass = createObject("java", "org.apache.commons.csv.CSVParser")>
 				<cfset csvParser = csvParserClass.init(fileReader, csvFormat)>
