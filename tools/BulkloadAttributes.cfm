@@ -152,7 +152,7 @@ limitations under the License.
 
 			<cfscript>
 			// Create a FileReader object
-			fileReader = createObject("java", "java.io.FileReader").init(#tempFileInputStream#);
+			fileReader = createObject("java", "java.io.FileReader").init(csvFilePath);
 
 			// Create a BufferedReader object to read the file
 			bufferedReader = createObject("java", "java.io.BufferedReader").init(fileReader);
