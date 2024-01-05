@@ -179,9 +179,12 @@ limitations under the License.
 							
 							<br><br><br>
 
+							
+							
 						<cfparam name="filePath" default="#tempFile#">
 						<cfset expectedHeaders =["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner,remarks"]>
 
+						
 						<!--- Load Apache Commons CSV library --->
 						<cfobject type="java" class="org.apache.commons.csv.CSVParser" name="csvParser">
 						<cfobject type="java" class="java.io.FileReader" name="fileReader">
@@ -192,7 +195,12 @@ limitations under the License.
 
 						<!--- Process headers manually --->
 						<cfset headerRecord = csvParser.iterator().next()>
-						<cfset actualHeaders = headerRecord.toList()>
+						<cfset actualHeaders = []>
+
+						<!--- Iterate over the record's values to extract headers --->
+						<cfloop from="0" to="#headerRecord.size() - 1#" index="i">
+							<cfset actualHeaders[i + 1] = headerRecord.get(i)>
+						</cfloop>
 
 						<!--- Check if actual headers match expected headers --->
 						<cfset headersMatch = compareArrays(expectedHeaders, actualHeaders)>
