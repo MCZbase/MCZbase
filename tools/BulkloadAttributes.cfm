@@ -146,50 +146,47 @@ limitations under the License.
 				<cfset filePath = "#tempFile#">
 					<cfset expectedHeaders = ["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner,remarks"]>
 
-				<!--- Create a Java object for Apache Commons CSV --->
-				<cfset csvParser = createObject("java", "org.apache.commons.csv.CSVParser")>
-				<cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
+					<!--- Create a Java object for Apache Commons CSV --->
+					<cfset csvFormat = createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT.withHeader().withIgnoreSurroundingSpaces(true)>
+					<cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
+					<cfset csvParser = createObject("java", "org.apache.commons.csv.CSVParser").init(fileReader, csvFormat)>
 
-				<!--- Parse the CSV file using Apache Commons CSV --->
-				<cfset csvFormat = createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT.withHeader().withIgnoreSurroundingSpaces(true)>
-				<cfset records = csvParser.parse(fileReader, csvFormat)>
+					<!--- Get the header from the CSV file --->
+					<cfset actualHeaders = csvParser.getHeaderMap().keySet().toArray()>
 
-				<!--- Get the header from the CSV file --->
-				<cfset actualHeaders = records.getHeaderMap().keySet().toArray()>
+					<!--- Check if the actual headers match the expected headers --->
+					<cfif headersMatch(expectedHeaders, actualHeaders)>
+						<cfoutput>Headers match!</cfoutput>
 
-				<!--- Check if the actual headers match the expected headers --->
-				<cfif headersMatch(expectedHeaders, actualHeaders)>
-					<cfoutput>Headers match!</cfoutput>
+						<!--- Process the records as needed --->
+						<cfloop index="record" array="#csvParser.getRecords()#">
+							<!--- Access individual columns using record.get("ColumnName") --->
+							<!--- Process the record as needed --->
+						</cfloop>
 
-					<!--- Process the records as needed --->
-					<cfloop index="record" array="#records.getRecords()#">
-						<!--- Access individual columns using record.get("ColumnName") --->
-						<!--- Process the record as needed --->
-					</cfloop>
-
-				<cfelse>
-					<cfoutput>Headers do not match the expected headers.</cfoutput>
-				</cfif>
-
-				<!--- Function to check if headers match --->
-				<cffunction name="headersMatch" returnType="boolean" output="false">
-					<cfargument name="expectedHeaders" type="array">
-					<cfargument name="actualHeaders" type="array">
-
-					<!--- Check if the lengths are the same --->
-					<cfif ArrayLen(expectedHeaders) neq ArrayLen(actualHeaders)>
-						<cfreturn false>
+					<cfelse>
+						<cfoutput>Headers do not match the expected headers.</cfoutput>
 					</cfif>
 
-					<!--- Check if each header matches --->
-					<cfloop from="1" to="#ArrayLen(expectedHeaders)#" index="i">
-						<cfif expectedHeaders[i] neq actualHeaders[i]>
+					<!--- Function to check if headers match --->
+					<cffunction name="headersMatch" returnType="boolean" output="false">
+						<cfargument name="expectedHeaders" type="array">
+						<cfargument name="actualHeaders" type="array">
+
+						<!--- Check if the lengths are the same --->
+						<cfif ArrayLen(expectedHeaders) neq ArrayLen(actualHeaders)>
 							<cfreturn false>
 						</cfif>
-					</cfloop>
 
-					<cfreturn true>
-				</cffunction>
+						<!--- Check if each header matches --->
+						<cfloop from="1" to="#ArrayLen(expectedHeaders)#" index="i">
+							<cfif expectedHeaders[i] neq actualHeaders[i]>
+								<cfreturn false>
+							</cfif>
+						</cfloop>
+
+						<cfreturn true>
+					</cffunction>
 
 					
 						<!--- Iterate through the remaining lines in the file --->
