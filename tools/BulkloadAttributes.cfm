@@ -184,69 +184,62 @@ limitations under the License.
 						<cfparam name="filePath" default="#tempFile#">
 						<cfset origExpectedHeaders =["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner,remarks"]>
 
-						<!--- Load Apache Commons CSV library --->
-						<cfobject type="java" class="org.apache.commons.csv.CSVParser" name="csvParser">
-						<cfobject type="java" class="java.io.FileReader" name="fileReader">
+							<!--- Load Apache Commons CSV library --->
+							<cfobject type="java" class="org.apache.commons.csv.CSVParser" name="csvParser">
+							<cfobject type="java" class="java.io.FileReader" name="fileReader">
 
-						<!--- Initialize CSVParser with FileReader and CSVFormat.DEFAULT --->
-						<cfset fileReader.init(filePath)>
-						<cfset csvParser.init(fileReader, createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT)>
+							<!--- Initialize CSVParser with FileReader and CSVFormat.DEFAULT --->
+							<cfset fileReader.init(filePath)>
+							<cfset csvParser.init(fileReader, createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT)>
 
-						<!--- Process headers manually --->
-						<cfset headerRecord = csvParser.iterator().next()>
-						<cfset actualHeaders = []>
-						<cfset origExpectedHeaders = []>
+							<!--- Process headers manually --->
+							<cfset headerRecord = csvParser.iterator().next()>
+							<cfset actualHeaders = []>
 
-						<!--- Iterate over the iterator to extract headers --->
-						<cfset headerIterator = headerRecord.iterator()>
-						<cfloop from="1" to="#headerRecord.size()#" index="i">
-							<cfset actualHeaders[i] = javacast("string", headerIterator.next())>
-						</cfloop>
-
-					<!---	<cfset actualHeaders = arrayMap("trim", actualHeaders)>--->
-						<cfset expectedHeaders = arrayMap("trim", listToArray(origExpectedHeaders, ","))>
-						<cfset newArray = javacast("array", expectedHeaders)>
-							<cfdump var="#newArray#" label="Trimmed Array">
-						<cfset actualHeadersLower = arrayMap("toLowerCase", actualHeaders)>
-						<!---<cfset expectedHeadersLower = arrayMap("toLowerCase", expectedHeaders)>--->
-
-						<!--- Check if actual headers match expected headers --->
-						<cfset headersMatch = arrayEquals(newArray, actualHeadersLower)>
-
-						<cfif headersMatch>
-							<cfoutput>Headers match!</cfoutput>
-
-							<!--- Process the rest of the CSV data based on column indices --->
-							<cfloop from="2" to="#csvParser.getRecords().size()#" index="rowIndex">
-								<cfset record = csvParser.getRecords().get(rowIndex - 1)>
-								<cfset recordIterator = record.iterator()>
-								<cfloop from="1" to="#record.size()#" index="columnIndex">
-									<cfset value = javacast("string", recordIterator.next())>
-									<cfoutput>Row #rowIndex#, Column #columnIndex#: #value#<br></cfoutput>
-								</cfloop>
+							<!--- Iterate over the iterator to extract headers --->
+							<cfset headerIterator = headerRecord.iterator()>
+							<cfloop from="1" to="#headerRecord.size()#" index="i">
+								<cfset actualHeaders[i] = javacast("string", headerIterator.next())>
 							</cfloop>
 
-						<cfelse>
-							<cfoutput>Headers do not match the expected headers.</cfoutput>
-						</cfif>
+							<!--- Check if actual headers match expected headers --->
+							<cfset headersMatch = compareArrays(expectedHeaders, actualHeaders)>
 
-						<!--- Function to compare two arrays --->
-						<cffunction name="arrayEquals" returnType="boolean" output="false">
-							<cfargument name="array1" type="array">
-							<cfargument name="array2" type="array">
+							<cfif headersMatch>
+								<cfoutput>Headers match!</cfoutput>
 
-							<cfif ArrayLen(array1) neq ArrayLen(array2)>
-								<cfreturn false>
+								<!--- Process the rest of the CSV data based on column indices --->
+								<cfloop from="2" to="#csvParser.getRecords().size()#" index="rowIndex">
+									<cfset record = csvParser.getRecords().get(rowIndex - 1)>
+									<cfset recordIterator = record.iterator()>
+									<cfloop from="1" to="#record.size()#" index="columnIndex">
+										<cfset value = javacast("string", recordIterator.next())>
+										<cfoutput>Row #rowIndex#, Column #columnIndex#: #value#<br></cfoutput>
+									</cfloop>
+								</cfloop>
+
+							<cfelse>
+								<cfoutput>Headers do not match the expected headers.</cfoutput>
 							</cfif>
 
-							<cfloop from="1" to="#ArrayLen(array1)#" index="i">
-								<cfif array1[i] neq array2[i]>
+							<!--- Function to compare two arrays --->
+							<cffunction name="compareArrays" returnType="boolean" output="false">
+								<cfargument name="array1" type="array">
+								<cfargument name="array2" type="array">
+
+								<cfif ArrayLen(array1) neq ArrayLen(array2)>
 									<cfreturn false>
 								</cfif>
-							</cfloop>
 
-							<cfreturn true>
-						</cffunction>
+								<cfloop from="1" to="#ArrayLen(array1)#" index="i">
+									<cfif array1[i] neq array2[i]>
+										<cfreturn false>
+									</cfif>
+								</cfloop>
+
+								<cfreturn true>
+							</cffunction>
+
 
 
 <br><br><br>
