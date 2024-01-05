@@ -148,7 +148,7 @@ limitations under the License.
 							</cfloop>
 						</cfloop>
 						<!--- End proof of concept code --->
-							
+							<br><br><br>
 						<!-- *********************************** -->	
 						<!-- Example of Parsing and Reading Data -->	
 						<!-- *********************************** -->
@@ -174,7 +174,7 @@ limitations under the License.
 						<cfset bufferedReader.close()>
 						<cfset fileReader.close()>
 							
-							
+							<br><br><br>
 							
 						<!-- ****************************** -->
 						<!-- Example of Ordering the columns -->	
@@ -222,6 +222,47 @@ limitations under the License.
 
 						<cfset arrayAppend(parsedData, rowObject)>
 					</cfloop>
+							
+							<br><br><br>
+					<!-- ****************************** -->
+					<!-- Example of Apache Commons -->	
+					<!-- ****************************** -->
+							
+					<cfset filePath = "#tempFile#">
+
+					<!--- Create a Java object for reading CSV using Apache Commons CSV --->
+					<cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
+					<cfset csvParser = createObject("java", "org.apache.commons.csv.CSVParser").init(fileReader, createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT)>
+
+					<!--- Read the headers --->
+					<cfset columnHeaders = csvParser.getHeaderMap().keySet().toArray()>
+
+					<cfset parsedData = []>
+
+					<!--- Read each record and create a struct with column headers as keys --->
+					<cfloop condition="true">
+						<cfset record = csvParser.iterator().next()>
+
+						<!--- Exit the loop if there are no more records --->
+						<cfif record is "">
+							<cfbreak>
+						</cfif>
+
+						<cfset rowObject = {}>
+
+						<cfloop index="col" array="#columnHeaders#">
+							<cfset rowObject[col] = record.get(col)>
+						</cfloop>
+
+						<cfset arrayAppend(parsedData, rowObject)>
+					</cfloop>
+
+					<!--- Close the CSV parser and file reader --->
+					<cfset csvParser.close()>
+					<cfset fileReader.close()>
+
+<!--- Now, 'parsedData' contains the data with columns ordered as per 'columnHeaders' --->
+
 
 <!--- Now, 'parsedData' contains the data with columns ordered as per 'columnHeaders' --->
 					
