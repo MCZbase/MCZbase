@@ -202,10 +202,12 @@ limitations under the License.
 							<cfset actualHeaders[i] = javacast("string", headerIterator.next())>
 						</cfloop>
 
-						<cfset actualHeaders = arrayMap("Array", actualHeaders)>
-						<cfset expectedHeaders = arrayMap("Array", origExpectedHeaders)>
-						<cfset actualHeadersLower = arrayMap("toLowerCase", actualHeaders)>
-						<cfset expectedHeadersLower = arrayMap("toLowerCase", expectedHeaders)>
+						<cfset actualHeadersTrimmed = arrayMap("trim", listToArray(actualHeaders, ","))>
+						<cfset newArray1 = javacast("array", actualHeadersTrimmed)>
+						<cfset expectedHeadersTrimmed = arrayMap("trim", listToArray(origExpectedHeaders, ","))>
+						<cfset newArray2 = javacast("array", actualHeadersTrimmed)>
+						<cfset actualHeadersLower = arrayMap("toLowerCase", newArray1)>
+						<cfset expectedHeadersLower = arrayMap("toLowerCase", newArray2>
 
 						<!--- Check if actual headers match expected headers --->
 						<cfset headersMatch = arrayEquals(expectedHeadersLower, actualHeadersLower)>
