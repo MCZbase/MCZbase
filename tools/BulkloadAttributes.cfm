@@ -203,7 +203,7 @@ limitations under the License.
 						</cfloop>
 
 					<!---	<cfset actualHeaders = arrayMap("trim", actualHeaders)>--->
-						<cfset expectedHeaders = arrayMap("trim", listToArray(origExpectedHeaders, ","))>
+						<cfset expectedHeaders = arrayMap("array", listToArray(origExpectedHeaders, ","))>
 						<cfset newArray = javacast("array", expectedHeaders)>
 							<cfdump var="#newArray#" label="Trimmed Array">
 						<cfset actualHeadersLower = arrayMap("toLowerCase", actualHeaders)>
