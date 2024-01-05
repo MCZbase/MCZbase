@@ -407,7 +407,7 @@ limitations under the License.
 					Successfully read #loadedRows# records from the CSV file.  Next <a href="/tools/BulkloadAttributes.cfm?action=validate">click to validate</a>.
 				</h3>
 			<cfcatch>
-				<h3 class="h3">
+				<h3 class="mt-3">
 					Failed to read the CSV file.  Fix the errors in the file and <a href="/tools/BulkloadAttributes.cfm">reload</a>
 				</h3>
 				<cfif isDefined("arrResult")>
