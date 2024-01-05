@@ -180,7 +180,7 @@ limitations under the License.
 						<!-- Example of Ordering the columns -->	
 						<!-- ****************************** -->
 						<cfset csvFilePath = "#tempFile#">
-						<cfset columnOrder = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks"> <!-- Replace with your actual column names -->
+						<cfset columnOrder = "#fieldlist#"> <!-- column names on CSV -->
 
 						<cfset data = csvRead(csvFilePath, ",")>
 
@@ -205,7 +205,25 @@ limitations under the License.
 						<cfdump var="#reorderedData#">
 
 				
-				
+					<cfset filePath = "#tempFile#">
+					<cfset csvData = fileRead(filePath)>
+
+					<!--- Assuming the first row contains column headers --->
+					<cfset columnHeaders = listToArray(listFirst(csvData, Chr(10)), ",")>
+
+					<cfset parsedData = []>
+					<cfloop index="row" list="#listRest(csvData, Chr(10))#" delimiters="#Chr(10)#">
+						<cfset rowData = listToArray(row, ",")>
+						<cfset rowObject = {}>
+
+						<cfloop index="col" from="1" to="#arrayLen(columnHeaders)#">
+							<cfset rowObject[columnHeaders[col]] = rowData[col]>
+						</cfloop>
+
+						<cfset arrayAppend(parsedData, rowObject)>
+					</cfloop>
+
+<!--- Now, 'parsedData' contains the data with columns ordered as per 'columnHeaders' --->
 					
 					<!---		 Existing parser code starts here.  TODO: Rewrite using commons csv. --->
 			<!---	<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
