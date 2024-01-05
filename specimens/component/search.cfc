@@ -1118,6 +1118,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="nature_of_id" type="string" required="no">
 	<cfargument name="determiner" type="string" required="no">
 	<cfargument name="determiner_id" type="string" required="no">
+	<cfargument name="identification_remarks" type="string" required="no">
+	<cfargument name="common_name" type="string" required="no">
 	<cfargument name="keyword" type="string" required="no">
 	<cfargument name="received_date" type="string" required="no">
 	<cfargument name="underscore_collection_id" type="string" required="no">
@@ -1742,6 +1744,20 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("nature_of_id") AND len(nature_of_id) GT 0>
 		<cfset field = '"field": "NATURE_OF_ID"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#nature_of_id#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("identification_remarks") AND len(identification_remarks) GT 0>
+		<cfset field = '"field": "IDENTIFICATION_REMARKS"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#identification_remarks#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("common_name") AND len(common_name) GT 0>
+		<cfset field = '"field": "COMMON_NAME"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#common_name#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
