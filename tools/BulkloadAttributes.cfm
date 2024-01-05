@@ -131,24 +131,24 @@ limitations under the License.
 				<h3>Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
 					
 				
-						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+					<!---	<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 							#headers.get(JavaCast("int",actualColumnNumber))#
 							
-						</cfloop>
+						</cfloop>--->
 						<!--- TODO: Match the provided headers to the expected headers --->
 					
 					
 						<!--- Iterate through the remaining lines in the file --->
-						<cfloop condition="#iterator.hasNext()#">
-							<cfset row = iterator.next()>
+				<!---		<cfloop condition="#iterator.hasNext()#">
+							<cfset row = iterator.next()>--->
 							<!--- as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number --->
 							<!--- TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber ---> 
-							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+							<!--- TODO: Test for multibyte characters --->
+							<!--- TODO: Create insert statement --->
+			<!---				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 								#row.get(JavaCast("int",actualColumnNumber))#
-								<!--- TODO: Test for multibyte characters --->
-								<!--- TODO: Create insert statement --->
 							</cfloop>
-						</cfloop>
+						</cfloop>--->
 						<!--- End proof of concept code --->
 							<br><br><br>
 						<!-- *********************************** -->	
