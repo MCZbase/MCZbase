@@ -106,42 +106,37 @@ limitations under the License.
 			<cftry>
 				<!--- Proof of concept parsing CSV with Java using Commons CSV library included with coldfusion --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
-	<!---			<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >--->
-			<!---<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
-				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >--->
+				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
+				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
+				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >
 				<cfobject type="Java" name="javaCharset"  class="java.nio.charset.Charset" >
 				<cfobject type="Java" name="standardCharsets"  class="java.nio.charset.StandardCharsets" >
 				<cfset tempFile = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
 				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#tempFile#) >
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
-			<!---	<cfset defaultFormat = csvFormat.DEFAULT >--->
+				<cfset defaultFormat = csvFormat.DEFAULT >
 		
 				
 				<!--- TODO: Select charset based on cSet variable from user --->
-		<!---		<cfset javaSelectedCharset = standardCharsets.UTF_8 >
+				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
 				
 				<cfset iterator = records.iterator()>
-				
-				<cfset headers = iterator.next()>---><!--- Obtain the first line of the file as the header line --->
+				<!--- Obtain the first line of the file as the header line --->
+				<cfset headers = iterator.next()>
 	
 				<!--- number of colums actually found --->
 					
-			<!---	<h3>Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>--->
+				<h3>Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
 					
 				
-			<!---			<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 							#headers.get(JavaCast("int",actualColumnNumber))#
 							
-						</cfloop>--->
-						
-<!--- TODO: Match the provided headers to the expected headers --->
-				<!--- Define the path to the CSV file and expected headers --->
-			<cftry>
-   <!--- Your method call here --->
-
-				
+						</cfloop>
+						<!--- TODO: Match the provided headers to the expected headers --->
+					
 					
 						<!--- Iterate through the remaining lines in the file --->
 						<cfloop condition="#iterator.hasNext()#">
@@ -183,40 +178,10 @@ limitations under the License.
 						<cfset fileReader.close()>
 							
 							<br><br><br>
-<cftry>
-			<cfset filePath = "#tempFile#">
 
-			<!--- Load Apache Commons CSV library --->
-			<cfset csvParserClass = createObject("java", "org.apache.commons.csv.CSVParser")>
-			<cfset fileReaderClass = createObject("java", "java.io.FileReader")>
 
-			<!--- Initialize CSVParser with FileReader and CSVFormat.DEFAULT --->
-			<cfset fileReader = fileReaderClass.init(filePath)>
-			<cfset csvParser = csvParserClass.init(fileReader, createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT)>
 
-			<!--- Process headers manually --->
-			<cfset headerRecord = csvParser.iterator().next()>
-			<cfset headers = headerRecord.toList()>
 
-			<!--- Process the rest of the CSV data using headers --->
-			<cfloop from="1" to="#ArrayLen(headers)#" index="i">
-				<cfoutput>Header #i#: #headers[i]#<br></cfoutput>
-			</cfloop>
-
-			<!--- Process the rest of the CSV data based on column indices --->
-			<cfloop from="1" to="#csvParser.getRecords().size()#" index="rowIndex">
-				<cfset record = csvParser.getRecords().get(rowIndex - 1)>
-				<cfloop from="0" to="#record.size() - 1#" index="columnIndex">
-					<cfset value = record.get(columnIndex)>
-					<cfoutput>Row #rowIndex#, Column #columnIndex + 1#: #value#<br></cfoutput>
-				</cfloop>
-			</cfloop>
-
-		<cfcatch type="any">
-				<cfdump var="#cfcatch#" label="Exception Details">
-			</cfcatch>
-
-			</cftry>
 					
 					<!---		 Existing parser code starts here.  TODO: Rewrite using commons csv. --->
 			<!---	<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
