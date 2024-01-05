@@ -148,7 +148,7 @@ limitations under the License.
 							</cfloop>
 						</cfloop>
 					<!--- End proof of concept code --->
-				<cfset csvReading = CreateObject("java","java.io.BufferedReader").Init(#tempFileInputStream#)>
+				<cfset csvReading = CreateObject("java","java.io.BufferedReader")>
 		
 				
 				
