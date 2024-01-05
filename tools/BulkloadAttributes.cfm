@@ -211,7 +211,7 @@ limitations under the License.
 						<!---<cfset expectedHeadersLower = arrayMap("toLowerCase", expectedHeaders)>--->
 
 						<!--- Check if actual headers match expected headers --->
-						<cfset headersMatch = arrayEquals(newArrary, actualHeadersLower)>
+						<cfset headersMatch = arrayEquals(newArray, actualHeadersLower)>
 
 						<cfif headersMatch>
 							<cfoutput>Headers match!</cfoutput>
