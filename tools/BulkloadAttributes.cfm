@@ -183,7 +183,7 @@ limitations under the License.
 						<cfset fileReader.close()>
 							
 							<br><br><br>
-
+<cftry>
 			<cfset filePath = "#tempFile#">
 
 			<!--- Load Apache Commons CSV library --->
@@ -212,8 +212,11 @@ limitations under the License.
 				</cfloop>
 			</cfloop>
 
+		<cfcatch type="any">
+				<cfdump var="#cfcatch#" label="Exception Details">
+			</cfcatch>
 
-
+			</cftry>
 					
 					<!---		 Existing parser code starts here.  TODO: Rewrite using commons csv. --->
 			<!---	<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
