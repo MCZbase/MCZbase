@@ -136,7 +136,6 @@ limitations under the License.
 							
 						</cfloop>
 						<!--- TODO: Match the provided headers to the expected headers --->
-					
 						<!--- Iterate through the remaining lines in the file --->
 						<cfloop condition="#iterator.hasNext()#">
 							<cfset row = iterator.next()>
@@ -186,16 +185,16 @@ limitations under the License.
 
 					<!--- Create a Java object for reading CSV using Apache Commons CSV --->
 					<cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
-					<cfset csvParser = createObject("java", "org.apache.commons.csv.CSVParser").init(fileReader, createObject("java", "org.apache.commons.csv.CSVFormat").defaultFormat)>
+					<cfset csvParser = createObject("java", "org.apache.commons.csv.CSVParser").init(fileReader, createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT)>
 
 					<!--- Read the headers --->
-					<cfset columnHeaders = csvParser.getHeaderMap().keySet().toArray()>
+					<cfset columnHeaders = records.getHeaderMap().keySet().toArray()>
 
 					<cfset parsedData = []>
 
 					<!--- Read each record and create a struct with column headers as keys --->
 					<cfloop condition="true">
-						<cfset record = csvParser.iterator().next()>
+						<cfset record = records.iterator().next()>
 
 						<!--- Exit the loop if there are no more records --->
 						<cfif record is "">
@@ -212,7 +211,7 @@ limitations under the License.
 					</cfloop>
 
 					<!--- Close the CSV parser and file reader --->
-					<cfset csvParser.close()>
+					<cfset records.close()>
 					<cfset fileReader.close()>
 
 <!--- Now, 'parsedData' contains the data with columns ordered as per 'columnHeaders' --->
