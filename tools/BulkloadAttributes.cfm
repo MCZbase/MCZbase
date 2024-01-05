@@ -182,7 +182,7 @@ limitations under the License.
 						<cfset csvFilePath = "#tempFile#">
 						<cfset columnOrder = "#fieldlist#"> <!-- column names on CSV -->
 
-						<cfset data = csvRead(csvFilePath, ",")>
+						<cfset data = fileRead(csvFilePath, ",")>
 
 						<!-- Get the column indexes -->
 						<cfset columnIndexMap = {}>
