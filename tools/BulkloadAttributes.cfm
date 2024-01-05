@@ -141,58 +141,7 @@ limitations under the License.
 			<cftry>
    <!--- Your method call here --->
 
-				<cfset filePath = "#tempFile#">
-				<cfset expectedHeaders =["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner,remarks"]>
-
-					<!--- Create a Java object for Apache Commons CSV --->
-				<cfset csvFormatClass = createObject("java", "org.apache.commons.csv.CSVFormat")>
-				<cfset csvFormat = csvFormatClass.DEFAULT.withHeader(javacast("boolean",true))>
-				<cfset fileReader = createObject("java", "java.io.FileReader").init(filePath)>
-				<cfset csvParserClass = createObject("java", "org.apache.commons.csv.CSVParser")>
-				<cfset csvParser = csvParserClass.init(fileReader, csvFormat)>
-
-				<!--- Get the header from the CSV file --->
-				<cfset actualHeaders = javacast("string[]", csvParser.getHeaderMap().keySet().toArray())>
-
-				<!--- Check if the actual headers match the expected headers --->
-				<cfif headersMatch(expectedHeaders, actualHeaders)>
-					<cfoutput>Headers match!</cfoutput>
-
-					<!--- Process the records as needed --->
-					<cfloop index="record" array="#csvParser.getRecords()#">
-						<!--- Access individual columns using record.get("ColumnName") --->
-						<!--- Process the record as needed --->
-					</cfloop>
-
-				<cfelse>
-					<cfoutput>Headers do not match the expected headers.</cfoutput>
-				</cfif>
-
-				<!--- Function to check if headers match --->
-				<cffunction name="headersMatch" returnType="boolean" output="false">
-					<cfargument name="expectedHeaders" type="array">
-					<cfargument name="actualHeaders" type="array">
-
-					<!--- Check if the lengths are the same --->
-					<cfif ArrayLen(expectedHeaders) neq ArrayLen(actualHeaders)>
-						<cfreturn false>
-					</cfif>
-
-					<!--- Check if each header matches --->
-					<cfloop from="1" to="#ArrayLen(expectedHeaders)#" index="i">
-						<cfif expectedHeaders[i] neq actualHeaders[i]>
-							<cfreturn false>
-						</cfif>
-					</cfloop>
-
-					<cfreturn true>
-				</cffunction>
-						
-			<cfcatch type="any">
-				<cfdump var="#cfcatch#" label="Exception Details">
-			</cfcatch>
-			</cftry>
-<!--- END provide vs expected header check.--->
+				
 					
 						<!--- Iterate through the remaining lines in the file --->
 						<cfloop condition="#iterator.hasNext()#">
@@ -235,6 +184,33 @@ limitations under the License.
 							
 							<br><br><br>
 
+			<cfset filePath = "#tempFile#">
+
+			<!--- Load Apache Commons CSV library --->
+			<cfset csvParserClass = createObject("java", "org.apache.commons.csv.CSVParser")>
+			<cfset fileReaderClass = createObject("java", "java.io.FileReader")>
+
+			<!--- Initialize CSVParser with FileReader and CSVFormat.DEFAULT --->
+			<cfset fileReader = fileReaderClass.init(filePath)>
+			<cfset csvParser = csvParserClass.init(fileReader, createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT)>
+
+			<!--- Process headers manually --->
+			<cfset headerRecord = csvParser.iterator().next()>
+			<cfset headers = headerRecord.toList()>
+
+			<!--- Process the rest of the CSV data using headers --->
+			<cfloop from="1" to="#ArrayLen(headers)#" index="i">
+				<cfoutput>Header #i#: #headers[i]#<br></cfoutput>
+			</cfloop>
+
+			<!--- Process the rest of the CSV data based on column indices --->
+			<cfloop from="1" to="#csvParser.getRecords().size()#" index="rowIndex">
+				<cfset record = csvParser.getRecords().get(rowIndex - 1)>
+				<cfloop from="0" to="#record.size() - 1#" index="columnIndex">
+					<cfset value = record.get(columnIndex)>
+					<cfoutput>Row #rowIndex#, Column #columnIndex + 1#: #value#<br></cfoutput>
+				</cfloop>
+			</cfloop>
 
 
 
