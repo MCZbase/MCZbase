@@ -136,15 +136,10 @@ limitations under the License.
 							
 						</cfloop>
 						
-					
-				
-					<!--- TODO: Match the provided headers to the expected headers --->
-	
-			
-
+<!--- TODO: Match the provided headers to the expected headers --->
 				<!--- Define the path to the CSV file and expected headers --->
 				<cfset filePath = "#tempFile#">
-				<cfset expectedHeaders = ["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner,remarks"]>
+				<cfset expectedHeaders =["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner,remarks"]>
 
 					<!--- Create a Java object for Apache Commons CSV --->
 				<cfset csvFormatClass = createObject("java", "org.apache.commons.csv.CSVFormat")>
@@ -189,7 +184,7 @@ limitations under the License.
 
 					<cfreturn true>
 				</cffunction>
-
+<!--- END provide vs expected header check.--->
 					
 						<!--- Iterate through the remaining lines in the file --->
 						<cfloop condition="#iterator.hasNext()#">
