@@ -138,6 +138,9 @@ limitations under the License.
 						
 <!--- TODO: Match the provided headers to the expected headers --->
 				<!--- Define the path to the CSV file and expected headers --->
+			<cftry>
+   <!--- Your method call here --->
+
 				<cfset filePath = "#tempFile#">
 				<cfset expectedHeaders =["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner,remarks"]>
 
@@ -184,6 +187,11 @@ limitations under the License.
 
 					<cfreturn true>
 				</cffunction>
+						
+			<cfcatch type="any">
+				<cfdump var="#cfcatch#" label="Exception Details">
+			</cfcatch>
+			</cftry>
 <!--- END provide vs expected header check.--->
 					
 						<!--- Iterate through the remaining lines in the file --->
