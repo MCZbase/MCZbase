@@ -147,33 +147,29 @@ limitations under the License.
 								<!--- TODO: Create insert statement --->
 							</cfloop>
 						</cfloop>
-					<!--- End proof of concept code --->
-				<cfset csvFilePath = "#tempFileInputStream#">
+						<!--- End proof of concept code --->
+						<cfset filePath = "#tempFileInputStream#">
+						<cfset fileReaderClass = createObject("java", "java.io.FileReader")>
+						<cfset bufferedReaderClass = createObject("java", "java.io.BufferedReader")>
 
-			<cfscript>
-			// Create a FileReader object
-			fileReader = createObject("java", "java.io.FileReader").init(csvFilePath);
+						<cfset fileReader = fileReaderClass.init(filePath)>
+						<cfset bufferedReader = bufferedReaderClass.init(fileReader)>
 
-			// Create a BufferedReader object to read the file
-			bufferedReader = createObject("java", "java.io.BufferedReader").init(fileReader);
+						<cftry>
+							<cfloop condition="bufferedReader.ready()">
+								<cfset line = bufferedReader.readLine()>
+								<!--- Process each line as needed, for example, output it --->
+								<cfdump var="#line#"><br>
+							</cfloop>
+							<cfcatch type="any">
+								<!--- Handle any exceptions that may occur --->
+								<cfdump var="#cfcatch#">
+							</cfcatch>
+						</cftry>
 
-			// Initialize an empty string to store each line of the CSV file
-			csvData = "";
+						<cfset bufferedReader.close()>
+						<cfset fileReader.close()>
 
-			// Read the file line by line
-			while ((line = bufferedReader.readLine()) neq null) {
-				csvData &= line & chr(13) & chr(10); // Append each line with a newline character
-			}
-
-			// Close the BufferedReader
-			bufferedReader.close();
-			</cfscript>
-
-			<!-- Display the CSV data -->
-			<cfoutput>
-			#csvData#
-			</cfoutput>
-		
 				
 				
 					
