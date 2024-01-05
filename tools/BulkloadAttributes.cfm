@@ -148,6 +148,10 @@ limitations under the License.
 							</cfloop>
 						</cfloop>
 						<!--- End proof of concept code --->
+							
+						<!-- *********************************** -->	
+						<!-- Example of Parsing and Reading Data -->	
+						<!-- *********************************** -->
 						<cfset filePath = "#tempFile#">
 						<cfset fileReaderClass = createObject("java", "java.io.FileReader")>
 						<cfset bufferedReaderClass = createObject("java", "java.io.BufferedReader")>
@@ -169,6 +173,36 @@ limitations under the License.
 
 						<cfset bufferedReader.close()>
 						<cfset fileReader.close()>
+							
+							
+							
+						<!-- ****************************** -->
+						<!-- Example of Ordering the columns -->	
+						<!-- ****************************** -->
+						<cfset csvFilePath = "#tempFile#">
+						<cfset columnOrder = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks"> <!-- Replace with your actual column names -->
+
+						<cfset data = csvRead(csvFilePath, ",")>
+
+						<!-- Get the column indexes -->
+						<cfset columnIndexMap = {}>
+						<cfloop list="#columnOrder#" index="columnName">
+							<cfset columnIndexMap[columnName] = listFindNoCase(data[1], columnName)>
+						</cfloop>
+
+						<!-- Reorder the columns -->
+						<cfset reorderedData = []>
+						<cfloop from="2" to="#arrayLen(data)#" index="rowIndex">
+							<cfset newRow = []>
+							<cfloop list="#columnOrder#" index="columnName">
+								<cfset columnIndex = columnIndexMap[columnName]>
+								<cfset arrayAppend(newRow, data[rowIndex][columnIndex])>
+							</cfloop>
+							<cfset arrayAppend(reorderedData, newRow)>
+						</cfloop>
+
+						<!-- Display the reordered data -->
+						<cfdump var="#reorderedData#">
 
 				
 				
