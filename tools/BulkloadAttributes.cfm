@@ -148,18 +148,14 @@ limitations under the License.
 							</cfloop>
 						</cfloop>
 					<!--- End proof of concept code --->
-					</tbody>
+				<cfset csvReading = CreateObject("java","java.io.BufferedReader").Init(#tempFile#) >
+				
 				
 					
-				<cfscript>
-				
-				Reader in = new FileReader("#tempFileInputStream#");
-		
-				</cfscript>
-		<!---		 Existing parser code starts here.  TODO: Rewrite using commons csv. --->
-				<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
+					<!---		 Existing parser code starts here.  TODO: Rewrite using commons csv. --->
+			<!---	<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
 				<cfset fileContent=replace(fileContent,"'","''","all")>
-				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
+				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />--->
 				
 					
 					
