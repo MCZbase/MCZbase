@@ -148,7 +148,31 @@ limitations under the License.
 							</cfloop>
 						</cfloop>
 					<!--- End proof of concept code --->
-				<cfset csvReading = CreateObject("java","java.io.BufferedReader")>
+				<cfset csvFilePath = "#tempFileInputStream#">
+
+			<cfscript>
+			// Create a FileReader object
+			fileReader = createObject("java", "java.io.FileReader").init(#tempFileInputStream#);
+
+			// Create a BufferedReader object to read the file
+			bufferedReader = createObject("java", "java.io.BufferedReader").init(fileReader);
+
+			// Initialize an empty string to store each line of the CSV file
+			csvData = "";
+
+			// Read the file line by line
+			while ((line = bufferedReader.readLine()) neq null) {
+				csvData &= line & chr(13) & chr(10); // Append each line with a newline character
+			}
+
+			// Close the BufferedReader
+			bufferedReader.close();
+			</cfscript>
+
+			<!-- Display the CSV data -->
+			<cfoutput>
+			#csvData#
+			</cfoutput>
 		
 				
 				
