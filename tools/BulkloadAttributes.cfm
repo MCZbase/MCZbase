@@ -184,7 +184,6 @@ limitations under the License.
 						<cfparam name="filePath" default="#tempFile#">
 						<cfset origExpectedHeaders =["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner,remarks"]>
 
-
 						<!--- Load Apache Commons CSV library --->
 						<cfobject type="java" class="org.apache.commons.csv.CSVParser" name="csvParser">
 						<cfobject type="java" class="java.io.FileReader" name="fileReader">
@@ -202,17 +201,14 @@ limitations under the License.
 						<cfloop from="1" to="#headerRecord.size()#" index="i">
 							<cfset actualHeaders[i] = javacast("string", headerIterator.next())>
 						</cfloop>
-						<cfset actualHeaders = arrayMap("trim", actualHeaders)>
-						<cfset trimExpectedHeaders = arrayMap("trim", origExpectedHeaders)>
-						<cfset actualHeadersLower = arrayMap("toLowerCase", actualHeaders)>
-						<cfset expectedHeadersLower = arrayMap("toLowerCase", trimExpectedHeaders)>
-						<!-- Using javacast to explicitly specify the type [Array] -->
-						<cfset newArray = javacast("array", trimmedArray)>
 
-						<cfdump var="#newArray#" label="Trimmed Array">
+						<cfset actualHeaders = arrayMap("trim", actualHeaders)>
+						<cfset expectedHeaders = arrayMap("trim", origExpectedHeaders)>
+						<cfset actualHeadersLower = arrayMap("toLowerCase", actualHeaders)>
+						<cfset expectedHeadersLower = arrayMap("toLowerCase", expectedHeaders)>
+
 						<!--- Check if actual headers match expected headers --->
-						<cfset headersMatch = arrayEquals(trimExpectedHeadersLower, actualHeadersLower)>
-						<!---<cfset headersMatch = arrayEquals(expectedHeaders, actualHeaders)>--->
+						<cfset headersMatch = arrayEquals(expectedHeadersLower, actualHeadersLower)>
 
 						<cfif headersMatch>
 							<cfoutput>Headers match!</cfoutput>
@@ -248,6 +244,7 @@ limitations under the License.
 
 							<cfreturn true>
 						</cffunction>
+
 
 <br><br><br>
 					
