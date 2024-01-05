@@ -150,7 +150,7 @@ limitations under the License.
 							</cfloop>
 						</cfloop>--->
 						<!--- End proof of concept code --->
-							<br><br><br>
+							<br><br>
 						<!-- *********************************** -->	
 						<!-- Example of Parsing and Reading Data -->	
 						<!-- *********************************** -->
@@ -177,7 +177,7 @@ limitations under the License.
 						<cfset bufferedReader.close()>
 						<cfset fileReader.close()>
 							
-							<br><br><br>
+							<br><br>
 
 						<h3>Header comparisons</h3>
 							
