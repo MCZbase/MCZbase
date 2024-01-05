@@ -152,6 +152,7 @@ limitations under the License.
 						<!-- *********************************** -->	
 						<!-- Example of Parsing and Reading Data -->	
 						<!-- *********************************** -->
+							<h4>Example of Parsing and Reading Data</h4>
 						<cfset filePath = "#tempFile#">
 						<cfset fileReaderClass = createObject("java", "java.io.FileReader")>
 						<cfset bufferedReaderClass = createObject("java", "java.io.BufferedReader")>
@@ -175,7 +176,7 @@ limitations under the License.
 						<cfset fileReader.close()>
 							
 							<br><br><br>
-							
+							<h4>Example of Ordering the Columns</h4>
 						<!-- ****************************** -->
 						<!-- Example of Ordering the columns -->	
 						<!-- ****************************** -->
@@ -227,7 +228,7 @@ limitations under the License.
 					<!-- ****************************** -->
 					<!-- Example of Apache Commons -->	
 					<!-- ****************************** -->
-							
+						<h4>Example of Apache Commons</h4>	
 					<cfset filePath = "#tempFile#">
 
 					<!--- Create a Java object for reading CSV using Apache Commons CSV --->
