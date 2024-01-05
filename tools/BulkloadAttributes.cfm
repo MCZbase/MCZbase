@@ -210,7 +210,7 @@ limitations under the License.
 								<cfoutput><h4 class="text-success">Headers Match!</h4></cfoutput>
 
 								<!--- Process the rest of the CSV data based on column indices --->
-								<cfloop from="2" to="#csvParser.getRecords().size()#" index="rowIndex">
+								<cfloop from="1" to="#csvParser.getRecords().size()#" index="rowIndex">
 									<cfset record = csvParser.getRecords().get(rowIndex - 0)>
 									<cfset recordIterator = record.iterator()>
 									<cfloop from="1" to="#record.size()#" index="columnIndex">
