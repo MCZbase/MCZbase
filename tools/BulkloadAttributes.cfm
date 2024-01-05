@@ -217,7 +217,6 @@ limitations under the License.
 <!--- Now, 'parsedData' contains the data with columns ordered as per 'columnHeaders' --->
 
 
-<!--- Now, 'parsedData' contains the data with columns ordered as per 'columnHeaders' --->
 					
 					<!---		 Existing parser code starts here.  TODO: Rewrite using commons csv. --->
 			<!---	<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
