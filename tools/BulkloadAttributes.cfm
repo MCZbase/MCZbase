@@ -204,9 +204,9 @@ limitations under the License.
 						<cfset rowObject = {}>
 
 						<cfloop index="col" array="#columnHeaders#">
-							<cfset rowObject[col] = record.get(col)>
+							<cfset rowObject[col] = trim(record.get(col) ?: "")>
 						</cfloop>
-
+						<!--- Append the struct to the parsed data array --->
 						<cfset arrayAppend(parsedData, rowObject)>
 					</cfloop>
 
