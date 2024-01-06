@@ -1105,6 +1105,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="water_feature" type="string" required="no">
 	<cfargument name="spec_locality" type="string" required="no">
 	<cfargument name="geo_att_value" type="string" required="no">
+	<cfargument name="verificationstatus" type="string" required="no">
 	<cfargument name="collector" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
 	<cfargument name="verbatim_date" type="string" required="no">
@@ -1650,6 +1651,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("geo_att_value") AND len(geo_att_value) GT 0>
 		<cfset field = '"field": "geo_att_value"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#geo_att_value#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("verificationstatus") AND len(verificationstatus) GT 0>
+		<cfset field = '"field": "verificationstatus"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#verificationstatus#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>

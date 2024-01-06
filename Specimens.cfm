@@ -880,6 +880,16 @@ limitations under the License.
 																	});
 																</script>
 															</div>
+															<div class="col-12 mb-1 col-md-3">
+																<label for="verificationstatus" class="data-entry-label small">Georeference Verification</label>
+																<cfif not isdefined("verificationstatus")><cfset verificationstatus=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="verificationstatus" name="verificationstatus" value="#encodeForHtml(verificationstatus)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeCTFieldSearchAutocomplete('verificationstatus','VERIFICATIONSTATUS');
+																	});
+																</script>
+															</div>
 														</div>
 													</div>
 												</div>
