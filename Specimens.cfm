@@ -881,7 +881,10 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 mb-1 col-md-3">
-																<label for="verificationstatus" class="data-entry-label small">Georeference Verification</label>
+																<label for="verificationstatus" class="data-entry-label small">
+																	Georeference Verification
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##verificationstatus').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+																</label>
 																<cfif not isdefined("verificationstatus")><cfset verificationstatus=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="verificationstatus" name="verificationstatus" value="#encodeForHtml(verificationstatus)#">
 																<script>
