@@ -876,7 +876,7 @@ limitations under the License.
 																<input type="text" class="data-entry-input inputHeight" id="geo_att_value" name="geo_att_value" value="#encodeForHtml(geo_att_value)#">
 																<script>
 																	jQuery(document).ready(function() {
-																		makeGeologyAutocompleteMeta('geology_attribute', 'geo_att_value', 'geology_attribute_heirarchy_id', 'search', null) { 
+																		makeGeologyAutocompleteMeta('geology_attribute', 'geo_att_value', 'geology_attribute_heirarchy_id', 'search', null);
 																	});
 																</script>
 															</div>
