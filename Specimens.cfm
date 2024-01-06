@@ -675,7 +675,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-4">
+															<div class="col-12 mb-1 col-md-2">
 																<label for="nature_of_id" class="data-entry-label small">Nature Of Id</label>
 																<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
 																<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select inputHeight col-sm-12 pl-2">
@@ -686,6 +686,16 @@ limitations under the License.
 																		<option value="=#ctnature_of_id.nature_of_id#" #selected#>#ctnature_of_id.nature_of_id# (#ctnature_of_id.ct#)</option>
 																	</cfloop>
 																</select>
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="identification_remarks" class="data-entry-label small">Id Remarks</label>
+																<cfif not isdefined("identification_remarks")><cfset identification_remarks=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="identification_remarks" name="identification_remarks" value="#encodeForHtml(identification_remarks)#">
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="common_name" class="data-entry-label small">Common Name</label>
+																<cfif not isdefined("common_name")><cfset common_name=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="common_name" name="common_name" value="#encodeForHtml(common_name)#">
 															</div>
 														</div>
 													</div>
@@ -834,6 +844,39 @@ limitations under the License.
 																<script>
 																	jQuery(document).ready(function() {
 																		makeGeogSearchAutocomplete('island','island');
+																	});
+																</script>
+															</div>
+															<div class="col-12 mb-1 col-md-3">
+																<label for="feature" class="data-entry-label small">Land Feature</label>
+																<cfif not isdefined("feature")><cfset feature=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="feature" name="feature" value="#encodeForHtml(feature)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeGeogSearchAutocomplete('feature','feature');
+																	});
+																</script>
+															</div>
+															<div class="col-12 mb-1 col-md-3">
+																<label for="water_feature" class="data-entry-label small">Water Feature</label>
+																<cfif not isdefined("water_feature")><cfset water_feature=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="water_feature" name="water_feature" value="#encodeForHtml(water_feature)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeGeogSearchAutocomplete('water_feature','water_feature');
+																	});
+																</script>
+															</div>
+															<div class="col-12 mb-1 col-md-3">
+																<label for="geo_att_value" class="data-entry-label small">Geological Attribute</label>
+																<cfif not isdefined("geo_att_value")><cfset geo_att_value=""></cfif>
+																<!--- TODO, possibly, implement attribute type, might not be needed --->
+																<input type="hidden" id="geology_attribute" name="geology_attribute" value="">
+																<input type="hidden" id="geology_attribute_heirarchy_id" name="geology_attribute_heirarchy_id" value="">
+																<input type="text" class="data-entry-input inputHeight" id="geo_att_value" name="geo_att_value" value="#encodeForHtml(geo_att_value)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeGeologyAutocompleteMeta('geology_attribute', 'geo_att_value', 'geology_attribute_heirarchy_id', 'search', null);
 																	});
 																</script>
 															</div>
