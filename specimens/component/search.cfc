@@ -1101,7 +1101,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="county" type="string" required="no">
 	<cfargument name="island" type="string" required="no">
 	<cfargument name="island_group" type="string" required="no">
+	<cfargument name="feature" type="string" required="no">
+	<cfargument name="water_feature" type="string" required="no">
 	<cfargument name="spec_locality" type="string" required="no">
+	<cfargument name="geo_att_value" type="string" required="no">
 	<cfargument name="collector" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
 	<cfargument name="verbatim_date" type="string" required="no">
@@ -1626,6 +1629,27 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("island") AND len(island) GT 0>
 		<cfset field = '"field": "island"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("feature") AND len(feature) GT 0>
+		<cfset field = '"field": "feature"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#feature#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("water_feature") AND len(water_feature) GT 0>
+		<cfset field = '"field": "water_feature"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#water_feature#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("geo_att_value") AND len(geo_att_value) GT 0>
+		<cfset field = '"field": "geo_att_value"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#geo_att_value#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
