@@ -194,7 +194,7 @@ limitations under the License.
 							<!--- Process headers manually --->
 							<cfset headerRecord = csvParser.iterator().next()>
 							<cfset actualHeaders = []>
-							#columnHeadersArray# : #actualHeaders# <br>
+					
 							<!--- Iterate over the iterator to extract headers --->
 							<cfset headerIterator = headerRecord.iterator()>
 							<cfloop from="1" to="#headerRecord.size()#" index="i">
@@ -205,7 +205,10 @@ limitations under the License.
 							<cfset headersMatch = compareArrays(columnHeadersArray, actualHeaders)>
 
 							<cfif headersMatch>
-								<cfoutput><h4 class="text-success">Headers Match!</h4></cfoutput>
+								<cfoutput><h4 class="text-success">Headers Match!</h4><br>
+										#columnHeadersArray# : #actualHeaders# <br>
+								
+								</cfoutput>
 
 								<!--- Process the rest of the CSV data based on column indices --->
 								<cfloop from="2" to="#csvParser.getRecords().size()#" index="rowIndex">
