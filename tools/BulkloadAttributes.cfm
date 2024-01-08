@@ -197,21 +197,18 @@ limitations under the License.
 					
 							<!--- Iterate over the iterator to extract headers --->
 							<cfset headerIterator = headerRecord.iterator()>
+							
 							<cfloop from="1" to="#headerRecord.size()#" index="i">
 								<cfset actualHeaders[i] = javacast("string", headerIterator.next())>
-									#actualHeaders[i]#
-							</cfloop>
-
-							<cfset institution_acronym_exists = false>
-							<cfset collection_cde_exists = false>
-							<cfset other_id_type_exists = false>
-							<cfset other_id_number_exists = false>
-							<cfset attribute_exists = false>
-							<cfset attribute_value_exists = false>
-							<cfset attribute_date_exists = false>
-							<cfset determiner_exists = false>
-							<cfloop from="1" to ="#actualHeaders[i]#" index="col">
-								<cfset actualHeaders = actualHeaders[1][col]>
+									<cfset institution_acronym_exists = false>
+									<cfset collection_cde_exists = false>
+									<cfset other_id_type_exists = false>
+									<cfset other_id_number_exists = false>
+									<cfset attribute_exists = false>
+									<cfset attribute_value_exists = false>
+									<cfset attribute_date_exists = false>
+									<cfset determiner_exists = false>
+									<cfset actualHeaders = actualHeaders[1][col]>
 								<cfif ucase(actualHeaders) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 								<cfif ucase(actualHeaders) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 								<cfif ucase(actualHeaders) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
@@ -220,8 +217,7 @@ limitations under the License.
 								<cfif ucase(actualHeaders) EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
 								<cfif ucase(actualHeaders) EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
 								<cfif ucase(actualHeaders) EQ 'determiner'><cfset determiner_exists=true></cfif>
-							</cfloop>
-							<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
+									<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
 								<cfset message = "#NO_COLUMN_ERR#">
 								<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
 								<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
@@ -233,6 +229,12 @@ limitations under the License.
 								<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
 								<cfthrow message="#message#">
 							</cfif>
+											#actualHeaders[i]#
+								</cfloop>
+
+							
+				
+							
 							<!--- Check if actual headers match expected headers --->
 							<cfset headersMatch = compareArrays(columnHeadersArray, actualHeaders)>
 
