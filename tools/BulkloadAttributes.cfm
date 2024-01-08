@@ -208,15 +208,15 @@ limitations under the License.
 									<cfset attribute_value_exists = false>
 									<cfset attribute_date_exists = false>
 									<cfset determiner_exists = false>
-									<cfset actualHeaders = actualHeaders[i]>
+									<cfset actualH = #actualHeaders[i]#>
 								<cfif ucase(actualHeaders) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
-								<cfif ucase(actualHeaders) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
-								<cfif ucase(actualHeaders) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
-								<cfif ucase(actualHeaders) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
-								<cfif ucase(actualHeaders) EQ 'attribute'><cfset attribute_exists=true></cfif>
-								<cfif ucase(actualHeaders) EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
-								<cfif ucase(actualHeaders) EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
-								<cfif ucase(actualHeaders) EQ 'determiner'><cfset determiner_exists=true></cfif>
+								<cfif ucase(actualH) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
+								<cfif ucase(actualH) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
+								<cfif ucase(actualH) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
+								<cfif ucase(actualH) EQ 'attribute'><cfset attribute_exists=true></cfif>
+								<cfif ucase(actualH) EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
+								<cfif ucase(actualH) EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
+								<cfif ucase(actualH) EQ 'determiner'><cfset determiner_exists=true></cfif>
 									<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
 								<cfset message = "#NO_COLUMN_ERR#">
 								<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
@@ -229,7 +229,7 @@ limitations under the License.
 								<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
 								<cfthrow message="#message#">
 							</cfif>
-											#actualHeaders[i]#
+											#actualH[i]#
 								</cfloop>
 
 							
