@@ -207,41 +207,14 @@ limitations under the License.
 							<cfset determiner_exists = false>
 							<cfloop from="1" to="#headerRecord.size()#" index="i">
 								<cfset actualHeaders[i] = javacast("string", headerIterator.next())>
-								
-								<cfset actualH = #actualHeaders[i]#>
-								<cfif ucase(actualH) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
-								<cfif ucase(actualH) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
-								<cfif ucase(actualH) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
-								<cfif ucase(actualH) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
-								<cfif ucase(actualH) EQ 'attribute'><cfset attribute_exists=true></cfif>
-								<cfif ucase(actualH) EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
-								<cfif ucase(actualH) EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
-								<cfif ucase(actualH) EQ 'determiner'><cfset determiner_exists=true></cfif>
-									<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
-								<cfset message = "#NO_COLUMN_ERR#">
-								<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
-								<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
-								<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
-								<cfif not other_id_number_exists><cfset message = "#message# other_id_number is missing."></cfif>
-								<cfif not attribute_exists><cfset message = "#message# attribute is missing."></cfif>
-								<cfif not attribute_value_exists><cfset message = "#message# attribute_value is missing."></cfif>
-								<cfif not attribute_date_exists><cfset message = "#message# attribute_date is missing."></cfif>
-								<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
-								<cfthrow message="#message#">
-							</cfif>
-											
-								</cfloop>
+								#actualHeaders[i]#
+							</cfloop>
 
-							
-				
-							
 							<!--- Check if actual headers match expected headers --->
 							<cfset headersMatch = compareArrays(columnHeadersArray, actualHeaders)>
 
 							<cfif headersMatch>
-								<cfoutput><h4 class="text-success">Headers Match!</h4>
-								
-								</cfoutput>
+								<cfoutput><h4 class="text-success">Headers Match!</h4></cfoutput>
 
 								<!--- Process the rest of the CSV data based on column indices --->
 								<cfloop from="2" to="#csvParser.getRecords().size()#" index="rowIndex">
