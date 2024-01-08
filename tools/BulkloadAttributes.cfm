@@ -208,7 +208,7 @@ limitations under the License.
 									<cfset attribute_value_exists = false>
 									<cfset attribute_date_exists = false>
 									<cfset determiner_exists = false>
-									<cfset actualHeaders = actualHeaders[1][col]>
+									<cfset actualHeaders = actualHeaders[i]>
 								<cfif ucase(actualHeaders) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 								<cfif ucase(actualHeaders) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 								<cfif ucase(actualHeaders) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
