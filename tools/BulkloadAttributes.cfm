@@ -197,18 +197,18 @@ limitations under the License.
 					
 							<!--- Iterate over the iterator to extract headers --->
 							<cfset headerIterator = headerRecord.iterator()>
-							
+							<cfset institution_acronym_exists = false>
+							<cfset collection_cde_exists = false>
+							<cfset other_id_type_exists = false>
+							<cfset other_id_number_exists = false>
+							<cfset attribute_exists = false>
+							<cfset attribute_value_exists = false>
+							<cfset attribute_date_exists = false>
+							<cfset determiner_exists = false>
 							<cfloop from="1" to="#headerRecord.size()#" index="i">
 								<cfset actualHeaders[i] = javacast("string", headerIterator.next())>
-									<cfset institution_acronym_exists = false>
-									<cfset collection_cde_exists = false>
-									<cfset other_id_type_exists = false>
-									<cfset other_id_number_exists = false>
-									<cfset attribute_exists = false>
-									<cfset attribute_value_exists = false>
-									<cfset attribute_date_exists = false>
-									<cfset determiner_exists = false>
-									<cfset actualH = #actualHeaders[i]#>
+								
+								<cfset actualH = #actualHeaders[i]#>
 								<cfif ucase(actualH) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 								<cfif ucase(actualH) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 								<cfif ucase(actualH) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
