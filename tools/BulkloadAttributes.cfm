@@ -199,14 +199,14 @@ limitations under the License.
 							<cfset headerIterator = headerRecord.iterator()>
 							<cfloop from="1" to="#headerRecord.size()#" index="i">
 								<cfset actualHeaders[i] = javacast("string", headerIterator.next())>
+									#actualHeaders[i]#
 							</cfloop>
 
 							<!--- Check if actual headers match expected headers --->
 							<cfset headersMatch = compareArrays(columnHeadersArray, actualHeaders)>
 
 							<cfif headersMatch>
-								<cfoutput><h4 class="text-success">Headers Match!</h4><br>
-										#actualHeaders# <br>
+								<cfoutput><h4 class="text-success">Headers Match!</h4>
 								
 								</cfoutput>
 
