@@ -117,7 +117,6 @@ limitations under the License.
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
 				<cfset defaultFormat = csvFormat.DEFAULT >
 		
-				
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
@@ -130,7 +129,6 @@ limitations under the License.
 					
 				<h3>Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
 					
-				
 					<!---	<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 							#headers.get(JavaCast("int",actualColumnNumber))#
 							
@@ -196,7 +194,7 @@ limitations under the License.
 							<!--- Process headers manually --->
 							<cfset headerRecord = csvParser.iterator().next()>
 							<cfset actualHeaders = []>
-
+							#columnHeadersArray# : #actualHeaders# <br>
 							<!--- Iterate over the iterator to extract headers --->
 							<cfset headerIterator = headerRecord.iterator()>
 							<cfloop from="1" to="#headerRecord.size()#" index="i">
@@ -241,26 +239,19 @@ limitations under the License.
 								<cfreturn true>
 							</cffunction>
 
-
-
 <br><br><br>
-					
-					<!---		 Existing parser code starts here.  TODO: Rewrite using commons csv. --->
+
+			<!---	Existing parser code starts here.  TODO: Rewrite using commons csv. --->
 			<!---	<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
-				<cfset fileContent=replace(fileContent,"'","''","all")>
-				<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />--->
+			<cfset fileContent=replace(fileContent,"'","''","all")>
+			<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />--->
 				
-					
-					
-					
-					
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				
-					
+			
 				<!--- check for required fields in header line --->
 				<cfset institution_acronym_exists = false>
 				<cfset collection_cde_exists = false>
