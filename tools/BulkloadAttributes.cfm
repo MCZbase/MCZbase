@@ -211,7 +211,7 @@ limitations under the License.
 							<cfset attribute_date_exists = false>
 							<cfset determiner_exists = false>
 							<cfloop from="1" to ="#actualHeaders[i]#" index="col">
-								<cfset header = actualHeaders[1][col]>
+								<cfset actualHeaders = actualHeaders[1][col]>
 								<cfif ucase(actualHeaders) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 								<cfif ucase(actualHeaders) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 								<cfif ucase(actualHeaders) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
@@ -222,7 +222,7 @@ limitations under the License.
 								<cfif ucase(actualHeaders) EQ 'determiner'><cfset determiner_exists=true></cfif>
 							</cfloop>
 							<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
-							<cfset message = "#NO_COLUMN_ERR#">
+								<cfset message = "#NO_COLUMN_ERR#">
 								<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
 								<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
 								<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
