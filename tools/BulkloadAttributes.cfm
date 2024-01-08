@@ -229,7 +229,7 @@ limitations under the License.
 								<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
 								<cfthrow message="#message#">
 							</cfif>
-											#actualH[i]#
+											
 								</cfloop>
 
 							
