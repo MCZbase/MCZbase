@@ -206,7 +206,7 @@ limitations under the License.
 
 							<cfif headersMatch>
 								<cfoutput><h4 class="text-success">Headers Match!</h4><br>
-										#columnHeadersArray# : #actualHeaders# <br>
+										#actualHeaders# <br>
 								
 								</cfoutput>
 
