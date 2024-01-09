@@ -709,7 +709,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset comparator = '"comparator": "<"'>
 		<cfelseif CompareNoCase(dataType,"NUMERIC") EQ 0 AND left(value,1) is ">"><!--- " --->
 			<cfset comparator = '"comparator": ">"'><!--- " --->
-		<cfelseif CompareNoCase(dataType,"NUMERIC") EQ 0 AND (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",listOfNumbers))>0) >
+		<cfelseif CompareNoCase(dataType,"NUMERIC") EQ 0 AND (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",listOfNumbers)) GT 0) >
 			<cfreturn ScriptNumberListToJSON(value, field, nestDepth, join) >
 		<cfelseif left(value,1) is "=">
 			<cfset value="#ucase(right(value,len(value)-1))#">
