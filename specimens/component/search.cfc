@@ -698,66 +698,69 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="nestDepth" type="string" required="yes">
 	<cfargument name="dataType" type="string" required="no" default="not specified">
 
+	<cfif CompareNoCase(dataType,"NUMERIC") EQ 0>
+		<cfset value = rereplace(value,"[^0-9,<>=.-]","","all") ><!--- " --->
+	</cfif>
 	<cfset search_json = "">
-		<cfif left(value,2) is "=<" or left(value,2) is "<=">
-			<cfset value="#ucase(right(value,len(value)-2))#">
-			<cfset comparator = '"comparator": "<="'>
-		<cfelseif left(value,2) is "=>" or left(value,2) is ">="><!--- " --->
-			<cfset value="#ucase(right(value,len(value)-2))#">
-			<cfset comparator = '"comparator": ">="'><!--- " --->
-		<cfelseif CompareNoCase(dataType,"NUMERIC") EQ 0 AND left(value,1) is "<">
-			<cfset comparator = '"comparator": "<"'>
-		<cfelseif CompareNoCase(dataType,"NUMERIC") EQ 0 AND left(value,1) is ">"><!--- " --->
-			<cfset comparator = '"comparator": ">"'><!--- " --->
-		<cfelseif CompareNoCase(dataType,"NUMERIC") EQ 0 AND (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",value)) GT 0) >
-			<!--- ScriptNumberListToJson field paramter is just the field, not the json field:fielname clause in the local field variable. --->
-			<cfset justField = replace(field,'"field": "',"")>
-			<cfset justField = replace(justField,'"',"","All")>
-			<cfset justJoin = replace(join,'"join":"',"")>
-			<cfset justJoin = replace(justJoin,'"',"","All")>
-			<cfset newClause = ScriptNumberListToJSON(value, justField, nestDepth, justJoin) >
-			<cfset search_json = '#separator##newClause#'>
-			<cfreturn search_json>
-		<cfelseif left(value,1) is "=">
-			<cfset value="#ucase(right(value,len(value)-1))#">
-			<cfset comparator = '"comparator": "="'>
-		<cfelseif left(value,1) is "~">
-			<cfset value="#ucase(right(value,len(value)-1))#">
-			<cfset comparator = '"comparator": "JARO_WINKLER"'>
-		<cfelseif left(value,2) is ">=">
-			<cfset value="#ucase(right(value,len(value)-2))#">
-			<cfset comparator = '"comparator": ">="'><!--- " --->
-		<cfelseif left(value,2) is "<=">
-			<cfset value="#ucase(right(value,len(value)-2))#">
-			<cfset comparator = '"comparator": "<="'>
-		<cfelseif left(value,2) is "!~">
-			<cfset value="#ucase(right(value,len(value)-2))#">
-			<cfset comparator = '"comparator": "NOT JARO_WINKLER"'>
-		<cfelseif left(value,1) is "$">
-			<cfset value="#ucase(right(value,len(value)-1))#">
-			<cfset comparator = '"comparator": "SOUNDEX"'>
-		<cfelseif left(value,2) is "!$">
-			<cfset value="#ucase(right(value,len(value)-2))#">
-			<cfset comparator = '"comparator": "NOT SOUNDEX"'>
-		<cfelseif left(value,1) IS "!">
-			<cfset value="#ucase(right(value,len(value)-1))#">
-			<cfset comparator = '"comparator": "not like"'>
+	<cfif left(value,2) is "=<" or left(value,2) is "<=">
+		<cfset value="#ucase(right(value,len(value)-2))#">
+		<cfset comparator = '"comparator": "<="'>
+	<cfelseif left(value,2) is "=>" or left(value,2) is ">="><!--- " --->
+		<cfset value="#ucase(right(value,len(value)-2))#">
+		<cfset comparator = '"comparator": ">="'><!--- " --->
+	<cfelseif CompareNoCase(dataType,"NUMERIC") EQ 0 AND left(value,1) is "<">
+		<cfset comparator = '"comparator": "<"'>
+	<cfelseif CompareNoCase(dataType,"NUMERIC") EQ 0 AND left(value,1) is ">"><!--- " --->
+		<cfset comparator = '"comparator": ">"'><!--- " --->
+	<cfelseif CompareNoCase(dataType,"NUMERIC") EQ 0 AND (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",value)) GT 0) >
+		<!--- ScriptNumberListToJson field paramter is just the field, not the json field:fielname clause in the local field variable. --->
+		<cfset justField = replace(field,'"field": "',"")>
+		<cfset justField = replace(justField,'"',"","All")>
+		<cfset justJoin = replace(join,'"join":"',"")>
+		<cfset justJoin = replace(justJoin,'"',"","All")>
+		<cfset newClause = ScriptNumberListToJSON(value, justField, nestDepth, justJoin) >
+		<cfset search_json = '#separator##newClause#'>
+		<cfreturn search_json>
+	<cfelseif left(value,1) is "=">
+		<cfset value="#ucase(right(value,len(value)-1))#">
+		<cfset comparator = '"comparator": "="'>
+	<cfelseif left(value,1) is "~">
+		<cfset value="#ucase(right(value,len(value)-1))#">
+		<cfset comparator = '"comparator": "JARO_WINKLER"'>
+	<cfelseif left(value,2) is ">=">
+		<cfset value="#ucase(right(value,len(value)-2))#">
+		<cfset comparator = '"comparator": ">="'><!--- " --->
+	<cfelseif left(value,2) is "<=">
+		<cfset value="#ucase(right(value,len(value)-2))#">
+		<cfset comparator = '"comparator": "<="'>
+	<cfelseif left(value,2) is "!~">
+		<cfset value="#ucase(right(value,len(value)-2))#">
+		<cfset comparator = '"comparator": "NOT JARO_WINKLER"'>
+	<cfelseif left(value,1) is "$">
+		<cfset value="#ucase(right(value,len(value)-1))#">
+		<cfset comparator = '"comparator": "SOUNDEX"'>
+	<cfelseif left(value,2) is "!$">
+		<cfset value="#ucase(right(value,len(value)-2))#">
+		<cfset comparator = '"comparator": "NOT SOUNDEX"'>
+	<cfelseif left(value,1) IS "!">
+		<cfset value="#ucase(right(value,len(value)-1))#">
+		<cfset comparator = '"comparator": "not like"'>
+	<cfelse>
+		<cfif REFind("([A-Za-z]+,[A-Za-z]+)+",value) GT 0>
+			<cfset comparator = '"comparator": "IN"'>
+		<cfelseif REFind("([0-9]+,[0-9]+)+",value) GT 0>
+			<cfset comparator = '"comparator": "IN"'>
 		<cfelse>
-			<cfif REFind("([A-Za-z]+,[A-Za-z]+)+",value) GT 0>
-				<cfset comparator = '"comparator": "IN"'>
-			<cfelseif REFind("([0-9]+,[0-9]+)+",value) GT 0>
-				<cfset comparator = '"comparator": "IN"'>
-			<cfelse>
-				<cfset comparator = '"comparator": "like"'>
-			</cfif>
-			<cfset value = replace(value,'\','\\',"all")>
-			<cfset value = replace(value,'"','\"',"all")>
+			<cfset comparator = '"comparator": "like"'>
 		</cfif>
-		<!--- special case handling for keyword search, comparator must be empty --->
-		<cfif CompareNoCase(dataType,"CTXKEYWORD") EQ 0 >
-			<cfset comparator = '"comparator": ""'>
-		</cfif>
-		<cfset search_json = '#search_json##separator#{"nest":"#nestDepth#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset value = replace(value,'\','\\',"all")>
+		<cfset value = replace(value,'"','\"',"all")>
+	</cfif>
+	<!--- special case handling for keyword search, comparator must be empty --->
+	<cfif CompareNoCase(dataType,"CTXKEYWORD") EQ 0 >
+		<cfset comparator = '"comparator": ""'>
+	</cfif>
+	<cfset search_json = '#search_json##separator#{"nest":"#nestDepth#",#join##field#,#comparator#,"value": "#value#"}'>
 	<cfreturn #search_json#>
 </cffunction>
 
