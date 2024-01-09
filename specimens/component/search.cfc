@@ -699,12 +699,25 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="dataType" type="string" required="no" default="not specified">
 
 	<cfset search_json = "">
-		<cfif left(value,2) is "=<">
+		<cfif left(value,2) is "=<" or left(value,2) is "<=">
 			<cfset value="#ucase(right(value,len(value)-2))#">
 			<cfset comparator = '"comparator": "<="'>
-		<cfelseif left(value,2) is "=>"><!--- " --->
+		<cfelseif left(value,2) is "=>" or left(value,2) is "=>"><!--- " --->
 			<cfset value="#ucase(right(value,len(value)-2))#">
 			<cfset comparator = '"comparator": ">="'><!--- " --->
+		<cfelseif CompareNoCase(dataType,"NUMERIC") EQ 0 AND left(value,1) is "<">
+			<cfset comparator = '"comparator": "<"'>
+		<cfelseif CompareNoCase(dataType,"NUMERIC") EQ 0 AND left(value,1) is ">"><!--- " --->
+			<cfset comparator = '"comparator": ">"'><!--- " --->
+		<cfelseif CompareNoCase(dataType,"NUMERIC") EQ 0 AND (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",value)) GT 0) >
+			<!--- ScriptNumberListToJson field paramter is just the field, not the json field:fielname clause in the local field variable. --->
+			<cfset justField = replace(field,'"field": "',"")>
+			<cfset justField = replace(justField,'"',"","All")>
+			<cfset justJoin = replace(join,'"join":"',"")>
+			<cfset justJoin = replace(justJoin,'"',"","All")>
+			<cfset newClause = ScriptNumberListToJSON(value, justField, nestDepth, justJoin) >
+			<cfset search_json = '#separator##newClause#'>
+			<cfreturn search_json>
 		<cfelseif left(value,1) is "=">
 			<cfset value="#ucase(right(value,len(value)-1))#">
 			<cfset comparator = '"comparator": "="'>
@@ -1103,8 +1116,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="island_group" type="string" required="no">
 	<cfargument name="feature" type="string" required="no">
 	<cfargument name="water_feature" type="string" required="no">
+	<cfargument name="min_depth_in_m" type="string" required="no">
+	<cfargument name="max_depth_in_m" type="string" required="no">
+	<cfargument name="min_elev_in_m" type="string" required="no">
+	<cfargument name="max_elev_in_m" type="string" required="no">
 	<cfargument name="spec_locality" type="string" required="no">
 	<cfargument name="geo_att_value" type="string" required="no">
+	<cfargument name="verificationstatus" type="string" required="no">
 	<cfargument name="collector" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
 	<cfargument name="verbatim_date" type="string" required="no">
@@ -1650,6 +1668,41 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("geo_att_value") AND len(geo_att_value) GT 0>
 		<cfset field = '"field": "geo_att_value"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#geo_att_value#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("verificationstatus") AND len(verificationstatus) GT 0>
+		<cfset field = '"field": "verificationstatus"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#verificationstatus#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("min_depth_in_m") AND len(min_depth_in_m) GT 0>
+		<cfset field = '"field": "min_depth_in_m"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#min_depth_in_m#",separator="#separator#",nestDepth="#nest#",dataType="NUMERIC")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("max_depth_in_m") AND len(max_depth_in_m) GT 0>
+		<cfset field = '"field": "max_depth_in_m"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#max_depth_in_m#",separator="#separator#",nestDepth="#nest#",dataType="NUMERIC")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("min_elev_in_m") AND len(min_elev_in_m) GT 0>
+		<cfset field = '"field": "min_elev_in_m"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#min_elev_in_m#",separator="#separator#",nestDepth="#nest#",dataType="NUMERIC")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("max_elev_in_m") AND len(max_elev_in_m) GT 0>
+		<cfset field = '"field": "max_elev_in_m"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#max_elev_in_m#",separator="#separator#",nestDepth="#nest#",dataType="NUMERIC")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
