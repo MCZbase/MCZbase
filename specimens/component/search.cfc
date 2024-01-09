@@ -713,7 +713,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<!--- ScriptNumberListToJson field paramter is just the field, not the json field:fielname clause in the local field variable. --->
 			<cfset justField = replace(field,'"field": "',"")>
 			<cfset justField = replace(justField,'"',"","All")>
-			<cfset newClause = ScriptNumberListToJSON(value, justField, nestDepth, join) >
+			<cfset justJoin = replace(join,'"join": "',"")>
+			<cfset justJoin = replace(justJoin,'"',"","All")>
+			<cfset newClause = ScriptNumberListToJSON(value, justField, nestDepth, justJoin) >
 			<cfset search_json = '#separator##newClause#'>
 			<cfreturn search_json>
 		<cfelseif left(value,1) is "=">
