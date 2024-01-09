@@ -895,23 +895,23 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3">
+															<div class="col-12 mb-1 col-md-2">
 																<label for="min_depth_in_m" class="data-entry-label small">Miniumum Depth (m)</label>
 																<cfif not isdefined("min_depth_in_m")><cfset min_depth_in_m=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="min_depth_in_m" name="min_depth_in_m" value="#encodeForHtml(min_depth_in_m)#">
 															</div>
-															<div class="col-12 mb-1 col-md-3">
-																<label for="max_depth_in_m" class="data-entry-label small">Max Depth (m)</label>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="max_depth_in_m" class="data-entry-label small">Maximum Depth (m)</label>
 																<cfif not isdefined("max_depth_in_m")><cfset max_depth_in_m=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="max_depth_in_m" name="max_depth_in_m" value="#encodeForHtml(max_depth_in_m)#">
 															</div>
-															<div class="col-12 mb-1 col-md-3">
+															<div class="col-12 mb-1 col-md-2">
 																<label for="min_elev_in_m" class="data-entry-label small">Miniumum Elevation (m)</label>
 																<cfif not isdefined("min_elev_in_m")><cfset min_elev_in_m=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="min_elev_in_m" name="min_elev_in_m" value="#encodeForHtml(min_elev_in_m)#">
 															</div>
-															<div class="col-12 mb-1 col-md-3">
-																<label for="max_elev_in_m" class="data-entry-label small">Max Elevation (m)</label>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="max_elev_in_m" class="data-entry-label small">Maximum Elevation (m)</label>
 																<cfif not isdefined("max_elev_in_m")><cfset max_elev_in_m=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="max_elev_in_m" name="max_elev_in_m" value="#encodeForHtml(max_elev_in_m)#">
 															</div>
