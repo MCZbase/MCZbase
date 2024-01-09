@@ -1103,6 +1103,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="island_group" type="string" required="no">
 	<cfargument name="feature" type="string" required="no">
 	<cfargument name="water_feature" type="string" required="no">
+	<cfargument name="min_depth_in_m" type="string" required="no">
+	<cfargument name="max_depth_in_m" type="string" required="no">
 	<cfargument name="spec_locality" type="string" required="no">
 	<cfargument name="geo_att_value" type="string" required="no">
 	<cfargument name="verificationstatus" type="string" required="no">
@@ -1658,6 +1660,20 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("verificationstatus") AND len(verificationstatus) GT 0>
 		<cfset field = '"field": "verificationstatus"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#verificationstatus#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("min_depth_in_m") AND len(min_depth_in_m) GT 0>
+		<cfset field = '"field": "min_depth_in_m"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#min_depth_in_m#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("max_depth_in_m") AND len(max_depth_in_m) GT 0>
+		<cfset field = '"field": "max_depth_in_m"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#max_depth_in_m#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
