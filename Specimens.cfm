@@ -330,7 +330,7 @@ limitations under the License.
 												<dt><span class="text-info font-weight-bold">Media Type</span></dt>
 												<dd>Click on (Any) to paste NOT NULL into the field, this will find records where there are any related media.</dd>
 												<dt><span class="text-info font-weight-bold">Min/Max Depth/Elevation Fields</span> </dt>
-												<dd>Search on depth or elevation converted from original units to meters, accepts 1-10 for ranges or <=1 or >=1 to search for open ended ranges.  Search on minimum depth and maximum depth are independent, likewise for elevation.  To search for all material known to be collected between two depth endpoints search on the same range e.g. 1-10 in minimum and maximum depth fields, this will find all material where the minimum depth is in that range and the maximum depth is in that range, likewise for elevation.</dd>
+												<dd>Search on depth or elevation converted from original units to meters, accepts 1-10 for ranges or <=1 or >=1 to search for open ended ranges.  Search on minimum depth and maximum depth are independent, likewise for elevation.  To search for all material known to be collected between two depth endpoints search on the same range e.g. 1-10 in minimum and maximum depth fields, this will find all material where the minimum depth is in that range and the maximum depth is in that range, likewise for elevation.  Search Minimum depth for NOT NULL to find any depth value.</dd>
 											</dl>
 										</div>
 									</aside>
