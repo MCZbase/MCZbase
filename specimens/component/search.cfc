@@ -714,8 +714,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset justField = replace(field,'"field": "',"")>
 			<cfset justField = replace(justField,'"',"","All")>
 			<cfset newClause = ScriptNumberListToJSON(value, justField, nestDepth, join) >
-			<cfset search_json = '#search_json##separator##newClause#'>
-			<cfreturn newClause>
+			<cfset search_json = '#separator##newClause#'>
+			<cfreturn search_json>
 		<cfelseif left(value,1) is "=">
 			<cfset value="#ucase(right(value,len(value)-1))#">
 			<cfset comparator = '"comparator": "="'>
