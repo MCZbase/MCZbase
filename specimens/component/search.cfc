@@ -699,7 +699,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="dataType" type="string" required="no" default="not specified">
 
 	<cfif CompareNoCase(dataType,"NUMERIC") EQ 0>
-		<cfset value = rereplace(value,"[^0-9,<>=.-]","","all") ><!--- " --->
+		<cfif value NEQ "NULL" and value NEQ "NOT NULL">
+			<cfset value = rereplace(value,"[^0-9,<>=.-]","","all") ><!--- " --->
+		</cfif>
 	</cfif>
 	<cfset search_json = "">
 	<cfif left(value,2) is "=<" or left(value,2) is "<=">
