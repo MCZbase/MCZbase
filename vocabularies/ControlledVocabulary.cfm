@@ -195,6 +195,23 @@
 				</cfloop>
 				</tbody>
 			</table>
+		<cfelseif table is "ctcoll_obj_disp">
+			<table class="table table-responsive table-striped d-lg-table">
+				<thead class="thead-light">
+				<tr>
+					<th>
+						Coll Obj Disposition
+					</th>
+				</tr>
+				</thead>
+				<tbody>
+				<cfloop query="docs">
+					<tr>
+						<td>#coll_obj_disposition#</td>
+					</tr>
+				</cfloop>
+				</tbody>
+			</table>
 		<cfelseif table is "ctlat_long_units">
 			<table class="table table-responsive table-striped d-lg-table">
 				<thead class="thead-light">

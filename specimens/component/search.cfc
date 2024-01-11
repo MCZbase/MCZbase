@@ -1093,6 +1093,11 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="other_id_type" type="string" required="no">
 	<cfargument name="part_name" type="string" required="no">
 	<cfargument name="preserve_method" type="string" required="no">
+	<cfargument name="part_remarks" type="string" required="no">
+	<cfargument name="coll_object_remarks" type="string" required="no">
+	<cfargument name="lot_count" type="string" required="no">
+	<cfargument name="coll_obj_disposition" type="string" required="no">
+	<cfargument name="disposition_remarks" type="string" required="no">
 	<cfargument name="other_id_number" type="string" required="no">
 	<cfargument name="type_status" type="string" required="no">
 	<cfargument name="full_taxon_name" type="string" required="no">
@@ -1354,6 +1359,41 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("part_name") AND len(part_name) GT 0>
 		<cfset field = '"field": "part_name"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#part_name#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("coll_object_remarks") AND len(coll_object_remarks) GT 0>
+		<cfset field = '"field": "coll_object_remarks"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#coll_object_remarks#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("part_remarks") AND len(part_remarks) GT 0>
+		<cfset field = '"field": "part_remarks"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#part_remarks#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("lot_count") AND len(lot_count) GT 0>
+		<cfset field = '"field": "lot_count"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#lot_count#",separator="#separator#",nestDepth="#nest#", dataType="NUMERIC")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("coll_obj_disposition") AND len(coll_obj_disposition) GT 0>
+		<cfset field = '"field": "coll_obj_disposition"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#coll_obj_disposition#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("disposition_remarks") AND len(disposition_remarks) GT 0>
+		<cfset field = '"field": "disposition_remarks"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#disposition_remarks#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
