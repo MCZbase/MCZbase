@@ -932,7 +932,8 @@ limitations under the License.
 											<div class="col-12 px-4 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
-													OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)>
+													OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)
+													OR (isDefined("verbatim_locality") and len(verbatim_locality) GT 0)>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"CollDetail") GT 0 OR hiddenHaveValue>
@@ -1035,6 +1036,11 @@ limitations under the License.
 																</cfif>
 																<label for="date_ended_date" class="data-entry-label small">Date Ended</label>
 																<input type="text" name="date_ended_date" class="data-entry-input inputHeight" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
+															</div>
+															<div class="col-12 mb-1 col-md-4">
+																<label for="verbatim_locality" class="data-entry-label small">Verbatim Locality</label>
+																<cfif not isdefined("verbatim_locality")><cfset verbatim_locality=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="verbatim_locality" name="verbatim_locality" value="#encodeForHtml(verbatim_locality)#">
 															</div>
 														</div>
 													</div>

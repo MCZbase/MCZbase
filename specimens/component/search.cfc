@@ -1138,6 +1138,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="verbatim_date" type="string" required="no">
 	<cfargument name="date_began_date" type="string" required="no">
 	<cfargument name="date_ended_date" type="string" required="no">
+	<cfargument name="verbatim_locality" type="string" required="no">
 	<cfargument name="date_collected" type="string" required="no">
 	<cfargument name="collecting_source" type="string" required="no">
 	<cfargument name="collecting_method" type="string" required="no">
@@ -1755,6 +1756,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("spec_locality") AND len(spec_locality) GT 0>
 		<cfset field = '"field": "spec_locality"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#spec_locality#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("verbatim_locality") AND len(verbatim_locality) GT 0>
+		<cfset field = '"field": "verbatim_locality"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#verbatim_locality#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
