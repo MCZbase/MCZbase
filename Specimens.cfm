@@ -1136,7 +1136,7 @@ limitations under the License.
 																<input type="text" class="data-entry-input inputHeight" id="coll_obj_disposition" name="coll_obj_disposition" value="#encodeForHtml(coll_obj_disposition)#">
 																<script>
 																	jQuery(document).ready(function() {
-																		makeCTFieldSearchAutocomplete("media_type","MEDIA_TYPE");
+																		makeCTFieldSearchAutocomplete("coll_obj_disposition","COLL_OBJ_DISP");
 																	});
 																</script>
 															</div>
