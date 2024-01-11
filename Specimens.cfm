@@ -724,7 +724,7 @@ limitations under the License.
 													OR (isDefined("max_depth_in_m") and len(ax_depth_in_m) GT 0)
 													OR (isDefined("min_elev_in_m") and len(min_elev_in_m) GT 0)
 													OR (isDefined("max_elev_in_m") and len(max_elev_in_m) GT 0)>
-													<cfset hiddenHaveValue = false>
+													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"GeogDetail") GT 0 or hiddenHaveValue>
 													<cfset GeogDetailStyle="">
