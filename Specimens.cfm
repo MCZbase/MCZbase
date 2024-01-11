@@ -1043,7 +1043,10 @@ limitations under the License.
 											<div class="col-12 search-form-basic-odd px-4 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("part_remarks") and len(part_remarks) GT 0)
-													OR (isDefined("coll_object_remarks") and len(coll_object_remarks) GT 0)>
+													OR (isDefined("coll_object_remarks") and len(coll_object_remarks) GT 0)
+													OR (isDefined("lot_count") and len(lot_count) GT 0)
+													OR (isDefined("disposition_remarks") and len(disposition_remarks) GT 0)
+													OR (isDefined("coll_obj_disposition") and len(coll_obj_disposition) GT 0)>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"SpecDetail") GT 0 OR hiddenHaveValue>
@@ -1121,6 +1124,26 @@ limitations under the License.
 																<label for="part_remarks" class="data-entry-label small">Part Remarks</label>
 																<cfif not isdefined("part_remarks")><cfset part_remarks=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="part_remarks" name="part_remarks" value="#encodeForHtml(part_remarks)#">
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="lot_count" class="data-entry-label small">Lot Count</label>
+																<cfif not isdefined("lot_count")><cfset lot_count=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="lot_count" name="lot_count" value="#encodeForHtml(lot_count)#">
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="coll_obj_disposition" class="data-entry-label small">Disposition</label>
+																<cfif not isdefined("coll_obj_disposition")><cfset coll_obj_disposition=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="coll_obj_disposition" name="coll_obj_disposition" value="#encodeForHtml(coll_obj_disposition)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeCTFieldSearchAutocomplete("media_type","MEDIA_TYPE");
+																	});
+																</script>
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="disposition_remarks" class="data-entry-label small">Disposition Remarks</label>
+																<cfif not isdefined("disposition_remarks")><cfset disposition_remarks=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
 															</div>
 														</div>
 													</div>
