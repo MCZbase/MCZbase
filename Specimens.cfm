@@ -1131,7 +1131,10 @@ limitations under the License.
 																<input type="text" class="data-entry-input inputHeight" id="lot_count" name="lot_count" value="#encodeForHtml(lot_count)#">
 															</div>
 															<div class="col-12 mb-1 col-md-2">
-																<label for="coll_obj_disposition" class="data-entry-label small">Disposition</label>
+																<label for="coll_obj_disposition" class="data-entry-label small">
+																	Disposition
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##coll_obj_disposition').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+																</label>
 																<cfif not isdefined("coll_obj_disposition")><cfset coll_obj_disposition=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="coll_obj_disposition" name="coll_obj_disposition" value="#encodeForHtml(coll_obj_disposition)#">
 																<script>
