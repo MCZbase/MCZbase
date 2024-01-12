@@ -698,53 +698,71 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="nestDepth" type="string" required="yes">
 	<cfargument name="dataType" type="string" required="no" default="not specified">
 
+	<cfif CompareNoCase(dataType,"NUMERIC") EQ 0>
+		<cfif value NEQ "NULL" and value NEQ "NOT NULL">
+			<cfset value = rereplace(value,"[^0-9,<>=.-]","","all") ><!--- " --->
+		</cfif>
+	</cfif>
 	<cfset search_json = "">
-		<cfif left(value,2) is "=<">
-			<cfset value="#ucase(right(value,len(value)-2))#">
-			<cfset comparator = '"comparator": "<="'>
-		<cfelseif left(value,2) is "=>"><!--- " --->
-			<cfset value="#ucase(right(value,len(value)-2))#">
-			<cfset comparator = '"comparator": ">="'><!--- " --->
-		<cfelseif left(value,1) is "=">
-			<cfset value="#ucase(right(value,len(value)-1))#">
-			<cfset comparator = '"comparator": "="'>
-		<cfelseif left(value,1) is "~">
-			<cfset value="#ucase(right(value,len(value)-1))#">
-			<cfset comparator = '"comparator": "JARO_WINKLER"'>
-		<cfelseif left(value,2) is ">=">
-			<cfset value="#ucase(right(value,len(value)-2))#">
-			<cfset comparator = '"comparator": ">="'><!--- " --->
-		<cfelseif left(value,2) is "<=">
-			<cfset value="#ucase(right(value,len(value)-2))#">
-			<cfset comparator = '"comparator": "<="'>
-		<cfelseif left(value,2) is "!~">
-			<cfset value="#ucase(right(value,len(value)-2))#">
-			<cfset comparator = '"comparator": "NOT JARO_WINKLER"'>
-		<cfelseif left(value,1) is "$">
-			<cfset value="#ucase(right(value,len(value)-1))#">
-			<cfset comparator = '"comparator": "SOUNDEX"'>
-		<cfelseif left(value,2) is "!$">
-			<cfset value="#ucase(right(value,len(value)-2))#">
-			<cfset comparator = '"comparator": "NOT SOUNDEX"'>
-		<cfelseif left(value,1) IS "!">
-			<cfset value="#ucase(right(value,len(value)-1))#">
-			<cfset comparator = '"comparator": "not like"'>
+	<cfif left(value,2) is "=<" or left(value,2) is "<=">
+		<cfset value="#ucase(right(value,len(value)-2))#">
+		<cfset comparator = '"comparator": "<="'>
+	<cfelseif left(value,2) is "=>" or left(value,2) is ">="><!--- " --->
+		<cfset value="#ucase(right(value,len(value)-2))#">
+		<cfset comparator = '"comparator": ">="'><!--- " --->
+	<cfelseif CompareNoCase(dataType,"NUMERIC") EQ 0 AND left(value,1) is "<">
+		<cfset comparator = '"comparator": "<"'>
+	<cfelseif CompareNoCase(dataType,"NUMERIC") EQ 0 AND left(value,1) is ">"><!--- " --->
+		<cfset comparator = '"comparator": ">"'><!--- " --->
+	<cfelseif CompareNoCase(dataType,"NUMERIC") EQ 0 AND (ArrayLen(REMatch("^[0-9]+\-[0-9]+$",value)) GT 0) >
+		<!--- ScriptNumberListToJson field paramter is just the field, not the json field:fielname clause in the local field variable. --->
+		<cfset justField = replace(field,'"field": "',"")>
+		<cfset justField = replace(justField,'"',"","All")>
+		<cfset justJoin = replace(join,'"join":"',"")>
+		<cfset justJoin = replace(justJoin,'"',"","All")>
+		<cfset newClause = ScriptNumberListToJSON(value, justField, nestDepth, justJoin) >
+		<cfset search_json = '#separator##newClause#'>
+		<cfreturn search_json>
+	<cfelseif left(value,1) is "=">
+		<cfset value="#ucase(right(value,len(value)-1))#">
+		<cfset comparator = '"comparator": "="'>
+	<cfelseif left(value,1) is "~">
+		<cfset value="#ucase(right(value,len(value)-1))#">
+		<cfset comparator = '"comparator": "JARO_WINKLER"'>
+	<cfelseif left(value,2) is ">=">
+		<cfset value="#ucase(right(value,len(value)-2))#">
+		<cfset comparator = '"comparator": ">="'><!--- " --->
+	<cfelseif left(value,2) is "<=">
+		<cfset value="#ucase(right(value,len(value)-2))#">
+		<cfset comparator = '"comparator": "<="'>
+	<cfelseif left(value,2) is "!~">
+		<cfset value="#ucase(right(value,len(value)-2))#">
+		<cfset comparator = '"comparator": "NOT JARO_WINKLER"'>
+	<cfelseif left(value,1) is "$">
+		<cfset value="#ucase(right(value,len(value)-1))#">
+		<cfset comparator = '"comparator": "SOUNDEX"'>
+	<cfelseif left(value,2) is "!$">
+		<cfset value="#ucase(right(value,len(value)-2))#">
+		<cfset comparator = '"comparator": "NOT SOUNDEX"'>
+	<cfelseif left(value,1) IS "!">
+		<cfset value="#ucase(right(value,len(value)-1))#">
+		<cfset comparator = '"comparator": "not like"'>
+	<cfelse>
+		<cfif REFind("([A-Za-z]+,[A-Za-z]+)+",value) GT 0>
+			<cfset comparator = '"comparator": "IN"'>
+		<cfelseif REFind("([0-9]+,[0-9]+)+",value) GT 0>
+			<cfset comparator = '"comparator": "IN"'>
 		<cfelse>
-			<cfif REFind("([A-Za-z]+,[A-Za-z]+)+",value) GT 0>
-				<cfset comparator = '"comparator": "IN"'>
-			<cfelseif REFind("([0-9]+,[0-9]+)+",value) GT 0>
-				<cfset comparator = '"comparator": "IN"'>
-			<cfelse>
-				<cfset comparator = '"comparator": "like"'>
-			</cfif>
-			<cfset value = replace(value,'\','\\',"all")>
-			<cfset value = replace(value,'"','\"',"all")>
+			<cfset comparator = '"comparator": "like"'>
 		</cfif>
-		<!--- special case handling for keyword search, comparator must be empty --->
-		<cfif CompareNoCase(dataType,"CTXKEYWORD") EQ 0 >
-			<cfset comparator = '"comparator": ""'>
-		</cfif>
-		<cfset search_json = '#search_json##separator#{"nest":"#nestDepth#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset value = replace(value,'\','\\',"all")>
+		<cfset value = replace(value,'"','\"',"all")>
+	</cfif>
+	<!--- special case handling for keyword search, comparator must be empty --->
+	<cfif CompareNoCase(dataType,"CTXKEYWORD") EQ 0 >
+		<cfset comparator = '"comparator": ""'>
+	</cfif>
+	<cfset search_json = '#search_json##separator#{"nest":"#nestDepth#",#join##field#,#comparator#,"value": "#value#"}'>
 	<cfreturn #search_json#>
 </cffunction>
 
@@ -1075,6 +1093,11 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="other_id_type" type="string" required="no">
 	<cfargument name="part_name" type="string" required="no">
 	<cfargument name="preserve_method" type="string" required="no">
+	<cfargument name="part_remarks" type="string" required="no">
+	<cfargument name="coll_object_remarks" type="string" required="no">
+	<cfargument name="lot_count" type="string" required="no">
+	<cfargument name="coll_obj_disposition" type="string" required="no">
+	<cfargument name="disposition_remarks" type="string" required="no">
 	<cfargument name="other_id_number" type="string" required="no">
 	<cfargument name="type_status" type="string" required="no">
 	<cfargument name="full_taxon_name" type="string" required="no">
@@ -1103,8 +1126,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="island_group" type="string" required="no">
 	<cfargument name="feature" type="string" required="no">
 	<cfargument name="water_feature" type="string" required="no">
+	<cfargument name="min_depth_in_m" type="string" required="no">
+	<cfargument name="max_depth_in_m" type="string" required="no">
+	<cfargument name="min_elev_in_m" type="string" required="no">
+	<cfargument name="max_elev_in_m" type="string" required="no">
 	<cfargument name="spec_locality" type="string" required="no">
 	<cfargument name="geo_att_value" type="string" required="no">
+	<cfargument name="verificationstatus" type="string" required="no">
 	<cfargument name="collector" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
 	<cfargument name="verbatim_date" type="string" required="no">
@@ -1331,6 +1359,41 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("part_name") AND len(part_name) GT 0>
 		<cfset field = '"field": "part_name"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#part_name#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("coll_object_remarks") AND len(coll_object_remarks) GT 0>
+		<cfset field = '"field": "coll_object_remarks"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#coll_object_remarks#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("part_remarks") AND len(part_remarks) GT 0>
+		<cfset field = '"field": "part_remarks"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#part_remarks#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("lot_count") AND len(lot_count) GT 0>
+		<cfset field = '"field": "lot_count"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#lot_count#",separator="#separator#",nestDepth="#nest#", dataType="NUMERIC")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("coll_obj_disposition") AND len(coll_obj_disposition) GT 0>
+		<cfset field = '"field": "coll_obj_disposition"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#coll_obj_disposition#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("disposition_remarks") AND len(disposition_remarks) GT 0>
+		<cfset field = '"field": "disposition_remarks"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#disposition_remarks#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
@@ -1650,6 +1713,41 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("geo_att_value") AND len(geo_att_value) GT 0>
 		<cfset field = '"field": "geo_att_value"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#geo_att_value#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("verificationstatus") AND len(verificationstatus) GT 0>
+		<cfset field = '"field": "verificationstatus"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#verificationstatus#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("min_depth_in_m") AND len(min_depth_in_m) GT 0>
+		<cfset field = '"field": "min_depth_in_m"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#min_depth_in_m#",separator="#separator#",nestDepth="#nest#",dataType="NUMERIC")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("max_depth_in_m") AND len(max_depth_in_m) GT 0>
+		<cfset field = '"field": "max_depth_in_m"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#max_depth_in_m#",separator="#separator#",nestDepth="#nest#",dataType="NUMERIC")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("min_elev_in_m") AND len(min_elev_in_m) GT 0>
+		<cfset field = '"field": "min_elev_in_m"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#min_elev_in_m#",separator="#separator#",nestDepth="#nest#",dataType="NUMERIC")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("max_elev_in_m") AND len(max_elev_in_m) GT 0>
+		<cfset field = '"field": "max_elev_in_m"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#max_elev_in_m#",separator="#separator#",nestDepth="#nest#",dataType="NUMERIC")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
@@ -3610,7 +3708,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cfoutput>
 			<cftransaction>
 			<cftry>
-				<cfif listFind("IDDetail,TaxaDetail,GeogDetail,CollDetail",id) EQ 0 >
+				<cfif listFind("IDDetail,TaxaDetail,GeogDetail,CollDetail,SpecDetail",id) EQ 0 >
 					<cfthrow message="unknown location search preference id.">
 				</cfif>
 				<cfquery name="getcurrentvalues" datasource="cf_dbuser">

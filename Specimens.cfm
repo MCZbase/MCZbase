@@ -329,6 +329,8 @@ limitations under the License.
 												<dd>Collecting Events are stored in two date fields (date began and date ended), plus a verbatim field.  Date Collected searches on both the began date and end date for collecting events.  A range search on Date Collected (e.g. 1980/1985) will find all cataloged items where both the date began and date ended fall within the specified range.  Usually you will want to search on Date Collected.  The began date and ended date fields can be searched separately for special cases, in particular cases where the collecting date range is poorly constrained.  Search on Began Date 1700-01-01 Ended Date 1800-01-01/1899-12-31 to find all material where the began date is not known, but the end date has been constrained to sometime in the 1800s (contrast with Date Collected 1800-01-01/1899-12-31 which finds material where both the start and end dates are in the 1800s).</dd>
 												<dt><span class="text-info font-weight-bold">Media Type</span></dt>
 												<dd>Click on (Any) to paste NOT NULL into the field, this will find records where there are any related media.</dd>
+												<dt><span class="text-info font-weight-bold">Min/Max Depth/Elevation Fields</span> </dt>
+												<dd>Search on depth or elevation converted from original units to meters, accepts 1-10 for ranges or <=1 or >=1 to search for open ended ranges.  Search on minimum depth and maximum depth are independent, likewise for elevation.  To search for all material known to be collected between two depth endpoints search on the same range e.g. 1-10 in minimum and maximum depth fields, this will find all material where the minimum depth is in that range and the maximum depth is in that range, likewise for elevation.  Search Minimum depth for NOT NULL to find any depth value.</dd>
 											</dl>
 										</div>
 									</aside>
@@ -487,6 +489,8 @@ limitations under the License.
 													OR (isDefined("species") and len(species) GT 0)
 													OR (isDefined("determiner") and len(determiner) GT 0)
 													OR (isDefined("citation") and len(citation) GT 0)
+													OR (isDefined("identification_remarks") and len(identification_remarks) GT 0)
+													OR (isDefined("common_name") and len(common_name) GT 0)
 													OR (isDefined("nature_of_id") and len(nature_of_id) GT 0)
 												>
 													<cfset hiddenHaveValue = true>
@@ -711,8 +715,16 @@ limitations under the License.
 													OR (isDefined("ocean_subregion") and len(ocean_subregion) GT 0)
 													OR (isDefined("sea") and len(sea) GT 0)
 													OR (isDefined("island_group") and len(island_group) GT 0)
-													OR (isDefined("island") and len(island) GT 0)>
-													<cfset hiddenHaveValue = false>
+													OR (isDefined("island") and len(island) GT 0)
+													OR (isDefined("feature") and len(feature) GT 0)
+													OR (isDefined("water_feature") and len(water_feature) GT 0)
+													OR (isDefined("geo_att_value") and len(geo_att_value) GT 0)
+													OR (isDefined("verificationstatus") and len(verificationstatus) GT 0)
+													OR (isDefined("min_depth_in_m") and len(min_depth_in_m) GT 0)
+													OR (isDefined("max_depth_in_m") and len(ax_depth_in_m) GT 0)
+													OR (isDefined("min_elev_in_m") and len(min_elev_in_m) GT 0)
+													OR (isDefined("max_elev_in_m") and len(max_elev_in_m) GT 0)>
+													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"GeogDetail") GT 0 or hiddenHaveValue>
 													<cfset GeogDetailStyle="">
@@ -880,6 +892,39 @@ limitations under the License.
 																	});
 																</script>
 															</div>
+															<div class="col-12 mb-1 col-md-3">
+																<label for="verificationstatus" class="data-entry-label small">
+																	Georeference Verification
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##verificationstatus').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+																</label>
+																<cfif not isdefined("verificationstatus")><cfset verificationstatus=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="verificationstatus" name="verificationstatus" value="#encodeForHtml(verificationstatus)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeCTFieldSearchAutocomplete('verificationstatus','VERIFICATIONSTATUS');
+																	});
+																</script>
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="min_depth_in_m" class="data-entry-label small">Miniumum Depth (m)</label>
+																<cfif not isdefined("min_depth_in_m")><cfset min_depth_in_m=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="min_depth_in_m" name="min_depth_in_m" value="#encodeForHtml(min_depth_in_m)#">
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="max_depth_in_m" class="data-entry-label small">Maximum Depth (m)</label>
+																<cfif not isdefined("max_depth_in_m")><cfset max_depth_in_m=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="max_depth_in_m" name="max_depth_in_m" value="#encodeForHtml(max_depth_in_m)#">
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="min_elev_in_m" class="data-entry-label small">Miniumum Elevation (m)</label>
+																<cfif not isdefined("min_elev_in_m")><cfset min_elev_in_m=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="min_elev_in_m" name="min_elev_in_m" value="#encodeForHtml(min_elev_in_m)#">
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="max_elev_in_m" class="data-entry-label small">Maximum Elevation (m)</label>
+																<cfif not isdefined("max_elev_in_m")><cfset max_elev_in_m=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="max_elev_in_m" name="max_elev_in_m" value="#encodeForHtml(max_elev_in_m)#">
+															</div>
 														</div>
 													</div>
 												</div>
@@ -996,9 +1041,27 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-12 search-form-basic-odd px-4 py-2">
+												<cfset hiddenHaveValue = false>
+												<cfif (isDefined("part_remarks") and len(part_remarks) GT 0)
+													OR (isDefined("coll_object_remarks") and len(coll_object_remarks) GT 0)
+													OR (isDefined("lot_count") and len(lot_count) GT 0)
+													OR (isDefined("disposition_remarks") and len(disposition_remarks) GT 0)
+													OR (isDefined("coll_obj_disposition") and len(coll_obj_disposition) GT 0)>
+													<cfset hiddenHaveValue = true>
+												</cfif>
+												<cfif listFind(searchPrefList,"SpecDetail") GT 0 OR hiddenHaveValue>
+													<cfset SpecDetailStyle="">
+													<cfset toggleTo = "0">
+													<cfset SpecButton = "Fewer Fields">
+												<cfelse>
+													<cfset SpecDetailStyle="display:none;">
+													<cfset toggleTo = "1">
+													<cfset SpecButton = "More Fields">
+												</cfif> 
 												<div class="col-12 col-xl-1 px-2 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block text-dark px-0 my-1 py-1">
 														Specimen&nbsp;&nbsp;
+														<button type="button" id="SpecDetailCtl" class="btn px-0 d-inline-block-md btn-xs float-right small py-0 border-0 btn-link" onclick="toggleSpecDetail(#toggleTo#);">(#SpecButton#)</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-lg-11 px-0 mx-0 mb-0">
@@ -1049,6 +1112,43 @@ limitations under the License.
 																makeCTFieldSearchAutocomplete("media_type","MEDIA_TYPE");
 															});
 														</script>
+													</div>
+													<div id="SpecDetail" class="col-12 px-0" style="#SpecDetailStyle#">
+														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
+															<div class="col-12 mb-1 col-md-3">
+																<label for="coll_object_remarks" class="data-entry-label small">Collection Object Remarks</label>
+																<cfif not isdefined("coll_object_remarks")><cfset coll_object_remarks=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="coll_object_remarks" name="coll_object_remarks" value="#encodeForHtml(coll_object_remarks)#">
+															</div>
+															<div class="col-12 mb-1 col-md-3">
+																<label for="part_remarks" class="data-entry-label small">Part Remarks</label>
+																<cfif not isdefined("part_remarks")><cfset part_remarks=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="part_remarks" name="part_remarks" value="#encodeForHtml(part_remarks)#">
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="lot_count" class="data-entry-label small">Lot Count</label>
+																<cfif not isdefined("lot_count")><cfset lot_count=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="lot_count" name="lot_count" value="#encodeForHtml(lot_count)#">
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="coll_obj_disposition" class="data-entry-label small">
+																	Disposition
+																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##coll_obj_disposition').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+																</label>
+																<cfif not isdefined("coll_obj_disposition")><cfset coll_obj_disposition=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="coll_obj_disposition" name="coll_obj_disposition" value="#encodeForHtml(coll_obj_disposition)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeCTFieldSearchAutocomplete("coll_obj_disposition","COLL_OBJ_DISP");
+																	});
+																</script>
+															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="disposition_remarks" class="data-entry-label small">Disposition Remarks</label>
+																<cfif not isdefined("disposition_remarks")><cfset disposition_remarks=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="disposition_remarks" name="disposition_remarks" value="#encodeForHtml(disposition_remarks)#">
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
@@ -1413,6 +1513,31 @@ limitations under the License.
 										}
 									).fail(function(jqXHR,textStatus,error){
 										handleFail(jqXHR,textStatus,error,"persisting CollDetail state");
+									});
+								</cfif>
+							}
+							function toggleSpecDetail(onOff) {
+								if (onOff==0) {
+									$("##SpecDetail").hide();
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('More Fields');
+								} else {
+									$("##SpecDetail").show();
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('Fewer Fields');
+								}
+								<cfif isdefined("session.username") and len(#session.username#) gt 0>
+									jQuery.getJSON("/specimens/component/search.cfc",
+										{
+											method : "saveBasicSrchPref",
+											id : 'SpecDetail',
+											onOff : onOff,
+											returnformat : "json",
+											queryformat : 'column'
+										},
+										function (data) { 
+											console.log(data);
+										}
+									).fail(function(jqXHR,textStatus,error){
+										handleFail(jqXHR,textStatus,error,"persisting SpecDetail state");
 									});
 								</cfif>
 							}
