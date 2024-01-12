@@ -1165,13 +1165,7 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
-													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-														<!--- reserve two columns for the debug control --->
-														<cfset keyword_cols="col-md-2">
-													<cfelse>
-														<cfset keyword_cols="col-md-4">
-													</cfif>
-													<div class="col-12 mb-1 #keyword_cols#">
+													<div class="col-12 mb-1 col-md-2">
 														<cfif not isdefined("keyword")>
 															<cfset keyword="">
 														</cfif>
@@ -1218,6 +1212,32 @@ limitations under the License.
 														<label for="last_edit_date" class="data-entry-label small">Last Updated on</label>
 														<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 													</div>
+													<div class="col-12 mb-1 col-md-2">
+														<label for="coll_object_entered_date" class="data-entry-label small">Last Updated By</label>
+														<cfif not isdefined("last_edited_person")><cfset last_edited_person=""></cfif>
+														<cfif not isdefined("last_edited_person_id")><cfset last_edited_person_id=""></cfif>
+														<!--- lookup agent name --->
+														<cfif len(last_edited_person) EQ 0 AND len(last_edited_person_id) GT 0>
+															<cfquery name="lookupEnteredBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupDeterminer_result">
+																SELECT agent_name
+																FROM preferred_agent_name
+																WHERE
+																	agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#last_edited_person_id#">
+															</cfquery>
+															<cfif lookupEnteredBy.recordcount EQ 1>
+																<cfset last_edited_person = "=#lookupDeterminer.agent_name#">
+															</cfif>
+														</cfif>
+														<input type="hidden" id="last_edited_person_id" name="last_edited_person_id" class="data-entry-input" value="#encodeForHtml(last_edited_person_id)#" >
+														<input type="text" id="last_edited_person" name="last_edited_person" class="data-entry-input inputHeight" value="#encodeForHtml(last_edited_person)#" >
+														<script>
+															jQuery(document).ready(function() {
+																// backing doesn't include a join to support substring search, so use picker configured to clear both fields.
+																makeConstrainedAgentPickerConfig('last_edited_person', 'last_edited_person_id', 'last_edited_person', true);
+															});
+														</script>
+													</div>
+LAST_EDITED_PERSON_ID
 													<div class="col-12 mb-1 col-md-2">
 														<label for="underscore_collection" class="data-entry-label small">Named Group
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(''); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></a>
