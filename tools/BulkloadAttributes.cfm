@@ -129,30 +129,30 @@ limitations under the License.
 					
 				<h3>Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
 					
-					<!---	<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 							#headers.get(JavaCast("int",actualColumnNumber))#
 							
-						</cfloop>--->
+						</cfloop>
 						<!--- TODO: Match the provided headers to the expected headers --->
 					
 					
-						<!--- Iterate through the remaining lines in the file --->
-				<!---		<cfloop condition="#iterator.hasNext()#">
-							<cfset row = iterator.next()>--->
-							<!--- as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number --->
-							<!--- TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber ---> 
-							<!--- TODO: Test for multibyte characters --->
-							<!--- TODO: Create insert statement --->
-			<!---				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+						 Iterate through the remaining lines in the file 
+						<cfloop condition="#iterator.hasNext()#">
+							<cfset row = iterator.next()>
+					<!---		 as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number 
+							 TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber  
+							 TODO: Test for multibyte characters 
+							 TODO: Create insert statement --->
+							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 								#row.get(JavaCast("int",actualColumnNumber))#
 							</cfloop>
-						</cfloop>--->
+						</cfloop>
 						<!--- End proof of concept code --->
 							<br><br>
 						<!-- *********************************** -->	
 						<!-- Example of Parsing and Reading Data -->	
 						<!-- *********************************** -->
-							<h3>Example of Parsing and Reading Data into Rows</h3>
+						<h3>Example of Parsing and Reading Data into Rows</h3>
 						<cfset filePath = "#tempFile#">
 						<cfset fileReaderClass = createObject("java", "java.io.FileReader")>
 						<cfset bufferedReaderClass = createObject("java", "java.io.BufferedReader")>
@@ -180,6 +180,7 @@ limitations under the License.
 						<h3>Header comparisons</h3>
 							
 						<cfparam name="filePath" default="#tempFile#">
+						
 						<cfset expectedHeaderString ="institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 						<cfset columnHeadersArray = createObject("java", "java.lang.String").valueOf(expectedHeaderString).split(",")>
 
@@ -196,20 +197,13 @@ limitations under the License.
 							<cfset actualHeaders = []>
 					
 							<!--- Iterate over the iterator to extract headers --->
-							<cfset headerIterator = headerRecord.iterator()>
-							<cfset institution_acronym_exists = false>
-							<cfset collection_cde_exists = false>
-							<cfset other_id_type_exists = false>
-							<cfset other_id_number_exists = false>
-							<cfset attribute_exists = false>
-							<cfset attribute_value_exists = false>
-							<cfset attribute_date_exists = false>
-							<cfset determiner_exists = false>
+							<ul>
+							
 							<cfloop from="1" to="#headerRecord.size()#" index="i">
 								<cfset actualHeaders[i] = javacast("string", headerIterator.next())>
-								#actualHeaders[i]#
+								<li>#actualHeaders[i]#</li>
 							</cfloop>
-
+							</ul>
 							<!--- Check if actual headers match expected headers --->
 							<cfset headersMatch = compareArrays(columnHeadersArray, actualHeaders)>
 
