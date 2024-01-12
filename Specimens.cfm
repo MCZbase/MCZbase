@@ -189,7 +189,7 @@ limitations under the License.
 	</style>
 <script>
   function toggleDisplay() {
-    var element = document.getElementById("formtoggle");
+      var elements = document.getElementsByClassName("formtoggle");
 
     // Check the current display property and toggle it
     if (element.style.display === "none") {
@@ -217,7 +217,7 @@ limitations under the License.
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
 					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
-					<button class="float-right btn btn-sm p-1 btn-secondary" style="width: 150px;" onclick="toggleDisplay()">Toggle Search Form</button>
+					<button class="float-right btn btn-sm p-1 btn-secondary" onclick="toggleDisplay()">Toggle Search Form</button>
 					<!--- populated with download dialog for external users --->
 					<div id="downloadAgreeDialogDiv"></div>
 					<!--- Tab header div --->
@@ -358,7 +358,7 @@ limitations under the License.
 										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
-										<div class="container-flex" id="formtoggle" style="display: block;">
+										<div class="container-flex formtoggle" style="display: block;">
 											<div class="col-12 search-form-basic-odd px-4 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
