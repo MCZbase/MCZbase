@@ -189,13 +189,15 @@ limitations under the License.
 	</style>
 <script>
   function toggleDisplay1() {
-      var elements = document.getElementsByClassName("formtoggle");
+    var elements = document.getElementsByClassName("togglesearchform");
 
-    // Check the current display property and toggle it
-    if (element.style.display === "none") {
-      element.style.display = "block";
-    } else {
-      element.style.display = "none";
+    // Iterate through elements with the specified class and toggle display
+    for (var i = 0; i < elements.length; i++) {
+      if (elements[i].style.display === "none") {
+        elements[i].style.display = "block";
+      } else {
+        elements[i].style.display = "none";
+      }
     }
   }
 </script>
@@ -358,7 +360,7 @@ limitations under the License.
 										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
-										<div class="container-flex formtoggle" style="display: block;">
+										<div class="container-flex togglesearchform" style="display: block;">
 											<div class="col-12 search-form-basic-odd px-4 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
