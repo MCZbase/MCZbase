@@ -187,6 +187,18 @@ limitations under the License.
   }
 }
 	</style>
+<script>
+  function toggleDisplay() {
+    var element = document.getElementById("myElement");
+
+    // Check the current display property and toggle it
+    if (element.style.display === "none") {
+      element.style.display = "block";
+    } else {
+      element.style.display = "none";
+    }
+  }
+</script>
 	<!--- TODO: Replace with a native javascript UUID function when it becomes available --->
 	<script>
 	// From broofa's answer in https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
@@ -205,6 +217,7 @@ limitations under the License.
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
 					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
+					<button onclick="toggleDisplay()">Toggle Search Form</button>
 					<!--- populated with download dialog for external users --->
 					<div id="downloadAgreeDialogDiv"></div>
 					<!--- Tab header div --->
@@ -345,7 +358,7 @@ limitations under the License.
 										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
-										<div class="container-flex">
+										<div class="container-flex" style="display: block;">
 											<div class="col-12 search-form-basic-odd px-4 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
