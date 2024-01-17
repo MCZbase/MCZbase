@@ -1088,6 +1088,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="entered_by" type="string" required="no"><!--- Not supported yet --->
 	<cfargument name="entered_by_agent_id" type="string" required="no">
 	<cfargument name="last_edit_date" type="string" required="no">
+	<cfargument name="last_edited_person" type="string" required="no"><!--- Not supported yet --->
+	<cfargument name="last_edited_person_agent_id" type="string" required="no">
 	<cfargument name="media_type" type="string" required="no">
 	<cfargument name="biol_indiv_relationship" type="string" required="no">
 	<cfargument name="other_id_type" type="string" required="no">
@@ -1138,6 +1140,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="verbatim_date" type="string" required="no">
 	<cfargument name="date_began_date" type="string" required="no">
 	<cfargument name="date_ended_date" type="string" required="no">
+	<cfargument name="verbatim_locality" type="string" required="no">
 	<cfargument name="date_collected" type="string" required="no">
 	<cfargument name="collecting_source" type="string" required="no">
 	<cfargument name="collecting_method" type="string" required="no">
@@ -1343,6 +1346,15 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset field = '"field": "ENTERED_PERSON_ID"'>
 		<cfset comparator = '"comparator": "="'>
 		<cfset value = encodeForJSON(entered_by_id)>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("last_edited_person_id") AND len(last_edited_person_id) GT 0>
+		<cfset field = '"field": "LAST_EDITED_PERSON_ID"'>
+		<cfset comparator = '"comparator": "="'>
+		<cfset value = encodeForJSON(last_edited_person_id)>
 		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
@@ -1755,6 +1767,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("spec_locality") AND len(spec_locality) GT 0>
 		<cfset field = '"field": "spec_locality"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#spec_locality#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("verbatim_locality") AND len(verbatim_locality) GT 0>
+		<cfset field = '"field": "verbatim_locality"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#verbatim_locality#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
