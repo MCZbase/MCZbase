@@ -213,7 +213,7 @@ limitations under the License.
 	</script>
 <script>
 var jqxGrid = document.getElementById("jqxGrid");
-if (myitem.addEventListener)
+if (jqxGrid.addEventListener)
 {
     // IE9, Chrome, Safari, Opera
     jqxGrid.addEventListener("mousewheel", MouseWheelHandler, false);
