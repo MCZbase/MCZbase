@@ -2875,17 +2875,15 @@ Target JSON:
 				}
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
-					width: '90%',
+					width: '100%',
 					autoheight: 'true',
 					source: dataAdapter,
+					adaptive: true,
 					filterable: false,
 					sortable: true,
 					pageable: true,
 					virtualmode: true,
 					enablemousewheel: false,
-					showeverpresentrow: true,
-					everpresentrowactions: "add reset",
-					everpresentrowactionsmode: "columns",
 					editable: false,
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
