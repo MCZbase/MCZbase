@@ -2900,6 +2900,7 @@ Target JSON:
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 						$("##fixedsearchResultsGrid").jqxGrid('focus');
+						$("##fixedsearchResultsGrid").jqxGrid({ everpresentrowposition: 'top'}); 
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
