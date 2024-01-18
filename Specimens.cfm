@@ -2875,7 +2875,7 @@ Target JSON:
 				}
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
-					width: '100%',
+					width: 400,
 					autoheight: 'true',
 					source: dataAdapter,
 					adaptive: true,
