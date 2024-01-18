@@ -3071,14 +3071,14 @@ Target JSON:
 					width: '100%',
 					autoheight: 'true',
 					source: dataAdapter,
-					//filterable: false,  // turned off, will be difficult to support with server side paging of resultset
+					filterable: false,  // turned off, will be difficult to support with server side paging of resultset
 					sortable: true,
-					//pageable: true,
+					pageable: true,
 					editable: false,
 					virtualmode: true,
 					enablemousewheel: false,
-					//pagesize: '#session.specimens_pagesize#',
-					//pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
+					pagesize: '#session.specimens_pagesize#',
+					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
 					showaggregates: true,
 					columnsresize: true,
 					autoshowfiltericon: true,
@@ -3472,10 +3472,10 @@ Target JSON:
 			}
 		}
 
-	//	function pageLoaded(gridId, searchType, whichGrid) {
-	//		console.log('pageLoaded:' + gridId);
-	//		var pagingInfo = $("##" + gridId).jqxGrid("getpaginginformation");
-	//	}
+		function pageLoaded(gridId, searchType, whichGrid) {
+			console.log('pageLoaded:' + gridId);
+			var pagingInfo = $("##" + gridId).jqxGrid("getpaginginformation");
+		}
 
 		function togglePinColumn(gridId,column) { 
 			var state = $('##'+gridId).jqxGrid('getcolumnproperty', column, 'pinned');
