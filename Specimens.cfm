@@ -211,30 +211,7 @@ limitations under the License.
 	  );
 	}
 	</script>
-<script>
-var jqxGrid = document.getElementById("jqxGrid");
-if (jqxGrid.addEventListener)
-{
-    // IE9, Chrome, Safari, Opera
-    jqxGrid.addEventListener("mousewheel", MouseWheelHandler, false);
-    // Firefox
-    jqxGrid.addEventListener("DOMMouseScroll", MouseWheelHandler, false);
-}
-// IE 6/7/8
-else
-{
-    jqxGrid.attachEvent("onmousewheel", MouseWheelHandler);
-}
 
-function MouseWheelHandler(e)
-{
-    // cross-browser wheel delta
-    var e = window.event || e; // old IE support
-    var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-
-    return false;
-}
-</script>
 	<div id="overlaycontainer" style="position: relative;">
 		<main id="content" class="container-fluid">
 			<div class="row">
@@ -2922,7 +2899,7 @@ Target JSON:
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 						$("##fixedsearchResultsGrid").jqxGrid('focus');
-						$("##fixedsearchResultsGrid").jqxGrid('mousewheel', MouseWheelHandler, false);
+						$("##fixedsearchResultsGrid").jqxGrid('enablemousewheel', false);
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
