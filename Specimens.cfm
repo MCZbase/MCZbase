@@ -2898,7 +2898,7 @@ Target JSON:
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 						$("##fixedsearchResultsGrid").jqxGrid('focus');
-						$("##fixedsearchResultsGrid").jqxGrid('mousewheel', false);
+						$("##fixedsearchResultsGrid").jqxGrid('mousewheel', MouseWheelHandler, false);
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
