@@ -2882,6 +2882,7 @@ Target JSON:
 					sortable: true,
 					pageable: true,
 					virtualmode: true,
+					enablemousewheel: false,
 					editable: false,
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
@@ -2899,7 +2900,6 @@ Target JSON:
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 						$("##fixedsearchResultsGrid").jqxGrid('focus');
-						$("##fixedsearchResultsGrid").jqxGrid('enablemousewheel', false);
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
