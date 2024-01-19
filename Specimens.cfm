@@ -1638,7 +1638,7 @@ limitations under the License.
 									</aside>
 								</div>
 								<div role="search">
-									<form name= "keywordSearchForm" id="keywordSearchForm" class="container-fluid">
+									<form name= "keywordSearchForm" id="keywordSearchForm" class="container-fluid togglesearchform">
 										<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="executeKeywordSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="keywordSearch" class="keeponclear">
