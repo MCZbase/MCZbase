@@ -187,6 +187,29 @@ limitations under the License.
   }
 }
 	</style>
+<style>
+
+
+.headerSticky {
+  padding: 10px 16px;
+  background: #555;
+  color: #f1f1f1;
+}
+
+.contentSticky {
+  padding: 16px;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.sticky + .content {
+  padding-top: 102px;
+}
+</style>
 <script>
   function toggleDisplay1() {
     var elements = document.getElementsByClassName("togglesearchform");
