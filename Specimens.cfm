@@ -214,7 +214,10 @@ limitations under the License.
 
 	<div id="overlaycontainer" style="position: relative;">
 		<main id="content" class="container-fluid">
-			<div class="row">
+			<div class="headerSticky" id="myHeader">
+				<h2>My Header</h2>
+			</div>
+			<div class="row contentSticky">
 				<div class="col-12 mt-1 pb-3">
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
@@ -3671,6 +3674,7 @@ Target JSON:
 		}
 	}
 	</script --->
+	
 	<script>
 	/*!
 	 * classie - class helper functions
@@ -3742,7 +3746,20 @@ Target JSON:
 	
 	})( window );
 </script>
+<script>
+window.onscroll = function() {myFunction()};
 
+var headerSticky = document.getElementById("myHeader");
+var sticky = header.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset > sticky) {
+    header.classList.add("sticky");
+  } else {
+    header.classList.remove("sticky");
+  }
+}
+</script>
 
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
