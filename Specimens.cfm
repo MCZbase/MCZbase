@@ -1801,7 +1801,7 @@ Target JSON:
 										</div>
 									</aside>
 								</div>
-									<form id="builderSearchForm" class="container-fluid">
+									<form id="builderSearchForm" class="container-fluid togglesearchform">
 										<script>
 											var treeMap = new Map();
 											treeMap.set("1",["1"]);
