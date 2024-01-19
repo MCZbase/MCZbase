@@ -1703,7 +1703,7 @@ limitations under the License.
 									</form>
 								</div>
 								<!--- results for keyword search --->
-								<div class="container-fluid  togglesearchform" id="keywordSearchResultsSection">
+								<div class="container-fluid" id="keywordSearchResultsSection">
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
@@ -2305,7 +2305,7 @@ Target JSON:
 
 								</div>
 								<!--- results for search builder search --->
-								<div class="container-fluid togglesearchform" id="builderSearchResultsSection" aria-live="polite">
+								<div class="container-fluid" id="builderSearchResultsSection" aria-live="polite">
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
