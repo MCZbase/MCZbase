@@ -192,7 +192,7 @@ limitations under the License.
 
 .headerSticky {
   padding: 10px 16px;
-  background: #555;
+  background: ##555;
   color: #f1f1f1;
 }
 
