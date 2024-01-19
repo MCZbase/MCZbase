@@ -206,7 +206,7 @@ limitations under the License.
   width: 100%;
 }
 
-.sticky + .content {
+.sticky + .contentSticky {
   padding-top: 102px;
 }
 </style>
