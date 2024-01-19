@@ -220,7 +220,7 @@ limitations under the License.
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
 					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
-					<button class="float-right btn btn-sm p-1 btn-secondary" onclick="toggleDisplay1()">Toggle Search Form</button>
+					<button class="float-right btn btn-sm py-0 m-1 btn-secondary" onclick="toggleDisplay1()">Toggle Search Forms</button>
 					<!--- populated with download dialog for external users --->
 					<div id="downloadAgreeDialogDiv"></div>
 					<!--- Tab header div --->
