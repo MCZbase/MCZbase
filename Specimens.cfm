@@ -200,13 +200,13 @@ limitations under the License.
   padding: 16px;
 }
 
-.sticky {
+.sticky1 {
   position: fixed;
   top: 0;
   width: 100%;
 }
 
-.sticky + .content {
+.sticky1 + .content {
   padding-top: 102px;
 }
 </style>
@@ -3773,13 +3773,13 @@ Target JSON:
 window.onscroll = function() {myFunction()};
 
 var headerSticky = document.getElementById("myHeader");
-var sticky = header.offsetTop;
+var sticky1 = header.offsetTop;
 
 function myFunction() {
   if (window.pageYOffset > sticky) {
-    header.classList.add("sticky");
+    header.classList.add("sticky1");
   } else {
-    header.classList.remove("sticky");
+    header.classList.remove("sticky1");
   }
 }
 </script>
