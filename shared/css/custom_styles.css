@@ -2311,6 +2311,7 @@ button.help-btn {
 	margin-top:0;
 	position: absolute;
 }
+.jqx-fill-state-normal { border-color: #e0da76; background-color: #fffde8;}
 #collapseKeyword h2.headerSm {
 	font-size: 1.25rem;
 }
