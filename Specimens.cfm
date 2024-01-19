@@ -1785,7 +1785,7 @@ and collector = 'Brendan Haley'
 Target JSON:
  [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
 --->
-							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
+							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus" #builderTabShow#>
 								<div role="search">
 									<div class="col-3 float-right px-3"> 
 									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseBuilder" aria-expanded="false" aria-controls="collapseBuilder">
@@ -2305,7 +2305,7 @@ Target JSON:
 
 								</div>
 								<!--- results for search builder search --->
-								<div class="container-fluid togglesearchform" id="builderSearchResultsSection" aria-live="polite">
+								<div class="container-fluid" id="builderSearchResultsSection" aria-live="polite">
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
