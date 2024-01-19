@@ -237,9 +237,8 @@ limitations under the License.
 
 	<div id="overlaycontainer" style="position: relative;">
 		<main id="content" class="container-fluid">
-<!---			<div class="headerSticky" id="myHeader">
-				<h2>My Header</h2>
-			</div>--->
+<!---TODO:--->
+			<!---Make results stick to top without room to scroll up. in other words results row sticks to top of browser in view and results scroll under it. See W3Schools and other examples--->
 			<div class="row contentSticky">
 				<div class="col-12 mt-1 pb-3">
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
