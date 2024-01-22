@@ -1466,7 +1466,8 @@ div.sticky {
 															<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
 														</select>
 													</div>
-													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"><div class="sticky">Sticky Headers</div></output>
+												<div class="sticky">Sticky Headers</div>
+													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
 												<div class="row mx-0 mt-0"> 
 													
