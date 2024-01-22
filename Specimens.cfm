@@ -196,7 +196,7 @@ div.sticky {
 	border: ##000;
 	padding: 10px 25px;
 	font-size: 14px;
-	z-index: 600;
+	z-index: 340;
 }
 </style>
 <script>
