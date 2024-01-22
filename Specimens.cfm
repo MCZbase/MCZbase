@@ -3163,10 +3163,10 @@ Target JSON:
 					</cfif>
 				});
 		       // scroll to a row.
-            $("#scrolltobutton").click(function () {
+            $("##scrolltobutton").click(function () {
                 var index = parseInt($("#rowindexinput2").val());
                 if (!isNaN(index)) {
-                    $("#grid").jqxGrid('ensurerowvisible', index);
+                    $("##keywordsearchResultsGrid").jqxGrid('ensurerowvisible', index);
                 }
             });
 				$('##keywordsearchResultsGrid').on('rowexpand', function (event) {
