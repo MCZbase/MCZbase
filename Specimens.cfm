@@ -1468,10 +1468,10 @@ div.sticky {
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
 												<div class="row mx-0 mt-0"> 
-												
+													<div  class="sticky">sticky header</div>
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-													<div id="fixedenableselection" class="sticky"></div>
+													<div id="fixedenableselection"></div>
 												</div>
 											</div>
 										</div>
