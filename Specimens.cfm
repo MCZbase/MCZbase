@@ -1409,7 +1409,7 @@ div.sticky {
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
-												<div class="row mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
+												<div class="row sticky mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 ml-2 ml-md-1 pt3px">
 														<span tabindex="0">Results:</span> 
 														<span class="pr-2 font-weight-normal" id="fixedresultCount" tabindex="0"></span> 
@@ -1720,7 +1720,7 @@ div.sticky {
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
-												<div class="row mx-0 mt-0 mt-sm-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
+												<div class="row sticky mx-0 mt-0 mt-sm-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 pt3px ml-2 ml-md-1">
 														<span tabindex="0">Results:</span> 
 														<span class="pr-2 font-weight-normal" id="keywordresultCount" tabindex="0"></span> 
@@ -2318,7 +2318,7 @@ Target JSON:
 
 								</div>
 								<!--- results for search builder search --->
-								<div class="container-fluid" id="builderSearchResultsSection" aria-live="polite">
+								<div class="container-fluid sticky" id="builderSearchResultsSection" aria-live="polite">
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
