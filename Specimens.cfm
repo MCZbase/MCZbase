@@ -1408,10 +1408,10 @@ div.sticky {
 								</div>
 								<!--- results for fixed search --->
 								<div class="container-fluid" id="fixedSearchResultsSection">
-									<div class="row mx-0">
-										<div class="col-12">
+									<div class="row">
+										<div class="col-12 px-0">
 											<div class="mb-3">
-												<div class="sticky">Can we figure out how to make this work on the header row (e.g., GUID  | COLLECTION | CATALOG NUMBER | DEACCESSION | TOP TYPE STATUS | SPECIFIC LOCALITY | SCIENTIFIC NAME WITH AUTHOR | COLLECTORS | BEGAN DATE</div>
+												<div class="sticky">Can we figure out how to make this work on the column header row? (e.g., GUID  | COLLECTION | CATALOG NUMBER | DEACCESSION | TOP TYPE STATUS | SPECIFIC LOCALITY | SCIENTIFIC NAME WITH AUTHOR | COLLECTORS | BEGAN DATE</div>
 												<div class="row mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 ml-2 ml-md-1 pt3px">
 														<span tabindex="0">Results:</span> 

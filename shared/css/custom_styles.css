@@ -2301,9 +2301,10 @@ button.help-btn {
 	transform: translateX(-98%) rotate(-90deg);
 	transform-origin: right top;
 	margin-bottom: 15px;
-	top: -.25rem;
+	/*top: -.25rem;*/
+	top: 5.75rem
 	/*right: -70px;*/
-	right: -64px;
+	right: -115px;
 	z-index:1; 
 	padding-top:.15rem;
 	padding-bottom: .15rem; 
