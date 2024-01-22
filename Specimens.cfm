@@ -194,8 +194,8 @@ div.sticky {
 	top: 0 !important;
 	background-color: yellow;
 	padding: 5px;
-	font-size: 20px;
-	z-index: 100;
+	font-size: 12px;
+	z-index: 340;
 }
 </style>
 <script>
