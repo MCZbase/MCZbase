@@ -1466,12 +1466,13 @@ div.sticky {
 															<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
 														</select>
 													</div>
-													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
+													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"><div class="sticky">Sticky Headers</div></output>
 												</div>
 												<div class="row mx-0 mt-0"> 
+													
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
-														<div class="sticky">Sticky Headers</div>	
+															
 													</div>
 													<div id="fixedenableselection"></div>
 												</div>
