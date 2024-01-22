@@ -2739,7 +2739,7 @@ Target JSON:
 				fixedSearchLoaded = 0;
 
 				$("##overlay").show();
-				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="fixedResults sticky jqxGrid focus" style="z-index: 1;"></div>');
+				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="fixedResults jqxGrid focus" style="z-index: 1;"></div>');
 				$('##fixedresultCount').html('');
 				$('##fixedresultLink').html('');
 				$('##fixedmanageButton').html('');
