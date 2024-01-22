@@ -192,9 +192,9 @@ div.sticky {
 	position: -webkit-sticky !important;
 	position: sticky !important;
 	top: 0 !important;
-	background-color: buttongray;
+	background-color: ##deebec;
 	padding: 5px;
-	font-size: 12px;
+	font-size: 14px;
 	z-index: 600;
 }
 </style>
