@@ -193,7 +193,8 @@ div.sticky {
 	position: sticky !important;
 	top: 0 !important;
 	background-color: ##deebec;
-	padding: 5px;
+	border: ##ccc;
+	padding: 10px 25px;
 	font-size: 14px;
 	z-index: 600;
 }
