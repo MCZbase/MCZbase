@@ -2654,7 +2654,7 @@ Target JSON:
 		var yesNoFlagRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var displayValue = "No";
 			if (value==1) {
-            displayValue = "Yes";
+				displayValue = "Yes";
 			}
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+displayValue+'</span>';
 		};
