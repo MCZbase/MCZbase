@@ -3164,7 +3164,7 @@ Target JSON:
 				});
 		       // scroll to a row.
             $("##scrolltobutton").click(function () {
-                var index = parseInt($("#rowindexinput2").val());
+                var index = parseInt($("##rowindexinput2").val());
                 if (!isNaN(index)) {
                     $("##keywordsearchResultsGrid").jqxGrid('ensurerowvisible', index);
                 }
