@@ -229,7 +229,7 @@ div.sticky {
 <!---TODO:--->
 			<!---Make results stick to top without room to scroll up. in other words results row sticks to top of browser in view and results scroll under it. See W3Schools and other examples--->
 			<div class="row">
-				<div class="col-12 mt-1 pb-3">
+				<div class="col-11 mt-1 pb-3">
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
@@ -1408,8 +1408,8 @@ div.sticky {
 								</div>
 								<!--- results for fixed search --->
 								<div class="container-fluid" id="fixedSearchResultsSection">
-									<div class="row">
-										<div class="col-12 px-0">
+									<div class="row mx-0">
+										<div class="col-12">
 											<div class="mb-3">
 												<div class="sticky">Can we figure out how to make this work on the column header row? (e.g., GUID  | COLLECTION | CATALOG NUMBER | DEACCESSION | TOP TYPE STATUS | SPECIFIC LOCALITY | SCIENTIFIC NAME WITH AUTHOR | COLLECTORS | BEGAN DATE</div>
 												<div class="row mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
