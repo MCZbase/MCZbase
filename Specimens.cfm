@@ -188,26 +188,13 @@ limitations under the License.
 }
 	</style>
 <style>
-
-
-.headerSticky {
-  padding: 10px 16px;
-  background: ##555;
-  color: ##f1f1f1;
-}
-
-.contentSticky {
-  padding: 16px;
-}
-
-.sticky {
-  position: fixed;
+div.sticky {
+  position: -webkit-sticky;
+  position: sticky;
   top: 0;
-  width: 100%;
-}
-
-.sticky + .contentSticky {
-  padding-top: 102px;
+  background-color: yellow;
+  padding: 50px;
+  font-size: 20px;
 }
 </style>
 <script>
@@ -239,12 +226,13 @@ limitations under the License.
 		<main id="content" class="container-fluid">
 <!---TODO:--->
 			<!---Make results stick to top without room to scroll up. in other words results row sticks to top of browser in view and results scroll under it. See W3Schools and other examples--->
-			<div class="row contentSticky">
+			<div class="row">
 				<div class="col-12 mt-1 pb-3">
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
-					<h1 class="h3 smallcaps mb-1 pl-3 headerSticky" id="myHeader">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
+				
+					<h1 class="h3 smallcaps mb-1 pl-3 sticky">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
 					<button class="float-right btn btn-xs m-2 btn-secondary" onclick="toggleDisplay1()">Toggle Search Forms</button>
 					<!--- populated with download dialog for external users --->
 					<div id="downloadAgreeDialogDiv"></div>
@@ -3768,20 +3756,7 @@ Target JSON:
 	
 	})( window );
 </script>
-<script>
-window.onscroll = function() {myFunction()};
 
-var headerSticky = document.getElementById("myHeader");
-var sticky = header.offsetTop;
-
-function myFunction() {
-  if (window.pageYOffset > sticky) {
-    header.classList.add("sticky");
-  } else {
-    header.classList.remove("sticky");
-  }
-}
-</script>
 
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
