@@ -1470,7 +1470,9 @@ div.sticky {
 												</div>
 												<div class="row mx-0 mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
-													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
+														<div class="sticky">Sticky Headers</div>	
+													</div>
 													<div id="fixedenableselection"></div>
 												</div>
 											</div>
@@ -2411,7 +2413,7 @@ Target JSON:
 			</div>
 		</div>	
 	</div><!--- end overlaycontainer --->	
-	<div class="sticky">Sticky Headers</div>
+
 	<!---  TODO: Work the special case specimen search showLeftPush and showRightPush sections back into the standard grid divs used everywhere else above.
 			<section class="container-fluid">
 				<div class="row">
