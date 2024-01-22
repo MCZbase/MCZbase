@@ -189,12 +189,12 @@ limitations under the License.
 	</style>
 <style>
 div.sticky {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  background-color: yellow;
-  padding: 5px;
-  font-size: 20px;
+	position: -webkit-sticky !important;
+	position: sticky !important;
+	top: 0 !important;
+	background-color: yellow;
+	padding: 5px;
+	font-size: 20px;
 	z-index: 100;
 }
 </style>
@@ -1469,7 +1469,6 @@ div.sticky {
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
 												<div class="row mx-0 mt-0"> 
-													<div  class="sticky">sticky header</div>
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="fixedenableselection"></div>
@@ -2320,7 +2319,7 @@ Target JSON:
 
 								</div>
 								<!--- results for search builder search --->
-								<div class="container-fluid sticky" id="builderSearchResultsSection" aria-live="polite">
+								<div class="container-fluid" id="builderSearchResultsSection" aria-live="polite">
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
