@@ -1409,7 +1409,7 @@ div.sticky {
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
-												<div class="row sticky mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
+												<div class="row mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 ml-2 ml-md-1 pt3px">
 														<span tabindex="0">Results:</span> 
 														<span class="pr-2 font-weight-normal" id="fixedresultCount" tabindex="0"></span> 
@@ -1469,7 +1469,7 @@ div.sticky {
 												</div>
 												<div class="row mx-0 mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
-													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+													<div id="fixedsearchResultsGrid" class="jqxGrid sticky" role="table" aria-label="Search Results Table"></div>
 													<div id="fixedenableselection"></div>
 												</div>
 											</div>
