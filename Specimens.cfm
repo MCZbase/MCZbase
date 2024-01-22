@@ -192,7 +192,7 @@ div.sticky {
 	position: -webkit-sticky !important;
 	position: sticky !important;
 	top: 0 !important;
-	background-color: yellow;
+	background-color: buttongray;
 	padding: 5px;
 	font-size: 12px;
 	z-index: 600;
@@ -1410,7 +1410,7 @@ div.sticky {
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
-												<div class="sticky">Sticky Headers</div>
+												<div class="sticky">GUID</div>
 												<div class="row mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 ml-2 ml-md-1 pt3px">
 														<span tabindex="0">Results:</span> 
