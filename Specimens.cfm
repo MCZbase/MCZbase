@@ -2411,8 +2411,8 @@ Target JSON:
 			</div>
 		</div>	
 	</div><!--- end overlaycontainer --->	
-	
-			<!---  TODO: Work the special case specimen search showLeftPush and showRightPush sections back into the standard grid divs used everywhere else above.
+	<div class="sticky">Sticky Headers</div>
+	<!---  TODO: Work the special case specimen search showLeftPush and showRightPush sections back into the standard grid divs used everywhere else above.
 			<section class="container-fluid">
 				<div class="row">
 					<div class="col-12">
