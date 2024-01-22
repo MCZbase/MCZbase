@@ -2897,8 +2897,6 @@ Target JSON:
 					pageable: true,
 					virtualmode: true,
 					enablemousewheel: false,
-					showstatusbar: true,
-					statusbarheight: 50,
 					editable: false,
 					pagesize: '#session.specimens_pagesize#',
 					pagesizeoptions: ['5','10','25','50','100','1000'], // fixed list regardless of actual result set size, dynamic reset goes into infinite loop.
@@ -3164,6 +3162,13 @@ Target JSON:
 						setPinColumnState('keywordsearchResultsGrid','GUID',true);
 					</cfif>
 				});
+		       // scroll to a row.
+            $("#scrolltobutton").click(function () {
+                var index = parseInt($("#rowindexinput2").val());
+                if (!isNaN(index)) {
+                    $("#grid").jqxGrid('ensurerowvisible', index);
+                }
+            });
 				$('##keywordsearchResultsGrid').on('rowexpand', function (event) {
 					//  Create a content div, add it to the detail row, and make it into a dialog.
 					var args = event.args;
@@ -3759,7 +3764,9 @@ Target JSON:
 	
 	})( window );
 </script>
-
+<div>
+	<input value="100" style="width: 50px;" maxlength="4" id="rowindexinput2" type="text" /> <input id="scrolltobutton" type="button" value="Scroll to Row" />
+</div>
 
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
