@@ -1481,7 +1481,7 @@ div.sticky-pager {
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
 												<cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 2
+													select column_name from 'FLAT' and rownum = 1
 												</cfquery>
 												<cfif #action# eq "fixedSearch">
 													<div class="sticky">
