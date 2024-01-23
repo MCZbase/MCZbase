@@ -1471,7 +1471,7 @@ div.sticky {
 												
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
-												<div class="sticky">Orignal Header Sequence: GUID  | COLLECTION | CATALOG NUMBER | DEACCESSION | TOP TYPE STATUS | SPECIFIC LOCALITY | SCIENTIFIC NAME WITH AUTHOR | COLLECTORS | BEGAN DATE | ENDED DATE | COUNTRY | STATE/PROVINCE | WATERBODY | VERBATIM DATE |  COLLECTORS | BEGAN DATE | ENDED DATE | COUNTRY | STATE/PROVINCE | WATERBODY | VERBATIM DATE | OTHER IDS #search_result# </div>
+												<div class="sticky">Orignal Header Sequence: GUID  | COLLECTION | CATALOG NUMBER | DEACCESSION | TOP TYPE STATUS | SPECIFIC LOCALITY | SCIENTIFIC NAME WITH AUTHOR | COLLECTORS | BEGAN DATE | ENDED DATE | COUNTRY | STATE/PROVINCE | WATERBODY | VERBATIM DATE |  COLLECTORS | BEGAN DATE | ENDED DATE | COUNTRY | STATE/PROVINCE | WATERBODY | VERBATIM DATE | OTHER IDS  </div>
 													<!---(TO DO: Figure out how to make this sticky row work on the column header row)--->
 												<div class="row mx-0 mt-0"> 
 													
