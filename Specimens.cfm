@@ -1726,7 +1726,7 @@ div.sticky {
 								</div>
 								<!--- results for keyword search --->
 								<div class="container-fluid" id="keywordSearchResultsSection">
-									<div class="row mx-0">
+									<div class="row">
 										<div class="col-12">
 											<div class="mb-3">
 												<div class="row mx-0 mt-0 mt-sm-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
