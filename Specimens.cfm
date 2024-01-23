@@ -188,7 +188,7 @@ limitations under the License.
 }
 	</style>
 <style>
-div.jqx-grid-column-header {
+.jqx-grid-column-header {
 	position: -webkit-sticky !important;
 	position: sticky !important;
 	top: 0 !important;
