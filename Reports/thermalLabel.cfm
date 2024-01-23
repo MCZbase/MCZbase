@@ -35,7 +35,7 @@ limitations under the License.
 				GET_HIGHER_TAXA_LENLIMITED(cataloged_item.collection_object_id,80) highertaxa,
 				get_scientific_name_auths(cataloged_item.collection_object_id) sci_name_with_auth,
 				MCZBASE.GET_ALCOHOLIC_PART_COUNT(cataloged_item.collection_object_id) as alc_count,
-				get_single_other_id_display(cataloged_item.collection_object_id, 'WHOI number') whoi_number,
+				get_single_other_id_display(cataloged_item.collection_object_id, 'whoi jar number') whoi_number,
 				MCZBASE.GET_ALCOHOLIC_PART_COUNT(cataloged_item.collection_object_id) as alc_count,
 				--  Concatenate continent_ocean, ocean_region, ocean_subregion, sea and
 				--  trim leading duplicated ocean name from ocean_region, but
