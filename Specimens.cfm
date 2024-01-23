@@ -1411,7 +1411,7 @@ div.sticky {
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
-												<div class="sticky">Can we figure out how to make this work on the column header row? (e.g., GUID  | COLLECTION | CATALOG NUMBER | DEACCESSION | TOP TYPE STATUS | SPECIFIC LOCALITY | SCIENTIFIC NAME WITH AUTHOR | COLLECTORS | BEGAN DATE</div>
+												
 												<div class="row mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 ml-2 ml-md-1 pt3px">
 														<span tabindex="0">Results:</span> 
@@ -1471,6 +1471,7 @@ div.sticky {
 												
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
+												<div class="sticky"> GUID  | COLLECTION | CATALOG NUMBER | DEACCESSION | TOP TYPE STATUS | SPECIFIC LOCALITY | SCIENTIFIC NAME WITH AUTHOR | COLLECTORS | BEGAN DATE (TO DO: Figure out how to make this work on the column header row)</div>
 												<div class="row mx-0 mt-0"> 
 													
 													<!--- Grid Related code is below along with search handlers --->
