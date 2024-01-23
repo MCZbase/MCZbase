@@ -109,18 +109,18 @@ limitations under the License.
 							FROM getItems
 							WHERE 
 								whoi_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getWhoiNumbers.whoi_number#">
-								AND sci_name_with_auth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getWhoiNumbers.sci_name_with_auth#">
-								AND highertaxa = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getWhoiNumbers.highertaxa#">
+								AND sci_name_with_auth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxa.sci_name_with_auth#">
+								AND highertaxa = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxa.highertaxa#">
 						</cfquery>
 
 						<cfdocumentsection name="Lables">
 							<cfif previousTaxon NEQ highertaxa>
 								<div style="text-align: left;">
-									<strong style="font: 1em Helvetica;">#highertaxa#</strong>
+									<strong style="font: 1em Helvetica;">#getTaxa.highertaxa#</strong>
 								</div>
 							</cfif>
 							<div style="text-align: left;">
-								<strong style="font: 1em 'Times-Roman';">#sci_name_with_auth#</strong>
+								<strong style="font: 1em 'Times-Roman';">#getTaxa.sci_name_with_auth#</strong>
 							</div>
 							
 							<table style="#tableWidth#">
@@ -130,7 +130,7 @@ limitations under the License.
 											<strong style="font: 1.1em 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</strong>
 										</td>
 										<td>
-											<strong style="font: 1em Helvetica;">#sci_name_with_auth#</strong>
+											<strong style="font: 1em Helvetica;">#getSpecificItems.spec_locality#</strong>
 										</td>
 										<td>
 											<strong style="font: 1em Helvetica;">#getSpecificItems.alc_count#</strong>
