@@ -2327,9 +2327,8 @@ button.help-btn {
 .collapseStyle {
 	z-index: 3000; 
 	position: absolute; 
-	margin-top: -.87rem; 
+	margin-top: -.95rem; 
 	margin-right: 0rem;
-	box-shadow: .3 #ccc;
 }
 .current {
 	width: 300px;
