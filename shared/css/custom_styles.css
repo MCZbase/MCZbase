@@ -2327,7 +2327,7 @@ button.help-btn {
 .collapseStyle {
 	z-index: 3000; 
 	position: absolute; 
-	margin-top: 6.13rem; 
+	margin-top: -.87rem; 
 	margin-right: 0rem;
 }
 .current {
