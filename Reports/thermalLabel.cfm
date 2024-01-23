@@ -65,7 +65,7 @@ limitations under the License.
 			ORDER BY
 				lpad(cat_num,10)
 		</cfquery>
-		<cfquery name="getWhoiNumbers" datasource="query">
+		<cfquery name="getWhoiNumbers" dbtype="query">
 			SELECT count(collection_object_id) ct,
 				whoi_number, 
 				collection 
@@ -96,7 +96,7 @@ limitations under the License.
 						</div>
 					</cfdocumentsection>
 
-					<cfquery name="getTaxa" datasource="query">
+					<cfquery name="getTaxa" dbtype="query">
 						SELECT sci_name_with_auth, highertaxa 
 						FROM getItems
 						WHERE 
@@ -104,7 +104,7 @@ limitations under the License.
 					</cfquery>
 					<cfloop query="getTaxa">
 						<cfset previousTaxon = "">
-						<cfquery name="getSpecificItems" datasource="query">
+						<cfquery name="getSpecificItems" dbtype="query">
 							SELECT * 
 							FROM getItems
 							WHERE 
