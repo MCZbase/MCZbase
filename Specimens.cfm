@@ -198,6 +198,16 @@ div.sticky {
 	font-size: 14px;
 	z-index: 340;
 }
+div.sticky-pager {
+	position: -webkit-sticky !important;
+	position: sticky !important;
+	bottom: 0 !important;
+	background-color: ##deebec;
+	border: 1px solid ##c7c7c7 !important;
+	padding: 10px 25px;
+	font-size: 14px;
+	z-index: 340;
+}
 </style>
 <script>
   function toggleDisplay1() {
