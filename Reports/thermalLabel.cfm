@@ -123,15 +123,15 @@ limitations under the License.
 								
 								<table style="#labelWidth#">
 									<cfloop query="getSpecificItems">
-										<tr style="#labelWidth#">
-											<td>
-												<span style="font: 0.9em 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
+										<tr style="#labelWidth# vertical-align: top;">
+											<td style="vertical-align: top;">
+												<span style="font: 0.8em 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
 											</td>
-											<td>
-												<span style="font: 0.9em 'Times-Roman';">#getSpecificItems.spec_locality#</span>
+											<td style="vertical-align: top;">
+												<span style="font: 0.8em 'Times-Roman';">#getSpecificItems.spec_locality#</span>
 											</td>
-											<td>
-												<span style="font: 0.9em 'Times-Roman';">#getSpecificItems.alc_count# spec.</span>
+											<td style="vertical-align: top;">
+												<span style="font: 0.8em 'Times-Roman';">#getSpecificItems.alc_count# spec.</span>
 											</td>
 										</tr>
 									</cfloop>
