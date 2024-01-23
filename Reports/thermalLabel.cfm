@@ -122,8 +122,8 @@ limitations under the License.
 								</div>
 								
 								<table style="#labelWidth#">
-									<tr style="#labelWidth#">
-										<cfloop query="getSpecificItems">
+									<cfloop query="getSpecificItems">
+										<tr style="#labelWidth#">
 											<td>
 												<strong style="font: 1.1em 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</strong>
 											</td>
@@ -133,8 +133,8 @@ limitations under the License.
 											<td>
 												<strong style="font: 1em Helvetica;">#getSpecificItems.alc_count#</strong>
 											</td>
-										</cfloop>
-									</tr>
+										</tr>
+									</cfloop>
 								</table>
 	
 						</cfloop>
