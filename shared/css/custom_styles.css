@@ -2329,6 +2329,7 @@ button.help-btn {
 	position: absolute; 
 	margin-top: -.87rem; 
 	margin-right: 0rem;
+	box-shadow: .3 #ccc;
 }
 .current {
 	width: 300px;
