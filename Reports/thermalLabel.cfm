@@ -92,7 +92,7 @@ limitations under the License.
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
 						<div style="text-align: center;">
-							WHOI Jar Number #getWhoiNumbers.other_number# #getWhoiNumbers.whoi_number#
+							WHOI Jar Number #getWhoiNumbers.whoi_number#
 						</div>
 					</cfdocumentsection>
 
