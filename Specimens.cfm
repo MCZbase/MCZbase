@@ -2644,7 +2644,7 @@ Target JSON:
 	
 		// cell renderer to link out to specimen details page by guid, when value is guid.
 		var linkGuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a class="celllink sticky" target="_blank" href="/guid/' + value + '">'+value+'</a></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a class="celllink" target="_blank" href="/guid/' + value + '">'+value+'</a></span>';
 		};
 		// cell renderer to link out to taxon page by scientific name, when value is scientific name.
 		var linkTaxonCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
