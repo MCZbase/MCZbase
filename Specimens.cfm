@@ -1480,7 +1480,7 @@ div.sticky-pager {
 												
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
-												<cfif #action# = "fixedSearch">
+												<cfif #action# eq "fixedSearch">
 													<div class="sticky">
 														<cfloop query = "column_headers">
 														#column_headers.column_name#
