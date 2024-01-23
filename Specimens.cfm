@@ -1483,7 +1483,7 @@ div.sticky-pager {
 												</div>
 												<div class="sticky">
 													<cfloop query = "column_headers">
-													#column_name#
+													#column_headers.column_name#
 													</cfloop>
 					<!---								Original Column Header Sequence: GUID  | COLLECTION | CATALOG NUMBER | DEACCESSION | TOP TYPE STATUS | SPECIFIC LOCALITY | SCIENTIFIC NAME WITH AUTHOR | COLLECTORS | BEGAN DATE | ENDED DATE | COUNTRY | STATE/PROVINCE | WATERBODY | VERBATIM DATE |  COLLECTORS | BEGAN DATE | ENDED DATE | COUNTRY | STATE/PROVINCE | WATERBODY | VERBATIM DATE | OTHER IDS  --->
 												</div>
