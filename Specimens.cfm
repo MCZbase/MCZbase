@@ -1480,19 +1480,25 @@ div.sticky-pager {
 												
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
-												<cfif #action# eq "fixedSearch">
+							<!---					<cfif #action# eq "fixedSearch">
+													<div class="sticky">
+														<cfloop query = "column_headers">
+														#column_headers.column_name#
+														</cfloop>
+													</div>
+												</cfif>--->
+													<!---(TO DO: Figure out how to make this sticky row work on the column header row)--->
+												<div class="row mx-0 mt-0"> 
+													
+													<!--- Grid Related code is below along with search handlers --->
+													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
+													<cfif #action# eq "fixedSearch">
 													<div class="sticky">
 														<cfloop query = "column_headers">
 														#column_headers.column_name#
 														</cfloop>
 													</div>
 												</cfif>
-													<!---(TO DO: Figure out how to make this sticky row work on the column header row)--->
-												<div class="row mx-0 mt-0"> 
-													
-													<!--- Grid Related code is below along with search handlers --->
-													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
-															
 													</div>
 													<div id="fixedenableselection"></div>
 												</div>
