@@ -1480,25 +1480,22 @@ div.sticky-pager {
 												
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
-							<!---					<cfif #action# eq "fixedSearch">
-													<div class="sticky">
-														<cfloop query = "column_headers">
-														#column_headers.column_name#
-														</cfloop>
-													</div>
-												</cfif>--->
-													<!---(TO DO: Figure out how to make this sticky row work on the column header row)--->
-												<div class="row mx-0 mt-0"> 
-													
-													<!--- Grid Related code is below along with search handlers --->
-													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
-													<cfif #action# eq "fixedSearch">
+												<cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
+												</cfquery>
+												<cfif #action# eq "fixedSearch">
 													<div class="sticky">
 														<cfloop query = "column_headers">
 														#column_headers.column_name#
 														</cfloop>
 													</div>
 												</cfif>
+													<!---(TO DO: Figure out how to make this sticky row work on the column header row)--->
+												<div class="row mx-0 mt-0"> 
+													
+													<!--- Grid Related code is below along with search handlers --->
+													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
+															
 													</div>
 													<div id="fixedenableselection"></div>
 												</div>
