@@ -87,60 +87,58 @@ limitations under the License.
 			<cfoutput>
 				<cfloop query="getWhoiNumbers">
 
-					<cfdocumentsection name="header">
+					<cfdocumentsection name="aLabel">
 						<div style="text-align: center; font-size: small;">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
 						<div style="text-align: center;">
 							WHOI Jar Number #getWhoiNumbers.whoi_number#
 						</div>
-					</cfdocumentsection>
 
-					<cfquery name="getTaxa" dbtype="query">
-						SELECT DISTINCT sci_name_with_auth, highertaxa 
-						FROM getItems
-						WHERE 
-							whoi_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getWhoiNumbers.whoi_number#">
-					</cfquery>
-					<cfloop query="getTaxa">
-						<cfset previousTaxon = "">
-						<cfquery name="getSpecificItems" dbtype="query">
-							SELECT DISTINCT * 
+						<cfquery name="getTaxa" dbtype="query">
+							SELECT DISTINCT sci_name_with_auth, highertaxa 
 							FROM getItems
 							WHERE 
 								whoi_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getWhoiNumbers.whoi_number#">
-								AND sci_name_with_auth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxa.sci_name_with_auth#">
-								AND highertaxa = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxa.highertaxa#">
 						</cfquery>
-
-						<cfdocumentsection name="Lables">
-							<cfif previousTaxon NEQ highertaxa>
+						<cfloop query="getTaxa">
+							<cfset previousTaxon = "">
+							<cfquery name="getSpecificItems" dbtype="query">
+								SELECT DISTINCT * 
+								FROM getItems
+								WHERE 
+									whoi_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getWhoiNumbers.whoi_number#">
+									AND sci_name_with_auth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxa.sci_name_with_auth#">
+									AND highertaxa = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getTaxa.highertaxa#">
+							</cfquery>
+	
+								<cfif previousTaxon NEQ highertaxa>
+									<div style="text-align: left;">
+										<strong style="font: 1em Helvetica;">#getTaxa.highertaxa#</strong>
+									</div>
+								</cfif>
 								<div style="text-align: left;">
-									<strong style="font: 1em Helvetica;">#getTaxa.highertaxa#</strong>
+									<strong style="font: 1em 'Times-Roman';">#getTaxa.sci_name_with_auth#</strong>
 								</div>
-							</cfif>
-							<div style="text-align: left;">
-								<strong style="font: 1em 'Times-Roman';">#getTaxa.sci_name_with_auth#</strong>
-							</div>
-							
-							<table style="#labelWidth#">
-								<tr style="#labelWidth#">
-									<cfloop query="getSpecificItems">
-										<td>
-											<strong style="font: 1.1em 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</strong>
-										</td>
-										<td>
-											<strong style="font: 1em Helvetica;">#getSpecificItems.spec_locality#</strong>
-										</td>
-										<td>
-											<strong style="font: 1em Helvetica;">#getSpecificItems.alc_count#</strong>
-										</td>
-									</cfloop>
-								</tr>
-							</table>
-						</cfdocumentsection>
-
-					</cfloop>
+								
+								<table style="#labelWidth#">
+									<tr style="#labelWidth#">
+										<cfloop query="getSpecificItems">
+											<td>
+												<strong style="font: 1.1em 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</strong>
+											</td>
+											<td>
+												<strong style="font: 1em Helvetica;">#getSpecificItems.spec_locality#</strong>
+											</td>
+											<td>
+												<strong style="font: 1em Helvetica;">#getSpecificItems.alc_count#</strong>
+											</td>
+										</cfloop>
+									</tr>
+								</table>
+	
+						</cfloop>
+					</cfdocumentsection>
 					<cfdocumentitem type="pagebreak" />
 				</cfloop>
 
