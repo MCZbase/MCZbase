@@ -1485,7 +1485,7 @@ div.sticky-pager {
 												</cfquery>
 												<cfif #action# eq "fixedSearch">
 													<div class="sticky">
-														<ul class="list-group list-group-horizontal">
+														<ul class="list-group list-group-horizontal" style="overflow:hidden;">
 														<cfloop query = "column_headers1">
 															<li class="list-group-item">#column_headers1.column_name#</li>
 														</cfloop>
