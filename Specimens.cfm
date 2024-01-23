@@ -1485,9 +1485,11 @@ div.sticky-pager {
 												</cfquery>
 												<cfif #action# eq "fixedSearch">
 													<div class="sticky">
+														<ul class="list-group list-group-horizontal">
 														<cfloop query = "column_headers1">
-														#column_headers1.column_name#
+															<li class="list-group-item">#column_headers1.column_name#</li>
 														</cfloop>
+														</ul>
 													</div>
 												</cfif>
 													<!---(TO DO: Figure out how to make this sticky row work on the column header row)--->
