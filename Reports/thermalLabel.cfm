@@ -97,7 +97,7 @@ limitations under the License.
 					</cfdocumentsection>
 
 					<cfquery name="getTaxa" dbtype="query">
-						SELECT sci_name_with_auth, highertaxa 
+						SELECT DISTINCT sci_name_with_auth, highertaxa 
 						FROM getItems
 						WHERE 
 							whoi_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getWhoiNumbers.whoi_number#">
@@ -105,7 +105,7 @@ limitations under the License.
 					<cfloop query="getTaxa">
 						<cfset previousTaxon = "">
 						<cfquery name="getSpecificItems" dbtype="query">
-							SELECT * 
+							SELECT DISTINCT * 
 							FROM getItems
 							WHERE 
 								whoi_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getWhoiNumbers.whoi_number#">
@@ -123,7 +123,7 @@ limitations under the License.
 								<strong style="font: 1em 'Times-Roman';">#getTaxa.sci_name_with_auth#</strong>
 							</div>
 							
-							<table style="#tableWidth#">
+							<table style="#labelWidth#">
 								<tr style="#labelWidth#">
 									<cfloop query="getSpecificItems">
 										<td>
@@ -140,8 +140,8 @@ limitations under the License.
 							</table>
 						</cfdocumentsection>
 
+					</cfloop>
 					<cfdocumentitem type="pagebreak" />
-				</cfloop>
 				</cfloop>
 
 <!--- 
