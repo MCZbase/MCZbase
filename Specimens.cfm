@@ -188,7 +188,7 @@ limitations under the License.
 }
 	</style>
 <style>
-div.sticky {
+div.columntablefixedsearchResultsGrid {
 	position: -webkit-sticky !important;
 	position: sticky !important;
 	top: 0 !important;
