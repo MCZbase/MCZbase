@@ -83,15 +83,15 @@ limitations under the License.
 
 		<cfset pageheight = "6"><!--- should be tunable by number of records --->
 
-		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="4" pageheight="#pageheight#" margintop=".25" marginbottom=".25" marginleft=".5" marginright=".5" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
+		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="4" pageheight="#pageheight#" margintop=".15" marginbottom=".15" marginleft=".1" marginright=".1" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
 				<cfloop query="getWhoiNumbers">
 
 					<cfdocumentsection name="aLabel">
-						<div style="text-align: center; font-size: small;">
+						<div style="text-align: center;">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
-						<div style="text-align: center;">
+						<div style="text-align: center; padding-bottom: 1em; border-bottom: 1px solid;">
 							WHOI Jar Number #getWhoiNumbers.whoi_number#
 						</div>
 
@@ -113,7 +113,7 @@ limitations under the License.
 							</cfquery>
 	
 								<cfif previousTaxon NEQ highertaxa>
-									<div style="text-align: left;">
+									<div style="text-align: left; font-size: small;">
 										<strong style="font: 1em Helvetica;">#getTaxa.highertaxa#</strong>
 									</div>
 								</cfif>
@@ -125,13 +125,13 @@ limitations under the License.
 									<cfloop query="getSpecificItems">
 										<tr style="#labelWidth#">
 											<td>
-												<strong style="font: 1.1em 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</strong>
+												<span style="font: 0.9em 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
 											</td>
 											<td>
-												<strong style="font: 1em Helvetica;">#getSpecificItems.spec_locality#</strong>
+												<span style="font: 0.9em 'Times-Roman';">#getSpecificItems.spec_locality#</span>
 											</td>
 											<td>
-												<strong style="font: 1em Helvetica;">#getSpecificItems.alc_count#</strong>
+												<span style="font: 0.9em 'Times-Roman';">#getSpecificItems.alc_count# spec.</span>
 											</td>
 										</tr>
 									</cfloop>
