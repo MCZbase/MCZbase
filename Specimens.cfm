@@ -1494,11 +1494,8 @@ div.sticky-pager {
 												</cfif>
 													<!---(TO DO: Figure out how to make this sticky row work on the column header row)--->
 												<div class="row mx-0 mt-0"> 
-													
 													<!--- Grid Related code is below along with search handlers --->
-													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
-															
-													</div>
+													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="fixedenableselection"></div>
 												</div>
 											</div>
