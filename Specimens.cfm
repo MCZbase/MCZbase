@@ -3784,6 +3784,7 @@ Target JSON:
 	})( window );
 </script>
 
-
+<cfset headerRows = getGridColumnHiddenSettings("Specimens.cfm","Default","json","column")>
+#getGridColumnHiddenSettings#
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
