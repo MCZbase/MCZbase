@@ -206,7 +206,7 @@ div.sticky-pager {
 	border: 1px solid ##c7c7c7 !important;
 	padding: 10px 25px;
 	font-size: 14px;
-	z-index: 1;
+	z-index: 340;
 }
 </style>
 <script>
@@ -2588,6 +2588,10 @@ Target JSON:
 				var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['GUID'] +'</a></span>';
 			};
+			var fixed_toprowheader = function (row, columnfield, defaulthtml, ) {
+				var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+				return rowData['COLLECTION_OBJECT_ID'];
+			};
 			var keyword_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['GUID'] +'</a></span>';
@@ -2770,6 +2774,7 @@ Target JSON:
 				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="fixedResults jqxGrid focus" style="z-index: 1;"></div>');
 				$('##fixedresultCount').html('');
 				$('##fixedresultLink').html('');
+				$('##fixed_toprowheader#').html('');
 				$('##fixedmanageButton').html('');
 				$('##fixedsaveDialogButton').html('');
 				$('##fixedactionFeedback').html('');
