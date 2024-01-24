@@ -2923,6 +2923,7 @@ Target JSON:
 					filterable: false,
 					sortable: true,
 					pageable: false,
+					scrollmode: 'deferred',
 					virtualmode: true,
 					enablemousewheel: false,
 					editable: false,
