@@ -75,7 +75,7 @@ limitations under the License.
 </cfswitch>
 <cfset pageHasTabs="true">
 <cfinclude template = "/shared/_header.cfm">
-
+<cfinclude template="/shared/component/functions.cfc" runOnce="true">
 <cfset defaultSelectionMode = "none">
 <cfif defaultSelectionMode EQ "none">
 	<cfset defaultenablebrowserselection = "true">
@@ -3784,7 +3784,7 @@ Target JSON:
 	})( window );
 </script>
 
-<cfset headerRows = getGridColumnHiddenSettings("Specimens.cfm","Default","json","column")>
+<cfset headerRows = getGridColumnHiddenSettings(page_file_path="Specimens.cfm",label="Default",returnformat="json",queryformat="column")>
 #headerRows#
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
