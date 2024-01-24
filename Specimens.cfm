@@ -2574,6 +2574,15 @@ Target JSON:
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 			}
 		};
+		var headerRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+			var puri = rowData['preview_uri'];
+			if (puri != "") { 
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+ rowData + '</span>';
+			} else { 
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+rowData+'</span>';
+			}
+		};
 	
 		// *** Cell renderers that look up data from additional columns *********** 
 
@@ -2587,10 +2596,6 @@ Target JSON:
 			var fixed_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '">'+ rowData['GUID'] +'</a></span>';
-			};
-			var fixed_toprowheader = function (row, columnfield, defaulthtml, ) {
-				var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
-				return rowData['COLLECTION_OBJECT_ID'];
 			};
 			var keyword_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
@@ -2774,7 +2779,6 @@ Target JSON:
 				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="fixedResults jqxGrid focus" style="z-index: 1;"></div>');
 				$('##fixedresultCount').html('');
 				$('##fixedresultLink').html('');
-				$('##fixed_toprowheader').html('');
 				$('##fixedmanageButton').html('');
 				$('##fixedsaveDialogButton').html('');
 				$('##fixedactionFeedback').html('');
