@@ -2922,7 +2922,7 @@ Target JSON:
 					source: dataAdapter,
 					filterable: false,
 					sortable: true,
-					pageable: true,
+					pageable: false,
 					virtualmode: true,
 					enablemousewheel: false,
 					editable: false,
