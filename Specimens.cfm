@@ -2976,12 +2976,15 @@ Target JSON:
 						</cfloop>
 						#lastrow#
 					],
+					
 					rowdetails: true,
 					rowdetailstemplate: {
 						rowdetails: "<div style='margin: 10px;'>Row Details</div>",
 						rowdetailsheight:  1 // row details will be placed in popup dialog
 					},
 					initrowdetails: initRowDetails
+					var rowhead = "text: 'label'";
+					#rowhead#
 				});
 	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
