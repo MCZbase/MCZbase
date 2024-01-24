@@ -2576,11 +2576,12 @@ Target JSON:
 		};
 		var headerRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
-			var puri = rowData['preview_uri'];
-			if (puri != "") { 
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+ rowData + '</span>';
+			var headerRow = rowData['GUID'];
+			var headerRow2 = rowData['COLLECTION'] ;
+			if (headerRow != "") { 
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+ headerRow + '</span>';
 			} else { 
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+rowData+'</span>';
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+headerRow2+'</span>';
 			}
 		};
 	
@@ -2952,6 +2953,9 @@ Target JSON:
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
 						$("##fixedsearchResultsGrid").jqxGrid('focus');
 				//		$("##fixedsearchResultsGrid").jqxGrid({ everpresentrowposition: 'top'}); 
+					},
+					rendergridrows: function () {
+						return dataAdapter.records;
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
