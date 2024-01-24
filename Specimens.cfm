@@ -2918,12 +2918,11 @@ Target JSON:
 	
 				$("##fixedsearchResultsGrid").jqxGrid({
 					width: '100%',
-					autoheight: 'false',
+					autoheight: 'true',
 					source: dataAdapter,
 					filterable: false,
 					sortable: true,
-					pageable: false,
-					scrollmode: 'deferred',
+					pageable: true,
 					virtualmode: true,
 					enablemousewheel: false,
 					editable: false,
