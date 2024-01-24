@@ -2983,8 +2983,8 @@ Target JSON:
 						rowdetailsheight:  1 // row details will be placed in popup dialog
 					},
 					initrowdetails: initRowDetails
-					var rowhead = "text: 'label'";
-					#rowhead#
+		
+				
 				});
 	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
