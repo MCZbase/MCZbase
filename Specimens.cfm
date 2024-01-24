@@ -2774,7 +2774,7 @@ Target JSON:
 				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="fixedResults jqxGrid focus" style="z-index: 1;"></div>');
 				$('##fixedresultCount').html('');
 				$('##fixedresultLink').html('');
-				$('##fixed_toprowheader#').html('');
+				$('##fixed_toprowheader').html('');
 				$('##fixedmanageButton').html('');
 				$('##fixedsaveDialogButton').html('');
 				$('##fixedactionFeedback').html('');
