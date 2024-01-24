@@ -2974,7 +2974,8 @@ Target JSON:
 								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
 						</cfloop>
-						#lastrow#
+						#lastrow#,
+						#ucase(column_name)#
 					],
 					rowdetails: true,
 					rowdetailstemplate: {
