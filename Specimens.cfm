@@ -188,8 +188,9 @@ limitations under the License.
 }
 </style>
 <style>
-
+	.NS {display:none}
 .sticky{
+	display: block !important;
 	position: -webkit-sticky !important;
 	position: sticky !important;
 	top: 0 !important;
@@ -218,9 +219,9 @@ window.onscroll = function() {stickyheader()};
 
 function stickyheader() {
   if (document.documentElement.scrollTop > 50) {
-    document.getElementById("fixedSearchResultsSection").className = "sticky";
+    document.getElementById("IDP").className = "sticky";
   } else {
-    document.getElementById("fixedSearchResultsSection").className = "";
+    document.getElementById("IDP").className = "";
   }
 }
 </script>
@@ -1418,7 +1419,7 @@ function stickyheader() {
 									</form>
 								</div>
 								<!--- results for fixed search --->
-								<div class="container-fluid" id="fixedSearchResultsSection" onscroll="stickyheader()">
+								<div class="container-fluid" id="fixedSearchResultsSection">
 									<div class="row">
 										<div class="col-12">
 											<div class="mb-3">
@@ -1484,15 +1485,15 @@ function stickyheader() {
 												<cfquery name="column_headers1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select column_name from all_tab_columns where table_name = 'FLAT'
 												</cfquery>
-												<cfif #action# eq "fixedSearch">
-													<div class="sticky" style="display:none;">
+												<div id="IDP">
+													<div class="NS">
 														<ul class="list-group list-group-horizontal" style="overflow:hidden;">
 														<cfloop query = "column_headers1">
 															<li class="list-group-item">#column_headers1.column_name#</li>
 														</cfloop>
 														</ul>
 													</div>
-												</cfif>
+												</div>
 													<!---(TO DO: Figure out how to make this sticky row work on the column header row)--->
 												<div class="row mx-0 mt-0"> 
 													
