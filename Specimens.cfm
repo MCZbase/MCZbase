@@ -2555,7 +2555,7 @@ Target JSON:
 		ORDER by disp_order
 	</cfquery>
 	<script>
-		targetElement.onscroll = (event) => {
+		jqxGrid.onscroll = (event) => {
 			console.log('Scrolling...');
 		});
 		</script>
