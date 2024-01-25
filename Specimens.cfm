@@ -397,7 +397,7 @@ function stickyheader() {
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex togglesearchform" style="display: block;">
-											<div class="col-12 search-form-basic-odd px-4 py-2">
+											<div class="col-12 search-form-basic-odd py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
 													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
@@ -412,8 +412,8 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset IDButton = "More Fields">
 												</cfif> 
-												<div class="col-12 col-xl-1 px-2 px-xl-3 px-md-2 float-left">
-													<div class="small95 font-weight-bold d-inline-block-md text-dark mt-2 mb-0 py-0">
+												<div class="col-12 col-xl-1 px-2 float-left">
+													<div class="h5 font-weight-bold d-inline-block-md text-dark mt-2 mb-0 py-0">
 														Identifiers&nbsp;&nbsp;
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="btn btn-xs px-0 float-right small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">(#IDButton#)</button>
@@ -548,7 +548,7 @@ function stickyheader() {
 													</div>
 												</div>
 											</div>
-											<div class="col-12 px-4 py-2">
+											<div class="col-12 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("phylum") and len(phylum) GT 0)
 													OR (isDefined("phylclass") and len(phylclass) GT 0)
@@ -573,7 +573,7 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset TaxaButton = "More Fields">
 												</cfif>
-												<div class="col-12 col-xl-1 px-xl-3 px-2 px-md-2 float-left">
+												<div class="col-12 col-xl-1 float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-dark my-0 py-1">
 														Taxonomy&nbsp;&nbsp;
 														<button type="button" id="TaxaDetailCtl" class="btn d-inline-block-md btn-xs px-0 float-right small py-0 border-0 btn-link" onclick="toggleTaxaDetail(#toggleTo#);">(#TaxaButton#)</button>
@@ -804,8 +804,8 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset GeogButton = "More Fields">
 												</cfif>
-												<div class="col-12 col-xl-1 px-xl-3 px-2 px-md-2 float-left">
-													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-1">
+												<div class="col-12 col-xl-1 float-left">
+													<div class="h5 font-weight-bold d-inline-block-md text-dark my-0 py-1">
 														Geography&nbsp;&nbsp;
 														<button type="button" id="GeogDetailCtl" class="btn d-inline-block-md px-0 btn-xs float-right small py-0 border-0 btn-link" onclick="toggleGeogDetail(#toggleTo#);">(#GeogButton#)</button>
 													</div>
@@ -1014,7 +1014,7 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset CollButton = "More Fields">
 												</cfif> 
-												<div class="col-12 col-xl-1  float-left">
+												<div class="col-12 col-xl-1 float-left">
 													<div class="h5 d-inline-block-md text-dark my-0 py-1">
 														Events&nbsp;&nbsp;
 														<button type="button" id="CollDetailCtl" class="btn px-0 d-inline-block-md btn-xs float-right small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">(#CollButton#)</button>
@@ -1229,7 +1229,7 @@ function stickyheader() {
 											</div>
 											<div class="col-12 px-4 py-2">
 												<div class="col-12 col-xl-1 px-1 pt-0 float-left">
-													<div class="h4 font-weight-bold d-inline-block text-dark mb-1 pt-1">
+													<div class="h5 font-weight-bold d-inline-block text-dark mb-1 pt-1">
 														General/ Metadata
 													</div>
 												</div>
@@ -1325,7 +1325,7 @@ function stickyheader() {
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 search-form-basic-odd py-1">
 													<div class="col-12 col-xl-1 px-1 pt-2 float-left">
-														<div class="h4 font-weight-bold d-inline-block text-dark mb-1 pt-1">
+														<div class="h5 font-weight-bold d-inline-block text-dark mb-1 pt-1">
 															Transactions&nbsp;&nbsp;
 														</div>
 													</div>
