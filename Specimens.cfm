@@ -1522,10 +1522,10 @@ function stickyheader() {
 							function toggleIDDetail(onOff) {
 								if (onOff==0) {
 									$("##IDDetail").hide();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<i class="fas fa-chevron-circle-down"></i>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<i class="fas fa-chevron-circle-down"><span class="sr-only">show more fields</span></i>');
 								} else {
 									$("##IDDetail").show();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<i class="fas fa-chevron-circle-up"></i>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<i class="fas fa-chevron-circle-up"><span class="sr-only">show fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1547,10 +1547,10 @@ function stickyheader() {
 							function toggleTaxaDetail(onOff) {
 								if (onOff==0) {
 									$("##TaxaDetail").hide();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<i class="fas fa-chevron-circle-down"></i>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<i class="fas fa-chevron-circle-down"><span class="sr-only">show more fields</span></i>');
 								} else {
 									$("##TaxaDetail").show();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<i class="fas fa-chevron-circle-up"></i>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<i class="fas fa-chevron-circle-up"><span class="sr-only">show fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1572,10 +1572,10 @@ function stickyheader() {
 							function toggleGeogDetail(onOff) {
 								if (onOff==0) {
 									$("##GeogDetail").hide();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<i class="fas fa-chevron-circle-down"></i>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<i class="fas fa-chevron-circle-down"><span class="sr-only">show more fields</span></i>');
 								} else {
 									$("##GeogDetail").show();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<i class="fas fa-chevron-circle-up"></i>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<i class="fas fa-chevron-circle-up"><span class="sr-only">show fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1597,10 +1597,10 @@ function stickyheader() {
 							function toggleCollDetail(onOff) {
 								if (onOff==0) {
 									$("##CollDetail").hide();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<i class="fas fa-chevron-circle-down"></i>');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<i class="fas fa-chevron-circle-down"><span class="sr-only">show more fields</span></i>');
 								} else {
 									$("##CollDetail").show();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<i class="fas fa-chevron-circle-up"></i>');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<i class="fas fa-chevron-circle-up"><span class="sr-only">show fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1622,10 +1622,10 @@ function stickyheader() {
 							function toggleSpecDetail(onOff) {
 								if (onOff==0) {
 									$("##SpecDetail").hide();
-									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<i class="fas fa-chevron-circle-up"></i>');
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<i class="fas fa-chevron-circle-up"><span class="sr-only">show more fields</span></i>');
 								} else {
 									$("##SpecDetail").show();
-									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<i class="fas fa-chevron-circle-down"></i>');
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<i class="fas fa-chevron-circle-down"><span class="sr-only">show fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
