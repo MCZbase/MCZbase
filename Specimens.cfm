@@ -1421,7 +1421,7 @@ limitations under the License.
 									</form>
 								</div>
 								<!--- results for fixed search --->
-								<div class="container-fluid" id="fixedSearchResultsSection">
+								<div class="container-fluid" id="fixedSearchResultsSection" onscroll="stickyheader()">
 									<div class="row">
 										<div class="col-12">
 											<div class="mb-3">
