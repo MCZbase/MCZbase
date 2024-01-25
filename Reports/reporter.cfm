@@ -62,22 +62,30 @@
 		<input type="text" name="report_name" id="report_name" value="#e.report_name#" maxlength="38" style="width: 38em;">
 		<label for="report_template">Report Template (.cfr) or Handler (.cfm) [#encodeForHtml(e.report_template)#]</label>
 		<select name="report_template" id="report_template">
-			<option value="-notfound-">ERROR: Not found!</option>
-				<cfset matched = false>
-				<cfloop query="reportList">
-					<cfif reportList.name is e.report_template>
+			<cfset matched = false>
+			<cfloop query="reportList">
+				<cfif reportList.name is e.report_template>
+					<cfset selected='selected="selected"'>
+					<cfset matched=true>
+				<cfelse>
+					<cfset selected ="">
+				</cfif>
+				<option value="#reportList.name#" #selected#>#reportList.name#</option>
+			</cfloop>
+			<cfif NOT matched>
+				<cfloop query="reportHandlerList">
+					<cfif reportHandlerList.name is e.report_template>
 						<cfset selected='selected="selected"'>
 						<cfset matched=true>
 					<cfelse>
 						<cfset selected ="">
 					</cfif>
-					<option value="#name#" #selected#>#name#</option>
+					<option value="#reportHandlerList.name#" #selected#>#reportHandlerList.name#</option>
 				</cfloop>
-				<cfif NOT matched>
-					<cfloop query="reportHandlerList">
-						<option <cfif reportHandlerList.name is e.report_template> selected="selected" </cfif>value="#name#">#name#</option>
-					</cfloop>
-				</cfif>
+			</cfif>
+			<cfif NOT matched>
+				<option value="-notfound-" selected="selected">ERROR: Not found!</option>
+			</cfif>
 			</select>
 			<label for="pre_function">Pre-Function</label>
 			<input type="text" name="pre_function" id="pre_function" value="#e.pre_function#">
