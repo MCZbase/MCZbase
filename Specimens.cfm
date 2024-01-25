@@ -416,7 +416,7 @@ function stickyheader() {
 													<div class="h5 font-weight-bold d-inline-block-md text-dark mt-2 mb-0 py-0">
 														Identifiers&nbsp;&nbsp;
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
-															<button type="button" id="IDDetailCtl" class="btn btn-xs px-0 float-right small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">(#IDButton#)</button>
+															<button type="button" id="IDDetailCtl" class="btn btn-xs px-0 float-right small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
 													</div>
 												</div>	
@@ -576,7 +576,7 @@ function stickyheader() {
 												<div class="col-12 col-xl-1 float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-dark my-0 py-1">
 														Taxonomy&nbsp;&nbsp;
-														<button type="button" id="TaxaDetailCtl" class="btn d-inline-block-md btn-xs px-0 float-right small py-0 border-0 btn-link" onclick="toggleTaxaDetail(#toggleTo#);">(#TaxaButton#)</button>
+														<button type="button" id="TaxaDetailCtl" class="btn d-inline-block-md btn-xs px-0 float-right small py-0 border-0 btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-11 px-0 mx-0 mb-0">
@@ -1017,7 +1017,7 @@ function stickyheader() {
 												<div class="col-12 col-xl-1 float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-dark my-0 py-1">
 														Events&nbsp;&nbsp;
-														<button type="button" id="CollDetailCtl" class="btn px-0 d-inline-block-md btn-xs float-right small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">(#CollButton#)</button>
+														<button type="button" id="CollDetailCtl" class="btn px-0 d-inline-block-md btn-xs float-right small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-lg-11 px-0 mb-0 mx-0">
@@ -1136,7 +1136,7 @@ function stickyheader() {
 												<div class="col-12 col-xl-1 px-1 pt-2 float-left">
 													<div class="h5 font-weight-bold d-inline-block text-dark my-0 pt-1">
 														Specimen&nbsp;&nbsp;
-														<button type="button" id="SpecDetailCtl" class="btn px-0 d-inline-block-md btn-xs float-right small py-0 border-0 btn-link" onclick="toggleSpecDetail(#toggleTo#);">(#SpecButton#)</button>
+														<button type="button" id="SpecDetailCtl" class="btn px-0 d-inline-block-md btn-xs float-right small py-0 border-0 btn-link" onclick="toggleSpecDetail(#toggleTo#);">#SpecButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
@@ -1597,10 +1597,10 @@ function stickyheader() {
 							function toggleCollDetail(onOff) {
 								if (onOff==0) {
 									$("##CollDetail").hide();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<i class="fas fa-chevron-down"></i>');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<i class="fas fa-chevron-circle-down"></i>');
 								} else {
 									$("##CollDetail").show();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<i class="fas fa-chevron-up"></i>');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<i class="fas fa-chevron-circle-up"></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1622,10 +1622,10 @@ function stickyheader() {
 							function toggleSpecDetail(onOff) {
 								if (onOff==0) {
 									$("##SpecDetail").hide();
-									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<i class="fas fa-chevron-up"></i>');
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<i class="fas fa-chevron-circle-up"></i>');
 								} else {
 									$("##SpecDetail").show();
-									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<i class="fas fa-chevron-down"></i>');
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<i class="fas fa-chevron-circle-down"></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
