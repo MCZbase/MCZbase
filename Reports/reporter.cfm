@@ -103,7 +103,7 @@
 			<label for="sql_text">SQL</label>
 			<textarea name="sql_text" id="sql_text" rows="40" cols="120" wrap="soft"></textarea>
 			<br>
-			<input type="submit" value="Save Handler" class="savBtn">
+			<input type="submit" value="Save" class="savBtn">
 		</form>
 		<cfset j=JSStringFormat(e.sql_text)>
 		<script>
@@ -131,6 +131,7 @@
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "newHandler">
+	<!--- that is, insert a new cf_report_sql record --->
 	<cfset tc=getTickCount()>
 	<cfquery name="insertNewHandler" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO cf_report_sql (
@@ -268,9 +269,9 @@
 						</cfif>
 					</td>
 					<td>#report_name#</td>
-					<td><a href="/Reports/reporter.cfm?action=edit&report_id=#report_id#">Edit Handler</a></td>
-					<td><a href="/Reports/reporter.cfm?action=clone&report_id=#report_id#">Clone Handler</a></td>
-					<td><a href="/Reports/reporter.cfm?action=delete&report_id=#report_id#">Delete Handler</a></td>
+					<td><a href="/Reports/reporter.cfm?action=edit&report_id=#report_id#">Edit</a></td>
+					<td><a href="/Reports/reporter.cfm?action=clone&report_id=#report_id#">Clone</a></td>
+					<td><a href="/Reports/reporter.cfm?action=delete&report_id=#report_id#">Delete</a></td>
 					<cfif Right(getReports.report_template,4) EQ ".cfr"> 
 	            	<td><a href="/Reports/reporter.cfm?action=download&report_template=#report_template#">Download Report</a></td>
 					<cfelse>
@@ -284,7 +285,7 @@
 					<tr>
 						<td>#reportList.name#</td>
 						<td></td>
-						<td colspan="4"><a href="/Reports/reporter.cfm?action=newHandler&report_template=#reportList.name#">Create Handler</a></td>
+						<td colspan="4"><a href="/Reports/reporter.cfm?action=newHandler&report_template=#reportList.name#">Create</a></td>
 					</tr>
 				</cfif>
     		</cfloop>
