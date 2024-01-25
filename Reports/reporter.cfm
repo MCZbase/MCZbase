@@ -229,7 +229,6 @@
 					<td><a href="reporter.cfm?action=edit&report_id=#report_id#">Edit Handler</a></td>
 					<td><a href="reporter.cfm?action=clone&report_id=#report_id#">Clone Handler</a></td>
 					<td><a href="reporter.cfm?action=delete&report_id=#report_id#">Delete Handler</a></td>
-					<cfif 
 					<cfif Right(getReports.report_template,4) EQ ".cfr"> 
 	            	<td><a href="reporter.cfm?action=download&report_template=#report_template#">Download Report</a></td>
 					<cfelse>
