@@ -400,10 +400,16 @@ limitations under the License.
 			<cfelse>
 				<cfset extension="rtf">
 			</cfif>
-			<cfreport format="#e.report_format#"
-				template="#application.webDirectory#/Reports/templates/#e.report_template#"
-				query="d"
-				overwrite="true"></cfreport>
+			<cfif Right(e.report_template,4) EQ ".cfr"> 
+				<cfreport format="#e.report_format#"
+					template="#application.webDirectory#/Reports/templates/#e.report_template#"
+					query="d"
+					overwrite="true"></cfreport>
+			<cfelseif Right(e.report_template,4) EQ ".cfm">
+				<cflocation url="/Reports/templates/#e.report_template#?target=#e.report_name#" addToken="false">
+			<cfelse>
+				<cfthrow message="Unknown report file type specified for the template: #encodeForHtml(e.report_template)#">
+			</cfif> 
 		</cfoutput>
 	</cfcase>
 </cfswitch>
