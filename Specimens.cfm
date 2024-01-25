@@ -1475,21 +1475,14 @@ function stickyheader() {
 														</script>
 														<script>
 															function fixedMousewheel(){
-																$("##selectBtn").jqxButton({theme: theme});
-																$("##selectBtn").click(function(){
-																	$("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
-																});
-																
-																//val();
-																//$("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
-																//if (onOff==0) { 
-																//	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
-																//} else {
-																//	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
-																//}
+																var selHorizScroll = $("##selectBtn").val();
+																$("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
+																if (selHorizScroll=="") { 
+																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
+																} else {
+																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
+																}
 															};
-															
-												
 														</script>
 														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
