@@ -1508,7 +1508,10 @@ function stickyheader() {
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
 															
 													</div>
-													<div id="fixedenableselection"></div><div id="selectBtn" onClick="fixedMousewheel();" class="btn-xs btn btn-secondary">Toggle Mousewheel</div>
+													<div id="fixedenableselection"></div><div class="">Mousewheel: 
+														<button id="selectBtn1" onClick="fixedMousewheel();" class="btn-xs btn btn-secondary">On</button>
+														<button id="selectBtn2" onClick="fixedMousewheel();">Off</button>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -3803,13 +3806,21 @@ Target JSON:
 
 <script>
 function fixedMousewheel(){
-	var selHorizScroll = $("##selectBtn").val();
-	$("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
-	if (selHorizScroll=="") { 
-		$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
-	} else {
-		$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
-	}
+	$(function(){
+   $('##selectBtn1').on('click' , function(){
+      $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
+   });
+	$('##selectBtn2').on('click' , function(){
+      $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: false});
+   });
+	
+//	var selHorizScroll = $("##selectBtn").val();
+//	$("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
+//	if (selHorizScroll=="") { 
+//		$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
+//	} else {
+//		$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
+//	}
 };
 </script>
 </cfoutput>
