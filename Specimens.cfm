@@ -1474,14 +1474,19 @@ function stickyheader() {
 															};
 														</script>
 														<script>
-															function fixedMousewheel(onOff){
-																var selHorizScroll = $("##selectBtn").val();
-																$("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
-																if (onOff==0) { 
-																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
-																} else {
-																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
-																}
+															function fixedMousewheel(){
+																$("##selectBtn").jqxButton({theme: theme});
+																$("##selectBtn").click(function(){
+																	$("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
+																});
+																
+																//val();
+																//$("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
+																//if (onOff==0) { 
+																//	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
+																//} else {
+																//	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
+																//}
 															};
 															
 												
