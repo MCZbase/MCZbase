@@ -3,79 +3,100 @@
 <cfinclude template="/Reports/functions/label_functions.cfm">
 <!-------------------------------------------------------------->
 <cfif #action# is "delete">
-    <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        delete from cf_report_sql
-        where report_id= <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL">
-    </cfquery>
-    <cflocation url="reporter.cfm">
+	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		DELETE FROM cf_report_sql
+		WHERE report_id= <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL">
+	</cfquery>
+	<cflocation url="reporter.cfm">
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "saveEdit">
-    <cfif unsafeSql(sql_text)>
-        Your SQL is not acceptable.
-        <cfabort>
-    </cfif>
+	<cfif unsafeSql(sql_text)>
+		Your SQL is not acceptable.
+		<cfabort>
+	</cfif>
 	<cfif REFind("[^A-Za-z0-9_]",report_name,1) gt 0>
 		report_name must contain only alphanumeric characters and underscore.
 		<cfabort>
 	</cfif>
-    <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        update cf_report_sql set
-        report_name = <CFQUERYPARAM VALUE="#report_name#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
-        report_template  = <CFQUERYPARAM VALUE="#report_template#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
-        sql_text = <CFQUERYPARAM VALUE="#sql_text#" CFSQLTYPE="CF_SQL_CLOB"> ,
-        description = <CFQUERYPARAM VALUE="#description#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
-        pre_function = <CFQUERYPARAM VALUE="#pre_function#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
-        report_format = <CFQUERYPARAM VALUE="#report_format#" CFSQLTYPE="CF_SQL_VARCHAR">
-        where report_id = <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL">
-    </cfquery>
-    <cflocation url="reporter.cfm?action=edit&report_id=#report_id#">
+	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		UPDATE cf_report_sql 
+		SET
+			report_name = <CFQUERYPARAM VALUE="#report_name#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
+			report_template  = <CFQUERYPARAM VALUE="#report_template#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
+			sql_text = <CFQUERYPARAM VALUE="#sql_text#" CFSQLTYPE="CF_SQL_CLOB"> ,
+			description = <CFQUERYPARAM VALUE="#description#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
+			pre_function = <CFQUERYPARAM VALUE="#pre_function#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
+			report_format = <CFQUERYPARAM VALUE="#report_format#" CFSQLTYPE="CF_SQL_VARCHAR">
+		WHERE report_id = <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL">
+	</cfquery>
+	<cflocation url="reporter.cfm?action=edit&report_id=#report_id#">
 </cfif>
 <!--------------------------------------------------------------------------------------->
 <cfif #action# is "edit">
-    <cfif not isdefined("report_id")>
-	    <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	        select report_id from cf_report_sql where report_name='#report_name#'
-	    </cfquery>
-        <cflocation url="reporter.cfm?action=edit&report_id=#e.report_id#">
-    </cfif>
+	<cfif not isdefined("report_id") AND isDefined ("report_name")>
+		<!--- if given a report name instead of report id, redirect --->
+		<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT 
+				report_id 
+			FROM cf_report_sql 
+			WHERE report_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#report_name#">
+		</cfquery>
+		<cflocation url="reporter.cfm?action=edit&report_id=#e.report_id#">
+	</cfif>
 
-    <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select * from cf_report_sql where report_id='#report_id#'
-    </cfquery>
-    <cfdirectory action="list" directory="#Application.webDirectory#/Reports/templates" filter="*.cfr" name="reportList">
+	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT 
+			report_id, report_name, report_template, sql_text_old, pre_function, report_format, sql_text, description 
+		FROM cf_report_sql 
+		WHERE report_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#report_id#">
+	</cfquery>
+	<!--- get list of .cfr templates in template upload directory --->
+	<cfdirectory action="list" directory="#Application.webDirectory#/Reports/templates" filter="*.cfr" name="reportList">
+	<cfdirectory action="list" directory="#Application.webDirectory#/Reports/handlers" filter="*.cfm" name="reportHandlerList">
 
-    <form method="get" action="reporter.cfm" enctype="text/plain">
-        <input type="hidden" name="action" value="saveEdit">
-        <input type="hidden" name="report_id" value="#e.report_id#">
-        <label for="report_name">Report Name ({Dry|Fluid|Skin|Pin}_{report type}__{ underscore delimited list of collection codes or All})(Separate report type from collection codes with two underscores).  Label reports with names ending in __All will be shown to all users by default, those ending with __{collection codes} will be shown only to people who have indicated preferences in those collections by default.   Reports that are not labels should have names that start with mcz_ and will not be shown on the list of labels, all other reports will be listed as if they were labels, even if they are not.  Report names for loan and other transaction paperwork may be hardcoded in the coldfusion application and should not be lightly changed.</label>
-        <input type="text" name="report_name" id="report_name" value="#e.report_name#" maxlength="38" style="width: 38em;">
-        <label for="report_template">Report Template</label>
-        <select name="report_template" id="report_template">
-            <option value="-notfound-">ERROR: Not found!</option>
-            <cfloop query="reportList">
-                <option <cfif name is e.report_template> selected="selected" </cfif>value="#name#">#name#</option>
-            </cfloop>
-        </select>
-        <label for="pre_function">Pre-Function</label>
-        <input type="text" name="pre_function" id="pre_function" value="#e.pre_function#">
-        <label for="report_format">Report Format</label>
-        <cfset fmt="PDF,FlashPaper,RTF">
-
-        <select name="report_format" id="report_format">
-            <cfloop list="#fmt#" index="f">
-                <option <cfif f is e.report_format> selected="selected" </cfif>value="#f#">#f#</option>
-            </cfloop>
-        </select>
-        <label for="description">Description/Assumptions</label>
-        <textarea name="description" id="description" rows="10" cols="120" wrap="soft">#e.description#</textarea>
-        <label for="sql_text">SQL</label>
-        <textarea name="sql_text" id="sql_text" rows="40" cols="120" wrap="soft"></textarea>
-        <br>
-        <input type="submit" value="Save Handler" class="savBtn">
-    </form>
-    <cfset j=JSStringFormat(e.sql_text)>
-    <script>
+	<form method="get" action="reporter.cfm" enctype="text/plain">
+		<input type="hidden" name="action" value="saveEdit">
+		<input type="hidden" name="report_id" value="#e.report_id#">
+		<label for="report_name">Report Name ({Dry|Fluid|Skin|Pin}_{report type}__{ underscore delimited list of collection codes or All})(Separate report type from collection codes with two underscores).  Label reports with names ending in __All will be shown to all users by default, those ending with __{collection codes} will be shown only to people who have indicated preferences in those collections by default.   Reports that are not labels should have names that start with mcz_ and will not be shown on the list of labels, all other reports will be listed as if they were labels, even if they are not.  Report names for loan and other transaction paperwork may be hardcoded in the coldfusion application and should not be lightly changed.</label>
+		<input type="text" name="report_name" id="report_name" value="#e.report_name#" maxlength="38" style="width: 38em;">
+		<label for="report_template">Report Template (.cfr) or Handler (.cfm)</label>
+		<select name="report_template" id="report_template">
+			<option value="-notfound-">ERROR: Not found!</option>
+				<cfset matched = false>
+				<cfloop query="reportList">
+					<cfif reportList.name is e.report_template>
+						<cfset selected='selected="selected"'>
+						<cfset matched=true>
+					<cfelse>
+						<cfset selected ="">
+					</cfif>
+					<option value="#name#" #selected#>#name#</option>
+				</cfloop>
+				<cfif NOT matched>
+					<cfloop query="reportHandlerList">
+						<option <cfif reportHandler.name is e.report_template> selected="selected" </cfif>value="#name#">#name#</option>
+					</cfloop>
+				</fif>
+			</select>
+			<label for="pre_function">Pre-Function</label>
+			<input type="text" name="pre_function" id="pre_function" value="#e.pre_function#">
+			<label for="report_format">Report Format</label>
+			<cfset fmt="PDF,RTF">
+			<select name="report_format" id="report_format">
+				<cfloop list="#fmt#" index="f">
+					<option <cfif f is e.report_format> selected="selected" </cfif>value="#f#">#f#</option>
+				</cfloop>
+			</select>
+			<label for="description">Description/Assumptions</label>
+			<textarea name="description" id="description" rows="10" cols="120" wrap="soft">#e.description#</textarea>
+			<label for="sql_text">SQL</label>
+			<textarea name="sql_text" id="sql_text" rows="40" cols="120" wrap="soft"></textarea>
+			<br>
+			<input type="submit" value="Save Handler" class="savBtn">
+		</form>
+		<cfset j=JSStringFormat(e.sql_text)>
+		<script>
         var a = escape("#j#");
         var b=document.getElementById('sql_text');
         b.value=unescape(a);
