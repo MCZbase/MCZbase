@@ -406,11 +406,11 @@ function stickyheader() {
 												<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
 													<cfset IDDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset IDButton = "Fewer Fields">
+													<cfset IDButton = "<i class='fas fa-chevron-circle-down'></i>">
 												<cfelse>
 													<cfset IDDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset IDButton = "More Fields">
+													<cfset IDButton = "<i class='fas fa-chevron-circle-up'></i>">
 												</cfif> 
 												<div class="col-12 col-xl-1 px-2 float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-dark mt-2 mb-0 py-0">
@@ -567,11 +567,11 @@ function stickyheader() {
 												<cfif listFind(searchPrefList,"TaxaDetail") GT 0 OR hiddenHaveValue>
 													<cfset TaxaDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset TaxaButton = "Fewer Fields">
+													<cfset TaxaButton = "<i class='fas fa-chevron-circle-up'></i>">
 												<cfelse>
 													<cfset TaxaDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset TaxaButton = "More Fields">
+													<cfset TaxaButton = "<i class='fas fa-chevron-circle-down'></i>">
 												</cfif>
 												<div class="col-12 col-xl-1 float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-dark my-0 py-1">
@@ -1008,11 +1008,11 @@ function stickyheader() {
 												<cfif listFind(searchPrefList,"CollDetail") GT 0 OR hiddenHaveValue>
 													<cfset CollDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset CollButton = "Fewer Fields">
+													<cfset CollButton = "<i class='fas fa-chevron-circle-down'></i>">
 												<cfelse>
 													<cfset CollDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset CollButton = "More Fields">
+													<cfset CollButton = "<i class='fas fa-chevron-circle-up'></i>">
 												</cfif> 
 												<div class="col-12 col-xl-1 float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-dark my-0 py-1">
@@ -1127,11 +1127,11 @@ function stickyheader() {
 												<cfif listFind(searchPrefList,"SpecDetail") GT 0 OR hiddenHaveValue>
 													<cfset SpecDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset SpecButton = "Fewer Fields">
+													<cfset SpecButton = "<i class='fas fa-chevron-circle-up'></i>">
 												<cfelse>
 													<cfset SpecDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset SpecButton = "More Fields">
+													<cfset SpecButton = "<i class='fas fa-chevron-circle-down'></i>">
 												</cfif> 
 												<div class="col-12 col-xl-1 px-1 pt-2 float-left">
 													<div class="h5 font-weight-bold d-inline-block text-dark my-0 pt-1">
@@ -1547,10 +1547,10 @@ function stickyheader() {
 							function toggleTaxaDetail(onOff) {
 								if (onOff==0) {
 									$("##TaxaDetail").hide();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('More Fields');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<i class="fas fa-chevron-circle-down"></i>');
 								} else {
 									$("##TaxaDetail").show();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('Fewer Fields');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<i class="fas fa-chevron-circle-up"></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1572,10 +1572,10 @@ function stickyheader() {
 							function toggleGeogDetail(onOff) {
 								if (onOff==0) {
 									$("##GeogDetail").hide();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<i class="fas fa-chevron-down"></i>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<i class="fas fa-chevron-circle-down"></i>');
 								} else {
 									$("##GeogDetail").show();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<i class="fas fa-chevron-up"></i>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<i class="fas fa-chevron-circle-up"></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
