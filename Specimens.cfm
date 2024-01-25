@@ -189,18 +189,16 @@ limitations under the License.
 </style>
 <style>
 
-.sticky-header-h {
+.sticky-header {
 	visibility:hidden;
 	opacity: 0;
 	transform: translateY(0);
 	transition: transform .2s ease,opacity .2s ease,visibility .2s ease;
 }
-.sticky-header-v {
+.sticky-header .sticky{
 	visibility: visible;
 	opacity: 1;
 	transform: translateY(0);
-}
-.sticky {
 	position: -webkit-sticky !important;
 	position: sticky !important;
 	top: 0 !important;
@@ -208,7 +206,7 @@ limitations under the License.
 	border: 1px solid ##c7c7c7 !important;
 	padding: 10px 25px;
 	font-size: 14px;
-	z-index: 1.75;
+	z-index: 300;
 }
 </style>
 <script>
@@ -1486,7 +1484,7 @@ limitations under the License.
 													select column_name from all_tab_columns where table_name = 'FLAT'
 												</cfquery>
 												<cfif #action# eq "fixedSearch">
-													<div class="sticky sticky-header-h stick-header-v">
+													<div class=" sticky-header sticky">
 														<ul class="list-group list-group-horizontal" style="overflow:hidden;">
 														<cfloop query = "column_headers1">
 															<li class="list-group-item">#column_headers1.column_name#</li>
