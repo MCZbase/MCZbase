@@ -75,7 +75,7 @@
 				</cfloop>
 				<cfif NOT matched>
 					<cfloop query="reportHandlerList">
-						<option <cfif reportHandler.name is e.report_template> selected="selected" </cfif>value="#name#">#name#</option>
+						<option <cfif reportHandlerList.name is e.report_template> selected="selected" </cfif>value="#name#">#name#</option>
 					</cfloop>
 				</cfif>
 			</select>
