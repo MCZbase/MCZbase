@@ -235,7 +235,7 @@ let wheelEvent = new WheelEvent('wheel', {
   deltaY: 1,
   deltaMode: 1
 });
-document.getElementById('selector').dispatchEvent(wheelEvent);
+document.getElementById('selectorBtn').dispatchEvent(wheelEvent);
 </script>
 	<!--- TODO: Replace with a native javascript UUID function when it becomes available --->
 	<script>
@@ -1511,7 +1511,7 @@ document.getElementById('selector').dispatchEvent(wheelEvent);
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
 															
 													</div>
-													<div id="fixedenableselection"></div><div id="selector"></div>
+													<div id="fixedenableselection"></div><div id="selectorBtn" class="btn-xs btn btn-secondary"></div>
 												</div>
 											</div>
 										</div>
