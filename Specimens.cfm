@@ -1134,7 +1134,7 @@ function stickyheader() {
 													<cfset SpecButton = "More Fields">
 												</cfif> 
 												<div class="col-12 col-xl-1 px-1 pt-2 float-left">
-													<div class="h5 d-inline-block text-dark my-0 pt-1">
+													<div class="h5 font-weight-bold d-inline-block text-dark my-0 pt-1">
 														Specimen&nbsp;&nbsp;
 														<button type="button" id="SpecDetailCtl" class="btn px-0 d-inline-block-md btn-xs float-right small py-0 border-0 btn-link" onclick="toggleSpecDetail(#toggleTo#);">(#SpecButton#)</button>
 													</div>
