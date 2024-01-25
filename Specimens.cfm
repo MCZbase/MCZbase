@@ -418,7 +418,7 @@ function stickyheader() {
 													<div class="h5 font-weight-bold d-inline-block-md text-dark mt-2 mb-0 py-0">
 														Identifiers&nbsp;&nbsp;
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
-															<button type="button" id="IDDetailCtl" class="btn btn-xs px-0 float-right small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+															<button type="button" id="IDDetailCtl" class="btn btn-xs px-0 float-left small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
 													</div>
 												</div>	
