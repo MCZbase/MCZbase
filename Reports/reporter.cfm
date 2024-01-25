@@ -61,6 +61,7 @@
 		<input type="hidden" name="report_id" value="#e.report_id#">
 		<label for="report_name">Report Name ({Dry|Fluid|Skin|Pin}_{report type}__{ underscore delimited list of collection codes or All})(Separate report type from collection codes with two underscores).  Label reports with names ending in __All will be shown to all users by default, those ending with __{collection codes} will be shown only to people who have indicated preferences in those collections by default.   Reports that are not labels should have names that start with mcz_ and will not be shown on the list of labels, all other reports will be listed as if they were labels, even if they are not.  Report names for loan and other transaction paperwork may be hardcoded in the coldfusion application and should not be lightly changed.</label>
 		<input type="text" name="report_name" id="report_name" value="#e.report_name#" maxlength="38" style="width: 38em;">
+		<p>Reports may use a .cfr report template produced by the (depricated, unsupported) ColdFusion report builder application, or may reference .cfm handlers (in /Reports/handlers/).  Reports that use a .cfr template must define a query to obtain data to pass on to the template (and may reference a pre-function to manipulate the data. Reports that use a .cfm handler must have the report_name supported as a target within the report handler, and are expected to include the query inside the report handler, rather than defining it here.</p>  
 		<label for="report_template">Report Template (.cfr) or Handler (.cfm) [#encodeForHtml(e.report_template)#]</label>
 		<select name="report_template" id="report_template">
 			<cfset matched = false>
@@ -221,6 +222,7 @@
 		</cfloop>
 		<!--- obtain a list of .cfm handlers in the /Reports/handlers directory. --->
 		<cfdirectory action="list" directory="#Application.webDirectory#/Reports/handlerss" filter="*.cfm" name="reportHandlerList" sort="name ASC">
+		<p>Reports may use a .cfr report template produced by the (depricated, unsupported) ColdFusion report builder application, or may reference .cfm handlers.  The .cfr report templates can be uploaded from here.  The .cfr report handlers must be committed as other code, and can only be referenced when editing a report.</p>
 
 		<p>Load a new template (will overwrite old templates). .cfr files only.</p>
 		<!--- .cfm handlers in /Reports/handlers/ are not uploaded through the UI --->
