@@ -60,7 +60,7 @@
 		<input type="hidden" name="report_id" value="#e.report_id#">
 		<label for="report_name">Report Name ({Dry|Fluid|Skin|Pin}_{report type}__{ underscore delimited list of collection codes or All})(Separate report type from collection codes with two underscores).  Label reports with names ending in __All will be shown to all users by default, those ending with __{collection codes} will be shown only to people who have indicated preferences in those collections by default.   Reports that are not labels should have names that start with mcz_ and will not be shown on the list of labels, all other reports will be listed as if they were labels, even if they are not.  Report names for loan and other transaction paperwork may be hardcoded in the coldfusion application and should not be lightly changed.</label>
 		<input type="text" name="report_name" id="report_name" value="#e.report_name#" maxlength="38" style="width: 38em;">
-		<label for="report_template">Report Template (.cfr) or Handler (.cfm)</label>
+		<label for="report_template">Report Template (.cfr) or Handler (.cfm) [#encodeForHtml(e.report_template)#]</label>
 		<select name="report_template" id="report_template">
 			<option value="-notfound-">ERROR: Not found!</option>
 				<cfset matched = false>
