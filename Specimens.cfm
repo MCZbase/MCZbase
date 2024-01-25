@@ -188,16 +188,7 @@ limitations under the License.
 }
 </style>
 <style>
-.sticky {
-	position: -webkit-sticky !important;
-	position: sticky !important;
-	top: 0 !important;
-	background-color: ##deebec;
-	border: 1px solid ##c7c7c7 !important;
-	padding: 10px 25px;
-	font-size: 14px;
-	z-index: 1.75;
-}
+
 .sticky-header-h {
 	visibility:hidden;
 	opacity: 0;
@@ -209,7 +200,16 @@ limitations under the License.
 	opacity: 1;
 	transform: translateY(0);
 }
-
+.sticky {
+	position: -webkit-sticky !important;
+	position: sticky !important;
+	top: 0 !important;
+	background-color: ##deebec;
+	border: 1px solid ##c7c7c7 !important;
+	padding: 10px 25px;
+	font-size: 14px;
+	z-index: 1.75;
+}
 </style>
 <script>
   function toggleDisplay1() {
