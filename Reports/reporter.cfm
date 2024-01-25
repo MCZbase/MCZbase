@@ -180,14 +180,18 @@
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "nothing">
+	<!--- list available templates for editing --->
 	<div style="width: 69em; margin: 0 auto; padding: 2em 0 3em 0;">
+		<!--- obtain a list of .cfr templates in the upload /Reports/templates directory. --->
 		<cfdirectory action="list" directory="#Application.webDirectory#/Reports/templates" filter="*.cfr" name="reportList" sort="name ASC">
+
 		<p>Load a new template (will overwrite old templates). .cfr files only.</p>
 		<form name="n" method="post" enctype="multipart/form-data" action="reporter.cfm">
 			<input type="hidden" name="action" value="loadTemplate">
 			<input type="file" name="FiletoUpload" id="FiletoUpload" size="45" accept=".cfr">
 			<input type="submit" class="savBtn" value="Upload File">
 		</form>
+
       <h3 style="wikilink" style="margin-bottom:0;">Existing Reports:</h3>
 		<table border>
 			<tr>
@@ -195,6 +199,7 @@
 				<th>Handler Name</th>
 				<th colspan="4">Actions</th>
 			</tr>
+			<!--- obtain the records of .cfr and .cfm templates known to cf_report_sql in the database. --->
 			<cfquery name="getReports" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
 					report_id, report_name, report_template, sql_text_old, pre_function,
@@ -226,14 +231,15 @@
 			<cfloop query="reportList">
 				<!--- list .cfr templates on the filesystem that are not in the database --->
 				<cfif listContains(templatesWithRecords,reportList.name) EQ 0>
-				<tr>
-					<td>#reportList.name#</td>
-					<td>#report_name#</td>
-					<td><a href="reporter.cfm?action=newHandler&report_template=#reportList.name#">Create Handler</a></td>
-					<td><td>
-					<td><td>
-					<td><td>
-	        </tr>
+					<tr>
+						<td>#reportList.name#</td>
+						<td>#report_name#</td>
+						<td><a href="reporter.cfm?action=newHandler&report_template=#reportList.name#">Create Handler</a></td>
+						<td><td>
+						<td><td>
+						<td><td>
+					</tr>
+				</cfif>
     		</cfloop>
 		</table>
 	</div>
