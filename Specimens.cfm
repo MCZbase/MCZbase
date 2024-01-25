@@ -231,11 +231,7 @@ function stickyheader() {
   }
 }
 	
-let wheelEvent = new WheelEvent('wheel', {
-  deltaY: 1,
-  deltaMode: 1
-});
-document.getElementById('selectorBtn').dispatchEvent(wheelEvent);
+
 </script>
 	<!--- TODO: Replace with a native javascript UUID function when it becomes available --->
 	<script>
@@ -1477,6 +1473,17 @@ document.getElementById('selectorBtn').dispatchEvent(wheelEvent);
 																}
 															};
 														</script>
+														<script>
+															function fixedchangeSelectScroll(){
+																var selScroll = $("##selectBtn").val();
+																$("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
+																if (selScroll=="none") { 
+																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
+																} else {
+																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
+																}
+															};
+														</script>
 														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
 															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -1511,7 +1518,7 @@ document.getElementById('selectorBtn').dispatchEvent(wheelEvent);
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
 															
 													</div>
-													<div id="fixedenableselection"></div><div id="selectorBtn" class="btn-xs btn btn-secondary"></div>
+													<div id="fixedenableselection"></div><div id="selectorBtn" class="btn-xs btn btn-secondary">Toggle Mousewheel</div>
 												</div>
 											</div>
 										</div>
