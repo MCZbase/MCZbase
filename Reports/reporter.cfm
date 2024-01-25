@@ -238,10 +238,7 @@
 					<tr>
 						<td>#reportList.name#</td>
 						<td></td>
-						<td><a href="reporter.cfm?action=newHandler&report_template=#reportList.name#">Create Handler</a></td>
-						<td><td>
-						<td><td>
-						<td><td>
+						<td colspan="4"><a href="reporter.cfm?action=newHandler&report_template=#reportList.name#">Create Handler</a></td>
 					</tr>
 				</cfif>
     		</cfloop>
