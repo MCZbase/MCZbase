@@ -195,7 +195,7 @@ limitations under the License.
 	transform: translateY(0);
 	transition: transform .2s ease,opacity .2s ease,visibility .2s ease;
 }
-.sticky-header .sticky{
+.sticky{
 	visibility: visible;
 	opacity: 1;
 	transform: translateY(0);
@@ -1484,7 +1484,7 @@ limitations under the License.
 													select column_name from all_tab_columns where table_name = 'FLAT'
 												</cfquery>
 												<cfif #action# eq "fixedSearch">
-													<div class=" sticky-header sticky">
+													<div class="sticky">
 														<ul class="list-group list-group-horizontal" style="overflow:hidden;">
 														<cfloop query = "column_headers1">
 															<li class="list-group-item">#column_headers1.column_name#</li>
