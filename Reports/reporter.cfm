@@ -180,56 +180,63 @@
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "nothing">
-    <div style="width: 69em; margin: 0 auto; padding: 2em 0 3em 0;">
-    <cfdirectory action="list" directory="#Application.webDirectory#/Reports/templates" filter="*.cfr" name="reportList" sort="name ASC">
-        <p>Load a new template (will overwrite old templates). .cfr files only.</p>
-    <form name="n" method="post" enctype="multipart/form-data" action="reporter.cfm">
-        <input type="hidden" name="action" value="loadTemplate">
-        <input type="file" name="FiletoUpload" id="FiletoUpload" size="45">
-        <input type="submit" class="savBtn" value="Upload File">
-    </form>
-        <h3 style="wikilink" style="margin-bottom:0;">Existing Reports:</h3>
-    <table border>
-         <tr>
-            <td>Report Template</td>
-            <td>Handler Name</td>
-        </tr>
-    <cfloop query="reportList">
-		<cfquery name="h" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT *
-			FROM cf_report_sql 
-			WHERE 
-				report_template='#name#' 
-				OR 
-				report_template LIKE '%.cfm'
-	    </cfquery>
-        <cfif h.recordcount is 0>
-            <cfquery name="h" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		        select 0 report_id,
-                '#reportList.name#' report_template,
-                ' ' report_name
-                from dual
-		    </cfquery>
-        </cfif>
-
-	    <cfloop query="h">
-             <tr>
-	            <td>#report_template#</td>
-	            <td>#report_name#</td>
-	            <cfif report_id gt 1>
-	                <td><a href="reporter.cfm?action=edit&report_id=#report_id#">Edit Handler</a></td>
-	                <td><a href="reporter.cfm?action=clone&report_id=#report_id#">Clone Handler</a></td>
-                    <td><a href="reporter.cfm?action=delete&report_id=#report_id#">Delete Handler</a></td>
-	            <cfelse>
-	                <td><a href="reporter.cfm?action=newHandler&report_template=#report_template#">Create Handler</a></td>
-	            </cfif>
+	<div style="width: 69em; margin: 0 auto; padding: 2em 0 3em 0;">
+		<cfdirectory action="list" directory="#Application.webDirectory#/Reports/templates" filter="*.cfr" name="reportList" sort="name ASC">
+		<p>Load a new template (will overwrite old templates). .cfr files only.</p>
+		<form name="n" method="post" enctype="multipart/form-data" action="reporter.cfm">
+			<input type="hidden" name="action" value="loadTemplate">
+			<input type="file" name="FiletoUpload" id="FiletoUpload" size="45" accept=".cfr">
+			<input type="submit" class="savBtn" value="Upload File">
+		</form>
+      <h3 style="wikilink" style="margin-bottom:0;">Existing Reports:</h3>
+		<table border>
+			<tr>
+				<th>Report Template</th>
+				<th>Handler Name</th>
+				<th colspan="4">Actions</th>
+			</tr>
+			<cfquery name="getReports" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					report_id, report_name, report_template, sql_text_old, pre_function,
+					report_format, sql_text, description 
+				FROM cf_report_sql 
+				WHERE 
+					report_template IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#" list="yes">) 
+					OR 
+					report_template LIKE '%.cfm'
+				ORDER BY 
+					report_name
+			</cfquery>
+			<cfset templatesWithRecords = "">
+	    	<cfloop query="getReports">
+				<cfif Right(getReports.report_template,4) EQ ".cfr"> 
+					<!--- accumulate list of known .cfr files --->
+					<cfset templatesWithRecords = listAppend(templatesWithRecords,"#getReports.report_template#")>
+				</cfif>
+				<!--- list reports that exist in the database --->
+				<tr>
+					<td>#report_template#</td>
+					<td>#report_name#</td>
+					<td><a href="reporter.cfm?action=edit&report_id=#report_id#">Edit Handler</a></td>
+					<td><a href="reporter.cfm?action=clone&report_id=#report_id#">Clone Handler</a></td>
+					<td><a href="reporter.cfm?action=delete&report_id=#report_id#">Delete Handler</a></td>
 	            <td><a href="reporter.cfm?action=download&report_template=#report_template#">Download Report</a></td>
 	        </tr>
-        </cfloop>
-
-    </cfloop>
-    </table>
-        </div>
+			</cfloop>
+			<cfloop query="reportList">
+				<!--- list .cfr templates on the filesystem that are not in the database --->
+				<cfif listContains(templatesWithRecords,reportList.name) EQ 0>
+				<tr>
+					<td>#reportList.name#</td>
+					<td>#report_name#</td>
+					<td><a href="reporter.cfm?action=newHandler&report_template=#reportList.name#">Create Handler</a></td>
+					<td><td>
+					<td><td>
+					<td><td>
+	        </tr>
+    		</cfloop>
+		</table>
+	</div>
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "download">
