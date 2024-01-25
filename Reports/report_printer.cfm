@@ -406,7 +406,8 @@ limitations under the License.
 					query="d"
 					overwrite="true"></cfreport>
 			<cfelseif Right(e.report_template,4) EQ ".cfm">
-				<cflocation url="/Reports/#e.report_template#?target=#e.report_name#" addToken="false">
+				<!--- .cfm report handlers are in /Reports/handlers/ --->
+				<cflocation url="/Reports/handlers/#e.report_template#?target=#e.report_name#" addToken="false">
 			<cfelse>
 				<cfthrow message="Unknown report file type specified for the template: #encodeForHtml(e.report_template)#">
 			</cfif> 

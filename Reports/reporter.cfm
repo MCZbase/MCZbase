@@ -7,7 +7,7 @@
 		DELETE FROM cf_report_sql
 		WHERE report_id= <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL">
 	</cfquery>
-	<cflocation url="reporter.cfm">
+	<cflocation url="/Reports/reporter.cfm">
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "saveEdit">
@@ -30,7 +30,7 @@
 			report_format = <CFQUERYPARAM VALUE="#report_format#" CFSQLTYPE="CF_SQL_VARCHAR">
 		WHERE report_id = <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL">
 	</cfquery>
-	<cflocation url="reporter.cfm?action=edit&report_id=#report_id#">
+	<cflocation url="/Reports/reporter.cfm?action=edit&report_id=#report_id#">
 </cfif>
 <!--------------------------------------------------------------------------------------->
 <cfif #action# is "edit">
@@ -42,7 +42,7 @@
 			FROM cf_report_sql 
 			WHERE report_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#report_name#">
 		</cfquery>
-		<cflocation url="reporter.cfm?action=edit&report_id=#e.report_id#">
+		<cflocation url="/Reports/reporter.cfm?action=edit&report_id=#e.report_id#">
 	</cfif>
 
 	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -53,9 +53,10 @@
 	</cfquery>
 	<!--- get list of .cfr templates in template upload directory --->
 	<cfdirectory action="list" directory="#Application.webDirectory#/Reports/templates" filter="*.cfr" name="reportList">
+	<!--- get list of .cfm handlers in the handler directory --->
 	<cfdirectory action="list" directory="#Application.webDirectory#/Reports/handlers" filter="*.cfm" name="reportHandlerList">
 
-	<form method="get" action="reporter.cfm" enctype="text/plain">
+	<form method="get" action="/Reports/reporter.cfm" enctype="text/plain">
 		<input type="hidden" name="action" value="saveEdit">
 		<input type="hidden" name="report_id" value="#e.report_id#">
 		<label for="report_name">Report Name ({Dry|Fluid|Skin|Pin}_{report type}__{ underscore delimited list of collection codes or All})(Separate report type from collection codes with two underscores).  Label reports with names ending in __All will be shown to all users by default, those ending with __{collection codes} will be shown only to people who have indicated preferences in those collections by default.   Reports that are not labels should have names that start with mcz_ and will not be shown on the list of labels, all other reports will be listed as if they were labels, even if they are not.  Report names for loan and other transaction paperwork may be hardcoded in the coldfusion application and should not be lightly changed.</label>
@@ -109,7 +110,7 @@
         var b=document.getElementById('sql_text');
         b.value=unescape(a);
     </script>
-       <form method="post" action="reporter.cfm" target="_blank">
+       <form method="post" action="/Reports/reporter.cfm" target="_blank">
            <input type="hidden" name="action" value="testSQL">
 	       <input type="hidden" name="test_sql" id="test_sql">
            <input type="hidden" name="format" id="format" value="table">
@@ -129,18 +130,19 @@
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "newHandler">
-     <cfset tc=getTickCount()>
-     <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        insert into cf_report_sql (
-            report_name,
-            report_template,
-            sql_text)
-        values (
-            'New_Report_#tc#',
-            '#report_template#',
-            'select 1 from dual')
-    </cfquery>
-    <cflocation url="reporter.cfm?action=edit&report_name=New_Report_#tc#">
+	<cfset tc=getTickCount()>
+	<cfquery name="insertNewHandler" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		INSERT INTO cf_report_sql (
+			report_name,
+			report_template,
+			sql_text
+		) VALUES (
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="New_Report_#tc#">,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#report_template#">,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="select 1 from dual">
+		)
+	</cfquery>
+	<cflocation url="/Reports/reporter.cfm?action=edit&report_name=New_Report_#tc#">
 </cfif>
 <!-------------------------------------------------------------->
 <cfif #action# is "clone">
@@ -217,9 +219,12 @@
 		<cfloop query="reportList">
 			<cfset reportNames = ListAppend(reportNames,reportList.name)>
 		</cfloop>
+		<!--- obtain a list of .cfm handlers in the /Reports/handlers directory. --->
+		<cfdirectory action="list" directory="#Application.webDirectory#/Reports/handlerss" filter="*.cfm" name="reportHandlerList" sort="name ASC">
 
 		<p>Load a new template (will overwrite old templates). .cfr files only.</p>
-		<form name="n" method="post" enctype="multipart/form-data" action="reporter.cfm">
+		<!--- .cfm handlers in /Reports/handlers/ are not uploaded through the UI --->
+		<form name="n" method="post" enctype="multipart/form-data" action="/Reports/reporter.cfm">
 			<input type="hidden" name="action" value="loadTemplate">
 			<input type="file" name="FiletoUpload" id="FiletoUpload" size="45" accept=".cfr">
 			<input type="submit" class="savBtn" value="Upload File">
@@ -255,11 +260,11 @@
 				<tr>
 					<td>#report_template#</td>
 					<td>#report_name#</td>
-					<td><a href="reporter.cfm?action=edit&report_id=#report_id#">Edit Handler</a></td>
-					<td><a href="reporter.cfm?action=clone&report_id=#report_id#">Clone Handler</a></td>
-					<td><a href="reporter.cfm?action=delete&report_id=#report_id#">Delete Handler</a></td>
+					<td><a href="/Reports/reporter.cfm?action=edit&report_id=#report_id#">Edit Handler</a></td>
+					<td><a href="/Reports/reporter.cfm?action=clone&report_id=#report_id#">Clone Handler</a></td>
+					<td><a href="/Reports/reporter.cfm?action=delete&report_id=#report_id#">Delete Handler</a></td>
 					<cfif Right(getReports.report_template,4) EQ ".cfr"> 
-	            	<td><a href="reporter.cfm?action=download&report_template=#report_template#">Download Report</a></td>
+	            	<td><a href="/Reports/reporter.cfm?action=download&report_template=#report_template#">Download Report</a></td>
 					<cfelse>
 	            	<td>#report_template#</td>
 					</cfif>
@@ -271,7 +276,17 @@
 					<tr>
 						<td>#reportList.name#</td>
 						<td></td>
-						<td colspan="4"><a href="reporter.cfm?action=newHandler&report_template=#reportList.name#">Create Handler</a></td>
+						<td colspan="4"><a href="/Reports/reporter.cfm?action=newHandler&report_template=#reportList.name#">Create Handler</a></td>
+					</tr>
+				</cfif>
+    		</cfloop>
+			<cfloop query="reportHandlerList">
+				<!--- list .cfm handlers on the filesystem in /Reports/handlers/ that are not in the database --->
+				<cfif listContains(templatesWithRecords,reportHandlerList.name) EQ 0>
+					<tr>
+						<td>#reportHandlerList.name#</td>
+						<td></td>
+						<td colspan="4"><a href="/Reports/reporter.cfm?action=newHandler&report_template=#reportHandlerList.name#">Create Handler</a></td>
 					</tr>
 				</cfif>
     		</cfloop>
