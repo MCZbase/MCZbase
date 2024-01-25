@@ -22,7 +22,9 @@ limitations under the License.
 	<cfthrow message = "No result_id provided for query selecting labels to print.">
 </cfif>
 
-<cfset target = "Fluid_Consolidated_WHOI__Mala">
+<cfif not isDefined("target")>
+	 <cfset target = "Fluid_Consolidated_WHOI__Mala">
+</cfif>
 
 <cfswitch expression = "#target#">
 	<cfcase value="Fluid_Consolidated_WHOI__Mala">
