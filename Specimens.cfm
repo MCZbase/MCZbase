@@ -152,41 +152,41 @@ limitations under the License.
 <cfoutput>
 <style>
 .animation-element {
-  position: relative;
-  width: 30%;
-  margin: 0% 1.33 2.66% 1.33%;
-  float: left;
+	position: relative;
+	width: 30%;
+	margin: 0% 1.33 2.66% 1.33%;
+	float: left;
 }
 .bounce-up .fixedResults {
-  opacity: 0;
-  -moz-transition: all 700ms ease-out;
-  -webkit-transition: all 700ms ease-out;
-  -o-transition: all 700ms ease-out;
-  transition: all 700ms ease-out;
-  -moz-transform: translate3d(0px, 200px, 0px);
-  -webkit-transform: translate3d(0px, 200px, 0px);
-  -o-transform: translate(0px, 200px);
-  -ms-transform: translate(0px, 200px);
-  transform: translate3d(0px, 200, 0px);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  backface-visibility: hidden;
+	opacity: 0;
+	-moz-transition: all 700ms ease-out;
+	-webkit-transition: all 700ms ease-out;
+	-o-transition: all 700ms ease-out;
+	transition: all 700ms ease-out;
+	-moz-transform: translate3d(0px, 200px, 0px);
+	-webkit-transform: translate3d(0px, 200px, 0px);
+	-o-transform: translate(0px, 200px);
+	-ms-transform: translate(0px, 200px);
+	transform: translate3d(0px, 200, 0px);
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
 }
 .bounce-up.in-view .fixedResults {
-  opacity: 1;
-  -moz-transform: translate3d(0px, 0px, 0px);
-  -webkit-transform: translate3d(0px, 0px, 0px);
-  -o-transform: translate(0px, 0px);
-  -ms-transform: translate(0px, 0px);
-  transform: translate3d(0px, 0px, 0px);
+	opacity: 1;
+	-moz-transform: translate3d(0px, 0px, 0px);
+	-webkit-transform: translate3d(0px, 0px, 0px);
+	-o-transform: translate(0px, 0px);
+	-ms-transform: translate(0px, 0px);
+	transform: translate3d(0px, 0px, 0px);
 }
 @media screen and (max-width: 678px) {
-  .animation-element
-    width: 100%;
-    margin: 0px 0px 30px 0px;
-  }
+	.animation-element
+		width: 100%;
+		margin: 0px 0px 30px 0px;
+	}
 }
-	</style>
+</style>
 <style>
 div.sticky {
 	position: -webkit-sticky !important;
@@ -2554,11 +2554,8 @@ Target JSON:
 			</cfif>
 		ORDER by disp_order
 	</cfquery>
-	<script>
-		fixedsearchResultsGrid.onscroll = (event) => {
-			console.log('Scrolling...');
-		});
-	</script>
+
+
 	<script>
 		// setup for persistence of column selections
 		window.columnHiddenSettings = new Object();
