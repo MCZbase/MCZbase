@@ -110,6 +110,8 @@ limitations under the License.
 					<input type="hidden" name="action" value="print">
 					<input type="hidden" name="transaction_id" value="#transaction_id#">
 					<input type="hidden" name="container_id" value="#container_id#">
+					<cfif not isDefined("result_id")><cfset result_id = ""></cfif>
+					<input type="hidden" name="result_id" value="#result_id#">
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 					<table border='0' class="table table-responsive w-100">
 						<tr>
