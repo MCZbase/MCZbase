@@ -774,7 +774,7 @@ function stickyheader() {
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-form-basic-odd px-4 py-2">
+											<div class="col-12 search-form-basic-odd py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
 													OR (isDefined("country") and len(country) GT 0)
@@ -1227,7 +1227,7 @@ function stickyheader() {
 													</div>
 												</div>
 											</div>
-											<div class="col-12 px-4 py-2">
+											<div class="col-12 py-2">
 												<div class="col-12 col-xl-1 px-1 pt-0 float-left">
 													<div class="h5 font-weight-bold d-inline-block text-dark mb-1 pt-1">
 														General/ Metadata
@@ -1522,10 +1522,10 @@ function stickyheader() {
 							function toggleIDDetail(onOff) {
 								if (onOff==0) {
 									$("##IDDetail").hide();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('More Fields');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>');
 								} else {
 									$("##IDDetail").show();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('Fewer Fields');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<i class="fa fa-chevron-circle-up" aria-hidden="true"></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
