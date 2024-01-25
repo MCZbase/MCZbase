@@ -574,7 +574,7 @@ function stickyheader() {
 													<cfset TaxaButton = "More Fields">
 												</cfif>
 												<div class="col-12 col-xl-1 px-xl-3 px-2 px-md-2 float-left">
-													<div class="h4 font-weight-bold d-inline-block-md text-dark my-0 py-1">
+													<div class="h5 font-weight-bold d-inline-block-md text-dark my-0 py-1">
 														Taxonomy&nbsp;&nbsp;
 														<button type="button" id="TaxaDetailCtl" class="btn d-inline-block-md btn-xs px-0 float-right small py-0 border-0 btn-link" onclick="toggleTaxaDetail(#toggleTo#);">(#TaxaButton#)</button>
 													</div>
