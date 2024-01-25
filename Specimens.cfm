@@ -3544,7 +3544,7 @@ Target JSON:
 				</cfif>
 			}
 			$("##overlay").hide();
-			$('.jqx-header-widget').css({'z-index': maxZIndex + 1 });
+			$('.jqx-header-widget.sticky').css({'z-index': maxZIndex + 1 });
 			var now = new Date();
 			var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 			var filename = searchType.replace(/ /g,'_') + '_results_' + nowstring + '.csv';
@@ -3775,14 +3775,14 @@ Target JSON:
 	})( window );
 </script>
 
-						<cfif #action# eq "fixedSearch">
-													<div class="sticky">
-														<ul class="list-group list-group-horizontal" style="overflow:hidden;">
-														<cfloop query = "column_headers1">
-															<li class="list-group-item">#column_headers1.column_name#</li>
-														</cfloop>
-														</ul>
-													</div>
-												</cfif>
+	<cfif #action# eq "fixedSearch">
+		<div class="sticky">
+			<ul class="list-group list-group-horizontal" style="overflow:hidden;">
+			<cfloop query = "column_headers1">
+				<li class="list-group-item">#column_headers1.column_name#</li>
+			</cfloop>
+			</ul>
+		</div>
+	</cfif>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
