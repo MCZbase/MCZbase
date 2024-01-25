@@ -1474,7 +1474,7 @@ function stickyheader() {
 															};
 														</script>
 														<script>
-															function fixedchangeSelectScroll(){
+															function fixedMousewheel(){
 																var selScroll = $("##selectBtn").val();
 																$("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
 																if (selScroll=="none") { 
