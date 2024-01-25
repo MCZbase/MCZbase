@@ -188,7 +188,10 @@ limitations under the License.
 }
 </style>
 <style>
-	.NS {display:none}
+.NS, .NS ul {
+	display:none;
+}
+
 .sticky{
 	display: block !important;
 	position: -webkit-sticky !important;
