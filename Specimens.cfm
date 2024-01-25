@@ -414,7 +414,7 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset IDButton = "<i class='fas fa-chevron-circle-up'></i>">
 												</cfif> 
-												<div class="col-12 col-xl-1 px-2 float-left">
+												<div class="col-12 col-xl-1 pl-4 pr-0 float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-dark mt-2 mb-0 py-0">
 														Identifiers&nbsp;&nbsp;
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
@@ -575,7 +575,7 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset TaxaButton = "<i class='fas fa-chevron-circle-down'></i>">
 												</cfif>
-												<div class="col-12 col-xl-1 float-left">
+												<div class="col-12 col-xl-1 pl-4 pr-0 float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-dark my-0 py-1">
 														Taxonomy&nbsp;&nbsp;
 														<button type="button" id="TaxaDetailCtl" class="btn d-inline-block-md btn-xs px-0 float-right small py-0 border-0 btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
