@@ -3806,7 +3806,6 @@ Target JSON:
 
 <script>
 function fixedMousewheel(){
-	$(function(){
    $('##selectBtn1').on('click' , function(){
       $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
    });
