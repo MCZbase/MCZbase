@@ -77,7 +77,7 @@
 					<cfloop query="reportHandlerList">
 						<option <cfif reportHandler.name is e.report_template> selected="selected" </cfif>value="#name#">#name#</option>
 					</cfloop>
-				</fif>
+				</cfif>
 			</select>
 			<label for="pre_function">Pre-Function</label>
 			<input type="text" name="pre_function" id="pre_function" value="#e.pre_function#">
