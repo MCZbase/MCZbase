@@ -237,7 +237,7 @@
 				<cfif listContains(templatesWithRecords,reportList.name) EQ 0>
 					<tr>
 						<td>#reportList.name#</td>
-						<td>#report_name#</td>
+						<td></td>
 						<td><a href="reporter.cfm?action=newHandler&report_template=#reportList.name#">Create Handler</a></td>
 						<td><td>
 						<td><td>
