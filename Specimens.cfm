@@ -2555,10 +2555,10 @@ Target JSON:
 		ORDER by disp_order
 	</cfquery>
 	<script>
-		window.addEventListener('scroll',(event) => {
+		targetElement.onscroll = (event) => {
 			console.log('Scrolling...');
 		});
-	</script>
+		</script>
 	<script>
 		// setup for persistence of column selections
 		window.columnHiddenSettings = new Object();
