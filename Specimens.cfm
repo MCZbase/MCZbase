@@ -1474,10 +1474,10 @@ function stickyheader() {
 															};
 														</script>
 														<script>
-															function fixedMousewheel(){
-																var selScroll = $("##selectBtn").val();
+															function fixedMousewheel(onOff){
+																var selHorizScroll = $("##selectBtn").val();
 																$("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
-																if (selScroll=="none") { 
+																if (onOff==0) { 
 																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
 																} else {
 																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
