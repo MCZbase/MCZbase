@@ -1475,7 +1475,7 @@ function stickyheader() {
 														</script>
 														<script>
 															function fixedMousewheel(onOff){
-																var selHorizScroll = $("##selectBtn").val();
+																var onOff = $("##selectBtn").val();
 																$("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
 																if (onOff==0) { 
 																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
@@ -1483,6 +1483,8 @@ function stickyheader() {
 																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
 																}
 															};
+															
+												
 														</script>
 														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
