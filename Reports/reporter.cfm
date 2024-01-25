@@ -233,8 +233,8 @@
       <h3 style="wikilink" style="margin-bottom:0;">Existing Reports:</h3>
 		<table border>
 			<tr>
-				<th>Report Template</th>
-				<th>Handler Name</th>
+				<th>Report Template/Handler</th>
+				<th>Report Name</th>
 				<th colspan="4">Actions</th>
 			</tr>
 			<!--- obtain the records of .cfr and .cfm templates known to cf_report_sql in the database. --->
@@ -258,7 +258,13 @@
 				</cfif>
 				<!--- list reports that exist in the database --->
 				<tr>
-					<td>#report_template#</td>
+					<td>
+						<cfif Right(getReports.report_template,4) EQ ".cfr"> 
+							<span style="color: DarkRed; font-style: italic;">#report_template#</span>
+						<cfelse>
+							<span style="color: black;">#report_template#</span>
+						</cfif>
+					</td>
 					<td>#report_name#</td>
 					<td><a href="/Reports/reporter.cfm?action=edit&report_id=#report_id#">Edit Handler</a></td>
 					<td><a href="/Reports/reporter.cfm?action=clone&report_id=#report_id#">Clone Handler</a></td>
@@ -266,7 +272,7 @@
 					<cfif Right(getReports.report_template,4) EQ ".cfr"> 
 	            	<td><a href="/Reports/reporter.cfm?action=download&report_template=#report_template#">Download Report</a></td>
 					<cfelse>
-	            	<td>#report_template#</td>
+	            	<td></td>
 					</cfif>
 	        </tr>
 			</cfloop>
