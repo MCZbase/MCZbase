@@ -1488,8 +1488,8 @@ limitations under the License.
 													select column_name from all_tab_columns where table_name = 'FLAT'
 												</cfquery>
 												<cfif #action# eq "fixedSearch">
-													<div class="sticky">
-														<ul class="list-group list-group-horizontal" style="overflow:hidden;display:none;">
+													<div class="sticky" style="display:none;">
+														<ul class="list-group list-group-horizontal" style="overflow:hidden;">
 														<cfloop query = "column_headers1">
 															<li class="list-group-item">#column_headers1.column_name#</li>
 														</cfloop>
