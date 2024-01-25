@@ -222,7 +222,7 @@
 		</cfloop>
 		<!--- obtain a list of .cfm handlers in the /Reports/handlers directory. --->
 		<cfdirectory action="list" directory="#Application.webDirectory#/Reports/handlerss" filter="*.cfm" name="reportHandlerList" sort="name ASC">
-		<p>Reports may use a .cfr report template produced by the (depricated, unsupported) ColdFusion report builder application, or may reference .cfm handlers.  The .cfr report templates can be uploaded from here.  The .cfr report handlers must be committed as other code, and can only be referenced when editing a report.</p>
+		<p>Reports may use a .cfr report template produced by the (deprecated, unsupported) ColdFusion report builder application, or may reference .cfm handlers.  The .cfr report templates can be uploaded from here.  The .cfr report handlers must be committed as other code, and can only be referenced when editing a report.</p>
 
 		<p>Load a new template (will overwrite old templates). .cfr files only.</p>
 		<!--- .cfm handlers in /Reports/handlers/ are not uploaded through the UI --->
