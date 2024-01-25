@@ -1518,7 +1518,7 @@ function stickyheader() {
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
 															
 													</div>
-													<div id="fixedenableselection"></div><div id="selectorBtn" class="btn-xs btn btn-secondary">Toggle Mousewheel</div>
+													<div id="fixedenableselection"></div><div id="selectBtn" class="btn-xs btn btn-secondary">Toggle Mousewheel</div>
 												</div>
 											</div>
 										</div>
