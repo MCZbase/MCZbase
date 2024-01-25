@@ -574,7 +574,7 @@ function stickyheader() {
 													<cfset TaxaButton = "More Fields">
 												</cfif>
 												<div class="col-12 col-xl-1 px-xl-3 px-2 px-md-2 float-left">
-													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-1">
+													<div class="h4 font-weight-bold d-inline-block-md text-dark my-0 py-1">
 														Taxonomy&nbsp;&nbsp;
 														<button type="button" id="TaxaDetailCtl" class="btn d-inline-block-md btn-xs px-0 float-right small py-0 border-0 btn-link" onclick="toggleTaxaDetail(#toggleTo#);">(#TaxaButton#)</button>
 													</div>
@@ -1115,7 +1115,7 @@ function stickyheader() {
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-form-basic-odd px-4 py-2">
+											<div class="col-12 search-form-basic-odd py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("part_remarks") and len(part_remarks) GT 0)
 													OR (isDefined("coll_object_remarks") and len(coll_object_remarks) GT 0)
@@ -1133,13 +1133,13 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset SpecButton = "More Fields">
 												</cfif> 
-												<div class="col-12 col-xl-1 pt-0 float-left">
+												<div class="col-12 col-xl-1 px-1 pt-2 float-left">
 													<div class="h5 d-inline-block text-dark my-0 pt-1">
 														Specimen&nbsp;&nbsp;
 														<button type="button" id="SpecDetailCtl" class="btn px-0 d-inline-block-md btn-xs float-right small py-0 border-0 btn-link" onclick="toggleSpecDetail(#toggleTo#);">(#SpecButton#)</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-lg-11 px-0 mb-0">
+												<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 														<label for="part_name" class="data-entry-label small">Part Name</label>
