@@ -1524,10 +1524,10 @@ function stickyheader() {
 							function toggleIDDetail(onOff) {
 								if (onOff==0) {
 									$("##IDDetail").hide();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<i class="fas fa-chevron-circle-up"><span class="sr-only">show more fields</span></i>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<i class="fas fa-chevron-circle-down"><span class="sr-only">show more fields</span></i>');
 								} else {
 									$("##IDDetail").show();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<i class="fas fa-chevron-circle-down"><span class="sr-only">show fewer fields</span></i>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<i class="fas fa-chevron-circle-up"><span class="sr-only">show fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
