@@ -110,6 +110,8 @@ limitations under the License.
 					<input type="hidden" name="action" value="print">
 					<input type="hidden" name="transaction_id" value="#transaction_id#">
 					<input type="hidden" name="container_id" value="#container_id#">
+					<cfif not isDefined("result_id")><cfset result_id = ""></cfif>
+					<input type="hidden" name="result_id" value="#result_id#">
 					<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 					<table border='0' class="table table-responsive w-100">
 						<tr>
@@ -400,10 +402,17 @@ limitations under the License.
 			<cfelse>
 				<cfset extension="rtf">
 			</cfif>
-			<cfreport format="#e.report_format#"
-				template="#application.webDirectory#/Reports/templates/#e.report_template#"
-				query="d"
-				overwrite="true"></cfreport>
+			<cfif Right(e.report_template,4) EQ ".cfr"> 
+				<cfreport format="#e.report_format#"
+					template="#application.webDirectory#/Reports/templates/#e.report_template#"
+					query="d"
+					overwrite="true"></cfreport>
+			<cfelseif Right(e.report_template,4) EQ ".cfm">
+				<!--- .cfm report handlers are in /Reports/handlers/ --->
+				<cflocation url="/Reports/handlers/#e.report_template#?target=#e.report_name#&result_id=#encodeForURL(result_id)#" addToken="false">
+			<cfelse>
+				<cfthrow message="Unknown report file type specified for the template: #encodeForHtml(e.report_template)#">
+			</cfif> 
 		</cfoutput>
 	</cfcase>
 </cfswitch>
