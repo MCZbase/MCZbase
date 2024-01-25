@@ -1478,9 +1478,9 @@ function stickyheader() {
 																var selHorizScroll = $("##selectBtn").val();
 																$("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
 																if (onOff==0) { 
-																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
-																} else {
 																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
+																} else {
+																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
 																}
 															};
 														</script>
