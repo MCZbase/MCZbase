@@ -998,7 +998,7 @@ function stickyheader() {
 													</div>
 												</div>
 											</div>
-											<div class="col-12 px-4 py-2">
+											<div class="col-12 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
 													OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)
@@ -1015,7 +1015,7 @@ function stickyheader() {
 													<cfset CollButton = "More Fields">
 												</cfif> 
 												<div class="col-12 col-xl-1 float-left">
-													<div class="h5 d-inline-block-md text-dark my-0 py-1">
+													<div class="h5 font-weight-bold d-inline-block-md text-dark my-0 py-1">
 														Events&nbsp;&nbsp;
 														<button type="button" id="CollDetailCtl" class="btn px-0 d-inline-block-md btn-xs float-right small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">(#CollButton#)</button>
 													</div>
