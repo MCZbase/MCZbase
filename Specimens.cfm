@@ -1597,10 +1597,10 @@ function stickyheader() {
 							function toggleCollDetail(onOff) {
 								if (onOff==0) {
 									$("##CollDetail").hide();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('More Fields');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<i class="fa-solid fa-chevron-down"></i>');
 								} else {
 									$("##CollDetail").show();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('Fewer Fields');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<i class="fa-solid fa-chevron-up"></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
