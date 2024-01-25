@@ -223,7 +223,6 @@ limitations under the License.
   }
 	
 window.onscroll = function() {stickyheader()};
-
 function stickyheader() {
   if (document.documentElement.scrollTop > 50) {
     document.getElementById("IDP").className = "sticky";
@@ -231,6 +230,12 @@ function stickyheader() {
     document.getElementById("IDP").className = "";
   }
 }
+	
+let wheelEvent = new WheelEvent('wheel', {
+  deltaY: 1,
+  deltaMode: 1
+});
+document.getElementById('selector').dispatchEvent(wheelEvent);
 </script>
 	<!--- TODO: Replace with a native javascript UUID function when it becomes available --->
 	<script>
@@ -1506,7 +1511,7 @@ function stickyheader() {
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
 															
 													</div>
-													<div id="fixedenableselection"></div>
+													<div id="fixedenableselection"></div><div id="selector"></div>
 												</div>
 											</div>
 										</div>
