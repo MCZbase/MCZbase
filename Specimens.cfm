@@ -188,11 +188,14 @@ limitations under the License.
 }
 </style>
 <style>
-.NS, .NS ul {
+.ns {
+	display:none;
+}
+##IDP.ns ul {
 	display:none;
 }
 
-.sticky{
+##IDP.sticky{
 	display: block !important;
 	position: -webkit-sticky !important;
 	position: sticky !important;
@@ -203,6 +206,7 @@ limitations under the License.
 	font-size: 14px;
 	z-index: 2;
 }
+	##IDP.sticky ul {display:block !important;}
 </style>
 <script>
   function toggleDisplay1() {
