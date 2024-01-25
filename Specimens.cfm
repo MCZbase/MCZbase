@@ -188,7 +188,7 @@ limitations under the License.
 }
 </style>
 <style>
-div.sticky {
+.sticky {
 	position: -webkit-sticky !important;
 	position: sticky !important;
 	top: 0 !important;
@@ -198,6 +198,18 @@ div.sticky {
 	font-size: 14px;
 	z-index: 1.75;
 }
+.sticky-header-h {
+	visibility:hidden;
+	opacity: 0;
+	transform: translateY(-35px);
+	transition: transform .2s ease,opacity .2s ease,visibility .2s ease;
+}
+.sticky-header-v {
+	visibility: visible;
+	opacity: 1;
+	transform: translateY(0);
+}
+
 </style>
 <script>
   function toggleDisplay1() {
@@ -1474,7 +1486,7 @@ div.sticky {
 													select column_name from all_tab_columns where table_name = 'FLAT'
 												</cfquery>
 												<cfif #action# eq "fixedSearch">
-													<div class="sticky">
+													<div class="sticky sticky-header-h stick-header-v">
 														<ul class="list-group list-group-horizontal" style="overflow:hidden;">
 														<cfloop query = "column_headers1">
 															<li class="list-group-item">#column_headers1.column_name#</li>
