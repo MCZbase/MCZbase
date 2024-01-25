@@ -2555,10 +2555,10 @@ Target JSON:
 		ORDER by disp_order
 	</cfquery>
 	<script>
-		$("##fixedsearchResultsGrid").onscroll = (event) => {
+		fixedsearchResultsGrid.onscroll = (event) => {
 			console.log('Scrolling...');
 		});
-		</script>
+	</script>
 	<script>
 		// setup for persistence of column selections
 		window.columnHiddenSettings = new Object();
