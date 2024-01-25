@@ -213,6 +213,19 @@ limitations under the License.
       }
     }
   }
+	
+  function stickyheader() {
+    var elements = document.getElementsByClassName("sticky");
+
+    // Iterate through elements with the specified class and toggle display
+    for (var i = 0; i < elements.length; i++) {
+      if (elements[i].style.display === "none") {
+        elements[i].style.display = "block";
+      } else {
+        elements[i].style.display = "none";
+      }
+    }
+  }
 </script>
 	<!--- TODO: Replace with a native javascript UUID function when it becomes available --->
 	<script>
@@ -1476,7 +1489,7 @@ limitations under the License.
 												</cfquery>
 												<cfif #action# eq "fixedSearch">
 													<div class="sticky">
-														<ul class="list-group list-group-horizontal" style="overflow:hidden;">
+														<ul class="list-group list-group-horizontal" style="overflow:hidden;display:none;">
 														<cfloop query = "column_headers1">
 															<li class="list-group-item">#column_headers1.column_name#</li>
 														</cfloop>
