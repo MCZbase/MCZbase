@@ -95,7 +95,7 @@
         For testing purposes, that will default to 12, or you can replace <strong>(##collection_object_id##)</strong>
         with a comma-separated list of collection_object_ids, eg:
         <strong>(1,5,874,2355,4)</strong>
-        <p>An optional limit on the preservation types included in the report can be added with <strong>-- ##limit_preserve_method##</strong> as the next to last clause in a where clause, after an AND (and at the end of a line, as the -- will comment out the line if the clause isn't rewritten.  The query will need to include specimen_part, as the limit_preserve_method tag will be rewritten to "specimen_part.preserve_method = '{selected value}' AND", where the selected value is provided from a preservation type picklist on the report_printer page.</p>
+        <p>An optional limit on the preservation types included in the report can be added with <strong>-- ##limit_preserve_method##</strong> as the next to last clause in a where clause, after an AND (and at the end of a line, as the -- will comment out the line if the clause isn&apos;t rewritten.  The query will need to include specimen_part, as the limit_preserve_method tag will be rewritten to "specimen_part.preserve_method = '{selected value}' AND", where the selected value is provided from a preservation type picklist on the report_printer page.</p>
     </div>
 </cfif>
 <!-------------------------------------------------------------->
@@ -196,7 +196,12 @@
         </tr>
     <cfloop query="reportList">
 		<cfquery name="h" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	        select * from cf_report_sql where report_template='#name#'
+			SELECT *
+			FROM cf_report_sql 
+			WHERE 
+				report_template='#name#' 
+				OR 
+				report_template LIKE '%.cfm'
 	    </cfquery>
         <cfif h.recordcount is 0>
             <cfquery name="h" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
