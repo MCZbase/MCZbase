@@ -1014,13 +1014,13 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset CollButton = "More Fields">
 												</cfif> 
-												<div class="col-12 col-xl-1 px-2 px-xl-3 px-md-2 float-left">
-													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-1">
-														Events&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												<div class="col-12 col-xl-1  float-left">
+													<div class="h5 d-inline-block-md text-dark my-0 py-1">
+														Events&nbsp;&nbsp;
 														<button type="button" id="CollDetailCtl" class="btn px-0 d-inline-block-md btn-xs float-right small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">(#CollButton#)</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-lg-11 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-lg-11 px-0 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="collector" class="data-entry-label small">Collector</label>
 														<cfif not isdefined("collector")>
@@ -1233,7 +1233,7 @@ function stickyheader() {
 														General/ Metadata
 													</div>
 												</div>
-												<div class="form-row col-12 col-xl-11 px-0 mb-0">
+												<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-2">
 														<cfif not isdefined("keyword")>
 															<cfset keyword="">
