@@ -1474,15 +1474,7 @@ limitations under the License.
 												<cfquery name="column_headers1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select column_name from all_tab_columns where table_name = 'FLAT'
 												</cfquery>
-												<cfif #action# eq "fixedSearch">
-													<div class="sticky">
-														<ul class="list-group list-group-horizontal" style="overflow:hidden;">
-														<cfloop query = "column_headers1">
-															<li class="list-group-item">#column_headers1.column_name#</li>
-														</cfloop>
-														</ul>
-													</div>
-												</cfif>
+						
 													<!---(TO DO: Figure out how to make this sticky row work on the column header row)--->
 												<div class="row mx-0 mt-0"> 
 													
@@ -3783,6 +3775,14 @@ Target JSON:
 	})( window );
 </script>
 
-
+						<cfif #action# eq "fixedSearch">
+													<div class="sticky">
+														<ul class="list-group list-group-horizontal" style="overflow:hidden;">
+														<cfloop query = "column_headers1">
+															<li class="list-group-item">#column_headers1.column_name#</li>
+														</cfloop>
+														</ul>
+													</div>
+												</cfif>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
