@@ -184,6 +184,10 @@
 	<div style="width: 69em; margin: 0 auto; padding: 2em 0 3em 0;">
 		<!--- obtain a list of .cfr templates in the upload /Reports/templates directory. --->
 		<cfdirectory action="list" directory="#Application.webDirectory#/Reports/templates" filter="*.cfr" name="reportList" sort="name ASC">
+		<cfset reportNames = "">
+		<cfloop query="reportList">
+			<cfset reportNames = ListAppend(reportNames,reportList.name)>
+		</cfloop>
 
 		<p>Load a new template (will overwrite old templates). .cfr files only.</p>
 		<form name="n" method="post" enctype="multipart/form-data" action="reporter.cfm">
@@ -206,7 +210,7 @@
 					report_format, sql_text, description 
 				FROM cf_report_sql 
 				WHERE 
-					report_template IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#" list="yes">) 
+					report_template IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#reportNames#" list="yes">) 
 					OR 
 					report_template LIKE '%.cfm'
 				ORDER BY 
