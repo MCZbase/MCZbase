@@ -1228,8 +1228,8 @@ function stickyheader() {
 												</div>
 											</div>
 											<div class="col-12 px-4 py-2">
-												<div class="col-12 col-xl-1 px-2 px-xl-3 px-md-2 float-left">
-													<div class="small95 font-weight-bold d-inline-block text-dark px-0 my-1 py-1">
+												<div class="col-12 col-xl-1 pt-2 float-left">
+													<div class="h5 d-inline-block text-dark my-1 pt-1">
 														General/ Metadata
 													</div>
 												</div>
@@ -1323,9 +1323,9 @@ function stickyheader() {
 												</div>
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<div class="col-12 search-form-basic-odd px-4 py-2">
-													<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
-														<div class="small95 font-weight-bold d-inline-block text-dark my-1 py-1">
+												<div class="col-12 search-form-basic-odd py-1">
+													<div class="col-12 col-xl-1 pt-2 float-left">
+														<div class="h5 d-inline-block text-dark my-1 pt-1">
 															Transactions&nbsp;&nbsp;
 														</div>
 													</div>
