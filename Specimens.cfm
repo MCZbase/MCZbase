@@ -214,18 +214,15 @@ limitations under the License.
     }
   }
 	
-  function stickyheader() {
-    var elements = document.getElementsByClassName("sticky");
+window.onscroll = function() {stickyheader()};
 
-    // Iterate through elements with the specified class and toggle display
-    for (var i = 0; i < elements.length; i++) {
-      if (elements[i].style.display === "none") {
-        elements[i].style.display = "block";
-      } else {
-        elements[i].style.display = "none";
-      }
-    }
+function stickyheader() {
+  if (document.documentElement.scrollTop > 50) {
+    document.getElementById("fixedSearchResultsSection").className = "sticky";
+  } else {
+    document.getElementById("fixedSearchResultsSection").className = "";
   }
+}
 </script>
 	<!--- TODO: Replace with a native javascript UUID function when it becomes available --->
 	<script>
