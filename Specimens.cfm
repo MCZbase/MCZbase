@@ -1228,8 +1228,8 @@ function stickyheader() {
 												</div>
 											</div>
 											<div class="col-12 px-4 py-2">
-												<div class="col-12 col-xl-1 pt-2 float-left">
-													<div class="h5 d-inline-block text-dark my-1 pt-1">
+												<div class="col-12 col-xl-1 pt-0 float-left">
+													<div class="h5 d-inline-block text-dark my-0 pt-1">
 														General/ Metadata
 													</div>
 												</div>
