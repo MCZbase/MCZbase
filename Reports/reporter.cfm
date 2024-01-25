@@ -126,7 +126,7 @@
             description,
             sql_text)
         values (
-            substring('Clone_Of_#e.report_name#_#tc#',38),
+            substr('Clone_Of_#e.report_name#_#tc#',38),
             '#e.report_template#',
             <CFQUERYPARAM VALUE="#e.description#" CFSQLTYPE="CF_SQL_CLOB">,
             <CFQUERYPARAM VALUE="#e.sql_text#" CFSQLTYPE="CF_SQL_CLOB"> )
