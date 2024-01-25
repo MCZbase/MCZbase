@@ -1473,17 +1473,7 @@ function stickyheader() {
 																}
 															};
 														</script>
-														<script>
-															function fixedMousewheel(){
-																var selHorizScroll = $("##selectBtn").val();
-																$("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
-																if (selHorizScroll=="") { 
-																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
-																} else {
-																	$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
-																}
-															};
-														</script>
+							
 														<label class="data-entry-label d-inline w-auto mt-1" for="fixedselectMode">Grid Select:</label>
 														<select class="data-entry-select d-inline w-auto mt-1" id="fixedselectMode" onChange="fixedchangeSelectMode();">
 															<cfif defaultSelectionMode EQ 'none'><cfset selected="selected"><cfelse><cfset selected=""></cfif>
@@ -3811,6 +3801,16 @@ Target JSON:
 	})( window );
 </script>
 
-
+<script>
+function fixedMousewheel(){
+	var selHorizScroll = $("##selectBtn").val();
+	$("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
+	if (selHorizScroll=="") { 
+		$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: true});
+	} else {
+		$("##fixedsearchResultsGrid").jqxGrid({enableBrowserSelection: false});
+	}
+};
+</script>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
