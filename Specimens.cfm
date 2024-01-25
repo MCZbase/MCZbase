@@ -1510,7 +1510,7 @@ function stickyheader() {
 													</div>
 													<div id="fixedenableselection"></div><div class="">Mousewheel: 
 														<button id="selectBtn1" onClick="fixedMousewheel();" class="btn-xs btn btn-secondary">On</button>
-														<button id="selectBtn2" onClick="fixedMousewheel();" class="btn-xs rounded">Off</button>
+														<button id="selectBtn2" onClick="fixedMousewheel();" class="btn btn-xs rounded">Off</button>
 													</div>
 												</div>
 											</div>
