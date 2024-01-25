@@ -192,7 +192,7 @@ limitations under the License.
 .sticky-header-h {
 	visibility:hidden;
 	opacity: 0;
-	transform: translateY(-35px);
+	transform: translateY(0);
 	transition: transform .2s ease,opacity .2s ease,visibility .2s ease;
 }
 .sticky-header-v {
