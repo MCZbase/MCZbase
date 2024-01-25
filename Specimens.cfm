@@ -1622,7 +1622,7 @@ function stickyheader() {
 							function toggleSpecDetail(onOff) {
 								if (onOff==0) {
 									$("##SpecDetail").hide();
-									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('More Fields');
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<i class="fas fa-chevron-up"></i>');
 								} else {
 									$("##SpecDetail").show();
 									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('Fewer Fields');
