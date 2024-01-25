@@ -1492,7 +1492,7 @@ function stickyheader() {
 												<cfquery name="column_headers1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select column_name from all_tab_columns where table_name = 'FLAT'
 												</cfquery>
-												<div id="IDP" class="NS">
+												<div id="IDP" class="ns">
 													<ul class="list-group list-group-horizontal" style="overflow:hidden;">
 													<cfloop query = "column_headers1">
 														<li class="list-group-item">#column_headers1.column_name#</li>
