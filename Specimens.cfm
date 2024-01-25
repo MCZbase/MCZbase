@@ -194,7 +194,6 @@ limitations under the License.
 ##IDP ul {
 	display:none;
 }
-
 ##IDP.sticky{
 	display: flex !important;
 	position: -webkit-sticky !important;
@@ -206,7 +205,10 @@ limitations under the License.
 	font-size: 14px;
 	z-index: 2;
 }
-	##IDP.sticky ul {display:flex !important;}
+##IDP.sticky ul {display:flex !important;}
+.fas {
+	font-size: 17px;
+}
 </style>
 <script>
   function toggleDisplay1() {
