@@ -2555,6 +2555,11 @@ Target JSON:
 		ORDER by disp_order
 	</cfquery>
 	<script>
+		window.addEventListener('scroll',(event) => {
+			console.log('Scrolling...');
+		});
+	</script>
+	<script>
 		// setup for persistence of column selections
 		window.columnHiddenSettings = new Object();
 		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
