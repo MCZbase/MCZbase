@@ -581,7 +581,7 @@ function stickyheader() {
 														<button type="button" id="TaxaDetailCtl" class="btn d-inline-block-md btn-xs px-1 small py-0 border-0 btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xl-11 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-xl-10 px-0 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4">
 														<div class="form-row mx-0 mb-0">
 															<div class="col-9 px-0">
@@ -812,7 +812,7 @@ function stickyheader() {
 														<button type="button" id="GeogDetailCtl" class="btn d-inline-block-md px-1 btn-xs small py-0 border-0 btn-link" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xl-11 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-xl-10 px-0 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label small">Any Geography (keywords)</label>
