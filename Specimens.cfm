@@ -399,7 +399,7 @@ function stickyheader() {
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex togglesearchform" style="display: block;">
-											<div class="col-12 search-form-basic-odd px-1 py-2">
+											<div class="col-12 search-form-basic-odd px-3 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
 													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
@@ -422,7 +422,7 @@ function stickyheader() {
 														</cfif>
 													</div>
 												</div>	
-												<div class="form-row col-12 col-xl-11 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-xl-10 px-0 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="fixedCollection" class="data-entry-label small">Collection</label>
 														<div name="collection" id="fixedCollection" class="w-100"></div>
@@ -550,7 +550,7 @@ function stickyheader() {
 													</div>
 												</div>
 											</div>
-											<div class="col-12 px-1 py-2">
+											<div class="col-12 px-3 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("phylum") and len(phylum) GT 0)
 													OR (isDefined("phylclass") and len(phylclass) GT 0)
@@ -776,7 +776,7 @@ function stickyheader() {
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-form-basic-odd px-1 py-2">
+											<div class="col-12 search-form-basic-odd px-3 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
 													OR (isDefined("country") and len(country) GT 0)
@@ -1000,7 +1000,7 @@ function stickyheader() {
 													</div>
 												</div>
 											</div>
-											<div class="col-12 px-1 py-2">
+											<div class="col-12 px-3 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
 													OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)
@@ -1117,7 +1117,7 @@ function stickyheader() {
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-form-basic-odd px-1 py-2">
+											<div class="col-12 search-form-basic-odd px-3 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("part_remarks") and len(part_remarks) GT 0)
 													OR (isDefined("coll_object_remarks") and len(coll_object_remarks) GT 0)
@@ -1141,7 +1141,7 @@ function stickyheader() {
 														<button type="button" id="SpecDetailCtl" class="btn px-1 d-inline-block-md btn-xs small py-0 border-0 btn-link" onclick="toggleSpecDetail(#toggleTo#);">#SpecButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
+												<div class="form-row col-12 col-xl-10 px-0 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 														<label for="part_name" class="data-entry-label small">Part Name</label>
@@ -1229,7 +1229,7 @@ function stickyheader() {
 													</div>
 												</div>
 											</div>
-											<div class="col-12 px-1 py-2">
+											<div class="col-12 px-3 py-2">
 												<div class="col-12 col-xl-1 p-1 mb-md-1 border float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 pr-1 text-left text-md-left text-dark my-0 py-1">
 													 General
