@@ -408,7 +408,7 @@ function stickyheader() {
 												<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
 													<cfset IDDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset IDButton = "<i class='fas fa-chevron-circle-up' title='more fields'><span class= 'sr-only'>more fields</span></i>">
+														<cfset IDButton = "<i class='fas fa-chevron-circle-up' title='fewer fields'><span class= 'sr-only'>fewer fields</span></i>">
 												<cfelse>
 													<cfset IDDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -800,11 +800,11 @@ function stickyheader() {
 												<cfif listFind(searchPrefList,"GeogDetail") GT 0 or hiddenHaveValue>
 													<cfset GeogDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset GeogButton = '<i class="fas fa-chevron-circle-up" title="show fewer fields"><span class="sr-only">show fewer fields</span></i>'>
+													<cfset GeogButton = '<i class="fas fa-chevron-circle-up" title="fewer fields"><span class="sr-only">fewer fields</span></i>'>
 												<cfelse>
 													<cfset GeogDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset GeogButton = '<i class="fas fa-chevron-circle-down" title="show more fields"><span class="sr-only">show more fields</span></i>'>
+													<cfset GeogButton = '<i class="fas fa-chevron-circle-down" title="more fields"><span class="sr-only">more fields</span></i>'>
 												</cfif>
 												<div class="col-12 col-xl-1 px-1 float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-right text-md-left text-dark my-0 py-1">
