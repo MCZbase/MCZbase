@@ -408,11 +408,11 @@ function stickyheader() {
 												<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
 													<cfset IDDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset IDButton = "<i class='fas fa-chevron-circle-down'></i>">
+													<cfset IDButton = "<i class='fas fa-chevron-circle-up'></i>">
 												<cfelse>
 													<cfset IDDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset IDButton = "<i class='fas fa-chevron-circle-up'></i>">
+													<cfset IDButton = "<i class='fas fa-chevron-circle-down'></i>">
 												</cfif> 
 												<div class="col-12 col-xl-1 pl-4 pr-0 float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-dark mt-2 mb-0 py-0">
