@@ -414,7 +414,7 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset IDButton = "<i class='fas fa-chevron-circle-down' title='fewer fields'><span class= 'sr-only'>fewer fields</span></i>">
 												</cfif> 
-												<div class="col-12 col-xl-1 p-1 mb-md-1 border float-left">
+												<div class="col-12 col-md-1 col-xl-2 p-1 mb-md-1 border float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1">
 														Identifiers&nbsp;&nbsp;
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
@@ -1230,7 +1230,7 @@ function stickyheader() {
 												</div>
 											</div>
 											<div class="col-12 px-3 py-2">
-												<div class="col-12 col-xl-1 p-1 mb-md-1 border float-left">
+												<div class="col-12 col-md-1 col-xl-2 p-1 mb-md-1 border float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 pr-1 text-left text-md-left text-dark my-0 py-1">
 													 General
 													</div>
