@@ -418,7 +418,7 @@ function stickyheader() {
 													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1">
 														Identifiers&nbsp;&nbsp;
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
-															<button type="button" id="IDDetailCtl" class="btn btn-xs px-0 small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+															<button type="button" id="IDDetailCtl" class="btn btn-xs px-1 small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
 													</div>
 												</div>	
@@ -578,7 +578,7 @@ function stickyheader() {
 												<div class="col-12 col-xl-1 p-1 mb-md-1 border float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1">
 														Taxonomy&nbsp;&nbsp;
-														<button type="button" id="TaxaDetailCtl" class="btn d-inline-block-md btn-xs px-0 small py-0 border-0 btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
+														<button type="button" id="TaxaDetailCtl" class="btn d-inline-block-md btn-xs px-1 small py-0 border-0 btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-11 px-0 mx-0 mb-0">
@@ -809,7 +809,7 @@ function stickyheader() {
 												<div class="col-12 col-xl-1 p-1 mb-md-1 border float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1">
 														Geography&nbsp;&nbsp;
-														<button type="button" id="GeogDetailCtl" class="btn d-inline-block-md px-0 btn-xs small py-0 border-0 btn-link" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
+														<button type="button" id="GeogDetailCtl" class="btn d-inline-block-md px-1 btn-xs small py-0 border-0 btn-link" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-11 px-0 mx-0 mb-0">
@@ -1018,8 +1018,8 @@ function stickyheader() {
 												</cfif> 
 												<div class="col-12 col-xl-1 p-1 mb-md-1 border float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1">
-														Events&nbsp;&nbsp;
-														<button type="button" id="CollDetailCtl" class="btn d-inline-block-md btn-xs px-2 float-right small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
+														Coll. Event&nbsp;&nbsp;
+														<button type="button" id="CollDetailCtl" class="btn d-inline-block-md btn-xs px-1 float-right small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-lg-11 px-0 mb-0 mx-0">
@@ -1138,7 +1138,7 @@ function stickyheader() {
 												<div class="col-12 col-xl-1 p-1 mb-md-1 border float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1">
 														Specimen&nbsp;&nbsp;
-														<button type="button" id="SpecDetailCtl" class="btn px-0 d-inline-block-md btn-xs small py-0 border-0 btn-link" onclick="toggleSpecDetail(#toggleTo#);">#SpecButton#</button>
+														<button type="button" id="SpecDetailCtl" class="btn px-1 d-inline-block-md btn-xs small py-0 border-0 btn-link" onclick="toggleSpecDetail(#toggleTo#);">#SpecButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
@@ -1231,7 +1231,7 @@ function stickyheader() {
 											</div>
 											<div class="col-12 py-2">
 												<div class="col-12 col-xl-1 p-1 mb-md-1 border float-left">
-													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1">
+													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 pr-1 text-left text-md-left text-dark my-0 py-1">
 														General/ Metadata
 													</div>
 												</div>
