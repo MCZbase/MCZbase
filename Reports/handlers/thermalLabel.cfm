@@ -100,7 +100,7 @@ limitations under the License.
 						<div style="text-align: center;">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
-						<div style="text-align: center; padding-bottom: 1em; border-bottom: 1px solid;">
+						<div style="text-align: center; padding-bottom: .5em; border-bottom: 1px solid;margin-bottom: .5em;">
 							WHOI Jar Number #getWhoiNumbers.whoi_number#
 						</div>
 
