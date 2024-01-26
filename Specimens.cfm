@@ -1524,10 +1524,10 @@ function stickyheader() {
 							function toggleIDDetail(onOff) {
 								if (onOff==0) {
 									$("##IDDetail").hide();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<i class="fas fa-chevron-circle-down"><span class="sr-only">show more fields</span></i>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<i class="fas fa-chevron-circle-down"><span title="show more fields" class="sr-only">show more fields</span></i>');
 								} else {
 									$("##IDDetail").show();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<i class="fas fa-chevron-circle-up"><span class="sr-only">show fewer fields</span></i>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<i class="fas fa-chevron-circle-up"><span title="show fewer fields" class="sr-only">show fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1549,10 +1549,10 @@ function stickyheader() {
 							function toggleTaxaDetail(onOff) {
 								if (onOff==0) {
 									$("##TaxaDetail").hide();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<i class="fas fa-chevron-circle-down"><span class="sr-only">show more fields</span></i>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<i class="fas fa-chevron-circle-down"><span title="show more fields" class="sr-only">show more fields</span></i>');
 								} else {
 									$("##TaxaDetail").show();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<i class="fas fa-chevron-circle-up"><span class="sr-only">show fewer fields</span></i>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<i class="fas fa-chevron-circle-up"><span title="show fewer fields" class="sr-only">show fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
