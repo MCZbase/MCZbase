@@ -408,14 +408,14 @@ function stickyheader() {
 												<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
 													<cfset IDDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset IDButton = "<i class='fas fa-chevron-circle-up'></i>">
+														<cfset IDButton = "<i class='fas fa-chevron-circle-up' title='more fields'><span class= 'sr-only'>more fields</span></i>">
 												<cfelse>
 													<cfset IDDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset IDButton = "<i class='fas fa-chevron-circle-down'></i>">
+													<cfset IDButton = "<i class='fas fa-chevron-circle-down' title='fewer fields'><span class= 'sr-only'>fewer fields</span></i>">
 												</cfif> 
-												<div class="col-12 col-xl-1 pl-4 pr-0 float-left">
-													<div class="h5 font-weight-bold d-inline-block-md text-dark mt-2 mb-0 py-0">
+												<div class="col-12 col-xl-1 px-1 float-left">
+													<div class="h5 font-weight-bold d-inline-block-md text-right text-md-left text-dark my-0 py-1">
 														Identifiers&nbsp;&nbsp;
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="btn btn-xs px-0 small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
