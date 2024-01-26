@@ -1019,7 +1019,7 @@ function stickyheader() {
 												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1">
 														Coll. Event&nbsp;&nbsp;
-														<button type="button" id="CollDetailCtl" class="btn d-inline-block-md btn-xs px-1 float-right small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
+														<button type="button" id="CollDetailCtl" class="btn d-inline-block-md btn-xs px-1 small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-lg-10 px-0 mb-0 mx-0">
@@ -1138,7 +1138,7 @@ function stickyheader() {
 												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1">
 														Specimen&nbsp;&nbsp;
-														<button type="button" id="SpecDetailCtl" class="btn px-1 d-inline-block-md btn-xs small float-right py-0 border-0 btn-link" onclick="toggleSpecDetail(#toggleTo#);">#SpecButton#</button>
+														<button type="button" id="SpecDetailCtl" class="btn px-1 d-inline-block-md btn-xs small py-0 border-0 btn-link" onclick="toggleSpecDetail(#toggleTo#);">#SpecButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-10 px-0 mb-0 mx-0">
