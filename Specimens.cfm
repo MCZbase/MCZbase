@@ -1010,11 +1010,11 @@ function stickyheader() {
 												<cfif listFind(searchPrefList,"CollDetail") GT 0 OR hiddenHaveValue>
 													<cfset CollDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset CollButton = "<i class='fas fa-chevron-circle-down' title='more fields'><span class='sr-only'>more fields</span></i>">
+														<cfset CollButton = "<i class='fas fa-chevron-circle-up' title='fewer fields'><span class='sr-only'>fewer fields</span></i>">
 												<cfelse>
 													<cfset CollDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset CollButton = "<i class='fas fa-chevron-circle-up' title='fewer fields'><span class='sr-only'>fewer fields</span></i>">
+													<cfset CollButton = "<i class='fas fa-chevron-circle-down' title='more fields'><span class='sr-only'>more fields</span></i>">
 												</cfif> 
 												<div class="col-12 col-xl-1 px-1 float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-right text-md-left text-dark my-0 py-1">
