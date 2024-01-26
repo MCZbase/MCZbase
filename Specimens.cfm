@@ -399,7 +399,7 @@ function stickyheader() {
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex togglesearchform" style="display: block;">
-											<div class="col-12 search-form-basic-odd px-0 py-2">
+											<div class="col-12 search-form-basic-odd px-0 pb-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
 													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
@@ -550,7 +550,7 @@ function stickyheader() {
 													</div>
 												</div>
 											</div>
-											<div class="col-12 px-0 py-2">
+											<div class="col-12 px-0 pb-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("phylum") and len(phylum) GT 0)
 													OR (isDefined("phylclass") and len(phylclass) GT 0)
@@ -1117,7 +1117,7 @@ function stickyheader() {
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-form-basic-odd px-3 py-2">
+											<div class="col-12 search-form-basic-odd px-0 pb-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("part_remarks") and len(part_remarks) GT 0)
 													OR (isDefined("coll_object_remarks") and len(coll_object_remarks) GT 0)
@@ -1229,7 +1229,7 @@ function stickyheader() {
 													</div>
 												</div>
 											</div>
-											<div class="col-12 px-3 py-2">
+											<div class="col-12 px-0 pb-2">
 												<div class="col-12 col-xl-1 px-1 py-1 mb-1 border float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 w-100 pr-1 text-left text-md-left text-dark my-0 py-1">
 													 General&nbsp;
@@ -1325,7 +1325,7 @@ function stickyheader() {
 												</div>
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<div class="col-12 search-form-basic-odd py-2 px-3">
+												<div class="col-12 search-form-basic-odd pb-2 px-0">
 													<div class="col-12 col-xl-1 px-1 py-1 mb-1 border float-left">
 														<div class="h5 font-weight-bold d-inline-block-md text-xl-right w-100 pl-1 pr-1 text-left text-md-left text-dark my-0 py-1">
 															Transactions&nbsp;&nbsp;
