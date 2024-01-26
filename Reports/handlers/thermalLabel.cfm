@@ -77,10 +77,17 @@ limitations under the License.
 		</cfquery>
 		<cfset orientation = "portrait">
 		<cfset columns = 1>
-		<cfset tableWidth = 'width: 4in;'>
-		<cfset labelWidth = 'width: 3.5in;'>
+		<!---<cfset tableWidth = 'width: 4in;'>--->
+		<cfset tableWidth = 'width: 384px;'>
+
+		<!---<cfset labelWidth = 'width: 3.5in;'>--->
+		<cfset labelWidth = 'width: 374px;'>
+
 		<cfset labelBorder = 'border: 1px solid black;'>
-		<cfset labelHeight = 'height: 2.0in;'>
+
+		<!---<cfset labelHeight = 'height: 2.0in;'>--->
+		<cfset labelHeight = 'height: 470px;'>
+
 		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px;'>
 
 		<cfset pageheight = "6"><!--- should be tunable by number of records --->
@@ -123,9 +130,9 @@ limitations under the License.
 									<strong style="font: 1em 'Times-Roman';">#getTaxa.sci_name_with_auth#</strong>
 								</div>
 								
-								<table style="#labelWidth#">
+								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
-										<tr style="#labelWidth# vertical-align: top;">
+										<tr style="#labelWidth# vertical-align: top;padding-top: 5px;">
 											<td style="vertical-align: top;">
 												<span style="font: 0.8em 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
 											</td>
