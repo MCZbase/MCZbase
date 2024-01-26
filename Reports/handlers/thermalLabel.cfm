@@ -80,7 +80,7 @@ limitations under the License.
 		<cfset tableWidth = 'width: 4in;'>
 		<cfset labelWidth = 'width: 3.5in;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
-		<cfset labelHeight = 'height: 2.0in;'>
+		<cfset labelHeight = 'height: 4.5in;'>
 		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px;'>
 
 		<cfset pageheight = "6"><!--- should be tunable by number of records --->
