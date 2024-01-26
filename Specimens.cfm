@@ -1016,9 +1016,9 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset CollButton = "<i class='fas fa-chevron-circle-down' title='more fields'><span class='sr-only'>more fields</span></i>">
 												</cfif> 
-												<div class="col-12 col-xl-1 p-1 border float-left">
-													<div class="h5 font-weight-bold d-inline-block-md text-md-left text-right text-md-left text-dark my-0 py-1">
-														Coll. Events&nbsp;&nbsp;
+												<div class="col-12 col-xl-1 p-1 mb-md-1 border float-left">
+													<div class="h5 font-weight-bold d-inline-block-md text-lg-right pl-1 text-left text-md-left text-dark my-0 py-1">
+														Coll. Event&nbsp;&nbsp;
 														<button type="button" id="CollDetailCtl" class="btn d-inline-block-md btn-xs px-2 float-right small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
