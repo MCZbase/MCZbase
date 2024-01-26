@@ -1018,7 +1018,7 @@ function stickyheader() {
 												</cfif> 
 												<div class="col-12 col-xl-1 p-1 mb-md-1 border float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1">
-														Coll. Event&nbsp;&nbsp;
+														Events&nbsp;&nbsp;
 														<button type="button" id="CollDetailCtl" class="btn d-inline-block-md btn-xs px-2 float-right small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
