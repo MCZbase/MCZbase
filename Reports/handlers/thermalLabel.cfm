@@ -141,9 +141,9 @@ limitations under the License.
 	
 						</cfloop>
 					</cfdocumentsection>
-				
+				<cfdocumentitem type="pagebreak" />
 				</cfloop>
-	<cfdocumentitem type="pagebreak" />
+	
 <!--- 
 
 Target layout, 4" wide, arbitrary height
