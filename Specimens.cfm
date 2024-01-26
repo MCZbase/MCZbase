@@ -1232,7 +1232,7 @@ function stickyheader() {
 											<div class="col-12 px-1 py-2">
 												<div class="col-12 col-xl-1 p-1 mb-md-1 border float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 pr-1 text-left text-md-left text-dark my-0 py-1">
-														General/ Metadata
+													 General
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
