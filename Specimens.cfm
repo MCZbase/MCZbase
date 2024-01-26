@@ -800,11 +800,11 @@ function stickyheader() {
 												<cfif listFind(searchPrefList,"GeogDetail") GT 0 or hiddenHaveValue>
 													<cfset GeogDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset GeogButton = '<i class="fas fa-chevron-circle-down"><span class="sr-only">show fewer fields</span></i>'>
+													<cfset GeogButton = '<i class="fas fa-chevron-circle-up"><span class="sr-only">show fewer fields</span></i>'>
 												<cfelse>
 													<cfset GeogDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset GeogButton = '<i class="fas fa-chevron-circle-up"><span class="sr-only">show fewer fields</span></i>'>
+													<cfset GeogButton = '<i class="fas fa-chevron-circle-down"><span class="sr-only">show fewer fields</span></i>'>
 												</cfif>
 												<div class="col-12 col-xl-1 float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-dark my-0 py-1">
