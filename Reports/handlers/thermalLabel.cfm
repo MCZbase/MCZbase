@@ -78,7 +78,7 @@ limitations under the License.
 		<cfset orientation = "portrait">
 		<cfset columns = 1>
 		<cfset tableWidth = 'width: 384px;'>
-		<cfset labelWidth = 'width: 374px;'>
+		<cfset labelWidth = 'width: 384px;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
 		<cfset labelHeight = 'height: 470px;'>
 		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px;'>
@@ -125,7 +125,7 @@ limitations under the License.
 								
 								<table style="#labelWidth#">
 									<cfloop query="getSpecificItems">
-										<tr style="#labelWidth# vertical-align: top;padding-top: 3px;">
+										<tr style="#labelWidth# vertical-align: top;padding-top: 5px;">
 											<td style="vertical-align: top;">
 												<span style="font: 0.8em 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
 											</td>
