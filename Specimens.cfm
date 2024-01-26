@@ -1022,7 +1022,7 @@ function stickyheader() {
 														<button type="button" id="CollDetailCtl" class="btn d-inline-block-md btn-xs px-1 float-right small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-lg-11 px-0 mb-0 mx-0">
+												<div class="form-row col-12 col-lg-10 px-0 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="collector" class="data-entry-label small">Collector</label>
 														<cfif not isdefined("collector")>
@@ -1235,7 +1235,7 @@ function stickyheader() {
 													 General
 													</div>
 												</div>
-												<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
+												<div class="form-row col-12 col-xl-10 px-0 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-2">
 														<cfif not isdefined("keyword")>
 															<cfset keyword="">
