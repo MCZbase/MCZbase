@@ -776,7 +776,7 @@ function stickyheader() {
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-form-basic-odd px-3 py-2">
+											<div class="col-12 search-form-basic-odd px-0 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
 													OR (isDefined("country") and len(country) GT 0)
@@ -806,13 +806,13 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset GeogButton = '<i class="fas fa-chevron-circle-down" title="more fields"><span class="sr-only">more fields</span></i>'>
 												</cfif>
-												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left">
+												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 mb-xl-2 border float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1">
 														Geography&nbsp;
 														<button type="button" id="GeogDetailCtl" class="btn d-inline-block-md px-1 btn-xs small py-0 border-0 btn-link" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xl-10 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-xl-10 px-0 mt-xl-2 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label small">Any Geography (keywords)</label>
