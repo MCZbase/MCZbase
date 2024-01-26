@@ -806,8 +806,8 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset GeogButton = '<i class="fas fa-chevron-circle-down" title="show more fields"><span class="sr-only">show more fields</span></i>'>
 												</cfif>
-												<div class="col-12 col-xl-1 float-left">
-													<div class="h5 font-weight-bold d-inline-block-md text-right text-dark my-0 py-1">
+												<div class="col-12 col-xl-1 px-1 float-left">
+													<div class="h5 font-weight-bold d-inline-block-md text-right text-md-left text-dark my-0 py-1">
 														Geography&nbsp;&nbsp;
 														<button type="button" id="GeogDetailCtl" class="btn d-inline-block-md px-0 btn-xs small py-0 border-0 btn-link" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
@@ -1010,14 +1010,14 @@ function stickyheader() {
 												<cfif listFind(searchPrefList,"CollDetail") GT 0 OR hiddenHaveValue>
 													<cfset CollDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset CollButton = "<i class='fas fa-chevron-circle-down'></i>">
+														<cfset CollButton = "<i class='fas fa-chevron-circle-down' title='more fields'><span class='sr-only'>more fields</span></i>">
 												<cfelse>
 													<cfset CollDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset CollButton = "<i class='fas fa-chevron-circle-up'></i>">
+													<cfset CollButton = "<i class='fas fa-chevron-circle-up' title='fewer fields'><span class='sr-only'>fewer fields</span></i>">
 												</cfif> 
-												<div class="col-12 col-xl-1 float-left">
-													<div class="h5 font-weight-bold d-inline-block-md text-dark my-0 py-1">
+												<div class="col-12 col-xl-1 px-1 float-left">
+													<div class="h5 font-weight-bold d-inline-block-md text-right text-md-left text-dark my-0 py-1">
 														Events&nbsp;&nbsp;
 														<button type="button" id="CollDetailCtl" class="btn px-0 d-inline-block-md btn-xs small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
