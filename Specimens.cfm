@@ -806,7 +806,7 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset GeogButton = '<i class="fas fa-chevron-circle-down" title="more fields"><span class="sr-only">more fields</span></i>'>
 												</cfif>
-												<div class="col-12 col-xl-1 px-1 float-left">
+												<div class="col-12 col-xl-1 px-1 pt-2 float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-right text-md-left text-dark my-0 py-1">
 														Geography&nbsp;&nbsp;
 														<button type="button" id="GeogDetailCtl" class="btn d-inline-block-md px-0 btn-xs small py-0 border-0 btn-link" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
@@ -1016,9 +1016,9 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset CollButton = "<i class='fas fa-chevron-circle-down' title='more fields'><span class='sr-only'>more fields</span></i>">
 												</cfif> 
-												<div class="col-12 col-xl-1 px-1 float-left">
+												<div class="col-12 col-xl-1 p-1 float-left">
 													<div class="h5 font-weight-bold d-inline-block-md text-right text-md-left text-dark my-0 py-1">
-														Events&nbsp;&nbsp;
+														Coll. Events&nbsp;&nbsp;
 														<button type="button" id="CollDetailCtl" class="btn px-0 d-inline-block-md btn-xs small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
@@ -1524,10 +1524,10 @@ function stickyheader() {
 							function toggleIDDetail(onOff) {
 								if (onOff==0) {
 									$("##IDDetail").hide();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<i class="fas fa-chevron-circle-down"><span title="show more fields" class="sr-only">show more fields</span></i>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<i class="fas fa-chevron-circle-down"><span title="more fields" class="sr-only">more fields</span></i>');
 								} else {
 									$("##IDDetail").show();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<i class="fas fa-chevron-circle-up"><span title="show fewer fields" class="sr-only">show fewer fields</span></i>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<i class="fas fa-chevron-circle-up"><span title="fewer fields" class="sr-only">fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
