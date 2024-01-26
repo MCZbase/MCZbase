@@ -415,7 +415,7 @@ function stickyheader() {
 													<cfset IDButton = "<i class='fas fa-chevron-circle-down' title='fewer fields'><span class= 'sr-only'>fewer fields</span></i>">
 												</cfif> 
 												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left">
-													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1">
+													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 pt-1 py-xl-1">
 														Identifiers&nbsp;&nbsp;
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="btn btn-xs px-1 small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
@@ -807,7 +807,7 @@ function stickyheader() {
 													<cfset GeogButton = '<i class="fas fa-chevron-circle-down" title="more fields"><span class="sr-only">more fields</span></i>'>
 												</cfif>
 												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left">
-													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 pt-1 py-xl-2">
+													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 pt-1 py-xl-1">
 														Geography&nbsp;
 														<button type="button" id="GeogDetailCtl" class="btn d-inline-block-md px-1 btn-xs small py-0 border-0 btn-link" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
@@ -1017,12 +1017,12 @@ function stickyheader() {
 													<cfset CollButton = "<i class='fas fa-chevron-circle-down' title='more fields'><span class='sr-only'>more fields</span></i>">
 												</cfif> 
 												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left">
-													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1 py-xl-2">
+													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1 py-xl-1">
 														Coll. Event&nbsp;&nbsp;
 														<button type="button" id="CollDetailCtl" class="btn d-inline-block-md btn-xs px-1 small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-lg-10 px-0 pt-xl-2 mb-0 mx-0">
+												<div class="form-row col-12 col-lg-10 px-0 mt-xl-2 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="collector" class="data-entry-label small">Collector</label>
 														<cfif not isdefined("collector")>
