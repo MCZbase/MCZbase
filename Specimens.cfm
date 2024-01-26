@@ -1326,8 +1326,8 @@ function stickyheader() {
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 search-form-basic-odd py-1">
-													<div class="col-12 col-xl-1 px-1 pt-2 float-left">
-														<div class="h5 font-weight-bold d-inline-block text-dark mb-1 pt-1">
+													<div class="col-12 col-xl-1 px-1 pt-2 border float-left">
+														<div class="h5 font-weight-bold d-inline-block text-left text-xl-right text-dark mb-1 pt-1">
 															Transactions&nbsp;&nbsp;
 														</div>
 													</div>
