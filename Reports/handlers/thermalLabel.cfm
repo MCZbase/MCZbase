@@ -78,12 +78,12 @@ limitations under the License.
 		<cfset orientation = "portrait">
 		<cfset columns = 1>
 		<cfset tableWidth = 'width: 4in;'>
-		<cfset labelWidth = 'width: 3.5in;'>
+		<cfset labelWidth = 'width: 375px;'>
 		<cfset labelBorder = 'border: 1px solid black;'>
-		<cfset labelHeight = 'height: 8in;'>
+		<cfset labelHeight = 'height: 470px;'>
 		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px;'>
 
-		<cfset pageheight = "10"><!--- should be tunable by number of records --->
+		<cfset pageheight = "6"><!--- should be tunable by number of records --->
 
 		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="4" pageheight="#pageheight#" margintop=".15" marginbottom=".15" marginleft=".1" marginright=".1" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
