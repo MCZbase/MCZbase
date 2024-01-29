@@ -419,14 +419,14 @@ limitations under the License.
 								<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
 								<cfif getRestrictions.recordcount GT 0>
 									<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select permit.permit_num
-										from loan_item li 
+										SELECT permit.permit_num, permit_title
+										FROM loan_item li 
 											join specimen_part sp on li.collection_object_id = sp.collection_object_id
 											join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
 											join accn on ci.accn_id = accn.transaction_id
 											join permit_trans on accn.transaction_id = permit_trans.transaction_id
 											join permit on permit_trans.permit_id = permit.permit_id
-										where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+										WHERE li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 											and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItems.collection_object_id#">
 											and permit.restriction_summary is not null
 									</cfquery>
@@ -435,6 +435,9 @@ limitations under the License.
 											<strong>Use Restricted By:</strong>
 											<cfloop query="getSpecificRestrictions">
 												#getSpecificRestrictions.permit_num#
+												<cfif len(getSpecificRestrictions.permit_num) EQ 0>
+													#getSpecificRestrictions.permit_title#
+												</cfif>
 											</cfloop>
 										</div>
 									</cfif>
