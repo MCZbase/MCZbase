@@ -362,7 +362,7 @@ limitations under the License.
 												<strong>Use Restricted By:</strong>
 												<cfloop query="getSpecificRestrictions">
 													#getSpecificRestrictions.permit_num#
-													<cfif len(getSpecificRestrictions.permit_num) EQ 0)>
+													<cfif len(getSpecificRestrictions.permit_num) EQ 0>
 														#getSpecificRestrictions.permit_title#
 													</cfif>
 												</cfloop>
