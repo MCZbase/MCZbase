@@ -81,8 +81,8 @@ limitations under the License.
 <cfquery name="getShipments" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		shipment_id,
-		to_addr.formatted_addr fromAddress,
-		from_addr.formatted_addr toAddress
+		to_addr.formatted_addr toAddress,
+		from_addr.formatted_addr fromAddress
 	FROM
 		shipment
 		left join addr to_addr on shipment.shipped_to_addr_id = to_addr.addr_id
