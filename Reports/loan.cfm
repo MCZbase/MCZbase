@@ -82,7 +82,7 @@ limitations under the License.
 	SELECT
 		shipment_id,
 		to_addr.formatted_addr fromAddress,
-		from_add.formatted_addr toAaddress
+		from_addr.formatted_addr toAaddress
 	FROM
 		shipment
 		left join addr to_addr on shipment.shipped_to_addr_id = to_addr.addr_id
