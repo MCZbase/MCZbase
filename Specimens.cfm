@@ -1017,8 +1017,8 @@ function stickyheader() {
 													<cfset CollButton = "<i class='fas fa-chevron-circle-down' title='more fields'><span class='sr-only'>more fields</span></i>">
 												</cfif> 
 												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left">
-													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1 py-xl-1">
-														Coll. Event&nbsp;&nbsp;
+													<div style="font-size:0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1 py-xl-1">
+														Coll. Event&nbsp;
 														<button type="button" id="CollDetailCtl" class="btn d-inline-block-md btn-xs px-1 small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
@@ -1136,8 +1136,8 @@ function stickyheader() {
 													<cfset SpecButton = "<i class='fas fa-chevron-circle-down'></i>">
 												</cfif> 
 												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left">
-													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1">
-														Specimen&nbsp;&nbsp;
+													<div style="font-size: 0.85rem" class="h6 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-1">
+														Specimen&nbsp;
 														<button type="button" id="SpecDetailCtl" class="btn px-1 d-inline-block-md btn-xs small py-0 border-0 btn-link" onclick="toggleSpecDetail(#toggleTo#);">#SpecButton#</button>
 													</div>
 												</div>
@@ -1231,7 +1231,7 @@ function stickyheader() {
 											</div>
 											<div class="col-12 px-0 pb-2">
 												<div class="col-12 col-xl-1 px-1 py-1 mb-1 border float-left">
-													<div class="h5 font-weight-bold d-inline-block-md text-xl-right pl-1 w-100 pr-1 text-left text-md-left text-dark my-0 py-1">
+													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right pl-1 w-100 pr-1 text-left text-md-left text-dark my-0 py-1">
 													 General&nbsp;
 													</div>
 												</div>
