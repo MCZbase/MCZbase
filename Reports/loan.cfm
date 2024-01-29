@@ -177,7 +177,7 @@ limitations under the License.
 							<li style="list-style-type: none"><strong>Packed By:</strong> #processed_by_name#</strong>
 							<li style="list-style-type: none"><strong>Method of Shipment:</strong> #shipped_carrier_method#</strong>
 							<li style="list-style-type: none"><strong>Number of Packages:</strong> #no_of_packages#</strong>
-							<cfif getLoan.loan_type EQ "exhibition-subloan">
+							<cfif getLoan.loan_type EQ "exhibition-master">
 								<li style="list-style-type: none"><strong>Number of Specimens:</strong> #getSubloanCounts.item_ct#</strong>
 								<li style="list-style-type: none"><strong>Number of Lots:</strong> #getSubloanCounts.lot_ct#</strong>
 							<cfelse>
