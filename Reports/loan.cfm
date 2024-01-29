@@ -85,8 +85,8 @@ limitations under the License.
 		from_add.formatted_addr toAaddress
 	FROM
 		shipment
-		left join addr to_addr on shipment shipped_to_addr_id
-		left join addr from_addr on shipment shipped_from_addr_id
+		left join addr to_addr on shipment.shipped_to_addr_id = to_addr.address_id
+		left join addr from_addr on shipment.shipped_from_addr_id = from_addr.address_id 
 	WHERE 
 		shipment.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 </cfquery>
