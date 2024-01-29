@@ -257,8 +257,8 @@ limitations under the License.
 		</cfif>
 
 		<cfdocumentsection name="Items In Loan">
-			<div style="text-align: center; font-size: 1em;">
-				Invoice of Specimens
+			<div style="text-align: center; font-size: 1.1em; margin-bottom: 1em;">
+				<strong>Invoice of Specimens</strong>
 			</div>
 			<div>
 				Retain in 70% ethanol unless noted otherwise.
@@ -341,7 +341,7 @@ limitations under the License.
 					</div>
 				</cfloop>
 				<div>
-					Total of #masterTotal# specimens in #masterLotTotal# lots..
+					<strong>Loan #loan_number# includes a total of #masterTotal# specimens in #masterLotTotal# lots.</strong>
 				</div>
 				<cfset transaction_id = master_transaction_id >
 				<cf_getLoanFormInfo transaction_id="#master_transaction_id#">
