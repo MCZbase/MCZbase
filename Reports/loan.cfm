@@ -32,7 +32,7 @@ limitations under the License.
 	<cfthrow message = "No loan found for provided transaction_id [#encodeForHtml(transaction_id)#].">
 </cfif>
 <cfif getLoan.loan_type EQ "exhibition-master">
-	<!--- TODO: Special handling --->
+	<!--- Special handling --->
 	<cfquery name="getSubloans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
 			loan.transaction_id, 
@@ -44,6 +44,17 @@ limitations under the License.
 			loan_relations.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			AND
 			loan_relations.relation_type = 'Subloan'
+	</cfquery>
+	<cfquery name="getSubloanCounts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT sum(lot_count) lot_ct, count(coll_object.collection_object_id) item_ct
+			FROM 
+				loan_item 
+				JOIN coll_object on loan_item.collection_object_id = coll_object.collection_object_id
+			WHERE transaction_id in (
+				SELECT related_transaction_id 
+				FROM loan_relations 
+				WHERE transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			)
 	</cfquery>
 </cfif>
 <cfif getLoan.loan_type EQ "exhibition-subloan">
@@ -113,9 +124,14 @@ limitations under the License.
 			</div>
 		</cfdocumentitem>
 		
-		<cfdocumentitem type="footer">
+		<!--- Footer, last page is shipping labels, not included in page count --->
+		<cfdocumentitem type="footer" evalAtPrint="true">
 			<div style="text-align: center; font-size: x-small;">
-				PDF Generated: #dateFormat(now(),'yyyy-mm-dd')#  Page #cfdocument.currentPageNumber# of #cfdocument.totalPageCount#
+		   <cfif cfdocument.currentPageNumber eq cfdocument.totalPageCount>
+        		Shipping Labels Generated: #dateFormat(now(),'yyyy-mm-dd')#
+    		<cfelse>
+				PDF Generated: #dateFormat(now(),'yyyy-mm-dd')#  Page #cfdocument.currentPageNumber# of #cfdocument.totalPageCount - 1#
+    		</cfif>
 			</div>
 		</cfdocumentitem>
 
@@ -161,8 +177,13 @@ limitations under the License.
 							<li style="list-style-type: none"><strong>Packed By:</strong> #processed_by_name#</strong>
 							<li style="list-style-type: none"><strong>Method of Shipment:</strong> #shipped_carrier_method#</strong>
 							<li style="list-style-type: none"><strong>Number of Packages:</strong> #no_of_packages#</strong>
-							<li style="list-style-type: none"><strong>Number of Specimens:</strong> #num_specimens#</strong>
-							<li style="list-style-type: none"><strong>Number of Lots:</strong> #num_lots#</strong>
+							<cfif getLoan.loan_type EQ "exhibition-master">
+								<li style="list-style-type: none"><strong>Number of Specimens:</strong> #getSubloanCounts.item_ct#</strong>
+								<li style="list-style-type: none"><strong>Number of Lots:</strong> #getSubloanCounts.lot_ct#</strong>
+							<cfelse>
+								<li style="list-style-type: none"><strong>Number of Specimens:</strong> #num_specimens#</strong>
+								<li style="list-style-type: none"><strong>Number of Lots:</strong> #num_lots#</strong>
+							</cfif>
 							<cfif len(foruse_by_name) GT 0>
 								<li style="list-style-type: none"><strong>For Use By:</strong> #foruse_by_name#</strong>
 							</cfif>
@@ -413,6 +434,9 @@ limitations under the License.
 		<cfif getShipments.recordcount EQ 1>
 			<cfdocumentsection name="Shipping Labels">
 			<cfloop query="getShipments">
+				<div>
+					Shipping Label
+				</div>
 				<table>
 					<tr>
 						<td>
