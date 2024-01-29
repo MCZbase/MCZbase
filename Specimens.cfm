@@ -1235,7 +1235,7 @@ function stickyheader() {
 													 General&nbsp;
 													</div>
 												</div>
-												<div class="form-row col-12 col-xl-10 px-0 mb-0 mx-0">
+												<div class="form-row col-12 col-xl-10 pt-1 px-3 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-2">
 														<cfif not isdefined("keyword")>
 															<cfset keyword="">
