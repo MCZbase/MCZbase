@@ -415,9 +415,7 @@ function stickyheader() {
 													<cfset IDButton = "<i class='fas fa-chevron-circle-down' title='fewer fields'><span class= 'sr-only'>fewer fields</span></i>">
 												</cfif> 
 												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left">
-													<div style="font-size: 0.85rem;-webkit-box-shadow: -1px 15px 16px -8px rgba(176,170,176,0.55);
--moz-box-shadow: -1px 15px 16px -8px rgba(176,170,176,0.55);
-box-shadow: -1px 15px 16px -8px rgba(176,170,176,0.55);" class="h6 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-0">
+													<div style="font-size: 0.85rem;-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);" class="h6 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-0">
 														Identifiers&thinsp;
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="btn btn-xs px-1 small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
@@ -578,7 +576,7 @@ box-shadow: -1px 15px 16px -8px rgba(176,170,176,0.55);" class="h6 font-weight-b
 													<cfset TaxaButton = "<i class='fas fa-chevron-circle-down' title='more fields'><span class='sr-only'>more fields</span></i>">
 												</cfif>
 												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left">
-													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-0">
+													<div style="font-size: 0.85rem;-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);" class="h6 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-0">
 														Taxonomy&nbsp;
 														<button type="button" id="TaxaDetailCtl" class="btn d-inline-block-md btn-xs px-1 small py-0 border-0 btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
@@ -809,7 +807,7 @@ box-shadow: -1px 15px 16px -8px rgba(176,170,176,0.55);" class="h6 font-weight-b
 													<cfset GeogButton = '<i class="fas fa-chevron-circle-down" title="more fields"><span class="sr-only">more fields</span></i>'>
 												</cfif>
 												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left">
-													<div style="font-size: 0.85rem" class="h6 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-0">
+													<div style="font-size: 0.85rem;-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);" class="h6 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-0">
 														Geography&thinsp;
 														<button type="button" id="GeogDetailCtl" class="btn d-inline-block-md px-1 btn-xs small py-0 border-0 btn-link" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
@@ -1138,7 +1136,7 @@ box-shadow: -1px 15px 16px -8px rgba(176,170,176,0.55);" class="h6 font-weight-b
 													<cfset SpecButton = "<i class='fas fa-chevron-circle-down'></i>">
 												</cfif> 
 												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left">
-													<div style="font-size: 0.85rem" class="h6 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-0">
+													<div style="font-size: 0.85rem;-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);" class="h6 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 py-0">
 														Specimen&thinsp;
 														<button type="button" id="SpecDetailCtl" class="btn px-1 d-inline-block-md btn-xs small py-0 border-0 btn-link" onclick="toggleSpecDetail(#toggleTo#);">#SpecButton#</button>
 													</div>
@@ -1233,7 +1231,7 @@ box-shadow: -1px 15px 16px -8px rgba(176,170,176,0.55);" class="h6 font-weight-b
 											</div>
 											<div class="col-12 px-0 pb-2">
 												<div class="col-12 col-xl-1 px-1 py-1 mb-1 border float-left">
-													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right pl-1 w-100 pr-1 text-left text-md-left text-dark my-0 py-0">
+													<div style="font-size: 0.85rem;-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);" class="h6 font-weight-bold d-inline-block-md text-xl-right pl-1 w-100 pr-1 text-left text-md-left text-dark my-0 py-0">
 													 General&nbsp;
 													</div>
 												</div>
@@ -1329,7 +1327,7 @@ box-shadow: -1px 15px 16px -8px rgba(176,170,176,0.55);" class="h6 font-weight-b
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 search-form-basic-odd pb-2 px-0">
 													<div class="col-12 col-xl-1 px-1 py-1 mb-1 border float-left">
-														<div class="h5 font-weight-bold d-inline-block-md text-xl-right w-100 pl-1 pr-1 text-left text-md-left text-dark my-0 py-1">
+														<div style="font-size: 0.05rem;-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);" class="h6 font-weight-bold d-inline-block-md text-xl-right w-100 pl-1 pr-1 text-left text-md-left text-dark my-0 py-1">
 															Transactions&nbsp;&nbsp;
 														</div>
 													</div>
