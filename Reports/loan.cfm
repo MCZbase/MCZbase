@@ -48,6 +48,18 @@ limitations under the License.
 </cfif>
 <cfif getLoan.loan_type EQ "exhibition-subloan">
 	<!--- TODO: Special handling --->
+	<cfquery name="getMasterLoan" datasource="uam_god">
+		SELECT
+			loan.transaction_id, 
+			loan.loan_number
+		FROM
+			loan_relations
+			join loan on loan_relations.transaction_id = loan.transaction_id
+		WHERE
+			loan_relations.related_transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			AND
+			loan_relations.relation_type = 'Subloan'
+	</cfquery>
 </cfif>
 <cfquery name="getLoanItems" dbtype="query">
    select * from getLoanItemsMCZ
@@ -139,6 +151,11 @@ limitations under the License.
 							</cfif>
 							<li style="list-style-type: none"><strong>Category:</strong> #getLoan.loan_type#</strong>
 							<li style="list-style-type: none"><strong>Loan Number:</strong> #getLoan.loan_number#</strong>
+							<cfif getLoan.loan_type EQ "exhibition-subloan">
+								<cfloop query="getMasterLoan">
+									<li style="list-style-type: none"><strong>Subloan of:</strong> #getMasterLoan.loan_number#</strong>
+								</cfloop>
+							</cfif>
 							<li style="list-style-type: none"><strong>Loan Date:</strong> #trans_date#</strong>
 							<li style="list-style-type: none"><strong>Approved By:</strong> #authAgentName#</strong>
 							<li style="list-style-type: none"><strong>Packed By:</strong> #processed_by_name#</strong>
@@ -243,72 +260,152 @@ limitations under the License.
 			<div style="text-align: center; font-size: 1em;">
 				Invoice of Specimens
 			</div>
-			<cfif getHasFluid.ct GT 0>
+			<div>
+				Retain in 70% ethanol unless noted otherwise.
+			</div>
+			<cfif getLoan.loan_type EQ "exhibition-master">
+				<cfset master_transaction_id = transaction_id>
+				<cfset masterTotal = 0>
+				<cfset masterLotTotal = 0>
+				<cfloop query="getSubloans">
+					<cfset transaction_id = getSubloans.transaction_id>
+					<cfquery name="getLoanItems" dbtype="query">
+					   select * from getLoanItemsMCZ
+					</cfquery>
+					<div style="text-align: left; font-size: 1em;">
+						Specimens in Subloan #getSubloans.loan_number#
+					</div>
+					<table>
+						<tr>
+							<th style="width: 25%;">MCZ Number</th>
+							<th style="width: 50%;">Taxon, Locality</th>
+							<th style="width: 25%;">Specimen Count</th>
+						</tr>
+						<cfset totalSpecimens = 0>
+						<cfset totalLotCount = 0>
+						<cfloop query="getLoanItems">
+							<tr>
+								<td style="width: 25%; vertical-align: top;">
+									#institution_acronym#:#collection_cde#:#cat_num#
+									<cfif getLoan.loan_status EQ "closed">#reconciled_date#</cfif>
+								</td>
+								<td style="width: 50%; vertical-align: top;">
+									<div>
+										<em>#scientific_name#</em>
+										<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
+										#higher_geog#
+										<cfif FindNoCase('Paleontology', collection) GT 0>
+											#chronostrat##lithostrat#
+										</cfif>
+										<cfif Len(spec_locality) GT 0><BR>#spec_locality#</cfif>
+										<cfif Len(collectors) GT 0><BR>#collectors#</cfif>
+										<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+									</div>
+								</td>
+								<td style="width: 25%; vertical-align: top;">
+									#lot_count# #part_modifier# #part_name#
+									<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+									<cfif getRestrictions.recordcount GT 0>
+										<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select permit.permit_num
+											from loan_item li 
+												join specimen_part sp on li.collection_object_id = sp.collection_object_id
+												join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+												join accn on ci.accn_id = accn.transaction_id
+												join permit_trans on accn.transaction_id = permit_trans.transaction_id
+												join permit on permit_trans.permit_id = permit.permit_id
+											where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+												and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItems.collection_object_id#">
+												and permit.restriction_summary is not null
+										</cfquery>
+										<cfif getSpecificRestrictions.recordcount GT 0>
+											<div>
+												<strong>Use Restricted By:</strong>
+												<cfloop query="getSpecificRestrictions">
+													#getSpecificRestrictions.permit_num#
+												</cfloop>
+											</div>
+										</cfif>
+									</cfif>
+								</td>
+							</div>
+							<cfset totalSpecimens = totalSpecimens + 1>
+							<cfset totalLotCount = totalLotCount + lot_count>
+						</cfloop>
+					</table>
+					<div>
+						Subloan includes #TotalSpecimens# specimens in #TotalLotCount# lots.
+						<cfset masterTotal = masterTotal + TotalSpecimens>
+						<cfset masterLotTotal = masterLotTotal + TotalLotCount>
+					</div>
+				</cfloop>
 				<div>
-					Retain in 70% ethanol unless noted otherwise.
+					Total of #masterTotal# specimens in #masterLotTotal# lots..
+				</div>
+				<cfset transaction_id = master_transaction_id >
+			</cfelse>
+				<table>
+					<tr>
+						<th style="width: 25%;">MCZ Number</th>
+						<th style="width: 50%;">Taxon, Locality</th>
+						<th style="width: 25%;">Specimen Count</th>
+					</tr>
+					<cfset totalSpecimens = 0>
+					<cfset totalLotCount = 0>
+					<cfloop query="getLoanItems">
+						<tr>
+							<td style="width: 25%; vertical-align: top;">
+								#institution_acronym#:#collection_cde#:#cat_num#
+								<cfif getLoan.loan_status EQ "closed">#reconciled_date#</cfif>
+							</td>
+							<td style="width: 50%; vertical-align: top;">
+								<div>
+									<em>#scientific_name#</em>
+									<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
+									#higher_geog#
+									<cfif FindNoCase('Paleontology', collection) GT 0>
+										#chronostrat##lithostrat#
+									</cfif>
+									<cfif Len(spec_locality) GT 0><BR>#spec_locality#</cfif>
+									<cfif Len(collectors) GT 0><BR>#collectors#</cfif>
+									<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
+								</div>
+							</td>
+							<td style="width: 25%; vertical-align: top;">
+								#lot_count# #part_modifier# #part_name#
+								<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
+								<cfif getRestrictions.recordcount GT 0>
+									<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select permit.permit_num
+										from loan_item li 
+											join specimen_part sp on li.collection_object_id = sp.collection_object_id
+											join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+											join accn on ci.accn_id = accn.transaction_id
+											join permit_trans on accn.transaction_id = permit_trans.transaction_id
+											join permit on permit_trans.permit_id = permit.permit_id
+										where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+											and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItems.collection_object_id#">
+											and permit.restriction_summary is not null
+									</cfquery>
+									<cfif getSpecificRestrictions.recordcount GT 0>
+										<div>
+											<strong>Use Restricted By:</strong>
+											<cfloop query="getSpecificRestrictions">
+												#getSpecificRestrictions.permit_num#
+											</cfloop>
+										</div>
+									</cfif>
+								</cfif>
+							</td>
+						</div>
+						<cfset totalSpecimens = totalSpecimens + 1>
+						<cfset totalLotCount = totalLotCount + lot_count>
+					</cfloop>
+				</table>
+				<div>
+					Total of #TotalSpecimens# specimens in #TotalLotCount# lots.
 				</div>
 			</cfif>
-			<table>
-				<tr>
-					<th style="width: 25%;">MCZ Number</th>
-					<th style="width: 50%;">Taxon, Locality</th>
-					<th style="width: 25%;">Specimen Count</th>
-				</tr>
-				<cfset totalSpecimens = 0>
-				<cfset totalLotCount = 0>
-				<cfloop query="getLoanItems">
-					<tr>
-						<td style="width: 25%; vertical-align: top;">
-							#institution_acronym#:#collection_cde#:#cat_num#
-							<cfif getLoan.loan_status EQ "closed">#reconciled_date#</cfif>
-						</td>
-						<td style="width: 50%; vertical-align: top;">
-							<div>
-								<em>#scientific_name#</em>
-								<cfif Len(type_status) GT 0><BR></cfif><strong>#type_status#</strong><BR>
-								#higher_geog#
-								<cfif FindNoCase('Paleontology', collection) GT 0>
-									#chronostrat##lithostrat#
-								</cfif>
-								<cfif Len(spec_locality) GT 0><BR>#spec_locality#</cfif>
-								<cfif Len(collectors) GT 0><BR>#collectors#</cfif>
-								<cfif Len(loan_item_remarks) GT 0><BR>Loan Comments: #loan_item_remarks#</cfif>
-							</div>
-						</td>
-						<td style="width: 25%; vertical-align: top;">
-							#lot_count# #part_modifier# #part_name#
-							<cfif len(preserve_method) GT 0>(#preserve_method#)</cfif>
-							<cfif getRestrictions.recordcount GT 0>
-								<cfquery name="getSpecificRestrictions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select permit.permit_num
-									from loan_item li 
-										join specimen_part sp on li.collection_object_id = sp.collection_object_id
-										join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
-										join accn on ci.accn_id = accn.transaction_id
-										join permit_trans on accn.transaction_id = permit_trans.transaction_id
-										join permit on permit_trans.permit_id = permit.permit_id
-									where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
-										and ci.collection_object_id  = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#getLoanItems.collection_object_id#">
-										and permit.restriction_summary is not null
-								</cfquery>
-								<cfif getSpecificRestrictions.recordcount GT 0>
-									<div>
-										<strong>Use Restricted By:</strong>
-										<cfloop query="getSpecificRestrictions">
-											#getSpecificRestrictions.permit_num#
-										</cfloop>
-									</div>
-								</cfif>
-							</cfif>
-						</td>
-					</div>
-					<cfset totalSpecimens = totalSpecimens + 1>
-					<cfset totalLotCount = totalLotCount + lot_count>
-				</cfloop>
-			</table>
-			<div>
-				Total of #TotalSpecimens# specimens in #TotalLotCount# lots.
-			</div>
 		</cfdocumentsection>
 
 		<cfif getShipments.recordcount EQ 1>
