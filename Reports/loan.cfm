@@ -269,6 +269,7 @@ limitations under the License.
 				<cfset masterLotTotal = 0>
 				<cfloop query="getSubloans">
 					<cfset transaction_id = getSubloans.transaction_id>
+					<cf_getLoanFormInfo transaction_id="#getSubloans.transaction_id#">
 					<cfquery name="getLoanItems" dbtype="query">
 					   select * from getLoanItemsMCZ
 					</cfquery>
@@ -343,6 +344,7 @@ limitations under the License.
 					Total of #masterTotal# specimens in #masterLotTotal# lots..
 				</div>
 				<cfset transaction_id = master_transaction_id >
+				<cf_getLoanFormInfo transaction_id="#master_transaction_id#">
 			<cfelse>
 				<table>
 					<tr>
