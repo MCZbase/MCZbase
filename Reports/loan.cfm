@@ -1,7 +1,7 @@
 <!--- 
   Reports/loan.cfm proof of concept loan paperwork generation.
 
-Copyright 2023 President and Fellows of Harvard College
+Copyright 2023-2024 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -30,6 +30,24 @@ limitations under the License.
 </cfquery>
 <cfif getLoan.recordcount EQ 0>
 	<cfthrow message = "No loan found for provided transaction_id [#encodeForHtml(transaction_id)#].">
+</cfif>
+<cfif getLoan.loan_type EQ "exhibition-master">
+	<!--- TODO: Special handling --->
+	<cfquery name="getSubloans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT
+			loan.transaction_id, 
+			loan.loan_number
+		FROM
+			loan_relations
+			join loan on loan_relations.related_transaction_id = loan.transaction_id
+		WHERE
+			loan_relations.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			AND
+			loan_relations.relation_type = 'Subloan'
+	</cfquery>
+</cfif>
+<cfif getLoan.loan_type EQ "exhibition-subloan">
+	<!--- TODO: Special handling --->
 </cfif>
 <cfquery name="getLoanItems" dbtype="query">
    select * from getLoanItemsMCZ
@@ -60,6 +78,18 @@ limitations under the License.
 		and permit.restriction_summary is not null
 	)
 </cfquery>
+<cfquery name="getShipments" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT
+		shipment_id,
+		addr.formatted_addr fromAddress,
+		from_add.formatted_addr toAaddress
+	FROM
+		shipment
+		left join addr to_addr on shipment shipped_to_addr_id
+		left join addr from_addr on shipment shipped_from_addr_id
+	WHERE 
+		shipment.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+</cfquery>
 
 <!--------------------------------------------------------------------------------->
 <cfdocument format="pdf" saveAsName="MCZ_Loan_#getLoan.loan_number#.pdf" pageType="letter" marginTop="0.5" marginBottom="0.5" marginLeft="0.5" marginRight="0.5" fontEmbed="yes">
@@ -87,7 +117,7 @@ limitations under the License.
 			<div style="text-align: center; font-size; 1em;">
 				Museum of Comparative Zoology, Harvard University
 			</div>
-			<table style="font-size: small;">
+			<table style="font-size: small; padding: 0px; margin: 0px;">
 				<tr>
 					<td style="width: 55%; vertical-align: top;">
 						<div>
@@ -179,9 +209,25 @@ limitations under the License.
 			</table>
 		</cfdocumentsection>
 
+		<cfif getLoan.loan_type EQ "exhibition-master">
+			<cfdocumentsection name="Subloans">
+				<div style="text-align: center; font-size: 1em;">
+					Exhibition Subloans
+				</div>
+				<ul>
+					<cfloop query="getSubloans">
+							<li><strong>#loan_number#</strong></li>
+					</cfloop>
+				</ul>
+				</cfloop>
+			</cfdocumentsection>
+		</cfif>
+
 		<cfif getRestrictions.recordcount GT 0>
 			<cfdocumentsection name="Additional Restrictions">
-				<h1>Summary of restrictions imposed by original collecting agreements</h1>
+				<div style="text-align: center; font-size: 1em;">
+					Summary of restrictions imposed by original collecting agreements
+				</div>
 				<ul>
 					<cfloop query="getRestrictions">
 						<cfif getRestrictions.source EQ "accession">
@@ -195,7 +241,9 @@ limitations under the License.
 		</cfif>
 
 		<cfdocumentsection name="Items In Loan">
-			<h1>Invoice of Specimens</h1>
+			<div style="text-align: center; font-size: 1em;">
+				Invoice of Specimens
+			</div>
 			<cfif getHasFluid.ct GT 0>
 				<div>
 					Retain in 70% ethanol unless noted otherwise.
@@ -264,5 +312,21 @@ limitations under the License.
 			</div>
 		</cfdocumentsection>
 
+		<cfif getShipments.recordcount EQ 1>
+			<cfdocumentsection name="Shipping Labels">
+			<cfloop query="getShipments">
+				<table>
+					<tr>
+						<td>
+							<strong>From:</strong> #fromAddress#
+						</td>
+					</tr>
+						<td>
+							<strong>To:</strong> #toAddress#
+						</td>
+					</tr>
+				</table
+			</cfdocumentsection>
+		</cfif>
 	</cfoutput>
 </cfdocument>
