@@ -326,6 +326,7 @@ limitations under the License.
 						</td>
 					</tr>
 				</table
+			</cfloop>
 			</cfdocumentsection>
 		</cfif>
 	</cfoutput>
