@@ -4015,6 +4015,9 @@ limitations under the License.
 					</cfif>
 					<li><a href="/Reports/MCZDrawerTags.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology" target="_blank">MCZ Drawer Tags</a></li>
 					<li><a href="/edecView.cfm?transaction_id=#transaction_id#" target="_blank">USFWS eDec</a></li>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
+						<li><a href="/Reports/loan.cfm?transaction_id=#transaction_id#" target="_blank">DRAFT Combined Loan Paperwork</a></li>
+					</cfif>
 				</ul>
 			</cfoutput>
 		<cfcatch>
