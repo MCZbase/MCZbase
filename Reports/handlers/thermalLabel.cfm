@@ -77,11 +77,18 @@ limitations under the License.
 		</cfquery>
 		<cfset orientation = "portrait">
 		<cfset columns = 1>
+		<!---<cfset tableWidth = 'width: 4in;'>--->
 		<cfset tableWidth = 'width: 384px;'>
+
+		<!---<cfset labelWidth = 'width: 3.5in;'>--->
 		<cfset labelWidth = 'width: 374px;'>
+
 		<cfset labelBorder = 'border: 1px solid black;'>
+
+		<!---<cfset labelHeight = 'height: 2.0in;'>--->
 		<cfset labelHeight = 'height: 470px;'>
-	<!---	<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px;'>---><!---NOT USED--->
+
+		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px;'>
 
 		<cfset pageheight = "5"><!--- should be tunable by number of records --->
 
@@ -93,7 +100,7 @@ limitations under the License.
 						<div style="text-align: center;">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
-						<div style="text-align: center; padding-bottom: 1em; border-bottom: 1px solid;">
+						<div style="text-align: center; padding-bottom: .5em; border-bottom: 1px solid;margin-bottom: .5em;">
 							WHOI Jar Number #getWhoiNumbers.whoi_number#
 						</div>
 
@@ -141,7 +148,7 @@ limitations under the License.
 	
 						</cfloop>
 					</cfdocumentsection>
-				<cfdocumentitem type="pagebreak" />
+					<cfdocumentitem type="pagebreak" />
 				</cfloop>
 	
 <!--- 
