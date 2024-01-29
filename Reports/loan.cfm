@@ -81,12 +81,12 @@ limitations under the License.
 <cfquery name="getShipments" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		shipment_id,
-		addr.formatted_addr fromAddress,
+		to_addr.formatted_addr fromAddress,
 		from_add.formatted_addr toAaddress
 	FROM
 		shipment
-		left join addr to_addr on shipment.shipped_to_addr_id = to_addr.address_id
-		left join addr from_addr on shipment.shipped_from_addr_id = from_addr.address_id 
+		left join addr to_addr on shipment.shipped_to_addr_id = to_addr.addr_id
+		left join addr from_addr on shipment.shipped_from_addr_id = from_addr.addr_id 
 	WHERE 
 		shipment.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 </cfquery>
