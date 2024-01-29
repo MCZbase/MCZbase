@@ -343,7 +343,7 @@ limitations under the License.
 					Total of #masterTotal# specimens in #masterLotTotal# lots..
 				</div>
 				<cfset transaction_id = master_transaction_id >
-			</cfelse>
+			<cfelse>
 				<table>
 					<tr>
 						<th style="width: 25%;">MCZ Number</th>
