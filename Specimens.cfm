@@ -1093,7 +1093,7 @@ function stickyheader() {
 														<input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
 													</div>
 													<div id="CollDetail" class="col-12 px-0" style="#CollDetailStyle#">
-														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
+														<div class="form-row col-12 col-md-12 px-3 pt-1 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-3">
 																<cfif not isdefined("date_began_date")>
 																	<cfset date_began_date="">
