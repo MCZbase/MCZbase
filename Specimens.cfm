@@ -806,7 +806,7 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset GeogButton = '<i class="fas fa-chevron-circle-down" title="more fields"><span class="sr-only">more fields</span></i>'>
 												</cfif>
-												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left">
+												<div class="col-12 col-xl-1 px-0 pt-1 mb-1 border float-left">
 													<div style="font-size: 0.85rem" class="h6 font-weight-bold d-inline-block-md text-xl-right pl-1 text-left text-md-left text-dark my-0 pt-1 py-xl-1">
 														Geography&nbsp;
 														<button type="button" id="GeogDetailCtl" class="btn d-inline-block-md px-1 btn-xs small py-0 border-0 btn-link" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
