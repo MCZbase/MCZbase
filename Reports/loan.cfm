@@ -317,14 +317,18 @@ limitations under the License.
 				<table>
 					<tr>
 						<td>
-							<strong>From:</strong> #fromAddress#
+							<strong>From:</strong>
+							<br> 
+							#replace(fromAddress,chr(10),"<br>","all")# 
 						</td>
 					</tr>
 						<td>
-							<strong>To:</strong> #toAddress#
+							<strong>To:</strong>
+							<br>
+							#replace(toAddress,chr(10)"<br>","all"#
 						</td>
 					</tr>
-				</table
+				</table>
 			</cfloop>
 			</cfdocumentsection>
 		</cfif>
