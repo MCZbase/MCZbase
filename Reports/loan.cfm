@@ -219,7 +219,6 @@ limitations under the License.
 							<li><strong>#loan_number#</strong></li>
 					</cfloop>
 				</ul>
-				</cfloop>
 			</cfdocumentsection>
 		</cfif>
 
