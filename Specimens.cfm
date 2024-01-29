@@ -834,7 +834,7 @@ function stickyheader() {
 														</script>
 													</div>
 													<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
-														<div class="form-row col-12 col-md-12 px-3 pt-1 mb-0 mx-0">
+														<div class="form-row col-12 col-md-12 px-0 mb-0 mx-0">
 															<div class="col-12 mb-1 col-md-3">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
 																<label for="continent_ocean" class="data-entry-label small">Continent/Ocean</label>
@@ -1022,7 +1022,7 @@ function stickyheader() {
 														<button type="button" id="CollDetailCtl" class="btn d-inline-block-md btn-xs px-1 small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-lg-10 px-0 mb-0 mx-0">
+												<div class="form-row col-12 col-lg-10 px-3 pt-1 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="collector" class="data-entry-label small">Collector</label>
 														<cfif not isdefined("collector")>
@@ -1141,7 +1141,7 @@ function stickyheader() {
 														<button type="button" id="SpecDetailCtl" class="btn px-1 d-inline-block-md btn-xs small py-0 border-0 btn-link" onclick="toggleSpecDetail(#toggleTo#);">#SpecButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xl-10 px-0 mb-0 mx-0">
+												<div class="form-row col-12 col-xl-10 pt-1 px-3 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 														<label for="part_name" class="data-entry-label small">Part Name</label>
