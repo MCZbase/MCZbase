@@ -325,7 +325,7 @@ limitations under the License.
 						<td>
 							<strong>To:</strong>
 							<br>
-							#replace(toAddress,chr(10)"<br>","all")#
+							#replace(toAddress,chr(10),"<br>","all")#
 						</td>
 					</tr>
 				</table>
