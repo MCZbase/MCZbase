@@ -170,7 +170,7 @@ limitations under the License.
 					</td>
 				</tr>
 			</table>
-			<div style="font-size: small; margin-left: 5px;">
+			<div style="font-size: small; margin-left: 4px;">
 				<div>
 					<strong>Nature of Material:</strong> #nature_of_material#
 				</div>
