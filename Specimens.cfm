@@ -257,7 +257,7 @@ function stickyheader() {
 					</cfquery>
 				
 					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
-					<button class="float-right btn btn-xs m-2 btn-secondary" onclick="toggleDisplay1()">Toggle Search Forms</button>
+					<button class="float-right" onclick="toggleDisplay1()"><i class="fas fa-eye-slash"></i></button>
 					<!--- populated with download dialog for external users --->
 					<div id="downloadAgreeDialogDiv"></div>
 					<!--- Tab header div --->
