@@ -77,13 +77,20 @@ limitations under the License.
 		</cfquery>
 		<cfset orientation = "portrait">
 		<cfset columns = 1>
-		<cfset tableWidth = 'width: 4in;'>
-		<cfset labelWidth = 'width: 3.5in;'>
+		<!---<cfset tableWidth = 'width: 4in;'>--->
+		<cfset tableWidth = 'width: 384px;'>
+
+		<!---<cfset labelWidth = 'width: 3.5in;'>--->
+		<cfset labelWidth = 'width: 374px;'>
+
 		<cfset labelBorder = 'border: 1px solid black;'>
-		<cfset labelHeight = 'height: 2.0in;'>
+
+		<!---<cfset labelHeight = 'height: 2.0in;'>--->
+		<cfset labelHeight = 'height: 470px;'>
+
 		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px;'>
 
-		<cfset pageheight = "6"><!--- should be tunable by number of records --->
+		<cfset pageheight = "5"><!--- should be tunable by number of records --->
 
 		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="4" pageheight="#pageheight#" margintop=".15" marginbottom=".15" marginleft=".1" marginright=".1" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
@@ -93,7 +100,7 @@ limitations under the License.
 						<div style="text-align: center;">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
-						<div style="text-align: center; padding-bottom: 1em; border-bottom: 1px solid;">
+						<div style="text-align: center; padding-bottom: .5em; border-bottom: 1px solid;margin-bottom: .5em;">
 							WHOI Jar Number #getWhoiNumbers.whoi_number#
 						</div>
 
@@ -123,9 +130,9 @@ limitations under the License.
 									<strong style="font: 1em 'Times-Roman';">#getTaxa.sci_name_with_auth#</strong>
 								</div>
 								
-								<table style="#labelWidth#">
+								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
-										<tr style="#labelWidth# vertical-align: top;">
+										<tr style="#labelWidth# vertical-align: top;padding-top: 5px;">
 											<td style="vertical-align: top;">
 												<span style="font: 0.8em 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
 											</td>
