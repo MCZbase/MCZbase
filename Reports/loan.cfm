@@ -291,7 +291,7 @@ limitations under the License.
 							<td style="width: 45%; vertical-align: top;">
 								<ul style="text-align: left; list-style: none;">
 									<li style="list-style-type: none"><strong>Status:</strong> #getSubloan.loan_status#</strong>
-									<cfif getSubloan.loan_status NEQ top_loan_status EQ >
+									<cfif getSubloan.loan_status NEQ top_loan_status >
 										<li style="list-style-type: none"><strong>#top_loan_number# Status:</strong> #top_loan_status#</strong>
 									</cfif>
 									<li style="list-style-type: none"><strong>Category:</strong> #getSubloan.loan_type#</strong>
