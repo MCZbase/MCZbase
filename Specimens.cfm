@@ -1511,10 +1511,7 @@ function stickyheader() {
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
 													</div>
 													<div id="fixedenableselection"></div>
-													<div class="px-3 py-1">mousewheel: 
-														<button id="selectBtn1" onClick="fixedMousewheel();" class="btn-xs btn rounded">on</button>
-														<button id="selectBtn2" onClick="fixedMousewheel();" class="btn btn-xs rounded">off</button>
-													</div>
+										
 													
 												</div>
 											</div>
@@ -1821,6 +1818,7 @@ function stickyheader() {
 															<option #selected# value="multiplecellsadvanced">Multiple Cells (click, drag, release)</option>
 														</select>
 													</div>
+													
 													<output id="keywordactionFeedback" class="btn btn-xs btn-transparent px-2 my-2 mx-1 border-0"></output>
 												</div>
 												<div class="row mx-0 mt-0"> 
@@ -3807,7 +3805,10 @@ Target JSON:
 	
 	})( window );
 </script>
-
+	<div class="px-3 py-1">mousewheel: 
+		<button id="selectBtn1" onClick="fixedMousewheel();" class="btn-xs btn rounded">on</button>
+		<button id="selectBtn2" onClick="fixedMousewheel();" class="btn btn-xs rounded">off</button>
+	</div>
 <script>
 function fixedMousewheel(){
    $('##selectBtn1').on('click' , function(){
@@ -3818,5 +3819,6 @@ function fixedMousewheel(){
    });
 };
 </script>
+
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
