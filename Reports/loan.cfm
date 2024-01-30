@@ -209,9 +209,9 @@ limitations under the License.
 				<div>
 					<strong>Instructions:</strong> #loan_instructions#
 				</div>
-				<div style="margin 0px; border: 1px black;">
+				<div style="margin 0px; border: 1px solid black;">
 					<h2 style="font-size: small;">Terms and Conditions</h2>
-					<ol style="margin-left: 0px;">
+					<ol>
 						<li>Specimens are loaned to bona fide institutions, not to individuals, for non-commercial use (e.g., scientific research, education, exhibition). </li>
 						<li> Specimens are for sole use of the recipient for the specific purposes outlined in the loan request. Prior written permission from the MCZ is needed for any activities not specified in the loan request.</li>
 						<li>Loans may not be transferred to other institutions without express written permission.
@@ -325,7 +325,7 @@ limitations under the License.
 						<div>
 							<strong>Additional Instructions:</strong> #getSubloan.loan_instructions#
 						</div>
-						<div style="margin 0px; border: 1px black;">
+						<div style="margin 0px; border: 1px solid black;">
 							<h2 style="font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</h2>
 						</div>
 					</div>
@@ -472,7 +472,7 @@ limitations under the License.
 							<cfset totalLotCount = totalLotCount + lot_count>
 						</cfloop>
 					</table>
-					<div style="margin-bottom: 2em; border-bottom: 1px black;">
+					<div style="margin-bottom: 2em; border-bottom: 1px solid black;">
 						Subloan includes #TotalSpecimens# specimens in #TotalLotCount# lots.
 						<cfset masterTotal = masterTotal + TotalSpecimens>
 						<cfset masterLotTotal = masterLotTotal + TotalLotCount>
@@ -566,7 +566,7 @@ limitations under the License.
 						</td>
 					</tr>
 					<tr>
-						<td style="border: 1px black;">
+						<td style="border: 1px solid black;">
 							<strong style="font-size: 1.2em;">To:</strong>
 							<br>
 							#replace(toAddress,chr(10),"<br>","all")#
