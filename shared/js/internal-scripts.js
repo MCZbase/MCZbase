@@ -468,6 +468,7 @@ function makeAddrCountryCdeAutocomplete(valueControl) {
 			})
 		},
 		select: function (event, result) {
+			event.preventDefault();
 			$('#'+valueControl).val("=" + result.item.value);
 		},
 		minLength: 2
