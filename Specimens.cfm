@@ -1331,7 +1331,7 @@ function stickyheader() {
 															Transactions&nbsp;
 														</div>
 													</div>
-													<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
+													<div class="form-row col-12 col-xl-11 px-3 pt-1 mb-0 mx-0">
 														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
