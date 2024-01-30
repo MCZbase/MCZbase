@@ -306,7 +306,7 @@ limitations under the License.
 									<li style="list-style-type: none"><strong>Number of Packages:</strong> #getSubloan.no_of_packages#</strong>
 									<li style="list-style-type: none"><strong>Number of Specimens:</strong> #getSubloan.num_specimens#</strong>
 									<li style="list-style-type: none"><strong>Number of Lots:</strong> #getSubloan.num_lots#</strong>
-									<cfif len(foruse_by_name) GT 0>
+									<cfif len(getSubloan.foruse_by_name) GT 0>
 										<li style="list-style-type: none"><strong>For Use By:</strong> #getSubloan.foruse_by_name#</strong>
 									</cfif>
 								</ul>
