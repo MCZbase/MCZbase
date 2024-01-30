@@ -536,6 +536,8 @@ limitations under the License.
 		<cfset to_return_acknowledged_date="">
 	</cfif>
 	<cfif NOT isdefined("sovereign_nation")><cfset sovereign_nation=""></cfif>
+	<cfif NOT isdefined("country_cde")><cfset country_cde=""></cfif>
+	<cfif NOT isdefined("formatted_addr")><cfset formatted_addr=""></cfif>
 	<div id="overlaycontainer" style="position: relative;">
 	<main id="content">
 		<!--- Search form --->
@@ -1257,21 +1259,9 @@ limitations under the License.
 													<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions</label>
 													<input type="text" name="loan_instructions" class="data-entry-input" value="#encodeForHtml(loan_instructions)#" id="loan_instructions">
 												</div>
-												<div class="col-md-9 mt-1">
+												<div class="col-md-12 mt-1">
 													<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks </label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#encodeForHtml(trans_remarks)#" id="loan_trans_remarks">
-												</div>
-												<div class="col-12 col-md-3 mt-1">
-													<label class="data-entry-label" for="sovereign_nation">
-														Sovereign Nation (of specimens)
-														<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sovereign_nation').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-													</label>
-													<input type="text" name="sovereign_nation" id="sovereign_nation" class="data-entry-input reqdClr" value="#encodeforHTML(sovereign_nation)#" required>
-													<script>
-														$(document).ready(function() {
-															makeSovereignNationSearchAutocomplete("sovereign_nation");
-														});
-													</script>
 												</div>
 												<div class="col-md-12 mt-1">
 													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number <span class="small">(find exhibition-subloans)</span> </label>
@@ -1286,7 +1276,31 @@ limitations under the License.
 													<input type="text" name="insurance_maintained_by" class="data-entry-input" maintained_by="#insurance_maintained_by#" id="loan_insurance_maintained_by">
 												</div>
 											</div>
+										</div>
+										<div class="col-12">
+											<div class="form-row px-1 mx-0 border bg-light rounded px-2 px-sm-3 mb-0 py-3">
+												<div class="col-12 col-md-4 mt-1">
+													<label class="data-entry-label" for="sovereign_nation">
+														Sovereign Nation (of specimens)
+														<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sovereign_nation').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+													</label>
+													<input type="text" name="sovereign_nation" id="sovereign_nation" class="data-entry-input" value="#encodeforHTML(sovereign_nation)#">
+													<script>
+														$(document).ready(function() {
+															makeSovereignNationSearchAutocomplete("sovereign_nation");
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-4 mt-1">
+													<label class="data-entry-label" for="country_cde">Shipped To Country Code</label>
+													<input type="text" name="country_cde" id="country_cde" class="data-entry-input" value="#encodeforHTML(country_cde)#" >
+												</div>
+												<div class="col-12 col-md-4 mt-1">
+													<label class="data-entry-label" for="formatted_addr">Shipped To Address</label>
+													<input type="text" name="formatted_addr" id="formatted_addr" class="data-entry-input" value="#encodeforHTML(formatted_addr)#" >
+												</div>
 											</div>
+										</div>
 									</div>	
 									<div class="form-row mt-1 mx-4">
 										<div class="col-12 text-left">

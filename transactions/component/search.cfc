@@ -494,6 +494,10 @@ limitations under the License.
 					left join loan_relations on loan.transaction_id = loan_relations.related_transaction_id
 					left join loan parent_loan on loan_relations.transaction_id = parent_loan.transaction_id
 				</cfif>
+				<cfif (isdefined("country_cde") AND len(country_cde) gt 0) OR (isdefined("formatted_addr") AND len(formatted_addr) gt 0) >
+					left join shipment on trans.transaction_id = shipment.transaction_id
+					left join addr on shipment.shipped_to_addr_id = addr.addr_id
+				</cfif>
 			where
 				trans.transaction_id is not null
 				<cfif isdefined("loan_number") AND len(#loan_number#) gt 0>
@@ -682,21 +686,45 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
 					<cfif left(sovereign_nation,1) is "=">
-						AND upper(taxonomy.sovereign_nation) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-1))#">
+						AND upper(locality.sovereign_nation) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-1))#">
 					<cfelseif left(sovereign_nation,1) is "$">
-						AND soundex(taxonomy.sovereign_nation) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-1))#">)
+						AND soundex(locality.sovereign_nation) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-1))#">)
 					<cfelseif left(sovereign_nation,2) is "!$">
-						AND soundex(taxonomy.sovereign_nation) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-2))#">)
+						AND soundex(locality.sovereign_nation) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-2))#">)
 					<cfelseif left(sovereign_nation,1) is "!">
-						AND upper(taxonomy.sovereign_nation) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-1))#">
+						AND upper(locality.sovereign_nation) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-1))#">
 					<cfelse>
 						<cfif find(',',sovereign_nation) GT 0>
-							AND upper(taxonomy.sovereign_nation) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(sovereign_nation)#" list="yes"> )
+							AND upper(locality.sovereign_nation) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(sovereign_nation)#" list="yes"> )
 						<cfelse>
 							AND upper(locality.sovereign_nation) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(sovereign_nation)#%">
 						</cfif>
 					</cfif>
-				<cfif>
+				</cfif>
+				<cfif isdefined("country_cde") AND len(country_cde) gt 0 >
+					<cfif left(country_cde,1) is "=">
+						AND upper(addr.country_cde) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country_cde,len(country_cde)-1))#">
+					<cfelseif left(country_cde,1) is "$">
+						AND soundex(addr.country_cde) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country_cde,len(country_cde)-1))#">)
+					<cfelseif left(country_cde,2) is "!$">
+						AND soundex(addr.country_cde) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country_cde,len(country_cde)-2))#">)
+					<cfelseif left(country_cde,1) is "!">
+						AND upper(addr.country_cde) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country_cde,len(country_cde)-1))#">
+					<cfelseif left(country_cde,1) EQ 'NULL'>
+						AND addr.country_cde IS NULL
+					<cfelseif left(country_cde,1) EQ 'NOT NULL'>
+						AND addr.country_cde IS NOT NULL
+					<cfelse>
+						<cfif find(',',country_cde) GT 0>
+							AND upper(addr.country_cde) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(country_cde)#" list="yes"> )
+						<cfelse>
+							AND upper(addr.country_cde) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(country_cde)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("formatted_addr") AND len(formatted_addr) gt 0 >
+					AND upper(addr.formatted_addr) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(formatted_addr)#%">
+				</cfif>
 			ORDER BY to_number(regexp_substr (loan.loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan.loan_number, '[0-9]+', 1, 2)), loan.loan_number
 		</cfquery>
 
