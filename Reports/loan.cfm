@@ -263,6 +263,37 @@ limitations under the License.
 			</cfdocumentsection>
 		</cfif>
 
+		<!--- TODO: May be desiriable to not include, needs further discussion --->
+		<cfif getRestrictions.recordcount GT 0>
+			<cfdocumentsection name="Additional Restrictions">
+				<div style="text-align: center; font-size: 1em;">
+					Summary of restrictions imposed by original collecting agreements
+				</div>
+				<ul>
+					<cfloop query="getRestrictions">
+						<cfif getRestrictions.source EQ "accession">
+							<li>
+								<strong>
+									#specific_type# #permit_num#
+									<cfif len(permit_num) EQ 0>#permit_title#</cfif>
+								</strong> 
+								#restriction_summary#
+							</li>
+					<cfelse>
+						<li>
+							<strong>
+								#specific_type# #permit_num#
+								<cfif len(permit_num) EQ 0>#permit_title#</cfif>
+									Applies to all material in this loan:
+							</strong>
+							#restriction_summary#
+						</li>
+					</cfif>
+				</cfloop>
+			</ul>
+			</cfdocumentsection>
+		</cfif>
+
 		<cfdocumentsection name="Items In Loan">
 			<div style="text-align: center; font-size: 1.1em; margin-bottom: 1em;">
 				<strong>Invoice of Specimens</strong>
@@ -278,7 +309,7 @@ limitations under the License.
 					<cfset transaction_id = getSubloans.transaction_id>
 					<cf_getLoanFormInfo transaction_id="#getSubloans.transaction_id#">
 					<cfquery name="getLoanItems" dbtype="query">
-					   select * from getLoanItemsMCZ
+						select * from getLoanItemsMCZ
 					</cfquery>
 					<div style="text-align: left; font-size: 1em;">
 						Specimens in Subloan #getSubloans.loan_number#
