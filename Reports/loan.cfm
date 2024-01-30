@@ -290,8 +290,9 @@ limitations under the License.
 							</td>
 							<td style="width: 45%; vertical-align: top;">
 								<ul style="text-align: left; list-style: none;">
-									<cfif NOT (loan_status EQ "open" OR loan_status EQ "in process") >
-										<li style="list-style-type: none"><strong>Status:</strong> #getSubloan.loan_status#</strong>
+									<li style="list-style-type: none"><strong>Status:</strong> #getSubloan.loan_status#</strong>
+									<cfif getSubloan.loan_status NEQ top_loan_status EQ >
+										<li style="list-style-type: none"><strong>#top_loan_number# Status:</strong> #top_loan_status#</strong>
 									</cfif>
 									<li style="list-style-type: none"><strong>Category:</strong> #getSubloan.loan_type#</strong>
 									<li style="list-style-type: none"><strong>Loan Number:</strong> #getSubloan.loan_number#</strong>
