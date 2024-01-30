@@ -1276,6 +1276,11 @@ limitations under the License.
 												<div class="col-12 col-md-4 mt-1">
 													<label class="data-entry-label" for="country_cde">Shipped To Country</label>
 													<input type="text" name="country_cde" id="country_cde" class="data-entry-input" value="#encodeforHTML(country_cde)#" >
+													<script>
+														$(document).ready(function() {
+															makeAddrCountryCdeAutocomplete("country_cde");
+														});
+													</script>
 												</div>
 												<div class="coll-12 col-md-8 mt-1">
 													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number <span class="small">(find exhibition-subloans)</span> </label>
