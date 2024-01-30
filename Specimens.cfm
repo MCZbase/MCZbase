@@ -1509,14 +1509,13 @@ function stickyheader() {
 													
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
-														<div class="px-3 py-1">mousewheel: 
-															<button id="selectBtn1" onClick="fixedMousewheel();" class="btn-xs btn btn-secondary">on</button>
-															<button id="selectBtn2" onClick="fixedMousewheel();" class="btn btn-xs rounded">off</button>
-														</div>
 													</div>
-													<div id="fixedenableselection">
+													<div id="fixedenableselection"></div>
+													<div class="px-3 py-1">mousewheel: 
+														<button id="selectBtn1" onClick="fixedMousewheel();" class="btn-xs btn btn-secondary">on</button>
+														<button id="selectBtn2" onClick="fixedMousewheel();" class="btn btn-xs rounded">off</button>
+													</div>
 													
-													</div>
 												</div>
 											</div>
 										</div>
