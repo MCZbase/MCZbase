@@ -285,13 +285,13 @@ limitations under the License.
 								<div>
 									<strong>Shipped To:</strong><br>
 									#replace(replace(getSubloan.shipped_to_address,chr(10),"<br>","all"),"&","&amp;","all")#
-									#getSubloan.outside_email_address#<br>#outside_phone_number#
+									#getSubloan.outside_email_address#<br>#getSubloan.outside_phone_number#
 								</div>
 							</td>
 							<td style="width: 45%; vertical-align: top;">
 								<ul style="text-align: left; list-style: none;">
 									<cfif NOT (loan_status EQ "open" OR loan_status EQ "in process") >
-										<li style="list-style-type: none"><strong>Status:</strong> #loan_status#</strong>
+										<li style="list-style-type: none"><strong>Status:</strong> #getSubloan.loan_status#</strong>
 									</cfif>
 									<li style="list-style-type: none"><strong>Category:</strong> #getSubloan.loan_type#</strong>
 									<li style="list-style-type: none"><strong>Loan Number:</strong> #getSubloan.loan_number#</strong>
@@ -300,15 +300,15 @@ limitations under the License.
 											<li style="list-style-type: none"><strong>Subloan of:</strong> #getMasterLoan.loan_number#</strong>
 										</cfloop>
 									</cfif>
-									<li style="list-style-type: none"><strong>Loan Date:</strong> #trans_date#</strong>
-									<li style="list-style-type: none"><strong>Approved By:</strong> #authAgentName#</strong>
-									<li style="list-style-type: none"><strong>Packed By:</strong> #processed_by_name#</strong>
-									<li style="list-style-type: none"><strong>Method of Shipment:</strong> #shipped_carrier_method#</strong>
-									<li style="list-style-type: none"><strong>Number of Packages:</strong> #no_of_packages#</strong>
-									<li style="list-style-type: none"><strong>Number of Specimens:</strong> #num_specimens#</strong>
-									<li style="list-style-type: none"><strong>Number of Lots:</strong> #num_lots#</strong>
+									<li style="list-style-type: none"><strong>Loan Date:</strong> #getSubloan.trans_date#</strong>
+									<li style="list-style-type: none"><strong>Approved By:</strong> #getSubloan.authAgentName#</strong>
+									<li style="list-style-type: none"><strong>Packed By:</strong> #getSubloan.processed_by_name#</strong>
+									<li style="list-style-type: none"><strong>Method of Shipment:</strong> #getSubloan.shipped_carrier_method#</strong>
+									<li style="list-style-type: none"><strong>Number of Packages:</strong> #getSubloan.no_of_packages#</strong>
+									<li style="list-style-type: none"><strong>Number of Specimens:</strong> #getSubloan.num_specimens#</strong>
+									<li style="list-style-type: none"><strong>Number of Lots:</strong> #getSubloan.num_lots#</strong>
 									<cfif len(foruse_by_name) GT 0>
-										<li style="list-style-type: none"><strong>For Use By:</strong> #foruse_by_name#</strong>
+										<li style="list-style-type: none"><strong>For Use By:</strong> #getSubloan.foruse_by_name#</strong>
 									</cfif>
 								</ul>
 							</td>
@@ -316,18 +316,18 @@ limitations under the License.
 					</table>
 					<div style="font-size: small; margin-left: 4px;">
 						<div>
-							<strong>Nature of Material:</strong> #nature_of_material#
+							<strong>Nature of Material:</strong> #getSubloan.nature_of_material#
 						</div>
 						<cfif len(loan_description) GT 0>
 							<div>
-								<strong>Description:</strong> #loan_description#
+								<strong>Description:</strong> #getSubloan.loan_description#
 							</div>
 						</cfif>
 						<div>
-							<strong>Additional Instructions:</strong> #loan_instructions#
+							<strong>Additional Instructions:</strong> #getSubloan.loan_instructions#
 						</div>
 						<div style="margin 0px; border: 1px black;">
-							<h2 style="font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</h2>
+							<h2 style="font-size: small;">All Terms and Conditions From Loan #getSubloan.top_loan_number# Apply.</h2>
 						</div>
 					</div>
 					<table style="font-size: small;">
@@ -335,22 +335,22 @@ limitations under the License.
 							<td style="width: 50%; vertical-align: top;">
 								<h2 style="font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
 								<div>
-									#replace(shipped_from_address,chr(10),"<br>","all")# 
+									#replace(getSubloan.shipped_from_address,chr(10),"<br>","all")# 
 									<cfif loan_type EQ "exhibition">
-										#addInHouseContactPhEmail#
+										#getSubloan.addInHouseContactPhEmail#
 									<cfelse>
-										#inside_phone_number#
+										#getSubloan.inside_phone_number#
 										<br>
-										#inside_email_address#
+										#getSubloan.inside_email_address#
 									</cfif>
 								</div>
 							</td>
 							<td style="width: 50%; vertical-align: top;">
 								<div>Borrower (noted above) acknowledges reading and agreeing to the terms and conditions noted in this document.<div>
-								<div><strong>Expected return date: #dateformat(return_due_date,"dd mmmm yyyy")#</strong></div>
+								<div><strong>Expected return date: #dateformat(getSubloan.return_due_date,"dd mmmm yyyy")#</strong></div>
 								<br>
 								<div style="text-align: right;">Borrower&##39;s Signature: ___________________________</div>
-								<div style="text-align: right;">#recAgentName#</div>
+								<div style="text-align: right;">#getSubloan.recAgentName#</div>
 							</td>
 						</tr>
 					</table>
