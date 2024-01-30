@@ -1119,13 +1119,13 @@ function stickyheader() {
 												</div>
 											</div>
 											<div class="col-12 search-form-basic-odd px-0 pb-2">
-												<cfset hiddenHaveValue = true>
+												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("part_remarks") and len(part_remarks) GT 0)
 													OR (isDefined("coll_object_remarks") and len(coll_object_remarks) GT 0)
 													OR (isDefined("lot_count") and len(lot_count) GT 0)
 													OR (isDefined("disposition_remarks") and len(disposition_remarks) GT 0)
 													OR (isDefined("coll_obj_disposition") and len(coll_obj_disposition) GT 0)>
-													<cfset hiddenHaveValue =false>
+													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"SpecDetail") GT 0 OR hiddenHaveValue>
 													<cfset SpecDetailStyle="">
