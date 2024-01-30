@@ -5892,4 +5892,38 @@ limitations under the License.
 	<cfreturn getRestrictionsThread.output>
 </cffunction>
 
+<!--- backing for a shipping country autocomplete control for search --->
+<cffunction name="getAddrCountryCdeAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select count(*) ct, country_cde
+			from addr
+			where upper(country_cde) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			group by country_cde
+			order by country_cde
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.country_cde#">
+			<cfset row["value"] = "#search.country_cde#">
+			<cfset row["meta"] = "#search.country_cde# (#search.ct#)">
+			<cfset data[i] = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
