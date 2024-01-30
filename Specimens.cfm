@@ -1328,7 +1328,7 @@ function stickyheader() {
 												<div class="col-12 search-form-basic-odd pb-2 px-0">
 													<div class="col-12 col-xl-1 px-1 py-1 mb-1 border float-left">
 														<div style="font-size: 0.05rem;-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);" class="h6 font-weight-bold d-inline-block-md text-xl-right w-100 pl-1 pr-1 text-left text-md-left text-dark my-0 py-1">
-															Transactions&nbsp;&nbsp;
+															Transactions&nbsp;
 														</div>
 													</div>
 													<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
