@@ -1511,7 +1511,10 @@ function stickyheader() {
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
 													</div>
 													<div id="fixedenableselection"></div>
-										
+													<div class="px-3 py-1">mousewheel: 
+														<button onClick="fixedMousewheel1();" class="selectBtn1 btn-xs btn rounded">on</button>
+														<button onClick="fixedMousewheel1();" class="selectBtn2 btn btn-xs rounded">off</button>
+													</div>
 													
 												</div>
 											</div>
@@ -1825,6 +1828,10 @@ function stickyheader() {
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="keywordsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="keywordenableselection"></div>
+													<div class="px-3 py-1">mousewheel: 
+														<button onClick="fixedMousewheel2();" class="selectBtn1 btn-xs btn rounded">on</button>
+														<button onClick="fixedMousewheel2();" class="selectBtn2 btn btn-xs rounded">off</button>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -2428,6 +2435,10 @@ Target JSON:
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="buildersearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="builderenableselection"></div>
+													<div class="px-3 py-1">mousewheel: 
+														<button onClick="fixedMousewheel3();" class="selectBtn1 btn-xs btn rounded">on</button>
+														<button onClick="fixedMousewheel3();" class="selectBtn2 btn btn-xs rounded">off</button>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -3805,12 +3816,9 @@ Target JSON:
 	
 	})( window );
 </script>
-	<div class="px-3 py-1">mousewheel: 
-		<button onClick="fixedMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
-		<button onClick="fixedMousewheel();" class="selectBtn2 btn btn-xs rounded">off</button>
-	</div>
+
 <script>
-function fixedMousewheel(){
+function fixedMousewheel1(){
    $('.selectBtn1').on('click' , function(){
       $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
    });
@@ -3818,7 +3826,7 @@ function fixedMousewheel(){
       $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: false});
    });
 };
-function fixedMousewheel(){
+function fixedMousewheel2(){
    $('.selectBtn1').on('click' , function(){
       $("##keywordsearchResultsGrid").jqxGrid({enablemousewheel: true});
    });
@@ -3826,7 +3834,7 @@ function fixedMousewheel(){
       $("##keywordsearchResultsGrid").jqxGrid({enablemousewheel: false});
    });
 };
-function fixedMousewheel(){
+function fixedMousewheel3(){
    $('.selectBtn1').on('click' , function(){
       $("##buildersearchResultsGrid").jqxGrid({enablemousewheel: true});
    });
