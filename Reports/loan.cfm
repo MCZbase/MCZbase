@@ -205,23 +205,24 @@ limitations under the License.
 				<div>
 					<strong>Instructions:</strong> #loan_instructions#
 				</div>
-				<h2 style="font-size: small;">Terms and Conditions</h2>
-				<ol>
-					<li>Specimens from the collections of the Museum of Comparative Zoology are loaned at the discretion of the museum.</li>
-					<li>Specimens are loaned to bona fide institutions, not to individuals.</li>
-					<li>Borrowing institutions must demonstrate the ability properly unpack, care for, use, and return the borrowed specimens before a loan is granted.</li>
-					<li>The specimens must be returned by the date stated on the invoice unless a loan renewal is granted in writing by the loaning department.</li>
-					<li>Specimens on loan must be cared for according to standard best practices of collection care and handling.</li>
-					<li>Loans may not be transferred to another institution without the express written permission of the curator of the loaning department.</li>
-					<li>No invasive procedures (e.g., penetrations of the body wall or removal of any parts) of a loaned specimen may be conducted without the express written permission of the curator of the loaning department.</li>
-					<li>Express written permission must be obtained before a loaned specimen, image, mold or cast of the specimen may be used for any purpose other than scholarly research.</li>
-					<li>Loaned specimens must be packed for return in accordance with professional standards and be legally shipped to the Museum of Comparative Zoology.</li>
-					<li>A loan may be recalled by the Museum of Comparative Zoology at any time at the discretion of the curator of the lending department or the Director of the MCZ.</li>
-					<li>Copies of all publications, reports, or other citations of the loaned specimens must be sent promptly to the Museum of Comparative Zoology.</li>
-					<cfif getRestrictions.recordcount GT 0>
-						<li>Additional Restrictions on use from original permits apply, see attached summary.</li>
-					</cfif>
-				</ol>
+				<div style="margin 0px; border: 1px black;">
+					<h2 style="font-size: small;">Terms and Conditions</h2>
+					<ol style="margin-left: 0px;">
+						<li>Specimens are loaned to bona fide institutions, not to individuals, for non-commercial use (e.g., scientific research, education, exhibition). </li>
+						<li> Specimens are for sole use of the recipient for the specific purposes outlined in the loan request. Prior written permission from the MCZ is needed for any activities not specified in the loan request.</li>
+						<li>Loans may not be transferred to other institutions without express written permission.
+						<li>Borrowing institutions must demonstrate the ability to properly unpack, care for, use, and return the specimens according to best practices of collection curation.
+						<li>Specimens must be returned by the date stated on the invoice unless a loan renewal is granted in writing.</li>
+						<li>No destructive sampling or invasive procedures may be conducted on a loaned specimen without prior written permission.</li>
+						<li>The recipient will return any unused material or derivatives (e.g., tissue, DNA/RNA extract) to the MCZ.</li>
+						<li>The recipient will provide the MCZ with reprints of any resulting publications and accession numbers for genetic data in public repositories.</li>
+						<li>The recipient will provide copies of any digital media files and all associated metadata. All resulting media is © President and Fellows of Harvard College.</li>
+						<li>Loans may be recalled at any time at the discretion of the MCZ.</li>
+						<cfif getRestrictions.recordcount GT 0>
+							<li>Additional Restrictions on use from original permits apply, see instructions.</li>
+						</cfif>
+					</ol>
+				</div>
 			</div>
 			<table style="font-size: small;">
 				<tr>
@@ -242,7 +243,7 @@ limitations under the License.
 						<div>Borrower (noted above) acknowledges reading and agreeing to the terms and conditions noted in this document.<div>
 						<div><strong>Expected return date: #dateformat(return_due_date,"dd mmmm yyyy")#</strong></div>
 						<br>
-						><div style="text-align: right;">Borrower&##39;s Signature: ___________________________</div>
+						<div style="text-align: right;">Borrower&##39;s Signature: ___________________________</div>
 						<div style="text-align: right;">#recAgentName#</div>
 					</td>
 				</tr>
@@ -257,36 +258,6 @@ limitations under the License.
 				<ul>
 					<cfloop query="getSubloans">
 							<li><strong>#loan_number#</strong></li>
-					</cfloop>
-				</ul>
-			</cfdocumentsection>
-		</cfif>
-
-		<cfif getRestrictions.recordcount GT 0>
-			<cfdocumentsection name="Additional Restrictions">
-				<div style="text-align: center; font-size: 1em;">
-					Summary of restrictions imposed by original collecting agreements
-				</div>
-				<ul>
-					<cfloop query="getRestrictions">
-						<cfif getRestrictions.source EQ "accession">
-							<li>
-								<strong>
-									#specific_type# #permit_num#
-									<cfif len(permit_num) EQ 0>#permit_title#</cfif>
-								</strong> 
-								#restriction_summary#
-							</li>
-						<cfelse>
-							<li>
-								<strong>
-									#specific_type# #permit_num#
-									<cfif len(permit_num) EQ 0>#permit_title#</cfif>
-									Applies to all material in this loan:
-								</strong>
-								#restriction_summary#
-							</li>
-						</cfif>
 					</cfloop>
 				</ul>
 			</cfdocumentsection>
@@ -463,13 +434,14 @@ limitations under the License.
 				<table>
 					<tr>
 						<td>
-							<strong>From:</strong>
+							<strong style="font-size: 1.2em;">From:</strong>
 							<br> 
 							#replace(fromAddress,chr(10),"<br>","all")# 
 						</td>
 					</tr>
-						<td>
-							<strong>To:</strong>
+					<tr>
+						<td style="border: 1px black;">
+							<strong style="font-size: 1.2em;">To:</strong>
 							<br>
 							#replace(toAddress,chr(10),"<br>","all")#
 						</td>
