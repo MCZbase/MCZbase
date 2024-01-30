@@ -1129,11 +1129,11 @@ function stickyheader() {
 												</cfif>
 												<cfif listFind(searchPrefList,"SpecDetail") GT 0 OR hiddenHaveValue>
 													<cfset SpecDetailStyle="">
-													<cfset toggleTo = "0">
+													<cfset toggleTo = "1">
 													<cfset SpecButton = "<i class='fas fa-chevron-circle-up'></i>">
 												<cfelse>
 													<cfset SpecDetailStyle="display:none;">
-													<cfset toggleTo = "1">
+													<cfset toggleTo = "0">
 													<cfset SpecButton = "<i class='fas fa-chevron-circle-down'></i>">
 												</cfif> 
 												<div class="col-12 col-xl-2 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
