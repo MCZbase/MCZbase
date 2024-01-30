@@ -297,9 +297,7 @@ limitations under the License.
 									<li style="list-style-type: none"><strong>Category:</strong> #getSubloan.loan_type#</strong>
 									<li style="list-style-type: none"><strong>Loan Number:</strong> #getSubloan.loan_number#</strong>
 									<cfif getSubloan.loan_type EQ "exhibition-subloan">
-										<cfloop query="getMasterLoan">
-											<li style="list-style-type: none"><strong>Subloan of:</strong> #getMasterLoan.loan_number#</strong>
-										</cfloop>
+										<li style="list-style-type: none"><strong>Subloan of:</strong> #top_loan_number#</strong>
 									</cfif>
 									<li style="list-style-type: none"><strong>Loan Date:</strong> #getSubloan.trans_date#</strong>
 									<li style="list-style-type: none"><strong>Approved By:</strong> #getSubloan.authAgentName#</strong>
