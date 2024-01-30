@@ -479,7 +479,7 @@ limitations under the License.
 					left join loan_item on loan.transaction_id=loan_item.transaction_id 
 					left join coll_object on loan_item.collection_object_id=coll_object.collection_object_id
 					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
-					<cfif OR (isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
+					<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
 						left join coll_object cat_coll_object on specimen_part.derived_from_coll_object_id = cat_coll_object.collection_object_id
 						left join collecting_event on cat_coll_object.collecting_event_id = collecting_event.collecting_event_id
 						left join locality on collecting_event.locality_id = locality.locality_id
