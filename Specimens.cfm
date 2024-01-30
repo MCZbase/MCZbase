@@ -1135,8 +1135,8 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset SpecButton = "<i class='fas fa-chevron-circle-down'></i>">
 												</cfif> 
-												<div class="col-12 col-md-auto col-xl-1 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
-													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right pl-2 w-100 pr-1 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
+												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
+													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 														Specimen&thinsp;
 														<button type="button" id="SpecDetailCtl" class="btn px-1 d-inline-block-md btn-xs small py-0 border-0 btn-link" onclick="toggleSpecDetail(#toggleTo#);">#SpecButton#</button>
 													</div>
