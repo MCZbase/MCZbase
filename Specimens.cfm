@@ -3818,6 +3818,22 @@ function fixedMousewheel(){
       $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: false});
    });
 };
+function fixedMousewheel(){
+   $('.selectBtn1').on('click' , function(){
+      $("##keywordsearchResultsGrid").jqxGrid({enablemousewheel: true});
+   });
+	$('.selectBtn2').on('click' , function(){
+      $("##keywordsearchResultsGrid").jqxGrid({enablemousewheel: false});
+   });
+};
+function fixedMousewheel(){
+   $('.selectBtn1').on('click' , function(){
+      $("##buildersearchResultsGrid").jqxGrid({enablemousewheel: true});
+   });
+	$('.selectBtn2').on('click' , function(){
+      $("##buildersearchResultsGrid").jqxGrid({enablemousewheel: false});
+   });
+};
 </script>
 
 </cfoutput>
