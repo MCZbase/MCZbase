@@ -535,6 +535,9 @@ limitations under the License.
 	<cfif not isdefined("to_return_acknowledged_date")>
 		<cfset to_return_acknowledged_date="">
 	</cfif>
+	<cfif NOT isdefined("sovereign_nation")><cfset sovereign_nation=""></cfif>
+	<cfif NOT isdefined("country_cde")><cfset country_cde=""></cfif>
+	<cfif NOT isdefined("formatted_addr")><cfset formatted_addr=""></cfif>
 	<div id="overlaycontainer" style="position: relative;">
 	<main id="content">
 		<!--- Search form --->
@@ -1230,14 +1233,24 @@ limitations under the License.
 													</cfif>
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="col-md-12 px-0 mt-1 mb-2">
+													<div class="coll-12 col-md-7 px-0 mt-1 mb-2">
 														<label for="specimen_guid" class="data-entry-label mb- pb-0">Cataloged Item in Loan</label>
 														<input type="text" name="specimen_guid" 
 															class="data-entry-input" value="#specimen_guid#" id="specimen_guid" placeholder="MCZ:Coll:nnnnn"
 															onchange="$('##collection_object_id').val('');">
 													</div>
-													<script>
-													</script>
+													<div class="col-12 col-md-5 mt-1">
+														<label class="data-entry-label" for="sovereign_nation">
+															Sovereign Nation (of specimens)
+															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sovereign_nation').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+														</label>
+														<input type="text" name="sovereign_nation" id="sovereign_nation" class="data-entry-input" value="#encodeforHTML(sovereign_nation)#">
+														<script>
+															$(document).ready(function() {
+																makeSovereignNationSearchAutocomplete("sovereign_nation");
+															});
+														</script>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -1246,23 +1259,36 @@ limitations under the License.
 											<div class="form-row px-1 mx-0 border bg-light rounded px-2 px-sm-3 mb-0 py-3">
 												<div class="col-md-12">
 													<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
-													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
+													<input type="text" name="nature_of_material" class="data-entry-input" value="#encodeForHtml(nature_of_material)#" id="nature_of_material">
 												</div>
 												<div class="col-md-12 mt-1">
 													<label for="loan_description" class="data-entry-label mb-0 pb-0">Description </label>
-													<input type="text" name="loan_description" class="data-entry-input" value="#loan_description#" id="loan_description">
+													<input type="text" name="loan_description" class="data-entry-input" value="#encodeForHtml(loan_description)#" id="loan_description">
 												</div>
 												<div class="col-md-12 mt-1">
 													<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions</label>
-													<input type="text" name="loan_instructions" class="data-entry-input" value="#loan_instructions#" id="loan_instructions">
+													<input type="text" name="loan_instructions" class="data-entry-input" value="#encodeForHtml(loan_instructions)#" id="loan_instructions">
 												</div>
-												<div class="col-md-12 mt-1">
+												<div class="coll-12 col-md-8 mt-1">
 													<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks </label>
-													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="loan_trans_remarks">
+													<input type="text" name="trans_remarks" class="data-entry-input" value="#encodeForHtml(trans_remarks)#" id="loan_trans_remarks">
 												</div>
-												<div class="col-md-12 mt-1">
+												<div class="col-12 col-md-4 mt-1">
+													<label class="data-entry-label" for="country_cde">Shipped To Country</label>
+													<input type="text" name="country_cde" id="country_cde" class="data-entry-input" value="#encodeforHTML(country_cde)#" >
+													<script>
+														$(document).ready(function() {
+															makeAddrCountryCdeAutocomplete("country_cde");
+														});
+													</script>
+												</div>
+												<div class="coll-12 col-md-8 mt-1">
 													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number <span class="small">(find exhibition-subloans)</span> </label>
 													<input type="text" name="parent_loan_number" class="data-entry-input" value="#parent_loan_number#" id="parent_loan_number" placeholder="yyyy-n-MCZ" >
+												</div>
+												<div class="col-12 col-md-4 mt-1">
+													<label class="data-entry-label" for="formatted_addr">Shipped To Address</label>
+													<input type="text" name="formatted_addr" id="formatted_addr" class="data-entry-input" value="#encodeforHTML(formatted_addr)#" >
 												</div>
 												<div class="col-md-5 mt-1">
 													<label for="loan_insurance_value" class="data-entry-label mb-0 pb-0">Insurance Value <span class="small">(NULL,NOT NULL)</span> </label>
@@ -1273,7 +1299,11 @@ limitations under the License.
 													<input type="text" name="insurance_maintained_by" class="data-entry-input" maintained_by="#insurance_maintained_by#" id="loan_insurance_maintained_by">
 												</div>
 											</div>
+										</div>
+										<div class="col-12">
+											<div class="form-row px-1 mx-0 border bg-light rounded px-2 px-sm-3 mb-0 py-3">
 											</div>
+										</div>
 									</div>	
 									<div class="form-row mt-1 mx-4">
 										<div class="col-12 text-left">
