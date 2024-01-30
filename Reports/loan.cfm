@@ -26,11 +26,14 @@ limitations under the License.
 
 <cf_getLoanFormInfo>
 <cfquery name="getLoan" dbtype="query">
-   select * from getLoanMCZ
+	select * from getLoanMCZ
 </cfquery>
 <cfif getLoan.recordcount EQ 0>
 	<cfthrow message = "No loan found for provided transaction_id [#encodeForHtml(transaction_id)#].">
 </cfif>
+<cfset top_loan_type = getLoan.loan_type>
+<cfset top_loan_status = getLoan.loan_status>
+<cfset top_loan_number = getLoan.loan_number>
 <cfif getLoan.loan_type EQ "exhibition-master">
 	<!--- Special handling --->
 	<cfquery name="getSubloans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -73,7 +76,7 @@ limitations under the License.
 	</cfquery>
 </cfif>
 <cfquery name="getLoanItems" dbtype="query">
-   select * from getLoanItemsMCZ
+	select * from getLoanItemsMCZ
 </cfquery>
 <cfquery name="getHasFluid" dbtype="query">
 	select count(*) ct 
@@ -138,10 +141,11 @@ limitations under the License.
 		</cfdocumentitem>
 
 		<cfdocumentsection name="Loan Header">
-			<div style="text-align: center; font-size: 1em;">
-				Invoice of Specimens
+			<div style="text-align: center; font-size: 1.2em;">
+				<strong>Invoice of Specimens</strong>
 			</div>
 			<div style="text-align: center; font-size: 1em;">
+				<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
 				#getLoan.collection#
 			</div>
 			<div style="text-align: center; font-size; 1em;">
@@ -251,16 +255,108 @@ limitations under the License.
 		</cfdocumentsection>
 
 		<cfif getLoan.loan_type EQ "exhibition-master">
-			<cfdocumentsection name="Subloans">
-				<div style="text-align: center; font-size: 1em;">
-					Exhibition Subloans
-				</div>
-				<ul>
-					<cfloop query="getSubloans">
-							<li><strong>#loan_number#</strong></li>
-					</cfloop>
-				</ul>
-			</cfdocumentsection>
+			<cfset master_transaction_id = transaction_id>
+			<cfloop query="getSubloans">
+				<cfset transaction_id = getSubloans.transaction_id>
+				<cf_getLoanFormInfo transaction_id="#getSubloans.transaction_id#">
+				<cfquery name="getLoan" dbtype="query">
+					select * from getLoanMCZ
+				</cfquery>
+				<cfdocumentsection name="Subloan Header">
+					<div style="text-align: center; font-size: 1em;">
+						<strong> Exhibition Subloan #loan_number# </strong>
+					</div>
+					<div style="text-align: center; font-size: 1em;">
+						<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
+						#getLoan.collection#
+					</div>
+					<div style="text-align: center; font-size; 1em;">
+						Museum of Comparative Zoology, Harvard University
+					</div>
+					<table style="font-size: small; padding: 0px; margin: 0px;">
+						<tr>
+							<td style="width: 55%; vertical-align: top;">
+								<div>
+									This document acknowledges the Loan of specimens <strong>To:</strong> #getLoan.recipientInstitutionName#.
+								</div>
+								<div>			
+									<strong>Borrower:</strong> #recAgentName#
+								</div>
+								<div>
+									<strong>Shipped To:</strong><br>
+									#replace(replace(shipped_to_address,chr(10),"<br>","all"),"&","&amp;","all")#
+									#outside_email_address#<br>#outside_phone_number#
+								</div>
+							</td>
+							<td style="width: 45%; vertical-align: top;">
+								<ul style="text-align: left; list-style: none;">
+									<cfif NOT (loan_status EQ "open" OR loan_status EQ "in process") >
+										<li style="list-style-type: none"><strong>Status:</strong> #loan_status#</strong>
+									</cfif>
+									<li style="list-style-type: none"><strong>Category:</strong> #getLoan.loan_type#</strong>
+									<li style="list-style-type: none"><strong>Loan Number:</strong> #getLoan.loan_number#</strong>
+									<cfif getLoan.loan_type EQ "exhibition-subloan">
+										<cfloop query="getMasterLoan">
+											<li style="list-style-type: none"><strong>Subloan of:</strong> #getMasterLoan.loan_number#</strong>
+										</cfloop>
+									</cfif>
+									<li style="list-style-type: none"><strong>Loan Date:</strong> #trans_date#</strong>
+									<li style="list-style-type: none"><strong>Approved By:</strong> #authAgentName#</strong>
+									<li style="list-style-type: none"><strong>Packed By:</strong> #processed_by_name#</strong>
+									<li style="list-style-type: none"><strong>Method of Shipment:</strong> #shipped_carrier_method#</strong>
+									<li style="list-style-type: none"><strong>Number of Packages:</strong> #no_of_packages#</strong>
+									<li style="list-style-type: none"><strong>Number of Specimens:</strong> #num_specimens#</strong>
+									<li style="list-style-type: none"><strong>Number of Lots:</strong> #num_lots#</strong>
+									<cfif len(foruse_by_name) GT 0>
+										<li style="list-style-type: none"><strong>For Use By:</strong> #foruse_by_name#</strong>
+									</cfif>
+								</ul>
+							</td>
+						</tr>
+					</table>
+					<div style="font-size: small; margin-left: 4px;">
+						<div>
+							<strong>Nature of Material:</strong> #nature_of_material#
+						</div>
+						<cfif len(loan_description) GT 0>
+							<div>
+								<strong>Description:</strong> #loan_description#
+							</div>
+						</cfif>
+						<div>
+							<strong>Additional Instructions:</strong> #loan_instructions#
+						</div>
+						<div style="margin 0px; border: 1px black;">
+							<h2 style="font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</h2>
+						</div>
+					</div>
+					<table style="font-size: small;">
+						<tr>
+							<td style="width: 50%; vertical-align: top;">
+								<h2 style="font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
+								<div>
+									#replace(shipped_from_address,chr(10),"<br>","all")# 
+									<cfif loan_type EQ "exhibition">
+										#addInHouseContactPhEmail#
+									<cfelse>
+										#inside_phone_number#
+										<br>
+										#inside_email_address#
+									</cfif>
+								</div>
+							</td>
+							<td style="width: 50%; vertical-align: top;">
+								<div>Borrower (noted above) acknowledges reading and agreeing to the terms and conditions noted in this document.<div>
+								<div><strong>Expected return date: #dateformat(return_due_date,"dd mmmm yyyy")#</strong></div>
+								<br>
+								<div style="text-align: right;">Borrower&##39;s Signature: ___________________________</div>
+								<div style="text-align: right;">#recAgentName#</div>
+							</td>
+						</tr>
+					</table>
+				</cfdocumentsection>
+			</cfloop>
+			<cfset transaction_id = master_transaction_id>
 		</cfif>
 
 		<!--- TODO: May be desiriable to not include, needs further discussion --->
@@ -301,7 +397,7 @@ limitations under the License.
 			<div>
 				Retain in 70% ethanol unless noted otherwise.
 			</div>
-			<cfif getLoan.loan_type EQ "exhibition-master">
+			<cfif top_loan_type EQ "exhibition-master">
 				<cfset master_transaction_id = transaction_id>
 				<cfset masterTotal = 0>
 				<cfset masterLotTotal = 0>
@@ -326,7 +422,7 @@ limitations under the License.
 							<tr>
 								<td style="width: 25%; vertical-align: top;">
 									#institution_acronym#:#collection_cde#:#cat_num#
-									<cfif getLoan.loan_status EQ "closed">#reconciled_date#</cfif>
+									<cfif top_loan_status EQ "closed">#reconciled_date#</cfif>
 								</td>
 								<td style="width: 50%; vertical-align: top;">
 									<div>
@@ -377,7 +473,7 @@ limitations under the License.
 							<cfset totalLotCount = totalLotCount + lot_count>
 						</cfloop>
 					</table>
-					<div>
+					<div style="margin-bottom: 2em; border-bottom: 1px black;">
 						Subloan includes #TotalSpecimens# specimens in #TotalLotCount# lots.
 						<cfset masterTotal = masterTotal + TotalSpecimens>
 						<cfset masterLotTotal = masterLotTotal + TotalLotCount>
@@ -401,7 +497,7 @@ limitations under the License.
 						<tr>
 							<td style="width: 25%; vertical-align: top;">
 								#institution_acronym#:#collection_cde#:#cat_num#
-								<cfif getLoan.loan_status EQ "closed">#reconciled_date#</cfif>
+								<cfif top_loan_status EQ "closed">#reconciled_date#</cfif>
 							</td>
 							<td style="width: 50%; vertical-align: top;">
 								<div>
