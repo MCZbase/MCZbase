@@ -209,7 +209,7 @@ limitations under the License.
 				<div>
 					<strong>Instructions:</strong> #loan_instructions#
 				</div>
-				<div style="margin 0px; border: 1px solid black;">
+				<div style="margin: 0px; border: 1px solid black;">
 					<h2 style="font-size: small;">Terms and Conditions</h2>
 					<ol>
 						<li>Specimens are loaned to bona fide institutions, not to individuals, for non-commercial use (e.g., scientific research, education, exhibition). </li>
@@ -325,7 +325,7 @@ limitations under the License.
 						<div>
 							<strong>Additional Instructions:</strong> #getSubloan.loan_instructions#
 						</div>
-						<div style="margin 0px; border: 1px solid black;">
+						<div style="margin: 0px; border: 1px solid black;">
 							<h2 style="font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</h2>
 						</div>
 					</div>
@@ -554,7 +554,7 @@ limitations under the License.
 		<cfif getShipments.recordcount EQ 1>
 			<cfdocumentsection name="Shipping Labels">
 			<cfloop query="getShipments">
-				<div>
+				<div style="margin-bottom: 2em;">
 					Shipping Label
 				</div>
 				<table>
