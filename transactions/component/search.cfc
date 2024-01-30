@@ -710,9 +710,9 @@ limitations under the License.
 						AND soundex(addr.country_cde) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country_cde,len(country_cde)-2))#">)
 					<cfelseif left(country_cde,1) is "!">
 						AND upper(addr.country_cde) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country_cde,len(country_cde)-1))#">
-					<cfelseif left(country_cde,1) EQ 'NULL'>
+					<cfelseif country_cde EQ 'NULL'>
 						AND addr.country_cde IS NULL
-					<cfelseif left(country_cde,1) EQ 'NOT NULL'>
+					<cfelseif country_cde EQ 'NOT NULL'>
 						AND addr.country_cde IS NOT NULL
 					<cfelse>
 						<cfif find(',',country_cde) GT 0>
