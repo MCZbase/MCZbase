@@ -1662,9 +1662,7 @@ function makeSovereignNationSearchAutocomplete(fieldId) {
 			$('#'+fieldId).val("=" + result.item.value);
 		},
 		minLength: 3
-	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-		return $("<li>").append( "<span>" + item.value + " " + item.meta +"</span>").appendTo( ul );
-	};
+	});
 };
 
 /** makeCountrySearchAutocomplete make an input control into a picker for a country field.
