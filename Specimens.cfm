@@ -3806,7 +3806,7 @@ Target JSON:
 	})( window );
 </script>
 	<div class="px-3 py-1">mousewheel: 
-		<button class="s" onClick="fixedMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
+		<button onClick="fixedMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
 		<button onClick="fixedMousewheel();" class="selectBtn2 btn btn-xs rounded">off</button>
 	</div>
 <script>
