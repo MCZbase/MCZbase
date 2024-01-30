@@ -326,7 +326,7 @@ limitations under the License.
 							<strong>Additional Instructions:</strong> #getSubloan.loan_instructions#
 						</div>
 						<div style="margin 0px; border: 1px black;">
-							<h2 style="font-size: small;">All Terms and Conditions From Loan #getSubloan.top_loan_number# Apply.</h2>
+							<h2 style="font-size: small;">All Terms and Conditions From Loan #top_loan_number# Apply.</h2>
 						</div>
 					</div>
 					<table style="font-size: small;">
