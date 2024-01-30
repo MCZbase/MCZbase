@@ -1512,7 +1512,7 @@ function stickyheader() {
 													</div>
 													<div id="fixedenableselection"></div>
 													<div class="px-3 py-1">mousewheel: 
-														<button id="selectBtn1" onClick="fixedMousewheel();" class="btn-xs btn btn-secondary">on</button>
+														<button id="selectBtn1" onClick="fixedMousewheel();" class="btn-xs btn rounded">on</button>
 														<button id="selectBtn2" onClick="fixedMousewheel();" class="btn btn-xs rounded">off</button>
 													</div>
 													
