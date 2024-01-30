@@ -335,7 +335,7 @@ limitations under the License.
 								<h2 style="font-size: small;">UPON RECEIPT, SIGN AND RETURN ONE COPY TO:</h2>
 								<div>
 									#replace(getSubloan.shipped_from_address,chr(10),"<br>","all")# 
-									<cfif loan_type EQ "exhibition">
+									<cfif getSubloan.loan_type EQ "exhibition">
 										#getSubloan.addInHouseContactPhEmail#
 									<cfelse>
 										#getSubloan.inside_phone_number#
