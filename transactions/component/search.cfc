@@ -472,13 +472,18 @@ limitations under the License.
 						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
 					</cfif>
 				</cfif>
-				<cfif (isdefined("collection_object_id") AND len(#collection_object_id#) gt 0) OR (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
+				<cfif (isdefined("collection_object_id") AND len(#collection_object_id#) gt 0) OR (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) OR (isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0) >
 					left join loan_item on loan.transaction_id = loan_item.transaction_id
 				</cfif>
-				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
+				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) OR (isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0) >
 					left join loan_item on loan.transaction_id=loan_item.transaction_id 
 					left join coll_object on loan_item.collection_object_id=coll_object.collection_object_id
 					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
+					<cfif OR (isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
+						left join coll_object cat_coll_object on specimen_part.derived_from_coll_object_id = cat_coll_object.collection_object_id
+						left join collecting_event on cat_coll_object.collecting_event_id = collecting_event.collecting_event_id
+						left join locality on collecting_event.locality_id = locality.locality_id
+					</cfif>
 				</cfif>
 				<cfif (isdefined("permit_id") AND len(#permit_id#) gt 0) OR (isdefined("permit_type") AND len(#permit_type#) GT 0) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) GT 0) >
 					left join shipment on loan.transaction_id = shipment.transaction_id
@@ -675,6 +680,23 @@ limitations under the License.
 							(select transaction_id from shipment where foreign_shipment_fg = 1)
 					</cfif>
 				</cfif>
+				<cfif isdefined("sovereign_nation") AND len(#sovereign_nation#) gt 0 >
+					<cfif left(sovereign_nation,1) is "=">
+						AND upper(taxonomy.sovereign_nation) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-1))#">
+					<cfelseif left(sovereign_nation,1) is "$">
+						AND soundex(taxonomy.sovereign_nation) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-1))#">)
+					<cfelseif left(sovereign_nation,2) is "!$">
+						AND soundex(taxonomy.sovereign_nation) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-2))#">)
+					<cfelseif left(sovereign_nation,1) is "!">
+						AND upper(taxonomy.sovereign_nation) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sovereign_nation,len(sovereign_nation)-1))#">
+					<cfelse>
+						<cfif find(',',sovereign_nation) GT 0>
+							AND upper(taxonomy.sovereign_nation) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(sovereign_nation)#" list="yes"> )
+						<cfelse>
+							AND upper(locality.sovereign_nation) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(sovereign_nation)#%">
+						</cfif>
+					</cfif>
+				<cfif>
 			ORDER BY to_number(regexp_substr (loan.loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan.loan_number, '[0-9]+', 1, 2)), loan.loan_number
 		</cfquery>
 
