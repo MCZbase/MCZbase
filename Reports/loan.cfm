@@ -317,7 +317,7 @@ limitations under the License.
 						<div>
 							<strong>Nature of Material:</strong> #getSubloan.nature_of_material#
 						</div>
-						<cfif len(loan_description) GT 0>
+						<cfif len(getSubloan.loan_description) GT 0>
 							<div>
 								<strong>Description:</strong> #getSubloan.loan_description#
 							</div>
