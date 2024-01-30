@@ -1233,13 +1233,13 @@ limitations under the License.
 													</cfif>
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="coll-12 col-md-8 px-0 mt-1 mb-2">
+													<div class="coll-12 col-md-7 px-0 mt-1 mb-2">
 														<label for="specimen_guid" class="data-entry-label mb- pb-0">Cataloged Item in Loan</label>
 														<input type="text" name="specimen_guid" 
 															class="data-entry-input" value="#specimen_guid#" id="specimen_guid" placeholder="MCZ:Coll:nnnnn"
 															onchange="$('##collection_object_id').val('');">
 													</div>
-													<div class="col-12 col-md-4 mt-1">
+													<div class="col-12 col-md-5 mt-1">
 														<label class="data-entry-label" for="sovereign_nation">
 															Sovereign Nation (of specimens)
 															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sovereign_nation').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
