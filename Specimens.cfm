@@ -415,7 +415,7 @@ function stickyheader() {
 													<cfset IDButton = "<i class='fas fa-chevron-circle-down' title='fewer fields'><span class= 'sr-only'>fewer fields</span></i>">
 												</cfif> 
 														
-												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
+												<div class="col-12 col-xl-2 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
 													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 														Identifiers&thinsp;
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
@@ -423,7 +423,7 @@ function stickyheader() {
 														</cfif>
 													</div>
 												</div>	
-												<div class="form-row col-12 col-xl-10 pt-1 px-3 mx-0 mb-0">
+												<div class="form-row col-12 col-xl-auto pt-1 px-3 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="fixedCollection" class="data-entry-label small">Collection</label>
 														<div name="collection" id="fixedCollection" class="w-100"></div>
@@ -576,13 +576,13 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset TaxaButton = "<i class='fas fa-chevron-circle-down' title='more fields'><span class='sr-only'>more fields</span></i>">
 												</cfif>
-												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);" >
+												<div class="col-12 col-xl-2 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);" >
 													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 														Taxonomy&thinsp;
 														<button type="button" id="TaxaDetailCtl" class="btn d-inline-block-md btn-xs px-xl-1 pt-xl-1 px-0 small py-0 border-0 btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xl-10 pt-1 px-3 mx-0 mb-0">
+												<div class="form-row col-12 col-xl-auto pt-1 px-3 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4">
 														<div class="form-row mx-0 mb-0">
 															<div class="col-9 px-0">
@@ -807,13 +807,13 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset GeogButton = '<i class="fas fa-chevron-circle-down" title="more fields"><span class="sr-only">more fields</span></i>'>
 												</cfif>
-												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
+												<div class="col-12 col-xl-2 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
 													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 														Geography&thinsp;
 														<button type="button" id="GeogDetailCtl" class="btn d-inline-block-md px-xl-1 pt-xl-1 px-0 btn-xs small py-0 border-0 btn-link" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xl-10 pt-1 px-3 mx-0 mb-0">
+												<div class="form-row col-12 col-xl-auto pt-1 px-3 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label small">Any Geography (keywords)</label>
@@ -1017,13 +1017,13 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset CollButton = "<i class='fas fa-chevron-circle-down' title='more fields'><span class='sr-only'>more fields</span></i>">
 												</cfif> 
-												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
+												<div class="col-12 col-xl-2 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
 													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right w-100 px-1 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 														Coll. Event&thinsp;
 														<button type="button" id="CollDetailCtl" class="btn d-inline-block-md pt-xl-1 btn-xs px-xl-1 px-0 small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-lg-10 px-3 pt-1 mb-0 mx-0">
+												<div class="form-row col-12 col-lg-auto px-3 pt-1 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="collector" class="data-entry-label small">Collector</label>
 														<cfif not isdefined("collector")>
@@ -1136,13 +1136,13 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset SpecButton = "<i class='fas fa-chevron-circle-down'></i>">
 												</cfif> 
-												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
+												<div class="col-12 col-xl-2 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
 													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 														Specimen&thinsp;
 														<button type="button" id="SpecDetailCtl" class="btn px-xl-1 pt-xl-1 px-0 d-inline-block-md btn-xs small py-0 border-0 btn-link" onclick="toggleSpecDetail(#toggleTo#);">#SpecButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xl-10 pt-1 px-3 mb-0 mx-0">
+												<div class="form-row col-12 col-xl-auto pt-1 px-3 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 														<label for="part_name" class="data-entry-label small">Part Name</label>
@@ -1231,12 +1231,12 @@ function stickyheader() {
 												</div>
 											</div>
 											<div class="col-12 px-0 pb-2">
-												<div class="col-12 col-xl-1 px-1 py-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
+												<div class="col-12 col-xl-2 px-1 py-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
 													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right w-100 px-1 pb-xl-1 text-left text-xl-right text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 													 General&thinsp;
 													</div>
 												</div>
-												<div class="form-row col-12 col-xl-10 pt-1 px-3 mb-0 mx-0">
+												<div class="form-row col-12 col-xl-auto pt-1 px-3 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-2">
 														<cfif not isdefined("keyword")>
 															<cfset keyword="">
@@ -1327,12 +1327,12 @@ function stickyheader() {
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 search-form-basic-odd pb-2 px-0">
-													<div class="col-12 col-xl-1 px-1 py-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
+													<div class="col-12 col-xl-2 px-1 py-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
 														<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right w-100 px-1 pb-xl-1 text-left text-md-left text-dark  mb-1 mb-md-0 pt-1 pt-md-0">
 															Transactions&thinsp;
 														</div>
 													</div>
-													<div class="form-row col-12 col-xl-10 px-3 pt-1 mb-0 mx-0">
+													<div class="form-row col-12 col-xl-auto px-3 pt-1 mb-0 mx-0">
 														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
