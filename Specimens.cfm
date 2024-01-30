@@ -414,6 +414,7 @@ function stickyheader() {
 													<cfset toggleTo = "1">
 													<cfset IDButton = "<i class='fas fa-chevron-circle-down' title='fewer fields'><span class= 'sr-only'>fewer fields</span></i>">
 												</cfif> 
+														
 												<div class="col-12 col-xl-1 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
 													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 														Identifiers&thinsp;
@@ -1231,7 +1232,7 @@ function stickyheader() {
 											</div>
 											<div class="col-12 px-0 pb-2">
 												<div class="col-12 col-xl-1 px-1 py-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
-													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right w-100 px-1 text-left text-md-right text-dark mb-1 mb-md-0 pt-1 pt-md-0">
+													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right w-100 px-1 text-left text-xl-right text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 													 General&thinsp;
 													</div>
 												</div>
@@ -1510,9 +1511,11 @@ function stickyheader() {
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
 															
 													</div>
-													<div id="fixedenableselection"></div><div class="px-3 py-1">mousewheel: 
-														<button id="selectBtn1" onClick="fixedMousewheel();" class="btn-xs btn btn-secondary">on</button>
-														<button id="selectBtn2" onClick="fixedMousewheel();" class="btn btn-xs rounded">off</button>
+													<div id="fixedenableselection">
+														<div class="px-3 py-1">mousewheel: 
+															<button id="selectBtn1" onClick="fixedMousewheel();" class="btn-xs btn btn-secondary">on</button>
+															<button id="selectBtn2" onClick="fixedMousewheel();" class="btn btn-xs rounded">off</button>
+														</div>
 													</div>
 												</div>
 											</div>
