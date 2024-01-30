@@ -259,7 +259,7 @@ limitations under the License.
 			<cfloop query="getSubloans">
 				<cfset transaction_id = getSubloans.transaction_id>
 				<cf_getLoanFormInfo transaction_id="#getSubloans.transaction_id#">
-				<cfquery name="getLoan" dbtype="query">
+				<cfquery name="getSubloan" dbtype="query">
 					select * from getLoanMCZ
 				</cfquery>
 				<cfdocumentsection name="Subloan Header">
@@ -268,7 +268,7 @@ limitations under the License.
 					</div>
 					<div style="text-align: center; font-size: 1em;">
 						<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
-						#getLoan.collection#
+						#getSubloan.collection#
 					</div>
 					<div style="text-align: center; font-size; 1em;">
 						Museum of Comparative Zoology, Harvard University
@@ -277,7 +277,7 @@ limitations under the License.
 						<tr>
 							<td style="width: 55%; vertical-align: top;">
 								<div>
-									This document acknowledges the Loan of specimens <strong>To:</strong> #getLoan.recipientInstitutionName#.
+									This document acknowledges the Loan of specimens <strong>To:</strong> #getSubloan.recipientInstitutionName#.
 								</div>
 								<div>			
 									<strong>Borrower:</strong> #recAgentName#
@@ -293,9 +293,9 @@ limitations under the License.
 									<cfif NOT (loan_status EQ "open" OR loan_status EQ "in process") >
 										<li style="list-style-type: none"><strong>Status:</strong> #loan_status#</strong>
 									</cfif>
-									<li style="list-style-type: none"><strong>Category:</strong> #getLoan.loan_type#</strong>
-									<li style="list-style-type: none"><strong>Loan Number:</strong> #getLoan.loan_number#</strong>
-									<cfif getLoan.loan_type EQ "exhibition-subloan">
+									<li style="list-style-type: none"><strong>Category:</strong> #getSubloan.loan_type#</strong>
+									<li style="list-style-type: none"><strong>Loan Number:</strong> #getSubloan.loan_number#</strong>
+									<cfif getSubloan.loan_type EQ "exhibition-subloan">
 										<cfloop query="getMasterLoan">
 											<li style="list-style-type: none"><strong>Subloan of:</strong> #getMasterLoan.loan_number#</strong>
 										</cfloop>
