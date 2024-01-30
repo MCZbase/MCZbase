@@ -3806,15 +3806,15 @@ Target JSON:
 	})( window );
 </script>
 	<div class="px-3 py-1">mousewheel: 
-		<button class="selectBtn1" onClick="fixedMousewheel();" class="btn-xs btn rounded">on</button>
-		<button class="selectBtn2" onClick="fixedMousewheel();" class="btn btn-xs rounded">off</button>
+		<button class="s" onClick="fixedMousewheel();" class="selectBtn1 btn-xs btn rounded">on</button>
+		<button onClick="fixedMousewheel();" class="selectBtn2 btn btn-xs rounded">off</button>
 	</div>
 <script>
 function fixedMousewheel(){
    $('.selectBtn1').on('click' , function(){
       $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: true});
    });
-	$('##selectBtn2').on('click' , function(){
+	$('.selectBtn2').on('click' , function(){
       $("##fixedsearchResultsGrid").jqxGrid({enablemousewheel: false});
    });
 };
