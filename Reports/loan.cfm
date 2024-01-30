@@ -280,12 +280,12 @@ limitations under the License.
 									This document acknowledges the Loan of specimens <strong>To:</strong> #getSubloan.recipientInstitutionName#.
 								</div>
 								<div>			
-									<strong>Borrower:</strong> #recAgentName#
+									<strong>Borrower:</strong> #getSubloan.recAgentName#
 								</div>
 								<div>
 									<strong>Shipped To:</strong><br>
-									#replace(replace(shipped_to_address,chr(10),"<br>","all"),"&","&amp;","all")#
-									#outside_email_address#<br>#outside_phone_number#
+									#replace(replace(getSubloan.shipped_to_address,chr(10),"<br>","all"),"&","&amp;","all")#
+									#getSubloan.outside_email_address#<br>#outside_phone_number#
 								</div>
 							</td>
 							<td style="width: 45%; vertical-align: top;">
