@@ -215,7 +215,7 @@ limitations under the License.
 				</div>
 				<div style="margin: 0px; border: 1px solid black; ">
 					<h2 style="font-size: small; margin-top: 2px;">Terms and Conditions</h2>
-					<ol style="margin-left: 0px;">
+					<ol style="margin-left: 1em;">
 						<li>Specimens are loaned to bona fide institutions, not to individuals, for non-commercial use (e.g., scientific research, education, exhibition). </li>
 						<li> Specimens are for sole use of the recipient for the specific purposes outlined in the loan request. Prior written permission from the MCZ is needed for any activities not specified in the loan request.</li>
 						<li>Loans may not be transferred to other institutions without express written permission.
