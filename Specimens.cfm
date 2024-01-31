@@ -229,8 +229,8 @@ limitations under the License.
 		<main id="content" class="container-fluid">
 <!---TODO:--->
 			<!---Make results stick to top without room to scroll up. in other words results row sticks to top of browser in view and results scroll under it. See W3Schools and other examples--->
-			<div class="row mr-0 mr-md-2 mr-xl-4">
-				<div class="col-12 mt-1 pb-3 mr-0 mr-md-2 mr-xl-4">
+			<div class="row mr-0 mr-md-2 mr-xl-3">
+				<div class="col-12 mt-1 pb-3 mr-0 mr-md-2 mr-xl-5">
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
