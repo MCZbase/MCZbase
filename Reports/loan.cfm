@@ -155,7 +155,7 @@ limitations under the License.
 				<tr>
 					<td style="width: 55%; vertical-align: top;">
 						<div>
-							This document acknowledges the Loan of specimens <strong>To:</strong> #getLoan.recipientInstitutionName#.
+							This document acknowledges the loan of specimens <strong>To:</strong> #getLoan.recipientInstitutionName#.
 						</div>
 						<div>			
 							<strong>Borrower:</strong> #recAgentName#
@@ -171,7 +171,11 @@ limitations under the License.
 							<cfif NOT (loan_status EQ "open" OR loan_status EQ "in process") >
 								<li style="list-style-type: none"><strong>Status:</strong> #loan_status#</strong>
 							</cfif>
-							<li style="list-style-type: none"><strong>Category:</strong> #getLoan.loan_type#</strong>
+							<cfif getLoan.loan_type EQ "exhibition-master">
+								<li style="list-style-type: none"><strong>Category:</strong> Exhibition Loan</strong>
+							<cfelse>
+								<li style="list-style-type: none"><strong>Category:</strong> #getLoan.loan_type#</strong>
+							</cfif>
 							<li style="list-style-type: none"><strong>Loan Number:</strong> #getLoan.loan_number#</strong>
 							<cfif getLoan.loan_type EQ "exhibition-subloan">
 								<cfloop query="getMasterLoan">
@@ -209,9 +213,9 @@ limitations under the License.
 				<div>
 					<strong>Instructions:</strong> #loan_instructions#
 				</div>
-				<div style="margin: 0px; border: 1px solid black;">
-					<h2 style="font-size: small;">Terms and Conditions</h2>
-					<ol>
+				<div style="margin: 0px; border: 1px solid black; ">
+					<h2 style="font-size: small; margin-top: 2px;">Terms and Conditions</h2>
+					<ol style="margin-left: 0px;">
 						<li>Specimens are loaned to bona fide institutions, not to individuals, for non-commercial use (e.g., scientific research, education, exhibition). </li>
 						<li> Specimens are for sole use of the recipient for the specific purposes outlined in the loan request. Prior written permission from the MCZ is needed for any activities not specified in the loan request.</li>
 						<li>Loans may not be transferred to other institutions without express written permission.
@@ -277,7 +281,7 @@ limitations under the License.
 						<tr>
 							<td style="width: 55%; vertical-align: top;">
 								<div>
-									This document acknowledges the Loan of specimens <strong>To:</strong> #getSubloan.recipientInstitutionName#.
+									This document acknowledges the loan of specimens <strong>To:</strong> #getSubloan.recipientInstitutionName#.
 								</div>
 								<div>			
 									<strong>Borrower:</strong> #getSubloan.recAgentName#
