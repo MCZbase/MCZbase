@@ -141,17 +141,17 @@ limitations under the License.
 		</cfdocumentitem>
 
 		<cfdocumentsection name="Loan Header">
-			<div style="text-align: center; font-size: 1.2em;">
+			<div style="text-align: center; font-size: 1.2em;font-family: 'Gill Sans', 'Gill Sans MT', 'Myriad Pro', 'DejaVu Sans Condensed', Helvetica, Arial, 'sans-serif'">
 				<strong>Invoice of Specimens</strong>
 			</div>
-			<div style="text-align: center; font-size: 1em;">
+			<div style="text-align: center; font-size: 1em;font-family: 'Gill Sans', 'Gill Sans MT', 'Myriad Pro', 'DejaVu Sans Condensed', Helvetica, Arial, 'sans-serif'">
 				<!--- TODO: Comment, inconsistent use of Department and Collection, should list Department, except for Cryo, fix in custom tag? --->
 				#getLoan.collection#
 			</div>
-			<div style="text-align: center; font-size; 1em;">
+			<div style="text-align: center; font-size; 1em; font-family: 'Gill Sans', 'Gill Sans MT', 'Myriad Pro', 'DejaVu Sans Condensed', Helvetica, Arial, 'sans-serif'">
 				Museum of Comparative Zoology, Harvard University
 			</div>
-			<table style="font-size: small; padding: 0px; margin: 0px;">
+			<table style="font-size: small; padding: 0px; margin: 0px;font-family: 'Gill Sans', 'Gill Sans MT', 'Myriad Pro', 'DejaVu Sans Condensed', Helvetica, Arial, 'sans-serif'">
 				<tr>
 					<td style="width: 55%; vertical-align: top;">
 						<div>
