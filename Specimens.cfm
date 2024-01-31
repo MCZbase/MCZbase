@@ -186,6 +186,12 @@ limitations under the License.
 		margin: 0px 0px 30px 0px;
 	}
 }
+</style>
+<style>
+.ns {
+	display:none;
+}
+
 .fas {
 	font-size: 17px;
 }
