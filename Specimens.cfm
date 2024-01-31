@@ -310,7 +310,7 @@ limitations under the License.
 										Search Help
 									</button>
 									<aside class="collapse collapseStyle" id="collapseFixed">
-										<div class="card card-body pl-4 py-3 pr-3 border-danger">
+										<div class="card card-body pl-4 py-3 pr-3 border-dark">
 											<h2 class="headerSm">Basic Search Help</h2>
 											<p>
 												This help applies to the basic specimen search and some other search forms in MCZbase.
