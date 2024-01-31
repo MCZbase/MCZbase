@@ -186,26 +186,6 @@ limitations under the License.
 		margin: 0px 0px 30px 0px;
 	}
 }
-</style>
-<style>
-.ns {
-	display:none;
-}
-##IDP ul {
-	display:none;
-}
-##IDP.sticky{
-	display: flex !important;
-	position: -webkit-sticky !important;
-	position: sticky !important;
-	top: 0 !important;
-	background-color: ##deebec;
-	border: 1px solid ##c7c7c7 !important;
-	padding: 10px 25px;
-	font-size: 14px;
-	z-index: 2;
-}
-##IDP.sticky ul {display:flex !important;}
 .fas {
 	font-size: 17px;
 }
