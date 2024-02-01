@@ -503,7 +503,7 @@
 									<cfset isNext = "yes">
 								</cfif>
 							</cfif>
-						<cfif isdefined("result_id") and len(result_id) gt 0>
+						<cfelseif isdefined("result_id") and len(result_id) gt 0>
 						   <cfset isPrev = "no">
 							<cfset isNext = "no">
 							<cfquery name="positionInResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
