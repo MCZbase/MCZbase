@@ -957,6 +957,9 @@ limitations under the License.
 					cataloged_item.collection_object_id=identification.collection_object_id and
 					accepted_id_fg=1 and
 					part_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_part_name#">
+					<cfif len(exist_preserve_method) gt 0>
+						and preserve_method =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exist_preserve_method#">
+					</cfif>
 					<cfif len(existing_lot_count_modifier) gt 0>
 						and lot_count_modifier=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#existing_lot_count_modifier#">
 					</cfif>
