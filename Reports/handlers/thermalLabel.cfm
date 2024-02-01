@@ -77,22 +77,22 @@ limitations under the License.
 		</cfquery>
 		<cfset orientation = "portrait">
 		<cfset columns = 1>
-		<!---<cfset tableWidth = 'width: 4in;'>--->
-		<cfset tableWidth = 'width: 384px;'>
+		<!---<cfset tableWidth = 'width: 384px;'>--->
+		<cfset tableWidth = 'width: 4in;'>
 
 		<!---<cfset labelWidth = 'width: 3.5in;'>--->
-		<cfset labelWidth = 'width: 374px;'>
+		<cfset labelWidth = 'width: 3.5in;'>
 
 		<cfset labelBorder = 'border: 1px solid black;'>
+		<!---<cfset labelHeight = 'height: 470px;'>--->
+		<cfset labelHeight = 'height: 4.5in;'>
+		
 
-		<!---<cfset labelHeight = 'height: 2.0in;'>--->
-		<cfset labelHeight = 'height: 470px;'>
-
-		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 5px;'>
+		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 0.25in;'>
 
 		<cfset pageheight = "5"><!--- should be tunable by number of records --->
 
-		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="4" pageheight="#pageheight#" margintop=".15" marginbottom=".15" marginleft=".1" marginright=".1" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
+		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="4" pageheight="#pageheight#" margintop=".25in" marginbottom=".25" marginleft=".25" marginright=".25" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
 				<cfloop query="getWhoiNumbers">
 
@@ -100,7 +100,7 @@ limitations under the License.
 						<div style="text-align: center;">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
-						<div style="text-align: center; padding-bottom: .5em; border-bottom: 1px solid;margin-bottom: .5em;">
+						<div style="text-align: center; padding-bottom: .08in; border-bottom: 1px solid;margin-bottom: .08in;">
 							WHOI Jar Number #getWhoiNumbers.whoi_number#
 						</div>
 
@@ -132,7 +132,7 @@ limitations under the License.
 								
 								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
-										<tr style="#labelWidth# vertical-align: top;padding-top: 5px;">
+										<tr style="#labelWidth# vertical-align: top;padding-top: .05in;padding-left: 0.25in; padding-right:0.25in;">
 											<td style="vertical-align: top;">
 												<span style="font: 0.8em 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
 											</td>
