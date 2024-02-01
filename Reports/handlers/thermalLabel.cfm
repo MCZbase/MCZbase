@@ -92,7 +92,7 @@ limitations under the License.
 
 		<cfset pageheight = "5"><!--- should be tunable by number of records --->
 
-		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="4" pageheight="#pageheight#" margintop=".25in" marginbottom=".25" marginleft=".25" marginright=".25" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
+		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="4" pageheight="#pageheight#" margintop=".25" marginbottom=".25" marginleft=".25" marginright=".25" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
 				<cfloop query="getWhoiNumbers">
 
