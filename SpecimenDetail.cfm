@@ -284,7 +284,7 @@
         <cfset sciname = '#replace(Scientific_Name," or ","<span style='font-style:normal;'>&nbsp;or&nbsp;</span>")#'>
     #sciname#  <!---&nbsp; &nbsp;     <cfif isDefined("cited_as") and len(cited_as) gt 0>
         <span style="font-size: 15px;">#typeName#</span>
-      </cfif>--->
+      </cfif>---><!--- " --->
     </li>
 	<cfif encumbrance_action does not contain "mask parts" OR
 					(isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user"))>
@@ -476,7 +476,7 @@
 						<input type="hidden" name="Srch" value="Part">
 						<input type="hidden" name="collecting_event_id" value="#detail.collecting_event_id#">
 						<cfif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0>
-						    <cfset isPrev = "no">
+						   <cfset isPrev = "no">
 							<cfset isNext = "no">
 							<cfset currPos = 0>
 
@@ -503,14 +503,82 @@
 									<cfset isNext = "yes">
 								</cfif>
 							</cfif>
+						<cfelseif isdefined("result_id") and len(result_id) gt 0>
+						   <cfset isPrev = "no">
+							<cfset isNext = "no">
+							<cfquery name="positionInResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT pagesort  
+								FROM user_search_table
+								WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+									AND result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+							</cfquery>
+							<cfif positionInResult.recordcount GT 0>
+								<cfquery name="resultTopBottom" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT min(pagesort) minval, max(pagesort) maxval 
+									FROM user_search_table
+									WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+								</cfquery>
+								<cfquery name="getFirst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT collection_object_id
+									FROM user_search_table
+									WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+										AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resultTopBottom.min#">
+								</cfquery>
+								<cfset firstID = getFirst.collection_object_id>
+								<cfquery name="getLast" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT collection_object_id
+									FROM user_search_table
+									WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+										AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#resultTopBottom.min#">
+								</cfquery>
+								<cfset lastID = getLast.collection_object_id>
+								<cfif positionInResult.pagesort GT resultTopBottom.minval>
+									<cfset isPrevious = "yes">
+									<!--- find the next page sort value below the current position, this may not be pagesort - 1 if records have been removed --->
+									<cfquery name="previousPageSort" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT max(pagesort) prevval 
+										FROM user_search_table
+										WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+											AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#positionInResult.pagesort#">
+									</cfquery>
+									<cfquery name="previous" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT collection_object_id
+										FROM user_search_table
+										WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+											AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#previousPageSort.prevval#">
+									</cfquery>
+									<cfset prevID = previous.collection_object_id>
+								</cfif>
+								<cfif positionInResult.pagesort LT resultTopBottom.maxval>
+									<!--- find the next page sort value above the current position, this may not be pagesort+1 if records have been removed --->
+									<cfset isNext = "yes">
+									<cfquery name="nextPageSort" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT min(pagesort) nextval 
+										FROM user_search_table
+										WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+											AND pagesort > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#positionInResult.pagesort#">
+									</cfquery>
+									<cfquery name="getNext" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT collection_object_id
+										FROM user_search_table
+										WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+											AND pagesort < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextPageSort.nextval#">
+									</cfquery>
+									<cfset nextID = getNext.collection_object_id>
+								</cfif>
+							</cfif>
 						<cfelse>
 							<cfset isNext="">
 							<cfset isPrev="">
 						</cfif>
 						<ul id="navbar">
+							<cfset resultBit = "">
+							<cfif isdefined("result_id") and len(result_id) gt 0>
+								<cfset resultBit = "&result_id=#result_id#">
+							</cfif>
 							<cfif isPrev is "yes">
-								<img src="/images/first.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#firstID#'" alt="[ First Record ]">
-								<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#prevID#'" alt="[ Previous Record ]">
+								<img src="/images/first.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#firstID##resultBit#'" alt="[ First Record ]">
+								<img src="/images/previous.gif" class="likeLink"  onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#prevID##resultBit#'" alt="[ Previous Record ]">
 							<cfelse>
 								<img src="/images/no_first.gif" alt="[ inactive button ]">
 								<img src="/images/no_previous.gif" alt="[ inactive button ]">
@@ -553,8 +621,8 @@
 								<span onclick="loadEditApp('catalog')" class="likeLink" id="BTN_catalog">Catalog</span>
 							</li>
 							<cfif isNext is "yes">
-								<img src="/images/next.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#nextID#'" alt="[ Next Record ]">
-								<img src="/images/last.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#lastID#'" alt="[ Last Record ]">
+								<img src="/images/next.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#nextID##resultBit#'" alt="[ Next Record ]">
+								<img src="/images/last.gif" class="likeLink" onclick="document.location='/SpecimenDetail.cfm?collection_object_id=#lastID##resultBit#'" alt="[ Last Record ]">
 							<cfelse>
 								<img src="/images/no_next.gif" alt="[ inactive button ]">
 								<img src="/images/no_last.gif" alt="[ inactive button ]">
