@@ -132,7 +132,7 @@ limitations under the License.
 								
 								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
-										<tr style="#labelWidth# vertical-align: top;padding-top: .05in;padding-left: 0.25in; padding-right:0.25in;">
+										<tr style="#labelWidth# vertical-align: top;padding-top: .05in;">
 											<td style="vertical-align: top;">
 												<span style="font: 0.8em 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
 											</td>
