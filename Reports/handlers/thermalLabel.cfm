@@ -76,19 +76,12 @@ limitations under the License.
 			ORDER BY collection, whoi_number
 		</cfquery>
 		<cfset orientation = "portrait">
-			<cfset columns = 1>
+		<cfset columns = 1>
 		<!--- this is the largest width (class of <table>) inside the page width of "4in" (on <cfdocument>--->
-		<cfset tableWidth = 'width: 3.5in;'>
+		<cfset tableStyle= 'width: 3.5in;'>
 
-		<!---this is a class on the table <tr> (with #labelWidth# vertical-align: top;padding-top: 5px;)--->
-		<cfset labelWidth = 'width: 3.4in;padding: .05in;vertical-align: top;'>
-
-		<cfset labelBorder = 'border: 1px solid black;'>
-		<!------>
-		<cfset labelHeight = 'height: 4in;'>
-		
-
-		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
+		<!---this is a class on the table <tr> --->
+		<cfset rowStyle = 'width: 3.4in;padding: .05in;vertical-align: top;'>
 
 		<cfset pageheight = "5"><!--- should be tunable by number of records --->
 
@@ -98,7 +91,7 @@ limitations under the License.
 				<cfloop query="getWhoiNumbers">
 
 					<cfdocumentsection name="aLabel">
-						<div style="text-align: center; padding-top: 0.11in">
+						<div style="text-align: center; padding-top: 0.11in;">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
 						<div style="text-align: center; padding-bottom: .08in; border-bottom: 1px solid;margin-bottom: .08in;">
@@ -131,9 +124,9 @@ limitations under the License.
 									<strong style="font: 9pt 'Times-Roman';">#getTaxa.sci_name_with_auth#</strong>
 								</div>
 								
-								<table style="#tableWidth#">
+								<table style="#tableStyle#">
 									<cfloop query="getSpecificItems">
-										<tr style="#labelWidth# vertical-align: top;padding-top: .05in;padding-left: 0.25in; padding-right:0.25in;">
+										<tr style="#rowStyle#">
 											<td style="vertical-align: top;">
 												<span style="font: 8pt 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
 											</td>
