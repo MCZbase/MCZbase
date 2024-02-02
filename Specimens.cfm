@@ -2586,10 +2586,11 @@ Target JSON:
 			retval = retval + '<a id="aLink'+row+'" target="_blank" href="/guid/' + value + '"';
 			retval = retval + ' onClick=" event.preventDefault(); $(&##39;##aLinkForm'+row+'&##39;).submit();" ';  
 			retval = retval + '>'+value+'</a>';
+			retval = retval + mediaMarker;
 			retval = retval + '<form action="/guid/'+value+'" method="post" target="_blank" id="aLinkForm'+row+'">';
    		retval = retval + '<input type="hidden" name="result_id" value="'+result_id+'" />';
 			retval = retval + '</form>';
-			retval = retval + mediaMarker+'</span>';
+			retval = retval + '</span>';
 			return retval;
 			// return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '">'+value+'</a>'+mediaMarker+'</span>';
 		};
