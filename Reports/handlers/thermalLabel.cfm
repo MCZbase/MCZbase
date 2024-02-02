@@ -124,24 +124,24 @@ limitations under the License.
 	
 								<cfif previousTaxon NEQ highertaxa>
 									<div style="text-align: left; font-size: small;">
-										<strong style="font: 12pt;">#getTaxa.highertaxa#</strong>
+										<strong style="font: 10pt;">#getTaxa.highertaxa#</strong>
 									</div>
 								</cfif>
 								<div style="text-align: left;">
-									<strong style="font: 12pt 'Times-Roman';">#getTaxa.sci_name_with_auth#</strong>
+									<strong style="font: 10pt 'Times-Roman';">#getTaxa.sci_name_with_auth#</strong>
 								</div>
 								
 								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
 										<tr style="#labelWidth# vertical-align: top;padding-top: .05in;padding-left: 0.25in; padding-right:0.25in;">
 											<td style="vertical-align: top;">
-												<span style="font: 10pt 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
+												<span style="font: 9pt 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
 											</td>
 											<td style="vertical-align: top;">
-												<span style="font: 10pt 'Times-Roman';">#getSpecificItems.spec_locality#</span>
+												<span style="font: 9pt 'Times-Roman';">#getSpecificItems.spec_locality#</span>
 											</td>
 											<td style="vertical-align: top;">
-												<span style="font: 10pt 'Times-Roman';">#getSpecificItems.alc_count# spec.</span>
+												<span style="font: 9pt 'Times-Roman';">#getSpecificItems.alc_count# spec.</span>
 											</td>
 										</tr>
 									</cfloop>
