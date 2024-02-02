@@ -2584,7 +2584,7 @@ Target JSON:
 			var result_id = $('##result_id_fixedSearch').val();
 			var retval = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">';
 			retval = retval + '<a id="aLink'+row+'" target="_blank" href="/guid/' + value + '"';
-			retval = retval + ' onClick=" event.preventDefault(); $.ajax({type:\x22post\x22,url:\x22/guid/'+value+'\x22,data:{result_id:\x22'+result_id+'\x22}});" ';  
+			retval = retval + ' onClick=" event.preventDefault(); $.ajax({type:&quot;post&quot;,url:&quot;/guid/'+value+'&quot;,data:{result_id:&quot;'+result_id+'&quot;}});" ';  
 			<!---  " --->
 			retval = retval + '>'+value+'</a>';
 			retval = retval + mediaMarker+'</span>';
