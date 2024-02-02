@@ -77,27 +77,27 @@ limitations under the License.
 		</cfquery>
 		<cfset orientation = "portrait">
 		<cfset columns = 1>
-		<!---<cfset tableWidth = 'width: 384px;'>--->
-		<cfset tableWidth = 'width: 4in;'>
+		<!--- this is the largest width (class of <table>) inside the page width of "4in" (on <cfdocument>--->
+		<cfset tableWidth = 'width: 3.6in;'>
 
-		<!---<cfset labelWidth = 'width: 3.5in;'>--->
-		<cfset labelWidth = 'width: 3.5in;'>
+		<!---this is a class on the table <tr> --->
+		<cfset labelWidth = 'width: 3.5in; padding:.05in; vertical-align: top;'>
 
 		<cfset labelBorder = 'border: 1px solid black;'>
-		<!---<cfset labelHeight = 'height: 470px;'>--->
-		<cfset labelHeight = 'height: 4.5in;'>
+		<!------>
+		<cfset labelHeight = 'height: 4in;'>
 		
 
-		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder# padding: 0.25in;'>
+		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 
 		<cfset pageheight = "5"><!--- should be tunable by number of records --->
 
-		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="4" pageheight="#pageheight#" margintop=".25" marginbottom=".25" marginleft=".25" marginright=".25" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
+		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="4" pageheight="#pageheight#" margintop=".1" marginbottom=".15" marginleft=".15" marginright=".15" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
 				<cfloop query="getWhoiNumbers">
 
 					<cfdocumentsection name="aLabel">
-						<div style="text-align: center;">
+						<div style="text-align: center;padding-top: .11in;">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
 						<div style="text-align: center; padding-bottom: .08in; border-bottom: 1px solid;margin-bottom: .08in;">
@@ -123,24 +123,24 @@ limitations under the License.
 	
 								<cfif previousTaxon NEQ highertaxa>
 									<div style="text-align: left; font-size: small;">
-										<strong style="font: 1em Helvetica;">#getTaxa.highertaxa#</strong>
+										<strong style="font: 9pt Gotham, 'Helvetica Neue', Helvetica, Arial, 'sans-serif';">#getTaxa.highertaxa#</strong>
 									</div>
 								</cfif>
 								<div style="text-align: left;">
-									<strong style="font: 1em 'Times-Roman';">#getTaxa.sci_name_with_auth#</strong>
+									<strong style="font: 9pt 'Times-Roman';">#getTaxa.sci_name_with_auth#</strong>
 								</div>
 								
 								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
-										<tr style="#labelWidth# vertical-align: top;padding-top: .05in;padding-left: 0.25in; padding-right:0.25in;">
+										<tr style="#labelWidth#">
 											<td style="vertical-align: top;">
-												<span style="font: 0.8em 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
+												<span style="font: 8pt 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
 											</td>
 											<td style="vertical-align: top;">
-												<span style="font: 0.8em 'Times-Roman';">#getSpecificItems.spec_locality#</span>
+												<span style="font: 8pt 'Times-Roman';">#getSpecificItems.spec_locality#</span>
 											</td>
 											<td style="vertical-align: top;">
-												<span style="font: 0.8em 'Times-Roman';">#getSpecificItems.alc_count# spec.</span>
+												<span style="font: 8pt 'Times-Roman';">#getSpecificItems.alc_count# spec.</span>
 											</td>
 										</tr>
 									</cfloop>
