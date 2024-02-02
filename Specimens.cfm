@@ -2582,17 +2582,19 @@ Target JSON:
 				}
 			}
 			var result_id = $('##result_id_fixedSearch').val();
-			var retval = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">';
-			retval = retval + '<a id="aLink'+row+'" target="_blank" href="/guid/' + value + '"';
-			retval = retval + ' onClick=" event.preventDefault(); $(&##39;##aLinkForm'+row+'&##39;).submit();" ';  
-			retval = retval + '>'+value+'</a>';
-			retval = retval + mediaMarker;
-			retval = retval + '<form action="/guid/'+value+'" method="post" target="_blank" id="aLinkForm'+row+'">';
-   		retval = retval + '<input type="hidden" name="result_id" value="'+result_id+'" />';
-			retval = retval + '</form>';
-			retval = retval + '</span>';
-			return retval;
-			// return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '">'+value+'</a>'+mediaMarker+'</span>';
+			// This fails as /guid/ is passed as an error page to errors/missing.cfm and post is lost in the process.
+			// It might work if /guid/ is rewritten by apache to a request to a guid handler.cfm file instead. 
+			//var retval = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">';
+			//retval = retval + '<a id="aLink'+row+'" target="_blank" href="/guid/' + value + '"';
+			//retval = retval + ' onClick=" event.preventDefault(); $(&##39;##aLinkForm'+row+'&##39;).submit();" ';  
+			//retval = retval + '>'+value+'</a>';
+			//retval = retval + mediaMarker;
+			//retval = retval + '<form action="/guid/'+value+'" method="post" target="_blank" id="aLinkForm'+row+'">';
+   		//retval = retval + '<input type="hidden" name="result_id" value="'+result_id+'" />';
+			//retval = retval + '</form>';
+			//retval = retval + '</span>';
+			//return retval;
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '">'+value+'</a>'+mediaMarker+'</span>';
 		};
 		var keyword_GuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
