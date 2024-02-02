@@ -117,7 +117,7 @@ limitations under the License.
 	
 								<cfif previousTaxon NEQ highertaxa>
 									<div style="text-align: left; font-size: small;">
-										<strong style="font: 9pt;">#getTaxa.highertaxa#</strong>
+										<strong style="font: 9pt Helvetica;">#getTaxa.highertaxa#</strong>
 									</div>
 								</cfif>
 								<div style="text-align: left;">
