@@ -2583,9 +2583,10 @@ Target JSON:
 			}
 			var result_id = $('##result_id_fixedSearch').val();
 			var retval = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">';
-			retval = retval + '<a id="aLink'+row+'" target="_blank" href="/guid/' + value + '>'+value+'</a>';
-			retval = retval + '<script> $("##aLink'+row+'").on("click",function(event){ event.preventDefault(); $.ajax({type:"post",url:"/guid/'+value+'",data:{result_id:"'+result_id+'"}}};);' + String.fromCharCode(60,47) + 'script>';  
-			<!---  ' --->
+			retval = retval + '<a id="aLink'+row+'" target="_blank" href="/guid/' + value + '"';
+			retval = retval + ' onClick=" event.preventDefault(); $.ajax({type:\x22post\x22,url:\x22/guid/'+value+'\x22,data:{result_id:\x22'+result_id+'\x22}});" ';  
+			<!---  " --->
+			retval = retval + '>'+value+'</a>';
 			retval = retval + mediaMarker+'</span>';
 			return retval;
 			// return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '">'+value+'</a>'+mediaMarker+'</span>';
