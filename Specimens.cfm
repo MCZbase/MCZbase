@@ -2581,10 +2581,11 @@ Target JSON:
 					mediaMarker = " <a href='/media/findMedia.cfm?execute=true&method=getMedia&related_cataloged_item="+ rowData['GUID'] +"' target='_blank'><img src='/shared/images/Image-x-generic.png' height='20' width='20'></a>"
 				}
 			}
+			var result_id = $('##result_id_fixedSearch').val();
 			var retval = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">';
-			retval = retval + '<a id="aLink'+row+'" target="_blank" href="/guid/' + value + '>'+value+'</a>'
-			retval = retval + '<script> $("##aLink'+row+'").on("click",function(event){ event.preventDefault(); $.ajax({type:"post",url:"/guid/'+value+'",data:{result_id:"'+result_id+'"}}};);</script>';  
-			<!--- '  --->
+			retval = retval + '<a id="aLink'+row+'" target="_blank" href="/guid/' + value + '>'+value+'</a>';
+			retval = retval + '<script> $("##aLink'+row+'").on("click",function(event){ event.preventDefault(); $.ajax({type:"post",url:"/guid/'+value+'",data:{result_id:"'+result_id+'"}}};);<\/script>';  
+			<!---  ' --->
 			retval = retval + mediaMarker+'</span>';
 			return retval;
 			// return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '">'+value+'</a>'+mediaMarker+'</span>';
