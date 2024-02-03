@@ -78,20 +78,26 @@ limitations under the License.
 		<cfset orientation = "portrait">
 		<cfset columns = 1>
 		<!--- this is the largest width (class of <table>) inside the page width of "4in" (on <cfdocument>--->
-		<cfset tableStyle= 'width: 3.5in;'>
+		<cfset tableWidth = 'width: 3.6in;'>
 
 		<!---this is a class on the table <tr> --->
-		<cfset rowStyle = 'width: 3.4in;padding: .05in;vertical-align: top;'>
+		<cfset labelWidth = 'width: 3.5in; padding:.05in; vertical-align: top;'>
+
+		<cfset labelBorder = 'border: 1px solid black;'>
+		<!------>
+		<cfset labelHeight = 'height: 4in;'>
+		
+
+		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 
 		<cfset pageheight = "5"><!--- should be tunable by number of records --->
 
-
-		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="4" pageheight="#pageheight#" margintop=".15" marginbottom=".15" marginleft=".15" marginright=".15" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
+		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="4" pageheight="#pageheight#" margintop=".1" marginbottom=".15" marginleft=".15" marginright=".15" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
 				<cfloop query="getWhoiNumbers">
 
 					<cfdocumentsection name="aLabel">
-						<div style="text-align: center; padding-top: 0.11in;">
+						<div style="text-align: center;padding-top: .11in;">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
 						<div style="text-align: center; padding-bottom: .08in; border-bottom: 1px solid;margin-bottom: .08in;">
@@ -126,7 +132,7 @@ limitations under the License.
 								
 								<table style="#tableStyle#">
 									<cfloop query="getSpecificItems">
-										<tr style="#rowStyle#">
+										<tr style="#labelWidth#">
 											<td style="vertical-align: top;">
 												<span style="font: 8pt 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
 											</td>
