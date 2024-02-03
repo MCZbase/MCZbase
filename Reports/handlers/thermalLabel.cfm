@@ -26,8 +26,30 @@ limitations under the License.
 	 <cfset target = "Fluid_Consolidated_WHOI__Mala">
 </cfif>
 
+<cfset pageWidth = "4"><!--- fixed page width of 4" for thermal printer labels ---->
+
 <cfswitch expression = "#target#">
 	<cfcase value="Fluid_Consolidated_WHOI__Mala">
+		<!--- proof of concept for a thermal label produced from cfdocument --->
+		<!--- 
+		
+		Target layout, 4" wide, arbitrary height
+		
+		**********
+		
+		Museum of Comparative Zoology, Malacology
+		
+		WHOI Jar Number nnn  [per page]
+		
+		Higher Taxonomy [class order family]
+		
+		Identification  [group by]
+		Catalog Number  Locality   Count
+		Catalog Number  Locality   Count
+		
+		***********
+		
+		--->
 		<cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT DISTINCT
 				cataloged_item.collection_object_id,
@@ -77,26 +99,31 @@ limitations under the License.
 		</cfquery>
 		<cfset orientation = "portrait">
 		<cfset columns = 1>
-		<!--- this is the largest width (class of <table>) inside the page width of "4in" (on <cfdocument>--->
+
+		<!--- 
+			NOTE: The variable names here, tableWidth/labelWidth are used for consistency with the general case (see label.cfm) 
+			where the table has multiple columns with a table cell holding each label.  
+		--->
+		<!--- this is the largest width (class of <table>) inside the page width of "4in" (on <cfdocument>)--->
+		<!--- This ought to equal the cfdocument pagewidth minus the marginleft and marginright --->
+		<!--- Discrepancy of 0.1 in suggests the existence of a margin on the <table> or padding on its container --->
 		<cfset tableWidth = 'width: 3.6in;'>
 
-		<!---this is a class on the table <tr> --->
+		<!---this is a class on the table <tr>, TODO: Fix: but *** should be on the table <td> *** --->
 		<cfset labelWidth = 'width: 3.5in; padding:.05in; vertical-align: top;'>
 
-		<cfset labelBorder = 'border: 1px solid black;'>
-		<!------>
-		<cfset labelHeight = 'height: 4in;'>
-		
-
+		<!---Unused in this particular proof of concept label, likely will be needed in others, retain for reuse in other blocks if needed --->
+		<cfset labelBorder = 'border: 1px solid black;'><!--- not used on most thermal labels --->
+		<cfset labelHeight = 'height: 4.8in;'> <!--- here, pageheight minus margintop margin bottom, not true if multiple labels per page --->
 		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 
-		<cfset pageheight = "5"><!--- should be tunable by number of records --->
+		<cfset pageheight = "5"><!--- TODO: should be tunable by number of records --->
 
-		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="4" pageheight="#pageheight#" margintop=".1" marginbottom=".15" marginleft=".15" marginright=".15" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
+		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="#pageWidth#" pageheight="#pageheight#" margintop=".1" marginbottom=".15" marginleft=".15" marginright=".15" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
 				<cfloop query="getWhoiNumbers">
-
 					<cfdocumentsection name="aLabel">
+
 						<div style="text-align: center;padding-top: .11in;">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
@@ -145,126 +172,10 @@ limitations under the License.
 										</tr>
 									</cfloop>
 								</table>
-	
 						</cfloop>
 					</cfdocumentsection>
 					<cfdocumentitem type="pagebreak" />
 				</cfloop>
-
-<!--- 
-
-Target layout, 4" wide, arbitrary height
-
-**********
-
-Museum of Comparative Zoology, Malacology
-
-WHOI Jar Number nnn  [per page]
-
-Higher Taxonomy [class order family]
-
-Identification  [group by]
-Catalog Number  Locality   Count
-Catalog Number  Locality   Count
-
-***********
-
-
-Entomology consolidated query, with collector_number:
-
-select
-get_taxonomy(cataloged_item.collection_object_id,'family') family,
-
-mczbase.get_scientific_name_truncate(cataloged_item.collection_object_id,32) tsname,
-
--- obtain the first typestatus name, if any
-REGEXP_SUBSTR(
-   replace(
-      replace(MCZBASE.concattypestatus_label(cataloged_item.collection_object_id), '&', '&amp;')
-      ,'<BR>','|')
-   , '[^|]+',1,1
-) typestatusnames,
-
-cat_num as catalog_number,
-sea,
-state_prov,
-country,
-ocean_region,
-ocean_subregion,
-type_status,
-get_single_other_id_display(cataloged_item.collection_object_id, 'collector number') field_number,
-get_alcoholic_part_count(cataloged_item.collection_object_id) alc_count
-FROM
-cataloged_item,
-identification,
-collecting_event,
-locality,
-geog_auth_rec,
-citation
-WHERE
-cataloged_item.collection_object_id = identification.collection_object_id AND
-cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-collecting_event.locality_id = locality.locality_id AND
-locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-cataloged_item.collection_object_id = citation.collection_object_id (+) AND
-accepted_id_fg=1 AND cataloged_item.collection_object_id IN (#collection_object_id#)
-
----------
-
-Query for Fluid_ConsolidatedMultiTaxon__Mala_IZ 
-
-select
-GET_HIGHER_TAXA_LENLIMITED(cataloged_item.collection_object_id,80) highertaxa,
-get_scientific_name_auths(cataloged_item.collection_object_id) sci_name_with_auth,
-
--- obtain the first typestatus name, if any
-REGEXP_SUBSTR(
-   replace(
-      replace(MCZBASE.concattypestatus_label(cataloged_item.collection_object_id), '&', '&amp;')
-      ,'<BR>','|')
-   , '[^|]+',1,1
-) typestatusnames,
-
-
-cat_num as catalog_number,
-MCZBASE.GET_ALCOHOLIC_PART_COUNT(cataloged_item.collection_object_id) as alc_count,
---  Concatenate continent_ocean, ocean_region, ocean_subregion, sea and
---  trim leading duplicated ocean name from ocean_region, but
---  leave out ocean_region if any of ocean_subregion, sea, country, island_group
---  are populated.
-upper(continent_ocean) ||
-  upper(
-     decode(ocean_subregion||sea||country||island_group, null,
-         decode(ocean_region,null,'',
-         ':' || substr(ocean_region,instr(ocean_region,',')+1)
-         ),
-     '')
-  ) || 
-  decode(ocean_subregion,null,'',': ' || ocean_subregion) ||
-  decode(sea,null,'', ': ' || sea) as continent_ocean,
-country,
-state_prov
-FROM
-cataloged_item,
-identification,
-collecting_event,
-locality,
-geog_auth_rec,
-citation
-WHERE
-cataloged_item.collection_object_id = identification.collection_object_id AND
-cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-collecting_event.locality_id = locality.locality_id AND
-locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-cataloged_item.collection_object_id = citation.collection_object_id (+) AND
-accepted_id_fg=1 AND cataloged_item.collection_object_id IN (#collection_object_id#)
-
-order by get_scientific_name_auths(cataloged_item.collection_object_id), cat_num_prefix, cat_num
-
-
---->
-	
-
 			</cfoutput>
 		</cfdocument>
 	</cfcase>
