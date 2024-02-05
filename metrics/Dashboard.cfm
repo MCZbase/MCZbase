@@ -187,7 +187,7 @@ opacity:1
 			This week </button>
 		</div>
 	</div>
-	<img class="my-4 w-100 chartjs-render-monitor" src="/metrics/images/downloadChart.png" width="1610" height="678" style="display: block; width: 805px; height: 339px;"/>
+	<img class="my-4 w-100 chartjs-render-monitor" src="/metrics/images/downloadChart.png"  style="display: block;width:90%;"/>
 	<div class="w-100">
 		<h2>Collections Record Counts</h2>
 		<h3 class="float-left">New Acquisitions</h3>
