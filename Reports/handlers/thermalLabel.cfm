@@ -129,7 +129,7 @@ limitations under the License.
 						<div style="text-align: center;padding-top: .11in;font: 11pt Arial">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
-						<div style="text-align: center; padding-bottom: .07in; border-bottom: 1px solid;font: 11pt Arial;padding-top: .05in;margin-bottom: 0.5in;">
+						<div style="text-align: center; padding-bottom: .07in; border-bottom: 1px solid;font: 11pt Arial;padding-top: .05in;margin-bottom: 0.05in;">
 							WHOI Jar Number #getWhoiNumbers.whoi_number#
 						</div>
 
