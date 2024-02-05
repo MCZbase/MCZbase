@@ -45,18 +45,6 @@ limitations under the License.
 <link href="dashboard.css" rel="stylesheet">
 <style type="text/css">/* Chart.js */
 @-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style>
-<cfquery name="getStats" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select f.COLLECTION, ts.CATEGORY as "CITATION_TYPE",ts.type_status, count(distinct f.collection_object_id) as "NUMBER_OF_CITATIONS", count(distinct media_id) as "NUMBER_OF_IMAGES", 
-count(distinct mr.related_primary_key) as "NUMBER_OF_TYPES_WITH_IMAGES", to_char(co.coll_object_entered_date,'YYYY') as "ENTERED_DATE"
-from flat f, citation c, ctcitation_type_status ts, coll_object co,
-(select * from media_relations where media_relationship = 'shows cataloged_item') mr
-where f.collection_object_id=c.collection_object_id
-and c.type_status=ts.type_status
-and mr.related_primary_key(+) = f.collection_object_id
-and f.collection_object_id = co.collection_object_id
-and ts.category != 'Temp'
-group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
-</cfquery>
 
 <cfoutput>
 
@@ -73,7 +61,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
           </li>
           <li class="nav-item">
             <a class="nav-link" href="##">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+             <svg class="bi"><use xlink:href="#puzzle"></use></svg>
               Definitions
             </a>
           </li>
@@ -131,13 +119,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
           <li class="nav-item">
             <a class="nav-link" href="##">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-              Social engagement
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="##">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-              Year-end sale
+              Prior Years
             </a>
           </li>
         </ul>
