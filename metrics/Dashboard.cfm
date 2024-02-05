@@ -144,28 +144,32 @@ limitations under the License.
       <canvas class="my-4 w-100 chartjs-render-monitor" id="myChart" width="1610" height="678" style="display: block; width: 805px; height: 339px;"></canvas>
 
       <h2>Collections Record Counts</h2>
-		<select><option>Holdings</option><options>Acquired Cataloged Items</options></select>
+<div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Report
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><a href="##">Holdings</a></li>
+    <li><a href="##">New Acquisitions</a></li>
+    <li><a href="##">Loan Stats</a></li>
+	<li><a href="##">Holdings</a></li>
+    <li><a href="##">New Acquisitions</a></li>
+    <li><a href="##">Loan Stats</a></li>
+	 
+  </ul>
+</div>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
 			<tr>
 				<th>Collection</th>
-				<th>Acquired Cataloged Items in FY
-</th>
-				<th>Acquired Specimens in FY
-</th>
-				<th>New Records Entered in MCZbase in FY - Cataloged Items
-</th>
-				<th>Number of Genetic Samples added to Cryogenetic Facility in FY
-</th>
-				<th>Number of Cataloged Items with NCBI numbers
-</th>
-				<th>Number of NCBI numbers added in FY
-</th>
-				<th>Number of Accessions in FY
-</th>
-				<th>Number of Accessions - Items not Cataloged at end of this FY  (reported by collection)
-</th>
+				<th>Acquired Cataloged Items in FY</th>
+				<th>Acquired Specimens in FY</th>
+				<th>New Records Entered in MCZbase in FY - Cataloged Items</th>
+				<th>Number of Genetic Samples added to Cryogenetic Facility in FY</th>
+				<th>Number of Cataloged Items with NCBI numbers</th>
+				<th>Number of NCBI numbers added in FY</th>
+				<th>Number of Accessions in FY</th>
+				<th>Number of Accessions - Items not Cataloged at end of this FY  (reported by collection)</th>
 			</tr>
 		</thead>
 		<tbody>
