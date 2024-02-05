@@ -23,8 +23,6 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template = "/shared/component/functions.cfc">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-<cfset targetFile = "chart_data.csv">
-<cfset filePath = "/metrics/datafiles/">
 <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">
 <meta name="theme-color" content="#563d7c">
 <style>
@@ -61,8 +59,8 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
 </cfquery>
 
 <cfoutput>
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Company name</a>
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="##">Company name</a>
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
