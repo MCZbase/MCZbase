@@ -43,7 +43,6 @@ limitations under the License.
 }
 </style>
 <!-- Custom styles for this template -->
-<link href="dashboard.css" rel="stylesheet">
 <style type="text/css">
 /* Chart.js */
 @-webkit-keyframes chartjs-render-animation {
