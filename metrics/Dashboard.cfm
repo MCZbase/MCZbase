@@ -172,7 +172,7 @@ group by f.collection, ts.type_status, co.coll_object_entered_date, ts.category
         <table class="table table-striped table-sm">
           <thead>
             <tr>
-              <th>#</th>
+              <th>##</th>
               <th>Header</th>
               <th>Header</th>
               <th>Header</th>
