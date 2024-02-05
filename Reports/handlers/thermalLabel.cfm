@@ -117,9 +117,9 @@ limitations under the License.
 		<cfset labelHeight = 'height: 4.8in;'> <!--- here, pageheight minus margintop margin bottom, not true if multiple labels per page --->
 		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 
-		<cfset pageheight = "5"><!--- TODO: should be tunable by number of records --->
-
-		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="#pageWidth#" pageheight="#pageheight#" margintop=".1" marginbottom=".15" marginleft=".15" marginright=".15" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
+		<cfset pageHeight = "5"><!--- TODO: should be tunable by number of records --->
+		<cfset pageWidth = "4">
+		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="#pageWidth#" pageheight="#pageHeight#" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 
 			<cfoutput>
 				<cfloop query="getWhoiNumbers">
