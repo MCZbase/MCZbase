@@ -143,136 +143,169 @@ limitations under the License.
 
       <canvas class="my-4 w-100 chartjs-render-monitor" id="myChart" width="1610" height="678" style="display: block; width: 805px; height: 339px;"></canvas>
 
-      <h2>Section title</h2>
+      <h2>Collections Record Counts</h2>
+		<select><option>Holdings</option><options>Acquired Cataloged Items</options></select>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
-            <tr>
-              <th>##</th>
-              <th>Header</th>
-              <th>Header</th>
-              <th>Header</th>
-              <th>Header</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1,001</td>
-              <td>Lorem</td>
-              <td>ipsum</td>
-              <td>dolor</td>
-              <td>sit</td>
-            </tr>
-            <tr>
-              <td>1,002</td>
-              <td>amet</td>
-              <td>consectetur</td>
-              <td>adipiscing</td>
-              <td>elit</td>
-            </tr>
-            <tr>
-              <td>1,003</td>
-              <td>Integer</td>
-              <td>nec</td>
-              <td>odio</td>
-              <td>Praesent</td>
-            </tr>
-            <tr>
-              <td>1,003</td>
-              <td>libero</td>
-              <td>Sed</td>
-              <td>cursus</td>
-              <td>ante</td>
-            </tr>
-            <tr>
-              <td>1,004</td>
-              <td>dapibus</td>
-              <td>diam</td>
-              <td>Sed</td>
-              <td>nisi</td>
-            </tr>
-            <tr>
-              <td>1,005</td>
-              <td>Nulla</td>
-              <td>quis</td>
-              <td>sem</td>
-              <td>at</td>
-            </tr>
-            <tr>
-              <td>1,006</td>
-              <td>nibh</td>
-              <td>elementum</td>
-              <td>imperdiet</td>
-              <td>Duis</td>
-            </tr>
-            <tr>
-              <td>1,007</td>
-              <td>sagittis</td>
-              <td>ipsum</td>
-              <td>Praesent</td>
-              <td>mauris</td>
-            </tr>
-            <tr>
-              <td>1,008</td>
-              <td>Fusce</td>
-              <td>nec</td>
-              <td>tellus</td>
-              <td>sed</td>
-            </tr>
-            <tr>
-              <td>1,009</td>
-              <td>augue</td>
-              <td>semper</td>
-              <td>porta</td>
-              <td>Mauris</td>
-            </tr>
-            <tr>
-              <td>1,010</td>
-              <td>massa</td>
-              <td>Vestibulum</td>
-              <td>lacinia</td>
-              <td>arcu</td>
-            </tr>
-            <tr>
-              <td>1,011</td>
-              <td>eget</td>
-              <td>nulla</td>
-              <td>Class</td>
-              <td>aptent</td>
-            </tr>
-            <tr>
-              <td>1,012</td>
-              <td>taciti</td>
-              <td>sociosqu</td>
-              <td>ad</td>
-              <td>litora</td>
-            </tr>
-            <tr>
-              <td>1,013</td>
-              <td>torquent</td>
-              <td>per</td>
-              <td>conubia</td>
-              <td>nostra</td>
-            </tr>
-            <tr>
-              <td>1,014</td>
-              <td>per</td>
-              <td>inceptos</td>
-              <td>himenaeos</td>
-              <td>Curabitur</td>
-            </tr>
-            <tr>
-              <td>1,015</td>
-              <td>sodales</td>
-              <td>ligula</td>
-              <td>in</td>
-              <td>libero</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </main>
-  </div>
+			<tr>
+				<th>Collection</th>
+				<th>Acquired Cataloged Items in FY
+</th>
+				<th>Acquired Specimens in FY
+</th>
+				<th>New Records Entered in MCZbase in FY - Cataloged Items
+</th>
+				<th>Number of Genetic Samples added to Cryogenetic Facility in FY
+</th>
+				<th>Number of Cataloged Items with NCBI numbers
+</th>
+				<th>Number of NCBI numbers added in FY
+</th>
+				<th>Number of Accessions in FY
+</th>
+				<th>Number of Accessions - Items not Cataloged at end of this FY  (reported by collection)
+</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Cryo</td>
+				<td>997</td>
+				<td>1649</td>
+				<td>1000</td>
+				<td>0</td>
+				<td>242</td>
+				<td>14</td>
+				<td>NA</td>
+				<td>NA</td>
+			</tr>
+			<tr>
+				<td>Ent</td>
+				<td>409</td>
+				<td>416</td>
+				<td>26531</td>
+				<td>37</td>
+				<td>77</td>
+				<td>0</td>
+				<td>17</td>
+				<td>15000</td>
+			</tr>
+			<tr>
+				<td>Herp</td>
+				<td>521</td>
+				<td>1245</td>
+				<td>1550</td>
+				<td>4271</td>
+				<td>972</td>
+				<td>17</td>
+				<td>9</td>
+				<td>10</td>
+			</tr>
+			<tr>
+				<td>HerpOBS</td>
+				<td>521</td>
+				<td>1245</td>
+				<td>1550</td>
+				<td>4271</td>
+				<td>972</td>
+				<td>17</td>
+				<td>9</td>
+				<td>10</td>
+			</tr>
+			<tr>
+				<td>Ich</td>
+				<td>81</td>
+				<td>123</td>
+				<td>936</td>
+				<td>1296</td>
+				<td>487</td>
+				<td>0</td>
+				<td>11</td>
+				<td>4</td>
+			</tr>
+			<tr>
+				<td>IP</td>
+				<td>81</td>
+				<td>123</td>
+				<td>936</td>
+				<td>1296</td>
+				<td>487</td>
+				<td>0</td>
+				<td>11</td>
+				<td>4</td>
+			</tr>
+			<tr>
+				<td>IZ</td>
+				<td>81</td>
+				<td>123</td>
+				<td>936</td>
+				<td>1296</td>
+				<td>487</td>
+				<td>0</td>
+				<td>11</td>
+				<td>4</td>
+			</tr>
+			<tr>
+				<td>Mala</td>
+				<td>81</td>
+				<td>123</td>
+				<td>936</td>
+				<td>1296</td>
+				<td>487</td>
+				<td>0</td>
+				<td>11</td>
+				<td>4</td>
+			</tr>
+			<tr>
+				<td>Mamm</td>
+				<td>81</td>
+				<td>123</td>
+				<td>936</td>
+				<td>1296</td>
+				<td>487</td>
+				<td>0</td>
+				<td>11</td>
+				<td>4</td>
+			</tr>
+			<tr>
+				<td>Orn</td>
+				<td>81</td>
+				<td>123</td>
+				<td>936</td>
+				<td>1296</td>
+				<td>487</td>
+				<td>0</td>
+				<td>11</td>
+				<td>4</td>
+			</tr>
+			<tr>
+				<td>SC</td>
+				<td>81</td>
+				<td>123</td>
+				<td>936</td>
+				<td>1296</td>
+				<td>487</td>
+				<td>0</td>
+				<td>11</td>
+				<td>4</td>
+			</tr>
+			<tr>
+				<td>VP</td>
+				<td>81</td>
+				<td>123</td>
+				<td>936</td>
+				<td>1296</td>
+				<td>487</td>
+				<td>0</td>
+				<td>11</td>
+				<td>4</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+</main>
+</div>
 </div>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
