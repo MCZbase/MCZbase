@@ -107,15 +107,15 @@ limitations under the License.
 		<!--- this is the largest width (class of <table>) inside the page width of "4in" (on <cfdocument>)--->
 		<!--- This ought to equal the cfdocument pagewidth minus the marginleft and marginright --->
 		<!--- Discrepancy of 0.1 in suggests the existence of a margin on the <table> or padding on its container --->
-		<cfset tableWidth = 'width: 3.9in;'>
+		<cfset tableWidth = 'width: 4in;'>
 
 		<!---this is a class on the table <tr>, TODO: Fix: but *** should be on the table <td> *** --->
-		<cfset labelWidth = 'width: 3.8in; padding:.05in; vertical-align: top;'>
+		<cfset labelWidth = 'width: 4in; padding:.05in; vertical-align: top;'>
 
 
 		<!---Unused in this particular proof of concept label, likely will be needed in others, retain for reuse in other blocks if needed --->
 		<cfset labelBorder = 'border: 1px solid black;'><!--- not used on most thermal labels --->
-		<cfset labelHeight = 'height: 4.8in;'> <!--- here, pageheight minus margintop margin bottom, not true if multiple labels per page --->
+		<cfset labelHeight = 'height: 5in;'> <!--- here, pageheight minus margintop margin bottom, not true if multiple labels per page --->
 		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 
 		<cfset pageHeight = "5"><!--- TODO: should be tunable by number of records --->
@@ -150,21 +150,21 @@ limitations under the License.
 							</cfquery>
 	
 								<cfif previousTaxon NEQ highertaxa>
-									<div style="text-align: left; font-size: small;font: 9pt Gotham, 'Helvetica Neue', Helvetica, Arial, 'sans-serif';">#getTaxa.highertaxa#</div>
+									<div style="text-align: left; font: 12pt Helvetica, Arial, 'sans-serif';">#getTaxa.highertaxa#</div>
 								</cfif>
-								<div style="text-align: left;font: 9pt 'Times-Roman';">#getTaxa.sci_name_with_auth#</div>
+								<div style="text-align: left;font: 12pt Helvetica, Arial, 'sans-serif';">#getTaxa.sci_name_with_auth#</div>
 								
 								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
 										<tr style="#labelWidth#">
 											<td style="vertical-align: top;">
-												<span style="font: 8pt 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
+												<span style="font: 11pt 'Arial';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
 											</td>
 											<td style="vertical-align: top;">
-												<span style="font: 8pt 'Times-Roman';">#getSpecificItems.spec_locality#</span>
+												<span style="font: 11pt 'Arial';">#getSpecificItems.spec_locality#</span>
 											</td>
 											<td style="vertical-align: top;">
-												<span style="font: 8pt 'Times-Roman';">#getSpecificItems.alc_count# spec.</span>
+												<span style="font: 11pt 'Arial';">#getSpecificItems.alc_count# spec.</span>
 											</td>
 										</tr>
 									</cfloop>
