@@ -105,21 +105,18 @@ limitations under the License.
 			where the table has multiple columns with a table cell holding each label.  
 		--->
 		<!--- this is the largest width (class of <table>) inside the page width of "4in" (on <cfdocument>)--->
-		<!--- This ought to equal the cfdocument pagewidth minus the marginleft and marginright --->
-		<!--- Discrepancy of 0.1 in suggests the existence of a margin on the <table> or padding on its container --->
-		
+		<!--- This equals the cfdocument pageWidth minus the marginleft and marginright --->
 		<cfset tableWidth = 'width: 3.97in;'>
 
-		<!---this is a class on the table <tr>, TODO: Fix: but *** should be on the table <td> *** --->
-		<cfset labelWidth = 'width: auto; vertical-align: top;'>
-
+		<!---this is a class on the table row. It should fill the space inside he tableWidth. --->
+		<cfset labelWidth = 'width: auto;'>
 
 		<!---Unused in this particular proof of concept label, likely will be needed in others, retain for reuse in other blocks if needed --->
-		<cfset labelBorder = 'border: 1px solid black;'><!--- not used on most thermal labels --->
-		<cfset labelHeight = 'height: 5in;'> <!--- here, pageheight minus margintop margin bottom, not true if multiple labels per page --->
-		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
+		<cfset labelBorder = 'border: 1px solid black;'><!--- Used under label type (e.g., WHOI Jar Number)  --->
+		<cfset labelHeight = 'height: 5in;'> <!--- Jar label --Assuming 1 page per jar (not used yet) --->
+		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'><!---  (not used yet) --->
 
-		<cfset pageHeight = "5"><!--- TODO: should be tunable by number of records --->
+		<cfset pageHeight = "5"><!--- For WHOI jar number label, this is the height the jar can accommodate. TODO: should be tunable by number of records --->
 		<cfset pageWidth = "4">
 		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="#pageWidth#" pageheight="#pageHeight#" margintop=".015" marginright=".015" marginbottom=".015" marginleft=".015" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
@@ -159,7 +156,7 @@ limitations under the License.
 									<cfloop query="getSpecificItems">
 										<tr style="#labelWidth#">
 											<td style="vertical-align: top;">
-												<span style="font: 10pt 'Arial';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</>
+												<span style="font: 10pt 'Arial';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#
 											</td>
 											<td style="vertical-align: top;">
 												<span style="font: 10pt 'Arial';">#getSpecificItems.spec_locality#</span>
