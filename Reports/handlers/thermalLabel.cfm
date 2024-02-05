@@ -129,7 +129,7 @@ limitations under the License.
 						<div style="text-align: center;padding-top: .11in;font: 11pt Arial">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
-						<div style="text-align: center; padding-bottom: .08in; border-bottom: 1px solid;font: 11pt Arial;padding-top: .02in;">
+						<div style="text-align: center; padding-bottom: .07in; border-bottom: 1px solid;font: 11pt Arial;padding-top: .05in;margin-bottom: 0.05in;">
 							WHOI Jar Number #getWhoiNumbers.whoi_number#
 						</div>
 
@@ -151,9 +151,9 @@ limitations under the License.
 							</cfquery>
 	
 								<cfif previousTaxon NEQ highertaxa>
-									<div style="text-align: left; font: 11pt Helvetica, Arial, 'sans-serif';padding-top: .02in;padding-bottom: .02in;">#getTaxa.highertaxa#</div>
+									<div style="text-align: left; font: 10.5pt Helvetica, Arial, 'sans-serif';padding-top: .02in;padding-bottom: .02in;">#getTaxa.highertaxa#</div>
 								</cfif>
-								<div style="text-align: left;font: 11pt Helvetica, Arial, 'sans-serif'; padding-top: .02in; padding-bottom: .02in;">#getTaxa.sci_name_with_auth#</div>
+								<div style="text-align: left;font: 11pt Helvetica, Arial, 'sans-serif'; padding-top: .05in; padding-bottom: .02in;font-weight:bold;">#getTaxa.sci_name_with_auth#</div>
 								
 								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
