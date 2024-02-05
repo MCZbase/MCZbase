@@ -107,29 +107,29 @@ limitations under the License.
 		<!--- this is the largest width (class of <table>) inside the page width of "4in" (on <cfdocument>)--->
 		<!--- This ought to equal the cfdocument pagewidth minus the marginleft and marginright --->
 		<!--- Discrepancy of 0.1 in suggests the existence of a margin on the <table> or padding on its container --->
-		<cfset tableWidth = 'width: 3.9in;'>
+		
+		<cfset tableWidth = 'width: 3.97in;'>
 
 		<!---this is a class on the table <tr>, TODO: Fix: but *** should be on the table <td> *** --->
-		<cfset labelWidth = 'width: 3.88in; padding:.05in; vertical-align: top;'>
+		<cfset labelWidth = 'width: auto; vertical-align: top;'>
+
 
 		<!---Unused in this particular proof of concept label, likely will be needed in others, retain for reuse in other blocks if needed --->
 		<cfset labelBorder = 'border: 1px solid black;'><!--- not used on most thermal labels --->
-		<cfset labelHeight = 'height: 4.8in;'> <!--- here, pageheight minus margintop margin bottom, not true if multiple labels per page --->
+		<cfset labelHeight = 'height: 5in;'> <!--- here, pageheight minus margintop margin bottom, not true if multiple labels per page --->
 		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 
 		<cfset pageHeight = "5"><!--- TODO: should be tunable by number of records --->
 		<cfset pageWidth = "4">
-			
-		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="#pageWidth#" pageheight="#pageHeight#" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
-
+		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="#pageWidth#" pageheight="#pageHeight#" margintop=".015" marginright=".015" marginbottom=".015" marginleft=".015" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
 				<cfloop query="getWhoiNumbers">
 					<cfdocumentsection name="aLabel">
 
-						<div style="text-align: center;padding-top: .11in;">
+						<div style="text-align: center;padding-top: .11in;font: 11pt Arial">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
-						<div style="text-align: center; padding-bottom: .08in; border-bottom: 1px solid;margin-bottom: .08in;">
+						<div style="text-align: center; padding-bottom: .07in; border-bottom: 1px solid;font: 11pt Arial;padding-top: .05in;margin-bottom: 0.05in;">
 							WHOI Jar Number #getWhoiNumbers.whoi_number#
 						</div>
 
@@ -151,24 +151,21 @@ limitations under the License.
 							</cfquery>
 	
 								<cfif previousTaxon NEQ highertaxa>
-									<div style="text-align: left;font: 9pt Helvetica, Arial, 'sans-serif';font-weight:bold;">#getTaxa.highertaxa#
-									</div>
+									<div style="text-align: left; font: 10.5pt Helvetica, Arial, 'sans-serif';padding-top: .02in;padding-bottom: .02in;">#getTaxa.highertaxa#</div>
 								</cfif>
-								<div style="text-align: left;font: 9pt 'Times-Roman';font-weight:bold;">
-									#getTaxa.sci_name_with_auth#
-								</div>
+								<div style="text-align: left;font: 11pt Helvetica, Arial, 'sans-serif'; padding-top: .05in; padding-bottom: .02in;font-weight:bold;">#getTaxa.sci_name_with_auth#</div>
 								
 								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
 										<tr style="#labelWidth#">
 											<td style="vertical-align: top;">
-												<span style="font: 8pt 'Times-Roman';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
+												<span style="font: 10pt 'Arial';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</>
 											</td>
 											<td style="vertical-align: top;">
-												<span style="font: 8pt 'Times-Roman';">#getSpecificItems.spec_locality#</span>
+												<span style="font: 10pt 'Arial';">#getSpecificItems.spec_locality#</span>
 											</td>
 											<td style="vertical-align: top;">
-												<span style="font: 8pt 'Times-Roman';">#getSpecificItems.alc_count# spec.</span>
+												<span style="font: 10pt 'Arial';">#getSpecificItems.alc_count# spec.</span>
 											</td>
 										</tr>
 									</cfloop>
