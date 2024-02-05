@@ -81,12 +81,9 @@ limitations under the License.
 		<cfset tableStyle= 'width: 3.5in;'>
 
 		<!---this is a class on the table <tr> --->
-		<cfset rowStyle = 'width: 3.4in;padding: .05in;vertical-align: top;'>
+		<cfset rowStyle = 'width: 3in;padding: .05in;vertical-align: top;'>
 
-		<cfset pageheight = "5"><!--- should be tunable by number of records --->
-
-
-		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="4" pageheight="#pageheight#" margintop=".15" marginbottom=".15" marginleft=".15" marginright=".15" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
+		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="4" pageheight="5" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
 				<cfloop query="getWhoiNumbers">
 
@@ -116,12 +113,11 @@ limitations under the License.
 							</cfquery>
 	
 								<cfif previousTaxon NEQ highertaxa>
-									<div style="text-align: left; font-size: small;">
-										<strong style="font: 9pt Gotham, 'Helvetica Neue', Helvetica, Arial, 'sans-serif';">#getTaxa.highertaxa#</strong>
+									<div style="text-align: left;font: 9pt Helvetica, Arial, 'sans-serif';font-weight:bold;">#getTaxa.highertaxa#
 									</div>
 								</cfif>
-								<div style="text-align: left;">
-									<strong style="font: 9pt 'Times-Roman';">#getTaxa.sci_name_with_auth#</strong>
+								<div style="text-align: left;font: 9pt 'Times-Roman';font-weight:bold;">
+									#getTaxa.sci_name_with_auth#
 								</div>
 								
 								<table style="#tableStyle#">
