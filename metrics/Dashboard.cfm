@@ -141,7 +141,7 @@ limitations under the License.
         </div>
       </div>
 
-      <canvas class="my-4 w-100 chartjs-render-monitor" id="myChart" width="1610" height="678" style="display: block; width: 805px; height: 339px;"></canvas>
+      <img class="my-4 w-100 chartjs-render-monitor" src="" id="myChart" width="1610" height="678" style="display: block; width: 805px; height: 339px;"/>
 <div class="w-100">
 	<h2>Collections Record Counts</h2>
 	<h3 class="float-left">New Acquisitions</h3>
