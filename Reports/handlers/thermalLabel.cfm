@@ -107,10 +107,10 @@ limitations under the License.
 		<!--- this is the largest width (class of <table>) inside the page width of "4in" (on <cfdocument>)--->
 		<!--- This ought to equal the cfdocument pagewidth minus the marginleft and marginright --->
 		<!--- Discrepancy of 0.1 in suggests the existence of a margin on the <table> or padding on its container --->
-		<cfset tableWidth = 'width: 3.6in;'>
+		<cfset tableWidth = 'width: 3.9in;'>
 
 		<!---this is a class on the table <tr>, TODO: Fix: but *** should be on the table <td> *** --->
-		<cfset labelWidth = 'width: 3.8in; padding:.05in; vertical-align: top;'>
+		<cfset labelWidth = 'width: 3.88in; padding:.05in; vertical-align: top;'>
 
 		<!---Unused in this particular proof of concept label, likely will be needed in others, retain for reuse in other blocks if needed --->
 		<cfset labelBorder = 'border: 1px solid black;'><!--- not used on most thermal labels --->
