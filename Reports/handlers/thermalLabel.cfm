@@ -126,10 +126,10 @@ limitations under the License.
 				<cfloop query="getWhoiNumbers">
 					<cfdocumentsection name="aLabel">
 
-						<div style="text-align: center;padding-top: .11in;font: 12pt Arial">
+						<div style="text-align: center;padding-top: .11in;font: 11pt Arial">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
-						<div style="text-align: center; padding-bottom: .08in; border-bottom: 1px solid;">
+						<div style="text-align: center; padding-bottom: .08in; border-bottom: 1px solid;font: 11pt Arial;padding-top: .011in;">
 							WHOI Jar Number #getWhoiNumbers.whoi_number#
 						</div>
 
@@ -151,21 +151,21 @@ limitations under the License.
 							</cfquery>
 	
 								<cfif previousTaxon NEQ highertaxa>
-									<div style="text-align: left; font: 12pt Helvetica, Arial, 'sans-serif';">#getTaxa.highertaxa#</div>
+									<div style="text-align: left; font: 11pt Helvetica, Arial, 'sans-serif';">#getTaxa.highertaxa#</div>
 								</cfif>
-								<div style="text-align: left;font: 12pt Helvetica, Arial, 'sans-serif'; padding-bottom: .11in;">#getTaxa.sci_name_with_auth#</div>
+								<div style="text-align: left;font: 11pt Helvetica, Arial, 'sans-serif'; padding-bottom: .11in;">#getTaxa.sci_name_with_auth#</div>
 								
 								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
 										<tr style="#labelWidth#">
 											<td style="vertical-align: top;">
-												<span style="font: 11pt 'Arial';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</>
+												<span style="font: 10pt 'Arial';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</>
 											</td>
 											<td style="vertical-align: top;">
-												<span style="font: 11pt 'Arial';">#getSpecificItems.spec_locality#</span>
+												<span style="font: 10pt 'Arial';">#getSpecificItems.spec_locality#</span>
 											</td>
 											<td style="vertical-align: top;">
-												<span style="font: 11pt 'Arial';">#getSpecificItems.alc_count# spec.</span>
+												<span style="font: 10pt 'Arial';">#getSpecificItems.alc_count# spec.</span>
 											</td>
 										</tr>
 									</cfloop>
