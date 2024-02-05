@@ -151,9 +151,9 @@ limitations under the License.
 							</cfquery>
 	
 								<cfif previousTaxon NEQ highertaxa>
-									<div style="text-align: left; font: 11pt Helvetica, Arial, 'sans-serif';">#getTaxa.highertaxa#</div>
+									<div style="text-align: left; font: 11pt Helvetica, Arial, 'sans-serif';padding-top: .02in;">#getTaxa.highertaxa#</div>
 								</cfif>
-								<div style="text-align: left;font: 11pt Helvetica, Arial, 'sans-serif'; padding-bottom: .11in;">#getTaxa.sci_name_with_auth#</div>
+								<div style="text-align: left;font: 11pt Helvetica, Arial, 'sans-serif'; padding-bottom: .02in;">#getTaxa.sci_name_with_auth#</div>
 								
 								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
