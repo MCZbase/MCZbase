@@ -146,7 +146,7 @@ limitations under the License.
 	<h2>Collections Record Counts</h2>
 	<h3 class="float-left">New Acquisitions</h3>
 	<div class="dropdown float-right">
-	<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Report
+	<button class="btn btn-xs btn-primary dropdown-toggle mb-2" type="button" data-toggle="dropdown">Select Report
 	<span class="caret"></span></button>
 	<div class="dropdown-menu">
 		<a class="dropdown-item" href="##">Holdings</a>
