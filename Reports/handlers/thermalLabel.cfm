@@ -107,19 +107,20 @@ limitations under the License.
 		<!--- this is the largest width (class of <table>) inside the page width of "4in" (on <cfdocument>)--->
 		<!--- This ought to equal the cfdocument pagewidth minus the marginleft and marginright --->
 		<!--- Discrepancy of 0.1 in suggests the existence of a margin on the <table> or padding on its container --->
-		<cfset tableWidth = 'width: 3.6in;'>
+		<cfset tableWidth = 'width: 3.9in;'>
 
 		<!---this is a class on the table <tr>, TODO: Fix: but *** should be on the table <td> *** --->
-		<cfset labelWidth = 'width: 3.5in; padding:.05in; vertical-align: top;'>
+		<cfset labelWidth = 'width: 3.8in; padding:.05in; vertical-align: top;'>
+
 
 		<!---Unused in this particular proof of concept label, likely will be needed in others, retain for reuse in other blocks if needed --->
 		<cfset labelBorder = 'border: 1px solid black;'><!--- not used on most thermal labels --->
 		<cfset labelHeight = 'height: 4.8in;'> <!--- here, pageheight minus margintop margin bottom, not true if multiple labels per page --->
 		<cfset labelStyle = '#labelHeight# #labelWidth# #labelBorder#'>
 
-		<cfset pageheight = "5"><!--- TODO: should be tunable by number of records --->
-
-		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="#pageWidth#" pageheight="#pageheight#" margintop=".1" marginbottom=".15" marginleft=".15" marginright=".15" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
+		<cfset pageHeight = "5"><!--- TODO: should be tunable by number of records --->
+		<cfset pageWidth = "4">
+		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="#pageWidth#" pageheight="#pageHeight#" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
 				<cfloop query="getWhoiNumbers">
 					<cfdocumentsection name="aLabel">
@@ -149,13 +150,9 @@ limitations under the License.
 							</cfquery>
 	
 								<cfif previousTaxon NEQ highertaxa>
-									<div style="text-align: left; font-size: small;">
-										<strong style="font: 9pt Gotham, 'Helvetica Neue', Helvetica, Arial, 'sans-serif';">#getTaxa.highertaxa#</strong>
-									</div>
+									<div style="text-align: left; font-size: small;font: 9pt Gotham, 'Helvetica Neue', Helvetica, Arial, 'sans-serif';">#getTaxa.highertaxa#</div>
 								</cfif>
-								<div style="text-align: left;">
-									<strong style="font: 9pt 'Times-Roman';">#getTaxa.sci_name_with_auth#</strong>
-								</div>
+								<div style="text-align: left;font: 9pt 'Times-Roman';">#getTaxa.sci_name_with_auth#</div>
 								
 								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
