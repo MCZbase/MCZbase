@@ -61,7 +61,7 @@ limitations under the License.
           </li>
           <li class="nav-item">
             <a class="nav-link" href="##">
-             <svg class="bi"><use xlink:href="#puzzle"></use></svg>
+             <svg class="bi"><use xlink:href="##puzzle"></use></svg>
               Definitions
             </a>
           </li>
