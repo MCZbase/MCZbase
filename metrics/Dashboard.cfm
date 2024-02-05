@@ -190,19 +190,16 @@ opacity:1
 	<img class="my-4 w-100 chartjs-render-monitor" src="/metrics/images/downloadChart.png"  style="display: block;width:90%;"/>
 	<div class="w-100">
 		<h2>Collections Record Counts</h2>
-		<h3 class="float-left">New Acquisitions</h3>
+		<h3 class="float-left">New Acquisitions 2023</h3>
 		<div class="dropdown float-right">
 			<button class="btn btn-xs btn-primary dropdown-toggle mb-2" type="button" data-toggle="dropdown">Select Report <span class="caret"></span></button>
-			<div class="dropdown-menu"> <a class="dropdown-item" href="##">Holdings</a> <a class="dropdown-item" href="##">New Acquisitions</a>
-				</li>
-				<a class="dropdown-item" href="##">Loan Stats</a>
-				</li>
-				<a class="dropdown-item" href="##">Holdings</a>
-				</li>
+			<div class="dropdown-menu"> 
+				<a class="dropdown-item" href="##">Holdings</a> 
 				<a class="dropdown-item" href="##">New Acquisitions</a>
-				</li>
 				<a class="dropdown-item" href="##">Loan Stats</a>
-				</li>
+				<a class="dropdown-item" href="##">Holdings</a>
+				<a class="dropdown-item" href="##">New Acquisitions</a>
+				<a class="dropdown-item" href="##">Loan Stats</a>
 			</div>
 		</div>
 		<div class="table-responsive">
