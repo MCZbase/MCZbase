@@ -142,173 +142,175 @@ limitations under the License.
       </div>
 
       <canvas class="my-4 w-100 chartjs-render-monitor" id="myChart" width="1610" height="678" style="display: block; width: 805px; height: 339px;"></canvas>
-
-      <h2>Collections Record Counts</h2>
-<div class="dropdown">
-  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Report
-  <span class="caret"></span></button>
-  <ul class="dropdown-menu">
-    <li><a href="##" class="btnLink">Holdings</a></li>
-    <li><a href="##">New Acquisitions</a></li>
-    <li><a href="##">Loan Stats</a></li>
-	<li><a href="##">Holdings</a></li>
-    <li><a href="##">New Acquisitions</a></li>
-    <li><a href="##">Loan Stats</a></li>
-	 
-  </ul>
-</div>
-      <div class="table-responsive">
-        <table class="table table-striped table-sm">
-          <thead>
-			<tr>
-				<th>Collection</th>
-				<th>Acquired Cataloged Items in FY</th>
-				<th>Acquired Specimens in FY</th>
-				<th>New Records Entered in MCZbase in FY - Cataloged Items</th>
-				<th>Number of Genetic Samples added to Cryogenetic Facility in FY</th>
-				<th>Number of Cataloged Items with NCBI numbers</th>
-				<th>Number of NCBI numbers added in FY</th>
-				<th>Number of Accessions in FY</th>
-				<th>Number of Accessions - Items not Cataloged at end of this FY  (reported by collection)</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>Cryo</td>
-				<td>997</td>
-				<td>1649</td>
-				<td>1000</td>
-				<td>0</td>
-				<td>242</td>
-				<td>14</td>
-				<td>NA</td>
-				<td>NA</td>
-			</tr>
-			<tr>
-				<td>Ent</td>
-				<td>409</td>
-				<td>416</td>
-				<td>26531</td>
-				<td>37</td>
-				<td>77</td>
-				<td>0</td>
-				<td>17</td>
-				<td>15000</td>
-			</tr>
-			<tr>
-				<td>Herp</td>
-				<td>521</td>
-				<td>1245</td>
-				<td>1550</td>
-				<td>4271</td>
-				<td>972</td>
-				<td>17</td>
-				<td>9</td>
-				<td>10</td>
-			</tr>
-			<tr>
-				<td>HerpOBS</td>
-				<td>521</td>
-				<td>1245</td>
-				<td>1550</td>
-				<td>4271</td>
-				<td>972</td>
-				<td>17</td>
-				<td>9</td>
-				<td>10</td>
-			</tr>
-			<tr>
-				<td>Ich</td>
-				<td>81</td>
-				<td>123</td>
-				<td>936</td>
-				<td>1296</td>
-				<td>487</td>
-				<td>0</td>
-				<td>11</td>
-				<td>4</td>
-			</tr>
-			<tr>
-				<td>IP</td>
-				<td>81</td>
-				<td>123</td>
-				<td>936</td>
-				<td>1296</td>
-				<td>487</td>
-				<td>0</td>
-				<td>11</td>
-				<td>4</td>
-			</tr>
-			<tr>
-				<td>IZ</td>
-				<td>81</td>
-				<td>123</td>
-				<td>936</td>
-				<td>1296</td>
-				<td>487</td>
-				<td>0</td>
-				<td>11</td>
-				<td>4</td>
-			</tr>
-			<tr>
-				<td>Mala</td>
-				<td>81</td>
-				<td>123</td>
-				<td>936</td>
-				<td>1296</td>
-				<td>487</td>
-				<td>0</td>
-				<td>11</td>
-				<td>4</td>
-			</tr>
-			<tr>
-				<td>Mamm</td>
-				<td>81</td>
-				<td>123</td>
-				<td>936</td>
-				<td>1296</td>
-				<td>487</td>
-				<td>0</td>
-				<td>11</td>
-				<td>4</td>
-			</tr>
-			<tr>
-				<td>Orn</td>
-				<td>81</td>
-				<td>123</td>
-				<td>936</td>
-				<td>1296</td>
-				<td>487</td>
-				<td>0</td>
-				<td>11</td>
-				<td>4</td>
-			</tr>
-			<tr>
-				<td>SC</td>
-				<td>81</td>
-				<td>123</td>
-				<td>936</td>
-				<td>1296</td>
-				<td>487</td>
-				<td>0</td>
-				<td>11</td>
-				<td>4</td>
-			</tr>
-			<tr>
-				<td>VP</td>
-				<td>81</td>
-				<td>123</td>
-				<td>936</td>
-				<td>1296</td>
-				<td>487</td>
-				<td>0</td>
-				<td>11</td>
-				<td>4</td>
-			</tr>
-		</tbody>
-	</table>
+<div class="w-100">
+	<h2>Collections Record Counts</h2>
+	<h3 class="float-left">New Acquisitions</h3>
+	<div class="dropdown float-right">
+	  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Report
+	  <span class="caret"></span></button>
+	  <ul class="dropdown-menu">
+		<li><a href="##" class="btnLink">Holdings</a></li>
+		<li><a href="##">New Acquisitions</a></li>
+		<li><a href="##">Loan Stats</a></li>
+		<li><a href="##">Holdings</a></li>
+		<li><a href="##">New Acquisitions</a></li>
+		<li><a href="##">Loan Stats</a></li>
+	  </ul>
 	</div>
-</main>
+</div>
+
+	<div class="table-responsive">
+		<table class="table table-striped table-sm">
+			<thead>
+				<tr>
+					<th>Collection</th>
+					<th>Acquired Cataloged Items in FY</th>
+					<th>Acquired Specimens in FY</th>
+					<th>New Records Entered in MCZbase in FY - Cataloged Items</th>
+					<th>Number of Genetic Samples added to Cryogenetic Facility in FY</th>
+					<th>Number of Cataloged Items with NCBI numbers</th>
+					<th>Number of NCBI numbers added in FY</th>
+					<th>Number of Accessions in FY</th>
+					<th>Number of Accessions - Items not Cataloged at end of this FY  (reported by collection)</th>
+				</tr>
+			</thead>
+				<tbody>
+					<tr>
+						<td>Cryo</td>
+						<td>997</td>
+						<td>1649</td>
+						<td>1000</td>
+						<td>0</td>
+						<td>242</td>
+						<td>14</td>
+						<td>NA</td>
+						<td>NA</td>
+					</tr>
+					<tr>
+						<td>Ent</td>
+						<td>409</td>
+						<td>416</td>
+						<td>26531</td>
+						<td>37</td>
+						<td>77</td>
+						<td>0</td>
+						<td>17</td>
+						<td>15000</td>
+					</tr>
+					<tr>
+						<td>Herp</td>
+						<td>521</td>
+						<td>1245</td>
+						<td>1550</td>
+						<td>4271</td>
+						<td>972</td>
+						<td>17</td>
+						<td>9</td>
+						<td>10</td>
+					</tr>
+					<tr>
+						<td>HerpOBS</td>
+						<td>521</td>
+						<td>1245</td>
+						<td>1550</td>
+						<td>4271</td>
+						<td>972</td>
+						<td>17</td>
+						<td>9</td>
+						<td>10</td>
+					</tr>
+					<tr>
+						<td>Ich</td>
+						<td>81</td>
+						<td>123</td>
+						<td>936</td>
+						<td>1296</td>
+						<td>487</td>
+						<td>0</td>
+						<td>11</td>
+						<td>4</td>
+					</tr>
+					<tr>
+						<td>IP</td>
+						<td>81</td>
+						<td>123</td>
+						<td>936</td>
+						<td>1296</td>
+						<td>487</td>
+						<td>0</td>
+						<td>11</td>
+						<td>4</td>
+					</tr>
+					<tr>
+						<td>IZ</td>
+						<td>81</td>
+						<td>123</td>
+						<td>936</td>
+						<td>1296</td>
+						<td>487</td>
+						<td>0</td>
+						<td>11</td>
+						<td>4</td>
+					</tr>
+					<tr>
+						<td>Mala</td>
+						<td>81</td>
+						<td>123</td>
+						<td>936</td>
+						<td>1296</td>
+						<td>487</td>
+						<td>0</td>
+						<td>11</td>
+						<td>4</td>
+					</tr>
+					<tr>
+						<td>Mamm</td>
+						<td>81</td>
+						<td>123</td>
+						<td>936</td>
+						<td>1296</td>
+						<td>487</td>
+						<td>0</td>
+						<td>11</td>
+						<td>4</td>
+					</tr>
+					<tr>
+						<td>Orn</td>
+						<td>81</td>
+						<td>123</td>
+						<td>936</td>
+						<td>1296</td>
+						<td>487</td>
+						<td>0</td>
+						<td>11</td>
+						<td>4</td>
+					</tr>
+					<tr>
+						<td>SC</td>
+						<td>81</td>
+						<td>123</td>
+						<td>936</td>
+						<td>1296</td>
+						<td>487</td>
+						<td>0</td>
+						<td>11</td>
+						<td>4</td>
+					</tr>
+					<tr>
+						<td>VP</td>
+						<td>9000</td>
+						<td>51.36%</td>
+						<td>936</td>
+						<td>1296</td>
+						<td>487</td>
+						<td>0</td>
+						<td>11</td>
+						<td>4</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</main>
 </div>
 </div>
 </cfoutput>
