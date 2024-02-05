@@ -107,10 +107,11 @@ limitations under the License.
 		<!--- this is the largest width (class of <table>) inside the page width of "4in" (on <cfdocument>)--->
 		<!--- This ought to equal the cfdocument pagewidth minus the marginleft and marginright --->
 		<!--- Discrepancy of 0.1 in suggests the existence of a margin on the <table> or padding on its container --->
-		<cfset tableWidth = 'width: 4in;'>
+		
+		<cfset tableWidth = 'width: 3.97in;'>
 
 		<!---this is a class on the table <tr>, TODO: Fix: but *** should be on the table <td> *** --->
-		<cfset labelWidth = 'width: 4in; padding:.05in; vertical-align: top;'>
+		<cfset labelWidth = 'width: auto; vertical-align: top;'>
 
 
 		<!---Unused in this particular proof of concept label, likely will be needed in others, retain for reuse in other blocks if needed --->
@@ -120,15 +121,15 @@ limitations under the License.
 
 		<cfset pageHeight = "5"><!--- TODO: should be tunable by number of records --->
 		<cfset pageWidth = "4">
-		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="#pageWidth#" pageheight="#pageHeight#" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
+		<cfdocument format="pdf" pagetype="custom" unit="in" pagewidth="#pageWidth#" pageheight="#pageHeight#" margintop=".015" marginright=".015" marginbottom=".015" marginleft=".015" orientation="#orientation#" fontembed="true" saveAsName="MCZ_labels_#result_id#.pdf">
 			<cfoutput>
 				<cfloop query="getWhoiNumbers">
 					<cfdocumentsection name="aLabel">
 
-						<div style="text-align: center;padding-top: .11in;">
+						<div style="text-align: center;padding-top: .11in;font: 12pt Arial">
 							Museum of Comparative Zoology, #getWhoiNumbers.collection#
 						</div>
-						<div style="text-align: center; padding-bottom: .08in; border-bottom: 1px solid;margin-bottom: .08in;">
+						<div style="text-align: center; padding-bottom: .08in; border-bottom: 1px solid;">
 							WHOI Jar Number #getWhoiNumbers.whoi_number#
 						</div>
 
@@ -152,13 +153,13 @@ limitations under the License.
 								<cfif previousTaxon NEQ highertaxa>
 									<div style="text-align: left; font: 12pt Helvetica, Arial, 'sans-serif';">#getTaxa.highertaxa#</div>
 								</cfif>
-								<div style="text-align: left;font: 12pt Helvetica, Arial, 'sans-serif';">#getTaxa.sci_name_with_auth#</div>
+								<div style="text-align: left;font: 12pt Helvetica, Arial, 'sans-serif'; padding-bottom: .11in;">#getTaxa.sci_name_with_auth#</div>
 								
 								<table style="#tableWidth#">
 									<cfloop query="getSpecificItems">
 										<tr style="#labelWidth#">
 											<td style="vertical-align: top;">
-												<span style="font: 11pt 'Arial';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</span>
+												<span style="font: 11pt 'Arial';">MCZ:#getSpecificItems.collection_cde#:#getSpecificItems.catalog_number#</>
 											</td>
 											<td style="vertical-align: top;">
 												<span style="font: 11pt 'Arial';">#getSpecificItems.spec_locality#</span>
