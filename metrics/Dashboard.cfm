@@ -148,7 +148,7 @@ limitations under the License.
   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Report
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
-    <li><a href="##">Holdings</a></li>
+    <li><a href="##" class="btnLink">Holdings</a></li>
     <li><a href="##">New Acquisitions</a></li>
     <li><a href="##">Loan Stats</a></li>
 	<li><a href="##">Holdings</a></li>
