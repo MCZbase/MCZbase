@@ -1495,10 +1495,10 @@ limitations under the License.
 							function toggleIDDetail(onOff) {
 								if (onOff==0) {
 									$("##IDDetail").hide();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span class="text-success">Identifiers&thinsp;</span><i class="fas fa-caret-down"><span title="more fields" class="sr-only">more fields</span></i>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span class="text-success h4">Identifiers&thinsp;</span><i class="fas fa-caret-down"><span title="more fields" class="sr-only">more fields</span></i>');
 								} else {
 									$("##IDDetail").show();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span class="text-success">Identifiers&thinsp;</span><i class="fas fa-caret-up"><span title="fewer fields" class="sr-only">fewer fields</span></i>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span class="text-success h4">Identifiers&thinsp;</span><i class="fas fa-caret-up"><span title="fewer fields" class="sr-only">fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
