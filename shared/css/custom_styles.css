@@ -3464,7 +3464,7 @@ and also iPads specifically.
 		display: block;
 		height: 100%;
 		text-decoration: none;
-		color: black;
+		color: #0460c1 !important;
 		padding-left: 0px;
 		position: relative;
 		-webkit-transition: background .3s;
@@ -3499,7 +3499,7 @@ and also iPads specifically.
 		font-weight: 900; 
 		content: "\f0d7";
 		font-size: 1.3rem;
-		color: black;
+		color: #0460c1 !important;
 		/*down*/
 	}
 	label.read:after {
@@ -3525,7 +3525,7 @@ and also iPads specifically.
 		font-weight: 900; 
 		content: "\f0d8";
 		font-size: 1.3rem;
-		color: black;
+		color: #0460c1 !important;
 		/* up */
 	}
 	.readMore [type="checkbox"]:checked + label.read:after {
