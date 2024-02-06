@@ -554,10 +554,9 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset TaxaButton = "<i class='fas fa-caret-down' title='more fields'><span class='sr-only'>more fields</span></i>">
 												</cfif>
-												<div class="col-12 col-xl-2 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);" >
-													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
-														Taxonomy&thinsp;
-														<button type="button" id="TaxaDetailCtl" class="btn d-inline-block-md btn-xs px-xl-1 pt-xl-1 px-0 small py-0 border-0 btn-link" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
+												<div class="col-12 col-xl-2 px-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);" >
+													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
+														<button type="button" id="TaxaDetailCtl" class="btn-link h5 mx-2 border-bottom border-dotted text-decoration-none" onclick="toggleTaxaDetail(#toggleTo#);"><span class="btn-link h5 mx-2 border-bottom border-dotted text-decoration-none">Taxonomy</span>#TaxaButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-auto pt-1 px-3 mx-0 mb-0">
@@ -1519,10 +1518,10 @@ limitations under the License.
 							function toggleTaxaDetail(onOff) {
 								if (onOff==0) {
 									$("##TaxaDetail").hide();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<i class="fas fa-caret-down"><span title="show more fields" class="sr-only">show more fields</span></i>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<span style="0.95rem" class="btn-link h5 mx-2 border-bottom border-dotted text-decoration-none">Taxonomy</span><i class="fas fa-caret-down"><span title="show more fields" class="sr-only">more fields</span></i>');
 								} else {
 									$("##TaxaDetail").show();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<i class="fas fa-caret-up"><span title="show fewer fields" class="sr-only">show fewer fields</span></i>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<span style="0.95rem" class="btn-link h5 mx-2 border-bottom border-dotted text-decoration-none">Taxonomy</span><i class="fas fa-caret-up"><span title="show fewer fields" class="sr-only">fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
