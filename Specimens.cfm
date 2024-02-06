@@ -1495,10 +1495,10 @@ limitations under the License.
 							function toggleIDDetail(onOff) {
 								if (onOff==0) {
 									$("##IDDetail").hide();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<i class="fas fa-chevron-circle-down"><span title="more fields" class="sr-only">more fields</span></i>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<i class="fas fa-caret-down"><span title="more fields" class="sr-only">more fields</span></i>');
 								} else {
 									$("##IDDetail").show();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<i class="fas fa-chevron-circle-up"><span title="fewer fields" class="sr-only">fewer fields</span></i>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<i class="fas fa-caret-up"><span title="fewer fields" class="sr-only">fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1520,10 +1520,10 @@ limitations under the License.
 							function toggleTaxaDetail(onOff) {
 								if (onOff==0) {
 									$("##TaxaDetail").hide();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<i class="fas fa-chevron-circle-down"><span title="show more fields" class="sr-only">show more fields</span></i>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<i class="fas fa-caret-down"><span title="show more fields" class="sr-only">show more fields</span></i>');
 								} else {
 									$("##TaxaDetail").show();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<i class="fas fa-chevron-circle-up"><span title="show fewer fields" class="sr-only">show fewer fields</span></i>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<i class="fas fa-caret-up"><span title="show fewer fields" class="sr-only">show fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1545,10 +1545,10 @@ limitations under the License.
 							function toggleGeogDetail(onOff) {
 								if (onOff==0) {
 									$("##GeogDetail").hide();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<i class="fas fa-chevron-circle-down"><span class="sr-only">show more fields</span></i>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<i class="fas fa-caret-down"><span class="sr-only">show more fields</span></i>');
 								} else {
 									$("##GeogDetail").show();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<i class="fas fa-chevron-circle-up"><span class="sr-only">show fewer fields</span></i>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<i class="fas fa-caret-up"><span class="sr-only">show fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1570,10 +1570,10 @@ limitations under the License.
 							function toggleCollDetail(onOff) {
 								if (onOff==0) {
 									$("##CollDetail").hide();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<i class="fas fa-chevron-circle-down"><span class="sr-only">show more fields</span></i>');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<i class="fas fa-caret-down"><span class="sr-only">show more fields</span></i>');
 								} else {
 									$("##CollDetail").show();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<i class="fas fa-chevron-circle-up"><span class="sr-only">show fewer fields</span></i>');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<i class="fas fa-caret-up"><span class="sr-only">show fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1595,10 +1595,10 @@ limitations under the License.
 							function toggleSpecDetail(onOff) {
 								if (onOff==0) {
 									$("##SpecDetail").hide();
-									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<i class="fas fa-chevron-circle-down"><span class="sr-only">show more fields</span></i>');
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<i class="fas fa-caret-down"><span class="sr-only">show more fields</span></i>');
 								} else {
 									$("##SpecDetail").show();
-									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<i class="fas fa-chevron-circle-up"><span class="sr-only">show fewer fields</span></i>');
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<i class="fas fa-caret-up"><span class="sr-only">show fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
