@@ -556,7 +556,7 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 col-xl-2 px-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);" >
 													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
-														<button type="button" id="TaxaDetailCtl" class="btn btn-xs px-1 pt-xl-1 px-xl-1 small py-0 border-0 btn-link text-decoration-none" onclick="toggleTaxaDetail(#toggleTo#);"><span class="btn-link h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Taxonomy</span>#TaxaButton#</button>
+														<button type="button" id="TaxaDetailCtl" class="btn btn-xs px-1 pt-xl-1 px-xl-1 small py-0 border-0 btn-link text-decoration-none" onclick="toggleTaxaDetail(#toggleTo#);"><span class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Taxonomy</span>#TaxaButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-auto pt-1 px-3 mx-0 mb-0">
