@@ -1493,7 +1493,7 @@ limitations under the License.
 							function toggleIDDetail(onOff) {
 								if (onOff==0) {
 									$("##IDDetail").hide();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span style="0.95rem" class="btn-link h5 mx-2  border-bottom border-dotted text-decoration-none">Identifiers</span><i class="fas fa-caret-down"><span title="more fields" class="sr-only">more fields</span></i>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span style="0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Identifiers</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
 								} else {
 									$("##IDDetail").show();
 									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span style="0.95rem" class="btn-link h5 mx-2 border-bottom border-dotted text-decoration-none">Identifiers</span><i class="fas fa-caret-up"><span title="fewer fields" class="sr-only">fewer fields</span></i>');
