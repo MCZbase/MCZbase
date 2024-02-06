@@ -3494,11 +3494,11 @@ and also iPads specifically.
 		position: absolute;
 	}
 	label.read:before {
-		content: 'More';
+		content: '\f0ab';
 		left: 10px;
 	}
 	label.read:after {
-		content: '\f0aa';
+		content: '';
 		right: 10px;
 		-webkit-animation: sudo .85s linear infinite alternate;
 		animation: sudo .85s linear infinite alternate;
@@ -3516,10 +3516,10 @@ and also iPads specifically.
 		right: 0;
 	}
 	.readMore [type="checkbox"]:checked + label.read:before {
-		content: 'Less';
+		content: '\f0aa';
 	}
 	.readMore [type="checkbox"]:checked + label.read:after {
-		content: '\f0ab';
+		content: '';
 	}
 }
 @media(min-width:768px) {
