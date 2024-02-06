@@ -3497,7 +3497,8 @@ and also iPads specifically.
 		left: 10px;
 		font-family: "Font Awesome 5 Free"; 
 		font-weight: 900; 
-		content: "\f077";
+		content: "\f13a";
+		color: cornflowerblue;
 	}
 	label.read:after {
 		content: "more";
@@ -3518,7 +3519,10 @@ and also iPads specifically.
 		right: 0;
 	}
 	.readMore [type="checkbox"]:checked + label.read:before {
-		font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f078";
+		font-family: "Font Awesome 5 Free"; 
+		font-weight: 900; 
+		content: "\f139";
+		/* up */
 	}
 	.readMore [type="checkbox"]:checked + label.read:after {
 		content: "less";
