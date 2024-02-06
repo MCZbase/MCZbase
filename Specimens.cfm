@@ -395,7 +395,7 @@ limitations under the License.
 												</cfif> 
 														
 												<div class="col-12 col-xl-2 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
-													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
+													<div style="font-size: 0.85rem;" id="identifierMore" class="h6 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 														Identifiers&thinsp;
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="btn btn-xs px-1 pt-xl-1 px-xl-1 small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
@@ -1495,10 +1495,10 @@ limitations under the License.
 							function toggleIDDetail(onOff) {
 								if (onOff==0) {
 									$("##IDDetail").hide();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<i class="fas fa-caret-down"><span title="more fields" class="sr-only">more fields</span></i>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('Identifiers&thinsp;<i class="fas fa-caret-down"><span title="more fields" class="sr-only">more fields</span></i>');
 								} else {
 									$("##IDDetail").show();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<i class="fas fa-caret-up"><span title="fewer fields" class="sr-only">fewer fields</span></i>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('Identifiers&thinsp;<i class="fas fa-caret-up"><span title="fewer fields" class="sr-only">fewer fields</span></i>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
