@@ -3507,6 +3507,7 @@ and also iPads specifically.
 		right: 10px;
 		-webkit-animation: sudo .85s linear infinite alternate;
 		animation: sudo .85s linear infinite alternate;
+		color: #0460c1 !important;
 	}
 	.readMore [type="checkbox"] ~ span.ilt {
 		width: 100%;
