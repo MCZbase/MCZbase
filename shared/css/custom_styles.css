@@ -3496,7 +3496,7 @@ and also iPads specifically.
 	label.read:before {
 		content: '\f0ab';
 		left: 10px;
-		font-family: "Font Awesome 5 Regular";
+			font-family: FontAwesome;
 	}
 	label.read:after {
 		content: "more";
@@ -3518,7 +3518,7 @@ and also iPads specifically.
 	}
 	.readMore [type="checkbox"]:checked + label.read:before {
 		content: '\f139';
-		font-family: "Font Awesome 5 Regular";
+		font-family: FontAwesome;
 	}
 	.readMore [type="checkbox"]:checked + label.read:after {
 		content: "less";
