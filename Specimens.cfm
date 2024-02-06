@@ -397,7 +397,7 @@ limitations under the License.
 												<div class="col-12 col-xl-2 px-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
 													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
-															<button type="button" id="IDDetailCtl" class="btn btn-xs px-1 px-xl-1 py-0 py-xl-1 border-0 text-decoration-none" onclick="toggleIDDetail(#toggleTo#);"><span style="0.95rem" class='h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold'>Identifiers</span><span class="btn-link">#IDButton#</span></button>
+															<button type="button" id="IDDetailCtl" class="btn btn-xs px-1 px-xl-1 py-0 py-xl-1 border-0 text-decoration-none" onclick="toggleIDDetail(#toggleTo#);"><span style="font-size: 0.95rem" class='h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold'>Identifiers</span><span class="btn-link">#IDButton#</span></button>
 														</cfif>
 													</div>
 												</div>	
@@ -1114,7 +1114,7 @@ limitations under the License.
 												<div class="col-12 col-xl-2 px-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
 													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 														<button type="button" id="SpecDetailCtl" class="btn btn-xs px-1 py-xl-1 px-xl-1 small py-0 border-0 text-decoration-none" onclick="toggleSpecDetail(#toggleTo#);">
-															<span style="0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Specimen</span>
+															<span style="font-size: 0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Specimen</span>
 															<span class="btn-link">#SpecButton#</span>
 														</button>
 													</div>
@@ -1493,10 +1493,10 @@ limitations under the License.
 							function toggleIDDetail(onOff) {
 								if (onOff==0) {
 									$("##IDDetail").hide();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span style="0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Identifiers</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Identifiers</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
 								} else {
 									$("##IDDetail").show();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span style="0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Identifiers</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Identifiers</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1518,10 +1518,10 @@ limitations under the License.
 							function toggleTaxaDetail(onOff) {
 								if (onOff==0) {
 									$("##TaxaDetail").hide();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<span style="0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Taxonomy</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Taxonomy</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
 								} else {
 									$("##TaxaDetail").show();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<span style="0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Taxonomy</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Taxonomy</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1543,10 +1543,10 @@ limitations under the License.
 							function toggleGeogDetail(onOff) {
 								if (onOff==0) {
 									$("##GeogDetail").hide();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<span style="0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
 								} else {
 									$("##GeogDetail").show();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<span style="0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1568,10 +1568,10 @@ limitations under the License.
 							function toggleCollDetail(onOff) {
 								if (onOff==0) {
 									$("##CollDetail").hide();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<span style="0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Coll. Event</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Coll. Event</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
 								} else {
 									$("##CollDetail").show();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<span style="0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Coll. Event</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Coll. Event</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1593,10 +1593,10 @@ limitations under the License.
 							function toggleSpecDetail(onOff) {
 								if (onOff==0) {
 									$("##SpecDetail").hide();
-									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<span style="0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Specimen</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Specimen</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
 								} else {
 									$("##SpecDetail").show();
-									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<span style="0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Specimen</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Specimen</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
