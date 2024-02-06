@@ -1496,7 +1496,7 @@ limitations under the License.
 									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span style="0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Identifiers</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
 								} else {
 									$("##IDDetail").show();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span style="0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black">Identifiers</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span style="0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Identifiers</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
