@@ -391,7 +391,7 @@ limitations under the License.
 												<cfelse>
 													<cfset IDDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset IDButton = "<i class='fas fa-caret-down' title='fewer fields'><span class= 'sr-only'>fewer fields</span></i>">
+													<cfset IDButton = "Identifiers&thinsp;<i class='fas fa-caret-down' title='fewer fields'><span class= 'sr-only'>fewer fields</span></i>">
 												</cfif> 
 														
 												<div class="col-12 col-xl-2 px-1 pt-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
