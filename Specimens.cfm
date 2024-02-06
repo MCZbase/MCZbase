@@ -387,7 +387,7 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
 													<cfset IDDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset IDButton = "<i class='fas fa-caret-up' title='fewer fields'><span class= 'sr-only'>fewer fields</span></i>">
+														<cfset IDButton = "Identifiers&thinsp;<i class='fas fa-caret-up' title='fewer fields'><span class= 'sr-only'>fewer fields</span></i>">
 												<cfelse>
 													<cfset IDDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -398,7 +398,7 @@ limitations under the License.
 													<div style="font-size: 0.85rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 														
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
-															<button type="button" id="IDDetailCtl" class="btn btn-xs px-1 pt-xl-1 px-xl-1 small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">Identifiers&thinsp;#IDButton#</button>
+															<button type="button" id="IDDetailCtl" class="btn btn-xs px-1 pt-xl-1 px-xl-1 small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
 													</div>
 												</div>	
