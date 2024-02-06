@@ -1209,7 +1209,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 px-0 pb-2">
 												<div class="col-12 col-xl-2 px-1 py-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);-moz-box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);box-shadow: -1px 15px 12px -4px rgba(176,170,176,0.55);">
-													<div style="font-size: 0.95rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right w-100 px-3 py-xl-1 text-left text-xl-right text-dark mb-1 mb-md-0 pt-1 pt-md-0">
+													<div style="font-size: 0.95rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right w-100 mx-3 py-xl-1 text-left text-xl-right text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 													 General
 													</div>
 												</div>
