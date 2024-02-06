@@ -3494,7 +3494,7 @@ and also iPads specifically.
 		position: absolute;
 	}
 	label.read:before {
-		content: '\f0ab';
+		content: '\f077';
 		left: 10px;
 			font-family: FontAwesome;
 	}
@@ -3517,7 +3517,7 @@ and also iPads specifically.
 		right: 0;
 	}
 	.readMore [type="checkbox"]:checked + label.read:before {
-		content: '\f139';
+		content: '\f078';
 		font-family: FontAwesome;
 	}
 	.readMore [type="checkbox"]:checked + label.read:after {
