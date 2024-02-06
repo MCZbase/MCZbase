@@ -3497,8 +3497,9 @@ and also iPads specifically.
 		left: 10px;
 		font-family: "Font Awesome 5 Free"; 
 		font-weight: 900; 
-		content: "\f13a";
-		color: red;
+		content: "\f0d7";
+		font-size: 1rem;
+		color: black;
 		/*down*/
 	}
 	label.read:after {
@@ -3522,7 +3523,8 @@ and also iPads specifically.
 	.readMore [type="checkbox"]:checked + label.read:before {
 		font-family: "Font Awesome 5 Free"; 
 		font-weight: 900; 
-		content: "\f077";
+		content: "\f0d8";
+		color: black;
 		/* up */
 	}
 	.readMore [type="checkbox"]:checked + label.read:after {
