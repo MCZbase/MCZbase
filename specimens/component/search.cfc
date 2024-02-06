@@ -303,7 +303,12 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					//remove any trailing dash
 					prefix = REReplace(prefix,"\-$","");
 				}
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
+				if (Len(numeric) GT 0 OR Len(suffix) GT 0) { 
+					joinPhrase = leadingJoin;
+				} else { 
+					joinPhrase = "and";
+				}
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"'+joinPhrase+'","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
 				comma = ",";
 				leadingJoin = "and";
 			}
