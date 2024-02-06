@@ -3498,7 +3498,7 @@ and also iPads specifically.
 		font-family: "Font Awesome 5 Free"; 
 		font-weight: 900; 
 		content: "\f0d7";
-		font-size: 1rem;
+		font-size: 1.3rem;
 		color: black;
 		/*down*/
 	}
@@ -3524,6 +3524,7 @@ and also iPads specifically.
 		font-family: "Font Awesome 5 Free"; 
 		font-weight: 900; 
 		content: "\f0d8";
+		font-size: 1.3rem;
 		color: black;
 		/* up */
 	}
