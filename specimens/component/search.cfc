@@ -308,7 +308,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				} else { 
 					joinPhrase = "and";
 				}
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"'+joinPhrase+'","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & joinPhrase & '","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
 				comma = ",";
 				leadingJoin = "and";
 			}
