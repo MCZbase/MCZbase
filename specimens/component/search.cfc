@@ -140,9 +140,9 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 
 	// Prepare list for parsing
 	listOfNumbers = trim(listOfNumbers);
-	// Change ", " to "," and then " " to "," to allow space and comma separators
-	listOfNumbers = REReplace(listOfNumbers, ", ", ",","all");	// comma space to comma
-	listOfNumbers = REReplace(listOfNumbers, " ", ",","all");	// space to comma
+	// Change ", " to "," and then " " to "," to allow whitespace and comma separators
+	listOfNumbers = REReplace(listOfNumbers, ",\s", ",","all");	// comma whitespace to comma
+	listOfNumbers = REReplace(listOfNumbers, "\s", ",","all");	// whitespace to comma
 	listOfNumbers = REReplace(listOfNumbers, "\*", "%","all");	// dos to sql wildcard
 	// strip out any other characters
 	listOfNumbers = REReplace(listOfNumbers, '[^0-9A-Za-z%,:"\-<>]',"","all");
@@ -303,7 +303,12 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					//remove any trailing dash
 					prefix = REReplace(prefix,"\-$","");
 				}
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
+				if (Len(numeric) GT 0 OR Len(suffix) GT 0) { 
+					joinPhrase = "and";
+				} else { 
+					joinPhrase = leadingJoin;
+				}
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & joinPhrase & '","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
 				comma = ",";
 				leadingJoin = "and";
 			}
