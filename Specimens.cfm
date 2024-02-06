@@ -1518,10 +1518,10 @@ limitations under the License.
 							function toggleTaxaDetail(onOff) {
 								if (onOff==0) {
 									$("##TaxaDetail").hide();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<span style="0.95rem" class="btn-link h5 mx-2 border-bottom border-dotted text-decoration-none">Taxonomy</span><i class="fas fa-caret-down"><span title="show more fields" class="sr-only">more fields</span></i>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<span style="0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Taxonomy</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
 								} else {
 									$("##TaxaDetail").show();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<span style="0.95rem" class="btn-link h5 mx-2 border-bottom border-dotted text-decoration-none">Taxonomy</span><i class="fas fa-caret-up"><span title="show fewer fields" class="sr-only">fewer fields</span></i>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<span style="0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Taxonomy</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
