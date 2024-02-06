@@ -3498,7 +3498,7 @@ and also iPads specifically.
 		left: 10px;
 	}
 	label.read:after {
-		content: "\f139";
+		content: "less";
 		right: 10px;
 		-webkit-animation: sudo .85s linear infinite alternate;
 		animation: sudo .85s linear infinite alternate;
@@ -3519,7 +3519,7 @@ and also iPads specifically.
 		content: '\f139';
 	}
 	.readMore [type="checkbox"]:checked + label.read:after {
-		content: "\f0aa";
+		content: "more";
 	}
 }
 @media(min-width:768px) {
