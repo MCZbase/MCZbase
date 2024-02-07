@@ -3599,14 +3599,29 @@ Target JSON:
 						class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Save Search</button>
 				`);
 			</cfif>
-			// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+			// workaround for menu z-index being below grid cell z-index when grid is created by a search.
 			// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 			maxZIndex = getMaxZIndex();
-			$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
-			$('.jqx-grid-cell').css({'border-color': '##aaa'});
-			$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
-			$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
-			$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+			try { 
+				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-cell').css({'border-color': '##aaa'});
+			} catch (error) { 
+				console.log(error);
+				console.log("See BugID: 6152, Error seen by Stevie running chrome full screen on a second monitor.");  
+				console.log("Appears to result from jquery selector on the jqx-grid-cell class exceding the stack size.");  
+				console.log("Expected consequence is that the sort menus on the grid are not visible.");  
+			}
+			try { 
+				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
+			} catch (error) { 
+				console.log(error);
+			}
+			try { 
+				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+			} catch (error) { 
+				console.log(error);
+			}
 			var result_uuid = $('##result_id_' + whichGrid + 'Search').val(); 
 			<cfif isdefined("session.username") AND len(#session.username#) GT 0>
 				<cfif oneOfUs EQ 1>
