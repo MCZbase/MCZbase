@@ -3578,7 +3578,7 @@ Target JSON:
 				title: 'Show/Hide Columns',
 				autoOpen: false,
 				modal: true,
-				reszable: true,
+				resizable: true,
 				close: function(event, ui) { 
 					window.columnHiddenSettings = getColumnVisibilities(gridId);		
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -3616,7 +3616,7 @@ Target JSON:
 					title: 'Save Search',
 					autoOpen: false,
 					modal: true,
-					reszable: true,
+					resizable: true,
 					buttons: [
 						{
 							text: "Save",
