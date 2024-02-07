@@ -126,8 +126,11 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 	
 				<!--- number of colums actually found --->
-					
+		
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
+				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+					<h5 class="text-success">#headers.get(JavaCast("int",actualColumnNumber))#</h5>
+				</cfloop>
 					<cfscript>
 					data = [
 						{field:"institution_acronym", required:"yes"},
@@ -143,9 +146,7 @@ limitations under the License.
 						{field:"remarks", required:"no"}
 					];
 					</cfscript>
-					<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-						<h5 class="text-success">#headers.get(JavaCast("int",actualColumnNumber))#</h5>
-					</cfloop>
+					
 					<cfloop array="#data#" index="i">
 						<cfoutput>
 							<h3 class="h5 <cfif #i.required# eq "yes"> text-danger</cfif>">#i.field# </h5>
