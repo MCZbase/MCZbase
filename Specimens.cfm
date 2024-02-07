@@ -1105,7 +1105,7 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"SpecDetail") GT 0 OR hiddenHaveValue>
 													<cfset SpecDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset SpecButton = '<i class="fas fa-caret-up" title="fewer fields"><span class="sr-only">show more fields</span></i>'>
+													<cfset SpecButton = '<i class="fas fa-caret-right" title="fewer fields"><span class="sr-only">show more fields</span></i>'>
 												<cfelse>
 													<cfset SpecDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -1496,7 +1496,7 @@ limitations under the License.
 									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Identifiers</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
 								} else {
 									$("##IDDetail").show();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Identifiers</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Identifiers</span><span class="btn-link"><i class="fas fa-caret-right"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1521,7 +1521,7 @@ limitations under the License.
 									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Taxonomy</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
 								} else {
 									$("##TaxaDetail").show();
-									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Taxonomy</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Taxonomy</span><span class="btn-link"><i class="fas fa-caret-right"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
