@@ -397,7 +397,7 @@ limitations under the License.
 												<div class="col-12 col-xl-2 px-0 mb-1 border float-left" style="-webkit-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);-moz-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);">
 													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
-															<button type="button" id="IDDetailCtl" class="btn btn-xs px-1 px-xl-1 py-0 py-xl-1 border-0 text-decoration-none" onclick="toggleIDDetail(#toggleTo#);"><span style="font-size: 0.95rem" class='h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold'>Identifiers</span><span class="btn-link">#IDButton#</span></button>
+															<button type="button" id="IDDetailCtl" class="w-100 text-left text-xl-right btn py-xl-1 py-0 border-0 text-decoration-none" onclick="toggleIDDetail(#toggleTo#);"><span style="font-size: 0.95rem" class='h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold'>Identifiers</span><span class="btn-link">#IDButton#</span></button>
 														</cfif>
 													</div>
 												</div>	
@@ -556,7 +556,7 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 col-xl-2 px-0 mb-1 border float-left" style="-webkit-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);-moz-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);">
 													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
-														<button type="button" id="TaxaDetailCtl" class="btn btn-xs px-1 py-xl-1 px-xl-1 small py-0 border-0 text-decoration-none" onclick="toggleTaxaDetail(#toggleTo#);"><span style="font-size: 0.95rem;" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Taxonomy</span><span class="btn-link">#TaxaButton#</span></button>
+														<button type="button" id="TaxaDetailCtl" class="w-100 text-left text-xl-right btn py-xl-1 py-0 border-0 text-decoration-none" onclick="toggleTaxaDetail(#toggleTo#);"><span style="font-size: 0.95rem;" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Taxonomy</span><span class="btn-link">#TaxaButton#</span></button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-auto pt-1 px-3 mx-0 mb-0">
@@ -995,7 +995,7 @@ limitations under the License.
 												</cfif> 
 												<div class="col-12 col-xl-2 px-0 mb-1 border float-left" style="-webkit-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);-moz-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);">
 													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
-														<button type="button" id="CollDetailCtl"  class="btn btn-xs py-0 py-xl-1 px-1 px-xl-1 small border-0 text-decoration-none" onclick="toggleCollDetail(#toggleTo#);"><span style="font-size: 0.95rem" class="text-black h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Coll. Event</span><span class="btn-link">#CollButton#</span></button>
+														<button type="button" id="CollDetailCtl"  class="w-100 text-left text-xl-right btn py-xl-1 py-0 border-0 text-decoration-none" onclick="toggleCollDetail(#toggleTo#);"><span style="font-size: 0.95rem" class="text-black h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Coll. Event</span><span class="btn-link">#CollButton#</span></button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-lg-auto px-3 pt-1 mb-0 mx-0">
@@ -1113,7 +1113,7 @@ limitations under the License.
 												</cfif> 
 												<div class="col-12 col-xl-2 px-0 mb-1 border float-left" style="-webkit-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);-moz-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);">
 													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
-														<button type="button" id="SpecDetailCtl" class="btn btn-xs px-1 py-xl-1 px-xl-1 small py-0 border-0 text-decoration-none" onclick="toggleSpecDetail(#toggleTo#);">
+														<button type="button" id="SpecDetailCtl" class="w-100 text-left text-xl-right btn py-xl-1 py-0 border-0 text-decoration-none" onclick="toggleSpecDetail(#toggleTo#);">
 															<span style="font-size: 0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Specimen</span>
 															<span class="btn-link">#SpecButton#</span>
 														</button>
