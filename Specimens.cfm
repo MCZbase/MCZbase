@@ -993,7 +993,7 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset CollButton = "<i class='fas fa-caret-down' title='more fields'><span class='sr-only'>more fields</span></i>">
 												</cfif> 
-												<div class="col-12 col-xl-2 px-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 9px 9px -4px rgba(176,170,176,0.35);-moz-box-shadow: -1px 9px 9px -2px rgba(176,170,176,0.55);box-shadow: -1px 9px 9px -2px rgba(176,170,176,0.35);">
+												<div class="col-12 col-xl-2 px-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);-moz-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);">
 													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 														<button type="button" id="CollDetailCtl"  class="btn btn-xs py-0 py-xl-1 px-1 px-xl-1 small border-0 text-decoration-none" onclick="toggleCollDetail(#toggleTo#);"><span style="font-size: 0.95rem" class="text-black h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Coll. Event</span><span class="btn-link">#CollButton#</span></button>
 													</div>
