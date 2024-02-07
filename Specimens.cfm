@@ -189,12 +189,15 @@ limitations under the License.
 	font-size: 17px;
 }
 
-.col-xxl-1 {max-width: 13.666667%}
+
 @media screen and (max-width: 678px) {
 	.animation-element {
 		width: 100%;
 		margin: 0px 0px 30px 0px;
 	}
+}
+@media screen and (min-width: 1200px) {
+.col-xxl-1 {max-width: 13.666667%}
 }
 </style>
 <script>
