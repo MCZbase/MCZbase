@@ -130,7 +130,7 @@ limitations under the License.
 				<h3>Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
 					
 						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-							header?:: #headers.get(JavaCast("int",actualColumnNumber))#
+							<h5>#headers.get(JavaCast("int",actualColumnNumber))#</h5>
 							
 						</cfloop>
 						<!--- TODO: Match the provided headers to the expected headers --->
