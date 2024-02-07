@@ -104,7 +104,7 @@ limitations under the License.
 		<cfset COLUMN_ERR = "Error inserting data">
 		<cfoutput>
 			<cftry>
-				<!--- Proof of concept parsing CSV with Java using Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
+				<!--- Proof of concept parsing CSV with Java using Commons CSV library included with coldfusion --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
@@ -124,9 +124,7 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
-				
-			<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">		
-
+	
 				<!--- number of colums actually found --->
 					
 				<h3>Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
@@ -138,7 +136,7 @@ limitations under the License.
 						<!--- TODO: Match the provided headers to the expected headers --->
 					
 					
-						<!--- Iterate through the remaining lines in the file --->
+						 Iterate through the remaining lines in the file 
 						<cfloop condition="#iterator.hasNext()#">
 							<cfset row = iterator.next()>
 					<!---		 as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number 
@@ -146,7 +144,7 @@ limitations under the License.
 							 TODO: Test for multibyte characters 
 							 TODO: Create insert statement --->
 							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-								<h6>row looped through actualColumnNumber: #row.get(JavaCast("int",actualColumnNumber))#</h6>
+								#row.get(JavaCast("int",actualColumnNumber))#
 							</cfloop>
 						</cfloop>
 						<!--- End proof of concept code --->
@@ -163,7 +161,6 @@ limitations under the License.
 						<cfset bufferedReader = bufferedReaderClass.init(fileReader)>
 
 						<cftry>
-							#iterator#
 							<cfloop condition="bufferedReader.ready()">
 								<cfset line = bufferedReader.readLine()>
 								<!--- Process each line as needed, for example, output it --->
