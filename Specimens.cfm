@@ -786,7 +786,7 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 col-xl-2 px-1 mb-1 border float-left" style="-webkit-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);-moz-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);">
 													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
-														<button type="button" id="GeogDetailCtl" class="btn btn-xs px-1 py-xl-1 px-xl-1 small py-0 border-0 text-decoration-none" onclick="toggleGeogDetail(#toggleTo#);"><span class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link"><i class="fas fa-caret-down" title="more fields"><span class="sr-only">more fields</span></i></span></button>
+														<button type="button" id="GeogDetailCtl" class="btn btn-xs px-1 py-xl-1 px-xl-1 small py-0 border-0 text-decoration-none" onclick="toggleGeogDetail(#toggleTo#);"><span style="font-size: 0.95rem;" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link"><i class="fas fa-caret-down" title="more fields"><span class="sr-only">more fields</span></i></span></button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-auto pt-1 px-3 mx-0 mb-0">
@@ -1543,10 +1543,10 @@ limitations under the License.
 							function toggleGeogDetail(onOff) {
 								if (onOff==0) {
 									$("##GeogDetail").hide();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link"><i class="fa fa-caret-down" aria-hidden="true"></i></span>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<span style="font-size: 0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link"><i class="fa fa-caret-down" aria-hidden="true"></i></span>');
 								} else {
 									$("##GeogDetail").show();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
