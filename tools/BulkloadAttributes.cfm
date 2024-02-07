@@ -104,7 +104,7 @@ limitations under the License.
 		<cfset COLUMN_ERR = "Error inserting data">
 		<cfoutput>
 			<cftry>
-				<!--- Proof of concept parsing CSV with Java using Commons CSV library included with coldfusion --->
+				<!--- Proof of concept parsing CSV with Java using Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
@@ -124,6 +124,9 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
+			<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">		
+		#headers#
+
 	
 				<!--- number of colums actually found --->
 					
@@ -136,7 +139,7 @@ limitations under the License.
 						<!--- TODO: Match the provided headers to the expected headers --->
 					
 					
-						 Iterate through the remaining lines in the file 
+						<!--- Iterate through the remaining lines in the file --->
 						<cfloop condition="#iterator.hasNext()#">
 							<cfset row = iterator.next()>
 					<!---		 as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number 
