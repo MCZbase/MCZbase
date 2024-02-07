@@ -143,29 +143,17 @@ limitations under the License.
 						{field:"remarks", required:"no"}
 					];
 					</cfscript>
+					<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+						<h5 class="text-success">#headers.get(JavaCast("int",actualColumnNumber))#</h5>
+					</cfloop>
 					<cfloop array="#data#" index="i">
 						<cfoutput>
-							<h3 <cfif #i.required# eq "yes">class="text-danger"</cfif>>#i.field#: </h3>
+							<h3 <cfif #i.required# eq "yes">class="text-danger"</cfif>>#i.field#: <cfif #headers.get(JavaCast("int",actualColumnNumber))# eq #i.field#>in CSV</cfif> </h3>
 						</cfoutput>
 					</cfloop>
-					<cfset requiredList=["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_date","determiner"]>
-					<cfset fieldlist = ["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>
-					<table>
-						<tr>
-						<cfloop array="#fieldlist#" index="allHeaders">
-							<td><cfoutput>#allHeaders[1]#</cfoutput></td>
-						</cfloop>
-						<cfloop array="#requiredList#" index="reqHeaders">
-							<td class="text-danger"><cfoutput>#reqHeaders#</cfoutput></td>
-						</cfloop>
-						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-							<h5 class="text-success">#headers.get(JavaCast("int",actualColumnNumber))#</h5>
-						</cfloop>
-						</tr>
-					</table>
+			
 						<!--- TODO: Match the provided headers to the expected headers --->
-					
-					
+
 						<!--- Iterate through the remaining lines in the file --->
 						<cfloop condition="#iterator.hasNext()#">
 							<cfset row = iterator.next()>
