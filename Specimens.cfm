@@ -197,7 +197,7 @@ limitations under the License.
 	}
 }
 @media screen and (min-width: 1400px) {
-.col-xxl-1 {max-width: 12.666667%}
+.col-xxl-1 {max-width: 13.666667%}
 }
 </style>
 <script>
