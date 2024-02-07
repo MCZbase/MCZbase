@@ -126,7 +126,7 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				
 			<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">		
-#iterator#
+
 
 	
 				<!--- number of colums actually found --->
