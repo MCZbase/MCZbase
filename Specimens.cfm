@@ -180,14 +180,7 @@ limitations under the License.
 	-ms-transform: translate(0px, 0px);
 	transform: translate3d(0px, 0px, 0px);
 }
-@media screen and (max-width: 678px) {
-	.animation-element
-		width: 100%;
-		margin: 0px 0px 30px 0px;
-	}
-}
-</style>
-<style>
+
 .ns {
 	display:none;
 }
@@ -196,7 +189,13 @@ limitations under the License.
 	font-size: 17px;
 }
 .col-xl-2 {max-width:15.666667%;}
-.col-xxl-1 {max-width: 14.666667%}
+.col-xxl-1 {max-width: 13.666667%}
+@media screen and (max-width: 678px) {
+	.animation-element {
+		width: 100%;
+		margin: 0px 0px 30px 0px;
+	}
+}
 </style>
 <script>
   function toggleDisplay1() {
