@@ -387,7 +387,7 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
 													<cfset IDDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset IDButton = "<i class='fas fa-caret-up' title='fewer fields'><span class= 'sr-only'>fewer fields</span></i>">
+														<cfset IDButton = "<i class='fas fa-caret-right' title='fewer fields'><span class= 'sr-only'>fewer fields</span></i>">
 												<cfelse>
 													<cfset IDDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -548,7 +548,7 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"TaxaDetail") GT 0 OR hiddenHaveValue>
 													<cfset TaxaDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset TaxaButton = "<i class='fas fa-caret-up' title='fewer fields'><span class='sr-only'>fewer fields</span></i>">
+														<cfset TaxaButton = "<i class='fas fa-caret-right' title='fewer fields'><span class='sr-only'>fewer fields</span></i>">
 												<cfelse>
 													<cfset TaxaDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -778,7 +778,7 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"GeogDetail") GT 0 or hiddenHaveValue>
 													<cfset GeogDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset GeogButton = '<i class="fas fa-caret-up" title="fewer fields"><span class="sr-only">fewer fields</span></i>'>
+													<cfset GeogButton = '<i class="fas fa-caret-right" title="fewer fields"><span class="sr-only">fewer fields</span></i>'>
 												<cfelse>
 													<cfset GeogDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -987,7 +987,7 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"CollDetail") GT 0 OR hiddenHaveValue>
 													<cfset CollDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset CollButton = "<i class='fas fa-caret-up' title='fewer fields'><span class='sr-only'>fewer fields</span></i>">
+														<cfset CollButton = "<i class='fas fa-caret-right' title='fewer fields'><span class='sr-only'>fewer fields</span></i>">
 												<cfelse>
 													<cfset CollDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -1546,7 +1546,7 @@ limitations under the License.
 									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<span style="font-size: 0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link small90">(more <i class="fa fa-caret-down" style="vertical-align: middle;font-size: 17px;"></i>)</span>');
 								} else {
 									$("##GeogDetail").show();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link small90">(less <i class="fas fa-caret-up" style="vertical-align:middle;"></i>)</span>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link small90">(less <i class="fas fa-caret-right" style="vertical-align:middle;"></i>)</span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1571,7 +1571,7 @@ limitations under the License.
 									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Coll. Event</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
 								} else {
 									$("##CollDetail").show();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Coll. Event</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Coll. Event</span><span class="btn-link"><i class="fas fa-caret-right"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1596,7 +1596,7 @@ limitations under the License.
 									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Specimen</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
 								} else {
 									$("##SpecDetail").show();
-									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Specimen</span><span class="btn-link"><i class="fas fa-caret-up"></i></span>');
+									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Specimen</span><span class="btn-link"><i class="fas fa-caret-right"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
