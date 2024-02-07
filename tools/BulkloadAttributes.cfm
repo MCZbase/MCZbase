@@ -144,9 +144,9 @@ limitations under the License.
 					];
 					</cfscript>
 					<cfloop array="#data#" index="i">
-					   <cfoutput>
-						#i.field#: #i.required#<br>
-					   </cfoutput>
+						<cfoutput>
+							<h3 <cfif #i.required# eq "yes">class="text-danger"</cfif>>#i.field#: </h3>
+						</cfoutput>
 					</cfloop>
 					<cfset requiredList=["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_date","determiner"]>
 					<cfset fieldlist = ["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>
