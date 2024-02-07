@@ -1111,7 +1111,11 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isDefined("locality_id") and len(locality_id) gt 0>
+					<cfif Find(",",locality_id) GT 0>
+						and locality.locality_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#" list="yes">)
+					<cfelse>
 						and locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					</cfif>
 				</cfif>
 				<cfif isDefined("valid_catalog_term_fg") and len(valid_catalog_term_fg) gt 0>
 						and geog_auth_rec.valid_catalog_term_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
@@ -2108,7 +2112,11 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isDefined("locality_id") and len(locality_id) gt 0>
+					<cfif Find(",",locality_id) GT 0>
+						and locality.locality_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#" list="yes">)
+					<cfelse>
 						and locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+					</cfif>
 				</cfif>
 				<cfif isDefined("collecting_event_id") and len(collecting_event_id) gt 0>
 						and collecting_event.collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
