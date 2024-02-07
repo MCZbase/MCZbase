@@ -127,7 +127,7 @@ limitations under the License.
 	
 				<!--- number of colums actually found --->
 					
-				<h5>Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h5>
+				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
 					<cfscript>
 					data = [
 						{field:"institution_acronym", required:"yes"},
@@ -148,7 +148,7 @@ limitations under the License.
 					</cfloop>
 					<cfloop array="#data#" index="i">
 						<cfoutput>
-							<h5 <cfif #i.required# eq "yes">class="text-danger"</cfif>>#i.field# </h5>
+							<h3 class="h5 <cfif #i.required# eq "yes"> text-danger</cfif>">#i.field# </h5>
 						</cfoutput>
 					</cfloop>
 			
