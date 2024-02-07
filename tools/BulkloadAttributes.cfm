@@ -129,11 +129,11 @@ limitations under the License.
 					
 				<h3>Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
 					<cfset requiredList=["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_date","determiner"]>
-						<cfloop array="#requiredList#" index="reqHeaders">
-							<cfoutput>#reqHeaders# <br/> </cfoutput>
-						</cfloop>
+						
 						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-							<h5 class="text-danger">#headers.get(JavaCast("int",actualColumnNumber))#</h5>
+							<h5 class="text-danger"><cfloop array="#requiredList#" index="reqHeaders">
+							<cfoutput>#reqHeaders# <br/> </cfoutput>
+						</cfloop>#headers.get(JavaCast("int",actualColumnNumber))#</h5>
 						</cfloop>
 						<!--- TODO: Match the provided headers to the expected headers --->
 					
