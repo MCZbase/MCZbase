@@ -196,7 +196,7 @@ limitations under the License.
 		margin: 0px 0px 30px 0px;
 	}
 }
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1350px) {
 .col-xxl-1 {max-width: 13.666667%}
 }
 </style>
