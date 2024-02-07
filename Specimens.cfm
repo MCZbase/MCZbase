@@ -1543,7 +1543,7 @@ limitations under the License.
 							function toggleGeogDetail(onOff) {
 								if (onOff==0) {
 									$("##GeogDetail").hide();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<span style="font-size: 0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link small90">(more <i class="fa fa-caret-down" style="vertical-align: middle;"></i>)</span>');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<span style="font-size: 0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link small90">(more <i class="fa fa-caret-down" style="vertical-align: middle;font-size: 17px;"></i>)</span>');
 								} else {
 									$("##GeogDetail").show();
 									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Geography</span><span class="btn-link small90">(less <i class="fas fa-caret-up" style="vertical-align:middle;"></i>)</span>');
