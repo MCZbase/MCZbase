@@ -127,8 +127,6 @@ limitations under the License.
 				
 			<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">		
 
-
-	
 				<!--- number of colums actually found --->
 					
 				<h3>Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
@@ -148,7 +146,7 @@ limitations under the License.
 							 TODO: Test for multibyte characters 
 							 TODO: Create insert statement --->
 							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-								#row.get(JavaCast("int",actualColumnNumber))#
+								<h6>row looped through actualColumnNumber: #row.get(JavaCast("int",actualColumnNumber))#</h6>
 							</cfloop>
 						</cfloop>
 						<!--- End proof of concept code --->
