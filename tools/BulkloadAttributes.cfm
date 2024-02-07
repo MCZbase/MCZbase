@@ -165,6 +165,7 @@ limitations under the License.
 						<cfset bufferedReader = bufferedReaderClass.init(fileReader)>
 
 						<cftry>
+							#iterator#
 							<cfloop condition="bufferedReader.ready()">
 								<cfset line = bufferedReader.readLine()>
 								<!--- Process each line as needed, for example, output it --->
