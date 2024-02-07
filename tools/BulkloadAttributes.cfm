@@ -128,12 +128,32 @@ limitations under the License.
 				<!--- number of colums actually found --->
 					
 				<h3>Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
+					<cfscript>
+					data = [
+						{field:"institution_acronym", required:"yes"},
+						{field:"collection_cde", required:"yes"},
+						{field:"other_id_type", required:"yes"},
+						{field:"other_id_number", required:"yes"},
+						{field:"attribute", required:"yes"},
+						{field:"attribute_value", required:"yes"},
+						{field:"attribute_units", required:"no"},
+						{field:"attribute_date", required:"yes"},
+						{field:"attribute_meth", required:"no"},
+						{field:"determiner", required:"yes"},
+						{field:"remarks", required:"no"}
+					];
+					</cfscript>
+					<cfloop array="#data#" index="i">
+					   <cfoutput>
+						Columns: #i.field#: #i.required#<br>
+					   </cfoutput>
+					</cfloop>
 					<cfset requiredList=["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_date","determiner"]>
 					<cfset fieldlist = ["institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>
 					<table>
 						<tr>
 						<cfloop array="#fieldlist#" index="allHeaders">
-							<td><cfoutput>#allHeaders#</cfoutput></td>
+							<td><cfoutput>#allHeaders[1]#</cfoutput></td>
 						</cfloop>
 						<cfloop array="#requiredList#" index="reqHeaders">
 							<td class="text-danger"><cfoutput>#reqHeaders#</cfoutput></td>
