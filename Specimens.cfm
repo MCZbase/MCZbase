@@ -1209,7 +1209,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 px-0 pb-2">
 												<div class="col-12 col-xl-2 px-0 mb-1 border float-left" style="-webkit-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);-moz-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);">
-													<div style="font-size: 0.95rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right w-100 px-3 px-xl-2 py-1 py-xl-2 text-left text-xl-right text-dark mb-1 mb-md-0">
+													<div style="font-size: 0.95rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right w-100 px-4 px-xl-2 py-1 py-xl-3 text-left text-xl-right text-dark mb-1 mb-md-0">
 													 General
 													</div>
 												</div>
@@ -1305,7 +1305,7 @@ limitations under the License.
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 search-form-basic-odd pb-2 px-0">
 													<div class="col-12 col-xl-2 px-0 mb-1 border float-left" style="-webkit-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);-moz-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);">
-														<div style="font-size: 0.95rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right w-100 px-3 px-xl-2 text-left text-md-left text-dark mb-1 mb-md-0 py-1 py-xl-2">
+														<div style="font-size: 0.95rem;" class="h6 font-weight-bold d-inline-block-md text-xl-right w-100 px-4 px-xl-3 text-left text-md-left text-dark mb-1 mb-md-0 py-1 py-xl-2">
 															Transactions
 														</div>
 													</div>
