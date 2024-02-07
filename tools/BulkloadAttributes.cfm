@@ -124,8 +124,9 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
+				
 			<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">		
-		#headers#
+#iterator#
 
 	
 				<!--- number of colums actually found --->
