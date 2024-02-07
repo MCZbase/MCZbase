@@ -148,7 +148,7 @@ limitations under the License.
 					</cfloop>
 					<cfloop array="#data#" index="i">
 						<cfoutput>
-							<h3 <cfif #i.required# eq "yes">class="text-danger"</cfif>>#i.field#: <cfif #headers.get(JavaCast("int",actualColumnNumber))# eq #i.field#>in CSV</cfif> </h3>
+							<h3 <cfif #i.required# eq "yes">class="text-danger"</cfif>>#i.field# </h3>
 						</cfoutput>
 					</cfloop>
 			
