@@ -1115,20 +1115,21 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"SpecDetail") GT 0 OR hiddenHaveValue>
 													<cfset SpecDetailStyle="">
 													<cfset toggleTo = "0">
-													<cfset SpecButton = '<i class="fas fa-caret-right" title="fewer fields"><span class="sr-only">show more fields</span></i>'>
+													<cfset SpecButton = '<i class="fas fa-caret-right" style="vertical-align: middle;"></i>'>
 												<cfelse>
 													<cfset SpecDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset SpecButton = '<i class="fas fa-caret-down" title="more fields"><span class="sr-only">show more fields</span></i>'>
+													<cfset SpecButton = '<i class="fas fa-caret-down" style="vertical-align: middle;"></i>'>
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
-													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
-														<button type="button" id="SpecDetailCtl" class="w-100 text-left text-xl-right btn py-xl-1 py-0 border-0 text-decoration-none" onclick="toggleSpecDetail(#toggleTo#);">
-															<span style="font-size: 0.95rem" class="h5 mx-2 text-black font-weight-bold">Specimen</span>
-															<span class="btn-link">#SpecButton#</span>
+													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-2">
+														<span style="font-size: 0.95rem" class="mx-2 d-block text-black font-weight-bold">Specimen</span>
+														<button type="button" id="SpecDetailCtl" class="py-0 btn-link text-right btn small" onclick="toggleSpecDetail(#toggleTo#);">
+															more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
 													</div>
 												</div>
+													
 												<div class="form-row col-12 col-xl-10 col-xxl-11 pt-1 px-3 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
