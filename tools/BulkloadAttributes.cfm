@@ -147,12 +147,7 @@ limitations under the License.
 						{field:"remarks", required:"no"}
 					];
 					Iterator iter= map.entrySet().iterator(); 
-					while (iter.hasNext()) { 
-						Map.Entry pair = (Map.Entry)iter.next(); 
-						String key = pair.getKey(); 
-						List<Object> values= pair.getValue() 
-
-					} 
+				
 					</cfscript>
 					
 					<cfloop array="#data#" index="i">
