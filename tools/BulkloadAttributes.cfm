@@ -172,34 +172,8 @@ limitations under the License.
 						</ul>
 						</cfloop>
 						<!--- End proof of concept code --->
-							<br><br>
-						<!-- *********************************** -->	
-						<!-- Example of Parsing and Reading Data -->	
-						<!-- *********************************** -->
-						<h3>Example of Parsing and Reading Data into Rows</h3>
-						<cfset filePath = "#tempFile#">
-						<cfset fileReaderClass = createObject("java", "java.io.FileReader")>
-						<cfset bufferedReaderClass = createObject("java", "java.io.BufferedReader")>
-
-						<cfset fileReader = fileReaderClass.init(filePath)>
-						<cfset bufferedReader = bufferedReaderClass.init(fileReader)>
-
-						<cftry>
-							<cfloop condition="bufferedReader.ready()">
-								<cfset line = bufferedReader.readLine()>
-								<!--- Process each line as needed, for example, output it --->
-								<cfdump var="#line#"><br>
-							</cfloop>
-							<cfcatch type="any">
-								<!--- Handle any exceptions that may occur --->
-								<cfdump var="#cfcatch#">
-							</cfcatch>
-						</cftry>
-
-						<cfset bufferedReader.close()>
-						<cfset fileReader.close()>
-							
-							<br><br>
+			
+			
 
 				<!---		<h3>Header comparisons</h3>
 							
