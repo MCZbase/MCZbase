@@ -391,11 +391,11 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
 													<cfset IDDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset IDButton = "less <i class='fas fa-caret-right'></i>">
+														<cfset IDButton = "less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>">
 												<cfelse>
 													<cfset IDDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-														<cfset IDButton = "more <i class='fas fa-caret-down'></i>">
+														<cfset IDButton = "more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
 												</cfif> 
 														
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
