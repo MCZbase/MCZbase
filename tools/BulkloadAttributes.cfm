@@ -199,7 +199,7 @@ limitations under the License.
 							<ul>
 							
 							<cfloop from="1" to="#headerRecord.size()#" index="i">
-								<cfset actualHeaders[i] = javacast("string", #actualHeaders#)>
+								<cfset actualHeaders[i] = javacast("string", #headerRecord#)>
 								<li>#actualHeaders[i]#</li>
 							</cfloop>
 							</ul>
