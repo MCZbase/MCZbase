@@ -400,9 +400,9 @@ limitations under the License.
 														
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-2">
-														<span style="font-size: 0.95rem" class="mx-2 text-black font-weight-bold">Identifiers</span>
+														<span style="font-size: 0.95rem" class="mx-2 d-block text-black font-weight-bold">Identifiers</span>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
-															<button type="button" id="IDDetailCtl" class="d-block text-right py-xl-1 py-0 border-0 text-decoration-none btn small" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+															<button type="button" id="IDDetailCtl" class=" btn-link text-right py-xl-1 py-0 border-0 text-decoration-none btn small" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
 													</div>
 												</div>	
