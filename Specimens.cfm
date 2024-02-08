@@ -796,9 +796,9 @@ limitations under the License.
 													<cfset GeogButton = '<i class="fas fa-caret-down" style="vertical-align: middle"></i>'>
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
-													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-2">
+													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
 														<span style="font-size: 0.95rem" class="mx-2 px-2 px-xl-0 d-block text-black font-weight-bold">Geography</span>
-														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block py-1 py-xl-0 btn-link text-right btn small" onclick="toggleGeogDetail(#toggleTo#);">more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block py-0 btn-link text-right btn small" onclick="toggleGeogDetail(#toggleTo#);">more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-10 col-xxl-11 pt-1 px-3 mx-0 mb-0">
@@ -1007,9 +1007,9 @@ limitations under the License.
 													<cfset CollButton = "<i class='fas fa-caret-down' style='vertical-align:middle;'></i>">
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
-													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-2">
+													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
 														<span style="font-size: 0.95rem" class="mx-2 px-2 px-xl-0 d-block text-black font-weight-bold">Coll. Event</span>
-														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block py-1 py-xl-0 btn-link text-right btn small" onclick="toggleCollDetail(#toggleTo#);">more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
+														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block py-1 btn-link text-right btn small" onclick="toggleCollDetail(#toggleTo#);">more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
 																										
@@ -1130,9 +1130,9 @@ limitations under the License.
 													<cfset SpecButton = '<i class="fas fa-caret-down" style="vertical-align: middle;"></i>'>
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
-													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-2">
+													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
 														<span style="font-size: 0.95rem" class="mx-2 px-2 px-xl-0 d-block text-black font-weight-bold">Specimen</span>
-														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-1 py-xl-0 btn-link text-right btn small" onclick="toggleSpecDetail(#toggleTo#);">
+														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 btn-link text-right btn small" onclick="toggleSpecDetail(#toggleTo#);">
 															more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
 													</div>
