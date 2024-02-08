@@ -149,12 +149,12 @@ limitations under the License.
 				
 				
 					</cfscript>
-					
+					<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
 						<cfoutput>
-							<h3 class="h5 <cfif #i.required# eq "yes"> text-danger</cfif>">#i.field# </h5>
+							<li class="list-group-item h5 <cfif #i.required# eq "yes"> text-danger</cfif>">#i.field# </li>
 						</cfoutput>
-					</cfloop>
+					</cfloop></ul>
 			
 						<!--- TODO: Match the provided headers to the expected headers --->
 
@@ -164,10 +164,12 @@ limitations under the License.
 					<!---		 as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number 
 							 TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber  
 							 TODO: Test for multibyte characters 
-							 TODO: Create insert statement ---><ul>
+							 TODO: Create insert statement --->
+						<ul class="list-group list-group-horizontal">
 							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 								<li>#row.get(JavaCast("int",actualColumnNumber))#</li>
-							</cfloop></ul>
+							</cfloop>
+						</ul>
 						</cfloop>
 						<!--- End proof of concept code --->
 							<br><br>
