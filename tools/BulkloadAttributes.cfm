@@ -164,10 +164,10 @@ limitations under the License.
 					<!---		 as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number 
 							 TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber  
 							 TODO: Test for multibyte characters 
-							 TODO: Create insert statement --->
+							 TODO: Create insert statement ---><ul>
 							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-								<h4>Row of Values: #row.get(JavaCast("int",actualColumnNumber))#</h4>
-							</cfloop>
+								<li>#row.get(JavaCast("int",actualColumnNumber))#</li>
+							</cfloop></ul>
 						</cfloop>
 						<!--- End proof of concept code --->
 							<br><br>
