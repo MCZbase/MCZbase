@@ -125,7 +125,7 @@ limitations under the License.
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 			
-	
+		 		<cfset compare = headers.isConsistent(i.field)>
 				<!--- number of colums actually found --->
 		
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
@@ -147,14 +147,15 @@ limitations under the License.
 						{field:"remarks", required:"no"}
 					];
 				
-				
+			
 					</cfscript>
 					<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
 						<cfoutput>
 							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
 						</cfoutput>
-					</cfloop></ul>
+					</cfloop>
+					</ul>
 			
 						<!--- TODO: Match the provided headers to the expected headers --->
 
