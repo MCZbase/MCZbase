@@ -822,7 +822,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<button type="button" id="GeogDetailCtl1" class="d-none d-xl-inline-block py-0 btn-link text-right btn small" onclick="toggleGeogDetail(#toggleTo#);">more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+													<button type="button" id="GeogDetailCtl1" class="d-block d-xl-none py-0 btn-link text-right btn small" onclick="toggleGeogDetail(#toggleTo#);">more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mb-0 mx-0">
 															<div class="col-12 mb-1 col-md-3">
