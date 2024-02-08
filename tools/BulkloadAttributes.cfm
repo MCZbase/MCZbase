@@ -262,8 +262,8 @@ limitations under the License.
 				<cfset attribute_value_exists = false>
 				<cfset attribute_date_exists = false>
 				<cfset determiner_exists = false>
-				<cfloop from="1" to ="#ArrayLen(line[1])#" index="col">
-					<cfset header = line[1][col]>
+				<cfloop from="1" to ="#ArrayLen(row[1])#" index="col">
+					<cfset header = row[1][col]>
 					<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 					<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 					<cfif ucase(header) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
