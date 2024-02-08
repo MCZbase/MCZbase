@@ -1220,7 +1220,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 form-row mx-0 px-0 pb-1">
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
-													<div style="font-size: 0.95rem;" class="pt-2 px-2 font-weight-bold text-black mx-2">
+													<div style="font-size: 0.95rem;" class="pt-2 px-2 text-right d-xl-inline-block font-weight-bold text-black mx-2">
 													 General
 													</div>
 												</div>
