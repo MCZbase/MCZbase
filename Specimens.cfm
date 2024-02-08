@@ -402,7 +402,7 @@ limitations under the License.
 													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
 														<span style="font-size: 0.95rem" class="mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Identifiers</span>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
-															<button type="button" id="IDDetailCtl" class="text-left text-xl-right py-xl-1 py-0 border-0 text-decoration-none" onclick="toggleIDDetail(#toggleTo#);"><span class="btn-link small90">(more <i class="fas fa-caret-right" style="vertical-align: middle;" title="more fields"></i>#IDButton#)</span></button>
+															<button type="button" id="IDDetailCtl" class="text-left text-xl-right py-xl-1 py-0 border-0 text-decoration-none" onclick="toggleIDDetail(#toggleTo#);"><span class="btn-link small90">(more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i>#IDButton#)</span></button>
 														</cfif>
 													</div>
 												</div>	
