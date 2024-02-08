@@ -1577,10 +1577,10 @@ limitations under the License.
 							function toggleCollDetail(onOff) {
 								if (onOff==0) {
 									$("##CollDetail").hide();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Coll. Event</span><span class="btn-link"><i class="fas fa-caret-down"></i></span>');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<span class="btn-link"><i class="fas fa-caret-down" style="vertical-align: middle;"></i></span>');
 								} else {
 									$("##CollDetail").show();
-									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<span style="font-size: 0.95rem" class="h5 mx-2  border-bottom border-dotted text-decoration-none text-black font-weight-bold">Coll. Event</span><span class="btn-link"><i class="fas fa-caret-right"></i></span>');
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<span class="btn-link"><i class="fas fa-caret-right" style="vertical-align: middle;"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
