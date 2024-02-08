@@ -565,7 +565,7 @@ limitations under the License.
 														<button type="button" id="TaxaDetailCtl" class="py-0 btn-link text-right btn small" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xl-10 col-xxl-auto pt-1 px-3 mx-0 mb-0">
+												<div class="form-row col-12 col-xl-10 col-xxl-auto float-left pt-1 px-3 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4">
 														<div class="form-row mx-0 mb-0">
 															<div class="col-9 px-0">
