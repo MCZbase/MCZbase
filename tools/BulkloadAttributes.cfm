@@ -146,6 +146,11 @@ limitations under the License.
 						{field:"determiner", required:"yes"},
 						{field:"remarks", required:"no"}
 					];
+						for(Entry ent:map.entrySet()) { 
+    		for(Object obj: Arrays.asList(ent.getValue())) { 
+          System.out.println(obj.toString()); 
+    		} 
+} 
 					</cfscript>
 					
 					<cfloop array="#data#" index="i">
