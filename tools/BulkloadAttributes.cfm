@@ -167,7 +167,7 @@ limitations under the License.
 							 TODO: Create insert statement --->
 						<ul class="list-group list-group-horizontal">
 							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-								<li>#row.get(JavaCast("int",actualColumnNumber))#</li>
+								<li class="list-group-item">#row.get(JavaCast("int",actualColumnNumber))#</li>
 							</cfloop>
 						</ul>
 						</cfloop>
