@@ -175,7 +175,7 @@ limitations under the License.
 						<!--- End proof of concept code --->
 			
 					<cfif #headers.isConsistent()# eq 'true'>Hello</cfif>
-							<cfif #this.recordNumber# = recordNumber>MCZ</cfif>
+					
 
 				<!---		<h3>Header comparisons</h3>
 							
