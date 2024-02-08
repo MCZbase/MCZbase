@@ -559,13 +559,13 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset TaxaButton = "more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
 												</cfif>
-												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1">
 													<div class="py-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-dark mb-0">
 														<span style="font-size: 0.95rem" class="mx-2 d-block text-black font-weight-bold">Taxonomy</span>
 														<button type="button" id="TaxaDetailCtl" class="py-0 btn-link text-right btn small" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xl-10 float-left pt-1 px-3 mx-0 mb-0">
+												<div class="form-row col-12 col-xl-10 pt-1 px-3 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4">
 														<div class="form-row mx-0 mb-0">
 															<div class="col-9 px-0">
