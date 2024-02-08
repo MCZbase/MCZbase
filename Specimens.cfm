@@ -490,7 +490,7 @@ limitations under the License.
 															</select>
 														</div>
 													</cfif>
-													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleIDDetail(1)"><span class="btn-link">more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span></button>
+													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleIDDetail(#toggleTo#)"><span class="btn-link">more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span></button>
 																
 													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
 													<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
