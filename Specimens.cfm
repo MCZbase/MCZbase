@@ -1078,7 +1078,7 @@ limitations under the License.
 														<label class="data-entry-label small" for="when">Verbatim Date</label>
 														<input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
 													</div>
-														<button type="button" id="CollDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-0 btn-link w-100 text-center btn small" onclick="toggleCollDetail(#toggleTo#);">
+														<button type="button" id="CollDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleCollDetail(#toggleTo#);">
 															more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
 													<div id="CollDetail" class="col-12 px-0" style="#CollDetailStyle#">
@@ -1127,7 +1127,7 @@ limitations under the License.
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-2">
 														<span style="font-size: 0.95rem" class="mx-2 d-block text-black font-weight-bold">Specimen</span>
-														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 btn-link text-right btn small" onclick="toggleSpecDetail(#toggleTo#);">
+														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-1 btn-link text-right btn small" onclick="toggleSpecDetail(#toggleTo#);">
 															more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
 													</div>
