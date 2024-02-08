@@ -565,7 +565,7 @@ limitations under the License.
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1">
 													<div class="pb-1 pb-xl-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 pt-2 text-left text-dark mb-0">
 														<span style="font-size: 0.95rem" class="mx-2 px-2 px-xl-0 d-block text-black font-weight-bold">Taxonomy</span>
-														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block py-0 py-xl-1 btn-link text-right btn small" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
+														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block py-0 btn-link text-right btn small" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-10 col-xxl-11 pt-1 px-3 mx-0 mb-0">
