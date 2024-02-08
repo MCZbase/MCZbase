@@ -1179,7 +1179,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-														<button type="button" id="SpecDetailCtl" class="d-block border m-1 d-xl-none py-0 btn-link w-100 text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
+														<button type="button" id="SpecDetailCtl1" class="d-block border m-1 d-xl-none py-0 btn-link w-100 text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
 															more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
 													<div id="SpecDetail" class="col-12 px-0" style="#SpecDetailStyle#">
@@ -1608,9 +1608,11 @@ limitations under the License.
 								if (onOff==0) {
 									$("##SpecDetail").hide();
 									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(1)').html('<span class="btn-link">more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##SpecDetailCtl1").attr('onCLick','toggleSpecDetail(1)').html('<span class="btn-link">more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
 								} else {
 									$("##SpecDetail").show();
 									$("##SpecDetailCtl").attr('onCLick','toggleSpecDetail(0)').html('<span class="btn-link">less <i class="fas fa-caret-right" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##SpecDetailCtl1").attr('onCLick','toggleSpecDetail(0)').html('<span class="btn-link">less <i class="fas fa-caret-right" style="vertical-align: middle;" title="more fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
