@@ -124,7 +124,7 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
-				<cfset list = headerMap.size()>
+				<cfset list = records.headerMap()>
 	
 				<!--- number of colums actually found --->
 		
@@ -146,11 +146,13 @@ limitations under the License.
 						{field:"determiner", required:"yes"},
 						{field:"remarks", required:"no"}
 					];
-						for(institution_acronym data:map.entrySet()) { 
-    		for(Object obj: Arrays.asList(data.getValue())) { 
-          System.out.println(obj.toString()); 
-    		} 
-} 
+					Iterator iter= map.entrySet().iterator(); 
+					while (iter.hasNext()) { 
+						Map.Entry pair = (Map.Entry)iter.next(); 
+						String key = pair.getKey(); 
+						List<Object> values= pair.getValue() 
+
+					} 
 					</cfscript>
 					
 					<cfloop array="#data#" index="i">
