@@ -146,7 +146,7 @@ limitations under the License.
 						{field:"determiner", required:"yes"},
 						{field:"remarks", required:"no"}
 					];
-					Iterator iter= map.entrySet().iterator(); 
+				
 				
 					</cfscript>
 					
