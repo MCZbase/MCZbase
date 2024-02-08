@@ -553,15 +553,16 @@ limitations under the License.
 												<cfif listFind(searchPrefList,"TaxaDetail") GT 0 OR hiddenHaveValue>
 													<cfset TaxaDetailStyle="">
 													<cfset toggleTo = "0">
-														<cfset TaxaButton = "<i class='fas fa-caret-right' title='fewer fields'><span class='sr-only'>fewer fields</span></i>">
+														<cfset TaxaButton = "less <i class='fas fa-caret-right' style='vertical-align: middle;'></i>">
 												<cfelse>
 													<cfset TaxaDetailStyle="display:none;">
 													<cfset toggleTo = "1">
-													<cfset TaxaButton = "<i class='fas fa-caret-down' title='more fields'><span class='sr-only'>more fields</span></i>">
+													<cfset TaxaButton = "more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
 												</cfif>
-												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 border float-left" style="-webkit-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);-moz-box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);box-shadow: -1px 9px 9px -2px rgba(170,170,170,0.35);">
-													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1 pt-md-0">
-														<button type="button" id="TaxaDetailCtl" class="w-100 text-left text-xl-right btn py-xl-1 py-0 border-0 text-decoration-none" onclick="toggleTaxaDetail(#toggleTo#);"><span style="font-size: 0.95rem;" class="h5 mx-2 border-bottom border-dotted text-decoration-none text-black font-weight-bold">Taxonomy</span><span class="btn-link">#TaxaButton#</span></button>
+												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 border float-left">
+													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-dark mb-1 mb-md-0 pt-1">
+														<span style="font-size: 0.95rem" class="mx-2 d-block text-black font-weight-bold">Taxonomy</span>
+														<button type="button" id="TaxaDetailCtl" class="py-0 btn-link text-right btn small" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-auto pt-1 px-3 mx-0 mb-0">
