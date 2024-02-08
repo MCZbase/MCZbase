@@ -985,7 +985,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 form-row mx-0 px-0 pb-0">
+											<div class="col-12 form-row mx-0 px-0 pb-2 pb-xl-0">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
 													OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)
@@ -1182,7 +1182,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-														<button type="button" id="SpecDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-0 btn-link w-100 text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
+														<button type="button" id="SpecDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleSpecDetail(#toggleTo#);">
 															more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
 													<div id="SpecDetail" class="col-12 px-0" style="#SpecDetailStyle#">
