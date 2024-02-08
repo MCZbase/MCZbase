@@ -152,7 +152,7 @@ limitations under the License.
 					<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
 						<cfoutput>
-							<li class="list-group-item h5 <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:100px;">#i.field# </li>
+							<li class="list-group-item h5 <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:150px;">#i.field# </li>
 						</cfoutput>
 					</cfloop></ul>
 			
