@@ -1123,7 +1123,7 @@ limitations under the License.
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-2">
-														<span style="font-size: 0.95rem" class="mx-2 d-block text-black font-weight-bold">Specimen</span>
+														<span style="font-size: 0.95rem" class="mx-1 px-2 pt-2 d-block text-black font-weight-bold">Specimen</span>
 														<button type="button" id="SpecDetailCtl" class="d-none d-xl-block py-0 btn-link text-right btn small" onclick="toggleSpecDetail(#toggleTo#);">
 															more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
@@ -1316,7 +1316,7 @@ limitations under the License.
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-1 px-0">
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
-														<div style="font-size: 0.95rem;" class="mx-2 text-black font-weight-bold">
+														<div style="font-size: 0.95rem;" class="mx-1 px-2 text-black font-weight-bold">
 															Transactions
 														</div>
 													</div>
