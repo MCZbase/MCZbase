@@ -125,7 +125,7 @@ limitations under the License.
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
-		 		<cfset strings = CSVRecord(#records#,#headers#,#size#)>
+		 		<cfset strings = CSVRecord.parser(#records#,#headers#,#size#)>
 				<!--- number of colums actually found --->
 		
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
