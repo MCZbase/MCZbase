@@ -175,7 +175,7 @@ limitations under the License.
 						<!--- End proof of concept code --->
 			
 			<cfif #headers.isConsistent()# eq 'true'>Hello</cfif>
-							<cfif #headers.isMapped('institution_acronym')#>MCZ</cfif>
+							<cfif #headers.isMapped()#>MCZ</cfif>
 
 				<!---		<h3>Header comparisons</h3>
 							
