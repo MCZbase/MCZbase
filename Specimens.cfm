@@ -490,6 +490,8 @@ limitations under the License.
 															</select>
 														</div>
 													</cfif>
+													<button type="button" id="IDDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleIDDetail(1)"><span class="btn-link">more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span></button>
+																
 													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
 													<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
@@ -632,6 +634,8 @@ limitations under the License.
 															});
 														</script>
 													</div>
+													<button type="button" id="TaxaDetailCtl1" class="d-block d-xl-none border m-1 d-xl-none py-1 btn-link w-100 text-center btn small" onclick="toggleTaxaDetail(1)"><span class="btn-link">more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span></button>
+														
 													<div id="TaxaDetail" class="col-12 px-0" style="#TaxaDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-2">
@@ -818,6 +822,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
+													<button type="button" id="GeogDetailCtl1" class="d-none d-xl-inline-block py-0 btn-link text-right btn small" onclick="toggleGeogDetail(#toggleTo#);">more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
 														<div class="form-row col-12 col-md-12 px-0 mb-0 mx-0">
 															<div class="col-12 mb-1 col-md-3">
