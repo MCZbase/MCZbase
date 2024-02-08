@@ -174,7 +174,7 @@ limitations under the License.
 						</cfloop>
 						<!--- End proof of concept code --->
 			
-			<cfif #headers.isConsistent()# eq 'false'>Hello</cfif>
+			<cfif #headers.isConsistent(data)# eq 'true'>Hello</cfif>
 
 				<!---		<h3>Header comparisons</h3>
 							
