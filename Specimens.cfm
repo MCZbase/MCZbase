@@ -403,7 +403,7 @@ limitations under the License.
 													<div class="pb-1 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-2">
 														<span style="font-size: 0.95rem" class="mx-2 px-2 px-xl-0 d-block text-black font-weight-bold">Identifiers</span>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
-															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block py-1 py-xl-0 btn-link text-right btn small" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block py-0 btn-link text-right btn small" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
 													</div>
 												</div>	
@@ -1009,7 +1009,7 @@ limitations under the License.
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
 														<span style="font-size: 0.95rem" class="mx-2 px-2 px-xl-0 d-block text-black font-weight-bold">Coll. Event</span>
-														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block py-1 btn-link text-right btn small" onclick="toggleCollDetail(#toggleTo#);">more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
+														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block py-0 btn-link text-right btn small" onclick="toggleCollDetail(#toggleTo#);">more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
 																										
