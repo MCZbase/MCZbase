@@ -152,7 +152,7 @@ limitations under the License.
 					<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
 						<cfoutput>
-							<li class="list-group-item h5 <cfif #i.required# eq "yes"> text-danger</cfif>">#i.field# </li>
+							<li class="list-group-item h5 <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:100px;">#i.field# </li>
 						</cfoutput>
 					</cfloop></ul>
 			
@@ -167,7 +167,7 @@ limitations under the License.
 							 TODO: Create insert statement --->
 						<ul class="list-group list-group-horizontal">
 							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-								<li class="list-group-item">#row.get(JavaCast("int",actualColumnNumber))#</li>
+								<li class="list-group-item" style="width:100px;">#row.get(JavaCast("int",actualColumnNumber))#</li>
 							</cfloop>
 						</ul>
 						</cfloop>
