@@ -1533,9 +1533,11 @@ limitations under the License.
 								if (onOff==0) {
 									$("##TaxaDetail").hide();
 									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('<span class="btn-link">more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##TaxaDetailCtl1").attr('onCLick','toggleTaxaDetail(1)').html('<span class="btn-link">more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
 								} else {
 									$("##TaxaDetail").show();
 									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('<span class="btn-link">less <i class="fas fa-caret-right" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##TaxaDetailCtl1").attr('onCLick','toggleTaxaDetail(0)').html('<span class="btn-link">less <i class="fas fa-caret-right" style="vertical-align: middle;" title="more fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1558,9 +1560,11 @@ limitations under the License.
 								if (onOff==0) {
 									$("##GeogDetail").hide();
 									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('<span class="btn-link">more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##GeogDetailCtl1").attr('onCLick','toggleGeogDetail(1)').html('<span class="btn-link">more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
 								} else {
 									$("##GeogDetail").show();
 									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('<span class="btn-link">less <i class="fas fa-caret-right" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##GeogDetailCtl1").attr('onCLick','toggleGeogDetail(0)').html('<span class="btn-link">less <i class="fas fa-caret-right" style="vertical-align: middle;" title="more fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
@@ -1583,9 +1587,11 @@ limitations under the License.
 								if (onOff==0) {
 									$("##CollDetail").hide();
 									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('<span class="btn-link">more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##CollDetailCtl1").attr('onCLick','toggleCollDetail(1)').html('<span class="btn-link">more <i class="fas fa-caret-down" style="vertical-align: middle;" title="more fields"></i></span>');
 								} else {
 									$("##CollDetail").show();
 									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('<span class="btn-link">less <i class="fas fa-caret-right" style="vertical-align: middle;" title="more fields"></i></span>');
+									$("##CollDetailCtl1").attr('onCLick','toggleCollDetail(0)').html('<span class="btn-link">less <i class="fas fa-caret-right" style="vertical-align: middle;" title="more fields"></i></span>');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
