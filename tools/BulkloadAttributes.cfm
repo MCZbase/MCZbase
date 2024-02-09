@@ -160,7 +160,7 @@ limitations under the License.
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
 						<cfoutput>
-							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#[i].field# </li>
+							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
 						</cfoutput>
 					</cfloop>
 				</ul>
@@ -181,7 +181,7 @@ limitations under the License.
 					</ul>
 				</cfloop>
 					<!--- End proof of concept code --->
-				
+				<cfif #1.field# eq 'institution_acronym'>match</cfif>
 				
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
