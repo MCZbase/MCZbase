@@ -408,9 +408,9 @@ limitations under the License.
 														
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<span style="font-size: 0.95rem" class="mx-2 px-2 px-xl-0 d-block text-black font-weight-bold">Identifiers</span>
+														<span style="font-size: 0.95rem" class="mx-2 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Identifiers</span>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
-															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block py-0 btn-link text-right btn small" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+															<button type="button" id="IDDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn small" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</cfif>
 													</div>
 												</div>	
@@ -571,8 +571,8 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 pt-1 text-left text-dark mb-0">
-														<span style="font-size: 0.95rem" class="mx-2 px-2 px-xl-0 d-block text-black font-weight-bold">Taxonomy</span>
-														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block py-0 btn-link text-right btn small" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
+														<span style="font-size: 0.95rem" class="mx-2 px-2 px-xl-0 mx-xl-0 d-block text-black font-weight-bold">Taxonomy</span>
+														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn small" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xxl-10 col-xxl-11 pt-1 px-3 mx-0 mb-0">
@@ -804,8 +804,8 @@ limitations under the License.
 												</cfif>
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<span style="font-size: 0.95rem" class="mx-2 px-2 px-xl-0 d-block text-black font-weight-bold">Geography</span>
-														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block py-0 btn-link text-right btn small" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
+														<span style="font-size: 0.95rem" class="mx-2 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Geography</span>
+														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn small" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xxl-10 col-xxl-11 pt-1 px-3 mx-0 mb-0">
@@ -1015,8 +1015,8 @@ limitations under the License.
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<span style="font-size: 0.95rem" class="mx-2 px-2 px-xl-0 d-block text-black font-weight-bold">Coll. Event</span>
-														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block py-0 btn-link text-right btn small" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
+														<span style="font-size: 0.95rem" class="mx-2 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Coll. Event</span>
+														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn small" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
 													</div>
 												</div>				
 																										
@@ -1138,8 +1138,8 @@ limitations under the License.
 												</cfif> 
 												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
-														<span style="font-size: 0.95rem" class="mx-2 px-2 px-xl-0 d-block text-black font-weight-bold">Specimen</span>
-														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none py-0 btn-link text-right btn small" onclick="toggleSpecDetail(#toggleTo#);">
+														<span style="font-size: 0.95rem" class="mx-2 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Specimen</span>
+														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none px-xl-0 py-0 btn-link text-right btn small" onclick="toggleSpecDetail(#toggleTo#);">
 															show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i>
 														</button>
 													</div>
@@ -1238,7 +1238,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 px-0">
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
-														<div style="font-size: 0.95rem;" class="mx-0 px-3 pt-2 text-left text-xl-right text-black font-weight-bold">
+														<div style="font-size: 0.95rem;" class="mx-0 px-3 px-xl-0 pt-2 text-left text-xl-right text-black font-weight-bold">
 															General
 														</div>
 													</div>
@@ -1334,7 +1334,7 @@ limitations under the License.
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 px-0">
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
-														<div style="font-size: 0.95rem;" class="mx-0 px-3 pt-2 text-left text-xl-right text-black font-weight-bold">
+														<div style="font-size: 0.95rem;" class="mx-0 px-3 pt-2 px-xl-0 text-left text-xl-right text-black font-weight-bold">
 															Transactions
 														</div>
 													</div>
