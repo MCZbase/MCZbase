@@ -198,7 +198,7 @@ limitations under the License.
 }
 @media screen and (min-width: 1400px) {
 .col-xxl-1 {max-width: 8.666667%}
-.col-xxl-11 {max-width: 90.333333%}
+.col-xxl-11 {max-width: 89.333333%}
 }
 @media screen and (min-width: 1200px) and (max-width: 1399px) {
 	.col-xxl-10 {
@@ -575,7 +575,7 @@ limitations under the License.
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block py-0 btn-link text-right btn small" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-xl-10 col-xxl-11 pt-1 px-3 mx-0 mb-0">
+												<div class="form-row col-12 col-xxl-10 col-xxl-11 pt-1 px-3 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4">
 														<div class="form-row mx-0 mb-0">
 															<div class="col-9 px-0">
