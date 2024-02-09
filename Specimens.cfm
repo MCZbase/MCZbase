@@ -196,9 +196,16 @@ limitations under the License.
 		margin: 0px 0px 30px 0px;
 	}
 }
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+	.col-xl-10 {
+		-ms-flex: 0 0 83.333333%;
+		flex: 0 0 83.333333%;
+		max-width: 83.333333%;
+	}
+}
 @media screen and (min-width: 1400px) {
-.col-xxl-1 {max-width: 11.666667%}
-.col-xxl-11 {max-width: 88.333333%}
+.col-xxl-1 {max-width: 8.666667%}
+.col-xxl-11 {max-width: 91.333333%}
 }
 </style>
 <script>
