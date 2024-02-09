@@ -224,11 +224,11 @@ limitations under the License.
 				<cfset foundHighAscii = "">
 				<cfset foundMultiByte = "">
 				<!--- get the headers from the first row of the input, then iterate through the remaining rows inserting the data into the temp table. --->
-				<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
+				<cfloop from="1" to ="11" index="row">
 					<!--- obtain the values in the current row --->
 					<cfset colVals="">
-					<cfloop from="1" to ="#ArrayLen(arrResult[row])#" index="col">
-						<cfset thisBit=arrResult[row][col]>
+					<cfloop from="1" to ="#ArrayLen(headers[row])#" index="col">
+						<cfset thisBit=headers[row][col]>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
