@@ -187,14 +187,14 @@ limitations under the License.
 
 						<h3>Header comparisons</h3>
 							
-						<cfparam name="filePath" default="#tempFileInputStream#">
+			<!---			<cfparam name="filePath" default="#tempFileInputStream#">--->
 						
 						<cfset expectedHeaderString ="institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 						<cfset columnHeadersArray = createObject("java", "java.lang.String").valueOf(expectedHeaderString).split(",")>
 
 						 <!---Initialize CSVParser with FileReader and CSVFormat.DEFAULT --->
-						<cfset fileReader.init(filePath)>
-						<cfset csvParser.init(fileReader, createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT)>
+						<!---<cfset fileReader.init(filePath)>
+						<cfset csvParser.init(fileReader, createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT)>--->
 
 						<!--- Process headers manually --->
 						<cfset headerRecord = csvParser.iterator().next()>
