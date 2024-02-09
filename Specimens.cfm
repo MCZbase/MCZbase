@@ -201,7 +201,7 @@ limitations under the License.
 .col-xxl-11 {max-width: 91.333333%}
 }
 @media screen and (min-width: 1200px) and (max-width: 1399px) {
-	.col-xl-10 {
+	.col-xxl-10 {
 		-ms-flex: 0 0 83.333333% !important;
 		flex: 0 0 83.333333% !important;
 		max-width: 83.333333% !important;
@@ -414,7 +414,7 @@ limitations under the License.
 														</cfif>
 													</div>
 												</div>	
-												<div class="form-row col-12 col-xl-10 col-xxl-11 pt-1 px-3 mx-0 mb-0">
+												<div class="form-row col-12 col-xxl-10 col-xxl-11 pt-1 px-3 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="fixedCollection" class="data-entry-label small">Collection</label>
 														<div name="collection" id="fixedCollection" class="w-100"></div>
