@@ -347,13 +347,13 @@ limitations under the License.
 					
 							<cfif foundHighCount LT 6>
 								<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
-								<cfset foundHighCount = foundHighCount + 1>
+	<!---							<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
 			
 							<cfif foundHighCount LT 6>
 								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
-								<cfset foundHighCount = foundHighCount + 1>
+				<!---				<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						</cfif>
 					</cfloop>
@@ -367,8 +367,8 @@ limitations under the License.
 							#foundMultiByte#
 						</ul>
 					</cfif>
-				</cfif>
-				<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
+				</cfif>--->
+				<!---<cfif Find("#NO_COLUMN_ERR#",cfcatch.message) GT 0>
 					<ul class="py-1" style="font-size: 1.2rem;">
 						<li>#cfcatch.message#</li>
 					</ul>
@@ -378,8 +378,9 @@ limitations under the License.
 					</ul>
 				<cfelse>
 					<cfdump var="#cfcatch#">
-				</cfif>
+				</cfif>--->
 		<!---	</cfcatch>--->
+						<cfcatch>Catch error</cfcatch>
 			</cftry>
 		</cfoutput>
 	</cfif>
