@@ -116,6 +116,13 @@ limitations under the License.
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
 				<cfset defaultFormat = csvFormat.DEFAULT >
+					
+				<cfscript>
+				for (CSVRecord csvRecord : csvParser) {
+					System.out.println("Id: " + csvRecord.get(0) + " Name: " + csvRecord.get(1)
+						+ " GPA: " + csvRecord.get(2));
+					}	
+				</cfscript>
 		
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
