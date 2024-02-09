@@ -196,15 +196,15 @@ limitations under the License.
 				<cfset attribute_date_exists = false>
 				<cfset determiner_exists = false>
 				<cfloop from="0" to="#headers.size() - 1#" index="col">
-					<cfset header = #headers#>
-					<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
-					<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
-					<cfif ucase(header) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
-					<cfif ucase(header) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
-					<cfif ucase(header) EQ 'attribute'><cfset attribute_exists=true></cfif>
-					<cfif ucase(header) EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
-					<cfif ucase(header) EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
-					<cfif ucase(header) EQ 'determiner'><cfset determiner_exists=true></cfif>
+					<cfset header1 = #headers.get(JavaCast("int",actualColumnNumber))#>
+					<cfif ucase(header1) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
+					<cfif ucase(header1) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
+					<cfif ucase(header1) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
+					<cfif ucase(header1) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
+					<cfif ucase(header1) EQ 'attribute'><cfset attribute_exists=true></cfif>
+					<cfif ucase(header1) EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
+					<cfif ucase(header1) EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
+					<cfif ucase(header1) EQ 'determiner'><cfset determiner_exists=true></cfif>
 				</cfloop>
 				<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
 					<cfset message = "#NO_COLUMN_ERR#">
@@ -227,8 +227,8 @@ limitations under the License.
 				<cfloop from="1" to ="11" index="row">
 					<!--- obtain the values in the current row --->
 					<cfset colVals="">
-					<cfloop from="1" to ="#ArrayLen(headers[row])#" index="col">
-						<cfset thisBit=headers[row][col]>
+					<cfloop from="1" to ="#ArrayLen(header1[row])#" index="col">
+						<cfset thisBit=header1[row][col]>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
