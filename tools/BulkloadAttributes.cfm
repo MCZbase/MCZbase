@@ -97,6 +97,10 @@ limitations under the License.
 		</cfoutput>
 	</cfif>
 	<!------------------------------------------------------->
+<!---as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number 
+			TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber  
+			TODO: Test for multibyte characters 
+			TODO: Create insert statement --->
 	<cfif #action# is "getFile">
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
 		<!--- Set some constants to identify error cases in cfcatch block --->
@@ -123,8 +127,6 @@ limitations under the License.
 				<cfset defaultFormat = csvFormat.DEFAULT >
 				<!---// Create a CSVParser using the FileReader and CSVFormat--->
 				<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>
-				
-		
 		
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
@@ -137,10 +139,10 @@ limitations under the License.
 		 		<!--- number of colums actually found --->
 		
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
-<!---			<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 					<h5 class="text-success">#headers.get(JavaCast("int",actualColumnNumber))#</h5>
-				</cfloop>--->
-					<cfscript>
+				</cfloop>
+				<cfscript>
 					data = [
 						{field:"institution_acronym", required:"yes"},
 						{field:"collection_cde", required:"yes"},
@@ -164,10 +166,7 @@ limitations under the License.
 					</cfloop>
 					</ul>
 						<!--- TODO: Match the provided headers to the expected headers --->
-						<!---as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number 
-						TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber  
-						TODO: Test for multibyte characters 
-						TODO: Create insert statement --->
+				
 						<!--- Iterate through the remaining lines in the file --->
 					<cfloop condition="#iterator.hasNext()#">
 						<cfset row = iterator.next()>
@@ -182,9 +181,6 @@ limitations under the License.
 					<cfset expectedHeaderString ="institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 					<cfset columnHeadersArray = createObject("java", "java.lang.String").valueOf(expectedHeaderString).split(",")>
 
-						 <!---Initialize CSVParser with FileReader and CSVFormat.DEFAULT --->
-						<!---<cfset fileReader.init(filePath)>
-						<cfset csvParser.init(fileReader, createObject("java", "org.apache.commons.csv.CSVFormat").DEFAULT)>--->
 
 						<!--- Process headers manually --->
 						<cfset headerRecord = csvParser.iterator().next()>
