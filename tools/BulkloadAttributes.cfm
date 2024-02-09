@@ -140,9 +140,11 @@ limitations under the License.
 		
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
 				<!--- runs through the headers in the spreadsheet only--->
+				<ul>
 				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-					<h5 class="text-success">#headers.get(JavaCast("int",actualColumnNumber))#</h5>
+					<li class="text-success" style="width: 140px;">#headers.get(JavaCast("int",actualColumnNumber))#</li>
 				</cfloop>
+				</ul>
 				<cfscript>
 					data = [
 						{field:"institution_acronym", required:"yes"},
