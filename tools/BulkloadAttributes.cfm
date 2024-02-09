@@ -157,26 +157,26 @@ limitations under the License.
 						{field:"determiner", required:"yes"},
 						{field:"remarks", required:"no"}
 					];
-					</cfscript>
-					<!---Expected and required headers; red = required; black = expected;--->
-					<ul class="list-group list-group-horizontal">
+				</cfscript>
+				<!---Expected and required headers; red = required; black = expected;--->
+				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
 						<cfoutput>
 							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
 						</cfoutput>
 					</cfloop>
-					</ul>
+				</ul>
 						<!--- TODO: Match the provided headers to the expected headers --->
 				
 						<!--- Iterate through the remaining lines in the file --->
-					<cfloop condition="#iterator.hasNext()#">
-						<cfset row = iterator.next()>
-						<ul class="list-group list-group-horizontal">
-							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-								<li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li>
-							</cfloop>
-						</ul>
-					</cfloop>
+				<cfloop condition="#iterator.hasNext()#">
+					<cfset row = iterator.next()>
+					<ul class="list-group list-group-horizontal">
+						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+							<li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li>
+						</cfloop>
+					</ul>
+				</cfloop>
 					<!--- End proof of concept code --->
 				
 				
