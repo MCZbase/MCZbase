@@ -181,15 +181,15 @@ limitations under the License.
 					</ul>
 				</cfloop>
 					
-				<cfloop index="match" from="0" to="#headers.size() - 1#">
+
 					<cfloop array="#data#" index="i">
-						<cfif #headers.get(JavaCast("int",match))#>
+						<cfif #headers.get(JavaCast("int",match))# eq #i.field#>
 						Yes
 						<cfelse>	
-						#i.field#
+					No
 						</cfif>		
 					</cfloop>
-				</cfloop>
+			
 					
 					
 					
