@@ -1229,13 +1229,13 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 form-row mx-0 px-0 pb-2">
-												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
-													<div style="font-size: 0.95rem;" class="pt-2 px-2 px-xl-0 text-left text-xl-right font-weight-bold text-black mx-2">
-													 General
+											<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 px-0">
+													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+														<div style="font-size: 0.95rem;" class="mx-0 px-3 pt-2 px-xl-0 text-left text-xl-right text-black font-weight-bold">
+															General
+														</div>
 													</div>
-												</div>
-												<div class="form-row col-12 col-xl-10 col-xxl-11 pt-1 px-3 mb-0 mx-0">
+													<div class="form-row col-12 col-xl-10 col-xxl-11 ml-0 px-2 pt-1 mb-0">
 													<div class="col-12 mb-1 col-md-2">
 														<cfif not isdefined("keyword")>
 															<cfset keyword="">
