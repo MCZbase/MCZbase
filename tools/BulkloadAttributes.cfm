@@ -209,13 +209,13 @@ limitations under the License.
 						</cfloop>
 						</ul>
 						<!--- Check if actual headers match expected headers---> 
-						<cfset headersMatch = compareArrays(columnHeadersArray, actualHeaders)>
+					<!---	<cfset headersMatch = compareArrays(columnHeadersArray, actualHeaders)>
 
 						<cfif headersMatch>
-							<cfoutput><h4 class="text-success">Headers Match!</h4></cfoutput>
+							<cfoutput><h4 class="text-success">Headers Match!</h4></cfoutput>--->
 
 							 <!---Process the rest of the CSV data based on column indices --->
-							<cfloop from="2" to="#csvParser.getRecords().size()#" index="rowIndex">
+		<!---					<cfloop from="2" to="#csvParser.getRecords().size()#" index="rowIndex">
 								<cfset record = csvParser.getRecords().get(rowIndex - 0)>
 								<cfset recordIterator = record.iterator()>
 								<cfloop from="1" to="#record.size()#" index="columnIndex">
@@ -226,7 +226,7 @@ limitations under the License.
 
 						<cfelse>
 							<cfoutput><h4 class="text-danger">Headers do not match the expected headers.</h4></cfoutput>
-						</cfif>
+						</cfif>--->
 		<!---// Iterate over the CSV records--->
 <!---				<cset iterator = csvParser.iterator()>
 				<cfloop condition="#iterator.hasNext()#">
