@@ -190,7 +190,7 @@ limitations under the License.
 					<cfif #headers.get(JavaCast("int",match))# eq 'attribute_value'>Present</cfif>
 					<cfif #headers.get(JavaCast("int",match))# eq 'attribute_units'>Present</cfif>
 					<cfif #headers.get(JavaCast("int",match))# eq 'attribute_date'>Present</cfif>
-					<cfif #headers.get(JavaCast("int",match))# eq 'attribute_method'>Present<cfelse>Not Present</cfif>
+					<cfif #headers.get(JavaCast("int",match))# neq 'attribute_method'>Not Present</cfif>
 					<cfif #headers.get(JavaCast("int",match))# eq 'determiner'>Present</cfif>
 					<cfif #headers.get(JavaCast("int",match))# eq 'remarks'>Present</cfif>
 				</cfloop>
