@@ -182,15 +182,17 @@ limitations under the License.
 				</cfloop>
 				<cfloop array="#data#" index="i">
 					<!--- End proof of concept code --->
-					<cfif #i.field# eq 'institution_acronym'>match</cfif>
-					<cfif #i.field# eq 'collection_cde'>match</cfif>
-					<cfif #i.field# eq 'other_id_type'>match</cfif>
-					<cfif #i.field# eq 'other_id_number'>match</cfif>
-					<cfif #i.field# eq 'attribute'>match</cfif>
-					<cfif #i.field# eq 'attribute_value'>match</cfif>
-					<cfif #i.field# eq 'attribute_date'>match</cfif>
-					<cfif #i.field# eq 'attribute_method'>match</cfif>
-					<cfif #i.field# eq 'determiner'>match</cfif>
+					<cfif #i.field# eq 'institution_acronym'>institution_acronym is present</cfif>
+					<cfif #i.field# eq 'collection_cde'>collection_cde is present</cfif>
+					<cfif #i.field# eq 'other_id_type'>other_id_type is present</cfif>
+					<cfif #i.field# eq 'other_id_number'>other_id_number is present</cfif>
+					<cfif #i.field# eq 'attribute'>attribute is present</cfif>
+					<cfif #i.field# eq 'attribute_value'>attribute_value is present</cfif>
+					<cfif #i.field# eq 'attribute_units'>attribute_units is present</cfif>
+					<cfif #i.field# eq 'attribute_date'>attribute_date is present</cfif>
+					<cfif #i.field# eq 'attribute_method'>attribute_method is present</cfif>
+					<cfif #i.field# eq 'determiner'>determiner is present</cfif>
+					<cfif #i.field# eq 'remarks'>remarks is present</cfif>
 				</cfloop>
 					
 				
