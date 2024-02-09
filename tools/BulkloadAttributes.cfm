@@ -140,9 +140,9 @@ limitations under the License.
 		
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
 				<!--- runs through the headers in the spreadsheet only--->
-				<ul>
+				<ul class="list-group list-group-horizontal">
 				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-					<li class="text-success" style="width: 140px;">#headers.get(JavaCast("int",actualColumnNumber))#</li>
+					<li class="text-success list-group-item h5 border" style="width: 140px;">#headers.get(JavaCast("int",actualColumnNumber))#</li>
 				</cfloop>
 				</ul>
 				<cfscript>
