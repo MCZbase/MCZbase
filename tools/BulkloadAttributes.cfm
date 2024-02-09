@@ -187,17 +187,8 @@ limitations under the License.
 				<cfloop condition="#iterator.hasNext()#">
 					<cfset row = iterator.next()>
 					<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-						<cfif #headers.get(JavaCast("int",match))# eq 'institution_acronym'>Match<cfelse>Not matched</cfif>
-						<cfif #headers.get(JavaCast("int",match))# eq 'collection_cde'>Present</cfif>
-						<cfif #headers.get(JavaCast("int",match))# eq 'other_id_type'>Present</cfif>
-						<cfif #headers.get(JavaCast("int",match))# eq 'other_id_number'>Present</cfif>
-						<cfif #headers.get(JavaCast("int",match))# eq 'attribute'>Present</cfif>
-						<cfif #headers.get(JavaCast("int",match))# eq 'attribute_value'>Present</cfif>
-						<cfif #headers.get(JavaCast("int",match))# eq 'attribute_units'>Present</cfif>
-						<cfif #headers.get(JavaCast("int",match))# eq 'attribute_date'>Present</cfif>
-						<cfif #headers.get(JavaCast("int",match))# neq 'attribute_method'>Not Present</cfif>
-						<cfif #headers.get(JavaCast("int",match))# eq 'determiner'>Present</cfif>
-						<cfif #headers.get(JavaCast("int",match))# eq 'remarks'>Present</cfif>
+						<cfif #row.get(JavaCast("int",actualColumnNumber))# eq 'institution_acronym'>Match<cfelse>Not matched</cfif>
+		
 					</cfloop>
 				</cfloop>
 					
