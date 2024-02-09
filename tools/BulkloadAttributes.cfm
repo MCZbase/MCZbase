@@ -346,13 +346,13 @@ limitations under the License.
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 					
 							<cfif foundHighCount LT 6>
-								<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+								<cfset foundHighAscii = "#foundHighAscii# <li class='text-danger font-weight-bold'>#thisBit#</li>">--->
 	<!---							<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						<cfelseif REFind("[\xc0-\xdf][\x80-\xbf]",thisBit) GT 0>
 			
 							<cfif foundHighCount LT 6>
-								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"><!--- " --->
+								<cfset foundMultiByte = "#foundMultiByte# <li class='text-danger font-weight-bold'>#thisBit#</li>"> --->
 				<!---				<cfset foundHighCount = foundHighCount + 1>
 							</cfif>
 						</cfif>
