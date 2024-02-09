@@ -180,7 +180,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</cfloop>
-				<cfloop index="i" from="0" to="row">
+				<cfloop index="i" from="0" to="#row#">
 					<!--- End proof of concept code --->
 					<cfif #row# neq 'institution_acronym'>institution_acronym is missing <cfelse>Present</cfif>
 					<cfif #row# neq 'collection_cde'>collection_cde is missing <cfelse>Present</cfif>
