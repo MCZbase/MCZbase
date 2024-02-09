@@ -175,7 +175,7 @@ limitations under the License.
 							 TODO: Test for multibyte characters 
 							 TODO: Create insert statement --->
 						<ul class="list-group list-group-horizontal">
-							<cfloop index="i" from="0" to="#headers.size() - 1#">
+							<cfloop index="actualColumnNumber" from="0" to="#records.size() - 1#">
 								<li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li>
 							</cfloop>
 						</ul>
