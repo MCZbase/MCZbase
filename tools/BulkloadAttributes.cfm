@@ -228,13 +228,13 @@ limitations under the License.
 							<cfoutput><h4 class="text-danger">Headers do not match the expected headers.</h4></cfoutput>
 						</cfif>
 		<!---// Iterate over the CSV records--->
-				<cset iterator = csvParser.iterator()>
+<!---				<cset iterator = csvParser.iterator()>
 				<cfloop condition="#iterator.hasNext()#">
 					<cfset csvRecord = iterator.next()>
-					<cfloop array="#csvRecord.size()#" index="i">
-						<cfset field= csvRecord.get(i) = javacast("string", #field#)>
+					<cfloop from="1" to="#csvRecord.size()#" index="i">
+						<cfset field= csvRecord.get(i)>
 					</cfloop>
-				</cfloop>
+				</cfloop>--->
 							<!--- Function to compare two arrays --->
 		<!---					<cffunction name="compareArrays" returnType="boolean" output="false">
 								<cfargument name="array1" type="array">
