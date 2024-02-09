@@ -242,7 +242,7 @@ limitations under the License.
 								<cfreturn true>
 							</cffunction>--->
 
-<br><br><br>
+
 
 			<!---	Existing parser code starts here.  TODO: Rewrite using commons csv. --->
 			<!---	<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
@@ -264,8 +264,8 @@ limitations under the License.
 				<cfset attribute_value_exists = false>
 				<cfset attribute_date_exists = false>
 				<cfset determiner_exists = false>
-				<cfloop from="1" to ="#ArrayLen(row[i])#" index="col">
-					<cfset header = row[i][col]>
+				<cfloop from="1" to ="#ArrayLen(row[1])#" index="col">
+					<cfset header = row[1][col]>
 					<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 					<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 					<cfif ucase(header) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
