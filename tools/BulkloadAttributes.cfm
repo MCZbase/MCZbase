@@ -156,7 +156,7 @@ limitations under the License.
 						{field:"remarks", required:"no"}
 					];
 				</cfscript>
-				<h3 class="h5">Found <cfdump var="#data.size()#"> matching columns in header of csv file.</h3>
+				<h3 class="h5">There are <cfdump var="#data.size()#"> columns possible for attributes.</h3>
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
