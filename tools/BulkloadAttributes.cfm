@@ -218,8 +218,8 @@ limitations under the License.
 					<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
 					<cfthrow message="#message#">
 				</cfif>
-
-						<cfcatch>Catch error</cfcatch>
+					<h3>#thisheader#</h3>
+				<cfcatch>Catch error</cfcatch>
 			</cftry>
 		</cfoutput>
 	</cfif>
