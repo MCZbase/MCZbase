@@ -316,7 +316,7 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 				<cfcatch>
-					<h3>#message#</h3>
+					Error message
 				</cfcatch>
 			</cftry>
 		</cfoutput>
