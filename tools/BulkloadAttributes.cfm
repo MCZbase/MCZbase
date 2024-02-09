@@ -137,7 +137,7 @@ limitations under the License.
 		 		<!--- number of colums actually found --->
 		
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
-<!---				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+<!---			<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 					<h5 class="text-success">#headers.get(JavaCast("int",actualColumnNumber))#</h5>
 				</cfloop>--->
 					<cfscript>
@@ -154,9 +154,8 @@ limitations under the License.
 						{field:"determiner", required:"yes"},
 						{field:"remarks", required:"no"}
 					];
-				
-			
 					</cfscript>
+					<!---Expected and required headers; red = required; black = expected;--->
 					<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
 						<cfoutput>
@@ -164,33 +163,26 @@ limitations under the License.
 						</cfoutput>
 					</cfloop>
 					</ul>
-			
 						<!--- TODO: Match the provided headers to the expected headers --->
-
+						<!---as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number 
+						TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber  
+						TODO: Test for multibyte characters 
+						TODO: Create insert statement --->
 						<!--- Iterate through the remaining lines in the file --->
-						<cfloop condition="#iterator.hasNext()#">
-							<cfset row = iterator.next()>
-					<!---		 as we can't use csvFormat.withHeader(), we can not match columns by name, we are forced to do so by number 
-							 TODO: to put the columns into fieldList order, map actualColumnNumber to fieldListColumnNumber  
-							 TODO: Test for multibyte characters 
-							 TODO: Create insert statement --->
-						<ul class="list-group list-group-horizontal">
-							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-								<li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li>
-							</cfloop>
-						</ul>
-						</cfloop>
-						<!--- End proof of concept code --->
-			
-				<!---	<cfif #headers.isConsistent()# eq 'true'>Hello</cfif>--->
-					
+					<cfloop condition="#iterator.hasNext()#">
+						<cfset row = iterator.next()>
 
-				<!---		<h3>Header comparisons</h3>--->
-							
-			<!---			<cfparam name="filePath" default="#tempFileInputStream#">--->
-						
+					<ul class="list-group list-group-horizontal">
+						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+							<li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li>
+						</cfloop>
+					</ul>
+					</cfloop>
+					<!--- End proof of concept code --->
+
 						<cfset expectedHeaderString ="institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 						<cfset columnHeadersArray = createObject("java", "java.lang.String").valueOf(expectedHeaderString).split(",")>
+						<cfif #headers.size().isConsistent()# eq 'true'>Headers are consistent. </cfif>
 
 						 <!---Initialize CSVParser with FileReader and CSVFormat.DEFAULT --->
 						<!---<cfset fileReader.init(filePath)>
