@@ -124,14 +124,7 @@ limitations under the License.
 				<!---// Create a CSVParser using the FileReader and CSVFormat--->
 				<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>
 				
-				<!---// Iterate over the CSV records--->
-				<cset csvIterator = csvParser.iterator()>
-				<cfloop condition="#csvIterator.hasNext()#">
-					<cfset csvRecord = csvIterator.next()>
-					<cfloop array="#csvRecord.size()#" index="i">
-						<cfset field= csvRecord.get(i)>
-					</cfloop>
-				</cfloop>
+		
 		
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
@@ -142,8 +135,7 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 		 		<!--- number of colums actually found --->
-				<cfset onerecords = csvRecord.get(0)>
-				<cfset secondrecord = csvRecord.get(1)>
+		
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
 <!---				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 					<h5 class="text-success">#headers.get(JavaCast("int",actualColumnNumber))#</h5>
@@ -235,7 +227,14 @@ limitations under the License.
 						<cfelse>
 							<cfoutput><h4 class="text-danger">Headers do not match the expected headers.</h4></cfoutput>
 						</cfif>
-
+		<!---// Iterate over the CSV records--->
+				<cset iterator = csvParser.iterator()>
+				<cfloop condition="#iterator.hasNext()#">
+					<cfset csvRecord = iterator.next()>
+					<cfloop array="#csvRecord.size()#" index="i">
+						<cfset field= csvRecord.get(i)>
+					</cfloop>
+				</cfloop>
 							<!--- Function to compare two arrays --->
 		<!---					<cffunction name="compareArrays" returnType="boolean" output="false">
 								<cfargument name="array1" type="array">
