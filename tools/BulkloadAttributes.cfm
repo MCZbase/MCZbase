@@ -264,8 +264,8 @@ limitations under the License.
 				<cfset attribute_value_exists = false>
 				<cfset attribute_date_exists = false>
 				<cfset determiner_exists = false>
-				<cfloop from="1" to ="#ArrayLen(row[1])#" index="col">
-					<cfset header = row[1][col]>
+				<cfloop from="1" to ="#ArrayLen(row[i])#" index="col">
+					<cfset header = row[i][col]>
 					<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 					<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 					<cfif ucase(header) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
@@ -293,7 +293,7 @@ limitations under the License.
 				<cfset foundHighAscii = "">
 				<cfset foundMultiByte = "">
 				<!--- get the headers from the first row of the input, then iterate through the remaining rows inserting the data into the temp table. --->
-				<cfloop from="1" to ="#actualColumnNumber#" index="row">
+				<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
 					<!--- obtain the values in the current row --->
 					<cfset colVals="">
 					<cfloop from="1" to ="#ArrayLen(arrResult[row])#" index="col">
