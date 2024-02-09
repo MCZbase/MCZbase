@@ -180,8 +180,19 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</cfloop>
+				<cfloop array="#data#" index="i">
 					<!--- End proof of concept code --->
-				<cfif #1.field# eq 'institution_acronym'>match</cfif>
+					<cfif #i.field# eq 'institution_acronym'>match</cfif>
+					<cfif #i.field# eq 'collection_cde'>match</cfif>
+					<cfif #i.field# eq 'other_id_type'>match</cfif>
+					<cfif #i.field# eq 'other_id_number'>match</cfif>
+					<cfif #i.field# eq 'attribute'>match</cfif>
+					<cfif #i.field# eq 'attribute_value'>match</cfif>
+					<cfif #i.field# eq 'attribute_date'>match</cfif>
+					<cfif #i.field# eq 'attribute_method'>match</cfif>
+					<cfif #i.field# eq 'determiner'>match</cfif>
+				</cfloop>
+					
 				
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
