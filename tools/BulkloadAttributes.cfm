@@ -182,8 +182,8 @@ limitations under the License.
 				</cfloop>
 				<cfloop index="match" from="1" to="#headers.size() - 2#">
 					<!--- End proof of concept code --->
-					<cfif #headers.get(JavaCast("int",match))# eq 'institution_acronym'>Present</cfif>
-					<cfif #headers.get(JavaCast("int",match))# eq 'collection_cde'>Present</cfif>
+					<cfif #headers.get(JavaCast("int",match))# eq #i.data#>Match<cfelse>Not matched</cfif>
+<!---					<cfif #headers.get(JavaCast("int",match))# eq 'collection_cde'>Present</cfif>
 					<cfif #headers.get(JavaCast("int",match))# eq 'other_id_type'>Present</cfif>
 					<cfif #headers.get(JavaCast("int",match))# eq 'other_id_number'>Present</cfif>
 					<cfif #headers.get(JavaCast("int",match))# eq 'attribute'>Present</cfif>
@@ -192,7 +192,7 @@ limitations under the License.
 					<cfif #headers.get(JavaCast("int",match))# eq 'attribute_date'>Present</cfif>
 					<cfif #headers.get(JavaCast("int",match))# neq 'attribute_method'>Not Present</cfif>
 					<cfif #headers.get(JavaCast("int",match))# eq 'determiner'>Present</cfif>
-					<cfif #headers.get(JavaCast("int",match))# eq 'remarks'>Present</cfif>
+					<cfif #headers.get(JavaCast("int",match))# eq 'remarks'>Present</cfif>--->
 				</cfloop>
 					
 				
