@@ -180,7 +180,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</cfloop>
-				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+				<cfloop index="actualColumnNumber" from="0" to="#interator.next()#">
 					<!--- End proof of concept code --->
 					<cfif #headers# neq 'institution_acronym'>institution_acronym is missing <cfelse>Present</cfif>
 					<cfif #headers# neq 'collection_cde'>collection_cde is missing <cfelse>Present</cfif>
