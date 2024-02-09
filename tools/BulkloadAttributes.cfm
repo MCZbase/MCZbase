@@ -199,14 +199,21 @@ limitations under the License.
 						<!--- Process headers manually --->
 						<cfset headerRecord = csvParser.iterator().next()>
 						<cfset actualHeaders = []>
-
+						<ul>
+						<cfloop from="1" to="#headerRecord.size()#">
+							<cfset actualHeaders = javacast("string", #headerRecord#)>
+							<li>#actualHeaders#</li>
+						</cfloop>
+						</ul>
 						<!--- Iterate over the iterator to extract headers --->
-			<!---			<ul>
+			<!---		
+						<ul>
 						<cfloop from="1" to="#headerRecord.size()#" index="i">
 							<cfset actualHeaders[i] = javacast("string", #headerRecord#)>
 							<li>#actualHeaders[i]#</li>
 						</cfloop>
-						</ul>--->
+						</ul>
+--->
 						<!--- Check if actual headers match expected headers---> 
 					<!---	<cfset headersMatch = compareArrays(columnHeadersArray, actualHeaders)>
 
