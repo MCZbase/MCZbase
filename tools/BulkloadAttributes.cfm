@@ -265,7 +265,9 @@ limitations under the License.
 									<cfset class="text-dark">
 								</cfif>
 								<li class="#class#">
-									#field#
+									<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+										<h5 class="text-success">#headers.get(JavaCast("int",actualColumnNumber))#</h5>
+										</cfloop>
 									<cfif arrayFindNoCase(colNameArray,field) GT 0>
 										<strong>Present in CSV</strong>
 									</cfif>
