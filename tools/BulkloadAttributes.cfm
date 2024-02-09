@@ -182,17 +182,17 @@ limitations under the License.
 				</cfloop>
 				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 					<!--- End proof of concept code --->
-					<cfif #headers.get(JavaCast("int",actualColumnNumber))# neq 'institution_acronym'>institution_acronym is missing <cfelse>Present</cfif>
-					<cfif #headers.get(JavaCast("int",actualColumnNumber))# neq 'collection_cde'>collection_cde is missing <cfelse>Present</cfif>
-					<cfif #headers.get(JavaCast("int",actualColumnNumber))# neq 'other_id_type'>other_id_type is missing <cfelse>Present</cfif>
-					<cfif #headers.get(JavaCast("int",actualColumnNumber))# neq 'other_id_number'>other_id_number is missing <cfelse>Present</cfif>
-					<cfif #headers.get(JavaCast("int",actualColumnNumber))# neq 'attribute'>attribute is missing <cfelse>Present</cfif>
-					<cfif #headers.get(JavaCast("int",actualColumnNumber))# neq 'attribute_value'>attribute_value is missing <cfelse>Present</cfif>
-					<cfif #headers.get(JavaCast("int",actualColumnNumber))# neq 'attribute_units'>attribute_units is missing <cfelse>Present</cfif>
-					<cfif #headers.get(JavaCast("int",actualColumnNumber))# neq 'attribute_date'>attribute_date is missing <cfelse>Present</cfif>
-					<cfif #headers.get(JavaCast("int",actualColumnNumber))# neq 'attribute_method'>attribute_method is missing <cfelse>Present</cfif>
-					<cfif #headers.get(JavaCast("int",actualColumnNumber))# neq 'determiner'>determiner is missing <cfelse>Present</cfif>
-					<cfif #headers.get(JavaCast("int",actualColumnNumber))# neq 'remarks'>remarks is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'institution_acronym'>institution_acronym is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'collection_cde'>collection_cde is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'other_id_type'>other_id_type is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'other_id_number'>other_id_number is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'attribute'>attribute is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'attribute_value'>attribute_value is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'attribute_units'>attribute_units is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'attribute_date'>attribute_date is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'attribute_method'>attribute_method is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'determiner'>determiner is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'remarks'>remarks is missing <cfelse>Present</cfif>
 				</cfloop>
 					
 				
