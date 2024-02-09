@@ -203,8 +203,8 @@ limitations under the License.
 						<!--- Iterate over the iterator to extract headers --->
 						<ul>
 					<!---	<cfloop from="1" to="#headerRecord.size()#" index="i">--->
-							<cfset actualHeaders[i] = javacast("string", #headerRecord#)>
-							<li>#actualHeaders[i]#</li>
+							<cfset actualHeaders[1] = javacast("string", #headerRecord#)>
+							<li>#actualHeaders[1]#</li>
 				<!---		</cfloop>--->
 						</ul>
 						<!--- Check if actual headers match expected headers---> 
