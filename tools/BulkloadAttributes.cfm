@@ -232,7 +232,7 @@ limitations under the License.
 				<cfloop condition="#iterator.hasNext()#">
 					<cfset csvRecord = iterator.next()>
 					<cfloop array="#csvRecord.size()#" index="i">
-						<cfset field= csvRecord.get(i)>
+						<cfset field= csvRecord.get(i) = javacast("string", #field#)>
 					</cfloop>
 				</cfloop>
 							<!--- Function to compare two arrays --->
