@@ -131,8 +131,9 @@ limitations under the License.
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
-				
+				<cfset iterators = row.iterator()>
 				<cfset iterator = records.iterator()>
+				<cfset record = iterator.next()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
@@ -195,7 +196,7 @@ limitations under the License.
 				<cfset attribute_value_exists = false>
 				<cfset attribute_date_exists = false>
 				<cfset determiner_exists = false>
-				<cfloop from="0" to ="11" index="col">
+				<cfloop from="0" to ="#ArrayLen(records)#" index="col">
 					<cfset header = #headers#>
 					<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 					<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
