@@ -182,7 +182,7 @@ limitations under the License.
 						</cfloop>
 						<!--- End proof of concept code --->
 			
-					<cfif #headers.isConsistent()# eq 'true'>Hello</cfif>
+				<!---	<cfif #headers.isConsistent()# eq 'true'>Hello</cfif>--->
 					
 
 				<!---		<h3>Header comparisons</h3>--->
@@ -201,13 +201,12 @@ limitations under the License.
 						<cfset actualHeaders = []>
 
 						<!--- Iterate over the iterator to extract headers --->
-						<ul>
-
+			<!---			<ul>
 						<cfloop from="1" to="#headerRecord.size()#" index="i">
 							<cfset actualHeaders[i] = javacast("string", #headerRecord#)>
 							<li>#actualHeaders[i]#</li>
 						</cfloop>
-						</ul>
+						</ul>--->
 						<!--- Check if actual headers match expected headers---> 
 					<!---	<cfset headersMatch = compareArrays(columnHeadersArray, actualHeaders)>
 
