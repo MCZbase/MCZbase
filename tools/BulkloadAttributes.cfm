@@ -182,10 +182,10 @@ limitations under the License.
 				</cfloop>
 				<cfloop index="i" from="0" to="#headers.size() - 1#">
 					<!--- End proof of concept code --->
-					<cfif #row.get(JavaCast("int",1))# eq 'institution_acronym'><cfelse>Present</cfif>
-					<cfif #row.get(JavaCast("int",2))# eq 'collection_cde'>collection_cde is missing <cfelse>Present</cfif>
-					<cfif #row.get(JavaCast("int",3))# eq 'other_id_type'>other_id_type is missing <cfelse>Present</cfif>
-					<cfif #row.get(JavaCast("int",4))# eq 'other_id_number'>other_id_number is missing <cfelse>Present</cfif>
+					<cfif #row.get(JavaCast("int",1))# eq 'institution_acronym'>Present</cfif>
+					<cfif #row.get(JavaCast("int",2))# eq 'collection_cde'>Present</cfif>
+					<cfif #row.get(JavaCast("int",3))# eq 'other_id_type'>Present</cfif>
+					<cfif #row.get(JavaCast("int",4))# eq 'other_id_number'>Present</cfif>
 					<cfif #row.get(JavaCast("int",5))# eq 'attribute'>attribute is missing <cfelse>Present</cfif>
 					<cfif #row.get(JavaCast("int",6))# eq 'attribute_value'>attribute_value is missing <cfelse>Present</cfif>
 					<cfif #row.get(JavaCast("int",7))# eq 'attribute_units'>attribute_units is missing <cfelse>Present</cfif>
