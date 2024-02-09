@@ -200,7 +200,7 @@ limitations under the License.
 						<cfset headerRecord = csvParser.iterator().next()>
 						<cfset actualHeaders = []>
 						<ul>
-						<cfloop from="1" to="#headerRecord.size()#">
+						<cfloop query="#headerRecord.size()#">
 							<cfset actualHeaders = javacast("string", #headerRecord#)>
 							<li>#actualHeaders#</li>
 						</cfloop>
