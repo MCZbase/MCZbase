@@ -131,9 +131,9 @@ limitations under the License.
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
-				<cfset iterators = row.iterator()>
+				
 				<cfset iterator = records.iterator()>
-				<cfset record = iterator.next()>
+			
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
