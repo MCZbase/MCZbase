@@ -180,19 +180,19 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</cfloop>
-				<cfloop index="1" from="0" to="#headers.size() - 1#">
+				<cfloop index="match" from="0" to="#headers.size() - 1#">
 					<!--- End proof of concept code --->
-					<cfif #row.get(JavaCast("int",1))# eq 'institution_acronym'>Present</cfif>
-					<cfif #row.get(JavaCast("int",1))# eq 'collection_cde'>Present</cfif>
-					<cfif #row.get(JavaCast("int",1))# eq 'other_id_type'>Present</cfif>
-					<cfif #row.get(JavaCast("int",1))# eq 'other_id_number'>Present</cfif>
-					<cfif #row.get(JavaCast("int",1))# eq 'attribute'>attribute is missing <cfelse>Present</cfif>
-					<cfif #row.get(JavaCast("int",1))# eq 'attribute_value'>attribute_value is missing <cfelse>Present</cfif>
-					<cfif #row.get(JavaCast("int",1))# eq 'attribute_units'>attribute_units is missing <cfelse>Present</cfif>
-					<cfif #row.get(JavaCast("int",1))# eq 'attribute_date'>attribute_date is missing <cfelse>Present</cfif>
-					<cfif #row.get(JavaCast("int",1))# eq 'attribute_method'>attribute_method is missing <cfelse>Present</cfif>
-					<cfif #row.get(JavaCast("int",1))# eq 'determiner'>determiner is missing <cfelse>Present</cfif>
-					<cfif #row.get(JavaCast("int",1))# eq 'remarks'>remarks is missing <cfelse>Present</cfif>
+					<cfif #row.get(JavaCast("int",match))# eq 'institution_acronym'>Present</cfif>
+					<cfif #row.get(JavaCast("int",match))# eq 'collection_cde'>Present</cfif>
+					<cfif #row.get(JavaCast("int",match))# eq 'other_id_type'>Present</cfif>
+					<cfif #row.get(JavaCast("int",match))# eq 'other_id_number'>Present</cfif>
+					<cfif #row.get(JavaCast("int",match))# eq 'attribute'>attribute is missing <cfelse>Present</cfif>
+					<cfif #row.get(JavaCast("int",match))# eq 'attribute_value'>attribute_value is missing <cfelse>Present</cfif>
+					<cfif #row.get(JavaCast("int",match))# eq 'attribute_units'>attribute_units is missing <cfelse>Present</cfif>
+					<cfif #row.get(JavaCast("int",match))# eq 'attribute_date'>attribute_date is missing <cfelse>Present</cfif>
+					<cfif #row.get(JavaCast("int",match))# eq 'attribute_method'>attribute_method is missing <cfelse>Present</cfif>
+					<cfif #row.get(JavaCast("int",match))# eq 'determiner'>determiner is missing <cfelse>Present</cfif>
+					<cfif #row.get(JavaCast("int",match))# eq 'remarks'>remarks is missing <cfelse>Present</cfif>
 				</cfloop>
 					
 				
