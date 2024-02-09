@@ -181,16 +181,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</cfloop>
-				
-					
-					
-				<cfloop condition="#iterator.hasNext()#">
-					<cfset row = iterator.next()>
-					<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-						<cfif #headers.get(JavaCast("int",actualColumnNumber))# eq 'institution_acronym'>Match<cfelse>Not matched</cfif>
-					</cfloop>
-				</cfloop>
-					
+									
 				
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
