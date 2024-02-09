@@ -187,8 +187,7 @@ limitations under the License.
 				<cfloop condition="#iterator.hasNext()#">
 					<cfset row = iterator.next()>
 					<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-						<cfif #row.get(JavaCast("int",actualColumnNumber))# eq 'institution_acronym'>Match<cfelse>Not matched</cfif>
-		
+						<cfif #headers.get(JavaCast("int",actualColumnNumber))# eq 'institution_acronym'>Match<cfelse>Not matched</cfif>
 					</cfloop>
 				</cfloop>
 					
