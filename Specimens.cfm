@@ -202,9 +202,9 @@ limitations under the License.
 }
 @media screen and (min-width: 1200px) and (max-width: 1399px) {
 	.col-xl-10 {
-		-ms-flex: 0 0 83.333333%;
-		flex: 0 0 83.333333%;
-		max-width: 83.333333%;
+		-ms-flex: 0 0 83.333333% !important;
+		flex: 0 0 83.333333% !important;
+		max-width: 83.333333% !important;
 	}
 }
 </style>
