@@ -182,17 +182,17 @@ limitations under the License.
 				</cfloop>
 				<cfloop array="#data#" index="i">
 					<!--- End proof of concept code --->
-					<cfif #i.field# eq 'institution_acronym'>institution_acronym is present</cfif>
-					<cfif #i.field# eq 'collection_cde'>collection_cde is present</cfif>
-					<cfif #i.field# eq 'other_id_type'>other_id_type is present</cfif>
-					<cfif #i.field# eq 'other_id_number'>other_id_number is present</cfif>
-					<cfif #i.field# eq 'attribute'>attribute is present</cfif>
-					<cfif #i.field# eq 'attribute_value'>attribute_value is present</cfif>
-					<cfif #i.field# eq 'attribute_units'>attribute_units is present</cfif>
-					<cfif #i.field# eq 'attribute_date'>attribute_date is present</cfif>
-					<cfif #i.field# eq 'attribute_method'>attribute_method is present</cfif>
-					<cfif #i.field# eq 'determiner'>determiner is present</cfif>
-					<cfif #i.field# eq 'remarks'>remarks is present</cfif>
+					<cfif #i.field# neq 'institution_acronym'>institution_acronym is missing</cfif>
+					<cfif #i.field# neq 'collection_cde'>collection_cde is missing</cfif>
+					<cfif #i.field# neq 'other_id_type'>other_id_type is missing</cfif>
+					<cfif #i.field# neq 'other_id_number'>other_id_number is missing</cfif>
+					<cfif #i.field# neq 'attribute'>attribute is missing</cfif>
+					<cfif #i.field# neq 'attribute_value'>attribute_value is missing</cfif>
+					<cfif #i.field# neq 'attribute_units'>attribute_units is missing</cfif>
+					<cfif #i.field# neq 'attribute_date'>attribute_date is missing</cfif>
+					<cfif #i.field# neq 'attribute_method'>attribute_method is missing</cfif>
+					<cfif #i.field# neq 'determiner'>determiner is missing</cfif>
+					<cfif #i.field# neq 'remarks'>remarks is missing</cfif>
 				</cfloop>
 					
 				
