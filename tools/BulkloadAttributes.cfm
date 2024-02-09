@@ -156,6 +156,7 @@ limitations under the License.
 						{field:"remarks", required:"no"}
 					];
 				</cfscript>
+				<h3 class="h5">Found <cfdump var="#data.size()#"> matching columns in header of csv file.</h3>
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
@@ -180,17 +181,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</cfloop>
-					
-
-					<cfloop array="#data#" index="i">
-						<cfif #headers.get(JavaCast("int",match))# eq #i.field#>
-						Yes
-						<cfelse>	
-					No
-						</cfif>		
-					</cfloop>
-			
-					
+				
 					
 					
 				<cfloop index="match" from="1" to="#headers.size() - 2#">
