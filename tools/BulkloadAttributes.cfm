@@ -227,8 +227,8 @@ limitations under the License.
 				<cfloop from="1" to ="11" index="row">
 					<!--- obtain the values in the current row --->
 					<cfset colVals="">
-					<cfloop from="1" to ="#ArrayLen(thisheader[row])#" index="col">
-						<cfset thisBit=header[row][col]>
+					<cfloop from="1" to ="#ArrayLen(thisheader)#" index="col">
+						<cfset thisBit=thisheader[row][col]>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
