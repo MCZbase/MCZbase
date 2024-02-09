@@ -293,7 +293,7 @@ limitations under the License.
 				<cfset foundHighAscii = "">
 				<cfset foundMultiByte = "">
 				<!--- get the headers from the first row of the input, then iterate through the remaining rows inserting the data into the temp table. --->
-				<cfloop from="1" to ="#ArrayLen(arrResult)#" index="row">
+				<cfloop from="1" to ="#actualColumnNumber#" index="row">
 					<!--- obtain the values in the current row --->
 					<cfset colVals="">
 					<cfloop from="1" to ="#ArrayLen(arrResult[row])#" index="col">
