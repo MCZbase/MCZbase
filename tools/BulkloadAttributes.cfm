@@ -180,19 +180,19 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</cfloop>
-				<cfloop index="i" from="0" to="#row#">
+				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 					<!--- End proof of concept code --->
-					<cfif #row# neq 'institution_acronym'>institution_acronym is missing <cfelse>Present</cfif>
-					<cfif #row# neq 'collection_cde'>collection_cde is missing <cfelse>Present</cfif>
-					<cfif #row# neq 'other_id_type'>other_id_type is missing <cfelse>Present</cfif>
-					<cfif #row# neq 'other_id_number'>other_id_number is missing <cfelse>Present</cfif>
-					<cfif #row# neq 'attribute'>attribute is missing <cfelse>Present</cfif>
-					<cfif #row# neq 'attribute_value'>attribute_value is missing <cfelse>Present</cfif>
-					<cfif #row# neq 'attribute_units'>attribute_units is missing <cfelse>Present</cfif>
-					<cfif #row# neq 'attribute_date'>attribute_date is missing <cfelse>Present</cfif>
-					<cfif #row# neq 'attribute_method'>attribute_method is missing <cfelse>Present</cfif>
-					<cfif #row# neq 'determiner'>determiner is missing <cfelse>Present</cfif>
-					<cfif #row# neq 'remarks'>remarks is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'institution_acronym'>institution_acronym is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'collection_cde'>collection_cde is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'other_id_type'>other_id_type is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'other_id_number'>other_id_number is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'attribute'>attribute is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'attribute_value'>attribute_value is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'attribute_units'>attribute_units is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'attribute_date'>attribute_date is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'attribute_method'>attribute_method is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'determiner'>determiner is missing <cfelse>Present</cfif>
+					<cfif #headers# neq 'remarks'>remarks is missing <cfelse>Present</cfif>
 				</cfloop>
 					
 				
