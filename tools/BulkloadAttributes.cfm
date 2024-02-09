@@ -180,7 +180,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</cfloop>
-				<cfloop index="match" from="0" to="#headers.size() - 1#">
+				<cfloop index="match" from="0" to="#headers#">
 					<!--- End proof of concept code --->
 					<cfif #row.get(JavaCast("int",match))# eq 'institution_acronym'>Present</cfif>
 					<cfif #row.get(JavaCast("int",match))# eq 'collection_cde'>Present</cfif>
