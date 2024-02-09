@@ -139,6 +139,7 @@ limitations under the License.
 		 		<!--- number of colums actually found --->
 		
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
+				<!--- runs through the headers in the spreadsheet only--->
 				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 					<h5 class="text-success">#headers.get(JavaCast("int",actualColumnNumber))#</h5>
 				</cfloop>
@@ -178,72 +179,6 @@ limitations under the License.
 					</cfloop>
 					<!--- End proof of concept code --->
 
-					<cfset expectedHeaderString ="institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
-					<cfset columnHeadersArray = createObject("java", "java.lang.String").valueOf(expectedHeaderString).split(",")>
-
-
-						<!--- Process headers manually --->
-						<cfset headerRecord = csvParser.iterator().next()>
-						<cfset actualHeaders = []>
-
-						<!--- Iterate over the iterator to extract headers --->
-						<ul>
-					<!---	<cfloop from="1" to="#headerRecord.size()#" index="i">--->
-							<cfset actualHeaders[1] = javacast("string", #headerRecord#)>
-							<li>#actualHeaders[1]#</li>
-				<!---		</cfloop>--->
-						</ul>
-						<!--- Check if actual headers match expected headers---> 
-					<!---	<cfset headersMatch = compareArrays(columnHeadersArray, actualHeaders)>
-
-						<cfif headersMatch>
-							<cfoutput><h4 class="text-success">Headers Match!</h4></cfoutput>--->
-
-							 <!---Process the rest of the CSV data based on column indices --->
-		<!---					<cfloop from="2" to="#csvParser.getRecords().size()#" index="rowIndex">
-								<cfset record = csvParser.getRecords().get(rowIndex - 0)>
-								<cfset recordIterator = record.iterator()>
-								<cfloop from="1" to="#record.size()#" index="columnIndex">
-									<cfset value = javacast("string", recordIterator.next())>
-									<cfoutput>Row #rowIndex#, Column #columnIndex#: #value#<br></cfoutput>
-								</cfloop>
-							</cfloop>
-
-						<cfelse>
-							<cfoutput><h4 class="text-danger">Headers do not match the expected headers.</h4></cfoutput>
-						</cfif>--->
-		<!---// Iterate over the CSV records--->
-<!---				<cset iterator = csvParser.iterator()>
-				<cfloop condition="#iterator.hasNext()#">
-					<cfset csvRecord = iterator.next()>
-					<cfloop from="1" to="#csvRecord.size()#" index="i">
-						<cfset field= csvRecord.get(i)>
-					</cfloop>
-				</cfloop>--->
-							<!--- Function to compare two arrays --->
-		<!---					<cffunction name="compareArrays" returnType="boolean" output="false">
-								<cfargument name="array1" type="array">
-								<cfargument name="array2" type="array">
-
-								<cfif ArrayLen(array1) neq ArrayLen(array2)>
-									<cfreturn false>
-								</cfif>
-
-								<cfloop from="1" to="#ArrayLen(array1)#" index="i">
-									<cfif array1[i] neq array2[i]>
-										<cfreturn false>
-									</cfif>
-								</cfloop>
-
-								<cfreturn true>
-							</cffunction>--->
-
-
-
-			<!---	Existing parser code starts here.  TODO: Rewrite using commons csv. --->
-			<!---	<cffile action="READ" file="#FiletoUpload#" variable="fileContent" charset="#cSet#">
-			<cfset fileContent=replace(fileContent,"'","''","all")>
-			<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />--->
 				
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
