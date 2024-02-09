@@ -131,7 +131,7 @@ limitations under the License.
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
-				<cfset iterators = row.iterator()>
+				
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
@@ -178,7 +178,7 @@ limitations under the License.
 						</ul>
 					</cfloop>
 					<!--- End proof of concept code --->
-				
+
 				
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
@@ -195,7 +195,7 @@ limitations under the License.
 				<cfset attribute_value_exists = false>
 				<cfset attribute_date_exists = false>
 				<cfset determiner_exists = false>
-				<cfloop from="0" to ="#ArrayLen(records)#" index="col">
+				<cfloop from="0" to ="#ArrayLen(arrResult)#" index="col">
 					<cfset header = #headers#>
 					<cfif ucase(header) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 					<cfif ucase(header) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
