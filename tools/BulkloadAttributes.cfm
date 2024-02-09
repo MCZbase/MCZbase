@@ -228,7 +228,7 @@ limitations under the License.
 					<!--- obtain the values in the current row --->
 					<cfset colVals="">
 					<cfloop from="1" to ="#headers.size() - 1#" index="col">
-						<cfset thisBit=thisheader[row][col]>
+						<cfset thisBit=#headers.get(JavaCast("int",actualColumnNumber))#>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
