@@ -199,7 +199,7 @@ limitations under the License.
 						<!--- Process headers manually --->
 						<cfset headerRecord = csvParser.iterator().next()>
 						<cfset actualHeaders = []>
-<li>#actualHeaders[0]#</li>
+<li>#actualHeaders[1]#</li>
 						<!--- Iterate over the iterator to extract headers --->
 						<ul>
 						<cfloop from="1" to="#headerRecord.size()#" index="i">
