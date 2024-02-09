@@ -117,13 +117,10 @@ limitations under the License.
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
 				<cfset defaultFormat = csvFormat.DEFAULT >
 					
-				<cfscript>
-				for (CSVRecord csvRecord : csvParser) {
-					System.out.println("Id: " + csvRecord.get(0) + " Name: " + csvRecord.get(1)
-						+ " GPA: " + csvRecord.get(2));
-					}	
-				</cfscript>
 		
+				<cfset onerecords = csvRecord.get(0)>
+				<cfset secondrecord = csvRecord.get(1)>
+				<cfset thirdrecord = csvRecord.get(2)>
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
