@@ -198,7 +198,7 @@ limitations under the License.
 					<cfset row = iterator.next()>
 					<ul class="list-group list-group-horizontal">
 						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-							<li class="list-group-item border" style="width:140px;">#header.get(0)#</li>
+							<li class="list-group-item border" style="width:140px;">#headers.get(0)#</li>
 						</cfloop>
 					</ul>		
 				</cfloop>
