@@ -139,12 +139,14 @@ limitations under the License.
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
 				<cfset map = records.getHeaderMap()>
+					
 			
 				
 		 		<!--- number of colums actually found --->
 			
 			<div class="col-12 my-4">
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
+					<cfdump var="items">
 				<cfscript>
 					data = [
 						{field:"institution_acronym", required:"yes"},
