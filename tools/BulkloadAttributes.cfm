@@ -103,6 +103,7 @@ limitations under the License.
 			TODO: Create insert statement --->
 	<cfif #action# is "getFile">
 		<h2 class="h3">First step: Reading data from CSV file.</h2>
+		<h4>Compare the numbers of headers expected against provided in CSV file</h4>
 		<!--- Set some constants to identify error cases in cfcatch block --->
 		<cfset NO_COLUMN_ERR = "One or more required fields are missing in the header line of the csv file.">
 		<cfset COLUMN_ERR = "Error inserting data">
@@ -136,15 +137,13 @@ limitations under the License.
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
-				<cfset items = records.getRecordNumber()-1>
+				<cfset items = records.getRecordNumber()>
 			
 				
 		 		<!--- number of colums actually found --->
 			
-		
+			<div class="col-12 my-4">
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
-				<!--- runs through the template headers only--->
-		
 				<cfscript>
 					data = [
 						{field:"institution_acronym", required:"yes"},
@@ -159,11 +158,10 @@ limitations under the License.
 						{field:"determiner", required:"yes"},
 						{field:"remarks", required:"no"}
 					];
-				</cfscript>
-			
-			
+				</cfscript>			
 				<cfset actualColumnNumber = headers.size()>
-				<h3 class="h5">There are <cfdump var="#data.size()#"> columns possible for headers (attributes).</h3>
+				<h3 class="h5">There are <cfdump var="#data.size()#"> columns possible for attribute headers.</h3>
+			</div>
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
