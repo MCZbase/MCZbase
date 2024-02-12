@@ -137,7 +137,7 @@ limitations under the License.
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
-				<cfset items = records.getRecordNumber(2)>
+				<cfset items = records.getRecordNumber()>
 				<cfset inThisPosition = headers.get(3)>
 
 					
