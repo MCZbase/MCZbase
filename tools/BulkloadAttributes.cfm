@@ -171,7 +171,7 @@ limitations under the License.
 					</cfloop>
 				</ul>
 				<ul class="list-group list-group-horizontal">
-				<cfloop index="actualColumnNumber" from="0" to="#items#">
+				<cfloop index="actualColumnNumber" from="0" to="#header.size()-1#">
 					<li class="text-success list-group-item h5 border" style="width: 140px;">#headers.get(JavaCast("int",actualColumnNumber))#</li>
 				</cfloop>
 				</ul>
