@@ -191,7 +191,7 @@ limitations under the License.
 						
 						<cfloop index="itemno" from="0" to="#headers.size() - 1#">	
 							<cfset thisheader = #headers.get(JavaCast("int",itemno))#>
-							<li class="list-group-item"><cfif #thisheader# EQ #i.field#>True<cfelse>False</cfif></li>
+							<li class="list-group-item"><cfif #thisheader# EQ #i.field#>#thisheader#<cfelse>MISSING</cfif></li>
 						</cfloop>
 					
 						
