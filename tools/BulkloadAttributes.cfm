@@ -160,7 +160,7 @@ limitations under the License.
 			
 			
 				<cfset actualColumnNumber = headers.size()>
-				<h3 class="h5">There are <cfdump var="#data.size()#"> columns possible for attributes.</h3>
+				<h3 class="h5">There are <cfdump var="#data.size()#"> columns possible for headers (attributes).</h3>
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
