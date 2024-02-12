@@ -188,7 +188,8 @@ limitations under the License.
 					<h3>What can be used:</h3>
 					records: #records#<br>
 					iterator:#iterator#<br>
-					headers:#headers#<br>
+					CSV headers:#headers#<br>
+					template headers: #data.field#
 				<!---	row: #iterator.next()#<br>--->
 					row for loop: #row.get(JavaCast("int",actualColumnNumber))#<br>
 					map of header for loop: #header.get(JavaCast("int",actualColumnNumber))#<br>
