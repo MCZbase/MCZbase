@@ -184,12 +184,9 @@ limitations under the License.
 					<li class="text-success list-group-item h5 border" style="width: 140px;">#headers.get(JavaCast("int",actualColumnNumber))#</li>
 				</cfloop>
 				</ul>
-						<!--- TODO: Match the provided headers to the expected headers --->
-				
-						<!--- Iterate through the remaining lines in the file --->
-				<cfloop condition="#iterator.hasNext()#">
-					<cfset row = iterator.next()>
 					
+				<cfloop condition="#iterator.hasNext()#">
+				<cfset row = iterator.next()>
 					<ul class="list-group list-group-horizontal">
 						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 							<li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li>
@@ -229,7 +226,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</cfloop>
-					<div class="col-12 border">
+					<div class="col-12 border m-5">
 					<h3>What can be used:</h3>
 					CSV headers:#headers#<br>
 					items:#items#<br> 
