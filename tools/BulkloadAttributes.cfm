@@ -190,7 +190,7 @@ limitations under the License.
 						<ul class="list-group list-group-horizontal">	
 							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">	
 								<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
-								<li class="list-group-item"><cfif #thisheader# EQ #i.field#> <cfelse>MISSING</cfif></li>
+								<li class="list-group-item"><cfif #thisheader# EQ #thatfield#> <cfelse>MISSING</cfif></li>
 							</cfloop>						
 						</ul>
 					</cfloop>
