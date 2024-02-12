@@ -202,10 +202,10 @@ limitations under the License.
 			<table>
 				
 					<cfloop item="Item" list="#fieldlist#" delimiters=",">
-						<tr><td class="list-group-item" style="width:140px;">#Item#</td></tr>
+						<tr><td class="" style="">#Item#</td></tr>
 					</cfloop>
 					<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-						<tr><td class="list-group-item">#headers.get(JavaCast("int",actualColumnNumber))#</td></tr>
+						<tr><td class="">#headers.get(JavaCast("int",actualColumnNumber))#</td></tr>
 					</cfloop>
 				</tr>
 			</table>
