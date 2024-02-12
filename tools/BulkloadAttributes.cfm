@@ -189,68 +189,19 @@ limitations under the License.
 					<br>
 					<br>
 					
-					
-			<!---		<cfloop condition="#iterator.hasNext()#">
-					<cfset row = iterator.next()>--->
-						<ul class="list-group list-group-horizontal text-info">	<li>
-							<cfset institution_acronym_exists = false>
-							<cfset collection_cde_exists = false>
-							<cfset other_id_type_exists = false>
-							<cfset other_id_number_exists = false>
-							<cfset attribute_exists = false>
-							<cfset attribute_value_exists = false>
-							<cfset attribute_units_exists = false>
-							<cfset attribute_date_exists = false>
-							<cfset attribute_meth_exists = false>
-							<cfset determiner_exists = false>
-							<cfset remarks_exists = false>
-							<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
-							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">	
-							<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
-								<cfif #thisheader# EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
-								<cfif #thisheader# EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
-								<cfif #thisheader# EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
-								<cfif #thisheader# EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
-								<cfif #thisheader# EQ 'attribute'><cfset attribute_exists=true></cfif>
-								<cfif #thisheader# EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
-								<cfif #thisheader# EQ 'attribute_units'><cfset attribute_units_exists=true></cfif>
-								<cfif #thisheader# EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
-								<cfif #thisheader# EQ 'attribute_meth'><cfset attribute_meth_exists=true></cfif>
-								<cfif #thisheader# EQ 'determiner'><cfset determiner_exists=true></cfif>		
-								<cfif #thisheader# EQ 'remarks'><cfset remarks_exists=true></cfif>
-							</cfloop>						
-				<!---		</ul>
-					</cfloop>--->
-					<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
-					<cfset message = "something is missing">
-					<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
-					<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
-					<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
-					<cfif not other_id_number_exists><cfset message = "#message# other_id_number is missing."></cfif>
-					<cfif not attribute_exists><cfset message = "#message# attribute is missing."></cfif>
-					<cfif not attribute_value_exists><cfset message = "#message# attribute_value is missing."></cfif>
-					<cfif not attribute_units_exists><cfset message = "#message# attribute_units is missing."></cfif>
-					<cfif not attribute_date_exists><cfset message = "#message# attribute_date is missing."></cfif>
-					<cfif not attribute_meth_exists><cfset message = "#message# attribute_meth is missing."></cfif>
-					<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
-					<cfif not remarks_exists><cfset message = "#message# remarks is missing."></cfif>
-					<cfthrow message="#message#">
-					</cfif>
-						</li></ul>
-						<br>
-						<br>
+		
 						<br>
 									
-<!---									
+								
 				<h3 class="mt-5">Rows of values:</h3>					
 				<cfloop condition="#iterator.hasNext()#">
 					<cfset row = iterator.next()>
 					<ul class="list-group list-group-horizontal">
 						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-							<li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li>
+							<li class="list-group-item border" style="width:140px;">#header.get(0)#</li>
 						</cfloop>
 					</ul>		
-				</cfloop>--->
+				</cfloop>
 					
 					
 				<div class="col-12 border m-5">
