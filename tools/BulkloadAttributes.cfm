@@ -185,6 +185,8 @@ limitations under the License.
 				</cfloop>
 				</ul>
 					
+					<hr>
+					
 					
 					<br>
 					<br>
