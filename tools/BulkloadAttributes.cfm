@@ -190,20 +190,15 @@ limitations under the License.
 					<ul class="list-group list-group-horizontal">
 						<cfloop index="itemno" from="0" to="#headers.size() - 1#">							
 							<cfset thisheader = #headers.get(JavaCast("int",itemno))#>
-								<li>#thisheader# 
-						
-							
-							
-				<!---			<cfif #thisheader# EQ 'collection_cde'>True<cfelse>False</cfif>
-							<cfif #thisheader# EQ 'other_id_type'>True<cfelse>False</cfif>
-							<cfif #thisheader# EQ 'other_id_number'>True<cfelse>False</cfif>
-							<cfif #thisheader# EQ 'attribute'>True<cfelse>False</cfif>
-							<cfif #thisheader# EQ 'attribute_value'>True<cfelse>False</cfif>
-							<cfif #thisheader# EQ 'attribute_date'>True<cfelse>False</cfif>
-							<cfif #thisheader# EQ 'determiner'>True<cfelse>False</cfif>--->
-						</li>
+							<ul class="list-group list-group-horizontal">
+								<cfloop array="#data#" index="i">
+									<cfoutput>
+										<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
+									</cfoutput>
+								</cfloop>
+							</ul>
 						</cfloop>
-							<li><cfif #thisheader# EQ 'institution_acronym'>True<cfelse>False</cfif></li>
+							<li><cfif #thisheader# EQ #i.field#>True<cfelse>False</cfif></li>
 					</ul>
 				</cfloop>
 									
