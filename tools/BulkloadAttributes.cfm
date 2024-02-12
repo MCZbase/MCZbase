@@ -139,7 +139,8 @@ limitations under the License.
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
 				<cfset inThisPosition = headers.get(3)>
-
+				<cfset map = records.mapping()>
+#map#<br>
 					
 					
 				#inThisPosition#	
@@ -206,7 +207,7 @@ limitations under the License.
 				<!---	row: #iterator.next()#<br>--->
 					row for loop: <cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#"><li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li></cfloop><br>
 					
-						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#"><output>#headers.get(i)#</output></cfloop>
+						
 						
 					
 					
