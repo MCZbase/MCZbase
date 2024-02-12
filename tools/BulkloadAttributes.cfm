@@ -137,7 +137,7 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 		 		<!--- number of colums actually found --->
-				<cfset map = getRecordSeparator()>
+			
 		
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
 				<!--- runs through the headers in the spreadsheet only--->
@@ -182,9 +182,14 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</cfloop>
-						Iterator:#iterator#<br>
-					Header:#headers#<br>
-					Map: #map#<br>
+					<div class="col-12 border">
+						<h3>What can be used:</h3>
+					records: #records#<br>
+					iterator:#iterator#<br>
+					headers:#headers#<br>
+					parser: #parser#<br>
+						map: ?<br>
+				
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
