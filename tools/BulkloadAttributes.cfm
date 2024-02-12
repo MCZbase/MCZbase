@@ -139,7 +139,7 @@ limitations under the License.
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
 				<cfset inThisPosition = headers.get(3)>
-				<cfset map = records.mapping()>
+				<cfset map = headers.mapping()>
 #map#<br>
 					
 					
