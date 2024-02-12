@@ -136,8 +136,8 @@ limitations under the License.
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
-				
-				<cfset record= record.get(JavaCast("int",size))>
+				<cfset items = CSVRecord.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
+				<cfset thisitem= record.get(JavaCast("recordNumber",size))>
 				
 		 		<!--- number of colums actually found --->
 			
