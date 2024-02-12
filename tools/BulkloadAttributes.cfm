@@ -190,7 +190,8 @@ limitations under the License.
 					<br>
 					
 					
-			
+			<!---		<cfloop condition="#iterator.hasNext()#">
+					<cfset row = iterator.next()>--->
 						<ul class="list-group list-group-horizontal text-info">	<li>
 							<cfset institution_acronym_exists = false>
 							<cfset collection_cde_exists = false>
@@ -203,8 +204,7 @@ limitations under the License.
 							<cfset attribute_meth_exists = false>
 							<cfset determiner_exists = false>
 							<cfset remarks_exists = false>
-							<cfloop condition="#iterator.hasNext()#">
-					<cfset row = iterator.next()>
+							<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
 							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">	
 							<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
 								<cfif #thisheader# EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
@@ -234,7 +234,7 @@ limitations under the License.
 					<cfif not attribute_meth_exists><cfset message = "#message# attribute_meth is missing."></cfif>
 					<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
 					<cfif not remarks_exists><cfset message = "#message# remarks is missing."></cfif>
-					<cfthrow message=#message#>
+					<cfthrow message="#message#">
 					</cfif>
 						</li></ul>
 						<br>
