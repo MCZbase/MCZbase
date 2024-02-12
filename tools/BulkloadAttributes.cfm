@@ -138,9 +138,9 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
-				<cfset map = records.getHeaderMap()>
+				<cfset headers2 = records.iterator().toMap().keySet()>
 			
-					
+					#headers2#
 			
 				
 		 		<!--- number of colums actually found --->
