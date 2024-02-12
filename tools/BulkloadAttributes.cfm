@@ -137,7 +137,7 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 		 		<!--- number of colums actually found --->
-				<cfset map = iterator.get("institution_acronym")>
+				<cfset map = getRecordSeparator()>
 		
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
 				<!--- runs through the headers in the spreadsheet only--->
