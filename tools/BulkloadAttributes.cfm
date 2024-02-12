@@ -189,8 +189,8 @@ limitations under the License.
 				<cfset row = iterator.next()>
 					<ul class="list-group list-group-horizontal">
 						<cfloop index="i" from="0" to="#headers.size() - 1#">							
-							<cfset thisheader = #headers.get(JavaCast("int",i))#>
-								<li>#thisheader[i]# <cfif #thisheader# EQ 'institution_acronym'>True<cfelse>False</cfif></li>
+							<cfset thisheader = #headers.get(JavaCast("int",1))#>
+								<li>#thisheader# <cfif #thisheader# EQ 'institution_acronym'>True<cfelse>False</cfif></li>
 						
 							
 							
