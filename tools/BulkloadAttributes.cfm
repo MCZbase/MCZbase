@@ -148,7 +148,7 @@ limitations under the License.
 		 		<!--- number of colums actually found --->
 			
 			<div class="col-12 my-4">
-				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
+				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
 					
 				<cfscript>
 					data = [
@@ -167,7 +167,7 @@ limitations under the License.
 	
 				</cfscript>			
 				
-				<h3 class="h5">There are <cfdump var="#data.size()#"> columns possible for attribute headers.</h3>
+				<h3 class="h5">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
