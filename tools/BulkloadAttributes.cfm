@@ -157,7 +157,8 @@ limitations under the License.
 						{field:"remarks", required:"no"}
 					];
 				</cfscript>
-				<cfset templateHeaders = data.field>
+			
+			
 				<cfset actualColumnNumber = headers.size()>
 				<h3 class="h5">There are <cfdump var="#data.size()#"> columns possible for attributes.</h3>
 				<!---Expected and required headers; red = required; black = expected;--->
