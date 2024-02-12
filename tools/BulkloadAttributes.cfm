@@ -187,34 +187,17 @@ limitations under the License.
 					
 				<cfloop condition="#iterator.hasNext()#">
 				<cfset row = iterator.next()>
-			
 					<ul class="list-group list-group-horizontal">
 						<cfset thisheader = #headers.get(JavaCast("int",itemNo))#>
 						<cfloop index="itemNo" from="0" to="#headers.size() - 1#">							
-								<cfif #thisheader# EQ 'institution_acronym'>True<cfelse>False</cfif>
-								<cfif #thisheader# EQ 'collection_cde'>True<cfelse>False</cfif>
-								<cfif #thisheader# EQ 'other_id_type'>True<cfelse>False</cfif>
-								<cfif #thisheader# EQ 'other_id_number'>True<cfelse>False</cfif>
-								<cfif #thisheader# EQ 'attribute'>True<cfelse>False</cfif>
-								<cfif #thisheader# EQ 'attribute_value'>True<cfelse>False</cfif>
-								<cfif #thisheader# EQ 'attribute_date'>True<cfelse>False</cfif>
-								<cfif #thisheader# EQ 'determiner'>True<cfelse>False</cfif>
-							</cfloop>
-							<!---<cfloop from="0" to="#headers.size() - 1#" index="itemNo">
-								<cfset thisheader = #headers.get(JavaCast("int",itemNo))#>
-								<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
-									<cfset message = "Something is missing">
-									<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
-									<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
-									<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
-									<cfif not other_id_number_exists><cfset message = "#message# other_id_number is missing."></cfif>
-									<cfif not attribute_exists><cfset message = "#message# attribute is missing."></cfif>
-									<cfif not attribute_value_exists><cfset message = "#message# attribute_value is missing."></cfif>
-									<cfif not attribute_date_exists><cfset message = "#message# attribute_date is missing."></cfif>
-									<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
-									<cfthrow message="#message#">
-								</cfif>
-							</cfloop>--->
+							<cfif #thisheader# EQ 'institution_acronym'>True<cfelse>False</cfif>
+							<cfif #thisheader# EQ 'collection_cde'>True<cfelse>False</cfif>
+							<cfif #thisheader# EQ 'other_id_type'>True<cfelse>False</cfif>
+							<cfif #thisheader# EQ 'other_id_number'>True<cfelse>False</cfif>
+							<cfif #thisheader# EQ 'attribute'>True<cfelse>False</cfif>
+							<cfif #thisheader# EQ 'attribute_value'>True<cfelse>False</cfif>
+							<cfif #thisheader# EQ 'attribute_date'>True<cfelse>False</cfif>
+							<cfif #thisheader# EQ 'determiner'>True<cfelse>False</cfif>
 						</cfloop>
 					</ul>
 				</cfloop>
