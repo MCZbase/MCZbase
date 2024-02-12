@@ -201,7 +201,7 @@ limitations under the License.
 					<cfset row = iterator.next()>
 				
 					<ul class="list-group list-group-horizontal">
-						<li class="list-group-item border" style="width:140px;">myvar = #headers.get(#i#)# #myvar#</li>
+						<li class="list-group-item border" style="width:140px;">myvar = #headers.get(i)# #myvar#</li>
 <!---						<li class="list-group-item border" style="width:140px;">#i# #headers.get(1)#</li>
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(2)#</li>
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(3)#</li>
