@@ -194,7 +194,7 @@ limitations under the License.
 									
 								
 				<h3 class="mt-5">Rows of values:</h3>	
-					<cfset #headers.get(0)#>
+					<cfset #headers.get(0)# eq " ">
 					<cfset i = 1>
 				<cfloop condition="#iterator.hasNext()#">
 					<cfset row = iterator.next()>
@@ -212,7 +212,7 @@ limitations under the License.
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(9)#</li>
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(10)#</li>
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(11)#</li>
-						<cfif headers.get(0)
+						<cfif headers.get(0) eq #i.field#>something</cfif>
 					</ul>	
 						<cfset i=i+1>
 				</cfloop>
