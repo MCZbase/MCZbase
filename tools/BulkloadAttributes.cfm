@@ -192,6 +192,7 @@ limitations under the License.
 					
 					<br>
 					<br>
+					<cftry>
 					<cfset thisVar = false>
 					<cfset i=0>
 					<cfloop condition="thisVar eq false">
@@ -205,8 +206,8 @@ limitations under the License.
 					</cfloop>
 			
 						thisVar - <b>#thisVar#</b> (loop has finished)		
-				
-					
+				<cfcatch>error1</cfcatch>
+							</cftry>
 			
 						<ul class="list-group list-group-horizontal text-info">	
 							<li>
