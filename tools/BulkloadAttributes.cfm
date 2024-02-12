@@ -201,8 +201,8 @@ limitations under the License.
 					<cfset row = iterator.next()>
 				
 					<ul class="list-group list-group-horizontal">
-					<cfloop index="i" from="0" to="7">
-						<li class="list-group-item border" style="width:140px;">myvar = #headers.get(i)# #myvar#</li>
+					<cfloop index="vari" from="0" to="#headers.size() - 1#">
+						<li class="list-group-item border" style="width:140px;">myvar = #headers.get(JavaCast("int",vari))# #myvar#</li>
 <!---						<li class="list-group-item border" style="width:140px;">#i# #headers.get(1)#</li>
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(2)#</li>
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(3)#</li>
@@ -216,7 +216,7 @@ limitations under the License.
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(11)#</li>--->
 						</cfloop>
 					</ul>	
-						<cfif i eq 10>
+						<cfif i eq #headers.size() - 1#>
 							<cfset myVar="true">
 						</cfif>
 						<cfset i=i+1>
