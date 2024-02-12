@@ -146,7 +146,7 @@ limitations under the License.
 			
 			<div class="col-12 my-4">
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
-					<cfdump var="items">
+					<cfdump var="#items#">
 				<cfscript>
 					data = [
 						{field:"institution_acronym", required:"yes"},
