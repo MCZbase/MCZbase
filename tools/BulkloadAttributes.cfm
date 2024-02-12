@@ -150,7 +150,7 @@ limitations under the License.
 				<cfset position10 = headers.get(9)>
 				<cfset position11 = headers.get(10)>
 					
-					<cfset result = "position1,position2,position3,position4,position5">
+					<cfset result = "#position1#,#position2#,#position3#,#position4#,#position5#">
 						#result#
 					
 					
