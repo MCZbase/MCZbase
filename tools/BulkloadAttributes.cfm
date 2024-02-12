@@ -206,7 +206,7 @@ limitations under the License.
 					<cfset row = iterator.next()>
 					<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 					<ul class="list-group list-group-horizontal">
-					<cfloop index="vari" from="0" to="#headers.size() - 1#">
+					<cfloop index="vari">
 						<li class="list-group-item border" style="width:140px;">#i# = #headers.get(JavaCast("int",vari))# #myvar#</li>
 <!---						<li class="list-group-item border" style="width:140px;">#i# #headers.get(1)#</li>
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(2)#</li>
@@ -221,7 +221,7 @@ limitations under the License.
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(11)#</li>--->
 						</cfloop>
 					</ul>	
-						<cfif i lt 11>
+						<cfif i lt 11 and #data# contains #headers.get(JavaCast("int",vari))#>
 							<cfset myVar="true">
 						</cfif>
 						<cfset i=i+1>
