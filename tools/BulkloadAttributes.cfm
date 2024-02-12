@@ -188,10 +188,22 @@ limitations under the License.
 					
 					<br>
 					<br>
+					<cfset thisVar = false>
+					<cfset i=0>
+					<cfloop condition="thisVar eq false">
+						<cfset i=i+1>
+						<cfouput>
+						thisVar= <b>#i# #thisVar#</b> (still in loop)<br>
+						</cfouput>
+						<cfif i eq 11>
+							<cfset thisVar = "true">
+						</cfif>
+					</cfloop>
+					<cfoutput>
+						thisVar - <b>#thisVar#</b> (loop has finished)		
+					</cfoutput>
 					
-					
-			<!---		<cfloop condition="#iterator.hasNext()#">
-					<cfset row = iterator.next()>--->
+			
 						<ul class="list-group list-group-horizontal text-info">	<li>
 							<cfset institution_acronym_exists = false>
 							<cfset collection_cde_exists = false>
@@ -204,7 +216,8 @@ limitations under the License.
 							<cfset attribute_meth_exists = false>
 							<cfset determiner_exists = false>
 							<cfset remarks_exists = false>
-					
+							<cfloop condition="#iterator.hasNext()#">
+							<cfset row = iterator.next()>
 							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">	
 							<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
 								<cfif #thisheader# EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
