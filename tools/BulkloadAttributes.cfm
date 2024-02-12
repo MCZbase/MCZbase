@@ -136,7 +136,7 @@ limitations under the License.
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
-				<cfset nulls = headers.getNullString()>
+				<cfset nulls = headers.get(JavaCast("getNullString",actualColumnNumber))>
 		 		<!--- number of colums actually found --->
 			
 		
