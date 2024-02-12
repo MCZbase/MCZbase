@@ -184,6 +184,12 @@ limitations under the License.
 					<li class="text-success list-group-item h5 border" style="width: 140px;">#headers.get(JavaCast("int",actualColumnNumber))#</li>
 				</cfloop>
 				</ul>
+					
+					
+					<br>
+					<br>
+					
+					
 					<cfloop condition="#iterator.hasNext()#">
 					<cfset row = iterator.next()>
 						<ul class="list-group list-group-horizontal">	
@@ -196,14 +202,13 @@ limitations under the License.
 							<cfset attribute_date_exists = false>
 							<cfset determiner_exists = false>
 							<cfloop index="actualColumnNumber" from="0" to="0">	
-								
 								<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
 								<li class="list-group-item"><cfif #thisheader# EQ "attribute_meth"> <cfelse>MISSING</cfif></li>
 							</cfloop>						
 						</ul>
 					</cfloop>
 			
-									
+<!---									
 				<h3 class="mt-5">Rows of values:</h3>					
 				<cfloop condition="#iterator.hasNext()#">
 					<cfset row = iterator.next()>
@@ -212,7 +217,7 @@ limitations under the License.
 							<li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li>
 						</cfloop>
 					</ul>		
-				</cfloop>
+				</cfloop>--->
 					
 					
 				<div class="col-12 border m-5">
