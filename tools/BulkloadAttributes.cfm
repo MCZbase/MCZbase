@@ -202,8 +202,7 @@ limitations under the License.
 					row for loop: <cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#"><li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li></cfloop><br>
 						
 					Map: #map#<br>
-					<cfset theseR = records.printRecords()>
-						#theseR#
+			
 				
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
