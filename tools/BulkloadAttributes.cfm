@@ -234,7 +234,7 @@ limitations under the License.
 					<cfif not attribute_meth_exists><cfset message = "#message# attribute_meth is missing."></cfif>
 					<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
 					<cfif not remarks_exists><cfset message = "#message# remarks is missing."></cfif>
-					<cfthrow message="#message#">
+					<cfthrow #message#>
 					</cfif>
 						</li></ul>
 						<br>
