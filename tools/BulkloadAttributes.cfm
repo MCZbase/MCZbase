@@ -193,7 +193,7 @@ limitations under the License.
 					CSV headers:#headers#<br>
 					template headers: <cfloop array="#data#" index="i"><cfoutput><li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li></cfoutput></cfloop>
 				<!---	row: #iterator.next()#<br>--->
-					row for loop: #row.get(JavaCast("int",actualColumnNumber))#<br>
+					row for loop: <cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#"><li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li></cfloop><br>
 					map of header for loop: #header.get(JavaCast("int",actualColumnNumber))#<br>
 				
 				<!--- cleanup any incomplete work by the same user --->
