@@ -138,8 +138,22 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
-				<cfset position1 = headers.get(0).putIn()>
-				<cfset position2 = headers.get(1).putIn()>
+				<cfset position1 = headers.get(0)>
+				<cfset position2 = headers.get(1)>
+				<cfset position3 = headers.get(2)>
+				<cfset position4 = headers.get(3)>
+				<cfset position5 = headers.get(4)>
+				<cfset position6 = headers.get(5)>
+				<cfset position7 = headers.get(6)>
+				<cfset position8 = headers.get(7)>
+				<cfset position9 = headers.get(8)>
+				<cfset position10 = headers.get(9)>
+				<cfset position11 = headers.get(10)>
+					
+					<cfset result = System.out.println(parsed.getHeaderMap().toString())>
+						#result#
+					
+					
 				
 				
 			
