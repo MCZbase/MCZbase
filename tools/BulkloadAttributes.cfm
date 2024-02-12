@@ -209,6 +209,7 @@ limitations under the License.
 						<li class="list-group-item border" style="width:140px;">#headers.get(9)#</li>
 						<li class="list-group-item border" style="width:140px;">#headers.get(10)#</li>
 						<li class="list-group-item border" style="width:140px;">#headers.get(11)#</li>
+						<cfif headers.get() lt 11>One of the headers is missing.</cfif>
 					</ul>		
 				</cfloop>
 					
