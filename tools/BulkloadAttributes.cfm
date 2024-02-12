@@ -206,7 +206,7 @@ limitations under the License.
 				<!---	row: #iterator.next()#<br>--->
 					row for loop: <cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#"><li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li></cfloop><br>
 					
-						<cfloop index="i" array="#items#"><output>#headers.get(i)#</output></cfloop>
+						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#"><output>#headers.get(i)#</output></cfloop>
 						
 					
 					
