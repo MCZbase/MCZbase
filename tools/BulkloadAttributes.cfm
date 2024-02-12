@@ -138,11 +138,11 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
-				<cfset position1 = headers.get(3)>
+				<cfset inThisPosition = headers.get(3)>
 
 					
 					
-				#position1#	
+				#inThisPosition#	
 					
 				
 				
