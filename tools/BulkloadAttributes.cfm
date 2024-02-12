@@ -184,13 +184,21 @@ limitations under the License.
 					<li class="text-success list-group-item h5 border" style="width: 140px;">#headers.get(JavaCast("int",actualColumnNumber))#</li>
 				</cfloop>
 				</ul>
-				<cfloop array="#data#" index="i"><cfset thatfield= #i.field#>	</cfloop>
 					<cfloop condition="#iterator.hasNext()#">
 					<cfset row = iterator.next()>
 						<ul class="list-group list-group-horizontal">	
+							<cfset institution_acronym_exists = false>
+							<cfset collection_cde_exists = false>
+							<cfset other_id_type_exists = false>
+							<cfset other_id_number_exists = false>
+							<cfset attribute_exists = false>
+							<cfset attribute_value_exists = false>
+							<cfset attribute_date_exists = false>
+							<cfset determiner_exists = false>
 							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">	
+								
 								<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
-								<li class="list-group-item"><cfif #thisheader# EQ #thatfield#> <cfelse>MISSING</cfif></li>
+								<li class="list-group-item"><cfif #thisheader# EQ "attribute_meth"> <cfelse>MISSING</cfif></li>
 							</cfloop>						
 						</ul>
 					</cfloop>
