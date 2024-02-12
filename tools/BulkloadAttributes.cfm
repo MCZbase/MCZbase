@@ -204,7 +204,7 @@ limitations under the License.
 							<cfset attribute_date_exists = false>
 							<cfset determiner_exists = false>
 							<cfloop from="0" to="10" index="itemNo">
-								<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
+								<cfset thisheader = #headers.get(JavaCast("int",itemNo))#>
 								<cfif ucase(thisheader) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 								<cfif ucase(thisheader) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 								<cfif ucase(thisheader) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
