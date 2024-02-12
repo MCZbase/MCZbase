@@ -183,12 +183,14 @@ limitations under the License.
 					</ul>
 				</cfloop>
 					<div class="col-12 border">
-						<h3>What can be used:</h3>
+					<h3>What can be used:</h3>
 					records: #records#<br>
 					iterator:#iterator#<br>
 					headers:#headers#<br>
 					parser: #parser#<br>
-						map: ?<br>
+					row: #interator.next()#<br>
+					row for loop: #row.get(JavaCast("int",actualColumnNumber))#<br>
+					map of header for loop: #header.get(JavaCast("int",actualColumnNumber))#<br>
 				
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
