@@ -202,7 +202,7 @@ limitations under the License.
 			<table style="width:1100px">
 				<tr>
 					<cfloop item="Item" list="#fieldlist#" delimiters=",">
-						<td class="border" width="100px;"><span style="color:brown;width:100px;">#Item#</span> ::</td>
+						<td class="border" width="100px;"><span style="color:brown;width:100px;">#Item#</span></td>
 					</cfloop>
 				</tr>
 				<tr>
