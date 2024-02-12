@@ -221,12 +221,12 @@ limitations under the License.
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(11)#</li>--->
 						</cfloop>
 					</ul>	
-						<cfif i lt 11 and #data# contains #headers.get(JavaCast("int",vari))#>
+						<cfif i lt 11>
 							<cfset myVar="true">
 						</cfif>
 						<cfset i=i+1>
 				</cfloop>
-				#data#
+			
 					
 				<div class="col-12 border m-5">
 					<h3>What can be used:</h3>
