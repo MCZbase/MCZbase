@@ -191,7 +191,7 @@ limitations under the License.
 						
 						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">	
 							<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
-							<li class="list-group-item"><cfif #thisheader# NEQ #i.field#>#thisheader#<cfelse>MISSING</cfif></li>
+							<li class="list-group-item"><cfif #thisheader# NEQ #i.field#>#thisheader#<cfelse>MISSING #thisheader#</cfif></li>
 						</cfloop>
 					
 						
