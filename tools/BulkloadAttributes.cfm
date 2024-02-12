@@ -196,12 +196,12 @@ limitations under the License.
 								
 				<h3 class="mt-5">Rows of values:</h3>	
 					<cfset myvar = false>
-					<cfset i = 0>
+					<cfset i = 0><ul class="list-group list-group-horizontal">
 				<cfloop array="#data#" index="i">
 						<cfoutput>
 							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
 						</cfoutput>
-				</cfloop>
+						</cfloop></ul>
 				<cfloop condition="myVar eq false">
 					<cfset row = iterator.next()>
 					<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
