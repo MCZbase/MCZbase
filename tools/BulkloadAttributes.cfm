@@ -182,7 +182,7 @@ limitations under the License.
 					</ul>
 				</cfloop>
 						Iterator:#iterator#<br>
-					Header:#header#<br>
+					Header:#headers#<br>
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
