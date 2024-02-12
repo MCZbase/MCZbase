@@ -401,7 +401,7 @@ limitations under the License.
 					</cfif>
 				</cfloop>--->
 				<cfcatch>
-					Error message
+					This is an Error message
 				</cfcatch>
 			</cftry>
 		</cfoutput>
