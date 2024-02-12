@@ -138,8 +138,8 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
-				<cfset csvrecords = records.get(0)>
-					#csvrecords#<br>
+				<cfset record1 = headers.get(0)>
+					#record1#
 			
 				
 		 		<!--- number of colums actually found --->
