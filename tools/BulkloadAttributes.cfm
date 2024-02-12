@@ -192,7 +192,7 @@ limitations under the License.
 					
 					<cfloop condition="#iterator.hasNext()#">
 					<cfset row = iterator.next()>
-						<ul class="list-group list-group-horizontal">	
+						<ul class="list-group list-group-horizontal text-info">	
 							<cfset institution_acronym_exists = false>
 							<cfset collection_cde_exists = false>
 							<cfset other_id_type_exists = false>
