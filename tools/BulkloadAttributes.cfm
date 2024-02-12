@@ -191,7 +191,7 @@ limitations under the License.
 						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 							<li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li>
 						</cfloop>
-						<cfloop index="actualColumnNumber" from="0" to="40">
+						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 							<cfset institution_acronym_exists = false>
 							<cfset collection_cde_exists = false>
 							<cfset other_id_type_exists = false>
@@ -202,7 +202,7 @@ limitations under the License.
 							<cfset determiner_exists = false>
 							<cfloop from="0" to="#headers.size() - 1#" index="itemNo">
 								<cfset thisheader = #headers.get(JavaCast("int",itemNo))#>
-								<cfif #thisheader# EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
+								<cfif #thisheader# EQ 'institution_acronym'>True</cfif>
 								<cfif #thisheader# EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 								<cfif #thisheader# EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
 								<cfif #thisheader# EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
@@ -211,7 +211,7 @@ limitations under the License.
 								<cfif #thisheader# EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
 								<cfif #thisheader# EQ 'determiner'><cfset determiner_exists=true></cfif>
 							</cfloop>
-							<cfloop from="0" to="#headers.size() - 1#" index="itemNo">
+							<!---<cfloop from="0" to="#headers.size() - 1#" index="itemNo">
 								<cfset thisheader = #headers.get(JavaCast("int",itemNo))#>
 								<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
 									<cfset message = "Something is missing">
@@ -225,7 +225,7 @@ limitations under the License.
 									<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
 									<cfthrow message="#message#">
 								</cfif>
-							</cfloop>
+							</cfloop>--->
 						</cfloop>
 					</ul>
 				</cfloop>
