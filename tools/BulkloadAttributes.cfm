@@ -189,8 +189,8 @@ limitations under the License.
 				<cfset row = iterator.next()>
 					<ul class="list-group list-group-horizontal">
 						
-						<cfloop index="itemno" from="0" to="#headers.size() - 1#">	
-							<cfset thisheader = #headers.get(JavaCast("int",itemno))#>
+						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">	
+							<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
 							<li class="list-group-item"><cfif #thisheader# EQ #i.field#>#thisheader#<cfelse>MISSING</cfif></li>
 						</cfloop>
 					
