@@ -216,7 +216,7 @@ limitations under the License.
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(11)#</li>--->
 						</cfloop>
 					</ul>	
-						<cfif i eq #headers.size() - 1#>
+						<cfif i eq 0>
 							<cfset myVar="true">
 						</cfif>
 						<cfset i=i+1>
