@@ -196,13 +196,13 @@ limitations under the License.
 				<h3 class="mt-5">Rows of values:</h3>	
 					<cfset myvar = false>
 					<cfset i = 0>
-			
+			<cfquery
 				<cfloop condition="myVar eq false">
 					<cfset row = iterator.next()>
-				
+					<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 					<ul class="list-group list-group-horizontal">
 					<cfloop index="vari" from="0" to="#headers.size() - 1#">
-						<li class="list-group-item border" style="width:140px;">myvar = #headers.get(JavaCast("int",vari))# #myvar#</li>
+						<li class="list-group-item border" style="width:140px;">#i# = #headers.get(JavaCast("int",vari))# #myvar#</li>
 <!---						<li class="list-group-item border" style="width:140px;">#i# #headers.get(1)#</li>
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(2)#</li>
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(3)#</li>
@@ -216,7 +216,7 @@ limitations under the License.
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(11)#</li>--->
 						</cfloop>
 					</ul>	
-						<cfif i eq 0>
+						<cfif i lt "11" and #fieldlist# contains #headers.get(JavaCast("int",vari))#>
 							<cfset myVar="true">
 						</cfif>
 						<cfset i=i+1>
