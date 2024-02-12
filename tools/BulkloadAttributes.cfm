@@ -194,7 +194,7 @@ limitations under the License.
 					records: #records#<br>
 					iterator:#iterator#<br>
 					CSV headers:#headers#<br>
-					nulls: #nulls#<br>
+					items:#items#<br> 
 					template headers: <cfloop array="#data#" index="i"><cfoutput><li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li></cfoutput></cfloop>
 				<!---	row: #iterator.next()#<br>--->
 					row for loop: <cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#"><li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li></cfloop><br>
