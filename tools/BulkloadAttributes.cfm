@@ -188,9 +188,7 @@ limitations under the License.
 				<cfloop condition="#iterator.hasNext()#">
 				<cfset row = iterator.next()>
 					<ul class="list-group list-group-horizontal">
-						<cfloop array="#data#" index="i">
-							<cfset thatheader = "#i.field#">
-						</cfloop>
+						<cfset thatheader = "#i.field#">
 						<cfloop index="itemno" from="0" to="#headers.size() - 1#">							
 							<cfset thisheader = #headers.get(JavaCast("int",itemno))#>
 							<li class="list-group-item"><cfif #thisheader# EQ #thatheader#>True<cfelse>#thatheader#: False</cfif></li>
