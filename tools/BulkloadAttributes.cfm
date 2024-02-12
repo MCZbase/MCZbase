@@ -136,7 +136,7 @@ limitations under the License.
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
-				<cfscript>List<CSVRecord> csvRecords = csvParser.getRecords();</CSVRecord></cfscript>
+				<cfset thisitem= recordNumber()>
 				
 		 		<!--- number of colums actually found --->
 			
@@ -195,7 +195,6 @@ limitations under the License.
 					CSV headers:#headers#<br>
 					nulls: #nulls#<br>
 					template headers: <cfloop array="#data#" index="i"><cfoutput><li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li></cfoutput></cfloop>
-					CSV Records: #csvRecords#
 				<!---	row: #iterator.next()#<br>--->
 					row for loop: <cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#"><li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li></cfloop><br>
 					map of header for loop: #header.get(JavaCast("int",actualColumnNumber))#<br>
