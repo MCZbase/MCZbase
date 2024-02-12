@@ -181,8 +181,8 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</cfloop>
-									
-				
+						Iterator:#iterator#<br>
+					Header:#header#<br>
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
@@ -199,7 +199,7 @@ limitations under the License.
 				<cfset attribute_date_exists = false>
 				<cfset determiner_exists = false>
 				<cfloop from="0" to="#headers.size() - 1#" index="col">
-					<cfset thisheader = #headers.get(JavaCast("int",col))#>
+					<cfset thisheader = #iterator#>
 					<cfif ucase(thisheader) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 					<cfif ucase(thisheader) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 					<cfif ucase(thisheader) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
@@ -231,7 +231,7 @@ limitations under the License.
 					<!--- obtain the values in the current row --->
 					<cfset colVals="">
 					<cfloop from="1" to ="#headers.size()#" index="col">
-						<cfset thisBit=headers[row][col]>
+						<cfset thisBit=##>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
