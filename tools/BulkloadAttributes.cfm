@@ -190,15 +190,11 @@ limitations under the License.
 					<ul class="list-group list-group-horizontal">
 						<cfloop index="itemno" from="0" to="#headers.size() - 1#">							
 							<cfset thisheader = #headers.get(JavaCast("int",itemno))#>
-							<ul class="list-group list-group-horizontal">
-								<cfloop array="#data#" index="i">
-									<cfoutput>
-										<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
-									</cfoutput>
-								</cfloop>
-							</ul>
 						</cfloop>
-							<li><cfif #thisheader# EQ #i.field#>True<cfelse>False</cfif></li>
+						<cfloop array="#data#" index="i">
+							<cfset thatheader = "#i.field#">
+						</cfloop>
+						<li><cfif #thisheader# EQ #i.field#>True<cfelse>#i.field#: False</cfif></li>
 					</ul>
 				</cfloop>
 									
