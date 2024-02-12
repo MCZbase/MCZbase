@@ -194,14 +194,15 @@ limitations under the License.
 									
 								
 				<h3 class="mt-5">Rows of values:</h3>	
-					<cfset #headers.get(0)# eq " ">
-					<cfset i = 1>
-				<cfloop condition="#iterator.hasNext()#">
+					<cfset myvar = false>
+					<cfset i = 0>
+			
+				<cfloop condition="myVar eq false">
 					<cfset row = iterator.next()>
 				
 					<ul class="list-group list-group-horizontal">
-						<li class="list-group-item border" style="width:140px;">#i# #headers.get(0)#</li>
-						<li class="list-group-item border" style="width:140px;">#i# #headers.get(1)#</li>
+						<li class="list-group-item border" style="width:140px;">myvar = #headers.get(#i#)# #myvar#</li>
+<!---						<li class="list-group-item border" style="width:140px;">#i# #headers.get(1)#</li>
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(2)#</li>
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(3)#</li>
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(4)#</li>
@@ -211,9 +212,11 @@ limitations under the License.
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(8)#</li>
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(9)#</li>
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(10)#</li>
-						<li class="list-group-item border" style="width:140px;">#i# #headers.get(11)#</li>
-						<cfif headers.get(0) eq #i.field#>something</cfif>
+						<li class="list-group-item border" style="width:140px;">#i# #headers.get(11)#</li>--->
 					</ul>	
+						<cfif i eq 10>
+							<cfset myVar="true">
+						</cfif>
 						<cfset i=i+1>
 				</cfloop>
 					
