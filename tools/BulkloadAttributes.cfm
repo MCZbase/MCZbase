@@ -140,7 +140,7 @@ limitations under the License.
 			
 		
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
-				<!--- runs through the headers in the spreadsheet only--->
+				<!--- runs through the template headers only--->
 		
 				<cfscript>
 					data = [
@@ -157,7 +157,7 @@ limitations under the License.
 						{field:"remarks", required:"no"}
 					];
 				</cfscript>
-				<cfset actualColumnNumber = headers.size()>
+				<cfset actualColumnNumber = #headers.size()#>
 				<h3 class="h5">There are <cfdump var="#data.size()#"> columns possible for attributes.</h3>
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
