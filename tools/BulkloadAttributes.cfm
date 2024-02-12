@@ -138,16 +138,10 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
-				<cfset inThisPosition = headers.get()>
-				<cfloop condition="#iterator.hasNext()#">
-					<cfset row = iterator.next()>
-					<cfloop index="i" from="0" to="#headers.size() - 1#">
-					
-					#headers.get(i)#
-					</cfloop>
-				</cfloop>
+				<cfset inThisPosition = headers.get(0)>
+	
 				
-			
+					<h3>#actualColumnNumber#</h3>
 				
 		 		<!--- number of colums actually found --->
 			
