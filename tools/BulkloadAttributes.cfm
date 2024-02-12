@@ -195,7 +195,7 @@ limitations under the License.
 							<cfset attribute_value_exists = false>
 							<cfset attribute_date_exists = false>
 							<cfset determiner_exists = false>
-							<cfloop index="actualColumnNumber" from="0" to="1">	
+							<cfloop index="actualColumnNumber" from="0" to="0">	
 								
 								<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
 								<li class="list-group-item"><cfif #thisheader# EQ "attribute_meth"> <cfelse>MISSING</cfif></li>
