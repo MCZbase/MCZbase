@@ -200,12 +200,12 @@ limitations under the License.
 			<cfset row = iterator.next()>
 			<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 			<table>
-				<tr>
+				
 					<cfloop item="Item" list="#fieldlist#" delimiters=",">
-						<td class="list-group-item" style="width:140px;">#Item#</td>
+						<tr><td class="list-group-item" style="width:140px;">#Item#</td></tr>
 					</cfloop>
 					<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-						<td class="list-group-item">#headers.get(JavaCast("int",actualColumnNumber))#</td>	
+						<tr><td class="list-group-item">#headers.get(JavaCast("int",actualColumnNumber))#</td></tr>
 					</cfloop>
 				</tr>
 			</table>
