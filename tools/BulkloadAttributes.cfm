@@ -199,13 +199,13 @@ limitations under the License.
 	
 			<cfset row = iterator.next()>
 			<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
-			<table>
+			<table style="width:1100px">
 				<tr>
 					<cfloop item="Item" list="#fieldlist#" delimiters=",">
-						<td><span style="color:brown;">#Item#</span> ::
+						<td><span style="color:brown;width:100px;">#Item#</span> ::
 					</cfloop>
 					<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-						<span style="color:darkgreen;">#headers.get(JavaCast("int",actualColumnNumber))#</td>
+						<span style="color:darkgreen;width: 100px;">#headers.get(JavaCast("int",actualColumnNumber))#</td>
 					</cfloop>
 				</tr>
 			</table>
