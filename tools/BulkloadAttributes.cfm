@@ -188,8 +188,10 @@ limitations under the License.
 				<cfloop condition="#iterator.hasNext()#">
 				<cfset row = iterator.next()>
 					<ul class="list-group list-group-horizontal">
-						<cfset thisheader = #headers.get(JavaCast("int",itemNo))#>
 						<cfloop index="itemNo" from="0" to="#headers.size() - 1#">							
+							<cfset thisheader = #headers.get(JavaCast("int",itemNo))#>
+						<li>#thisheader#</li>
+						<li>
 							<cfif #thisheader# EQ 'institution_acronym'>True<cfelse>False</cfif>
 							<cfif #thisheader# EQ 'collection_cde'>True<cfelse>False</cfif>
 							<cfif #thisheader# EQ 'other_id_type'>True<cfelse>False</cfif>
@@ -198,6 +200,7 @@ limitations under the License.
 							<cfif #thisheader# EQ 'attribute_value'>True<cfelse>False</cfif>
 							<cfif #thisheader# EQ 'attribute_date'>True<cfelse>False</cfif>
 							<cfif #thisheader# EQ 'determiner'>True<cfelse>False</cfif>
+						</li>
 						</cfloop>
 					</ul>
 				</cfloop>
