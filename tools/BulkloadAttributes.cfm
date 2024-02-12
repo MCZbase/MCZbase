@@ -210,6 +210,7 @@ limitations under the License.
 								<cfif ucase(thisheader) EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
 								<cfif ucase(thisheader) EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
 								<cfif ucase(thisheader) EQ 'determiner'><cfset determiner_exists=true></cfif>
+									#thisheader#<br>
 							</cfloop>
 							<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
 								<cfset message = "Something is missing">
