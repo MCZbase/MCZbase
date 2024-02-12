@@ -231,7 +231,7 @@ limitations under the License.
 					<!--- obtain the values in the current row --->
 					<cfset colVals="">
 					<cfloop from="1" to ="#headers.size()#" index="col">
-						<cfset thisBit=##>
+						<cfset thisBit=#headers#>
 						<cfif REFind("[^\x00-\x7F]",thisBit) GT 0>
 							<!--- high ASCII --->
 							<cfif foundHighCount LT 6>
