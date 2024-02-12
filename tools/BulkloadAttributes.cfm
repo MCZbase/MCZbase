@@ -190,7 +190,7 @@ limitations under the License.
 					<ul class="list-group list-group-horizontal">
 						<cfloop index="i" from="0" to="#headers.size() - 1#">							
 							<cfset thisheader = #headers.get(JavaCast("int",i))#>
-								<li>#i.thisheader# <cfif #i.thisheader# EQ 'institution_acronym'>True<cfelse>False</cfif></li>
+								<li>#i.thisheader# <cfif #thisheader# EQ 'institution_acronym'>True<cfelse>False</cfif></li>
 						
 							
 							
