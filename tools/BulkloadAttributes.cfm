@@ -184,21 +184,19 @@ limitations under the License.
 					<li class="text-success list-group-item h5 border" style="width: 140px;">#headers.get(JavaCast("int",actualColumnNumber))#</li>
 				</cfloop>
 				</ul>
-					
-				<cfloop condition="#iterator.hasNext()#">
-				<cfset row = iterator.next()>
-					<ul class="list-group list-group-horizontal">
-						
-						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">	
-							<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
-							<li class="list-group-item"><cfif #thisheader# NEQ #i.field#>#thisheader#<cfelse>MISSING #i.field#</cfif></li>
-						</cfloop>
-					
-						
-					</ul>
+				<cfloop array="#data#" index="i">
+					<cfloop condition="#iterator.hasNext()#">
+					<cfset row = iterator.next()>
+						<ul class="list-group list-group-horizontal">	
+							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">	
+								<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
+								<li class="list-group-item"><cfif #thisheader# NEQ #i.field#>#thisheader#<cfelse>MISSING #i.field#</cfif></li>
+							</cfloop>						
+						</ul>
+					</cfloop>
 				</cfloop>
 									
-				<h3>Rows of values:</h3>					
+				<h3 class="mt-5">Rows of values:</h3>					
 				<cfloop condition="#iterator.hasNext()#">
 					<cfset row = iterator.next()>
 					<ul class="list-group list-group-horizontal">
