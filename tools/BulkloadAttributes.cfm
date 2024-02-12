@@ -203,14 +203,14 @@ limitations under the License.
 							<cfset determiner_exists = false>
 							<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
 							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">	
-								<cfif ucase(thisheader) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
-								<cfif ucase(thisheader) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
-								<cfif ucase(thisheader) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
-								<cfif ucase(thisheader) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
-								<cfif ucase(thisheader) EQ 'attribute'><cfset attribute_exists=true></cfif>
-								<cfif ucase(thisheader) EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
-								<cfif ucase(thisheader) EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
-								<cfif ucase(thisheader) EQ 'determiner'><cfset determiner_exists=true></cfif>							
+								<cfif ucase(#thisheader#) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
+								<cfif ucase(#thisheader#) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
+								<cfif ucase(#thisheader#) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
+								<cfif ucase(#thisheader#) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
+								<cfif ucase(#thisheader#) EQ 'attribute'><cfset attribute_exists=true></cfif>
+								<cfif ucase(#thisheader#) EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
+								<cfif ucase(#thisheader#) EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
+								<cfif ucase(#thisheader#) EQ 'determiner'><cfset determiner_exists=true></cfif>							
 							</cfloop>						
 						</ul>
 					</cfloop>
