@@ -188,7 +188,7 @@ limitations under the License.
 					DELETE FROM cf_temp_attributes 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfset coll="headers">
+				<cfset coll="#headers#">
 				<!--- check for required fields in header line --->
 				<cfset institution_acronym_exists = false>
 				<cfset collection_cde_exists = false>
