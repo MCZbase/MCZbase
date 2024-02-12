@@ -174,6 +174,8 @@ limitations under the License.
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
+						
+						
 						<cfoutput>
 							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
 						</cfoutput>
@@ -194,9 +196,9 @@ limitations under the License.
 					<cfset i=0>
 					<cfloop condition="thisVar eq false">
 						<cfset i=i+1>
-						<cfouput>
+						<cfoutput>
 						thisVar= <b>#i# #thisVar#</b> (still in loop)<br>
-						</cfouput>
+						</cfoutput>
 						<cfif i eq 11>
 							<cfset thisVar = "true">
 						</cfif>
