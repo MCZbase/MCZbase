@@ -141,9 +141,6 @@ limitations under the License.
 				<cfset inThisPosition = headers.get(3)>
 
 					
-					
-				#inThisPosition#	
-					
 				
 				
 			
@@ -189,41 +186,8 @@ limitations under the License.
 					
 					<br>
 					<br>
-					
 		
-						<br>
-									
-								
-				<h3 class="mt-5">Rows of values:</h3>	
-	
-	
-			<cfset row = iterator.next()>
-			<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
-			<table style="width:1100px">
-				<tr>
-					<cfloop item="Item" list="#fieldlist#" delimiters=",">
-						<td class="border" width="100px;"><span style="color:brown;width:100px;<cfif #headers.get(JavaCast("int",actualColumnNumber))# contains #Item#> font-weight: bold;"><cfelse>"></cfif>#Item#</span></td>
-					</cfloop>
-				</tr>
-				<tr>
-					<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-						<td class="border" width="100px;"><span style="color:darkgreen;width: 100px;">#headers.get(JavaCast("int",actualColumnNumber))#</td>
-					</cfloop>
-				</tr>
-			</table>
-
-		
-			
-					
-				<div class="col-12 border m-5">
-					<h3>What can be used:</h3>
-					CSV headers:#headers#<br>
-					items:#items#<br> 
-					template headers: <cfloop array="#data#" index="i"><cfoutput><li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li></cfoutput></cfloop>
-				<!---	row: #iterator.next()#<br>--->
-					row for loop: <cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#"><li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li></cfloop><br>
 				
-			
 					
 					
 				
