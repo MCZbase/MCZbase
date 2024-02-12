@@ -157,6 +157,7 @@ limitations under the License.
 						{field:"remarks", required:"no"}
 					];
 				</cfscript>
+				<cfset actualColumnNumber = headers.size()>
 				<h3 class="h5">There are <cfdump var="#data.size()#"> columns possible for attributes.</h3>
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
@@ -176,6 +177,7 @@ limitations under the License.
 						<!--- Iterate through the remaining lines in the file --->
 				<cfloop condition="#iterator.hasNext()#">
 					<cfset row = iterator.next()>
+					
 					<ul class="list-group list-group-horizontal">
 						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 							<li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li>
