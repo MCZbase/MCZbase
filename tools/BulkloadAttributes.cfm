@@ -174,8 +174,6 @@ limitations under the License.
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
-						
-						
 						<cfoutput>
 							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
 						</cfoutput>
@@ -187,30 +185,13 @@ limitations under the License.
 				</cfloop>
 				</ul>
 					
-					<hr>
-					
 					
 					<br>
 					<br>
-					<cftry>
-					<cfset thisVar = false>
-					<cfset i=0>
-					<cfloop condition="thisVar eq false">
-						<cfset i=i+1>
-						<cfoutput>
-						thisVar= <b>#i# #thisVar#</b> (still in loop)<br>
-						</cfoutput>
-						<cfif i eq 11>
-							<cfset thisVar = "true">
-						</cfif>
-					</cfloop>
+					
+					
 			
-						thisVar - <b>#thisVar#</b> (loop has finished)		
-				<cfcatch>error1</cfcatch>
-							</cftry>
-			
-						<ul class="list-group list-group-horizontal text-info">	
-							<li>
+						<ul class="list-group list-group-horizontal text-info">	<li>
 							<cfset institution_acronym_exists = false>
 							<cfset collection_cde_exists = false>
 							<cfset other_id_type_exists = false>
@@ -223,7 +204,7 @@ limitations under the License.
 							<cfset determiner_exists = false>
 							<cfset remarks_exists = false>
 							<cfloop condition="#iterator.hasNext()#">
-							<cfset row = iterator.next()>
+					<cfset row = iterator.next()>
 							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">	
 							<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
 								<cfif #thisheader# EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
@@ -272,14 +253,15 @@ limitations under the License.
 				</cfloop>--->
 					
 					
-<!---				<div class="col-12 border m-5">
+				<div class="col-12 border m-5">
 					<h3>What can be used:</h3>
 					CSV headers:#headers#<br>
 					items:#items#<br> 
 					template headers: <cfloop array="#data#" index="i"><cfoutput><li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li></cfoutput></cfloop>
+				<!---	row: #iterator.next()#<br>--->
 					row for loop: <cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#"><li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li></cfloop><br>
 				
-				</div>--->
+			
 					
 					
 				
@@ -419,7 +401,7 @@ limitations under the License.
 					</cfif>
 				</cfloop>
 				<cfcatch>
-					This is the Error message in the CFCATCH area.
+					Error message
 				</cfcatch>
 			</cftry>
 		</cfoutput>
