@@ -189,27 +189,16 @@ limitations under the License.
 				<cfset row = iterator.next()>
 					<ul class="list-group list-group-horizontal">
 						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-							<li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li>
-						</cfloop>
-						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-							<cfset institution_acronym_exists = false>
-							<cfset collection_cde_exists = false>
-							<cfset other_id_type_exists = false>
-							<cfset other_id_number_exists = false>
-							<cfset attribute_exists = false>
-							<cfset attribute_value_exists = false>
-							<cfset attribute_date_exists = false>
-							<cfset determiner_exists = false>
 							<cfloop from="0" to="1" index="itemNo">
 								<cfset thisheader = #headers.get(JavaCast("int",itemNo))#>
-								<cfif #thisheader# EQ 'institution_acronym'>True</cfif>
-								<cfif #thisheader# EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
-								<cfif #thisheader# EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
-								<cfif #thisheader# EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
-								<cfif #thisheader# EQ 'attribute'><cfset attribute_exists=true></cfif>
-								<cfif #thisheader# EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
-								<cfif #thisheader# EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
-								<cfif #thisheader# EQ 'determiner'><cfset determiner_exists=true></cfif>
+								<cfif #thisheader# EQ 'institution_acronym'>True<cfelse>False</cfif>
+								<cfif #thisheader# EQ 'collection_cde'>True<cfelse>False</cfif>
+								<cfif #thisheader# EQ 'other_id_type'>True<cfelse>False</cfif>
+								<cfif #thisheader# EQ 'other_id_number'>True<cfelse>False</cfif>
+								<cfif #thisheader# EQ 'attribute'>True<cfelse>False</cfif>
+								<cfif #thisheader# EQ 'attribute_value'>True<cfelse>False</cfif>
+								<cfif #thisheader# EQ 'attribute_date'>True<cfelse>False</cfif>
+								<cfif #thisheader# EQ 'determiner'>True<cfelse>False</cfif>
 							</cfloop>
 							<!---<cfloop from="0" to="#headers.size() - 1#" index="itemNo">
 								<cfset thisheader = #headers.get(JavaCast("int",itemNo))#>
@@ -229,7 +218,19 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</cfloop>
-					<div class="col-12 border m-5">
+									
+				<h3>Rows of values:</h3>					
+				<cfloop condition="#iterator.hasNext()#">
+					<cfset row = iterator.next()>
+					<ul class="list-group list-group-horizontal">
+						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+							<li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li>
+						</cfloop>
+					</ul>		
+				</cfloop>
+					
+					
+				<div class="col-12 border m-5">
 					<h3>What can be used:</h3>
 					CSV headers:#headers#<br>
 					items:#items#<br> 
