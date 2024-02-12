@@ -191,7 +191,7 @@ limitations under the License.
 						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 							<li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li>
 						</cfloop>
-						<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+						<cfloop index="actualColumnNumber" from="0" to="40">
 							<cfset institution_acronym_exists = false>
 							<cfset collection_cde_exists = false>
 							<cfset other_id_type_exists = false>
