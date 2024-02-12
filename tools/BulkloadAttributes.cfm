@@ -195,40 +195,22 @@ limitations under the License.
 									
 								
 				<h3 class="mt-5">Rows of values:</h3>	
-					<cfset myvar = false>
-					<cfset i = 0>
-				<cfloop condition="myVar eq false">
-					<cfset row = iterator.next()>
-					<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
-					<table>
-						<tr>
+	
+	
+			<cfset row = iterator.next()>
+			<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
+			<table>
+				<tr>
 					<cfloop item="Item" list="fieldlist" delimiters=",">
 						<td class="list-group-item border" style="width:140px;">#Item#</td>
 					</cfloop>
 					<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
 						<td>#headers.get(JavaCast("int",actualColumnNumber))#</td>	
 					</cfloop>
-						</tr>
-						</table>
-						
-<!---						<li class="list-group-item border" style="width:140px;">#i# #headers.get(1)#</li>
-						<li class="list-group-item border" style="width:140px;">#i# #headers.get(2)#</li>
-						<li class="list-group-item border" style="width:140px;">#i# #headers.get(3)#</li>
-						<li class="list-group-item border" style="width:140px;">#i# #headers.get(4)#</li>
-						<li class="list-group-item border" style="width:140px;">#i# #headers.get(5)#</li>
-						<li class="list-group-item border" style="width:140px;">#i# #headers.get(6)#</li>
-						<li class="list-group-item border" style="width:140px;">#i# #headers.get(7)#</li>	
-						<li class="list-group-item border" style="width:140px;">#i# #headers.get(8)#</li>
-						<li class="list-group-item border" style="width:140px;">#i# #headers.get(9)#</li>
-						<li class="list-group-item border" style="width:140px;">#i# #headers.get(10)#</li>
-						<li class="list-group-item border" style="width:140px;">#i# #headers.get(11)#</li>--->
-						</cfloop>
-					</ul>	
-						<cfif i lt 11 and #item#>
-							<cfset myVar="true">
-						</cfif>
-						<cfset i=i+1>
-				</cfloop>
+				</tr>
+			</table>
+
+		
 			
 					
 				<div class="col-12 border m-5">
