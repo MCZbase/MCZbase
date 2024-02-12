@@ -157,7 +157,8 @@ limitations under the License.
 						{field:"remarks", required:"no"}
 					];
 				</cfscript>
-				<cfset actualColumnNumber = #headers.size()#>
+				<cfset templateHeaders = data.field>
+				<cfset actualColumnNumber = headers.size()>
 				<h3 class="h5">There are <cfdump var="#data.size()#"> columns possible for attributes.</h3>
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
@@ -189,7 +190,7 @@ limitations under the License.
 					records: #records#<br>
 					iterator:#iterator#<br>
 					CSV headers:#headers#<br>
-					template headers: #data.field#
+					template headers: <cfloop array="#data#" index="i">#i.field# <cfif i NEQ listlen(data.field)>,</cfif></cfloop>
 				<!---	row: #iterator.next()#<br>--->
 					row for loop: #row.get(JavaCast("int",actualColumnNumber))#<br>
 					map of header for loop: #header.get(JavaCast("int",actualColumnNumber))#<br>
