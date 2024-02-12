@@ -187,7 +187,6 @@ limitations under the License.
 					records: #records#<br>
 					iterator:#iterator#<br>
 					headers:#headers#<br>
-					parser: #parser#<br>
 					row: #interator.next()#<br>
 					row for loop: #row.get(JavaCast("int",actualColumnNumber))#<br>
 					map of header for loop: #header.get(JavaCast("int",actualColumnNumber))#<br>
