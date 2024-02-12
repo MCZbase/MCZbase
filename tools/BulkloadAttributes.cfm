@@ -193,7 +193,7 @@ limitations under the License.
 						</cfloop>
 						<cfloop index="itemno" from="0" to="#headers.size() - 1#">							
 							<cfset thisheader = #headers.get(JavaCast("int",itemno))#>
-							<li><cfif #thisheader# EQ #i.field#>True<cfelse>#i.field#: False</cfif></li>
+							<li><cfif #thisheader# EQ #thatheader#>True<cfelse>#thatheader#: False</cfif></li>
 						</cfloop>
 					
 						
