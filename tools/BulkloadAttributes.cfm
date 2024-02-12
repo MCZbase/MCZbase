@@ -138,6 +138,7 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
+				<cfset missing = records.getHeaderMap()>
 			
 				
 		 		<!--- number of colums actually found --->
