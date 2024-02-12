@@ -202,7 +202,7 @@ limitations under the License.
 			<table style="width:1100px">
 				<tr>
 					<cfloop item="Item" list="#fieldlist#" delimiters=",">
-						<td class="border" width="100px;"><span style="color:brown;width:100px;<cfif #headers.get(JavaCast("int",actualColumnNumber))# contains #Item#> font-weight: bold;"><cfelse>">#Item#</span></td>
+						<td class="border" width="100px;"><span style="color:brown;width:100px;<cfif #headers.get(JavaCast("int",actualColumnNumber))# contains #Item#> font-weight: bold;"><cfelse>"></cfif>#Item#</span></td>
 					</cfloop>
 				</tr>
 				<tr>
