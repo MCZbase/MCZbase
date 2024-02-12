@@ -167,6 +167,7 @@ limitations under the License.
 						{field:"determiner", required:"yes"},
 						{field:"remarks", required:"no"}
 					];
+	
 				</cfscript>			
 				
 				<h3 class="h5">There are <cfdump var="#data.size()#"> columns possible for attribute headers.</h3>
@@ -196,7 +197,11 @@ limitations under the License.
 				<h3 class="mt-5">Rows of values:</h3>	
 					<cfset myvar = false>
 					<cfset i = 0>
-			<cfquery
+				<cfloop array="#data#" index="i">
+						<cfoutput>
+							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
+						</cfoutput>
+				</cfloop>
 				<cfloop condition="myVar eq false">
 					<cfset row = iterator.next()>
 					<cfset fieldlist = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
@@ -216,7 +221,7 @@ limitations under the License.
 						<li class="list-group-item border" style="width:140px;">#i# #headers.get(11)#</li>--->
 						</cfloop>
 					</ul>	
-						<cfif i lt "11" and #fieldlist# contains #headers.get(JavaCast("int",vari))#>
+						<cfif i lt "11" and #data# contains #headers.get(JavaCast("int",vari))#>
 							<cfset myVar="true">
 						</cfif>
 						<cfset i=i+1>
