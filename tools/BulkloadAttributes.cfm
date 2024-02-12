@@ -138,10 +138,15 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
-				<cfset inThisPosition = headers.get(0)>
-	
+				<cfset inThisPosition = headers.get(3)>
+
+					
+					
+				#inThisPosition#	
+					
 				
-					<h3>#actualColumnNumber#</h3>
+				
+			
 				
 		 		<!--- number of colums actually found --->
 			
@@ -200,9 +205,8 @@ limitations under the License.
 					template headers: <cfloop array="#data#" index="i"><cfoutput><li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li></cfoutput></cfloop>
 				<!---	row: #iterator.next()#<br>--->
 					row for loop: <cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#"><li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li></cfloop><br>
-					
-						
-						
+				
+						#row.actualColumnNumber#
 					
 					
 				
