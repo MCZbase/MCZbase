@@ -139,6 +139,7 @@ limitations under the License.
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
 				<cfset map = records.getHeaderMap()>
+				<cfset missing = records.values()>
 					
 			
 				
@@ -146,7 +147,7 @@ limitations under the License.
 			
 			<div class="col-12 my-4">
 				<h3 class="h5">Found <cfdump var="#headers.size()#"> matching columns in header of csv file.</h3>
-					<cfdump var="#items#">
+					
 				<cfscript>
 					data = [
 						{field:"institution_acronym", required:"yes"},
@@ -201,7 +202,8 @@ limitations under the License.
 					row for loop: <cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#"><li class="list-group-item border" style="width:140px;">#row.get(JavaCast("int",actualColumnNumber))#</li></cfloop><br>
 						
 					Map: #map#<br>
-					
+					<cfset theseR = printRecords()>
+						#theseR#
 				
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
