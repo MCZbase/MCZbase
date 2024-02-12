@@ -206,6 +206,7 @@ limitations under the License.
 							<cfset remarks_exists = false>
 							<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
 							<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">	
+							<cfset thisheader = #headers.get(JavaCast("int",actualColumnNumber))#>
 								<cfif #thisheader# EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 								<cfif #thisheader# EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 								<cfif #thisheader# EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
