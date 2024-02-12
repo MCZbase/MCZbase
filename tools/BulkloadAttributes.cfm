@@ -190,9 +190,9 @@ limitations under the License.
 					<br>
 					
 					
-					<cfloop condition="#iterator.hasNext()#">
-					<cfset row = iterator.next()>
-						<ul class="list-group list-group-horizontal text-info">	
+			<!---		<cfloop condition="#iterator.hasNext()#">
+					<cfset row = iterator.next()>--->
+						<ul class="list-group list-group-horizontal text-info">	<li>
 							<cfset institution_acronym_exists = false>
 							<cfset collection_cde_exists = false>
 							<cfset other_id_type_exists = false>
@@ -219,8 +219,8 @@ limitations under the License.
 								<cfif #thisheader# EQ 'determiner'><cfset determiner_exists=true></cfif>		
 								<cfif #thisheader# EQ 'remarks'><cfset remarks_exists=true></cfif>
 							</cfloop>						
-						</ul>
-					</cfloop>
+				<!---		</ul>
+					</cfloop>--->
 					<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
 					<cfset message = "something is missing">
 					<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
@@ -236,7 +236,7 @@ limitations under the License.
 					<cfif not remarks_exists><cfset message = "#message# remarks is missing."></cfif>
 					<cfthrow message="#message#">
 					</cfif>
-						
+						</li></ul>
 						<br>
 						<br>
 						<br>
