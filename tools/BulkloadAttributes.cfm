@@ -246,8 +246,8 @@ limitations under the License.
 					DELETE FROM cf_temp_attributes 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfset coll="#headers#">
-				<!--- check for required fields in header line --->
+		<!---		<cfset coll="#headers#">
+				
 				<cfset institution_acronym_exists = false>
 				<cfset collection_cde_exists = false>
 				<cfset other_id_type_exists = false>
@@ -278,7 +278,7 @@ limitations under the License.
 					<cfif not attribute_date_exists><cfset message = "#message# attribute_date is missing."></cfif>
 					<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
 					<cfthrow message="#message#">
-				</cfif>
+				</cfif>--->
 				<cfset colNames="">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
