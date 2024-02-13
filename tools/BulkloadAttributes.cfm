@@ -215,7 +215,7 @@ limitations under the License.
 					<cfif thisheader EQ 'remarks_date'><cfset renarks_exists=true></cfif>
 					<cfset i= i+1>
 				</cfloop>
-				<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
+				<!---<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
 					<cfset message = "something required is missing">
 					<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
 					<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
@@ -226,7 +226,7 @@ limitations under the License.
 					<cfif not attribute_date_exists><cfset message = "#message# attribute_date is missing."></cfif>
 					<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
 					<cfthrow message="#message#">
-				</cfif>
+				</cfif>--->
 		<!---		<cfset colNames="">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
