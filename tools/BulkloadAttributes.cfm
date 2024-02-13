@@ -138,13 +138,20 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
-				<cfset inThisPosition = headers.get(3)>
 				<cfset columnOne = headers.get(0)>
 				<cfset columnTwo = headers.get(1)>
+				<cfset columnThree = headers.get(2)>
+				<cfset columnFour = headers.get(3)>
+				<cfset columnFive = header.get(4)>
+				<cfset columnSix = header.get(5)>
+				<cfset columnSeven = headers.get(6)>
+				<cfset columnEight = headers.get(7)>
+				<cfset columnNine = headers.get(8)>
+				<cfset columnTen = headers.get(9)>
+				<cfset columnEleven = header.get(10)>
 					
-					#columnOne#,#columnTwo#
 					
-					
+				
 		 		<!--- number of colums actually found --->
 			
 			<div class="col-12 my-4">
@@ -170,21 +177,20 @@ limitations under the License.
 				<cfset fieldlist2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
-					
-			
-<!---					<cfscript>
+	
+<!---			<cfscript>
 					i=0
-						do {
-						WriteOutput(headers.get("institution_acronym") & 'true');
-						i++
-						} while (headers.get("institution_acronym") == data.get("institution_acronym") & i>10);
-					
-					</cfscript>--->
+					do {
+					WriteOutput(headers.get("institution_acronym") & 'true');
+					i++
+					} while (headers.get("institution_acronym") == data.get("institution_acronym") & i>10);
+				</cfscript>--->
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
 						<cfoutput>
 							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
+							<cfif #columnOne# = #i.field#>Hello</cfif>
 						</cfoutput>
 					</cfloop>
 				</ul>
@@ -193,21 +199,13 @@ limitations under the License.
 					<li class="text-success list-group-item h5 border" style="width: 140px;">#headers.get(JavaCast("int",actualColumnNumber))#</li>
 				</cfloop>
 				</ul>
-					
-					
-					<br>
-					<br>
-		
-				
-					
-					
-				
+
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-		<!---		<cfset coll="#headers#">
+
 				
 				<cfset institution_acronym_exists = false>
 				<cfset collection_cde_exists = false>
@@ -239,7 +237,7 @@ limitations under the License.
 					<cfif not attribute_date_exists><cfset message = "#message# attribute_date is missing."></cfif>
 					<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
 					<cfthrow message="#message#">
-				</cfif>--->
+				</cfif>
 		<!---		<cfset colNames="">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
