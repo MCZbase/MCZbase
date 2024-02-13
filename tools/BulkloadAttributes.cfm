@@ -139,7 +139,9 @@ limitations under the License.
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
 				<cfset inThisPosition = headers.get(3)>
-				<cfset header.get("attribute")>
+			<cfset instution_acronym= record.get("institution_acronym")>
+					
+					
 		 		<!--- number of colums actually found --->
 			
 			<div class="col-12 my-4">
@@ -166,7 +168,7 @@ limitations under the License.
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
 					
-					#records.get(Headers.attribute)#
+			
 <!---					<cfscript>
 					i=0
 						do {
