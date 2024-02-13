@@ -147,25 +147,25 @@ limitations under the License.
 					
 				<cfscript>
 					data = [
-						{number: 1, field:"institution_acronym", required:"yes"},
-						{number: 2, field:"collection_cde", required:"yes"},
-						{number: 3, field:"other_id_type", required:"yes"},
-						{number: 4, field:"other_id_number", required:"yes"},
-						{number: 5, field:"attribute", required:"yes"},
-						{number: 6, field:"attribute_value", required:"yes"},
-						{number: 7, field:"attribute_units", required:"no"},
-						{number: 8, field:"attribute_date", required:"yes"},
-						{number: 9, field:"attribute_meth", required:"no"},
-						{number: 10, field:"determiner", required:"yes"},
-						{number: 11, field:"remarks", required:"no"}
+						{field:"institution_acronym", required:"yes"},
+						{field:"collection_cde", required:"yes"},
+						{field:"other_id_type", required:"yes"},
+						{field:"other_id_number", required:"yes"},
+						{field:"attribute", required:"yes"},
+						{field:"attribute_value", required:"yes"},
+						{field:"attribute_units", required:"no"},
+						{field:"attribute_date", required:"yes"},
+						{field:"attribute_meth", required:"no"},
+						{field:"determiner", required:"yes"},
+						{field:"remarks", required:"no"}
 					];
 				
 	
 				</cfscript>			
-				
+				<cfset fieldlist2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks" default=1 type="any">
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
-					<cfset both = listContains(headers,data.number)>
+					<cfset both = listContains(headers,fieldlist2)>
 						Item1 = #ListGetAt(fieldlist,both)#
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
