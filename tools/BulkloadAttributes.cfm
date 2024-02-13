@@ -143,14 +143,14 @@ limitations under the License.
 				<cfset columnThree = headers.get(2)>
 				<cfset columnFour = headers.get(3)>
 				<cfset columnFive = header.get(4)>
-				<cfset columnSix = header.get(5)>
-				<cfset columnSeven = headers.get(6)>
-				<cfset columnEight = headers.get(7)>
-				<cfset columnNine = headers.get(8)>
-				<cfset columnTen = headers.get(9)>
-				<cfset columnEleven = header.get(10)>
+				<cfif isDefined(headers.get(5))><cfset columnSix = header.get(5)></cfif>
+				<cfif isDefined(headers.get(6))><cfset columnSeven = headers.get(6)></cfif>
+				<cfif isDefined(headers.get(7))><cfset columnEight = headers.get(7)></cfif>
+				<cfif isDefined(headers.get(8))><cfset columnNine = headers.get(8)></cfif>
+				<cfif isDefined(headers.get(9))><cfset columnTen = headers.get(9)></cfif>
+				<cfif isDefined(headers.get(10))><cfset columnEleven = header.get(10)></cfif>
 					
-					
+			<cfset csvlist = "columnOne,columnTwo,columnThree,columnFour,columnFive,columnSix,columnSeven,columnEight,columnNine,columnTen,columnEleven">>		
 				
 		 		<!--- number of colums actually found --->
 			
@@ -189,7 +189,6 @@ limitations under the License.
 					<cfloop array="#data#" index="i">
 						<cfoutput>
 							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
-					
 						</cfoutput>
 					</cfloop>
 				</ul>
