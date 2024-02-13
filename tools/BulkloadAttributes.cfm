@@ -203,9 +203,9 @@ limitations under the License.
 				<cfset remarks_exists = false>
 				<cfloop from="0" to="#size#" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
-					<cfif thisheader EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
+					<cfif thisheader EQ 'institution_acronym'><cfset institution_acronym_exists=true>#i# #thisheader#</cfif>
 					<cfif thisheader EQ 'collection_cde'><cfset collection_cde_exists=true>#i# #thisheader#</cfif>
-					<cfif thisheader  EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
+					<cfif thisheader  EQ 'other_id_type'><cfset other_id_type_exists=true>#i# #thisheader#</cfif>
 					<cfif thisheader EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
 					<cfif thisheader EQ 'attribute'><cfset attribute_exists=true></cfif>
 					<cfif thisheader EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
@@ -216,7 +216,7 @@ limitations under the License.
 					<cfif thisheader EQ 'remarks_date'><cfset renarks_exists=true></cfif>
 					
 						
-						 #attribute_value_exists# : #thisheader#
+					
 						
 						<cfset i= i+1>
 				</cfloop>
