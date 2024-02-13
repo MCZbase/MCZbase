@@ -191,13 +191,13 @@ limitations under the License.
 					
 			<cftry>	
 			<cfset j=10>
-		<!---	<cfloop condition="#j# LESS THAN 10">--->
+			<cfloop condition="#thisheader# contains 'attribute_meth'">
 				<cfloop from="0" to="#j#" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 					<cfset i= i+1>
 						#thisheader#
 				</cfloop>
-		<!---	</cfloop>--->
+			</cfloop>
 			<cfcatch>Ooops</cfcatch>
 			</cftry>
 		
