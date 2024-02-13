@@ -151,10 +151,9 @@ limitations under the License.
 				<cfif isDefined(headers.get(9))><cfset columnTen = headers.get(9)></cfif>
 				<cfif isDefined(headers.get(10))><cfset columnEleven = headers.get(10)></cfif>
 						<!--- number of colums actually found --->
-				<cfset csvlist ="#columnOne#,#columnTwo#,#columnTen#,#columnFive#">
 				
-				#csvlist#
-			<div class="col-12 my-4">
+				#columnSeven#
+				<div class="col-12 my-4">
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
 					
 				<cfscript>
