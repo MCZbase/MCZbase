@@ -188,20 +188,9 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			<cftry>	
-				<cfset i = 0>
-				<cfset institution_acronym_exists = false>
-				<cfset collection_cde_exists = false>
-				<cfset other_id_type_exists = false>
-				<cfset other_id_number_exists = false>
-				<cfset attribute_exists = false>
-				<cfset attribute_value_exists = false>
-				<cfset attribute_units_exists = false>
-				<cfset attribute_date_exists = false>
-				<cfset attribute_meth_exists = false>
-				<cfset determiner_exists = false>
-				<cfset remarks_exists = false>
+
 			<cfloop condition="true">
-				<cfloop from="0" to="#size#" index="i">
+				<cfloop from="0" to="10" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 					<cfif isDefined(thisheader) and thisheader EQ 'institution_acronym'><cfset myVar=true><cfelse><cfset myVar=false></cfif>
 					<cfif thisheader EQ 'collection_cde'><cfset myVar=true><cfelse><cfset myVar=false> </cfif>
