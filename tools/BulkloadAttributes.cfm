@@ -206,14 +206,14 @@ limitations under the License.
 					<cfif thisheader EQ 'institution_acronym'><cfset institution_acronym_exists=true>#i# #thisheader#</cfif>
 					<cfif thisheader EQ 'collection_cde'><cfset collection_cde_exists=true>#i# #thisheader#</cfif>
 					<cfif thisheader  EQ 'other_id_type'><cfset other_id_type_exists=true>#i# #thisheader#</cfif>
-					<cfif thisheader EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
-					<cfif thisheader EQ 'attribute'><cfset attribute_exists=true></cfif>
-					<cfif thisheader EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
-					<cfif thisheader EQ 'attribute_units'><cfset attribute_units_exists=true></cfif>
-					<cfif thisheader  EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
-					<cfif thisheader EQ 'attribute_meth'><cfset attribute_meth_exists=true></cfif>
-					<cfif thisheader EQ 'determiner'><cfset determiner_exists=true></cfif>
-					<cfif thisheader EQ 'remarks_date'><cfset renarks_exists=true></cfif>
+					<cfif thisheader EQ 'other_id_number'><cfset other_id_number_exists=true>#i# #thisheader#</cfif>
+					<cfif thisheader EQ 'attribute'><cfset attribute_exists=true>#i# #thisheader#</cfif>
+					<cfif thisheader EQ 'attribute_value'><cfset attribute_value_exists=true>#i# #thisheader#</cfif>
+					<cfif thisheader EQ 'attribute_units'><cfset attribute_units_exists=true>#i# #thisheader#</cfif>
+					<cfif thisheader  EQ 'attribute_date'><cfset attribute_date_exists=true>#i# #thisheader#</cfif>
+					<cfif thisheader EQ 'attribute_meth'><cfset attribute_meth_exists=true>#i# #thisheader#</cfif>
+					<cfif thisheader EQ 'determiner'><cfset determiner_exists=true>#i# #thisheader#</cfif>
+					<cfif thisheader EQ 'remarks_date'><cfset renarks_exists=true>#i# #thisheader#</cfif>
 					
 						
 					
