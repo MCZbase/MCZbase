@@ -201,7 +201,7 @@ limitations under the License.
 				<cfset attribute_meth_exists = false>
 				<cfset determiner_exists = false>
 				<cfset remarks_exists = false>
-				<cfloop from="0" to="10" index="i">
+				<cfloop from="0" to="#header.size()#" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 					<cfif thisheader EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 					<cfif thisheader EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
