@@ -129,7 +129,7 @@ limitations under the License.
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
 				<cfset defaultFormat = csvFormat.DEFAULT >
 				<!---// Create a CSVParser using the FileReader and CSVFormat--->
-				<cfset csvParser = CSVFormat.DEFAULT.withHeader("institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","atttribute_units","attribute_date","attribute_meth","determiner","remarks")>
+				<cfobject csvParser = CSVFormat.DEFAULT.withHeader("institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","atttribute_units","attribute_date","attribute_meth","determiner","remarks")>
 		
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
