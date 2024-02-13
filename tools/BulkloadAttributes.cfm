@@ -143,9 +143,9 @@ limitations under the License.
 				<cfset columnTwo = headers.get(1)>
 				<cfset columnThree = headers.get(2)>
 				<cfset columnFour = headers.get(3)>
-				<cfset columnFive = headers.get(4)>
+				<cfif isDefined(headers.get(4))><cfset columnFive = headers.get(4)></cfif>
 		 		<!--- number of colums actually found --->
-			<cfset csvlist ="columnOne,columnTwo">
+			<cfset csvlist ="columnOne,columnTwo,columnFive">
 				
 				#csvlist#
 			<div class="col-12 my-4">
