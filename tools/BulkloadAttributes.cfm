@@ -139,7 +139,7 @@ limitations under the License.
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
 				<cfset inThisPosition = headers.get(3)>
-				<cfset record.get("attribute")>
+				<cfset header.get("attribute")>
 		 		<!--- number of colums actually found --->
 			
 			<div class="col-12 my-4">
