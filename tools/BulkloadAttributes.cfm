@@ -111,7 +111,10 @@ limitations under the License.
 			<cftry>
 				<!--- Proof of concept parsing CSV with Java using Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
-				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
+				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" csvFormat=CSVFormat.Builder.create() 
+						  .setHeader(HEADERS)
+						  .setAllowMissingColumnNames(true)
+						  .build();>
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
 				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >
 				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
