@@ -167,12 +167,13 @@ limitations under the License.
 			</div>
 					
 					<cfscript>
+					i=0
 					fieldlist2 = 'institution_acronym'
-						while (<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-					<li class="text-success list-group-item h5 border" style="width: 140px;">#headers.get(JavaCast("int",actualColumnNumber))#</li>
+						while (
+					#headers.get(JavaCast("int",)i)#
 				</cfloop>) {
 						WriteOutput('true');
-						
+						i++
 						}
 					
 					</cfscript>
