@@ -111,7 +111,7 @@ limitations under the License.
 			<cftry>
 				<!--- Proof of concept parsing CSV with Java using Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
-				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
+				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat.setAllowMissingColumnNames(true)" >
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
 				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >
 				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
@@ -182,10 +182,7 @@ limitations under the License.
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
 					<cfset fieldlist2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
-					<cfset csvFormat=CSVFormat.Builder.create() 
-						  .setHeader(headers)
-						  .setAllowMissingColumnNames(true)
-						  .build()>
+			
 <!---			<cfscript>
 					i=0
 					do {
