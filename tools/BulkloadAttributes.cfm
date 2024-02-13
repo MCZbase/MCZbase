@@ -138,8 +138,9 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
-
-				<cfif headers.get(0) is not null><cfset columnOne = headers.get(0)><cfelse>columnOne missing</cfif>
+<cfset key = "institution_acronym">
+	<cfif StructKeyExists(headers.get(0), key)>headers.get(0)</cfif>
+<!---				<cfif headers.get(0) is not null><cfset columnOne = headers.get(0)><cfelse>columnOne missing</cfif>
 				<cfif isDefined(headers.get(1))><cfset columnTwo = headers.get(1)><cfelse>columnTwo missing</cfif>
 				<cfif isDefined(headers.get(2))><cfset columnThree = headers.get(2)><cfelse>columnThree missing</cfif>
 				<cfif isDefined(headers.get(3))><cfset columnFour = headers.get(3)><cfelse>columnFour missing</cfif>
@@ -149,10 +150,10 @@ limitations under the License.
 				<cfif isDefined(headers.get(7))><cfset columnEight = headers.get(7)><cfelse>columnEight missing</cfif>
 				<cfif isDefined(headers.get(8))><cfset columnNine = headers.get(8)><cfelse>columnNine missing</cfif>
 				<cfif isDefined(headers.get(9))><cfset columnTen = headers.get(9)><cfelse>columnTen missing</cfif>
-				<cfif isDefined(headers.get(10))><cfset columnEleven = headers.get(10)><cfelse>columnEleven missing</cfif>
+				<cfif isDefined(headers.get(10))><cfset columnEleven = headers.get(10)><cfelse>columnEleven missing</cfif>--->
 						<!--- number of colums actually found --->
 				
-				#columnSeven#
+			<!---	#columnSeven#--->
 				<div class="col-12 my-4">
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
 					
