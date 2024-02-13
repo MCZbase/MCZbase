@@ -138,7 +138,7 @@ limitations under the License.
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
-				<cfset List = csvFileParser.getRecords()>
+				<cfset List = parser.getHeaderNames()>
 			
 				<cfset items = records.getRecordNumber()>
 				<cfscript>
