@@ -167,7 +167,7 @@ limitations under the License.
 				</cfscript>			
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
-			<cfset fieldlist2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
+		<!---	<cfset fieldlist2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">--->
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
 						<cfoutput>
@@ -201,7 +201,7 @@ limitations under the License.
 				<cfset attribute_meth_exists = false>
 				<cfset determiner_exists = false>
 				<cfset remarks_exists = false>
-				<cfloop from="0" to="10" index="i">
+				<cfloop from="0" to="10" index="i" step="1">
 					
 					<cfif thisheader EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 					<cfif thisheader EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
