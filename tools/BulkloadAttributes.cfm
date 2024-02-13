@@ -137,10 +137,9 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
-				<cfset size = headers.size()>
-				<cfset list = getHeaderNames()>
-			
+				<cfset size = headers.size()>		
 				<cfset items = records.getRecordNumber()>
+					<cfset each = records.getHeaderNames(0)>
 				<cfscript>
 					
 				</cfscript>
