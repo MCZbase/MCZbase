@@ -139,13 +139,19 @@ limitations under the License.
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
 
-				<cfset columnOne = headers.get(0)>
-				<cfset columnTwo = headers.get(1)>
-				<cfset columnThree = headers.get(2)>
-				<cfset columnFour = headers.get(3)>
-				<cfif isDefined(headers.get(4))><cfset columnFive = headers.get(4)></cfif>
-		 		<!--- number of colums actually found --->
-			<cfset csvlist ="columnOne,columnTwo,columnFive">
+				<cfif isDefined(headers.get(0))><cfset columnOne = headers.get(0)><cfelse>Missing</cfif>
+				<cfif isDefined(headers.get(1))><cfset columnTwo = headers.get(1)><cfelse>Missing</cfif>
+				<cfif isDefined(headers.get(2))><cfset columnThree = headers.get(2)><cfelse>Missing</cfif>
+				<cfif isDefined(headers.get(3))><cfset columnFour = headers.get(3)><cfelse>Missing</cfif>
+				<cfif isDefined(headers.get(4))><cfset columnFive = headers.get(4)><cfelse>Missing</cfif>
+				<cfif isDefined(headers.get(5))><cfset columnSix = headers.get(5)><cfelse>Missing</cfif>
+				<cfif isDefined(headers.get(6))><cfset columnSeven = headers.get(6)><cfelse>Missing</cfif>
+				<cfif isDefined(headers.get(7))><cfset columnEight = headers.get(7)><cfelse>Missing</cfif>
+				<cfif isDefined(headers.get(8))><cfset columnNine = headers.get(8)><cfelse>Missing</cfif>
+				<cfif isDefined(headers.get(9))><cfset columnTen = headers.get(9)><cfelse>Missing</cfif>
+				<cfif isDefined(headers.get(10))><cfset columnEleven = headers.get(10)><cfelse>Missing</cfif>
+						<!--- number of colums actually found --->
+				<cfset csvlist ="#columnOne#,#columnTwo#,#columnFive#">
 				
 				#csvlist#
 			<div class="col-12 my-4">
