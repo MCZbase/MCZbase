@@ -188,6 +188,7 @@ limitations under the License.
 					<cfloop array="#data#" index="i">
 						<cfoutput>
 							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
+							<cfset listMap(data, function(item [,i, data]) [," ", includeEmptyFields) >
 						</cfoutput>
 					</cfloop>
 				</ul>
