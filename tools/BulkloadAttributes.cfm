@@ -161,17 +161,7 @@ limitations under the License.
 					
 				<cfscript>
 					data = [
-						{field:"institution_acronym", required:"yes"},
-						{field:"collection_cde", required:"yes"},
-						{field:"other_id_type", required:"yes"},
-						{field:"other_id_number", required:"yes"},
-						{field:"attribute", required:"yes"},
-						{field:"attribute_value", required:"yes"},
-						{field:"attribute_units", required:"no"},
-						{field:"attribute_date", required:"yes"},
-						{field:"attribute_meth", required:"no"},
-						{field:"determiner", required:"yes"},
-						{field:"remarks", required:"no"}
+						{field:"institution_acronym", required:"yes", uploaded: <cfoutput>#headers.get(0)#</cfoutput>}
 					];
 	
 				</cfscript>			
@@ -180,7 +170,7 @@ limitations under the License.
 			</div>
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
-					<cfloop list="#data#" index="i">
+					<cfloop array="#data#" index="i">
 						<cfoutput>
 							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
 						</cfoutput>
