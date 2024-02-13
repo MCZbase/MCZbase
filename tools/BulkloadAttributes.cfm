@@ -138,19 +138,7 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
-				<cfset columnOne = headers.get(0)>
-				<cfset columnTwo = headers.get(1)>
-				<cfset columnThree = headers.get(2)>
-				<cfset columnFour = headers.get(3)>
-				<cfset columnFive = header.get(4)>
-				<cfif isDefined(headers.get(5))><cfset columnSix = header.get(5)></cfif>
-				<cfif isDefined(headers.get(6))><cfset columnSeven = headers.get(6)></cfif>
-				<cfif isDefined(headers.get(7))><cfset columnEight = headers.get(7)></cfif>
-				<cfif isDefined(headers.get(8))><cfset columnNine = headers.get(8)></cfif>
-				<cfif isDefined(headers.get(9))><cfset columnTen = headers.get(9)></cfif>
-				<cfif isDefined(headers.get(10))><cfset columnEleven = header.get(10)></cfif>
-					
-			<cfset csvlist = "columnOne,columnTwo,columnThree,columnFour,columnFive,columnSix,columnSeven,columnEight,columnNine,columnTen,columnEleven">		
+
 				
 		 		<!--- number of colums actually found --->
 			
