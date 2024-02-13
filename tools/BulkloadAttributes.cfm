@@ -136,9 +136,9 @@ limitations under the License.
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfscript>
-					 headers = "iterator.next()" default="institution_acronym" type="any";
-			size = "headers.size()" default="1" type="any";
-			 items = records.getRecordNumber();
+					headers = "iterator.next()" type="any";
+					size = "headers.size()" type="any";
+					items = records.getRecordNumber();
 				inThisPosition = headers.get(3);
 					</cfscript>
 		 		<!--- number of colums actually found --->
