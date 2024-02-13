@@ -204,17 +204,18 @@ limitations under the License.
 				<cfloop from="0" to="#size#" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 					<cfif thisheader EQ 'institution_acronym'><cfset institution_acronym_exists=true>#i# #thisheader# </cfif>
-					<cfif thisheader EQ 'collection_cde'><cfset collection_cde_exists=true>#i# #thisheader# </cfif>
-					<cfif thisheader EQ 'other_id_type'><cfset other_id_type_exists=true>#i# #thisheader# </cfif>
-					<cfif thisheader EQ 'other_id_number'><cfset other_id_number_exists=true>#i# #thisheader# </cfif>
-					<cfif thisheader EQ 'attribute'><cfset attribute_exists=true>#i# #thisheader# </cfif>
-					<cfif thisheader EQ 'attribute_value'><cfset attribute_value_exists=true>#i# #thisheader# </cfif>
-					<cfif thisheader EQ 'attribute_units'><cfset attribute_units_exists=true>#i# #thisheader# </cfif>
-					<cfif thisheader EQ 'attribute_date'><cfset attribute_date_exists=true>#i# #thisheader#</cfif>
-					<cfif thisheader EQ 'attribute_meth'><cfset attribute_meth_exists=true>#i# #thisheader#</cfif>
-					<cfif thisheader EQ 'determiner'><cfset determiner_exists=true>#i# #thisheader# </cfif>
+					<cfif thisheader EQ 'collection_cde'><cfset myVar=true>#i# #thisheader#<cfelse><cfset myVar=false> </cfif>
+					<cfif thisheader EQ 'other_id_type'><cfset myVar=true>#i# #thisheader#<cfelse><cfset myVar=false> </cfif>
+					<cfif thisheader EQ 'other_id_number'><cfset myVar=true>#i# #thisheader# <cfelse><cfset myVar=false></cfif>
+					<cfif thisheader EQ 'attribute'><cfset myVar=true>#i# #thisheader# <cfelse><cfset myVar=false></cfif>
+					<cfif thisheader EQ 'attribute_value'><cfset myVar=true>#i# #thisheader# <cfelse><cfset myVar=false></cfif>
+					<cfif thisheader EQ 'attribute_units'><cfset myVar=true>#i# #thisheader# <cfelse><cfset myVar=false></cfif>
+					<cfif thisheader EQ 'attribute_date'><cfset myVar=true>#i# #thisheader#<cfelse><cfset myVar=false></cfif>
+					<cfif thisheader EQ 'attribute_meth'><cfset myVar=true>#i# #thisheader#<cfelse><cfset myVar=false></cfif>
+					<cfif thisheader EQ 'determiner'><cfset myVar=true>#i# #thisheader#<cfelse><cfset myVar=false> </cfif>
 					<cfif thisheader EQ 'remarks_date'><cfset renarks_exists=true>#i# #thisheader# </cfif>
 					<cfset i= i+1>
+						#thisheader# #myVar# , 
 				</cfloop>
 			</cfloop>
 			<cfcatch>Ooops</cfcatch>
