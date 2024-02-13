@@ -194,6 +194,7 @@ limitations under the License.
 				<cfloop from="0" to="#j#" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 					<cfset i= i+1>
+						#thisheader#
 				</cfloop>
 				<!---<cfif isDefined(thisheader) and thisheader EQ 'institution_acronym'><cfset myVar=true><cfelse><cfset myVar=false></cfif>
 					<cfif isDefined(thisheader) and thisheader EQ 'collection_cde'><cfset myVar=true><cfelse><cfset myVar=false> </cfif>
