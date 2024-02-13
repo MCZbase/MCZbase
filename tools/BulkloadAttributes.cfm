@@ -168,12 +168,10 @@ limitations under the License.
 					
 					<cfscript>
 					i=0
-						while (
-						headers == fieldlist
-						{
+						do {
 						WriteOutput(i & 'true');
 						i++
-						}
+						} while (headers == fieldlist);
 					
 					</cfscript>
 				<!---Expected and required headers; red = required; black = expected;--->
