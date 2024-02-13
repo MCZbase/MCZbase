@@ -115,12 +115,8 @@ limitations under the License.
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
 				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >
 				<cfscript>
-						public class CsvFileReader {
-     
-    //CSV file header
+		
     private static final String  FILE_HEADER_MAPPING = {"institution_acronym","attribute","attribute_value"};
-     
-    //Student attributes
     private static final String insititution_acronym = "institution_acronym";
     private static final String attribute= "attribute";
     private static final String attribute_value = "attribute_value";
@@ -131,7 +127,6 @@ limitations under the License.
          
         CSVParser csvFileParser = null;
          
-        //Create the CSVFormat object with the header mapping
         CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader(FILE_HEADER_MAPPING);
       
         try {
