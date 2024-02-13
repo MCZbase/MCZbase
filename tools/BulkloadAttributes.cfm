@@ -189,7 +189,7 @@ limitations under the License.
 				</cfquery>
 
 				<cfset i = 0>
-				
+				<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 				<cfset institution_acronym_exists = false>
 				<cfset collection_cde_exists = false>
 				<cfset other_id_type_exists = false>
@@ -202,7 +202,7 @@ limitations under the License.
 				<cfset determiner_exists = false>
 				<cfset remarks_exists = false>
 				<cfloop from="0" to="10" index="i">
-					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
+					
 					<cfif thisheader EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 					<cfif thisheader EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 					<cfif thisheader  EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
@@ -215,9 +215,10 @@ limitations under the License.
 					<cfif thisheader EQ 'determiner'><cfset determiner_exists=true></cfif>
 					<cfif thisheader EQ 'remarks_date'><cfset renarks_exists=true></cfif>
 					<cfset i= i+1>
+						#thisheader#
 				</cfloop>
 						
-						#thisheader#
+						
 				<!---<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
 					<cfset message = "something required is missing">
 					<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
