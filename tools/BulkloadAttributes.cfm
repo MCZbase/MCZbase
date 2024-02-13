@@ -139,7 +139,7 @@ limitations under the License.
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
 
-				<cfif isDefined(headers.get(0))><cfset columnOne = headers.get(0)><cfelse>columnOne missing</cfif>
+				<cfif headers.get(0) is not null><cfset columnOne = headers.get(0)><cfelse>columnOne missing</cfif>
 				<cfif isDefined(headers.get(1))><cfset columnTwo = headers.get(1)><cfelse>columnTwo missing</cfif>
 				<cfif isDefined(headers.get(2))><cfset columnThree = headers.get(2)><cfelse>columnThree missing</cfif>
 				<cfif isDefined(headers.get(3))><cfset columnFour = headers.get(3)><cfelse>columnFour missing</cfif>
