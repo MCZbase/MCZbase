@@ -190,7 +190,7 @@ limitations under the License.
 					<cfloop array="#data#" index="i">
 						<cfoutput>
 							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
-							<cfif #columnOne# eq #i.field#>Hello</cfif>
+							<cfif #columnOne# eq "institution_acronym">Hello</cfif>
 						</cfoutput>
 					</cfloop>
 				</ul>
