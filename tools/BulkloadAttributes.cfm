@@ -207,7 +207,7 @@ limitations under the License.
 						externalList = externalList.listAppend(newValue);
 						return newValue;
 					});
-					comparison = compare("Rainbow", "externalList")>
+					comparison = compare("rainbow", "externalList")>
 					   
 					writeDump([{rainbow=rainbow},{comparison=comparison},{externalList=externalList}]);
 					
