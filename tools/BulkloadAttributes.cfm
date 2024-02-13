@@ -195,8 +195,8 @@ limitations under the License.
 					</cfloop>
 				</ul>
 				<ul class="list-group list-group-horizontal">
-				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-					<li class="text-success list-group-item h5 border" style="width: 140px;"><cfset externalList = #headers.get(JavaCast("int",actualColumnNumber))#>#headers.get(JavaCast("int",actualColumnNumber))#</li>
+				<cfloop index="i" from="0" to="#headers.size() - 1#">
+					<li class="text-success list-group-item h5 border" style="width: 140px;"><cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
 				</cfloop>
 				</ul>
 				<cfscript>
