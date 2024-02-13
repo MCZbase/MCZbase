@@ -206,10 +206,8 @@ limitations under the License.
 				<cfscript>
 
 
-for (CSVRecord record : records) {
-    String id = record.get(Headers.ID);
-    String customerNo = record.get(Headers.CustomerNo);
-    String name = record.get(Headers.Name);
+stringy = record.get(Headers.attribute);
+    
 }
 					
 				</cfscript>
