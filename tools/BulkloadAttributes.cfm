@@ -189,7 +189,7 @@ limitations under the License.
 				</cfquery>
 			<cftry>	
 
-			<cfloop condition="true">
+			<cfloop condition="false">
 				<cfloop from="0" to="10" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 					<cfif isDefined(thisheader) and thisheader EQ 'institution_acronym'><cfset myVar=true><cfelse><cfset myVar=false></cfif>
