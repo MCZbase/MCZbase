@@ -189,8 +189,9 @@ limitations under the License.
 				</cfquery>
 			<cftry>	
 
-			<cfloop condition="false">
+			
 				<cfset j=10>
+				<cfloop condition="j < 10">
 				<cfloop from="0" to="#j#" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 					<cfset i= i+1>
@@ -207,7 +208,7 @@ limitations under the License.
 					<cfif isDefined(thisheader) and thisheader EQ 'attribute_meth'><cfset myVar=true>T<cfelse><cfset myVar=false>F</cfif>
 					<cfif isDefined(thisheader) and thisheader EQ 'determiner'><cfset myVar=true>T<cfelse>F<cfset myVar=false> </cfif>
 					<cfif isDefined(thisheader) and thisheader EQ 'remarks_date'><cfset renarks_exists=true>T<cfelse><cfset myVar=false>F </cfif>--->
-				#thisheader#
+			
 			</cfloop>
 			<cfcatch>Ooops</cfcatch>
 			</cftry>
