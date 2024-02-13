@@ -188,7 +188,7 @@ limitations under the License.
 						return newValue;
 					});
 					comparison = compare("rainbow", "externalList");
-					writeDump([{rainbow=rainbow},{comparison=comparison},{externalList=externalList},{newValue=newValue}]);
+					writeDump([{rainbow=rainbow},{comparison=comparison},{externalList=externalList}]);
 					
 				
 				</cfscript>
