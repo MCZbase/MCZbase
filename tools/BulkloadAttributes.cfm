@@ -129,11 +129,11 @@ limitations under the License.
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
 				<cfset defaultFormat = csvFormat.DEFAULT >
 				<!---// Create a CSVParser using the FileReader and CSVFormat--->
-				<cfobject csvParser = CSVFormat.DEFAULT.withHeader("institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","atttribute_units","attribute_date","attribute_meth","determiner","remarks")>
+				<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>
 		
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
+				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,CSVFormat.DEFAULT.withHeader("institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "atttribute_units","attribute_date", "attribute_meth", "determiner","remarks"))>
 				
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
