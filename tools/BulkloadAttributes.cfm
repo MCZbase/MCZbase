@@ -167,11 +167,11 @@ limitations under the License.
 			</div>
 					
 					<cfscript>
-					i=3
+					i=0
 						do {
 						WriteOutput(headers.get("institution_acronym") & 'true');
 						i++
-						} while (headers.get(institution_acronym) == fieldlist[i] & i>10);
+						} while (headers.get("institution_acronym") == data.get("institution_acronym") & i>10);
 					
 					</cfscript>
 				<!---Expected and required headers; red = required; black = expected;--->
