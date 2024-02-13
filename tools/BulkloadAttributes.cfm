@@ -150,7 +150,7 @@ limitations under the License.
 				<cfif isDefined(headers.get(9))><cfset columnTen = headers.get(9)></cfif>
 				<cfif isDefined(headers.get(10))><cfset columnEleven = header.get(10)></cfif>
 					
-			<cfset csvlist = "columnOne,columnTwo,columnThree,columnFour,columnFive,columnSix,columnSeven,columnEight,columnNine,columnTen,columnEleven">>		
+			<cfset csvlist = "columnOne,columnTwo,columnThree,columnFour,columnFive,columnSix,columnSeven,columnEight,columnNine,columnTen,columnEleven">		
 				
 		 		<!--- number of colums actually found --->
 			
@@ -205,7 +205,7 @@ limitations under the License.
 				</cfquery>
 
 				
-				<cfset institution_acronym_exists = false>
+		<!---		<cfset institution_acronym_exists = false>
 				<cfset collection_cde_exists = false>
 				<cfset other_id_type_exists = false>
 				<cfset other_id_number_exists = false>
@@ -235,7 +235,7 @@ limitations under the License.
 					<cfif not attribute_date_exists><cfset message = "#message# attribute_date is missing."></cfif>
 					<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
 					<cfthrow message="#message#">
-				</cfif>
+				</cfif>--->
 		<!---		<cfset colNames="">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
