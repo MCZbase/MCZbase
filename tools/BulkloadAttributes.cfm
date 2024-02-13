@@ -200,7 +200,7 @@ limitations under the License.
 				</cfloop>
 				</ul>
 				<cfscript>
-					var data = [
+					var data2 = [
 						{userID: 1, name: "Ryan", groups: ["dev", "ops", "qa", "employee"]},
 						{userID: 2, name: "Bob", groups: ["ops", "employee"]},
 						{userID: 3, name: "John", groups: ["qa", "employee"]},
@@ -210,7 +210,7 @@ limitations under the License.
 					var isDev = function (user) {
 						return user.groups.includes("dev");
 					};
-					data.filter(isDev);
+					data2.filter(isDev);
 					
 				</cfscript>
 		   
