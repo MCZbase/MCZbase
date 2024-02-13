@@ -207,7 +207,9 @@ limitations under the License.
 						externalList = externalList.listAppend(newValue);
 						return newValue;
 					});
-					writeDump([{rainbow=rainbow},{reverseRainbow=reverseRainbow},{externalList=externalList}]);
+					comparison = compare("Rainbow", "externalList")>
+					   
+					writeDump([{rainbow=rainbow},{comparison=comparison},{externalList=externalList}]);
 					
 				</cfscript>
 		   
