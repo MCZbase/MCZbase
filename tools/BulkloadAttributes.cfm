@@ -217,9 +217,9 @@ limitations under the License.
 					<cfset i= i+1>
 						
 				</cfloop>
-
+<cfif attribute_value_exists eq "false">#thisheader#</cfif>#
 		
-					<cfset message = "something required is missing">
+<!---					<cfset message = "something required is missing">
 					<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
 					<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
 					<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
@@ -228,7 +228,7 @@ limitations under the License.
 					<cfif attribute_value_exists eq false><cfset message = "#message# attribute_value is missing."></cfif>
 					<cfif not attribute_date_exists><cfset message = "#message# attribute_date is missing."></cfif>
 					<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
-					<cfthrow message="#message#">
+					<cfthrow message="#message#">--->
 			
 		<!---		<cfset colNames="">
 				<cfset loadedRows = 0>
