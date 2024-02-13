@@ -137,6 +137,7 @@ limitations under the License.
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
+				<cfset enum = enum.get()>
 				<cfset items = records.getRecordNumber()>
 			
 
@@ -201,13 +202,13 @@ limitations under the License.
 				</ul>
 				<cfscript>
 					Rainbow = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks";
-					externalList = #headers.get(JavaCast("int",i))#;
-					reverseRainbow = listMap( rainbow, function(v,i,l) {
-						var newValue = "#i#:#externalList#";
+					externalList = "";
+					reverseRainbow = listMap( rainbow, function(m,i,l) {
+						var newValue = "#i#:#headers#";
 						externalList = externalList.listAppend(newValue);
 						return newValue;
 					});
-					comparison = compare("rainbow", "reverseRainbow");
+					comparison = compare("rainbow", "externalList");
 					   
 					writeDump([{rainbow=rainbow},{comparison=comparison},{externalList=externalList}]);
 					
