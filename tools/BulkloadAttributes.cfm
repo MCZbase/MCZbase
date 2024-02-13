@@ -206,7 +206,7 @@ limitations under the License.
 					<cfif isDefined(thisheader) and thisheader EQ 'attribute_meth'><cfset myVar=true><cfelse><cfset myVar=false></cfif>
 					<cfif isDefined(thisheader) and thisheader EQ 'determiner'><cfset myVar=true><cfelse><cfset myVar=false> </cfif>
 					<cfif isDefined(thisheader) and thisheader EQ 'remarks_date'><cfset renarks_exists=true><cfelse><cfset myVar=false> </cfif>
-					#myVar# 
+					#myVar# #thisheader#
 			</cfloop>
 			<cfcatch>Ooops</cfcatch>
 			</cftry>
