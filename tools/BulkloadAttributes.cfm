@@ -167,14 +167,14 @@ limitations under the License.
 			</div>
 					#data.get(0)# : 
 					#headers.get(0)#
-					<cfscript>
+<!---					<cfscript>
 					i=0
 						do {
 						WriteOutput(headers.get("institution_acronym") & 'true');
 						i++
 						} while (headers.get("institution_acronym") == data.get("institution_acronym") & i>10);
 					
-					</cfscript>
+					</cfscript>--->
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
