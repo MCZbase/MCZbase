@@ -168,11 +168,10 @@ limitations under the License.
 					
 					<cfscript>
 					i=0
-					fieldlist2 = 'institution_acronym'
 						while (
 					#headers.get(JavaCast("int",)i)#
-				</cfloop>) {
-						WriteOutput('true');
+						{
+						WriteOutput(i & 'true');
 						i++
 						}
 					
