@@ -201,7 +201,7 @@ limitations under the License.
 				<cfset attribute_meth_exists = false>
 				<cfset determiner_exists = false>
 				<cfset remarks_exists = false>
-				<cfloop from="0" to="#header.size()#" index="i">
+				<cfloop from="0" to="10" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 					<cfif thisheader EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 					<cfif thisheader EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
@@ -215,8 +215,8 @@ limitations under the License.
 					<cfif thisheader EQ 'determiner'><cfset determiner_exists=true></cfif>
 					<cfif thisheader EQ 'remarks_date'><cfset renarks_exists=true></cfif>
 					<cfset i= i+1>
-						<cfif attribute_value_exists eq "false">#thisheader#</cfif>
 				</cfloop>
+						<cfif attribute_value_exists eq "false">#thisheader#</cfif>
 
 		
 <!---					<cfset message = "something required is missing">
