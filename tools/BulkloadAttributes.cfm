@@ -133,14 +133,15 @@ limitations under the License.
 		
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,CSVFormat.DEFAULT.withHeader("institution_acronym", "collection_cde", "other_id_type", "other_id_number", "attribute", "attribute_value", "atttribute_units","attribute_date", "attribute_meth", "determiner","remarks"))>
+				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
+ 				<cfset eachone = records.getHeaderMap().keySet() >
 				
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>		
 				<cfset items = records.getRecordNumber()>
-items: #items#, size: #size#, headers: #headers#
+
 				<div class="col-12 my-4">
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
 					
