@@ -127,7 +127,7 @@ limitations under the License.
 						
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
-				<cfset defaultFormat = csvFormat.builder().setHeader().setSkipHeaderRecord(true).build() >
+				<cfset defaultFormat = csvFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).build() >
 				<!---// Create a CSVParser using the FileReader and CSVFormat--->
 				<!---<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>--->
 				<!---<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>--->
