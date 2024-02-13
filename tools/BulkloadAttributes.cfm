@@ -165,7 +165,7 @@ limitations under the License.
 				<cfset fieldlist2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
-					#fieldlist2.get(0)#
+					#data.field.get(0)#
 					#headers.get(0)#
 <!---					<cfscript>
 					i=0
