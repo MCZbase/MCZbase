@@ -139,7 +139,10 @@ limitations under the License.
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
 				<cfset inThisPosition = headers.get(3)>
-			<cfset institution_acronym= record.get("institution_acronym")>
+				<cfset columnOne = headers.get(0)>
+				<cfset columnTwo = headers.get(1)>
+					
+					#columnOne#,#columnTwo#
 					
 					
 		 		<!--- number of colums actually found --->
