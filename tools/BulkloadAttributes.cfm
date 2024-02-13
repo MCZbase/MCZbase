@@ -218,18 +218,18 @@ limitations under the License.
 						
 				</cfloop>
 
-			<cfif institution_acronym_exists eq false OR collection_cde_exists eq false OR other_id_type_exists eq false OR other_id_number_exists eq false OR attribute_exists eq false OR attribute_value_exists eq false OR attribute_date_exists eq false OR determiner_exists eq false>
+		
 					<cfset message = "something required is missing">
 					<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
 					<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
 					<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
 					<cfif not other_id_number_exists><cfset message = "#message# other_id_number is missing."></cfif>
 					<cfif not attribute_exists><cfset message = "#message# attribute is missing."></cfif>
-					<cfif not attribute_value_exists><cfset message = "#message# attribute_value is missing."></cfif>
+					<cfif attribute_value_exists eq false><cfset message = "#message# attribute_value is missing."></cfif>
 					<cfif not attribute_date_exists><cfset message = "#message# attribute_date is missing."></cfif>
 					<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
 					<cfthrow message="#message#">
-				</cfif>
+			
 		<!---		<cfset colNames="">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
