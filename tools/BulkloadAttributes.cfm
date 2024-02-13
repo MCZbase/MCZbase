@@ -174,7 +174,6 @@ limitations under the License.
 				
 	
 				</cfscript>			
-				<cfset fieldlist2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
 	
@@ -189,7 +188,7 @@ limitations under the License.
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
 						<cfoutput>
-							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li><li>#columnOne#</li>
+							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
 					
 						</cfoutput>
 					</cfloop>
