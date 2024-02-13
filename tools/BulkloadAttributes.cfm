@@ -138,7 +138,6 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
-					#items#
 			
 
 <!---				<cfif headers.get(0) is not null><cfset columnOne = headers.get(0)><cfelse>columnOne missing</cfif>
@@ -159,7 +158,7 @@ limitations under the License.
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
 					
 				<cfscript>
-					var data = [
+					data = [
 						{field:"institution_acronym", required:"yes"},
 						{field:"collection_cde", required:"yes"},
 						{field:"other_id_type", required:"yes"},
@@ -201,9 +200,15 @@ limitations under the License.
 				</cfloop>
 				</ul>
 				<cfscript>
-				data.map(function(item) {
-					return item.firstName + " " + item.lastName + " <" + item.email + ">"; 
-				});
+					Rainbow = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks";
+					externalList = "";
+					reverseRainbow = listMap( rainbow, function(v,i,l) {
+						var newValue = "#i#:#headers#";
+						externalList = externalList.listAppend(newValue);
+						return newValue;
+					});
+					writeDump([{rainbow=rainbow},{reverseRainbow=reverseRainbow},{externalList=externalList}]);
+					
 				</cfscript>
 		   
 				<!--- cleanup any incomplete work by the same user --->
