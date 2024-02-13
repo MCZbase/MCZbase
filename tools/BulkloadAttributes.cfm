@@ -188,7 +188,7 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 
-				
+				<cfset i = 0>
 				<cfset institution_acronym_exists = false>
 				<cfset collection_cde_exists = false>
 				<cfset other_id_type_exists = false>
@@ -214,6 +214,7 @@ limitations under the License.
 					<cfif ucase(thisheader) EQ 'attribute_meth'><cfset attribute_meth_exists=true></cfif>
 					<cfif ucase(thisheader) EQ 'determiner'><cfset determiner_exists=true></cfif>
 					<cfif ucase(thisheader) EQ 'remarks_date'><cfset renarks_exists=true></cfif>
+					<cfset i= i+1>
 				</cfloop>
 				<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
 					<cfset message = "something required is missing">
