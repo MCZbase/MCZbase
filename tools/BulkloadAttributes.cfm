@@ -202,17 +202,17 @@ limitations under the License.
 				<cfset remarks_exists = false>
 				<cfloop from="0" to="10" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",i))#>
-					<cfif ucase(thisheader) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
-					<cfif ucase(thisheader) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
-					<cfif ucase(thisheader) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
-					<cfif ucase(thisheader) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
-					<cfif ucase(thisheader) EQ 'attribute'><cfset attribute_exists=true></cfif>
-					<cfif ucase(thisheader) EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
-					<cfif ucase(thisheader) EQ 'attribute_units'><cfset attribute_units_exists=true></cfif>
-					<cfif ucase(thisheader) EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
-					<cfif ucase(thisheader) EQ 'attribute_meth'><cfset attribute_meth_exists=true></cfif>
-					<cfif ucase(thisheader) EQ 'determiner'><cfset determiner_exists=true></cfif>
-					<cfif ucase(thisheader) EQ 'remarks_date'><cfset renarks_exists=true></cfif>
+					<cfif thisheader EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
+					<cfif thisheader EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
+					<cfif thisheader  EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
+					<cfif thisheader EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
+					<cfif thisheader EQ 'attribute'><cfset attribute_exists=true></cfif>
+					<cfif thisheader EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
+					<cfif thisheader EQ 'attribute_units'><cfset attribute_units_exists=true></cfif>
+					<cfif thisheader  EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
+					<cfif thisheader EQ 'attribute_meth'><cfset attribute_meth_exists=true></cfif>
+					<cfif thisheader EQ 'determiner'><cfset determiner_exists=true></cfif>
+					<cfif thisheader EQ 'remarks_date'><cfset renarks_exists=true></cfif>
 					<cfset i= i+1>
 				</cfloop>
 				<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
