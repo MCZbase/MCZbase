@@ -161,8 +161,7 @@ limitations under the License.
 					];
 				
 	
-				</cfscript>	
-				<cfset data = data.field>
+				</cfscript>			
 				<cfset fieldlist2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
@@ -170,7 +169,7 @@ limitations under the License.
 					<cfscript>
 					i=0
 						do {
-						WriteOutput(headers.get(i) & data.field & 'false');
+						WriteOutput(i & headers.get(i) & fieldlist & 'false');
 						i++
 						} while (headers.get(i) != fieldlist & i>11);
 					
