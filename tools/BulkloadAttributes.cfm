@@ -187,9 +187,8 @@ limitations under the License.
 					DELETE FROM cf_temp_attributes 
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-
+			<cftry>	
 				<cfset i = 0>
-				
 				<cfset institution_acronym_exists = false>
 				<cfset collection_cde_exists = false>
 				<cfset other_id_type_exists = false>
@@ -201,30 +200,25 @@ limitations under the License.
 				<cfset attribute_meth_exists = false>
 				<cfset determiner_exists = false>
 				<cfset remarks_exists = false>
+			<cfloop condition="true">
 				<cfloop from="0" to="#size#" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 					<cfif thisheader EQ 'institution_acronym'><cfset institution_acronym_exists=true>#i# #thisheader# <cfelse> #institution_acronym_exists#</cfif>
-					<cfif thisheader EQ 'collection_cde'><cfset collection_cde_exists=true>#i# #thisheader# <cfelse> #collection_cde_exists#</cfif>
-					<cfif thisheader  EQ 'other_id_type'><cfset other_id_type_exists=true>#i# #thisheader# <cfelse> #other_id_type_exists#</cfif>
-					<cfif thisheader EQ 'other_id_number'><cfset other_id_number_exists=true>#i# #thisheader# <cfelse> #other_id_number_exists#</cfif>
-					<cfif thisheader EQ 'attribute'><cfset attribute_exists=true>#i# #thisheader# <cfelse> #attribute_exists#</cfif>
-					<cfif thisheader EQ 'attribute_value'><cfset attribute_value_exists=true>#i# #thisheader# <cfelse> #attribute_value_exists#</cfif>
-					<cfif thisheader EQ 'attribute_units'><cfset attribute_units_exists=true>#i# #thisheader# <cfelse> #attribute_units_exists#</cfif>
-					<cfif thisheader  EQ 'attribute_date'><cfset attribute_date_exists=true>#i# #thisheader# <cfelse> #attribute_date_exists#</cfif>
-					<cfif thisheader EQ 'attribute_meth'><cfset attribute_meth_exists=true>#i# #thisheader#<cfelse> #attribute_meth_exists#</cfif>
-					<cfif thisheader EQ 'determiner'><cfset determiner_exists=true>#i# #thisheader# <cfelse> #determiner_exists#</cfif>
-					<cfif thisheader EQ 'remarks_date'><cfset renarks_exists=true>#i# #thisheader# <cfelse> #remarks_exists#</cfif>
-					
-					  <cfif RandRange(1,10) eq 10>
-						<cfabort>
-					  </cfif>	
-					
-						
-						<cfset i= i+1>
-					
+					<cfif thisheader EQ 'collection_cde'><cfset collection_cde_exists=true>#i# #thisheader# </cfif>
+					<cfif thisheader  EQ 'other_id_type'><cfset other_id_type_exists=true>#i# #thisheader# </cfif>
+					<cfif thisheader EQ 'other_id_number'><cfset other_id_number_exists=true>#i# #thisheader# </cfif>
+					<cfif thisheader EQ 'attribute'><cfset attribute_exists=true>#i# #thisheader# </cfif>
+					<cfif thisheader EQ 'attribute_value'><cfset attribute_value_exists=true>#i# #thisheader# </cfif>
+					<cfif thisheader EQ 'attribute_units'><cfset attribute_units_exists=true>#i# #thisheader# </cfif>
+					<cfif thisheader  EQ 'attribute_date'><cfset attribute_date_exists=true>#i# #thisheader#</cfif>
+					<cfif thisheader EQ 'attribute_meth'><cfset attribute_meth_exists=true>#i# #thisheader#</cfif>
+					<cfif thisheader EQ 'determiner'><cfset determiner_exists=true>#i# #thisheader# </cfif>
+					<cfif thisheader EQ 'remarks_date'><cfset renarks_exists=true>#i# #thisheader# </cfif>
+					<cfset i= i+1>
 				</cfloop>
-					
-
+			</cfloop>
+			<cfcatch>Ooops</cfcatch>
+			</cftry>
 		
 <!---					<cfset message = "something required is missing">
 					<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
