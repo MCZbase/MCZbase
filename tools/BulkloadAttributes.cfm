@@ -171,7 +171,7 @@ limitations under the License.
 						do {
 						WriteOutput(i & headers.get(i) & fieldlist & 'false');
 						i++
-						} while (items != fieldlist & i>11);
+						} while (headers.get(i) != fieldlist & i>11);
 					
 					</cfscript>
 				<!---Expected and required headers; red = required; black = expected;--->
