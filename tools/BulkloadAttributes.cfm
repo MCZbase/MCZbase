@@ -130,30 +130,16 @@ limitations under the License.
 				<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>
 		
 				<!--- TODO: Select charset based on cSet variable from user --->
-			<!---	<cfset javaSelectedCharset = standardCharsets.UTF_8 >
-				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>--->
+				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
+				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
 				
-			<!---	<cfset iterator = records.iterator()>--->
+				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
-			<!---	<cfset headers = iterator.next()>--->
-			<!---	<cfset size = headers.size()>--->
-		<!---		<cfset items = records.getRecordNumber()>
-				<cfset inThisPosition = headers.get(3)>--->
-
-					<cfscript>
-					javaSelectedCharset = standardCharsets.UTF_8
-					records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)
-					iterator = records.iterator()
-					headers = iterator.next()
-					size=headers.size()
-					items = records.getRecordNumber()
-					
-					
-					</cfscript>
-				
-				
-			
-				
+				<cfset headers = iterator.next()>
+				<cfset size = headers.size()>
+				<cfset items = records.getRecordNumber()>
+				<cfset inThisPosition = headers.get(3)>
+		
 		 		<!--- number of colums actually found --->
 			
 			<div class="col-12 my-4">
@@ -161,13 +147,24 @@ limitations under the License.
 					
 				<cfscript>
 					data = [
-						{field:"institution_acronym", required:"yes", uploaded: <cfoutput>#headers.get(0)#</cfoutput>}
+						{field:"institution_acronym", required:"yes"},
+						{field:"collection_cde", required:"yes"},
+						{field:"other_id_type", required:"yes"},
+						{field:"other_id_number", required:"yes"},
+						{field:"attribute", required:"yes"},
+						{field:"attribute_value", required:"yes"},
+						{field:"attribute_units", required:"no"},
+						{field:"attribute_date", required:"yes"},
+						{field:"attribute_meth", required:"no"},
+						{field:"determiner", required:"yes"},
+						{field:"remarks", required:"no"}
 					];
 	
 				</cfscript>			
 				
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
+					<cfset both = listContains(headers,data)>
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
