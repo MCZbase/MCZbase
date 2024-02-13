@@ -204,9 +204,19 @@ limitations under the License.
 				</cfloop>
 				</ul>
 				<cfscript>
-				stringy = headers.get("attribute");
+					Rainbow = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks";
+					externalList = "";
+					reverseRainbow = listMap( rainbow, function(m,i,l) {
+						var newValue = "#i#:#headers#";
+						externalList = externalList.listAppend(newValue);
+						return newValue;
+					});
+					comparison = compare("rainbow", "externalList");
+					   
+					writeDump([{rainbow=rainbow},{comparison=comparison},{externalList=externalList}]);
+					
 				</cfscript>
-
+		   
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
