@@ -167,7 +167,7 @@ limitations under the License.
 			</div>
 					
 					<cfscript>
-					i=1
+					i=3
 						do {
 						WriteOutput(headers.get(i));
 						i++
