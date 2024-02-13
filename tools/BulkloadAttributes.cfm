@@ -204,14 +204,9 @@ limitations under the License.
 				</cfloop>
 				</ul>
 				<cfscript>
-
-
-stringy = record.get(headers.attribute);
-    
-
-					
+				stringy = headers.get("attribute");
 				</cfscript>
-		   
+
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
