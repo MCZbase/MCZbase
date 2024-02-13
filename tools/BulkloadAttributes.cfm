@@ -190,9 +190,12 @@ limitations under the License.
 			<cftry>	
 
 			<cfloop condition="false">
-				<cfloop from="0" to="10" index="i">
+				<cfset j=10>
+				<cfloop from="0" to="#j#" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
-					<cfif isDefined(thisheader) and thisheader EQ 'institution_acronym'><cfset myVar=true><cfelse><cfset myVar=false></cfif>
+					<cfset i= i+1>
+				</cfloop>
+				<cfif isDefined(thisheader) and thisheader EQ 'institution_acronym'><cfset myVar=true><cfelse><cfset myVar=false></cfif>
 					<cfif thisheader EQ 'collection_cde'><cfset myVar=true><cfelse><cfset myVar=false> </cfif>
 					<cfif isDefined(thisheader) and thisheader EQ 'other_id_type'><cfset myVar=true><cfelse><cfset myVar=false></cfif>
 					<cfif isDefined(thisheader) and thisheader EQ 'other_id_number'><cfset myVar=true>  <cfelse><cfset myVar=false></cfif>
@@ -203,10 +206,7 @@ limitations under the License.
 					<cfif isDefined(thisheader) and thisheader EQ 'attribute_meth'><cfset myVar=true><cfelse><cfset myVar=false></cfif>
 					<cfif isDefined(thisheader) and thisheader EQ 'determiner'><cfset myVar=true><cfelse><cfset myVar=false> </cfif>
 					<cfif isDefined(thisheader) and thisheader EQ 'remarks_date'><cfset renarks_exists=true><cfelse><cfset myVar=false> </cfif>
-					<cfset i= i+1>
-					
-				</cfloop>
-						 #myVar# 
+					#myVar# 
 			</cfloop>
 			<cfcatch>Ooops</cfcatch>
 			</cftry>
