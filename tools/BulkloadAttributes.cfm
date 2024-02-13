@@ -139,12 +139,12 @@ limitations under the License.
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
 
-				<cfif isDefined(headers.get(0))><cfset columnOne = headers.get(0)></cfif>
-				<cfif isDefined(headers.get(1))><cfset columnTwo = headers.get(1)></cfif>
-				<cfif isDefined(headers.get(2))><cfset columnThree = headers.get(2)></cfif>
-				<cfif isDefined(headers.get(3))><cfset columnFour = headers.get(3)></cfif>
-				<cfif isDefined(headers.get(4))><cfset columnFive = headers.get(4)></cfif>
-				<cfif isDefined(headers.get(5))><cfset columnSix = headers.get(5)></cfif>
+				<cfif isDefined(headers.get(0))><cfset columnOne = headers.get(0)><cfelse>columnOne missing</cfif>
+				<cfif isDefined(headers.get(1))><cfset columnTwo = headers.get(1)><cfelse>columnTwo missing</cfif>
+				<cfif isDefined(headers.get(2))><cfset columnThree = headers.get(2)><cfelse>columnThree missing</cfif>
+				<cfif isDefined(headers.get(3))><cfset columnFour = headers.get(3)><cfelse>columnFour missing</cfif>
+				<cfif isDefined(headers.get(4))><cfset columnFive = headers.get(4)><cfelse>columnFive missing</cfif>
+				<cfif isDefined(headers.get(5))><cfset columnSix = headers.get(5)><cfelse>columnSix missing</cfif>
 				<cfif isDefined(headers.get(6))><cfset columnSeven = headers.get(6)><cfelse>columnSeven missing</cfif>
 				<cfif isDefined(headers.get(7))><cfset columnEight = headers.get(7)><cfelse>columnEight missing</cfif>
 				<cfif isDefined(headers.get(8))><cfset columnNine = headers.get(8)><cfelse>columnNine missing</cfif>
