@@ -118,7 +118,7 @@ limitations under the License.
 						public class CsvFileReader {
      
     //CSV file header
-    private static final String [] FILE_HEADER_MAPPING = {"institution_acronym","attribute","attribute_value"};
+    private static final String  FILE_HEADER_MAPPING = {"institution_acronym","attribute","attribute_value"};
      
     //Student attributes
     private static final String insititution_acronym = "institution_acronym";
