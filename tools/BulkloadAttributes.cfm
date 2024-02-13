@@ -123,7 +123,7 @@ limitations under the License.
 				<cfset csvFormat=CSVFormat.Builder.create() 
 						  .setHeader(HEADERS)
 						  .setAllowMissingColumnNames(true)
-						  .build();>
+						  .build()>
 				<!---// Create a FileReader object--->
 				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#tempFile#) >
 						
