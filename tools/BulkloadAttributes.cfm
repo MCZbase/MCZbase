@@ -199,7 +199,7 @@ limitations under the License.
 				</cfloop>
 				</ul>
 				<cfscript>
-					Rainbow = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks;
+					Rainbow = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks";
 					externalList = "";
 					reverseRainbow = listMap( rainbow, function(v,i,l) {
 						var newValue = "#i#:#v.reverse()#";
