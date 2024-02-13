@@ -189,7 +189,7 @@ limitations under the License.
 				</cfquery>
 
 				<cfset i = 0>
-				<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
+				
 				<cfset institution_acronym_exists = false>
 				<cfset collection_cde_exists = false>
 				<cfset other_id_type_exists = false>
@@ -201,8 +201,8 @@ limitations under the License.
 				<cfset attribute_meth_exists = false>
 				<cfset determiner_exists = false>
 				<cfset remarks_exists = false>
-				<cfloop from="0" to="10" index="i" step="1">
-					
+				<cfloop from="0" to="10" index="i">
+					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 					<cfif thisheader EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 					<cfif thisheader EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 					<cfif thisheader  EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
