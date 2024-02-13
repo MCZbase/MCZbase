@@ -138,8 +138,7 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
-<cfset key = "institution_acronym">
-	<cfif StructKeyExists(headers.get(0), key)>headers.get(0)</cfif>
+
 <!---				<cfif headers.get(0) is not null><cfset columnOne = headers.get(0)><cfelse>columnOne missing</cfif>
 				<cfif isDefined(headers.get(1))><cfset columnTwo = headers.get(1)><cfelse>columnTwo missing</cfif>
 				<cfif isDefined(headers.get(2))><cfset columnThree = headers.get(2)><cfelse>columnThree missing</cfif>
