@@ -200,17 +200,11 @@ limitations under the License.
 				</cfloop>
 				</ul>
 				<cfscript>
-					var data2 = [
-						{userID: 1, name: "Ryan", groups: ["dev", "ops", "qa", "employee"]},
-						{userID: 2, name: "Bob", groups: ["ops", "employee"]},
-						{userID: 3, name: "John", groups: ["qa", "employee"]},
-						{userID: 4, name: "Paul", groups: ["dev", "qa", "employee"]}
-					];
-
-					var isDev = function (user) {
-						return user.groups.includes("dev");
-					};
-					data2.filter(isDev);
+				complexData = [ {a: 4}, {a: 18}, {a: 51} ];
+				newArray = arrayMap( complexData, function(item){
+				   return item.a;
+				});
+				writeDump(newArray);
 					
 				</cfscript>
 		   
