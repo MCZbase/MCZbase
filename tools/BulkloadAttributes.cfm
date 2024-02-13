@@ -113,6 +113,7 @@ limitations under the License.
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
+					
 				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >
 			
 				<cfobject type="java" class="java.io.FileReader" name="fileReader">
@@ -128,7 +129,7 @@ limitations under the License.
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
 				<cfset defaultFormat = csvFormat.DEFAULT >
 				<!---// Create a CSVParser using the FileReader and CSVFormat--->
-				<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>
+				<cfset csvParser = CSVFormat.DEFAULT.withHeader("institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","atttribute_units","attribute_date","attribute_meth","determiner","remarks")>
 		
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
