@@ -135,8 +135,8 @@ limitations under the License.
 				
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
-				<cfset headers = iterator.next()>
-				<cfset size = headers.size()>
+				<cfset headers = iterator.next() default="institution_acronym" type="any">
+				<cfset size = headers.size() default="1" type="any">
 				<cfset items = records.getRecordNumber()>
 				<cfset inThisPosition = headers.get(3)>
 		
