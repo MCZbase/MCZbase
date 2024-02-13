@@ -198,7 +198,16 @@ limitations under the License.
 					<li class="text-success list-group-item h5 border" style="width: 140px;">#headers.get(JavaCast("int",actualColumnNumber))#</li>
 				</cfloop>
 				</ul>
-
+				<cfscript>
+					Rainbow = "Whero, Karaka, Kowhai, Kakariki, Kikorangi, Tawatawa, Mawhero";
+					externalList = "";
+					reverseRainbow = listMap( rainbow, function(v,i,l) {
+						var newValue = "#i#:#v.reverse()#";
+						externalList = externalList.listAppend(newValue);
+						return newValue;
+					});
+					writeDump([{rainbow=rainbow},{reverseRainbow=reverseRainbow},{externalList=externalList}]);
+				</cfscript>
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
