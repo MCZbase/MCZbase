@@ -198,7 +198,6 @@ limitations under the License.
 				<cfset attribute_units_exists = false>
 				<cfset attribute_date_exists = false>
 				<cfset attribute_meth_exists = false>
-				<cfset attribute_date_exists = false>
 				<cfset determiner_exists = false>
 				<cfset remarks_exists = false>
 				<cfloop from="0" to="10" index="i">
