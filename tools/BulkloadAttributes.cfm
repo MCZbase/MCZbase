@@ -139,7 +139,7 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>		
 				<cfset items = records.getRecordNumber()>
-
+items: #items#, size: #size#, headers: #headers#
 				<div class="col-12 my-4">
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
 					
