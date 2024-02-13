@@ -165,7 +165,7 @@ limitations under the License.
 				
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
-					<cfset both = listContains(headers,fieldlist)>
+					<cfset both = listContains(headers,i.fieldlist)>
 						Item1 = #ListGetAt(fieldlist,both)#
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
