@@ -169,7 +169,7 @@ limitations under the License.
 					<cfscript>
 					i=0
 						do {
-						WriteOutput(i & headers & fieldlist & 'false');
+						WriteOutput(i & items & fieldlist & 'false');
 						i++
 						} while (headers != fieldlist & i>11);
 					
