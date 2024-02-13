@@ -115,8 +115,7 @@ limitations under the License.
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
 				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >
 			
-				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
-				
+				<cfobject type="java" class="java.io.FileReader" name="fileReader">
 				<cfobject type="Java" name="javaCharset"  class="java.nio.charset.Charset" >
 				<cfobject type="Java" name="standardCharsets"  class="java.nio.charset.StandardCharsets" >
 				<cfset tempFile = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
