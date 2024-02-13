@@ -214,9 +214,13 @@ limitations under the License.
 					<cfif thisheader EQ 'attribute_meth'><cfset attribute_meth_exists=true></cfif>
 					<cfif thisheader EQ 'determiner'><cfset determiner_exists=true></cfif>
 					<cfif thisheader EQ 'remarks_date'><cfset renarks_exists=true></cfif>
-					<cfset i= i+1>
+					
+						
+						 #attribute_value_exists# : #thisheader#
+						
+						<cfset i= i+1>
 				</cfloop>
-					 #attribute_value_exists# : #thisheader#
+					
 
 		
 <!---					<cfset message = "something required is missing">
