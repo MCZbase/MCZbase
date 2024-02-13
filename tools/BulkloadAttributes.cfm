@@ -180,19 +180,7 @@ limitations under the License.
 					<li class="text-success list-group-item h5 border" style="width: 140px;"><cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
 				</cfloop>
 				</ul>
-				<cfscript>
-					template = "#headers.get()#";
-					externalList = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks";
-					reverseTemplate = listMap( template, function(m,i,l) {
-						var newValue = "#i#:#headers(i)#";
-						externalList = externalList.listAppend(newValue);
-						return newValue;
-					});
-					comparison = compare(#template#, #externalList#);
-					writeDump([{template=template},{comparison=comparison},{externalList=externalList}]);
-					
-				
-				</cfscript>
+
 		   
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
@@ -201,7 +189,7 @@ limitations under the License.
 				</cfquery>
 
 				
-		<!---		<cfset institution_acronym_exists = false>
+				<cfset institution_acronym_exists = false>
 				<cfset collection_cde_exists = false>
 				<cfset other_id_type_exists = false>
 				<cfset other_id_number_exists = false>
@@ -209,8 +197,8 @@ limitations under the License.
 				<cfset attribute_value_exists = false>
 				<cfset attribute_date_exists = false>
 				<cfset determiner_exists = false>
-				<cfloop from="0" to="#headers.size() - 1#" index="items">
-					<cfset thisheader = #iterator#>
+				<cfloop from="0" to="#headers.size() - 1#" index="i">
+					<cfset thisheader = #headers.get(i)#>
 					<cfif ucase(thisheader) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 					<cfif ucase(thisheader) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
 					<cfif ucase(thisheader) EQ 'other_id_type'><cfset other_id_type_exists=true></cfif>
@@ -231,7 +219,7 @@ limitations under the License.
 					<cfif not attribute_date_exists><cfset message = "#message# attribute_date is missing."></cfif>
 					<cfif not determiner_exists><cfset message = "#message# determiner is missing."></cfif>
 					<cfthrow message="#message#">
-				</cfif>--->
+				</cfif>
 		<!---		<cfset colNames="">
 				<cfset loadedRows = 0>
 				<cfset foundHighCount = 0>
