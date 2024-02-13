@@ -216,7 +216,7 @@ limitations under the License.
 					<cfif thisheader EQ 'remarks_date'><cfset renarks_exists=true></cfif>
 					<cfset i= i+1>
 				</cfloop>
-						<cfif attribute_value_exists eq "false">#thisheader#</cfif>
+						<cfif #attribute_value_exists# eq "false">#thisheader#</cfif>
 
 		
 <!---					<cfset message = "something required is missing">
