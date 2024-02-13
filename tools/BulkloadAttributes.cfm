@@ -215,11 +215,13 @@ limitations under the License.
 					<cfif thisheader EQ 'determiner'><cfset determiner_exists=true>#i# #thisheader# <cfelse> #determiner_exists#</cfif>
 					<cfif thisheader EQ 'remarks_date'><cfset renarks_exists=true>#i# #thisheader# <cfelse> #remarks_exists#</cfif>
 					
-						
+					  <cfif RandRange(1,10) eq 10>
+						<cfabort>
+					  </cfif>	
 					
 						
 						<cfset i= i+1>
-							<cfabort>
+					
 				</cfloop>
 					
 
