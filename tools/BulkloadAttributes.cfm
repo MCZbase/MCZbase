@@ -200,14 +200,17 @@ limitations under the License.
 				</cfloop>
 				</ul>
 				<cfscript>
-					Rainbow = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks";
-					externalList = "";
-					reverseRainbow = listMap( rainbow, function(v,i,l) {
-						var newValue = "#i#:#headers#";
-						externalList = externalList.listAppend(newValue);
-						return newValue;
-					});
-					writeDump([{rainbow=rainbow},{reverseRainbow=reverseRainbow},{externalList=externalList}]);
+					var data = [
+						{userID: 1, name: "Ryan", groups: ["dev", "ops", "qa", "employee"]},
+						{userID: 2, name: "Bob", groups: ["ops", "employee"]},
+						{userID: 3, name: "John", groups: ["qa", "employee"]},
+						{userID: 4, name: "Paul", groups: ["dev", "qa", "employee"]}
+					];
+
+					var isDev = function (user) {
+						return user.groups.includes("dev");
+					};
+					data.filter(isDev);
 					
 				</cfscript>
 		   
