@@ -196,7 +196,7 @@ limitations under the License.
 				</ul>
 				<ul class="list-group list-group-horizontal">
 				<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
-					<li class="text-success list-group-item h5 border" style="width: 140px;">#headers.get(JavaCast("int",actualColumnNumber))#</li>
+					<li class="text-success list-group-item h5 border" style="width: 140px;"><cfset externalList = #headers.get(JavaCast("int",actualColumnNumber))#>#headers.get(JavaCast("int",actualColumnNumber))#</li>
 				</cfloop>
 				</ul>
 				<cfscript>
@@ -210,8 +210,7 @@ limitations under the License.
 					writeDump([{rainbow=rainbow},{reverseRainbow=reverseRainbow},{externalList=externalList}]);
 					
 				</cfscript>
-						<cfset comparison = compare(#headers#, #fieldlist2#)>
-<cfdump var="#comparison#" />     
+		   
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
