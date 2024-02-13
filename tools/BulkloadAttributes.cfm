@@ -203,19 +203,19 @@ limitations under the License.
 			<cfloop condition="true">
 				<cfloop from="0" to="#size#" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
-					<cfif isDefined(thisheader) and thisheader EQ 'institution_acronym'><cfset institution_acronym_exists=true>#i# #thisheader# <cfelse><cfset myVar=false> #thisheader#</cfif>
-					<cfif thisheader EQ 'collection_cde'><cfset myVar=true>#i# #thisheader#<cfelse><cfset myVar=false> #thisheader#</cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'other_id_type'><cfset myVar=true>#i# #thisheader#<cfelse><cfset myVar=false>#thisheader# </cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'other_id_number'><cfset myVar=true>#i# #thisheader# <cfelse><cfset myVar=false>#thisheader#</cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'attribute'><cfset myVar=true>#i# #thisheader# <cfelse><cfset myVar=false>#thisheader#</cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'attribute_value'><cfset myVar=true>#i# #thisheader# <cfelse><cfset myVar=false>#thisheader#</cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'attribute_units'><cfset myVar=true>#i# #thisheader# <cfelse><cfset myVar=false>#thisheader#</cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'attribute_date'><cfset myVar=true>#i# #thisheader# <cfelse><cfset myVar=false>#thisheader#</cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'attribute_meth'><cfset myVar=true>#i# #thisheader#<cfelse><cfset myVar=false>#thisheader#</cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'determiner'><cfset myVar=true>#i# #thisheader#<cfelse><cfset myVar=false>#thisheader# </cfif>
+					<cfif isDefined(thisheader) and thisheader EQ 'institution_acronym'><cfset myVar=true>#i# #thisheader# <cfelse><cfset myVar=false> #thisheader#</cfif>
+					<cfif thisheader EQ 'collection_cde'><cfset myVar=true>#i#<cfelse><cfset myVar=false> #thisheader#</cfif>
+					<cfif isDefined(thisheader) and thisheader EQ 'other_id_type'><cfset myVar=true>#i#<cfelse><cfset myVar=false>#thisheader# </cfif>
+					<cfif isDefined(thisheader) and thisheader EQ 'other_id_number'><cfset myVar=true>#i#  <cfelse><cfset myVar=false>#thisheader#</cfif>
+					<cfif isDefined(thisheader) and thisheader EQ 'attribute'><cfset myVar=true>#i#  <cfelse><cfset myVar=false>#thisheader#</cfif>
+					<cfif isDefined(thisheader) and thisheader EQ 'attribute_value'><cfset myVar=true>#i#  <cfelse><cfset myVar=false>#thisheader#</cfif>
+					<cfif isDefined(thisheader) and thisheader EQ 'attribute_units'><cfset myVar=true>#i#  <cfelse><cfset myVar=false>#thisheader#</cfif>
+					<cfif isDefined(thisheader) and thisheader EQ 'attribute_date'><cfset myVar=true>#i#  <cfelse><cfset myVar=false>#thisheader#</cfif>
+					<cfif isDefined(thisheader) and thisheader EQ 'attribute_meth'><cfset myVar=true>#i# <cfelse><cfset myVar=false>#thisheader#</cfif>
+					<cfif isDefined(thisheader) and thisheader EQ 'determiner'><cfset myVar=true>#i# <cfelse><cfset myVar=false>#thisheader# </cfif>
 					<cfif isDefined(thisheader) and thisheader EQ 'remarks_date'><cfset renarks_exists=true>#i# <cfelse><cfset myVar=false>#thisheader# </cfif>
 					<cfset i= i+1>
-						#thisheader# #myVar# , 
+					 
 				</cfloop>
 			</cfloop>
 			<cfcatch>Ooops</cfcatch>
