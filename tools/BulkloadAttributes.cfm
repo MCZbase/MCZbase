@@ -215,8 +215,9 @@ limitations under the License.
 					<cfif isDefined(thisheader) and thisheader EQ 'determiner'><cfset myVar=true>#i# <cfelse><cfset myVar=false> </cfif>
 					<cfif isDefined(thisheader) and thisheader EQ 'remarks_date'><cfset renarks_exists=true>#i# <cfelse><cfset myVar=false> </cfif>
 					<cfset i= i+1>
-					 #thisheader#-#myVar#, 
+					
 				</cfloop>
+						 #thisheader#-#myVar#, 
 			</cfloop>
 			<cfcatch>Ooops</cfcatch>
 			</cftry>
