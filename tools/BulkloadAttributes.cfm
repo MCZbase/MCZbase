@@ -113,10 +113,9 @@ limitations under the License.
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
-					
 				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >
-			
-				<cfobject type="java" class="java.io.FileReader" name="fileReader">
+				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
+				
 				<cfobject type="Java" name="javaCharset"  class="java.nio.charset.Charset" >
 				<cfobject type="Java" name="standardCharsets"  class="java.nio.charset.StandardCharsets" >
 				<cfset tempFile = fileProxy.init(JavaCast("string",#FiletoUpload#)) >
@@ -134,13 +133,12 @@ limitations under the License.
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
- 				<cfset eachone = records.getHeaderMap().keySet() >
 				
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>		
-				<cfset items = records.getRecordNumber()>
+				<cfset mapped = records.getHeaderMap().keySet()>
 
 				<div class="col-12 my-4">
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
