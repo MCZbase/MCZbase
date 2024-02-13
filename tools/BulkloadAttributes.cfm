@@ -158,7 +158,7 @@ limitations under the License.
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
 					
 				<cfscript>
-					data = [
+					var data = [
 						{field:"institution_acronym", required:"yes"},
 						{field:"collection_cde", required:"yes"},
 						{field:"other_id_type", required:"yes"},
@@ -200,23 +200,9 @@ limitations under the License.
 				</cfloop>
 				</ul>
 				<cfscript>
-				<!---complexData = [ {a: "institution_acronym"}, {a: "collection_cde"}, {a: "attribute"}, {a: "attribute_value"}, ];
-				newArray = arrayMap( complexData, function(item){
-				   return item.a;
+				data.map(function(item) {
+					return item.firstName + " " + item.lastName + " <" + item.email + ">"; 
 				});
-				writeDump(newArray);--->
-					array function arrayMap(required array array, required any f){
-					if (!isCustomFunction(f)){
-						throw(type="InvalidArgumentException", message="The 'f' argument must be a function");
-					}
-
-					var result = [];
-					var arrLen = arrayLen(array);
-					for (var i=1; i <= arrLen; i++){
-						arrayAppend(result, f(array[i], i, array));
-					}
-					return result;
-					}
 				</cfscript>
 		   
 				<!--- cleanup any incomplete work by the same user --->
