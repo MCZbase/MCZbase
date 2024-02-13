@@ -217,9 +217,8 @@ limitations under the License.
 					<cfset i= i+1>
 						
 				</cfloop>
-						
-						
-			<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
+
+			<cfif institution_acronym_exists eq false OR collection_cde_exists eq false OR other_id_type_exists eq false OR other_id_number_exists eq false OR attribute_exists eq false OR attribute_value_exists eq false OR attribute_date_exists eq false OR determiner_exists eq false>
 					<cfset message = "something required is missing">
 					<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
 					<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
