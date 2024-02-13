@@ -137,8 +137,11 @@ limitations under the License.
 				<!--- Obtain the first line of the file as the header line --->
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
-				<cfset enum = enum.get()>
+			
 				<cfset items = records.getRecordNumber()>
+				<cfscript>
+					
+				</cfscript>
 			
 
 <!---				<cfif headers.get(0) is not null><cfset columnOne = headers.get(0)><cfelse>columnOne missing</cfif>
@@ -201,16 +204,16 @@ limitations under the License.
 				</cfloop>
 				</ul>
 				<cfscript>
-					Rainbow = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks";
-					externalList = "";
-					reverseRainbow = listMap( rainbow, function(m,i,l) {
-						var newValue = "#i#:#headers#";
-						externalList = externalList.listAppend(newValue);
-						return newValue;
-					});
-					comparison = compare("rainbow", "externalList");
-					   
-					writeDump([{rainbow=rainbow},{comparison=comparison},{externalList=externalList}]);
+				public enum Headers {
+    ID, CustomerNo, Name
+}
+Reader in = new FileReader("path/to/file.csv");
+Iterable<CSVRecord> records = CSVFormat.RFC4180.withHeader(Headers.class).parse(in);
+for (CSVRecord record : records) {
+    String id = record.get(Headers.ID);
+    String customerNo = record.get(Headers.CustomerNo);
+    String name = record.get(Headers.Name);
+}
 					
 				</cfscript>
 		   
