@@ -114,64 +114,7 @@ limitations under the License.
 				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
 				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >
-				<cfscript>
-		
-    private static final String  FILE_HEADER_MAPPING = {"institution_acronym","attribute","attribute_value"};
-    private static final String insititution_acronym = "institution_acronym";
-    private static final String attribute= "attribute";
-    private static final String attribute_value = "attribute_value";
-     
-    public static void readCsvFile(String fileName) {
- 
-        FileReader fileReader = null;
-         
-        CSVParser csvFileParser = null;
-         
-        CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader(FILE_HEADER_MAPPING);
-      
-        try {
-             
-            //Create a new list of student to be filled by CSV file data 
-            List students = new ArrayList();
-             
-            //initialize FileReader object
-            fileReader = new FileReader(fileName);
-             
-            //initialize CSVParser object
-            csvFileParser = new CSVParser(fileReader, csvFileFormat);
-             
-            //Get a list of CSV file records
-            List csvRecords = csvFileParser.getRecords(); 
-             
-            //Read the CSV file records starting from the second record to skip the header
-            for (int i = 1; i < csvRecords.size(); i++) {
-                CSVRecord record = csvRecords.get(i);
-                //Create a new attribute object and fill his data
-                Attribute attribute = new Attribute(Long.parseLong(record.get(institution_acronym)), record.get(attribute), record.get(attribute_value);  
-            }
-             
-            //Print the new attribute list
-            for (Attribute attribute : attributes) {
-                System.out.println(attribute.toString());
-            }
-        } 
-        catch (Exception e) {
-            System.out.println("Error in CsvFileReader !!!");
-            e.printStackTrace();
-        } finally {
-            try {
-                fileReader.close();
-                csvFileParser.close();
-            } catch (IOException e) {
-                System.out.println("Error while closing fileReader/csvFileParser !!!");
-                e.printStackTrace();
-            }
-        }
- 
-    }
- 
-}
-				</cfscript>
+			
 				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
 				
 				<cfobject type="Java" name="javaCharset"  class="java.nio.charset.Charset" >
