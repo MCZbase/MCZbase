@@ -145,7 +145,9 @@ limitations under the License.
 				<cfset columnFour = headers.get(3)>
 				<cfset columnFive = headers.get(4)>
 		 		<!--- number of colums actually found --->
-			
+			<cfset csvlist ="columnOne,columnTwo">
+				
+				#csvlist#
 			<div class="col-12 my-4">
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
 					
