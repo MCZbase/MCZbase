@@ -181,10 +181,10 @@ limitations under the License.
 				</cfloop>
 				</ul>
 				<cfscript>
-					template = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks";
-					externalList = "";
+					template = "#headers.get()#";
+					externalList = "#institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks";
 					reverseTemplate = listMap( template, function(m,i,l) {
-						var newValue = "#i#:#headers#";
+						var newValue = "#i#:#headers(i)#";
 						externalList = externalList.listAppend(newValue);
 						return newValue;
 					});
