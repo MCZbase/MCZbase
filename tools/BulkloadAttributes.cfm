@@ -188,7 +188,7 @@ limitations under the License.
 						return newValue;
 					});
 					comparison = compare("rainbow", "externalList");
-					columnValues =headers.get(0);
+					columnValues =#headers.get(0)#;
 					writeDump([{rainbow=rainbow},{comparison=comparison},{externalList=externalList},{columnValues=columnValues}]);
 					
 				
