@@ -137,7 +137,7 @@ limitations under the License.
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
 				<cfset records = CSVParser.parse(#tempFileInputStream#,#javaSelectedCharset#,#defaultFormat#)>
-				<cfset records = CSVFormat.EXCEL.withSkipHeaderRecord(true).parse(in)>
+				<cfset record = CSVFormat.EXCEL.withSkipHeaderRecord(true).parse(in)>
 
 				<cfset iterator = records.iterator()>
 				<!--- Obtain the first line of the file as the header line --->
