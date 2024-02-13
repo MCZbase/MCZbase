@@ -190,7 +190,7 @@ limitations under the License.
 					comparison = compare("rainbow", "externalList");
 					   	columnValues = record.get(0), record.get(1);
 					writeDump([{rainbow=rainbow},{comparison=comparison},{externalList=externalList},{columnValues=columnValues}]);
-					columnValues = record.get(0), record.get(1);
+					columnValues = record.get(0) & record.get(1);
 				
 				</cfscript>
 		   
