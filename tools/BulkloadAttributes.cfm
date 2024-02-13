@@ -200,7 +200,7 @@ limitations under the License.
 				</cfloop>
 				</ul>
 				<cfscript>
-				complexData = [ {a: institution_acronym}, {a: collection_cde}, {a: attribute_type} ];
+				complexData = [ {a: "institution_acronym"}, {a: "collection_cde"}, {a: "attribute_type"} ];
 				newArray = arrayMap( complexData, function(item){
 				   return item.a;
 				});
