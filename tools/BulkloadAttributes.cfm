@@ -111,7 +111,7 @@ limitations under the License.
 			<cftry>
 				<!--- Proof of concept parsing CSV with Java using Commons CSV library included with coldfusion so that columns with comma delimeters will be separated properly --->
 				<cfset fileProxy = CreateObject("java","java.io.File") >
-				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat.setAllowMissingColumnNames(true)" >
+				<cfobject type="Java" name="csvFormat" class="org.apache.commons.csv.CSVFormat" >
 				<cfobject type="Java" name="csvParser"  class="org.apache.commons.csv.CSVParser" >
 				<cfobject type="Java" name="csvRecord"  class="org.apache.commons.csv.CSVRecord" >
 				<cfobject type="java" class="java.io.FileReader" name="fileReader">	
@@ -143,22 +143,7 @@ limitations under the License.
 				<cfscript>
 					
 				</cfscript>
-			
 
-<!---				<cfif headers.get(0) is not null><cfset columnOne = headers.get(0)><cfelse>columnOne missing</cfif>
-				<cfif isDefined(headers.get(1))><cfset columnTwo = headers.get(1)><cfelse>columnTwo missing</cfif>
-				<cfif isDefined(headers.get(2))><cfset columnThree = headers.get(2)><cfelse>columnThree missing</cfif>
-				<cfif isDefined(headers.get(3))><cfset columnFour = headers.get(3)><cfelse>columnFour missing</cfif>
-				<cfif isDefined(headers.get(4))><cfset columnFive = headers.get(4)><cfelse>columnFive missing</cfif>
-				<cfif isDefined(headers.get(5))><cfset columnSix = headers.get(5)><cfelse>columnSix missing</cfif>
-				<cfif isDefined(headers.get(6))><cfset columnSeven = headers.get(6)><cfelse>columnSeven missing</cfif>
-				<cfif isDefined(headers.get(7))><cfset columnEight = headers.get(7)><cfelse>columnEight missing</cfif>
-				<cfif isDefined(headers.get(8))><cfset columnNine = headers.get(8)><cfelse>columnNine missing</cfif>
-				<cfif isDefined(headers.get(9))><cfset columnTen = headers.get(9)><cfelse>columnTen missing</cfif>
-				<cfif isDefined(headers.get(10))><cfset columnEleven = headers.get(10)><cfelse>columnEleven missing</cfif>--->
-						<!--- number of colums actually found --->
-				
-			<!---	#columnSeven#--->
 				<div class="col-12 my-4">
 				<h3 class="h4">Found <cfdump var="#headers.size()#"> matching columns in header of csv file (Green).</h3>
 					
