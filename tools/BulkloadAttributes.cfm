@@ -138,6 +138,7 @@ limitations under the License.
 				<cfset headers = iterator.next()>
 				<cfset size = headers.size()>
 				<cfset items = records.getRecordNumber()>
+					#items#
 			
 
 <!---				<cfif headers.get(0) is not null><cfset columnOne = headers.get(0)><cfelse>columnOne missing</cfif>
