@@ -219,6 +219,7 @@ limitations under the License.
 					
 						
 						<cfset i= i+1>
+							<cfabort>
 				</cfloop>
 					
 
