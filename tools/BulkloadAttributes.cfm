@@ -196,7 +196,7 @@ limitations under the License.
 					<cfset i= i+1>
 				</cfloop>
 				<cfif isDefined(thisheader) and thisheader EQ 'institution_acronym'><cfset myVar=true><cfelse><cfset myVar=false></cfif>
-					<cfif thisheader EQ 'collection_cde'><cfset myVar=true><cfelse><cfset myVar=false> </cfif>
+					<cfif isDefined(thisheader) and thisheader EQ 'collection_cde'><cfset myVar=true><cfelse><cfset myVar=false> </cfif>
 					<cfif isDefined(thisheader) and thisheader EQ 'other_id_type'><cfset myVar=true><cfelse><cfset myVar=false></cfif>
 					<cfif isDefined(thisheader) and thisheader EQ 'other_id_number'><cfset myVar=true>  <cfelse><cfset myVar=false></cfif>
 					<cfif isDefined(thisheader) and thisheader EQ 'attribute'><cfset myVar=true> <cfelse><cfset myVar=false></cfif>
