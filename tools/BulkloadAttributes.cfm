@@ -166,21 +166,11 @@ limitations under the License.
 				</cfscript>			
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
-					<cfset fieldlist2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
-			
-<!---			<cfscript>
-					i=0
-					do {
-					WriteOutput(headers.get("institution_acronym") & 'true');
-					i++
-					} while (headers.get("institution_acronym") == data.get("institution_acronym") & i>10);
-				</cfscript>--->
-				<!---Expected and required headers; red = required; black = expected;--->
+			<cfset fieldlist2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
 						<cfoutput>
 							<li class="list-group-item h5 border <cfif #i.required# eq "yes"> text-danger</cfif>" style="width:140px;">#i.field# </li>
-						
 						</cfoutput>
 					</cfloop>
 				</ul>
@@ -193,7 +183,7 @@ limitations under the License.
 					Rainbow = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks";
 					externalList = "";
 					reverseRainbow = listMap( rainbow, function(m,i,l) {
-						var newValue = "#i#:#headers#";
+						var newValue = "#i#:#headers.values#";
 						externalList = externalList.listAppend(newValue);
 						return newValue;
 					});
