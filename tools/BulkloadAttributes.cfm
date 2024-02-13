@@ -169,9 +169,9 @@ limitations under the License.
 					<cfscript>
 					i=0
 						do {
-						WriteOutput(i & 'true');
+						WriteOutput(i & 'false');
 						i++
-						} while (headers == fieldlist);
+						} while (headers != fieldlist);
 					
 					</cfscript>
 				<!---Expected and required headers; red = required; black = expected;--->
