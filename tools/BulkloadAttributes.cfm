@@ -208,7 +208,7 @@ limitations under the License.
 
 stringy = record.get(Headers.attribute);
     
-}
+
 					
 				</cfscript>
 		   
