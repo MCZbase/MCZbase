@@ -146,10 +146,10 @@ limitations under the License.
 				<cfif isDefined(headers.get(4))><cfset columnFive = headers.get(4)></cfif>
 				<cfif isDefined(headers.get(5))><cfset columnSix = headers.get(5)></cfif>
 				<cfif isDefined(headers.get(6))><cfset columnSeven = headers.get(6)><cfelse>columnSeven missing</cfif>
-				<cfif isDefined(headers.get(7))><cfset columnEight = headers.get(7)></cfif>
-				<cfif isDefined(headers.get(8))><cfset columnNine = headers.get(8)></cfif>
-				<cfif isDefined(headers.get(9))><cfset columnTen = headers.get(9)></cfif>
-				<cfif isDefined(headers.get(10))><cfset columnEleven = headers.get(10)></cfif>
+				<cfif isDefined(headers.get(7))><cfset columnEight = headers.get(7)><cfelse>columnEight missing</cfif>
+				<cfif isDefined(headers.get(8))><cfset columnNine = headers.get(8)><cfelse>columnNine missing</cfif>
+				<cfif isDefined(headers.get(9))><cfset columnTen = headers.get(9)><cfelse>columnTen missing</cfif>
+				<cfif isDefined(headers.get(10))><cfset columnEleven = headers.get(10)><cfelse>columnEleven missing</cfif>
 						<!--- number of colums actually found --->
 				
 				#columnSeven#
