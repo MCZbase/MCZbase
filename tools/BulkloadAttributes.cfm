@@ -162,11 +162,20 @@ limitations under the License.
 				
 	
 				</cfscript>			
-				<cfset fieldlist2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks" default=1 type="any">
+				<cfset fieldlist2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
-					<cfset both = listContains(headers,fieldlist2)>
-						Item1 = #ListGetAt(fieldlist,both)#
+					
+					<cfscript>
+					fieldlist2 = 'institution_acronym'
+						while (<cfloop index="actualColumnNumber" from="0" to="#headers.size() - 1#">
+					<li class="text-success list-group-item h5 border" style="width: 140px;">#headers.get(JavaCast("int",actualColumnNumber))#</li>
+				</cfloop>) {
+						WriteOutput('true');
+						
+						}
+					
+					</cfscript>
 				<!---Expected and required headers; red = required; black = expected;--->
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
