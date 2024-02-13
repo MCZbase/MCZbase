@@ -199,22 +199,22 @@ limitations under the License.
 				</cfloop>
 				</ul>
 				<cfscript>
-					Rainbow = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks";
+<!---					Rainbow = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks";
 					externalList = "";
 					reverseRainbow = listMap( rainbow, function(v,i,l) {
 						var newValue = "#i#:#headers#";
 						externalList = externalList.listAppend(newValue);
 						return newValue;
 					});
-					writeDump([{rainbow=rainbow},{reverseRainbow=reverseRainbow},{externalList=externalList}]);
+					writeDump([{rainbow=rainbow},{reverseRainbow=reverseRainbow},{externalList=externalList}]);--->
 					
-					 Reader in = new StringReader("institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks");
+					Reader in = new StringReader("institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks");
  						for (CSVRecord record : CSVFormat.DEFAULT.parse(in)) {
 					for (String field : record) {
 					System.out.print("\"" + field + "\", ");
 					}
 					System.out.println();
- }
+ 					}
  
 				</cfscript>
 				<!--- cleanup any incomplete work by the same user --->
