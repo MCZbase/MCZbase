@@ -215,9 +215,9 @@ limitations under the License.
 					<cfif thisheader EQ 'determiner'><cfset determiner_exists=true></cfif>
 					<cfif thisheader EQ 'remarks_date'><cfset renarks_exists=true></cfif>
 					<cfset i= i+1>
-						
+						<cfif attribute_value_exists eq "false">#thisheader#</cfif>
 				</cfloop>
-<cfif attribute_value_exists eq "false">#thisheader#</cfif>#
+
 		
 <!---					<cfset message = "something required is missing">
 					<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
