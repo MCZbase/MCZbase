@@ -183,7 +183,7 @@ limitations under the License.
 					Rainbow = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks";
 					externalList = "";
 					reverseRainbow = listMap( rainbow, function(m,i,l) {
-						var newValue = "#i#:#headers.value()#";
+						var newValue = "#i#:#headers.enum()#";
 						externalList = externalList.listAppend(newValue);
 						return newValue;
 					});
