@@ -169,7 +169,7 @@ limitations under the License.
 					<cfscript>
 					i=0
 						while (
-					#headers.get(JavaCast("int",)i)#
+					headers.get(JavaCast("int",)i)
 						{
 						WriteOutput(i & 'true');
 						i++
