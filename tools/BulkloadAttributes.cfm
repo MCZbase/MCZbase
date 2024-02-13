@@ -206,7 +206,7 @@ limitations under the License.
 				<cfscript>
 
 
-stringy = record.get(Headers.attribute);
+stringy = record.get(headers.attribute);
     
 
 					
