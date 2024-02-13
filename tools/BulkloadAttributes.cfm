@@ -197,7 +197,7 @@ limitations under the License.
 				<cfset attribute_value_exists = false>
 				<cfset attribute_date_exists = false>
 				<cfset determiner_exists = false>
-				<cfloop from="0" to="#headers.size() - 1#" index="i">
+				<cfloop from="0" to="10" index="i">
 					<cfset thisheader = #headers.get(i)#>
 					<cfif ucase(thisheader) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
 					<cfif ucase(thisheader) EQ 'collection_cde'><cfset collection_cde_exists=true></cfif>
