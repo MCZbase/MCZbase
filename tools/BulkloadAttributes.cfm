@@ -189,7 +189,7 @@ limitations under the License.
 				</cfquery>
 
 				<cfset i = 0>
-					<cfset thisheader = #headers.get(JavaCast("int",i))#>
+				<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 				<cfset institution_acronym_exists = false>
 				<cfset collection_cde_exists = false>
 				<cfset other_id_type_exists = false>
