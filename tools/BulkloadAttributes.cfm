@@ -197,18 +197,6 @@ limitations under the License.
 					<cfset i= i+1>
 						#thisheader#
 				</cfloop>
-				<!---<cfif isDefined(thisheader) and thisheader EQ 'institution_acronym'><cfset myVar=true><cfelse><cfset myVar=false></cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'collection_cde'><cfset myVar=true><cfelse><cfset myVar=false> </cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'other_id_type'><cfset myVar=true><cfelse><cfset myVar=false></cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'other_id_number'><cfset myVar=true>  <cfelse><cfset myVar=false></cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'attribute'><cfset myVar=true> <cfelse><cfset myVar=false></cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'attribute_value'><cfset myVar=true>  <cfelse><cfset myVar=false></cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'attribute_units'><cfset myVar=true> <cfelse><cfset myVar=false></cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'attribute_date'><cfset myVar=true> <cfelse><cfset myVar=false></cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'attribute_meth'><cfset myVar=true>T<cfelse><cfset myVar=false>F</cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'determiner'><cfset myVar=true>T<cfelse>F<cfset myVar=false> </cfif>
-					<cfif isDefined(thisheader) and thisheader EQ 'remarks_date'><cfset renarks_exists=true>T<cfelse><cfset myVar=false>F </cfif>--->
-			
 			</cfloop>
 			<cfcatch>Ooops</cfcatch>
 			</cftry>
