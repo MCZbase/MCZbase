@@ -181,9 +181,9 @@ limitations under the License.
 				</ul>
 				<cfscript>
 					Rainbow = "institution_acronym, collection_cde, other_id_type, other_id_number, attribute, attribute_type, attribute_units, attribute_meth, attribute_date, determiner, remarks";
-					externalList = "";
+					externalList = "#headers#";
 					reverseRainbow = listMap( rainbow, function(m,i,l) {
-						var newValue = "#i#:#headers.parse(in)#";
+						var newValue = "#i#:#headers.get(0)#";
 						externalList = externalList.listAppend(newValue);
 						return newValue;
 					});
