@@ -195,8 +195,12 @@ limitations under the License.
 				<cfset other_id_number_exists = false>
 				<cfset attribute_exists = false>
 				<cfset attribute_value_exists = false>
+				<cfset attribute_units_exists = false>
+				<cfset attribute_date_exists = false>
+				<cfset attribute_meth_exists = false>
 				<cfset attribute_date_exists = false>
 				<cfset determiner_exists = false>
+				<cfset remarks_exists = false>
 				<cfloop from="0" to="10" index="i">
 					<cfset thisheader = #headers.get(i)#>
 					<cfif ucase(thisheader) EQ 'institution_acronym'><cfset institution_acronym_exists=true></cfif>
@@ -205,11 +209,14 @@ limitations under the License.
 					<cfif ucase(thisheader) EQ 'other_id_number'><cfset other_id_number_exists=true></cfif>
 					<cfif ucase(thisheader) EQ 'attribute'><cfset attribute_exists=true></cfif>
 					<cfif ucase(thisheader) EQ 'attribute_value'><cfset attribute_value_exists=true></cfif>
+					<cfif ucase(thisheader) EQ 'attribute_units'><cfset attribute_units_exists=true></cfif>
 					<cfif ucase(thisheader) EQ 'attribute_date'><cfset attribute_date_exists=true></cfif>
+					<cfif ucase(thisheader) EQ 'attribute_meth'><cfset attribute_meth_exists=true></cfif>
 					<cfif ucase(thisheader) EQ 'determiner'><cfset determiner_exists=true></cfif>
+					<cfif ucase(thisheader) EQ 'remarks_date'><cfset renarks_exists=true></cfif>
 				</cfloop>
 				<cfif not (institution_acronym_exists AND collection_cde_exists AND other_id_type_exists AND other_id_number_exists AND attribute_exists AND attribute_value_exists AND attribute_date_exists AND determiner_exists)>
-					<cfset message = "something is missing">
+					<cfset message = "something required is missing">
 					<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
 					<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
 					<cfif not other_id_type_exists><cfset message = "#message# other_id_type is missing."></cfif>
