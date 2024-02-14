@@ -151,38 +151,6 @@ limitations under the License.
 
 <cfoutput>
 <style>
-/*.animation-element {
-	position: relative;
-	width: 30%;
-	margin: 0% 1.33 2.66% 1.33%;
-	float: left;
-}
-.bounce-up .fixedResults {
-	opacity: 0;
-	-moz-transition: all 700ms ease-out;
-	-webkit-transition: all 700ms ease-out;
-	-o-transition: all 700ms ease-out;
-	transition: all 700ms ease-out;
-	-moz-transform: translate3d(0px, 200px, 0px);
-	-webkit-transform: translate3d(0px, 200px, 0px);
-	-o-transform: translate(0px, 200px);
-	-ms-transform: translate(0px, 200px);
-	transform: translate3d(0px, 200, 0px);
-	-webkit-backface-visibility: hidden;
-	-moz-backface-visibility: hidden;
-	backface-visibility: hidden;
-}
-.bounce-up.in-view .fixedResults {
-	opacity: 1;
-	-moz-transform: translate3d(0px, 0px, 0px);
-	-webkit-transform: translate3d(0px, 0px, 0px);
-	-o-transform: translate(0px, 0px);
-	-ms-transform: translate(0px, 0px);
-	transform: translate3d(0px, 0px, 0px);
-}
-.ns {
-	display:none;
-}*/
 /*fas is for the arrow up and down (more and less on form sections*/
 .fas {
 	font-size: 16px;
@@ -199,13 +167,6 @@ limitations under the License.
 .col-xxl-1 {max-width: 7.666667%}
 .col-xxl-11 {max-width: 90.333333%}
 }
-/*@media screen and (min-width: 1200px) and (max-width: 1399px) {
-	.col-xxl-10 {
-		-ms-flex: 0 0 83.333333% !important;
-		flex: 0 0 83.333333% !important;
-		max-width: 83.333333% !important;
-	}
-}*/
 </style>
 <script>
   function toggleDisplay1() {
@@ -220,10 +181,6 @@ limitations under the License.
       }
     }
   }
-	
-
-	
-
 </script>
 	<!--- TODO: Replace with a native javascript UUID function when it becomes available --->
 	<script>
