@@ -163,12 +163,7 @@ limitations under the License.
 				
 	
 				</cfscript>	
-				<cfscript>
-for #iterator.hasNext()# {
-    System.out.println("Id: " + record.get(0) + " Name: " + record.get(1)
-            + " GPA: " + record.get(2));
-}
-				</cfscript>
+
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
 		<!---	<cfset fieldlist2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">--->
@@ -184,6 +179,7 @@ for #iterator.hasNext()# {
 					<ul class="list-group list-group-horizontal">
 					<cfloop index="i" from="0" to="#headers.size() - 1#">
 						<li class="text-success list-group-item h5 border" style="width: 140px;"><cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
+						Header 1 = #header.get(0)#
 					</cfloop>
 					</ul>
 				</cfloop>
