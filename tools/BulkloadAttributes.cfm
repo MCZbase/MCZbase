@@ -168,7 +168,7 @@ limitations under the License.
 				<cfscript>
 					
 				 Reader in = new StringReader("a,b,c");
-				 for (CSVRecord record : CSVFormat.DEFAULT.parse(in)) {
+				 for (CSVRecord record : CSVFormat.DEFAULT.parse()) {
 					 for (String field : record) {
 						 System.out.print("\"" + field + "\", ");
 					 }
