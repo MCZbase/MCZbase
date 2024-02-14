@@ -197,17 +197,17 @@ limitations under the License.
 				<cfset i = 1>
 				<cfloop from="0" to="#j#" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
-						<cfif thisheader contains "institution_acronym"><cfelse>institution_acronym is missing</cfif><br>
-						<cfif thisheader contains "collection_cde"><cfelse>collection_cde is missing</cfif><br>
-						<cfif thisheader contains "other_id_type"><cfelse>other_id_type is missing</cfif><br>
-						<cfif thisheader contains "other_id_number"><cfelse>other_id_number is missing</cfif><br>
-						<cfif thisheader contains "attribute"><cfelse>attribute is missing</cfif><br>
-						<cfif thisheader contains "attribute_value"><cfelse>attribute_value is missing</cfif><br>
-						<cfif thisheader contains "attribute_units"><cfelse>attribute_units is missing</cfif><br>
-						<cfif thisheader contains "attribute_date"><cfelse>attribute_date is missing</cfif><br>
-						<cfif thisheader contains "attribute_meth"><cfelse>attribute_meth is missing</cfif><br>
-						<cfif thisheader contains "determiner"><cfelse>determiner is missing</cfif><br>
-						<cfif thisheader contains "remarks"><cfelse>remarks is missing</cfif><br>
+						<cfif thisheader contains "institution_acronym"> &nbsp;<cfelse>institution_acronym is missing</cfif><br>
+						<cfif thisheader contains "collection_cde"> &nbsp;<cfelse>collection_cde is missing</cfif><br>
+						<cfif thisheader contains "other_id_type"> &nbsp;<cfelse>other_id_type is missing</cfif><br>
+						<cfif thisheader contains "other_id_number"> &nbsp;<cfelse>other_id_number is missing</cfif><br>
+						<cfif thisheader contains "attribute"> &nbsp;<cfelse>attribute is missing</cfif><br>
+						<cfif thisheader contains "attribute_value"> &nbsp;<cfelse>attribute_value is missing</cfif><br>
+						<cfif thisheader contains "attribute_units"> &nbsp;<cfelse>attribute_units is missing</cfif><br>
+						<cfif thisheader contains "attribute_date"> &nbsp;<cfelse>attribute_date is missing</cfif><br>
+						<cfif thisheader contains "attribute_meth"> &nbsp;<cfelse>attribute_meth is missing</cfif><br>
+						<cfif thisheader contains "determiner"> &nbsp;<cfelse>determiner is missing</cfif><br>
+						<cfif thisheader contains "remarks"> &nbsp;<cfelse>remarks is missing</cfif><br>
 						<cfset i= i+1>
 				</cfloop>
 			<cfcatch>Ooops</cfcatch>
