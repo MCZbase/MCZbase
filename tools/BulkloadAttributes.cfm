@@ -167,6 +167,7 @@ limitations under the License.
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
 		<!---	<cfset fieldlist2 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">--->
+			<cftry>
 				<ul class="list-group list-group-horizontal">
 					<cfloop array="#data#" index="i">
 						<cfoutput>
@@ -184,7 +185,8 @@ limitations under the License.
 					</ul>
 						<br>Header 1 = <span class="h5">#headers.get(0)#</span>, Header 2 = <span class="h5">#headers.get(1)#</span>, Header 3 = <span class="h5">#headers.get(2)#</span>, Header 4 = <span class="h5">#headers.get(3)#</span>, Header 5 = <span class="h5">#headers.get(4)#</span>, Header 6 = <span class="h5">#headers.get(5)#</span>, Header 7 = <span class="h5">#headers.get(6)#</span>, Header 8 = <span class="h5">#headers.get(7)#</span>, Header 9 = <span class="h5">#headers.get(8)#</span>, Header 10 = <span class="h5">#headers.get(9)#</span>, Header 11 = <span class="h5">#headers.get(10)#</span>
 			<!---	</cfloop>--->
-
+				<cfcatch>This attribute is missing.</cfcatch>
+				</try>
 		
 			
 					
