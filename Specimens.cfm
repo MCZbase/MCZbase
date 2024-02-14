@@ -186,7 +186,7 @@ limitations under the License.
 }
 
 .fas {
-	font-size: 17px;
+	font-size: 16px;
 }
 @media screen and (max-width: 678px) {
 	.animation-element {
