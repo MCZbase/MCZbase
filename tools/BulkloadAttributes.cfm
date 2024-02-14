@@ -185,11 +185,7 @@ limitations under the License.
 						<br>Header 1 = <span class="h5">#headers.get(0)#</span>, Header 2 = <span class="h5">#headers.get(1)#</span>, Header 3 = <span class="h5">#headers.get(2)#</span>, Header 4 = <span class="h5">#headers.get(3)#</span>, Header 5 = <span class="h5">#headers.get(4)#</span>, Header 6 = <span class="h5">#headers.get(5)#</span>, Header 7 = <span class="h5">#headers.get(6)#</span>, Header 8 = <span class="h5">#headers.get(7)#</span>, Header 9 = <span class="h5">#headers.get(8)#</span>, Header 10 = <span class="h5">#headers.get(9)#</span>, Header 11 = <span class="h5">#headers.get(10)#</span>
 			<!---	</cfloop>--->
 
-				<!--- cleanup any incomplete work by the same user --->
-				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
-					DELETE FROM cf_temp_attributes 
-					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-				</cfquery>
+		
 			
 					
 			<cftry>	
@@ -212,7 +208,11 @@ limitations under the License.
 				</cfloop>
 			<cfcatch>Ooops</cfcatch>
 			</cftry>
-		
+				<!--- cleanup any incomplete work by the same user --->
+				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
+					DELETE FROM cf_temp_attributes 
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 <!---					<cfset message = "something required is missing">
 					<cfif not institution_acronym_exists><cfset message = "#message# institution_acronym is missing."></cfif>
 					<cfif not collection_cde_exists><cfset message = "#message# collection_cde is missing."></cfif>
