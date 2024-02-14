@@ -167,7 +167,7 @@ limitations under the License.
 				</cfscript>	
 				<cfscript>
 					
-				 Reader in = new StringReader("a,b,c");
+				 Reader header = new StringReader("a,b,c");
 				 for (CSVRecord record : CSVFormat.newFormat(delimiter.charAt(0)).withSkipHeaderRecord(true)) {
 					 for (String field : record) {
 						 System.out.print("\"" + field + "\", ");
