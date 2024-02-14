@@ -131,8 +131,6 @@ limitations under the License.
 				<cfset defaultFormat = csvFormat.DEFAULT.withSkipHeaderRecord(true) >
 				<!---// Create a CSVParser using the FileReader and CSVFormat--->
 				<!---<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>--->
-				<!---<cfset csvParser = CSVFormat.DEFAULT.parse(fileReader)>--->
-			<!---	<cfset format= CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).build()>--->
 		
 				<!--- TODO: Select charset based on cSet variable from user --->
 				<cfset javaSelectedCharset = standardCharsets.UTF_8 >
@@ -181,13 +179,15 @@ for (CSVRecord record : csvParser) {
 						</cfoutput>
 					</cfloop>
 				</ul>
-				<ul class="list-group list-group-horizontal">
-				<cfloop index="i" from="0" to="#headers.size() - 1#">
-					<li class="text-success list-group-item h5 border" style="width: 140px;"><cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
+				<cset iterator = csvParser.iterator()>
+				<cfloop condition="#iterator.hasNext()#">
+					<ul class="list-group list-group-horizontal">
+					<cfloop index="i" from="0" to="#headers.size() - 1#">
+						<li class="text-success list-group-item h5 border" style="width: 140px;"><cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
+					</cfloop>
+					</ul>
 				</cfloop>
-				</ul>
 
-		   
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
 					DELETE FROM cf_temp_attributes 
