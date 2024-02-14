@@ -181,8 +181,8 @@ limitations under the License.
 						<li class="text-success list-group-item h5 border" style="width: 140px;"><cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
 						
 					</cfloop>
-						<br>Header 1 = #headers.get(0)#, Header 2 = #headers.get(1)#, Header 3 = #headers.get(2)#, Header 4 = #headers.get(3)#, Header 5 = #headers.get(4)#, Header 6 = #headers.get(5)#, Header 7 = #headers.get(6)#, Header 8 = #headers.get(7)#, Header 9 = #headers.get(8)#, Header 10 = #headers.get(9)#, Header 11 = #headers.get(10)#
 					</ul>
+						<br>Header 1 = #headers.get(0)#, Header 2 = #headers.get(1)#, Header 3 = #headers.get(2)#, Header 4 = #headers.get(3)#, Header 5 = #headers.get(4)#, Header 6 = #headers.get(5)#, Header 7 = #headers.get(6)#, Header 8 = #headers.get(7)#, Header 9 = #headers.get(8)#, Header 10 = #headers.get(9)#, Header 11 = #headers.get(10)#
 			<!---	</cfloop>--->
 
 				<!--- cleanup any incomplete work by the same user --->
