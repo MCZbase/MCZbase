@@ -183,7 +183,17 @@ limitations under the License.
 						
 					</cfloop>
 					</ul>
-						<br>Header 1 = <span class="font-weight-bold">#headers.get(0)#</span>, Header 2 = <span class="font-weight-bold">#headers.get(1)#</span>, Header 3 = <span class="font-weight-bold">#headers.get(2)#</span>, Header 4 = <span class="font-weight-bold">#headers.get(3)#</span>, Header 5 = <span class="font-weight-bold">#headers.get(4)#</span>, Header 6 = <span class="font-weight-bold">#headers.get(5)#</span>, Header 7 = <span class="font-weight-bold">#headers.get(6)#</span>, Header 8 = <span class="font-weight-bold">#headers.get(7)#</span>, Header 9 = <span class="font-weight-bold">#headers.get(8)#</span>, Header 10 = <span class="font-weight-bold">#headers.get(9)#</span>, Header 11 = <span class="font-weight-bold">#headers.get(10)#</span>
+			<br>Header 1 = <span class="font-weight-bold">#headers.get(0)#</span>, 
+			<br>	Header 2 = <span class="font-weight-bold">#headers.get(1)#</span>, 
+			<br>	Header 3 = <span class="font-weight-bold">#headers.get(2)#</span>, 
+			<br>	Header 4 = <span class="font-weight-bold">#headers.get(3)#</span>, 
+			<br>	Header 5 = <span class="font-weight-bold">#headers.get(4)#</span>, 
+			<br>	Header 6 = <span class="font-weight-bold">#headers.get(5)#</span>, 
+			<br>	Header 7 = <span class="font-weight-bold">#headers.get(6)#</span>, 
+			<br>	Header 8 = <span class="font-weight-bold">#headers.get(7)#</span>, 
+			<br>	Header 9 = <span class="font-weight-bold">#headers.get(8)#</span>, 
+			<br>	Header 10 = <span class="font-weight-bold">#headers.get(9)#</span>, 
+				Header 11 = <span class="font-weight-bold">#headers.get(10)#</span>
 			<!---	</cfloop>--->
 				<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
 				</cftry>
@@ -194,7 +204,7 @@ limitations under the License.
 				<cfset j=10>
 				<cfset i = 1>
 				<cfloop from="0" to="#j#" index="i">
-					<cfset thisheader = #headers.get(JavaCast("int",0))#>
+					<cfset thisheader = #headers.get(JavaCast("int",i))#>#thisheader#
 						<cfif #thisheader# eq "institution_acronym"> &nbsp;<cfelse>institution_acronym is missing</cfif><br>
 						<cfif #thisheader# eq "collection_cde"> &nbsp;<cfelse>collection_cde is missing</cfif><br>
 						<cfif #thisheader# eq "other_id_type"> &nbsp;<cfelse>other_id_type is missing</cfif><br>
