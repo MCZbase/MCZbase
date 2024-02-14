@@ -405,7 +405,7 @@ limitations under the License.
 														<cfset IDButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
 												</cfif> 
 														
-												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+												<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
 														<span class="small95 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Identifiers</span>
 														<cfif findNoCase("redesign",gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
@@ -568,7 +568,7 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset TaxaButton = "show more <i class='fas fa-caret-down' style='vertical-align: middle;'></i>">
 												</cfif>
-												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1">
+												<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 pt-1 text-left text-dark mb-0">
 														<span class="small95 mx-0 px-2 px-xl-0 mx-xl-0 d-block text-black font-weight-bold">Taxonomy</span>
 														<button type="button" id="TaxaDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
@@ -801,7 +801,7 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset GeogButton = '<i class="fas fa-caret-down" style="vertical-align: middle"></i>'>
 												</cfif>
-												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+												<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
 														<span class="small95 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Geography</span>
 														<button type="button" id="GeogDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleGeogDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></span></button>
@@ -1012,7 +1012,7 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset CollButton = "<i class='fas fa-caret-down' style='vertical-align:middle;'></i>">
 												</cfif> 
-												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+												<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
 														<span class="small95 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Coll. Event</span>
 														<button type="button" id="CollDetailCtl" class="d-none d-xl-inline-block px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleCollDetail(#toggleTo#);">show more <i class="fas fa-caret-down" style="vertical-align: middle;"></i></button>
@@ -1135,7 +1135,7 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset SpecButton = '<i class="fas fa-caret-down" style="vertical-align: middle;"></i>'>
 												</cfif> 
-												<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+												<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1 float-left">
 													<div class="pb-0 font-weight-bold d-inline-block-md text-xl-right px-1 w-100 text-left text-md-left text-dark mb-1 mb-md-0 pt-1">
 														<span class="small95 mx-0 px-2 mx-xl-0 px-xl-0 d-block text-black font-weight-bold">Specimen</span>
 														<button type="button" id="SpecDetailCtl" class="d-xl-inline-block d-none px-xl-0 py-0 btn-link text-right btn smaller" onclick="toggleSpecDetail(#toggleTo#);">
@@ -1235,8 +1235,8 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-0">
-													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
+											<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-1">
+													<div class="col-12 col-xl-2 col-xxl-1 px-1 mb-1 float-left">
 														<div class="small95 mx-1 mx-xl-0 px-2 pt-2 px-xl-1 text-left text-xl-right text-black font-weight-bold">
 															General
 														</div>
