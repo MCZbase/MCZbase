@@ -197,7 +197,7 @@ limitations under the License.
 				<cfloop from="0" to="#j#" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 					<cfset i= i+1>
-						institution_acronym = <cfif thisheader contains "institution_acronym">T<cfelse>F</cfif><br>
+						institution_acronym = <cfif #thisheader# eq "institution_acronym">T<cfelse>F</cfif><br>
 						collection_cde = <cfif thisheader contains "collection_cde">T<cfelse>F</cfif><br>
 						other_id_type = <cfif thisheader contains "other_id_type">T<cfelse>F</cfif><br>
 						other_id_type = <cfif thisheader contains "other_id_number">T<cfelse>F</cfif><br>
