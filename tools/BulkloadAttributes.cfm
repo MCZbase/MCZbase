@@ -199,15 +199,15 @@ limitations under the License.
 					<cfset thisheader = #headers.get(JavaCast("int",0))#>
 						<cfif thisheader eq "institution_acronym"> &nbsp;<cfelse>institution_acronym is missing</cfif><br>
 						<cfif #thisheader# eq "collection_cde"> &nbsp;<cfelse>collection_cde is missing</cfif><br>
-						<cfif thisheader contains "other_id_type"> &nbsp;<cfelse>other_id_type is missing</cfif><br>
-						<cfif thisheader contains "other_id_number"> &nbsp;<cfelse>other_id_number is missing</cfif><br>
-						<cfif thisheader contains "attribute"> &nbsp;<cfelse>attribute is missing</cfif><br>
-						<cfif thisheader contains "attribute_value"> &nbsp;<cfelse>attribute_value is missing</cfif><br>
-						<cfif thisheader contains "attribute_units"> &nbsp;<cfelse>attribute_units is missing</cfif><br>
-						<cfif thisheader contains "attribute_date"> &nbsp;<cfelse>attribute_date is missing</cfif><br>
-						<cfif thisheader contains "attribute_meth"> &nbsp;<cfelse>attribute_meth is missing</cfif><br>
-						<cfif thisheader contains "determiner"> &nbsp;<cfelse>determiner is missing</cfif><br>
-						<cfif thisheader contains "remarks"> &nbsp;<cfelse>remarks is missing</cfif><br>
+						<cfif #thisheader# eq "other_id_type"> &nbsp;<cfelse>other_id_type is missing</cfif><br>
+						<cfif #thisheader# eq "other_id_number"> &nbsp;<cfelse>other_id_number is missing</cfif><br>
+						<cfif #thisheader# eq "attribute"> &nbsp;<cfelse>attribute is missing</cfif><br>
+						<cfif #thisheader# eq "attribute_value"> &nbsp;<cfelse>attribute_value is missing</cfif><br>
+						<cfif #thisheader# eq "attribute_units"> &nbsp;<cfelse>attribute_units is missing</cfif><br>
+						<cfif #thisheader# eq "attribute_date"> &nbsp;<cfelse>attribute_date is missing</cfif><br>
+						<cfif #thisheader# eq "attribute_meth"> &nbsp;<cfelse>attribute_meth is missing</cfif><br>
+						<cfif #thisheader# eq "determiner"> &nbsp;<cfelse>determiner is missing</cfif><br>
+						<cfif #thisheader# eq "remarks"> &nbsp;<cfelse>remarks is missing</cfif><br>
 						<cfset i= i+1>
 				</cfloop>
 			<cfcatch>Ooops</cfcatch>
