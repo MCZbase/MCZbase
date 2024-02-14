@@ -193,10 +193,10 @@ limitations under the License.
 			
 					
 			<cftry>	
-			<cfset j=0>
-				<cfloop from="0" to="0" index="i" step="0">
-					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
-					<cfset i= i+1>
+		
+				<cfloop from="0" to="1" index="oneloop" step="0">
+					<cfset thisheader = #headers.get(JavaCast("int",oneloop))#>
+					<cfset i= i-1>
 						institution_acronym = <cfif thisheader contains "institution_acronym">T<cfelse>F</cfif><br>
 						collection_cde = <cfif thisheader contains "collection_cde">T<cfelse>F</cfif><br>
 						other_id_type = <cfif thisheader contains "other_id_type">T<cfelse>F</cfif><br>
@@ -208,6 +208,7 @@ limitations under the License.
 						attribute_meth = <cfif thisheader contains "attribute_meth">T<cfelse>F</cfif><br>
 						determiner = <cfif thisheader contains "determiner">T<cfelse>F</cfif><br>
 						remarks = <cfif thisheader contains "remarks">T<cfelse>F</cfif>
+						<cfabort>
 				</cfloop>
 			<cfcatch>Ooops</cfcatch>
 			</cftry>
