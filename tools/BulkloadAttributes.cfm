@@ -194,9 +194,9 @@ limitations under the License.
 					
 			<cftry>	
 		
-				<cfloop from="0" to="1" index="oneloop" step="0">
+				<cfloop from="0" to="1" index="oneloop">
 					<cfset thisheader = #headers.get(JavaCast("int",oneloop))#>
-					<cfset i= i-1>
+					<cfset i= 1>
 						institution_acronym = <cfif thisheader contains "institution_acronym">T<cfelse>F</cfif><br>
 						collection_cde = <cfif thisheader contains "collection_cde">T<cfelse>F</cfif><br>
 						other_id_type = <cfif thisheader contains "other_id_type">T<cfelse>F</cfif><br>
