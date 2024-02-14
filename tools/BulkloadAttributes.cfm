@@ -167,13 +167,16 @@ limitations under the License.
 				</cfscript>	
 				<cfscript>
 					
-				 Reader header = new StringReader("a,b,c");
-				 for (CSVRecord record : CSVFormat.newFormat(delimiter.charAt(0)).withSkipHeaderRecord(true)) {
-					 for (String field : record) {
-						 System.out.print("\"" + field + "\", ");
-					 }
-					 System.out.println();
-				 }	
+				public class SimpleCSVReader {
+    public static void main(String[] args) throws IOException, URISyntaxException {
+        String csvFilePath = “…/csvFile.csv";
+        Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
+        CSVParser csvParser = CSVFormat.DEFAULT.parse(reader);
+        csvParser.getRecords()
+                .forEach(csvRecord -> System.out.println("Id: " + csvRecord.get(0) + " Name: " + csvRecord.get(1)
+                        + " GPA: " + csvRecord.get(2)));
+    }
+}
 				</cfscript>
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
 			</div>
