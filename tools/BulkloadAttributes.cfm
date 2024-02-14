@@ -193,7 +193,7 @@ limitations under the License.
 			
 					
 			<cftry>	
-			<cfset j=10>
+			<cfset j=0>
 				<cfloop from="0" to="0" index="i" step="0">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 					<cfset i= i+1>
