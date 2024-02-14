@@ -151,7 +151,7 @@ limitations under the License.
 
 <cfoutput>
 <style>
-.animation-element {
+/*.animation-element {
 	position: relative;
 	width: 30%;
 	margin: 0% 1.33 2.66% 1.33%;
@@ -180,14 +180,14 @@ limitations under the License.
 	-ms-transform: translate(0px, 0px);
 	transform: translate3d(0px, 0px, 0px);
 }
-
 .ns {
 	display:none;
-}
-
+}*/
+/*fas is for the arrow up and down (more and less on form sections*/
 .fas {
 	font-size: 16px;
 }
+/*for the */
 @media screen and (max-width: 678px) {
 	.animation-element {
 		width: 100%;
