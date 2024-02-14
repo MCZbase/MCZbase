@@ -196,10 +196,10 @@ limitations under the License.
 				<cfset j=10>
 				<cfset i = 1>
 				<cfloop from="0" to="#j#" index="i">
-					<cfset thisheader = #headers.get(#i#)#>
+					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 						<cfif thisheader eq "institution_acronym"> &nbsp;<cfelse>institution_acronym is missing</cfif><br>
-						<cfif thisheader eq "collection_cde"> &nbsp;<cfelse>collection_cde is missing</cfif><br>
-						<cfif thisheader contains "other_id_type"> &nbsp;<cfelse>other_id_type is missing</cfif><br>
+						<cfif i.thisheader eq "collection_cde"> &nbsp;<cfelse>collection_cde is missing</cfif><br>
+						<cfif i.thisheader contains "other_id_type"> &nbsp;<cfelse>other_id_type is missing</cfif><br>
 						<cfif thisheader contains "other_id_number"> &nbsp;<cfelse>other_id_number is missing</cfif><br>
 						<cfif thisheader contains "attribute"> &nbsp;<cfelse>attribute is missing</cfif><br>
 						<cfif thisheader contains "attribute_value"> &nbsp;<cfelse>attribute_value is missing</cfif><br>
