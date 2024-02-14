@@ -174,15 +174,15 @@ limitations under the License.
 						</cfoutput>
 					</cfloop>
 				</ul>
-				<cset iterator = csvParser.iterator()>
-				<cfloop condition="#iterator.hasNext()#">
+	<!---			<cset iterator = csvParser.iterator()>
+				<cfloop condition="#iterator.hasNext()#">--->
 					<ul class="list-group list-group-horizontal">
 					<cfloop index="i" from="0" to="#headers.size() - 1#">
 						<li class="text-success list-group-item h5 border" style="width: 140px;"><cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
 						Header 1 = #headers.get(0)#
 					</cfloop>
 					</ul>
-				</cfloop>
+			<!---	</cfloop>--->
 
 				<!--- cleanup any incomplete work by the same user --->
 				<cfquery name="clearTempTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearTempTable_result">
