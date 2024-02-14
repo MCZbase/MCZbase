@@ -164,7 +164,7 @@ limitations under the License.
 	
 				</cfscript>	
 				<cfscript>
-for (CSVRecord record : csvParser) {
+for (#iterator.hasNext()#) {
     System.out.println("Id: " + record.get(0) + " Name: " + record.get(1)
             + " GPA: " + record.get(2));
 }
