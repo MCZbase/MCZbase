@@ -183,9 +183,9 @@ limitations under the License.
 						
 					</cfloop>
 					</ul>
-						<br>Header 1 = <span class="h5">#headers.get(0)#</span>, Header 2 = <span class="h5">#headers.get(1)#</span>, Header 3 = <span class="h5">#headers.get(2)#</span>, Header 4 = <span class="h5">#headers.get(3)#</span>, Header 5 = <span class="h5">#headers.get(4)#</span>, Header 6 = <span class="h5">#headers.get(5)#</span>, Header 7 = <span class="h5">#headers.get(6)#</span>, Header 8 = <span class="h5">#headers.get(7)#</span>, Header 9 = <span class="h5">#headers.get(8)#</span>, Header 10 = <span class="h5">#headers.get(9)#</span>, Header 11 = <span class="h5">#headers.get(10)#</span>
+						<br>Header 1 = <span class="font-weight-bold">#headers.get(0)#</span>, Header 2 = <span class="font-weight-bold">#headers.get(1)#</span>, Header 3 = <span class="font-weight-bold">#headers.get(2)#</span>, Header 4 = <span class="font-weight-bold">#headers.get(3)#</span>, Header 5 = <span class="font-weight-bold">#headers.get(4)#</span>, Header 6 = <span class="font-weight-bold">#headers.get(5)#</span>, Header 7 = <span class="font-weight-bold">#headers.get(6)#</span>, Header 8 = <span class="font-weight-bold">#headers.get(7)#</span>, Header 9 = <span class="font-weight-bold">#headers.get(8)#</span>, Header 10 = <span class="font-weight-bold">#headers.get(9)#</span>, Header 11 = <span class="font-weight-bold">#headers.get(10)#</span>
 			<!---	</cfloop>--->
-				<cfcatch>This attribute is missing.</cfcatch>
+				<cfcatch><span class="h3 text-danger">This attribute is missing.</span></cfcatch>
 				</cftry>
 		
 			
