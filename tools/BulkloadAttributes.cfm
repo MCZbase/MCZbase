@@ -166,16 +166,9 @@ limitations under the License.
 	
 				</cfscript>	
 				<cfscript>
-					
-				public class SimpleCSVReader {
-    public static void main(String[] args) throws IOException, URISyntaxException {
-        String csvFilePath = #tempFile#;
-        Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
-        CSVParser csvParser = CSVFormat.DEFAULT.parse(reader);
-        csvParser.getRecords()
-                .forEach(csvRecord -> System.out.println("Id: " + csvRecord.get(0) + " Name: " + csvRecord.get(1)
-                        + " GPA: " + csvRecord.get(2)));
-    }
+for (CSVRecord csvRecord : csvParser) {
+    System.out.println("Id: " + csvRecord.get(0) + " Name: " + csvRecord.get(1)
+            + " GPA: " + csvRecord.get(2));
 }
 				</cfscript>
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
