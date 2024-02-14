@@ -123,8 +123,7 @@ limitations under the License.
 				<cfset tempFileInputStream = CreateObject("java","java.io.FileInputStream").Init(#tempFile#) >
 			
 				<!---// Create a FileReader object--->
-<!---				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#tempFile#) >--->
-				<cfset fileReader = CSVFormat.parse(java.io.Reader)>
+				<cfset fileReader = CreateObject("java","java.io.FileReader").Init(#tempFile#) >
 						
 				<!--- we can't use the withHeader() method from coldfusion, as it is overloaded, and with no parameters provides coldfusion no means to pick the correct method --->
 				<!--- cfset defaultFormat = csvFormat.DEFAULT.withHeader() --->
