@@ -196,8 +196,8 @@ limitations under the License.
 }
 /* below is for the basic search width of form fields area inside teal box */
 @media screen and (min-width: 1400px) {
-.col-xxl-1 {max-width: 8.666667%}
-.col-xxl-11 {max-width: 89.333333%}
+.col-xxl-1 {max-width: 7.666667%}
+.col-xxl-11 {max-width: 90.333333%}
 }
 @media screen and (min-width: 1200px) and (max-width: 1399px) {
 	.col-xxl-10 {
