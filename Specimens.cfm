@@ -1506,7 +1506,7 @@ limitations under the License.
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table">
 													</div>
 													<div id="fixedenableselection"></div>
-													<div class="p-1 d-none d-md-block" title="enable mousewheel for horizontal scrolling">mousewheel: 
+													<div class="p-1 d-none d-md-block small" title="enable mousewheel for horizontal scrolling">mousewheel: 
 														<button onClick="fixedMousewheel1();" class="selectBtn1 btn-xs btn rounded">on</button>
 														<button onClick="fixedMousewheel1();" class="selectBtn2 btn btn-xs rounded">off</button>
 													</div>
