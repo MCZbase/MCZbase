@@ -169,7 +169,7 @@ limitations under the License.
 					
 				public class SimpleCSVReader {
     public static void main(String[] args) throws IOException, URISyntaxException {
-        String csvFilePath = “…/csvFile.csv";
+        String csvFilePath = #tempFile#;
         Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
         CSVParser csvParser = CSVFormat.DEFAULT.parse(reader);
         csvParser.getRecords()
