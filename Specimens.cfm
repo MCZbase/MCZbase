@@ -1333,8 +1333,7 @@ limitations under the License.
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 pb-xl-1 px-0">
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
-														<div class="small mx-0 px-3 pt-2 px-xl-1 text-left text-xl-right text-black font-weight-bold">
-															Transactions
+														<div class="small mx-0 px-2 pt-2 px-xl-1 text-left text-xl-right text-black font-weight-bold">Transactions
 														</div>
 													</div>
 													<div class="form-row col-12 col-xxl-10 col-xxl-11 ml-0 px-1 pt-1 mb-0">
