@@ -194,6 +194,7 @@ limitations under the License.
 					
 			<cftry>	
 				<cfset j=10>
+				<cfset i = 1>
 				<cfloop from="0" to="#j#" index="i">
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>
 					
