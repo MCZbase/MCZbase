@@ -413,7 +413,7 @@ limitations under the License.
 														</cfif>
 													</div>
 												</div>	
-												<div class="form-row col-12 col-xxl-10 col-xxl-11 pt-1 px-3 mx-0 mb-0">
+												<div class="form-row col-12 col-xxl-10 col-xxl-11 pt-1 px-3 pr-xl-3 pl-xl-1 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="fixedCollection" class="data-entry-label small">Collection</label>
 														<div name="collection" id="fixedCollection" class="w-100"></div>
@@ -1331,7 +1331,7 @@ limitations under the License.
 												</div>
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 px-0">
+												<div class="col-12 form-row mx-0 search-form-basic-odd pb-2 px-xl-1 px-0">
 													<div class="col-12 col-xl-2 col-xxl-1 px-0 mb-1 float-left">
 														<div class="small mx-0 px-3 pt-2 px-xl-1 text-left text-xl-right text-black font-weight-bold">
 															Transactions
