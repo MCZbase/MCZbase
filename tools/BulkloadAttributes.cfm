@@ -166,9 +166,9 @@ limitations under the License.
 	
 				</cfscript>	
 				<cfscript>
-for (CSVRecord csvRecord : csvParser) {
-    System.out.println("Id: " + csvRecord.get(0) + " Name: " + csvRecord.get(1)
-            + " GPA: " + csvRecord.get(2));
+for (CSVRecord record : csvParser) {
+    System.out.println("Id: " + recordecord.get(0) + " Name: " + record.get(1)
+            + " GPA: " + record.get(2));
 }
 				</cfscript>
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
