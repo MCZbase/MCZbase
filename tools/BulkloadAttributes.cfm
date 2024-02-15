@@ -161,8 +161,7 @@ limitations under the License.
 						{field:"determiner", required:"yes"},
 						{field:"remarks", required:"no"}
 					];
-				
-	
+
 				</cfscript>	
 
 				<h3 class="h4">There are <cfdump var="#data.size()#"> columns possible for attribute headers (black and red). (8 are required - RED)</h3>
@@ -188,7 +187,7 @@ limitations under the License.
 		
 <!---				<cfset i="i">
 				<cfset listoffields= ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>--->
-				<cfscript>
+<!---				<cfscript>
 					list1 = ["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"];
 					for (i=1; i <= arrayLen(listoffields); i++) {
 					writeOutput(listoffields[i]);
@@ -199,7 +198,7 @@ limitations under the License.
 					for (key in struct) {
 					writeOutput(key & ", ");
 					}
-				</cfscript>
+				</cfscript>--->
 					
 
 		
