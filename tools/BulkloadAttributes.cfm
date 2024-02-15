@@ -215,7 +215,7 @@ limitations under the License.
 				<cfif isDefined(#headers.get(1)#)>this one</cfif>,
 				<cfif isDefined(#headers.get(2)#)>this one</cfif>,
 				<cfif isDefined(#headers.get(3)#)>none</cfif>,
-				<cfif isDefined(#headers.get(4)#>that</cfif>,
+				<cfif isDefined(#headers.get(4)#)>that</cfif>,
 				<cfif isDefined(#headers.get(4)#)>fda</cfif>,
 				<cfif isDefined(#headers.get(6)#)>this one</cfif>,
 				<cfif isDefined(#headers.get(7)#)>feae</cfif>,
