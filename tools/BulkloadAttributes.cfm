@@ -175,12 +175,25 @@ limitations under the License.
 						</cfoutput>
 					</cfloop>
 				</ul>
+				<cfscript>
+					for (i=1; i <= fieldlist.Len(); i++)
+					{
+						if (fieldlist[i] == "#headers.get(JavaCast("int",i))#")
+							{
+								writeOutput(fieldlist[i] & "<br/>");
+							} else {
+								writeOutput("This attribute is missing.")
+							}
+						}
+					}
+				</cfscript>
 	<!---			<cset iterator = csvParser.iterator()>
 				<cfloop condition="#iterator.hasNext()#">--->
 					<ul class="list-group list-group-horizontal">
 					<cfloop index="i" from="0" to="#headers.size() - 1#">
-						<li class="text-success list-group-item h5 border" style="width: 140px;"><cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
-						
+						<li class="text-success list-group-item h5 border" style="width: 140px;">
+							<cfset externalList = #headers.get(JavaCast("int",i))#>#headers.get(JavaCast("int",i))#</li>
+							
 					</cfloop>
 					</ul>
 			<br>Header 1 = <span class="font-weight-bold">#headers.get(0)#</span>, 
@@ -203,7 +216,7 @@ limitations under the License.
 			<cftry>	
 				<cfset j=10>
 				<cfset i = 1>
-				<cfloop from="0" to="#j#" index="i">
+				<cfloop from="0" to="#j#" index="i">requiredfieldlist,fieldlist
 					<cfset thisheader = #headers.get(JavaCast("int",#i#))#>[#thisheader#]<cfabort>
 						<cfif #thisheader# eq "institution_acronym"> &nbsp;<cfelse>institution_acronym is missing</cfif><br>
 						<cfif #thisheader# eq "collection_cde"> &nbsp;<cfelse>collection_cde is missing</cfif><br>
