@@ -109,13 +109,12 @@ limitations under the License.
 		<cfset COLUMN_ERR = "Error inserting data">
 			<cffunction name="listCommon" output="false" returnType="string">
 				<cfset List1 = "institution_acronym,collection_cde,other_id_type,other_id_number,attribute,attribute_value,attribute_units,attribute_date,attribute_meth,determiner,remarks">
-				<cfset List2="#headers.get(0)#, #headers.get(1)#, #headers.get(2)#, #headers.get(3)#, #headers.get(4)#, #headers.get(5)#, #headers.get(6)#, #headers.get(7)#, #headers.get(8)#, #headers.get(9)#, #headers.get(10)#">
+				<cfset List2=["institution_acronym","institution_acronym","collection_cde","other_id_type","other_id_number","attribute","attribute_value","attribute_units","attribute_date","attribute_meth","determiner","remarks"]>
 				<cfargument name="List1" type="string" required="true" />
 				<cfargument name="List2" type="string" required="true" />
 				<cfset var list1Array = ListToArray(arguments.List1) />
 				<cfset var list2Array = ListToArray(arguments.List2) />
 				<cfset list1Array.retainAll(list2Array) />
-				<!---— Return in list format --->
 				<cfreturn ArrayToList(list1Array) />
 			</cffunction>
 		<cfoutput>
